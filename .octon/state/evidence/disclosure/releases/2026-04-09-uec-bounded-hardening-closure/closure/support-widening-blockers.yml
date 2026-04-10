@@ -1,0 +1,18 @@
+schema_version: octon-support-widening-blockers-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+blockers:
+  - blocker_id: FW-01
+    status: open
+    summary: fresh widening audit required
+  - blocker_id: FW-02
+    status: open
+    summary: fresh widened-universe review packet required
+  - blocker_id: FW-03
+    status: open
+    summary: new tuple dossier completeness required
+  - blocker_id: FW-04
+    status: open
+    summary: non-authority and retirement updates required
+  - blocker_id: FW-05
+    status: open
+    summary: disclosure regeneration and dual-pass recertification required

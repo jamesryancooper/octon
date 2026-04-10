@@ -1,0 +1,10 @@
+schema_version: octon-non-authority-surface-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+summary:
+  permanent_non_authority_entries: 3
+  removable_claim_adjacent_entries: 6
+  gaps: 0
+register_refs:
+  permanent: .octon/instance/governance/non-authority-register.yml
+  removable: .octon/instance/governance/retirement-register.yml

@@ -1,0 +1,15 @@
+schema_version: octon-projection-shell-boundary-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+workflow_surfaces_in_scope:
+  - .github/workflows/ai-review-gate.yml
+  - .github/workflows/pr-autonomy-policy.yml
+  - .github/workflows/architecture-conformance.yml
+canonical_logic_anchors:
+  - .octon/framework/assurance/evaluators/runtime/_ops/scripts/run-evaluator-adapter.sh
+  - .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh
+host_exclusive_behaviors_remaining: []
+materialized_authority_or_evaluator_artifacts:
+  - .octon/state/evidence/control/execution/**
+  - .octon/state/evidence/runs/**/assurance/evaluator.yml

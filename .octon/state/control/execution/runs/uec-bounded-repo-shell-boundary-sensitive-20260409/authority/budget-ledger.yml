@@ -1,0 +1,24 @@
+schema_version: budget-ledger-v1
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+budget_dimensions:
+  - token
+  - time
+  - tool_count
+  - cost
+  - external_calls
+current_usage:
+  token: 0
+  time: 0
+  tool_count: 0
+  cost: 0
+  external_calls: 0
+thresholds:
+  token: soft
+  time: soft
+  tool_count: soft
+  cost: soft
+  external_calls: soft
+escalation_point: threshold-crossing
+block_point: hard-policy-deny
+overrun_behavior: escalate
+updated_at: "2026-04-05T12:52:25Z"

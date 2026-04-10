@@ -200,6 +200,29 @@ jobs:
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh
 
+  bounded-uec-hardening:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        run: sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64 && sudo chmod +x /usr/local/bin/yq
+
+      - name: Validate bounded hardening packet surfaces
+        run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-bounded-claim-nomenclature.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-review-packet-freshness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-retirement-register-depth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-ingress-manifest-parity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-dossier-evidence-depth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evaluator-diversity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-hidden-check-breadth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-contract-family-version-coherence.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-projection-shell-boundaries.sh
+
   build-to-delete-governance:
     runs-on: ubuntu-latest
     steps:

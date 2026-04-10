@@ -3,7 +3,7 @@ claim_id: "unified-execution-constitution"
 claim_kind: "release"
 claim_status: "complete"
 owner: "Octon governance"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-bounded-uec-packet-implementation/plan.md"
 truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 status_matrix_ref: ".octon/instance/governance/closure/unified-execution-constitution-status.yml"
 closeout_contract_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
@@ -62,13 +62,13 @@ permitted_release_wording: >-
   exemplar run evidence, and dual-pass certification regenerated from
   canonical repo surfaces.
 known_limits:
-  - "The attainment claim remains bounded to the admitted live support universe only; no universal support claim is made outside active support-target tuples."
-  - "Residual persona, projection, and historical mirror surfaces remain non-authoritative and retirement-tracked."
-  - "Evaluator diversity and hidden-check breadth remain bounded to the currently admitted adapter and scenario set."
+  - "The active claim remains bounded to the admitted live support universe only; no universal support claim is made outside active support-target tuples."
+  - "Future widening requires a fresh audit, fresh review packet, refreshed support dossiers, regenerated closure reports, and dual-pass recertification."
+  - "Permanent projections and retained historical residue remain non-authoritative and may not be cited as current authority."
 certification_refs:
   certification_mode: "equally-strong-recertification-rule"
   recertification_status: ".octon/generated/effective/closure/recertification-status.yml"
   trigger_log: ".octon/instance/governance/closure/recertification-trigger-log.yml"
-  release_bundle_manifest: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/manifest.yml"
-  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-certificate.yml"
-generated_at: "2026-04-09T12:00:00Z"
+  release_bundle_manifest: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/manifest.yml"
+  closure_certificate: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/closure-certificate.yml"
+generated_at: "2026-04-09T18:00:00Z"

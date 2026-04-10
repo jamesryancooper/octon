@@ -16,4 +16,4 @@ phases:
   - phase_id: "S4"
     title: "final-support-universe-convergence"
     status: "green"
-    note: "Build-to-delete governance remains live inside claim truth and currently passes the full-attainment gate."
+    note: "Build-to-delete governance remains live inside claim truth and currently passes the bounded admitted-universe closure gate."

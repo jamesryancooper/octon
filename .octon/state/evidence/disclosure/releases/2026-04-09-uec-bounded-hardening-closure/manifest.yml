@@ -1,0 +1,60 @@
+schema_version: octon-release-bundle-manifest-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+generated_at: "2026-04-09T18:00:00Z"
+generator_versions:
+  release_bundle: 2
+  harness_card: 2
+  closure_bundle: 2
+validator_versions:
+  bounded_claim_nomenclature: 1
+  audit_crosswalk: 1
+  review_packet_freshness: 1
+  non_authority_register: 1
+  support_dossier_evidence_depth: 1
+  evaluator_diversity: 1
+  hidden_check_breadth: 1
+  contract_family_version_coherence: 1
+  projection_shell_boundaries: 1
+authored_input_digests:
+  charter: refreshed-under-bounded-hardening-closure
+  support_targets: refreshed-under-bounded-hardening-closure
+  workspace_charter: refreshed-under-bounded-hardening-closure
+proof_bundle_runs:
+  - run://uec-global-ci-observe-read-20260404
+  - run://uec-global-frontier-browser-api-studio-20260404
+  - run://uec-global-github-repo-consequential-20260404
+  - run://uec-global-repo-shell-observe-read-20260404
+  - run://uec-evaluate-harness-20260401-agent-augmented-1
+  - run://uec-audit-workflow-system-20260401-agent-augmented-1
+  - run://uec-bounded-repo-shell-boundary-sensitive-20260409
+bundle_contents:
+  - harness-card.yml
+  - closure/gate-status.yml
+  - closure/closure-summary.yml
+  - closure/closure-certificate.yml
+  - closure/recertification-status.yml
+  - closure/support-universe-coverage.yml
+  - closure/support-universe-evidence-depth-report.yml
+  - closure/evaluator-diversity-report.yml
+  - closure/hidden-check-breadth-report.yml
+  - closure/review-packet-freshness-report.yml
+  - closure/non-authority-surface-report.yml
+  - closure/contract-family-normalization-report.yml
+  - closure/contract-version-coherence-report.yml
+  - closure/audit-resolution-report.yml
+  - closure/projection-shell-boundary-report.yml
+  - closure/support-widening-blockers.yml
+  - closure/proof-plane-coverage.yml
+  - closure/cross-artifact-consistency.yml
+  - closure/claim-drift-report.yml
+  - closure/projection-parity-report.yml
+  - closure/residual-ledger.yml
+  - closure/disclosure-calibration-report.yml
+  - closure/lab-reference-integrity-report.yml
+  - closure/host-authority-purity-report.yml
+  - closure/runtime-family-depth-report.yml
+  - closure/replay-integrity.yml
+  - closure/continuity-linkage-report.yml
+  - closure/contamination-retry-depth-report.yml
+  - closure/retirement-rationale-report.yml
+  - closure/ablation-review-report.yml

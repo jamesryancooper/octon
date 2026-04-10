@@ -1,0 +1,24 @@
+schema_version: repo-governance-policy-v1
+policy_id: projection-shell-boundary-policy
+owner: Octon governance
+status: active
+purpose: Keep host workflows and other projection shells thin, non-authoritative, and anchored to canonically defined repo-local logic.
+triggers:
+  - When a workflow under .github/workflows/** changes.
+  - When approval, evaluator, or closure routing changes.
+  - Before any claim-bearing release promotion.
+required_inputs:
+  - .github/workflows/ai-review-gate.yml
+  - .github/workflows/pr-autonomy-policy.yml
+  - .github/workflows/architecture-conformance.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/**
+  - .octon/framework/assurance/governance/_ops/scripts/**
+  - .octon/framework/assurance/evaluators/runtime/_ops/scripts/**
+requirements:
+  - Workflow shells may orchestrate provider execution, artifact transport, and status projection.
+  - Canonical approval, evaluator, and closure semantics must resolve through repo-local scripts, policies, contracts, or retained artifacts.
+  - No host workflow file may be the sole durable definition of canonical approval, evaluator, or closure behavior.
+evidence_requirements:
+  - Validation evidence that target workflows invoke canonical repo-local logic.
+  - Release evidence summarizing workflow shells in scope and their canonical logic anchors.
+blocking_rule: Reject when approval or evaluator semantics exist only in workflow YAML or provider-specific host behavior.

@@ -1,0 +1,15 @@
+schema_version: octon-contract-family-normalization-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+families:
+  - family_id: objective
+    status: normalized
+  - family_id: authority
+    status: normalized
+  - family_id: runtime
+    status: normalized
+  - family_id: assurance
+    status: normalized
+  - family_id: disclosure
+    status: normalized
+gaps: []

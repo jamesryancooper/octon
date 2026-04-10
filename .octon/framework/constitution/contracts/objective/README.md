@@ -54,5 +54,31 @@ The objective family is fully active.
 - `family.yml`
 - `workspace-charter-pair.yml`
 - `workspace-charter-v1.schema.json`
+- `run-contract-v3.schema.json`
+- `stage-attempt-v2.schema.json`
+
+## Canonical Roots
+
+- workspace-charter pair: `/.octon/instance/charter/{workspace.md,workspace.yml}`
+- mission charter pair: `/.octon/instance/orchestration/missions/<mission-id>/**`
+- run contracts: `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`
+- stage attempts: `/.octon/state/control/execution/runs/<run-id>/stage-attempts/**`
+
+## Compatibility/Historical Surfaces
+
 - `run-contract-v1.schema.json`
 - `stage-attempt-v1.schema.json`
+- `/.octon/instance/bootstrap/OBJECTIVE.md`
+- `/.octon/instance/cognition/context/shared/intent.contract.yml`
+
+## Non-Authority Note
+
+Compatibility-era objective files remain lineage or compatibility-only
+surfaces. They must not be cited as current authority for workspace, mission,
+run, or stage bindings.
+
+## Validator Obligations
+
+- `validate-single-canonical-run-contract-family.sh`
+- `validate-stage-attempt-family.sh`
+- `validate-contract-family-version-coherence.sh`

@@ -19,8 +19,8 @@ subordinate to durable authority and retained evidence.
 ## Canonical Files
 
 - `family.yml`
-- `run-card-v1.schema.json`
-- `harness-card-v1.schema.json`
+- `run-card-v2.schema.json`
+- `harness-card-v2.schema.json`
 
 ## Canonical Roots
 
@@ -31,3 +31,21 @@ subordinate to durable authority and retained evidence.
 Historical lab-local HarnessCard mirrors may remain under
 `/.octon/state/evidence/lab/harness-cards/`, but they are no longer canonical
 for supported live disclosure.
+
+## Compatibility/Historical Surfaces
+
+- `run-card-v1.schema.json`
+- `harness-card-v1.schema.json`
+- `/.octon/state/evidence/lab/harness-cards/**`
+
+## Non-Authority Note
+
+Generated effective closure views, run-local disclosure mirrors, and
+historical lab-local HarnessCards remain derived or historical surfaces only.
+They must not override authored disclosure or the active release bundle.
+
+## Validator Obligations
+
+- `validate-bounded-claim-nomenclature.sh`
+- `validate-review-packet-freshness.sh`
+- `validate-contract-family-version-coherence.sh`

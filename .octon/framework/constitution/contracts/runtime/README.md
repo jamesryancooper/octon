@@ -55,3 +55,26 @@ Run roots are the primary execution-time unit of truth.
 - `checkpoint-v2.schema.json`
 - `state-reconstruction-v1.md`
 - `replay-pointers-v1.schema.json`
+
+## Canonical Roots
+
+- run manifests: `/.octon/state/control/execution/runs/<run-id>/run-manifest.yml`
+- runtime state: `/.octon/state/control/execution/runs/<run-id>/runtime-state.yml`
+- checkpoints: `/.octon/state/control/execution/runs/<run-id>/checkpoints/**`
+- continuity handoff: `/.octon/state/continuity/runs/<run-id>/handoff.yml`
+- retained run evidence: `/.octon/state/evidence/runs/<run-id>/**`
+
+## Compatibility/Historical Surfaces
+
+- `checkpoint-v1.schema.json` remains compatibility-only when retained for lineage.
+
+## Non-Authority Note
+
+Run-local disclosure mirrors and continuity summaries may consume run evidence,
+but they must not replace the bound run root as runtime authority.
+
+## Validator Obligations
+
+- `verify-runtime-family-depth.sh`
+- `verify-continuity-linkage.sh`
+- `validate-contract-family-version-coherence.sh`

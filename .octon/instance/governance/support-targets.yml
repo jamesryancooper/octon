@@ -3,7 +3,7 @@ owner: "Octon governance"
 default_route: "deny"
 review_cadence: "quarterly and before any support-universe amendment"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
-support_claim_mode: "global-complete-finite"
+support_claim_mode: "bounded-admitted-live-universe"
 generated_projection_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
 pack_registry_ref: ".octon/instance/governance/capability-packs/registry.yml"
 admission_review_contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
@@ -366,7 +366,7 @@ model_adapters:
       - "instruction-layer-manifest"
       - "run-evidence-root"
 notes:
-  - "The live claim is the full admitted live support universe recorded above; tuple_admissions is an inventory-plus-reference table only."
+  - "The live claim is the bounded admitted live support universe recorded above; tuple_admissions is an inventory-plus-reference table only."
   - "Tuple-specific route, mission, capability-pack, proof-plane, authority-artifact, and claim-effect semantics live only in support-target-admissions/**."
   - "Mission-backed repo-consequential and boundary-sensitive work remains explicit and fail-closed."
 retired_surfaces:

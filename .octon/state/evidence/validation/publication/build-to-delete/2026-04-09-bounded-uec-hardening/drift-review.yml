@@ -1,0 +1,19 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: drift-review
+contract_ref: .octon/instance/governance/contracts/drift-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-04-09T18:00:00Z"
+triggered_by:
+  - Bounded hardening closure promotion readiness
+  - Non-authority and compatibility drift review for claim-adjacent residue
+summary: >-
+  Historical, compatibility, and projection-only surfaces remain explicitly
+  inventoried, non-authoritative, and outside the mandatory ingress and live
+  claim path. No reviewed retained surface re-enters the live authority path.
+findings: []
+evidence_refs:
+  - .octon/instance/ingress/manifest.yml
+  - .octon/framework/constitution/contracts/registry.yml
+  - .octon/instance/governance/non-authority-register.yml
+  - .octon/instance/governance/retirement-register.yml

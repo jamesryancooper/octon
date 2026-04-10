@@ -6,6 +6,11 @@ super-rooted Octon harness.
 Enable reliable agent execution that is deterministic enough to trust,
 observable enough to debug, and flexible enough to evolve.
 
+The machine-readable ingress declaration lives at
+`/.octon/instance/ingress/manifest.yml`. Treat the manifest as the source of
+truth for mandatory reads, optional overlays, conditional overlays, adapter
+parity targets, and the branch closeout prompt.
+
 ## Behavioral Contract
 
 - singular constitutional kernel:
@@ -29,6 +34,9 @@ observable enough to debug, and flexible enough to evolve.
   - `.octon/instance/bootstrap/START.md`
 
 ## Read Order
+
+The ordered mandatory read set below must remain in parity with
+`/.octon/instance/ingress/manifest.yml`.
 
 1. `.octon/framework/constitution/CHARTER.md`
 2. `.octon/framework/constitution/charter.yml`

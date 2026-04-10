@@ -1,0 +1,84 @@
+schema_version: claim-truth-conditions-v2
+claim_id: unified-execution-constitution
+claim_phrase: fully unified execution constitution
+authoritative_kernel_ref: ".octon/framework/constitution/contracts/registry.yml"
+status_ref: ".octon/generated/effective/closure/claim-status.yml"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
+conditions:
+  - id: TC-01
+    title: constitutional-singularity
+    required: true
+    evidence_ref: ".octon/framework/constitution/contracts/registry.yml"
+    invalidated_by:
+      - constitutional-kernel-change
+      - new-authoritative-surface-outside-kernel
+  - id: TC-02
+    title: objective-hierarchy
+    required: true
+    evidence_ref: ".octon/generated/effective/closure/claim-status.yml"
+    invalidated_by:
+      - mission-binding-policy-change
+      - run-contract-family-change
+  - id: TC-03
+    title: admitted-live-support-universe
+    required: true
+    evidence_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
+    invalidated_by:
+      - support-target-admission-change
+      - support-claim-expansion-without-dossier
+      - non-live-surface-left-in-liminal-stage
+  - id: TC-04
+    title: canonical-authority
+    required: true
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/cross-artifact-consistency.yml"
+    invalidated_by:
+      - authority-family-change
+      - host-only-approval-detected
+      - host-authority-purity-failure
+  - id: TC-05
+    title: durable-run-semantics
+    required: true
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/cross-artifact-consistency.yml"
+    invalidated_by:
+      - consequential-run-missing-bundle
+      - checkpoint-or-ledger-regression
+      - runtime-family-depth-regression
+      - continuity-linkage-regression
+      - replay-integrity-regression
+  - id: TC-06
+    title: classed-evidence
+    required: true
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/cross-artifact-consistency.yml"
+    invalidated_by:
+      - empty-evidence-classification
+      - external-index-digest-regression
+  - id: TC-07
+    title: complete-proof
+    required: true
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/proof-plane-coverage.yml"
+    invalidated_by:
+      - proof-plane-failure
+      - evaluator-independence-regression
+      - lab-reference-integrity-failure
+  - id: TC-08
+    title: claim-calibrated-disclosure
+    required: true
+    evidence_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/harness-card.yml"
+    invalidated_by:
+      - authored-claim-outstates-ledgers
+      - support-universe-drift
+      - residual-ledger-disclosure-mismatch
+  - id: TC-09
+    title: closure-certification
+    required: true
+    evidence_ref: ".octon/generated/effective/closure/claim-status.yml"
+    invalidated_by:
+      - preclaim-blocker-open
+      - gate-red
+  - id: TC-10
+    title: recertification-discipline
+    required: true
+    evidence_ref: ".octon/generated/effective/closure/recertification-status.yml"
+    invalidated_by:
+      - material-trigger-without-recertification
+      - retirement-rationale-gap

@@ -1,0 +1,20 @@
+schema_version: repo-governance-contract-v1
+contract_id: hidden-check-breadth
+owner: Octon governance
+status: active
+purpose: Require explicit hidden-check breadth per admitted tuple rather than generic or prose-only hidden-check claims.
+dimensions:
+  - structural
+  - functional
+  - governance
+  - maintainability
+  - behavioral
+  - recovery
+  - drift-regression
+  - contamination-retry
+  - authority-disclosure-purity
+rules:
+  - Observe-and-read tuples must cover structural, functional, governance, maintainability, and drift-regression.
+  - Repo-consequential tuples must also cover behavioral and recovery dimensions.
+  - Boundary-sensitive tuples must cover all listed dimensions unless an explicit dossier exclusion says otherwise.
+blocking_rule: Reject when hidden-check breadth is generic, prose-only, or dimensionally incomplete for the tuple workload class.

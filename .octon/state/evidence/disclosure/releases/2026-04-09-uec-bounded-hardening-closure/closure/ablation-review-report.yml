@@ -1,0 +1,10 @@
+schema_version: octon-ablation-review-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
+required_receipts:
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/drift-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/support-target-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/adapter-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/retirement-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/ablation-deletion-receipt.yml

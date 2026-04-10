@@ -1,0 +1,30 @@
+schema_version: octon-contract-version-coherence-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+per_family:
+  - family_id: objective
+    active_versions:
+      run-contract: run-contract-v3
+      stage-attempt: stage-attempt-v2
+    legacy_versions_retained:
+      - run-contract-v1
+      - stage-attempt-v1
+    explicit_coexistence_rules: true
+    stale_reference_gaps: []
+  - family_id: runtime
+    active_versions:
+      checkpoint: checkpoint-v2
+      run-manifest: run-manifest-v1
+    legacy_versions_retained:
+      - checkpoint-v1
+    explicit_coexistence_rules: true
+    stale_reference_gaps: []
+  - family_id: disclosure
+    active_versions:
+      run-card: run-card-v2
+      harness-card: harness-card-v2
+    legacy_versions_retained:
+      - run-card-v1
+      - harness-card-v1
+    explicit_coexistence_rules: true
+    stale_reference_gaps: []
+status: pass

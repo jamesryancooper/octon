@@ -30,3 +30,52 @@ representative_retained_runs:
 known_exclusions: []
 recertification_cadence: quarterly
 support_admission_ref: .octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml
+sufficiency:
+  required_proof_planes:
+    - structural
+    - functional
+    - behavioral
+    - governance
+    - maintainability
+    - recovery
+  required_scenario_classes:
+    - baseline
+    - governance-or-approval
+    - adversarial-or-hidden-check
+    - recovery-or-replay
+  minimum_retained_runs: 4
+  current_retained_runs: 4
+  evaluator_classes_required:
+    - deterministic-or-authored-validator
+    - hidden-check-or-replay-shadow-evaluator
+    - secondary-reviewer-class
+  evaluator_classes_present:
+    - deterministic-or-authored-validator
+    - hidden-check-or-replay-shadow-evaluator
+    - provider-routed-evaluator
+  hidden_check_dimensions_required:
+    - structural
+    - functional
+    - governance
+    - maintainability
+    - behavioral
+    - recovery
+    - drift-regression
+    - contamination-retry
+    - authority-disclosure-purity
+  hidden_check_dimensions_present:
+    - structural
+    - functional
+    - governance
+    - maintainability
+    - behavioral
+    - recovery
+    - drift-regression
+    - contamination-retry
+    - authority-disclosure-purity
+  representative_run_classes_present:
+    - naturalistic
+    - recertified
+  naturalistic_representative_run_present: true
+  last_current_release_run_ref: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+  status: qualified

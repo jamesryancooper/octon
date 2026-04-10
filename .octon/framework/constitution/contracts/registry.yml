@@ -139,6 +139,12 @@ integration_surfaces:
   effective_support_target_projection:
     path: ".octon/generated/effective/governance/support-target-matrix.yml"
     status: "active"
+  non_authority_register:
+    path: ".octon/instance/governance/non-authority-register.yml"
+    status: "active"
+  current_audit_crosswalk:
+    path: ".octon/instance/governance/closure/current-audit-crosswalk.yml"
+    status: "active"
   retained_disclosure_roots:
     runs: ".octon/state/evidence/disclosure/runs/**"
     releases: ".octon/state/evidence/disclosure/releases/**"

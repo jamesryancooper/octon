@@ -1,0 +1,23 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: retirement-review
+contract_ref: .octon/instance/governance/contracts/retirement-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-04-09T18:00:00Z"
+triggered_by:
+  - Bounded hardening closure promotion readiness
+  - Public retirement rationale and review-linkage depth refresh
+summary: >-
+  Every retained projection, shim, mirror, or superseded release bundle is
+  owner-backed, review-dated, linked to the current closeout review regime,
+  and prevented from acting as current authority.
+counts:
+  permanent_projection: 1
+  retained_noncritical: 0
+  historical_retained_noncritical: 6
+  retired: 2
+findings: []
+evidence_refs:
+  - .octon/instance/governance/retirement-register.yml
+  - .octon/instance/governance/non-authority-register.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/ablation-deletion-receipt.yml

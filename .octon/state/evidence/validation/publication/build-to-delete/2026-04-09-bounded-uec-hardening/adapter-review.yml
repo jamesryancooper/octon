@@ -1,0 +1,24 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: adapter-review
+contract_ref: .octon/instance/governance/contracts/adapter-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-04-09T18:00:00Z"
+triggered_by:
+  - Bounded hardening closure promotion readiness
+  - Adapter and workflow-shell boundary refresh for the admitted live universe
+summary: >-
+  Repo-shell, github-control-plane, ci-control-plane, and studio-control-plane
+  remain the admitted host adapters, while repo-local-governed and
+  frontier-governed remain the admitted model adapters. Workflow shells remain
+  non-authoritative and bounded by repo-local contracts and validators.
+findings: []
+evidence_refs:
+  - .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+  - .octon/framework/engine/runtime/adapters/host/github-control-plane.yml
+  - .octon/framework/engine/runtime/adapters/host/ci-control-plane.yml
+  - .octon/framework/engine/runtime/adapters/host/studio-control-plane.yml
+  - .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+  - .octon/framework/engine/runtime/adapters/model/frontier-governed.yml
+  - .octon/instance/governance/contracts/projection-shell-boundary-policy.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-projection-shell-boundaries.sh

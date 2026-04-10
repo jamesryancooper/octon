@@ -1,8 +1,8 @@
 schema_version: closure-summary-v2
-release_id: 2026-04-09-uec-hardening-recertification
-generated_at: "2026-04-09T12:00:00Z"
+release_id: 2026-04-09-uec-bounded-hardening-closure
+generated_at: "2026-04-09T18:00:00Z"
 claim_status: complete
-support_universe_mode: global-complete-finite
+support_universe_mode: bounded-admitted-live-universe
 preclaim_blockers_open: 0
 green_gates:
   - G0
@@ -21,15 +21,24 @@ green_gates:
   - G9B
   - G10
   - G10A
+  - G10B
+  - G10C
+  - G10D
   - G11
   - G11A
   - G11B
   - G11C
   - G11D
   - G11E
+  - G11F
+  - G11G
   - G12
   - G13
   - G13A
+  - G13B
+  - G13C
+  - G13D
+  - G13E
   - G14
   - G15
   - G16
@@ -37,3 +46,4 @@ blocked_by:
 notes:
   - Stable mirrors are generated from the active release bundle only.
   - The admitted live support universe is evidenced in this release without widening beyond the bounded claim.
+  - Fresh build-to-delete review lineage now resolves through 2026-04-09-bounded-uec-hardening.

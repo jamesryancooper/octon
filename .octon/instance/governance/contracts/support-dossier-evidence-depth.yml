@@ -1,0 +1,43 @@
+schema_version: repo-governance-contract-v1
+contract_id: support-dossier-evidence-depth
+owner: Octon governance
+status: active
+purpose: Require every admitted support dossier to prove sufficient current evidence depth for the bounded live support universe.
+required_dossier_fields:
+  - sufficiency.required_proof_planes
+  - sufficiency.required_scenario_classes
+  - sufficiency.minimum_retained_runs
+  - sufficiency.current_retained_runs
+  - sufficiency.evaluator_classes_required
+  - sufficiency.evaluator_classes_present
+  - sufficiency.hidden_check_dimensions_required
+  - sufficiency.hidden_check_dimensions_present
+  - sufficiency.representative_run_classes_present
+  - sufficiency.naturalistic_representative_run_present
+  - sufficiency.last_current_release_run_ref
+  - sufficiency.status
+minimums_by_workload:
+  observe-and-read:
+    minimum_retained_runs: 3
+    required_scenario_classes:
+      - baseline
+      - adversarial-or-hidden-check
+      - drift-or-recertification
+  repo-consequential:
+    minimum_retained_runs: 4
+    required_scenario_classes:
+      - baseline
+      - governance-or-approval
+      - adversarial-or-hidden-check
+      - recovery-or-replay
+    naturalistic_representative_run_required: true
+  boundary-sensitive:
+    minimum_retained_runs: 5
+    required_scenario_classes:
+      - baseline
+      - adversarial
+      - recovery-or-fault
+      - replay-or-shadow
+      - contamination-or-retry
+    naturalistic_representative_run_required: true
+blocking_rule: Reject when an admitted tuple lacks current-release evidence sufficiency or when a consequential tuple relies only on safe-stage exercise evidence.

@@ -1,0 +1,20 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "adapter-review"
+contract_ref: ".octon/instance/governance/contracts/adapter-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-04-06T15:28:40Z"
+triggered_by:
+  - "Closure truth-freeze and retirement-claim readiness"
+  - "Bounded host and model adapter revalidation"
+summary: >-
+  Repo-shell remains the only admitted host adapter, repo-local-governed
+  remains the only admitted model adapter, and all other adapters remain
+  excluded or stage-only.
+findings: []
+evidence_refs:
+  - ".octon/framework/engine/runtime/adapters/host/repo-shell.yml"
+  - ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
+  - ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"
+  - ".octon/framework/engine/runtime/adapters/model/frontier-governed.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"

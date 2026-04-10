@@ -1,0 +1,28 @@
+schema_version: ablation-deletion-receipt-v1
+workflow_id: ablation-driven-deletion
+contract_ref: .octon/instance/governance/contracts/ablation-deletion-workflow.yml
+owner: Octon governance
+status: completed
+executed_at: "2026-04-09T18:00:00Z"
+targets_evaluated:
+  - target_id: ingress-projection-adapters
+    decision: retain
+    status_after_review: permanent-projection
+    regression_result: none
+    next_review_date: "2026-06-30"
+    rationale: Supported ingress adapters remain bounded compatibility surfaces and stay explicitly projection-only.
+  - target_id: duplicate-constitutional-shims
+    decision: retain
+    status_after_review: historical-retained-noncritical
+    regression_result: none
+    next_review_date: "2026-06-29"
+    rationale: Historical and subordinate charter-shaped shims remain retained for lineage only and stay out of the live path.
+  - target_id: superseded-release-disclosure-bundles
+    decision: retain
+    status_after_review: historical-retained-noncritical
+    regression_result: none
+    next_review_date: "2026-06-30"
+    rationale: Superseded release bundles remain retained evidence only, with release-lineage defining the single active claim-bearing release.
+non_regression_summary: >-
+  No evaluated retained target re-enters the live authority path, and no
+  deletion is required to promote the bounded hardening closure.

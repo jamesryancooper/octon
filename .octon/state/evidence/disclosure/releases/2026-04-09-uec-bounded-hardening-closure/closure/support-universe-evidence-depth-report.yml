@@ -1,0 +1,9 @@
+schema_version: octon-support-universe-evidence-depth-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+summary:
+  dossiers_checked: 6
+  dossiers_qualified: 6
+  consequential_tuples_with_naturalistic_representative_runs: 4
+  current_release_representative_refs_present: 6
+  parity_failures: 0

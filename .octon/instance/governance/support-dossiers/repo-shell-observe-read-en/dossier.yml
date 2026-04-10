@@ -28,4 +28,39 @@ representative_retained_runs:
 known_exclusions: []
 recertification_cadence: quarterly
 support_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml
-
+sufficiency:
+  required_proof_planes:
+    - structural
+    - functional
+    - governance
+    - maintainability
+  required_scenario_classes:
+    - baseline
+    - adversarial-or-hidden-check
+    - drift-or-recertification
+  minimum_retained_runs: 3
+  current_retained_runs: 3
+  evaluator_classes_required:
+    - deterministic-or-authored-validator
+    - secondary-reviewer-class
+  evaluator_classes_present:
+    - deterministic-or-authored-validator
+    - provider-routed-evaluator
+  hidden_check_dimensions_required:
+    - structural
+    - functional
+    - governance
+    - maintainability
+    - drift-regression
+  hidden_check_dimensions_present:
+    - structural
+    - functional
+    - governance
+    - maintainability
+    - drift-regression
+  representative_run_classes_present:
+    - naturalistic
+    - recertified
+  naturalistic_representative_run_present: true
+  last_current_release_run_ref: .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml
+  status: qualified

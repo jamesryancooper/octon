@@ -1,0 +1,7 @@
+schema_version: authority-run-bundle-index-v1
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+request_ref: null
+decision_ref: .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+lease_index_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/authority/leases/index.yml
+revocation_index_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/authority/revocations/index.yml

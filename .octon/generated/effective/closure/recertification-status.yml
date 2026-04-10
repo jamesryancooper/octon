@@ -1,12 +1,12 @@
 schema_version: recertification-status-v1
-release_id: 2026-04-09-uec-hardening-recertification
+release_id: 2026-04-09-uec-bounded-hardening-closure
 generated_at: "2026-04-09T12:00:00Z"
-profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md
+profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-09-octon-bounded-uec-packet-implementation/plan.md
 certification_mode: equally-strong-recertification-rule
 status: valid
 trigger_log_ref: .octon/instance/governance/closure/recertification-trigger-log.yml
-active_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-certificate.yml
-active_harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/harness-card.yml
+active_certificate_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/closure-certificate.yml
+active_harness_card_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/harness-card.yml
 input_digests:
   charter: sha256:a51730199554c5b74f7964f433817c5cb7e50f569b9f5778ae8f5cc0d543e353
   support_targets: sha256:734f1aaa8cd9ea1897c68006e47d875661fc122311a71450baba10dff327b0af
