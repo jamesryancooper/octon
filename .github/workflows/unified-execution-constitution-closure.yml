@@ -84,6 +84,6 @@ jobs:
           name: unified-execution-constitution-closure-publication
           path: |
             .octon/generated/.tmp/unified-execution-completion-ci/
-            .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/
+            .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/
           if-no-files-found: error
           retention-days: 7
