@@ -1,0 +1,7 @@
+{
+  "grant_ref": ".octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
+  "decision": "DENY",
+  "reason_codes": [
+    "LIVE_SAFE_STAGE_REVOCATION_EXERCISE"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "request_id": "uec-bounded-repo-shell-boundary-sensitive-20260409",
+  "decision": "DENY",
+  "linked_refs": [
+    ".octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
+    ".octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml"
+  ]
+}

@@ -1,0 +1,12 @@
+schema_version: intervention-record-v1
+record_id: uec-bounded-repo-shell-boundary-sensitive-20260409-no-material-intervention
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+kind: no-material-intervention
+disclosed: true
+actor_ref: null
+details: The governance exercise remained bounded to explicitly retained authority
+  artifacts.
+evidence_refs:
+- .octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+recorded_at: '2026-04-02T00:00:00Z'

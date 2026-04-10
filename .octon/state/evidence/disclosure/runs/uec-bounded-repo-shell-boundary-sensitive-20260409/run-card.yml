@@ -1,0 +1,70 @@
+schema_version: run-card-v2
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+claim_status: supported
+status: succeeded
+summary: Boundary-sensitive repo-shell hardening closure work is retained as a
+  governed implementation run inside the admitted live support universe.
+workflow_mode: agent-augmented
+support_tier: boundary-sensitive
+support_target_tuple:
+  model_tier: repo-local-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  support_status: supported
+support_target_ref: .octon/instance/governance/support-targets.yml
+requested_capability_packs:
+- repo
+- telemetry
+adapter_support:
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  host_support_status: supported
+  model_support_status: supported
+  conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - HOST-004
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+authority_refs:
+  run_contract: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  retained_run_evidence: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/retained-run-evidence.yml
+runtime_artifact_depth:
+  validation_status: pass
+  replay_integrity: pass
+  stage_attempts:
+    applicable: true
+    present: true
+  checkpoints:
+    applicable: true
+    present: true
+  continuity:
+    applicable: true
+    present: true
+  contamination:
+    applicable: true
+    present: true
+  retries:
+    applicable: true
+    present: true
+proof_plane_refs:
+  structural: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/structural.yml
+  governance: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/governance.yml
+  functional: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/functional.yml
+  behavioral: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/behavioral.yml
+  maintainability: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/recovery.yml
+  evaluator: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/evaluator.yml
+measurement_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/measurements/summary.yml
+intervention_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/interventions/log.yml
+replay_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay/manifest.yml
+recovery_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/assurance/recovery.yml
+known_limits:
+- Boundary-sensitive implementation remains mission-bound, fail-closed, and
+  subordinate to canonical authority surfaces.
+generated_at: '2026-04-09T18:00:00Z'

@@ -1,0 +1,15 @@
+schema_version: proof-plane-report-v1
+plane: structural
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+outcome: pass
+proof_class: deterministic
+summary: Structural proof retained for uec-bounded-repo-shell-boundary-sensitive-20260409.
+evidence_refs:
+- .octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/exceptions/leases/lease-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/revocations/revoke-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+known_limits: []
+generated_at: '2026-04-02T00:00:00Z'

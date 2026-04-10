@@ -1,0 +1,8 @@
+schema_version: intervention-log-v1
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+interventions: []
+summary: No hidden or material human intervention occurred beyond the explicit
+  canonical authority artifacts retained with the boundary-sensitive
+  implementation run.
+recorded_at: '2026-04-09T18:00:00Z'
