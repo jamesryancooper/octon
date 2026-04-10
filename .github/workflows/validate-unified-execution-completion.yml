@@ -75,7 +75,7 @@ jobs:
           .octon/framework/assurance/runtime/_ops/scripts/verify-continuity-linkage.sh
           .octon/framework/assurance/runtime/_ops/scripts/verify-retirement-rationale.sh
           .octon/framework/assurance/runtime/_ops/scripts/verify-release-known-limits.sh
-          .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
+          bash .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
 
       - name: Upload validation bundle
         if: always()
