@@ -1,0 +1,26 @@
+schema_version: repo-governance-contract-v1
+contract_id: evaluator-diversity
+owner: Octon governance
+status: active
+purpose: Require multiple evaluator classes for admitted support tuples and prevent consequential certification from collapsing to one evaluator family.
+minimums_by_workload:
+  observe-and-read:
+    minimum_classes: 2
+    required_classes:
+      - deterministic-or-authored-validator
+      - secondary-reviewer-or-evaluator
+  repo-consequential:
+    minimum_classes: 3
+    required_classes:
+      - deterministic-or-authored-validator
+      - hidden-check-or-replay-shadow-evaluator
+      - secondary-reviewer-class
+    non_host_exclusive_path_required: true
+  boundary-sensitive:
+    minimum_classes: 3
+    required_classes:
+      - deterministic-or-authored-validator
+      - hidden-check-or-replay-shadow-evaluator
+      - secondary-reviewer-class
+    non_host_exclusive_path_required: true
+blocking_rule: Reject when evaluator diversity falls below minima or when consequential tuples depend only on host-exclusive evaluator execution.

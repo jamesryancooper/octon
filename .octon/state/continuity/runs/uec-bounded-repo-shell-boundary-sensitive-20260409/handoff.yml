@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+status: succeeded
+run_contract_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: mission-autonomy-live-validation
+parent_run_ref: null
+next_action: null
+updated_at: '2026-04-09T18:00:00Z'

@@ -1,0 +1,18 @@
+schema_version: octon-hardening-delta-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+support_scope_change: none
+closed_claim_critical_items:
+  - CC-01
+  - CC-02
+  - CC-03
+  - CC-04
+  - CC-05
+open_claim_strengthening_items:
+  - CS-01
+  - CS-02
+retained_transitional_surfaces:
+  - surface: "/.octon/AGENTS.md"
+    status: retained_with_rationale
+    rationale: "Repo-local ingress adapters remain compatibility projections only."
+    next_review_due: 2026-06-30
+recertification_blockers: []

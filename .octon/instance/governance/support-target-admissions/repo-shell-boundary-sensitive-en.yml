@@ -45,6 +45,7 @@ required_authority_artifacts:
   - quorum-policy
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml
 support_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
 review_due_at: "2026-06-30T00:00:00Z"
 claim_effect: admitted-live-claim

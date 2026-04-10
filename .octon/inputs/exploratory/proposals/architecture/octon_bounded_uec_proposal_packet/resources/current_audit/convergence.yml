@@ -1,0 +1,18 @@
+schema_version: "1.0"
+run_id: "2026-03-08-orchestration-domain-design-package-audit"
+commit_sha: "774db186de67f7d3540382e736b5f4fc6e8646a8"
+scope_hash: "sha256:orchestration-domain-design-package-scope-v1"
+prompt_hash: "sha256:orchestration-domain-design-package-prompt-v1"
+params_hash: "sha256:orchestration-domain-design-package-params-v1"
+findings_hash: "sha256:orchestration-domain-design-package-findings-v1"
+seed_unsupported: true
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 2
+open_findings_at_or_above_threshold: 2
+done: false
+mode: "discovery"
+post_remediation: false
+convergence_required: false
+done_gate: "planning-complete-but-not-remediation-complete"
+rationale: "Findings are stable enough for planning. Open high-severity findings keep the done gate false."

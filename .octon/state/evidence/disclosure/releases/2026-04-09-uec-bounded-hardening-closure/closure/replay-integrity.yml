@@ -1,0 +1,7 @@
+schema_version: octon-replay-integrity-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+summary:
+  representative_runs_checked: 9
+  replay_complete_runs: 9
+  replay_incomplete_runs: 0

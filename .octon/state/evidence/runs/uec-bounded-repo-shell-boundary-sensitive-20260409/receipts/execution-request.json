@@ -1,0 +1,5 @@
+{
+  "run_id": "uec-bounded-repo-shell-boundary-sensitive-20260409",
+  "target_id": "governance:safe-stage-lease-revocation-exercise",
+  "workflow_mode": "agent-augmented"
+}

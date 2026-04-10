@@ -1,4 +1,4 @@
-schema_version: retirement-register-v2
+schema_version: retirement-register-v3
 owner: Octon governance
 updated_at: "2026-04-09T00:00:00Z"
 entries:
@@ -11,7 +11,11 @@ entries:
     disposition: projection-only
     claim_adjacent: true
     rationale: Repo-root and .octon ingress adapters remain useful compatibility surfaces, but they are not runtime or policy authority.
+    canonical_successor_ref: .octon/instance/ingress/AGENTS.md
+    certificate_blocker: false
+    future_widening_blocker: false
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-30"
   - surface: workspace-objective-compatibility-shims
     paths:
@@ -21,7 +25,11 @@ entries:
     disposition: compatibility-shim
     claim_adjacent: false
     rationale: Objective authority now lives in the workspace, mission, run, and stage contract stack.
+    canonical_successor_ref: .octon/framework/constitution/contracts/objective/README.md
+    certificate_blocker: false
+    future_widening_blocker: false
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-29"
   - surface: duplicate-constitutional-shims
     paths:
@@ -32,7 +40,11 @@ entries:
     disposition: historical-shim
     claim_adjacent: true
     rationale: Historical or subordinate charter-shaped surfaces remain retained for lineage and local weighting, but they must not regain peer constitutional authority.
+    canonical_successor_ref: .octon/framework/constitution/CHARTER.md
+    certificate_blocker: false
+    future_widening_blocker: true
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-29"
   - surface: run-local-disclosure-mirrors
     paths:
@@ -41,7 +53,11 @@ entries:
     disposition: historical-mirror
     claim_adjacent: true
     rationale: Run-local disclosure directories are retained only for lineage; canonical live RunCards resolve from state/evidence/disclosure/runs/**.
+    canonical_successor_ref: .octon/state/evidence/disclosure/runs/**
+    certificate_blocker: false
+    future_widening_blocker: false
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-30"
   - surface: lab-local-harness-card-mirrors
     paths:
@@ -50,7 +66,11 @@ entries:
     disposition: historical-mirror
     claim_adjacent: true
     rationale: Lab-local HarnessCards remain historical mirrors only; canonical release disclosure lives under instance/governance/disclosure and state/evidence/disclosure/releases/**.
+    canonical_successor_ref: .octon/state/evidence/disclosure/releases/**
+    certificate_blocker: false
+    future_widening_blocker: false
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-30"
   - surface: superseded-release-disclosure-bundles
     paths:
@@ -59,9 +79,14 @@ entries:
       - .octon/state/evidence/disclosure/releases/2026-03-31-unified-execution-constitution-clean-break/**
       - .octon/state/evidence/disclosure/releases/2026-04-03-uec-clean-break-closure/**
       - .octon/state/evidence/disclosure/releases/2026-04-04-uec-global-completion/**
+      - .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/**
     status: retained_with_rationale
     disposition: historical-release-evidence
     claim_adjacent: true
     rationale: Superseded release bundles remain retained evidence only and must not be cited for current support scope or closure truth.
+    canonical_successor_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/**
+    certificate_blocker: false
+    future_widening_blocker: false
     review_artifact_ref: .octon/instance/governance/contracts/closeout-reviews.yml
+    latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-30"

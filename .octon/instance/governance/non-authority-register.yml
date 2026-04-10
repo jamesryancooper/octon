@@ -1,0 +1,37 @@
+schema_version: non-authority-register-v1
+owner: Octon governance
+updated_at: "2026-04-09T18:00:00Z"
+entries:
+  - surface_id: effective-closure-claim-status
+    surface_class: effective-generated-view
+    paths:
+      - .octon/generated/effective/closure/claim-status.yml
+    canonical_source_ref: .octon/instance/governance/disclosure/release-lineage.yml
+    authority_mode: derived-non-authority
+    generation_or_projection_mechanism: generated-from active release disclosure and closure bundle
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
+    retained_forever: true
+    rationale: Effective closure state remains an operator-facing derived view and must never replace authored disclosure or retained closure evidence.
+  - surface_id: effective-closure-recertification-status
+    surface_class: effective-generated-view
+    paths:
+      - .octon/generated/effective/closure/recertification-status.yml
+    canonical_source_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/recertification-status.yml
+    authority_mode: derived-non-authority
+    generation_or_projection_mechanism: generated-from active release closure reports
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
+    retained_forever: true
+    rationale: Recertification status is a convenience projection of retained release evidence, not an authored authority surface.
+  - surface_id: effective-support-target-matrix
+    surface_class: effective-generated-view
+    paths:
+      - .octon/generated/effective/governance/support-target-matrix.yml
+    canonical_source_ref: .octon/instance/governance/support-targets.yml
+    authority_mode: derived-non-authority
+    generation_or_projection_mechanism: generated-from support-target declaration plus admissions
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
+    retained_forever: true
+    rationale: The effective support-target matrix remains a generated convenience view and must not widen support beyond the authored declaration and admissions.

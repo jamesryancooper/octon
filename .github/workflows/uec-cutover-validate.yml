@@ -19,8 +19,6 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    env:
-      CLOSURE_RELEASE_ID: 2026-04-09-uec-hardening-recertification
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Install jq and yq
@@ -29,35 +27,18 @@ jobs:
           sudo apt-get install -y jq
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
-      - name: Run pass-1 validators
+      - name: Run bounded closure validators
         run: |
-          chmod +x .octon/framework/assurance/scripts/*.sh
-          bash .octon/framework/assurance/runtime/_ops/scripts/generate-release-bundle.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/runtime/_ops/scripts/generate-closure-projections.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-support-target-canonicality.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-run-contract-support-binding.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-canonical-authority-purity.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-claim-calibrated-disclosure.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-stage-attempt-disclosure-separation.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-known-limits-coherence.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/runtime/_ops/scripts/validate-blocker-ledger-zero.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-authority-classification.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-mirror-parity.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-precedence-resolution.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-objective-stack.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-mission-run-normalization.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-authority-centralization.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-authority-artifacts.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-fail-closed-routing.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-support-target-admission.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-capability-packs.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-run-roots.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-durable-lifecycle.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-evidence-retention.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-interventions.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-measurements.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-proof-planes.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-lab-substance.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-evaluator-independence.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-run-card-truth.sh "$CLOSURE_RELEASE_ID"
-          bash .octon/framework/assurance/scripts/validate-legacy-retirement.sh "$CLOSURE_RELEASE_ID"
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-bounded-claim-nomenclature.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-review-packet-freshness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-retirement-register-depth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-ingress-manifest-parity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-dossier-evidence-depth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evaluator-diversity.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-hidden-check-breadth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-contract-family-version-coherence.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-projection-shell-boundaries.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh
+          bash .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh

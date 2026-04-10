@@ -17,8 +17,8 @@ support_target:
   host_adapter: ci-control-plane
   language_resource_tier: reference-owned
   locale_tier: english-primary
-  model_adapter: frontier-governed
-  model_tier: frontier-governed
+  model_adapter: repo-local-governed
+  model_tier: repo-local-governed
   route: allow
   support_status: supported
   workload_tier: observe-and-read

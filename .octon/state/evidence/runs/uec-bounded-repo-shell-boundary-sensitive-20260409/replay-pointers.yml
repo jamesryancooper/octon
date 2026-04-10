@@ -1,0 +1,5 @@
+schema_version: replay-pointer-v2
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+external_index_refs:
+  - .octon/state/evidence/external-index/runs/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+updated_at: "2026-04-10T15:27:53Z"

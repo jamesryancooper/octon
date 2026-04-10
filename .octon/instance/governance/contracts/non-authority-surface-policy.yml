@@ -1,0 +1,24 @@
+schema_version: repo-governance-policy-v1
+policy_id: non-authority-surface-policy
+owner: Octon governance
+status: active
+purpose: Keep generated, effective, projection, mirror, and compatibility surfaces explicitly non-authoritative and machine-inventoried.
+triggers:
+  - When any generated or effective closure/governance view is added or changed.
+  - When a retained projection, mirror, or shim becomes claim-adjacent.
+  - Before any claim-bearing release promotion.
+required_inputs:
+  - .octon/framework/constitution/contracts/registry.yml
+  - .octon/instance/governance/retirement-register.yml
+  - .octon/instance/governance/non-authority-register.yml
+required_labels:
+  - derived-non-authority
+  - projection-only
+  - historical-mirror
+  - historical-shim
+  - compatibility-shim
+  - historical-release-evidence
+evidence_requirements:
+  - Validation evidence that permanent non-authority surfaces are inventoried once and reference canonical sources.
+  - Validation evidence that removable claim-adjacent residue stays in the retirement register rather than the permanent non-authority register.
+blocking_rule: Reject when a generated, effective, projected, mirrored, or compatibility surface can be mistaken for authored authority or lacks a canonical source reference.

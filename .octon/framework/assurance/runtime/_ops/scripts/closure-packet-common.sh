@@ -135,7 +135,7 @@ dossier_for_run() {
   local run_id="$1"
   local dossier
   while IFS= read -r dossier; do
-    if yq -r '.representative_retained_runs[]?' "$dossier" | grep -Fxq ".octon/state/control/execution/runs/$run_id/run-contract.yml"; then
+    if yq -e ".representative_retained_runs[]? | select(. == \".octon/state/control/execution/runs/$run_id/run-contract.yml\")" "$dossier" >/dev/null 2>&1; then
       printf '%s\n' "$dossier"
       return 0
     fi

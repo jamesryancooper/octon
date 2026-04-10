@@ -22,5 +22,5 @@ revocation_refs: []
 requested_capability_packs:
 - repo
 - telemetry
-quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+quorum_policy_ref: .octon/instance/governance/contracts/quorum-policies/default.yml
 generated_at: '2026-04-02T00:00:00Z'

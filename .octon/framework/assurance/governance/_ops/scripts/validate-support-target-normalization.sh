@@ -22,7 +22,7 @@ require_ref() {
 main() {
   echo "== Support-Target Normalization Validation =="
 
-  require_yq '.support_claim_mode == "global-complete-finite"' "$SUPPORT_TARGETS" "support-target declaration uses final global-complete claim mode"
+  require_yq '.support_claim_mode == "bounded-admitted-live-universe"' "$SUPPORT_TARGETS" "support-target declaration uses bounded admitted-universe claim mode"
   require_yq '.live_support_universe.model_classes[] | select(. == "frontier-governed")' "$SUPPORT_TARGETS" "live support universe includes frontier-governed"
   require_yq '.live_support_universe.host_adapters[] | select(. == "github-control-plane")' "$SUPPORT_TARGETS" "live support universe includes github-control-plane"
   require_yq '.live_support_universe.host_adapters[] | select(. == "ci-control-plane")' "$SUPPORT_TARGETS" "live support universe includes ci-control-plane"

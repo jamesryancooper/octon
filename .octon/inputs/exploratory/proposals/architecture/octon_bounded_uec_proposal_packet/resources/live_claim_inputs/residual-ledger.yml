@@ -1,0 +1,53 @@
+schema_version: octon-residual-ledger-v1
+release_id: 2026-04-09-uec-hardening-recertification
+claim_critical:
+  - issue_id: CC-01
+    status: closed
+    summary: lab scenario and retained evidence integrity
+  - issue_id: CC-02
+    status: closed
+    summary: host projection authority purity
+  - issue_id: CC-03
+    status: closed
+    summary: runtime artifact depth and replay integrity
+  - issue_id: CC-04
+    status: closed
+    summary: disclosure calibration
+  - issue_id: CC-05
+    status: closed
+    summary: retirement and retain-rationale discipline
+non_critical:
+  - issue_id: CS-01
+    status: open
+    disposition: retained_with_rationale
+    target_release: hardening-followup
+    summary: Evidence depth should be refreshed per admitted tuple before any support widening.
+  - issue_id: CS-02
+    status: open
+    disposition: retained_with_rationale
+    target_release: hardening-followup
+    summary: Evaluator diversity and hidden-check breadth should continue to deepen.
+  - issue_id: SR-01
+    status: open
+    disposition: retained_with_rationale
+    target_release: hardening-followup
+    summary: Agency and ingress simplification can still reduce interpretive ambiguity.
+  - issue_id: SR-02
+    status: open
+    disposition: retained_with_rationale
+    target_release: hardening-followup
+    summary: Public retirement-register depth should continue to mature.
+  - issue_id: SR-03
+    status: open
+    disposition: retained_with_rationale
+    target_release: hardening-followup
+    summary: Residual shim and mirror rationale should remain explicit in disclosure.
+  - issue_id: SR-04
+    status: open
+    disposition: retained_with_rationale
+    target_release: hardening-followup
+    summary: Generated and effective operator clarity should remain explicitly non-authoritative.
+known_limits:
+  - "The attainment claim remains bounded to the admitted live support universe only; no universal support claim is made outside active support-target tuples."
+  - "Residual persona, projection, and historical mirror surfaces remain non-authoritative and retirement-tracked."
+  - "Evaluator diversity and hidden-check breadth remain bounded to the currently admitted adapter and scenario set."

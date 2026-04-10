@@ -1,0 +1,49 @@
+schema_version: stage-attempt-v2
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+stage_attempt_id: initial
+stage_ref: governance:safe-stage-lease-revocation-exercise
+attempt_kind: initial
+status: failed
+objective_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+objective_slice: Safe-stage lease and revocation exercise retained to prove canonical exception and revocation obedience under the supported envelope.
+stage_name: safe-stage-lease-revocation-exercise
+entry_criteria:
+- Run contract is bound under the canonical run root.
+exit_criteria:
+- Decision artifact, request/grant, and retained evidence remain linked.
+done_when:
+- Canonical lease and revocation artifacts remain linked to the failed run bundle and closure evidence.
+requested_capabilities:
+- evidence.write
+allowed_capabilities:
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/**
+- .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/**
+retry_class: manual_review_required
+predecessor_refs: []
+successor_refs: []
+evidence_refs:
+- .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+required_evidence:
+- decision-artifact
+- approval-request
+- approval-grant
+- exception-lease
+- revocation
+- measurement-summary
+checkpoint_expectation: required
+contamination_state: confirmed
+protected_zone_scope:
+- repo-governance
+- repo-state
+rollback_posture_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/rollback-posture.yml
+completion_status: manual-review-required
+rollback_candidate: true
+rollback_notes: Governance exercise remains locally reversible.
+issued_by: octon-kernel
+validated_by: octon-kernel
+created_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-02T00:00:00Z'

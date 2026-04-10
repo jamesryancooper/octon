@@ -1,0 +1,9 @@
+schema_version: octon-host-authority-purity-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+summary:
+  workflows_checked: 5
+  host_adapters_checked: 4
+  representative_runs_checked: 9
+  violations: 0
+generated_at: "2026-04-09T12:00:00Z"

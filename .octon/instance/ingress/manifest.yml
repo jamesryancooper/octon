@@ -1,0 +1,36 @@
+schema_version: ingress-manifest-v1
+owner: Octon governance
+mandatory_read_set:
+  - .octon/framework/constitution/CHARTER.md
+  - .octon/framework/constitution/charter.yml
+  - .octon/framework/constitution/obligations/fail-closed.yml
+  - .octon/framework/constitution/obligations/evidence.yml
+  - .octon/framework/constitution/precedence/normative.yml
+  - .octon/framework/constitution/precedence/epistemic.yml
+  - .octon/framework/constitution/ownership/roles.yml
+  - .octon/framework/constitution/contracts/registry.yml
+  - .octon/instance/charter/workspace.md
+  - .octon/instance/charter/workspace.yml
+  - .octon/framework/agency/runtime/agents/orchestrator/AGENT.md
+optional_overlays:
+  - .octon/framework/agency/governance/DELEGATION.md
+  - .octon/framework/agency/governance/MEMORY.md
+  - .octon/instance/bootstrap/START.md
+  - .octon/instance/bootstrap/scope.md
+  - .octon/instance/bootstrap/conventions.md
+  - .octon/instance/bootstrap/catalog.md
+conditional_overlays:
+  continuity_repo:
+    - .octon/state/continuity/repo/log.md
+    - .octon/state/continuity/repo/tasks.json
+  scope_continuity:
+    - .octon/state/continuity/scopes/<scope-id>/log.md
+    - .octon/state/continuity/scopes/<scope-id>/tasks.json
+adapter_parity_targets:
+  - .octon/AGENTS.md
+  - AGENTS.md
+  - CLAUDE.md
+branch_closeout_prompt: Are you ready to closeout this branch?
+change_profile_rule: pre-1.0 defaults to atomic unless a hard gate requires transitional
+human_led_blocked_roots:
+  - .octon/inputs/exploratory/ideation/**

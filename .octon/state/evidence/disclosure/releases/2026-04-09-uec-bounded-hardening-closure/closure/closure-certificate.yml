@@ -1,0 +1,33 @@
+schema_version: closure-certificate-v2
+release_id: 2026-04-09-uec-bounded-hardening-closure
+generated_at: "2026-04-09T18:00:00Z"
+status: certified
+proof_bundle_refs:
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/gate-status.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/closure-summary.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/recertification-status.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/support-universe-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/support-universe-evidence-depth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/evaluator-diversity-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/hidden-check-breadth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/proof-plane-coverage.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/cross-artifact-consistency.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/review-packet-freshness-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/non-authority-surface-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/contract-family-normalization-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/contract-version-coherence-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/audit-resolution-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/projection-shell-boundary-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/projection-parity-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/residual-ledger.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/disclosure-calibration-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/lab-reference-integrity-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/host-authority-purity-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/runtime-family-depth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/replay-integrity.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/continuity-linkage-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/contamination-retry-depth-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/retirement-rationale-report.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/ablation-review-report.yml
+certification_mode: equally-strong-recertification-rule
+recertification_status_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/recertification-status.yml

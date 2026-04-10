@@ -1,8 +1,9 @@
 schema_version: recertification-trigger-log-v1
 updated_at: "2026-04-09T12:00:00Z"
-profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
+updated_at: "2026-04-09T18:00:00Z"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-bounded-uec-packet-implementation/plan.md"
 certification_mode: "equally-strong-recertification-rule"
-active_certificate_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-certificate.yml"
+active_certificate_ref: ".octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/closure-certificate.yml"
 active_recertification_ref: ".octon/generated/effective/closure/recertification-status.yml"
 triggers:
   - trigger_id: constitutional-kernel-change

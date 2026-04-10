@@ -133,7 +133,7 @@ main() {
   require_yq '.review_id == "retirement-review"' "$GOVERNANCE_CONTRACTS/retirement-review.yml" "retirement review contract publishes review id"
   require_yq '.workflow_id == "ablation-driven-deletion"' "$GOVERNANCE_CONTRACTS/ablation-deletion-workflow.yml" "ablation workflow contract publishes workflow id"
   require_yq '.review_set_id == "execution-constitution-build-to-delete"' "$GOVERNANCE_CONTRACTS/closeout-reviews.yml" "closeout review set points at build-to-delete packet"
-  require_yq '.latest_review_packet | test("^\\.octon/state/evidence/validation/publication/build-to-delete/[0-9]{4}-[0-9]{2}-[0-9]{2}$")' "$GOVERNANCE_CONTRACTS/closeout-reviews.yml" "closeout reviews publish a canonical latest review packet path"
+  require_yq '.latest_review_packet | test("^\\.octon/state/evidence/validation/publication/build-to-delete/[0-9]{4}-[0-9]{2}-[0-9]{2}([-/][A-Za-z0-9._-]+)?$")' "$GOVERNANCE_CONTRACTS/closeout-reviews.yml" "closeout reviews publish a canonical latest review packet path"
   require_yq '.status == "approved"' "$BUILD_TO_DELETE_ROOT/retirement-review.yml" "retirement review receipt approved"
   require_yq '.status == "completed"' "$BUILD_TO_DELETE_ROOT/ablation-deletion-receipt.yml" "ablation receipt completed"
 

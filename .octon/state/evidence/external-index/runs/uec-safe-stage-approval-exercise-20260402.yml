@@ -8,17 +8,17 @@ entries:
     artifact_kind: replay-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:845aad9db67d0a66973604234c38ae279054cbca35224eac813cf25f5a6f6cc8
+    content_digest: sha256:b63deb05b9760fa8644f5d4caf16e9a3363b88bd9c26577007ceec39c24adbdf
     locator: immutable://octon/replays/uec-safe-stage-approval-exercise-20260402/bundle.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
-    recorded_at: "2026-04-05T12:52:26Z"
+    recorded_at: "2026-04-10T15:27:53Z"
   - entry_id: uec-safe-stage-approval-exercise-20260402-trace-payload
     run_id: uec-safe-stage-approval-exercise-20260402
     artifact_kind: trace-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:7c8b6102193fe432e9c91b8ef4bf47625a8daa00698cc7ce6cddb0b40f81a0af
+    content_digest: sha256:d226fd822c0c1d5444cab90235448a13c7fcf3ef43ceacf0d1251ada17f21c90
     locator: immutable://octon/replays/uec-safe-stage-approval-exercise-20260402/trace.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/replay/manifest.yml
-    recorded_at: "2026-04-05T12:52:26Z"
-updated_at: "2026-04-05T12:52:26Z"
+    recorded_at: "2026-04-10T15:27:53Z"
+updated_at: "2026-04-10T15:27:53Z"

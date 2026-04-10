@@ -1,0 +1,7 @@
+schema_version: octon-contamination-retry-depth-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+summary:
+  representative_runs_checked: 9
+  contamination_complete_runs: 9
+  retry_complete_runs: 9

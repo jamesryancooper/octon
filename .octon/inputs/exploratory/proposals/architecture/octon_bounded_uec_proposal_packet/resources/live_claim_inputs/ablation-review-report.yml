@@ -1,0 +1,10 @@
+schema_version: octon-ablation-review-v1
+release_id: 2026-04-09-uec-hardening-recertification
+status: pass
+review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-06
+required_receipts:
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-06/drift-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-06/support-target-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-06/adapter-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-06/retirement-review.yml
+  - .octon/state/evidence/validation/publication/build-to-delete/2026-04-06/ablation-deletion-receipt.yml

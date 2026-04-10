@@ -35,6 +35,7 @@ protected_zones:
 - .octon/instance/governance/**
 receipt_root: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts
 replay_pointers_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay-pointers.yml
+continuity_root_ref: .octon/state/continuity/runs/uec-evaluate-harness-20260401-agent-augmented-1/handoff.yml
 requested_capabilities:
 - workflow.execute
 - evidence.write

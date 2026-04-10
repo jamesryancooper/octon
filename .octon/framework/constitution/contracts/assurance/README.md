@@ -33,3 +33,19 @@ multi-plane model while preserving the existing blocking gates.
   `/.octon/framework/observability/**`
 - retained lab evidence: `/.octon/state/evidence/lab/**`
 - retained run assurance evidence: `/.octon/state/evidence/runs/<run-id>/assurance/**`
+
+## Compatibility/Historical Surfaces
+
+No active compatibility-only assurance schemas are expected in the live path.
+
+## Non-Authority Note
+
+Assurance summaries and evaluator projections may summarize results, but the
+retained proof-plane artifacts and validator outputs remain the claim-bearing
+evidence surfaces.
+
+## Validator Obligations
+
+- `validate-evaluator-diversity.sh`
+- `validate-hidden-check-breadth.sh`
+- `validate-support-dossier-evidence-depth.sh`

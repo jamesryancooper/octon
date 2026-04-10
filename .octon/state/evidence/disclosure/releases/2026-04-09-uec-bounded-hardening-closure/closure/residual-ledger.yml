@@ -1,0 +1,75 @@
+schema_version: octon-residual-ledger-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+claim_critical:
+  - issue_id: CC-01
+    status: closed
+    summary: lab scenario and retained evidence integrity
+  - issue_id: CC-02
+    status: closed
+    summary: host projection authority purity
+  - issue_id: CC-03
+    status: closed
+    summary: runtime artifact depth and replay integrity
+  - issue_id: CC-04
+    status: closed
+    summary: disclosure calibration
+  - issue_id: CC-05
+    status: closed
+    summary: retirement and retain-rationale discipline
+  - issue_id: M-01
+    status: closed
+    summary: fresh review lineage now matches the admitted live support universe
+  - issue_id: M-02
+    status: closed
+    summary: active machine wording now uses bounded admitted-universe terms only
+  - issue_id: M-03
+    status: closed
+    summary: retained audit findings now have machine-readable live dispositions
+  - issue_id: M-04
+    status: closed
+    summary: permanent non-authority surfaces are inventoried in one register
+  - issue_id: M-05
+    status: closed
+    summary: family version declarations match active live artifact usage
+  - issue_id: M-06
+    status: closed
+    summary: workflow-hosted approval and evaluator paths remain projection shells only
+packet_scope_hardening:
+  - issue_id: CS-01
+    status: closed
+    summary: support dossiers carry evidence-depth sufficiency metadata
+  - issue_id: CS-02
+    status: closed
+    summary: evaluator diversity and hidden-check breadth are now release-reported
+  - issue_id: SR-01
+    status: closed
+    summary: ingress semantics are machine-declared through the ingress manifest
+  - issue_id: SR-02
+    status: closed
+    summary: public retirement-register depth is mature enough for bounded closure
+  - issue_id: SR-03
+    status: closed
+    summary: shim and mirror rationale remains explicit in machine-readable governance
+  - issue_id: SR-04
+    status: closed
+    summary: generated and effective surfaces remain explicitly non-authoritative
+future_widening_blockers:
+  - issue_id: FW-01
+    status: open
+    summary: fresh widening audit required before any support expansion
+  - issue_id: FW-02
+    status: open
+    summary: fresh widened-universe review packet required before any support expansion
+  - issue_id: FW-03
+    status: open
+    summary: dossier and evidence sufficiency for new tuples required before widening
+  - issue_id: FW-04
+    status: open
+    summary: non-authority and retirement updates required before widening
+  - issue_id: FW-05
+    status: open
+    summary: disclosure regeneration and dual-pass recertification required before widening
+known_limits:
+  - The active claim remains bounded to the admitted live support universe only; no universal support claim is made outside active support-target tuples.
+  - Future widening requires a fresh audit, fresh review packet, refreshed support dossiers, regenerated closure reports, and dual-pass recertification.
+  - Permanent projections and retained historical residue remain non-authoritative and may not be cited as current authority.

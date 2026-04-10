@@ -1,0 +1,25 @@
+schema_version: effective-closure-claim-status-v1
+claim_id: unified-execution-constitution
+claim_phrase: fully unified execution constitution
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+profile_selection_receipt_ref: .octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md
+truth_conditions_ref: .octon/framework/constitution/claim-truth-conditions.yml
+active_release_refs:
+  harness_card: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/harness-card.yml
+  gate_status: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/gate-status.yml
+  closure_summary: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-summary.yml
+  closure_certificate: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/closure-certificate.yml
+  recertification_status: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/recertification-status.yml
+  support_universe_coverage: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/support-universe-coverage.yml
+  proof_plane_coverage: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/proof-plane-coverage.yml
+  cross_artifact_consistency: .octon/state/evidence/disclosure/releases/2026-04-09-uec-hardening-recertification/closure/cross-artifact-consistency.yml
+summary:
+  claim_status: complete
+  final_verdict: claim_complete
+  blocker_count: 0
+  ready_for_final_completion_claim: true
+  support_universe_mode: global-complete-finite
+  claim_scope: admitted-live-support-universe
+  blocked_by:
+blockers:

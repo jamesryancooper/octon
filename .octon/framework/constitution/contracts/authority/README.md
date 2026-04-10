@@ -40,3 +40,25 @@ The authority family is fully active.
 - `quorum-policy-v1.schema.json`
 - `decision-artifact-v1.schema.json`
 - `grant-bundle-v1.schema.json`
+
+## Canonical Roots
+
+- approval requests: `/.octon/state/control/execution/approvals/requests/**`
+- approval grants: `/.octon/state/control/execution/approvals/grants/**`
+- exception leases: `/.octon/state/control/execution/exceptions/**`
+- revocations: `/.octon/state/control/execution/revocations/**`
+- retained authority evidence: `/.octon/state/evidence/control/execution/**`
+
+## Compatibility/Historical Surfaces
+
+No active compatibility-only authority schemas are expected in the live path.
+
+## Non-Authority Note
+
+Host labels, comments, checks, and workflow-native state may mirror authority
+status, but they never mint authority by themselves.
+
+## Validator Obligations
+
+- `verify-host-authority-purity.sh`
+- `validate-projection-shell-boundaries.sh`

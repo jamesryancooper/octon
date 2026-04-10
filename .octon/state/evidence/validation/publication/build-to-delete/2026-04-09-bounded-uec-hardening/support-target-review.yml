@@ -1,0 +1,20 @@
+schema_version: build-to-delete-review-evidence-v1
+review_id: support-target-review
+contract_ref: .octon/instance/governance/contracts/support-target-review.yml
+owner: Octon governance
+status: approved
+reviewed_at: "2026-04-09T18:00:00Z"
+triggered_by:
+  - Bounded hardening closure promotion readiness
+  - Support-target refresh for the admitted six-tuple live universe
+summary: >-
+  The admitted support envelope remains bounded to the current six admitted
+  tuples only. No new tuples, adapters, locales, contexts, or capability-pack
+  admissions are introduced by the bounded hardening closure.
+findings: []
+evidence_refs:
+  - .octon/instance/governance/support-targets.yml
+  - .octon/instance/governance/support-target-admissions/**
+  - .octon/instance/governance/support-dossiers/**
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/support-universe-coverage.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh

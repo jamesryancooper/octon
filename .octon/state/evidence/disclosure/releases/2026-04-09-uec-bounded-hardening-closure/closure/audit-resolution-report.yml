@@ -1,0 +1,9 @@
+schema_version: octon-audit-resolution-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+crosswalk_ref: .octon/instance/governance/closure/current-audit-crosswalk.yml
+summary:
+  findings_in_scope: 3
+  closed: 3
+  reopened: 0
+  future_widening_hooks: 1

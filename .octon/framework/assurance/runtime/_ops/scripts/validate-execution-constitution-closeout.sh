@@ -136,7 +136,7 @@ main() {
   require_yq '.review_set_ref == ".octon/instance/governance/contracts/closeout-reviews.yml"' "$RETIREMENT_POLICY" "retirement policy points at closeout review set"
 
   require_yq '.review_set_id == "execution-constitution-build-to-delete"' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout review set upgraded to build-to-delete packet"
-  require_yq '.latest_review_packet | test("^\\.octon/state/evidence/validation/publication/build-to-delete/[0-9]{4}-[0-9]{2}-[0-9]{2}$")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews publish a canonical latest review packet path"
+  require_yq '.latest_review_packet | test("^\\.octon/state/evidence/validation/publication/build-to-delete/[0-9]{4}-[0-9]{2}-[0-9]{2}([-/][A-Za-z0-9._-]+)?$")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews publish a canonical latest review packet path"
   require_yq '.required_reviews[] | select(.review_id == "drift-review" and .contract_ref == ".octon/instance/governance/contracts/drift-review.yml")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews require drift review"
   require_yq '.required_reviews[] | select(.review_id == "support-target-review" and .contract_ref == ".octon/instance/governance/contracts/support-target-review.yml")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews require support-target review"
   require_yq '.required_reviews[] | select(.review_id == "adapter-review" and .contract_ref == ".octon/instance/governance/contracts/adapter-review.yml")' "$CLOSEOUT_REVIEWS_CONTRACT" "closeout reviews require adapter review"
@@ -180,7 +180,7 @@ main() {
   require_yq '.authority_refs.grant_bundle | test("^\\.octon/state/evidence/control/execution/")' "$RUNCARD4" "Wave 4 RunCard cites canonical authority grant bundle"
   require_yq '.proof_plane_refs.structural | test("/assurance/structural\\.yml$")' "$RUNCARD4" "Wave 4 RunCard cites structural proof"
   require_yq '.proof_plane_refs.governance | test("/assurance/governance\\.yml$")' "$RUNCARD4" "Wave 4 RunCard cites governance proof"
-  require_yq '.schema_version == "harness-card-v1"' "$HARNESS_CARD_SOURCE" "governance disclosure source publishes a HarnessCard"
+  require_yq '.schema_version == "harness-card-v2"' "$HARNESS_CARD_SOURCE" "governance disclosure source publishes a HarnessCard"
   require_yq '.claim_kind == "release"' "$HARNESS_CARD_RELEASE" "release disclosure packet publishes the live release HarnessCard"
 
   echo "Validation summary: errors=$errors"

@@ -1,0 +1,376 @@
+schema_version: "octon-support-targets-v1"
+owner: "Octon governance"
+default_route: "deny"
+review_cadence: "quarterly and before any support-universe amendment"
+governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
+support_claim_mode: "global-complete-finite"
+generated_projection_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
+pack_registry_ref: ".octon/instance/governance/capability-packs/registry.yml"
+admission_review_contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
+support_dossier_root: ".octon/instance/governance/support-dossiers"
+live_support_universe:
+  model_classes:
+    - "repo-local-governed"
+    - "frontier-governed"
+  workload_classes:
+    - "observe-and-read"
+    - "repo-consequential"
+    - "boundary-sensitive"
+  context_classes:
+    - "reference-owned"
+    - "extended-governed"
+  locale_classes:
+    - "english-primary"
+    - "spanish-secondary"
+  host_adapters:
+    - "repo-shell"
+    - "github-control-plane"
+    - "ci-control-plane"
+    - "studio-control-plane"
+  model_adapters:
+    - "repo-local-governed"
+    - "frontier-governed"
+  capability_packs:
+    - "repo"
+    - "git"
+    - "shell"
+    - "telemetry"
+    - "browser"
+    - "api"
+resolved_non_live_surfaces:
+  model_classes:
+    []
+  workload_classes:
+    []
+  context_classes:
+    []
+  locale_classes:
+    []
+  host_adapters:
+    []
+  model_adapters:
+    []
+  capability_packs:
+    []
+tiers:
+  model:
+    - id: "frontier-governed"
+      label: "frontier-governed"
+      default_autonomy: "bounded"
+      description: "Frontier model execution is admitted through governed runtime, evidence, and disclosure controls."
+    - id: "repo-local-governed"
+      label: "repo-local-governed"
+      default_autonomy: "bounded"
+      description: "Repo-local governed execution with runtime receipts, bounded autonomy, and canonical disclosure."
+  workload:
+    - id: "observe-and-read"
+      label: "observe-and-read"
+      default_route: "allow"
+      description: "Read-heavy or observation-first work with no consequential externality."
+    - id: "repo-consequential"
+      label: "repo-consequential"
+      default_route: "escalate"
+      description: "Consequential repository work is admitted when it remains governed, evidenced, and disclosed through canonical run roots."
+    - id: "boundary-sensitive"
+      label: "boundary-sensitive"
+      default_route: "escalate"
+      description: "Boundary-sensitive work is admitted only through explicit fail-closed routing, governed authority, and full evidence coverage."
+  language_resource:
+    - id: "reference-owned"
+      label: "reference-owned"
+      description: "Authoritative repository surfaces and durable runtime receipts."
+    - id: "extended-governed"
+      label: "extended-governed"
+      description: "Broader governed context is admitted when it remains bound to canonical runtime, evidence, and disclosure surfaces."
+  locale:
+    - id: "english-primary"
+      label: "english-primary"
+      description: "Primary English operator and governance surfaces."
+    - id: "spanish-secondary"
+      label: "spanish-secondary"
+      description: "Secondary locale is admitted under the same canonical governance, runtime, and disclosure controls as the primary locale."
+tuple_admissions:
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "observe-and-read"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    admission_ref: ".octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-observe-read-en/dossier.yml"
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "repo-consequential"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    admission_ref: ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml"
+  - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "boundary-sensitive"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    admission_ref: ".octon/instance/governance/support-target-admissions/repo-shell-boundary-sensitive-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml"
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "repo-consequential"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "github-control-plane"
+      model_adapter: "repo-local-governed"
+    admission_ref: ".octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/github-repo-consequential-en/dossier.yml"
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "observe-and-read"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "ci-control-plane"
+      model_adapter: "repo-local-governed"
+    admission_ref: ".octon/instance/governance/support-target-admissions/ci-observe-read-en.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/ci-observe-read-en/dossier.yml"
+  - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+    tuple:
+      model_tier: "frontier-governed"
+      workload_tier: "boundary-sensitive"
+      language_resource_tier: "extended-governed"
+      locale_tier: "spanish-secondary"
+      host_adapter: "studio-control-plane"
+      model_adapter: "frontier-governed"
+    admission_ref: ".octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml"
+    support_dossier_ref: ".octon/instance/governance/support-dossiers/frontier-studio-boundary-sensitive-es/dossier.yml"
+adapter_conformance_criteria:
+  - criterion_id: "HOST-001"
+    adapter_kind: "host"
+    description: "Host signals remain non-authoritative projections and may mirror, but never mint, canonical authority."
+    required_evidence:
+      - "authority-decision-artifact"
+      - "control-evidence-root"
+  - criterion_id: "HOST-002"
+    adapter_kind: "host"
+    description: "Supported host adapters emit instruction manifests, failure taxonomies, and disclosure coverage."
+    required_evidence:
+      - "instruction-layer-manifest"
+      - "runtime-event-ledger"
+  - criterion_id: "HOST-003"
+    adapter_kind: "host"
+    description: "Projected host state never becomes hidden authority outside canonical control roots."
+    required_evidence:
+      - "authority-grant-bundle"
+      - "control-evidence-root"
+  - criterion_id: "HOST-004"
+    adapter_kind: "host"
+    description: "Retained host adapters publish explicit supported envelopes, conformance suites, and parity coverage."
+    required_evidence:
+      - "support-target-declaration"
+      - "proof-plane-coverage"
+  - criterion_id: "MODEL-001"
+    adapter_kind: "model"
+    description: "Model adapter support claims remain bounded by declared support targets and governance exclusions."
+    required_evidence:
+      - "authority-decision-artifact"
+      - "support-target-declaration"
+  - criterion_id: "MODEL-002"
+    adapter_kind: "model"
+    description: "Model adapter execution emits runtime receipts and instruction manifests."
+    required_evidence:
+      - "instruction-layer-manifest"
+      - "run-evidence-root"
+  - criterion_id: "MODEL-003"
+    adapter_kind: "model"
+    description: "Memory discipline and contamination reset stay runtime-backed rather than persona-backed."
+    required_evidence:
+      - "run-evidence-root"
+      - "contamination-reset-proof"
+  - criterion_id: "MODEL-004"
+    adapter_kind: "model"
+    description: "Model adapter manifests publish conformance suites, contamination reset posture, and disclosure coverage."
+    required_evidence:
+      - "run-evidence-root"
+      - "proof-plane-coverage"
+host_adapters:
+  - adapter_id: "repo-shell"
+    contract_ref: ".octon/framework/engine/runtime/adapters/host/repo-shell.yml"
+    authority_mode: "non_authoritative"
+    replaceable: true
+    support_status: "supported"
+    default_route: "allow"
+    criteria_refs:
+      - "HOST-001"
+      - "HOST-002"
+      - "HOST-004"
+    allowed_model_tiers:
+      - "frontier-governed"
+      - "repo-local-governed"
+    allowed_workload_tiers:
+      - "observe-and-read"
+      - "repo-consequential"
+      - "boundary-sensitive"
+    allowed_language_resource_tiers:
+      - "reference-owned"
+      - "extended-governed"
+    allowed_locale_tiers:
+      - "english-primary"
+      - "spanish-secondary"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "instruction-layer-manifest"
+      - "runtime-event-ledger"
+  - adapter_id: "studio-control-plane"
+    contract_ref: ".octon/framework/engine/runtime/adapters/host/studio-control-plane.yml"
+    authority_mode: "non_authoritative"
+    replaceable: true
+    support_status: "supported"
+    default_route: "escalate"
+    criteria_refs:
+      - "HOST-001"
+      - "HOST-002"
+      - "HOST-004"
+    allowed_model_tiers:
+      - "frontier-governed"
+      - "repo-local-governed"
+    allowed_workload_tiers:
+      - "observe-and-read"
+      - "repo-consequential"
+      - "boundary-sensitive"
+    allowed_language_resource_tiers:
+      - "reference-owned"
+      - "extended-governed"
+    allowed_locale_tiers:
+      - "english-primary"
+      - "spanish-secondary"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "instruction-layer-manifest"
+      - "runtime-event-ledger"
+  - adapter_id: "github-control-plane"
+    contract_ref: ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
+    authority_mode: "non_authoritative"
+    replaceable: true
+    support_status: "supported"
+    default_route: "allow"
+    criteria_refs:
+      - "HOST-001"
+      - "HOST-003"
+      - "HOST-004"
+    allowed_model_tiers:
+      - "frontier-governed"
+      - "repo-local-governed"
+    allowed_workload_tiers:
+      - "observe-and-read"
+      - "repo-consequential"
+      - "boundary-sensitive"
+    allowed_language_resource_tiers:
+      - "reference-owned"
+      - "extended-governed"
+    allowed_locale_tiers:
+      - "english-primary"
+      - "spanish-secondary"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "control-evidence-root"
+      - "runtime-event-ledger"
+  - adapter_id: "ci-control-plane"
+    contract_ref: ".octon/framework/engine/runtime/adapters/host/ci-control-plane.yml"
+    authority_mode: "projection_only"
+    replaceable: true
+    support_status: "supported"
+    default_route: "allow"
+    criteria_refs:
+      - "HOST-001"
+      - "HOST-003"
+      - "HOST-004"
+    allowed_model_tiers:
+      - "frontier-governed"
+      - "repo-local-governed"
+    allowed_workload_tiers:
+      - "observe-and-read"
+      - "repo-consequential"
+      - "boundary-sensitive"
+    allowed_language_resource_tiers:
+      - "reference-owned"
+      - "extended-governed"
+    allowed_locale_tiers:
+      - "english-primary"
+      - "spanish-secondary"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "control-evidence-root"
+      - "instruction-layer-manifest"
+model_adapters:
+  - adapter_id: "repo-local-governed"
+    contract_ref: ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml"
+    authority_mode: "non_authoritative"
+    replaceable: true
+    support_status: "supported"
+    default_route: "allow"
+    criteria_refs:
+      - "MODEL-001"
+      - "MODEL-002"
+      - "MODEL-003"
+      - "MODEL-004"
+    allowed_model_tiers:
+      - "repo-local-governed"
+      - "frontier-governed"
+    allowed_workload_tiers:
+      - "observe-and-read"
+      - "repo-consequential"
+      - "boundary-sensitive"
+    allowed_language_resource_tiers:
+      - "reference-owned"
+      - "extended-governed"
+    allowed_locale_tiers:
+      - "english-primary"
+      - "spanish-secondary"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "instruction-layer-manifest"
+      - "run-evidence-root"
+  - adapter_id: "frontier-governed"
+    contract_ref: ".octon/framework/engine/runtime/adapters/model/frontier-governed.yml"
+    authority_mode: "non_authoritative"
+    replaceable: true
+    support_status: "supported"
+    default_route: "escalate"
+    criteria_refs:
+      - "MODEL-001"
+      - "MODEL-002"
+      - "MODEL-003"
+      - "MODEL-004"
+    allowed_model_tiers:
+      - "frontier-governed"
+      - "repo-local-governed"
+    allowed_workload_tiers:
+      - "observe-and-read"
+      - "repo-consequential"
+      - "boundary-sensitive"
+    allowed_language_resource_tiers:
+      - "reference-owned"
+      - "extended-governed"
+    allowed_locale_tiers:
+      - "english-primary"
+      - "spanish-secondary"
+    required_evidence:
+      - "authority-decision-artifact"
+      - "instruction-layer-manifest"
+      - "run-evidence-root"
+notes:
+  - "The live claim is the full admitted live support universe recorded above; tuple_admissions is an inventory-plus-reference table only."
+  - "Tuple-specific route, mission, capability-pack, proof-plane, authority-artifact, and claim-effect semantics live only in support-target-admissions/**."
+  - "Mission-backed repo-consequential and boundary-sensitive work remains explicit and fail-closed."
+retired_surfaces:
+  - "experimental-model-surface"
+  - "experimental-context-surface"
+  - "experimental-locale-surface"
+  - "unsupported support tiers"

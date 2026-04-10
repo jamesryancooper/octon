@@ -1,0 +1,22 @@
+schema_version: octon-runtime-family-depth-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: fail
+summary:
+  representative_runs_checked: 9
+  unresolved_runs: 2
+families:
+  stage_attempts:
+    schema_validated: true
+    disclosure_backed: false
+  checkpoints:
+    schema_validated: true
+    disclosure_backed: false
+  continuity:
+    schema_validated: true
+    disclosure_backed: false
+  contamination:
+    schema_validated: true
+    disclosure_backed: false
+  retries:
+    schema_validated: true
+    disclosure_backed: false

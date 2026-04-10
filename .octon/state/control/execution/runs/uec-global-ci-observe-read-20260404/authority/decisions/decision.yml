@@ -13,14 +13,14 @@ ownership:
   matched_asset_ref: null
 support_tier:
   support_tier: observe-and-read
-  model_tier_id: frontier-governed
+  model_tier_id: repo-local-governed
   workload_tier_id: observe-and-read
   language_resource_tier_id: reference-owned
   locale_tier_id: english-primary
   workload_tier_label: observe-and-read
   host_adapter_id: ci-control-plane
   host_adapter_status: supported
-  model_adapter_id: frontier-governed
+  model_adapter_id: repo-local-governed
   model_adapter_status: supported
   adapter_conformance_criteria:
     - HOST-001

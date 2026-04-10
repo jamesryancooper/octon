@@ -16,6 +16,24 @@ authority_refs:
   grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-evaluate-harness-20260401-agent-augmented-1.yml
   retained_run_evidence: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/retained-run-evidence.yml
   run_contract: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
+runtime_artifact_depth:
+  validation_status: pass
+  replay_integrity: pass
+  stage_attempts:
+    applicable: true
+    present: true
+  checkpoints:
+    applicable: true
+    present: true
+  continuity:
+    applicable: true
+    present: true
+  contamination:
+    applicable: true
+    present: true
+  retries:
+    applicable: true
+    present: true
 generated_at: 2026-04-01T14:28:16.189628Z
 intervention_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/interventions/log.yml
 known_limits:

@@ -1,0 +1,18 @@
+schema_version: "1.0"
+run_id: 2026-04-09-bounded-uec-hardening-audit
+commit_sha: bounded-hardening-closure-head
+scope_hash: sha256:bounded-hardening-closure-scope-v1
+prompt_hash: sha256:bounded-hardening-closure-prompt-v1
+params_hash: sha256:bounded-hardening-closure-params-v1
+findings_hash: sha256:bounded-hardening-closure-findings-v1
+seed_unsupported: true
+fingerprint_unsupported: true
+stable: true
+union_blocking_findings: 0
+open_findings_at_or_above_threshold: 0
+done: true
+mode: validation
+post_remediation: true
+convergence_required: false
+done_gate: bounded-hardening-closure-ready
+rationale: Packet-scope claim-critical and hardening items are closed for the bounded admitted live support universe.

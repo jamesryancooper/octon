@@ -1,0 +1,11 @@
+schema_version: authority-revocation-v2
+revocation_id: revoke-uec-bounded-repo-shell-boundary-sensitive-20260409
+grant_id: grant-uec-bounded-repo-shell-boundary-sensitive-20260409
+request_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+state: active
+revoked_at: "2026-04-03T02:23:12Z"
+revoked_by: operator://octon-governance
+reason_codes:
+  - LIVE_SAFE_STAGE_REVOCATION_EXERCISE
+notes: Active revocation proving the runtime must obey canonical revocation artifacts during the safe-stage exercise.

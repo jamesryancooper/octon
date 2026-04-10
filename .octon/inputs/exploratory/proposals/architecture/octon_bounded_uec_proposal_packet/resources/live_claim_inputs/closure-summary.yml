@@ -1,0 +1,39 @@
+schema_version: closure-summary-v2
+release_id: 2026-04-09-uec-hardening-recertification
+generated_at: "2026-04-09T12:00:00Z"
+claim_status: complete
+support_universe_mode: global-complete-finite
+preclaim_blockers_open: 0
+green_gates:
+  - G0
+  - G1
+  - G2
+  - G3
+  - G4
+  - G5
+  - G5A
+  - G6
+  - G7
+  - G7A
+  - G8
+  - G9
+  - G9A
+  - G9B
+  - G10
+  - G10A
+  - G11
+  - G11A
+  - G11B
+  - G11C
+  - G11D
+  - G11E
+  - G12
+  - G13
+  - G13A
+  - G14
+  - G15
+  - G16
+blocked_by:
+notes:
+  - Stable mirrors are generated from the active release bundle only.
+  - The admitted live support universe is evidenced in this release without widening beyond the bounded claim.

@@ -1,0 +1,114 @@
+schema_version: run-contract-v3
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+status: closed
+workflow_mode: agent-augmented
+mission_id: mission-autonomy-live-validation
+mission_mode: mission-bound
+requires_mission: true
+objective_refs:
+  workspace_objective_ref: .octon/instance/charter/workspace.md
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
+objective_summary: Boundary-sensitive repo-shell implementation run retained
+  to prove governed hardening closure work can remain mission-bound,
+  fail-closed, and authority-backed inside protected Octon surfaces.
+scope_in:
+- bounded-uec-hardening-closure
+scope_out:
+- .octon/state/control/execution/approvals
+- .octon/state/evidence/control/execution
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+done_when:
+- Hardening closure artifacts are retained under canonical control and
+  evidence roots.
+acceptance_criteria:
+- Canonical approval, lease, and revocation artifacts resolve and remain linked
+  to the retained implementation run.
+materiality: low
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
+protected_zone_scope:
+- repo-governance
+- repo-state
+requested_capabilities:
+- evidence.write
+requested_capability_packs:
+- repo
+- telemetry
+risk_class: low
+intent_ref:
+  id: intent://octon/octon-governed-harness
+  version: 1.1.0
+actor_ref:
+  kind: system
+  id: octon-kernel
+reversibility_class: fully_reversible
+execution_horizon: multi_stage_single_run
+recurrence_class: one_shot
+support_tier: boundary-sensitive
+support_target:
+  model_tier: repo-local-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+support_target_tuple:
+  model_tier: repo-local-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+  support_status: supported
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_target_tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+support_target_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-boundary-sensitive-en.yml
+support_target_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
+required_approvals:
+- .octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+required_evidence:
+- decision-artifact
+- approval-grant
+- replay-pointers
+- trace-pointers
+- run-evidence-classification-v2
+start_conditions:
+- Canonical authority artifacts exist for the mission-backed boundary-sensitive
+  hardening implementation run.
+- Mission `mission-autonomy-live-validation` remains active for consequential autonomy.
+stop_conditions:
+- Stop when governance routing ceases to permit bounded hardening closure work
+  or when revocation invalidates the controlled envelope.
+retry_class: manual_review_required
+closure_conditions:
+- Run remains scoped to the boundary-sensitive bounded hardening closure
+  implementation envelope.
+disclosure_expectations:
+- Emit a RunCard and retained evidence for the boundary-sensitive hardening
+  implementation run.
+stage_attempt_root: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/stage-attempts
+run_manifest_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-manifest.yml
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+authority_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+control_checkpoint_root: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/checkpoints
+checkpoint_root: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/checkpoints
+continuity_root_ref: .octon/state/continuity/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/handoff.yml
+runtime_state_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/runtime-state.yml
+rollback_posture_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/rollback-posture.yml
+evidence_root: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409
+receipt_root: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/receipts
+replay_pointers_ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay-pointers.yml
+rollback_or_compensation_expectation: Boundary-sensitive hardening work remains
+  reversible, local to canonical control roots, and protected by retained
+  authority artifacts.
+contract_version: 1.2.0
+created_at: '2026-04-02T00:00:00Z'
+issued_at: '2026-04-02T00:00:00Z'
+updated_at: '2026-04-09T18:00:00Z'

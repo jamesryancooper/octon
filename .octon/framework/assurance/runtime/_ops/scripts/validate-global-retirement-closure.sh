@@ -21,7 +21,7 @@ main() {
   CURRENT_REVIEW="$(yq -r '.current_governance_review_ref' "$GATE")"
   require_yq '.nonblocking_statuses | length >= 3' "$GATE" "retirement claim gate publishes nonblocking statuses"
   require_yq '[.entries[] | select(.status != "retired" and .review_date == null)] | length == 0' "$REGISTRY" "no non-retired retirement entry is missing review_date"
-  require_yq '.latest_review_packet | test("^\\.octon/state/evidence/validation/publication/build-to-delete/[0-9]{4}-[0-9]{2}-[0-9]{2}$")' "$REVIEW_SET" "closeout reviews point at a canonical build-to-delete packet"
+  require_yq '.latest_review_packet | test("^\\.octon/state/evidence/validation/publication/build-to-delete/[0-9]{4}-[0-9]{2}-[0-9]{2}([-/][A-Za-z0-9._-]+)?$")' "$REVIEW_SET" "closeout reviews point at a canonical build-to-delete packet"
   require_yq '.required_reviews[] | select(.review_id == "retirement-review")' "$REVIEW_SET" "closeout reviews require retirement review"
   require_yq '.claim_ready == true and .claim_blocking_count == 0' "$ROOT_DIR/$CURRENT_REVIEW" "governance retirement claim review reports no blockers"
   require_yq '.retired[] | select(. == "experimental-model-surface")' "$LEDGER" "surface ledger records retired model surface"

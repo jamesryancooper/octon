@@ -36,7 +36,7 @@ require_equal_rendered() {
 main() {
   echo "== Support-Target Live Claim Validation =="
 
-  require_yq '.support_claim_mode == "global-complete-finite"' "$SUPPORT_TARGETS" "support-target declaration uses final global-complete claim mode"
+  require_yq '.support_claim_mode == "bounded-admitted-live-universe"' "$SUPPORT_TARGETS" "support-target declaration uses bounded admitted-universe claim mode"
   require_yq '(.tuple_admissions | length) == 6' "$SUPPORT_TARGETS" "all six target tuples remain inventoried"
   require_yq '.live_support_universe.host_adapters[] | select(. == "github-control-plane")' "$SUPPORT_TARGETS" "github host adapter is live supported"
   require_yq '.live_support_universe.host_adapters[] | select(. == "ci-control-plane")' "$SUPPORT_TARGETS" "ci host adapter is live supported"

@@ -1,0 +1,69 @@
+schema_version: octon-evaluator-diversity-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+per_tuple:
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+    evaluator_classes:
+      - deterministic-or-authored-validator
+      - provider-routed-evaluator
+    execution_path_classes:
+      - repo-local-shell-validator
+      - provider-routed-evaluator
+    host_exclusive_dependency: false
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+    evaluator_classes:
+      - deterministic-or-authored-validator
+      - hidden-check-or-replay-shadow-evaluator
+      - secondary-reviewer-class
+    execution_path_classes:
+      - repo-local-shell-validator
+      - provider-routed-evaluator
+    host_exclusive_dependency: false
+  - tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+    evaluator_classes:
+      - deterministic-or-authored-validator
+      - hidden-check-or-replay-shadow-evaluator
+      - secondary-reviewer-class
+    execution_path_classes:
+      - repo-local-shell-validator
+      - provider-routed-evaluator
+    host_exclusive_dependency: false
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+    evaluator_classes:
+      - deterministic-or-authored-validator
+      - hidden-check-or-replay-shadow-evaluator
+      - secondary-reviewer-class
+    execution_path_classes:
+      - repo-local-shell-validator
+      - provider-routed-evaluator
+    host_exclusive_dependency: false
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+    evaluator_classes:
+      - deterministic-or-authored-validator
+      - provider-routed-evaluator
+    execution_path_classes:
+      - repo-local-shell-validator
+      - provider-routed-evaluator
+    host_exclusive_dependency: false
+  - tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    evaluator_classes:
+      - deterministic-or-authored-validator
+      - hidden-check-or-replay-shadow-evaluator
+      - secondary-reviewer-class
+    execution_path_classes:
+      - repo-local-shell-validator
+      - provider-routed-evaluator
+    host_exclusive_dependency: false
+release_rollup:
+  tuples_checked: 6
+  class_counts:
+    deterministic-or-authored-validator: 6
+    hidden-check-or-replay-shadow-evaluator: 4
+    secondary-reviewer-class: 4
+    provider-routed-evaluator: 6
+  execution_path_classes:
+    - repo-local-shell-validator
+    - provider-routed-evaluator
+  host_exclusive_dependency: false
+  gaps: []
+  status: pass

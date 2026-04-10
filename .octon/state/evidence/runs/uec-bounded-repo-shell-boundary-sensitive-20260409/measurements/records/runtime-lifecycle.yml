@@ -1,0 +1,15 @@
+schema_version: measurement-record-v1
+record_id: uec-bounded-repo-shell-boundary-sensitive-20260409-authority-artifact-count
+subject_kind: run
+subject_ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+metric_id: authority-artifact-count
+label: Authority artifacts retained
+value: 4
+unit: count
+method: Counted decision, approval, grant bundle, and optional lease/revocation artifacts.
+evidence_refs:
+- .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+- .octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+notes: Supports the retained safe-stage lease and revocation exercise for AG-05.
+recorded_at: '2026-04-02T00:00:00Z'

@@ -1,0 +1,7 @@
+schema_version: octon-review-packet-freshness-report-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+latest_review_packet: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
+last_support_universe_change: "2026-04-09"
+freshness_rule: latest review packet must be at least as fresh as the last support-universe-changing promotion
+gaps: []

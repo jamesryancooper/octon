@@ -1,0 +1,29 @@
+schema_version: "1.0"
+run_id: 2026-04-09-bounded-uec-hardening-audit
+scope_roots:
+  - .octon/framework/constitution/
+  - .octon/instance/governance/
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/
+  - .github/workflows/
+excluded_roots:
+  - .octon/inputs/exploratory/ideation/
+  - .octon/generated/.tmp/
+total_files: 0
+scanned_files: 0
+summarized_sampled_files: 0
+excluded_files: 0
+unaccounted_files: 0
+direct_reviewed_files:
+  - .octon/instance/governance/support-targets.yml
+  - .octon/instance/governance/disclosure/harness-card.yml
+  - .octon/instance/governance/disclosure/release-lineage.yml
+  - .octon/instance/governance/closure/current-audit-crosswalk.yml
+  - .octon/instance/governance/non-authority-register.yml
+  - .octon/instance/ingress/manifest.yml
+  - .octon/framework/constitution/claim-truth-conditions.yml
+  - .octon/framework/constitution/contracts/objective/README.md
+  - .octon/framework/constitution/contracts/runtime/README.md
+  - .octon/framework/constitution/contracts/disclosure/README.md
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/closure-summary.yml
+  - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/closure-certificate.yml
+note: Packet-scope bounded hardening audit after remediation.

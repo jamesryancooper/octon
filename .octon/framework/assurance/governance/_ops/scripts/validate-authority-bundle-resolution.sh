@@ -37,10 +37,10 @@ main() {
   validate_run "$authority_run"
   require_file "$OCTON_DIR/state/control/execution/exceptions/leases/lease-$authority_run.yml"
   require_file "$OCTON_DIR/state/control/execution/revocations/revoke-$authority_run.yml"
-  require_yq '.exception_lease_refs[] | select(. == ".octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml")' \
+  require_yq ".exception_lease_refs[] | select(. == \".octon/state/control/execution/exceptions/leases/lease-${authority_run}.yml\")" \
     "$OCTON_DIR/state/control/execution/runs/$authority_run/authority/grant-bundle.yml" \
     "authority exercise resolves canonical lease ref"
-  require_yq '.revocation_refs[] | select(. == ".octon/state/control/execution/revocations/revoke-uec-safe-stage-lease-revocation-exercise-20260402.yml")' \
+  require_yq ".revocation_refs[] | select(. == \".octon/state/control/execution/revocations/revoke-${authority_run}.yml\")" \
     "$OCTON_DIR/state/control/execution/runs/$authority_run/authority/grant-bundle.yml" \
     "authority exercise resolves canonical revocation ref"
 

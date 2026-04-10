@@ -1,0 +1,22 @@
+schema_version: cross-artifact-consistency-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+generated_at: "2026-04-09T18:00:00Z"
+runs:
+  - run_id: uec-global-ci-observe-read-20260404
+    status: pass
+  - run_id: uec-global-frontier-browser-api-studio-20260404
+    status: pass
+  - run_id: uec-global-github-repo-consequential-20260404
+    status: pass
+  - run_id: uec-global-repo-shell-observe-read-20260404
+    status: pass
+  - run_id: uec-evaluate-harness-20260401-agent-augmented-1
+    status: pass
+  - run_id: uec-audit-workflow-system-20260401-agent-augmented-1
+    status: pass
+  - run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+    status: pass
+  - run_id: uec-safe-stage-approval-exercise-20260402
+    status: pass
+excluded_runs: []
+status: pass

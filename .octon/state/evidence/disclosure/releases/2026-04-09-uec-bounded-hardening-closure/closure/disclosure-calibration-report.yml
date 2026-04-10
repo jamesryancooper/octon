@@ -1,0 +1,9 @@
+schema_version: octon-disclosure-calibration-v1
+release_id: 2026-04-09-uec-bounded-hardening-closure
+status: pass
+summary:
+  known_limits_count: 3
+  support_scope_change: none
+  active_wording_mode: bounded-admitted-live-universe
+  latest_review_packet: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
+  residual_ledger_ref: .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/residual-ledger.yml

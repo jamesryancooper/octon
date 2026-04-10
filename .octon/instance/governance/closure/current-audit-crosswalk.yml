@@ -1,0 +1,62 @@
+schema_version: current-audit-crosswalk-v1
+owner: Octon governance
+source_audit_bundle_ref: .octon/state/evidence/validation/audits/2026-03-08-orchestration-domain-design-package-audit/bundle.yml
+updated_at: "2026-04-09T18:00:00Z"
+entries:
+  - finding_id: ODP-AUD-001
+    source_audit_bundle_ref: .octon/state/evidence/validation/audits/2026-03-08-orchestration-domain-design-package-audit/bundle.yml
+    severity: high
+    current_disposition: closed_by_supersession
+    disposition_reason: >-
+      Decision evidence no longer depends on a future continuity/decisions
+      surface. The active bounded model routes decision evidence through the
+      retained execution authority evidence roots and instance governance
+      disclosures instead.
+    closed_by_refs:
+      - .octon/state/evidence/control/execution/**
+      - .octon/framework/constitution/claim-truth-conditions.yml
+      - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/audit-resolution-report.yml
+    validator_refs:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
+    certificate_blocker: "no"
+    future_widening_blocker: "no"
+  - finding_id: ODP-AUD-002
+    source_audit_bundle_ref: .octon/state/evidence/validation/audits/2026-03-08-orchestration-domain-design-package-audit/bundle.yml
+    severity: high
+    current_disposition: closed_by_supersession
+    disposition_reason: >-
+      The bounded live claim does not depend on the older product-shaped
+      incident package path. Current incident handling and rollback discipline
+      resolve through the live orchestration governance and run-root rollback
+      surfaces retained in the repo.
+    closed_by_refs:
+      - .octon/framework/orchestration/governance/incidents.md
+      - .octon/state/control/execution/runs/**/rollback-posture.yml
+      - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/audit-resolution-report.yml
+    validator_refs:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
+    certificate_blocker: "no"
+    future_widening_blocker: "no"
+  - finding_id: ODP-AUD-003
+    source_audit_bundle_ref: .octon/state/evidence/validation/audits/2026-03-08-orchestration-domain-design-package-audit/bundle.yml
+    severity: medium
+    current_disposition: closed
+    disposition_reason: >-
+      The bounded hardening closure adds the missing machine-readable
+      sufficiency, evaluator-diversity, hidden-check, version-coherence, and
+      projection-boundary surfaces needed to make the live claim more
+      deterministic and machine-verifiable.
+    closed_by_refs:
+      - .octon/instance/governance/contracts/support-dossier-evidence-depth.yml
+      - .octon/instance/governance/contracts/evaluator-diversity.yml
+      - .octon/instance/governance/contracts/hidden-check-breadth.yml
+      - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/support-universe-evidence-depth-report.yml
+      - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/evaluator-diversity-report.yml
+      - .octon/state/evidence/disclosure/releases/2026-04-09-uec-bounded-hardening-closure/closure/hidden-check-breadth-report.yml
+    validator_refs:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-support-dossier-evidence-depth.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-evaluator-diversity.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-hidden-check-breadth.sh
+    certificate_blocker: "no"
+    future_widening_blocker: "yes"
