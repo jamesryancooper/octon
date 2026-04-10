@@ -21,4 +21,4 @@ thresholds:
 escalation_point: threshold-crossing
 block_point: hard-policy-deny
 overrun_behavior: escalate
-updated_at: "2026-04-10T15:26:25Z"
+updated_at: "2026-04-10T15:27:52Z"

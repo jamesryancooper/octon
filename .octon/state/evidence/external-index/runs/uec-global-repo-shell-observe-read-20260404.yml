@@ -8,17 +8,17 @@ entries:
     artifact_kind: replay-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:5127c19998800c1a1a4beb0984dabb7ba248a5f540800f336038d72e56a5f2bb
+    content_digest: sha256:4362f8908f6c0bf41bf172aeb5d417074e9508bf65e99039b984b0a3f3911f93
     locator: immutable://octon/replays/uec-global-repo-shell-observe-read-20260404/bundle.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/replay/manifest.yml
-    recorded_at: "2026-04-10T15:26:27Z"
+    recorded_at: "2026-04-10T15:27:53Z"
   - entry_id: uec-global-repo-shell-observe-read-20260404-trace-payload
     run_id: uec-global-repo-shell-observe-read-20260404
     artifact_kind: trace-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:cb2e50be62937858ea8a00a90fbc75e249d7e9f1ee43538bd2407879a890e8c7
+    content_digest: sha256:fadb212d615002f9febdd370ed958f86dd6ed6d95507d1fa7aea05e9e241e90c
     locator: immutable://octon/replays/uec-global-repo-shell-observe-read-20260404/trace.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/replay/manifest.yml
-    recorded_at: "2026-04-10T15:26:27Z"
-updated_at: "2026-04-10T15:26:27Z"
+    recorded_at: "2026-04-10T15:27:53Z"
+updated_at: "2026-04-10T15:27:53Z"

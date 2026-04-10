@@ -8,17 +8,17 @@ entries:
     artifact_kind: replay-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:5f6c929949f2f9c7402d015406ef12077b7a093f90ff535cd9dd6ad883f45c1f
+    content_digest: sha256:b80da757a5185233b7f7eae575074a5fc7c0592046701dfd6861dad280b2db52
     locator: immutable://octon/replays/uec-global-github-repo-consequential-20260404/bundle.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay/manifest.yml
-    recorded_at: "2026-04-10T15:26:27Z"
+    recorded_at: "2026-04-10T15:27:53Z"
   - entry_id: uec-global-github-repo-consequential-20260404-trace-payload
     run_id: uec-global-github-repo-consequential-20260404
     artifact_kind: trace-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:b4702e05d6f195c6cb5505ef5c1c2157aa846d59e5f4e253060b9ee6dc1650a7
+    content_digest: sha256:002ab34c6c6c1ce3fb6221f25ace3b8f463c28eb94168b9a087fb4f8e222d521
     locator: immutable://octon/replays/uec-global-github-repo-consequential-20260404/trace.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay/manifest.yml
-    recorded_at: "2026-04-10T15:26:27Z"
-updated_at: "2026-04-10T15:26:27Z"
+    recorded_at: "2026-04-10T15:27:53Z"
+updated_at: "2026-04-10T15:27:53Z"

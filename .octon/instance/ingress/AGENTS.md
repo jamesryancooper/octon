@@ -48,6 +48,7 @@ The ordered mandatory read set below must remain in parity with
 8. `.octon/framework/constitution/contracts/registry.yml`
 9. `.octon/instance/charter/workspace.md`
 10. `.octon/instance/charter/workspace.yml`
+11. `.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
 
 ## Optional Orientation
 
