@@ -34,6 +34,12 @@ die() {
   exit 1
 }
 
+remove_tree() {
+  local dir="$1"
+  [[ -n "$dir" ]] || die "remove_tree requires a non-empty path"
+  command rm -r -f -- "$dir"
+}
+
 require_command() {
   command -v "$1" >/dev/null 2>&1 || die "required command missing: $1"
 }
@@ -538,14 +544,14 @@ archive_download_install() {
       unzip -q "$archive_path" -d "$install_root"
       ;;
     *)
-      rm -rf "$tmp_dir"
+      remove_tree "$tmp_dir"
       die "unsupported archive format '$format' for $tool_id"
       ;;
   esac
   binary_path="$install_root/bin/$(tool_binary_name "$contract")"
   cp "$install_root/$binary_relpath" "$binary_path"
   chmod +x "$binary_path"
-  rm -rf "$tmp_dir"
+  remove_tree "$tmp_dir"
   printf '%s\n' "$binary_path"
 }
 

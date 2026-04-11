@@ -6,7 +6,14 @@ ROOT_DIR="$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)"
 PROVISION_SCRIPT="$ROOT_DIR/.octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh"
 
 TMP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/host-tool-governance.XXXXXX")"
-trap 'rm -rf "$TMP_ROOT"' EXIT
+
+cleanup_tree() {
+  local dir="$1"
+  [[ -n "$dir" ]] || return 0
+  command rm -r -f -- "$dir"
+}
+
+trap 'cleanup_tree "$TMP_ROOT"' EXIT
 
 PLATFORM_OS="$(
   case "$(uname -s)" in
