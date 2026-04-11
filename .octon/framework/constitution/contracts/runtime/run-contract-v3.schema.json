@@ -181,6 +181,9 @@
   "allOf": [
     {
       "if": {
+        "required": [
+          "proposal_requirement"
+        ],
         "properties": {
           "proposal_requirement": {
             "const": "required"

@@ -54,11 +54,12 @@ main() {
   fi
   rm -f /tmp/review-disposition-validation.json
 
-  local tmpdir accepted_file blocked_file deferred_file
+  local tmpdir accepted_file blocked_file deferred_file rejected_nonblocking_file
   tmpdir="$(mktemp -d)"
   accepted_file="$tmpdir/accepted.yml"
   blocked_file="$tmpdir/blocked.yml"
   deferred_file="$tmpdir/deferred.yml"
+  rejected_nonblocking_file="$tmpdir/rejected-nonblocking.yml"
 
   cat > "$accepted_file" <<'EOF'
 schema_version: "review-dispositions-v1"
@@ -114,6 +115,24 @@ entries:
     decided_by: "operator://fixture"
 EOF
 
+  cat > "$rejected_nonblocking_file" <<'EOF'
+schema_version: "review-dispositions-v1"
+run_id: "fixture"
+policy_ref: ".octon/instance/governance/policies/review-disposition.yml"
+entries:
+  - schema_version: "review-disposition-v1"
+    finding_id: "fixture-rejected"
+    subject_ref: "fixture://run"
+    disposition: "rejected"
+    blocking: false
+    rationale: "rejected"
+    follow_up_ref: null
+    evidence_refs:
+      - "fixture://evidence"
+    decided_at: "2026-04-11T00:00:00Z"
+    decided_by: "operator://fixture"
+EOF
+
   if "$HELPER" --policy "$POLICY_FILE" --control "$accepted_file" >/dev/null 2>&1; then
     pass "accepted fixture passes"
   else
@@ -130,6 +149,12 @@ EOF
     fail "deferred fixture without follow-up must fail closed"
   else
     pass "deferred fixture without follow-up fails closed"
+  fi
+
+  if "$HELPER" --policy "$POLICY_FILE" --control "$rejected_nonblocking_file" >/dev/null 2>&1; then
+    fail "non-progressing rejected fixture must fail closed even when blocking is false"
+  else
+    pass "non-progressing rejected fixture fails closed even when blocking is false"
   fi
 
   rm -rf "$tmpdir"

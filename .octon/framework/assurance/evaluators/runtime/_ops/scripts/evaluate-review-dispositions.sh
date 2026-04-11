@@ -30,14 +30,27 @@ main() {
     exit 1
   }
 
-  local unresolved_blocking deferred_missing_follow_up gate_status exit_code
+  local unresolved_blocking non_progressing deferred_missing_follow_up gate_status exit_code
+  local disposition
   unresolved_blocking="$(yq -r '[.entries[]? | select(.blocking == true and .disposition != "accepted")] | length' "$CONTROL_FILE")"
+  non_progressing=0
+  while IFS= read -r disposition; do
+    [[ -n "$disposition" ]] || continue
+    if [[ "$(yq -o=json '.dispositions' "$POLICY_FILE" | jq -r --arg disposition "$disposition" 'if .[$disposition].allows_progression == null then true else .[$disposition].allows_progression end')" == "false" ]]; then
+      non_progressing=$((non_progressing + 1))
+    fi
+  done < <(yq -r '.entries[]?.disposition // ""' "$CONTROL_FILE")
   deferred_missing_follow_up="$(yq -r '[.entries[]? | select((.disposition == "deferred" or .disposition == "backlog") and ((.follow_up_ref // "") == "" or (.follow_up_ref // "") == "null"))] | length' "$CONTROL_FILE")"
 
   gate_status="pass"
   exit_code=0
 
   if [[ "$(yq -r '.fail_closed.unresolved_blocking_entry // true' "$POLICY_FILE")" == "true" && "$unresolved_blocking" -gt 0 ]]; then
+    gate_status="blocked"
+    exit_code=1
+  fi
+
+  if [[ "$non_progressing" -gt 0 ]]; then
     gate_status="blocked"
     exit_code=1
   fi
@@ -50,10 +63,12 @@ main() {
   jq -n \
     --arg gate_status "$gate_status" \
     --argjson unresolved_blocking "$unresolved_blocking" \
+    --argjson non_progressing "$non_progressing" \
     --argjson deferred_missing_follow_up "$deferred_missing_follow_up" \
     '{
       gate_status: $gate_status,
       unresolved_blocking: $unresolved_blocking,
+      non_progressing: $non_progressing,
       deferred_missing_follow_up: $deferred_missing_follow_up
     }'
 
