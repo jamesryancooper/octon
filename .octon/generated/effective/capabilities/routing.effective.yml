@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-c8499a225c2b
-published_at: 2026-04-11T03:07:08Z
+generation_id: capabilities-f5556e2a085a
+published_at: 2026-04-11T16:30:56Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-11T03-07-08Z-capabilities-c8499a225c2b.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-11T16-30-56Z-capabilities-f5556e2a085a.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,7 +15,7 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: f0f3e563ba9020e6600e5aa3068ce0f763afe4311cc06b3672497535160ca6a1
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+  framework_commands_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: 5adf62d75c4f6d58e76760e6c2474c50ec4aef4773de847a567987f4a28f8e50
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
@@ -25,7 +25,7 @@ source:
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
   framework_tools_manifest_sha256: 839a0f38d9d3a511c2c54a7fb854a8cbcbc1ab7e5f75d75fe3565d5781710509
   instance_commands_manifest_path: .octon/instance/capabilities/runtime/commands/manifest.yml
-  instance_commands_manifest_sha256: 31ef86ddc3e04a021ac56e6f731d0d28ae29f4a163a32dc4965ee34c6d2177bc
+  instance_commands_manifest_sha256: d2c48960f0d120837a34826bc57ed179cd1e5bfaa28c85d43a299f652c999787
   instance_skills_manifest_path: .octon/instance/capabilities/runtime/skills/manifest.yml
   instance_skills_manifest_sha256: e5b6c935f1c2d451eb5c59cdb0c3e99a508204d17c7e4ae03ca9f4c7d1305c7c
   locality_scopes_effective_path: .octon/generated/effective/locality/scopes.effective.yml
@@ -47,6 +47,34 @@ routing_context:
   extension_publication_status: published
   scope_resolution_mode: single-active-scope
 routing_candidates:
+  - effective_id: instance.command.repo-hygiene
+    artifact_map_id: instance-command-repo-hygiene
+    origin_class: instance
+    capability_kind: command
+    capability_id: repo-hygiene
+    display_name: Repository Hygiene
+    summary: Detect dead or stale repo surfaces, emit retained hygiene evidence, and route retirement outcomes into the build-to-delete spine.
+    status: active
+    source_manifest: .octon/instance/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-0-command-instance.command.repo-hygiene
+    projection_name: repo-hygiene
   - effective_id: framework.command.alignment-check
     artifact_map_id: framework-command-alignment-check
     origin_class: framework
@@ -366,6 +394,37 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.init
     projection_name: init
+  - effective_id: framework.command.provision-host-tools
+    artifact_map_id: framework-command-provision-host-tools
+    origin_class: framework
+    capability_kind: command
+    capability_id: provision-host-tools
+    display_name: Provision Host Tools
+    summary: Verify, install, or repair host-scoped external tools required by the current repository.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.provision-host-tools
+    projection_name: provision-host-tools
   - effective_id: framework.command.query-ask
     artifact_map_id: framework-command-query-ask
     origin_class: framework
@@ -3151,6 +3210,7 @@ routing_candidates:
     stable_sort_key: 9999-9999-1-tool-framework.tool.web-access
     projection_name: web-access
 resolution_order:
+  - instance.command.repo-hygiene
   - framework.command.alignment-check
   - framework.command.audit-skills-system-expansion
   - framework.command.context-budget
@@ -3162,6 +3222,7 @@ resolution_order:
   - framework.command.evaluate-workflow
   - framework.command.export-harness
   - framework.command.init
+  - framework.command.provision-host-tools
   - framework.command.query-ask
   - framework.command.query-explain
   - framework.command.query-retrieve

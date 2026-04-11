@@ -211,19 +211,16 @@ detectors:
   - id: "cargo-check"
     command: "cargo +stable check --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --workspace --all-targets --all-features"
     required_in_modes:
-      - "scan"
       - "enforce"
       - "audit"
   - id: "cargo-clippy"
     command: "cargo +stable clippy --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --workspace --all-targets --all-features --message-format short -- -W dead_code -W unused_imports -W unused_variables"
     required_in_modes:
-      - "scan"
       - "enforce"
       - "audit"
   - id: "cargo-machete"
     command: "(cd .octon/framework/engine/runtime/crates && cargo machete)"
     required_in_modes:
-      - "scan"
       - "enforce"
       - "audit"
   - id: "cargo-udeps"
@@ -251,19 +248,16 @@ detectors:
   - id: "shellcheck"
     command: "shellcheck -x"
     required_in_modes:
-      - "scan"
       - "enforce"
       - "audit"
   - id: "bash-syntax"
     command: "bash -n"
     required_in_modes:
-      - "scan"
       - "enforce"
       - "audit"
   - id: "sh-syntax"
     command: "sh -n"
     required_in_modes:
-      - "scan"
       - "enforce"
       - "audit"
 blocking_rules:

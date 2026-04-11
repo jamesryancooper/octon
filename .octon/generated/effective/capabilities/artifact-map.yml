@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-c8499a225c2b
-published_at: 2026-04-11T03:07:08Z
+generation_id: capabilities-f5556e2a085a
+published_at: 2026-04-11T16:30:56Z
 artifacts:
   - artifact_map_id: framework-command-alignment-check
     effective_id: framework.command.alignment-check
@@ -11,7 +11,7 @@ artifacts:
     display_name: Alignment Check
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/alignment-check.md
     source_sha256: c8ca1fee0c927b19b607e66ced7ffa96c1ccb77c51d5dcd1a06497af4a89b063
   - artifact_map_id: framework-command-audit-skills-system-expansion
@@ -22,7 +22,7 @@ artifacts:
     display_name: Audit Skills System Expansion
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/audit-skills-system-expansion.md
     source_sha256: 4341f8bcceec09cd4e08b47047f722fe1d0439ba89303ed3df384dde1514f520
   - artifact_map_id: framework-command-context-budget
@@ -33,7 +33,7 @@ artifacts:
     display_name: Context Budget
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/context-budget.md
     source_sha256: e5c801f35e3649ef735420dedc9fc3af35f05e8ba77a016124b2c133b1da5f31
   - artifact_map_id: framework-command-create-workflow
@@ -44,7 +44,7 @@ artifacts:
     display_name: Create Workflow
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/create-workflow.md
     source_sha256: 1bebb02d76cd1901bddc910fc937af602a675674c8acd3df64607437f4de805f
   - artifact_map_id: framework-command-discover-expand
@@ -55,7 +55,7 @@ artifacts:
     display_name: Discover Expand
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/discover-expand.md
     source_sha256: 0867c67028a33e9f19c1139bc771366ae3f2a675010967ef6c17e5b1c244ff99
   - artifact_map_id: framework-command-discover-explain
@@ -66,7 +66,7 @@ artifacts:
     display_name: Discover Explain
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/discover-explain.md
     source_sha256: 0c1942bbc7c624046b17d1f13e01a6ea9c0690206f520c363cdd54c85b8987a3
   - artifact_map_id: framework-command-discover-resolve
@@ -77,7 +77,7 @@ artifacts:
     display_name: Discover Resolve
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/discover-resolve.md
     source_sha256: d457691a6b49daab9df9d7d9ed2d5d6ab066f06758c0aa29d1529b0b9aa1d22b
   - artifact_map_id: framework-command-discover-start
@@ -88,7 +88,7 @@ artifacts:
     display_name: Discover Start
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/discover-start.md
     source_sha256: 5513c279ac5459ee4d188f0b799d6500db8d4ce817eb037ab2586d81d9bc5746
   - artifact_map_id: framework-command-evaluate-workflow
@@ -99,7 +99,7 @@ artifacts:
     display_name: Evaluate Workflow
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/evaluate-workflow.md
     source_sha256: 24843234b472601eb75fc9864e2d958edd512c0d7d86f32704243e960b5a02c9
   - artifact_map_id: framework-command-export-harness
@@ -110,7 +110,7 @@ artifacts:
     display_name: Export Harness
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/export-harness.md
     source_sha256: 9e1221a08269e6a34108da6d651bde9498cd76b5f7e000d06eabd23744a4b561
   - artifact_map_id: framework-command-init
@@ -121,9 +121,20 @@ artifacts:
     display_name: Initialize Project
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/init.md
     source_sha256: 63417763744536df4b76336562571cdfbd59421388192b20af390a4e78e57dc5
+  - artifact_map_id: framework-command-provision-host-tools
+    effective_id: framework.command.provision-host-tools
+    origin_class: framework
+    capability_kind: command
+    capability_id: provision-host-tools
+    display_name: Provision Host Tools
+    source_kind: framework-native
+    source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
+    source_path: .octon/framework/capabilities/runtime/commands/provision-host-tools.md
+    source_sha256: 4cd4f13f12971a8348f4f44d91a300c1ddf46ddb36aaca65e67f7967f36a9a15
   - artifact_map_id: framework-command-query-ask
     effective_id: framework.command.query-ask
     origin_class: framework
@@ -132,7 +143,7 @@ artifacts:
     display_name: Query Ask
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/query-ask.md
     source_sha256: 80efa681a0157373be309cfa06a81bfa6b5360c2a58407ba6cb05d97cd1447e9
   - artifact_map_id: framework-command-query-explain
@@ -143,7 +154,7 @@ artifacts:
     display_name: Query Explain
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/query-explain.md
     source_sha256: 84eb52564fdb2666cd5f5e811889997fcb607a51f1290afedd7cb4904a550231
   - artifact_map_id: framework-command-query-retrieve
@@ -154,7 +165,7 @@ artifacts:
     display_name: Query Retrieve
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/query-retrieve.md
     source_sha256: 9c079fbd859d3ec83e04fefb6d0594fee85b58293fc90fde4eba3df286904a40
   - artifact_map_id: framework-command-recover
@@ -165,7 +176,7 @@ artifacts:
     display_name: Recover from Errors
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/recover.md
     source_sha256: 27045aa324c86cfe45f49d949208fa2f956fc13dd81ef2595830344fd0cd4d6b
   - artifact_map_id: framework-command-refactor
@@ -176,7 +187,7 @@ artifacts:
     display_name: Refactor
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/refactor.md
     source_sha256: 283d2155e0dcef5695becbdc8710e6d97e4f5b256751af64a73251869ed1f3dd
   - artifact_map_id: framework-command-snapshot-build
@@ -187,7 +198,7 @@ artifacts:
     display_name: Snapshot Build
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/snapshot-build.md
     source_sha256: 949fc50c20af730f949302ceaa4d5b15659a8835126212690def3a6c4e8ed630
   - artifact_map_id: framework-command-snapshot-diff
@@ -198,7 +209,7 @@ artifacts:
     display_name: Snapshot Diff
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/snapshot-diff.md
     source_sha256: d360ad0713f44b74870d24ad88120337ed1464ef35474bab22fefef9a072dc23
   - artifact_map_id: framework-command-studio
@@ -209,7 +220,7 @@ artifacts:
     display_name: Launch Studio
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/studio.md
     source_sha256: d9397013afc69e283bd5cad6323c2145ee5e62a06495ebb45ce7ccb9fe46b567
   - artifact_map_id: framework-command-update-workflow
@@ -220,7 +231,7 @@ artifacts:
     display_name: Update Workflow
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/update-workflow.md
     source_sha256: a59728fb0376bf5dc9c6f9ee5cf4172f538ffc1cf3bd9871577d732c7677c64b
   - artifact_map_id: framework-command-validate-frontmatter
@@ -231,7 +242,7 @@ artifacts:
     display_name: Validate Frontmatter
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/validate-frontmatter.md
     source_sha256: 5f1be908fea89f5e88fc34d929700f7afab4a28942f062e954274a6bc7e4ad4d
   - artifact_map_id: framework-command-validate-platform-interop
@@ -242,7 +253,7 @@ artifacts:
     display_name: Validate Platform Interop
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/validate-platform-interop.md
     source_sha256: 7b089488be4735bc6dfd6e652dfa0331aace2006074ad49f2887dfff5627a6ca
   - artifact_map_id: framework-command-validate-session-policy
@@ -253,7 +264,7 @@ artifacts:
     display_name: Validate Session Policy
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/validate-session-policy.md
     source_sha256: c451087bf61cb268346dcd8f9addef958354f069df70a5d67f9fe81a7510b69e
   - artifact_map_id: framework-command-watch-poll
@@ -264,7 +275,7 @@ artifacts:
     display_name: Watch Poll
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-    source_manifest_sha256: d413d4a317ae39f4cff58892a3f555c09c02a1b42dd83cc1acde667d7200bb4d
+    source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/watch-poll.md
     source_sha256: d67314eb678ae8b7ca68ac946d34d7c930e07638fab641d709614d88bff23a9a
   - artifact_map_id: framework-service-agent
@@ -1169,3 +1180,14 @@ artifacts:
     source_manifest_sha256: 839a0f38d9d3a511c2c54a7fb854a8cbcbc1ab7e5f75d75fe3565d5781710509
     source_path: .octon/framework/capabilities/runtime/tools/manifest.yml
     source_sha256: 839a0f38d9d3a511c2c54a7fb854a8cbcbc1ab7e5f75d75fe3565d5781710509
+  - artifact_map_id: instance-command-repo-hygiene
+    effective_id: instance.command.repo-hygiene
+    origin_class: instance
+    capability_kind: command
+    capability_id: repo-hygiene
+    display_name: Repository Hygiene
+    source_kind: instance-native
+    source_manifest_path: .octon/instance/capabilities/runtime/commands/manifest.yml
+    source_manifest_sha256: d2c48960f0d120837a34826bc57ed179cd1e5bfaa28c85d43a299f652c999787
+    source_path: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+    source_sha256: b2c8627fce14d4f9e7c9472d3e869994e9c18acef91cfe3d1b3795cace2a1fb1

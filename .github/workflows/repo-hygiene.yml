@@ -48,7 +48,7 @@ jobs:
           components: clippy
 
       - name: Install cargo machete
-        run: cargo install --locked cargo-machete
+        run: cargo install --locked --version 0.9.1 cargo-machete
 
       - name: Validate repo-hygiene governance and enforce hygiene gate
         run: |
@@ -81,8 +81,8 @@ jobs:
       - name: Install nightly udeps prerequisites
         run: |
           rustup toolchain install nightly --profile minimal
-          cargo install --locked cargo-machete
-          cargo +nightly install --locked cargo-udeps
+          cargo install --locked --version 0.9.1 cargo-machete
+          cargo +nightly install --locked --version 0.1.60 cargo-udeps
 
       - name: Run full repo-hygiene audit
         env:
