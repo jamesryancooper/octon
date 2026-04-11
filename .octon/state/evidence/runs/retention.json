@@ -22,6 +22,7 @@
         "uec-audit-",
         "uec-bounded-",
         "uec-global-",
+        "uec-repo-shell-",
         "uec-evaluate-harness-",
         "uec-safe-stage-",
         "uec-validate-proposal-",

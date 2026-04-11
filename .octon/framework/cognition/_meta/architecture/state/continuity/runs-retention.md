@@ -26,7 +26,7 @@ It does not redefine task or handoff state ownership.
 
 | Class | Typical Prefixes | Retention | Action |
 |---|---|---|---|
-| `governance_evidence` | `acp-*`, `audit*`, `runtime-acp*`, `runtime-soft-delete-*`, `runtime-agent-quorum-`, `docs-gate-`, `snippet-emit-` | 365 days | Archive |
+| `governance_evidence` | `acp-*`, `audit*`, `runtime-acp*`, `runtime-soft-delete-*`, `runtime-agent-quorum-`, `docs-gate-`, `snippet-emit-`, `uec-bounded-*`, `uec-global-*`, `uec-repo-shell-*`, `uec-safe-stage-*`, `uec-validate-proposal-*` | 365 days | Archive |
 | `operational_debug` | `debug-`, `run-`, `service-`, `tool-`, `stdio-` | 30 days | Prune |
 | `scratch` | `tmp-` | 7 days | Prune |
 
