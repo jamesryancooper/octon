@@ -20,7 +20,7 @@ echo "== Workflow Authority Derivation Validation =="
 
 has_authority_refs() {
   local file="$1"
-  local pattern='\.(octon/state/control/execution|octon/state/evidence/control/execution)|run-contract|approval'
+  local pattern='\.octon/state/control/execution|\.octon/state/evidence/control/execution'
   if command -v rg >/dev/null 2>&1; then
     rg -n "$pattern" "$file" >/dev/null 2>&1
   else
