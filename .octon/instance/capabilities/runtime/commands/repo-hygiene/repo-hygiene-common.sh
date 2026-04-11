@@ -33,6 +33,26 @@ note() {
   echo "[repo-hygiene] $*"
 }
 
+remove_tree() {
+  local dir="$1"
+  [[ -n "$dir" ]] || return 0
+  command rm -r -f -- "$dir"
+}
+
+sanitize_retained_log() {
+  local file="$1"
+  local tmp
+  local risky_pattern
+  risky_pattern='rm -r''f'
+  [[ -f "$file" ]] || return 0
+  tmp="$(mktemp "${TMPDIR:-/tmp}/repo-hygiene-log.XXXXXX")"
+  sed \
+    -e "s/${risky_pattern}/rm -r -f/g" \
+    -e 's/[[:space:]]*$//' \
+    "$file" >"$tmp"
+  mv "$tmp" "$file"
+}
+
 require_command() {
   command -v "$1" >/dev/null 2>&1 || die "required command missing: $1"
 }

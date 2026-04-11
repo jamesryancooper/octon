@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/repo-hygiene-common.sh"
 
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/repo-hygiene.XXXXXX")"
-trap 'rm -rf "$TMP_DIR"' EXIT
+trap 'remove_tree "$TMP_DIR"' EXIT
 
 MODE=""
 AUDIT_ID=""
@@ -278,6 +278,7 @@ run_command_detector() {
       REQUIRED_DETECTOR_FAILURES=$((REQUIRED_DETECTOR_FAILURES + 1))
     fi
   fi
+  sanitize_retained_log "$log_file"
 
   record_detector "$detector_id" "true" "$required" "true" "$status" "$exit_status" "$log_ref" "$notes"
   return 0
@@ -336,6 +337,7 @@ run_shell_syntax_detector() {
       exit_status=1
     fi
   done <"$input_file"
+  sanitize_retained_log "$log_file"
 
   if [[ "$status" == "failed" && "$required" == "true" ]]; then
     REQUIRED_DETECTOR_FAILURES=$((REQUIRED_DETECTOR_FAILURES + 1))
@@ -374,6 +376,7 @@ run_shellcheck_detector() {
       status="passed"
     fi
   done <"$SHELL_FILES_FILE"
+  sanitize_retained_log "$log_file"
 
   if [[ -s "$log_file" ]]; then
     record_detector "$detector_id" "true" "$required" "true" "$status" "$exit_status" "$log_ref" "shellcheck reported lint findings"

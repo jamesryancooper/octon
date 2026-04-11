@@ -60,6 +60,7 @@ wasm_host/src/scoped_fs.rs:280:24: warning: this can be `std::io::Error::other(_
 wasm_host/src/scoped_fs.rs:308:24: warning: this can be `std::io::Error::other(_)`
 wasm_host/src/scoped_fs.rs:523:24: warning: this can be `std::io::Error::other(_)`
 wasm_host/src/scoped_fs.rs:594:5: warning: this can be `std::io::Error::other(_)`
+warning: `octon_wasm_host` (lib) generated 54 warnings (run `cargo clippy --fix --lib -p octon_wasm_host` to apply 51 suggestions)
 policy_engine/src/lib.rs:560:1: warning: this `impl` can be derived
 policy_engine/src/lib.rs:2081:16: warning: this boolean expression can be simplified
 policy_engine/src/lib.rs:2194:1: warning: this function has too many arguments (9/7)
@@ -75,8 +76,6 @@ policy_engine/src/lib.rs:4535:1: warning: this function has too many arguments (
 policy_engine/src/lib.rs:4793:5: warning: enclosing `Ok` and `?` operator are unneeded
 policy_engine/src/lib.rs:4800:5: warning: enclosing `Ok` and `?` operator are unneeded
 policy_engine/src/lib.rs:4810:5: warning: enclosing `Ok` and `?` operator are unneeded
-warning: `octon_wasm_host` (lib) generated 54 warnings (run `cargo clippy --fix --lib -p octon_wasm_host` to apply 51 suggestions)
-warning: `policy_engine` (lib) generated 15 warnings (run `cargo clippy --fix --lib -p policy_engine` to apply 6 suggestions)
 authority_engine/src/implementation.rs:860:5: warning: field `tuple_id` is never read
 authority_engine/src/implementation.rs:3217:1: warning: this function has too many arguments (8/7)
 authority_engine/src/implementation.rs:3888:1: warning: this function has too many arguments (13/7)
@@ -86,28 +85,29 @@ authority_engine/src/implementation.rs:6523:1: warning: this function has too ma
 authority_engine/src/implementation.rs:1915:49: warning: useless use of `vec!`
 wasm_host/src/kv_store.rs:190:9: warning: used `assert_eq!` with a literal bool
 core/src/orchestration.rs:2326:9: warning: used `assert_eq!` with a literal bool
-warning: `octon_authority_engine` (lib) generated 7 warnings (run `cargo clippy --fix --lib -p octon_authority_engine` to apply 2 suggestions)
-warning: `octon_authority_engine` (lib test) generated 7 warnings (7 duplicates)
-warning: `octon_wasm_host` (lib test) generated 55 warnings (54 duplicates) (run `cargo clippy --fix --lib -p octon_wasm_host --tests` to apply 1 suggestion)
-warning: `octon_core` (lib test) generated 8 warnings (7 duplicates) (run `cargo clippy --fix --lib -p octon_core --tests` to apply 1 suggestion)
-warning: `policy_engine` (lib test) generated 15 warnings (15 duplicates)
-kernel/src/pipeline.rs:845:17: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `rendered.len()`
-kernel/src/workflow.rs:608:1: warning: this function has too many arguments (15/7)
-kernel/src/workflow.rs:3646:21: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `prompt_markdown.len()`
-kernel/src/workflow.rs:3726:25: warning: field assignment outside of initializer for an instance created with Default::default()
-kernel/src/workflow.rs:5095:1: warning: this function has too many arguments (10/7)
 assurance_tools/src/ci_latency.rs:611:23: warning: redundant closure: help: replace the closure with the function itself: `workflow_metric_cmp`
 assurance_tools/src/main.rs:2026:25: warning: derefed type is same as origin: help: try: `findings`
 assurance_tools/src/main.rs:3521:1: warning: this function has too many arguments (9/7)
 assurance_tools/src/main.rs:3955:1: warning: this function has too many arguments (8/7)
 assurance_tools/src/main.rs:4021:1: warning: this function has too many arguments (8/7)
-warning: `octon_kernel` (bin "octon" test) generated 5 warnings (run `cargo clippy --fix --bin "octon" -p octon_kernel --tests` to apply 2 suggestions)
-warning: `octon_kernel` (bin "octon") generated 5 warnings (5 duplicates)
+warning: `policy_engine` (lib) generated 15 warnings (run `cargo clippy --fix --lib -p policy_engine` to apply 6 suggestions)
+warning: `octon_authority_engine` (lib) generated 7 warnings (run `cargo clippy --fix --lib -p octon_authority_engine` to apply 2 suggestions)
+warning: `octon_authority_engine` (lib test) generated 7 warnings (7 duplicates)
+warning: `octon_wasm_host` (lib test) generated 55 warnings (54 duplicates) (run `cargo clippy --fix --lib -p octon_wasm_host --tests` to apply 1 suggestion)
+warning: `octon_core` (lib test) generated 8 warnings (7 duplicates) (run `cargo clippy --fix --lib -p octon_core --tests` to apply 1 suggestion)
+warning: `policy_engine` (lib test) generated 15 warnings (15 duplicates)
 warning: `octon_assurance_tools` (bin "octon-assurance") generated 5 warnings (run `cargo clippy --fix --bin "octon-assurance" -p octon_assurance_tools` to apply 2 suggestions)
 warning: `octon_assurance_tools` (bin "octon-assurance" test) generated 5 warnings (5 duplicates)
+kernel/src/pipeline.rs:845:17: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `rendered.len()`
+kernel/src/workflow.rs:608:1: warning: this function has too many arguments (15/7)
+kernel/src/workflow.rs:3646:21: warning: needless call to `as_bytes`: help: `len()` can be called directly on strings: `prompt_markdown.len()`
+kernel/src/workflow.rs:3726:25: warning: field assignment outside of initializer for an instance created with Default::default()
+kernel/src/workflow.rs:5095:1: warning: this function has too many arguments (10/7)
+warning: `octon_kernel` (bin "octon" test) generated 5 warnings (run `cargo clippy --fix --bin "octon" -p octon_kernel --tests` to apply 2 suggestions)
+warning: `octon_kernel` (bin "octon") generated 5 warnings (5 duplicates)
 studio/src/app_state.rs:103:1: warning: all variants have the same postfix: `Id`
 studio/src/app_state.rs:1462:9: warning: unneeded `return` statement
 studio/src/app_state.rs:1540:9: warning: unneeded `return` statement
-warning: `octon_studio` (bin "octon-studio") generated 3 warnings (run `cargo clippy --fix --bin "octon-studio" -p octon_studio` to apply 2 suggestions)
-warning: `octon_studio` (bin "octon-studio" test) generated 3 warnings (3 duplicates)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.28s
+warning: `octon_studio` (bin "octon-studio" test) generated 3 warnings (run `cargo clippy --fix --bin "octon-studio" -p octon_studio --tests` to apply 2 suggestions)
+warning: `octon_studio` (bin "octon-studio") generated 3 warnings (3 duplicates)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.27s

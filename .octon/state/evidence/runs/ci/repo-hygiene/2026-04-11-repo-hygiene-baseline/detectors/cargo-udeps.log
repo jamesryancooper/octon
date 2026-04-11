@@ -1,9 +1,9 @@
     Checking octon_core v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/core)
     Checking policy_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/policy_engine)
     Checking octon_assurance_tools v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/assurance_tools)
-    Checking octon_runtime_bus v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/runtime_bus)
     Checking octon_replay_store v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/replay_store)
     Checking octon_telemetry_sink v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/telemetry_sink)
+    Checking octon_runtime_bus v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/runtime_bus)
    Compiling octon_studio v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/studio)
     Checking octon_wasm_host v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/wasm_host)
     Checking octon_authority_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/authority_engine)
@@ -22,31 +22,31 @@ warning: field `tuple_id` is never read
 warning: `octon_authority_engine` (lib) generated 1 warning
     Checking octon_kernel v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/kernel)
 warning: `octon_authority_engine` (lib test) generated 1 warning (1 duplicate)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.04s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.02s
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_core-ed18489f44486e3f.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_telemetry_sink-d9c506f3f0efc217.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_runtime_bus-0089a1c7a029b85e.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_telemetry_sink-39b08e30b1409af8.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_replay_store-215703ef8a17d091.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_assurance-f6c2fb35ebb49b55.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_core-20b0a88f0c1334c8.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/policy_engine-fb46c319d78f89ac.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/policy_engine-3b05c9fb9a10f7e2.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_runtime_bus-01d00ccd0cc071ed.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_assurance-2d9cdfa86c133dfc.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_replay_store-d792412118dcf380.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/policy_engine-3b05c9fb9a10f7e2.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_runtime_bus-0089a1c7a029b85e.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_runtime_bus-01d00ccd0cc071ed.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_assurance-f6c2fb35ebb49b55.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_assurance-2d9cdfa86c133dfc.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/policy_engine-fb46c319d78f89ac.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/build/octon_studio-914e11ba35367e70/build_script_build-914e11ba35367e70.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_wasm_host-d8e075fa2f4d8276.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_replay_store-215703ef8a17d091.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_telemetry_sink-39b08e30b1409af8.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_telemetry_sink-d9c506f3f0efc217.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_wasm_host-13ae22bc7b397391.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_wasm_host-d8e075fa2f4d8276.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_policy-c2301b023638c86d.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_policy-6ddf5e4a8dc7eca2.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/policy_engine-214ba0e31c091548.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_authority_engine-9f38051ffd4fd4fa.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_authority_engine-b724520ad5acecdc.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-d2b8b8c54f3a0d91.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-18c4a9ef5a02296d.d"
-info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_studio-66534c8e1bc0dd33.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-d2b8b8c54f3a0d91.d"
 info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_studio-9e7ebd49ba28da56.d"
+info: Loading depinfo from "/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/../../../../../generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon_studio-66534c8e1bc0dd33.d"
 unused dependencies:
 `octon_authority_engine v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/authority_engine)`
 └─── dependencies

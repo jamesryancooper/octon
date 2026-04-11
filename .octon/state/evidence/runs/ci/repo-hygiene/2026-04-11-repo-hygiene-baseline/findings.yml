@@ -1,7 +1,7 @@
 schema_version: "repo-hygiene-findings-v1"
 audit_id: "2026-04-11-repo-hygiene-baseline"
 mode: "audit"
-generated_at: "2026-04-11T15:46:58Z"
+generated_at: "2026-04-11T16:42:09Z"
 policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
 active_release_id: "2026-04-11-uec-bounded-recertified-complete"
 active_release_root: ".octon/state/evidence/disclosure/releases/2026-04-11-uec-bounded-recertified-complete"
@@ -1028,66 +1028,6 @@ findings:
     evidence_refs:
       - .octon/framework/engine/runtime/crates/Cargo.toml
       - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
-  - id: rh-clippy-kernel-src-pipeline-rs-845-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-rendered-len
-    class: rust-static-deadness
-    confidence: low
-    action: needs-ablation-before-delete
-    blocking: false
-    path: kernel/src/pipeline.rs:845
-    title: Rust deadness signal from clippy
-    rationale: 'needless call to `as_bytes`: help: `len()` can be called directly on strings: `rendered.len()`'
-    detector: cargo-clippy
-    evidence_refs:
-      - .octon/framework/engine/runtime/crates/Cargo.toml
-      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
-  - id: rh-clippy-kernel-src-workflow-rs-608-this-function-has-too-many-arguments-15-7
-    class: rust-static-deadness
-    confidence: low
-    action: needs-ablation-before-delete
-    blocking: false
-    path: kernel/src/workflow.rs:608
-    title: Rust deadness signal from clippy
-    rationale: this function has too many arguments (15/7)
-    detector: cargo-clippy
-    evidence_refs:
-      - .octon/framework/engine/runtime/crates/Cargo.toml
-      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
-  - id: rh-clippy-kernel-src-workflow-rs-3646-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-prompt-markdown-len
-    class: rust-static-deadness
-    confidence: low
-    action: needs-ablation-before-delete
-    blocking: false
-    path: kernel/src/workflow.rs:3646
-    title: Rust deadness signal from clippy
-    rationale: 'needless call to `as_bytes`: help: `len()` can be called directly on strings: `prompt_markdown.len()`'
-    detector: cargo-clippy
-    evidence_refs:
-      - .octon/framework/engine/runtime/crates/Cargo.toml
-      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
-  - id: rh-clippy-kernel-src-workflow-rs-3726-field-assignment-outside-of-initializer-for-an-instance-created-with-default-default
-    class: rust-static-deadness
-    confidence: low
-    action: needs-ablation-before-delete
-    blocking: false
-    path: kernel/src/workflow.rs:3726
-    title: Rust deadness signal from clippy
-    rationale: field assignment outside of initializer for an instance created with Default::default()
-    detector: cargo-clippy
-    evidence_refs:
-      - .octon/framework/engine/runtime/crates/Cargo.toml
-      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
-  - id: rh-clippy-kernel-src-workflow-rs-5095-this-function-has-too-many-arguments-10-7
-    class: rust-static-deadness
-    confidence: low
-    action: needs-ablation-before-delete
-    blocking: false
-    path: kernel/src/workflow.rs:5095
-    title: Rust deadness signal from clippy
-    rationale: this function has too many arguments (10/7)
-    detector: cargo-clippy
-    evidence_refs:
-      - .octon/framework/engine/runtime/crates/Cargo.toml
-      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
   - id: rh-clippy-assurance-tools-src-ci-latency-rs-611-redundant-closure-help-replace-the-closure-with-the-function-itself-workflow-metric-cmp
     class: rust-static-deadness
     confidence: low
@@ -1144,6 +1084,66 @@ findings:
     path: assurance_tools/src/main.rs:4021
     title: Rust deadness signal from clippy
     rationale: this function has too many arguments (8/7)
+    detector: cargo-clippy
+    evidence_refs:
+      - .octon/framework/engine/runtime/crates/Cargo.toml
+      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
+  - id: rh-clippy-kernel-src-pipeline-rs-845-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-rendered-len
+    class: rust-static-deadness
+    confidence: low
+    action: needs-ablation-before-delete
+    blocking: false
+    path: kernel/src/pipeline.rs:845
+    title: Rust deadness signal from clippy
+    rationale: 'needless call to `as_bytes`: help: `len()` can be called directly on strings: `rendered.len()`'
+    detector: cargo-clippy
+    evidence_refs:
+      - .octon/framework/engine/runtime/crates/Cargo.toml
+      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
+  - id: rh-clippy-kernel-src-workflow-rs-608-this-function-has-too-many-arguments-15-7
+    class: rust-static-deadness
+    confidence: low
+    action: needs-ablation-before-delete
+    blocking: false
+    path: kernel/src/workflow.rs:608
+    title: Rust deadness signal from clippy
+    rationale: this function has too many arguments (15/7)
+    detector: cargo-clippy
+    evidence_refs:
+      - .octon/framework/engine/runtime/crates/Cargo.toml
+      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
+  - id: rh-clippy-kernel-src-workflow-rs-3646-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-prompt-markdown-len
+    class: rust-static-deadness
+    confidence: low
+    action: needs-ablation-before-delete
+    blocking: false
+    path: kernel/src/workflow.rs:3646
+    title: Rust deadness signal from clippy
+    rationale: 'needless call to `as_bytes`: help: `len()` can be called directly on strings: `prompt_markdown.len()`'
+    detector: cargo-clippy
+    evidence_refs:
+      - .octon/framework/engine/runtime/crates/Cargo.toml
+      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
+  - id: rh-clippy-kernel-src-workflow-rs-3726-field-assignment-outside-of-initializer-for-an-instance-created-with-default-default
+    class: rust-static-deadness
+    confidence: low
+    action: needs-ablation-before-delete
+    blocking: false
+    path: kernel/src/workflow.rs:3726
+    title: Rust deadness signal from clippy
+    rationale: field assignment outside of initializer for an instance created with Default::default()
+    detector: cargo-clippy
+    evidence_refs:
+      - .octon/framework/engine/runtime/crates/Cargo.toml
+      - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/audit-summary.yml
+  - id: rh-clippy-kernel-src-workflow-rs-5095-this-function-has-too-many-arguments-10-7
+    class: rust-static-deadness
+    confidence: low
+    action: needs-ablation-before-delete
+    blocking: false
+    path: kernel/src/workflow.rs:5095
+    title: Rust deadness signal from clippy
+    rationale: this function has too many arguments (10/7)
     detector: cargo-clippy
     evidence_refs:
       - .octon/framework/engine/runtime/crates/Cargo.toml

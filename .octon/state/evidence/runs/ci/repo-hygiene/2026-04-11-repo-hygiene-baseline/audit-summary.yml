@@ -1,7 +1,7 @@
 schema_version: "repo-hygiene-audit-summary-v1"
 audit_id: "2026-04-11-repo-hygiene-baseline"
 mode: "audit"
-generated_at: "2026-04-11T15:46:58Z"
+generated_at: "2026-04-11T16:42:09Z"
 policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
 active_release_id: "2026-04-11-uec-bounded-recertified-complete"
 active_release_root: ".octon/state/evidence/disclosure/releases/2026-04-11-uec-bounded-recertified-complete"

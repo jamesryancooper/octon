@@ -1,7 +1,7 @@
 # Repo Hygiene Audit
 
 - Audit id: `2026-04-11-repo-hygiene-baseline`
-- Generated at: `2026-04-11T15:46:58Z`
+- Generated at: `2026-04-11T16:42:09Z`
 - Active release: `2026-04-11-uec-bounded-recertified-complete`
 - Latest build-to-delete packet: `.octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening`
 - Current governance review: `.octon/state/evidence/governance/build-to-delete/2026-04-09-bounded-uec-hardening/retirement-claim-review.yml`
@@ -196,16 +196,6 @@
   Rust deadness signal from clippy
 - `rh-clippy-core-src-orchestration-rs-2326-used-assert-eq-with-a-literal-bool` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `core/src/orchestration.rs:2326`
   Rust deadness signal from clippy
-- `rh-clippy-kernel-src-pipeline-rs-845-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-rendered-len` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/pipeline.rs:845`
-  Rust deadness signal from clippy
-- `rh-clippy-kernel-src-workflow-rs-608-this-function-has-too-many-arguments-15-7` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:608`
-  Rust deadness signal from clippy
-- `rh-clippy-kernel-src-workflow-rs-3646-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-prompt-markdown-len` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:3646`
-  Rust deadness signal from clippy
-- `rh-clippy-kernel-src-workflow-rs-3726-field-assignment-outside-of-initializer-for-an-instance-created-with-default-default` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:3726`
-  Rust deadness signal from clippy
-- `rh-clippy-kernel-src-workflow-rs-5095-this-function-has-too-many-arguments-10-7` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:5095`
-  Rust deadness signal from clippy
 - `rh-clippy-assurance-tools-src-ci-latency-rs-611-redundant-closure-help-replace-the-closure-with-the-function-itself-workflow-metric-cmp` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `assurance_tools/src/ci_latency.rs:611`
   Rust deadness signal from clippy
 - `rh-clippy-assurance-tools-src-main-rs-2026-derefed-type-is-same-as-origin-help-try-findings` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `assurance_tools/src/main.rs:2026`
@@ -215,6 +205,16 @@
 - `rh-clippy-assurance-tools-src-main-rs-3955-this-function-has-too-many-arguments-8-7` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `assurance_tools/src/main.rs:3955`
   Rust deadness signal from clippy
 - `rh-clippy-assurance-tools-src-main-rs-4021-this-function-has-too-many-arguments-8-7` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `assurance_tools/src/main.rs:4021`
+  Rust deadness signal from clippy
+- `rh-clippy-kernel-src-pipeline-rs-845-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-rendered-len` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/pipeline.rs:845`
+  Rust deadness signal from clippy
+- `rh-clippy-kernel-src-workflow-rs-608-this-function-has-too-many-arguments-15-7` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:608`
+  Rust deadness signal from clippy
+- `rh-clippy-kernel-src-workflow-rs-3646-needless-call-to-as-bytes-help-len-can-be-called-directly-on-strings-prompt-markdown-len` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:3646`
+  Rust deadness signal from clippy
+- `rh-clippy-kernel-src-workflow-rs-3726-field-assignment-outside-of-initializer-for-an-instance-created-with-default-default` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:3726`
+  Rust deadness signal from clippy
+- `rh-clippy-kernel-src-workflow-rs-5095-this-function-has-too-many-arguments-10-7` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `kernel/src/workflow.rs:5095`
   Rust deadness signal from clippy
 - `rh-clippy-studio-src-app-state-rs-103-all-variants-have-the-same-postfix-id` [class=`rust-static-deadness`, confidence=`low`, action=`needs-ablation-before-delete`, blocking=`false`]: `studio/src/app_state.rs:103`
   Rust deadness signal from clippy
