@@ -18,6 +18,12 @@ errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 pass() { echo "[OK] $1"; }
 
+cleanup_dir() {
+  local path="$1"
+  find "$path" -type f -delete
+  find "$path" -depth -type d -exec rmdir {} + 2>/dev/null || true
+}
+
 proposal_gate() {
   local file="$1"
   local requirement refs_count
@@ -102,7 +108,7 @@ EOF
     fail "required proposal classification with refs should pass"
   fi
 
-  rm -rf "$tmpdir"
+  cleanup_dir "$tmpdir"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]
