@@ -1,0 +1,44 @@
+schema_version: "distillation-bundle-v1"
+bundle_id: "2026-04-11-selected-harness-concepts-failure-distillation"
+bundle_kind: "failure-distillation"
+subject_ref: ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml"
+source_index_refs:
+  - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml"
+  - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-selected-harness-concepts-integration-packet/resources/repository-baseline-audit.md"
+clusters:
+  - cluster_id: "review-traceability-gap"
+    signal_kind: "governance-gap"
+    summary: "Higher-scrutiny review flows had retained evaluator summaries but no canonical finding/disposition pair."
+    source_evidence_refs:
+      - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml"
+      - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/maintainability.yml"
+classifications:
+  - schema_version: "failure-classification-v1"
+    class_id: "failure-class/review-traceability-gap"
+    failure_kind: "governance"
+    subject_ref: ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml"
+    recurrence_window: "P30D"
+    signal_count: 2
+    summary: "Review traceability was recurring enough to justify a canonical finding/disposition surface."
+    source_evidence_refs:
+      - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-selected-harness-concepts-integration-packet/architecture/current-state-gap-map.md"
+    recorded_at: "2026-04-11T00:00:00Z"
+recommendations:
+  - schema_version: "hardening-recommendation-v1"
+    recommendation_id: "hardening/review-finding-disposition-formalization"
+    failure_class_ref: "failure-class/review-traceability-gap"
+    target_refs:
+      - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
+      - ".octon/framework/constitution/contracts/assurance/review-disposition-v1.schema.json"
+      - ".octon/instance/governance/policies/review-disposition.yml"
+    summary: "Promote canonical review finding and disposition surfaces plus gating validation."
+    promotion_path: "proposal_gated"
+    confidence: "high"
+    evidence_refs:
+      - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml"
+      - ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/review-dispositions.yml"
+    recorded_at: "2026-04-11T00:00:00Z"
+promotion_mode: "proposal_gated"
+generated_summary_ref: ".octon/generated/cognition/distillation/2026-04-11-selected-harness-concepts-integration/summary.md"
+recorded_at: "2026-04-11T00:00:00Z"

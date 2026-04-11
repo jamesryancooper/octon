@@ -47,6 +47,7 @@ main() {
   [[ -f "$policy_file" ]] || { echo "missing mission autonomy policy: ${policy_file#$ROOT_DIR/}" >&2; exit 1; }
 
   local mission_class owner_ref overlap_policy backfill_policy oversight_mode execution_posture
+  local classification_id ambiguity_level novelty_level proposal_requirement
   local owner_slug
   mission_class="$(yq -r '.mission_class // ""' "$mission_file")"
   owner_ref="$(yq -r '.owner_ref // ""' "$mission_file")"
@@ -59,6 +60,10 @@ main() {
   execution_posture="$(yq -r ".execution_postures.\"$mission_class\" // \"interruptible_scheduled\"" "$policy_file")"
   overlap_policy="$(yq -r ".overlap_defaults.\"$mission_class\" // .default_overlap_policy // \"skip\"" "$policy_file")"
   backfill_policy="$(yq -r ".backfill_defaults.\"$mission_class\" // \"none\"" "$policy_file")"
+  classification_id="$(yq -r ".proposal_classification_defaults.by_mission_class.\"$mission_class\".classification_id // \"$mission_class-default\"" "$policy_file")"
+  ambiguity_level="$(yq -r ".proposal_classification_defaults.by_mission_class.\"$mission_class\".ambiguity_level // \"bounded\"" "$policy_file")"
+  novelty_level="$(yq -r ".proposal_classification_defaults.by_mission_class.\"$mission_class\".novelty_level // \"known-pattern\"" "$policy_file")"
+  proposal_requirement="$(yq -r ".proposal_classification_defaults.by_mission_class.\"$mission_class\".proposal_requirement // \"not_required\"" "$policy_file")"
 
   mkdir -p "$control_dir/action-slices" "$continuity_dir"
 
@@ -116,6 +121,21 @@ revision: 1
 generated_from:
   - "framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh"
 entries: []
+EOF
+
+  cat > "$control_dir/mission-classification.yml" <<EOF
+schema_version: "mission-classification-v1"
+mission_id: "$MISSION_ID"
+mission_class: "$mission_class"
+classification_id: "$classification_id"
+ambiguity_level: "$ambiguity_level"
+novelty_level: "$novelty_level"
+proposal_requirement: "$proposal_requirement"
+proposal_refs: []
+acceptance_basis:
+  - "Seeded from mission charter and mission autonomy policy defaults."
+policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#proposal_classification_defaults.by_mission_class.$mission_class"
+recorded_at: "$ts"
 EOF
 
   : > "$control_dir/action-slices/.gitkeep"
@@ -234,6 +254,7 @@ EOF
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/lease.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/mode-state.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/intent-register.yml" \
+    --affected-path ".octon/state/control/execution/missions/$MISSION_ID/mission-classification.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/action-slices/.gitkeep" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/directives.yml" \
     --affected-path ".octon/state/control/execution/missions/$MISSION_ID/authorize-updates.yml" \

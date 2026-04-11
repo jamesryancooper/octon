@@ -165,3 +165,44 @@ safing_defaults:
     - "observe_only"
     - "stage_only"
     - "bounded_containment"
+proposal_classification_defaults:
+  by_mission_class:
+    observe:
+      classification_id: "observe-operational"
+      ambiguity_level: "bounded"
+      novelty_level: "known-pattern"
+      proposal_requirement: "not_required"
+    campaign:
+      classification_id: "campaign-refactor"
+      ambiguity_level: "high"
+      novelty_level: "mixed"
+      proposal_requirement: "required"
+    reconcile:
+      classification_id: "reconcile-controlled"
+      ambiguity_level: "moderate"
+      novelty_level: "mixed"
+      proposal_requirement: "recommended"
+    maintenance:
+      classification_id: "maintenance-operational-known-pattern"
+      ambiguity_level: "bounded"
+      novelty_level: "known-pattern"
+      proposal_requirement: "not_required"
+    migration:
+      classification_id: "migration-structural-change"
+      ambiguity_level: "high"
+      novelty_level: "mixed"
+      proposal_requirement: "required"
+    incident:
+      classification_id: "incident-contained-response"
+      ambiguity_level: "moderate"
+      novelty_level: "mixed"
+      proposal_requirement: "recommended"
+    destructive:
+      classification_id: "destructive-one-way-door"
+      ambiguity_level: "high"
+      novelty_level: "novel"
+      proposal_requirement: "required"
+  fail_closed:
+    required_without_refs: "deny_new_run"
+    required_ref_field: "proposal_refs"
+    control_record: ".octon/state/control/execution/missions/<mission-id>/mission-classification.yml"

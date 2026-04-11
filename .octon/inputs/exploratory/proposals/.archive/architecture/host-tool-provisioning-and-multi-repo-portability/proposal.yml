@@ -1,0 +1,61 @@
+schema_version: "proposal-v1"
+proposal_id: "host-tool-provisioning-and-multi-repo-portability"
+title: "Host-Tool Provisioning and Multi-Repo Portability"
+summary: >-
+  Establish a portable Octon architecture for host-scoped external tool
+  provisioning that keeps repo authority inside /.octon/, keeps OS- and
+  machine-specific binaries outside the repo, supports multiple Octon-enabled
+  repositories on one system, and integrates deterministic tool resolution
+  into repo commands such as repo-hygiene without relying on ad hoc /tmp
+  installs.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/capabilities/runtime/host-tools/"
+  - ".octon/framework/capabilities/runtime/commands/manifest.yml"
+  - ".octon/framework/capabilities/runtime/commands/provision-host-tools.md"
+  - ".octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-tool-governance.sh"
+  - ".octon/instance/capabilities/runtime/host-tools/requirements.yml"
+  - ".octon/instance/governance/policies/host-tool-resolution.yml"
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+  - ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md"
+  - ".octon/instance/bootstrap/START.md"
+  - ".octon/instance/bootstrap/catalog.md"
+status: "archived"
+archive:
+  archived_at: "2026-04-11"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability"
+  promotion_evidence:
+    - ".octon/framework/capabilities/runtime/host-tools/registry.yml"
+    - ".octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh"
+    - ".octon/instance/capabilities/runtime/host-tools/requirements.yml"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-tool-governance.sh"
+    - ".octon/state/evidence/runs/ci/repo-hygiene/2026-04-11-repo-hygiene-baseline/host-tools.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the durable host-tool contract family, repo requirement surface,
+    provisioning command, validator, and bootstrap documentation into
+    authoritative /.octon/ surfaces; integrate repo-hygiene onto that
+    subsystem; then archive this proposal once host-tool resolution no longer
+    depends on proposal paths.
+related_proposals:
+  - "repository-hygiene-and-retirement"
+prepared_on: "2026-04-11"
+repository:
+  url: "https://github.com/jamesryancooper/octon"
+  ref: "main"
+purpose: "Architecture proposal packet"
+delivery_format: "manifest-governed archive-ready packet"
+scope:
+  domain: "repo-architecture"
+  target: "portable host-tool provisioning and multi-repo Octon portability"
+artifacts:
+  root_readme: "README.md"
+  packet_manifest: "PACKET_MANIFEST.md"
+  navigation:
+    source_of_truth_map: "navigation/source-of-truth-map.md"
+    artifact_catalog: "navigation/artifact-catalog.md"

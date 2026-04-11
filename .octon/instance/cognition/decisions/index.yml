@@ -171,3 +171,11 @@ records:
     path: 083-unified-execution-constitution-phase7-build-to-delete-institutionalization.md
   - id: 084-unified-execution-constitution-final-cutover-closeout
     path: 084-unified-execution-constitution-final-cutover-closeout.md
+  - id: 085-review-finding-and-disposition-formalization
+    path: 085-review-finding-and-disposition-formalization.md
+  - id: 086-proposal-gated-distillation-and-hardening
+    path: 086-proposal-gated-distillation-and-hardening.md
+  - id: 087-tool-output-envelope-runtime-budgeting
+    path: 087-tool-output-envelope-runtime-budgeting.md
+  - id: 088-proposal-first-mission-classification
+    path: 088-proposal-first-mission-classification.md

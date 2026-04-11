@@ -212,6 +212,18 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-wave5-agency-adapter-hardening.sh"
 
   run_step \
+    "Validate canonical review finding and disposition integration" \
+    bash "$SCRIPT_DIR/validate-review-disposition-integration.sh"
+
+  run_step \
+    "Validate proposal-gated failure and evidence distillation refinements" \
+    bash "$SCRIPT_DIR/validate-distillation-refinements.sh"
+
+  run_step \
+    "Validate compact tool-output envelope contracts and receipts" \
+    bash "$SCRIPT_DIR/validate-tool-output-envelope-contracts.sh"
+
+  run_step \
     "Refresh and validate host capability projections" \
     publish_or_validate_host_projections
 
@@ -379,6 +391,10 @@ run_mission_autonomy() {
   run_step \
     "Validate mission authority and policy surfaces" \
     bash "$SCRIPT_DIR/validate-mission-authority.sh"
+
+  run_step \
+    "Validate proposal-first mission classification controls" \
+    bash "$SCRIPT_DIR/validate-mission-proposal-classification.sh"
 
   run_step \
     "Validate mission runtime contracts and kernel enforcement" \

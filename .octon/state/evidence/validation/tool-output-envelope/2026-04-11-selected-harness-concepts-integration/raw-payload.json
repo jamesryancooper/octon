@@ -1,0 +1,14 @@
+{
+  "changed_surfaces": [
+    ".octon/framework/constitution/contracts/assurance",
+    ".octon/framework/constitution/contracts/adapters",
+    ".octon/instance/governance/policies",
+    ".octon/instance/governance/contracts",
+    ".octon/state/control/execution/missions",
+    ".octon/state/evidence/validation"
+  ],
+  "notes": [
+    "Raw payload retained outside the compact envelope.",
+    "Envelope remains a machine-usable summary only."
+  ]
+}

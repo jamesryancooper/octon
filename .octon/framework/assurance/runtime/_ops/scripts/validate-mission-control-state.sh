@@ -31,7 +31,7 @@ main() {
     [[ -n "$mission_id" ]] || continue
     local dir="$CONTROL_ROOT/$mission_id"
     local continuity="$CONTINUITY_ROOT/$mission_id"
-    for file in lease.yml mode-state.yml intent-register.yml directives.yml authorize-updates.yml schedule.yml autonomy-budget.yml circuit-breakers.yml subscriptions.yml; do
+    for file in lease.yml mode-state.yml intent-register.yml mission-classification.yml directives.yml authorize-updates.yml schedule.yml autonomy-budget.yml circuit-breakers.yml subscriptions.yml; do
       [[ -f "$dir/$file" ]] && pass "found $mission_id/$file" || fail "missing $mission_id/$file"
     done
     [[ -d "$dir/action-slices" ]] && pass "found $mission_id/action-slices/" || fail "missing $mission_id/action-slices/"

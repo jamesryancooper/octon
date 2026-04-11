@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/adapters/tool-output-envelope-v1.schema.json",
+  "title": "Octon Tool Output Envelope v1",
+  "description": "Canonical compact machine-usable tool or adapter output envelope that keeps raw payloads in retained evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "envelope_id",
+    "tool_id",
+    "status",
+    "summary",
+    "raw_payload_ref",
+    "evidence_refs",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "tool-output-envelope-v1"
+    },
+    "envelope_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tool_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "partial",
+        "error"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
+    "machine_hints": {
+      "type": "object"
+    },
+    "result_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "truncated": {
+      "type": "boolean"
+    },
+    "budget_profile_ref": {
+      "type": "string"
+    },
+    "raw_payload_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

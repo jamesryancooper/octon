@@ -216,6 +216,12 @@ set_breaker_state() {
   yq -i '.breaker_state = "'"$state"'"' "$root/.octon/state/control/execution/missions/demo/mode-state.yml"
 }
 
+set_proposal_ref() {
+  local root="$1"
+  local ref="$2"
+  PROPOSAL_REF="$ref" yq -i '.proposal_refs = [strenv(PROPOSAL_REF)]' "$root/.octon/state/control/execution/missions/demo/mission-classification.yml"
+}
+
 write_directives() {
   local root="$1"
   local body="$2"
@@ -288,6 +294,7 @@ case_campaign_long_refactor_routes_end_to_end() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "campaign"
   activate_fixture_mission "$root"
+  set_proposal_ref "$root" "proposal://fixture/campaign"
   write_published_slice "$root" "git.commit" "reversible" "ACP-1"
   local json
   json="$(evaluate_fixture "$root")"
@@ -302,6 +309,7 @@ case_migration_backfill_routes_end_to_end() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "migration"
   activate_fixture_mission "$root"
+  set_proposal_ref "$root" "proposal://fixture/migration"
   write_published_slice "$root" "db.migrate" "reversible" "ACP-2" "repo_local" "feedback_window" "chunk_boundary" "" "db.down_migration_or_shadow"
   local json
   json="$(evaluate_fixture "$root")"
@@ -608,6 +616,7 @@ case_destructive_route_requires_operator_ack() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "destructive"
   activate_fixture_mission "$root"
+  set_proposal_ref "$root" "proposal://fixture/destructive"
   write_published_slice "$root" "fs.hard_delete" "irreversible" "ACP-4"
   local json
   json="$(evaluate_fixture "$root")"
@@ -620,6 +629,7 @@ case_grant_exception_waives_operator_ack() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "destructive"
   activate_fixture_mission "$root"
+  set_proposal_ref "$root" "proposal://fixture/destructive"
   write_published_slice "$root" "fs.hard_delete" "irreversible" "ACP-4"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$AUTHORIZE_UPDATE_SCRIPT" \
     --mission-id demo \
@@ -640,6 +650,7 @@ case_break_glass_authorize_update_changes_mode_and_emits_receipt() {
   root="$(fixture_root)"
   seed_fixture_base "$root" "destructive"
   activate_fixture_mission "$root"
+  set_proposal_ref "$root" "proposal://fixture/destructive"
   write_published_slice "$root" "fs.hard_delete" "irreversible" "ACP-4"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" bash "$AUTHORIZE_UPDATE_SCRIPT" \
     --mission-id demo \

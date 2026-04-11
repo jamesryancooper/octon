@@ -1,0 +1,13 @@
+schema_version: "mission-classification-v1"
+mission_id: "mission-autonomy-live-validation"
+mission_class: "maintenance"
+classification_id: "maintenance-operational-known-pattern"
+ambiguity_level: "bounded"
+novelty_level: "known-pattern"
+proposal_requirement: "not_required"
+proposal_refs: []
+acceptance_basis:
+  - "The live validation mission exercises an already-promoted execution model."
+  - "Steady-state consequential validation slices stay inside known maintenance patterns."
+policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml#proposal_classification_defaults.by_mission_class.maintenance"
+recorded_at: "2026-04-11T00:00:00Z"

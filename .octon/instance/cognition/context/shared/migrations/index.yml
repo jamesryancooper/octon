@@ -234,3 +234,6 @@ records:
   - id: 2026-04-09-octon-uec-hardening-recertification
     path: 2026-04-09-octon-uec-hardening-recertification/plan.md
     evidence: /.octon/state/evidence/migration/2026-04-09-octon-uec-hardening-recertification/evidence.md
+  - id: 2026-04-11-octon-selected-harness-concepts-integration
+    path: 2026-04-11-octon-selected-harness-concepts-integration/plan.md
+    evidence: /.octon/state/evidence/migration/2026-04-11-octon-selected-harness-concepts-integration/evidence.md

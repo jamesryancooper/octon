@@ -1,0 +1,35 @@
+schema_version: "review-disposition-policy-v1"
+progression_gates:
+  - "stage"
+  - "promote"
+  - "finalize"
+severity_defaults:
+  note:
+    default_blocking: false
+  warning:
+    default_blocking: false
+  major:
+    default_blocking: true
+  critical:
+    default_blocking: true
+dispositions:
+  accepted:
+    allows_progression: true
+    requires_follow_up: false
+  deferred:
+    allows_progression: true
+    requires_follow_up: true
+  backlog:
+    allows_progression: true
+    requires_follow_up: true
+  blocked:
+    allows_progression: false
+    requires_follow_up: false
+  rejected:
+    allows_progression: false
+    requires_follow_up: false
+fail_closed:
+  missing_control_file: true
+  unresolved_blocking_entry: true
+  deferred_without_follow_up: true
+  evaluator_comments_non_authoritative: true

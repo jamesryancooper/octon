@@ -42,7 +42,7 @@ main() {
 
   local lease_state safety_state breaker_state oversight_mode route_family mission_class action_class
   local suspended_future_runs pause_active_run_requested approval_required break_glass_required block_finalize
-  local route_fresh_until break_glass_expires_at required_quorum overlap_policy backfill_policy
+  local route_fresh_until break_glass_expires_at required_quorum overlap_policy backfill_policy proposal_requirement proposal_refs_present
   local pause_boundary suspend_future_runs_directive resume_future_runs_directive stop_after_slice reprioritize_pending narrow_scope_active exclude_target_active enter_safing
   local allow_new_run=true pause_active_run=false safing_active=false
   local required_operator_ack=false break_glass_active=false grant_exception_active=false observe_to_operate_required=false approve_update_present=false
@@ -63,6 +63,8 @@ main() {
   required_quorum="$(yq -r '.effective.required_quorum // ""' "$route_file")"
   overlap_policy="$(yq -r '.effective.overlap_policy // ""' "$route_file")"
   backfill_policy="$(yq -r '.effective.backfill_policy // ""' "$route_file")"
+  proposal_requirement="$(yq -r '.effective.proposal_requirement // "not_required"' "$route_file")"
+  proposal_refs_present="$(yq -r '.effective.proposal_refs_present // false' "$route_file")"
 
   suspended_future_runs="$(yq -r '.suspended_future_runs // false' "$schedule_file")"
   pause_active_run_requested="$(yq -r '.pause_active_run_requested // false' "$schedule_file")"
@@ -193,6 +195,10 @@ main() {
     required_operator_ack=true
     allow_new_run=false
     reasons+=("operator_ack_required")
+  fi
+  if [[ "$proposal_requirement" == "required" && "$proposal_refs_present" != "true" ]]; then
+    allow_new_run=false
+    reasons+=("proposal_refs_required")
   fi
   if [[ "$break_glass_required" == "true" && "$break_glass_active" != "true" && "$grant_exception_active" != "true" ]]; then
     required_operator_ack=true

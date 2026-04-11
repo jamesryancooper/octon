@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/mission-classification-v1.schema.json",
+  "title": "Mission Classification v1",
+  "description": "Canonical mission-local control record for proposal-first classification and proposal-reference requirements.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "mission_class",
+    "classification_id",
+    "ambiguity_level",
+    "novelty_level",
+    "proposal_requirement",
+    "proposal_refs",
+    "acceptance_basis",
+    "policy_ref",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "mission-classification-v1"
+    },
+    "mission_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mission_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ambiguity_level": {
+      "type": "string",
+      "enum": [
+        "bounded",
+        "moderate",
+        "high"
+      ]
+    },
+    "novelty_level": {
+      "type": "string",
+      "enum": [
+        "known-pattern",
+        "mixed",
+        "novel"
+      ]
+    },
+    "proposal_requirement": {
+      "type": "string",
+      "enum": [
+        "not_required",
+        "recommended",
+        "required"
+      ]
+    },
+    "proposal_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "acceptance_basis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "policy_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

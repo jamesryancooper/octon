@@ -1,0 +1,8 @@
+schema_version: "tool-output-envelope-receipt-v1"
+receipt_id: "2026-04-11-selected-harness-concepts-integration"
+budget_profile_ref: ".octon/instance/agency/runtime/tool-output-budgets.yml"
+envelope_ref: ".octon/state/evidence/validation/tool-output-envelope/2026-04-11-selected-harness-concepts-integration/envelope.yml"
+raw_payload_ref: ".octon/state/evidence/validation/tool-output-envelope/2026-04-11-selected-harness-concepts-integration/raw-payload.json"
+summary_bytes: 128
+within_budget: true
+validated_at: "2026-04-11T00:00:00Z"

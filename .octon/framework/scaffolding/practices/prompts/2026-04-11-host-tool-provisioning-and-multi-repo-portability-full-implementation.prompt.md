@@ -8,7 +8,7 @@ provisioning engineer for this repository.
 
 Your job is to fully implement the architecture proposal at:
 
-`/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/`
+`/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/`
 
 Treat this as a real implementation, migration, validation, and consumer
 integration program. Do not treat it as a design review, prose rewrite, or
@@ -67,21 +67,21 @@ Read these before planning or implementation:
 20. `/.octon/framework/capabilities/runtime/README.md`
 21. `/.octon/instance/governance/policies/repo-hygiene.yml`
 22. `/.octon/instance/capabilities/runtime/commands/repo-hygiene/README.md`
-23. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/README.md`
-24. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/proposal.yml`
-25. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture-proposal.yml`
-26. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/navigation/source-of-truth-map.md`
-27. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/current-state-gap-map.md`
-28. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/target-architecture.md`
-29. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/file-change-map.md`
-30. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/implementation-plan.md`
-31. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/migration-cutover-plan.md`
-32. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/validation-plan.md`
-33. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/acceptance-criteria.md`
-34. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/closure-certification-plan.md`
-35. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/follow-up-gates.md`
-36. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/resources/evidence-plan.md`
-37. `/.octon/inputs/exploratory/proposals/architecture/host-tool-provisioning-and-multi-repo-portability/resources/rejection-ledger.md`
+23. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/README.md`
+24. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/proposal.yml`
+25. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture-proposal.yml`
+26. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/navigation/source-of-truth-map.md`
+27. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/current-state-gap-map.md`
+28. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/target-architecture.md`
+29. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/file-change-map.md`
+30. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/implementation-plan.md`
+31. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/migration-cutover-plan.md`
+32. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/validation-plan.md`
+33. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/acceptance-criteria.md`
+34. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/closure-certification-plan.md`
+35. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/architecture/follow-up-gates.md`
+36. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/resources/evidence-plan.md`
+37. `/.octon/inputs/exploratory/proposals/.archive/architecture/host-tool-provisioning-and-multi-repo-portability/resources/rejection-ledger.md`
 
 Use this precedence while executing:
 

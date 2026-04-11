@@ -3,6 +3,7 @@ mission_id: "mission-autonomy-live-validation"
 source_refs:
   mission_charter: ".octon/instance/orchestration/missions/mission-autonomy-live-validation/mission.yml"
   mission_autonomy_policy: ".octon/instance/governance/policies/mission-autonomy.yml"
+  mission_classification: ".octon/state/control/execution/missions/mission-autonomy-live-validation/mission-classification.yml"
   ownership_registry: ".octon/instance/governance/ownership/registry.yml"
   deny_by_default_policy: ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
   root_manifest: ".octon/octon.yml"
@@ -18,6 +19,11 @@ source_refs:
   current_action_slice: ".octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml"
 effective:
   mission_class: "maintenance"
+  classification_id: "maintenance-operational-known-pattern"
+  ambiguity_level: "bounded"
+  novelty_level: "known-pattern"
+  proposal_requirement: "not_required"
+  proposal_refs_present: false
   effective_scenario_family: "maintenance.repo_housekeeping"
   effective_action_class: "git.commit"
   scenario_family: "maintenance.repo_housekeeping"
@@ -69,8 +75,8 @@ effective:
     - "ROUTE_ACTION_CLASS_git_commit"
     - "ROUTE_SCENARIO_FAMILY_UPGRADED"
 rationale:
-  - "mission charter, mission policy, live control state, and retained governance policy compile into one effective route"
+  - "mission charter, mission classification, mission policy, live control state, and retained governance policy compile into one effective route"
   - "material route behavior derives from the current intent entry plus action-slice when present"
   - "route linkage, safing state, and finalize gates must stay freshness-bounded"
-generated_at: "2026-04-10T15:24:48Z"
-fresh_until: "2026-04-10T15:39:48Z"
+generated_at: "2026-04-11T19:34:08Z"
+fresh_until: "2026-04-11T19:49:08Z"

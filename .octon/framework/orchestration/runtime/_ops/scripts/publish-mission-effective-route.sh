@@ -161,6 +161,7 @@ main() {
   local deny_policy_file="$OCTON_DIR/framework/capabilities/governance/policy/deny-by-default.v2.yml"
   local root_manifest="$OCTON_DIR/octon.yml"
   local control_dir="$OCTON_DIR/state/control/execution/missions/$MISSION_ID"
+  local classification_file="$control_dir/mission-classification.yml"
   local lease_file="$control_dir/lease.yml"
   local mode_state_file="$control_dir/mode-state.yml"
   local intent_register_file="$control_dir/intent-register.yml"
@@ -180,6 +181,7 @@ main() {
     "$ownership_file" \
     "$deny_policy_file" \
     "$root_manifest" \
+    "$classification_file" \
     "$lease_file" \
     "$mode_state_file" \
     "$intent_register_file" \
@@ -201,6 +203,7 @@ main() {
   local mission_class risk_ceiling default_safing_subset oversight_mode execution_posture safety_state phase
   local budget_state breaker_state overlap_policy backfill_policy digest_route preview_lead next_planned_run_at lease_expires
   local block_finalize enter_safing suspend_future_runs_directive resume_future_runs_directive reprioritize_pending narrow_scope_active exclude_target_active approval_update_present grant_exception_active break_glass_active break_glass_expires_at exception_grant_ref exception_grant_expires_at
+  local classification_id ambiguity_level novelty_level proposal_requirement proposal_refs_present
   local selected_entry_json action_slice_path slice_id intent_id intent_ref_id intent_ref_version entry_action_class predicted_acp
   local reversibility_class earliest_start feedback_deadline default_on_silence expected_externality entry_state
   local action_title action_scope_ids safe_interrupt_boundary_class rollback_primitive compensation_primitive
@@ -221,6 +224,11 @@ main() {
   phase="$(yq -r '.phase // ""' "$mode_state_file")"
   budget_state="$(yq -r '.state // ""' "$autonomy_budget_file")"
   breaker_state="$(yq -r '.state // "clear"' "$circuit_breakers_file")"
+  classification_id="$(yq -r '.classification_id // ""' "$classification_file")"
+  ambiguity_level="$(yq -r '.ambiguity_level // "bounded"' "$classification_file")"
+  novelty_level="$(yq -r '.novelty_level // "known-pattern"' "$classification_file")"
+  proposal_requirement="$(yq -r '.proposal_requirement // "not_required"' "$classification_file")"
+  proposal_refs_present="$(yq -r '(.proposal_refs // []) | length > 0' "$classification_file")"
   overlap_policy="$(yq -r '.overlap_policy // ""' "$schedule_file")"
   backfill_policy="$(yq -r '.backfill_policy // ""' "$schedule_file")"
   next_planned_run_at="$(yq -r '.next_planned_run_at // ""' "$schedule_file")"
@@ -395,6 +403,11 @@ main() {
   if [[ "$grant_exception_active" == "true" ]]; then
     reason_codes+=("GRANT_EXCEPTION_ACTIVE")
   fi
+  if [[ "$proposal_requirement" == "required" && "$proposal_refs_present" != "true" ]]; then
+    reason_codes+=("MISSION_PROPOSAL_REF_REQUIRED")
+  elif [[ "$proposal_requirement" == "recommended" && "$proposal_refs_present" != "true" ]]; then
+    reason_codes+=("MISSION_PROPOSAL_REF_RECOMMENDED")
+  fi
   if [[ "$block_finalize" == "true" ]]; then
     tightening_overlays+=("directive:block_finalize")
   fi
@@ -425,10 +438,17 @@ main() {
   if [[ "$grant_exception_active" == "true" ]]; then
     tightening_overlays+=("authorize_update:grant_exception")
   fi
+  if [[ "$proposal_requirement" != "not_required" ]]; then
+    tightening_overlays+=("mission_classification:${proposal_requirement}")
+  fi
 
   approval_required="false"
   if [[ "$oversight_mode" == "approval_required" || "$break_glass_required" == "true" || "${action_approval_required:-false}" == "true" ]]; then
     approval_required="true"
+  fi
+  if [[ "$proposal_requirement" == "required" && "$proposal_refs_present" != "true" ]]; then
+    approval_required="true"
+    block_finalize="true"
   fi
   if [[ "$grant_exception_active" == "true" ]]; then
     approval_required="false"
@@ -456,6 +476,7 @@ mission_id: "$MISSION_ID"
 source_refs:
   mission_charter: ".octon/instance/orchestration/missions/$MISSION_ID/mission.yml"
   mission_autonomy_policy: ".octon/instance/governance/policies/mission-autonomy.yml"
+  mission_classification: ".octon/state/control/execution/missions/$MISSION_ID/mission-classification.yml"
   ownership_registry: ".octon/instance/governance/ownership/registry.yml"
   deny_by_default_policy: ".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"
   root_manifest: ".octon/octon.yml"
@@ -471,6 +492,11 @@ source_refs:
 $(if [[ -n "$current_slice_ref_path" ]]; then printf '  current_action_slice: "%s"\n' "$current_slice_ref_path"; fi)
 effective:
   mission_class: "$mission_class"
+  classification_id: "$classification_id"
+  ambiguity_level: "$ambiguity_level"
+  novelty_level: "$novelty_level"
+  proposal_requirement: "$proposal_requirement"
+  proposal_refs_present: $proposal_refs_present
   effective_scenario_family: "$effective_scenario_family"
   effective_action_class: "$effective_action_class"
   scenario_family: "$effective_scenario_family"
@@ -514,7 +540,7 @@ $(printf '%s\n' "$default_safing_subset" | tr ',' '\n' | awk 'NF {count++; print
   route_reason_codes:
 $(printf '%s\n' "${reason_codes[@]}" | awk 'NF {count++; printf "    - \"%s\"\n", $0} END {if (count == 0) printf "    []\n"}')
 rationale:
-  - "mission charter, mission policy, live control state, and retained governance policy compile into one effective route"
+  - "mission charter, mission classification, mission policy, live control state, and retained governance policy compile into one effective route"
   - "material route behavior derives from the current intent entry plus action-slice when present"
   - "route linkage, safing state, and finalize gates must stay freshness-bounded"
 generated_at: "$generated_at"

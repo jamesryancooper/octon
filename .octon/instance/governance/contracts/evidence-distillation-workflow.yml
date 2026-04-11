@@ -1,0 +1,18 @@
+schema_version: "evidence-distillation-workflow-v1"
+bundle_schema_ref: ".octon/framework/constitution/contracts/assurance/distillation-bundle-v1.schema.json"
+source_roots:
+  - ".octon/state/evidence/runs/**"
+  - ".octon/state/evidence/validation/**"
+  - ".octon/state/evidence/lab/**"
+promotion_mode: "proposal_gated"
+auto_promote: false
+generated_outputs_non_authoritative: true
+outputs:
+  bundle_root: ".octon/state/evidence/validation/distillation"
+  generated_summary_root: ".octon/generated/cognition/distillation"
+required_artifacts:
+  - "bundle.yml"
+  - "evidence.md"
+  - "commands.md"
+  - "validation.md"
+  - "inventory.md"

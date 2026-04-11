@@ -1,0 +1,18 @@
+schema_version: "review-dispositions-v1"
+run_id: "run-wave4-benchmark-evaluator-20260327"
+policy_ref: ".octon/instance/governance/policies/review-disposition.yml"
+gate_status: "pass"
+blocking_open_count: 0
+entries:
+  - schema_version: "review-disposition-v1"
+    finding_id: "wf-benchmark-maintainability-followup"
+    subject_ref: ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml"
+    disposition: "accepted"
+    blocking: false
+    rationale: "Maintainability proof and evaluator evidence closed the retained benchmark follow-up for the canonical run."
+    follow_up_ref: null
+    evidence_refs:
+      - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/maintainability.yml"
+      - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/evaluator.yml"
+    decided_at: "2026-04-11T00:00:00Z"
+    decided_by: "operator://octon-maintainers"

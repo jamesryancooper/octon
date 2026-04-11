@@ -52,6 +52,12 @@ main() {
     fail "mission autonomy policy schema version must be mission-autonomy-policy-v1"
   fi
 
+  if yq -e '.proposal_classification_defaults.by_mission_class.maintenance.classification_id == "maintenance-operational-known-pattern"' "$MISSION_POLICY" >/dev/null; then
+    pass "mission autonomy policy exposes proposal-classification defaults"
+  else
+    fail "mission autonomy policy must expose proposal-classification defaults"
+  fi
+
   if yq -e '.schema_version == "ownership-registry-v1"' "$OWNERSHIP_REGISTRY" >/dev/null; then
     pass "ownership registry schema version is correct"
   else
@@ -66,6 +72,7 @@ main() {
     [[ -f "$mission_file" ]] || fail "active mission missing charter: ${mission_file#$ROOT_DIR/}"
     [[ -d "$control_dir" ]] || fail "active mission missing control dir: ${control_dir#$ROOT_DIR/}"
     [[ -d "$continuity_dir" ]] || fail "active mission missing continuity dir: ${continuity_dir#$ROOT_DIR/}"
+    [[ -f "$control_dir/mission-classification.yml" ]] || fail "active mission missing classification control: ${control_dir#$ROOT_DIR/}/mission-classification.yml"
   done < <(yq -r '.active[]?' "$REGISTRY" 2>/dev/null || true)
 
   echo "Validation summary: errors=$errors"

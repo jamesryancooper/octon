@@ -24,6 +24,7 @@ Wave 5 hardens adapters as explicit, replaceable boundaries.
 - `model-adapter-v1.schema.json`
 - `adapter-conformance-v1.schema.json`
 - `capability-pack-v1.schema.json`
+- `tool-output-envelope-v1.schema.json`
 
 ## Runtime Projection Roots
 

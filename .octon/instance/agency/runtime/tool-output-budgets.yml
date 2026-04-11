@@ -1,0 +1,13 @@
+schema_version: "tool-output-budgets-v1"
+defaults:
+  max_summary_bytes: 1200
+  max_evidence_refs: 8
+  require_raw_payload_ref: true
+  truncation_allowed: true
+tools:
+  proposal-integrator:
+    max_summary_bytes: 900
+  repo-search:
+    max_summary_bytes: 1000
+  policy-evaluator:
+    max_summary_bytes: 1200

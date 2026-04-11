@@ -1,0 +1,20 @@
+schema_version: "tool-output-envelope-v1"
+envelope_id: "selected-harness-concepts-integration-sample"
+tool_id: "proposal-integrator"
+status: "success"
+summary: "Added canonical contracts, repo-owned overlays, exemplar review evidence, and validation hooks for selected harness concepts integration."
+machine_hints:
+  changed_surface_count: 6
+  validation_profiles:
+    - "harness"
+    - "mission-autonomy"
+result_refs:
+  - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/mission-classification-v1.schema.json"
+truncated: true
+budget_profile_ref: ".octon/instance/agency/runtime/tool-output-budgets.yml"
+raw_payload_ref: ".octon/state/evidence/validation/tool-output-envelope/2026-04-11-selected-harness-concepts-integration/raw-payload.json"
+evidence_refs:
+  - ".octon/state/evidence/validation/tool-output-envelope/2026-04-11-selected-harness-concepts-integration/receipt.yml"
+  - ".octon/instance/agency/runtime/tool-output-budgets.yml"
+generated_at: "2026-04-11T00:00:00Z"

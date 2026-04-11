@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/hardening-recommendation-v1.schema.json",
+  "title": "Octon Hardening Recommendation v1",
+  "description": "Canonical proposal-gated hardening recommendation derived from recurring retained evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "recommendation_id",
+    "failure_class_ref",
+    "target_refs",
+    "summary",
+    "promotion_path",
+    "confidence",
+    "evidence_refs",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "hardening-recommendation-v1"
+    },
+    "recommendation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "failure_class_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promotion_path": {
+      "type": "string",
+      "enum": [
+        "proposal_gated"
+      ]
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

@@ -22,6 +22,11 @@ multi-plane model while preserving the existing blocking gates.
 - `proof-plane-report-v1.schema.json`
 - `proof-suite-execution-v1.schema.json`
 - `evaluator-review-v1.schema.json`
+- `review-finding-v1.schema.json`
+- `review-disposition-v1.schema.json`
+- `failure-classification-v1.schema.json`
+- `hardening-recommendation-v1.schema.json`
+- `distillation-bundle-v1.schema.json`
 
 ## Canonical Roots
 

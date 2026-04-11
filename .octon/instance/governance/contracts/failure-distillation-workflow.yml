@@ -1,0 +1,21 @@
+schema_version: "failure-distillation-workflow-v1"
+bundle_schema_ref: ".octon/framework/constitution/contracts/assurance/distillation-bundle-v1.schema.json"
+failure_class_schema_ref: ".octon/framework/constitution/contracts/assurance/failure-classification-v1.schema.json"
+hardening_recommendation_schema_ref: ".octon/framework/constitution/contracts/assurance/hardening-recommendation-v1.schema.json"
+source_roots:
+  - ".octon/state/evidence/runs/**"
+  - ".octon/state/evidence/validation/analysis/**"
+thresholds:
+  min_signal_count: 2
+  recurrence_window: "P14D"
+promotion_mode: "proposal_gated"
+auto_promote: false
+outputs:
+  bundle_root: ".octon/state/evidence/validation/failure-distillation"
+  generated_summary_root: ".octon/generated/cognition/distillation"
+required_artifacts:
+  - "bundle.yml"
+  - "evidence.md"
+  - "commands.md"
+  - "validation.md"
+  - "inventory.md"

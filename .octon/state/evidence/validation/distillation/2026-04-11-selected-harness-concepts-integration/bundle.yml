@@ -1,0 +1,25 @@
+schema_version: "distillation-bundle-v1"
+bundle_id: "2026-04-11-selected-harness-concepts-evidence-distillation"
+bundle_kind: "evidence-distillation"
+subject_ref: ".octon/state/evidence/validation/failure-distillation/2026-04-11-selected-harness-concepts-integration/bundle.yml"
+source_index_refs:
+  - ".octon/state/evidence/validation/failure-distillation/2026-04-11-selected-harness-concepts-integration/bundle.yml"
+  - ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/assurance/review-findings.ndjson"
+clusters:
+  - cluster_id: "proposal-gated-refinement-loop"
+    signal_kind: "recurring-pattern"
+    summary: "The retained evidence consistently points toward governed refinement of existing surfaces rather than greenfield subsystem replacement."
+    source_evidence_refs:
+      - ".octon/state/evidence/validation/failure-distillation/2026-04-11-selected-harness-concepts-integration/bundle.yml"
+      - ".octon/inputs/exploratory/proposals/.archive/architecture/octon-selected-harness-concepts-integration-packet/architecture/target-architecture.md"
+recommendations:
+  - recommendation_id: "distillation/review-mission-output-evidence-loop"
+    kind: "proposal"
+    summary: "Promote review findings, mission classification, output envelopes, and proposal-gated distillation as one integrated evidence loop."
+    target_refs:
+      - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/mission-classification-v1.schema.json"
+      - ".octon/framework/constitution/contracts/adapters/tool-output-envelope-v1.schema.json"
+promotion_mode: "proposal_gated"
+generated_summary_ref: ".octon/generated/cognition/distillation/2026-04-11-selected-harness-concepts-integration/summary.md"
+recorded_at: "2026-04-11T00:00:00Z"

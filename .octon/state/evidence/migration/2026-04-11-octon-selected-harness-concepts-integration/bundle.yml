@@ -1,0 +1,11 @@
+schema_version: migration-evidence-bundle-v1
+bundle_id: 2026-04-11-octon-selected-harness-concepts-integration
+plan_ref: .octon/instance/cognition/context/shared/migrations/2026-04-11-octon-selected-harness-concepts-integration/plan.md
+status: complete
+artifacts:
+  - closure.md
+  - evidence.md
+  - commands.md
+  - validation.md
+  - inventory.md
+updated_at: "2026-04-11T23:59:00Z"

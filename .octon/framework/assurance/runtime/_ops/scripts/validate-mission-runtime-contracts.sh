@@ -42,6 +42,7 @@ main() {
     mission-control-lease-v1.schema.json \
     action-slice-v1.schema.json \
     intent-register-v1.schema.json \
+    mission-classification-v1.schema.json \
     mode-state-v1.schema.json \
     control-directive-v1.schema.json \
     authorize-update-v1.schema.json \
@@ -82,6 +83,9 @@ main() {
   has_pattern 'autonomy_context' "$OCTON_DIR/framework/engine/runtime/crates/authority_engine/src/implementation.rs" && pass "kernel authorization uses autonomy_context" || fail "kernel authorization missing autonomy_context"
   has_pattern 'workflow_mode' "$OCTON_DIR/framework/engine/runtime/crates/kernel/src/pipeline.rs" && pass "pipeline emits workflow_mode" || fail "pipeline missing workflow_mode"
   has_pattern 'effective_scenario_resolution_ref' "$OCTON_DIR/framework/engine/runtime/crates/authority_engine/src/implementation.rs" && pass "kernel authorization reads route linkage" || fail "kernel authorization missing route linkage handling"
+  has_pattern 'mission-classification.yml' "$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/seed-mission-autonomy-state.sh" && pass "mission seed helper writes mission classification" || fail "mission seed helper missing mission classification"
+  has_pattern 'MISSION_PROPOSAL_REF_REQUIRED' "$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/publish-mission-effective-route.sh" && pass "route publisher marks missing required proposal refs" || fail "route publisher missing required proposal-ref signal"
+  has_pattern 'proposal_refs_required' "$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/evaluate-mission-control-state.sh" && pass "mission evaluator fails closed on missing proposal refs" || fail "mission evaluator missing proposal-ref fail-closed reason"
 
   run_test \
     "authorization denies autonomous execution without mission context" \

@@ -26,7 +26,7 @@ main() {
   [[ -x "$SYNC_SCRIPT" ]] && bash "$SYNC_SCRIPT" --target missions >/dev/null 2>&1 || true
   [[ -x "$SEED_HELPER" ]] && pass "mission seed helper exists" || fail "missing mission seed helper"
 
-  if find "$MISSION_ROOT/_scaffold" \( -name 'lease.yml' -o -name 'mode-state.yml' -o -name 'intent-register.yml' -o -name 'schedule.yml' -o -name 'autonomy-budget.yml' -o -name 'circuit-breakers.yml' -o -name 'subscriptions.yml' \) | grep -q .; then
+  if find "$MISSION_ROOT/_scaffold" \( -name 'lease.yml' -o -name 'mode-state.yml' -o -name 'intent-register.yml' -o -name 'mission-classification.yml' -o -name 'schedule.yml' -o -name 'autonomy-budget.yml' -o -name 'circuit-breakers.yml' -o -name 'subscriptions.yml' \) | grep -q .; then
     fail "mission scaffold must remain authority-only"
   else
     pass "mission scaffold remains authority-only"
@@ -44,7 +44,7 @@ main() {
 
     [[ -f "$mission_file" ]] && pass "mission authority exists for $mission_id" || { fail "missing mission authority for $mission_id"; continue; }
 
-    for file in lease.yml mode-state.yml intent-register.yml directives.yml authorize-updates.yml schedule.yml autonomy-budget.yml circuit-breakers.yml subscriptions.yml; do
+    for file in lease.yml mode-state.yml intent-register.yml mission-classification.yml directives.yml authorize-updates.yml schedule.yml autonomy-budget.yml circuit-breakers.yml subscriptions.yml; do
       [[ -f "$control_dir/$file" ]] && pass "found $mission_id/$file" || fail "missing $mission_id/$file"
     done
     [[ -d "$control_dir/action-slices" ]] && pass "found $mission_id/action-slices/" || fail "missing $mission_id/action-slices/"

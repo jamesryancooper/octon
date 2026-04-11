@@ -165,14 +165,23 @@ integration_surfaces:
     path: ".octon/instance/orchestration/missions/**"
     role: "continuity-container"
     status: "active"
+  mission_classification_control_file:
+    path: ".octon/state/control/execution/missions/<mission-id>/mission-classification.yml"
+    status: "active"
   run_control_root:
     path: ".octon/state/control/execution/runs/**"
+    status: "active"
+  run_review_disposition_control_file:
+    path: ".octon/state/control/execution/runs/<run-id>/authority/review-dispositions.yml"
     status: "active"
   run_continuity_root:
     path: ".octon/state/continuity/runs/**"
     status: "active"
   run_evidence_root:
     path: ".octon/state/evidence/runs/**"
+    status: "active"
+  run_review_findings_evidence:
+    path: ".octon/state/evidence/runs/<run-id>/assurance/review-findings.ndjson"
     status: "active"
   disclosure_evidence_root:
     path: ".octon/state/evidence/disclosure/**"
@@ -210,8 +219,20 @@ integration_surfaces:
     - ".octon/state/evidence/lab/**"
     - ".octon/state/evidence/control/execution/**"
     - ".octon/state/evidence/validation/publication/**"
+  failure_distillation_validation_root:
+    path: ".octon/state/evidence/validation/failure-distillation/**"
+    status: "active"
+  distillation_validation_root:
+    path: ".octon/state/evidence/validation/distillation/**"
+    status: "active"
+  tool_output_envelope_validation_root:
+    path: ".octon/state/evidence/validation/tool-output-envelope/**"
+    status: "active"
   build_to_delete_review_evidence_root:
     path: ".octon/state/evidence/validation/publication/build-to-delete/**"
+    status: "active"
+  tool_output_budget_profile:
+    path: ".octon/instance/agency/runtime/tool-output-budgets.yml"
     status: "active"
 notes:
   - "Wave 0 established the constitutional kernel and reserved the objective contract family."
