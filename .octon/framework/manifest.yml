@@ -1,6 +1,6 @@
 schema_version: octon-framework-manifest-v2
 framework_id: octon-core
-release_version: 0.6.17
+release_version: 0.6.18
 supported_instance_schema_versions:
   - octon-instance-manifest-v1
 overlay_registry: .octon/framework/overlay-points/registry.yml

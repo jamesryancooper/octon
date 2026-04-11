@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.18](https://github.com/jamesryancooper/octon/compare/octon-v0.6.17...octon-v0.6.18) (2026-04-11)
+
+
+### Features
+
+* **governance:** implement selected harness refinements ([#276](https://github.com/jamesryancooper/octon/issues/276)) ([0071c3f](https://github.com/jamesryancooper/octon/commit/0071c3ff456c67b64c0db89b194abe7813584164))
+
 ## [0.6.17](https://github.com/jamesryancooper/octon/compare/octon-v0.6.16...octon-v0.6.17) (2026-04-11)
 
 
