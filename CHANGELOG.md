@@ -5,7 +5,7 @@
 
 ### Features
 
-* **portability:** add host tool provisioning subsystem ([#274](https://github.com/jamesryancooper/octon/issues/274)) ([72b271b](https://github.com/jamesryancooper/octon/commit/72b271baf7b901044fe43182090021ef2d8d4ea6))
+* **portability:** add host tool provisioning support ([#274](https://github.com/jamesryancooper/octon/issues/274)) ([72b271b](https://github.com/jamesryancooper/octon/commit/72b271baf7b901044fe43182090021ef2d8d4ea6))
 
 ## [0.6.16](https://github.com/jamesryancooper/octon/compare/octon-v0.6.15...octon-v0.6.16) (2026-04-11)
 
