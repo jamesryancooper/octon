@@ -1,0 +1,27 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "surface-refactor"
+architecture_target: "bounded unified execution constitution closure hardening"
+claim_posture: "claim-safe recertification for the admitted live support universe"
+closure_path: "path-b-claim-safe-recertification"
+top_authority_surfaces:
+  - ".octon/framework/constitution/**"
+  - ".octon/instance/charter/workspace.md"
+  - ".octon/instance/charter/workspace.yml"
+  - ".octon/framework/agency/runtime/agents/orchestrator/AGENT.md"
+  - ".octon/instance/governance/**"
+  - ".octon/state/control/execution/**"
+  - ".octon/state/evidence/**"
+blocking_dependencies:
+  - "The live complete-claim posture must be downgraded before blocker hardening proceeds."
+  - "Claim-bearing runs need substantive authority, instruction, and evidence manifests."
+  - "Release disclosure must be derived from retained run evidence before complete status is restored."
+implementation_motion: >-
+  Preserve the singular constitutional kernel, keep the admitted support
+  universe explicit, harden authority, evidence, disclosure, and workflow
+  blockers, and restore complete claim status only after validator-backed
+  recertification.
+validation_motion: >-
+  Require blocker traceability, validator-backed authority and disclosure
+  checks, and two consecutive green recertification passes with no unresolved
+  closure blockers before claim restoration.

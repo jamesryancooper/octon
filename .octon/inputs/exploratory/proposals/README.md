@@ -66,6 +66,34 @@ All manifest-governed proposals must:
 - keep `generated/proposals/registry.yml` as a non-authoritative projection
   rather than a second lifecycle source of truth
 
+## Proposal Contract Read Order
+
+When authoring, reviewing, auditing, or generating manifest-governed proposals,
+use this read order:
+
+1. this README for proposal workspace topology, shared rules, and discovery
+   model
+2. `/.octon/framework/scaffolding/governance/patterns/proposal-standard.md`
+   for the base manifest contract and lifecycle rules
+3. the applicable subtype standard under
+   `/.octon/framework/scaffolding/governance/patterns/` for subtype-specific
+   requirements
+4. `/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh`
+   and the applicable subtype validator for validator-enforced requirements
+5. ratified proposal-system ADRs under `/.octon/instance/cognition/decisions/`
+   when rationale or tie-break context is needed
+
+Implications:
+
+- prompts, templates, active packets, archived packets, and generated proposal
+  registry projections are supporting aids, not higher-order proposal
+  authorities
+- if a prompt or packet example disagrees with the read set above, the read set
+  above wins
+- proposal packets remain non-canonical even when they are structurally valid
+- validators are enforcement surfaces for required files and fields, not a
+  substitute for manifests and standards
+
 ## Lifecycle Expectation
 
 Each proposal should make its exit path obvious:

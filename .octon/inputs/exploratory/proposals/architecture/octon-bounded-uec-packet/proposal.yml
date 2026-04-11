@@ -1,0 +1,63 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-bounded-uec-packet"
+title: "Octon bounded UEC closure-hardening packet"
+summary: >-
+  Repository-grounded closure-hardening and recertification packet for moving
+  Octon to an honestly claimable bounded Unified Execution Constitution state
+  for the admitted live support universe.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/"
+  - ".octon/framework/agency/"
+  - ".octon/framework/assurance/"
+  - ".octon/framework/engine/runtime/"
+  - ".octon/framework/orchestration/"
+  - ".octon/instance/governance/"
+  - ".octon/instance/ingress/"
+  - ".octon/state/control/execution/"
+  - ".octon/state/evidence/"
+  - ".octon/generated/effective/"
+  - ".octon/generated/cognition/"
+status: "in-review"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the closure-hardening changes into the durable Octon surfaces
+    listed in promotion_targets, retain the resulting validation and evidence
+    receipts, then archive this packet once the promoted architecture and
+    claim-state artifacts no longer depend on the packet path.
+related_proposals: []
+prepared_on: "2026-04-09"
+repository:
+  url: "https://github.com/jamesryancooper/octon"
+  ref: "main"
+purpose: >-
+  Repository-grounded closure-hardening, remediation, and recertification
+  packet for the active bounded Unified Execution Constitution claim.
+delivery_format: "manifest-governed architecture proposal packet"
+scope:
+  domain: "repo-architecture"
+  target: "bounded UEC closure hardening, claim-safe recertification, and validator-backed release alignment"
+artifacts:
+  - "README.md"
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "navigation/source-of-truth-map.md"
+  - "navigation/artifact-catalog.md"
+  - "architecture/target-architecture.md"
+  - "architecture/acceptance-criteria.md"
+  - "architecture/implementation-plan.md"
+  - "00-master-proposal-packet.md"
+  - "specs/01-target-state-specification.md"
+  - "specs/02-path-specific-remediation-specs.md"
+  - "specs/03-validator-and-evidence-program.md"
+  - "specs/04-claim-governance-and-disclosure-plan.md"
+  - "specs/05-migration-cutover-recertification-checklists.md"
+  - "traceability/01-master-closure-blocker-register.md"
+  - "traceability/02-audit-finding-to-remediation-to-validator-to-evidence-matrix.md"
+  - "traceability/03-file-and-workflow-change-register.md"
+  - "resources/01-full-implementation-audit.md"
+  - "resources/02-repo-grounding-evidence-map.md"
+  - "resources/03-current-claim-vs-target-state-delta.md"
+  - "resources/04-key-evidence-excerpts.md"

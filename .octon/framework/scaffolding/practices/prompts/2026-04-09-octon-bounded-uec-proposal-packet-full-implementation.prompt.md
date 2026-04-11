@@ -8,7 +8,7 @@ for Octon.
 
 Your job is to fully implement the proposal packet at:
 
-`/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/`
+`/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/`
 
 Treat this as a real implementation, migration, validation, disclosure, and
 certification program. Do not treat it as a design review, prose rewrite, or
@@ -41,19 +41,19 @@ Read these before planning or implementation:
 11. `/.octon/instance/charter/workspace.yml`
 12. `/.octon/framework/agency/practices/commits.md`
 13. `/.octon/framework/agency/practices/pull-request-standards.md`
-14. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/README.md`
-15. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/01_EXECUTIVE_FRAMING.md`
-16. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/02_CURRENT_STATE_CONSTITUTIONAL_BASELINE.md`
-17. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/03_TARGET_STATE_SPECIFICATION.md`
-18. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/04_AUDIT_TO_REMEDIATION_TRACEABILITY_MATRIX.md`
-19. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/05_REPOSITORY_CHANGE_MANIFEST.md`
-20. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/06_IMPLEMENTATION_AND_MIGRATION_PROGRAM.md`
-21. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/07_BIG_BANG_CUTOVER_PLAN.md`
-22. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/08_VALIDATION_AND_VERIFICATION_PROGRAM.md`
-23. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/09_CLOSURE_CERTIFICATION_PACKAGE.md`
-24. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/10_FOLLOW_UP_HARDENING_AND_SUPPORT_WIDENING_GATES.md`
-25. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/11_SOURCE_REGISTER.md`
-26. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_proposal_packet/12_FULL_IMPLEMENTATION_AUDIT_2026-04-09.md`
+14. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/README.md`
+15. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/01_EXECUTIVE_FRAMING.md`
+16. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/02_CURRENT_STATE_CONSTITUTIONAL_BASELINE.md`
+17. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/03_TARGET_STATE_SPECIFICATION.md`
+18. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/04_AUDIT_TO_REMEDIATION_TRACEABILITY_MATRIX.md`
+19. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/05_REPOSITORY_CHANGE_MANIFEST.md`
+20. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/06_IMPLEMENTATION_AND_MIGRATION_PROGRAM.md`
+21. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/07_BIG_BANG_CUTOVER_PLAN.md`
+22. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/08_VALIDATION_AND_VERIFICATION_PROGRAM.md`
+23. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/09_CLOSURE_CERTIFICATION_PACKAGE.md`
+24. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/10_FOLLOW_UP_HARDENING_AND_SUPPORT_WIDENING_GATES.md`
+25. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/11_SOURCE_REGISTER.md`
+26. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_bounded_uec_proposal_packet/12_FULL_IMPLEMENTATION_AUDIT_2026-04-09.md`
 
 Use this precedence while executing:
 

@@ -1,0 +1,51 @@
+schema_version: "proposal-v1"
+proposal_id: "repository-hygiene-and-retirement"
+title: "Repository Hygiene and Transitional-Surface Retirement"
+summary: >-
+  Establish an Octon-native repository-hygiene capability family for the live
+  Rust + Shell repository: detect static deadness, dependency deadness, shell
+  orphaning, stale generated outputs, and transitional residue; route
+  destructive outcomes through the existing build-to-delete retirement spine;
+  and add command, policy, evidence, and validation surfaces without widening
+  support scope or creating a second control plane.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+  - ".octon/instance/capabilities/runtime/commands/manifest.yml"
+  - ".octon/instance/capabilities/runtime/commands/repo-hygiene/"
+  - ".octon/instance/governance/contracts/retirement-policy.yml"
+  - ".octon/instance/governance/contracts/retirement-review.yml"
+  - ".octon/instance/governance/contracts/drift-review.yml"
+  - ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase7-build-to-delete-institutionalization.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-global-retirement-closure.sh"
+status: "in-review"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the authoritative policy, command, contract, and validator
+    surfaces into .octon/**; land dependent repo-local workflow integrations
+    through the linked implementation program without treating proposal paths
+    as authority; complete a baseline audit and first governed triage cycle;
+    then archive this packet once durable targets and retained evidence stand
+    on their own.
+related_proposals:
+  - "proposal-system-integrity-and-archive-normalization"
+  - "target-state-closure"
+prepared_on: "2026-04-11"
+repository:
+  url: "https://github.com/jamesryancooper/octon"
+  ref: "main"
+purpose: "Architecture proposal packet"
+delivery_format: "manifest-governed archive-ready packet"
+scope:
+  domain: "repo-architecture"
+  target: "repository hygiene, dead-surface detection, and transitional-surface retirement for the Rust + Shell Octon repository"
+artifacts:
+  root_readme: "README.md"
+  packet_manifest: "PACKET_MANIFEST.md"
+  navigation:
+    source_of_truth_map: "navigation/source-of-truth-map.md"
+    artifact_catalog: "navigation/artifact-catalog.md"

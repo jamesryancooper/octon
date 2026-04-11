@@ -1,0 +1,102 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-selected-harness-concepts-integration-packet"
+title: "Selected harness concept integration packet for Octon"
+summary: >-
+  Repository-grounded coverage assessment and architecture proposal packet for
+  the selected harness-oriented concept set derived from the prior Octon
+  extraction run.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/objective/run-contract-v1.schema.json"
+  - ".octon/instance/governance/policies/mission-autonomy.yml"
+  - ".octon/state/control/execution/missions/<mission-id>/mission-classification.yml"
+  - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
+  - ".octon/framework/constitution/contracts/assurance/review-disposition-v1.schema.json"
+  - ".octon/instance/governance/policies/review-disposition.yml"
+  - ".octon/state/control/execution/runs/<run-id>/authority/review-dispositions.yml"
+  - ".octon/state/evidence/runs/<run-id>/assurance/review-findings.ndjson"
+  - ".octon/framework/constitution/contracts/assurance/failure-classification-v1.schema.json"
+  - ".octon/framework/constitution/contracts/assurance/hardening-recommendation-v1.schema.json"
+  - ".octon/instance/governance/contracts/failure-distillation-workflow.yml"
+  - ".octon/state/evidence/validation/failure-distillation/<job-id>/bundle.yml"
+  - ".octon/framework/constitution/contracts/agency/tool-output-envelope-v1.schema.json"
+  - ".octon/instance/agency/runtime/tool-output-budgets.yml"
+  - ".octon/state/evidence/validation/tool-output-envelope/<run-id>/receipt.yml"
+  - ".octon/framework/constitution/contracts/assurance/distillation-bundle-v1.schema.json"
+  - ".octon/instance/governance/contracts/evidence-distillation-workflow.yml"
+  - ".octon/state/evidence/validation/distillation/<job-id>/bundle.yml"
+  - ".octon/generated/cognition/distillation/<job-id>/summary.md"
+status: "in-review"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the selected concept refinements into the durable Octon surfaces
+    listed in promotion_targets, retain the resulting validation and evidence
+    outputs, then archive this packet once the promoted targets stand on their
+    own without packet-path dependencies.
+related_proposals: []
+version: "1.0.0"
+prepared_on: "2026-04-09"
+repository:
+  url: "https://github.com/jamesryancooper/octon"
+  ref: "main"
+purpose: >
+  Repository-grounded coverage assessment and architecture proposal packet for the
+  selected harness-oriented concept set derived from the prior Octon extraction run.
+delivery_format: "manifest-governed architecture proposal packet"
+authoritative_inputs:
+  - "https://github.com/jamesryancooper/octon@main"
+  - ".octon/README.md"
+  - ".octon/AGENTS.md"
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/octon.yml"
+  - ".octon/framework/manifest.yml"
+  - ".octon/instance/manifest.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/constitution/**"
+  - ".octon/framework/overlay-points/registry.yml"
+  - ".octon/state/**"
+  - ".octon/generated/**"
+  - "resources/concept-extraction-output.md"
+scope:
+  included:
+    - "Progressive-disclosure context map"
+    - "Failure-driven harness hardening"
+    - "Structured review findings + disposition"
+    - "Reversible work-item state machine"
+    - "Thin adapters + token-efficient outputs"
+    - "Evidence bundles + observability"
+    - "Distillation pipeline from traces/comments/failures into proposal packets and shared skills"
+    - "Proposal-first mission classification"
+    - "Selective dependency internalization"
+    - "Unbounded domain access / approval bypass"
+excluded: []
+artifacts:
+  - "README.md"
+  - "PACKET_MANIFEST.md"
+  - "navigation/source-of-truth-map.md"
+  - "navigation/artifact-catalog.md"
+  - "architecture/target-architecture.md"
+  - "architecture/current-state-gap-map.md"
+  - "architecture/concept-coverage-matrix.md"
+  - "architecture/file-change-map.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/migration-cutover-plan.md"
+  - "architecture/validation-plan.md"
+  - "architecture/acceptance-criteria.md"
+  - "architecture/cutover-checklist.md"
+  - "architecture/closure-certification-plan.md"
+  - "architecture/execution-constitution-conformance-card.md"
+  - "resources/concept-extraction-output.md"
+  - "resources/repository-baseline-audit.md"
+  - "resources/coverage-traceability-matrix.md"
+  - "resources/full-concept-integration-assessment.md"
+  - "resources/evidence-plan.md"
+  - "resources/decision-record-plan.md"
+  - "resources/risk-register.md"
+  - "resources/assumptions-and-blockers.md"
+  - "resources/rejection-ledger.md"
+archive_expectation: >
+  Keep packet in exploratory proposal lineage only. Promote durable meaning only to
+  framework/**, instance/**, and state/** surfaces outside the packet tree.

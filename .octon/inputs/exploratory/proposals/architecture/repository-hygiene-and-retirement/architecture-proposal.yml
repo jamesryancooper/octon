@@ -1,0 +1,40 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+architecture_target: "repo-hygiene-and-retirement-capability-family"
+claim_posture: "bounded-octon-internal-target-state"
+coverage_summary:
+  in_scope_source_items: 14
+  target_classes:
+    - "static dead code"
+    - "dependency deadness"
+    - "shell/script orphaning"
+    - "artifact bloat"
+    - "transitional residue"
+    - "historical-retained surfaces"
+    - "never-delete surfaces"
+top_authority_surfaces:
+  - ".octon/framework/constitution/CHARTER.md"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/README.md"
+  - ".octon/inputs/exploratory/proposals/README.md"
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+  - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
+  - ".octon/instance/governance/contracts/retirement-policy.yml"
+  - ".octon/instance/governance/contracts/retirement-registry.yml"
+blocking_dependencies:
+  - "existing build-to-delete retirement spine remains authoritative"
+  - "active proposal contract forbids mixed .octon and non-.octon promotion targets"
+implementation_motion: >-
+  Promote authoritative .octon surfaces atomically; treat repo-local workflow
+  edits as dependent implementation integrations rather than active proposal
+  promotion targets; then complete baseline audit, registration, and first
+  governed cleanup cycle.
+validation_motion: >-
+  Validate the packet itself; validate architecture-conformance wiring;
+  validate the repo-hygiene command and policy; run a baseline audit; attach
+  repo-hygiene findings to the build-to-delete review packet when closure
+  claims are made; and require two consecutive clean closure passes before
+  certifying target-state attainment.

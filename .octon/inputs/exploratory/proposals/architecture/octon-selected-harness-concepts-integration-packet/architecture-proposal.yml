@@ -1,0 +1,42 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "surface-refactor"
+architecture_target: "Octon live repo on main branch"
+claim_posture: "repo-grounded, proposal-only, non-authoritative until promotion"
+coverage_summary:
+  fully_covered: 3
+  partially_covered: 4
+  not_currently_present: 3
+  already_covered: 3
+  adapt: 5
+  adopt: 0
+  defer: 1
+  reject: 1
+non_negotiables:
+  - "No second authoritative control plane"
+  - "No chat/session/generated/proposal surface as canonical truth"
+  - "No raw inputs/** dependency for runtime or policy"
+  - "No bypass of engine-owned authorization boundary"
+  - "No docs-only or proposal-only pseudo-capability"
+top_authority_surfaces:
+  - ".octon/framework/constitution/**"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/instance/manifest.yml"
+  - ".octon/instance/governance/policies/mission-autonomy.yml"
+  - ".octon/state/control/execution/**"
+  - ".octon/state/evidence/**"
+blocking_concepts:
+  - "Selective dependency internalization is not closure-ready on current evidence."
+  - "Unbounded domain access / approval bypass is constitutionally incompatible."
+blocking_gaps:
+  - "Current active architecture proposal convention differs from requested manifest-governed packet layout."
+  - "Named migrate-harness workflow is referenced by octon.yml but not independently inspected in this packet."
+blocking_dependencies:
+  - "Maintainer agreement on whether manifest-governed packet shape should remain external or become a repo-level packet convention."
+implementation_motion:
+  - "Prefer extension/refinement of existing assurance, objective, agency runtime, evidence, and governance surfaces."
+  - "No new top-level class roots."
+  - "No pure documentation-only treatment for actionable concepts."
+validation_motion:
+  - "Additive schema + policy + evidence bundle changes with fail-closed validators."
+  - "Two consecutive validation passes with no new blocking issues before closure."
