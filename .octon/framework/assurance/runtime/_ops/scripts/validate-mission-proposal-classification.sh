@@ -18,6 +18,16 @@ errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 pass() { echo "[OK] $1"; }
 
+has_pattern() {
+  local pattern="$1"
+  shift
+  if command -v rg >/dev/null 2>&1; then
+    rg -q -- "$pattern" "$@"
+  else
+    grep -Eq -- "$pattern" "$@"
+  fi
+}
+
 cleanup_dir() {
   local path="$1"
   find "$path" -type f -delete
@@ -53,8 +63,8 @@ main() {
     && pass "run-contract-v3 exposes proposal-classification fields" \
     || fail "run-contract-v3 must expose proposal-classification fields"
 
-  if rg -q 'mission-classification\.yml' "$SEED_SCRIPT" "$PUBLISH_SCRIPT" "$EVALUATE_SCRIPT" && \
-     rg -q 'MISSION_PROPOSAL_REF_REQUIRED|proposal_refs_required' "$PUBLISH_SCRIPT" "$EVALUATE_SCRIPT"; then
+  if has_pattern 'mission-classification\.yml' "$SEED_SCRIPT" "$PUBLISH_SCRIPT" "$EVALUATE_SCRIPT" && \
+     has_pattern 'MISSION_PROPOSAL_REF_REQUIRED|proposal_refs_required' "$PUBLISH_SCRIPT" "$EVALUATE_SCRIPT"; then
     pass "mission control scripts wire proposal-classification enforcement"
   else
     fail "mission control scripts must wire proposal-classification enforcement"
