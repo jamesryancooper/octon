@@ -7,8 +7,8 @@ generated_from:
   - /.octon/state/control/execution/missions/mission-autonomy-live-validation/intent-register.yml
   - /.octon/state/continuity/repo/missions/mission-autonomy-live-validation/next-actions.yml
   - .octon/state/control/execution/missions/mission-autonomy-live-validation/action-slices/steady-state-housekeeping.yml
-generated_at: "2026-04-11T19:29:21Z"
-generator_version: "0.6.16"
+generated_at: "2026-04-13T16:34:19Z"
+generator_version: "0.6.18"
 ---
 
 # Mission Next
