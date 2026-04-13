@@ -99,6 +99,10 @@ main() {
     [[ "$mission_mode" == "mission-bound" && "$requires_mission" == "true" && -n "$mission_id" ]] || continue
 
     stage_root_rel="$(yq -r '.stage_attempt_root // ""' "$run_contract")"
+    [[ -n "$stage_root_rel" ]] || {
+      fail "$run_id is mission-bound but missing stage_attempt_root"
+      continue
+    }
     stage_root="$ROOT_DIR/$stage_root_rel"
     [[ -d "$stage_root" ]] && pass "$run_id publishes a stage-attempt root for mission-bound execution" || {
       fail "$run_id is mission-bound but missing a stage-attempt root"
