@@ -54,7 +54,10 @@ jobs:
         name: Decide whether provider matrix must run
         run: |
           set -euo pipefail
-          if [[ "${{ steps.filter.outputs.risk }}" == "true" ]]; then
+          pr_author="${{ github.event.pull_request.user.login }}"
+          if [[ "${pr_author}" == "app/dependabot" || "${pr_author}" == "dependabot[bot]" ]]; then
+            echo "provider_trigger=false" >> "${GITHUB_OUTPUT}"
+          elif [[ "${{ steps.filter.outputs.risk }}" == "true" ]]; then
             echo "provider_trigger=true" >> "${GITHUB_OUTPUT}"
           else
             echo "provider_trigger=false" >> "${GITHUB_OUTPUT}"

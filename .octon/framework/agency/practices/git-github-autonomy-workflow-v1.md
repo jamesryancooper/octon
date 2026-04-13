@@ -52,6 +52,9 @@ Release lane:
 Dependency lane (Dependabot):
 
 - `github-actions` patch/minor updates are grouped and auto-merged when checks pass.
+- Dependabot-authored PRs skip provider-backed AI review when Actions secrets
+  are unavailable; the required AI gate remains active through the
+  non-provider path.
 - Major or unclassified version jumps are escalation-only and stay in the
   manual lane.
 

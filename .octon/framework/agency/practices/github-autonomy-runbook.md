@@ -209,6 +209,8 @@ GitHub Actions dependency updates are split into two lanes:
 - Safe lane (autonomous): `semver-patch` and `semver-minor`
   - Grouped into one weekly Dependabot PR.
   - Merged autonomously by `pr-auto-merge.yml`.
+  - AI gate provider adapters are skipped for Dependabot-authored PRs so the
+    safe lane does not fail on unavailable Actions secrets.
 - Escalation lane (human): `semver-major` and unknown version transitions
   - Not auto-merged.
   - Leave the PR in the manual lane and merge with ordinary human review.
