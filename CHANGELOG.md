@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.19](https://github.com/jamesryancooper/octon/compare/octon-v0.6.18...octon-v0.6.19) (2026-04-13)
+
+
+### Features
+
+* **octon:** integrate claw runtime-proof preflight ([#280](https://github.com/jamesryancooper/octon/issues/280)) ([51facdd](https://github.com/jamesryancooper/octon/commit/51facddd28959cf6fdd29fa454579840a4b3e4dd))
+
 ## [0.6.18](https://github.com/jamesryancooper/octon/compare/octon-v0.6.17...octon-v0.6.18) (2026-04-11)
 
 

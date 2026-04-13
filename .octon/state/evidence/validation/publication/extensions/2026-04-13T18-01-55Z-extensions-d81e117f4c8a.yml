@@ -1,0 +1,24 @@
+schema_version: "octon-validation-publication-receipt-v1"
+receipt_id: "extensions-2026-04-13T18-01-55Z-extensions-d81e117f4c8a"
+publication_family: "extensions"
+generation_id: "extensions-d81e117f4c8a"
+result: "published"
+validated_at: "2026-04-13T18:01:55Z"
+validator_version: "extension-publication-v3"
+contract_refs:
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-quarantine-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"
+source_digests:
+  desired_config_sha256: "d81e117f4c8a5a1b552a77708a62ae299ac86143f3eacd414a03c85bb07c7785"
+  root_manifest_sha256: "a2b7ec3f2a5f3e03d18c696108077e1214d48670ece541328c0f02863a108855"
+blocked_reasons: []
+quarantined_subjects: []
+published_paths:
+  - ".octon/generated/effective/extensions/artifact-map.yml"
+  - ".octon/generated/effective/extensions/catalog.effective.yml"
+  - ".octon/generated/effective/extensions/generation.lock.yml"
+required_inputs:
+  - ".octon/instance/extensions.yml"
+  - ".octon/octon.yml"
