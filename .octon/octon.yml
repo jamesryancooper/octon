@@ -9,7 +9,7 @@ topology:
     generated: generated/
 versioning:
   harness:
-    release_version: 0.6.19
+    release_version: 0.6.20
     supported_schema_versions:
       - octon-root-manifest-v2
       - octon-framework-manifest-v2

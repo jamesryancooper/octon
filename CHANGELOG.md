@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.20](https://github.com/jamesryancooper/octon/compare/octon-v0.6.19...octon-v0.6.20) (2026-04-13)
+
+
+### Bug Fixes
+
+* **runtime:** finish verified harness delta integration ([#282](https://github.com/jamesryancooper/octon/issues/282)) ([f0a8759](https://github.com/jamesryancooper/octon/commit/f0a875902b72097e008f48260975ae11b75e652e))
+
 ## [0.6.19](https://github.com/jamesryancooper/octon/compare/octon-v0.6.18...octon-v0.6.19) (2026-04-13)
 
 
