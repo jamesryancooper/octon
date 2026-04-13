@@ -1,6 +1,6 @@
 ---
 name: "add-api-endpoint"
-description: "Step-by-step guide to adding a new API endpoint with AI assistance."
+description: "Step-by-step guide to adding a new API endpoint with AI assistance after repo-consequential preflight and branch freshness checks."
 steps:
   - id: "inline"
     file: "stages/01-inline.md"
@@ -19,7 +19,7 @@ _Generated README from canonical workflow `add-api-endpoint`._
 
 ## Purpose
 
-Step-by-step guide to adding a new API endpoint with AI assistance.
+Step-by-step guide to adding a new API endpoint with AI assistance after repo-consequential preflight and branch freshness checks.
 
 ## Target
 

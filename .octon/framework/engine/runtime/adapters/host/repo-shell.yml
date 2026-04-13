@@ -2,7 +2,7 @@ schema_version: "octon-host-adapter-v1"
 adapter_id: "repo-shell"
 display_name: "Repo Shell Host"
 host_family: "local-cli"
-description: "Default repo-local shell or terminal host for accountable orchestrator execution."
+description: "Default repo-local shell or terminal host for accountable orchestrator execution with repo-owned execution-class narrowing and freshness-aware consequential verification."
 replaceable: true
 authority_mode: "non_authoritative"
 runtime_surface:
@@ -29,10 +29,14 @@ conformance_criteria_refs:
   - "HOST-004"
 conformance_suite_refs:
   - ".octon/framework/assurance/functional/suites/run-lifecycle-integrity.yml"
+  - ".octon/framework/assurance/functional/suites/repo-shell-execution-classification.yml"
+  - ".octon/framework/assurance/functional/suites/repo-shell-supported-scenario.yml"
 failure_taxonomy_ref: ".octon/framework/observability/governance/failure-taxonomy.yml"
 known_limitations:
   - "Shell interaction quality is bounded by the active executor profile and repo-local sandboxing."
+  - "Repo-shell execution classes may narrow command and path handling, but they never replace canonical authority routing or support-target checks."
   - "This host may narrow execution, but never widen authority or governance exclusions."
 non_authoritative_boundaries:
   - "Host I/O may provide interaction context but may not approve, revoke, or widen authority."
+  - "Repo-shell classification and branch-freshness signals may annotate receipts, but they never become authority outside canonical control roots."
   - "Consequential execution still resolves through the engine authorization boundary."

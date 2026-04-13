@@ -17,6 +17,10 @@ octon build
 
 **Your time: 20-30 minutes**
 
+Before broad verification, preview deployment, or any repo-consequential test
+sweep, run `/repo-consequential-preflight` and stop if branch freshness or
+repo-shell policy posture routes to warn, block, or escalate.
+
 ---
 
 ## Step-by-Step

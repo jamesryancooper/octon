@@ -1,0 +1,17 @@
+schema_version: lab-scenario-proof-v1
+scenario_id: repo-shell-supported-scenario
+purpose: Validate repo-shell observe-and-read support with retained workflow execution proof, classifier-aware receipts, and publication-safe disclosure references.
+subject_refs:
+  - .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4/run-contract.yml
+  - .octon/framework/lab/scenarios/packs/repo-shell/repo-shell-supported-scenario.yml
+procedure:
+  - Read the authored repo-shell supported scenario and the workflow summary bundle.
+  - Confirm the execution remained bounded to the admitted observe-and-read repo-shell tuple.
+  - Confirm replay linkage and publication receipt were retained outside the proposal tree.
+evidence_refs:
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-shell-supported-scenario-proof/summary.md
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-shell-supported-scenario-proof/workflow-execution/execution-receipt.json
+  - .octon/state/evidence/lab/replays/rpl-repo-shell-supported-20260413/replay-bundle.yml
+  - .octon/state/evidence/validation/publication/workflows/repo-shell-supported-scenario-repo-shell-supported-scenario-workflow-20260413-v4.yml
+outcome: pass
+recorded_at: "2026-04-13T14:46:32Z"

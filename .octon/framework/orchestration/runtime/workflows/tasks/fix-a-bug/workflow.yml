@@ -1,7 +1,8 @@
 ---
 schema_version: workflow-contract-v2
 name: fix-a-bug
-description: Step-by-step guide to fixing a bug with AI assistance.
+description: Step-by-step guide to fixing a bug with AI assistance after
+  repo-consequential preflight and branch freshness checks.
 version: 1.0.0
 entry_mode: human
 execution_profile: core

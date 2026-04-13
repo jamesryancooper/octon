@@ -18,6 +18,10 @@ octon fix "login button broken on mobile"  # Start from description
 
 **Your time: 5-10 minutes for a typical bug**
 
+Before broad verification or repo-consequential test execution, run
+`/repo-consequential-preflight` and stop if branch freshness or repo-shell
+policy posture routes to warn, block, or escalate.
+
 ---
 
 ## Step-by-Step

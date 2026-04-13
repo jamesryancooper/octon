@@ -17,3 +17,5 @@ entries:
     path: ".octon/framework/lab/scenarios/packs/browser/browser-supported-scenario.yml"
   - scenario_id: "api-supported-scenario"
     path: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
+  - scenario_id: "repo-shell-supported-scenario"
+    path: ".octon/framework/lab/scenarios/packs/repo-shell/repo-shell-supported-scenario.yml"

@@ -23,6 +23,7 @@ required_lab_scenarios:
   - hidden-check-baseline
   - adversarial-baseline
   - replay-shadow-baseline
+  - repo-shell-supported-scenario
 representative_retained_runs:
   - .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
 known_exclusions: []

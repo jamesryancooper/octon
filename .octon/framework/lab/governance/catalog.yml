@@ -27,6 +27,11 @@ catalog:
       retained_proof_ref: ".octon/state/evidence/lab/scenarios/scn-held-out-supported-20260402/scenario-proof.yml"
       supports_claims:
         - "support"
+    - scenario_id: "scn-repo-shell-supported-20260413"
+      class: "support-validation"
+      retained_proof_ref: ".octon/state/evidence/lab/scenarios/scn-repo-shell-supported-20260413/scenario-proof.yml"
+      supports_claims:
+        - "support"
   experiment_classes:
     - class_id: "shadow-run"
       purpose: "Retain replayable shadow execution evidence without mutating canonical control roots."
@@ -37,6 +42,8 @@ catalog:
   replay_bundles:
     - replay_bundle_id: "rpl-runtime-proof-supported-20260329"
       retained_bundle_ref: ".octon/state/evidence/lab/replays/rpl-runtime-proof-supported-20260329/replay-bundle.yml"
+    - replay_bundle_id: "rpl-repo-shell-supported-20260413"
+      retained_bundle_ref: ".octon/state/evidence/lab/replays/rpl-repo-shell-supported-20260413/replay-bundle.yml"
   shadow_runs:
     - shadow_id: "shd-runtime-proof-supported-20260329"
       retained_shadow_ref: ".octon/state/evidence/lab/shadow-runs/shd-runtime-proof-supported-20260329/shadow-run.yml"

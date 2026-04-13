@@ -381,6 +381,14 @@ Within these namespaces, common subpaths are:
 
 Use this as the only recommended onboarding path for agent execution.
 
+Run this first when onboarding or resuming local repo work:
+
+- `/bootstrap-doctor`
+- canonical workflow contract:
+  `/.octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/workflow.yml`
+- human-readable guide:
+  `/.octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/README.md`
+
 Canonical workflow contract:
 
 - `/.octon/framework/orchestration/runtime/workflows/tasks/agent-led-happy-path/workflow.yml`
@@ -399,6 +407,9 @@ Flow:
    - Read `/.octon/instance/charter/workspace.md`, `scope.md`,
      `conventions.md`, `cognition/_meta/architecture/specification.md`, and
      `cognition/governance/principles/README.md`.
+   - Run `/bootstrap-doctor` before the first material task workflow so ingress,
+     workflow discovery, support-target posture, and evidence roots are checked
+     under one canonical preflight surface.
 2. Execute
    - Read `state/continuity/repo/log.md` and `state/continuity/repo/tasks.json`.
    - Treat material execution as grant-bearing by default: services, workflow

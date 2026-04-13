@@ -1,0 +1,14 @@
+schema_version: "proof-suite-v1"
+suite_id: "repo-consequential-preflight"
+plane: "functional"
+purpose: "Prove repo-consequential workflows retain branch freshness and preflight evidence before broad verification."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "branch-freshness-policy"
+  - "preflight-checkpoint"
+  - "publication-receipt"
+  - "operator-summary"
+blocking_support_tiers:
+  - "repo-consequential"
+  - "boundary-sensitive"

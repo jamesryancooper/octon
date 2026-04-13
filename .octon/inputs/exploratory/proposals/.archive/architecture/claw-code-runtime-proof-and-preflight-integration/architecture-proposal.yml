@@ -1,0 +1,3 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "surface-refactor"

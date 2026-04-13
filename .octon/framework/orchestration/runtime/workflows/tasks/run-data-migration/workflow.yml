@@ -1,7 +1,8 @@
 ---
 schema_version: workflow-contract-v2
 name: run-data-migration
-description: Step-by-step guide to running database migrations safely with AI assistance.
+description: Step-by-step guide to running database migrations safely with AI
+  assistance after repo-consequential preflight and branch freshness checks.
 version: 1.0.0
 entry_mode: human
 execution_profile: core

@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: repo-shell-supported-scenario-workflow-20260413-v4
+status: succeeded
+run_contract_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-04-13T14:45:34.131778Z

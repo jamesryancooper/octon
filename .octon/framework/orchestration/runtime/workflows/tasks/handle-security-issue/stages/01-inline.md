@@ -3,6 +3,10 @@
 
 This guide covers how to address security issues, from dependency vulnerabilities to code-level security fixes. Most security work is **T3 (elevated risk)**.
 
+Before broad verification, repo-consequential remediation, or release-facing
+test execution, run `/repo-consequential-preflight` and stop if branch
+freshness or repo-shell policy posture routes to warn, block, or escalate.
+
 ---
 
 ## Quick Reference

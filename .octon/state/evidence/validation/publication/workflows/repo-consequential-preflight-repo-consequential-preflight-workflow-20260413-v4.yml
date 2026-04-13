@@ -1,0 +1,15 @@
+schema_version: workflow-publication-receipt-v1
+receipt_id: repo-consequential-preflight-repo-consequential-preflight-workflow-20260413-v4
+workflow_id: repo-consequential-preflight
+run_id: repo-consequential-preflight-workflow-20260413-v4
+result: published
+validated_at: "2026-04-13T14:46:31Z"
+failure_classes: []
+summary: Repo-consequential preflight execution retained a canonical freshness checkpoint, a fresh compare result against origin/main, and an operator digest for consequential workflows.
+evidence_refs:
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-consequential-preflight-proof/summary.md
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-consequential-preflight-proof/workflow-execution/execution-receipt.json
+  - .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/receipts/repo-consequential-preflight.yml
+published_paths:
+  - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/checkpoints/repo-consequential-preflight.yml
+  - .octon/generated/cognition/summaries/operators/octon-maintainers/repo-consequential-preflight-20260413.md

@@ -1,0 +1,14 @@
+schema_version: "proof-suite-v1"
+suite_id: "repo-shell-execution-classification"
+plane: "functional"
+purpose: "Prove repo-shell command and path classes narrow execution and emit canonical receipt context."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "repo-shell-execution-classes-policy"
+  - "policy-receipt"
+  - "execution-receipt"
+blocking_support_tiers:
+  - "observe-and-read"
+  - "repo-consequential"
+  - "boundary-sensitive"

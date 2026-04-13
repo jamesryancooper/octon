@@ -1,0 +1,89 @@
+acceptance_criteria:
+- Canonical replay, trace, and disclosure references resolve from the run root.
+- Authority and support-target posture remain bounded to the declared supported envelope.
+actor_ref:
+  id: octon-kernel
+  kind: system
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-repo-shell-supported-scenario-workflow-20260413-v4-stage-inline.yml
+closure_conditions:
+- Run binds canonical runtime-state, rollback-posture, checkpoints, and evidence roots before consequential side effects.
+- Canonical receipts and replay pointers remain linked to the run root.
+contract_version: 1.1.0
+control_checkpoint_root: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/checkpoints
+created_at: 2026-04-13T14:45:33.824248Z
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-repo-shell-supported-scenario-workflow-20260413-v4-stage-inline.yml
+disclosure_expectations:
+- Emit RunCard, replay manifest, replay pointers, trace pointers, and evidence classification.
+- Retain detailed measurement and intervention records before any claim promotion.
+done_when:
+- The bound run reaches a terminal status with canonical evidence and disclosure artifacts retained.
+- The retained run bundle validates against support-target and replay/disclosure gates.
+evidence_root: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline
+exclusions:
+- .octon/inputs/exploratory/ideation/**
+expires_at: null
+external_replay_index_ref: .octon/state/evidence/external-index/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+intent_ref:
+  id: workspace-charter://octon/octon-governed-harness
+  version: 1.3.0
+issued_at: 2026-04-13T14:45:33.824248Z
+materiality: low
+mission_mode: none
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+notes_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/stage-attempts/inline--initial.yml
+objective_refs:
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
+  workspace_objective_ref: .octon/instance/charter/workspace.md
+objective_summary: Execute run-repo-shell-supported-scenario::inline under the canonical run-first constitutional runtime.
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
+receipt_root: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/receipts
+replay_pointers_ref: .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/replay-pointers.yml
+requested_capabilities:
+- workflow.stage.execute
+- evidence.write
+requested_capability_packs:
+- repo
+- telemetry
+required_approvals: []
+required_evidence:
+- decision-artifact
+- execution-receipt
+- policy-receipt
+- replay-pointers
+- trace-pointers
+retry_class: manual_review_required
+reversibility_class: reversible
+risk_class: low
+rollback_or_compensation_expectation: Wave 3 binds rollback posture and contamination state under the canonical run root before consequential side effects.
+rollback_posture_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/rollback-posture.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/run-card.yml
+run_id: repo-shell-supported-scenario-workflow-20260413-v4-stage-inline
+run_manifest_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/run-manifest.yml
+runtime_state_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/runtime-state.yml
+schema_version: run-contract-v1
+scope_in:
+- workflow-scope
+- workflow-contract
+scope_out:
+- workflow-evidence
+stage_attempt_root: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/stage-attempts
+start_conditions:
+- Canonical support-target tuple remains admitted for the selected host and model adapters.
+- Canonical run control, evidence, and disclosure roots are writable before consequential execution starts.
+status: bound
+stop_conditions:
+- Stop immediately on STAGE_ONLY, ESCALATE, or DENY authority routes.
+- Stop if replay, trace, or disclosure references cannot be materialized under canonical run roots.
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_adapter: repo-local-governed
+  model_tier: repo-local-governed
+  workload_tier: observe-and-read
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_tier: observe-and-read
+updated_at: 2026-04-13T14:45:33.824248Z

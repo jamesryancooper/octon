@@ -1,0 +1,25 @@
+approval_grant_refs: []
+approval_request_ref: null
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+exception_refs: []
+generated_at: 2026-04-13T14:45:34.111968Z
+grant_id: grant-bootstrap-doctor-workflow-20260413-v4-stage-inline
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+request_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+requested_capability_packs:
+- repo
+- telemetry
+revocation_refs: []
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+schema_version: authority-grant-bundle-v1
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_adapter: repo-local-governed
+  model_tier: repo-local-governed
+  route: allow
+  support_status: supported
+  workload_tier: observe-and-read
+support_tier: observe-and-read
+workflow_mode: agent-augmented

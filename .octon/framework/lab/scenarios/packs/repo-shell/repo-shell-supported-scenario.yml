@@ -1,0 +1,10 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "repo-shell-supported-scenario"
+purpose: "Exercise the admitted repo-shell observe-and-read tuple through classifier-aware scenario proof before support claims rely on repo-shell-specific receipts."
+supported_planes:
+  - "functional"
+  - "governance"
+expected_outputs:
+  - "scenario-proof"
+  - "replay-bundle"
+  - "publication-receipt"

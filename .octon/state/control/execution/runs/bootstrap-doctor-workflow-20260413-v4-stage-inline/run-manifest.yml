@@ -1,0 +1,48 @@
+actor_ref:
+  id: octon-kernel
+  kind: system
+approval_grant_refs: []
+approval_request_ref: null
+assurance_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance
+authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+control_checkpoint_root: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/checkpoints
+created_at: 2026-04-13T14:45:33.824204Z
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+disclosure_root: .octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline
+evidence_classification_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/evidence-classification.yml
+evidence_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline
+external_replay_index_ref: .octon/state/evidence/external-index/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
+intent_ref:
+  id: workspace-charter://octon/octon-governed-harness
+  version: 1.3.0
+intervention_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/interventions
+measurement_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/measurements
+mission_id: null
+model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
+parent_run_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-contract.yml
+receipt_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/receipts
+replay_pointers_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay-pointers.yml
+requested_capability_packs:
+- repo
+- telemetry
+retained_evidence_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml
+rollback_posture_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/rollback-posture.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-card.yml
+run_continuity_ref: .octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/handoff.yml
+run_contract_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+runtime_state_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/runtime-state.yml
+schema_version: run-manifest-v1
+stage_attempt_root: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/stage-attempts
+support_target:
+  host_adapter: repo-shell
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_adapter: repo-local-governed
+  model_tier: repo-local-governed
+  workload_tier: observe-and-read
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_tier: observe-and-read
+trace_pointers_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/trace-pointers.yml
+updated_at: 2026-04-13T14:45:33.824204Z

@@ -17,6 +17,7 @@ Legacy onboarding variants are hard-deprecated for new runs.
 1. Bootstrap
    - Read `AGENTS.md`, `/.octon/instance/charter/workspace.md`, `.octon/instance/bootstrap/START.md`, `.octon/instance/bootstrap/scope.md`, and `.octon/instance/bootstrap/conventions.md`.
    - Confirm canonical cross-subsystem rules in `.octon/framework/cognition/_meta/architecture/specification.md`.
+   - Run `/bootstrap-doctor` and keep its readiness result with the onboarding run; if doctor reports a blocker, stop before task selection.
 2. Execute
    - Read `.octon/state/continuity/repo/log.md` and `.octon/state/continuity/repo/tasks.json`.
    - Read `.octon/state/continuity/scopes/<scope-id>/{log.md,tasks.json,next.md}` when a declared scope is the primary continuity home.

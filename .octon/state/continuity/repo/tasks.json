@@ -378,6 +378,18 @@
       "description": "Archive the octon_hardening_recertification_packet_v2 proposal packet in the canonical archive tree",
       "status": "completed",
       "completed_at": "2026-04-09"
+    },
+    {
+      "id": "create-claw-code-runtime-proof-and-preflight-integration-execution-prompt",
+      "description": "Create an execution-grade prompt for the claw-code runtime-proof and preflight integration proposal packet",
+      "status": "completed",
+      "completed_at": "2026-04-13"
+    },
+    {
+      "id": "execute-claw-code-runtime-proof-and-preflight-integration-packet",
+      "description": "Implement the claw-code runtime-proof and preflight integration packet in canonical framework, instance, state, and generated surfaces",
+      "status": "completed",
+      "completed_at": "2026-04-13"
     }
   ]
 }

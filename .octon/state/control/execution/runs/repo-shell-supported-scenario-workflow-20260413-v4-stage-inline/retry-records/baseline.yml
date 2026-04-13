@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-04-13T14:45:33.824248Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: repo-shell-supported-scenario-workflow-20260413-v4-stage-inline-baseline
+route_taken: allow
+run_id: repo-shell-supported-scenario-workflow-20260413-v4-stage-inline
+schema_version: run-retry-record-v1
+stage_attempt_id: inline--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/stage-attempts/inline--initial.yml

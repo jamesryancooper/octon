@@ -1,8 +1,8 @@
 ---
 schema_version: workflow-contract-v2
 name: agent-led-happy-path
-description: Canonical onboarding flow for agent-led execution from bootstrap through
-  continuity.
+description: Canonical onboarding flow for agent-led execution that routes bootstrap
+  through /bootstrap-doctor before task execution and continuity.
 version: 1.0.0
 entry_mode: human
 execution_profile: core

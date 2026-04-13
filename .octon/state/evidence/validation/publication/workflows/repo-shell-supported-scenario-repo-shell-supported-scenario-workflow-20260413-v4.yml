@@ -1,0 +1,15 @@
+schema_version: workflow-publication-receipt-v1
+receipt_id: repo-shell-supported-scenario-repo-shell-supported-scenario-workflow-20260413-v4
+workflow_id: run-repo-shell-supported-scenario
+run_id: repo-shell-supported-scenario-workflow-20260413-v4
+result: published
+validated_at: "2026-04-13T14:46:32Z"
+failure_classes: []
+summary: Repo-shell supported-scenario execution retained a canonical scenario checkpoint, scenario proof, replay bundle, and operator digest inside the admitted observe-and-read envelope.
+evidence_refs:
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-shell-supported-scenario-proof/summary.md
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-shell-supported-scenario-proof/workflow-execution/execution-receipt.json
+  - .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4/receipts/repo-shell-supported-scenario.yml
+published_paths:
+  - .octon/state/evidence/lab/scenarios/scn-repo-shell-supported-20260413/scenario-proof.yml
+  - .octon/generated/cognition/summaries/operators/octon-maintainers/repo-shell-supported-scenario-20260413.md

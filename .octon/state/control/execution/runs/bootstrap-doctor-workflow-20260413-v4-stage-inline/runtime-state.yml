@@ -1,0 +1,14 @@
+schema_version: run-runtime-state-v1
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+status: succeeded
+workflow_mode: agent-augmented
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-manifest.yml
+current_stage_attempt_id: inline--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-contract.yml
+created_at: 2026-04-13T14:45:33.824204Z
+updated_at: 2026-04-13T14:45:34.122171Z

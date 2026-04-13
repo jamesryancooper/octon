@@ -1,0 +1,8 @@
+schema_version: replay-bundle-v1
+replay_bundle_id: rpl-repo-shell-supported-20260413
+purpose: Replay the repo-shell supported scenario from canonical workflow-run evidence instead of proposal-local notes.
+required_inputs:
+  - .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4/run-manifest.yml
+  - .octon/state/evidence/runs/repo-shell-supported-scenario-workflow-20260413-v4/replay-pointers.yml
+  - .octon/state/evidence/runs/workflows/2026-04-13-repo-shell-supported-scenario-proof/workflow-execution/execution-receipt.json
+  - .octon/state/evidence/validation/publication/workflows/repo-shell-supported-scenario-repo-shell-supported-scenario-workflow-20260413-v4.yml

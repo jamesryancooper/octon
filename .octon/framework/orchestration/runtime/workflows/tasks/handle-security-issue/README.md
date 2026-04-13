@@ -1,6 +1,6 @@
 ---
 name: "handle-security-issue"
-description: "Step-by-step guide to addressing security vulnerabilities and concerns."
+description: "Step-by-step guide to addressing security vulnerabilities and concerns after repo-consequential preflight and branch freshness checks."
 steps:
   - id: "inline"
     file: "stages/01-inline.md"
@@ -19,7 +19,7 @@ _Generated README from canonical workflow `handle-security-issue`._
 
 ## Purpose
 
-Step-by-step guide to addressing security vulnerabilities and concerns.
+Step-by-step guide to addressing security vulnerabilities and concerns after repo-consequential preflight and branch freshness checks.
 
 ## Target
 

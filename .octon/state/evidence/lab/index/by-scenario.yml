@@ -1,5 +1,5 @@
 schema_version: "lab-scenario-index-v1"
-updated_at: "2026-04-09T00:00:00Z"
+updated_at: "2026-04-13T14:46:32Z"
 entries:
   - scenario_id: "hidden-check-baseline"
     authored_scenario_ref: ".octon/framework/lab/scenarios/hidden-checks/hidden-check-baseline.yml"
@@ -36,3 +36,8 @@ entries:
     authored_scenario_ref: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
     retained_evidence_refs:
       - ".octon/state/evidence/lab/scenarios/scn-wave4-assurance-disclosure-20260327/scenario-proof.yml"
+  - scenario_id: "repo-shell-supported-scenario"
+    authored_scenario_ref: ".octon/framework/lab/scenarios/packs/repo-shell/repo-shell-supported-scenario.yml"
+    retained_evidence_refs:
+      - ".octon/state/evidence/lab/scenarios/scn-repo-shell-supported-20260413/scenario-proof.yml"
+      - ".octon/state/evidence/lab/replays/rpl-repo-shell-supported-20260413/replay-bundle.yml"

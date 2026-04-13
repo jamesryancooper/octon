@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+status: succeeded
+run_contract_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: inline--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-contract.yml
+next_action: null
+updated_at: 2026-04-13T14:45:34.122171Z

@@ -29,6 +29,10 @@ These launchers are the canonical invocation boundary for policy operations.
   - `/.octon/instance/governance/policies/execution-budgets.yml`
 - Repo-owned mission autonomy defaults are declared in:
   - `/.octon/instance/governance/policies/mission-autonomy.yml`
+- Repo-owned repo-shell execution classes are declared in:
+  - `/.octon/instance/governance/policies/repo-shell-execution-classes.yml`
+- Repo-owned branch freshness posture is declared in:
+  - `/.octon/instance/governance/policies/branch-freshness.yml`
 - Repo-owned non-path ownership authority is declared in:
   - `/.octon/instance/governance/ownership/registry.yml`
 - Repo-owned support-target declarations are declared in:
@@ -234,6 +238,46 @@ any explicit metadata override:
 - browser-driving metadata implies the `browser` pack
 
 Unadmitted or unsupported packs fail closed.
+
+## Repo-Shell Classifier Extension
+
+When shell-backed repo execution participates in a policy decision, wrappers
+and adapter-facing callers should preserve deterministic repo-shell
+classification facts in canonical receipt metadata rather than ad hoc shell
+output.
+
+Preferred metadata keys are:
+
+- `repo_shell_execution_class`
+- `repo_shell_path_class`
+- `repo_shell_policy_ref`
+- `repo_shell_decision_reason`
+
+These fields may narrow execution and improve remediation clarity, but they
+must never bypass:
+
+- the engine-owned authorization boundary
+- support-target routing
+- approvals, exceptions, or revocations
+- canonical execution and policy receipt emission
+
+## Branch Freshness Preflight Extension
+
+When a workflow or run is about to perform broad repo-consequential
+verification, the retained decision surface should preserve freshness facts
+derived from the repo-owned branch freshness policy.
+
+Preferred metadata keys are:
+
+- `branch_freshness_state`
+- `branch_freshness_policy_ref`
+- `branch_freshness_checked_at`
+- `branch_freshness_compare_ref`
+- `repo_consequential_preflight_ref`
+
+If freshness is stale, diverged, or otherwise policy-blocking, the resulting
+route must remain fail-closed or stage-only according to canonical authority
+artifacts; branch status mirrors or host UI affordances remain advisory only.
 
 ## Instruction-Layer Manifest Contract
 

@@ -1,6 +1,6 @@
 ---
 name: "agent-led-happy-path"
-description: "Canonical onboarding flow for agent-led execution from bootstrap through continuity."
+description: "Canonical onboarding flow for agent-led execution that routes bootstrap through /bootstrap-doctor before task execution and continuity."
 steps:
   - id: "inline"
     file: "stages/01-inline.md"
@@ -19,7 +19,7 @@ _Generated README from canonical workflow `agent-led-happy-path`._
 
 ## Purpose
 
-Canonical onboarding flow for agent-led execution from bootstrap through continuity.
+Canonical onboarding flow for agent-led execution that routes bootstrap through /bootstrap-doctor before task execution and continuity.
 
 ## Target
 

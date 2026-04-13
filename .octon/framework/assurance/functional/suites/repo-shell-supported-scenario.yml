@@ -1,0 +1,14 @@
+schema_version: "proof-suite-v1"
+suite_id: "repo-shell-supported-scenario"
+plane: "functional"
+purpose: "Prove the admitted repo-shell supported scenario remains runnable and retains scenario proof plus publication references."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "authored-scenario"
+  - "scenario-proof"
+  - "replay-bundle"
+  - "publication-receipt"
+blocking_support_tiers:
+  - "observe-and-read"
+  - "repo-consequential"

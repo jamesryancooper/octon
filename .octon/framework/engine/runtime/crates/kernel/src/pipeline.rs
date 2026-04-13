@@ -188,6 +188,86 @@ struct StageReviewRequirements {
     rollback_metadata: bool,
 }
 
+fn aggregated_workflow_side_effects(
+    contract: &PipelineContract,
+    prepare_only: bool,
+) -> SideEffectFlags {
+    if prepare_only {
+        return SideEffectFlags {
+            write_repo: false,
+            write_evidence: true,
+            shell: false,
+            network: false,
+            model_invoke: false,
+            state_mutation: false,
+            publication: false,
+            branch_mutation: false,
+        };
+    }
+
+    let mut aggregated = SideEffectFlags {
+        write_repo: false,
+        write_evidence: true,
+        shell: false,
+        network: false,
+        model_invoke: false,
+        state_mutation: false,
+        publication: false,
+        branch_mutation: false,
+    };
+
+    for stage in &contract.stages {
+        aggregated.write_repo |= stage.authorization.side_effects.write_repo;
+        aggregated.write_evidence |= stage.authorization.side_effects.write_evidence;
+        aggregated.state_mutation |= stage.authorization.side_effects.state_mutation;
+        aggregated.publication |= stage.authorization.side_effects.publication;
+        aggregated.branch_mutation |= stage.authorization.side_effects.branch_mutation;
+    }
+
+    aggregated
+}
+
+fn aggregated_workflow_risk_tier(contract: &PipelineContract, prepare_only: bool) -> String {
+    if prepare_only {
+        return "low".to_string();
+    }
+
+    let mut current = 0;
+    for stage in &contract.stages {
+        let candidate = match stage.authorization.risk_tier.as_str() {
+            "low" => 0,
+            "medium" => 1,
+            "high" => 2,
+            "critical" => 3,
+            _ => 1,
+        };
+        if candidate > current {
+            current = candidate;
+        }
+    }
+
+    match current {
+        0 => "low".to_string(),
+        1 => "medium".to_string(),
+        2 => "high".to_string(),
+        _ => "critical".to_string(),
+    }
+}
+
+fn side_effects_require_repo_consequential_mode(side_effects: &StageSideEffects) -> bool {
+    side_effects.write_repo
+        || side_effects.state_mutation
+        || side_effects.publication
+        || side_effects.branch_mutation
+}
+
+fn flags_require_repo_consequential_mode(side_effects: &SideEffectFlags) -> bool {
+    side_effects.write_repo
+        || side_effects.state_mutation
+        || side_effects.publication
+        || side_effects.branch_mutation
+}
+
 #[derive(Debug, Clone)]
 pub struct PipelineListEntry {
     pub id: String,
@@ -666,10 +746,19 @@ fn run_generic_pipeline(
         }
         None => new_request_id("workflow"),
     };
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
-        &runtime_cfg,
-        BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
-    )?;
+    let workflow_side_effects = aggregated_workflow_side_effects(&contract, options.prepare_only);
+    let (intent_ref, actor_ref, metadata) = if flags_require_repo_consequential_mode(&workflow_side_effects)
+    {
+        request::bind_repo_local_request(
+            &runtime_cfg,
+            BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+        )?
+    } else {
+        request::bind_repo_observe_request(
+            &runtime_cfg,
+            BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+        )?
+    };
     let workflow_request = ExecutionRequest {
         request_id,
         caller_path: "workflow".to_string(),
@@ -680,17 +769,8 @@ fn run_generic_pipeline(
         },
         target_id: entry.id.clone(),
         requested_capabilities: vec!["workflow.execute".to_string(), "evidence.write".to_string()],
-        side_effect_flags: SideEffectFlags {
-            write_repo: true,
-            write_evidence: true,
-            shell: false,
-            ..SideEffectFlags::default()
-        },
-        risk_tier: if options.prepare_only {
-            "low".to_string()
-        } else {
-            "medium".to_string()
-        },
+        side_effect_flags: workflow_side_effects,
+        risk_tier: aggregated_workflow_risk_tier(&contract, options.prepare_only),
         workflow_mode: workflow_mode.clone(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
@@ -875,8 +955,13 @@ fn run_generic_pipeline(
                 )
             })
             .transpose()?;
-        let (intent_ref, actor_ref, metadata) =
-            request::bind_repo_local_request(&runtime_cfg, executor_metadata)?;
+        let (intent_ref, actor_ref, metadata) = if side_effects_require_repo_consequential_mode(
+            &stage.authorization.side_effects,
+        ) {
+            request::bind_repo_local_request(&runtime_cfg, executor_metadata)?
+        } else {
+            request::bind_repo_observe_request(&runtime_cfg, executor_metadata)?
+        };
         let stage_request = ExecutionRequest {
             request_id: format!("{}-stage-{}", workflow_request.request_id, stage.id),
             caller_path: "workflow-stage".to_string(),
@@ -2237,5 +2322,98 @@ stages:
             metadata.get("budget_provider").map(String::as_str),
             Some("anthropic")
         );
+    }
+
+    #[test]
+    fn aggregated_workflow_side_effects_keep_read_only_workflows_out_of_repo_consequential_mode() {
+        let contract: PipelineContract = serde_yaml::from_str(
+            r#"name: "read-only"
+description: "Fixture"
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs: []
+stages:
+  - id: "inline"
+    asset: "stages/01-inline.md"
+    kind: "analysis"
+    mutation_scope: []
+    authorization:
+      action_type: "execute_stage"
+      requested_capabilities: ["workflow.stage.execute", "evidence.write"]
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: "low"
+      scope:
+        read: ["workflow-scope"]
+        write: ["workflow-evidence"]
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles: ["read_only_analysis"]
+"#,
+        )
+        .expect("fixture contract should parse");
+
+        let side_effects = aggregated_workflow_side_effects(&contract, false);
+        assert!(!side_effects.write_repo);
+        assert!(side_effects.write_evidence);
+        assert!(!side_effects.shell);
+        assert!(!side_effects.model_invoke);
+        assert_eq!(aggregated_workflow_risk_tier(&contract, false), "low");
+    }
+
+    #[test]
+    fn aggregated_workflow_side_effects_propagate_mutating_stage_requirements() {
+        let contract: PipelineContract = serde_yaml::from_str(
+            r#"name: "mutating"
+description: "Fixture"
+version: "1.0.0"
+entry_mode: "human"
+execution_profile: "core"
+inputs: []
+stages:
+  - id: "inline"
+    asset: "stages/01-inline.md"
+    kind: "mutation"
+    mutation_scope: ["workflow-scope"]
+    authorization:
+      action_type: "execute_stage"
+      requested_capabilities: ["workflow.stage.execute", "repo.write", "evidence.write"]
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: true
+      risk_tier: "high"
+      scope:
+        read: ["workflow-scope"]
+        write: ["workflow-scope"]
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles: ["scoped_repo_mutation"]
+"#,
+        )
+        .expect("fixture contract should parse");
+
+        let side_effects = aggregated_workflow_side_effects(&contract, false);
+        assert!(side_effects.write_repo);
+        assert!(!side_effects.shell);
+        assert!(side_effects.branch_mutation);
+        assert_eq!(aggregated_workflow_risk_tier(&contract, false), "high");
     }
 }

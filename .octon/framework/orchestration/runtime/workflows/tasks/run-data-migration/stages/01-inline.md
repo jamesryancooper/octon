@@ -19,6 +19,10 @@ octon build
 
 **Your time: 30-45 minutes** (due to T3 review requirements)
 
+Before broad verification, preview migration runs, or production-facing
+rehearsal, run `/repo-consequential-preflight` and stop if branch freshness or
+repo-shell policy posture routes to warn, block, or escalate.
+
 ---
 
 ## Step-by-Step

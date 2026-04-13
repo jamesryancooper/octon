@@ -1,7 +1,8 @@
 ---
 schema_version: workflow-contract-v2
 name: handle-security-issue
-description: Step-by-step guide to addressing security vulnerabilities and concerns.
+description: Step-by-step guide to addressing security vulnerabilities and concerns
+  after repo-consequential preflight and branch freshness checks.
 version: 1.0.0
 entry_mode: human
 execution_profile: core

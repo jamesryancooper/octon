@@ -1,6 +1,6 @@
 ---
 name: "run-data-migration"
-description: "Step-by-step guide to running database migrations safely with AI assistance."
+description: "Step-by-step guide to running database migrations safely with AI assistance after repo-consequential preflight and branch freshness checks."
 steps:
   - id: "inline"
     file: "stages/01-inline.md"
@@ -19,7 +19,7 @@ _Generated README from canonical workflow `run-data-migration`._
 
 ## Purpose
 
-Step-by-step guide to running database migrations safely with AI assistance.
+Step-by-step guide to running database migrations safely with AI assistance after repo-consequential preflight and branch freshness checks.
 
 ## Target
 

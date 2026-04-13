@@ -1,0 +1,9 @@
+# Execution Constitution Conformance Card
+
+| Concept | Durable authority anchor | Control-state materialization | Retained evidence | Continuity impact | Generated view | Anti-pattern check | Conformance judgment |
+|---|---|---|---|---|---|---|---|
+| Repo-shell supported scenario proof | `framework/lab/scenarios/**` | run checkpoints only; no new control plane | `state/evidence/lab/**`, `state/evidence/validation/publication/**` | none beyond existing run roots | optional operator digest | no new authority, no support widening | conformant if scenario stays within admitted tuples |
+| Repo-shell execution classifiers | `instance/governance/policies/repo-shell-execution-classes.yml` + `repo-shell.yml` | existing authorization/checkpoint flows only | run/policy receipts in existing evidence roots | none beyond existing run roots | none required | must not bypass engine authorization boundary | conformant if classifier only narrows execution |
+| Bootstrap doctor/preflight | `instance/bootstrap/START.md` + new workflow contract | bootstrap-doctor checkpoint under existing run roots | publication/validation receipt | none beyond existing run roots | operator digest | no second control plane | conformant if onboarding still resolves through canonical workflows |
+| Failure taxonomy + degraded summaries | `framework/observability/governance/**` | none beyond annotations in existing run artifacts | run/control evidence citing failure classes | none | `generated/cognition/summaries/operators/**` | generated views remain non-authoritative | conformant if summaries never become truth |
+| Branch freshness before blame | `instance/governance/policies/branch-freshness.yml` + preflight workflow | freshness checkpoint under existing run roots | run evidence + publication receipt | none beyond existing run roots | operator digest | no chat/UI/branch status authority | conformant if preflight gates broad verification and evidence is retained |

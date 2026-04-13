@@ -1653,6 +1653,11 @@ workflows:
     commands: ["/agent-led-happy-path"]
     access: human
     depends_on: []
+  bootstrap-doctor:
+    version: "1.0.0"
+    commands: ["/bootstrap-doctor"]
+    access: human
+    depends_on: []
   add-api-endpoint:
     version: "1.0.0"
     commands: ["/add-api-endpoint"]
@@ -1671,6 +1676,16 @@ workflows:
   handle-security-issue:
     version: "1.0.0"
     commands: ["/handle-security-issue"]
+    access: human
+    depends_on: []
+  repo-consequential-preflight:
+    version: "1.0.0"
+    commands: ["/repo-consequential-preflight"]
+    access: human
+    depends_on: []
+  run-repo-shell-supported-scenario:
+    version: "1.0.0"
+    commands: ["/run-repo-shell-supported-scenario"]
     access: human
     depends_on: []
   run-data-migration:

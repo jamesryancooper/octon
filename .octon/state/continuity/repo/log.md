@@ -437,6 +437,84 @@ disclosure expansion
 
 - None
 
+## 2026-04-13
+
+**Session focus:** Generate an executable implementation prompt for the
+Claw Code runtime-proof and preflight integration packet
+
+**Completed:**
+
+- Ran the packet-specific prompt-generator flow for
+  `/.octon/inputs/exploratory/proposals/architecture/claw-code-runtime-proof-and-preflight-integration/`
+- Re-grounded the packet against the live repo, confirming the adjacent
+  canonical repo-shell, lab, observability, bootstrap, and workflow surfaces
+  exist while the proposed new workflows, repo-owned policies, repo-shell
+  scenario pack, and assurance suites are still absent
+- Wrote the execution prompt artifact at
+  `/.octon/framework/scaffolding/practices/prompts/2026-04-13-claw-code-runtime-proof-and-preflight-integration-execution.prompt.md`
+  and recorded the matching refine-prompt run log under
+  `/.octon/state/evidence/runs/skills/refine-prompt/`
+
+**Next:**
+
+- Execute the generated prompt if the packet should move from proposal into
+  live implementation work
+
+**Blockers:**
+
+- None
+
+## 2026-04-13
+
+**Session focus:** Execute the Claw Code runtime-proof and preflight
+integration packet against the live Octon repository
+
+**Completed:**
+
+- Promoted the packet’s five corrected `Adapt` concepts into canonical
+  framework and instance surfaces:
+  repo-shell execution classes, branch freshness policy, bootstrap-doctor,
+  repo-consequential-preflight, repo-shell supported-scenario, updated
+  observability/failure taxonomy, updated onboarding guidance, and new
+  functional proof-suite declarations
+- Updated the generic workflow wrapper so top-level workflow authorization now
+  derives workload posture from actual workflow side effects instead of
+  hard-coding repo-consequential execution for read-only workflows
+- Regenerated and validated the new task workflows, then exercised
+  `/bootstrap-doctor`, `/repo-consequential-preflight`, and
+  `/run-repo-shell-supported-scenario` through the runtime wrapper with mock
+  execution bundles
+- Retained packet-specific run checkpoints, run receipts, publication-style
+  receipts, lab scenario proof, replay bundle, support-dossier linkage, and
+  generated operator digests for the new workflows
+- Ran the targeted validator sweep:
+  `validate-harness-structure.sh`,
+  `validate-contract-governance.sh`,
+  `verify-lab-reference-integrity.sh`,
+  `validate-support-target-live-claims.sh`,
+  `validate-phase4-proof-lab-enforcement.sh`,
+  `validate-execution-governance.sh`,
+  `validate-developer-context-policy.sh`,
+  `validate-context-overhead-budget.sh`,
+  `validate-audit-subsystem-health-alignment.sh`,
+  `validate-audit-convergence-contract.sh`,
+  `validate-framing-alignment.sh`,
+  plus targeted `octon workflow validate` runs for the changed and new task
+  workflows, and targeted `cargo test` and `cargo build` for
+  `octon_kernel`
+
+**Next:**
+
+- Decide whether to keep or prune the earlier fail-closed workflow-run attempt
+  artifacts as historical evidence before branch closeout
+- If this branch is accepted, archive or otherwise advance the proposal packet
+  based on the retained implementation evidence
+
+**Blockers:**
+
+- `audit-pre-release` workflow was not run; this branch has targeted validation
+  coverage instead, but no pre-release audit bundle was generated in this turn
+
 ## 2026-03-23
 
 **Session focus:** Implement the self-audit and release hardening atomic

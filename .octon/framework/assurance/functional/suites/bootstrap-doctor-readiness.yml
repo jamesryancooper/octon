@@ -1,0 +1,14 @@
+schema_version: "proof-suite-v1"
+suite_id: "bootstrap-doctor-readiness"
+plane: "functional"
+purpose: "Prove bootstrap doctor remains discoverable, fail-closed, and backed by retained readiness receipts."
+runner_ref: ".octon/framework/assurance/runtime/_ops/scripts/run-phase4-proof-suite.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+required_artifacts:
+  - "workflow-contract"
+  - "readiness-checkpoint"
+  - "publication-receipt"
+  - "operator-summary"
+blocking_support_tiers:
+  - "observe-and-read"
+  - "repo-consequential"

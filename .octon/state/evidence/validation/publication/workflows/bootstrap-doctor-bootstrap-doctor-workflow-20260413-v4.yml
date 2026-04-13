@@ -1,0 +1,15 @@
+schema_version: workflow-publication-receipt-v1
+receipt_id: bootstrap-doctor-bootstrap-doctor-workflow-20260413-v4
+workflow_id: bootstrap-doctor
+run_id: bootstrap-doctor-workflow-20260413-v4
+result: published
+validated_at: "2026-04-13T14:46:30Z"
+failure_classes: []
+summary: Bootstrap-doctor execution remained discoverable, mock-executed through the workflow wrapper, and retained a canonical readiness checkpoint plus operator digest.
+evidence_refs:
+  - .octon/state/evidence/runs/workflows/2026-04-13-bootstrap-doctor-proof/summary.md
+  - .octon/state/evidence/runs/workflows/2026-04-13-bootstrap-doctor-proof/workflow-execution/execution-receipt.json
+  - .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/receipts/bootstrap-doctor-readiness.yml
+published_paths:
+  - .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/checkpoints/bootstrap-doctor.yml
+  - .octon/generated/cognition/summaries/operators/octon-maintainers/bootstrap-doctor-20260413.md

@@ -1,0 +1,66 @@
+schema_version: "proposal-v1"
+proposal_id: "claw-code-runtime-proof-and-preflight-integration"
+title: "Claw Code Runtime-Proof and Preflight Integration"
+summary: >-
+  Integrate the selected Claw Code-derived runtime-proof, repo-shell,
+  bootstrap-preflight, operator-summary, and branch-freshness refinements into
+  canonical Octon framework, instance, state, and generated surfaces without
+  widening the admitted support universe.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/lab/scenarios/registry.yml"
+  - ".octon/framework/lab/scenarios/packs/repo-shell/repo-shell-supported-scenario.yml"
+  - ".octon/framework/engine/runtime/adapters/host/repo-shell.yml"
+  - ".octon/framework/engine/runtime/spec/policy-interface-v1.md"
+  - ".octon/framework/observability/governance/failure-taxonomy.yml"
+  - ".octon/framework/observability/governance/reporting.yml"
+  - ".octon/instance/bootstrap/START.md"
+  - ".octon/instance/governance/policies/repo-shell-execution-classes.yml"
+  - ".octon/instance/governance/policies/branch-freshness.yml"
+  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"
+  - ".octon/framework/orchestration/runtime/workflows/registry.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/README.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/agent-led-happy-path/README.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/agent-led-happy-path/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/README.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/stages/01-inline.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/repo-consequential-preflight/README.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/repo-consequential-preflight/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/repo-consequential-preflight/stages/01-inline.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/run-repo-shell-supported-scenario/README.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/run-repo-shell-supported-scenario/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/run-repo-shell-supported-scenario/stages/01-inline.md"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/add-api-endpoint/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/add-ui-feature/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/fix-a-bug/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/handle-security-issue/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/tasks/run-data-migration/workflow.yml"
+  - ".octon/framework/assurance/functional/suites/repo-shell-execution-classification.yml"
+  - ".octon/framework/assurance/functional/suites/bootstrap-doctor-readiness.yml"
+  - ".octon/framework/assurance/functional/suites/repo-consequential-preflight.yml"
+  - ".octon/framework/assurance/functional/suites/repo-shell-supported-scenario.yml"
+status: "archived"
+archive:
+  archived_at: "2026-04-13"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/claw-code-runtime-proof-and-preflight-integration"
+  promotion_evidence:
+    - ".octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/workflow.yml"
+    - ".octon/framework/orchestration/runtime/workflows/tasks/repo-consequential-preflight/workflow.yml"
+    - ".octon/framework/orchestration/runtime/workflows/tasks/run-repo-shell-supported-scenario/workflow.yml"
+    - ".octon/instance/governance/policies/repo-shell-execution-classes.yml"
+    - ".octon/instance/governance/policies/branch-freshness.yml"
+    - ".octon/state/evidence/validation/publication/workflows/bootstrap-doctor-bootstrap-doctor-workflow-20260413-v4.yml"
+    - ".octon/state/evidence/validation/publication/workflows/repo-consequential-preflight-repo-consequential-preflight-workflow-20260413-v4.yml"
+    - ".octon/state/evidence/validation/publication/workflows/repo-shell-supported-scenario-repo-shell-supported-scenario-workflow-20260413-v4.yml"
+    - ".octon/state/evidence/lab/scenarios/scn-repo-shell-supported-20260413/scenario-proof.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Retain this packet as archived historical lineage now that the five
+    concept set has been promoted into canonical Octon surfaces and is backed
+    by retained workflow, publication, and lab evidence.
+related_proposals: []

@@ -6,3 +6,5 @@ requirements:
   - "Intervention-free claims must still retain a canonical log that states no hidden intervention occurred."
   - "Runtime/disclosure mismatches retain a drift incident or block claim promotion."
   - "Release closeout reports must cite failure-taxonomy classes when summarizing non-happy-path evidence."
+  - "Bootstrap-doctor, repo-consequential-preflight, and repo-shell-supported-scenario workflows must emit short machine-grounded operator summaries that cite failure-taxonomy classes and retained evidence roots."
+  - "Generated degraded-status summaries must remain derived-only and must name the retained evidence refs they summarize."

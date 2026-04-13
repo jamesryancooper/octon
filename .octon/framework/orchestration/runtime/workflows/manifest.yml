@@ -459,6 +459,18 @@ workflows:
       - "canonical onboarding path"
       - "bootstrap execute assure continuity"
       - "start canonical workflow"
+  - id: bootstrap-doctor
+    display_name: Bootstrap Doctor
+    group: tasks
+    domain: tasks
+    path: tasks/bootstrap-doctor/
+    summary: Read-only bootstrap readiness and onboarding preflight for ingress, workflow discovery, and support-envelope health.
+    status: active
+    triggers:
+      - "bootstrap doctor"
+      - "onboarding preflight"
+      - "check bootstrap readiness"
+      - "doctor the repo setup"
   - id: add-api-endpoint
     display_name: Add API Endpoint
     group: tasks
@@ -503,6 +515,30 @@ workflows:
       - "handle security issue"
       - "security vulnerability"
       - "security remediation"
+  - id: repo-consequential-preflight
+    display_name: Repo Consequential Preflight
+    group: tasks
+    domain: tasks
+    path: tasks/repo-consequential-preflight/
+    summary: Read-only branch freshness and consequential verification preflight for repo-mutating workflows.
+    status: active
+    triggers:
+      - "repo consequential preflight"
+      - "branch freshness preflight"
+      - "check branch freshness"
+      - "preflight broad verification"
+  - id: run-repo-shell-supported-scenario
+    display_name: Run Repo Shell Supported Scenario
+    group: tasks
+    domain: tasks
+    path: tasks/run-repo-shell-supported-scenario/
+    summary: Guided repo-shell supported-scenario workflow that produces retained proof and publication references.
+    status: active
+    triggers:
+      - "run repo shell supported scenario"
+      - "repo shell supported scenario"
+      - "prove repo shell support"
+      - "scenario proof for repo shell"
   - id: run-data-migration
     display_name: Run Data Migration
     group: tasks
@@ -551,7 +587,7 @@ workflow_group_definitions:
   tasks:
     description: Guided operational task playbooks
     path: tasks/
-    members: [agent-led-happy-path, add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue, run-data-migration]
+    members: [agent-led-happy-path, bootstrap-doctor, add-api-endpoint, add-ui-feature, fix-a-bug, handle-security-issue, repo-consequential-preflight, run-repo-shell-supported-scenario, run-data-migration]
 # ============================================================================
 # GOVERNANCE LINKAGE
 # Capability map governs whether workflows may run autonomous or require

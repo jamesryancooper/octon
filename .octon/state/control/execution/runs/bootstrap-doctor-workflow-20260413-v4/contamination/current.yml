@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: bootstrap-doctor-workflow-20260413-v4-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-04-13T14:45:33.477165Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: bootstrap-doctor-workflow-20260413-v4
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/checkpoints/bound.yml
