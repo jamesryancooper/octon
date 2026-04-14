@@ -616,7 +616,7 @@ For each concept, use this exact structure:
 
 ##### G. Implementation Shape
 
-- smallest viable implementation
+- narrowest acceptable implementation
 - fuller preferred implementation
   Treat this as the recommended implementation shape unless live repo
   constraints require a narrower near-term landing.

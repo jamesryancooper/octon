@@ -1,9 +1,9 @@
 schema_version: "octon-extension-effective-catalog-v4"
 generator_version: "extension-publication-v3"
 generation_id: "extensions-f66caee9e62b"
-published_at: "2026-04-14T15:16:39Z"
+published_at: "2026-04-14T15:45:28Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-14T15-16-39Z-extensions-f66caee9e62b.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-14T15-45-28Z-extensions-f66caee9e62b.yml"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -84,10 +84,10 @@ packs:
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/manifest.yml"
         manifest_sha256: "645fc035656e620ce8b21bc4e75d853217efa905ccff02cb50fbe8b3da95a7b7"
-        bundle_sha256: "e137455dcc0f9b3e4ef93e66e29e2f62f4656e227a5369ac568c82b1ae7c747f"
+        bundle_sha256: "637537b29f0d73d3552d2ec1854cc716c3e699c6a877fec3bf5764792761b5da"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-14T15-16-39Z-octon-concept-integration-octon-concept-integration-pipeline.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-14T15-45-28Z-octon-concept-integration-octon-concept-integration-pipeline.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -129,7 +129,7 @@ packs:
           - prompt_id: "octon-implementable-concept-extraction"
             role_class: "stage"
             path: "octon-implementable-concept-extraction.md"
-            sha256: "df7840552dfd70395dfdf5ea5ead7d013d8b3312daf8585613df83495085a7fa"
+            sha256: "13bf08284285bc7b24eb136c0141226e361224c7b5691873086a77b891b00ce3"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-concept-integration/bundled-first-party/prompts/octon-concept-integration-pipeline/octon-implementable-concept-extraction.md"
             stage_order: 1
           - prompt_id: "octon-extracted-concepts-verification"
