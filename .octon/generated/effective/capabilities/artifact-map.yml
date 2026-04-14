@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-2e0d032e1ba0
-published_at: 2026-04-14T13:27:37Z
+generation_id: capabilities-c8613436c4c9
+published_at: 2026-04-14T15:20:36Z
 artifacts:
   - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration
     effective_id: extension.command.octon-concept-integration.octon-concept-integration
@@ -11,9 +11,9 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 173ef4433d574b839dd3e68d58858c55ee36c00ca6501e3f8f74ce67923a1535
+    source_manifest_sha256: aae02d4a1da3e55f234396a467cf6b8cddd64c120dd80e3a8fcc09968b6612f8
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 173ef4433d574b839dd3e68d58858c55ee36c00ca6501e3f8f74ce67923a1535
+    source_sha256: aae02d4a1da3e55f234396a467cf6b8cddd64c120dd80e3a8fcc09968b6612f8
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -26,9 +26,9 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 173ef4433d574b839dd3e68d58858c55ee36c00ca6501e3f8f74ce67923a1535
+    source_manifest_sha256: aae02d4a1da3e55f234396a467cf6b8cddd64c120dd80e3a8fcc09968b6612f8
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 173ef4433d574b839dd3e68d58858c55ee36c00ca6501e3f8f74ce67923a1535
+    source_sha256: aae02d4a1da3e55f234396a467cf6b8cddd64c120dd80e3a8fcc09968b6612f8
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill

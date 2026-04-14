@@ -1,10 +1,10 @@
 schema_version: "octon-extension-generation-lock-v4"
 generator_version: "extension-publication-v3"
 generation_id: "extensions-f66caee9e62b"
-published_at: "2026-04-14T13:24:33Z"
+published_at: "2026-04-14T15:16:39Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-14T13-24-33Z-extensions-f66caee9e62b.yml"
-publication_receipt_sha256: "f8473401f0215fa04c138638e0aaf2c184c7664a36f32c4eb01dfb2cf49e35ee"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-14T15-16-39Z-extensions-f66caee9e62b.yml"
+publication_receipt_sha256: "9b0b1b6ccab261207bf3b973d1fea8caaea13ab57f01d5b81b6f2b730c4b69df"
 desired_config_sha256: "f66caee9e62b84ce2cb00c9164f32ae690e9913080398ab44459a979611541f8"
 root_manifest_sha256: "a537f230bf724a8978cc1dbf6aaca5be1b004b9312a23d1ac45c1062d7cceae3"
 published_files:

@@ -1,9 +1,9 @@
 schema_version: "octon-extension-effective-catalog-v4"
 generator_version: "extension-publication-v3"
 generation_id: "extensions-f66caee9e62b"
-published_at: "2026-04-14T13:24:33Z"
+published_at: "2026-04-14T15:16:39Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-14T13-24-33Z-extensions-f66caee9e62b.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-14T15-16-39Z-extensions-f66caee9e62b.yml"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -87,7 +87,7 @@ packs:
         bundle_sha256: "e137455dcc0f9b3e4ef93e66e29e2f62f4656e227a5369ac568c82b1ae7c747f"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-14T13-24-33Z-octon-concept-integration-octon-concept-integration-pipeline.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-14T15-16-39Z-octon-concept-integration-octon-concept-integration-pipeline.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
