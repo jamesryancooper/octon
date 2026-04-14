@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.21](https://github.com/jamesryancooper/octon/compare/octon-v0.6.20...octon-v0.6.21) (2026-04-14)
+
+
+### Features
+
+* **extensions:** add concept integration prompt hardening ([#284](https://github.com/jamesryancooper/octon/issues/284)) ([053433e](https://github.com/jamesryancooper/octon/commit/053433e485aa5a17c2b9bad7be3e931544b50c49))
+
 ## [0.6.20](https://github.com/jamesryancooper/octon/compare/octon-v0.6.19...octon-v0.6.20) (2026-04-13)
 
 
