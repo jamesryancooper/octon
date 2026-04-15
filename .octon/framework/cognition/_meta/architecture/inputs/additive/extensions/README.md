@@ -25,6 +25,18 @@ inputs/additive/extensions/<pack-id>/
   validation/
 ```
 
+## Ownership
+
+The canonical extension ownership model is defined in:
+
+- `/.octon/framework/engine/governance/extensions/README.md`
+
+Local implication for this surface:
+
+- artifacts authored under `inputs/additive/extensions/<pack-id>/` are raw
+  extension-owned additive inputs unless the canonical ownership model says
+  otherwise.
+
 ## Schema Contracts
 
 - `schemas/extension-pack.schema.json`

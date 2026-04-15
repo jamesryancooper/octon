@@ -5,18 +5,43 @@ skills:
     commands:
       - /octon-concept-integration
     parameters:
+      - name: bundle
+        type: text
+        required: false
+        default: "source-to-architecture-packet"
+        description: "Bundle selector. Defaults to source-to-architecture-packet."
       - name: source_artifact
         type: text
-        required: true
-        description: "URL, file path, or inline source artifact to analyze."
+        required: false
+        description: "Primary single-source input for source-driven bundles, including architecture revision and constitutional challenge when no packet is supplied."
+      - name: source_artifacts
+        type: text
+        required: false
+        description: "Multi-source input set for the multi-source synthesis bundle."
+      - name: proposal_packet
+        type: text
+        required: false
+        description: "Proposal packet path or id for refresh, implementation, or constitutional challenge bundles."
+      - name: repo_paths
+        type: text
+        required: false
+        description: "Repo-native artifact paths for repo-internal concept mining."
+      - name: subsystem_scope
+        type: text
+        required: false
+        description: "Required subsystem or domain scope for subsystem-targeted integration."
+      - name: conflicting_kernel_rules
+        type: text
+        required: false
+        description: "Optional explicit charter, precedence, fail-closed, or authority-rule conflicts for constitutional challenge routing."
       - name: proposal_id
         type: text
         required: false
-        description: "Optional proposal id override for the generated packet."
+        description: "Optional proposal id override for generated packets."
       - name: selected_concepts
         type: text
         required: false
-        description: "Optional explicit selected-concepts subset."
+        description: "Optional explicit selected-concepts or execution subset."
       - name: alignment_mode
         type: text
         required: false
@@ -26,6 +51,245 @@ skills:
         type: boolean
         required: false
         default: true
-        description: "Generate a packet-specific executable implementation prompt."
+        description: "Generate a packet-specific executable implementation prompt for execution-capable packet bundles."
+    requires:
+      context: []
+  octon-concept-integration-source-to-architecture-packet:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-source-to-architecture-packet
+    parameters:
+      - name: source_artifact
+        type: text
+        required: true
+        description: "URL, file path, or inline source artifact to analyze."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional architecture packet id override."
+      - name: selected_concepts
+        type: text
+        required: false
+        description: "Optional explicit selected-concepts subset."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+      - name: include_execution_prompt
+        type: boolean
+        required: false
+        default: true
+        description: "Generate a packet-specific implementation prompt."
+    requires:
+      context: []
+  octon-concept-integration-architecture-revision-packet:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-architecture-revision-packet
+    parameters:
+      - name: source_artifact
+        type: text
+        required: true
+        description: "URL, file path, or inline source artifact to analyze."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional architecture revision packet id override."
+      - name: selected_concepts
+        type: text
+        required: false
+        description: "Optional explicit selected-concepts subset."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+      - name: include_execution_prompt
+        type: boolean
+        required: false
+        default: true
+        description: "Generate a packet-specific implementation prompt."
+    requires:
+      context: []
+  octon-concept-integration-constitutional-challenge-packet:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-constitutional-challenge-packet
+    parameters:
+      - name: proposal_packet
+        type: text
+        required: false
+        description: "Optional existing proposal packet path or id. Provide at least one of proposal_packet, source_artifact, or conflicting_kernel_rules."
+      - name: source_artifact
+        type: text
+        required: false
+        description: "Optional source artifact when the challenge starts from external material instead of an existing packet."
+      - name: conflicting_kernel_rules
+        type: text
+        required: false
+        description: "Optional explicit charter, precedence, fail-closed, or authority-rule conflicts to seed the challenge."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional constitutional challenge packet id override."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-source-to-policy-packet:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-source-to-policy-packet
+    parameters:
+      - name: source_artifact
+        type: text
+        required: true
+        description: "URL, file path, or inline source artifact to analyze."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional policy packet id override."
+      - name: selected_concepts
+        type: text
+        required: false
+        description: "Optional explicit selected-concepts subset."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-source-to-migration-packet:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-source-to-migration-packet
+    parameters:
+      - name: source_artifact
+        type: text
+        required: true
+        description: "URL, file path, or inline source artifact to analyze."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional migration packet id override."
+      - name: selected_concepts
+        type: text
+        required: false
+        description: "Optional explicit selected-concepts subset."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-multi-source-synthesis-packet:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-multi-source-synthesis-packet
+    parameters:
+      - name: source_artifacts
+        type: text
+        required: true
+        description: "List of source artifacts to normalize and synthesize."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional synthesized packet id override."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-packet-refresh-and-supersession:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-packet-refresh-and-supersession
+    parameters:
+      - name: proposal_packet
+        type: text
+        required: true
+        description: "Existing proposal packet path or id."
+      - name: refresh_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Refresh strategy: auto, refresh, or supersede."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-packet-to-implementation:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-packet-to-implementation
+    parameters:
+      - name: proposal_packet
+        type: text
+        required: true
+        description: "Proposal packet path or id to execute."
+      - name: implementation_scope
+        type: text
+        required: false
+        description: "Optional narrowed execution subset."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-subsystem-targeted-integration:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-subsystem-targeted-integration
+    parameters:
+      - name: source_artifact
+        type: text
+        required: true
+        description: "URL, file path, or inline source artifact to analyze."
+      - name: subsystem_scope
+        type: text
+        required: true
+        description: "Required subsystem or domain scope."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional subsystem packet id override."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-concept-integration-repo-internal-concept-mining:
+    version: "2.0.0"
+    commands:
+      - /octon-concept-integration-repo-internal-concept-mining
+    parameters:
+      - name: repo_paths
+        type: text
+        required: true
+        description: "Repo-native artifact paths to mine."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional packet id override."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
     requires:
       context: []

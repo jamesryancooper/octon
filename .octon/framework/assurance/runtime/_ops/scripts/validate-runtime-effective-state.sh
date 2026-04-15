@@ -81,6 +81,9 @@ main() {
     "extension publication state is current and coherent" \
     "$SCRIPT_DIR/validate-extension-publication-state.sh"
   run_validator \
+    "extension-local validation tests are current" \
+    "$SCRIPT_DIR/validate-extension-local-tests.sh"
+  run_validator \
     "capability publication state is current and coherent" \
     "$SCRIPT_DIR/validate-capability-publication-state.sh"
   run_validator \

@@ -389,7 +389,7 @@ ext_validate_content_entrypoints() {
 
 ext_validate_prompt_set_manifest_if_present() {
   local manifest="$1" pack_root="$2"
-  local prompts_root_rel prompts_root prompt_manifest prompt_set_id schema_version
+  local prompts_root_rel prompts_root prompt_manifest prompt_set_id schema_version prompt_dir
   local stage_count companion_count
   declare -A seen_prompt_set_ids=()
 
@@ -403,6 +403,7 @@ ext_validate_prompt_set_manifest_if_present() {
 
   while IFS= read -r prompt_manifest; do
     [[ -n "$prompt_manifest" ]] || continue
+    prompt_dir="$(dirname "$prompt_manifest")"
 
     yq -e '.' "$prompt_manifest" >/dev/null 2>&1 || {
       EXT_LAST_ERROR_REASON="invalid-prompt-set-manifest-yaml:$(basename "$(dirname "$prompt_manifest")")"
@@ -412,6 +413,16 @@ ext_validate_prompt_set_manifest_if_present() {
     schema_version="$(yq -r '.schema_version // ""' "$prompt_manifest")"
     [[ "$schema_version" == "octon-extension-prompt-set-v1" ]] || {
       EXT_LAST_ERROR_REASON="invalid-prompt-set-schema-version:$(basename "$(dirname "$prompt_manifest")")"
+      return 1
+    }
+
+    [[ -f "$prompt_dir/README.md" ]] || {
+      EXT_LAST_ERROR_REASON="missing-prompt-set-readme:$(basename "$prompt_dir")"
+      return 1
+    }
+
+    [[ "$(dirname "$prompt_dir")" == "$prompts_root" ]] || {
+      EXT_LAST_ERROR_REASON="invalid-prompt-set-layout:$(basename "$prompt_dir")"
       return 1
     }
 
@@ -494,6 +505,14 @@ ext_validate_prompt_set_manifest_if_present() {
       EXT_LAST_ERROR_REASON="missing-prompt-set-packet-support:$prompt_set_id"
       return 1
     }
+    yq -e '.references | type == "!!seq"' "$prompt_manifest" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-prompt-set-references:$prompt_set_id"
+      return 1
+    }
+    yq -e '.shared_references | type == "!!seq"' "$prompt_manifest" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-prompt-set-shared-references:$prompt_set_id"
+      return 1
+    }
 
     while IFS=$'\t' read -r rel_path role_class; do
       [[ -n "$rel_path" ]] || continue
@@ -523,6 +542,22 @@ ext_validate_prompt_set_manifest_if_present() {
         return 1
       }
     done < <(yq -r '.required_repo_anchors[]? // ""' "$prompt_manifest" 2>/dev/null || true)
+
+    while IFS= read -r rel_path; do
+      [[ -n "$rel_path" ]] || continue
+      [[ -f "$prompt_dir/$rel_path" ]] || {
+        EXT_LAST_ERROR_REASON="missing-prompt-set-reference:$prompt_set_id:$rel_path"
+        return 1
+      }
+    done < <(yq -r '.references[]?.path // ""' "$prompt_manifest" 2>/dev/null || true)
+
+    while IFS= read -r rel_path; do
+      [[ -n "$rel_path" ]] || continue
+      [[ -f "$prompts_root/$rel_path" ]] || {
+        EXT_LAST_ERROR_REASON="missing-prompt-set-shared-reference:$prompt_set_id:$rel_path"
+        return 1
+      }
+    done < <(yq -r '.shared_references[]?.path // ""' "$prompt_manifest" 2>/dev/null || true)
   done < <(ext_prompt_bundle_manifest_files_for_pack "$manifest" "$pack_root")
 }
 

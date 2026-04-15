@@ -70,10 +70,10 @@ Read these before planning or implementation:
 24. `/.octon/instance/bootstrap/catalog.md`
 25. `/.octon/generated/effective/extensions/catalog.effective.yml`
 26. `/.octon/generated/effective/capabilities/routing.effective.yml`
-27. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/README.md`
-28. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/prompt-set-current-state-alignment-and-conflict-audit.md`
-29. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/proposal-packet-executable-implementation-prompt-generator.md`
-30. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/proposal-packet-implementation-and-closeout.md`
+27. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/README.md`
+28. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/prompt-set-current-state-alignment-and-conflict-audit.md`
+29. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/proposal-packet-executable-implementation-prompt-generator.md`
+30. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/proposal-packet-implementation-and-closeout.md`
 31. `/.octon/inputs/exploratory/proposals/architecture/octon-concept-integration-composite-skill/README.md`
 32. `/.octon/inputs/exploratory/proposals/architecture/octon-concept-integration-composite-skill/proposal.yml`
 33. `/.octon/inputs/exploratory/proposals/architecture/octon-concept-integration-composite-skill/architecture-proposal.yml`
@@ -105,7 +105,7 @@ execution evidence and output.
 
 1. The runtime prompt source for this capability is now the pack-local prompt
    set under
-   `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/**`.
+   `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/**`.
    Do not reintroduce any dependency on a root-level prompt-set copy.
 2. Existing extension publication already carries `routing_exports` for command
    and skill contributions. Use the live publication path; do not invent a
@@ -185,7 +185,7 @@ Create the pack root:
 
 - `/.octon/inputs/additive/extensions/octon-concept-integration/pack.yml`
 - `/.octon/inputs/additive/extensions/octon-concept-integration/README.md`
-- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/**`
+- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/**`
 - `/.octon/inputs/additive/extensions/octon-concept-integration/context/octon-concept-integration-overview.md`
 - `/.octon/inputs/additive/extensions/octon-concept-integration/validation/README.md`
 

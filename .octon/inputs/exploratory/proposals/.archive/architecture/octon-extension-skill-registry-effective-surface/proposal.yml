@@ -1,0 +1,32 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-extension-skill-registry-effective-surface"
+title: "Extension Skill Registry Effective Surface"
+summary: >
+  Add a generated effective surface for extension skill registry metadata so
+  extension-contributed composite skills are introspectable without rereading
+  raw pack payloads.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+status: "archived"
+archive:
+  archived_at: "2026-04-14"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-extension-skill-registry-effective-surface"
+  promotion_evidence:
+    - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+    - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+    - ".octon/state/evidence/runs/skills/octon-concept-integration/2026-04-13-octon-extension-skill-registry-effective-surface-proof.md"
+lifecycle:
+  temporary: true
+  exit_expectation: >
+    Promote the effective extension skill metadata model and its validators into
+    durable framework surfaces, then archive this packet with implementation
+    evidence once raw pack rereads are no longer required for that metadata.
+related_proposals: []

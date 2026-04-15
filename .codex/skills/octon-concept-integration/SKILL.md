@@ -1,15 +1,14 @@
 ---
 name: octon-concept-integration
 description: >
-  Composite extension-pack skill that turns a source artifact into extracted,
-  verified, and selected Octon concepts, a manifest-governed architecture
-  proposal packet, and a packet-specific executable implementation prompt.
+  Composite extension-pack skill that routes to the appropriate
+  octon-concept-integration prompt bundle.
 license: MIT
 compatibility: Designed for Octon extension-pack publication and host projection.
 metadata:
   author: Octon Framework
   created: "2026-04-13"
-  updated: "2026-04-14"
+  updated: "2026-04-15"
 skill_sets: [executor, integrator, specialist]
 capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*)
@@ -17,39 +16,30 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Writ
 
 # Octon Concept Integration
 
-Run the concept-integration pipeline from source artifact to validated
-proposal packet and packet-specific executable implementation prompt.
+Route to the appropriate `octon-concept-integration` bundle and default to the
+`source-to-architecture-packet` flow.
 
-## When To Use
+## Bundle Matrix
 
-- You have an external source artifact and want a repository-grounded Octon
-  proposal packet.
-- You want extraction, verification, packetization, and implementation-prompt
-  generation handled as one bounded capability.
-- You want a reusable extension-pack capability rather than a repo-native
-  one-off analysis flow.
+- `source-to-architecture-packet` — default external-source architecture flow
+- `architecture-revision-packet` — revise ordinary architecture before
+  integration
+- `constitutional-challenge-packet` — governed kernel-level challenge flow
+- `source-to-policy-packet` — external-source policy packet flow
+- `source-to-migration-packet` — external-source migration packet flow
+- `multi-source-synthesis-packet` — multi-source architecture packet flow
+- `packet-refresh-and-supersession` — refresh or supersede an existing packet
+- `packet-to-implementation` — execute an existing packet
+- `subsystem-targeted-integration` — source-driven flow with explicit subsystem scope
+- `repo-internal-concept-mining` — repo-native source mining flow
 
 ## Core Workflow
 
-1. Normalize the source artifact and any explicit selected-concepts override.
-2. Resolve the effective prompt bundle and its retained alignment receipt.
-   Use `/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh`
-   as the deterministic decision point for prompt bundle freshness and
-   alignment mode handling.
-3. If `alignment_mode=auto`, use the fresh bundle, realign and republish it,
-   or fail closed when re-alignment cannot make the bundle safe to run.
-4. If `alignment_mode=skip`, record degraded execution and continue only with
-   explicit retained disclosure.
-5. Run concept extraction using the published prompt bundle rather than raw
-   prompt rereads as the default runtime path.
-6. Run concept verification against the live repository.
-7. Resolve the in-scope concept set.
-8. Generate a manifest-governed architecture proposal packet under
-   `/.octon/inputs/exploratory/proposals/architecture/<proposal_id>/`.
-9. Generate a packet-specific executable implementation prompt as proposal
-   support material when requested.
-10. Validate the generated proposal packet and retain run evidence, including
-    prompt bundle provenance.
+1. Resolve the target bundle from the optional `bundle` selector.
+2. Default to `source-to-architecture-packet` when no bundle is provided.
+3. Resolve the effective prompt bundle and its retained alignment receipt.
+4. Execute the selected bundle using its own manifest, stages, companions, and
+   shared prompt-family contracts.
 
 The skill owns the intermediate artifacts for this flow. Extraction and
 verification outputs should be materialized by the capability into pack-managed
@@ -59,20 +49,20 @@ used.
 
 ## Inputs
 
-- source artifact
-- optional selected-concepts subset
-- optional proposal id override
-- optional alignment mode
+- optional bundle selector
+- bundle-specific inputs such as `source_artifact`, `source_artifacts`,
+  `proposal_packet`, `repo_paths`, `subsystem_scope`, or
+  `conflicting_kernel_rules`
 
 ## Outputs
 
-- proposal packet under `/.octon/inputs/exploratory/proposals/architecture/`
+- bundle-specific proposal packet or execution result
 - retained run evidence under `/.octon/state/evidence/runs/skills/`
 - optional checkpoints under `/.octon/state/control/skills/checkpoints/`
-- intermediate extraction and verification artifacts under the run checkpoint
-  root and copied into packet support files when packetization succeeds
-- retained prompt bundle provenance and alignment receipt references in the run
-  evidence
+
+Prompt inventory now lives in `prompts/<bundle>/manifest.yml` per bundle.
+Shared family contracts live under `prompts/shared/`. `alignment_mode`
+behavior is owned by `resolve-extension-prompt-bundle.sh`.
 
 ## Boundaries
 
@@ -82,6 +72,7 @@ used.
   alignment receipts rather than raw prompt rereads as the default runtime
   path.
 - Do not auto-implement the proposal packet as part of this skill.
+- Do not auto-execute a constitutional challenge packet.
 
 ## When To Escalate
 

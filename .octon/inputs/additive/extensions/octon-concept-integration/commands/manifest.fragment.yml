@@ -3,6 +3,66 @@ commands:
   - id: octon-concept-integration
     display_name: Octon Concept Integration
     path: octon-concept-integration.md
-    summary: "Run the concept-integration extension-pack capability from source artifact to validated proposal packet."
+    summary: "Route to the appropriate octon-concept-integration bundle and default to source-to-architecture-packet."
+    access: agent
+    argument_hint: "[--bundle <bundle-id>] <bundle-specific-inputs>"
+  - id: octon-concept-integration-source-to-architecture-packet
+    display_name: Source To Architecture Packet
+    path: octon-concept-integration-source-to-architecture-packet.md
+    summary: "Turn one source artifact into a verified architecture proposal packet."
+    access: agent
+    argument_hint: "<source-artifact> [--proposal-id <id>] [--alignment-mode auto|always|skip] [--selected-concepts <csv>] [--include-execution-prompt true|false]"
+  - id: octon-concept-integration-architecture-revision-packet
+    display_name: Architecture Revision Packet
+    path: octon-concept-integration-architecture-revision-packet.md
+    summary: "Turn one source artifact into an architecture revision proposal packet."
+    access: agent
+    argument_hint: "<source-artifact> [--proposal-id <id>] [--selected-concepts <csv>] [--alignment-mode auto|always|skip] [--include-execution-prompt true|false]"
+  - id: octon-concept-integration-constitutional-challenge-packet
+    display_name: Constitutional Challenge Packet
+    path: octon-concept-integration-constitutional-challenge-packet.md
+    summary: "Turn a source artifact, packet, or conflict map into a governed constitutional challenge packet."
+    access: agent
+    argument_hint: "<proposal-packet|source-artifact> [--conflicting-kernel-rules <csv>] [--proposal-id <id>] [--alignment-mode auto|always|skip]"
+  - id: octon-concept-integration-source-to-policy-packet
+    display_name: Source To Policy Packet
+    path: octon-concept-integration-source-to-policy-packet.md
+    summary: "Turn one source artifact into a verified policy proposal packet."
     access: agent
     argument_hint: "<source-artifact> [--proposal-id <id>] [--alignment-mode auto|always|skip] [--selected-concepts <csv>]"
+  - id: octon-concept-integration-source-to-migration-packet
+    display_name: Source To Migration Packet
+    path: octon-concept-integration-source-to-migration-packet.md
+    summary: "Turn one source artifact into a verified migration proposal packet."
+    access: agent
+    argument_hint: "<source-artifact> [--proposal-id <id>] [--alignment-mode auto|always|skip] [--selected-concepts <csv>]"
+  - id: octon-concept-integration-multi-source-synthesis-packet
+    display_name: Multi-Source Synthesis Packet
+    path: octon-concept-integration-multi-source-synthesis-packet.md
+    summary: "Synthesize multiple source artifacts into one verified architecture proposal packet."
+    access: agent
+    argument_hint: "<source-artifacts> [--proposal-id <id>] [--alignment-mode auto|always|skip]"
+  - id: octon-concept-integration-packet-refresh-and-supersession
+    display_name: Packet Refresh And Supersession
+    path: octon-concept-integration-packet-refresh-and-supersession.md
+    summary: "Refresh or supersede an existing proposal packet against the live repo."
+    access: agent
+    argument_hint: "<proposal-packet> [--refresh-mode auto|refresh|supersede] [--alignment-mode auto|always|skip]"
+  - id: octon-concept-integration-packet-to-implementation
+    display_name: Packet To Implementation
+    path: octon-concept-integration-packet-to-implementation.md
+    summary: "Execute an existing proposal packet in the live repository."
+    access: agent
+    argument_hint: "<proposal-packet> [--implementation-scope <csv>] [--alignment-mode auto|always|skip]"
+  - id: octon-concept-integration-subsystem-targeted-integration
+    display_name: Subsystem Targeted Integration
+    path: octon-concept-integration-subsystem-targeted-integration.md
+    summary: "Turn one source artifact plus a subsystem scope into a verified architecture packet."
+    access: agent
+    argument_hint: "<source-artifact> --subsystem-scope <scope> [--proposal-id <id>] [--alignment-mode auto|always|skip]"
+  - id: octon-concept-integration-repo-internal-concept-mining
+    display_name: Repo Internal Concept Mining
+    path: octon-concept-integration-repo-internal-concept-mining.md
+    summary: "Mine repo-native artifacts into a verified architecture proposal packet."
+    access: agent
+    argument_hint: "<repo-paths> [--proposal-id <id>] [--alignment-mode auto|always|skip]"

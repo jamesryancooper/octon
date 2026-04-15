@@ -2,7 +2,14 @@
 
 ## Inputs
 
-- `source_artifact` - required URL, file path, or inline artifact
+- `bundle` - optional bundle selector, defaults to `source-to-architecture-packet`
+- `source_artifact` - optional URL, file path, or inline artifact
+- `source_artifacts` - optional multi-source set for synthesis
+- `proposal_packet` - optional packet input for refresh or implementation
+- `repo_paths` - optional repo-native source inputs
+- `subsystem_scope` - optional subsystem/domain scope
+- `conflicting_kernel_rules` - optional explicit kernel-conflict map for
+  constitutional challenge routing
 - `proposal_id` - optional override for the generated proposal id
 - `selected_concepts` - optional narrowed execution subset
 - `alignment_mode` - optional `auto`, `always`, or `skip`
@@ -10,8 +17,9 @@
 
 ## Outputs
 
-- proposal packet directory under
-  `/.octon/inputs/exploratory/proposals/architecture/<proposal_id>/`
+- bundle-specific packet or execution output under
+  `/.octon/inputs/exploratory/proposals/<kind>/<proposal_id>/` when packet
+  generation occurs
 - run log under
   `/.octon/state/evidence/runs/skills/octon-concept-integration/<run-id>.md`
 - optional checkpoint directory under
@@ -19,22 +27,23 @@
 
 ## Default Intermediate Artifact Paths
 
-The pack should manage upstream stage outputs as artifacts under the current
-run checkpoint root:
+Canonical managed artifact names and packet support filenames are defined by
+the selected bundle `prompts/<bundle>/manifest.yml` plus:
 
-- `artifacts/source-artifact.md`
-- `artifacts/concept-extraction-output.md`
-- `artifacts/concept-verification-output.md`
-- `artifacts/selected-concepts.md`
-- `artifacts/executable-implementation-prompt.md`
+- `prompts/shared/managed-artifact-contract.md`
 
-When packetization succeeds, these should be copied or normalized into packet
-support files under the proposal directory rather than left only in transient
-conversation state.
+The pack should manage upstream stage outputs under the current run checkpoint
+root and, when packetization succeeds, copy or normalize the packet support
+artifacts into the proposal directory rather than leaving them only in
+transient conversation state.
 
-## Expected Support Artifacts Inside The Packet
+## Alignment Mode
 
-- source artifact capture or reference
-- concept extraction output
-- concept verification output
-- generated executable implementation prompt when requested
+`alignment_mode` accepts `auto`, `always`, or `skip`, but the behavioral source
+of truth is:
+
+- `/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh`
+
+Default alignment-policy values live in:
+
+- `prompts/<bundle>/manifest.yml`

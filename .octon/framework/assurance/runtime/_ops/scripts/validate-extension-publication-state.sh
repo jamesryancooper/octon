@@ -44,7 +44,7 @@ sorted_published_files() {
 }
 
 sorted_projection_source_paths() {
-  yq -r '.packs[]? | .routing_exports.commands[]?.projection_source_path, .routing_exports.skills[]?.projection_source_path, .prompt_bundles[]?.prompt_assets[]?.projection_source_path // ""' "$CATALOG_FILE" 2>/dev/null \
+  yq -r '.packs[]? | .routing_exports.commands[]?.projection_source_path, .routing_exports.skills[]?.projection_source_path, .prompt_bundles[]?.prompt_assets[]?.projection_source_path, .prompt_bundles[]?.reference_assets[]?.projection_source_path, .prompt_bundles[]?.shared_reference_assets[]?.projection_source_path // ""' "$CATALOG_FILE" 2>/dev/null \
     | awk 'NF' \
     | LC_ALL=C sort
 }
@@ -167,6 +167,8 @@ main() {
 
     while IFS= read -r prompt_manifest; do
       [[ -n "$prompt_manifest" ]] || continue
+      local prompt_root_abs
+      prompt_root_abs="$(dirname "$(dirname "$prompt_manifest")")"
       prompt_set_id="$(yq -r '.prompt_set_id // ""' "$prompt_manifest" 2>/dev/null || true)"
       [[ -n "$prompt_set_id" ]] || continue
       yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .prompt_bundles[]? | select(.prompt_set_id == \"$prompt_set_id\")" "$CATALOG_FILE" >/dev/null 2>&1 \
@@ -206,6 +208,24 @@ main() {
         fi
         [[ "$(ext_hash_file "$(dirname "$prompt_manifest")/$asset_path")" == "$asset_sha" ]] && pass "prompt asset digest current for $pack_id/$prompt_set_id: $asset_path" || fail "prompt asset digest stale for $pack_id/$prompt_set_id: $asset_path"
       done < <(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .prompt_bundles[]? | select(.prompt_set_id == \"$prompt_set_id\") | .prompt_assets[]? | [.path, .sha256] | @tsv" "$CATALOG_FILE" 2>/dev/null || true)
+
+      while IFS=$'\t' read -r asset_path asset_sha; do
+        [[ -n "$asset_path" ]] || continue
+        if [[ ! -f "$(dirname "$prompt_manifest")/$asset_path" ]]; then
+          fail "reference asset path missing for $pack_id/$prompt_set_id: $asset_path"
+          continue
+        fi
+        [[ "$(ext_hash_file "$(dirname "$prompt_manifest")/$asset_path")" == "$asset_sha" ]] && pass "reference asset digest current for $pack_id/$prompt_set_id: $asset_path" || fail "reference asset digest stale for $pack_id/$prompt_set_id: $asset_path"
+      done < <(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .prompt_bundles[]? | select(.prompt_set_id == \"$prompt_set_id\") | .reference_assets[]? | [.path, .sha256] | @tsv" "$CATALOG_FILE" 2>/dev/null || true)
+
+      while IFS=$'\t' read -r asset_path asset_sha; do
+        [[ -n "$asset_path" ]] || continue
+        if [[ ! -f "$prompt_root_abs/$asset_path" ]]; then
+          fail "shared reference asset path missing for $pack_id/$prompt_set_id: $asset_path"
+          continue
+        fi
+        [[ "$(ext_hash_file "$prompt_root_abs/$asset_path")" == "$asset_sha" ]] && pass "shared reference asset digest current for $pack_id/$prompt_set_id: $asset_path" || fail "shared reference asset digest stale for $pack_id/$prompt_set_id: $asset_path"
+      done < <(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .prompt_bundles[]? | select(.prompt_set_id == \"$prompt_set_id\") | .shared_reference_assets[]? | [.path, .sha256] | @tsv" "$CATALOG_FILE" 2>/dev/null || true)
     done < <(ext_prompt_bundle_manifest_files_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}")
   done < <(yq -r '.packs[]? | [.pack_id, .source_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true)
 

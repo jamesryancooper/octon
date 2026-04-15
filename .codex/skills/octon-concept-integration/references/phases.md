@@ -1,42 +1,26 @@
 # Phases
 
-## Phase 1 - Intake
+## Phase 1 - Route Bundle
 
-- normalize source location and packet id intent
-- determine whether explicit selected-concepts input narrows scope
+- resolve the requested `bundle`, defaulting to
+  `source-to-architecture-packet`
+- normalize the bundle-specific primary input such as `source_artifact`,
+  `source_artifacts`, `proposal_packet`, `repo_paths`, `subsystem_scope`, or
+  `conflicting_kernel_rules`
 
 ## Phase 2 - Prompt Alignment Preflight
 
-- use the pack-local alignment companion when pack-local prompt assets or repo
-  authority anchors have drifted
+- use the selected bundle manifest plus `prompts/shared/**` as the family
+  prompt contract
 - otherwise proceed with the last aligned pack-local prompt revision
 
-## Phase 3 - Extraction
+## Phase 3 - Execute Bundle
 
-- run `octon-implementable-concept-extraction.md` from the pack-local prompt set
-- materialize the result into the current run checkpoint as
-  `artifacts/concept-extraction-output.md`
+- execute the selected bundle's stages and companions
+- materialize checkpoint and packet support artifacts according to the selected
+  bundle manifest
 
-## Phase 4 - Verification
+## Phase 4 - Validate Outputs
 
-- run `octon-extracted-concepts-verification.md` from the pack-local prompt set
-- use the checkpointed extraction artifact as the default upstream input
-- materialize the result into the current run checkpoint as
-  `artifacts/concept-verification-output.md`
-
-## Phase 5 - Packetization
-
-- run `selected-concepts-integration-and-proposal-packet.md`
-- materialize a manifest-governed architecture proposal packet
-- use checkpointed verification output as the default packetization input
-- copy extraction and verification artifacts into packet support files
-
-## Phase 6 - Implementation Prompt Generation
-
-- run `proposal-packet-executable-implementation-prompt-generator.md`
-- attach the result as proposal support material
-
-## Phase 7 - Validation
-
-- validate the emitted packet with the standard proposal validators
+- run the validator stack appropriate to the selected bundle
 - retain run evidence and any residual blockers

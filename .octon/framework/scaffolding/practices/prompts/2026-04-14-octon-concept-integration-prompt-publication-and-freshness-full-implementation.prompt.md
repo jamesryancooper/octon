@@ -73,10 +73,10 @@ Read these before planning or implementation:
 24. `/.octon/inputs/additive/extensions/octon-concept-integration/skills/registry.fragment.yml`
 25. `/.octon/inputs/additive/extensions/octon-concept-integration/skills/octon-concept-integration/references/io-contract.md`
 26. `/.octon/inputs/additive/extensions/octon-concept-integration/skills/octon-concept-integration/references/phases.md`
-27. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/README.md`
-28. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/prompt-set-current-state-alignment-and-conflict-audit.md`
-29. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/proposal-packet-executable-implementation-prompt-generator.md`
-30. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/proposal-packet-implementation-and-closeout.md`
+27. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/README.md`
+28. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/prompt-set-current-state-alignment-and-conflict-audit.md`
+29. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/proposal-packet-executable-implementation-prompt-generator.md`
+30. `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/proposal-packet-implementation-and-closeout.md`
 31. `/.octon/generated/effective/extensions/catalog.effective.yml`
 32. `/.octon/generated/effective/extensions/generation.lock.yml`
 33. `/.octon/generated/effective/capabilities/routing.effective.yml`
@@ -180,7 +180,7 @@ Implement or update at minimum the following packet targets.
 
 Create:
 
-- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/manifest.yml`
+- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/manifest.yml`
 
 The manifest must define at minimum:
 

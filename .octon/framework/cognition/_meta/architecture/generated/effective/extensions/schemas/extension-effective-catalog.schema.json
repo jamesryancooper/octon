@@ -384,7 +384,9 @@
         "skip_mode_policy",
         "invalidation_conditions",
         "required_repo_anchors",
-        "prompt_assets"
+        "prompt_assets",
+        "reference_assets",
+        "shared_reference_assets"
       ],
       "properties": {
         "prompt_set_id": {
@@ -449,6 +451,18 @@
           "items": {
             "$ref": "#/$defs/promptAsset"
           }
+        },
+        "reference_assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/referenceAsset"
+          }
+        },
+        "shared_reference_assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/referenceAsset"
+          }
         }
       }
     },
@@ -508,6 +522,34 @@
         "stage_order": {
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+    "referenceAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ref_id",
+        "path",
+        "sha256",
+        "projection_source_path"
+      ],
+      "properties": {
+        "ref_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "projection_source_path": {
+          "type": "string",
+          "minLength": 1
         }
       }
     }

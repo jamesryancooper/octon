@@ -1,9 +1,9 @@
 # Validation
 
-Validate generated packets with:
+Validate the selected bundle using the family validation stack in:
 
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <packet-path>`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package <packet-path>`
+- `/.octon/inputs/additive/extensions/octon-concept-integration/validation/README.md`
+- `/.octon/inputs/additive/extensions/octon-concept-integration/validation/bundle-matrix.md`
 
-If registry projection writes fail because of unrelated active proposal debt,
-record that explicitly and continue validating the packet itself.
+Packet-generation bundles must also run the packet-kind validators appropriate
+to the emitted packet.

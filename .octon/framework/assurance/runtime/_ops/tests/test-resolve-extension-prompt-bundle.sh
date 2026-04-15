@@ -8,6 +8,19 @@ pass_count=0
 fail_count=0
 declare -a CLEANUP_DIRS=()
 
+expected_prompt_sets=(
+  octon-concept-integration-source-to-architecture-packet
+  octon-concept-integration-architecture-revision-packet
+  octon-concept-integration-constitutional-challenge-packet
+  octon-concept-integration-source-to-policy-packet
+  octon-concept-integration-source-to-migration-packet
+  octon-concept-integration-multi-source-synthesis-packet
+  octon-concept-integration-packet-refresh-and-supersession
+  octon-concept-integration-packet-to-implementation
+  octon-concept-integration-subsystem-targeted-integration
+  octon-concept-integration-repo-internal-concept-mining
+)
+
 cleanup() {
   local dir
   for dir in "${CLEANUP_DIRS[@]}"; do
@@ -191,44 +204,68 @@ publish_state() {
 }
 
 resolve_bundle() {
-  local root="$1" mode="$2"
+  local root="$1" prompt_set_id="$2" mode="$3"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" \
     bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh" \
       --pack-id octon-concept-integration \
-      --prompt-set-id octon-concept-integration-pipeline \
+      --prompt-set-id "$prompt_set_id" \
       --alignment-mode "$mode"
 }
 
-case_fresh_bundle_allows_auto() {
+case_all_bundles_publish_fresh() {
+  local fixture out prompt_set
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+  for prompt_set in "${expected_prompt_sets[@]}"; do
+    out="$(resolve_bundle "$fixture" "$prompt_set" auto)"
+    jq -e --arg prompt_set "$prompt_set" '.status == "fresh" and .safe_to_run == true and .prompt_set_id == $prompt_set' <<<"$out" >/dev/null || return 1
+  done
+}
+
+case_stale_architecture_prompt_blocks_auto() {
   local fixture out
   fixture="$(create_fixture)"
   CLEANUP_DIRS+=("$fixture")
   write_fixture "$fixture"
   publish_state "$fixture"
-  out="$(resolve_bundle "$fixture" auto)"
-  jq -e '.status == "fresh" and .safe_to_run == true and .alignment_mode == "auto"' <<<"$out" >/dev/null
+  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
+  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)" && return 1
+  jq -e '.status == "blocked" and .safe_to_run == false and (.reason_codes | any(startswith("prompt-asset-sha-changed:stages/01-extract.md")))' <<<"$out" >/dev/null
 }
 
-case_stale_bundle_blocks_auto() {
-  local fixture out rel
-  fixture="$(create_fixture)"
-  CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
-  publish_state "$fixture"
-  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/octon-implementable-concept-extraction.md"
-  out="$(resolve_bundle "$fixture" auto)" && return 1
-  jq -e '.status == "blocked" and .safe_to_run == false and (.reason_codes | any(startswith("prompt-asset-sha-changed:octon-implementable-concept-extraction.md")))' <<<"$out" >/dev/null
-}
-
-case_stale_bundle_skip_degrades() {
+case_stale_architecture_prompt_skip_degrades() {
   local fixture out
   fixture="$(create_fixture)"
   CLEANUP_DIRS+=("$fixture")
   write_fixture "$fixture"
   publish_state "$fixture"
-  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/octon-implementable-concept-extraction.md"
-  out="$(resolve_bundle "$fixture" skip)"
-  jq -e '.status == "degraded_skip" and .safe_to_run == true and .alignment_mode == "skip" and (.reason_codes | any(startswith("prompt-asset-sha-changed:octon-implementable-concept-extraction.md")))' <<<"$out" >/dev/null
+  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
+  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet skip)"
+  jq -e '.status == "degraded_skip" and .safe_to_run == true and (.reason_codes | any(startswith("prompt-asset-sha-changed:stages/01-extract.md")))' <<<"$out" >/dev/null
+}
+
+case_shared_reference_change_blocks_auto() {
+  local fixture out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+  printf '\n<!-- stale reference mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md"
+  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)" && return 1
+  jq -e '.status == "blocked" and .safe_to_run == false and (.reason_codes | any(startswith("shared-reference-asset-sha-changed:shared/repository-grounding.md")))' <<<"$out" >/dev/null
+}
+
+case_shared_reference_change_degrades_skip() {
+  local fixture out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+  printf '\n<!-- stale reference mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md"
+  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet skip)"
+  jq -e '.status == "degraded_skip" and .safe_to_run == true and (.reason_codes | any(startswith("shared-reference-asset-sha-changed:shared/managed-artifact-contract.md")))' <<<"$out" >/dev/null
 }
 
 case_republish_after_prompt_change_restores_auto() {
@@ -237,21 +274,40 @@ case_republish_after_prompt_change_restores_auto() {
   CLEANUP_DIRS+=("$fixture")
   write_fixture "$fixture"
   publish_state "$fixture"
-  first="$(resolve_bundle "$fixture" auto)"
+  first="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
   first_sha="$(jq -r '.prompt_bundle_sha256' <<<"$first")"
-  printf '\n<!-- prompt asset changed before republish -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/octon-concept-integration-pipeline/octon-implementable-concept-extraction.md"
+  printf '\n<!-- prompt asset changed before republish -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
   publish_state "$fixture"
-  second="$(resolve_bundle "$fixture" auto)"
+  second="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
+  second_sha="$(jq -r '.prompt_bundle_sha256' <<<"$second")"
+  [[ "$first_sha" != "$second_sha" ]]
+  jq -e '.status == "fresh" and .safe_to_run == true' <<<"$second" >/dev/null
+}
+
+case_republish_after_shared_reference_change_restores_auto() {
+  local fixture first second first_sha second_sha
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+  first="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
+  first_sha="$(jq -r '.prompt_bundle_sha256' <<<"$first")"
+  printf '\n<!-- shared reference changed before republish -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md"
+  publish_state "$fixture"
+  second="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
   second_sha="$(jq -r '.prompt_bundle_sha256' <<<"$second")"
   [[ "$first_sha" != "$second_sha" ]]
   jq -e '.status == "fresh" and .safe_to_run == true' <<<"$second" >/dev/null
 }
 
 main() {
-  assert_success "fresh bundle allows auto mode" case_fresh_bundle_allows_auto
-  assert_success "stale bundle blocks auto mode" case_stale_bundle_blocks_auto
-  assert_success "stale bundle degrades skip mode" case_stale_bundle_skip_degrades
+  assert_success "all bundles publish fresh in auto mode" case_all_bundles_publish_fresh
+  assert_success "stale architecture prompt blocks auto mode" case_stale_architecture_prompt_blocks_auto
+  assert_success "stale architecture prompt degrades skip mode" case_stale_architecture_prompt_skip_degrades
+  assert_success "shared reference change blocks auto mode" case_shared_reference_change_blocks_auto
+  assert_success "shared reference change degrades skip mode" case_shared_reference_change_degrades_skip
   assert_success "republishing after prompt change restores fresh auto mode" case_republish_after_prompt_change_restores_auto
+  assert_success "republishing after shared reference change restores fresh auto mode" case_republish_after_shared_reference_change_restores_auto
 
   echo
   echo "Passed: $pass_count"

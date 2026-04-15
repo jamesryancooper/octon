@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-27861fea2176
-published_at: 2026-04-14T15:45:59Z
+generation_id: capabilities-a4b6e996adc4
+published_at: 2026-04-15T11:22:13Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-14T15-45-59Z-capabilities-27861fea2176.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-15T11-22-13Z-capabilities-a4b6e996adc4.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: e62418eb25400dfc808bc292b62f8e482221188ad17beac81b08e2d913fdc472
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: fe1ed9bc92a0e35eb0fbe5bc21f0f2cbf99e1516fd4f8ca4690536a90c6922ed
+  extensions_catalog_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 82cdc241cb0e2024ead41666989d4e62a3b5401e1c2faae5034983e21a1bd9b2
+  extensions_generation_lock_sha256: edfb52d1ece74f5e32d8a92b1f2d9ce986374f2ae542d22fd821506c7c4add23
   extensions_generation_id: extensions-f66caee9e62b
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -3215,7 +3215,7 @@ routing_candidates:
     capability_kind: command
     capability_id: octon-concept-integration
     display_name: Octon Concept Integration
-    summary: Run the concept-integration extension-pack capability from source artifact to validated proposal packet.
+    summary: Route to the appropriate octon-concept-integration bundle and default to source-to-architecture-packet.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
     capability_domain: extension
@@ -3240,13 +3240,323 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration
     projection_name: octon-concept-integration
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-architecture-revision-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-architecture-revision-packet
+    display_name: Architecture Revision Packet
+    summary: Turn one source artifact into an architecture revision proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+    projection_name: octon-concept-integration-architecture-revision-packet
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-constitutional-challenge-packet
+    display_name: Constitutional Challenge Packet
+    summary: Turn a source artifact, packet, or conflict map into a governed constitutional challenge packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+    projection_name: octon-concept-integration-constitutional-challenge-packet
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-multi-source-synthesis-packet
+    display_name: Multi-Source Synthesis Packet
+    summary: Synthesize multiple source artifacts into one verified architecture proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+    projection_name: octon-concept-integration-multi-source-synthesis-packet
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-packet-refresh-and-supersession
+    display_name: Packet Refresh And Supersession
+    summary: Refresh or supersede an existing proposal packet against the live repo.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+    projection_name: octon-concept-integration-packet-refresh-and-supersession
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-packet-to-implementation
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-packet-to-implementation
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-packet-to-implementation
+    display_name: Packet To Implementation
+    summary: Execute an existing proposal packet in the live repository.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-packet-to-implementation
+    projection_name: octon-concept-integration-packet-to-implementation
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-repo-internal-concept-mining
+    display_name: Repo Internal Concept Mining
+    summary: Mine repo-native artifacts into a verified architecture proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+    projection_name: octon-concept-integration-repo-internal-concept-mining
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-source-to-architecture-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-source-to-architecture-packet
+    display_name: Source To Architecture Packet
+    summary: Turn one source artifact into a verified architecture proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+    projection_name: octon-concept-integration-source-to-architecture-packet
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-source-to-migration-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-source-to-migration-packet
+    display_name: Source To Migration Packet
+    summary: Turn one source artifact into a verified migration proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+    projection_name: octon-concept-integration-source-to-migration-packet
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-source-to-policy-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-source-to-policy-packet
+    display_name: Source To Policy Packet
+    summary: Turn one source artifact into a verified policy proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+    projection_name: octon-concept-integration-source-to-policy-packet
+  - effective_id: extension.command.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+    artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-subsystem-targeted-integration
+    display_name: Subsystem Targeted Integration
+    summary: Turn one source artifact plus a subsystem scope into a verified architecture packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+    projection_name: octon-concept-integration-subsystem-targeted-integration
   - effective_id: extension.skill.octon-concept-integration.octon-concept-integration
     artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration
     origin_class: extension
     capability_kind: skill
     capability_id: octon-concept-integration
     display_name: Octon Concept Integration
-    summary: Run the concept-integration pipeline from source artifact to validated proposal packet and executable implementation prompt.
+    summary: Route to the appropriate octon-concept-integration bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
     capability_domain: extension
@@ -3271,6 +3581,316 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration
     projection_name: octon-concept-integration
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-architecture-revision-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-architecture-revision-packet
+    display_name: Architecture Revision Packet
+    summary: Run the architecture-revision-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+    projection_name: octon-concept-integration-architecture-revision-packet
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-constitutional-challenge-packet
+    display_name: Constitutional Challenge Packet
+    summary: Run the constitutional-challenge-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+    projection_name: octon-concept-integration-constitutional-challenge-packet
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-multi-source-synthesis-packet
+    display_name: Multi-Source Synthesis Packet
+    summary: Run the multi-source-synthesis-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+    projection_name: octon-concept-integration-multi-source-synthesis-packet
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-packet-refresh-and-supersession
+    display_name: Packet Refresh And Supersession
+    summary: Run the packet-refresh-and-supersession bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+    projection_name: octon-concept-integration-packet-refresh-and-supersession
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-packet-to-implementation
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-packet-to-implementation
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-packet-to-implementation
+    display_name: Packet To Implementation
+    summary: Run the packet-to-implementation bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-packet-to-implementation
+    projection_name: octon-concept-integration-packet-to-implementation
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-repo-internal-concept-mining
+    display_name: Repo Internal Concept Mining
+    summary: Run the repo-internal-concept-mining bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+    projection_name: octon-concept-integration-repo-internal-concept-mining
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-source-to-architecture-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-source-to-architecture-packet
+    display_name: Source To Architecture Packet
+    summary: Run the source-to-architecture-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+    projection_name: octon-concept-integration-source-to-architecture-packet
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-source-to-migration-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-source-to-migration-packet
+    display_name: Source To Migration Packet
+    summary: Run the source-to-migration-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+    projection_name: octon-concept-integration-source-to-migration-packet
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-source-to-policy-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-source-to-policy-packet
+    display_name: Source To Policy Packet
+    summary: Run the source-to-policy-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+    projection_name: octon-concept-integration-source-to-policy-packet
+  - effective_id: extension.skill.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+    artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-subsystem-targeted-integration
+    display_name: Subsystem Targeted Integration
+    summary: Run the subsystem-targeted-integration bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+    projection_name: octon-concept-integration-subsystem-targeted-integration
 resolution_order:
   - instance.command.repo-hygiene
   - framework.command.alignment-check
@@ -3381,4 +4001,24 @@ resolution_order:
   - framework.tool.shell-safe
   - framework.tool.web-access
   - extension.command.octon-concept-integration.octon-concept-integration
+  - extension.command.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+  - extension.command.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+  - extension.command.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+  - extension.command.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+  - extension.command.octon-concept-integration.octon-concept-integration-packet-to-implementation
+  - extension.command.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+  - extension.command.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+  - extension.command.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+  - extension.command.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+  - extension.command.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
   - extension.skill.octon-concept-integration.octon-concept-integration
+  - extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+  - extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+  - extension.skill.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+  - extension.skill.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+  - extension.skill.octon-concept-integration.octon-concept-integration-packet-to-implementation
+  - extension.skill.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+  - extension.skill.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+  - extension.skill.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+  - extension.skill.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+  - extension.skill.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration

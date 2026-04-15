@@ -157,6 +157,7 @@ while IFS=$'\t' read -r anchor_path anchor_sha; do
 done < <(jq -r '.required_repo_anchors[]? | [.path, .sha256] | @tsv' <<<"$bundle_json")
 
 bundle_dir_abs="$(dirname "$manifest_abs")"
+prompt_root_abs="$(dirname "$bundle_dir_abs")"
 while IFS=$'\t' read -r rel_path asset_sha; do
   [[ -n "$rel_path" ]] || continue
   asset_abs="$bundle_dir_abs/$rel_path"
@@ -167,6 +168,28 @@ while IFS=$'\t' read -r rel_path asset_sha; do
   current_asset_sha="$(ext_hash_file "$asset_abs")"
   [[ "$current_asset_sha" == "$asset_sha" ]] || reasons+=("prompt-asset-sha-changed:$rel_path")
 done < <(jq -r '.prompt_assets[]? | [.path, .sha256] | @tsv' <<<"$bundle_json")
+
+while IFS=$'\t' read -r rel_path asset_sha; do
+  [[ -n "$rel_path" ]] || continue
+  asset_abs="$bundle_dir_abs/$rel_path"
+  if [[ ! -f "$asset_abs" ]]; then
+    reasons+=("reference-asset-missing:$rel_path")
+    continue
+  fi
+  current_asset_sha="$(ext_hash_file "$asset_abs")"
+  [[ "$current_asset_sha" == "$asset_sha" ]] || reasons+=("reference-asset-sha-changed:$rel_path")
+done < <(jq -r '.reference_assets[]? | [.path, .sha256] | @tsv' <<<"$bundle_json")
+
+while IFS=$'\t' read -r rel_path asset_sha; do
+  [[ -n "$rel_path" ]] || continue
+  asset_abs="$prompt_root_abs/$rel_path"
+  if [[ ! -f "$asset_abs" ]]; then
+    reasons+=("shared-reference-asset-missing:$rel_path")
+    continue
+  fi
+  current_asset_sha="$(ext_hash_file "$asset_abs")"
+  [[ "$current_asset_sha" == "$asset_sha" ]] || reasons+=("shared-reference-asset-sha-changed:$rel_path")
+done < <(jq -r '.shared_reference_assets[]? | [.path, .sha256] | @tsv' <<<"$bundle_json")
 
 if [[ "$ALIGNMENT_MODE" == "always" ]]; then
   reasons+=("realignment-required")

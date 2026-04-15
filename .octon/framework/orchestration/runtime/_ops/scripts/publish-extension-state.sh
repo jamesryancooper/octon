@@ -522,7 +522,7 @@ write_pack_prompt_bundles() {
   local prompt_manifest bundle_dir_abs prompts_root_rel prompt_root_abs bundle_dir_rel prompt_set_id schema_version
   local manifest_rel manifest_sha default_mode skip_mode_policy receipt_root receipt_slug receipt_rel receipt_tmp
   local bundle_lines bundle_sha stage_id prompt_id role_class rel_path stage_order source_abs source_sha projection_rel
-  local anchor_path anchor_sha
+  local anchor_path anchor_sha ref_id reference_count shared_ref_id shared_reference_count
   local -a prompt_manifests=()
 
   prompts_root_rel="$(yq -r '.content_entrypoints.prompts // ""' "$manifest_abs")"
@@ -570,6 +570,18 @@ write_pack_prompt_bundles() {
       anchor_sha="$(ext_hash_file "$ROOT_DIR/$anchor_path")"
       bundle_lines+="${anchor_sha} ${anchor_path}"$'\n'
     done < <(yq -r '.required_repo_anchors[]? // ""' "$prompt_manifest" 2>/dev/null || true)
+    while IFS=$'\t' read -r ref_id rel_path; do
+      [[ -n "$ref_id" ]] || continue
+      source_abs="$bundle_dir_abs/$rel_path"
+      source_sha="$(ext_hash_file "$source_abs")"
+      bundle_lines+="${source_sha} reference ${ref_id} ${rel_path}"$'\n'
+    done < <(yq -r '.references[]? | [.ref_id, .path] | @tsv' "$prompt_manifest" 2>/dev/null || true)
+    while IFS=$'\t' read -r shared_ref_id rel_path; do
+      [[ -n "$shared_ref_id" ]] || continue
+      source_abs="$prompt_root_abs/$rel_path"
+      source_sha="$(ext_hash_file "$source_abs")"
+      bundle_lines+="${source_sha} shared-reference ${shared_ref_id} ${rel_path}"$'\n'
+    done < <(yq -r '.shared_references[]? | [.ref_id, .path] | @tsv' "$prompt_manifest" 2>/dev/null || true)
     while IFS=$'\t' read -r prompt_id role_class rel_path stage_order; do
       [[ -n "$prompt_id" ]] || continue
       source_abs="$bundle_dir_abs/$rel_path"
@@ -629,6 +641,38 @@ write_pack_prompt_bundles() {
           yq -r '.companions[]? | [.prompt_id, .role_class, .path, ""] | @tsv' "$prompt_manifest" 2>/dev/null || true
         }
       )
+      reference_count="$(yq -r '(.references // []) | length' "$prompt_manifest" 2>/dev/null || echo 0)"
+      if [[ "$reference_count" == "0" ]]; then
+        printf 'reference_assets: []\n'
+      else
+        printf 'reference_assets:\n'
+        while IFS=$'\t' read -r ref_id rel_path; do
+          [[ -n "$ref_id" ]] || continue
+          source_abs="$bundle_dir_abs/$rel_path"
+          source_sha="$(ext_hash_file "$source_abs")"
+          projection_rel="$(ext_published_prompt_projection_rel "$pack_id" "$source_id" "${bundle_dir_rel:+$bundle_dir_rel/}$rel_path")"
+          printf '  - ref_id: "%s"\n' "$ref_id"
+          printf '    path: "%s"\n' "$rel_path"
+          printf '    sha256: "%s"\n' "$source_sha"
+          printf '    projection_source_path: "%s"\n' "$projection_rel"
+        done < <(yq -r '.references[]? | [.ref_id, .path] | @tsv' "$prompt_manifest" 2>/dev/null || true)
+      fi
+      shared_reference_count="$(yq -r '(.shared_references // []) | length' "$prompt_manifest" 2>/dev/null || echo 0)"
+      if [[ "$shared_reference_count" == "0" ]]; then
+        printf 'shared_reference_assets: []\n'
+      else
+        printf 'shared_reference_assets:\n'
+        while IFS=$'\t' read -r shared_ref_id rel_path; do
+          [[ -n "$shared_ref_id" ]] || continue
+          source_abs="$prompt_root_abs/$rel_path"
+          source_sha="$(ext_hash_file "$source_abs")"
+          projection_rel="$(ext_published_prompt_projection_rel "$pack_id" "$source_id" "$rel_path")"
+          printf '  - ref_id: "%s"\n' "$shared_ref_id"
+          printf '    path: "%s"\n' "$rel_path"
+          printf '    sha256: "%s"\n' "$source_sha"
+          printf '    projection_source_path: "%s"\n' "$projection_rel"
+        done < <(yq -r '.shared_references[]? | [.ref_id, .path] | @tsv' "$prompt_manifest" 2>/dev/null || true)
+      fi
     } >"$receipt_tmp"
 
     printf '      - prompt_set_id: "%s"\n' "$prompt_set_id"
@@ -673,8 +717,40 @@ write_pack_prompt_bundles() {
       {
         yq -r '.stages[]? | [.prompt_id, .role_class, .path, (.order | tostring)] | @tsv' "$prompt_manifest" 2>/dev/null || true
         yq -r '.companions[]? | [.prompt_id, .role_class, .path, ""] | @tsv' "$prompt_manifest" 2>/dev/null || true
-      }
-    )
+        }
+      )
+    reference_count="$(yq -r '(.references // []) | length' "$prompt_manifest" 2>/dev/null || echo 0)"
+    if [[ "$reference_count" == "0" ]]; then
+      printf '        reference_assets: []\n'
+    else
+      printf '        reference_assets:\n'
+      while IFS=$'\t' read -r ref_id rel_path; do
+        [[ -n "$ref_id" ]] || continue
+        source_abs="$bundle_dir_abs/$rel_path"
+        source_sha="$(ext_hash_file "$source_abs")"
+        projection_rel="$(ext_published_prompt_projection_rel "$pack_id" "$source_id" "${bundle_dir_rel:+$bundle_dir_rel/}$rel_path")"
+        printf '          - ref_id: "%s"\n' "$ref_id"
+        printf '            path: "%s"\n' "$rel_path"
+        printf '            sha256: "%s"\n' "$source_sha"
+        printf '            projection_source_path: "%s"\n' "$projection_rel"
+      done < <(yq -r '.references[]? | [.ref_id, .path] | @tsv' "$prompt_manifest" 2>/dev/null || true)
+    fi
+    shared_reference_count="$(yq -r '(.shared_references // []) | length' "$prompt_manifest" 2>/dev/null || echo 0)"
+    if [[ "$shared_reference_count" == "0" ]]; then
+      printf '        shared_reference_assets: []\n'
+    else
+      printf '        shared_reference_assets:\n'
+      while IFS=$'\t' read -r shared_ref_id rel_path; do
+        [[ -n "$shared_ref_id" ]] || continue
+        source_abs="$prompt_root_abs/$rel_path"
+        source_sha="$(ext_hash_file "$source_abs")"
+        projection_rel="$(ext_published_prompt_projection_rel "$pack_id" "$source_id" "$rel_path")"
+        printf '          - ref_id: "%s"\n' "$shared_ref_id"
+        printf '            path: "%s"\n' "$rel_path"
+        printf '            sha256: "%s"\n' "$source_sha"
+        printf '            projection_source_path: "%s"\n' "$projection_rel"
+      done < <(yq -r '.shared_references[]? | [.ref_id, .path] | @tsv' "$prompt_manifest" 2>/dev/null || true)
+    fi
   done
 }
 

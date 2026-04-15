@@ -1,0 +1,40 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-concept-integration-prompt-publication-and-freshness"
+title: "Octon Concept Integration Prompt Publication And Freshness"
+summary: >
+  Add an authored prompt-set contract, generated effective prompt bundle
+  publication, fail-closed freshness and alignment gating, and run-level
+  prompt provenance for the `octon-concept-integration` extension pack.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/inputs/additive/extensions/octon-concept-integration/prompts/"
+  - ".octon/inputs/additive/extensions/octon-concept-integration/skills/octon-concept-integration/SKILL.md"
+  - ".octon/inputs/additive/extensions/octon-concept-integration/skills/registry.fragment.yml"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/"
+  - ".octon/framework/capabilities/runtime/services/modeling/prompt/"
+  - ".octon/state/evidence/runs/skills/octon-concept-integration/"
+status: "archived"
+archive:
+  archived_at: "2026-04-14"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-concept-integration-prompt-publication-and-freshness"
+  promotion_evidence:
+    - ".octon/inputs/additive/extensions/octon-concept-integration/prompts/manifest.yml"
+    - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+    - ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
+    - ".octon/state/evidence/runs/skills/octon-concept-integration/2026-04-14-octon-concept-integration-prompt-publication-and-freshness-implementation.md"
+    - ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-14-prompt-publication-freshness-scenario-report.md"
+lifecycle:
+  temporary: true
+  exit_expectation: >
+    Promote prompt publication, freshness, alignment, and provenance behavior
+    into durable pack, framework, generated-effective, and retained-evidence
+    surfaces, then archive this packet once stale prompt execution is no longer
+    possible without explicit override and evidence.
+related_proposals:
+  - "octon-concept-integration-composite-skill"
+  - "octon-extension-skill-registry-effective-surface"

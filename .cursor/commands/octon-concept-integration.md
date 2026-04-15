@@ -1,14 +1,22 @@
 # Octon Concept Integration
 
-Run the `octon-concept-integration` extension-pack skill.
+Run the `octon-concept-integration` family dispatcher.
 
-Use this command when you want one stable operator-facing entrypoint for:
+Default route:
 
-- concept extraction
-- live-repo verification
-- proposal packet generation
-- packet-specific executable implementation prompt generation
+- `source-to-architecture-packet`
 
-Default output is a manifest-governed architecture proposal packet under:
+Leaf commands:
 
-`/.octon/inputs/exploratory/proposals/architecture/<proposal_id>/`
+- `/octon-concept-integration-source-to-architecture-packet`
+- `/octon-concept-integration-architecture-revision-packet`
+- `/octon-concept-integration-constitutional-challenge-packet`
+- `/octon-concept-integration-source-to-policy-packet`
+- `/octon-concept-integration-source-to-migration-packet`
+- `/octon-concept-integration-multi-source-synthesis-packet`
+- `/octon-concept-integration-packet-refresh-and-supersession`
+- `/octon-concept-integration-packet-to-implementation`
+- `/octon-concept-integration-subsystem-targeted-integration`
+- `/octon-concept-integration-repo-internal-concept-mining`
+
+Use `--bundle <bundle-id>` when invoking the dispatcher programmatically.

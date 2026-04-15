@@ -1,0 +1,33 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-concept-integration-composite-skill"
+title: "Octon Concept Integration Extension-Pack Composite Skill"
+summary: >
+  Add a first-party bundled extension pack that internalizes the
+  concept-integration prompt set as a reusable composite-skill capability with
+  a stable command wrapper, pack-local prompt assets, and proposal-packet-first
+  outputs.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/inputs/additive/extensions/octon-concept-integration/"
+  - ".octon/instance/extensions.yml"
+  - ".octon/instance/bootstrap/catalog.md"
+status: "archived"
+archive:
+  archived_at: "2026-04-14"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-concept-integration-composite-skill"
+  promotion_evidence:
+    - ".octon/inputs/additive/extensions/octon-concept-integration/pack.yml"
+    - ".octon/inputs/additive/extensions/octon-concept-integration/skills/octon-concept-integration/SKILL.md"
+    - ".octon/instance/extensions.yml"
+    - ".octon/state/evidence/runs/skills/octon-concept-integration/2026-04-13-octon-concept-integration-composite-skill-implementation.md"
+lifecycle:
+  temporary: true
+  exit_expectation: >
+    Promote the extension pack, its invocation surface, and operator guidance
+    into durable Octon-owned surfaces, then archive this proposal with
+    implementation evidence once the capability no longer depends on proposal
+    workspace lineage or the root `.prompts/` path.
+related_proposals: []

@@ -1,38 +1,89 @@
 # Octon Concept Integration Validation
 
-Validate this pack and its publication path with:
+Validate the extension family and its publication path with:
 
 ```bash
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh
 bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh
 bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh
 bash .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh
 ```
 
-The extension publication validator now also checks:
+## Extension-Local Test Convention
+
+Extension-specific validation scripts live under:
+
+- `validation/tests/*.sh`
+
+Framework-generic assurance tests remain under:
+
+- `/.octon/framework/assurance/runtime/_ops/tests/`
+
+The generic discovery runner is:
+
+- `/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh`
+
+It scans every present extension under `/.octon/inputs/additive/extensions/*/`
+for `validation/tests/*.sh` and runs them in lexical order.
+
+## Ownership Rule
+
+Apply the canonical extension ownership model from:
+
+- `/.octon/framework/engine/governance/extensions/README.md`
+
+Extension-local implication:
+
+- bundle-specific validation tests, fixtures, and helper scripts for
+  `octon-concept-integration` live under `validation/**`.
+
+The extension publication validator now also checks every bundle manifest and
+its shared assets:
 
 - the authored prompt-set manifest
 - effective prompt bundle metadata
 - retained prompt alignment receipts
 - prompt asset projection paths and digests
+- shared prompt reference projection paths and digests
 - required prompt anchor inputs in the generation lock
 
 The deterministic prompt-bundle freshness resolver lives at:
 
 `/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh`
 
-Use it to evaluate:
+Prompt inventory, default alignment policy, base repo anchors, and packet
+support filenames are authored in:
+
+`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/<bundle>/manifest.yml`
+
+Use the resolver to evaluate behavioral mode semantics:
 
 - fresh published bundle -> allow
+- stale bundle in `always` mode -> block pending explicit republish/re-alignment
 - stale bundle in `auto` mode -> block
 - stale bundle in `skip` mode -> degraded allow
 
-For generated proposal packets emitted by the capability, also run:
+Bundle-specific packet validators are summarized in `bundle-matrix.md`.
+
+For generated proposal packets emitted by the packet-generation bundles, also
+run:
 
 ```bash
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <packet-path>
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package <packet-path>
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh --package <packet-path>
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh --package <packet-path>
 ```
+
+Choose the second validator by bundle and packet kind:
+
+- architecture-generating bundles, including `architecture-revision-packet` ->
+  `validate-architecture-proposal.sh`
+- policy-generating bundles, including `constitutional-challenge-packet` ->
+  `validate-policy-proposal.sh`
+- migration-generating bundles ->
+  `validate-migration-proposal.sh`

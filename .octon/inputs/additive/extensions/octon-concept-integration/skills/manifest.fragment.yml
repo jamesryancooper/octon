@@ -5,7 +5,7 @@ skills:
     group: extensions
     path: octon-concept-integration/
     skill_class: invocable
-    summary: "Run the concept-integration pipeline from source artifact to validated proposal packet and executable implementation prompt."
+    summary: "Route to the appropriate octon-concept-integration bundle."
     status: active
     tags:
       - octon
@@ -18,3 +18,113 @@ skills:
       - "generate proposal packet from source"
       - "run concept integration pipeline"
       - "extract and verify octon concepts"
+  - id: octon-concept-integration-source-to-architecture-packet
+    display_name: Source To Architecture Packet
+    group: extensions
+    path: octon-concept-integration-source-to-architecture-packet/
+    skill_class: invocable
+    summary: "Run the source-to-architecture-packet bundle."
+    status: active
+    tags: [octon, concept-integration, architecture, proposal]
+    triggers:
+      - "source to architecture packet"
+      - "architecture proposal packet from source"
+  - id: octon-concept-integration-architecture-revision-packet
+    display_name: Architecture Revision Packet
+    group: extensions
+    path: octon-concept-integration-architecture-revision-packet/
+    skill_class: invocable
+    summary: "Run the architecture-revision-packet bundle."
+    status: active
+    tags: [octon, concept-integration, architecture-revision, proposal]
+    triggers:
+      - "architecture revision packet"
+      - "revise octon architecture for concept integration"
+  - id: octon-concept-integration-constitutional-challenge-packet
+    display_name: Constitutional Challenge Packet
+    group: extensions
+    path: octon-concept-integration-constitutional-challenge-packet/
+    skill_class: invocable
+    summary: "Run the constitutional-challenge-packet bundle."
+    status: active
+    tags: [octon, concept-integration, constitutional, governance]
+    triggers:
+      - "constitutional challenge packet"
+      - "kernel challenge for concept integration"
+  - id: octon-concept-integration-source-to-policy-packet
+    display_name: Source To Policy Packet
+    group: extensions
+    path: octon-concept-integration-source-to-policy-packet/
+    skill_class: invocable
+    summary: "Run the source-to-policy-packet bundle."
+    status: active
+    tags: [octon, concept-integration, policy, proposal]
+    triggers:
+      - "source to policy packet"
+      - "policy proposal packet from source"
+  - id: octon-concept-integration-source-to-migration-packet
+    display_name: Source To Migration Packet
+    group: extensions
+    path: octon-concept-integration-source-to-migration-packet/
+    skill_class: invocable
+    summary: "Run the source-to-migration-packet bundle."
+    status: active
+    tags: [octon, concept-integration, migration, proposal]
+    triggers:
+      - "source to migration packet"
+      - "migration proposal packet from source"
+  - id: octon-concept-integration-multi-source-synthesis-packet
+    display_name: Multi-Source Synthesis Packet
+    group: extensions
+    path: octon-concept-integration-multi-source-synthesis-packet/
+    skill_class: invocable
+    summary: "Run the multi-source-synthesis-packet bundle."
+    status: active
+    tags: [octon, concept-integration, synthesis, proposal]
+    triggers:
+      - "multi source synthesis packet"
+      - "synthesize multiple sources into one packet"
+  - id: octon-concept-integration-packet-refresh-and-supersession
+    display_name: Packet Refresh And Supersession
+    group: extensions
+    path: octon-concept-integration-packet-refresh-and-supersession/
+    skill_class: invocable
+    summary: "Run the packet-refresh-and-supersession bundle."
+    status: active
+    tags: [octon, concept-integration, refresh, supersession]
+    triggers:
+      - "refresh proposal packet"
+      - "supersede proposal packet"
+  - id: octon-concept-integration-packet-to-implementation
+    display_name: Packet To Implementation
+    group: extensions
+    path: octon-concept-integration-packet-to-implementation/
+    skill_class: invocable
+    summary: "Run the packet-to-implementation bundle."
+    status: active
+    tags: [octon, concept-integration, implementation, closeout]
+    triggers:
+      - "implement proposal packet"
+      - "packet to implementation"
+  - id: octon-concept-integration-subsystem-targeted-integration
+    display_name: Subsystem Targeted Integration
+    group: extensions
+    path: octon-concept-integration-subsystem-targeted-integration/
+    skill_class: invocable
+    summary: "Run the subsystem-targeted-integration bundle."
+    status: active
+    tags: [octon, concept-integration, subsystem, architecture]
+    triggers:
+      - "subsystem targeted integration"
+      - "scope concept integration to subsystem"
+  - id: octon-concept-integration-repo-internal-concept-mining
+    display_name: Repo Internal Concept Mining
+    group: extensions
+    path: octon-concept-integration-repo-internal-concept-mining/
+    skill_class: invocable
+    summary: "Run the repo-internal-concept-mining bundle."
+    status: active
+    tags: [octon, concept-integration, repo-internal, mining]
+    triggers:
+      - "repo internal concept mining"
+      - "mine repo concepts into packet"

@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-27861fea2176
-published_at: 2026-04-14T15:45:59Z
+generation_id: capabilities-a4b6e996adc4
+published_at: 2026-04-15T11:22:13Z
 artifacts:
   - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration
     effective_id: extension.command.octon-concept-integration.octon-concept-integration
@@ -11,13 +11,163 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: fe1ed9bc92a0e35eb0fbe5bc21f0f2cbf99e1516fd4f8ca4690536a90c6922ed
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: fe1ed9bc92a0e35eb0fbe5bc21f0f2cbf99e1516fd4f8ca4690536a90c6922ed
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
     extension_export_id: octon-concept-integration
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-architecture-revision-packet
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-architecture-revision-packet
+    display_name: Architecture Revision Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-architecture-revision-packet
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-constitutional-challenge-packet
+    display_name: Constitutional Challenge Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-constitutional-challenge-packet
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-multi-source-synthesis-packet
+    display_name: Multi-Source Synthesis Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-multi-source-synthesis-packet
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-packet-refresh-and-supersession
+    display_name: Packet Refresh And Supersession
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-packet-refresh-and-supersession
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-packet-to-implementation
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-packet-to-implementation
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-packet-to-implementation
+    display_name: Packet To Implementation
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-packet-to-implementation
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-repo-internal-concept-mining
+    display_name: Repo Internal Concept Mining
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-repo-internal-concept-mining
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-source-to-architecture-packet
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-source-to-architecture-packet
+    display_name: Source To Architecture Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-source-to-architecture-packet
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-source-to-migration-packet
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-source-to-migration-packet
+    display_name: Source To Migration Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-source-to-migration-packet
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-source-to-policy-packet
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-source-to-policy-packet
+    display_name: Source To Policy Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-source-to-policy-packet
+  - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration
+    effective_id: extension.command.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-concept-integration-subsystem-targeted-integration
+    display_name: Subsystem Targeted Integration
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: command
+    extension_export_id: octon-concept-integration-subsystem-targeted-integration
   - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration
     effective_id: extension.skill.octon-concept-integration.octon-concept-integration
     origin_class: extension
@@ -26,13 +176,163 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: fe1ed9bc92a0e35eb0fbe5bc21f0f2cbf99e1516fd4f8ca4690536a90c6922ed
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: fe1ed9bc92a0e35eb0fbe5bc21f0f2cbf99e1516fd4f8ca4690536a90c6922ed
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
     extension_export_id: octon-concept-integration
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-architecture-revision-packet
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-architecture-revision-packet
+    display_name: Architecture Revision Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-architecture-revision-packet
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-constitutional-challenge-packet
+    display_name: Constitutional Challenge Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-constitutional-challenge-packet
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-multi-source-synthesis-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-multi-source-synthesis-packet
+    display_name: Multi-Source Synthesis Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-multi-source-synthesis-packet
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-packet-refresh-and-supersession
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-packet-refresh-and-supersession
+    display_name: Packet Refresh And Supersession
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-packet-refresh-and-supersession
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-packet-to-implementation
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-packet-to-implementation
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-packet-to-implementation
+    display_name: Packet To Implementation
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-packet-to-implementation
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-repo-internal-concept-mining
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-repo-internal-concept-mining
+    display_name: Repo Internal Concept Mining
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-repo-internal-concept-mining
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-source-to-architecture-packet
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-source-to-architecture-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-source-to-architecture-packet
+    display_name: Source To Architecture Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-source-to-architecture-packet
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-source-to-migration-packet
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-source-to-migration-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-source-to-migration-packet
+    display_name: Source To Migration Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-source-to-migration-packet
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-source-to-policy-packet
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-source-to-policy-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-source-to-policy-packet
+    display_name: Source To Policy Packet
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-source-to-policy-packet
+  - artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration
+    effective_id: extension.skill.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-concept-integration-subsystem-targeted-integration
+    display_name: Subsystem Targeted Integration
+    source_kind: extension-export
+    source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_manifest_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    source_path: .octon/generated/effective/extensions/catalog.effective.yml
+    source_sha256: 0389e2ccfdf71ad88dbbcb23c8d10c38131f69a62eb50c4f2b2f7a1ce43769f4
+    extension_pack_id: octon-concept-integration
+    extension_source_id: bundled-first-party
+    extension_export_kind: skill
+    extension_export_id: octon-concept-integration-subsystem-targeted-integration
   - artifact_map_id: framework-command-alignment-check
     effective_id: framework.command.alignment-check
     origin_class: framework
