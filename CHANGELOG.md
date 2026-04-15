@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.25](https://github.com/jamesryancooper/octon/compare/octon-v0.6.24...octon-v0.6.25) (2026-04-15)
+
+
+### Features
+
+* **extensions:** add generic extension route resolution ([#293](https://github.com/jamesryancooper/octon/issues/293)) ([bb73566](https://github.com/jamesryancooper/octon/commit/bb735669c3d8923e34bd25f4c140e0501cd48926))
+
 ## [0.6.24](https://github.com/jamesryancooper/octon/compare/octon-v0.6.23...octon-v0.6.24) (2026-04-15)
 
 
