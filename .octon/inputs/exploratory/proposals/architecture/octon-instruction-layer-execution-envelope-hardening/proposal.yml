@@ -1,0 +1,32 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-instruction-layer-execution-envelope-hardening"
+title: "Octon Instruction-Layer Provenance and Capability-Envelope Hardening"
+summary: >-
+  Proposal-first packet for instruction-layer provenance hardening and
+  capability invocation and output-envelope normalization refinements.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json"
+  - ".octon/instance/agency/runtime/tool-output-budgets.yml"
+  - ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json"
+  - ".octon/instance/governance/policies/repo-shell-execution-classes.yml"
+  - ".octon/framework/capabilities/packs/shell/manifest.yml"
+  - ".octon/framework/capabilities/packs/repo/manifest.yml"
+  - ".octon/instance/governance/capability-packs/shell.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/shell.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the validated instruction-layer and capability-envelope
+    refinements into durable runtime, capability-pack, and validator surfaces,
+    then archive this proposal once the proposal-local packet is no longer
+    needed for promotion guidance.
+related_proposals: []
