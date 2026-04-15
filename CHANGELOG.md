@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.22](https://github.com/jamesryancooper/octon/compare/octon-v0.6.21...octon-v0.6.22) (2026-04-15)
+
+
+### Features
+
+* **extensions:** evolve concept-integration family ([#286](https://github.com/jamesryancooper/octon/issues/286)) ([6c68cb1](https://github.com/jamesryancooper/octon/commit/6c68cb161cb45d4c4a45983d79cc548ce5405170))
+
 ## [0.6.21](https://github.com/jamesryancooper/octon/compare/octon-v0.6.20...octon-v0.6.21) (2026-04-14)
 
 
