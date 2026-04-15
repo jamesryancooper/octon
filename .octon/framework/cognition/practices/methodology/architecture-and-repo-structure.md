@@ -36,6 +36,9 @@ This file is a methodology-facing architecture synopsis. Canonical architecture 
 - Thin control plane for policy, observability, contracts, and rollout controls.
 - Clear separation between runtime surfaces (apps/agents/runtimes) and import surfaces (packages/contracts).
 
+For canonical surface-selection guidance, use
+`/.octon/framework/cognition/practices/methodology/feature-placement-guide.md`.
+
 ## Flag and Runtime Policy
 
 - Flag resolution must be deterministic, fail-closed, and auditable.
