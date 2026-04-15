@@ -93,6 +93,11 @@ files:
     summary: Repository shape and architecture operating expectations.
     when: When changing topology or structure contracts.
 
+  - id: feature-placement-guide
+    path: feature-placement-guide.md
+    summary: Decision matrix for placing new features in core authority, executable capability, pack, adapter, proposal, or autonomy surfaces.
+    when: Before introducing a new feature surface or changing placement doctrine.
+
   - id: tooling-and-metrics
     path: tooling-and-metrics.md
     summary: Tooling posture and metrics instrumentation guidance.

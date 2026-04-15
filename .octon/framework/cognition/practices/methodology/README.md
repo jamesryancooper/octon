@@ -147,6 +147,7 @@ Use these companion documents when you need deeper operational detail:
 - `reliability-and-ops.md` — SLIs/SLOs, error budgets, incidents, and postmortems.
 - `performance-and-scalability.md` — Perf budgets, caching, queues, and load testing.
 - `architecture-and-repo-structure.md` — 12-Factor modulith, Hexagonal boundaries, and feature flags.
+- `feature-placement-guide.md` — Surface selection matrix for deciding whether a feature belongs in core authority, executable capability, governed pack, adapter, proposal, or autonomy surfaces.
 - `tooling-and-metrics.md` — provider-agnostic tooling policy and improvement metrics.
 - `sandbox-flow.md` — Canonical end-to-end sandbox flow using previews, flags, CI gates, and observability before production rollout.
 - `architecture-readiness/README.md` — Whole-harness and bounded-domain architecture-readiness applicability and execution model.

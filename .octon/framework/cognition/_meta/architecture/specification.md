@@ -236,6 +236,33 @@ constitutional kernel.
 | governance-policy | `/.octon/*/governance/**` | Governance policy MUST NOT be superseded by practices guidance. |
 | operating-practices | `/.octon/*/practices/**` | Practices guidance MUST NOT override runtime or governance contracts. |
 
+## Feature Placement (Normative Summary)
+
+Feature placement for Octon surfaces follows these canonical rules:
+
+- Only `framework/**` and `instance/**` are authored authority.
+- Raw `inputs/**` content is non-authoritative and must never become a direct
+  runtime or policy dependency.
+- Portable always-on harness behavior belongs in `framework/**`; repo-owned
+  live authority belongs in `instance/**`.
+- Governance and contract surfaces own rules, claims, bounds, admissions,
+  evidence requirements, and schemas rather than executable behavior.
+- Adapters are replaceable, non-authoritative host or model boundaries.
+- Capability packs govern broad action surfaces bounded by support targets.
+- Raw extension packs remain additive and optional under
+  `inputs/additive/extensions/**`; runtime-facing extension consumption must
+  flow through `generated/effective/extensions/**`.
+- Workflows are reserved for explicit multi-stage orchestration; recurrence and
+  unattended launch belong to automation and mission surfaces instead.
+- Proposal packets remain non-canonical and must not be direct live runtime or
+  policy dependencies.
+
+Use the methodology guide at
+`/.octon/framework/cognition/practices/methodology/feature-placement-guide.md`
+for the full operator-facing decision matrix, comparisons, and placement
+checklist. That guide is subordinate to this structural SSOT and must not
+redefine these placement rules.
+
 ## Canonical References
 
 - constitutional charter: `/.octon/framework/constitution/CHARTER.md`
