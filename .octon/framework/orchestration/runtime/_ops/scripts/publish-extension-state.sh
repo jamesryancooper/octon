@@ -13,7 +13,7 @@ INSTANCE_SKILLS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/skills/manife
 
 PUBLISHED_AT=""
 GENERATION_ID=""
-GENERATOR_VERSION="extension-publication-v4"
+GENERATOR_VERSION="extension-publication-v5"
 COMPATIBILITY_VALIDATOR_VERSION="extension-compatibility-v1"
 declare -a PUBLISHED_SELECTED_KEYS=()
 
@@ -87,6 +87,7 @@ write_extension_compatibility_receipt() {
     printf '  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"\n'
     printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"\n'
     printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-routing-contract.schema.json"\n'
     printf 'source_digests:\n'
     printf '  desired_config_sha256: "%s"\n' "$desired_sha"
     printf '  root_manifest_sha256: "%s"\n' "$root_sha"
@@ -182,6 +183,9 @@ write_extension_publication_receipt() {
     pack_id="$(ext_key_pack_id "$key")"
     required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/pack.yml")
     required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml")
+    if routing_contract_rel="$(ext_routing_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"; then
+      [[ -n "$routing_contract_rel" ]] && required_inputs+=("$routing_contract_rel")
+    fi
     while IFS= read -r manifest_path; do
       [[ -n "$manifest_path" ]] || continue
       required_inputs+=("${manifest_path#$ROOT_DIR/}")
@@ -632,6 +636,24 @@ write_routing_exports() {
   write_pack_skill_routing_exports "$pack_id" "$source_id" "$manifest_abs"
 }
 
+write_pack_route_dispatchers() {
+  local pack_id="$1" manifest_abs="$2" pack_root contract_abs
+  pack_root="$(ext_pack_root_abs "$pack_id")"
+  contract_abs="$(ext_routing_contract_abs_for_pack "$manifest_abs" "$pack_root" 2>/dev/null || true)"
+  if [[ -z "$contract_abs" || ! -f "$contract_abs" ]]; then
+    printf '    route_dispatchers: []\n'
+    return
+  fi
+
+  if [[ "$(yq -r '.dispatchers | length' "$contract_abs" 2>/dev/null || echo 0)" == "0" ]]; then
+    printf '    route_dispatchers: []\n'
+    return
+  fi
+
+  printf '    route_dispatchers:\n'
+  yq -P '.dispatchers' "$contract_abs" | sed 's/^/      /'
+}
+
 write_pack_prompt_bundles() {
   local pack_id="$1" source_id="$2" manifest_abs="$3" published_root_abs="$4" retained_tmp_root="$5"
   local prompt_manifest bundle_dir_abs prompts_root_rel prompt_root_abs bundle_dir_rel prompt_set_id schema_version
@@ -880,6 +902,7 @@ write_effective_files() {
     "desired-config-sha-changed"
     "root-manifest-sha-changed"
     "pack-manifest-or-payload-changed"
+    "routing-contract-sha-changed"
     "prompt-manifest-sha-changed"
     "prompt-asset-sha-changed"
     "required-anchor-sha-changed"
@@ -967,7 +990,7 @@ write_effective_files() {
   } >"$active_tmp"
 
   {
-    printf 'schema_version: "octon-extension-effective-catalog-v5"\n'
+    printf 'schema_version: "octon-extension-effective-catalog-v6"\n'
     printf 'generator_version: "%s"\n' "$GENERATOR_VERSION"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_at: "%s"\n' "$PUBLISHED_AT"
@@ -1000,6 +1023,7 @@ write_effective_files() {
         printf '    publication_status: "%s"\n' "$status"
         printf '    compatibility_status: "%s"\n' "${EXT_COMPAT_RESULT_STATUS["$key"]:-compatible}"
         printf '    compatibility_profile_path: "%s"\n' "${EXT_COMPAT_PROFILE_REL["$key"]:-.octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml}"
+        write_pack_route_dispatchers "$pack_id" "$manifest_abs"
         write_routing_exports "$pack_id" "$source_id" "$manifest_abs"
         write_pack_prompt_bundles "$pack_id" "$source_id" "$manifest_abs" "$published_tmp/$pack_id/$source_id" "$retained_tmp_root"
       done
@@ -1067,6 +1091,9 @@ write_effective_files() {
     for key in "${EXT_SELECTED_KEYS[@]}"; do
       printf '  - ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$(ext_key_pack_id "$key")"
       printf '  - ".octon/inputs/additive/extensions/%s/validation/compatibility.yml"\n' "$(ext_key_pack_id "$key")"
+      if routing_contract_rel="$(ext_routing_contract_rel_for_pack "$(ext_key_pack_id "$key")" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")" 2>/dev/null || true)"; then
+        [[ -n "$routing_contract_rel" ]] && printf '  - "%s"\n' "$routing_contract_rel"
+      fi
       while IFS= read -r prompt_manifest; do
         [[ -n "$prompt_manifest" ]] || continue
         printf '  - "%s"\n' "${prompt_manifest#$ROOT_DIR/}"

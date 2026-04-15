@@ -69,11 +69,11 @@ main() {
 
   [[ "$(yq -r '.schema_version // ""' "$ACTIVE_STATE")" == "octon-extension-active-state-v4" ]] && pass "active state schema version valid" || fail "active state schema_version invalid"
   [[ "$(yq -r '.schema_version // ""' "$QUARANTINE_STATE")" == "octon-extension-quarantine-state-v3" ]] && pass "quarantine state schema version valid" || fail "quarantine state schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$CATALOG_FILE")" == "octon-extension-effective-catalog-v5" ]] && pass "effective catalog schema version valid" || fail "effective catalog schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$CATALOG_FILE")" == "octon-extension-effective-catalog-v6" ]] && pass "effective catalog schema version valid" || fail "effective catalog schema_version invalid"
   [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-extension-artifact-map-v4" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
   [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-extension-generation-lock-v5" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
   local expected_generator_version
-  expected_generator_version="extension-publication-v4"
+  expected_generator_version="extension-publication-v5"
   pass "extension publication generator version contract declared"
   [[ "$(yq -r '.generator_version // ""' "$CATALOG_FILE")" == "$expected_generator_version" ]] && pass "effective catalog generator_version current" || fail "effective catalog generator_version missing or stale"
   [[ "$(yq -r '.generator_version // ""' "$ARTIFACT_MAP_FILE")" == "$expected_generator_version" ]] && pass "artifact map generator_version current" || fail "artifact map generator_version missing or stale"
@@ -193,6 +193,30 @@ main() {
     yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .routing_exports.skills | type == \"!!seq\"" "$CATALOG_FILE" >/dev/null 2>&1 \
       && pass "routing_exports.skills valid for $pack_id" \
       || fail "routing_exports.skills invalid for $pack_id"
+    yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .route_dispatchers | type == \"!!seq\"" "$CATALOG_FILE" >/dev/null 2>&1 \
+      && pass "route_dispatchers valid for $pack_id" \
+      || fail "route_dispatchers invalid for $pack_id"
+
+    local routing_contract_abs routing_contract_rel authored_route_dispatchers published_route_dispatchers
+    routing_contract_abs="$(ext_routing_contract_abs_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"
+    routing_contract_rel="$(ext_routing_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"
+    if [[ -n "$routing_contract_abs" ]]; then
+      authored_route_dispatchers="$(yq -o=json '.dispatchers // []' "$routing_contract_abs" 2>/dev/null | jq -cS '.')"
+      published_route_dispatchers="$(yq -o=json ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | (.route_dispatchers // [])" "$CATALOG_FILE" 2>/dev/null | jq -cS '.')"
+      [[ "$authored_route_dispatchers" == "$published_route_dispatchers" ]] \
+        && pass "route_dispatchers match authored routing contract for $pack_id" \
+        || fail "route_dispatchers drift from authored routing contract for $pack_id"
+      yq -e ".required_inputs[]? | select(. == \"$routing_contract_rel\")" "$GENERATION_LOCK_FILE" >/dev/null 2>&1 \
+        && pass "generation lock includes routing contract input for $pack_id" \
+        || fail "generation lock missing routing contract input for $pack_id"
+      yq -e ".required_inputs[]? | select(. == \"$routing_contract_rel\")" "$receipt_abs" >/dev/null 2>&1 \
+        && pass "publication receipt includes routing contract input for $pack_id" \
+        || fail "publication receipt missing routing contract input for $pack_id"
+    else
+      [[ "$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | (.route_dispatchers // []) | length" "$CATALOG_FILE" 2>/dev/null || echo 0)" == "0" ]] \
+        && pass "route_dispatchers empty when no authored routing contract for $pack_id" \
+        || fail "route_dispatchers must be empty when no authored routing contract exists for $pack_id"
+    fi
 
     local prompt_manifest_count catalog_prompt_bundle_count prompt_manifest prompt_set_id bundle_manifest_path bundle_manifest_sha alignment_receipt_rel
     prompt_manifest_count=0

@@ -3,9 +3,9 @@ commands:
   - id: octon-concept-integration
     display_name: Octon Concept Integration
     path: octon-concept-integration.md
-    summary: "Route to the appropriate octon-concept-integration bundle and default to source-to-architecture-packet."
+    summary: "Resolve the appropriate octon-concept-integration route and dispatch to the matching leaf bundle."
     access: agent
-    argument_hint: "[--bundle <bundle-id>] <bundle-specific-inputs>"
+    argument_hint: "[--bundle <route-id>] [--source-target-kind architecture|architecture-revision|policy|migration] [--packet-action implement|refresh|supersede] [--refresh-mode auto|refresh|supersede] [--dry-run-route true|false] <route-specific-inputs>"
   - id: octon-concept-integration-source-to-architecture-packet
     display_name: Source To Architecture Packet
     path: octon-concept-integration-source-to-architecture-packet.md

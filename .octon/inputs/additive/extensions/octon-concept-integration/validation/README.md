@@ -64,6 +64,18 @@ The deterministic prompt-bundle freshness resolver lives at:
 
 `/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh`
 
+The deterministic route resolver lives at:
+
+`/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh`
+
+Route policy is authored in:
+
+`context/routing.contract.yml`
+
+Runtime-facing route metadata is published into:
+
+`/.octon/generated/effective/extensions/catalog.effective.yml`
+
 Prompt inventory, default alignment policy, base repo anchors, and packet
 support filenames are authored in:
 

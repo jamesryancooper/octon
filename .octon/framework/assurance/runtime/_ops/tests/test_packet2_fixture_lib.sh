@@ -13,7 +13,9 @@ copy_packet2_runtime_scripts() {
   mkdir -p \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas" \
     "$fixture_root/.octon/framework/capabilities/_ops/scripts"
@@ -48,6 +50,8 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh"
+  cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
+    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh"
   cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/README.md" \
@@ -56,6 +60,24 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/README.md" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/README.md"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-routing-contract.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-routing-contract.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/README.md" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/README.md"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-artifact-map.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-artifact-map.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-route-resolution.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-route-resolution.schema.json"
   cp "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts/publish-host-projections.sh" \
     "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
   cp "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh" \
@@ -91,6 +113,7 @@ EOF
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
+    "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
     "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-host-projections.sh" \

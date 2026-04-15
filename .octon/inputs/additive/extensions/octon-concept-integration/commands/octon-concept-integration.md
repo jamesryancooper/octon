@@ -2,9 +2,19 @@
 
 Run the `octon-concept-integration` family dispatcher.
 
-Default route:
+Dispatcher behavior:
 
-- `source-to-architecture-packet`
+- normalizes composite inputs
+- resolves one published route from the family routing contract
+- returns the route receipt immediately when `dry_run_route=true`
+- resolves prompt freshness only after a route is selected
+- dispatches to the matching leaf command or skill only after both routing and
+  prompt freshness succeed
+
+Default resolved route:
+
+- single-source external input without a narrower target kind ->
+  `source-to-architecture-packet`
 
 Leaf commands:
 
@@ -19,4 +29,14 @@ Leaf commands:
 - `/octon-concept-integration-subsystem-targeted-integration`
 - `/octon-concept-integration-repo-internal-concept-mining`
 
-Use `--bundle <bundle-id>` when invoking the dispatcher programmatically.
+Route disambiguators:
+
+- `--bundle <route-id>` for an explicit route override
+- `--source-target-kind architecture|architecture-revision|policy|migration`
+  for single-source work
+- `--packet-action implement|refresh|supersede` for packet work
+- `--refresh-mode auto|refresh|supersede` as the packet fallback selector when
+  `packet_action` is omitted
+- `--dry-run-route true` to return only the route receipt
+
+The source of truth for route policy is `context/routing.contract.yml`.

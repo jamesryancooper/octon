@@ -5,7 +5,7 @@ skills:
     group: extensions
     path: octon-concept-integration/
     skill_class: invocable
-    summary: "Route to the appropriate octon-concept-integration bundle."
+    summary: "Resolve the appropriate octon-concept-integration route and dispatch to the matching leaf bundle."
     status: active
     tags:
       - octon

@@ -1,16 +1,17 @@
-schema_version: "octon-extension-effective-catalog-v5"
-generator_version: "extension-publication-v4"
+schema_version: "octon-extension-effective-catalog-v6"
+generator_version: "extension-publication-v5"
 generation_id: "extensions-f66caee9e62b"
-published_at: "2026-04-15T19:25:13Z"
+published_at: "2026-04-15T21:04:22Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-15T19-25-13Z-extensions-f66caee9e62b.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-15T21-04-22Z-extensions-f66caee9e62b.yml"
 compatibility_status: "compatible"
-compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-04-15T19-25-13Z-extensions-f66caee9e62b.yml"
-compatibility_receipt_sha256: "5e2d6fa6cc448df8ce97a2f249c2fa0e961f92cfb83912f0eb2b6f394640e743"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-04-15T21-04-22Z-extensions-f66caee9e62b.yml"
+compatibility_receipt_sha256: "bde2f5d4fe0d74eaf83213ef1a026c4006d18c5572879da136e396b960f21ce3"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
   - "pack-manifest-or-payload-changed"
+  - "routing-contract-sha-changed"
   - "prompt-manifest-sha-changed"
   - "prompt-asset-sha-changed"
   - "required-anchor-sha-changed"
@@ -39,11 +40,542 @@ packs:
     publication_status: "published"
     compatibility_status: "compatible"
     compatibility_profile_path: ".octon/inputs/additive/extensions/octon-concept-integration/validation/compatibility.yml"
+    route_dispatchers:
+      - dispatcher_id: octon-concept-integration
+        default_route_id: source-to-architecture-packet
+        accepted_inputs:
+          - bundle
+          - source_artifact
+          - source_artifacts
+          - proposal_packet
+          - repo_paths
+          - subsystem_scope
+          - conflicting_kernel_rules
+          - proposal_id
+          - selected_concepts
+          - alignment_mode
+          - include_execution_prompt
+          - source_target_kind
+          - packet_action
+          - refresh_mode
+          - dry_run_route
+        disambiguators:
+          - input_name: bundle
+            kind: route-id
+            allowed_values:
+              - source-to-architecture-packet
+              - architecture-revision-packet
+              - constitutional-challenge-packet
+              - source-to-policy-packet
+              - source-to-migration-packet
+              - multi-source-synthesis-packet
+              - packet-refresh-and-supersession
+              - packet-to-implementation
+              - subsystem-targeted-integration
+              - repo-internal-concept-mining
+          - input_name: source_target_kind
+            kind: enum
+            allowed_values:
+              - architecture
+              - architecture-revision
+              - policy
+              - migration
+          - input_name: packet_action
+            kind: enum
+            allowed_values:
+              - implement
+              - refresh
+              - supersede
+          - input_name: refresh_mode
+            kind: enum
+            allowed_values:
+              - auto
+              - refresh
+              - supersede
+        precedence:
+          - explicit-bundle-source-to-architecture-packet
+          - explicit-bundle-architecture-revision-packet
+          - explicit-bundle-constitutional-challenge-packet
+          - explicit-bundle-source-to-policy-packet
+          - explicit-bundle-source-to-migration-packet
+          - explicit-bundle-multi-source-synthesis-packet
+          - explicit-bundle-packet-refresh-and-supersession
+          - explicit-bundle-packet-to-implementation
+          - explicit-bundle-subsystem-targeted-integration
+          - explicit-bundle-repo-internal-concept-mining
+          - explicit-unsupported-bundle
+          - explicit-kernel-conflict
+          - conflicting-proposal-and-source
+          - conflicting-proposal-and-multi-source
+          - conflicting-proposal-and-repo-paths
+          - conflicting-multi-source-and-source
+          - conflicting-multi-source-and-repo-paths
+          - conflicting-multi-source-and-subsystem
+          - conflicting-repo-paths-and-source
+          - conflicting-repo-paths-and-subsystem
+          - proposal-packet-implement
+          - proposal-packet-refresh-action
+          - proposal-packet-refresh-mode
+          - ambiguous-proposal-packet-no-action
+          - ambiguous-proposal-packet-auto-refresh-mode
+          - ambiguous-proposal-packet-invalid-packet-action
+          - ambiguous-proposal-packet-invalid-refresh-mode
+          - multi-source-synthesis
+          - subsystem-targeted-integration
+          - repo-internal-concept-mining
+          - single-source-architecture-revision
+          - single-source-policy
+          - single-source-migration
+          - single-source-architecture
+          - default-source-architecture
+          - missing-routeable-inputs
+        routes:
+          - route_id: source-to-architecture-packet
+            status: resolved
+            execution_binding_id: source-to-architecture-packet
+            matchers:
+              - matcher_id: explicit-bundle-source-to-architecture-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: source-to-architecture-packet
+              - matcher_id: single-source-architecture
+                reason_codes:
+                  - explicit-source-target-kind
+                all_of:
+                  - input_name: source_artifact
+                    predicate: present
+                  - input_name: source_target_kind
+                    predicate: equals
+                    value: architecture
+              - matcher_id: default-source-architecture
+                reason_codes:
+                  - default-source-artifact
+                all_of:
+                  - input_name: source_artifact
+                    predicate: present
+                  - input_name: source_target_kind
+                    predicate: absent
+          - route_id: architecture-revision-packet
+            status: resolved
+            execution_binding_id: architecture-revision-packet
+            matchers:
+              - matcher_id: explicit-bundle-architecture-revision-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: architecture-revision-packet
+              - matcher_id: single-source-architecture-revision
+                reason_codes:
+                  - explicit-source-target-kind
+                all_of:
+                  - input_name: source_artifact
+                    predicate: present
+                  - input_name: source_target_kind
+                    predicate: equals
+                    value: architecture-revision
+          - route_id: constitutional-challenge-packet
+            status: resolved
+            execution_binding_id: constitutional-challenge-packet
+            matchers:
+              - matcher_id: explicit-bundle-constitutional-challenge-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: constitutional-challenge-packet
+              - matcher_id: explicit-kernel-conflict
+                reason_codes:
+                  - explicit-kernel-conflict
+                all_of:
+                  - input_name: conflicting_kernel_rules
+                    predicate: present
+          - route_id: source-to-policy-packet
+            status: resolved
+            execution_binding_id: source-to-policy-packet
+            matchers:
+              - matcher_id: explicit-bundle-source-to-policy-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: source-to-policy-packet
+              - matcher_id: single-source-policy
+                reason_codes:
+                  - explicit-source-target-kind
+                all_of:
+                  - input_name: source_artifact
+                    predicate: present
+                  - input_name: source_target_kind
+                    predicate: equals
+                    value: policy
+          - route_id: source-to-migration-packet
+            status: resolved
+            execution_binding_id: source-to-migration-packet
+            matchers:
+              - matcher_id: explicit-bundle-source-to-migration-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: source-to-migration-packet
+              - matcher_id: single-source-migration
+                reason_codes:
+                  - explicit-source-target-kind
+                all_of:
+                  - input_name: source_artifact
+                    predicate: present
+                  - input_name: source_target_kind
+                    predicate: equals
+                    value: migration
+          - route_id: multi-source-synthesis-packet
+            status: resolved
+            execution_binding_id: multi-source-synthesis-packet
+            matchers:
+              - matcher_id: explicit-bundle-multi-source-synthesis-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: multi-source-synthesis-packet
+              - matcher_id: multi-source-synthesis
+                reason_codes:
+                  - multi-source-input
+                all_of:
+                  - input_name: source_artifacts
+                    predicate: present
+          - route_id: packet-refresh-and-supersession
+            status: resolved
+            execution_binding_id: packet-refresh-and-supersession
+            matchers:
+              - matcher_id: explicit-bundle-packet-refresh-and-supersession
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: packet-refresh-and-supersession
+              - matcher_id: proposal-packet-refresh-action
+                reason_codes:
+                  - packet-action
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: one_of
+                    values:
+                      - refresh
+                      - supersede
+              - matcher_id: proposal-packet-refresh-mode
+                reason_codes:
+                  - refresh-mode
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: absent
+                  - input_name: refresh_mode
+                    predicate: one_of
+                    values:
+                      - refresh
+                      - supersede
+          - route_id: packet-to-implementation
+            status: resolved
+            execution_binding_id: packet-to-implementation
+            matchers:
+              - matcher_id: explicit-bundle-packet-to-implementation
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: packet-to-implementation
+              - matcher_id: proposal-packet-implement
+                reason_codes:
+                  - packet-action
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: equals
+                    value: implement
+          - route_id: subsystem-targeted-integration
+            status: resolved
+            execution_binding_id: subsystem-targeted-integration
+            matchers:
+              - matcher_id: explicit-bundle-subsystem-targeted-integration
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: subsystem-targeted-integration
+              - matcher_id: subsystem-targeted-integration
+                reason_codes:
+                  - subsystem-scope
+                all_of:
+                  - input_name: source_artifact
+                    predicate: present
+                  - input_name: subsystem_scope
+                    predicate: present
+          - route_id: repo-internal-concept-mining
+            status: resolved
+            execution_binding_id: repo-internal-concept-mining
+            matchers:
+              - matcher_id: explicit-bundle-repo-internal-concept-mining
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: repo-internal-concept-mining
+              - matcher_id: repo-internal-concept-mining
+                reason_codes:
+                  - repo-paths
+                all_of:
+                  - input_name: repo_paths
+                    predicate: present
+          - route_id: unsupported-route-id
+            status: deny
+            matchers:
+              - matcher_id: explicit-unsupported-bundle
+                reason_codes:
+                  - unsupported-route-id
+                all_of:
+                  - input_name: bundle
+                    predicate: present
+                  - input_name: bundle
+                    predicate: not_one_of
+                    values:
+                      - source-to-architecture-packet
+                      - architecture-revision-packet
+                      - constitutional-challenge-packet
+                      - source-to-policy-packet
+                      - source-to-migration-packet
+                      - multi-source-synthesis-packet
+                      - packet-refresh-and-supersession
+                      - packet-to-implementation
+                      - subsystem-targeted-integration
+                      - repo-internal-concept-mining
+          - route_id: conflicting-input-families
+            status: escalate
+            matchers:
+              - matcher_id: conflicting-proposal-and-source
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: source_artifact
+                    predicate: present
+              - matcher_id: conflicting-proposal-and-multi-source
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: source_artifacts
+                    predicate: present
+              - matcher_id: conflicting-proposal-and-repo-paths
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: repo_paths
+                    predicate: present
+              - matcher_id: conflicting-multi-source-and-source
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: source_artifacts
+                    predicate: present
+                  - input_name: source_artifact
+                    predicate: present
+              - matcher_id: conflicting-multi-source-and-repo-paths
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: source_artifacts
+                    predicate: present
+                  - input_name: repo_paths
+                    predicate: present
+              - matcher_id: conflicting-multi-source-and-subsystem
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: source_artifacts
+                    predicate: present
+                  - input_name: subsystem_scope
+                    predicate: present
+              - matcher_id: conflicting-repo-paths-and-source
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: repo_paths
+                    predicate: present
+                  - input_name: source_artifact
+                    predicate: present
+              - matcher_id: conflicting-repo-paths-and-subsystem
+                reason_codes:
+                  - conflicting-input-families
+                all_of:
+                  - input_name: repo_paths
+                    predicate: present
+                  - input_name: subsystem_scope
+                    predicate: present
+          - route_id: ambiguous-packet-action
+            status: escalate
+            matchers:
+              - matcher_id: ambiguous-proposal-packet-no-action
+                reason_codes:
+                  - ambiguous-packet-action
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: absent
+                  - input_name: refresh_mode
+                    predicate: absent
+              - matcher_id: ambiguous-proposal-packet-auto-refresh-mode
+                reason_codes:
+                  - ambiguous-packet-action
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: absent
+                  - input_name: refresh_mode
+                    predicate: equals
+                    value: auto
+              - matcher_id: ambiguous-proposal-packet-invalid-packet-action
+                reason_codes:
+                  - ambiguous-packet-action
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: not_one_of
+                    values:
+                      - implement
+                      - refresh
+                      - supersede
+              - matcher_id: ambiguous-proposal-packet-invalid-refresh-mode
+                reason_codes:
+                  - ambiguous-packet-action
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: packet_action
+                    predicate: absent
+                  - input_name: refresh_mode
+                    predicate: present
+                  - input_name: refresh_mode
+                    predicate: not_one_of
+                    values:
+                      - auto
+                      - refresh
+                      - supersede
+          - route_id: missing-routeable-inputs
+            status: escalate
+            matchers:
+              - matcher_id: missing-routeable-inputs
+                reason_codes:
+                  - missing-routeable-inputs
+                all_of:
+                  - input_name: bundle
+                    predicate: absent
+                  - input_name: proposal_packet
+                    predicate: absent
+                  - input_name: source_artifact
+                    predicate: absent
+                  - input_name: source_artifacts
+                    predicate: absent
+                  - input_name: repo_paths
+                    predicate: absent
+                  - input_name: conflicting_kernel_rules
+                    predicate: absent
+        execution_bindings:
+          - binding_id: source-to-architecture-packet
+            route_id: source-to-architecture-packet
+            command_capability_id: octon-concept-integration-source-to-architecture-packet
+            skill_capability_id: octon-concept-integration-source-to-architecture-packet
+            prompt_set_id: octon-concept-integration-source-to-architecture-packet
+          - binding_id: architecture-revision-packet
+            route_id: architecture-revision-packet
+            command_capability_id: octon-concept-integration-architecture-revision-packet
+            skill_capability_id: octon-concept-integration-architecture-revision-packet
+            prompt_set_id: octon-concept-integration-architecture-revision-packet
+          - binding_id: constitutional-challenge-packet
+            route_id: constitutional-challenge-packet
+            command_capability_id: octon-concept-integration-constitutional-challenge-packet
+            skill_capability_id: octon-concept-integration-constitutional-challenge-packet
+            prompt_set_id: octon-concept-integration-constitutional-challenge-packet
+          - binding_id: source-to-policy-packet
+            route_id: source-to-policy-packet
+            command_capability_id: octon-concept-integration-source-to-policy-packet
+            skill_capability_id: octon-concept-integration-source-to-policy-packet
+            prompt_set_id: octon-concept-integration-source-to-policy-packet
+          - binding_id: source-to-migration-packet
+            route_id: source-to-migration-packet
+            command_capability_id: octon-concept-integration-source-to-migration-packet
+            skill_capability_id: octon-concept-integration-source-to-migration-packet
+            prompt_set_id: octon-concept-integration-source-to-migration-packet
+          - binding_id: multi-source-synthesis-packet
+            route_id: multi-source-synthesis-packet
+            command_capability_id: octon-concept-integration-multi-source-synthesis-packet
+            skill_capability_id: octon-concept-integration-multi-source-synthesis-packet
+            prompt_set_id: octon-concept-integration-multi-source-synthesis-packet
+          - binding_id: packet-refresh-and-supersession
+            route_id: packet-refresh-and-supersession
+            command_capability_id: octon-concept-integration-packet-refresh-and-supersession
+            skill_capability_id: octon-concept-integration-packet-refresh-and-supersession
+            prompt_set_id: octon-concept-integration-packet-refresh-and-supersession
+          - binding_id: packet-to-implementation
+            route_id: packet-to-implementation
+            command_capability_id: octon-concept-integration-packet-to-implementation
+            skill_capability_id: octon-concept-integration-packet-to-implementation
+            prompt_set_id: octon-concept-integration-packet-to-implementation
+          - binding_id: subsystem-targeted-integration
+            route_id: subsystem-targeted-integration
+            command_capability_id: octon-concept-integration-subsystem-targeted-integration
+            skill_capability_id: octon-concept-integration-subsystem-targeted-integration
+            prompt_set_id: octon-concept-integration-subsystem-targeted-integration
+          - binding_id: repo-internal-concept-mining
+            route_id: repo-internal-concept-mining
+            command_capability_id: octon-concept-integration-repo-internal-concept-mining
+            skill_capability_id: octon-concept-integration-repo-internal-concept-mining
+            prompt_set_id: octon-concept-integration-repo-internal-concept-mining
+        reroute_policy:
+          max_reroutes: 1
+          reroute_to_route_id: constitutional-challenge-packet
+          allowed_source_route_ids:
+            - source-to-architecture-packet
+            - architecture-revision-packet
+            - source-to-policy-packet
+            - source-to-migration-packet
+            - multi-source-synthesis-packet
+            - packet-refresh-and-supersession
+            - packet-to-implementation
+            - subsystem-targeted-integration
+            - repo-internal-concept-mining
+          trigger_reason_codes:
+            - kernel-conflict-detected
     routing_exports:
       commands:
         - capability_id: "octon-concept-integration"
           display_name: "Octon Concept Integration"
-          summary: "Route to the appropriate octon-concept-integration bundle and default to source-to-architecture-packet."
+          summary: "Resolve the appropriate octon-concept-integration route and dispatch to the matching leaf bundle."
           status: "active"
           path: "octon-concept-integration.md"
           access: "agent"
@@ -286,7 +818,7 @@ packs:
       skills:
         - capability_id: "octon-concept-integration"
           display_name: "Octon Concept Integration"
-          summary: "Route to the appropriate octon-concept-integration bundle."
+          summary: "Resolve the appropriate octon-concept-integration route and dispatch to the matching leaf bundle."
           status: "active"
           path: "octon-concept-integration/"
           manifest_fragment_path: ".octon/inputs/additive/extensions/octon-concept-integration/skills/manifest.fragment.yml"
@@ -523,7 +1055,7 @@ packs:
         bundle_sha256: "9cb66c7916b3478448ec9829f6d9f6b7b5d2d0af0d1ebbc39296ecd7e5c4f6c4"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -633,7 +1165,7 @@ packs:
         bundle_sha256: "71fbc51425914fe9132fc884256b2b9f3e10dfc324b4ac8fd399a6d2440f6888"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -728,7 +1260,7 @@ packs:
         bundle_sha256: "0a61ddd5678ac559572f4d497108785aa620635cb784113a859b717e44808ed2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -829,7 +1361,7 @@ packs:
         bundle_sha256: "8650d9bf09251dc4c34b92be17ea9d4d76987c11bbb5da7579e66de7ab726380"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -932,7 +1464,7 @@ packs:
         bundle_sha256: "9525bd16e157652d6b15a95d6b65da2fbfd797e0d6a55a39fd3f93f737edf2f0"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1023,7 +1555,7 @@ packs:
         bundle_sha256: "304d8924d2c2eea1fb60e76496563fa6e54a95c58754c92a47f4dbd36b2edac4"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1118,7 +1650,7 @@ packs:
         bundle_sha256: "2707f4b51d5260c3fb0aa123c8ba00bec15346e99706cce55f162ac79f6f6057"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1218,7 +1750,7 @@ packs:
         bundle_sha256: "fbd7ea950f5e089b830857b13a6d638fb0e4e6aec089f155ae44d711300a2e9a"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1313,7 +1845,7 @@ packs:
         bundle_sha256: "0d62d87441e17c0bc7b9fcb7fde68e2159de1c45e5a17c59e82bf57e99359cd9"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1408,7 +1940,7 @@ packs:
         bundle_sha256: "5af2413d4c0c697a3f733f6d8e7d92cd8d3aadc2f6f4dcf49bc73e1c9ab0214c"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T19-25-13Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T21-04-22Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1506,4 +2038,4 @@ source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "f66caee9e62b84ce2cb00c9164f32ae690e9913080398ab44459a979611541f8"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "299886e772eaefc7de701364a7f6db3ded89d033c9b62502db5d9eff18b83cf5"
+  root_manifest_sha256: "3e014e01b96410b60adece3e317dc35d6fb758bde60eda3c7ac74a62c51053d4"

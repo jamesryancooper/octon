@@ -49,6 +49,8 @@ write_fixture() {
   mkdir -p \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts" \
+    "$root/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas" \
+    "$root/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas" \
     "$root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas" \
     "$root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas" \
     "$root/.octon/framework/engine/governance/extensions" \
@@ -81,6 +83,15 @@ write_fixture() {
   copy_file "$root" ".octon/instance/charter/workspace.md"
   copy_file "$root" ".octon/instance/charter/workspace.yml"
   copy_file "$root" ".octon/framework/cognition/_meta/architecture/specification.md"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/README.md"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-routing-contract.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/README.md"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-artifact-map.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-route-resolution.schema.json"
   copy_file "$root" ".octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/validation-publication-receipt.schema.json"
   copy_file "$root" ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"
   copy_file "$root" ".octon/framework/engine/governance/extensions/README.md"
@@ -152,7 +163,7 @@ records: []
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
-schema_version: "octon-extension-effective-catalog-v5"
+schema_version: "octon-extension-effective-catalog-v6"
 generator_version: "stub"
 generation_id: "stub"
 published_at: "1970-01-01T00:00:00Z"
@@ -202,6 +213,7 @@ EOF
 
   copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh"
   copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh"
   copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
@@ -216,6 +228,7 @@ EOF
   chmod +x \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
+    "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh" \
     "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
@@ -241,6 +254,15 @@ resolve_bundle() {
       --pack-id octon-concept-integration \
       --prompt-set-id "$prompt_set_id" \
       --alignment-mode "$mode"
+}
+
+resolve_route() {
+  local root="$1" inputs_json="$2"
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" \
+    bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
+      --pack-id octon-concept-integration \
+      --dispatcher-id octon-concept-integration \
+      --inputs-json "$inputs_json"
 }
 
 case_stale_bundle_prompt_asset_blocks_auto() {
@@ -279,6 +301,125 @@ case_stale_bundle_republish_recovers_auto() {
   second_sha="$(jq -r '.prompt_bundle_sha256' <<<"$second")"
   [[ "$first_sha" != "$second_sha" ]]
   jq -e '.status == "fresh" and .safe_to_run == true' <<<"$second" >/dev/null
+}
+
+case_default_single_source_routes_to_architecture() {
+  local fixture out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  out="$(resolve_route "$fixture" '{"source_artifact":"https://example.com/source.md"}')"
+  jq -e '.status == "resolved" and .selected_route_id == "source-to-architecture-packet" and .selected_execution_binding.prompt_set_id == "octon-concept-integration-source-to-architecture-packet"' <<<"$out" >/dev/null
+}
+
+case_single_source_target_kind_routes_to_revision_policy_and_migration() {
+  local fixture revision_out policy_out migration_out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  revision_out="$(resolve_route "$fixture" '{"source_artifact":"source.md","source_target_kind":"architecture-revision"}')"
+  policy_out="$(resolve_route "$fixture" '{"source_artifact":"source.md","source_target_kind":"policy"}')"
+  migration_out="$(resolve_route "$fixture" '{"source_artifact":"source.md","source_target_kind":"migration"}')"
+
+  jq -e '.selected_route_id == "architecture-revision-packet"' <<<"$revision_out" >/dev/null
+  jq -e '.selected_route_id == "source-to-policy-packet"' <<<"$policy_out" >/dev/null
+  jq -e '.selected_route_id == "source-to-migration-packet"' <<<"$migration_out" >/dev/null
+}
+
+case_structural_inputs_route_to_multi_source_subsystem_repo_and_constitutional() {
+  local fixture synthesis_out subsystem_out repo_out constitutional_out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  synthesis_out="$(resolve_route "$fixture" '{"source_artifacts":"a.md,b.md"}')"
+  subsystem_out="$(resolve_route "$fixture" '{"source_artifact":"source.md","subsystem_scope":"framework/cognition"}')"
+  repo_out="$(resolve_route "$fixture" '{"repo_paths":".octon/framework/cognition"}')"
+  constitutional_out="$(resolve_route "$fixture" '{"conflicting_kernel_rules":"NK-005"}')"
+
+  jq -e '.selected_route_id == "multi-source-synthesis-packet"' <<<"$synthesis_out" >/dev/null
+  jq -e '.selected_route_id == "subsystem-targeted-integration"' <<<"$subsystem_out" >/dev/null
+  jq -e '.selected_route_id == "repo-internal-concept-mining"' <<<"$repo_out" >/dev/null
+  jq -e '.selected_route_id == "constitutional-challenge-packet"' <<<"$constitutional_out" >/dev/null
+}
+
+case_packet_routes_select_implementation_refresh_and_ambiguous_escalation() {
+  local fixture implement_out refresh_action_out refresh_mode_out ambiguous_out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  implement_out="$(resolve_route "$fixture" '{"proposal_packet":"packet.yml","packet_action":"implement"}')"
+  refresh_action_out="$(resolve_route "$fixture" '{"proposal_packet":"packet.yml","packet_action":"refresh"}')"
+  refresh_mode_out="$(resolve_route "$fixture" '{"proposal_packet":"packet.yml","refresh_mode":"supersede"}')"
+  ambiguous_out="$(resolve_route "$fixture" '{"proposal_packet":"packet.yml"}')" && return 1
+
+  jq -e '.selected_route_id == "packet-to-implementation"' <<<"$implement_out" >/dev/null
+  jq -e '.selected_route_id == "packet-refresh-and-supersession"' <<<"$refresh_action_out" >/dev/null
+  jq -e '.selected_route_id == "packet-refresh-and-supersession"' <<<"$refresh_mode_out" >/dev/null
+  jq -e '.status == "escalate" and .selected_route_id == "ambiguous-packet-action" and (.reason_codes | index("ambiguous-packet-action")) != null' <<<"$ambiguous_out" >/dev/null
+}
+
+case_conflicting_structural_inputs_fail_closed() {
+  local fixture out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  out="$(resolve_route "$fixture" '{"source_artifact":"source.md","proposal_packet":"packet.yml"}')" && return 1
+  jq -e '.status == "escalate" and .selected_route_id == "conflicting-input-families" and (.reason_codes | index("conflicting-input-families")) != null' <<<"$out" >/dev/null
+}
+
+case_composite_dispatcher_publishes_dry_run_route_surface() {
+  local registry commands out fixture
+  registry="$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/skills/registry.fragment.yml"
+  commands="$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/commands/manifest.fragment.yml"
+
+  [[ "$(yq -r '.skills."octon-concept-integration".parameters[] | select(.name == "dry_run_route") | .default' "$registry")" == "false" ]] || return 1
+  assert_contains "$commands" "--dry-run-route true|false"
+
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+  out="$(resolve_route "$fixture" '{"source_artifact":"source.md","dry_run_route":true}')"
+  jq -e '.status == "resolved" and .selected_route_id == "source-to-architecture-packet"' <<<"$out" >/dev/null
+}
+
+case_prompt_freshness_remains_post_route_gate() {
+  local fixture route_out prompt_set_id prompt_out
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  route_out="$(resolve_route "$fixture" '{"source_artifact":"source.md"}')"
+  prompt_set_id="$(jq -r '.selected_execution_binding.prompt_set_id' <<<"$route_out")"
+  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
+  prompt_out="$(resolve_bundle "$fixture" "$prompt_set_id" auto)" && return 1
+  jq -e '.status == "blocked" and (.reason_codes | any(startswith("prompt-asset-sha-changed:stages/01-extract.md")))' <<<"$prompt_out" >/dev/null
+}
+
+case_reroute_policy_is_published_once_and_targets_constitutional_route() {
+  local fixture published_policy
+  fixture="$(create_fixture)"
+  CLEANUP_DIRS+=("$fixture")
+  write_fixture "$fixture"
+  publish_state "$fixture"
+
+  [[ "$(yq -r '.dispatchers[0].reroute_policy.max_reroutes' "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml")" == "1" ]] || return 1
+  [[ "$(yq -r '.dispatchers[0].reroute_policy.reroute_to_route_id' "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml")" == "constitutional-challenge-packet" ]] || return 1
+  ! yq -r '.dispatchers[0].reroute_policy.allowed_source_route_ids[]' "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/context/routing.contract.yml" | grep -Fx "constitutional-challenge-packet" >/dev/null
+
+  published_policy="$(yq -o=json '.packs[]? | select(.pack_id == "octon-concept-integration" and .source_id == "bundled-first-party") | .route_dispatchers[0].reroute_policy' "$fixture/.octon/generated/effective/extensions/catalog.effective.yml" | jq -cS '.')"
+  [[ "$published_policy" == '{"allowed_source_route_ids":["source-to-architecture-packet","architecture-revision-packet","source-to-policy-packet","source-to-migration-packet","multi-source-synthesis-packet","packet-refresh-and-supersession","packet-to-implementation","subsystem-targeted-integration","repo-internal-concept-mining"],"max_reroutes":1,"reroute_to_route_id":"constitutional-challenge-packet","trigger_reason_codes":["kernel-conflict-detected"]}' ]]
 }
 
 case_packet_drift_contract_requires_detection_before_execution_or_refresh_claims() {
@@ -337,6 +478,14 @@ main() {
   assert_success "stale bundle prompt asset blocks auto mode" case_stale_bundle_prompt_asset_blocks_auto
   assert_success "stale bundle shared reference degrades skip mode" case_stale_bundle_shared_reference_degrades_skip
   assert_success "republishing a stale bundle restores fresh auto mode" case_stale_bundle_republish_recovers_auto
+  assert_success "default single-source routing resolves to source-to-architecture-packet" case_default_single_source_routes_to_architecture
+  assert_success "single-source target kinds route to architecture revision, policy, and migration" case_single_source_target_kind_routes_to_revision_policy_and_migration
+  assert_success "structural inputs route to multi-source, subsystem, repo-native, and constitutional flows" case_structural_inputs_route_to_multi_source_subsystem_repo_and_constitutional
+  assert_success "proposal packet routing selects implementation, refresh, and ambiguous escalation paths" case_packet_routes_select_implementation_refresh_and_ambiguous_escalation
+  assert_success "conflicting structural inputs fail closed with routing escalation" case_conflicting_structural_inputs_fail_closed
+  assert_success "composite dispatcher publishes the dry-run-route surface" case_composite_dispatcher_publishes_dry_run_route_surface
+  assert_success "prompt freshness remains a post-route gate" case_prompt_freshness_remains_post_route_gate
+  assert_success "reroute policy is published once and targets only the constitutional route" case_reroute_policy_is_published_once_and_targets_constitutional_route
   assert_success "packet drift scenario requires detection before execution or refresh claims" case_packet_drift_contract_requires_detection_before_execution_or_refresh_claims
   assert_success "multi-source conflict scenario requires normalization and explicit resolution before packetization" case_multi_source_conflict_contract_requires_normalization_and_resolution_before_packetization
   assert_success "subsystem scope mismatch scenario prevents silent scope escape" case_subsystem_scope_mismatch_contract_prevents_silent_scope_escape

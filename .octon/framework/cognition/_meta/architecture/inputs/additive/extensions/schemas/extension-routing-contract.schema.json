@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/extension-routing-contract.schema.json",
+  "title": "Octon Extension Routing Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dispatchers"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-extension-routing-contract-v1"
+    },
+    "dispatchers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/routeDispatcher"
+      }
+    }
+  },
+  "$defs": {
+    "inputName": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "routeId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "reasonCode": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "disambiguator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_name",
+        "kind",
+        "allowed_values"
+      ],
+      "properties": {
+        "input_name": {
+          "$ref": "#/$defs/inputName"
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "enum",
+            "route-id"
+          ]
+        },
+        "allowed_values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "matcherCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_name",
+        "predicate"
+      ],
+      "properties": {
+        "input_name": {
+          "$ref": "#/$defs/inputName"
+        },
+        "predicate": {
+          "type": "string",
+          "enum": [
+            "present",
+            "absent",
+            "equals",
+            "one_of",
+            "not_one_of"
+          ]
+        },
+        "value": {},
+        "values": {
+          "type": "array",
+          "items": {}
+        }
+      }
+    },
+    "matcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "matcher_id",
+        "reason_codes",
+        "all_of"
+      ],
+      "properties": {
+        "matcher_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reasonCode"
+          }
+        },
+        "all_of": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/matcherCondition"
+          }
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "route_id",
+        "status",
+        "matchers"
+      ],
+      "properties": {
+        "route_id": {
+          "$ref": "#/$defs/routeId"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "resolved",
+            "escalate",
+            "deny",
+            "blocked"
+          ]
+        },
+        "execution_binding_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "matchers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/matcher"
+          }
+        }
+      }
+    },
+    "executionBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "binding_id",
+        "route_id"
+      ],
+      "properties": {
+        "binding_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "route_id": {
+          "$ref": "#/$defs/routeId"
+        },
+        "command_capability_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "skill_capability_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "prompt_set_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        }
+      },
+      "anyOf": [
+        {
+          "required": [
+            "command_capability_id"
+          ]
+        },
+        {
+          "required": [
+            "skill_capability_id"
+          ]
+        },
+        {
+          "required": [
+            "prompt_set_id"
+          ]
+        }
+      ]
+    },
+    "reroutePolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_reroutes",
+        "reroute_to_route_id",
+        "allowed_source_route_ids",
+        "trigger_reason_codes"
+      ],
+      "properties": {
+        "max_reroutes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reroute_to_route_id": {
+          "$ref": "#/$defs/routeId"
+        },
+        "allowed_source_route_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/routeId"
+          }
+        },
+        "trigger_reason_codes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/reasonCode"
+          }
+        }
+      }
+    },
+    "routeDispatcher": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dispatcher_id",
+        "default_route_id",
+        "accepted_inputs",
+        "disambiguators",
+        "precedence",
+        "routes",
+        "execution_bindings"
+      ],
+      "properties": {
+        "dispatcher_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "default_route_id": {
+          "$ref": "#/$defs/routeId"
+        },
+        "accepted_inputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/inputName"
+          }
+        },
+        "disambiguators": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/disambiguator"
+          }
+        },
+        "precedence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          }
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/route"
+          }
+        },
+        "execution_bindings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/executionBinding"
+          }
+        },
+        "reroute_policy": {
+          "$ref": "#/$defs/reroutePolicy"
+        }
+      }
+    }
+  }
+}

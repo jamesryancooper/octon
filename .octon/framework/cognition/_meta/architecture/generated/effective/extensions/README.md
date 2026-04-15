@@ -14,7 +14,8 @@ surface.
 - Effective outputs are rebuildable and non-authoritative.
 - Runtime and policy consumers read only these outputs.
 - `catalog.effective.yml` carries `routing_exports` for command and skill
-  contributions and may carry `prompt_bundles` metadata for prompt-set
+  contributions, may carry `route_dispatchers` metadata for extension-owned
+  dispatcher policy, and may carry `prompt_bundles` metadata for prompt-set
   publication, including `prompt_assets`, bundle-local `reference_assets`, and
   `shared_reference_assets`,
   so runtime consumers do not have to rediscover raw pack content from

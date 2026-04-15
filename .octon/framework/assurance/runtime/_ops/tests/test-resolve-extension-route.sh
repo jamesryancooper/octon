@@ -3,23 +3,11 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../../../../../.." && pwd)"
+source "$SCRIPT_DIR/test_packet2_fixture_lib.sh"
 
 pass_count=0
 fail_count=0
 declare -a CLEANUP_DIRS=()
-
-expected_prompt_sets=(
-  octon-concept-integration-source-to-architecture-packet
-  octon-concept-integration-architecture-revision-packet
-  octon-concept-integration-constitutional-challenge-packet
-  octon-concept-integration-source-to-policy-packet
-  octon-concept-integration-source-to-migration-packet
-  octon-concept-integration-multi-source-synthesis-packet
-  octon-concept-integration-packet-refresh-and-supersession
-  octon-concept-integration-packet-to-implementation
-  octon-concept-integration-subsystem-targeted-integration
-  octon-concept-integration-repo-internal-concept-mining
-)
 
 cleanup() {
   local dir
@@ -42,8 +30,8 @@ assert_success() {
   fi
 }
 
-create_fixture() {
-  mktemp -d "${TMPDIR:-/tmp}/prompt-bundle-fixture.XXXXXX"
+create_prompt_fixture() {
+  mktemp -d "${TMPDIR:-/tmp}/route-resolution-fixture.XXXXXX"
 }
 
 copy_file() {
@@ -52,7 +40,7 @@ copy_file() {
   cp "$REPO_ROOT/$rel" "$root/$rel"
 }
 
-write_fixture() {
+write_prompt_backed_fixture() {
   local root="$1"
   mkdir -p \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts" \
@@ -255,111 +243,174 @@ publish_state() {
     bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" >/dev/null
 }
 
-resolve_bundle() {
-  local root="$1" prompt_set_id="$2" mode="$3"
+resolve_route() {
+  local root="$1" dispatcher_id="$2" inputs_json="$3"
   OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" \
-    bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh" \
+    bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
       --pack-id octon-concept-integration \
-      --prompt-set-id "$prompt_set_id" \
-      --alignment-mode "$mode"
+      --dispatcher-id "$dispatcher_id" \
+      --inputs-json "$inputs_json"
 }
 
-case_all_bundles_publish_fresh() {
-  local fixture out prompt_set
-  fixture="$(create_fixture)"
-  CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
-  publish_state "$fixture"
-  for prompt_set in "${expected_prompt_sets[@]}"; do
-    out="$(resolve_bundle "$fixture" "$prompt_set" auto)"
-    jq -e --arg prompt_set "$prompt_set" '.status == "fresh" and .safe_to_run == true and .prompt_set_id == $prompt_set' <<<"$out" >/dev/null || return 1
-  done
+build_non_prompt_route_fixture() {
+  local root="$1"
+  copy_packet2_runtime_scripts "$root"
+  write_valid_packet2_fixture "$root"
+
+  mkdir -p "$root/.octon/inputs/additive/extensions/docs/context"
+  perl -0pi -e 's/context: null/context: "context\/"/' \
+    "$root/.octon/inputs/additive/extensions/docs/pack.yml"
+  cat >"$root/.octon/inputs/additive/extensions/docs/context/routing.contract.yml" <<'EOF'
+schema_version: "octon-extension-routing-contract-v1"
+dispatchers:
+  - dispatcher_id: "docs-dispatcher"
+    default_route_id: "docs-route"
+    accepted_inputs:
+      - "bundle"
+    disambiguators:
+      - input_name: "bundle"
+        kind: "route-id"
+        allowed_values:
+          - "docs-route"
+    precedence:
+      - "explicit-bundle"
+      - "missing-bundle"
+    routes:
+      - route_id: "docs-route"
+        status: "resolved"
+        execution_binding_id: "docs-route"
+        matchers:
+          - matcher_id: "explicit-bundle"
+            reason_codes:
+              - "explicit-bundle"
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "docs-route"
+      - route_id: "missing-bundle"
+        status: "escalate"
+        matchers:
+          - matcher_id: "missing-bundle"
+            reason_codes:
+              - "missing-routeable-inputs"
+            all_of:
+              - input_name: "bundle"
+                predicate: "absent"
+    execution_bindings:
+      - binding_id: "docs-route"
+        route_id: "docs-route"
+        command_capability_id: "docs-command"
+EOF
+
+  cat >"$root/.octon/instance/extensions.yml" <<'EOF'
+schema_version: "octon-instance-extensions-v2"
+selection:
+  enabled:
+    - pack_id: "docs"
+      source_id: "bundled-first-party"
+  disabled: []
+sources:
+  catalog:
+    bundled-first-party:
+      source_type: "internalized"
+      root: ".octon/inputs/additive/extensions"
+      allowed_origin_classes:
+        - "first_party_bundled"
+trust:
+  default_actions:
+    first_party_bundled: "allow"
+  source_overrides: {}
+  pack_overrides: {}
+acknowledgements: []
+EOF
+
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" \
+    bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" >/dev/null
 }
 
-case_stale_architecture_prompt_blocks_auto() {
+resolve_docs_route() {
+  local root="$1" inputs_json="$2"
+  OCTON_DIR_OVERRIDE="$root/.octon" OCTON_ROOT_DIR="$root" \
+    bash "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \
+      --pack-id docs \
+      --dispatcher-id docs-dispatcher \
+      --inputs-json "$inputs_json"
+}
+
+case_prompt_backed_route_resolves_default_architecture() {
   local fixture out
-  fixture="$(create_fixture)"
+  fixture="$(create_prompt_fixture)"
   CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
+  write_prompt_backed_fixture "$fixture"
   publish_state "$fixture"
-  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
-  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)" && return 1
-  jq -e '.status == "blocked" and .safe_to_run == false and (.reason_codes | any(startswith("prompt-asset-sha-changed:stages/01-extract.md")))' <<<"$out" >/dev/null
+
+  out="$(resolve_route "$fixture" octon-concept-integration '{"source_artifact":"https://example.com/source.md"}')"
+  jq -e '.status == "resolved" and .selected_route_id == "source-to-architecture-packet" and .selected_execution_binding.prompt_set_id == "octon-concept-integration-source-to-architecture-packet"' <<<"$out" >/dev/null
 }
 
-case_stale_architecture_prompt_skip_degrades() {
+case_prompt_backed_route_escalates_on_conflicting_families() {
   local fixture out
-  fixture="$(create_fixture)"
+  fixture="$(create_prompt_fixture)"
   CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
+  write_prompt_backed_fixture "$fixture"
   publish_state "$fixture"
-  printf '\n<!-- stale fixture mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
-  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet skip)"
-  jq -e '.status == "degraded_skip" and .safe_to_run == true and (.reason_codes | any(startswith("prompt-asset-sha-changed:stages/01-extract.md")))' <<<"$out" >/dev/null
+
+  out="$(resolve_route "$fixture" octon-concept-integration '{"source_artifact":"artifact.md","proposal_packet":"packet.yml"}')" && return 1
+  jq -e '.status == "escalate" and (.reason_codes | index("conflicting-input-families")) != null' <<<"$out" >/dev/null
 }
 
-case_shared_reference_change_blocks_auto() {
+case_prompt_backed_route_denies_unsupported_bundle() {
   local fixture out
-  fixture="$(create_fixture)"
+  fixture="$(create_prompt_fixture)"
   CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
+  write_prompt_backed_fixture "$fixture"
   publish_state "$fixture"
-  printf '\n<!-- stale reference mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md"
-  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)" && return 1
-  jq -e '.status == "blocked" and .safe_to_run == false and (.reason_codes | any(startswith("shared-reference-asset-sha-changed:shared/repository-grounding.md")))' <<<"$out" >/dev/null
+
+  out="$(resolve_route "$fixture" octon-concept-integration '{"bundle":"not-a-real-route"}')" && return 1
+  jq -e '.status == "deny" and .selected_route_id == "unsupported-route-id" and (.reason_codes | index("unsupported-route-id")) != null' <<<"$out" >/dev/null
 }
 
-case_shared_reference_change_degrades_skip() {
+case_missing_dispatcher_blocks() {
   local fixture out
-  fixture="$(create_fixture)"
+  fixture="$(create_prompt_fixture)"
   CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
+  write_prompt_backed_fixture "$fixture"
   publish_state "$fixture"
-  printf '\n<!-- stale reference mutation -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md"
-  out="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet skip)"
-  jq -e '.status == "degraded_skip" and .safe_to_run == true and (.reason_codes | any(startswith("shared-reference-asset-sha-changed:shared/managed-artifact-contract.md")))' <<<"$out" >/dev/null
+
+  out="$(resolve_route "$fixture" missing-dispatcher '{"source_artifact":"artifact.md"}')" && return 1
+  jq -e '.status == "blocked" and (.reason_codes | index("missing-dispatcher-entry")) != null' <<<"$out" >/dev/null
 }
 
-case_republish_after_prompt_change_restores_auto() {
-  local fixture first second first_sha second_sha
-  fixture="$(create_fixture)"
+case_unpublished_extension_blocks() {
+  local fixture out
+  fixture="$(create_prompt_fixture)"
   CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
+  write_prompt_backed_fixture "$fixture"
   publish_state "$fixture"
-  first="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
-  first_sha="$(jq -r '.prompt_bundle_sha256' <<<"$first")"
-  printf '\n<!-- prompt asset changed before republish -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/01-extract.md"
-  publish_state "$fixture"
-  second="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
-  second_sha="$(jq -r '.prompt_bundle_sha256' <<<"$second")"
-  [[ "$first_sha" != "$second_sha" ]]
-  jq -e '.status == "fresh" and .safe_to_run == true' <<<"$second" >/dev/null
+
+  perl -0pi -e 's/publication_status: "published"/publication_status: "withdrawn"/' \
+    "$fixture/.octon/generated/effective/extensions/catalog.effective.yml"
+  out="$(resolve_route "$fixture" octon-concept-integration '{"source_artifact":"artifact.md"}')" && return 1
+  jq -e '.status == "blocked" and (.reason_codes | index("extension-not-published")) != null' <<<"$out" >/dev/null
 }
 
-case_republish_after_shared_reference_change_restores_auto() {
-  local fixture first second first_sha second_sha
-  fixture="$(create_fixture)"
+case_non_prompt_binding_resolves_without_prompt_set() {
+  local fixture out
+  fixture="$(create_packet2_fixture_repo)"
   CLEANUP_DIRS+=("$fixture")
-  write_fixture "$fixture"
-  publish_state "$fixture"
-  first="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
-  first_sha="$(jq -r '.prompt_bundle_sha256' <<<"$first")"
-  printf '\n<!-- shared reference changed before republish -->\n' >> "$fixture/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md"
-  publish_state "$fixture"
-  second="$(resolve_bundle "$fixture" octon-concept-integration-source-to-architecture-packet auto)"
-  second_sha="$(jq -r '.prompt_bundle_sha256' <<<"$second")"
-  [[ "$first_sha" != "$second_sha" ]]
-  jq -e '.status == "fresh" and .safe_to_run == true' <<<"$second" >/dev/null
+  build_non_prompt_route_fixture "$fixture"
+
+  out="$(resolve_docs_route "$fixture" '{"bundle":"docs-route"}')"
+  jq -e '.status == "resolved" and .selected_route_id == "docs-route" and .selected_execution_binding.command_capability_id == "docs-command" and (.selected_execution_binding | has("prompt_set_id") | not)' <<<"$out" >/dev/null
 }
 
 main() {
-  assert_success "all bundles publish fresh in auto mode" case_all_bundles_publish_fresh
-  assert_success "stale architecture prompt blocks auto mode" case_stale_architecture_prompt_blocks_auto
-  assert_success "stale architecture prompt degrades skip mode" case_stale_architecture_prompt_skip_degrades
-  assert_success "shared reference change blocks auto mode" case_shared_reference_change_blocks_auto
-  assert_success "shared reference change degrades skip mode" case_shared_reference_change_degrades_skip
-  assert_success "republishing after prompt change restores fresh auto mode" case_republish_after_prompt_change_restores_auto
-  assert_success "republishing after shared reference change restores fresh auto mode" case_republish_after_shared_reference_change_restores_auto
+  assert_success "prompt-backed resolver returns the default architecture route" case_prompt_backed_route_resolves_default_architecture
+  assert_success "prompt-backed resolver escalates on conflicting structural inputs" case_prompt_backed_route_escalates_on_conflicting_families
+  assert_success "prompt-backed resolver denies unsupported explicit routes" case_prompt_backed_route_denies_unsupported_bundle
+  assert_success "resolver blocks when the dispatcher is missing" case_missing_dispatcher_blocks
+  assert_success "resolver blocks when the extension publication is withdrawn" case_unpublished_extension_blocks
+  assert_success "non-prompt bindings resolve without prompt metadata" case_non_prompt_binding_resolves_without_prompt_set
 
   echo
   echo "Passed: $pass_count"

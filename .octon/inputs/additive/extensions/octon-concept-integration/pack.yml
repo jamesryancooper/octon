@@ -19,7 +19,7 @@ compatibility:
     - contract_id: "extension-quarantine-state"
       schema_version: "octon-extension-quarantine-state-v3"
     - contract_id: "extension-effective-catalog"
-      schema_version: "octon-extension-effective-catalog-v5"
+      schema_version: "octon-extension-effective-catalog-v6"
     - contract_id: "extension-artifact-map"
       schema_version: "octon-extension-artifact-map-v4"
     - contract_id: "extension-generation-lock"
