@@ -1,0 +1,42 @@
+schema_version: "octon-validation-extension-compatibility-receipt-v1"
+receipt_id: "extensions-compatibility-2026-04-15T15-43-46Z-extensions-f66caee9e62b"
+compatibility_family: "extensions"
+generation_id: "extensions-f66caee9e62b"
+result: "incompatible"
+validated_at: "2026-04-15T15:43:46Z"
+validator_version: "extension-compatibility-v1"
+contract_refs:
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"
+source_digests:
+  desired_config_sha256: "f66caee9e62b84ce2cb00c9164f32ae690e9913080398ab44459a979611541f8"
+  root_manifest_sha256: "71d6fbb7951acd92d64d1e35e0ce08b55445e346c526f9c432c9f0ff3e08bfd1"
+  pack_manifest__octon-concept-integration__bundled-first-party: "59e21d5a592f53c700496d001129c0fca933203db2e2b4b02a000700ce155c9b"
+  compatibility_profile__octon-concept-integration__bundled-first-party: "77e827bcccb59a54c886d6147ed77e9480d9db348a3407a5116d3a8ab37d1818"
+pack_results:
+  - pack_id: "octon-concept-integration"
+    source_id: "bundled-first-party"
+    result: "incompatible"
+    profile_path: ".octon/inputs/additive/extensions/octon-concept-integration/validation/compatibility.yml"
+    required_inputs:
+      - ".octon/inputs/additive/extensions/octon-concept-integration/pack.yml"
+      - ".octon/inputs/additive/extensions/octon-concept-integration/validation/compatibility.yml"
+    missing_required_files: []
+    missing_required_directories: []
+    missing_required_commands: []
+    missing_required_behaviors: []
+    degraded_optional_features: []
+    blocking_reasons:
+      - "required-contract-version-mismatch:extension-active-state"
+    source_digests:
+      pack_manifest_sha256: "59e21d5a592f53c700496d001129c0fca933203db2e2b4b02a000700ce155c9b"
+      profile_sha256: "77e827bcccb59a54c886d6147ed77e9480d9db348a3407a5116d3a8ab37d1818"
+required_inputs:
+  - ".octon/inputs/additive/extensions/octon-concept-integration/pack.yml"
+  - ".octon/inputs/additive/extensions/octon-concept-integration/validation/compatibility.yml"
+  - ".octon/instance/extensions.yml"
+  - ".octon/octon.yml"
