@@ -766,6 +766,395 @@ ext_prompt_bundle_manifest_files_for_pack() {
   find "$prompts_root" -name manifest.yml -type f | sort
 }
 
+ext_routing_contract_abs_for_pack() {
+  local manifest="$1" pack_root="$2"
+  local context_root_rel contract_abs
+
+  context_root_rel="$(yq -r '.content_entrypoints.context // ""' "$manifest" 2>/dev/null || true)"
+  if [[ -z "$context_root_rel" || "$context_root_rel" == "null" ]]; then
+    return 1
+  fi
+
+  contract_abs="$pack_root/${context_root_rel%/}/routing.contract.yml"
+  [[ -f "$contract_abs" ]] || return 1
+  printf '%s\n' "$contract_abs"
+}
+
+ext_routing_contract_rel_for_pack() {
+  local pack_id="$1" manifest="$2" pack_root="$3"
+  local context_root_rel contract_abs
+
+  contract_abs="$(ext_routing_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
+  [[ -n "$contract_abs" ]] || return 1
+  context_root_rel="$(yq -r '.content_entrypoints.context // ""' "$manifest" 2>/dev/null || true)"
+  printf '.octon/inputs/additive/extensions/%s/%s/routing.contract.yml\n' "$pack_id" "${context_root_rel%/}"
+}
+
+ext_validate_routing_contract_if_present() {
+  local pack_id="$1" manifest="$2" pack_root="$3"
+  local contract_abs dispatcher_count dispatcher_id default_route_id route_count
+  local accepted_input input_name kind allowed_value matcher_id route_id status execution_binding_id binding_id binding_route_id predicate
+  declare -A seen_dispatchers=()
+
+  contract_abs="$(ext_routing_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
+  [[ -n "$contract_abs" ]] || return 0
+
+  yq -e '.' "$contract_abs" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="invalid-routing-contract-yaml"
+    return 1
+  }
+
+  [[ "$(yq -r '.schema_version // ""' "$contract_abs" 2>/dev/null || true)" == "octon-extension-routing-contract-v1" ]] || {
+    EXT_LAST_ERROR_REASON="invalid-routing-contract-schema-version"
+    return 1
+  }
+
+  yq -e '.dispatchers | tag == "!!seq"' "$contract_abs" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="missing-routing-dispatchers"
+    return 1
+  }
+
+  dispatcher_count="$(yq -r '.dispatchers | length' "$contract_abs" 2>/dev/null || echo 0)"
+  [[ "$dispatcher_count" -gt 0 ]] || {
+    EXT_LAST_ERROR_REASON="empty-routing-dispatchers"
+    return 1
+  }
+
+  local dispatcher_index
+  for ((dispatcher_index=0; dispatcher_index<dispatcher_count; dispatcher_index++)); do
+    dispatcher_id="$(yq -r ".dispatchers[$dispatcher_index].dispatcher_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+    [[ "$dispatcher_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+      EXT_LAST_ERROR_REASON="invalid-routing-dispatcher-id:$dispatcher_index"
+      return 1
+    }
+    if [[ -n "${seen_dispatchers["$dispatcher_id"]:-}" ]]; then
+      EXT_LAST_ERROR_REASON="duplicate-routing-dispatcher-id:$dispatcher_id"
+      return 1
+    fi
+    seen_dispatchers["$dispatcher_id"]="1"
+
+    default_route_id="$(yq -r ".dispatchers[$dispatcher_index].default_route_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+    [[ "$default_route_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+      EXT_LAST_ERROR_REASON="invalid-routing-default-route:$dispatcher_id"
+      return 1
+    }
+
+    yq -e ".dispatchers[$dispatcher_index].accepted_inputs | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-routing-accepted-inputs:$dispatcher_id"
+      return 1
+    }
+    declare -A seen_inputs=()
+    while IFS= read -r accepted_input; do
+      [[ -n "$accepted_input" ]] || continue
+      [[ "$accepted_input" =~ ^[a-z][a-z0-9_]*$ ]] || {
+        EXT_LAST_ERROR_REASON="invalid-routing-input-name:$dispatcher_id:$accepted_input"
+        return 1
+      }
+      if [[ -n "${seen_inputs["$accepted_input"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-routing-input-name:$dispatcher_id:$accepted_input"
+        return 1
+      fi
+      seen_inputs["$accepted_input"]="1"
+    done < <(yq -r ".dispatchers[$dispatcher_index].accepted_inputs[]? // \"\"" "$contract_abs" 2>/dev/null || true)
+
+    yq -e ".dispatchers[$dispatcher_index].disambiguators | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-routing-disambiguators:$dispatcher_id"
+      return 1
+    }
+    local disambiguator_index
+    disambiguator_index=0
+    while yq -e ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index]" "$contract_abs" >/dev/null 2>&1; do
+      input_name="$(yq -r ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index].input_name // \"\"" "$contract_abs" 2>/dev/null || true)"
+      kind="$(yq -r ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index].kind // \"\"" "$contract_abs" 2>/dev/null || true)"
+      [[ -n "${seen_inputs["$input_name"]:-}" ]] || {
+        EXT_LAST_ERROR_REASON="routing-disambiguator-unknown-input:$dispatcher_id:$input_name"
+        return 1
+      }
+      case "$kind" in
+        enum|route-id)
+          ;;
+        *)
+          EXT_LAST_ERROR_REASON="invalid-routing-disambiguator-kind:$dispatcher_id:$kind"
+          return 1
+          ;;
+      esac
+      yq -e ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index].allowed_values | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+        EXT_LAST_ERROR_REASON="missing-routing-disambiguator-values:$dispatcher_id:$input_name"
+        return 1
+      }
+      [[ "$(yq -r ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index].allowed_values | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+        EXT_LAST_ERROR_REASON="empty-routing-disambiguator-values:$dispatcher_id:$input_name"
+        return 1
+      }
+      while IFS= read -r allowed_value; do
+        [[ -n "$allowed_value" ]] || continue
+        if [[ "$kind" == "route-id" && ! "$allowed_value" =~ ^[a-z][a-z0-9-]*$ ]]; then
+          EXT_LAST_ERROR_REASON="invalid-routing-route-id-value:$dispatcher_id:$allowed_value"
+          return 1
+        fi
+      done < <(yq -r ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index].allowed_values[]? // \"\"" "$contract_abs" 2>/dev/null || true)
+      disambiguator_index=$((disambiguator_index + 1))
+    done
+
+    yq -e ".dispatchers[$dispatcher_index].precedence | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-routing-precedence:$dispatcher_id"
+      return 1
+    }
+    [[ "$(yq -r ".dispatchers[$dispatcher_index].precedence | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+      EXT_LAST_ERROR_REASON="empty-routing-precedence:$dispatcher_id"
+      return 1
+    }
+
+    yq -e ".dispatchers[$dispatcher_index].routes | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-routing-routes:$dispatcher_id"
+      return 1
+    }
+    route_count="$(yq -r ".dispatchers[$dispatcher_index].routes | length" "$contract_abs" 2>/dev/null || echo 0)"
+    [[ "$route_count" -gt 0 ]] || {
+      EXT_LAST_ERROR_REASON="empty-routing-routes:$dispatcher_id"
+      return 1
+    }
+
+    declare -A seen_routes=()
+    declare -A route_status_by_id=()
+    declare -A seen_matchers=()
+    declare -A matcher_route_by_id=()
+    declare -A binding_route_by_id=()
+
+    local route_index matcher_index condition_index
+    for ((route_index=0; route_index<route_count; route_index++)); do
+      route_id="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].route_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      status="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].status // \"\"" "$contract_abs" 2>/dev/null || true)"
+      execution_binding_id="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].execution_binding_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+
+      [[ "$route_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+        EXT_LAST_ERROR_REASON="invalid-routing-route-id:$dispatcher_id:$route_index"
+        return 1
+      }
+      if [[ -n "${seen_routes["$route_id"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-routing-route-id:$dispatcher_id:$route_id"
+        return 1
+      fi
+      seen_routes["$route_id"]="1"
+      route_status_by_id["$route_id"]="$status"
+
+      case "$status" in
+        resolved|escalate|deny|blocked)
+          ;;
+        *)
+          EXT_LAST_ERROR_REASON="invalid-routing-route-status:$dispatcher_id:$route_id"
+          return 1
+          ;;
+      esac
+
+      if [[ "$status" == "resolved" ]]; then
+        [[ "$execution_binding_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+          EXT_LAST_ERROR_REASON="missing-routing-execution-binding:$dispatcher_id:$route_id"
+          return 1
+        }
+      elif [[ -n "$execution_binding_id" ]]; then
+        EXT_LAST_ERROR_REASON="unexpected-routing-execution-binding:$dispatcher_id:$route_id"
+        return 1
+      fi
+
+      yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+        EXT_LAST_ERROR_REASON="missing-routing-matchers:$dispatcher_id:$route_id"
+        return 1
+      }
+      [[ "$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+        EXT_LAST_ERROR_REASON="empty-routing-matchers:$dispatcher_id:$route_id"
+        return 1
+      }
+
+      matcher_index=0
+      while yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index]" "$contract_abs" >/dev/null 2>&1; do
+        matcher_id="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].matcher_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+        [[ "$matcher_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+          EXT_LAST_ERROR_REASON="invalid-routing-matcher-id:$dispatcher_id:$route_id:$matcher_index"
+          return 1
+        }
+        if [[ -n "${seen_matchers["$matcher_id"]:-}" ]]; then
+          EXT_LAST_ERROR_REASON="duplicate-routing-matcher-id:$dispatcher_id:$matcher_id"
+          return 1
+        fi
+        seen_matchers["$matcher_id"]="1"
+        matcher_route_by_id["$matcher_id"]="$route_id"
+
+        yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].reason_codes | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+          EXT_LAST_ERROR_REASON="missing-routing-reason-codes:$dispatcher_id:$matcher_id"
+          return 1
+        }
+        [[ "$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].reason_codes | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+          EXT_LAST_ERROR_REASON="empty-routing-reason-codes:$dispatcher_id:$matcher_id"
+          return 1
+        }
+
+        yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+          EXT_LAST_ERROR_REASON="missing-routing-matcher-conditions:$dispatcher_id:$matcher_id"
+          return 1
+        }
+        [[ "$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+          EXT_LAST_ERROR_REASON="empty-routing-matcher-conditions:$dispatcher_id:$matcher_id"
+          return 1
+        }
+
+        condition_index=0
+        while yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of[$condition_index]" "$contract_abs" >/dev/null 2>&1; do
+          input_name="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of[$condition_index].input_name // \"\"" "$contract_abs" 2>/dev/null || true)"
+          predicate="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of[$condition_index].predicate // \"\"" "$contract_abs" 2>/dev/null || true)"
+          [[ -n "${seen_inputs["$input_name"]:-}" ]] || {
+            EXT_LAST_ERROR_REASON="routing-matcher-unknown-input:$dispatcher_id:$matcher_id:$input_name"
+            return 1
+          }
+          case "$predicate" in
+            present|absent)
+              ;;
+            equals)
+              yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of[$condition_index] | has(\"value\")" "$contract_abs" >/dev/null 2>&1 || {
+                EXT_LAST_ERROR_REASON="missing-routing-condition-value:$dispatcher_id:$matcher_id"
+                return 1
+              }
+              ;;
+            one_of|not_one_of)
+              yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of[$condition_index].values | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+                EXT_LAST_ERROR_REASON="missing-routing-condition-values:$dispatcher_id:$matcher_id"
+                return 1
+              }
+              [[ "$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].all_of[$condition_index].values | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+                EXT_LAST_ERROR_REASON="empty-routing-condition-values:$dispatcher_id:$matcher_id"
+                return 1
+              }
+              ;;
+            *)
+              EXT_LAST_ERROR_REASON="invalid-routing-predicate:$dispatcher_id:$matcher_id:$predicate"
+              return 1
+              ;;
+          esac
+          condition_index=$((condition_index + 1))
+        done
+
+        matcher_index=$((matcher_index + 1))
+      done
+    done
+
+    yq -e ".dispatchers[$dispatcher_index].execution_bindings | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="missing-routing-execution-bindings:$dispatcher_id"
+      return 1
+    }
+    local binding_index
+    binding_index=0
+    declare -A seen_bindings=()
+    while yq -e ".dispatchers[$dispatcher_index].execution_bindings[$binding_index]" "$contract_abs" >/dev/null 2>&1; do
+      binding_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].binding_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      binding_route_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].route_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      [[ "$binding_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+        EXT_LAST_ERROR_REASON="invalid-routing-binding-id:$dispatcher_id:$binding_index"
+        return 1
+      }
+      if [[ -n "${seen_bindings["$binding_id"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-routing-binding-id:$dispatcher_id:$binding_id"
+        return 1
+      fi
+      seen_bindings["$binding_id"]="1"
+      [[ -n "${seen_routes["$binding_route_id"]:-}" ]] || {
+        EXT_LAST_ERROR_REASON="routing-binding-unknown-route:$dispatcher_id:$binding_id"
+        return 1
+      }
+      [[ "${route_status_by_id["$binding_route_id"]}" == "resolved" ]] || {
+        EXT_LAST_ERROR_REASON="routing-binding-nonresolved-route:$dispatcher_id:$binding_id"
+        return 1
+      }
+      local command_capability_id skill_capability_id prompt_set_id
+      command_capability_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].command_capability_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      skill_capability_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].skill_capability_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      prompt_set_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].prompt_set_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      if [[ -z "$command_capability_id" && -z "$skill_capability_id" && -z "$prompt_set_id" ]]; then
+        EXT_LAST_ERROR_REASON="empty-routing-binding-targets:$dispatcher_id:$binding_id"
+        return 1
+      fi
+      binding_route_by_id["$binding_id"]="$binding_route_id"
+      binding_index=$((binding_index + 1))
+    done
+
+    [[ -n "${seen_routes["$default_route_id"]:-}" ]] || {
+      EXT_LAST_ERROR_REASON="routing-default-route-missing:$dispatcher_id:$default_route_id"
+      return 1
+    }
+    [[ "${route_status_by_id["$default_route_id"]}" == "resolved" ]] || {
+      EXT_LAST_ERROR_REASON="routing-default-route-not-resolved:$dispatcher_id:$default_route_id"
+      return 1
+    }
+
+    declare -A seen_precedence=()
+    while IFS= read -r matcher_id; do
+      [[ -n "$matcher_id" ]] || continue
+      if [[ -n "${seen_precedence["$matcher_id"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-routing-precedence-entry:$dispatcher_id:$matcher_id"
+        return 1
+      fi
+      seen_precedence["$matcher_id"]="1"
+      [[ -n "${seen_matchers["$matcher_id"]:-}" ]] || {
+        EXT_LAST_ERROR_REASON="routing-precedence-unknown-matcher:$dispatcher_id:$matcher_id"
+        return 1
+      }
+    done < <(yq -r ".dispatchers[$dispatcher_index].precedence[]? // \"\"" "$contract_abs" 2>/dev/null || true)
+
+    for matcher_id in "${!seen_matchers[@]}"; do
+      [[ -n "${seen_precedence["$matcher_id"]:-}" ]] || {
+        EXT_LAST_ERROR_REASON="routing-matcher-missing-from-precedence:$dispatcher_id:$matcher_id"
+        return 1
+      }
+    done
+
+    for route_id in "${!route_status_by_id[@]}"; do
+      if [[ "${route_status_by_id["$route_id"]}" == "resolved" ]]; then
+        execution_binding_id="$(yq -r ".dispatchers[$dispatcher_index].routes[]? | select(.route_id == \"$route_id\") | .execution_binding_id // \"\"" "$contract_abs" 2>/dev/null | head -n 1)"
+        [[ -n "${binding_route_by_id["$execution_binding_id"]:-}" ]] || {
+          EXT_LAST_ERROR_REASON="routing-route-binding-missing:$dispatcher_id:$route_id"
+          return 1
+        }
+        [[ "${binding_route_by_id["$execution_binding_id"]}" == "$route_id" ]] || {
+          EXT_LAST_ERROR_REASON="routing-route-binding-mismatch:$dispatcher_id:$route_id"
+          return 1
+        }
+      fi
+    done
+
+    if yq -e ".dispatchers[$dispatcher_index] | has(\"reroute_policy\")" "$contract_abs" >/dev/null 2>&1; then
+      local reroute_to_route_id max_reroutes
+      reroute_to_route_id="$(yq -r ".dispatchers[$dispatcher_index].reroute_policy.reroute_to_route_id // \"\"" "$contract_abs" 2>/dev/null || true)"
+      max_reroutes="$(yq -r ".dispatchers[$dispatcher_index].reroute_policy.max_reroutes // \"\"" "$contract_abs" 2>/dev/null || true)"
+      [[ "$max_reroutes" =~ ^[0-9]+$ ]] || {
+        EXT_LAST_ERROR_REASON="invalid-routing-reroute-count:$dispatcher_id"
+        return 1
+      }
+      [[ -n "${seen_routes["$reroute_to_route_id"]:-}" ]] || {
+        EXT_LAST_ERROR_REASON="routing-reroute-target-missing:$dispatcher_id:$reroute_to_route_id"
+        return 1
+      }
+      yq -e ".dispatchers[$dispatcher_index].reroute_policy.allowed_source_route_ids | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+        EXT_LAST_ERROR_REASON="missing-routing-reroute-sources:$dispatcher_id"
+        return 1
+      }
+      yq -e ".dispatchers[$dispatcher_index].reroute_policy.trigger_reason_codes | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
+        EXT_LAST_ERROR_REASON="missing-routing-reroute-reasons:$dispatcher_id"
+        return 1
+      }
+      while IFS= read -r route_id; do
+        [[ -n "$route_id" ]] || continue
+        [[ -n "${seen_routes["$route_id"]:-}" ]] || {
+          EXT_LAST_ERROR_REASON="routing-reroute-source-missing:$dispatcher_id:$route_id"
+          return 1
+        }
+      done < <(yq -r ".dispatchers[$dispatcher_index].reroute_policy.allowed_source_route_ids[]? // \"\"" "$contract_abs" 2>/dev/null || true)
+      [[ "$(yq -r ".dispatchers[$dispatcher_index].reroute_policy.trigger_reason_codes | length" "$contract_abs" 2>/dev/null || echo 0)" -gt 0 ]] || {
+        EXT_LAST_ERROR_REASON="empty-routing-reroute-reasons:$dispatcher_id"
+        return 1
+      }
+    fi
+  done
+}
+
 ext_validate_pack_core_contract() {
   local pack_id="$1"
   local manifest pack_root manifest_id version origin_class octon_range ext_api
@@ -838,6 +1227,7 @@ ext_validate_pack_core_contract() {
   ext_pack_has_allowed_top_level_shape "$pack_root" || return 1
   ext_validate_content_entrypoints "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_prompt_set_manifest_if_present "$manifest" "$pack_root" || return 1
+  ext_validate_routing_contract_if_present "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_compatibility_profile_contract "$manifest" "$pack_root" || return 1
 
   EXT_VALIDATED_VERSION="$version"

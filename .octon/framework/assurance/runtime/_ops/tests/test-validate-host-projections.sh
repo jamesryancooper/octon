@@ -80,7 +80,7 @@ allowed-tools: Read
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
-schema_version: "octon-extension-effective-catalog-v5"
+schema_version: "octon-extension-effective-catalog-v6"
 generator_version: "0.5.1"
 generation_id: "extensions-fixture"
 published_at: "2026-03-20T00:00:00Z"

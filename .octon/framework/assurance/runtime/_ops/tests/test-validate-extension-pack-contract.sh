@@ -66,7 +66,7 @@ case_supported_required_contracts_pass() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v5"/' \
+  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v6"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
 
   run_validator "$fixture_root"
@@ -92,7 +92,7 @@ case_required_contracts_follow_live_schema_versions() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v5"/schema_version: "octon-extension-effective-catalog-v9"/' \
+  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v6"/schema_version: "octon-extension-effective-catalog-v9"/' \
     "$fixture_root/.octon/generated/effective/extensions/catalog.effective.yml"
   perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v9"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
@@ -109,6 +109,101 @@ case_required_contract_version_mismatch_fails() {
 
   perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "instance-extensions"\n      schema_version: "octon-instance-extensions-v1"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
+
+  ! run_validator "$fixture_root"
+}
+
+case_valid_routing_contract_passes() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/docs/context"
+  perl -0pi -e 's/context: null/context: "context\/"/' \
+    "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
+  cat >"$fixture_root/.octon/inputs/additive/extensions/docs/context/routing.contract.yml" <<'EOF'
+schema_version: "octon-extension-routing-contract-v1"
+dispatchers:
+  - dispatcher_id: "docs-dispatcher"
+    default_route_id: "docs-route"
+    accepted_inputs:
+      - "bundle"
+    disambiguators:
+      - input_name: "bundle"
+        kind: "route-id"
+        allowed_values:
+          - "docs-route"
+    precedence:
+      - "explicit-bundle"
+      - "missing-bundle"
+    routes:
+      - route_id: "docs-route"
+        status: "resolved"
+        execution_binding_id: "docs-route"
+        matchers:
+          - matcher_id: "explicit-bundle"
+            reason_codes:
+              - "explicit-bundle"
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "docs-route"
+      - route_id: "missing-bundle"
+        status: "escalate"
+        matchers:
+          - matcher_id: "missing-bundle"
+            reason_codes:
+              - "missing-routeable-inputs"
+            all_of:
+              - input_name: "bundle"
+                predicate: "absent"
+    execution_bindings:
+      - binding_id: "docs-route"
+        route_id: "docs-route"
+        command_capability_id: "docs-command"
+EOF
+
+  run_validator "$fixture_root"
+}
+
+case_invalid_routing_contract_fails() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/docs/context"
+  perl -0pi -e 's/context: null/context: "context\/"/' \
+    "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
+  cat >"$fixture_root/.octon/inputs/additive/extensions/docs/context/routing.contract.yml" <<'EOF'
+schema_version: "octon-extension-routing-contract-v1"
+dispatchers:
+  - dispatcher_id: "docs-dispatcher"
+    default_route_id: "docs-route"
+    accepted_inputs:
+      - "bundle"
+    disambiguators: []
+    precedence:
+      - "missing-bundle"
+    routes:
+      - route_id: "docs-route"
+        status: "resolved"
+        execution_binding_id: "docs-route"
+        matchers:
+          - matcher_id: "missing-bundle"
+            reason_codes:
+              - "missing-routeable-inputs"
+            all_of:
+              - input_name: "bundle"
+                predicate: "maybe"
+    execution_bindings:
+      - binding_id: "docs-route"
+        route_id: "docs-route"
+        command_capability_id: "docs-command"
+EOF
 
   ! run_validator "$fixture_root"
 }
@@ -223,6 +318,8 @@ main() {
   assert_success "required_contracts reject live version mismatches" case_required_contract_version_mismatch_fails
   assert_success "pack validator rejects legacy pack manifest shape" case_invalid_pack_schema_fails
   assert_success "pack validator rejects disallowed top-level pack buckets" case_unexpected_top_level_bucket_fails
+  assert_success "valid routing contracts are accepted" case_valid_routing_contract_passes
+  assert_success "invalid routing contracts are rejected" case_invalid_routing_contract_fails
   assert_success "pack validator rejects missing required provenance fields" case_missing_required_provenance_fields_fail
   assert_success "pack validator rejects provenance/source mismatches" case_provenance_source_mismatch_fails
   assert_success "external packs require external provenance" case_external_pack_requires_external_provenance

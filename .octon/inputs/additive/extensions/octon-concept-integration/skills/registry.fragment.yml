@@ -8,8 +8,7 @@ skills:
       - name: bundle
         type: text
         required: false
-        default: "source-to-architecture-packet"
-        description: "Bundle selector. Defaults to source-to-architecture-packet."
+        description: "Optional explicit route override. Must match one published route id."
       - name: source_artifact
         type: text
         required: false
@@ -34,6 +33,19 @@ skills:
         type: text
         required: false
         description: "Optional explicit charter, precedence, fail-closed, or authority-rule conflicts for constitutional challenge routing."
+      - name: source_target_kind
+        type: text
+        required: false
+        description: "Optional single-source target kind: architecture, architecture-revision, policy, or migration."
+      - name: packet_action
+        type: text
+        required: false
+        description: "Optional packet action selector: implement, refresh, or supersede."
+      - name: refresh_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Optional packet refresh selector used when packet_action is omitted: auto, refresh, or supersede."
       - name: proposal_id
         type: text
         required: false
@@ -52,6 +64,11 @@ skills:
         required: false
         default: true
         description: "Generate a packet-specific executable implementation prompt for execution-capable packet bundles."
+      - name: dry_run_route
+        type: boolean
+        required: false
+        default: false
+        description: "Return the route resolution receipt without running prompt freshness or dispatching to a leaf route."
     requires:
       context: []
   octon-concept-integration-source-to-architecture-packet:
