@@ -1,0 +1,15 @@
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories:
+    - ".octon/generated/effective/extensions"
+  required_commands:
+    - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  minimum_behavior:
+    fail_closed_publication: true
+    compiled_runtime_consumption_only: true
+    host_generated_receipts: true
+  optional_features: []

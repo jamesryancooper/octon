@@ -65,15 +65,15 @@ main() {
   local desired_sha root_sha generation_id status
   desired_sha="$(ext_hash_file "$EXTENSIONS_MANIFEST")"
   root_sha="$(ext_hash_file "$ROOT_MANIFEST")"
-  local receipt_rel receipt_abs receipt_sha
+  local receipt_rel receipt_abs receipt_sha compatibility_status compatibility_receipt_rel compatibility_receipt_abs compatibility_receipt_sha
 
-  [[ "$(yq -r '.schema_version // ""' "$ACTIVE_STATE")" == "octon-extension-active-state-v3" ]] && pass "active state schema version valid" || fail "active state schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$ACTIVE_STATE")" == "octon-extension-active-state-v4" ]] && pass "active state schema version valid" || fail "active state schema_version invalid"
   [[ "$(yq -r '.schema_version // ""' "$QUARANTINE_STATE")" == "octon-extension-quarantine-state-v3" ]] && pass "quarantine state schema version valid" || fail "quarantine state schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$CATALOG_FILE")" == "octon-extension-effective-catalog-v4" ]] && pass "effective catalog schema version valid" || fail "effective catalog schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$CATALOG_FILE")" == "octon-extension-effective-catalog-v5" ]] && pass "effective catalog schema version valid" || fail "effective catalog schema_version invalid"
   [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-extension-artifact-map-v4" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
-  [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-extension-generation-lock-v4" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
+  [[ "$(yq -r '.schema_version // ""' "$GENERATION_LOCK_FILE")" == "octon-extension-generation-lock-v5" ]] && pass "generation lock schema version valid" || fail "generation lock schema_version invalid"
   local expected_generator_version
-  expected_generator_version="extension-publication-v3"
+  expected_generator_version="extension-publication-v4"
   pass "extension publication generator version contract declared"
   [[ "$(yq -r '.generator_version // ""' "$CATALOG_FILE")" == "$expected_generator_version" ]] && pass "effective catalog generator_version current" || fail "effective catalog generator_version missing or stale"
   [[ "$(yq -r '.generator_version // ""' "$ARTIFACT_MAP_FILE")" == "$expected_generator_version" ]] && pass "artifact map generator_version current" || fail "artifact map generator_version missing or stale"
@@ -113,14 +113,46 @@ main() {
   receipt_sha="$(ext_hash_file "$receipt_abs")"
   [[ "$(yq -r '.publication_receipt_sha256 // ""' "$ACTIVE_STATE")" == "$receipt_sha" ]] && pass "active state receipt hash current" || fail "active state receipt hash stale"
 
+  compatibility_status="$(yq -r '.compatibility_status // ""' "$ACTIVE_STATE")"
+  case "$compatibility_status" in
+    compatible|degraded|incompatible)
+      pass "active state compatibility status valid"
+      ;;
+    *)
+      fail "active state compatibility status invalid"
+      ;;
+  esac
+  compatibility_receipt_rel="$(yq -r '.compatibility_receipt_path // ""' "$ACTIVE_STATE")"
+  [[ -n "$compatibility_receipt_rel" ]] && pass "active state compatibility receipt path declared" || fail "active state missing compatibility receipt path"
+  compatibility_receipt_abs="$ROOT_DIR/$compatibility_receipt_rel"
+  if [[ -f "$compatibility_receipt_abs" ]]; then
+    pass "compatibility receipt file exists"
+    yq -e '.' "$compatibility_receipt_abs" >/dev/null 2>&1 && pass "compatibility receipt parses as YAML" || fail "compatibility receipt must parse as YAML"
+  else
+    fail "compatibility receipt file missing"
+  fi
+  [[ "$(yq -r '.schema_version // ""' "$compatibility_receipt_abs" 2>/dev/null)" == "octon-validation-extension-compatibility-receipt-v1" ]] && pass "compatibility receipt schema version valid" || fail "compatibility receipt schema version invalid"
+  [[ "$(yq -r '.compatibility_family // ""' "$compatibility_receipt_abs" 2>/dev/null)" == "extensions" ]] && pass "compatibility receipt family valid" || fail "compatibility receipt family invalid"
+  [[ "$(yq -r '.generation_id // ""' "$compatibility_receipt_abs" 2>/dev/null)" == "$generation_id" ]] && pass "compatibility receipt generation id matches active state" || fail "compatibility receipt generation id mismatch"
+  [[ "$(yq -r '.result // ""' "$compatibility_receipt_abs" 2>/dev/null)" == "$compatibility_status" ]] && pass "compatibility receipt result matches active state" || fail "compatibility receipt result mismatch"
+  yq -e '.contract_refs | length > 0' "$compatibility_receipt_abs" >/dev/null 2>&1 && pass "compatibility receipt contract refs declared" || fail "compatibility receipt contract refs missing"
+  compatibility_receipt_sha="$(ext_hash_file "$compatibility_receipt_abs")"
+  [[ "$(yq -r '.compatibility_receipt_sha256 // ""' "$ACTIVE_STATE")" == "$compatibility_receipt_sha" ]] && pass "active state compatibility receipt hash current" || fail "active state compatibility receipt hash stale"
+
   [[ "$(yq -r '.generation_id // ""' "$CATALOG_FILE")" == "$generation_id" ]] && pass "effective catalog generation_id matches active state" || fail "effective catalog generation_id mismatch"
   [[ "$(yq -r '.generation_id // ""' "$ARTIFACT_MAP_FILE")" == "$generation_id" ]] && pass "artifact map generation_id matches active state" || fail "artifact map generation_id mismatch"
   [[ "$(yq -r '.generation_id // ""' "$GENERATION_LOCK_FILE")" == "$generation_id" ]] && pass "generation lock generation_id matches active state" || fail "generation lock generation_id mismatch"
   [[ "$(yq -r '.publication_status // ""' "$CATALOG_FILE")" == "$status" ]] && pass "effective catalog status matches active state" || fail "effective catalog status mismatch"
   [[ "$(yq -r '.publication_receipt_path // ""' "$CATALOG_FILE")" == "$receipt_rel" ]] && pass "effective catalog receipt path matches active state" || fail "effective catalog receipt path mismatch"
+  [[ "$(yq -r '.compatibility_status // ""' "$CATALOG_FILE")" == "$compatibility_status" ]] && pass "effective catalog compatibility status matches active state" || fail "effective catalog compatibility status mismatch"
+  [[ "$(yq -r '.compatibility_receipt_path // ""' "$CATALOG_FILE")" == "$compatibility_receipt_rel" ]] && pass "effective catalog compatibility receipt path matches active state" || fail "effective catalog compatibility receipt path mismatch"
+  [[ "$(yq -r '.compatibility_receipt_sha256 // ""' "$CATALOG_FILE")" == "$compatibility_receipt_sha" ]] && pass "effective catalog compatibility receipt hash current" || fail "effective catalog compatibility receipt hash stale"
   [[ "$(yq -r '.publication_status // ""' "$GENERATION_LOCK_FILE")" == "$status" ]] && pass "generation lock status matches active state" || fail "generation lock status mismatch"
   [[ "$(yq -r '.publication_receipt_path // ""' "$GENERATION_LOCK_FILE")" == "$receipt_rel" ]] && pass "generation lock receipt path matches active state" || fail "generation lock receipt path mismatch"
   [[ "$(yq -r '.publication_receipt_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$receipt_sha" ]] && pass "generation lock receipt hash current" || fail "generation lock receipt hash stale"
+  [[ "$(yq -r '.compatibility_status // ""' "$GENERATION_LOCK_FILE")" == "$compatibility_status" ]] && pass "generation lock compatibility status matches active state" || fail "generation lock compatibility status mismatch"
+  [[ "$(yq -r '.compatibility_receipt_path // ""' "$GENERATION_LOCK_FILE")" == "$compatibility_receipt_rel" ]] && pass "generation lock compatibility receipt path matches active state" || fail "generation lock compatibility receipt path mismatch"
+  [[ "$(yq -r '.compatibility_receipt_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$compatibility_receipt_sha" ]] && pass "generation lock compatibility receipt hash current" || fail "generation lock compatibility receipt hash stale"
 
   [[ "$(yq -r '.source.desired_config_sha256 // ""' "$CATALOG_FILE")" == "$desired_sha" ]] && pass "effective catalog desired config hash current" || fail "effective catalog desired config hash stale"
   [[ "$(yq -r '.desired_config_sha256 // ""' "$GENERATION_LOCK_FILE")" == "$desired_sha" ]] && pass "generation lock desired config hash current" || fail "generation lock desired config hash stale"
@@ -144,6 +176,17 @@ main() {
   local pack_id source_id
   while IFS=$'\t' read -r pack_id source_id; do
     [[ -z "$pack_id" ]] && continue
+    case "$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .compatibility_status // \"\"" "$CATALOG_FILE" 2>/dev/null | head -n 1)" in
+      compatible|degraded|incompatible)
+        pass "catalog pack compatibility status valid for $pack_id"
+        ;;
+      *)
+        fail "catalog pack compatibility status invalid for $pack_id"
+        ;;
+    esac
+    [[ "$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .compatibility_profile_path // \"\"" "$CATALOG_FILE" 2>/dev/null | head -n 1)" == ".octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml" ]] \
+      && pass "catalog pack compatibility profile path current for $pack_id" \
+      || fail "catalog pack compatibility profile path invalid for $pack_id"
     yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .routing_exports.commands | type == \"!!seq\"" "$CATALOG_FILE" >/dev/null 2>&1 \
       && pass "routing_exports.commands valid for $pack_id" \
       || fail "routing_exports.commands invalid for $pack_id"
@@ -357,6 +400,26 @@ main() {
       fail "projection source path missing from generation lock: $projection_source_path"
     fi
   done < <(sorted_projection_source_paths)
+
+  local projection_root_rel raw_pack_root_rel leaked_runtime_refs
+  while IFS=$'\t' read -r pack_id source_id; do
+    [[ -z "$pack_id" ]] && continue
+    projection_root_rel="$(ext_published_projection_root_rel "$pack_id" "$source_id")"
+    raw_pack_root_rel="$(ext_pack_root_rel "$pack_id")"
+    leaked_runtime_refs="$(rg -n "$raw_pack_root_rel" \
+      "$ROOT_DIR/$projection_root_rel/README.md" \
+      "$ROOT_DIR/$projection_root_rel/commands" \
+      "$ROOT_DIR/$projection_root_rel/context" \
+      "$ROOT_DIR/$projection_root_rel/prompts" \
+      "$ROOT_DIR/$projection_root_rel/skills" \
+      "$ROOT_DIR/$projection_root_rel/validation/README.md" \
+      "$ROOT_DIR/$projection_root_rel/validation/bundle-matrix.md" 2>/dev/null || true)"
+    if [[ -z "$leaked_runtime_refs" ]]; then
+      pass "published runtime-facing assets avoid raw pack self-references: $pack_id/$source_id"
+    else
+      fail "published runtime-facing assets leak raw pack self-references: $pack_id/$source_id"
+    fi
+  done < <(yq -r '.dependency_closure[]? | [.pack_id, .source_id] | @tsv' "$ACTIVE_STATE" 2>/dev/null || true)
 
   local source_path sha pack_payload_sha computed_payload_sha
   while IFS=$'\t' read -r source_path sha; do

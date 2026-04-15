@@ -4,7 +4,7 @@ Produce a refreshed packet or a superseding packet that matches the live repo.
 
 ## Shared Contracts
 
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md`
+- apply `../../shared/managed-artifact-contract.md`
 - apply the packet-kind contract that matches the packet under refresh
 
 ## Output

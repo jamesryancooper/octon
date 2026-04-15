@@ -80,12 +80,15 @@ allowed-tools: Read
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
-schema_version: "octon-extension-effective-catalog-v4"
+schema_version: "octon-extension-effective-catalog-v5"
 generator_version: "0.5.1"
 generation_id: "extensions-fixture"
 published_at: "2026-03-20T00:00:00Z"
 publication_status: "published"
 publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/fixture.yml"
+compatibility_status: "compatible"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/fixture.yml"
+compatibility_receipt_sha256: "fixture"
 invalidation_conditions:
   - "desired-config-sha-changed"
 desired_selected_packs: []
@@ -101,6 +104,8 @@ packs:
     manifest_path: ".octon/inputs/additive/extensions/demo-ext/pack.yml"
     trust_decision: "allow"
     publication_status: "published"
+    compatibility_status: "compatible"
+    compatibility_profile_path: ".octon/inputs/additive/extensions/demo-ext/validation/compatibility.yml"
     routing_exports:
       commands:
         - capability_id: "demo-ext-command"

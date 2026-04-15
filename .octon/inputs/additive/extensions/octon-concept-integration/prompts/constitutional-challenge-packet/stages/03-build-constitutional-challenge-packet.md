@@ -9,10 +9,10 @@ governed policy proposal packet.
 ## Shared Contracts
 
 - inspect the base repo anchors declared in this bundle `manifest.yml`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/policy-packet-contract.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/constitutional-challenge-contract.md`
+- apply `../../shared/repository-grounding.md`
+- apply `../../shared/managed-artifact-contract.md`
+- apply `../../shared/policy-packet-contract.md`
+- apply `../../shared/constitutional-challenge-contract.md`
 
 ## Output
 

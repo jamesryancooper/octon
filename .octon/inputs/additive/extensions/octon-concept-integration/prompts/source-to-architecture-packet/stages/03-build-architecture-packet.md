@@ -23,7 +23,7 @@ Prefer the corrected final recommendation set from `octon-extracted-concepts-ver
 Use raw extraction output from `octon-implementable-concept-extraction.md` directly only when verification output is unavailable, and explicitly state that the resulting packet scope is provisional.
 
 Its output is the default upstream execution basis for
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md`.
+`../../packet-to-implementation/stages/01-implement-packet.md`.
 
 Your job is to determine, for every **in-scope concept**:
 
@@ -211,7 +211,7 @@ integration-path claim.
 
 Start with the base repo anchors declared in the bundle `manifest.yml`
 `required_repo_anchors`, then apply
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`.
+`../../shared/repository-grounding.md`.
 
 For packetization, also inspect:
 
@@ -592,7 +592,7 @@ If current repo convention supports additional packet files, include them. If a 
 ## PROPOSAL PACKET MANIFEST EXPECTATIONS
 
 Apply
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-packet-contract.md`.
+`../../shared/architecture-packet-contract.md`.
 
 `proposal.yml` and `architecture-proposal.yml` must satisfy Octon's live
 proposal standards and architecture-proposal standards. Do not invent or

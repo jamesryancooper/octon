@@ -38,6 +38,17 @@ ext_reset_resolution_state() {
   declare -ga EXT_SELECTED_KEYS=()
   declare -ga EXT_PUBLISHED_KEYS=()
   declare -ga EXT_QUARANTINE_KEYS=()
+  declare -gA EXT_COMPAT_RESULT_STATUS=()
+  declare -gA EXT_COMPAT_PROFILE_REL=()
+  declare -gA EXT_COMPAT_PROFILE_SHA=()
+  declare -gA EXT_COMPAT_REQUIRED_INPUTS=()
+  declare -gA EXT_COMPAT_MISSING_REQUIRED_FILES=()
+  declare -gA EXT_COMPAT_MISSING_REQUIRED_DIRECTORIES=()
+  declare -gA EXT_COMPAT_MISSING_REQUIRED_COMMANDS=()
+  declare -gA EXT_COMPAT_MISSING_REQUIRED_BEHAVIORS=()
+  declare -gA EXT_COMPAT_DEGRADED_FEATURES=()
+  declare -gA EXT_COMPAT_BLOCKING_REASONS=()
+  declare -g EXT_COMPAT_OVERALL_STATUS="compatible"
   declare -g EXT_LAST_ERROR_REASON=""
   declare -g EXT_LAST_ERROR_ACKNOWLEDGEMENT_ID=""
   declare -g EXT_VALIDATED_VERSION=""
@@ -45,6 +56,16 @@ ext_reset_resolution_state() {
   declare -g EXT_VALIDATED_MANIFEST_REL=""
   declare -g EXT_VALIDATED_TRUST_DECISION=""
   declare -g EXT_VALIDATED_ACKNOWLEDGEMENT_ID=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_STATUS=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_PROFILE_REL=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_FILES=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_DIRECTORIES=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_COMMANDS=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_BEHAVIORS=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_DEGRADED_FEATURES=""
+  declare -g EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS=""
 }
 
 ext_hash_file() {
@@ -69,6 +90,14 @@ ext_trim() {
   value="${value#"${value%%[![:space:]]*}"}"
   value="${value%"${value##*[![:space:]]}"}"
   printf '%s' "$value"
+}
+
+ext_sorted_unique_lines() {
+  printf '%s\n' "$@" | awk 'NF' | LC_ALL=C sort -u
+}
+
+ext_join_sorted_unique_lines() {
+  ext_sorted_unique_lines "$@"
 }
 
 ext_pack_key() {
@@ -366,7 +395,7 @@ ext_pack_has_allowed_top_level_shape() {
 ext_validate_content_entrypoints() {
   local pack_id="$1" manifest="$2" pack_root="$3"
   local bucket rel dir_path
-  for bucket in skills commands templates prompts context validation; do
+  for bucket in skills commands templates prompts context; do
     rel="$(yq -r ".content_entrypoints.$bucket // \"\"" "$manifest")"
     if [[ -z "$rel" || "$rel" == "null" ]]; then
       [[ ! -d "$pack_root/$bucket" ]] || {
@@ -384,6 +413,168 @@ ext_validate_content_entrypoints() {
       EXT_LAST_ERROR_REASON="missing-content-root:$bucket"
       return 1
     }
+  done
+
+  rel="$(yq -r '.content_entrypoints.validation // ""' "$manifest")"
+  [[ -n "$rel" && "$rel" != "null" ]] || {
+    EXT_LAST_ERROR_REASON="missing-content-root:validation"
+    return 1
+  }
+  [[ "$rel" == "validation/" ]] || {
+    EXT_LAST_ERROR_REASON="invalid-entrypoint:validation"
+    return 1
+  }
+  dir_path="$pack_root/${rel%/}"
+  [[ -d "$dir_path" ]] || {
+    EXT_LAST_ERROR_REASON="missing-content-root:validation"
+    return 1
+  }
+}
+
+ext_validate_repo_relative_path_value() {
+  local value="$1" label="$2"
+  [[ -n "$value" ]] || {
+    EXT_LAST_ERROR_REASON="empty-$label"
+    return 1
+  }
+  [[ "$value" != /* ]] || {
+    EXT_LAST_ERROR_REASON="absolute-$label:$value"
+    return 1
+  }
+  [[ "$value" != *"../"* && "$value" != ../* && "$value" != *"/.." && "$value" != ".." ]] || {
+    EXT_LAST_ERROR_REASON="invalid-$label:$value"
+    return 1
+  }
+}
+
+ext_validate_compatibility_behavior_map() {
+  local profile_file="$1" query="$2" label="$3"
+  yq -e "$query | tag == \"!!map\"" "$profile_file" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="invalid-$label"
+    return 1
+  }
+
+  local key value
+  while IFS= read -r key; do
+    [[ -n "$key" ]] || continue
+    case "$key" in
+      fail_closed_publication|compiled_runtime_consumption_only|host_generated_receipts)
+        ;;
+      *)
+        EXT_LAST_ERROR_REASON="unsupported-$label:$key"
+        return 1
+        ;;
+    esac
+    value="$(yq -r "$query.$key" "$profile_file" 2>/dev/null || true)"
+    case "$value" in
+      true|false)
+        ;;
+      *)
+        EXT_LAST_ERROR_REASON="invalid-$label:$key"
+        return 1
+        ;;
+    esac
+  done < <(yq -r "$query | keys[]? // \"\"" "$profile_file" 2>/dev/null || true)
+}
+
+ext_validate_compatibility_profile_contract() {
+  local manifest="$1" pack_root="$2"
+  local profile_rel profile_abs version feature_id
+  declare -A seen_feature_ids=()
+
+  profile_rel="$(yq -r '.compatibility.profile_path // ""' "$manifest" 2>/dev/null || true)"
+  [[ "$profile_rel" == "validation/compatibility.yml" ]] || {
+    EXT_LAST_ERROR_REASON="invalid-compatibility-profile-path"
+    return 1
+  }
+
+  profile_abs="$pack_root/$profile_rel"
+  [[ -f "$profile_abs" ]] || {
+    EXT_LAST_ERROR_REASON="missing-compatibility-profile"
+    return 1
+  }
+  yq -e '.' "$profile_abs" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="invalid-compatibility-profile-yaml"
+    return 1
+  }
+  [[ "$(yq -r '.schema_version // ""' "$profile_abs")" == "octon-extension-compatibility-profile-v1" ]] || {
+    EXT_LAST_ERROR_REASON="invalid-compatibility-profile-schema-version"
+    return 1
+  }
+  version="$(yq -r '.version // ""' "$profile_abs")"
+  [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+    EXT_LAST_ERROR_REASON="invalid-compatibility-profile-version"
+    return 1
+  }
+
+  yq -e '.compatibility | tag == "!!map"' "$profile_abs" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="missing-compatibility-root"
+    return 1
+  }
+
+  local query value
+  for query in '.compatibility.required_files' '.compatibility.required_directories'; do
+    yq -e "$query | tag == \"!!seq\"" "$profile_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="invalid-compatibility-array:${query#.compatibility.}"
+      return 1
+    }
+    while IFS= read -r value; do
+      [[ -n "$value" ]] || continue
+      ext_validate_repo_relative_path_value "$value" "compatibility-path" || return 1
+    done < <(yq -r "$query[]? // \"\"" "$profile_abs" 2>/dev/null || true)
+  done
+
+  yq -e '.compatibility.required_commands | tag == "!!seq"' "$profile_abs" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="invalid-compatibility-array:required_commands"
+    return 1
+  }
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+  done < <(yq -r '.compatibility.required_commands[]? // ""' "$profile_abs" 2>/dev/null || true)
+
+  ext_validate_compatibility_behavior_map "$profile_abs" '.compatibility.minimum_behavior' 'compatibility-minimum-behavior' || return 1
+
+  yq -e '.compatibility.optional_features | tag == "!!seq"' "$profile_abs" >/dev/null 2>&1 || {
+    EXT_LAST_ERROR_REASON="invalid-compatibility-array:optional_features"
+    return 1
+  }
+  while IFS= read -r feature_id; do
+    [[ -n "$feature_id" ]] || continue
+    if [[ -n "${seen_feature_ids["$feature_id"]:-}" ]]; then
+      EXT_LAST_ERROR_REASON="duplicate-optional-feature:$feature_id"
+      return 1
+    fi
+    seen_feature_ids["$feature_id"]="1"
+    [[ "$feature_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+      EXT_LAST_ERROR_REASON="invalid-optional-feature-id:$feature_id"
+      return 1
+    }
+  done < <(yq -r '.compatibility.optional_features[]?.feature_id // ""' "$profile_abs" 2>/dev/null || true)
+
+  local index description
+  index=0
+  while yq -e ".compatibility.optional_features[$index]" "$profile_abs" >/dev/null 2>&1; do
+    description="$(yq -r ".compatibility.optional_features[$index].description // \"\"" "$profile_abs" 2>/dev/null || true)"
+    [[ -n "$description" ]] || {
+      EXT_LAST_ERROR_REASON="missing-optional-feature-description:$index"
+      return 1
+    }
+    for query in ".compatibility.optional_features[$index].required_files" ".compatibility.optional_features[$index].required_directories"; do
+      yq -e "$query | tag == \"!!seq\"" "$profile_abs" >/dev/null 2>&1 || {
+        EXT_LAST_ERROR_REASON="invalid-optional-feature-array:$index"
+        return 1
+      }
+      while IFS= read -r value; do
+        [[ -n "$value" ]] || continue
+        ext_validate_repo_relative_path_value "$value" "optional-feature-path" || return 1
+      done < <(yq -r "$query[]? // \"\"" "$profile_abs" 2>/dev/null || true)
+    done
+    yq -e ".compatibility.optional_features[$index].required_commands | tag == \"!!seq\"" "$profile_abs" >/dev/null 2>&1 || {
+      EXT_LAST_ERROR_REASON="invalid-optional-feature-array:$index"
+      return 1
+    }
+    ext_validate_compatibility_behavior_map "$profile_abs" ".compatibility.optional_features[$index].minimum_behavior" "optional-feature-minimum-behavior" || return 1
+    index=$((index + 1))
   done
 }
 
@@ -575,19 +766,14 @@ ext_prompt_bundle_manifest_files_for_pack() {
   find "$prompts_root" -name manifest.yml -type f | sort
 }
 
-ext_validate_pack_contract() {
-  local pack_id="$1" source_id="$2" apply_trust="$3"
-  local manifest pack_root manifest_id version origin_class octon_range ext_api manifest_source_id
-  local trust_action source_override pack_override ack_id selected_key selected_version_pin
+ext_validate_pack_core_contract() {
+  local pack_id="$1"
+  local manifest pack_root manifest_id version origin_class octon_range ext_api
 
   EXT_LAST_ERROR_REASON=""
-  EXT_LAST_ERROR_ACKNOWLEDGEMENT_ID=""
   EXT_VALIDATED_VERSION=""
   EXT_VALIDATED_ORIGIN_CLASS=""
   EXT_VALIDATED_MANIFEST_REL=""
-  EXT_VALIDATED_TRUST_DECISION=""
-  EXT_VALIDATED_ACKNOWLEDGEMENT_ID=""
-
   manifest="$(ext_pack_manifest_abs "$pack_id")"
   [[ -f "$manifest" ]] || {
     EXT_LAST_ERROR_REASON="missing-pack"
@@ -595,7 +781,7 @@ ext_validate_pack_contract() {
   }
   pack_root="$(ext_pack_root_abs "$pack_id")"
 
-  [[ "$(yq -r '.schema_version // ""' "$manifest")" == "octon-extension-pack-v3" ]] || {
+  [[ "$(yq -r '.schema_version // ""' "$manifest")" == "octon-extension-pack-v4" ]] || {
     EXT_LAST_ERROR_REASON="invalid-schema-version"
     return 1
   }
@@ -605,7 +791,6 @@ ext_validate_pack_contract() {
   origin_class="$(yq -r '.origin_class // ""' "$manifest")"
   octon_range="$(yq -r '.compatibility.octon_version // ""' "$manifest")"
   ext_api="$(yq -r '.compatibility.extensions_api_version // ""' "$manifest")"
-  manifest_source_id="$(ext_manifest_source_id "$manifest")"
 
   [[ "$manifest_id" == "$pack_id" ]] || {
     EXT_LAST_ERROR_REASON="manifest-id-mismatch"
@@ -650,6 +835,35 @@ ext_validate_pack_contract() {
     return 1
   }
 
+  ext_pack_has_allowed_top_level_shape "$pack_root" || return 1
+  ext_validate_content_entrypoints "$pack_id" "$manifest" "$pack_root" || return 1
+  ext_validate_prompt_set_manifest_if_present "$manifest" "$pack_root" || return 1
+  ext_validate_compatibility_profile_contract "$manifest" "$pack_root" || return 1
+
+  EXT_VALIDATED_VERSION="$version"
+  EXT_VALIDATED_ORIGIN_CLASS="$origin_class"
+  EXT_VALIDATED_MANIFEST_REL="$(ext_pack_manifest_rel "$pack_id")"
+}
+
+ext_validate_pack_contract() {
+  local pack_id="$1" source_id="$2" apply_trust="$3"
+  local manifest pack_root origin_class manifest_source_id
+  local trust_action source_override pack_override ack_id selected_key selected_version_pin
+
+  EXT_LAST_ERROR_REASON=""
+  EXT_LAST_ERROR_ACKNOWLEDGEMENT_ID=""
+  EXT_VALIDATED_VERSION=""
+  EXT_VALIDATED_ORIGIN_CLASS=""
+  EXT_VALIDATED_MANIFEST_REL=""
+  EXT_VALIDATED_TRUST_DECISION=""
+  EXT_VALIDATED_ACKNOWLEDGEMENT_ID=""
+
+  manifest="$(ext_pack_manifest_abs "$pack_id")"
+  pack_root="$(ext_pack_root_abs "$pack_id")"
+  ext_validate_pack_core_contract "$pack_id" || return 1
+  origin_class="$EXT_VALIDATED_ORIGIN_CLASS"
+  manifest_source_id="$(ext_manifest_source_id "$manifest")"
+
   ext_source_exists "$source_id" || {
     EXT_LAST_ERROR_REASON="source-not-declared"
     return 1
@@ -673,13 +887,11 @@ ext_validate_pack_contract() {
   }
 
   ext_pack_has_allowed_top_level_shape "$pack_root" || return 1
-  ext_validate_content_entrypoints "$pack_id" "$manifest" "$pack_root" || return 1
-  ext_validate_prompt_set_manifest_if_present "$manifest" "$pack_root" || return 1
 
   selected_key="$(ext_pack_key "$pack_id" "$source_id")"
   selected_version_pin="${EXT_SELECTED_VERSION_PIN["$selected_key"]:-}"
   if [[ -n "$selected_version_pin" ]]; then
-    [[ "$selected_version_pin" == "$version" ]] || {
+    [[ "$selected_version_pin" == "$EXT_VALIDATED_VERSION" ]] || {
       EXT_LAST_ERROR_REASON="selected-version-pin-mismatch"
       return 1
     }
@@ -715,12 +927,276 @@ ext_validate_pack_contract() {
     esac
   fi
 
-  EXT_VALIDATED_VERSION="$version"
+  EXT_VALIDATED_VERSION="$(yq -r '.version // ""' "$manifest")"
   EXT_VALIDATED_ORIGIN_CLASS="$origin_class"
   EXT_VALIDATED_MANIFEST_REL="$(ext_pack_manifest_rel "$pack_id")"
   EXT_VALIDATED_TRUST_DECISION="$trust_action"
   EXT_VALIDATED_ACKNOWLEDGEMENT_ID="$EXT_LAST_ERROR_ACKNOWLEDGEMENT_ID"
   return 0
+}
+
+ext_command_requirement_is_satisfied() {
+  local requirement="$1" abs_path
+  if [[ "$requirement" == *"/"* || "$requirement" == .* ]]; then
+    abs_path="$ROOT_DIR/$requirement"
+    [[ -f "$abs_path" ]]
+    return
+  fi
+  command -v "$requirement" >/dev/null 2>&1
+}
+
+ext_emit_behavior_requirements() {
+  local behavior_key="$1"
+  case "$behavior_key" in
+    fail_closed_publication)
+      printf 'command\t.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh\n'
+      printf 'command\t.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh\n'
+      printf 'command\t.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh\n'
+      ;;
+    compiled_runtime_consumption_only)
+      printf 'file\t.octon/framework/engine/governance/extensions/README.md\n'
+      printf 'directory\t.octon/generated/effective/extensions\n'
+      ;;
+    host_generated_receipts)
+      printf 'file\t.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/validation-publication-receipt.schema.json\n'
+      printf 'file\t.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json\n'
+      printf 'directory\t.octon/state/evidence/validation/publication/extensions\n'
+      printf 'directory\t.octon/state/evidence/validation/compatibility/extensions\n'
+      ;;
+  esac
+}
+
+ext_clear_validated_compatibility_state() {
+  EXT_VALIDATED_COMPATIBILITY_STATUS=""
+  EXT_VALIDATED_COMPATIBILITY_PROFILE_REL=""
+  EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA=""
+  EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS=""
+  EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_FILES=""
+  EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_DIRECTORIES=""
+  EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_COMMANDS=""
+  EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_BEHAVIORS=""
+  EXT_VALIDATED_COMPATIBILITY_DEGRADED_FEATURES=""
+  EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS=""
+}
+
+ext_set_validated_compatibility_lines() {
+  local target="$1"
+  shift
+  printf -v "$target" '%s' "$(ext_join_sorted_unique_lines "$@")"
+}
+
+ext_evaluate_behavior_requirements() {
+  local profile_file="$1" behavior_query="$2" required_inputs_name="$3" missing_files_name="$4" missing_dirs_name="$5" missing_commands_name="$6" missing_behaviors_name="$7"
+  local behavior_key behavior_value kind requirement
+  local -n required_inputs_ref="$required_inputs_name"
+  local -n missing_files_ref="$missing_files_name"
+  local -n missing_dirs_ref="$missing_dirs_name"
+  local -n missing_commands_ref="$missing_commands_name"
+  local -n missing_behaviors_ref="$missing_behaviors_name"
+
+  while IFS= read -r behavior_key; do
+    [[ -n "$behavior_key" ]] || continue
+    behavior_value="$(yq -r "$behavior_query.$behavior_key" "$profile_file" 2>/dev/null || true)"
+    [[ "$behavior_value" == "true" ]] || continue
+    local behavior_missing=0
+    while IFS=$'\t' read -r kind requirement; do
+      [[ -n "$kind" ]] || continue
+      required_inputs_ref+=("$requirement")
+      case "$kind" in
+        file)
+          if [[ ! -f "$ROOT_DIR/$requirement" ]]; then
+            missing_files_ref+=("$requirement")
+            behavior_missing=1
+          fi
+          ;;
+        directory)
+          if [[ ! -d "$ROOT_DIR/$requirement" ]]; then
+            missing_dirs_ref+=("$requirement")
+            behavior_missing=1
+          fi
+          ;;
+        command)
+          if ! ext_command_requirement_is_satisfied "$requirement"; then
+            missing_commands_ref+=("$requirement")
+            behavior_missing=1
+          fi
+          ;;
+      esac
+    done < <(ext_emit_behavior_requirements "$behavior_key")
+    if [[ "$behavior_missing" -eq 1 ]]; then
+      missing_behaviors_ref+=("$behavior_key")
+    fi
+  done < <(yq -r "$behavior_query | keys[]? // \"\"" "$profile_file" 2>/dev/null || true)
+}
+
+ext_evaluate_optional_feature_requirements() {
+  local profile_file="$1" required_inputs_name="$2" degraded_features_name="$3"
+  local -n required_inputs_ref="$required_inputs_name"
+  local -n degraded_features_ref="$degraded_features_name"
+  local index feature_id value kind requirement feature_missing
+  local tmp_required_inputs=() tmp_missing_files=() tmp_missing_dirs=() tmp_missing_commands=() tmp_missing_behaviors=()
+
+  index=0
+  while yq -e ".compatibility.optional_features[$index]" "$profile_file" >/dev/null 2>&1; do
+    feature_id="$(yq -r ".compatibility.optional_features[$index].feature_id // \"\"" "$profile_file" 2>/dev/null || true)"
+    feature_missing=0
+
+    while IFS= read -r value; do
+      [[ -n "$value" ]] || continue
+      required_inputs_ref+=("$value")
+      [[ -f "$ROOT_DIR/$value" ]] || feature_missing=1
+    done < <(yq -r ".compatibility.optional_features[$index].required_files[]? // \"\"" "$profile_file" 2>/dev/null || true)
+
+    while IFS= read -r value; do
+      [[ -n "$value" ]] || continue
+      required_inputs_ref+=("$value")
+      [[ -d "$ROOT_DIR/$value" ]] || feature_missing=1
+    done < <(yq -r ".compatibility.optional_features[$index].required_directories[]? // \"\"" "$profile_file" 2>/dev/null || true)
+
+    while IFS= read -r value; do
+      [[ -n "$value" ]] || continue
+      required_inputs_ref+=("$value")
+      ext_command_requirement_is_satisfied "$value" || feature_missing=1
+    done < <(yq -r ".compatibility.optional_features[$index].required_commands[]? // \"\"" "$profile_file" 2>/dev/null || true)
+
+    tmp_required_inputs=()
+    tmp_missing_files=()
+    tmp_missing_dirs=()
+    tmp_missing_commands=()
+    tmp_missing_behaviors=()
+    ext_evaluate_behavior_requirements "$profile_file" ".compatibility.optional_features[$index].minimum_behavior" tmp_required_inputs tmp_missing_files tmp_missing_dirs tmp_missing_commands tmp_missing_behaviors
+    required_inputs_ref+=("${tmp_required_inputs[@]}")
+    if [[ "${#tmp_missing_files[@]}" -gt 0 || "${#tmp_missing_dirs[@]}" -gt 0 || "${#tmp_missing_commands[@]}" -gt 0 || "${#tmp_missing_behaviors[@]}" -gt 0 ]]; then
+      feature_missing=1
+    fi
+
+    if [[ "$feature_missing" -eq 1 ]]; then
+      degraded_features_ref+=("$feature_id")
+    fi
+    index=$((index + 1))
+  done
+}
+
+ext_evaluate_pack_host_compatibility() {
+  local pack_id="$1" source_id="$2" manifest="$3" pack_root="$4"
+  local profile_rel profile_abs profile_sha prompt_manifest anchor_path value
+  local required_inputs=() missing_files=() missing_dirs=() missing_commands=() missing_behaviors=() degraded_features=() blocking_reasons=()
+
+  ext_clear_validated_compatibility_state
+
+  profile_rel="$(yq -r '.compatibility.profile_path // ""' "$manifest" 2>/dev/null || true)"
+  profile_abs="$pack_root/$profile_rel"
+  profile_sha="$(ext_hash_file "$profile_abs")"
+
+  required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/pack.yml")
+  required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/${profile_rel}")
+
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+    required_inputs+=("$value")
+    [[ -f "$ROOT_DIR/$value" ]] || missing_files+=("$value")
+  done < <(yq -r '.compatibility.required_files[]? // ""' "$profile_abs" 2>/dev/null || true)
+
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+    required_inputs+=("$value")
+    [[ -d "$ROOT_DIR/$value" ]] || missing_dirs+=("$value")
+  done < <(yq -r '.compatibility.required_directories[]? // ""' "$profile_abs" 2>/dev/null || true)
+
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+    required_inputs+=("$value")
+    ext_command_requirement_is_satisfied "$value" || missing_commands+=("$value")
+  done < <(yq -r '.compatibility.required_commands[]? // ""' "$profile_abs" 2>/dev/null || true)
+
+  while IFS= read -r prompt_manifest; do
+    [[ -n "$prompt_manifest" ]] || continue
+    required_inputs+=("${prompt_manifest#$ROOT_DIR/}")
+    while IFS= read -r anchor_path; do
+      [[ -n "$anchor_path" ]] || continue
+      required_inputs+=("$anchor_path")
+      [[ -e "$ROOT_DIR/$anchor_path" ]] || missing_files+=("$anchor_path")
+    done < <(yq -r '.required_repo_anchors[]? // ""' "$prompt_manifest" 2>/dev/null || true)
+  done < <(ext_prompt_bundle_manifest_files_for_pack "$manifest" "$pack_root")
+
+  ext_evaluate_behavior_requirements "$profile_abs" '.compatibility.minimum_behavior' required_inputs missing_files missing_dirs missing_commands missing_behaviors
+  ext_evaluate_optional_feature_requirements "$profile_abs" required_inputs degraded_features
+
+  if [[ "${#missing_files[@]}" -gt 0 || "${#missing_dirs[@]}" -gt 0 || "${#missing_commands[@]}" -gt 0 || "${#missing_behaviors[@]}" -gt 0 ]]; then
+    EXT_VALIDATED_COMPATIBILITY_STATUS="incompatible"
+    blocking_reasons+=("missing-required-host-inputs")
+    EXT_LAST_ERROR_REASON="compatibility-incompatible"
+  elif [[ "${#degraded_features[@]}" -gt 0 ]]; then
+    EXT_VALIDATED_COMPATIBILITY_STATUS="degraded"
+  else
+    EXT_VALIDATED_COMPATIBILITY_STATUS="compatible"
+  fi
+
+  EXT_VALIDATED_COMPATIBILITY_PROFILE_REL=".octon/inputs/additive/extensions/${pack_id}/${profile_rel}"
+  EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA="$profile_sha"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS "${required_inputs[@]}"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_FILES "${missing_files[@]}"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_DIRECTORIES "${missing_dirs[@]}"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_COMMANDS "${missing_commands[@]}"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_BEHAVIORS "${missing_behaviors[@]}"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_DEGRADED_FEATURES "${degraded_features[@]}"
+  ext_set_validated_compatibility_lines EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS "${blocking_reasons[@]}"
+
+  [[ "$EXT_VALIDATED_COMPATIBILITY_STATUS" != "incompatible" ]]
+}
+
+ext_capture_pack_compatibility_result() {
+  local key="$1"
+  EXT_COMPAT_RESULT_STATUS["$key"]="$EXT_VALIDATED_COMPATIBILITY_STATUS"
+  EXT_COMPAT_PROFILE_REL["$key"]="$EXT_VALIDATED_COMPATIBILITY_PROFILE_REL"
+  EXT_COMPAT_PROFILE_SHA["$key"]="$EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA"
+  EXT_COMPAT_REQUIRED_INPUTS["$key"]="$EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS"
+  EXT_COMPAT_MISSING_REQUIRED_FILES["$key"]="$EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_FILES"
+  EXT_COMPAT_MISSING_REQUIRED_DIRECTORIES["$key"]="$EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_DIRECTORIES"
+  EXT_COMPAT_MISSING_REQUIRED_COMMANDS["$key"]="$EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_COMMANDS"
+  EXT_COMPAT_MISSING_REQUIRED_BEHAVIORS["$key"]="$EXT_VALIDATED_COMPATIBILITY_MISSING_REQUIRED_BEHAVIORS"
+  EXT_COMPAT_DEGRADED_FEATURES["$key"]="$EXT_VALIDATED_COMPATIBILITY_DEGRADED_FEATURES"
+  EXT_COMPAT_BLOCKING_REASONS["$key"]="$EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS"
+}
+
+ext_collect_selected_compatibility_results() {
+  local key pack_id source_id manifest pack_root profile_status incompatible=0 degraded=0
+  local origin_class
+
+  EXT_COMPAT_OVERALL_STATUS="compatible"
+  for key in "${EXT_SELECTED_KEYS[@]}"; do
+    pack_id="$(ext_key_pack_id "$key")"
+    source_id="$(ext_key_source_id "$key")"
+    manifest="$(ext_pack_manifest_abs "$pack_id")"
+    pack_root="$(ext_pack_root_abs "$pack_id")"
+    ext_clear_validated_compatibility_state
+
+    if ! ext_validate_pack_core_contract "$pack_id"; then
+      EXT_VALIDATED_COMPATIBILITY_STATUS="incompatible"
+      EXT_VALIDATED_COMPATIBILITY_PROFILE_REL=".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml"
+      [[ -f "$pack_root/validation/compatibility.yml" ]] && EXT_VALIDATED_COMPATIBILITY_PROFILE_SHA="$(ext_hash_file "$pack_root/validation/compatibility.yml")"
+      EXT_VALIDATED_COMPATIBILITY_REQUIRED_INPUTS=".octon/inputs/additive/extensions/${pack_id}/pack.yml"$'\n'".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml"
+      EXT_VALIDATED_COMPATIBILITY_BLOCKING_REASONS="$EXT_LAST_ERROR_REASON"
+    else
+      ext_evaluate_pack_host_compatibility "$pack_id" "$source_id" "$manifest" "$pack_root" || true
+    fi
+
+    ext_capture_pack_compatibility_result "$key"
+    profile_status="${EXT_COMPAT_RESULT_STATUS["$key"]:-compatible}"
+    if [[ "$profile_status" == "incompatible" ]]; then
+      incompatible=1
+    elif [[ "$profile_status" == "degraded" ]]; then
+      degraded=1
+    fi
+  done
+
+  if [[ "$incompatible" -eq 1 ]]; then
+    EXT_COMPAT_OVERALL_STATUS="incompatible"
+  elif [[ "$degraded" -eq 1 ]]; then
+    EXT_COMPAT_OVERALL_STATUS="degraded"
+  else
+    EXT_COMPAT_OVERALL_STATUS="compatible"
+  fi
 }
 
 ext_record_quarantine() {
@@ -818,6 +1294,12 @@ ext_resolve_candidate_pack() {
   fi
 
   manifest="$(ext_pack_manifest_abs "$pack_id")"
+  if ! ext_evaluate_pack_host_compatibility "$pack_id" "$source_id" "$manifest" "$(ext_pack_root_abs "$pack_id")"; then
+    ext_record_quarantine "$pack_id" "$source_id" "compatibility-incompatible" "$pack_id" ""
+    EXT_LAST_ERROR_REASON="compatibility-incompatible"
+    return 1
+  fi
+
   while IFS=$'\t' read -r dep_pack_id dep_range; do
     [[ -z "$dep_pack_id" ]] && continue
     dep_source="$(ext_detect_pack_source_id "$dep_pack_id" 2>/dev/null || true)"

@@ -1,4 +1,4 @@
-schema_version: "octon-extension-pack-v3"
+schema_version: "octon-extension-pack-v4"
 pack_id: "nextjs"
 version: "1.0.0"
 origin_class: "first_party_bundled"
@@ -6,6 +6,7 @@ compatibility:
   octon_version: "^0.6.0"
   extensions_api_version: "1.0"
   required_contracts: []
+  profile_path: "validation/compatibility.yml"
 dependencies:
   requires: []
   conflicts: []

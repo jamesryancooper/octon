@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/extension-compatibility-profile.schema.json",
+  "title": "Octon Extension Compatibility Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "version",
+    "compatibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-extension-compatibility-profile-v1"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_files",
+        "required_directories",
+        "required_commands",
+        "minimum_behavior",
+        "optional_features"
+      ],
+      "properties": {
+        "required_files": {
+          "$ref": "#/$defs/pathList"
+        },
+        "required_directories": {
+          "$ref": "#/$defs/pathList"
+        },
+        "required_commands": {
+          "$ref": "#/$defs/commandList"
+        },
+        "minimum_behavior": {
+          "$ref": "#/$defs/minimumBehavior"
+        },
+        "optional_features": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/optionalFeature"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "repoPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+"
+    },
+    "commandRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pathList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repoPath"
+      }
+    },
+    "commandList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/commandRef"
+      }
+    },
+    "minimumBehavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "fail_closed_publication": {
+          "type": "boolean"
+        },
+        "compiled_runtime_consumption_only": {
+          "type": "boolean"
+        },
+        "host_generated_receipts": {
+          "type": "boolean"
+        }
+      }
+    },
+    "optionalFeature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "feature_id",
+        "description",
+        "required_files",
+        "required_directories",
+        "required_commands",
+        "minimum_behavior"
+      ],
+      "properties": {
+        "feature_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_files": {
+          "$ref": "#/$defs/pathList"
+        },
+        "required_directories": {
+          "$ref": "#/$defs/pathList"
+        },
+        "required_commands": {
+          "$ref": "#/$defs/commandList"
+        },
+        "minimum_behavior": {
+          "$ref": "#/$defs/minimumBehavior"
+        }
+      }
+    }
+  }
+}

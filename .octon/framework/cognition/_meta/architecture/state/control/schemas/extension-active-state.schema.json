@@ -16,6 +16,9 @@
     "published_generation_lock",
     "publication_receipt_path",
     "publication_receipt_sha256",
+    "compatibility_status",
+    "compatibility_receipt_path",
+    "compatibility_receipt_sha256",
     "invalidation_conditions",
     "required_inputs",
     "validation_timestamp",
@@ -23,7 +26,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-extension-active-state-v3"
+      "const": "octon-extension-active-state-v4"
     },
     "desired_config_revision": {
       "type": "object",
@@ -82,6 +85,22 @@
       "minLength": 1
     },
     "publication_receipt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "compatibility_status": {
+      "type": "string",
+      "enum": [
+        "compatible",
+        "degraded",
+        "incompatible"
+      ]
+    },
+    "compatibility_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibility_receipt_sha256": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },

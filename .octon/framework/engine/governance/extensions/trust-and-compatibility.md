@@ -11,13 +11,20 @@ Compatibility is evaluated in this order:
 5. pack compatibility against `octon.yml.versioning.extensions.api_version`
 6. pack `compatibility.required_contracts` against the supported Packet 13
    contract set
+7. pack `compatibility.profile_path` shape against the extension compatibility
+   profile contract
+8. host compatibility evaluation against the declared compatibility profile plus
+   derived prompt-anchor requirements
 
 - Extension compatibility is checked against
   `octon.yml.versioning.harness.release_version`.
 - Extension API compatibility is checked against
   `octon.yml.versioning.extensions.api_version`.
-- `pack.yml` is `octon-extension-pack-v3` and must carry
-  `compatibility.required_contracts`, even when the list is empty.
+- `pack.yml` is `octon-extension-pack-v4` and must carry
+  `compatibility.required_contracts` plus
+  `compatibility.profile_path: "validation/compatibility.yml"`.
+- `validation/compatibility.yml` is `octon-extension-compatibility-profile-v1`
+  and is mandatory for every v4 pack.
 
 Supported `required_contracts.contract_id` values in this cutover are:
 
@@ -47,6 +54,8 @@ Supported `required_contracts.contract_id` values in this cutover are:
 
 - Invalid or denied packs quarantine locally under
   `state/control/extensions/quarantine.yml`.
+- Compatibility proof is retained separately under
+  `state/evidence/validation/compatibility/extensions/**`.
 - A coherent surviving set may publish with quarantine recorded.
 - If no coherent surviving set remains, extension contributions are withdrawn.
 - `pack_bundle` remains trust-agnostic raw additive transfer; repo trust policy

@@ -12,6 +12,9 @@
     "publication_status",
     "publication_receipt_path",
     "publication_receipt_sha256",
+    "compatibility_status",
+    "compatibility_receipt_path",
+    "compatibility_receipt_sha256",
     "desired_config_sha256",
     "root_manifest_sha256",
     "published_files",
@@ -21,7 +24,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-extension-generation-lock-v4"
+      "const": "octon-extension-generation-lock-v5"
     },
     "generator_version": {
       "type": "string",
@@ -48,6 +51,22 @@
       "minLength": 1
     },
     "publication_receipt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "compatibility_status": {
+      "type": "string",
+      "enum": [
+        "compatible",
+        "degraded",
+        "incompatible"
+      ]
+    },
+    "compatibility_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibility_receipt_sha256": {
       "type": "string",
       "pattern": "^[a-f0-9]{64}$"
     },

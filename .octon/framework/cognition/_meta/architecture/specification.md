@@ -121,8 +121,10 @@ authority.
 39. Proposals are excluded from runtime resolution, policy resolution,
     `bootstrap_core`, and `repo_snapshot`.
 40. No descendant-local or scope-local proposal workspace exists in v1.
-41. Raw extension packs use `octon-extension-pack-v3` and must carry
-    `compatibility.required_contracts` plus pack-authored provenance fields.
+41. Raw extension packs use `octon-extension-pack-v4` and must carry
+    `compatibility.required_contracts`,
+    `compatibility.profile_path: "validation/compatibility.yml"`, and
+    pack-authored provenance fields.
 42. Repo trust decisions remain in `instance/extensions.yml`; pack provenance
     remains in `pack.yml`.
 43. `pack_bundle` is a trust-agnostic raw additive transfer profile and does

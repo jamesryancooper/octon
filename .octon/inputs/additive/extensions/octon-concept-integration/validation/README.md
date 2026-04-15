@@ -30,6 +30,15 @@ The generic discovery runner is:
 It scans every present extension under `/.octon/inputs/additive/extensions/*/`
 for `validation/tests/*.sh` and runs them in lexical order.
 
+Current executable scenario coverage for `octon-concept-integration` lives in:
+
+- `validation/tests/test-prompt-contract.sh` for bundle-family structural parity
+- `validation/tests/test-scenario-behavior.sh` for stale bundle, packet drift,
+  multi-source conflict, and subsystem scope mismatch
+- `validation/tests/test-scenario-fixtures.sh` for validator-backed scenario
+  output fixtures covering packet drift, multi-source conflict, and
+  subsystem-boundary handling
+
 ## Ownership Rule
 
 Apply the canonical extension ownership model from:
@@ -58,7 +67,11 @@ The deterministic prompt-bundle freshness resolver lives at:
 Prompt inventory, default alignment policy, base repo anchors, and packet
 support filenames are authored in:
 
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/<bundle>/manifest.yml`
+`prompts/<bundle>/manifest.yml`
+
+When you are inspecting the published runtime-facing surface, the same bundle
+manifest lives under the active compiled extension projection with the same
+relative path.
 
 Use the resolver to evaluate behavioral mode semantics:
 

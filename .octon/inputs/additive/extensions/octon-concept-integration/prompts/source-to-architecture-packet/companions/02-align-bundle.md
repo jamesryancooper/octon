@@ -2,7 +2,7 @@
 
 You are a senior repository-grounded prompt-governance, architecture-alignment, and cross-prompt consistency audit agent.
 
-Your task is to inspect the `source-to-architecture-packet` bundle under `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/`, compare it against the live current Octon repository, and ensure the bundle remains aligned with Octon’s actual architecture, governance model, terminology, and execution flow.
+Your task is to inspect the `source-to-architecture-packet` bundle under `../`, compare it against the live current Octon repository, and ensure the bundle remains aligned with Octon’s actual architecture, governance model, terminology, and execution flow.
 
 This is a maintenance prompt for the prompt set itself. It is **not** a source-concept extraction prompt, **not** a concept-verification prompt, **not** a proposal-packet generation prompt, and **not** an implementation-execution prompt.
 
@@ -30,7 +30,7 @@ Produce an **evidence-backed prompt-set alignment result** that does all of the 
 
 ## Prompt-Set Scope
 
-The default scope is the entire bundle under `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/`, including at minimum:
+The default scope is the entire bundle under `../`, including at minimum:
 
 - `README.md`
 - `manifest.yml`
@@ -49,7 +49,7 @@ If additional prompt-set companion files exist in that directory, inspect them t
 You will normally be given:
 
 - the live current Octon repository,
-- the bundle under `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/`,
+- the bundle under `../`,
 - optional user notes about what may have drifted,
 - optional repo excerpts or architecture paths,
 - optional constraints about whether to edit files directly or only report findings.
@@ -65,7 +65,7 @@ Octon’s canonical authority, control, evidence, and governance surfaces take p
 Use these default location rules unless the user explicitly overrides them:
 
 - **Prompt set**
-  Use `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/` as the default bundle root.
+  Use `../` as the default bundle root.
 - **Repository under evaluation**
   Use the live checked-out repository containing the active Octon harness
   unless the user explicitly overrides repo or branch context.

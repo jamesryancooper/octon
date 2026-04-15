@@ -5,7 +5,7 @@ declared subsystem scope.
 
 ## Shared Contracts
 
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
+- apply `../../shared/repository-grounding.md`
 - apply the scoped subsystem record from `stages/01-scope-subsystem.md`
 
 ## Output

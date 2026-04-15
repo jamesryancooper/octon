@@ -42,8 +42,9 @@ Behavior:
 3. For `pack_bundle`, resolve selected packs from `--pack-ids` and compute the
    full transitive dependency closure from `inputs/additive/extensions/<pack-id>/pack.yml`.
    This profile exports raw additive payloads and remains trust-agnostic.
-4. Require `octon-extension-pack-v3` manifests with Packet 13 compatibility
-   and provenance fields before either profile may export pack payloads.
+4. Require `octon-extension-pack-v4` manifests with Packet 13 compatibility,
+   `validation/compatibility.yml`, and provenance fields before either profile
+   may export pack payloads.
 5. Fail closed on missing payloads, dependency cycles, conflicts,
    compatibility mismatch, unsupported required contracts, missing required
    provenance, or quarantined repo snapshot state.

@@ -5,10 +5,10 @@ architecture revision packet.
 
 ## Shared Contracts
 
-- use `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md`
+- use `../../packet-to-implementation/stages/01-implement-packet.md`
   as the baseline execution model
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/packet-execution-contract.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md`
+- apply `../../shared/packet-execution-contract.md`
+- apply `../../shared/architecture-revision-contract.md`
 
 ## Output
 

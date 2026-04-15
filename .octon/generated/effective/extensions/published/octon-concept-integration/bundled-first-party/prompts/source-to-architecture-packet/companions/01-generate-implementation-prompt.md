@@ -7,7 +7,7 @@ Your task is to generate a **custom executable implementation/integration prompt
 1. the capability-managed or explicitly user-specified proposal packet,
 2. any additional inputs the user provides,
 3. the live current Octon repository,
-4. and the baseline execution model defined in `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md`.
+4. and the baseline execution model defined in `../../packet-to-implementation/stages/01-implement-packet.md`.
 
 This is a **meta prompt**. Its job is to generate the executable downstream prompt. It does **not** execute the proposal packet itself.
 
@@ -24,7 +24,7 @@ Its output should be a single customized prompt that preserves the baseline exec
 
 Produce a **single executable implementation/integration prompt** that:
 
-- uses `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md` as the structural and behavioral baseline,
+- uses `../../packet-to-implementation/stages/01-implement-packet.md` as the structural and behavioral baseline,
 - is customized to the actual proposal packet artifact selected for this run,
 - incorporates any additional user-provided scope, constraints, priorities, approvals, or execution notes,
 - remains aligned with the live current Octon repository,
@@ -52,7 +52,7 @@ Treat the proposal packet artifact as the primary customization basis. Prefer
 the capability-managed packet artifact produced by the upstream packetization
 stage over thread-local or manually re-specified packet content.
 
-Treat `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md` as the baseline execution model that the generated prompt should inherit and specialize.
+Treat `../../packet-to-implementation/stages/01-implement-packet.md` as the baseline execution model that the generated prompt should inherit and specialize.
 
 Treat the live checked-out Octon repository as implementation reality.
 
@@ -63,9 +63,9 @@ Octon’s canonical authority, control, evidence, and governance surfaces take p
 Use the stage-4 baseline prompt plus the shared contracts as the source of
 truth for lookup and grounding behavior:
 
-- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md`
-- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md`
-- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
+- `../../packet-to-implementation/stages/01-implement-packet.md`
+- `../../shared/managed-artifact-contract.md`
+- `../../shared/repository-grounding.md`
 
 Generator-specific defaults:
 
@@ -95,7 +95,7 @@ You must inspect the live Octon repository before generating current-state
 instructions inside the customized prompt.
 
 Apply the shared grounding contract from
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`, then inspect:
+`../../shared/repository-grounding.md`, then inspect:
 
 - the proposal packet’s promotion targets, implementation artifacts, and
   closure criteria
@@ -121,7 +121,7 @@ The generated prompt should be more specific than the baseline prompt, not broad
 
 ### Step 1 - Parse the baseline execution prompt
 
-Inspect `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md` and extract at least:
+Inspect `../../packet-to-implementation/stages/01-implement-packet.md` and extract at least:
 
 - its role definition,
 - its required inputs,

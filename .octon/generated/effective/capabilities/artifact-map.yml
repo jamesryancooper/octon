@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-047f0c971cd9
-published_at: 2026-04-15T12:42:35Z
+generation_id: capabilities-a8f179fe98c2
+published_at: 2026-04-15T17:19:32Z
 artifacts:
   - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration
     effective_id: extension.command.octon-concept-integration.octon-concept-integration
@@ -11,9 +11,9 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -26,9 +26,9 @@ artifacts:
     display_name: Architecture Revision Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -41,9 +41,9 @@ artifacts:
     display_name: Constitutional Challenge Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -56,9 +56,9 @@ artifacts:
     display_name: Multi-Source Synthesis Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -71,9 +71,9 @@ artifacts:
     display_name: Packet Refresh And Supersession
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -86,9 +86,9 @@ artifacts:
     display_name: Packet To Implementation
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -101,9 +101,9 @@ artifacts:
     display_name: Repo Internal Concept Mining
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -116,9 +116,9 @@ artifacts:
     display_name: Source To Architecture Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -131,9 +131,9 @@ artifacts:
     display_name: Source To Migration Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -146,9 +146,9 @@ artifacts:
     display_name: Source To Policy Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -161,9 +161,9 @@ artifacts:
     display_name: Subsystem Targeted Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -176,9 +176,9 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -191,9 +191,9 @@ artifacts:
     display_name: Architecture Revision Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -206,9 +206,9 @@ artifacts:
     display_name: Constitutional Challenge Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -221,9 +221,9 @@ artifacts:
     display_name: Multi-Source Synthesis Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -236,9 +236,9 @@ artifacts:
     display_name: Packet Refresh And Supersession
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -251,9 +251,9 @@ artifacts:
     display_name: Packet To Implementation
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -266,9 +266,9 @@ artifacts:
     display_name: Repo Internal Concept Mining
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -281,9 +281,9 @@ artifacts:
     display_name: Source To Architecture Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -296,9 +296,9 @@ artifacts:
     display_name: Source To Migration Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -311,9 +311,9 @@ artifacts:
     display_name: Source To Policy Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -326,9 +326,9 @@ artifacts:
     display_name: Subsystem Targeted Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_manifest_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 689cf63d1adcb65c2233b88f12c87d9427d69474612086e71cca1d18608bab72
+    source_sha256: 6e597f6b7e071115ca9137f69e6e782b3572e24b4895735da2330a91777b9e18
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -442,7 +442,7 @@ artifacts:
     source_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
     source_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
     source_path: .octon/framework/capabilities/runtime/commands/export-harness.md
-    source_sha256: 9e1221a08269e6a34108da6d651bde9498cd76b5f7e000d06eabd23744a4b561
+    source_sha256: 3e61ff06a74f7c232babbc8b01f8e77e1d821991fd159da458606fab986cd549
   - artifact_map_id: framework-command-init
     effective_id: framework.command.init
     origin_class: framework

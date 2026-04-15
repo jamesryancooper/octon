@@ -13,7 +13,8 @@ INSTANCE_SKILLS_MANIFEST="$OCTON_DIR/instance/capabilities/runtime/skills/manife
 
 PUBLISHED_AT=""
 GENERATION_ID=""
-GENERATOR_VERSION="extension-publication-v3"
+GENERATOR_VERSION="extension-publication-v4"
+COMPATIBILITY_VALIDATOR_VERSION="extension-compatibility-v1"
 declare -a PUBLISHED_SELECTED_KEYS=()
 
 write_string_array_yaml() {
@@ -40,6 +41,11 @@ extension_publication_receipt_rel() {
   printf '.octon/state/evidence/validation/publication/extensions/%s-%s.yml\n' "$timestamp_slug" "$generation_id"
 }
 
+extension_compatibility_receipt_rel() {
+  local timestamp_slug="$1" generation_id="$2"
+  printf '.octon/state/evidence/validation/compatibility/extensions/%s-%s.yml\n' "$timestamp_slug" "$generation_id"
+}
+
 write_publication_receipt_string_list() {
   local indent="$1"
   shift
@@ -51,6 +57,114 @@ write_publication_receipt_string_list() {
   for value in "$@"; do
     printf '%s- "%s"\n' "$indent" "$value"
   done
+}
+
+write_extension_compatibility_receipt() {
+  local output_file="$1" receipt_id="$2" generation_id="$3" result="$4" desired_sha="$5" root_sha="$6"
+  local required_inputs=(".octon/instance/extensions.yml" ".octon/octon.yml")
+  local key pack_id source_id value
+  local -a field_values=()
+
+  for key in "${EXT_SELECTED_KEYS[@]}"; do
+    while IFS= read -r value; do
+      [[ -n "$value" ]] || continue
+      required_inputs+=("$value")
+    done <<<"${EXT_COMPAT_REQUIRED_INPUTS["$key"]:-}"
+  done
+
+  {
+    printf 'schema_version: "octon-validation-extension-compatibility-receipt-v1"\n'
+    printf 'receipt_id: "%s"\n' "$receipt_id"
+    printf 'compatibility_family: "extensions"\n'
+    printf 'generation_id: "%s"\n' "$generation_id"
+    printf 'result: "%s"\n' "$result"
+    printf 'validated_at: "%s"\n' "$PUBLISHED_AT"
+    printf 'validator_version: "%s"\n' "$COMPATIBILITY_VALIDATOR_VERSION"
+    printf 'contract_refs:\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-pack.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-compatibility-profile.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/state/control/schemas/extension-active-state.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-effective-catalog.schema.json"\n'
+    printf '  - ".octon/framework/cognition/_meta/architecture/generated/effective/extensions/schemas/extension-generation-lock.schema.json"\n'
+    printf 'source_digests:\n'
+    printf '  desired_config_sha256: "%s"\n' "$desired_sha"
+    printf '  root_manifest_sha256: "%s"\n' "$root_sha"
+    for key in "${EXT_SELECTED_KEYS[@]}"; do
+      pack_id="$(ext_key_pack_id "$key")"
+      source_id="$(ext_key_source_id "$key")"
+      printf '  pack_manifest__%s__%s: "%s"\n' "$pack_id" "$source_id" "$(ext_hash_file "$ROOT_DIR/.octon/inputs/additive/extensions/$pack_id/pack.yml")"
+      if [[ -n "${EXT_COMPAT_PROFILE_SHA["$key"]:-}" ]]; then
+        printf '  compatibility_profile__%s__%s: "%s"\n' "$pack_id" "$source_id" "${EXT_COMPAT_PROFILE_SHA["$key"]}"
+      fi
+    done
+    if [[ "${#EXT_SELECTED_KEYS[@]}" -eq 0 ]]; then
+      printf 'pack_results: []\n'
+    else
+      printf 'pack_results:\n'
+      for key in "${EXT_SELECTED_KEYS[@]}"; do
+        pack_id="$(ext_key_pack_id "$key")"
+        source_id="$(ext_key_source_id "$key")"
+        printf '  - pack_id: "%s"\n' "$pack_id"
+        printf '    source_id: "%s"\n' "$source_id"
+        printf '    result: "%s"\n' "${EXT_COMPAT_RESULT_STATUS["$key"]:-compatible}"
+        printf '    profile_path: "%s"\n' "${EXT_COMPAT_PROFILE_REL["$key"]:-.octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml}"
+        printf '    required_inputs:\n'
+        while IFS= read -r value; do
+          [[ -n "$value" ]] || continue
+          printf '      - "%s"\n' "$value"
+        done <<<"${EXT_COMPAT_REQUIRED_INPUTS["$key"]:-}"
+        for field in \
+          missing_required_files \
+          missing_required_directories \
+          missing_required_commands \
+          missing_required_behaviors \
+          degraded_optional_features \
+          blocking_reasons; do
+          field_values=()
+          case "$field" in
+            missing_required_files)
+              mapfile -t field_values < <(printf '%s\n' "${EXT_COMPAT_MISSING_REQUIRED_FILES["$key"]:-}" | awk 'NF')
+              ;;
+            missing_required_directories)
+              mapfile -t field_values < <(printf '%s\n' "${EXT_COMPAT_MISSING_REQUIRED_DIRECTORIES["$key"]:-}" | awk 'NF')
+              ;;
+            missing_required_commands)
+              mapfile -t field_values < <(printf '%s\n' "${EXT_COMPAT_MISSING_REQUIRED_COMMANDS["$key"]:-}" | awk 'NF')
+              ;;
+            missing_required_behaviors)
+              mapfile -t field_values < <(printf '%s\n' "${EXT_COMPAT_MISSING_REQUIRED_BEHAVIORS["$key"]:-}" | awk 'NF')
+              ;;
+            degraded_optional_features)
+              mapfile -t field_values < <(printf '%s\n' "${EXT_COMPAT_DEGRADED_FEATURES["$key"]:-}" | awk 'NF')
+              ;;
+            blocking_reasons)
+              mapfile -t field_values < <(printf '%s\n' "${EXT_COMPAT_BLOCKING_REASONS["$key"]:-}" | awk 'NF')
+              ;;
+          esac
+          if [[ "${#field_values[@]}" -eq 0 ]]; then
+            printf '    %s: []\n' "$field"
+          else
+            printf '    %s:\n' "$field"
+            for value in "${field_values[@]}"; do
+              printf '      - "%s"\n' "$value"
+            done
+          fi
+        done
+        printf '    source_digests:\n'
+        printf '      pack_manifest_sha256: "%s"\n' "$(ext_hash_file "$ROOT_DIR/.octon/inputs/additive/extensions/$pack_id/pack.yml")"
+        if [[ -n "${EXT_COMPAT_PROFILE_SHA["$key"]:-}" ]]; then
+          printf '      profile_sha256: "%s"\n' "${EXT_COMPAT_PROFILE_SHA["$key"]}"
+        else
+          printf '      profile_sha256: null\n'
+        fi
+      done
+    fi
+    printf 'required_inputs:\n'
+    printf '%s\n' "${required_inputs[@]}" | awk 'NF' | LC_ALL=C sort -u | while IFS= read -r value; do
+      printf '  - "%s"\n' "$value"
+    done
+  } >"$output_file"
 }
 
 write_extension_publication_receipt() {
@@ -67,6 +181,7 @@ write_extension_publication_receipt() {
   for key in "${EXT_SELECTED_KEYS[@]}"; do
     pack_id="$(ext_key_pack_id "$key")"
     required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/pack.yml")
+    required_inputs+=(".octon/inputs/additive/extensions/${pack_id}/validation/compatibility.yml")
     while IFS= read -r manifest_path; do
       [[ -n "$manifest_path" ]] || continue
       required_inputs+=("${manifest_path#$ROOT_DIR/}")
@@ -757,6 +872,7 @@ write_pack_prompt_bundles() {
 write_effective_files() {
   local desired_sha="$1" root_sha="$2" tmpdir="$3" status="$4"
   local active_tmp quarantine_tmp family_tmp catalog_tmp artifact_map_tmp lock_tmp published_tmp receipt_tmp previous_family_tmp retained_tmp_root
+  local compatibility_receipt_tmp compatibility_receipt_rel compatibility_receipt_abs compatibility_receipt_id compatibility_receipt_sha compatibility_receipt_slug
   local key pack_id source_id manifest_abs manifest_rel trust_decision
   local rel_path bucket abs_path sha payload_lines payload_sha
   local receipt_slug receipt_rel receipt_abs receipt_id receipt_sha
@@ -767,6 +883,7 @@ write_effective_files() {
     "prompt-manifest-sha-changed"
     "prompt-asset-sha-changed"
     "required-anchor-sha-changed"
+    "compatibility-profile-sha-changed"
     "published-pack-set-changed"
     "quarantine-state-changed"
   )
@@ -779,6 +896,7 @@ write_effective_files() {
   lock_tmp="$family_tmp/generation.lock.yml"
   published_tmp="$family_tmp/published"
   receipt_tmp="$tmpdir/publication.receipt.yml"
+  compatibility_receipt_tmp="$tmpdir/compatibility.receipt.yml"
   retained_tmp_root="$tmpdir/retained"
 
   mkdir -p "$published_tmp"
@@ -801,11 +919,17 @@ write_effective_files() {
   receipt_rel="$(extension_publication_receipt_rel "$receipt_slug" "$GENERATION_ID")"
   receipt_abs="$ROOT_DIR/$receipt_rel"
   receipt_id="extensions-$receipt_slug-$GENERATION_ID"
+  compatibility_receipt_slug="$(receipt_timestamp_slug "$PUBLISHED_AT")"
+  compatibility_receipt_rel="$(extension_compatibility_receipt_rel "$compatibility_receipt_slug" "$GENERATION_ID")"
+  compatibility_receipt_abs="$ROOT_DIR/$compatibility_receipt_rel"
+  compatibility_receipt_id="extensions-compatibility-$compatibility_receipt_slug-$GENERATION_ID"
+  write_extension_compatibility_receipt "$compatibility_receipt_tmp" "$compatibility_receipt_id" "$GENERATION_ID" "$EXT_COMPAT_OVERALL_STATUS" "$desired_sha" "$root_sha"
+  compatibility_receipt_sha="$(ext_hash_file "$compatibility_receipt_tmp")"
   write_extension_publication_receipt "$receipt_tmp" "$receipt_id" "$GENERATION_ID" "$status" "$desired_sha" "$root_sha" "$published_tmp"
   receipt_sha="$(ext_hash_file "$receipt_tmp")"
 
   {
-    printf 'schema_version: "octon-extension-active-state-v3"\n'
+    printf 'schema_version: "octon-extension-active-state-v4"\n'
     printf 'desired_config_revision:\n'
     printf '  path: ".octon/instance/extensions.yml"\n'
     printf '  sha256: "%s"\n' "$desired_sha"
@@ -818,6 +942,9 @@ write_effective_files() {
     printf 'published_generation_lock: ".octon/generated/effective/extensions/generation.lock.yml"\n'
     printf 'publication_receipt_path: "%s"\n' "$receipt_rel"
     printf 'publication_receipt_sha256: "%s"\n' "$receipt_sha"
+    printf 'compatibility_status: "%s"\n' "$EXT_COMPAT_OVERALL_STATUS"
+    printf 'compatibility_receipt_path: "%s"\n' "$compatibility_receipt_rel"
+    printf 'compatibility_receipt_sha256: "%s"\n' "$compatibility_receipt_sha"
     printf 'invalidation_conditions:\n'
     write_string_array_yaml '  ' "${invalidation_conditions[@]}"
     printf 'required_inputs:\n'
@@ -825,6 +952,7 @@ write_effective_files() {
     printf '  - ".octon/octon.yml"\n'
     for key in "${EXT_SELECTED_KEYS[@]}"; do
       printf '  - ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$(ext_key_pack_id "$key")"
+      printf '  - ".octon/inputs/additive/extensions/%s/validation/compatibility.yml"\n' "$(ext_key_pack_id "$key")"
       while IFS= read -r prompt_manifest; do
         [[ -n "$prompt_manifest" ]] || continue
         printf '  - "%s"\n' "${prompt_manifest#$ROOT_DIR/}"
@@ -839,12 +967,15 @@ write_effective_files() {
   } >"$active_tmp"
 
   {
-    printf 'schema_version: "octon-extension-effective-catalog-v4"\n'
+    printf 'schema_version: "octon-extension-effective-catalog-v5"\n'
     printf 'generator_version: "%s"\n' "$GENERATOR_VERSION"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_at: "%s"\n' "$PUBLISHED_AT"
     printf 'publication_status: "%s"\n' "$status"
     printf 'publication_receipt_path: "%s"\n' "$receipt_rel"
+    printf 'compatibility_status: "%s"\n' "$EXT_COMPAT_OVERALL_STATUS"
+    printf 'compatibility_receipt_path: "%s"\n' "$compatibility_receipt_rel"
+    printf 'compatibility_receipt_sha256: "%s"\n' "$compatibility_receipt_sha"
     printf 'invalidation_conditions:\n'
     write_string_array_yaml '  ' "${invalidation_conditions[@]}"
     ext_emit_pack_ref_list "desired_selected_packs" "${EXT_SELECTED_KEYS[@]}"
@@ -867,6 +998,8 @@ write_effective_files() {
         printf '    manifest_path: "%s"\n' "$manifest_rel"
         printf '    trust_decision: "%s"\n' "$trust_decision"
         printf '    publication_status: "%s"\n' "$status"
+        printf '    compatibility_status: "%s"\n' "${EXT_COMPAT_RESULT_STATUS["$key"]:-compatible}"
+        printf '    compatibility_profile_path: "%s"\n' "${EXT_COMPAT_PROFILE_REL["$key"]:-.octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml}"
         write_routing_exports "$pack_id" "$source_id" "$manifest_abs"
         write_pack_prompt_bundles "$pack_id" "$source_id" "$manifest_abs" "$published_tmp/$pack_id/$source_id" "$retained_tmp_root"
       done
@@ -907,13 +1040,16 @@ write_effective_files() {
   } >"$artifact_map_tmp"
 
   {
-    printf 'schema_version: "octon-extension-generation-lock-v4"\n'
+    printf 'schema_version: "octon-extension-generation-lock-v5"\n'
     printf 'generator_version: "%s"\n' "$GENERATOR_VERSION"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_at: "%s"\n' "$PUBLISHED_AT"
     printf 'publication_status: "%s"\n' "$status"
     printf 'publication_receipt_path: "%s"\n' "$receipt_rel"
     printf 'publication_receipt_sha256: "%s"\n' "$receipt_sha"
+    printf 'compatibility_status: "%s"\n' "$EXT_COMPAT_OVERALL_STATUS"
+    printf 'compatibility_receipt_path: "%s"\n' "$compatibility_receipt_rel"
+    printf 'compatibility_receipt_sha256: "%s"\n' "$compatibility_receipt_sha"
     printf 'desired_config_sha256: "%s"\n' "$desired_sha"
     printf 'root_manifest_sha256: "%s"\n' "$root_sha"
     printf 'published_files:\n'
@@ -930,6 +1066,7 @@ write_effective_files() {
     printf '  - ".octon/octon.yml"\n'
     for key in "${EXT_SELECTED_KEYS[@]}"; do
       printf '  - ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$(ext_key_pack_id "$key")"
+      printf '  - ".octon/inputs/additive/extensions/%s/validation/compatibility.yml"\n' "$(ext_key_pack_id "$key")"
       while IFS= read -r prompt_manifest; do
         [[ -n "$prompt_manifest" ]] || continue
         printf '  - "%s"\n' "${prompt_manifest#$ROOT_DIR/}"
@@ -974,13 +1111,14 @@ write_effective_files() {
     fi
   } >"$lock_tmp"
 
-  mkdir -p "$(dirname "$ACTIVE_STATE")" "$(dirname "$receipt_abs")"
+  mkdir -p "$(dirname "$ACTIVE_STATE")" "$(dirname "$receipt_abs")" "$(dirname "$compatibility_receipt_abs")"
   previous_family_tmp="$tmpdir/effective-extensions.previous"
   if [[ -d "$EFFECTIVE_DIR" ]]; then
     mv "$EFFECTIVE_DIR" "$previous_family_tmp"
   fi
   mv "$family_tmp" "$EFFECTIVE_DIR"
   mv "$receipt_tmp" "$receipt_abs"
+  mv "$compatibility_receipt_tmp" "$compatibility_receipt_abs"
   mv "$quarantine_tmp" "$QUARANTINE_STATE"
   mv "$active_tmp" "$ACTIVE_STATE"
   while IFS= read -r abs_path; do
@@ -1022,6 +1160,7 @@ main() {
 
   enforce_native_capability_collision_quarantine
   prune_unsatisfied_dependents
+  ext_collect_selected_compatibility_results
 
   if [[ "${#EXT_SELECTED_KEYS[@]}" -eq 0 ]]; then
     status="published"

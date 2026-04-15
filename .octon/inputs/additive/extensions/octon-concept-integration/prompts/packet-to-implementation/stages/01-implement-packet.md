@@ -58,7 +58,7 @@ Octon’s canonical authority, control, evidence, and governance surfaces take p
 ### Input Locations
 
 Apply
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md`
+`../../shared/managed-artifact-contract.md`
 for proposal packet lookup,
 checkpoint artifact names, packet support filenames, and retry lookup order.
 
@@ -115,7 +115,7 @@ validation, or closeout claim.
 
 Start with the base repo anchors declared in the bundle `manifest.yml`
 `required_repo_anchors`, then apply
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`.
+`../../shared/repository-grounding.md`.
 
 For stage-4 execution, also inspect:
 

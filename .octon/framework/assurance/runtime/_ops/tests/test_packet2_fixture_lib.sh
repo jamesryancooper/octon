@@ -14,6 +14,8 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas" \
     "$fixture_root/.octon/framework/capabilities/_ops/scripts"
 
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-harness-version-contract.sh" \
@@ -40,6 +42,8 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
@@ -52,8 +56,17 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  cp "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts/publish-host-projections.sh" \
+    "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
   cp "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh" \
     "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/validation-publication-receipt.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/validation-publication-receipt.schema.json"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"
+  mkdir -p "$fixture_root/.octon/framework/engine/governance/extensions"
+  cp "$REPO_ROOT/.octon/framework/engine/governance/extensions/README.md" \
+    "$fixture_root/.octon/framework/engine/governance/extensions/README.md"
 
   cat >"$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh" <<'EOF'
 #!/usr/bin/env bash
@@ -75,10 +88,12 @@ EOF
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-locality-state.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
+    "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-host-projections.sh" \
     "$fixture_root/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
 }
 
@@ -99,6 +114,7 @@ write_packet8_pack() {
   fi
 
   mkdir -p "$fixture_root/.octon/inputs/additive/extensions/$pack_id"
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/$pack_id/validation"
   if [[ -n "$content_root" ]]; then
     templates_entry="\"$content_root/\""
     mkdir -p "$fixture_root/.octon/inputs/additive/extensions/$pack_id/$content_root"
@@ -110,7 +126,7 @@ EOF
 # $pack_id
 EOF
   cat >"$fixture_root/.octon/inputs/additive/extensions/$pack_id/pack.yml" <<EOF
-schema_version: "octon-extension-pack-v3"
+schema_version: "octon-extension-pack-v4"
 pack_id: "$pack_id"
 version: "1.0.0"
 origin_class: "$origin_class"
@@ -118,6 +134,7 @@ compatibility:
   octon_version: "^0.5.0"
   extensions_api_version: "1.0"
   required_contracts: []
+  profile_path: "validation/compatibility.yml"
 dependencies:
   requires:
 $requires_block
@@ -137,7 +154,17 @@ content_entrypoints:
   templates: $templates_entry
   prompts: null
   context: null
-  validation: null
+  validation: "validation/"
+EOF
+  cat >"$fixture_root/.octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml" <<'EOF'
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories: []
+  required_commands: []
+  minimum_behavior: {}
+  optional_features: []
 EOF
 }
 
@@ -182,7 +209,10 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/inputs/additive/extensions/.archive" \
     "$fixture_root/.octon/state/control/locality" \
     "$fixture_root/.octon/state/control/execution" \
+    "$fixture_root/.octon/state/evidence/validation/publication/extensions" \
+    "$fixture_root/.octon/state/evidence/validation/compatibility/extensions" \
     "$fixture_root/.octon/generated/effective/locality" \
+    "$fixture_root/.octon/generated/effective/extensions" \
     "$fixture_root/.octon/generated/effective/capabilities" \
     "$fixture_root/.octon/generated/proposals"
 

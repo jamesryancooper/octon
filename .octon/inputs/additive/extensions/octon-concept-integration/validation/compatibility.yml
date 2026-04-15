@@ -1,0 +1,36 @@
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories:
+    - ".octon/inputs/exploratory/proposals"
+    - ".octon/state/control/skills/checkpoints"
+    - ".octon/state/evidence/runs/skills"
+    - ".octon/state/evidence/validation/extensions"
+    - ".octon/generated/effective/extensions"
+    - ".octon/generated/effective/capabilities"
+  required_commands:
+    - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh"
+    - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+    - ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh"
+  minimum_behavior:
+    fail_closed_publication: true
+    compiled_runtime_consumption_only: true
+    host_generated_receipts: true
+  optional_features:
+    - feature_id: "host-projections"
+      description: "Publish and validate projected host surfaces for extension-exported commands and skills."
+      required_files: []
+      required_directories: []
+      required_commands:
+        - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+      minimum_behavior: {}

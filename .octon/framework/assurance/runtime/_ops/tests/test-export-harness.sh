@@ -49,12 +49,12 @@ write_pack() {
     imported_from="\"https://example.com/${pack_id}.git\""
   fi
 
-  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/$pack_id"
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/$pack_id/validation"
   cat >"$fixture_root/.octon/inputs/additive/extensions/$pack_id/README.md" <<EOF
 # $pack_id
 EOF
   cat >"$fixture_root/.octon/inputs/additive/extensions/$pack_id/pack.yml" <<EOF
-schema_version: "octon-extension-pack-v3"
+schema_version: "octon-extension-pack-v4"
 pack_id: "$pack_id"
 version: "1.0.0"
 origin_class: "$origin_class"
@@ -62,6 +62,7 @@ compatibility:
   octon_version: "0.5.0"
   extensions_api_version: "1.0"
   required_contracts: []
+  profile_path: "validation/compatibility.yml"
 dependencies:
   requires:
 $requires_block
@@ -81,7 +82,17 @@ content_entrypoints:
   templates: null
   prompts: null
   context: null
-  validation: null
+  validation: "validation/"
+EOF
+  cat >"$fixture_root/.octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml" <<'EOF'
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories: []
+  required_commands: []
+  minimum_behavior: {}
+  optional_features: []
 EOF
 }
 
@@ -239,9 +250,9 @@ case_repo_snapshot_incompatible_selected_pack_fails() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/incompatible"
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/incompatible/validation"
   cat >"$fixture_root/.octon/inputs/additive/extensions/incompatible/pack.yml" <<'EOF'
-schema_version: "octon-extension-pack-v3"
+schema_version: "octon-extension-pack-v4"
 pack_id: "incompatible"
 version: "1.0.0"
 origin_class: "first_party_bundled"
@@ -249,6 +260,7 @@ compatibility:
   octon_version: "^9.0.0"
   extensions_api_version: "1.0"
   required_contracts: []
+  profile_path: "validation/compatibility.yml"
 dependencies:
   requires: []
   conflicts: []
@@ -266,7 +278,17 @@ content_entrypoints:
   templates: null
   prompts: null
   context: null
-  validation: null
+  validation: "validation/"
+EOF
+  cat >"$fixture_root/.octon/inputs/additive/extensions/incompatible/validation/compatibility.yml" <<'EOF'
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories: []
+  required_commands: []
+  minimum_behavior: {}
+  optional_features: []
 EOF
 
   cat >"$fixture_root/.octon/instance/extensions.yml" <<'EOF'
@@ -360,9 +382,9 @@ case_pack_bundle_compatibility_mismatch_fails() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/a"
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/a/validation"
   cat >"$fixture_root/.octon/inputs/additive/extensions/a/pack.yml" <<'EOF'
-schema_version: "octon-extension-pack-v3"
+schema_version: "octon-extension-pack-v4"
 pack_id: "a"
 version: "1.0.0"
 origin_class: "first_party_bundled"
@@ -370,6 +392,7 @@ compatibility:
   octon_version: "^9.0.0"
   extensions_api_version: "1.0"
   required_contracts: []
+  profile_path: "validation/compatibility.yml"
 dependencies:
   requires: []
   conflicts: []
@@ -387,7 +410,17 @@ content_entrypoints:
   templates: null
   prompts: null
   context: null
-  validation: null
+  validation: "validation/"
+EOF
+  cat >"$fixture_root/.octon/inputs/additive/extensions/a/validation/compatibility.yml" <<'EOF'
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories: []
+  required_commands: []
+  minimum_behavior: {}
+  optional_features: []
 EOF
 
   ! run_export "$fixture_root" --profile pack_bundle --output-dir "$fixture_root/out" --pack-ids "a" >/dev/null 2>&1

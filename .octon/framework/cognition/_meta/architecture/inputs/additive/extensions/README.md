@@ -43,8 +43,10 @@ Local implication for this surface:
 
 ## Packet Contract
 
-- `pack.yml` uses `octon-extension-pack-v3`.
+- `pack.yml` uses `octon-extension-pack-v4`.
 - `compatibility.required_contracts` is required, even when empty.
+- `compatibility.profile_path` is required and must point to
+  `validation/compatibility.yml`.
 - `provenance` is pack-authored and carries origin metadata, digests, and
   attestation references.
 - Repo trust remains in `instance/extensions.yml`; it does not move into raw

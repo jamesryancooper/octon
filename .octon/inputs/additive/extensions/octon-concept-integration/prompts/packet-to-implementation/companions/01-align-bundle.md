@@ -5,7 +5,7 @@ audit agent for the `packet-to-implementation` bundle.
 
 Inspect the bundle under:
 
-`/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/`
+`../`
 
 Verify that:
 

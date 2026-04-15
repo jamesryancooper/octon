@@ -56,12 +56,21 @@ write_fixture() {
   local root="$1"
   mkdir -p \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts" \
+    "$root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas" \
+    "$root/.octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas" \
+    "$root/.octon/framework/engine/governance/extensions" \
     "$root/.octon/inputs/additive/extensions" \
+    "$root/.octon/inputs/exploratory/proposals" \
     "$root/.octon/instance" \
     "$root/.octon/state/control/extensions" \
+    "$root/.octon/state/control/skills/checkpoints" \
+    "$root/.octon/state/evidence/runs/skills" \
     "$root/.octon/state/evidence/validation/publication/extensions" \
+    "$root/.octon/state/evidence/validation/compatibility/extensions" \
     "$root/.octon/state/evidence/validation/extensions" \
-    "$root/.octon/generated/effective/extensions"
+    "$root/.octon/generated/effective/extensions" \
+    "$root/.octon/generated/effective/capabilities"
 
   copy_file "$root" "README.md"
   copy_file "$root" ".octon/README.md"
@@ -80,6 +89,9 @@ write_fixture() {
   copy_file "$root" ".octon/instance/charter/workspace.md"
   copy_file "$root" ".octon/instance/charter/workspace.yml"
   copy_file "$root" ".octon/framework/cognition/_meta/architecture/specification.md"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/state/evidence/validation/publication/schemas/validation-publication-receipt.schema.json"
+  copy_file "$root" ".octon/framework/cognition/_meta/architecture/state/evidence/validation/compatibility/schemas/extension-compatibility-receipt.schema.json"
+  copy_file "$root" ".octon/framework/engine/governance/extensions/README.md"
 
   cp -R "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration" \
     "$root/.octon/inputs/additive/extensions/"
@@ -119,7 +131,7 @@ acknowledgements: []
 EOF
 
   cat >"$root/.octon/state/control/extensions/active.yml" <<'EOF'
-schema_version: "octon-extension-active-state-v3"
+schema_version: "octon-extension-active-state-v4"
 desired_config_revision:
   path: ".octon/instance/extensions.yml"
   sha256: "stub"
@@ -132,6 +144,9 @@ published_artifact_map: ".octon/generated/effective/extensions/artifact-map.yml"
 published_generation_lock: ".octon/generated/effective/extensions/generation.lock.yml"
 publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/stub.yml"
 publication_receipt_sha256: "stub"
+compatibility_status: "compatible"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/stub.yml"
+compatibility_receipt_sha256: "stub"
 invalidation_conditions: []
 required_inputs: []
 validation_timestamp: "1970-01-01T00:00:00Z"
@@ -145,12 +160,15 @@ records: []
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'EOF'
-schema_version: "octon-extension-effective-catalog-v4"
+schema_version: "octon-extension-effective-catalog-v5"
 generator_version: "stub"
 generation_id: "stub"
 published_at: "1970-01-01T00:00:00Z"
 publication_status: "withdrawn"
 publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/stub.yml"
+compatibility_status: "compatible"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/stub.yml"
+compatibility_receipt_sha256: "stub"
 invalidation_conditions: []
 desired_selected_packs: []
 published_active_packs: []
@@ -172,13 +190,16 @@ artifacts: []
 EOF
 
   cat >"$root/.octon/generated/effective/extensions/generation.lock.yml" <<'EOF'
-schema_version: "octon-extension-generation-lock-v4"
+schema_version: "octon-extension-generation-lock-v5"
 generator_version: "stub"
 generation_id: "stub"
 published_at: "1970-01-01T00:00:00Z"
 publication_status: "withdrawn"
 publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/stub.yml"
 publication_receipt_sha256: "stub"
+compatibility_status: "compatible"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/stub.yml"
+compatibility_receipt_sha256: "stub"
 desired_config_sha256: "stub"
 root_manifest_sha256: "stub"
 published_files: []
@@ -190,11 +211,29 @@ EOF
   copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh"
   copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
   copy_file "$root" ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh"
+  copy_file "$root" ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh"
 
   chmod +x \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$root/.octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh" \
-    "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
+    "$root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh" \
+    "$root/.octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh" \
+    "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh"
 }
 
 publish_state() {

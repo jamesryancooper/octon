@@ -17,7 +17,7 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-extension-pack-v3"
+      "const": "octon-extension-pack-v4"
     },
     "pack_id": {
       "type": "string",
@@ -41,7 +41,8 @@
       "required": [
         "octon_version",
         "extensions_api_version",
-        "required_contracts"
+        "required_contracts",
+        "profile_path"
       ],
       "properties": {
         "octon_version": {
@@ -57,6 +58,10 @@
           "items": {
             "$ref": "#/$defs/requiredContract"
           }
+        },
+        "profile_path": {
+          "type": "string",
+          "const": "validation/compatibility.yml"
         }
       }
     },
@@ -170,7 +175,7 @@
           "$ref": "#/$defs/entrypoint"
         },
         "validation": {
-          "$ref": "#/$defs/entrypoint"
+          "$ref": "#/$defs/requiredEntrypoint"
         }
       }
     }
@@ -217,6 +222,10 @@
         "string",
         "null"
       ],
+      "pattern": "^[a-z][a-z0-9-]*/$"
+    },
+    "requiredEntrypoint": {
+      "type": "string",
       "pattern": "^[a-z][a-z0-9-]*/$"
     }
   }

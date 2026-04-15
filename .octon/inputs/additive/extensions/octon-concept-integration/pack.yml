@@ -1,4 +1,4 @@
-schema_version: "octon-extension-pack-v3"
+schema_version: "octon-extension-pack-v4"
 pack_id: "octon-concept-integration"
 version: "1.2.0"
 origin_class: "first_party_bundled"
@@ -15,15 +15,16 @@ compatibility:
     - contract_id: "instance-extensions"
       schema_version: "octon-instance-extensions-v2"
     - contract_id: "extension-active-state"
-      schema_version: "octon-extension-active-state-v3"
+      schema_version: "octon-extension-active-state-v4"
     - contract_id: "extension-quarantine-state"
       schema_version: "octon-extension-quarantine-state-v3"
     - contract_id: "extension-effective-catalog"
-      schema_version: "octon-extension-effective-catalog-v4"
+      schema_version: "octon-extension-effective-catalog-v5"
     - contract_id: "extension-artifact-map"
       schema_version: "octon-extension-artifact-map-v4"
     - contract_id: "extension-generation-lock"
-      schema_version: "octon-extension-generation-lock-v4"
+      schema_version: "octon-extension-generation-lock-v5"
+  profile_path: "validation/compatibility.yml"
 dependencies:
   requires: []
   conflicts: []

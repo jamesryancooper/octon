@@ -101,6 +101,18 @@ case_constitutional_challenge_has_no_prompt_generation_companion() {
   [[ -z "$(yq -r '.companions[]? | select(.role_class == "prompt-generation-companion") | .path' "$manifest")" ]]
 }
 
+case_runtime_facing_assets_avoid_raw_pack_self_references() {
+  ! rg -n '\.octon/inputs/additive/extensions/octon-concept-integration' \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/README.md" \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/commands" \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/context" \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/prompts" \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/skills" \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/validation/README.md" \
+    "$REPO_ROOT/.octon/inputs/additive/extensions/octon-concept-integration/validation/bundle-matrix.md" \
+    >/dev/null 2>&1
+}
+
 main() {
   assert_success "all 10 prompt bundles declare unique prompt_set_ids" case_unique_prompt_set_ids
   assert_success "bundle folder names match canonical prompt_set_id suffixes" case_bundle_folder_names_match_ids
@@ -109,6 +121,7 @@ main() {
   assert_success "leaf skill parameters differ by bundle where required" case_leaf_skill_parameters_differ_by_bundle
   assert_success "architecture revision includes the implementation-prompt companion" case_architecture_revision_has_prompt_generation_companion
   assert_success "constitutional challenge excludes the implementation-prompt companion" case_constitutional_challenge_has_no_prompt_generation_companion
+  assert_success "runtime-facing assets avoid raw pack self-references" case_runtime_facing_assets_avoid_raw_pack_self_references
 
   echo
   echo "Passed: $pass_count"

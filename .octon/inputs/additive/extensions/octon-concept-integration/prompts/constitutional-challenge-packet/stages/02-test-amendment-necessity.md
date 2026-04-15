@@ -5,8 +5,8 @@ constitutional amendment is genuinely necessary.
 
 ## Shared Contracts
 
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/constitutional-challenge-contract.md`
+- apply `../../shared/repository-grounding.md`
+- apply `../../shared/constitutional-challenge-contract.md`
 
 ## Output
 

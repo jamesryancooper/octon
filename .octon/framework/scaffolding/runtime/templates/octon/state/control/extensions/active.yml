@@ -1,4 +1,4 @@
-schema_version: "octon-extension-active-state-v3"
+schema_version: "octon-extension-active-state-v4"
 desired_config_revision:
   path: ".octon/instance/extensions.yml"
   sha256: "{{EXTENSIONS_DESIRED_SHA256 or 'pending'}}"
@@ -11,6 +11,9 @@ published_artifact_map: ".octon/generated/effective/extensions/artifact-map.yml"
 published_generation_lock: ".octon/generated/effective/extensions/generation.lock.yml"
 publication_receipt_path: "{{EXTENSIONS_PUBLICATION_RECEIPT_PATH or '.octon/state/evidence/validation/publication/extensions/pending-extensions.yml'}}"
 publication_receipt_sha256: "{{EXTENSIONS_PUBLICATION_RECEIPT_SHA256 or 'pending'}}"
+compatibility_status: "{{EXTENSIONS_COMPATIBILITY_STATUS or 'compatible'}}"
+compatibility_receipt_path: "{{EXTENSIONS_COMPATIBILITY_RECEIPT_PATH or '.octon/state/evidence/validation/compatibility/extensions/pending-extensions.yml'}}"
+compatibility_receipt_sha256: "{{EXTENSIONS_COMPATIBILITY_RECEIPT_SHA256 or 'pending'}}"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"

@@ -5,8 +5,8 @@ packet.
 
 ## Shared Contracts
 
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/managed-artifact-contract.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-packet-contract.md`
+- apply `../../shared/managed-artifact-contract.md`
+- apply `../../shared/architecture-packet-contract.md`
 
 ## Output
 

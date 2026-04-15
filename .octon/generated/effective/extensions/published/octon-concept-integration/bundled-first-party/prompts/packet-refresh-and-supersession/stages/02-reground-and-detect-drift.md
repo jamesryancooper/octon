@@ -5,7 +5,7 @@ Re-ground the existing packet against the live repository.
 ## Shared Contracts
 
 - inspect the base repo anchors declared in this bundle `manifest.yml`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
+- apply `../../shared/repository-grounding.md`
 
 ## Output
 

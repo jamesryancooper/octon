@@ -6,8 +6,8 @@ constraints that shape the revision space.
 ## Shared Contracts
 
 - inspect the base repo anchors declared in this bundle `manifest.yml`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md`
+- apply `../../shared/repository-grounding.md`
+- apply `../../shared/architecture-revision-contract.md`
 
 ## Output
 

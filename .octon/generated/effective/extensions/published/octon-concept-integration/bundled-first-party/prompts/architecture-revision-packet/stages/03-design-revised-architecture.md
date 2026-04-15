@@ -5,8 +5,8 @@ concepts integrable without changing Octon's constitutional kernel.
 
 ## Shared Contracts
 
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/architecture-revision-contract.md`
+- apply `../../shared/repository-grounding.md`
+- apply `../../shared/architecture-revision-contract.md`
 
 ## Output
 

@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/extension-compatibility-receipt.schema.json",
+  "title": "Octon Extension Compatibility Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "compatibility_family",
+    "generation_id",
+    "result",
+    "validated_at",
+    "validator_version",
+    "contract_refs",
+    "source_digests",
+    "pack_results",
+    "required_inputs"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-validation-extension-compatibility-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compatibility_family": {
+      "type": "string",
+      "const": "extensions"
+    },
+    "generation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result": {
+      "type": "string",
+      "enum": [
+        "compatible",
+        "degraded",
+        "incompatible"
+      ]
+    },
+    "validated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validator_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contract_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_digests": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      },
+      "required": [
+        "desired_config_sha256",
+        "root_manifest_sha256"
+      ],
+      "properties": {
+        "desired_config_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "root_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "pack_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/packResult"
+      }
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "pathList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "featureList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      }
+    },
+    "packResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pack_id",
+        "source_id",
+        "result",
+        "profile_path",
+        "required_inputs",
+        "missing_required_files",
+        "missing_required_directories",
+        "missing_required_commands",
+        "missing_required_behaviors",
+        "degraded_optional_features",
+        "blocking_reasons",
+        "source_digests"
+      ],
+      "properties": {
+        "pack_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "result": {
+          "type": "string",
+          "enum": [
+            "compatible",
+            "degraded",
+            "incompatible"
+          ]
+        },
+        "profile_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_inputs": {
+          "$ref": "#/$defs/pathList"
+        },
+        "missing_required_files": {
+          "$ref": "#/$defs/pathList"
+        },
+        "missing_required_directories": {
+          "$ref": "#/$defs/pathList"
+        },
+        "missing_required_commands": {
+          "$ref": "#/$defs/pathList"
+        },
+        "missing_required_behaviors": {
+          "$ref": "#/$defs/pathList"
+        },
+        "degraded_optional_features": {
+          "$ref": "#/$defs/featureList"
+        },
+        "blocking_reasons": {
+          "$ref": "#/$defs/pathList"
+        },
+        "source_digests": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pack_manifest_sha256",
+            "profile_sha256"
+          ],
+          "properties": {
+            "pack_manifest_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "profile_sha256": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          }
+        }
+      }
+    }
+  }
+}

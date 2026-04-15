@@ -66,8 +66,21 @@ case_supported_required_contracts_pass() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v4"/' \
+  perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v5"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
+
+  run_validator "$fixture_root"
+}
+
+case_selected_version_pin_matching_pack_version_passes() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  perl -0pi -e 's/enabled: \[\]/enabled:\n    - pack_id: "docs"\n      source_id: "bundled-first-party"\n      version_pin: "1.0.0"/' \
+    "$fixture_root/.octon/instance/extensions.yml"
 
   run_validator "$fixture_root"
 }
@@ -79,7 +92,7 @@ case_required_contracts_follow_live_schema_versions() {
   copy_packet2_runtime_scripts "$fixture_root"
   write_valid_packet2_fixture "$fixture_root"
 
-  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v4"/schema_version: "octon-extension-effective-catalog-v9"/' \
+  perl -0pi -e 's/schema_version: "octon-extension-effective-catalog-v5"/schema_version: "octon-extension-effective-catalog-v9"/' \
     "$fixture_root/.octon/generated/effective/extensions/catalog.effective.yml"
   perl -0pi -e 's/required_contracts: \[\]/required_contracts:\n    - contract_id: "extension-effective-catalog"\n      schema_version: "octon-extension-effective-catalog-v9"/' \
     "$fixture_root/.octon/inputs/additive/extensions/docs/pack.yml"
@@ -168,9 +181,44 @@ case_unsupported_required_contract_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_missing_compatibility_profile_fails() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  rm "$fixture_root/.octon/inputs/additive/extensions/docs/validation/compatibility.yml"
+
+  ! run_validator "$fixture_root"
+}
+
+case_invalid_compatibility_profile_contract_fails() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  cat >"$fixture_root/.octon/inputs/additive/extensions/docs/validation/compatibility.yml" <<'EOF'
+schema_version: "octon-extension-compatibility-profile-v1"
+version: "1.0.0"
+compatibility:
+  required_files: []
+  required_directories: []
+  required_commands: []
+  minimum_behavior:
+    unsupported_flag: true
+  optional_features: []
+EOF
+
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "seeded packet-8 packs satisfy the pack contract" case_valid_seeded_packs_pass
   assert_success "supported required_contracts entries are accepted" case_supported_required_contracts_pass
+  assert_success "matching selected version pins are accepted" case_selected_version_pin_matching_pack_version_passes
   assert_success "required_contracts resolve against live schema versions" case_required_contracts_follow_live_schema_versions
   assert_success "required_contracts reject live version mismatches" case_required_contract_version_mismatch_fails
   assert_success "pack validator rejects legacy pack manifest shape" case_invalid_pack_schema_fails
@@ -179,6 +227,8 @@ main() {
   assert_success "pack validator rejects provenance/source mismatches" case_provenance_source_mismatch_fails
   assert_success "external packs require external provenance" case_external_pack_requires_external_provenance
   assert_success "unsupported required_contracts entries are rejected" case_unsupported_required_contract_fails
+  assert_success "missing compatibility profiles are rejected" case_missing_compatibility_profile_fails
+  assert_success "invalid compatibility profile behavior keys are rejected" case_invalid_compatibility_profile_contract_fails
 
   echo
   echo "Passed: $pass_count"

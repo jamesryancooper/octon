@@ -9,8 +9,8 @@ current Octon repository.
 ## Shared Contracts
 
 - inspect the base repo anchors declared in this bundle `manifest.yml`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/policy-packet-contract.md`
+- apply `../../shared/repository-grounding.md`
+- apply `../../shared/policy-packet-contract.md`
 
 ## Output
 

@@ -91,7 +91,7 @@ Before making any current-state claim:
 
 - inspect the base repo anchors declared in the bundle `manifest.yml`
   `required_repo_anchors`,
-- apply `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`,
+- apply `../../shared/repository-grounding.md`,
 - and inspect any repo surfaces directly implicated by the candidate concept.
 
 Do not infer repository reality from stale assumptions, earlier research runs,
@@ -113,7 +113,7 @@ such as:
 - or proposal-first changes with explicit durable promotion targets.
 
 Reject or heavily down-rank concepts that only work by violating the shared
-anti-patterns in `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/shared/repository-grounding.md`.
+anti-patterns in `../../shared/repository-grounding.md`.
 
 ---
 

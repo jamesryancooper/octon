@@ -7,7 +7,7 @@ within the `octon-concept-integration` family.
 
 The baseline packet execution surface is:
 
-- `/.octon/inputs/additive/extensions/octon-concept-integration/prompts/packet-to-implementation/stages/01-implement-packet.md`
+- `../packet-to-implementation/stages/01-implement-packet.md`
 
 Packet-generation bundles may target that execution surface directly or use it
 as the baseline for implementation-prompt generation.
