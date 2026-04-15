@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.24](https://github.com/jamesryancooper/octon/compare/octon-v0.6.23...octon-v0.6.24) (2026-04-15)
+
+
+### Bug Fixes
+
+* **proposals:** align proposal package contracts ([#291](https://github.com/jamesryancooper/octon/issues/291)) ([3ea21e5](https://github.com/jamesryancooper/octon/commit/3ea21e57c160cb06bdac91d1d25add46ce8c4270))
+
 ## [0.6.23](https://github.com/jamesryancooper/octon/compare/octon-v0.6.22...octon-v0.6.23) (2026-04-15)
 
 
