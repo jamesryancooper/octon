@@ -1,0 +1,64 @@
+schema_version: "extensions-skills-fragment-v1"
+skills:
+  - id: octon-impact-map-and-validation-selector
+    display_name: Octon Impact Map And Validation Selector
+    group: extensions
+    path: octon-impact-map-and-validation-selector/
+    skill_class: invocable
+    summary: "Resolve the matching input family, build an impact map, and select the minimum credible validation set plus next-step routing."
+    status: active
+    tags:
+      - octon
+      - impact-map
+      - validation
+      - extension-pack
+      - composite-skill
+    triggers:
+      - "octon impact map and validation selector"
+      - "what do i run next"
+      - "minimum credible validation set"
+      - "impact map from touched paths"
+  - id: octon-impact-map-and-validation-selector-touched-paths
+    display_name: Touched Paths Impact Map
+    group: extensions
+    path: octon-impact-map-and-validation-selector-touched-paths/
+    skill_class: invocable
+    summary: "Turn touched repo paths into an impact map, validation floor, and next-step routing."
+    status: active
+    tags: [octon, impact-map, validation, touched-paths]
+    triggers:
+      - "touched paths impact map"
+      - "what changed and what do i validate"
+  - id: octon-impact-map-and-validation-selector-proposal-packet
+    display_name: Proposal Packet Impact Map
+    group: extensions
+    path: octon-impact-map-and-validation-selector-proposal-packet/
+    skill_class: invocable
+    summary: "Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing."
+    status: active
+    tags: [octon, impact-map, validation, proposal-packet]
+    triggers:
+      - "proposal packet impact map"
+      - "what should this packet validate"
+  - id: octon-impact-map-and-validation-selector-refactor-target
+    display_name: Refactor Target Impact Map
+    group: extensions
+    path: octon-impact-map-and-validation-selector-refactor-target/
+    skill_class: invocable
+    summary: "Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing."
+    status: active
+    tags: [octon, impact-map, validation, refactor]
+    triggers:
+      - "refactor target impact map"
+      - "what validates this refactor"
+  - id: octon-impact-map-and-validation-selector-mixed-inputs
+    display_name: Mixed Input Impact Map
+    group: extensions
+    path: octon-impact-map-and-validation-selector-mixed-inputs/
+    skill_class: invocable
+    summary: "Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor."
+    status: active
+    tags: [octon, impact-map, validation, mixed-inputs]
+    triggers:
+      - "mixed input impact map"
+      - "packet drift against touched paths"

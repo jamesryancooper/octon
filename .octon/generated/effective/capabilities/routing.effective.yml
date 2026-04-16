@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-156b23c03613
-published_at: 2026-04-16T22:37:28Z
+generation_id: capabilities-00303505f02c
+published_at: 2026-04-16T23:15:09Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-16T22-37-28Z-capabilities-156b23c03613.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-16T23-15-09Z-capabilities-00303505f02c.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -13,7 +13,7 @@ invalidation_conditions:
   - extensions-lock-sha-changed
 source:
   root_manifest_path: .octon/octon.yml
-  root_manifest_sha256: e050c133afeb5817c65565827d82b4fafcd3e10a2182bdf02dbed43e6a2bdb03
+  root_manifest_sha256: ac741a0737ce158a318eae1b3221b5c5881e9e4c925ec16212c7f8492e8d7723
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
@@ -34,14 +34,14 @@ source:
   locality_generation_lock_sha256: e62418eb25400dfc808bc292b62f8e482221188ad17beac81b08e2d913fdc472
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: fd86a1f549b602e88ea68885ee524c53445c7bc8e974d97cb6747f585354b445
+  extensions_catalog_sha256: 4e5f381e7539c237e7762bf2f1f24e46d8fb25f9dd8bc80a1fd40bb5eea89424
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 85177e1da78a6616512b8f34051d2932796996b7c5bfefd25b136cdc051d6699
-  extensions_generation_id: extensions-111a69aa34f5
+  extensions_generation_lock_sha256: 6162711e8cb3c79d70aee835dc5fd904dae42876a0a4c35b1e9e2a1ad616a489
+  extensions_generation_id: extensions-660bc379219d
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
   locality_generation_id: locality-e08a88ec3dda
-  extension_generation_id: extensions-111a69aa34f5
+  extension_generation_id: extensions-660bc379219d
   host_projection_mode: materialized-copy-v1
   locality_publication_status: published
   extension_publication_status: published
@@ -3705,6 +3705,161 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-decision-drafter.octon-decision-drafter-rollback-notes
     projection_name: octon-decision-drafter-rollback-notes
+  - effective_id: extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector
+    artifact_map_id: extension-command-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-impact-map-and-validation-selector
+    display_name: Octon Impact Map And Validation Selector
+    summary: Resolve the matching input family, build an impact map, and select the minimum credible validation set plus next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector
+    projection_name: octon-impact-map-and-validation-selector
+  - effective_id: extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-mixed-inputs
+    artifact_map_id: extension-command-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-inputs
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-impact-map-and-validation-selector-mixed-inputs
+    display_name: Mixed Input Impact Map
+    summary: Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-mixed-inputs
+    projection_name: octon-impact-map-and-validation-selector-mixed-inputs
+  - effective_id: extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
+    artifact_map_id: extension-command-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-impact-map-and-validation-selector-proposal-packet
+    display_name: Proposal Packet Impact Map
+    summary: Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
+    projection_name: octon-impact-map-and-validation-selector-proposal-packet
+  - effective_id: extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
+    artifact_map_id: extension-command-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-impact-map-and-validation-selector-refactor-target
+    display_name: Refactor Target Impact Map
+    summary: Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
+    projection_name: octon-impact-map-and-validation-selector-refactor-target
+  - effective_id: extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
+    artifact_map_id: extension-command-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-impact-map-and-validation-selector-touched-paths
+    display_name: Touched Paths Impact Map
+    summary: Turn touched repo paths into an impact map, minimum credible validation set, and next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
+    projection_name: octon-impact-map-and-validation-selector-touched-paths
   - effective_id: extension.skill.octon-concept-integration.octon-concept-integration
     artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration
     origin_class: extension
@@ -4201,6 +4356,161 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-decision-drafter.octon-decision-drafter-rollback-notes
     projection_name: octon-decision-drafter-rollback-notes
+  - effective_id: extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector
+    artifact_map_id: extension-skill-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-impact-map-and-validation-selector
+    display_name: Octon Impact Map And Validation Selector
+    summary: Resolve the matching input family, build an impact map, and select the minimum credible validation set plus next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector
+    projection_name: octon-impact-map-and-validation-selector
+  - effective_id: extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-mixed-inputs
+    artifact_map_id: extension-skill-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-inputs
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-impact-map-and-validation-selector-mixed-inputs
+    display_name: Mixed Input Impact Map
+    summary: Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-mixed-inputs
+    projection_name: octon-impact-map-and-validation-selector-mixed-inputs
+  - effective_id: extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
+    artifact_map_id: extension-skill-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-impact-map-and-validation-selector-proposal-packet
+    display_name: Proposal Packet Impact Map
+    summary: Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
+    projection_name: octon-impact-map-and-validation-selector-proposal-packet
+  - effective_id: extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
+    artifact_map_id: extension-skill-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-impact-map-and-validation-selector-refactor-target
+    display_name: Refactor Target Impact Map
+    summary: Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
+    projection_name: octon-impact-map-and-validation-selector-refactor-target
+  - effective_id: extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
+    artifact_map_id: extension-skill-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-impact-map-and-validation-selector-touched-paths
+    display_name: Touched Paths Impact Map
+    summary: Turn touched repo paths into an impact map, validation floor, and next-step routing.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
+    projection_name: octon-impact-map-and-validation-selector-touched-paths
 resolution_order:
   - instance.command.repo-hygiene
   - framework.command.alignment-check
@@ -4326,6 +4636,11 @@ resolution_order:
   - extension.command.octon-decision-drafter.octon-decision-drafter-change-receipt
   - extension.command.octon-decision-drafter.octon-decision-drafter-migration-rationale
   - extension.command.octon-decision-drafter.octon-decision-drafter-rollback-notes
+  - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector
+  - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-mixed-inputs
+  - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
+  - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
+  - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
   - extension.skill.octon-concept-integration.octon-concept-integration
   - extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
   - extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
@@ -4342,3 +4657,8 @@ resolution_order:
   - extension.skill.octon-decision-drafter.octon-decision-drafter-change-receipt
   - extension.skill.octon-decision-drafter.octon-decision-drafter-migration-rationale
   - extension.skill.octon-decision-drafter.octon-decision-drafter-rollback-notes
+  - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector
+  - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-mixed-inputs
+  - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
+  - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
+  - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths

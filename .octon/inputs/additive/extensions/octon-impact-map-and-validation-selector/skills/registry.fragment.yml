@@ -1,0 +1,157 @@
+schema_version: "extensions-skills-registry-fragment-v1"
+skills:
+  octon-impact-map-and-validation-selector:
+    version: "1.0.0"
+    commands:
+      - /octon-impact-map-and-validation-selector
+    parameters:
+      - name: bundle
+        type: text
+        required: false
+        description: "Optional explicit route override. Must match one published route id."
+      - name: touched_paths
+        type: text
+        required: false
+        description: "Touched repo paths as CSV, newline text, or another text-encoded list."
+      - name: proposal_packet
+        type: text
+        required: false
+        description: "Proposal packet path or id."
+      - name: refactor_target
+        type: text
+        required: false
+        description: "Refactor target as JSON, YAML, or inline structured text."
+      - name: validation_depth
+        type: text
+        required: false
+        default: "minimal"
+        description: "Validation depth: minimal, standard, or deep."
+      - name: strictness
+        type: text
+        required: false
+        default: "credible-minimum"
+        description: "Selection posture: credible-minimum, balanced, or release-gate."
+      - name: explanation_mode
+        type: text
+        required: false
+        default: "full-trace"
+        description: "Rationale verbosity: concise or full-trace."
+      - name: dry_run_route
+        type: boolean
+        required: false
+        default: false
+        description: "Return the route receipt without prompt freshness or leaf execution."
+    requires:
+      context: []
+  octon-impact-map-and-validation-selector-touched-paths:
+    version: "1.0.0"
+    commands:
+      - /octon-impact-map-and-validation-selector-touched-paths
+    parameters:
+      - name: touched_paths
+        type: text
+        required: true
+        description: "Touched repo paths as CSV, newline text, or another text-encoded list."
+      - name: validation_depth
+        type: text
+        required: false
+        default: "minimal"
+        description: "Validation depth: minimal, standard, or deep."
+      - name: strictness
+        type: text
+        required: false
+        default: "credible-minimum"
+        description: "Selection posture: credible-minimum, balanced, or release-gate."
+      - name: explanation_mode
+        type: text
+        required: false
+        default: "full-trace"
+        description: "Rationale verbosity: concise or full-trace."
+    requires:
+      context: []
+  octon-impact-map-and-validation-selector-proposal-packet:
+    version: "1.0.0"
+    commands:
+      - /octon-impact-map-and-validation-selector-proposal-packet
+    parameters:
+      - name: proposal_packet
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+      - name: validation_depth
+        type: text
+        required: false
+        default: "minimal"
+        description: "Validation depth: minimal, standard, or deep."
+      - name: strictness
+        type: text
+        required: false
+        default: "credible-minimum"
+        description: "Selection posture: credible-minimum, balanced, or release-gate."
+      - name: explanation_mode
+        type: text
+        required: false
+        default: "full-trace"
+        description: "Rationale verbosity: concise or full-trace."
+    requires:
+      context: []
+  octon-impact-map-and-validation-selector-refactor-target:
+    version: "1.0.0"
+    commands:
+      - /octon-impact-map-and-validation-selector-refactor-target
+    parameters:
+      - name: refactor_target
+        type: text
+        required: true
+        description: "Refactor target as JSON, YAML, or inline structured text."
+      - name: validation_depth
+        type: text
+        required: false
+        default: "minimal"
+        description: "Validation depth: minimal, standard, or deep."
+      - name: strictness
+        type: text
+        required: false
+        default: "credible-minimum"
+        description: "Selection posture: credible-minimum, balanced, or release-gate."
+      - name: explanation_mode
+        type: text
+        required: false
+        default: "full-trace"
+        description: "Rationale verbosity: concise or full-trace."
+    requires:
+      context: []
+  octon-impact-map-and-validation-selector-mixed-inputs:
+    version: "1.0.0"
+    commands:
+      - /octon-impact-map-and-validation-selector-mixed-inputs
+    parameters:
+      - name: touched_paths
+        type: text
+        required: false
+        description: "Touched repo paths as CSV, newline text, or another text-encoded list."
+      - name: proposal_packet
+        type: text
+        required: false
+        description: "Proposal packet path or id."
+      - name: refactor_target
+        type: text
+        required: false
+        description: "Refactor target as JSON, YAML, or inline structured text."
+      - name: validation_depth
+        type: text
+        required: false
+        default: "minimal"
+        description: "Validation depth: minimal, standard, or deep."
+      - name: strictness
+        type: text
+        required: false
+        default: "credible-minimum"
+        description: "Selection posture: credible-minimum, balanced, or release-gate."
+      - name: explanation_mode
+        type: text
+        required: false
+        default: "full-trace"
+        description: "Rationale verbosity: concise or full-trace."
+    requires:
+      context: []

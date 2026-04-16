@@ -1,0 +1,54 @@
+schema_version: "octon-extension-prompt-set-v1"
+prompt_set_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map"
+version: "1.0.0"
+stages:
+  - stage_id: "analyze"
+    prompt_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map-analyze"
+    path: "stages/01-analyze.md"
+    role_class: "stage"
+    order: 1
+companions:
+  - prompt_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map-align-bundle"
+    path: "companions/01-align-bundle.md"
+    role_class: "maintenance-companion"
+references:
+  - ref_id: "bundle-contract"
+    path: "references/bundle-contract.md"
+shared_references:
+  - ref_id: "repository-grounding"
+    path: "shared/repository-grounding.md"
+  - ref_id: "output-contract"
+    path: "shared/output-contract.md"
+  - ref_id: "validation-selection-rules"
+    path: "shared/validation-selection-rules.md"
+  - ref_id: "next-step-routing-rules"
+    path: "shared/next-step-routing-rules.md"
+required_repo_anchors:
+  - "README.md"
+  - ".octon/README.md"
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/framework/constitution/CHARTER.md"
+  - ".octon/framework/constitution/charter.yml"
+  - ".octon/framework/orchestration/runtime/workflows/refactor/refactor/workflow.yml"
+  - ".octon/framework/orchestration/runtime/workflows/refactor/refactor/stages/01-define-scope.md"
+  - ".octon/framework/orchestration/runtime/workflows/refactor/refactor/stages/02-audit.md"
+  - ".octon/framework/orchestration/runtime/workflows/refactor/refactor/stages/05-verify.md"
+alignment_policy:
+  default_mode: "auto"
+  stale_behavior: "realign_or_fail_closed"
+  skip_mode_policy: "degraded-retained-explicit"
+  receipt_root: ".octon/state/evidence/validation/extensions/prompt-alignment"
+invalidation_conditions:
+  - "prompt-manifest-sha-changed"
+  - "prompt-asset-sha-changed"
+  - "required-anchor-sha-changed"
+  - "extension-desired-config-sha-changed"
+  - "root-manifest-sha-changed"
+artifact_policy:
+  internal_artifacts:
+    - "normalized-inputs"
+    - "impact-map"
+    - "validation-selection"
+    - "rationale-trace"
+    - "next-step-recommendation"
+  packet_support_files: []

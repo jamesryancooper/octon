@@ -5,6 +5,8 @@ selection:
       source_id: "bundled-first-party"
     - pack_id: "octon-decision-drafter"
       source_id: "bundled-first-party"
+    - pack_id: "octon-impact-map-and-validation-selector"
+      source_id: "bundled-first-party"
   disabled:
     - pack_id: "docs"
       source_id: "bundled-first-party"
