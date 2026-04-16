@@ -1,0 +1,236 @@
+schema_version: "extensions-skills-registry-fragment-v1"
+skills:
+  octon-decision-drafter:
+    version: "1.0.0"
+    commands:
+      - /octon-decision-drafter
+    parameters:
+      - name: bundle
+        type: text
+        required: false
+        description: "Optional explicit route override. Must match one published route id."
+      - name: diff_range
+        type: text
+        required: false
+        description: "Git diff range such as HEAD~1..HEAD. Provide exactly one of diff_range or diff_source."
+      - name: diff_source
+        type: text
+        required: false
+        description: "Path to a diff artifact. Provide exactly one of diff_range or diff_source."
+      - name: changed_paths
+        type: text
+        required: false
+        description: "Optional explicit changed-path list when the diff source is broader than the intended draft scope."
+      - name: evidence_refs
+        type: text
+        required: false
+        description: "Comma-separated retained evidence refs under .octon/state/evidence/**."
+      - name: adr_ref
+        type: text
+        required: false
+        description: "Optional ADR path or id used to target the adr-update bundle."
+      - name: migration_plan_ref
+        type: text
+        required: false
+        description: "Optional migration plan path used to target the migration-rationale bundle."
+      - name: run_contract_ref
+        type: text
+        required: false
+        description: "Optional run-contract path used to target the rollback-notes bundle."
+      - name: rollback_posture_ref
+        type: text
+        required: false
+        description: "Optional rollback-posture path used to target the rollback-notes bundle."
+      - name: proposal_packet_ref
+        type: text
+        required: false
+        description: "Optional proposal-packet path used to target the migration-rationale bundle."
+      - name: output_mode
+        type: text
+        required: false
+        default: "inline"
+        description: "Draft output mode: inline, patch-suggestion, or scratch-md."
+      - name: draft_target_path
+        type: text
+        required: false
+        description: "Required when output_mode=patch-suggestion."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode: auto, always, or skip."
+      - name: dry_run_route
+        type: boolean
+        required: false
+        default: false
+        description: "Return the route-resolution receipt without dispatching to a leaf bundle."
+    requires:
+      context: []
+  octon-decision-drafter-adr-update:
+    version: "1.0.0"
+    commands:
+      - /octon-decision-drafter-adr-update
+    parameters:
+      - name: diff_range
+        type: text
+        required: false
+        description: "Git diff range. Provide exactly one of diff_range or diff_source."
+      - name: diff_source
+        type: text
+        required: false
+        description: "Path to a diff artifact. Provide exactly one of diff_range or diff_source."
+      - name: changed_paths
+        type: text
+        required: false
+        description: "Optional explicit changed-path list."
+      - name: evidence_refs
+        type: text
+        required: false
+        description: "Optional retained evidence refs under .octon/state/evidence/**."
+      - name: adr_ref
+        type: text
+        required: false
+        description: "Preferred explicit ADR path or id. When omitted, the bundle must infer or stop."
+      - name: output_mode
+        type: text
+        required: false
+        default: "inline"
+        description: "Draft output mode."
+      - name: draft_target_path
+        type: text
+        required: false
+        description: "Required when output_mode=patch-suggestion."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-decision-drafter-migration-rationale:
+    version: "1.0.0"
+    commands:
+      - /octon-decision-drafter-migration-rationale
+    parameters:
+      - name: diff_range
+        type: text
+        required: false
+        description: "Git diff range. Provide exactly one of diff_range or diff_source."
+      - name: diff_source
+        type: text
+        required: false
+        description: "Path to a diff artifact. Provide exactly one of diff_range or diff_source."
+      - name: changed_paths
+        type: text
+        required: false
+        description: "Optional explicit changed-path list."
+      - name: evidence_refs
+        type: text
+        required: false
+        description: "Optional retained evidence refs under .octon/state/evidence/**."
+      - name: migration_plan_ref
+        type: text
+        required: false
+        description: "Optional migration plan path."
+      - name: proposal_packet_ref
+        type: text
+        required: false
+        description: "Optional proposal-packet path when migration context still lives beside proposal material."
+      - name: output_mode
+        type: text
+        required: false
+        default: "inline"
+        description: "Draft output mode."
+      - name: draft_target_path
+        type: text
+        required: false
+        description: "Required when output_mode=patch-suggestion."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-decision-drafter-rollback-notes:
+    version: "1.0.0"
+    commands:
+      - /octon-decision-drafter-rollback-notes
+    parameters:
+      - name: diff_range
+        type: text
+        required: false
+        description: "Git diff range. Provide exactly one of diff_range or diff_source."
+      - name: diff_source
+        type: text
+        required: false
+        description: "Path to a diff artifact. Provide exactly one of diff_range or diff_source."
+      - name: changed_paths
+        type: text
+        required: false
+        description: "Optional explicit changed-path list."
+      - name: evidence_refs
+        type: text
+        required: false
+        description: "Optional retained evidence refs under .octon/state/evidence/**."
+      - name: run_contract_ref
+        type: text
+        required: false
+        description: "Optional run-contract path."
+      - name: rollback_posture_ref
+        type: text
+        required: false
+        description: "Optional rollback-posture path."
+      - name: output_mode
+        type: text
+        required: false
+        default: "inline"
+        description: "Draft output mode."
+      - name: draft_target_path
+        type: text
+        required: false
+        description: "Required when output_mode=patch-suggestion."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []
+  octon-decision-drafter-change-receipt:
+    version: "1.0.0"
+    commands:
+      - /octon-decision-drafter-change-receipt
+    parameters:
+      - name: diff_range
+        type: text
+        required: false
+        description: "Git diff range. Provide exactly one of diff_range or diff_source."
+      - name: diff_source
+        type: text
+        required: false
+        description: "Path to a diff artifact. Provide exactly one of diff_range or diff_source."
+      - name: changed_paths
+        type: text
+        required: false
+        description: "Optional explicit changed-path list."
+      - name: evidence_refs
+        type: text
+        required: false
+        description: "Required retained evidence refs under .octon/state/evidence/** unless richer contextual refs are supplied through the composite dispatcher."
+      - name: output_mode
+        type: text
+        required: false
+        default: "inline"
+        description: "Draft output mode."
+      - name: draft_target_path
+        type: text
+        required: false
+        description: "Required when output_mode=patch-suggestion."
+      - name: alignment_mode
+        type: text
+        required: false
+        default: "auto"
+        description: "Prompt-set freshness mode."
+    requires:
+      context: []

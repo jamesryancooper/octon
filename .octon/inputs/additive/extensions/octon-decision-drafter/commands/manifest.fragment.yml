@@ -1,0 +1,32 @@
+schema_version: "extensions-commands-fragment-v1"
+commands:
+  - id: octon-decision-drafter
+    display_name: Octon Decision Drafter
+    path: octon-decision-drafter.md
+    summary: "Resolve the appropriate decision-drafting bundle and dispatch to the matching leaf bundle."
+    access: agent
+    argument_hint: "[--bundle <route-id>] [--diff-range <revset>|--diff-source <path>] [--changed-paths <csv>] [--evidence-refs <csv>] [--adr-ref <path>] [--migration-plan-ref <path>] [--run-contract-ref <path>] [--rollback-posture-ref <path>] [--proposal-packet-ref <path>] [--output-mode inline|patch-suggestion|scratch-md] [--draft-target-path <path>] [--alignment-mode auto|always|skip] [--dry-run-route true|false]"
+  - id: octon-decision-drafter-adr-update
+    display_name: ADR Update Draft
+    path: octon-decision-drafter-adr-update.md
+    summary: "Draft a non-authoritative ADR update or ADR patch suggestion from a diff plus retained evidence."
+    access: agent
+    argument_hint: "[--diff-range <revset>|--diff-source <path>] [--changed-paths <csv>] [--evidence-refs <csv>] [--adr-ref <path>] [--output-mode inline|patch-suggestion|scratch-md] [--draft-target-path <path>] [--alignment-mode auto|always|skip]"
+  - id: octon-decision-drafter-migration-rationale
+    display_name: Migration Rationale Draft
+    path: octon-decision-drafter-migration-rationale.md
+    summary: "Draft a migration rationale section from a diff plus retained evidence and migration context."
+    access: agent
+    argument_hint: "[--diff-range <revset>|--diff-source <path>] [--changed-paths <csv>] [--evidence-refs <csv>] [--migration-plan-ref <path>] [--proposal-packet-ref <path>] [--output-mode inline|patch-suggestion|scratch-md] [--draft-target-path <path>] [--alignment-mode auto|always|skip]"
+  - id: octon-decision-drafter-rollback-notes
+    display_name: Rollback Notes Draft
+    path: octon-decision-drafter-rollback-notes.md
+    summary: "Draft rollback notes from a diff plus rollback posture and retained execution evidence."
+    access: agent
+    argument_hint: "[--diff-range <revset>|--diff-source <path>] [--changed-paths <csv>] [--evidence-refs <csv>] [--run-contract-ref <path>] [--rollback-posture-ref <path>] [--output-mode inline|patch-suggestion|scratch-md] [--draft-target-path <path>] [--alignment-mode auto|always|skip]"
+  - id: octon-decision-drafter-change-receipt
+    display_name: Change Receipt Draft
+    path: octon-decision-drafter-change-receipt.md
+    summary: "Draft a non-authoritative change receipt that cites existing retained receipts rather than creating new canonical receipt surfaces."
+    access: agent
+    argument_hint: "[--diff-range <revset>|--diff-source <path>] [--changed-paths <csv>] --evidence-refs <csv> [--output-mode inline|patch-suggestion|scratch-md] [--draft-target-path <path>] [--alignment-mode auto|always|skip]"

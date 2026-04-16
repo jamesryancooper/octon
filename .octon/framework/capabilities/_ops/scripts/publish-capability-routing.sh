@@ -774,6 +774,8 @@ main() {
   candidates_raw="$tmpdir/candidates.raw.ndjson"
   candidates_sorted="$tmpdir/candidates.sorted.ndjson"
   artifacts_raw="$tmpdir/artifacts.raw.ndjson"
+  candidates_json="$tmpdir/candidates.json"
+  artifacts_json="$tmpdir/artifacts.json"
   routing_tmp="$tmpdir/routing.effective.yml"
   artifact_tmp="$tmpdir/artifact-map.yml"
   lock_tmp="$tmpdir/generation.lock.yml"
@@ -822,6 +824,8 @@ main() {
       }
     ')"
   resolution_order_json="$(jq -cs '[.[] | .effective_id]' "$candidates_sorted")"
+  jq -cs '.' "$candidates_sorted" >"$candidates_json"
+  jq -cs 'sort_by(.artifact_map_id)' "$artifacts_raw" >"$artifacts_json"
 
   receipt_slug="$(receipt_timestamp_slug "__PUBLISHED_AT__")"
   receipt_rel="$(capability_publication_receipt_rel "$receipt_slug" "$generation_id")"
@@ -850,7 +854,7 @@ main() {
     --arg extensions_lock_sha "$extensions_lock_sha" \
     --arg extensions_generation_id "$extensions_generation_id" \
     --argjson routing_context "$routing_context_json" \
-    --argjson routing_candidates "$(jq -cs '.' "$candidates_sorted")" \
+    --slurpfile routing_candidates "$candidates_json" \
     --argjson resolution_order "$resolution_order_json" \
     '
       {
@@ -897,7 +901,7 @@ main() {
           extensions_generation_id: $extensions_generation_id
         },
         routing_context: $routing_context,
-        routing_candidates: $routing_candidates,
+        routing_candidates: $routing_candidates[0],
         resolution_order: $resolution_order
       }
     ' | yq -P - >"$routing_tmp"
@@ -907,14 +911,14 @@ main() {
     --arg generator_version "$GENERATOR_VERSION" \
     --arg generation_id "$generation_id" \
     --arg published_at "__PUBLISHED_AT__" \
-    --argjson artifacts "$(jq -cs 'sort_by(.artifact_map_id)' "$artifacts_raw")" \
+    --slurpfile artifacts "$artifacts_json" \
     '
       {
         schema_version: $schema_version,
         generator_version: $generator_version,
         generation_id: $generation_id,
         published_at: $published_at,
-        artifacts: $artifacts
+        artifacts: $artifacts[0]
       }
     ' | yq -P - >"$artifact_tmp"
 
