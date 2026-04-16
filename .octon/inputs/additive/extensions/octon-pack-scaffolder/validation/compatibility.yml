@@ -7,10 +7,8 @@ compatibility:
     - ".octon/generated/effective/capabilities"
   required_commands:
     - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
-    - ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
-    - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-local-tests.sh"
     - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
   minimum_behavior:

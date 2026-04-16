@@ -29,14 +29,13 @@ Resolve the explicit `target` input and delegate to one leaf scaffold.
 
 ## Core Workflow
 
-1. Normalize `target` and `pack_id`.
-2. If `target` is absent, return the dispatcher overview and stop.
-3. Confirm the write scope stays under
+1. Validate `target` and `pack_id`.
+2. Confirm the write scope stays under
    `/.octon/inputs/additive/extensions/<pack-id>/`.
-4. Resolve the explicit target through `context/routing.contract.yml`.
-5. Apply the output contract from `context/output-shapes.md` and the
+3. Select the matching leaf scaffold with no route inference.
+4. Apply the output contract from `context/output-shapes.md` and the
    matching example document.
-6. Report created files, reused files, and any conflict that blocked the run.
+5. Report created files, reused files, and any conflict that blocked the run.
 
 ## Boundaries
 

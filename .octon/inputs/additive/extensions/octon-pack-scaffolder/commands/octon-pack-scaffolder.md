@@ -4,15 +4,13 @@ Dispatch explicitly to one `octon-pack-scaffolder` leaf target.
 
 Dispatcher behavior:
 
-- accepts `--target` for explicit leaf routing
+- requires `--target`
 - normalizes `--pack-id`
-- resolves the explicit target through `context/routing.contract.yml`
-- performs no implicit route inference beyond that contract
+- performs no route inference
 - forwards only the arguments relevant to the selected leaf scaffold
 
 Use `--target pack|prompt-bundle|skill|command|context-doc|validation-fixture`
-to select the leaf scaffold explicitly. If `--target` is omitted, return the
-dispatcher overview without selecting a mutating leaf.
+to select the leaf scaffold explicitly.
 
 Supported targets:
 
@@ -40,4 +38,3 @@ Boundary:
 - do not activate, publish, quarantine, or govern the target pack
 
 The source of truth for scaffolded output shapes is `context/output-shapes.md`.
-The source of truth for dispatcher policy is `context/routing.contract.yml`.

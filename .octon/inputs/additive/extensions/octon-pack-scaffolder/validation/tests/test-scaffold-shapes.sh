@@ -83,8 +83,6 @@ main() {
   assert_file "$PACK_ROOT/skills/registry.fragment.yml" "skills registry exists"
   assert_file "$PACK_ROOT/context/overview.md" "context overview exists"
   assert_file "$PACK_ROOT/context/output-shapes.md" "output shapes doc exists"
-  assert_file "$PACK_ROOT/context/routing.contract.yml" "routing contract exists"
-  assert_file "$PACK_ROOT/context/routing-guide.md" "routing guide exists"
   assert_file "$PACK_ROOT/validation/README.md" "validation readme exists"
   assert_file "$PACK_ROOT/validation/compatibility.yml" "compatibility profile exists"
   assert_dir "$PACK_ROOT/validation/scenarios" "validation scenarios directory exists"
@@ -124,11 +122,8 @@ main() {
   assert_contains "$PACK_ROOT/context/output-shapes.md" 'content_entrypoints.prompts' "prompt entrypoint update rule documented"
   assert_contains "$PACK_ROOT/commands/octon-pack-scaffolder.md" "--target pack|prompt-bundle|skill|command|context-doc|validation-fixture" "root command documents explicit target surface"
   assert_contains "$PACK_ROOT/skills/octon-pack-scaffolder/SKILL.md" 'Do not touch `framework/**`, `instance/**`, `state/**`, or `generated/**`.' "root skill forbids non-additive writes"
-  assert_contains "$PACK_ROOT/context/routing-guide.md" "resolve-extension-route.sh" "routing guide documents resolver"
   assert_contains "$PACK_ROOT/validation/README.md" "test-generated-pack-contracts.sh" "validation readme lists generated-pack contract test"
-  assert_contains "$PACK_ROOT/validation/README.md" "test-published-routing-and-projections.sh" "validation readme lists published routing test"
-  assert_contains "$PACK_ROOT/validation/compatibility.yml" "validate-extension-local-tests.sh" "compatibility profile includes extension-local test runner"
-  assert_contains "$PACK_ROOT/validation/compatibility.yml" "resolve-extension-route.sh" "compatibility profile includes route resolver"
+  assert_contains "$PACK_ROOT/validation/compatibility.yml" "publish-extension-state.sh" "compatibility profile includes extension publication script"
 
   if rg -n --fixed-strings '[TODO' "$PACK_ROOT" 2>/dev/null | grep -v '/validation/tests/' >/dev/null 2>&1; then
     fail "no TODO placeholders remain"
