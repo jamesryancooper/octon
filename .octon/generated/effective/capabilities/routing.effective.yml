@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-90826cb667e6
-published_at: 2026-04-16T21:54:40Z
+generation_id: capabilities-4ad4bfb1e0b5
+published_at: 2026-04-16T22:05:35Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-16T21-54-40Z-capabilities-90826cb667e6.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-16T22-05-35Z-capabilities-4ad4bfb1e0b5.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -34,14 +34,14 @@ source:
   locality_generation_lock_sha256: e62418eb25400dfc808bc292b62f8e482221188ad17beac81b08e2d913fdc472
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: fe218638e3462a4bbc242cde53bad0728be711dcf11b67d3c4ba4c4c0c05bbd2
+  extensions_catalog_sha256: d8e3b42bb4ddcc7a24262ff020f5d900ab4cf67073730c771d60e06b8fab3f37
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 301b4706fd2705d6d1b5a1bd9d56a9b75262b93a4a1abdf2293bc07f06121851
-  extensions_generation_id: extensions-c7826db2a3fc
+  extensions_generation_lock_sha256: f41c55b575f48b21aebbfb6d8d5c72197cdcef271ed761aaa2a3384ba53b6f60
+  extensions_generation_id: extensions-111a69aa34f5
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
   locality_generation_id: locality-e08a88ec3dda
-  extension_generation_id: extensions-c7826db2a3fc
+  extension_generation_id: extensions-111a69aa34f5
   host_projection_mode: materialized-copy-v1
   locality_publication_status: published
   extension_publication_status: published
@@ -3550,6 +3550,161 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
     projection_name: octon-concept-integration-subsystem-targeted-integration
+  - effective_id: extension.command.octon-decision-drafter.octon-decision-drafter
+    artifact_map_id: extension-command-octon-decision-drafter-octon-decision-drafter
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-decision-drafter
+    display_name: Octon Decision Drafter
+    summary: Resolve the appropriate decision-drafting bundle and dispatch to the matching leaf bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-decision-drafter.octon-decision-drafter
+    projection_name: octon-decision-drafter
+  - effective_id: extension.command.octon-decision-drafter.octon-decision-drafter-adr-update
+    artifact_map_id: extension-command-octon-decision-drafter-octon-decision-drafter-adr-update
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-decision-drafter-adr-update
+    display_name: ADR Update Draft
+    summary: Draft a non-authoritative ADR update or ADR patch suggestion from a diff plus retained evidence.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-decision-drafter.octon-decision-drafter-adr-update
+    projection_name: octon-decision-drafter-adr-update
+  - effective_id: extension.command.octon-decision-drafter.octon-decision-drafter-change-receipt
+    artifact_map_id: extension-command-octon-decision-drafter-octon-decision-drafter-change-receipt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-decision-drafter-change-receipt
+    display_name: Change Receipt Draft
+    summary: Draft a non-authoritative change receipt that cites existing retained receipts rather than creating new canonical receipt surfaces.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-decision-drafter.octon-decision-drafter-change-receipt
+    projection_name: octon-decision-drafter-change-receipt
+  - effective_id: extension.command.octon-decision-drafter.octon-decision-drafter-migration-rationale
+    artifact_map_id: extension-command-octon-decision-drafter-octon-decision-drafter-migration-rationale
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-decision-drafter-migration-rationale
+    display_name: Migration Rationale Draft
+    summary: Draft a migration rationale section from a diff plus retained evidence and migration context.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-decision-drafter.octon-decision-drafter-migration-rationale
+    projection_name: octon-decision-drafter-migration-rationale
+  - effective_id: extension.command.octon-decision-drafter.octon-decision-drafter-rollback-notes
+    artifact_map_id: extension-command-octon-decision-drafter-octon-decision-drafter-rollback-notes
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-decision-drafter-rollback-notes
+    display_name: Rollback Notes Draft
+    summary: Draft rollback notes from a diff plus rollback posture and retained execution evidence.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-decision-drafter.octon-decision-drafter-rollback-notes
+    projection_name: octon-decision-drafter-rollback-notes
   - effective_id: extension.skill.octon-concept-integration.octon-concept-integration
     artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration
     origin_class: extension
@@ -3891,6 +4046,161 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
     projection_name: octon-concept-integration-subsystem-targeted-integration
+  - effective_id: extension.skill.octon-decision-drafter.octon-decision-drafter
+    artifact_map_id: extension-skill-octon-decision-drafter-octon-decision-drafter
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-decision-drafter
+    display_name: Octon Decision Drafter
+    summary: Resolve the appropriate decision-drafting route and dispatch to the matching leaf bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-decision-drafter.octon-decision-drafter
+    projection_name: octon-decision-drafter
+  - effective_id: extension.skill.octon-decision-drafter.octon-decision-drafter-adr-update
+    artifact_map_id: extension-skill-octon-decision-drafter-octon-decision-drafter-adr-update
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-decision-drafter-adr-update
+    display_name: ADR Update Draft
+    summary: Run the adr-update bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-decision-drafter.octon-decision-drafter-adr-update
+    projection_name: octon-decision-drafter-adr-update
+  - effective_id: extension.skill.octon-decision-drafter.octon-decision-drafter-change-receipt
+    artifact_map_id: extension-skill-octon-decision-drafter-octon-decision-drafter-change-receipt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-decision-drafter-change-receipt
+    display_name: Change Receipt Draft
+    summary: Run the change-receipt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-decision-drafter.octon-decision-drafter-change-receipt
+    projection_name: octon-decision-drafter-change-receipt
+  - effective_id: extension.skill.octon-decision-drafter.octon-decision-drafter-migration-rationale
+    artifact_map_id: extension-skill-octon-decision-drafter-octon-decision-drafter-migration-rationale
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-decision-drafter-migration-rationale
+    display_name: Migration Rationale Draft
+    summary: Run the migration-rationale bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-decision-drafter.octon-decision-drafter-migration-rationale
+    projection_name: octon-decision-drafter-migration-rationale
+  - effective_id: extension.skill.octon-decision-drafter.octon-decision-drafter-rollback-notes
+    artifact_map_id: extension-skill-octon-decision-drafter-octon-decision-drafter-rollback-notes
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-decision-drafter-rollback-notes
+    display_name: Rollback Notes Draft
+    summary: Run the rollback-notes bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-decision-drafter.octon-decision-drafter-rollback-notes
+    projection_name: octon-decision-drafter-rollback-notes
 resolution_order:
   - instance.command.repo-hygiene
   - framework.command.alignment-check
@@ -4011,6 +4321,11 @@ resolution_order:
   - extension.command.octon-concept-integration.octon-concept-integration-source-to-migration-packet
   - extension.command.octon-concept-integration.octon-concept-integration-source-to-policy-packet
   - extension.command.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+  - extension.command.octon-decision-drafter.octon-decision-drafter
+  - extension.command.octon-decision-drafter.octon-decision-drafter-adr-update
+  - extension.command.octon-decision-drafter.octon-decision-drafter-change-receipt
+  - extension.command.octon-decision-drafter.octon-decision-drafter-migration-rationale
+  - extension.command.octon-decision-drafter.octon-decision-drafter-rollback-notes
   - extension.skill.octon-concept-integration.octon-concept-integration
   - extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
   - extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
@@ -4022,3 +4337,8 @@ resolution_order:
   - extension.skill.octon-concept-integration.octon-concept-integration-source-to-migration-packet
   - extension.skill.octon-concept-integration.octon-concept-integration-source-to-policy-packet
   - extension.skill.octon-concept-integration.octon-concept-integration-subsystem-targeted-integration
+  - extension.skill.octon-decision-drafter.octon-decision-drafter
+  - extension.skill.octon-decision-drafter.octon-decision-drafter-adr-update
+  - extension.skill.octon-decision-drafter.octon-decision-drafter-change-receipt
+  - extension.skill.octon-decision-drafter.octon-decision-drafter-migration-rationale
+  - extension.skill.octon-decision-drafter.octon-decision-drafter-rollback-notes

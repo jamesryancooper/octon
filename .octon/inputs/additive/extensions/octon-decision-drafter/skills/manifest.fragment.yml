@@ -1,0 +1,68 @@
+schema_version: "extensions-skills-fragment-v1"
+skills:
+  - id: octon-decision-drafter
+    display_name: Octon Decision Drafter
+    group: extensions
+    path: octon-decision-drafter/
+    skill_class: invocable
+    summary: "Resolve the appropriate decision-drafting route and dispatch to the matching leaf bundle."
+    status: active
+    tags:
+      - octon
+      - decision-drafter
+      - adr
+      - migration
+      - rollback
+      - receipt
+      - extension-pack
+      - composite-skill
+    triggers:
+      - "octon decision drafter"
+      - "draft adr update from diff"
+      - "draft migration rationale"
+      - "draft rollback notes"
+      - "draft change receipt"
+  - id: octon-decision-drafter-adr-update
+    display_name: ADR Update Draft
+    group: extensions
+    path: octon-decision-drafter-adr-update/
+    skill_class: invocable
+    summary: "Run the adr-update bundle."
+    status: active
+    tags: [octon, decision-drafter, adr, drafting]
+    triggers:
+      - "adr update draft"
+      - "draft adr addendum"
+  - id: octon-decision-drafter-migration-rationale
+    display_name: Migration Rationale Draft
+    group: extensions
+    path: octon-decision-drafter-migration-rationale/
+    skill_class: invocable
+    summary: "Run the migration-rationale bundle."
+    status: active
+    tags: [octon, decision-drafter, migration, drafting]
+    triggers:
+      - "migration rationale draft"
+      - "draft migration rationale"
+  - id: octon-decision-drafter-rollback-notes
+    display_name: Rollback Notes Draft
+    group: extensions
+    path: octon-decision-drafter-rollback-notes/
+    skill_class: invocable
+    summary: "Run the rollback-notes bundle."
+    status: active
+    tags: [octon, decision-drafter, rollback, drafting]
+    triggers:
+      - "rollback notes draft"
+      - "draft rollback notes"
+  - id: octon-decision-drafter-change-receipt
+    display_name: Change Receipt Draft
+    group: extensions
+    path: octon-decision-drafter-change-receipt/
+    skill_class: invocable
+    summary: "Run the change-receipt bundle."
+    status: active
+    tags: [octon, decision-drafter, receipt, drafting]
+    triggers:
+      - "change receipt draft"
+      - "draft non authoritative receipt"
