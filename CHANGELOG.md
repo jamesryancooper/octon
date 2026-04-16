@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.28](https://github.com/jamesryancooper/octon/compare/octon-v0.6.27...octon-v0.6.28) (2026-04-16)
+
+
+### Features
+
+* **extensions:** publish decision drafter pack ([#301](https://github.com/jamesryancooper/octon/issues/301)) ([8d21ae0](https://github.com/jamesryancooper/octon/commit/8d21ae0c091d46a9980f74517a6902dec575b958))
+
 ## [0.6.27](https://github.com/jamesryancooper/octon/compare/octon-v0.6.26...octon-v0.6.27) (2026-04-16)
 
 
