@@ -1,12 +1,12 @@
 schema_version: "octon-extension-effective-catalog-v6"
 generator_version: "extension-publication-v5"
-generation_id: "extensions-111a69aa34f5"
-published_at: "2026-04-16T22:35:41Z"
+generation_id: "extensions-660bc379219d"
+published_at: "2026-04-16T23:16:27Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-16T22-35-41Z-extensions-111a69aa34f5.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-16T23-16-27Z-extensions-660bc379219d.yml"
 compatibility_status: "compatible"
-compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-04-16T22-35-41Z-extensions-111a69aa34f5.yml"
-compatibility_receipt_sha256: "f9560100ace48b7487143a457675abd0be7ed897c84f5afff9fa2856e7db118c"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-04-16T23-16-27Z-extensions-660bc379219d.yml"
+compatibility_receipt_sha256: "b50e35e95a2392c72bcba4aa047fd796c1cf9884f672358737c7d1fe7ce6184b"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -23,10 +23,14 @@ desired_selected_packs:
     source_id: "bundled-first-party"
   - pack_id: "octon-decision-drafter"
     source_id: "bundled-first-party"
+  - pack_id: "octon-impact-map-and-validation-selector"
+    source_id: "bundled-first-party"
 published_active_packs:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
   - pack_id: "octon-decision-drafter"
+    source_id: "bundled-first-party"
+  - pack_id: "octon-impact-map-and-validation-selector"
     source_id: "bundled-first-party"
 dependency_closure:
   - pack_id: "octon-concept-integration"
@@ -39,6 +43,11 @@ dependency_closure:
     version: "1.0.0"
     origin_class: "first_party_bundled"
     manifest_path: ".octon/inputs/additive/extensions/octon-decision-drafter/pack.yml"
+  - pack_id: "octon-impact-map-and-validation-selector"
+    source_id: "bundled-first-party"
+    version: "1.0.0"
+    origin_class: "first_party_bundled"
+    manifest_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/pack.yml"
 packs:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
@@ -1064,7 +1073,7 @@ packs:
         bundle_sha256: "cfe8280d50f1a98cd8610dc2f6f33dfd8bc9d657dbfe1eb045ebd5f3b8eb6df2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1174,7 +1183,7 @@ packs:
         bundle_sha256: "e43ad5ccbb0a7e60fe93fca026e47cf82a7ab60117cc8cc39131ccf56b4d1ce3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1269,7 +1278,7 @@ packs:
         bundle_sha256: "9accd7f2c4f699e4ad46d86be7ded14b30216f04a15e9864afba65e48f962e3c"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1370,7 +1379,7 @@ packs:
         bundle_sha256: "cb72a4e8fd3205af10fbc78ec15a4d2ad8b63428a8e17b40ca7cda6c3c3d41b7"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1473,7 +1482,7 @@ packs:
         bundle_sha256: "dc7f47e249ccab3c41c827cf7af410175dd212ec6972470b2e366b2f2424a9a2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1564,7 +1573,7 @@ packs:
         bundle_sha256: "2c258b9d6eb65203277ea8bd3fcbaad71c164ec6a0ecdf60030f75a3433eb239"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1659,7 +1668,7 @@ packs:
         bundle_sha256: "252ae504d0216961cc2fc88c6c82faa0cba061dcf35e9a014304649483a18590"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1759,7 +1768,7 @@ packs:
         bundle_sha256: "b8e5fbdc7f66e3f46129537a0f9e753807d793e261210ec2c23a26b83e987079"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1854,7 +1863,7 @@ packs:
         bundle_sha256: "e00518f739bd78adeb95239cb29d184a8cbc1fcb7bad27e1f92b0293a09170ad"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1949,7 +1958,7 @@ packs:
         bundle_sha256: "22cfc0475d37e04db77346ca4b52557c7a208c0c8b1264b6b18ad384bf8f4b3e"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2771,7 +2780,7 @@ packs:
         bundle_sha256: "99b85efa582f5b0beb62dfda0ead4565c91bc69e80915a4ca1fa604f55cc14c6"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2872,7 +2881,7 @@ packs:
         bundle_sha256: "41f6bb5a070d267d7cd7657cf2cfc2b68d03c7e8cafab436a4744c337b1b7be3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2977,7 +2986,7 @@ packs:
         bundle_sha256: "7948d7dd1e31bed1e3de2ef73d3e03628602d38e295002ca2b7d94c54edead02"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3078,7 +3087,7 @@ packs:
         bundle_sha256: "44dbc6937f0f9770fdb74a7c0d65eae4239c47cb9f646fa63c7db38c77e4480c"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T22-35-41Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3172,8 +3181,738 @@ packs:
             path: "shared/draft-artifact-contract.md"
             sha256: "6782e10affb96f925feaa53b6bb7c79a17574ec12592b41cd18990e26edf3bf6"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-decision-drafter/bundled-first-party/prompts/shared/draft-artifact-contract.md"
+  - pack_id: "octon-impact-map-and-validation-selector"
+    source_id: "bundled-first-party"
+    version: "1.0.0"
+    origin_class: "first_party_bundled"
+    manifest_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/pack.yml"
+    trust_decision: "allow"
+    publication_status: "published"
+    compatibility_status: "compatible"
+    compatibility_profile_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/validation/compatibility.yml"
+    route_dispatchers:
+      - dispatcher_id: octon-impact-map-and-validation-selector
+        default_route_id: touched-paths
+        accepted_inputs:
+          - bundle
+          - touched_paths
+          - proposal_packet
+          - refactor_target
+          - validation_depth
+          - strictness
+          - dry_run_route
+          - explanation_mode
+        disambiguators:
+          - input_name: bundle
+            kind: route-id
+            allowed_values:
+              - touched-paths
+              - proposal-packet
+              - refactor-target
+              - mixed-inputs
+          - input_name: validation_depth
+            kind: enum
+            allowed_values:
+              - minimal
+              - standard
+              - deep
+          - input_name: strictness
+            kind: enum
+            allowed_values:
+              - credible-minimum
+              - balanced
+              - release-gate
+          - input_name: explanation_mode
+            kind: enum
+            allowed_values:
+              - concise
+              - full-trace
+        precedence:
+          - explicit-bundle-touched-paths
+          - explicit-bundle-proposal-packet
+          - explicit-bundle-refactor-target
+          - explicit-bundle-mixed-inputs
+          - explicit-unsupported-bundle
+          - all-primary-inputs-present
+          - touched-paths-and-proposal-packet
+          - touched-paths-and-refactor-target
+          - proposal-packet-and-refactor-target
+          - single-touched-paths
+          - single-proposal-packet
+          - single-refactor-target
+          - missing-routeable-inputs
+        routes:
+          - route_id: touched-paths
+            status: resolved
+            execution_binding_id: touched-paths
+            matchers:
+              - matcher_id: explicit-bundle-touched-paths
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: touched-paths
+              - matcher_id: single-touched-paths
+                reason_codes:
+                  - touched-paths
+                all_of:
+                  - input_name: touched_paths
+                    predicate: present
+                  - input_name: proposal_packet
+                    predicate: absent
+                  - input_name: refactor_target
+                    predicate: absent
+          - route_id: proposal-packet
+            status: resolved
+            execution_binding_id: proposal-packet
+            matchers:
+              - matcher_id: explicit-bundle-proposal-packet
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: proposal-packet
+              - matcher_id: single-proposal-packet
+                reason_codes:
+                  - proposal-packet
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: touched_paths
+                    predicate: absent
+                  - input_name: refactor_target
+                    predicate: absent
+          - route_id: refactor-target
+            status: resolved
+            execution_binding_id: refactor-target
+            matchers:
+              - matcher_id: explicit-bundle-refactor-target
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: refactor-target
+              - matcher_id: single-refactor-target
+                reason_codes:
+                  - refactor-target
+                all_of:
+                  - input_name: refactor_target
+                    predicate: present
+                  - input_name: touched_paths
+                    predicate: absent
+                  - input_name: proposal_packet
+                    predicate: absent
+          - route_id: mixed-inputs
+            status: resolved
+            execution_binding_id: mixed-inputs
+            matchers:
+              - matcher_id: explicit-bundle-mixed-inputs
+                reason_codes:
+                  - explicit-bundle
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: mixed-inputs
+              - matcher_id: all-primary-inputs-present
+                reason_codes:
+                  - mixed-inputs
+                all_of:
+                  - input_name: touched_paths
+                    predicate: present
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: refactor_target
+                    predicate: present
+              - matcher_id: touched-paths-and-proposal-packet
+                reason_codes:
+                  - mixed-inputs
+                all_of:
+                  - input_name: touched_paths
+                    predicate: present
+                  - input_name: proposal_packet
+                    predicate: present
+              - matcher_id: touched-paths-and-refactor-target
+                reason_codes:
+                  - mixed-inputs
+                all_of:
+                  - input_name: touched_paths
+                    predicate: present
+                  - input_name: refactor_target
+                    predicate: present
+              - matcher_id: proposal-packet-and-refactor-target
+                reason_codes:
+                  - mixed-inputs
+                all_of:
+                  - input_name: proposal_packet
+                    predicate: present
+                  - input_name: refactor_target
+                    predicate: present
+          - route_id: unsupported-route-id
+            status: deny
+            matchers:
+              - matcher_id: explicit-unsupported-bundle
+                reason_codes:
+                  - unsupported-route-id
+                all_of:
+                  - input_name: bundle
+                    predicate: present
+                  - input_name: bundle
+                    predicate: not_one_of
+                    values:
+                      - touched-paths
+                      - proposal-packet
+                      - refactor-target
+                      - mixed-inputs
+          - route_id: missing-routeable-inputs
+            status: escalate
+            matchers:
+              - matcher_id: missing-routeable-inputs
+                reason_codes:
+                  - missing-routeable-inputs
+                all_of:
+                  - input_name: bundle
+                    predicate: absent
+                  - input_name: touched_paths
+                    predicate: absent
+                  - input_name: proposal_packet
+                    predicate: absent
+                  - input_name: refactor_target
+                    predicate: absent
+        execution_bindings:
+          - binding_id: touched-paths
+            route_id: touched-paths
+            command_capability_id: octon-impact-map-and-validation-selector-touched-paths
+            skill_capability_id: octon-impact-map-and-validation-selector-touched-paths
+            prompt_set_id: octon-impact-map-and-validation-selector-touched-paths-impact-map
+          - binding_id: proposal-packet
+            route_id: proposal-packet
+            command_capability_id: octon-impact-map-and-validation-selector-proposal-packet
+            skill_capability_id: octon-impact-map-and-validation-selector-proposal-packet
+            prompt_set_id: octon-impact-map-and-validation-selector-proposal-packet-impact-map
+          - binding_id: refactor-target
+            route_id: refactor-target
+            command_capability_id: octon-impact-map-and-validation-selector-refactor-target
+            skill_capability_id: octon-impact-map-and-validation-selector-refactor-target
+            prompt_set_id: octon-impact-map-and-validation-selector-refactor-target-impact-map
+          - binding_id: mixed-inputs
+            route_id: mixed-inputs
+            command_capability_id: octon-impact-map-and-validation-selector-mixed-inputs
+            skill_capability_id: octon-impact-map-and-validation-selector-mixed-inputs
+            prompt_set_id: octon-impact-map-and-validation-selector-mixed-input-reconciliation
+    routing_exports:
+      commands:
+        - capability_id: "octon-impact-map-and-validation-selector"
+          display_name: "Octon Impact Map And Validation Selector"
+          summary: "Resolve the matching input family, build an impact map, and select the minimum credible validation set plus next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector.md"
+          access: "agent"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/commands/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/commands/octon-impact-map-and-validation-selector.md"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-touched-paths"
+          display_name: "Touched Paths Impact Map"
+          summary: "Turn touched repo paths into an impact map, minimum credible validation set, and next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-touched-paths.md"
+          access: "agent"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/commands/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/commands/octon-impact-map-and-validation-selector-touched-paths.md"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-proposal-packet"
+          display_name: "Proposal Packet Impact Map"
+          summary: "Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-proposal-packet.md"
+          access: "agent"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/commands/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/commands/octon-impact-map-and-validation-selector-proposal-packet.md"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-refactor-target"
+          display_name: "Refactor Target Impact Map"
+          summary: "Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-refactor-target.md"
+          access: "agent"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/commands/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/commands/octon-impact-map-and-validation-selector-refactor-target.md"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-mixed-inputs"
+          display_name: "Mixed Input Impact Map"
+          summary: "Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-mixed-inputs.md"
+          access: "agent"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/commands/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/commands/octon-impact-map-and-validation-selector-mixed-inputs.md"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+      skills:
+        - capability_id: "octon-impact-map-and-validation-selector"
+          display_name: "Octon Impact Map And Validation Selector"
+          summary: "Resolve the matching input family, build an impact map, and select the minimum credible validation set plus next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector/"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/skills/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/skills/octon-impact-map-and-validation-selector"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-touched-paths"
+          display_name: "Touched Paths Impact Map"
+          summary: "Turn touched repo paths into an impact map, validation floor, and next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-touched-paths/"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/skills/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/skills/octon-impact-map-and-validation-selector-touched-paths"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-proposal-packet"
+          display_name: "Proposal Packet Impact Map"
+          summary: "Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-proposal-packet/"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/skills/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/skills/octon-impact-map-and-validation-selector-proposal-packet"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-refactor-target"
+          display_name: "Refactor Target Impact Map"
+          summary: "Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-refactor-target/"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/skills/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/skills/octon-impact-map-and-validation-selector-refactor-target"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+        - capability_id: "octon-impact-map-and-validation-selector-mixed-inputs"
+          display_name: "Mixed Input Impact Map"
+          summary: "Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor."
+          status: "active"
+          path: "octon-impact-map-and-validation-selector-mixed-inputs/"
+          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/skills/manifest.fragment.yml"
+          projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/skills/octon-impact-map-and-validation-selector-mixed-inputs"
+          host_adapters:
+            - "claude"
+            - "cursor"
+            - "codex"
+          selectors:
+            include:
+              - "**"
+            exclude:
+              []
+          fingerprints:
+            tech_tags:
+              []
+            language_tags:
+              []
+    prompt_bundles:
+      - prompt_set_id: "octon-impact-map-and-validation-selector-mixed-input-reconciliation"
+        schema_version: "octon-extension-prompt-set-v1"
+        manifest_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/prompts/mixed-input-reconciliation/manifest.yml"
+        manifest_sha256: "6daf82a2490a3aa4543eb882bea66896ad09996598a7acbb3a58f0cae4455c5d"
+        bundle_sha256: "97f8ea725f3761bbeff5dbd241ae08d5863f5a2710ef3934f126ea23c5c90402"
+        publication_status: "published"
+        alignment_status: "fresh"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
+        default_alignment_mode: "auto"
+        skip_mode_policy: "degraded-retained-explicit"
+        invalidation_conditions:
+          - "prompt-manifest-sha-changed"
+          - "prompt-asset-sha-changed"
+          - "required-anchor-sha-changed"
+          - "extension-desired-config-sha-changed"
+          - "root-manifest-sha-changed"
+        required_repo_anchors:
+          - path: "README.md"
+            sha256: "9836186a1243347ea4000baca95bbb8a03c1189876bd7fcb3a4d71efc24cb6dd"
+          - path: ".octon/README.md"
+            sha256: "4c6ac8022caa36695faa75fb2bf6de7e59c6f3f44bca5e55db7a7a92f301e071"
+          - path: ".octon/instance/ingress/AGENTS.md"
+            sha256: "e7c1e0195efc09e329560b8d64ecc67ab7d3e3def560fe25c0461cd0feb11b41"
+          - path: ".octon/framework/constitution/CHARTER.md"
+            sha256: "d5438e5c17294f170ffeb0262e943ed82b4bbb4f09ef5095cd6c250a31ab5f63"
+          - path: ".octon/framework/constitution/charter.yml"
+            sha256: "a51730199554c5b74f7964f433817c5cb7e50f569b9f5778ae8f5cc0d543e353"
+          - path: ".octon/framework/constitution/precedence/epistemic.yml"
+            sha256: "1993b52e866a9c4427951a7ee63d7e2e6b80245d6a03dd7de576949ae1491780"
+          - path: ".octon/framework/assurance/runtime/contracts/alignment-profiles.yml"
+            sha256: "7e9ba0c4140a4d57a509a69e7dafdd07cb94c7425b3c5480ec3958051ea132c5"
+          - path: ".octon/inputs/exploratory/proposals/README.md"
+            sha256: "beeb2e23563f82bfa4f81783d9bf39a0857d89584ba760e360f254a39bf4c59a"
+          - path: ".octon/framework/orchestration/runtime/workflows/refactor/refactor/workflow.yml"
+            sha256: "4259807599a76bd51ac8c145e200b7b85c87ff7433bf9394d2f063b646d29c5d"
+        prompt_assets:
+          - prompt_id: "octon-impact-map-and-validation-selector-mixed-input-reconciliation-analyze"
+            role_class: "stage"
+            path: "stages/01-analyze.md"
+            sha256: "3fa26e367065375e1fde7f0861197648dd704af5ed601da378130f222b7e6621"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/mixed-input-reconciliation/stages/01-analyze.md"
+            stage_order: 1
+          - prompt_id: "octon-impact-map-and-validation-selector-mixed-input-reconciliation-align-bundle"
+            role_class: "maintenance-companion"
+            path: "companions/01-align-bundle.md"
+            sha256: "a3f05f93c5bcdcc70baec5fb324bba8397f7647f7f835e321bbfdf6c1201ba24"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/mixed-input-reconciliation/companions/01-align-bundle.md"
+        reference_assets:
+          - ref_id: "bundle-contract"
+            path: "references/bundle-contract.md"
+            sha256: "bd5d2dde987006d3fb56dba3bc8898510a966bcad83887c68b46a86d0eb75371"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/mixed-input-reconciliation/references/bundle-contract.md"
+        shared_reference_assets:
+          - ref_id: "repository-grounding"
+            path: "shared/repository-grounding.md"
+            sha256: "0045bfdb17d4a50d5423b696de9a1b1169d8767175000b071c6ace47ee7f2cc1"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/repository-grounding.md"
+          - ref_id: "output-contract"
+            path: "shared/output-contract.md"
+            sha256: "415f44b97bf542149bb330eb00a0b0b1fffa0f54f5aab7dce2abd15668353720"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/output-contract.md"
+          - ref_id: "validation-selection-rules"
+            path: "shared/validation-selection-rules.md"
+            sha256: "b1ef4a208a49722210bcdfd3e26d8f82550af32e85f145752ad3a16ce429c8cb"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/validation-selection-rules.md"
+          - ref_id: "next-step-routing-rules"
+            path: "shared/next-step-routing-rules.md"
+            sha256: "773f71c579c0ee367bb6411f786d0dd6ed2b983ec18dff333e7a1826c00996b2"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/next-step-routing-rules.md"
+      - prompt_set_id: "octon-impact-map-and-validation-selector-proposal-packet-impact-map"
+        schema_version: "octon-extension-prompt-set-v1"
+        manifest_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/prompts/proposal-packet-impact-map/manifest.yml"
+        manifest_sha256: "f591d66d5b7784faa6cd22e7fda1bf1313b316fb7cacab8ba0fcdc78c84e8bc0"
+        bundle_sha256: "81f89fd63d5d18e22113ab6d73460ac94c80ecb107478e25dc0d776204302db7"
+        publication_status: "published"
+        alignment_status: "fresh"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
+        default_alignment_mode: "auto"
+        skip_mode_policy: "degraded-retained-explicit"
+        invalidation_conditions:
+          - "prompt-manifest-sha-changed"
+          - "prompt-asset-sha-changed"
+          - "required-anchor-sha-changed"
+          - "extension-desired-config-sha-changed"
+          - "root-manifest-sha-changed"
+        required_repo_anchors:
+          - path: "README.md"
+            sha256: "9836186a1243347ea4000baca95bbb8a03c1189876bd7fcb3a4d71efc24cb6dd"
+          - path: ".octon/README.md"
+            sha256: "4c6ac8022caa36695faa75fb2bf6de7e59c6f3f44bca5e55db7a7a92f301e071"
+          - path: ".octon/instance/ingress/AGENTS.md"
+            sha256: "e7c1e0195efc09e329560b8d64ecc67ab7d3e3def560fe25c0461cd0feb11b41"
+          - path: ".octon/framework/constitution/CHARTER.md"
+            sha256: "d5438e5c17294f170ffeb0262e943ed82b4bbb4f09ef5095cd6c250a31ab5f63"
+          - path: ".octon/framework/constitution/charter.yml"
+            sha256: "a51730199554c5b74f7964f433817c5cb7e50f569b9f5778ae8f5cc0d543e353"
+          - path: ".octon/framework/constitution/contracts/registry.yml"
+            sha256: "dae1fbda5dc8d8280fd1812b5d2360db70eff94cb2037d522e78ec790b82915f"
+          - path: ".octon/inputs/exploratory/proposals/README.md"
+            sha256: "beeb2e23563f82bfa4f81783d9bf39a0857d89584ba760e360f254a39bf4c59a"
+          - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+            sha256: "5e8848fff2befe52d30f9febf9e6a29a9e4e7f9a322486de939c4ec1354046bb"
+          - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
+            sha256: "4b8c21ad8f9a818e042541e768ef63c03745e1d9b7c0a9f65015d48dacdc57dc"
+          - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh"
+            sha256: "6b81dc257d287b2d6cabf921fa8dec078bd6eb17522a6c2fef34ec7b76736ecf"
+          - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh"
+            sha256: "ed06a2163e0235a0c7e59d2ded25acfed8ca11973e36a2dda307034892131011"
+        prompt_assets:
+          - prompt_id: "octon-impact-map-and-validation-selector-proposal-packet-impact-map-analyze"
+            role_class: "stage"
+            path: "stages/01-analyze.md"
+            sha256: "2ed45628e14099a06d08de89828a715d90c03a0a0fe217eb90137c1f1af927cc"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/proposal-packet-impact-map/stages/01-analyze.md"
+            stage_order: 1
+          - prompt_id: "octon-impact-map-and-validation-selector-proposal-packet-impact-map-align-bundle"
+            role_class: "maintenance-companion"
+            path: "companions/01-align-bundle.md"
+            sha256: "29985001c4826062c1a79787bb90a3b21e00a49b9bde4bf08d36add984b494a9"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/proposal-packet-impact-map/companions/01-align-bundle.md"
+        reference_assets:
+          - ref_id: "bundle-contract"
+            path: "references/bundle-contract.md"
+            sha256: "c906dbd3c4c1a2efff076a4aeab6c88ed18c4cbcaabd6f29ba5e2b0b77e356b5"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/proposal-packet-impact-map/references/bundle-contract.md"
+        shared_reference_assets:
+          - ref_id: "repository-grounding"
+            path: "shared/repository-grounding.md"
+            sha256: "0045bfdb17d4a50d5423b696de9a1b1169d8767175000b071c6ace47ee7f2cc1"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/repository-grounding.md"
+          - ref_id: "output-contract"
+            path: "shared/output-contract.md"
+            sha256: "415f44b97bf542149bb330eb00a0b0b1fffa0f54f5aab7dce2abd15668353720"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/output-contract.md"
+          - ref_id: "validation-selection-rules"
+            path: "shared/validation-selection-rules.md"
+            sha256: "b1ef4a208a49722210bcdfd3e26d8f82550af32e85f145752ad3a16ce429c8cb"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/validation-selection-rules.md"
+          - ref_id: "next-step-routing-rules"
+            path: "shared/next-step-routing-rules.md"
+            sha256: "773f71c579c0ee367bb6411f786d0dd6ed2b983ec18dff333e7a1826c00996b2"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/next-step-routing-rules.md"
+      - prompt_set_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map"
+        schema_version: "octon-extension-prompt-set-v1"
+        manifest_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/prompts/refactor-target-impact-map/manifest.yml"
+        manifest_sha256: "b985a3ac425aa15ad9063560057a2570d6c7e261d8cbd96f83a304574e1a268c"
+        bundle_sha256: "62705a60e41ecd810869ecbc1bf5950d620a3d175785df6af9bc4c541dd04789"
+        publication_status: "published"
+        alignment_status: "fresh"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
+        default_alignment_mode: "auto"
+        skip_mode_policy: "degraded-retained-explicit"
+        invalidation_conditions:
+          - "prompt-manifest-sha-changed"
+          - "prompt-asset-sha-changed"
+          - "required-anchor-sha-changed"
+          - "extension-desired-config-sha-changed"
+          - "root-manifest-sha-changed"
+        required_repo_anchors:
+          - path: "README.md"
+            sha256: "9836186a1243347ea4000baca95bbb8a03c1189876bd7fcb3a4d71efc24cb6dd"
+          - path: ".octon/README.md"
+            sha256: "4c6ac8022caa36695faa75fb2bf6de7e59c6f3f44bca5e55db7a7a92f301e071"
+          - path: ".octon/instance/ingress/AGENTS.md"
+            sha256: "e7c1e0195efc09e329560b8d64ecc67ab7d3e3def560fe25c0461cd0feb11b41"
+          - path: ".octon/framework/constitution/CHARTER.md"
+            sha256: "d5438e5c17294f170ffeb0262e943ed82b4bbb4f09ef5095cd6c250a31ab5f63"
+          - path: ".octon/framework/constitution/charter.yml"
+            sha256: "a51730199554c5b74f7964f433817c5cb7e50f569b9f5778ae8f5cc0d543e353"
+          - path: ".octon/framework/orchestration/runtime/workflows/refactor/refactor/workflow.yml"
+            sha256: "4259807599a76bd51ac8c145e200b7b85c87ff7433bf9394d2f063b646d29c5d"
+          - path: ".octon/framework/orchestration/runtime/workflows/refactor/refactor/stages/01-define-scope.md"
+            sha256: "e6b1ca09bb1598442b8657be63fffe3cd54512bf240e42d3f3b8d8c0070b31cf"
+          - path: ".octon/framework/orchestration/runtime/workflows/refactor/refactor/stages/02-audit.md"
+            sha256: "0f007442d353a2363c5638586b693d7b724eb6403b8149987be6e593ba4c0932"
+          - path: ".octon/framework/orchestration/runtime/workflows/refactor/refactor/stages/05-verify.md"
+            sha256: "a0568f3071d4143807ad0169d3ec4a0fd8a52d14a5f1e7c90bffe062023bfb02"
+        prompt_assets:
+          - prompt_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map-analyze"
+            role_class: "stage"
+            path: "stages/01-analyze.md"
+            sha256: "4667c51f57010bd1a2a5418e5a38ba7342eadc49954b1837f8d0b974d7a77a66"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/refactor-target-impact-map/stages/01-analyze.md"
+            stage_order: 1
+          - prompt_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map-align-bundle"
+            role_class: "maintenance-companion"
+            path: "companions/01-align-bundle.md"
+            sha256: "bbcdf5f2a1c9573e463d1bc9117787ba82aa6f17804f31c1b90874b82d5c651b"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/refactor-target-impact-map/companions/01-align-bundle.md"
+        reference_assets:
+          - ref_id: "bundle-contract"
+            path: "references/bundle-contract.md"
+            sha256: "77e5a6ce37a8523a221fc19bb08a8d85c0ddc7f526a9270b255b65a2c233dc2b"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/refactor-target-impact-map/references/bundle-contract.md"
+        shared_reference_assets:
+          - ref_id: "repository-grounding"
+            path: "shared/repository-grounding.md"
+            sha256: "0045bfdb17d4a50d5423b696de9a1b1169d8767175000b071c6ace47ee7f2cc1"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/repository-grounding.md"
+          - ref_id: "output-contract"
+            path: "shared/output-contract.md"
+            sha256: "415f44b97bf542149bb330eb00a0b0b1fffa0f54f5aab7dce2abd15668353720"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/output-contract.md"
+          - ref_id: "validation-selection-rules"
+            path: "shared/validation-selection-rules.md"
+            sha256: "b1ef4a208a49722210bcdfd3e26d8f82550af32e85f145752ad3a16ce429c8cb"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/validation-selection-rules.md"
+          - ref_id: "next-step-routing-rules"
+            path: "shared/next-step-routing-rules.md"
+            sha256: "773f71c579c0ee367bb6411f786d0dd6ed2b983ec18dff333e7a1826c00996b2"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/next-step-routing-rules.md"
+      - prompt_set_id: "octon-impact-map-and-validation-selector-touched-paths-impact-map"
+        schema_version: "octon-extension-prompt-set-v1"
+        manifest_path: ".octon/inputs/additive/extensions/octon-impact-map-and-validation-selector/prompts/touched-paths-impact-map/manifest.yml"
+        manifest_sha256: "94f2097c3d154bb3288ccdfc73ba598ead5eb31888bbc63933c192992c4d5866"
+        bundle_sha256: "0c19655fc982e437f3d9ba9b9c7eb5ccf551d37de903b69206ecd44a28d3ff0f"
+        publication_status: "published"
+        alignment_status: "fresh"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T23-16-27Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
+        default_alignment_mode: "auto"
+        skip_mode_policy: "degraded-retained-explicit"
+        invalidation_conditions:
+          - "prompt-manifest-sha-changed"
+          - "prompt-asset-sha-changed"
+          - "required-anchor-sha-changed"
+          - "extension-desired-config-sha-changed"
+          - "root-manifest-sha-changed"
+        required_repo_anchors:
+          - path: "README.md"
+            sha256: "9836186a1243347ea4000baca95bbb8a03c1189876bd7fcb3a4d71efc24cb6dd"
+          - path: ".octon/README.md"
+            sha256: "4c6ac8022caa36695faa75fb2bf6de7e59c6f3f44bca5e55db7a7a92f301e071"
+          - path: ".octon/instance/ingress/AGENTS.md"
+            sha256: "e7c1e0195efc09e329560b8d64ecc67ab7d3e3def560fe25c0461cd0feb11b41"
+          - path: ".octon/framework/constitution/CHARTER.md"
+            sha256: "d5438e5c17294f170ffeb0262e943ed82b4bbb4f09ef5095cd6c250a31ab5f63"
+          - path: ".octon/framework/constitution/charter.yml"
+            sha256: "a51730199554c5b74f7964f433817c5cb7e50f569b9f5778ae8f5cc0d543e353"
+          - path: ".octon/framework/constitution/precedence/normative.yml"
+            sha256: "60d5926f29ffad3d3f472ce132be8258922fb2919e68a7529562d2c3afb57f73"
+          - path: ".octon/framework/constitution/precedence/epistemic.yml"
+            sha256: "1993b52e866a9c4427951a7ee63d7e2e6b80245d6a03dd7de576949ae1491780"
+          - path: ".octon/framework/constitution/obligations/fail-closed.yml"
+            sha256: "eb0d9f272115221582e7a2e1d5e26ee38b8f714a737a4d022b424b5304e5042d"
+          - path: ".octon/framework/constitution/obligations/evidence.yml"
+            sha256: "6bd9e805f7a7438cc7f654e7a61f948c45b364581a51083f1132800a9cd2ebf6"
+          - path: ".octon/framework/constitution/ownership/roles.yml"
+            sha256: "4a1383dd7b59cbceddb97ed10b01bfb51c91a8d20dfaa9e162af8a324616282d"
+          - path: ".octon/framework/constitution/contracts/registry.yml"
+            sha256: "dae1fbda5dc8d8280fd1812b5d2360db70eff94cb2037d522e78ec790b82915f"
+          - path: ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+            sha256: "422671a04ca41a400a9565bccb081923f031184c6fd01655a15668c563b72e1c"
+          - path: ".octon/framework/assurance/runtime/contracts/alignment-profiles.yml"
+            sha256: "7e9ba0c4140a4d57a509a69e7dafdd07cb94c7425b3c5480ec3958051ea132c5"
+          - path: ".octon/instance/governance/policies/repo-hygiene.yml"
+            sha256: "94ab49b8ee0f834a2b8296cdb8cbe7f700a5f017c599ff6da10ba3821455cd8d"
+        prompt_assets:
+          - prompt_id: "octon-impact-map-and-validation-selector-touched-paths-impact-map-analyze"
+            role_class: "stage"
+            path: "stages/01-analyze.md"
+            sha256: "6f4aec8ff6b36dbbf2a9e97094ba856831fb8ee136d080aafd21dee14d236dc4"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/touched-paths-impact-map/stages/01-analyze.md"
+            stage_order: 1
+          - prompt_id: "octon-impact-map-and-validation-selector-touched-paths-impact-map-align-bundle"
+            role_class: "maintenance-companion"
+            path: "companions/01-align-bundle.md"
+            sha256: "d1ba6bdf3cd119f072f9ae98e76ab3a2a766cfb225f2e3eefdead162a22806ce"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/touched-paths-impact-map/companions/01-align-bundle.md"
+        reference_assets:
+          - ref_id: "bundle-contract"
+            path: "references/bundle-contract.md"
+            sha256: "858238c3263844227669a0f3db80c839fc3af622d4e91a1115483624b1e78020"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/touched-paths-impact-map/references/bundle-contract.md"
+        shared_reference_assets:
+          - ref_id: "repository-grounding"
+            path: "shared/repository-grounding.md"
+            sha256: "0045bfdb17d4a50d5423b696de9a1b1169d8767175000b071c6ace47ee7f2cc1"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/repository-grounding.md"
+          - ref_id: "output-contract"
+            path: "shared/output-contract.md"
+            sha256: "415f44b97bf542149bb330eb00a0b0b1fffa0f54f5aab7dce2abd15668353720"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/output-contract.md"
+          - ref_id: "validation-selection-rules"
+            path: "shared/validation-selection-rules.md"
+            sha256: "b1ef4a208a49722210bcdfd3e26d8f82550af32e85f145752ad3a16ce429c8cb"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/validation-selection-rules.md"
+          - ref_id: "next-step-routing-rules"
+            path: "shared/next-step-routing-rules.md"
+            sha256: "773f71c579c0ee367bb6411f786d0dd6ed2b983ec18dff333e7a1826c00996b2"
+            projection_source_path: ".octon/generated/effective/extensions/published/octon-impact-map-and-validation-selector/bundled-first-party/prompts/shared/next-step-routing-rules.md"
 source:
   desired_config_path: ".octon/instance/extensions.yml"
-  desired_config_sha256: "111a69aa34f5d074512fc885c5c8d3516169202ef871e48922edfa6f21dd4744"
+  desired_config_sha256: "660bc379219d70088e72bb68bba53a39a2082a5cb930e785de3f6b49c9a3975f"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "e050c133afeb5817c65565827d82b4fafcd3e10a2182bdf02dbed43e6a2bdb03"
+  root_manifest_sha256: "ac741a0737ce158a318eae1b3221b5c5881e9e4c925ec16212c7f8492e8d7723"
