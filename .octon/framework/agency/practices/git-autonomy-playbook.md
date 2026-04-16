@@ -141,6 +141,125 @@ Behavior:
 
 ---
 
+## Managing Multiple Active Worktrees
+
+Use this workflow when you have several live worktrees in parallel and want to
+land them through PRs without creating merge churn.
+
+### Core Rule
+
+Keep exactly one integration worktree on `main`, and treat every other
+worktree as branch-only.
+
+- Use the main worktree only for `git fetch`, `git pull --ff-only`, validation,
+  and conflict inspection.
+- Do not develop directly on `main`.
+- In every detached worktree, create a real branch immediately before doing
+  additional work.
+
+### Recommended Sequence
+
+1. In each detached worktree, create a branch.
+
+```bash
+git checkout -b feat/<slug>
+```
+
+2. Check scope before opening anything:
+
+```bash
+git status --short
+git diff --stat
+```
+
+3. Commit and push each worktree branch.
+4. Open each PR as draft first.
+5. Mark only merge-ready, non-overlapping PRs as ready.
+6. Merge one overlapping PR at a time.
+7. After each merge, refresh the `main` worktree first:
+
+```bash
+git fetch origin
+git checkout main
+git pull --ff-only
+```
+
+8. Rebase every remaining branch onto updated `main`.
+9. Re-run validation in each rebased worktree.
+10. Move the next PR to ready only after the rebase is clean.
+
+### Queue Discipline
+
+Keep a small operator queue for all active worktrees:
+
+| Worktree | Branch | PR | Depends On | Status |
+|---|---|---|---|---|
+| `/path/to/worktree-a` | `feat/foo` | `#123` | `none` | `draft` |
+| `/path/to/worktree-b` | `fix/bar` | `#124` | `#123` | `waiting-rebase` |
+
+Minimum fields:
+
+- worktree path
+- branch name
+- PR number or URL
+- dependency order
+- current status such as `draft`, `ready`, `merged`, or `waiting-rebase`
+
+### When Parallel PRs Are Safe
+
+It is safe to open multiple draft PRs in parallel when they are truly
+independent.
+
+Examples:
+
+- distinct subsystems
+- disjoint file sets
+- no shared generated surfaces
+- no shared control-plane files
+
+### When To Serialize
+
+Serialize merges when worktrees touch any of these:
+
+- the same files
+- the same subsystem or domain boundary
+- generated/effective outputs
+- shared control-plane files such as `instance/**`, `.github/**`, or
+  governance surfaces
+
+In those cases:
+
+1. Merge the foundational or lower-risk PR first.
+2. Rebase the dependent worktree branch.
+3. Re-run validation.
+4. Merge the next PR only after the rebase is green.
+
+### Anti-Patterns
+
+- Do not merge a worktree branch into local `main` first and then create a PR.
+- Do not keep long-lived detached HEAD worktrees.
+- Do not leave several overlapping PRs in ready-to-merge state at once.
+- Do not merge `main` into feature branches; rebase them instead.
+- Do not delete a worktree by hand when it still has an open PR; use normal
+  branch closeout and cleanup flow.
+
+### Closeout Cadence
+
+The safest rhythm is:
+
+1. worktree branch
+2. draft PR
+3. merge one PR
+4. refresh `main`
+5. rebase remaining worktrees
+6. validate
+7. merge the next PR
+
+This keeps merge conflicts local, review state legible, and branch cleanup
+predictable.
+
+---
+
 ## Lane Guidance
 
 ### Low-risk autonomous lane
