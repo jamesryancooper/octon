@@ -1,0 +1,146 @@
+schema_version: "extensions-skills-registry-fragment-v1"
+skills:
+  octon-retirement-and-hygiene-packetizer:
+    version: "1.0.0"
+    commands:
+      - /octon-retirement-and-hygiene-packetizer
+    parameters:
+      - name: flow
+        type: text
+        required: false
+        description: "Optional explicit flow override: scan-to-reconciliation, audit-to-packet-draft, registry-gap-analysis, or ablation-plan-draft."
+      - name: audit_id
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit id under state/evidence/runs/ci/repo-hygiene/."
+      - name: audit_dir
+        type: text
+        required: false
+        description: "Optional explicit repo-hygiene audit directory."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional migration proposal id for a draft under inputs/exploratory/proposals/migration/."
+      - name: include_claim_gate
+        type: boolean
+        required: false
+        default: true
+        description: "Include claim-gate context in reconciliation outputs."
+      - name: protected_surface_mode
+        type: text
+        required: false
+        default: "enforce"
+        description: "Protected-surface handling mode: enforce or report-only."
+      - name: dry_run_route
+        type: boolean
+        required: false
+        default: false
+        description: "Return only the route receipt without executing a leaf skill."
+      - name: run_audit
+        type: boolean
+        required: false
+        default: false
+        description: "Allow the audit-to-packet-draft flow to invoke repo-hygiene audit first."
+      - name: gap_scope
+        type: text
+        required: false
+        default: "all"
+        description: "Gap-analysis selector: missing, stale, or all."
+      - name: packet_attachment
+        type: text
+        required: false
+        description: "Optional path to an existing repo-hygiene packet attachment."
+      - name: target_ids
+        type: text
+        required: false
+        description: "Optional comma-separated target ids for a narrowed ablation-plan draft."
+    requires:
+      context: []
+  octon-retirement-and-hygiene-packetizer-scan-to-reconciliation:
+    version: "1.0.0"
+    commands:
+      - /octon-retirement-and-hygiene-packetizer-scan-to-reconciliation
+    parameters:
+      - name: include_claim_gate
+        type: boolean
+        required: false
+        default: true
+        description: "Include claim-gate context in the reconciliation summary."
+      - name: protected_surface_mode
+        type: text
+        required: false
+        default: "enforce"
+        description: "Protected-surface handling mode: enforce or report-only."
+    requires:
+      context: []
+  octon-retirement-and-hygiene-packetizer-audit-to-packet-draft:
+    version: "1.0.0"
+    commands:
+      - /octon-retirement-and-hygiene-packetizer-audit-to-packet-draft
+    parameters:
+      - name: audit_id
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit id."
+      - name: audit_dir
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit directory."
+      - name: run_audit
+        type: boolean
+        required: false
+        default: false
+        description: "Invoke repo-hygiene audit when no prior audit is supplied."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional migration proposal id for a draft output."
+    requires:
+      context: []
+  octon-retirement-and-hygiene-packetizer-registry-gap-analysis:
+    version: "1.0.0"
+    commands:
+      - /octon-retirement-and-hygiene-packetizer-registry-gap-analysis
+    parameters:
+      - name: audit_id
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit id for cross-checking gaps."
+      - name: audit_dir
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit directory for cross-checking gaps."
+      - name: gap_scope
+        type: text
+        required: false
+        default: "all"
+        description: "Gap-analysis selector: missing, stale, or all."
+    requires:
+      context: []
+  octon-retirement-and-hygiene-packetizer-ablation-plan-draft:
+    version: "1.0.0"
+    commands:
+      - /octon-retirement-and-hygiene-packetizer-ablation-plan-draft
+    parameters:
+      - name: audit_id
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit id."
+      - name: audit_dir
+        type: text
+        required: false
+        description: "Optional repo-hygiene audit directory."
+      - name: packet_attachment
+        type: text
+        required: false
+        description: "Optional existing repo-hygiene packet attachment path."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional migration proposal id for a draft output."
+      - name: target_ids
+        type: text
+        required: false
+        description: "Optional comma-separated target ids to narrow the plan."
+    requires:
+      context: []

@@ -13,6 +13,9 @@ selection:
     - pack_id: "node-ts"
       source_id: "bundled-first-party"
       reason: "seeded-off-by-default"
+    - pack_id: "octon-retirement-and-hygiene-packetizer"
+      source_id: "bundled-first-party"
+      reason: "seeded-off-by-default"
 sources:
   catalog:
     bundled-first-party:

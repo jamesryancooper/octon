@@ -1,0 +1,21 @@
+schema_version: "cleanup-packet-inputs-draft-v1"
+draft_id: "{{draft_id}}"
+generated_at: "{{generated_at}}"
+authority_mode: "draft-non-authoritative"
+policy_ref: ".octon/instance/governance/policies/repo-hygiene.yml"
+review_set_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
+retirement_registry_ref: ".octon/instance/governance/contracts/retirement-registry.yml"
+retirement_register_ref: ".octon/instance/governance/retirement-register.yml"
+claim_gate_ref: ".octon/instance/governance/retirement/claim-gate.yml"
+audit_inputs:
+  audit_summary_ref: "{{audit_summary_ref}}"
+  findings_ref: "{{findings_ref}}"
+  blocking_findings_ref: "{{blocking_findings_ref}}"
+protected_surface_rule:
+  protected_or_claim_adjacent_outcome: "never-delete"
+delete_candidate_rewrite: "candidate-for-governed-ablation-review"
+candidate_targets: []
+guarded_targets: []
+notes:
+  - "This file is a non-authoritative draft input for human review."
+  - "Do not treat this file as a build-to-delete packet attachment, receipt, or retirement truth."

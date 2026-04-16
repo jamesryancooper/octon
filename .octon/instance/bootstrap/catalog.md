@@ -108,6 +108,7 @@ Reusable additive packs in `inputs/additive/extensions/`:
 | Pack | Entry point | Description |
 |------|-------------|-------------|
 | `octon-concept-integration` | `/octon-concept-integration` | Internalizes the concept-integration pipeline as a composite extension-pack capability that emits proposal packets and packet-specific implementation prompts |
+| `octon-retirement-and-hygiene-packetizer` | `/octon-retirement-and-hygiene-packetizer` | Joins repo-hygiene, retirement coverage reconciliation, and guarded ablation-plan drafting into one additive cleanup-planning capability |
 
 ---
 

@@ -1,0 +1,72 @@
+schema_version: "extensions-commands-fragment-v1"
+commands:
+  - id: octon-retirement-and-hygiene-packetizer
+    display_name: Octon Retirement And Hygiene Packetizer
+    path: octon-retirement-and-hygiene-packetizer.md
+    summary: "Resolve the requested retirement or hygiene planning flow and dispatch to the matching leaf capability."
+    access: agent
+    argument_hint: "[--flow <scan-to-reconciliation|audit-to-packet-draft|registry-gap-analysis|ablation-plan-draft>] [--audit-id <id> | --audit-dir <path>] [--proposal-id <id>] [--include-claim-gate true|false] [--protected-surface-mode enforce|report-only] [--dry-run-route true|false]"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, governance, hygiene, retirement]
+        language_tags: [markdown, yaml]
+  - id: octon-retirement-and-hygiene-packetizer-scan-to-reconciliation
+    display_name: Scan To Reconciliation
+    path: octon-retirement-and-hygiene-packetizer-scan-to-reconciliation.md
+    summary: "Run repo-hygiene scan semantics, then reconcile the summary against retirement coverage and protected surfaces."
+    access: agent
+    argument_hint: "[--include-claim-gate true|false] [--protected-surface-mode enforce|report-only]"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, repo-hygiene, retirement]
+        language_tags: [markdown]
+  - id: octon-retirement-and-hygiene-packetizer-audit-to-packet-draft
+    display_name: Audit To Packet Draft
+    path: octon-retirement-and-hygiene-packetizer-audit-to-packet-draft.md
+    summary: "Use repo-hygiene audit evidence to draft non-authoritative cleanup packet inputs and optional migration proposal material."
+    access: agent
+    argument_hint: "[--audit-id <id> | --audit-dir <path> | --run-audit true] [--proposal-id <id>]"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, repo-hygiene, ablation, migration]
+        language_tags: [markdown, yaml]
+  - id: octon-retirement-and-hygiene-packetizer-registry-gap-analysis
+    display_name: Registry Gap Analysis
+    path: octon-retirement-and-hygiene-packetizer-registry-gap-analysis.md
+    summary: "Compare retirement-registry and retirement-register coverage against the latest packet and optional hygiene evidence."
+    access: agent
+    argument_hint: "[--audit-id <id> | --audit-dir <path>] [--gap-scope missing|stale|all]"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, registry, retirement]
+        language_tags: [markdown, yaml]
+  - id: octon-retirement-and-hygiene-packetizer-ablation-plan-draft
+    display_name: Ablation Plan Draft
+    path: octon-retirement-and-hygiene-packetizer-ablation-plan-draft.md
+    summary: "Draft a non-authoritative ablation plan from hygiene findings, protected-surface rules, and retirement evidence."
+    access: agent
+    argument_hint: "[--audit-id <id> | --audit-dir <path> | --packet-attachment <path>] [--proposal-id <id>] [--target-ids <csv>]"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, ablation, cleanup, retirement]
+        language_tags: [markdown, yaml]

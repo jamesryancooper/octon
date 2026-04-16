@@ -1,0 +1,104 @@
+schema_version: "extensions-skills-fragment-v1"
+skills:
+  - id: octon-retirement-and-hygiene-packetizer
+    display_name: Octon Retirement And Hygiene Packetizer
+    group: extensions
+    path: octon-retirement-and-hygiene-packetizer/
+    skill_class: invocable
+    summary: "Resolve one retirement or hygiene planning flow and dispatch to the matching leaf skill."
+    status: active
+    tags:
+      - octon
+      - retirement
+      - repo-hygiene
+      - ablation
+      - extension-pack
+      - composite-skill
+    triggers:
+      - "retirement and hygiene packetizer"
+      - "draft cleanup packet inputs"
+      - "reconcile hygiene findings against retirement coverage"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, governance, hygiene, retirement]
+        language_tags: [markdown, yaml]
+  - id: octon-retirement-and-hygiene-packetizer-scan-to-reconciliation
+    display_name: Scan To Reconciliation
+    group: extensions
+    path: octon-retirement-and-hygiene-packetizer-scan-to-reconciliation/
+    skill_class: invocable
+    summary: "Run the scan-to-reconciliation flow."
+    status: active
+    tags: [octon, retirement, repo-hygiene, reconciliation]
+    triggers:
+      - "scan to reconciliation"
+      - "reconcile hygiene scan"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, repo-hygiene, retirement]
+        language_tags: [markdown]
+  - id: octon-retirement-and-hygiene-packetizer-audit-to-packet-draft
+    display_name: Audit To Packet Draft
+    group: extensions
+    path: octon-retirement-and-hygiene-packetizer-audit-to-packet-draft/
+    skill_class: invocable
+    summary: "Run the audit-to-packet-draft flow."
+    status: active
+    tags: [octon, retirement, repo-hygiene, packet-draft]
+    triggers:
+      - "audit to packet draft"
+      - "draft cleanup packet from audit"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, repo-hygiene, ablation, migration]
+        language_tags: [markdown, yaml]
+  - id: octon-retirement-and-hygiene-packetizer-registry-gap-analysis
+    display_name: Registry Gap Analysis
+    group: extensions
+    path: octon-retirement-and-hygiene-packetizer-registry-gap-analysis/
+    skill_class: invocable
+    summary: "Run the registry-gap-analysis flow."
+    status: active
+    tags: [octon, retirement, registry, gap-analysis]
+    triggers:
+      - "retirement registry gap analysis"
+      - "analyze retirement coverage gaps"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, registry, retirement]
+        language_tags: [markdown, yaml]
+  - id: octon-retirement-and-hygiene-packetizer-ablation-plan-draft
+    display_name: Ablation Plan Draft
+    group: extensions
+    path: octon-retirement-and-hygiene-packetizer-ablation-plan-draft/
+    skill_class: invocable
+    summary: "Run the ablation-plan-draft flow."
+    status: active
+    tags: [octon, retirement, ablation, cleanup]
+    triggers:
+      - "draft ablation plan"
+      - "plan governed cleanup"
+    host_adapters: [claude, cursor, codex]
+    routing:
+      selectors:
+        include: ["**"]
+        exclude: []
+      fingerprints:
+        tech_tags: [octon, ablation, cleanup, retirement]
+        language_tags: [markdown, yaml]

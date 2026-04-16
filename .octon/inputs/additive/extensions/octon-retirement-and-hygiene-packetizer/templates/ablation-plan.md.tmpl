@@ -1,0 +1,35 @@
+# {{title}}
+
+This is a non-authoritative ablation-plan draft.
+
+## Inputs
+
+- Audit summary: `{{audit_summary_ref}}`
+- Findings: `{{findings_ref}}`
+- Retirement registry: `/.octon/instance/governance/contracts/retirement-registry.yml`
+- Retirement register: `/.octon/instance/governance/retirement-register.yml`
+- Claim gate: `/.octon/instance/governance/retirement/claim-gate.yml`
+
+## Guardrails
+
+- Protected or claim-adjacent surfaces must remain `never-delete`.
+- Any raw `safe-to-delete` signal must be rewritten as a candidate for governed
+  ablation review.
+- This draft must not be attached to the live build-to-delete packet without a
+  human-governed core workflow.
+
+## Candidate Targets
+
+{{candidate_targets}}
+
+## Required Ablation Suite
+
+{{required_ablation_suite}}
+
+## Review Gates
+
+- Drift review remains authoritative.
+- Support-target review remains authoritative.
+- Adapter review remains authoritative.
+- Retirement review remains authoritative.
+- Ablation-deletion receipts remain authoritative.

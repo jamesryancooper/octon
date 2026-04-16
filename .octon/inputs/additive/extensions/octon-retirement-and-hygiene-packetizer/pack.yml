@@ -1,0 +1,45 @@
+schema_version: "octon-extension-pack-v4"
+pack_id: "octon-retirement-and-hygiene-packetizer"
+version: "1.0.0"
+origin_class: "first_party_bundled"
+compatibility:
+  octon_version: "^0.6.0"
+  extensions_api_version: "1.0"
+  required_contracts:
+    - contract_id: "root-manifest"
+      schema_version: "octon-root-manifest-v2"
+    - contract_id: "framework-manifest"
+      schema_version: "octon-framework-manifest-v2"
+    - contract_id: "instance-manifest"
+      schema_version: "octon-instance-manifest-v1"
+    - contract_id: "instance-extensions"
+      schema_version: "octon-instance-extensions-v2"
+    - contract_id: "extension-active-state"
+      schema_version: "octon-extension-active-state-v4"
+    - contract_id: "extension-quarantine-state"
+      schema_version: "octon-extension-quarantine-state-v3"
+    - contract_id: "extension-effective-catalog"
+      schema_version: "octon-extension-effective-catalog-v6"
+    - contract_id: "extension-artifact-map"
+      schema_version: "octon-extension-artifact-map-v4"
+    - contract_id: "extension-generation-lock"
+      schema_version: "octon-extension-generation-lock-v5"
+  profile_path: "validation/compatibility.yml"
+dependencies:
+  requires: []
+  conflicts: []
+provenance:
+  source_id: "bundled-first-party"
+  imported_from: null
+  origin_uri: null
+  digest_sha256: null
+  attestation_refs: []
+trust_hints:
+  suggested_action: "allow"
+content_entrypoints:
+  skills: "skills/"
+  commands: "commands/"
+  templates: "templates/"
+  prompts: null
+  context: "context/"
+  validation: "validation/"
