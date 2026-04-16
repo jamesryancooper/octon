@@ -2,7 +2,7 @@
 
 Success means:
 
-- `pack.yml` publishes `prompts/` when the bundle is added
+- `pack.yml` exposes `prompts/` when the bundle is added
 - the bundle manifest uses `octon-extension-prompt-set-v1`
 - the bundle manifest declares a non-empty `companions` sequence
 - the manifest path entries resolve to files created in the bundle

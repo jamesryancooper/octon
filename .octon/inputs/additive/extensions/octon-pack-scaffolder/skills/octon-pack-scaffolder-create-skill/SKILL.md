@@ -21,7 +21,7 @@ Create a pack-local skill plus the matching manifest and registry entries.
 ## When To Use
 
 - the target pack needs a new skill under `skills/`
-- the skill should publish through the pack-local fragment model
+- the skill should register through the pack-local fragment model
 - the skill should remain additive and pack-scoped
 
 ## Core Workflow

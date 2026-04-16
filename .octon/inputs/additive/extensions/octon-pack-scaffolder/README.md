@@ -10,8 +10,8 @@ It is designed to:
   validation fixtures
 - keep extension authoring additive and aligned with the existing extension
   publication model
-- publish one explicit dispatcher family plus six leaf scaffolds across the
-  compiled extension and capability routing surfaces
+- define one explicit dispatcher family plus six leaf scaffolds that can be
+  published through the existing extension and capability routing surfaces
 
 ## Buckets
 
@@ -22,10 +22,10 @@ It is designed to:
 
 ## Dispatcher
 
-The family root `octon-pack-scaffolder` is a published explicit dispatcher.
-Its route policy is authored in `context/routing.contract.yml` and published
-into `generated/effective/extensions/catalog.effective.yml` as
-`route_dispatchers`.
+The family root `octon-pack-scaffolder` is authored as an explicit dispatcher.
+Its route policy lives in `context/routing.contract.yml` and is eligible for
+publication into `generated/effective/extensions/catalog.effective.yml` as
+`route_dispatchers` when the pack is admitted and published.
 
 Supported targets:
 
@@ -38,7 +38,7 @@ Supported targets:
 
 ## Publication Workflow
 
-Bring the pack to a published state with:
+If the repo later admits this pack, bring it to a published state with:
 
 ```bash
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh

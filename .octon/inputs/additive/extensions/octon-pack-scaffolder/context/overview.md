@@ -13,7 +13,7 @@ packs and common pack-local assets.
   - `create-command`
   - `create-context-doc`
   - `create-validation-fixture`
-- one published explicit dispatcher contract:
+- one explicit dispatcher contract:
   `context/routing.contract.yml`
 
 ## Operating Model
@@ -23,7 +23,8 @@ packs and common pack-local assets.
   `/.octon/inputs/additive/extensions/<pack-id>/`
 - idempotent reruns against matching content
 - fail-closed handling for conflicting existing content
-- explicit route selection published through the extension effective catalog
+- explicit route selection authored for later publication through the extension
+  effective catalog when the pack is admitted
 
 ## Non-Goals
 

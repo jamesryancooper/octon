@@ -1,6 +1,6 @@
 # Routing Guide
 
-`octon-pack-scaffolder` uses an explicit published dispatcher contract.
+`octon-pack-scaffolder` uses an explicit dispatcher contract.
 
 ## Source Of Truth
 
@@ -27,4 +27,5 @@ bash .octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route
 - unsupported `target` -> blocked route result
 
 The dispatcher is explicit by design. It does not infer routes from partial
-shape alone.
+shape alone. When the pack is admitted and published, the same contract should
+surface in the effective extension catalog.

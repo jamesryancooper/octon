@@ -1,6 +1,6 @@
 # Octon Pack Scaffolder
 
-Dispatch explicitly to one published `octon-pack-scaffolder` leaf target.
+Dispatch explicitly to one `octon-pack-scaffolder` leaf target.
 
 Dispatcher behavior:
 
