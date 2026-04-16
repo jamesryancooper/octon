@@ -95,6 +95,7 @@ Use this table to find canonical detail by concern.
 | Merge-critical control-plane contract | `.octon/framework/agency/practices/standards/github-control-plane-contract.json` |
 | AI gate policy contract | `.octon/framework/agency/practices/standards/ai-gate-policy.json` |
 | Local Git/operator script lane | `.octon/framework/agency/practices/git-autonomy-playbook.md` |
+| Multi-worktree PR queue and sequencing | `.octon/framework/agency/practices/git-autonomy-playbook.md` |
 | GitHub token model + autonomy runbook | `.octon/framework/agency/practices/github-autonomy-runbook.md` |
 | PR body structure contract | `.github/PULL_REQUEST_TEMPLATE.md` |
 
@@ -149,6 +150,10 @@ For local flow:
 - `.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`
 - `.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh`
 - `.octon/framework/agency/_ops/scripts/github/sync-github-labels.sh`
+
+For managing several active worktrees and sequencing their PRs safely, use:
+
+- `.octon/framework/agency/practices/git-autonomy-playbook.md`
 
 For GitHub operations and drift remediation commands, use:
 
