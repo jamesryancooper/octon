@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.27](https://github.com/jamesryancooper/octon/compare/octon-v0.6.26...octon-v0.6.27) (2026-04-16)
+
+
+### Features
+
+* **extensions:** add retirement hygiene packetizer pack ([#299](https://github.com/jamesryancooper/octon/issues/299)) ([4bc8dcd](https://github.com/jamesryancooper/octon/commit/4bc8dcddc73fcfda3ed24934d0ea7f517c67dcdf))
+
 ## [0.6.26](https://github.com/jamesryancooper/octon/compare/octon-v0.6.25...octon-v0.6.26) (2026-04-16)
 
 
