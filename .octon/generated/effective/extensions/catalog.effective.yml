@@ -1,12 +1,12 @@
 schema_version: "octon-extension-effective-catalog-v6"
 generator_version: "extension-publication-v5"
-generation_id: "extensions-f8ba4383557f"
-published_at: "2026-04-16T15:47:48Z"
+generation_id: "extensions-f66caee9e62b"
+published_at: "2026-04-15T22:58:40Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-16T15-47-48Z-extensions-f8ba4383557f.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-04-15T22-58-40Z-extensions-f66caee9e62b.yml"
 compatibility_status: "compatible"
-compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-04-16T15-47-48Z-extensions-f8ba4383557f.yml"
-compatibility_receipt_sha256: "8c9b80b7f9f7ebf5da6453f60504b99b4c1997bfd0efe604e81098c7af127d81"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-04-15T22-58-40Z-extensions-f66caee9e62b.yml"
+compatibility_receipt_sha256: "cd8250c40b49e9d98bef47e91a7163b5c5afc9fb3f82b6aace03457389d2d068"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -21,12 +21,8 @@ invalidation_conditions:
 desired_selected_packs:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
-  - pack_id: "octon-pack-scaffolder"
-    source_id: "bundled-first-party"
 published_active_packs:
   - pack_id: "octon-concept-integration"
-    source_id: "bundled-first-party"
-  - pack_id: "octon-pack-scaffolder"
     source_id: "bundled-first-party"
 dependency_closure:
   - pack_id: "octon-concept-integration"
@@ -34,11 +30,6 @@ dependency_closure:
     version: "1.2.0"
     origin_class: "first_party_bundled"
     manifest_path: ".octon/inputs/additive/extensions/octon-concept-integration/pack.yml"
-  - pack_id: "octon-pack-scaffolder"
-    source_id: "bundled-first-party"
-    version: "1.0.0"
-    origin_class: "first_party_bundled"
-    manifest_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/pack.yml"
 packs:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
@@ -1064,7 +1055,7 @@ packs:
         bundle_sha256: "cfe8280d50f1a98cd8610dc2f6f33dfd8bc9d657dbfe1eb045ebd5f3b8eb6df2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1174,7 +1165,7 @@ packs:
         bundle_sha256: "e43ad5ccbb0a7e60fe93fca026e47cf82a7ab60117cc8cc39131ccf56b4d1ce3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1269,7 +1260,7 @@ packs:
         bundle_sha256: "9accd7f2c4f699e4ad46d86be7ded14b30216f04a15e9864afba65e48f962e3c"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1370,7 +1361,7 @@ packs:
         bundle_sha256: "cb72a4e8fd3205af10fbc78ec15a4d2ad8b63428a8e17b40ca7cda6c3c3d41b7"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1473,7 +1464,7 @@ packs:
         bundle_sha256: "dc7f47e249ccab3c41c827cf7af410175dd212ec6972470b2e366b2f2424a9a2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1564,7 +1555,7 @@ packs:
         bundle_sha256: "2c258b9d6eb65203277ea8bd3fcbaad71c164ec6a0ecdf60030f75a3433eb239"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1659,7 +1650,7 @@ packs:
         bundle_sha256: "252ae504d0216961cc2fc88c6c82faa0cba061dcf35e9a014304649483a18590"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1759,7 +1750,7 @@ packs:
         bundle_sha256: "b8e5fbdc7f66e3f46129537a0f9e753807d793e261210ec2c23a26b83e987079"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1854,7 +1845,7 @@ packs:
         bundle_sha256: "e00518f739bd78adeb95239cb29d184a8cbc1fcb7bad27e1f92b0293a09170ad"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1949,7 +1940,7 @@ packs:
         bundle_sha256: "22cfc0475d37e04db77346ca4b52557c7a208c0c8b1264b6b18ad384bf8f4b3e"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-16T15-47-48Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-04-15T22-58-40Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2043,484 +2034,8 @@ packs:
             path: "shared/packet-execution-contract.md"
             sha256: "ff487b305b0284659d0ae8ff3e2f5da33eab2a5d53056d7f2cc26d420f6de153"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-concept-integration/bundled-first-party/prompts/shared/packet-execution-contract.md"
-  - pack_id: "octon-pack-scaffolder"
-    source_id: "bundled-first-party"
-    version: "1.0.0"
-    origin_class: "first_party_bundled"
-    manifest_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/pack.yml"
-    trust_decision: "allow"
-    publication_status: "published"
-    compatibility_status: "compatible"
-    compatibility_profile_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/validation/compatibility.yml"
-    route_dispatchers:
-      - dispatcher_id: octon-pack-scaffolder
-        default_route_id: dispatcher-overview
-        accepted_inputs:
-          - target
-          - pack_id
-          - display_name
-          - summary
-          - version
-          - origin_class
-          - bundle_id
-          - stage_id
-          - skill_id
-          - command_id
-          - argument_hint
-          - doc_id
-          - title
-          - fixture_id
-          - target_kind
-        disambiguators:
-          - input_name: target
-            kind: enum
-            allowed_values:
-              - pack
-              - prompt-bundle
-              - skill
-              - command
-              - context-doc
-              - validation-fixture
-        precedence:
-          - dispatcher-overview
-          - target-pack
-          - target-prompt-bundle
-          - target-skill
-          - target-command
-          - target-context-doc
-          - target-validation-fixture
-          - invalid-target
-        routes:
-          - route_id: dispatcher-overview
-            status: resolved
-            execution_binding_id: dispatcher-overview
-            matchers:
-              - matcher_id: dispatcher-overview
-                reason_codes:
-                  - missing-target
-                all_of:
-                  - input_name: target
-                    predicate: absent
-          - route_id: create-pack
-            status: resolved
-            execution_binding_id: create-pack
-            matchers:
-              - matcher_id: target-pack
-                reason_codes:
-                  - explicit-target
-                all_of:
-                  - input_name: target
-                    predicate: equals
-                    value: pack
-          - route_id: create-prompt-bundle
-            status: resolved
-            execution_binding_id: create-prompt-bundle
-            matchers:
-              - matcher_id: target-prompt-bundle
-                reason_codes:
-                  - explicit-target
-                all_of:
-                  - input_name: target
-                    predicate: equals
-                    value: prompt-bundle
-          - route_id: create-skill
-            status: resolved
-            execution_binding_id: create-skill
-            matchers:
-              - matcher_id: target-skill
-                reason_codes:
-                  - explicit-target
-                all_of:
-                  - input_name: target
-                    predicate: equals
-                    value: skill
-          - route_id: create-command
-            status: resolved
-            execution_binding_id: create-command
-            matchers:
-              - matcher_id: target-command
-                reason_codes:
-                  - explicit-target
-                all_of:
-                  - input_name: target
-                    predicate: equals
-                    value: command
-          - route_id: create-context-doc
-            status: resolved
-            execution_binding_id: create-context-doc
-            matchers:
-              - matcher_id: target-context-doc
-                reason_codes:
-                  - explicit-target
-                all_of:
-                  - input_name: target
-                    predicate: equals
-                    value: context-doc
-          - route_id: create-validation-fixture
-            status: resolved
-            execution_binding_id: create-validation-fixture
-            matchers:
-              - matcher_id: target-validation-fixture
-                reason_codes:
-                  - explicit-target
-                all_of:
-                  - input_name: target
-                    predicate: equals
-                    value: validation-fixture
-          - route_id: invalid-target
-            status: blocked
-            matchers:
-              - matcher_id: invalid-target
-                reason_codes:
-                  - unsupported-target
-                all_of:
-                  - input_name: target
-                    predicate: present
-                  - input_name: target
-                    predicate: not_one_of
-                    values:
-                      - pack
-                      - prompt-bundle
-                      - skill
-                      - command
-                      - context-doc
-                      - validation-fixture
-        execution_bindings:
-          - binding_id: dispatcher-overview
-            route_id: dispatcher-overview
-            command_capability_id: octon-pack-scaffolder
-            skill_capability_id: octon-pack-scaffolder
-          - binding_id: create-pack
-            route_id: create-pack
-            command_capability_id: octon-pack-scaffolder-create-pack
-            skill_capability_id: octon-pack-scaffolder-create-pack
-          - binding_id: create-prompt-bundle
-            route_id: create-prompt-bundle
-            command_capability_id: octon-pack-scaffolder-create-prompt-bundle
-            skill_capability_id: octon-pack-scaffolder-create-prompt-bundle
-          - binding_id: create-skill
-            route_id: create-skill
-            command_capability_id: octon-pack-scaffolder-create-skill
-            skill_capability_id: octon-pack-scaffolder-create-skill
-          - binding_id: create-command
-            route_id: create-command
-            command_capability_id: octon-pack-scaffolder-create-command
-            skill_capability_id: octon-pack-scaffolder-create-command
-          - binding_id: create-context-doc
-            route_id: create-context-doc
-            command_capability_id: octon-pack-scaffolder-create-context-doc
-            skill_capability_id: octon-pack-scaffolder-create-context-doc
-          - binding_id: create-validation-fixture
-            route_id: create-validation-fixture
-            command_capability_id: octon-pack-scaffolder-create-validation-fixture
-            skill_capability_id: octon-pack-scaffolder-create-validation-fixture
-    routing_exports:
-      commands:
-        - capability_id: "octon-pack-scaffolder"
-          display_name: "Octon Pack Scaffolder"
-          summary: "Dispatch explicitly to one pack-authoring scaffold target."
-          status: "active"
-          path: "octon-pack-scaffolder.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-pack"
-          display_name: "Octon Pack Scaffolder Create Pack"
-          summary: "Scaffold a new additive extension pack root."
-          status: "active"
-          path: "octon-pack-scaffolder-create-pack.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder-create-pack.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-prompt-bundle"
-          display_name: "Octon Pack Scaffolder Create Prompt Bundle"
-          summary: "Scaffold a minimal manifest-governed prompt bundle inside an additive extension pack."
-          status: "active"
-          path: "octon-pack-scaffolder-create-prompt-bundle.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder-create-prompt-bundle.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-skill"
-          display_name: "Octon Pack Scaffolder Create Skill"
-          summary: "Scaffold a pack-local skill plus matching manifest and registry entries."
-          status: "active"
-          path: "octon-pack-scaffolder-create-skill.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder-create-skill.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-command"
-          display_name: "Octon Pack Scaffolder Create Command"
-          summary: "Scaffold a pack-local command markdown entry plus manifest fragment entry."
-          status: "active"
-          path: "octon-pack-scaffolder-create-command.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder-create-command.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-context-doc"
-          display_name: "Octon Pack Scaffolder Create Context Doc"
-          summary: "Scaffold a pack-local context document."
-          status: "active"
-          path: "octon-pack-scaffolder-create-context-doc.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder-create-context-doc.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-validation-fixture"
-          display_name: "Octon Pack Scaffolder Create Validation Fixture"
-          summary: "Scaffold a pack-local validation scenario fixture."
-          status: "active"
-          path: "octon-pack-scaffolder-create-validation-fixture.md"
-          access: "agent"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/commands/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/commands/octon-pack-scaffolder-create-validation-fixture.md"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-      skills:
-        - capability_id: "octon-pack-scaffolder"
-          display_name: "Octon Pack Scaffolder"
-          summary: "Dispatch explicitly to one additive extension-pack scaffold target."
-          status: "active"
-          path: "octon-pack-scaffolder/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-pack"
-          display_name: "Octon Pack Scaffolder Create Pack"
-          summary: "Scaffold a new additive extension pack root."
-          status: "active"
-          path: "octon-pack-scaffolder-create-pack/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder-create-pack"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-prompt-bundle"
-          display_name: "Octon Pack Scaffolder Create Prompt Bundle"
-          summary: "Scaffold a minimal pack-local prompt bundle."
-          status: "active"
-          path: "octon-pack-scaffolder-create-prompt-bundle/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder-create-prompt-bundle"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-skill"
-          display_name: "Octon Pack Scaffolder Create Skill"
-          summary: "Scaffold a pack-local skill and matching fragment entries."
-          status: "active"
-          path: "octon-pack-scaffolder-create-skill/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder-create-skill"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-command"
-          display_name: "Octon Pack Scaffolder Create Command"
-          summary: "Scaffold a pack-local command and manifest fragment entry."
-          status: "active"
-          path: "octon-pack-scaffolder-create-command/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder-create-command"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-context-doc"
-          display_name: "Octon Pack Scaffolder Create Context Doc"
-          summary: "Scaffold a pack-local context document."
-          status: "active"
-          path: "octon-pack-scaffolder-create-context-doc/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder-create-context-doc"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-        - capability_id: "octon-pack-scaffolder-create-validation-fixture"
-          display_name: "Octon Pack Scaffolder Create Validation Fixture"
-          summary: "Scaffold a pack-local validation scenario fixture."
-          status: "active"
-          path: "octon-pack-scaffolder-create-validation-fixture/"
-          manifest_fragment_path: ".octon/inputs/additive/extensions/octon-pack-scaffolder/skills/manifest.fragment.yml"
-          projection_source_path: ".octon/generated/effective/extensions/published/octon-pack-scaffolder/bundled-first-party/skills/octon-pack-scaffolder-create-validation-fixture"
-          host_adapters:
-            - "claude"
-            - "cursor"
-            - "codex"
-          selectors:
-            include:
-              - "**"
-            exclude:
-              []
-          fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
-    prompt_bundles: []
 source:
   desired_config_path: ".octon/instance/extensions.yml"
-  desired_config_sha256: "f8ba4383557f212b78fb41754afed332f9c4066ed51da52d819f9ec27a4a3d5c"
+  desired_config_sha256: "f66caee9e62b84ce2cb00c9164f32ae690e9913080398ab44459a979611541f8"
   root_manifest_path: ".octon/octon.yml"
   root_manifest_sha256: "25611adc6baf067615e49b2a422ecca014764af9f7ac40492c646d8a079ee4d2"

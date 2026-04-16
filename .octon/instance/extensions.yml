@@ -3,8 +3,6 @@ selection:
   enabled:
     - pack_id: "octon-concept-integration"
       source_id: "bundled-first-party"
-    - pack_id: "octon-pack-scaffolder"
-      source_id: "bundled-first-party"
   disabled:
     - pack_id: "docs"
       source_id: "bundled-first-party"
