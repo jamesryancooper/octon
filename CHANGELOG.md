@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.26](https://github.com/jamesryancooper/octon/compare/octon-v0.6.25...octon-v0.6.26) (2026-04-16)
+
+
+### Features
+
+* **extensions:** add octon-pack-scaffolder pack ([#296](https://github.com/jamesryancooper/octon/issues/296)) ([14ede6a](https://github.com/jamesryancooper/octon/commit/14ede6a260460befe002b8e43bcd1c64315bc9ea))
+
 ## [0.6.25](https://github.com/jamesryancooper/octon/compare/octon-v0.6.24...octon-v0.6.25) (2026-04-15)
 
 
