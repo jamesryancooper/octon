@@ -25,11 +25,29 @@ else
   fail "instance ingress read order does not match manifest mandatory orchestrator contract"
 fi
 
-manifest_closeout="$(yq -r '.branch_closeout_prompt // ""' "$MANIFEST" 2>/dev/null || true)"
-if [[ "$manifest_closeout" == "Are you ready to closeout this branch?" ]] && /usr/bin/grep -Fq 'Are you ready to closeout this branch?' "$OCTON_DIR/instance/ingress/AGENTS.md"; then
-  pass "instance ingress closeout prompt matches manifest"
+manifest_gate_mode="$(yq -r '.branch_closeout_gate.mode // ""' "$MANIFEST" 2>/dev/null || true)"
+if [[ "$manifest_gate_mode" == "contextual" ]] && /usr/bin/grep -Fq 'branch_closeout_gate' "$OCTON_DIR/instance/ingress/AGENTS.md"; then
+  pass "instance ingress closeout gate matches manifest"
 else
-  fail "instance ingress closeout prompt does not match manifest"
+  fail "instance ingress closeout gate does not match manifest"
+fi
+
+manifest_fallback="$(yq -r '.branch_closeout_gate.deprecated_fallback_prompt // ""' "$MANIFEST" 2>/dev/null || true)"
+if [[ -z "$manifest_fallback" ]]; then
+  pass "instance ingress deprecated fallback prompt is not required"
+elif /usr/bin/grep -Fq "$manifest_fallback" "$OCTON_DIR/instance/ingress/AGENTS.md"; then
+  pass "instance ingress deprecated fallback prompt matches manifest"
+else
+  fail "instance ingress deprecated fallback prompt does not match manifest"
+fi
+
+manifest_closeout="$(yq -r '.branch_closeout_prompt // ""' "$MANIFEST" 2>/dev/null || true)"
+if [[ -z "$manifest_closeout" ]]; then
+  pass "legacy scalar closeout prompt is absent"
+elif [[ -n "$manifest_fallback" && "$manifest_closeout" == "$manifest_fallback" ]]; then
+  pass "legacy scalar closeout prompt matches deprecated fallback"
+else
+  fail "legacy scalar closeout prompt does not match deprecated fallback"
 fi
 
 for target in "$OCTON_ADAPTER" "$ROOT_ADAPTER" "$CLAUDE_ADAPTER"; do

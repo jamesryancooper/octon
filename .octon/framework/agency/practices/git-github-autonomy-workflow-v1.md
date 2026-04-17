@@ -1,15 +1,20 @@
 ---
 title: Octon Git/GitHub Autonomy Workflow v1
-description: Canonical overview and source-of-truth index for Octon's automation-first Git and GitHub workflow.
+description: Canonical overview and source-of-truth index for Octon's worktree-native Git and GitHub workflow.
 ---
 
 # Octon Git/GitHub Autonomy Workflow v1
 
-This is the central overview for Octon's Git/GitHub autonomy model.
-Use it as the entry point for policy, workflow behavior, and operator actions.
+This is the central overview for Octon's Git/GitHub workflow model. Use it as
+the entry point for policy, workflow behavior, and operator actions.
 
-Detailed rules stay in the linked canonical docs. If anything conflicts, follow
-the repository contract precedence in `AGENTS.md`.
+The workflow is defined for any Git environment that supports linked
+worktrees. Octon's local helper scripts are recommended accelerators, not the
+durable definition of readiness or mergeability. GitHub remains the final host
+merge gate.
+
+Detailed rules stay in the linked canonical docs. If anything conflicts,
+follow the repository contract precedence in `AGENTS.md`.
 
 ---
 
@@ -17,69 +22,132 @@ the repository contract precedence in `AGENTS.md`.
 
 This workflow covers:
 
-- Local branch/worktree + PR automation scripts
+- Primary `main` worktree or clone posture plus branch worktree execution
+- Local branch, PR, and cleanup helper scripts
 - GitHub PR triage, policy checks, and autonomous merge behavior
 - Provider-agnostic AI review gating
 - Release PR automation (`release-please`)
 - Daily control-plane drift detection and auto-healing issue handling
-- Branch/repo hygiene expectations for autonomy-first operation
+- Branch and repo hygiene expectations for worktree-native execution
 
 ---
 
 ## Operating Model
 
+### Core execution model
+
+1. Keep one clean primary `main` worktree or clone as the integration anchor.
+2. Create one branch worktree per task or PR.
+3. Do implementation, validation, review remediation, and PR iteration in the
+   branch worktree, not on `main`.
+4. Open draft PRs early from the branch worktree.
+5. Treat ready-for-review as a state criterion:
+   - the current slice is complete
+   - no unresolved author action items remain
+   - the lane is appropriate
+6. GitHub rulesets, required checks, and reviewer-owned thread resolution
+   remain the final merge gate.
+
+Shared invariants:
+
+- Never open a PR from `main`.
+- Do not stack unrelated work in one worktree.
+- Keep the same branch and same PR for the life of the task.
+
+### Merge lanes
+
 Default lane (autonomous):
 
-1. Create branch/worktree.
+1. Create branch worktree.
 2. Commit and open draft PR.
-3. Let triage + policy + required checks run.
-4. Ready + auto-merge when policy allows.
-5. Auto-delete merged branch.
+3. Let triage, policy, and required checks run.
+4. Move to ready only when the work is complete and the PR is eligible for the
+   autonomous lane.
+5. Request squash auto-merge.
+6. Let GitHub perform the final merge once required checks and review policy
+   are satisfied.
 
-Guarded lane (rare human check-in):
+Guarded lane (manual):
 
-- High-impact governance/control-plane changes stay in the manual lane.
-- Dependabot major/unknown version jumps stay in the manual lane.
-- Human check-in is metadata-level; enforcement runs through canonical approval
-  artifacts plus CI/rulesets rather than label authority.
+- `exp/*` branches stay in the manual lane.
+- High-impact governance or control-plane changes stay in the manual lane.
+- Dependabot major or unknown version jumps stay in the manual lane.
+- Human review and merge remain explicit, with auto-merge off.
 
 Release lane:
 
-- `release-please` opens/updates release PRs and release metadata.
-- Release PRs follow the same auto-merge lane unless explicitly routed to human check-in.
+- `release-please` opens or updates release PRs and release metadata.
+- Release PRs follow the same draft-first and lane-selection model unless
+  explicitly routed to human check-in.
 - Runtime binary publishing stays downstream.
 
 Dependency lane (Dependabot):
 
-- `github-actions` patch/minor updates are grouped and auto-merged when checks pass.
+- `github-actions` patch and minor updates are grouped and auto-merged when
+  checks pass.
 - Dependabot-authored PRs skip provider-backed AI review when Actions secrets
   are unavailable; the required AI gate remains active through the
   non-provider path.
-- Major or unclassified version jumps are escalation-only and stay in the
-  manual lane.
+- Major or unclassified version jumps stay in the manual lane.
 
 Steady-state health lane:
 
-- `Autonomy Release Health` detects drift, opens/updates a drift issue on
+- `Autonomy Release Health` detects drift, opens or updates a drift issue on
   failure, and auto-closes it when healthy.
 
 AI review lane:
 
-- `AI Review Gate` runs provider adapters (OpenAI + Anthropic), normalizes
+- `AI Review Gate` runs provider adapters (OpenAI and Anthropic), normalizes
   findings, and computes `AI Review Gate / decision`.
 - The gate dual-writes projection state into canonical approval artifacts and
   required checks without relying on AI-gate labels.
 - Shadow mode: `AI_GATE_ENFORCE=false` (decision check passes with telemetry).
-- Strict mode: `AI_GATE_ENFORCE=true` with `AI Review Gate / decision` required
-  in the `main` branch ruleset.
+- Strict mode: `AI_GATE_ENFORCE=true` with `AI Review Gate / decision`
+  required in the `main` branch ruleset.
 - Codex-specific review remains advisory and non-blocking.
 
-Conversation closeout gate:
+### Contextual closeout gate
 
-- For any thread turn that produced file changes, ask:
-  `Are you ready to closeout this branch?`
-- If yes, execute full closeout lifecycle end-to-end.
-- If no, preserve current branch state with no closeout mutations.
+Closeout prompts are completion-aware and context-sensitive. Ask about
+closeout only at a credible completion point or when the operator explicitly
+asks to finish, ship, or closeout.
+
+Prompt set:
+
+- **Primary `main` worktree**
+  - "This work is on the main worktree, and Octon does not open PRs from
+    `main`. Should I branch it into a feature worktree and prepare a draft
+    PR?"
+- **Branch worktree, no PR yet**
+  - "This branch worktree looks ready for PR closeout. Should I stage,
+    commit, push, and open a draft PR?"
+- **Branch worktree, existing draft PR, autonomous lane**
+  - "This draft PR looks ready for Octon's autonomous merge lane. Should I
+    mark it ready and request squash auto-merge?"
+- **Branch worktree, existing draft PR, manual lane**
+  - "This draft PR looks ready for the manual lane. Should I mark it ready for
+    human review and keep auto-merge off?"
+- **Blocked state**
+  - No closeout prompt; report blockers instead.
+
+Suppress closeout prompting when:
+
+- active implementation continues
+- an open PR has red required checks
+- unresolved author action items remain
+- a ready PR is waiting on reviewer or maintainer confirmation of
+  reviewer-owned threads
+
+### Helper semantics
+
+- `git-wt-new.sh` creates the branch worktree from the clean integration
+  anchor.
+- `git-pr-open.sh` is the helper for commit, push, and draft-PR creation.
+- `git-pr-ship.sh` requests ready-state and merge-lane transitions plus
+  cleanup handling. It does not prove the PR is ready.
+- `git-pr-cleanup.sh` converges refs and `main` after closure, prunes safe
+  linked worktrees when possible, and prints manual follow-up steps when the
+  current or another in-use worktree cannot be removed automatically.
 
 ---
 
@@ -94,9 +162,8 @@ Use this table to find canonical detail by concern.
 | Machine-enforced commit/PR contract | `.octon/framework/agency/practices/standards/commit-pr-standards.json` |
 | Merge-critical control-plane contract | `.octon/framework/agency/practices/standards/github-control-plane-contract.json` |
 | AI gate policy contract | `.octon/framework/agency/practices/standards/ai-gate-policy.json` |
-| Local Git/operator script lane | `.octon/framework/agency/practices/git-autonomy-playbook.md` |
-| Multi-worktree PR queue and sequencing | `.octon/framework/agency/practices/git-autonomy-playbook.md` |
-| GitHub token model + autonomy runbook | `.octon/framework/agency/practices/github-autonomy-runbook.md` |
+| Worktree-native operator playbook | `.octon/framework/agency/practices/git-autonomy-playbook.md` |
+| GitHub token model and autonomy runbook | `.octon/framework/agency/practices/github-autonomy-runbook.md` |
 | PR body structure contract | `.github/PULL_REQUEST_TEMPLATE.md` |
 
 ---
@@ -129,13 +196,16 @@ Core guardrails that stay active with this model:
 
 Minimum control-plane expectations:
 
-- `main` remains PR-first (break-glass only for direct push).
+- `main` remains PR-first and serves as the clean integration anchor.
+- One branch worktree or equivalent branch workspace is the default unit of
+  execution for one task or PR.
 - Repository variable `AUTONOMY_AUTO_MERGE_ENABLED=true`.
 - Repository secret `AUTONOMY_PAT` is configured with minimum needed
-  fine-grained permissions documented in:
+  fine-grained permissions documented in
   `.octon/framework/agency/practices/github-autonomy-runbook.md`.
-- Branch protection/rulesets enforce required checks on `main`.
+- Branch protection and rulesets enforce required checks on `main`.
 - Required AI check is `AI Review Gate / decision` (provider-agnostic).
+- Reviewer-owned thread confirmation still participates in merge gating.
 - Codex review is advisory and not part of required checks.
 - Squash merge is the canonical merge strategy.
 
@@ -143,7 +213,7 @@ Minimum control-plane expectations:
 
 ## Operator Entry Points
 
-For local flow:
+For the recommended helper lane:
 
 - `.octon/framework/agency/_ops/scripts/git/git-wt-new.sh`
 - `.octon/framework/agency/_ops/scripts/git/git-pr-open.sh`
@@ -163,7 +233,7 @@ For GitHub operations and drift remediation commands, use:
 
 ## Change Control
 
-Treat this doc as the central overview/index. When behavior changes:
+Treat this doc as the central overview and index. When behavior changes:
 
 1. Update the detailed canonical docs first (runbooks, standards, templates).
 2. Update this overview to match new reality.

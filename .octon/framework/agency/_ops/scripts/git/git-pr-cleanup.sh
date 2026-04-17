@@ -23,7 +23,13 @@ Options:
   --dry-run                      Print actions without mutating local/remote state.
 
 Default mode (no --pr/--branch):
-  Sweep local branches and remove branches whose latest PR is closed/merged.
+  Sweep local branches, prune safe linked worktree directories for closed branches,
+  and remove branches whose latest PR is closed/merged.
+
+Worktree housekeeping:
+  - Clean linked worktrees for closed branches are pruned automatically when safe.
+  - If the current worktree or a dirty/in-use worktree cannot be removed, the
+    script prints the exact manual git worktree remove step needed to finish cleanup.
 USAGE
 }
 
@@ -45,6 +51,11 @@ require_cmd() {
   command -v "$cmd" >/dev/null 2>&1 || error "Missing required command: $cmd"
 }
 
+manual_worktree_remove_cmd() {
+  local path="$1"
+  printf 'git worktree remove "%s"' "$path"
+}
+
 repo_root() {
   git rev-parse --show-toplevel 2>/dev/null || true
 }
@@ -55,6 +66,47 @@ run_cmd() {
     return 0
   fi
   "$@"
+}
+
+branch_worktree_paths() {
+  local branch="$1"
+  git -C "$REPO_ROOT" worktree list --porcelain | awk -v ref="refs/heads/${branch}" '
+    /^worktree / {
+      path = substr($0, 10)
+      next
+    }
+    /^branch / {
+      if ($2 == ref) {
+        print path
+      }
+    }
+  '
+}
+
+prune_branch_worktrees() {
+  local branch="$1"
+  local path=""
+
+  mapfile -t BRANCH_WORKTREES < <(branch_worktree_paths "$branch")
+  for path in "${BRANCH_WORKTREES[@]}"; do
+    [[ -n "$path" ]] || continue
+    if [[ "$path" == "$REPO_ROOT" ]]; then
+      continue
+    fi
+
+    if [[ "$DRY_RUN" -eq 1 ]]; then
+      echo "[DRY] git -C \"$REPO_ROOT\" worktree remove \"$path\""
+      continue
+    fi
+
+    if git -C "$REPO_ROOT" worktree remove "$path"; then
+      info "Removed linked worktree '$path' for branch '$branch'."
+      pruned_worktrees=$((pruned_worktrees + 1))
+    else
+      warn "Linked worktree '$path' for branch '$branch' could not be removed automatically. From another worktree of this repo, run: $(manual_worktree_remove_cmd "$path")"
+      worktree_manual_followups=$((worktree_manual_followups + 1))
+    fi
+  done
 }
 
 while [[ $# -gt 0 ]]; do
@@ -142,6 +194,13 @@ if [[ -n "$WATCH_PR_NUMBER" ]]; then
 fi
 
 CURRENT_BRANCH="$(git -C "$REPO_ROOT" rev-parse --abbrev-ref HEAD)"
+INITIAL_BRANCH="$CURRENT_BRANCH"
+CURRENT_GIT_DIR="$(git -C "$REPO_ROOT" rev-parse --absolute-git-dir)"
+CURRENT_IS_LINKED_WORKTREE=0
+if [[ "$CURRENT_GIT_DIR" == */worktrees/* ]]; then
+  CURRENT_IS_LINKED_WORKTREE=1
+fi
+CURRENT_WORKTREE_MANUAL_PRUNE_PATH=""
 
 ensure_checkout_safe() {
   if ! git -C "$REPO_ROOT" diff --quiet || ! git -C "$REPO_ROOT" diff --cached --quiet; then
@@ -219,7 +278,9 @@ fi
 
 deleted_local=0
 deleted_remote=0
+pruned_worktrees=0
 skipped_open=0
+worktree_manual_followups=0
 
 for branch in "${CANDIDATES[@]}"; do
   [[ "$branch" == "main" ]] && continue
@@ -239,9 +300,25 @@ for branch in "${CANDIDATES[@]}"; do
       run_cmd git -C "$REPO_ROOT" checkout main
       CURRENT_BRANCH="main"
     fi
+    if [[ "$CURRENT_IS_LINKED_WORKTREE" -eq 1 && "$INITIAL_BRANCH" == "$branch" ]]; then
+      CURRENT_WORKTREE_MANUAL_PRUNE_PATH="$REPO_ROOT"
+    fi
   fi
 
-  if git -C "$REPO_ROOT" show-ref --verify --quiet "refs/heads/${branch}"; then
+  prune_branch_worktrees "$branch"
+
+  local_branch_blocked_by_worktree=0
+  mapfile -t REMAINING_BRANCH_WORKTREES < <(branch_worktree_paths "$branch")
+  for path in "${REMAINING_BRANCH_WORKTREES[@]}"; do
+    [[ -n "$path" ]] || continue
+    if [[ "$path" != "$REPO_ROOT" ]]; then
+      warn "Branch '$branch' is still attached to linked worktree '$path'. Remove that worktree before deleting the local branch: $(manual_worktree_remove_cmd "$path")"
+      worktree_manual_followups=$((worktree_manual_followups + 1))
+      local_branch_blocked_by_worktree=1
+    fi
+  done
+
+  if [[ "$local_branch_blocked_by_worktree" -eq 0 ]] && git -C "$REPO_ROOT" show-ref --verify --quiet "refs/heads/${branch}"; then
     run_cmd git -C "$REPO_ROOT" branch -D "$branch"
     deleted_local=$((deleted_local + 1))
   fi
@@ -269,7 +346,14 @@ fi
 
 run_cmd git -C "$REPO_ROOT" fetch --prune origin
 
+if [[ -n "$CURRENT_WORKTREE_MANUAL_PRUNE_PATH" ]]; then
+  warn "Current linked worktree '$CURRENT_WORKTREE_MANUAL_PRUNE_PATH' was preserved because cleanup is running inside it. After leaving that directory, finish housekeeping from another worktree with: $(manual_worktree_remove_cmd "$CURRENT_WORKTREE_MANUAL_PRUNE_PATH")"
+  worktree_manual_followups=$((worktree_manual_followups + 1))
+fi
+
 echo "[OK] Local branches deleted: ${deleted_local}"
 echo "[OK] Remote branches deleted: ${deleted_remote}"
+echo "[OK] Linked worktrees pruned: ${pruned_worktrees}"
+echo "[OK] Manual worktree follow-ups: ${worktree_manual_followups}"
 echo "[OK] Skipped due to open PR: ${skipped_open}"
 echo "[OK] Current branch: ${CURRENT_BRANCH}"

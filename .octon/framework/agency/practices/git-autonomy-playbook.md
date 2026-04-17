@@ -1,11 +1,16 @@
 ---
 title: Git Autonomy Playbook
-description: Local operator playbook for autonomy-first Git and GitHub workflow execution.
+description: Worktree-native operator playbook for Octon's Git and GitHub workflow.
 ---
 
 # Git Autonomy Playbook
 
-This playbook covers the local script lane for autonomy-first Git/GitHub flow:
+This playbook describes Octon's durable Git/GitHub workflow for any
+worktree-capable Git environment. The local helper scripts below are
+recommended projections of that workflow, not prerequisites and not the sole
+definition of readiness or mergeability.
+
+This playbook covers the helper lane:
 
 - `.octon/framework/agency/_ops/scripts/git/git-wt-new.sh`
 - `.octon/framework/agency/_ops/scripts/git/git-pr-open.sh`
@@ -15,17 +20,43 @@ This playbook covers the local script lane for autonomy-first Git/GitHub flow:
 - `.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh`
 - `.octon/framework/agency/_ops/scripts/github/sync-github-labels.sh`
 
-Use this with [GitHub Autonomy Runbook](./github-autonomy-runbook.md) for token,
-permissions, and control-plane drift operations.
+Use this with [GitHub Autonomy Runbook](./github-autonomy-runbook.md) for
+token, permissions, and control-plane drift operations.
+
+---
+
+## Core Model
+
+Octon's default execution unit is one branch worktree per task or PR.
+
+- **Primary `main` worktree or clone**
+  - Keep this clean.
+  - Use it for `fetch`, `pull --ff-only`, repo-wide inspection, conflict
+    investigation, and creating new branch worktrees.
+  - Never open a PR from `main`.
+- **Branch worktree**
+  - One task or PR per worktree.
+  - Do implementation, testing, review remediation, and PR iteration here.
+  - Keep the same branch and same PR for the life of the task.
+- **Shared invariants**
+  - Do not stack unrelated tasks in one worktree.
+  - Do not branch-hop inside a worktree for unrelated work.
+  - Do not treat helper-script output as proof that a PR is complete.
 
 ---
 
 ## Preconditions
 
-- `gh auth status` is healthy for the target account.
+- Git supports linked worktrees or an equivalent worktree-capable interface.
+- A clean primary `main` worktree or clone exists and is treated as the
+  integration anchor.
+- New work starts in a branch worktree, not on `main`.
+- `gh auth status` is healthy for the target account when using GitHub helper
+  commands.
 - Branch naming and commit conventions remain governed by:
   - `.octon/framework/agency/practices/standards/commit-pr-standards.json`
-- Repository autonomy variables/secrets are configured:
+- Repository autonomy variables and secrets are configured for the autonomous
+  lane:
   - `AUTONOMY_AUTO_MERGE_ENABLED=true`
   - `AUTONOMY_PAT` repository Actions secret
   - `AI_GATE_ENFORCE` mode matches desired rollout phase
@@ -33,13 +64,26 @@ permissions, and control-plane drift operations.
 
 ---
 
+## Closeout Model
+
+`Branch closeout` is the context-sensitive handoff from current implementation
+state to the correct next Git/PR action. Depending on state, closeout may mean:
+
+- branch the work off `main` into a feature worktree
+- stage, commit, push, and open a draft PR
+- mark a draft PR ready and request squash auto-merge
+- mark a draft PR ready for human review with auto-merge off
+- report blockers and continue implementation with no closeout mutation
+
+`git-pr-ship.sh` is a helper for requesting the ready or merge-lane
+transition. It does not prove readiness. GitHub required checks, review
+policy, and reviewer or maintainer confirmation remain the final merge gate.
+
+---
+
 ## Script Quick Reference
 
-`Branch closeout` means the full lifecycle: stage/commit, push, PR open/update,
-ready/auto-merge request (policy permitting), wait/poll to completion, and
-cleanup.
-
-### 1) Create a branch + worktree
+### 1. Create a branch worktree
 
 ```bash
 .octon/framework/agency/_ops/scripts/git/git-wt-new.sh \
@@ -51,10 +95,12 @@ Behavior:
 
 - Validates branch format against repository branch policy contract.
 - Runs clean-state preflight (prune/sync/closed-branch cleanup) by default.
-- Creates a new worktree in a sibling folder.
-- Creates branch from `main` (or `--base` override).
+- Creates a new linked worktree in a sibling folder.
+- Creates the branch from `main` (or `--base` override).
+- Establishes the default execution unit: one branch worktree for one task or
+  PR.
 
-### 2) Commit, push, and open a draft PR
+### 2. Commit, push, and open a draft PR
 
 ```bash
 .octon/framework/agency/_ops/scripts/git/git-pr-open.sh \
@@ -68,34 +114,35 @@ Behavior:
 
 - Commits staged changes, or stages everything when `--stage-all` is set.
 - Pushes the current branch to `origin`.
-- Builds PR body from `.github/PULL_REQUEST_TEMPLATE.md`.
+- Builds the PR body from `.github/PULL_REQUEST_TEMPLATE.md`.
 - Ensures issue-link policy with either `Closes #...` or `No-Issue: ...`.
+- Opens or updates the PR in draft-first posture.
 
-### 3) Label, ready, and request auto-merge
+### 3. Request ready-state or merge-lane transition
+
+Autonomous-lane helper:
 
 ```bash
 .octon/framework/agency/_ops/scripts/git/git-pr-ship.sh
 ```
 
+Manual-lane helper:
+
+```bash
+.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh --no-automerge
+```
+
 Behavior:
 
-- Marks draft PR as ready (unless `--no-ready`).
-- Requests squash auto-merge (unless `--no-automerge`).
-- Waits for PR closure (auto lane) and runs local cleanup enforcement.
-- For manual lanes, starts a background cleanup watcher that runs when the PR closes.
+- Marks a draft PR as ready unless `--no-ready` is set.
+- Requests squash auto-merge unless `--no-automerge` is set.
+- Waits for PR closure and runs local cleanup when possible.
+- Starts a background cleanup watcher for manual-lane or deferred cleanup
+  cases.
+- Requests a workflow transition, but does not decide whether the PR is truly
+  complete or mergeable.
 
-### Thread Closeout Gate (Required)
-
-After any thread turn with file changes, ask:
-
-`Are you ready to closeout this branch?`
-
-- If the answer is "yes", run closeout end-to-end using:
-  1. `git-pr-open.sh`
-  2. `git-pr-ship.sh`
-- If the answer is "no", stop with no closeout mutations.
-
-### 4) Enforce local cleanup state on demand
+### 4. Enforce local cleanup state on demand
 
 ```bash
 .octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh
@@ -103,12 +150,17 @@ After any thread turn with file changes, ask:
 
 Behavior:
 
-- Deletes local branches whose latest PR is already closed/merged.
+- Deletes local branches whose latest PR is already closed or merged.
 - Deletes matching origin branches when no open PR references the branch.
 - Checks out and fast-forwards `main` to `origin/main`.
-- Supports `--watch-pr <number>` to wait for closure, then cleanup.
+- Supports `--watch-pr <number>` to wait for closure, then clean branch state.
+- Prunes safe linked worktree directories for closed branches automatically
+  when possible.
+- If the current worktree or a dirty or in-use linked worktree cannot be
+  removed automatically, prints the exact manual `git worktree remove <path>`
+  follow-up step.
 
-### 5) Install non-blocking local cleanup hooks
+### 5. Install non-blocking local cleanup hooks
 
 ```bash
 .octon/framework/agency/_ops/scripts/git/git-autonomy-hooks-install.sh
@@ -119,7 +171,7 @@ Behavior:
 - Installs managed `post-merge` and `post-checkout` hooks.
 - Triggers `.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh --no-sync-main`
   in the background.
-- Uses lock + throttle controls to avoid duplicate runs.
+- Uses lock and throttle controls to avoid duplicate runs.
 - Skips safely when the working tree is dirty.
 
 Uninstall:
@@ -128,7 +180,7 @@ Uninstall:
 .octon/framework/agency/_ops/scripts/git/git-autonomy-hooks-uninstall.sh
 ```
 
-### 6) Sync required GitHub labels
+### 6. Sync required GitHub labels
 
 ```bash
 .octon/framework/agency/_ops/scripts/github/sync-github-labels.sh
@@ -136,8 +188,50 @@ Uninstall:
 
 Behavior:
 
-- Creates or updates triage/policy labels idempotently.
-- Keeps color/description aligned with workflow expectations.
+- Creates or updates triage and policy labels idempotently.
+- Keeps color and description aligned with workflow expectations.
+
+---
+
+## Contextual Closeout Gate
+
+Ask about closeout only at a credible completion point or when the operator
+explicitly asks to finish, ship, or closeout. Do not ask after every
+file-changing turn.
+
+### Completion signals
+
+- The current implementation slice is complete enough to hand off.
+- Targeted validation for the current scope has run or the remaining gap is
+  explicitly understood.
+- No unresolved author action items remain for the current revision.
+- The branch, worktree, and PR state are known.
+
+### Suppress closeout prompts when
+
+- active implementation is still continuing
+- an open PR has red required checks
+- unresolved author action items remain
+- a ready PR is waiting on reviewer or maintainer confirmation of
+  reviewer-owned threads
+
+### Standard prompt set
+
+- **Primary `main` worktree**
+  - "This work is on the main worktree, and Octon does not open PRs from
+    `main`. Should I branch it into a feature worktree and prepare a draft
+    PR?"
+- **Branch worktree, no PR yet**
+  - "This branch worktree looks ready for PR closeout. Should I stage,
+    commit, push, and open a draft PR?"
+- **Branch worktree, existing draft PR, autonomous lane**
+  - "This draft PR looks ready for Octon's autonomous merge lane. Should I
+    mark it ready and request squash auto-merge?"
+- **Branch worktree, existing draft PR, manual lane**
+  - "This draft PR looks ready for the manual lane. Should I mark it ready for
+    human review and keep auto-merge off?"
+- **Blocked state**
+  - No closeout prompt. Report blockers instead.
 
 ---
 
@@ -151,15 +245,15 @@ land them through PRs without creating merge churn.
 Keep exactly one integration worktree on `main`, and treat every other
 worktree as branch-only.
 
-- Use the main worktree only for `git fetch`, `git pull --ff-only`, validation,
-  and conflict inspection.
+- Use the main worktree only for `git fetch`, `git pull --ff-only`,
+  validation, and conflict inspection.
 - Do not develop directly on `main`.
-- In every detached worktree, create a real branch immediately before doing
-  additional work.
+- In every new worktree, create or keep a real branch before doing additional
+  work.
 
 ### Recommended Sequence
 
-1. In each detached worktree, create a branch.
+1. In each worktree, create or confirm a branch.
 
 ```bash
 git checkout -b feat/<slug>
@@ -172,7 +266,7 @@ git status --short
 git diff --stat
 ```
 
-3. Commit and push each worktree branch.
+3. Commit and push each branch worktree.
 4. Open each PR as draft first.
 5. Mark only merge-ready, non-overlapping PRs as ready.
 6. Merge one overlapping PR at a time.
@@ -223,7 +317,7 @@ Serialize merges when worktrees touch any of these:
 
 - the same files
 - the same subsystem or domain boundary
-- generated/effective outputs
+- generated or effective outputs
 - shared control-plane files such as `instance/**`, `.github/**`, or
   governance surfaces
 
@@ -241,7 +335,7 @@ In those cases:
 - Do not leave several overlapping PRs in ready-to-merge state at once.
 - Do not merge `main` into feature branches; rebase them instead.
 - Do not delete a worktree by hand when it still has an open PR; use normal
-  branch closeout and cleanup flow.
+  closeout and cleanup flow first.
 
 ### Closeout Cadence
 
@@ -262,26 +356,40 @@ predictable.
 
 ## Lane Guidance
 
-### Low-risk autonomous lane
+### Autonomous lane
 
-1. Create worktree/branch with `git-wt-new.sh`.
-2. Implement change.
-3. Open draft PR with `git-pr-open.sh`.
-4. Mark ready + request merge with `git-pr-ship.sh`.
-5. Let required checks and branch rules enforce final merge safety.
-6. Let cleanup enforcement return local git state to `main` + aligned origin.
-7. Keep cleanup hooks installed to converge branch state after merges that
-   happen outside `.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`.
+1. Create a branch worktree with `git-wt-new.sh`.
+2. Implement the change and run the current validation slice.
+3. Open a draft PR with `git-pr-open.sh`.
+4. Address review with `fix + commit + push + reply`.
+5. Move to ready only when the work is complete, no unresolved author action
+   items remain, and the PR is eligible for autonomous handling.
+6. Use `git-pr-ship.sh` to request ready plus squash auto-merge.
+7. Let required checks and GitHub branch rules decide final merge safety.
+8. Let cleanup enforcement converge local branch state and prune safe linked
+   worktree directories, then handle any printed manual follow-up step.
 
-### High-impact guarded lane
+### Manual lane
 
-When touching high-impact paths (for example `.github/` or governance paths):
+Keep the PR in the manual lane when the branch or change requires human merge
+judgment, including:
 
-1. Leave the PR in the manual lane and complete ordinary human review.
-2. Keep PR focused and explicitly document risk/rollback.
-3. Use `git-pr-ship.sh --no-automerge` if you want the ready-state and cleanup
-   helper without enabling the auto-merge request.
-4. Cleanup watcher will run automatically once the PR is eventually closed.
+- `exp/*` branches
+- high-impact governance or control-plane changes
+- major or unknown Dependabot transitions
+- any other task with unresolved design or operational escalation
+
+Manual-lane flow:
+
+1. Keep the same branch worktree and same PR.
+2. Open the PR as draft first and keep scope tight.
+3. Use `git-pr-ship.sh --no-automerge` only if you want helper-assisted
+   ready-state transition and cleanup watching. It does not substitute for
+   human review or prove readiness.
+4. Address review with new commits and replies, leaving reviewer-owned threads
+   for reviewer or maintainer confirmation.
+5. After merge or closure, converge `main`, allow cleanup to prune safe linked
+   worktrees, and complete any printed manual follow-up step if needed.
 
 ---
 
@@ -289,10 +397,12 @@ When touching high-impact paths (for example `.github/` or governance paths):
 
 - Do not bypass required checks or branch rules via local scripts.
 - Keep `main` PR-first; direct push remains break-glass only.
+- If a PR has red required checks or unresolved author action items, keep
+  working instead of invoking closeout.
 - Cleanup hooks are non-blocking and must not interrupt local work.
 - Hooks intentionally skip execution when the working tree is dirty.
 - If autonomy behavior regresses:
   1. Set `AUTONOMY_AUTO_MERGE_ENABLED=false`
-  2. Keep triage/policy checks active
+  2. Keep triage and policy checks active
   3. Follow rollback guidance in
-     [GitHub Autonomy Runbook](./github-autonomy-runbook.md).
+     [GitHub Autonomy Runbook](./github-autonomy-runbook.md)

@@ -22,24 +22,34 @@ Use this progressive path to get only the depth you need:
 1. **One concern per PR.** A PR does one thing well. Feature + refactor + config change = three PRs. If the description needs multiple paragraphs covering unrelated topics, split it.
 2. **Small over large.** Aim for <400 lines of meaningful diff. Large PRs get rubber-stamped, not reviewed. If a feature is too big for one PR, decompose it into a stack of reviewable increments - each one shippable or safely behind a flag.
 3. **Self-review before requesting review.** Read your own diff as if you've never seen the code. Catch formatting drift, accidental inclusions, missing tests, TODO comments, and debug logging before anyone else has to.
-4. **The PR must pass CI.** Never request review on a red build. This includes lint, type checks, tests, and any other quality gates.
+4. **The PR must pass CI.** Never request review or merge on a red build. This includes lint, type checks, tests, and any other quality gates.
 
 ---
 
 ## Autonomy-First Flow
 
-Default PR execution in Octon is autonomy-first:
+Default PR execution in Octon is draft-first and autonomy-first:
 
-1. Open early as draft.
-2. Let triage apply `type:*`, `area:*`, and `risk:*`.
-3. Move to ready when policy and required checks are green.
-4. Use autonomous squash merge for eligible PRs.
+1. Open early as draft from a branch worktree.
+2. Keep one task or PR per branch worktree and iterate on the same branch and
+   same PR.
+3. Let triage apply `type:*`, `area:*`, and `risk:*`.
+4. Address review with `fix + commit + push + reply`.
+5. Move to ready only when the work is complete, no unresolved author action
+   items remain, and the lane is appropriate.
+6. Use autonomous squash merge only for eligible PRs.
+
+Ready-for-review is a state criterion, not a helper-script side effect or a
+synonym for "probably done." Helper scripts may request ready or auto-merge
+transitions, but canonical mergeability still comes from required checks,
+policy, and reviewer or maintainer confirmation.
 
 Human check-ins are exception-based and intentionally narrow:
 
+- PRs from `exp/*` branches stay in the manual lane.
 - High-impact path changes are triaged out of the autonomous merge lane and
   require ordinary human review and merge.
-- Dependabot major/unknown version jumps are triaged out of the autonomous
+- Dependabot major or unknown version jumps are triaged out of the autonomous
   merge lane and require ordinary human review and merge.
 - No label, comment, or check may act as repo-local approval authority.
 - AI-gate waivers are not supported in the autonomy lane; blocking findings
@@ -57,9 +67,11 @@ control provider and CI system.
 - Use PR templates (or equivalent automation) to prompt required structure.
 - Validate required PR sections and checklist items on every PR update.
 - Enforce branch naming and commit-message conventions with automated checks.
-- Protect trunk so required PR quality and commit/branch checks must pass before
-  merge.
+- Protect trunk so required PR quality and commit/branch checks must pass
+  before merge.
 - Unresolved review conversations block merge.
+- Authors address reviewer-owned threads by pushing fixes and replying; the
+  reviewer or a maintainer confirms and resolves those threads.
 - AI review gate (provider-agnostic required control):
   `.github/workflows/ai-review-gate.yml` (required status check:
   `AI Review Gate / decision`; shadow mode with `AI_GATE_ENFORCE=false`,
@@ -75,17 +87,17 @@ control provider and CI system.
 ## PR Description Template
 
 Use `.github/PULL_REQUEST_TEMPLATE.md` as the canonical PR template for all
-non-trivial PRs. For trivial changes (typo fixes, single-line config), a one-line
-summary is acceptable.
+non-trivial PRs. For trivial changes (typo fixes, single-line config), a
+one-line summary is acceptable.
 
 - This standards document defines policy and review expectations.
 - The template defines the PR body structure and prompts.
 - Scoped templates under `.github/PULL_REQUEST_TEMPLATE/` may add context
-  sections, but must preserve all canonical headings and checklist items through
-  `## Checklist`.
-- CI validation in `.github/workflows/pr-quality.yml` enforces canonical template
-  structure against PR bodies.
-- For governance/migration/refactor changes, PR bodies must include the
+  sections, but must preserve all canonical headings and checklist items
+  through `## Checklist`.
+- CI validation in `.github/workflows/pr-quality.yml` enforces canonical
+  template structure against PR bodies.
+- For governance, migration, or refactor changes, PR bodies must include the
   execution-profile governance receipt contract:
   - `## Profile Selection Receipt`
   - `## Implementation Plan`
@@ -103,45 +115,59 @@ summary is acceptable.
 
 ### Scope and Focus
 
-- Never mix refactoring with behavior changes. Refactor first in a separate PR, then build the feature on the clean foundation. Reviewers can't verify "no behavior change" and "correct new behavior" in the same diff.
-- Never mix dependency updates with code changes. Dep bumps are their own PR.
-- Never mix formatting/whitespace changes with logic changes.
+- Never mix refactoring with behavior changes. Refactor first in a separate
+  PR, then build the feature on the clean foundation. Reviewers can't verify
+  "no behavior change" and "correct new behavior" in the same diff.
+- Never mix dependency updates with code changes. Dependency bumps are their
+  own PR.
+- Never mix formatting or whitespace changes with logic changes.
 - If a PR touches more than 3 modules, question whether it should be split.
 
 ### Commit Hygiene
 
-- Clean up commit history before review. Squash WIP commits, fixups, and false starts. The commit log should read as a clean narrative (see commits.md).
+- Clean up commit history before review. Squash WIP commits, fixups, and false
+  starts. The commit log should read as a clean narrative (see `commits.md`).
 - Each commit in the PR should pass CI independently.
-- Commit messages should make sense when read in sequence - a reviewer should be able to understand the PR by reading the commit log alone.
+- Commit messages should make sense when read in sequence. A reviewer should
+  be able to understand the PR by reading the commit log alone.
 
 ### Context for Reviewers
 
-- Link the ticket/issue. Don't make the reviewer search for context.
+- Link the ticket or issue. Don't make the reviewer search for context.
 - Every PR description must include either:
   - `Closes/Fixes/Resolves #<issue>` or
   - `No-Issue: <reason>`
-- If the PR introduces a pattern the team hasn't used before, call it out explicitly and explain the reasoning.
+- If the PR introduces a pattern the team hasn't used before, call it out
+  explicitly and explain the reasoning.
 - If there's a visual change, include a screenshot or recording.
-- If there's a performance impact, include before/after measurements.
+- If there's a performance impact, include before and after measurements.
 - If there's a migration, describe the rollback procedure.
 
 ### Review Responsiveness
 
-- Respond to all review comments, even if the response is "done" or "acknowledged."
-- When you disagree with feedback, explain your reasoning - don't just re-request review without addressing the comment.
-- Don't resolve other people's comments. Let the commenter resolve when they're satisfied.
-- Rebase and force-push cleanup, don't merge main into the branch (keeps history clean).
+- Respond to all review comments, even if the response is "done" or
+  "acknowledged."
+- When code or documentation changes are required, the default author sequence
+  is: fix, commit, push, reply.
+- When you disagree with feedback, explain your reasoning. Don't just
+  re-request review without addressing the comment.
+- Review work is complete only when no unresolved author action items remain.
+- Do not resolve other people's comments. Let the reviewer or a maintainer
+  confirm and resolve reviewer-owned threads when they are satisfied.
+- Re-request review once author-side action items are closed and another pass
+  is needed.
+- Rebase and force-push cleanup. Don't merge `main` into the branch.
 
 ### What Disqualifies a PR
 
 These should be caught in self-review and never reach a reviewer:
 
-- Failing CI
-- Committed secrets, credentials, or `.env` files
-- `console.log` / `print` debugging statements left in
-- Commented-out code without an explanation and a ticket to remove it
-- TODO/FIXME/HACK comments without a linked ticket
-- Unrelated changes mixed in
+- failing CI
+- committed secrets, credentials, or `.env` files
+- `console.log` or `print` debugging statements left in
+- commented-out code without an explanation and a ticket to remove it
+- TODO, FIXME, or HACK comments without a linked ticket
+- unrelated changes mixed in
 
 ---
 

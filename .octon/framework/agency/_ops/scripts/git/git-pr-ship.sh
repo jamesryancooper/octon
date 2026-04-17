@@ -17,17 +17,18 @@ Usage:
   git-pr-ship.sh [--pr <number>] [options]
 
 Options:
-  --label <name>         Add additional label(s) before shipping (repeatable).
-  --no-ready             Do not convert draft PR to ready state.
-  --no-automerge         Skip auto-merge request call.
+  --label <name>         Add additional label(s) before requesting ship actions (repeatable).
+  --no-ready             Do not request the ready-for-review transition.
+  --no-automerge         Skip the GitHub squash auto-merge request.
   --no-wait              Do not block waiting for PR closure.
   --wait-timeout-seconds Seconds to wait for closure before background watcher (default: 1800).
   --no-cleanup           Do not run local cleanup after PR closure.
   --dry-run              Print actions without mutating PR state.
 
 Default behavior:
-  1) mark draft PR as ready,
-  2) request squash auto-merge.
+  1) request ready-for-review if the PR is still draft,
+  2) request squash auto-merge on GitHub.
+  GitHub required checks and review rules remain the final merge gate.
 USAGE
 }
 
@@ -141,6 +142,8 @@ if [[ "$PR_STATE" != "OPEN" ]]; then
   error "PR #${PR_NUMBER} is not open (state=$PR_STATE)."
 fi
 
+info "Preparing helper requests for PR #${PR_NUMBER}. GitHub remains the final merge gate."
+
 LABELS_TO_ADD="$LABELS_CSV"
 
 if [[ -n "$LABELS_TO_ADD" ]]; then
@@ -203,4 +206,22 @@ if [[ "$RUN_CLEANUP" -eq 1 ]]; then
   fi
 fi
 
-echo "[OK] PR ready for canonical auto-merge checks: $PR_URL"
+READY_SUMMARY="did not request ready-for-review"
+if [[ "$MARK_READY" -eq 1 ]]; then
+  if [[ "$PR_IS_DRAFT" == "true" ]]; then
+    READY_SUMMARY="requested ready-for-review"
+  else
+    READY_SUMMARY="left PR in its existing non-draft state"
+  fi
+fi
+
+MERGE_SUMMARY="did not request auto-merge"
+if [[ "$REQUEST_AUTOMERGE" -eq 1 ]]; then
+  MERGE_SUMMARY="requested squash auto-merge"
+fi
+
+if [[ "$DRY_RUN" -eq 1 ]]; then
+  echo "[OK] Helper plan: ${READY_SUMMARY}; ${MERGE_SUMMARY}. GitHub still decides mergeability: $PR_URL"
+else
+  echo "[OK] Helper completed: ${READY_SUMMARY}; ${MERGE_SUMMARY}. GitHub remains the final merge gate: $PR_URL"
+fi

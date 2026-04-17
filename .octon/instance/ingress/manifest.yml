@@ -30,6 +30,58 @@ adapter_parity_targets:
   - .octon/AGENTS.md
   - AGENTS.md
   - CLAUDE.md
+branch_closeout_gate:
+  mode: contextual
+  deprecated_fallback_prompt: Are you ready to closeout this branch?
+  trigger:
+    implicit:
+      requires_file_changes: true
+      requires_completion_point: true
+    explicit:
+      - finish
+      - ship
+      - closeout
+  detect:
+    worktree_context:
+      primary_main_worktree:
+        branch: main
+        probes:
+          current_worktree: git rev-parse --show-toplevel
+          worktree_inventory: git worktree list --porcelain
+      branch_worktree:
+        excludes_branch: main
+        probes:
+          current_branch: git rev-parse --abbrev-ref HEAD
+    pr_state:
+      probes:
+        preferred: gh pr view --json state,isDraft,reviewDecision,statusCheckRollup
+        fallback: gh pr list --head <current-branch> --json state,isDraft,reviewDecision,statusCheckRollup
+      contexts:
+        - no_pr
+        - draft_pr
+        - ready_pr
+    merge_lane:
+      autonomous_when:
+        - current_branch_not_exp_prefix
+        - change_not_high_impact_governance_or_control_plane
+        - change_not_major_or_unknown_dependabot_transition
+      manual_when:
+        - current_branch_exp_prefix
+        - change_is_high_impact_governance_or_control_plane
+        - change_is_major_or_unknown_dependabot_transition
+  suppress_when:
+    - active_implementation_continues
+    - user_reports_work_in_progress
+    - blocked_by_red_required_checks
+    - blocked_by_unaddressed_author_action_items
+    - blocked_waiting_on_reviewer_confirmation
+  prompt_by_context:
+    primary_main_worktree: "This work is on the main worktree, and Octon does not open PRs from `main`. Should I branch it into a feature worktree and prepare a draft PR?"
+    branch_worktree_no_pr: "This branch worktree looks ready for PR closeout. Should I stage, commit, push, and open a draft PR?"
+    branch_worktree_draft_pr_autonomous_lane: "This draft PR looks ready for Octon's autonomous merge lane. Should I mark it ready and request squash auto-merge?"
+    branch_worktree_draft_pr_manual_lane: "This draft PR looks ready for the manual lane. Should I mark it ready for human review and keep auto-merge off?"
+  blocked_response: Report blockers or remaining work instead of asking a closeout question.
+# Deprecated compatibility fallback for adapters that still read the scalar prompt.
 branch_closeout_prompt: Are you ready to closeout this branch?
 change_profile_rule: pre-1.0 defaults to atomic unless a hard gate requires transitional
 human_led_blocked_roots:

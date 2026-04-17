@@ -112,7 +112,7 @@ Reminder: Run `@codex review`.
 - [ ] Observability updated (logs, metrics, traces) if needed
 - [ ] Conventions followed; no drift introduced
 - [ ] Non-obvious decisions documented (comments, ADR)
-- [ ] All review conversations resolved
+- [ ] Reviewer feedback addressed; reviewer-owned threads left for reviewer or maintainer confirmation
 - [ ] No new warnings from `swift build`
 - [ ] `CLAUDE.md` updated (if architecture changed)
 ```

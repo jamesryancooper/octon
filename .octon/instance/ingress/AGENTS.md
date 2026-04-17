@@ -9,7 +9,8 @@ observable enough to debug, and flexible enough to evolve.
 The machine-readable ingress declaration lives at
 `/.octon/instance/ingress/manifest.yml`. Treat the manifest as the source of
 truth for mandatory reads, optional overlays, conditional overlays, adapter
-parity targets, and the branch closeout prompt.
+parity targets, and the branch closeout gate, including any deprecated
+compatibility fallback prompt.
 
 ## Behavioral Contract
 
@@ -94,6 +95,42 @@ For this repository, `pre-1.0` defaults to `atomic` unless a hard gate requires
 
 ## Branch Closeout Gate
 
-After any turn that changes files, ask exactly:
+Use `branch_closeout_gate` from `/.octon/instance/ingress/manifest.yml` as the
+canonical closeout contract. Do not ask one fixed closeout question after
+every file-changing turn.
 
-`Are you ready to closeout this branch?`
+- trigger the gate only when:
+  - a turn changed files and reached a credible completion point
+  - the user explicitly asks to finish, ship, or closeout
+- detect context from:
+  - whether the work is on the primary `main` worktree or clone, versus a
+    branch worktree
+  - whether a PR exists for the current branch, and whether it is draft or
+    ready
+  - whether the branch belongs in Octon's autonomous lane or manual lane
+- lane selection:
+  - autonomous lane when the draft PR is completion-ready and the work is not
+    `exp/*`, not a high-impact governance or control-plane change, and not a
+    major or unknown Dependabot transition
+  - manual lane for `exp/*`, high-impact governance or control-plane changes,
+    and major or unknown Dependabot transitions
+- suppress closeout prompting when:
+  - implementation is still underway
+  - required checks are red
+  - author action items remain
+  - a ready PR is waiting on reviewer or maintainer confirmation
+  - another blocker makes closeout misleading
+- use the contextual prompt that matches the current state:
+  - primary `main` worktree:
+    - "This work is on the main worktree, and Octon does not open PRs from `main`. Should I branch it into a feature worktree and prepare a draft PR?"
+  - branch worktree with no PR:
+    - "This branch worktree looks ready for PR closeout. Should I stage, commit, push, and open a draft PR?"
+  - branch worktree with a draft PR in the autonomous lane:
+    - "This draft PR looks ready for Octon's autonomous merge lane. Should I mark it ready and request squash auto-merge?"
+  - branch worktree with a draft PR in the manual lane:
+    - "This draft PR looks ready for the manual lane. Should I mark it ready for human review and keep auto-merge off?"
+- blocked or not-ready states:
+  - do not ask a closeout question; report blockers or remaining work instead
+- deprecated compatibility fallback:
+  - `Are you ready to closeout this branch?`
+  - use only for adapters that have not yet bound the structured gate

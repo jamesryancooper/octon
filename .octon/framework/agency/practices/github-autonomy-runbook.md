@@ -196,9 +196,13 @@ Remote cleanup behavior:
 
 Local cleanup expectation:
 
-- Use `.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh` for shipping; it triggers
-  local cleanup after closure (or starts a watcher for manual lanes).
-- On demand, run `.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh`.
+- Use `.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh` to request
+  ready-state or merge-intent transitions. It can wait for PR closure and
+  trigger local cleanup handling, but GitHub required checks and review policy
+  remain the final merge gate.
+- On demand, run `.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh`
+  to converge refs and `main`, prune safe linked worktrees, and surface any
+  manual `git worktree remove ...` follow-up still required.
 
 ---
 
