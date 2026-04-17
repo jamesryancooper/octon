@@ -104,7 +104,7 @@ Release strategy (flags, migration sequencing, canary/gradual rollout) or `n/a`.
 - [ ] No speculative abstractions or unnecessary complexity
 - [ ] Conventions followed; no drift introduced
 - [ ] Non-obvious decisions documented (comments, ADR)
-- [ ] Reviewer feedback addressed; reviewer-owned threads left for reviewer or maintainer confirmation
+- [ ] Reviewer feedback addressed with fix, commit, push, reply; reviewer-owned threads left for reviewer or maintainer confirmation
 
 ## Screenshots / Notes
 

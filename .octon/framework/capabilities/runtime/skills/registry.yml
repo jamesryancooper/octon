@@ -3220,7 +3220,7 @@ skills:
         tech_tags: []
         language_tags: []
   resolve-pr-comments:
-    version: 1.0.1
+    version: 1.1.0
     commands:
     - /resolve-pr-comments
     parameters:

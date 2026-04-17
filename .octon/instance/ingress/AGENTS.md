@@ -99,6 +99,11 @@ Use `branch_closeout_gate` from `/.octon/instance/ingress/manifest.yml` as the
 canonical closeout contract. Do not ask one fixed closeout question after
 every file-changing turn.
 
+The broader Git/worktree/PR/remediation workflow contract lives at
+`/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`.
+Use that contract together with the ingress manifest when closeout, review
+remediation, or helper semantics need interpretation.
+
 - trigger the gate only when:
   - a turn changed files and reached a credible completion point
   - the user explicitly asks to finish, ship, or closeout
@@ -129,6 +134,10 @@ every file-changing turn.
     - "This draft PR looks ready for Octon's autonomous merge lane. Should I mark it ready and request squash auto-merge?"
   - branch worktree with a draft PR in the manual lane:
     - "This draft PR looks ready for the manual lane. Should I mark it ready for human review and keep auto-merge off?"
+- Ready PR states report status instead of asking another closeout question:
+  - waiting on required checks or auto-merge
+  - waiting on reviewer or maintainer confirmation
+  - ready in the manual lane and waiting on human review or merge
 - blocked or not-ready states:
   - do not ask a closeout question; report blockers or remaining work instead
 - deprecated compatibility fallback:

@@ -172,6 +172,10 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-state-surface-alignment.sh"
 
   run_step \
+    "Validate Git and GitHub workflow hardening alignment" \
+    bash "$SCRIPT_DIR/validate-git-github-workflow-alignment.sh"
+
+  run_step \
     "Validate audit-subsystem-health drift alignment" \
     bash "$SCRIPT_DIR/validate-audit-subsystem-health-alignment.sh"
 

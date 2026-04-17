@@ -179,6 +179,201 @@ For Phase C release acceleration:
 
 ---
 
+## GitHub CLI Auth Troubleshooting
+
+Use this section when `gh` works in a normal terminal but fails in the
+Codex-run shell or another host-managed shell with symptoms such as:
+
+- `gh auth status --hostname github.com` says the token is invalid
+- `gh auth login` completes successfully but `gh auth status` still fails
+- `gh auth token --hostname github.com` says no OAuth token was found
+- `gh auth status` fails even though direct `gh` API or PR commands work
+- `~/.config/gh/hosts.yml` exists but the stored shape looks incomplete or odd
+
+### Most Common Failure Modes
+
+1. The failing shell is reading different auth state than the working shell.
+2. `gh auth login` completed, but the token was not persisted in a way the
+   failing shell can read.
+3. `~/.config/gh/hosts.yml` drifted into a malformed `github.com` record, most
+   notably a nested `users:` map without a usable top-level `oauth_token`.
+4. `gh auth status` is returning a false negative for this shell even though
+   real GitHub operations using the same token still work.
+
+### Same-Shell Diagnostics
+
+Run these in the shell where `gh` is failing:
+
+```bash
+printenv | egrep '^(GH_TOKEN|GITHUB_TOKEN|GH_HOST|GH_CONFIG_DIR|XDG_CONFIG_HOME|HOME)='
+
+GH_DIR="${GH_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/gh}"
+echo "$GH_DIR"
+[ -f "$GH_DIR/hosts.yml" ] && sed -n '1,80p' "$GH_DIR/hosts.yml" | sed -E 's/(oauth_token:).*/\1 [redacted]/'
+
+gh auth status --hostname github.com
+gh auth token --hostname github.com >/dev/null && echo token-readable || echo token-unreadable
+```
+
+Interpretation:
+
+- If `gh auth status` says the token is invalid and `gh auth token` says
+  `no oauth token found`, the shell cannot read a usable persisted credential.
+- If `gh auth token` succeeds but `gh auth status` still says the token is
+  invalid, do not assume the token is bad yet. Run operation probes first.
+
+### Operation Probes
+
+Use real `gh` operations before deciding that auth is broken:
+
+```bash
+gh api user
+gh pr view <number> --json number,state,isDraft,url
+gh pr checks <number>
+```
+
+Interpretation:
+
+- If `gh auth status` fails but `gh api user` succeeds, the shell has a usable
+  token even if the auth-status/introspection path is reporting a failure.
+- If `gh pr view <number>` or the exact command you need also succeeds, treat
+  the shell as operational and stop looping on auth repair.
+- Prefer the exact `gh` operation you actually need over generic status
+  introspection, because some introspection paths may fail while ordinary API
+  calls still work.
+- If both `gh auth status` and real operation probes fail, continue with auth
+  recovery below.
+
+### Clean Reset Path
+
+Use this first when you want to give the failing shell a chance to rebuild its
+own auth state cleanly:
+
+```bash
+unset GH_TOKEN GITHUB_TOKEN GH_HOST
+
+GH_DIR="${GH_CONFIG_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}/gh}"
+
+gh auth logout --hostname github.com --user jamesryancooper
+rm -f "$GH_DIR/hosts.yml"
+```
+
+Then delete the `gh: github.com` item in macOS Keychain Access and re-run from
+the same failing shell:
+
+```bash
+gh auth login --hostname github.com --git-protocol ssh --skip-ssh-key --web
+gh auth status --hostname github.com
+```
+
+If login reports success but `gh auth status` still fails, do not keep looping
+on `gh auth login`. Move to the file-backed fallback below.
+
+### File-Backed Fallback
+
+From a terminal where `gh` already works:
+
+```bash
+gh auth token | gh auth login -h github.com -p ssh --with-token --insecure-storage
+```
+
+This writes a plaintext token into `~/.config/gh/hosts.yml`, which a
+host-managed shell can usually read even when keychain-backed auth is failing.
+
+Tradeoff:
+
+- This is plaintext token storage.
+- Use it to restore operability quickly, not as the preferred long-term mode.
+
+### `hosts.yml` Normalization
+
+If the fallback writes a token but `gh auth status` still says the token is
+invalid, inspect `~/.config/gh/hosts.yml`.
+
+The failure case previously observed in this repo looked like:
+
+```yaml
+github.com:
+    git_protocol: ssh
+    users:
+        jamesryancooper:
+    user: jamesryancooper
+```
+
+That shape is suspect. Back up the file first, then normalize it to one clean
+`github.com` record only.
+
+Expected file-backed shape:
+
+```yaml
+github.com:
+    user: jamesryancooper
+    git_protocol: ssh
+    oauth_token: <valid token>
+```
+
+Rules:
+
+- Keep exactly one `github.com` entry.
+- Keep one top-level `user`.
+- Keep one top-level `git_protocol`.
+- Keep one top-level `oauth_token` when using insecure storage.
+- Remove the nested `users:` map if it exists.
+
+After normalization:
+
+```bash
+gh auth status --hostname github.com
+gh auth token --hostname github.com >/dev/null && echo token-readable
+gh api user
+```
+
+If `gh auth status` still fails after normalization but `gh api user` and the
+target PR/repo commands succeed, treat that as the false-negative case and
+proceed with real work. At that point the remaining issue is auth-status
+reporting, not GitHub operability.
+
+### Migrating Back Off Insecure Storage
+
+Once `gh` works in the failing shell again, you can migrate back to keychain:
+
+1. `gh auth logout --hostname github.com --user jamesryancooper`
+2. Remove the file-backed `oauth_token` from `~/.config/gh/hosts.yml`
+3. Re-run normal login:
+
+```bash
+gh auth login --hostname github.com --git-protocol ssh --skip-ssh-key --web
+gh auth status --hostname github.com
+```
+
+Target end state:
+
+- `gh auth status` shows `(keyring)` as the auth source
+- `~/.config/gh/hosts.yml` contains host metadata only and no plaintext token
+
+If `gh auth status` continues to fail but operation probes succeed, you can
+still proceed with work. Keyring migration is then a hygiene step, not an
+operability blocker.
+
+### Practical Rule
+
+If a future shell reports:
+
+- working terminal: `Logged in ... (keyring)`
+- failing shell: `token in default is invalid`
+
+then the fastest route is:
+
+1. file-backed fallback from the working terminal
+2. normalize `~/.config/gh/hosts.yml`
+3. verify in the failing shell with real `gh` operations, not `gh auth status`
+   alone
+
+Treat host projection refreshes as unrelated unless the failure explicitly
+mentions `.codex/**` projection state rather than GitHub CLI auth.
+
+---
+
 ## Clean-State Enforcement
 
 `PR Clean State Enforcer` keeps PR/branch state converging to clean:

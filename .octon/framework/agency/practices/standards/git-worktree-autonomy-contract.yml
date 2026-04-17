@@ -1,0 +1,106 @@
+schema_version: "git-worktree-autonomy-contract-v1"
+workflow_id: "octon-git-github-autonomy"
+status: "active"
+owner: "Octon governance"
+purpose: >-
+  Define Octon's environment-neutral, worktree-native Git and GitHub workflow
+  so ingress, practice docs, helper scripts, remediation skills, and
+  validators share one durable contract.
+environment:
+  supported_operator_lanes:
+    - "plain-git-gh"
+    - "helper-lane"
+  host_apps_non_authoritative: true
+  canonical_operator_terms:
+    - "closeout"
+    - "ready"
+    - "request auto-merge"
+  compatibility_aliases:
+    - "ship"
+operating_model:
+  primary_integration_anchor: "one clean primary main worktree or clone"
+  branch_worktree_unit: "one branch worktree per task or PR"
+  branch_pr_lifetime: "same branch and same PR for the life of the task"
+  draft_first: true
+  final_merge_authority:
+    system: "GitHub"
+    requirements:
+      - "rulesets"
+      - "required_checks"
+      - "reviewer_or_maintainer_confirmation"
+  reviewer_owned_thread_resolution: "reviewer-or-maintainer"
+closeout:
+  trigger_terms:
+    - "finish"
+    - "ship"
+    - "closeout"
+  prompt_contexts:
+    primary_main_worktree: "Branch into a feature worktree and prepare a draft PR."
+    branch_worktree_no_pr: "Stage, commit, push, and open a draft PR."
+    branch_worktree_draft_pr_autonomous_lane: "Mark ready and request squash auto-merge."
+    branch_worktree_draft_pr_manual_lane: "Mark ready for human review with auto-merge off."
+  ready_pr_status_contexts:
+    branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge:
+      message: >-
+        This PR is already ready and is waiting on required checks or GitHub
+        auto-merge. No new closeout action is needed.
+    branch_worktree_ready_pr_waiting_on_reviewer_or_maintainer_confirmation:
+      message: >-
+        This PR is already ready and is waiting on reviewer or maintainer
+        confirmation. No new closeout action is needed.
+    branch_worktree_ready_pr_manual_lane_waiting_on_human_review_or_merge:
+      message: >-
+        This PR is already ready in the manual lane and is waiting on human
+        review or merge. No new closeout action is needed.
+  suppressions:
+    - "active_implementation_continues"
+    - "user_reports_work_in_progress"
+    - "blocked_by_red_required_checks"
+    - "blocked_by_unaddressed_author_action_items"
+    - "blocked_waiting_on_reviewer_confirmation"
+remediation:
+  author_sequence:
+    - "fix"
+    - "commit"
+    - "push"
+    - "reply"
+  allowed_git_subset:
+    - "git status"
+    - "git diff"
+    - "git add"
+    - "git commit"
+    - "git push"
+  forbidden_operations:
+    - "git commit --amend"
+    - "git rebase"
+    - "git push --force"
+    - "git push --force-with-lease"
+    - "programmatic review-thread resolution"
+    - "merge main into branch as remediation shortcut"
+helpers:
+  git_pr_open:
+    posture: "create-oriented"
+    later_updates: "push follow-up commits to the same branch"
+  git_pr_ship:
+    default_mode: "status"
+    explicit_request_flags:
+      - "--request-ready"
+      - "--request-automerge"
+    request_only: true
+    final_merge_gate: >-
+      GitHub required checks, review policy, and reviewer or maintainer
+      confirmation remain the final merge gate.
+validation:
+  drift_classes:
+    - "ready_pr declared without explicit handling"
+    - "stale rebase or force-push remediation guidance"
+    - "helper docs overstating behavior"
+    - "remediation skill promise exceeding its allowed-tools boundary"
+    - "helper messaging implying readiness proof rather than request semantics"
+  scenario_lanes:
+    - "plain-git-gh"
+    - "helper-lane"
+  scenario_focus:
+    - "ready_pr status handling"
+    - "review remediation with new commits"
+    - "safe linked-worktree cleanup"

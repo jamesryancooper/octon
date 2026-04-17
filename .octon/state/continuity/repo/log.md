@@ -218,6 +218,137 @@ target-state-closure packet
   that treats the packet as implementation input and centers provable closure
   on generated release bundles, validator enforcement, and dual-pass
   certification
+
+## 2026-04-17
+
+**Session focus:** Create a full-implementation execution prompt for the
+Git + GitHub autonomous workflow hardening packet
+
+**Completed:**
+
+- Read the canonical ingress, constitutional kernel, workspace charter pair,
+  repo constraints, definition-of-done checklist, and the
+  `git-github-autonomous-workflow-hardening` packet's target architecture,
+  file-change map, validation plan, acceptance criteria, cutover, and closure
+  artifacts
+- Created
+  `/.octon/framework/scaffolding/practices/prompts/2026-04-17-git-github-autonomous-workflow-hardening-full-implementation.prompt.md`
+  as an execution-grade prompt for implementing the packet as one coordinated
+  hardening, alignment, validation, and evidence program
+- Created the matching refine-prompt run log at
+  `/.octon/state/evidence/runs/skills/refine-prompt/2026-04-17-git-github-autonomous-workflow-hardening-full-implementation.md`
+- Anchored the prompt to the packet's non-authoritative status, the repo's
+  `pre-1.0` + `atomic` profile, explicit `ready_pr` hardening, remediation
+  policy normalization, helper request/status semantics, validator coverage,
+  and dual-lane scenario proof requirements
+
+**Next:**
+
+- Execute the new prompt if implementation of the packet should proceed
+
+**Blockers:**
+
+- None
+
+## 2026-04-17
+
+**Session focus:** Implement the Git + GitHub autonomous workflow hardening
+packet on a dedicated branch
+
+**Completed:**
+
+- Created and switched to branch
+  `chore/git-github-autonomous-workflow-hardening-2026-04-17`
+- Added the canonical machine-readable workflow contract at
+  `/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`
+- Hardened ingress closeout semantics in
+  `/.octon/instance/ingress/manifest.yml` and
+  `/.octon/instance/ingress/AGENTS.md` so `ready_pr` now has explicit
+  status-only handling rather than remaining an implied state
+- Updated the Git/GitHub practice surfaces in
+  `git-autonomy-playbook.md`,
+  `git-github-autonomy-workflow-v1.md`, and
+  `pull-request-standards.md` to align on:
+  environment-neutral worktree flow, explicit ready-state status responses,
+  `fix + commit + push + reply` remediation, and no ordinary
+  rebase/amend/force-push remediation guidance
+- Reworked
+  `/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`
+  to a status-first, explicit-action helper contract with
+  `--request-ready` and `--request-automerge`
+- Aligned the remediation skill and safety reference in
+  `resolve-pr-comments/**` to authorize the minimal safe Git subset and to
+  require push-before-reply without author-side history rewrite or thread
+  resolution
+- Added the dedicated workflow drift validator at
+  `/.octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh`
+  plus the failing-path fixture test at
+  `/.octon/framework/assurance/runtime/_ops/tests/test-git-github-workflow-alignment.sh`
+- Integrated the new validator into the harness alignment profile and fixed
+  root-path resolution in the existing commit/PR alignment validator so
+  `.github/**` surfaces validate against the real repo root
+- Updated `.github/PULL_REQUEST_TEMPLATE.md` so the reviewer-feedback checklist
+  matches the hardened remediation wording
+- Ran and confirmed green:
+  `validate-git-github-workflow-alignment.sh`,
+  `test-git-github-workflow-alignment.sh`,
+  `validate-commit-pr-alignment.sh`,
+  `validate-harness-structure.sh`,
+  `validate-contract-governance.sh`, and
+  `alignment-check.sh --profile commit-pr`
+- Started `alignment-check.sh --profile harness`; the run advanced through the
+  new workflow validator and multiple later guardrails, but was still in a
+  long-running later stage when this log entry was written
+- Confirmed the live GitHub proof path is currently blocked by local auth:
+  `gh auth status` reports the default `github.com` token for
+  `jamesryancooper` is invalid
+
+**Next:**
+
+- Re-run or finish observing the full `alignment-check.sh --profile harness`
+  sweep if a complete harness receipt is required for branch closeout
+- Re-authenticate `gh` and execute the live plain-Git and helper-lane GitHub
+  scenarios if full packet closure evidence is required on this branch
+
+**Blockers:**
+
+- Live GitHub scenario proof is blocked by invalid local `gh` authentication
+- The long-running `alignment-check.sh --profile harness` sweep had not yet
+  completed at the time of this log entry
+
+## 2026-04-17
+
+**Session focus:** Document the recurring `gh` auth mismatch fix path for
+future Codex-shell recovery
+
+**Completed:**
+
+- Reviewed the retained conversation history and local `gh` state to separate
+  the earlier successful fix from unrelated host-projection publication work
+- Confirmed the historically effective remediation was:
+  file-backed fallback auth plus `~/.config/gh/hosts.yml` normalization, not a
+  `.codex/**` host-projection refresh
+- Added a durable troubleshooting section to
+  `/.octon/framework/agency/practices/github-autonomy-runbook.md` covering:
+  same-shell diagnostics, clean reset path, insecure-storage fallback,
+  `hosts.yml` normalization, and migration back to keychain-backed auth
+- Recorded the concrete malformed `hosts.yml` shape that had previously
+  confused `gh` and the normalized single-entry shape that restored
+  shell-local `gh` usability
+- Updated the same runbook section after observing a new false-negative mode:
+  `gh auth status` can still report an invalid token even when
+  `gh api user` and real PR commands succeed from the same shell
+- Documented operation-probe checks as the decisive gate for future recovery,
+  so status introspection does not trigger unnecessary re-auth loops
+
+**Next:**
+
+- If `gh` auth breaks again in a host-managed shell, follow the new runbook
+  troubleshooting section before retrying unrelated host-projection steps
+
+**Blockers:**
+
+- None
 - Wrote the matching `refine-prompt` run log under
   `/.octon/state/evidence/runs/skills/refine-prompt/2026-04-06-target-state-closure-provable-closure.md`
 

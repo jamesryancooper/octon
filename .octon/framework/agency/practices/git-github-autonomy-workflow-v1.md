@@ -13,6 +13,11 @@ worktrees. Octon's local helper scripts are recommended accelerators, not the
 durable definition of readiness or mergeability. GitHub remains the final host
 merge gate.
 
+The machine-readable workflow contract lives at
+`.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`.
+Use that contract as the durable source of truth for worktree, closeout,
+remediation, helper, and scenario semantics.
+
 Detailed rules stay in the linked canonical docs. If anything conflicts,
 follow the repository contract precedence in `AGENTS.md`.
 
@@ -45,7 +50,9 @@ This workflow covers:
    - the current slice is complete
    - no unresolved author action items remain
    - the lane is appropriate
-6. GitHub rulesets, required checks, and reviewer-owned thread resolution
+6. Ready PRs that are already in the correct state report status instead of
+   triggering another closeout question.
+7. GitHub rulesets, required checks, and reviewer-owned thread resolution
    remain the final merge gate.
 
 Shared invariants:
@@ -138,13 +145,21 @@ Suppress closeout prompting when:
 - a ready PR is waiting on reviewer or maintainer confirmation of
   reviewer-owned threads
 
+Ready PR status responses:
+
+- already ready and waiting on required checks or GitHub auto-merge
+- already ready and waiting on reviewer or maintainer confirmation
+- already ready in the manual lane and waiting on human review or merge
+
 ### Helper semantics
 
 - `git-wt-new.sh` creates the branch worktree from the clean integration
   anchor.
 - `git-pr-open.sh` is the helper for commit, push, and draft-PR creation.
-- `git-pr-ship.sh` requests ready-state and merge-lane transitions plus
-  cleanup handling. It does not prove the PR is ready.
+  Later PR updates happen by pushing follow-up commits to the same branch.
+- `git-pr-ship.sh` reports status by default and uses explicit flags to
+  request ready-state and merge-lane transitions plus optional cleanup
+  handling. It does not prove the PR is ready.
 - `git-pr-cleanup.sh` converges refs and `main` after closure, prunes safe
   linked worktrees when possible, and prints manual follow-up steps when the
   current or another in-use worktree cannot be removed automatically.
@@ -157,6 +172,7 @@ Use this table to find canonical detail by concern.
 
 | Concern | Canonical source |
 |---|---|
+| Machine-readable Git/worktree/PR contract | `.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml` |
 | Commit contract and branch naming | `.octon/framework/agency/practices/commits.md` |
 | PR quality policy and autonomy flow | `.octon/framework/agency/practices/pull-request-standards.md` |
 | Machine-enforced commit/PR contract | `.octon/framework/agency/practices/standards/commit-pr-standards.json` |

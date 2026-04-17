@@ -15,7 +15,7 @@ metadata:
   updated: "2026-04-17"
 skill_sets: [executor, guardian]
 capabilities: [external-dependent]
-allowed-tools: Read Glob Grep Edit Bash(gh) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Edit Bash(gh) Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Resolve PR Comments
@@ -100,7 +100,7 @@ Outputs are written to:
 
 ## Boundaries
 
-- Never force-push or amend commits without explicit user approval
+- Never force-push, amend, or rebase during ordinary remediation
 - Never dismiss or resolve PR comments programmatically — let the reviewer or
   a maintainer confirm
 - Apply fixes via new commits, then push before replying so reviewer comments

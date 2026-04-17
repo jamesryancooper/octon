@@ -10,6 +10,12 @@ worktree-capable Git environment. The local helper scripts below are
 recommended projections of that workflow, not prerequisites and not the sole
 definition of readiness or mergeability.
 
+The machine-readable workflow contract lives at
+`.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`.
+Treat that contract as the durable source of truth for operating model,
+closeout contexts, remediation policy, helper semantics, and validation
+scenarios.
+
 This playbook covers the helper lane:
 
 - `.octon/framework/agency/_ops/scripts/git/git-wt-new.sh`
@@ -76,8 +82,10 @@ state to the correct next Git/PR action. Depending on state, closeout may mean:
 - report blockers and continue implementation with no closeout mutation
 
 `git-pr-ship.sh` is a helper for requesting the ready or merge-lane
-transition. It does not prove readiness. GitHub required checks, review
-policy, and reviewer or maintainer confirmation remain the final merge gate.
+transition. It reports status by default and uses explicit request flags for
+ready or auto-merge transitions. It does not prove readiness. GitHub required
+checks, review policy, and reviewer or maintainer confirmation remain the
+final merge gate.
 
 ---
 
@@ -116,29 +124,39 @@ Behavior:
 - Pushes the current branch to `origin`.
 - Builds the PR body from `.github/PULL_REQUEST_TEMPLATE.md`.
 - Ensures issue-link policy with either `Closes #...` or `No-Issue: ...`.
-- Opens or updates the PR in draft-first posture.
+- Opens a draft PR from the current branch. Later PR updates happen by pushing
+  more commits to the same branch.
 
-### 3. Request ready-state or merge-lane transition
+### 3. Report status or request a transition
 
-Autonomous-lane helper:
+Status-only helper:
 
 ```bash
 .octon/framework/agency/_ops/scripts/git/git-pr-ship.sh
 ```
 
+Autonomous-lane helper:
+
+```bash
+.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh \
+  --request-ready \
+  --request-automerge
+```
+
 Manual-lane helper:
 
 ```bash
-.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh --no-automerge
+.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh --request-ready
 ```
 
 Behavior:
 
-- Marks a draft PR as ready unless `--no-ready` is set.
-- Requests squash auto-merge unless `--no-automerge` is set.
-- Waits for PR closure and runs local cleanup when possible.
-- Starts a background cleanup watcher for manual-lane or deferred cleanup
-  cases.
+- No-argument mode reports current PR status, lane hints, and blockers.
+- `--request-ready` requests the ready-for-review transition when the PR is
+  still draft.
+- `--request-automerge` requests squash auto-merge on GitHub.
+- `--wait` waits for closure and runs local cleanup when an auto-merge request
+  was made.
 - Requests a workflow transition, but does not decide whether the PR is truly
   complete or mergeable.
 
@@ -232,6 +250,15 @@ file-changing turn.
     human review and keep auto-merge off?"
 - **Blocked state**
   - No closeout prompt. Report blockers instead.
+
+### Ready PR status responses
+
+If the PR is already ready, report status instead of asking another closeout
+question:
+
+- already ready and waiting on required checks or GitHub auto-merge
+- already ready and waiting on reviewer or maintainer confirmation
+- already ready in the manual lane and waiting on human review or merge
 
 ---
 
@@ -364,7 +391,8 @@ predictable.
 4. Address review with `fix + commit + push + reply`.
 5. Move to ready only when the work is complete, no unresolved author action
    items remain, and the PR is eligible for autonomous handling.
-6. Use `git-pr-ship.sh` to request ready plus squash auto-merge.
+6. Use `git-pr-ship.sh --request-ready --request-automerge` to request ready
+   plus squash auto-merge.
 7. Let required checks and GitHub branch rules decide final merge safety.
 8. Let cleanup enforcement converge local branch state and prune safe linked
    worktree directories, then handle any printed manual follow-up step.
@@ -383,9 +411,9 @@ Manual-lane flow:
 
 1. Keep the same branch worktree and same PR.
 2. Open the PR as draft first and keep scope tight.
-3. Use `git-pr-ship.sh --no-automerge` only if you want helper-assisted
-   ready-state transition and cleanup watching. It does not substitute for
-   human review or prove readiness.
+3. Use `git-pr-ship.sh --request-ready` only if you want helper-assisted
+   ready-state transition. It does not substitute for human review or prove
+   readiness.
 4. Address review with new commits and replies, leaving reviewer-owned threads
    for reviewer or maintainer confirmation.
 5. After merge or closure, converge `main`, allow cleanup to prune safe linked

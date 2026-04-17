@@ -27,6 +27,7 @@ profiles:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-continuity-memory.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-state-surface-alignment.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-audit-subsystem-health-alignment.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh"
       - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"

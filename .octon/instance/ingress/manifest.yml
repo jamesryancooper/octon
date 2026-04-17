@@ -30,6 +30,7 @@ adapter_parity_targets:
   - .octon/AGENTS.md
   - AGENTS.md
   - CLAUDE.md
+workflow_contract_ref: .octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml
 branch_closeout_gate:
   mode: contextual
   deprecated_fallback_prompt: Are you ready to closeout this branch?
@@ -60,6 +61,10 @@ branch_closeout_gate:
         - no_pr
         - draft_pr
         - ready_pr
+      ready_status_contexts:
+        - branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge
+        - branch_worktree_ready_pr_waiting_on_reviewer_or_maintainer_confirmation
+        - branch_worktree_ready_pr_manual_lane_waiting_on_human_review_or_merge
     merge_lane:
       autonomous_when:
         - current_branch_not_exp_prefix
@@ -80,6 +85,10 @@ branch_closeout_gate:
     branch_worktree_no_pr: "This branch worktree looks ready for PR closeout. Should I stage, commit, push, and open a draft PR?"
     branch_worktree_draft_pr_autonomous_lane: "This draft PR looks ready for Octon's autonomous merge lane. Should I mark it ready and request squash auto-merge?"
     branch_worktree_draft_pr_manual_lane: "This draft PR looks ready for the manual lane. Should I mark it ready for human review and keep auto-merge off?"
+  status_by_context:
+    branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge: "This PR is already ready. It is waiting on required checks or GitHub auto-merge, so no new closeout action is needed."
+    branch_worktree_ready_pr_waiting_on_reviewer_or_maintainer_confirmation: "This PR is already ready. It is waiting on reviewer or maintainer confirmation, so no new closeout action is needed."
+    branch_worktree_ready_pr_manual_lane_waiting_on_human_review_or_merge: "This PR is already ready in the manual lane. It is waiting on human review or merge, so no new closeout action is needed."
   blocked_response: Report blockers or remaining work instead of asking a closeout question.
 # Deprecated compatibility fallback for adapters that still read the scalar prompt.
 branch_closeout_prompt: Are you ready to closeout this branch?

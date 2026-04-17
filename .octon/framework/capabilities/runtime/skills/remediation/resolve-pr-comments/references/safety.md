@@ -5,7 +5,7 @@ description: Safety policies and constraints for the resolve-pr-comments skill.
 #   - Tool permissions: SKILL.md frontmatter `allowed-tools`
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Grep Edit Bash(gh) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+# Current allowed-tools: Read Glob Grep Edit Bash(gh) Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -32,12 +32,18 @@ This skill requires:
 - Glob/Grep for finding related code
 - Edit access to apply fixes
 - Bash access scoped to `gh` CLI commands only
+- Bash access scoped to the safe Git subset needed for `fix + commit + push + reply`:
+  - `git status`
+  - `git diff`
+  - `git add`
+  - `git commit`
+  - `git push`
 - Write access to report and log directories
 
 This skill explicitly does **NOT** have:
 
-- `git push` access (user must push manually)
 - `git commit --amend` or `git rebase` access
+- any force-push variant
 - Permission to resolve/dismiss comments via GitHub API
 - Permission to modify CI configuration
 
@@ -46,6 +52,7 @@ This skill explicitly does **NOT** have:
 ### Commit Protocol
 
 - Create **new commits** for fixes, never amend existing commits
+- Push the updated branch before replying that the fix landed
 - Use descriptive commit messages referencing the comment being addressed
 - Never force-push
 - Never rebase the PR branch during resolution

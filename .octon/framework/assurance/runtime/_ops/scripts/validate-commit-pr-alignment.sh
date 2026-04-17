@@ -2,13 +2,12 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
-OCTON_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
+OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-COMMITS_DOC="$OCTON_DIR/agency/practices/commits.md"
-PR_DOC="$OCTON_DIR/agency/practices/pull-request-standards.md"
-STANDARDS_JSON="$OCTON_DIR/agency/practices/standards/commit-pr-standards.json"
+COMMITS_DOC="$OCTON_DIR/framework/agency/practices/commits.md"
+PR_DOC="$OCTON_DIR/framework/agency/practices/pull-request-standards.md"
+STANDARDS_JSON="$OCTON_DIR/framework/agency/practices/standards/commit-pr-standards.json"
 PR_TEMPLATE="$ROOT_DIR/.github/PULL_REQUEST_TEMPLATE.md"
 COMMIT_WORKFLOW="$ROOT_DIR/.github/workflows/commit-and-branch-standards.yml"
 PR_WORKFLOW="$ROOT_DIR/.github/workflows/pr-quality.yml"

@@ -43,6 +43,8 @@ Ready-for-review is a state criterion, not a helper-script side effect or a
 synonym for "probably done." Helper scripts may request ready or auto-merge
 transitions, but canonical mergeability still comes from required checks,
 policy, and reviewer or maintainer confirmation.
+Ordinary review remediation remains `fix + commit + push + reply`; history
+rewrite is not the default review path.
 
 Human check-ins are exception-based and intentionally narrow:
 
@@ -149,6 +151,7 @@ one-line summary is acceptable.
   "acknowledged."
 - When code or documentation changes are required, the default author sequence
   is: fix, commit, push, reply.
+- Do not amend, rebase, or force-push during ordinary review remediation.
 - When you disagree with feedback, explain your reasoning. Don't just
   re-request review without addressing the comment.
 - Review work is complete only when no unresolved author action items remain.
@@ -156,7 +159,7 @@ one-line summary is acceptable.
   confirm and resolve reviewer-owned threads when they are satisfied.
 - Re-request review once author-side action items are closed and another pass
   is needed.
-- Rebase and force-push cleanup. Don't merge `main` into the branch.
+- Do not merge `main` into the branch as a remediation shortcut.
 
 ### What Disqualifies a PR
 

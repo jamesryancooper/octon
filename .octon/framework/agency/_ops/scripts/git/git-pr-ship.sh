@@ -2,11 +2,11 @@
 set -euo pipefail
 
 PR_NUMBER=""
-MARK_READY=1
-REQUEST_AUTOMERGE=1
+REQUEST_READY=0
+REQUEST_AUTOMERGE=0
 DRY_RUN=0
 LABELS_CSV=""
-WAIT_FOR_CLOSE=1
+WAIT_FOR_CLOSE=0
 WAIT_TIMEOUT_SECONDS=1800
 RUN_CLEANUP=1
 BACKGROUND_WATCH_TIMEOUT_SECONDS=86400
@@ -18,16 +18,16 @@ Usage:
 
 Options:
   --label <name>         Add additional label(s) before requesting ship actions (repeatable).
-  --no-ready             Do not request the ready-for-review transition.
-  --no-automerge         Skip the GitHub squash auto-merge request.
-  --no-wait              Do not block waiting for PR closure.
+  --request-ready        Request the ready-for-review transition.
+  --request-automerge    Request GitHub squash auto-merge.
+  --wait                 Wait for PR closure after requesting auto-merge.
   --wait-timeout-seconds Seconds to wait for closure before background watcher (default: 1800).
   --no-cleanup           Do not run local cleanup after PR closure.
   --dry-run              Print actions without mutating PR state.
 
 Default behavior:
-  1) request ready-for-review if the PR is still draft,
-  2) request squash auto-merge on GitHub.
+  Report current PR status, lane hints, and blockers without mutating PR state.
+  Use explicit request flags to ask GitHub for ready or auto-merge transitions.
   GitHub required checks and review rules remain the final merge gate.
 USAGE
 }
@@ -66,14 +66,14 @@ while [[ $# -gt 0 ]]; do
         LABELS_CSV="${LABELS_CSV},$1"
       fi
       ;;
-    --no-ready)
-      MARK_READY=0
+    --request-ready)
+      REQUEST_READY=1
       ;;
-    --no-automerge)
-      REQUEST_AUTOMERGE=0
+    --request-automerge)
+      REQUEST_AUTOMERGE=1
       ;;
-    --no-wait)
-      WAIT_FOR_CLOSE=0
+    --wait)
+      WAIT_FOR_CLOSE=1
       ;;
     --wait-timeout-seconds)
       shift
@@ -137,9 +137,30 @@ PR_PAYLOAD="$(gh pr view "$PR_NUMBER" --json state,isDraft,url,headRefName 2>/de
 PR_STATE="$(jq -r '.state' <<<"$PR_PAYLOAD")"
 PR_IS_DRAFT="$(jq -r '.isDraft' <<<"$PR_PAYLOAD")"
 PR_URL="$(jq -r '.url' <<<"$PR_PAYLOAD")"
+PR_HEAD_REF="$(jq -r '.headRefName' <<<"$PR_PAYLOAD")"
 
 if [[ "$PR_STATE" != "OPEN" ]]; then
   error "PR #${PR_NUMBER} is not open (state=$PR_STATE)."
+fi
+
+lane_hint="autonomous-candidate"
+if [[ "$PR_HEAD_REF" == exp/* ]]; then
+  lane_hint="manual"
+fi
+
+if [[ "$REQUEST_AUTOMERGE" -eq 1 && "$PR_IS_DRAFT" == "true" && "$REQUEST_READY" -eq 0 ]]; then
+  error "Cannot request auto-merge while the PR is draft. Add --request-ready or move the PR to ready first."
+fi
+
+if [[ "$REQUEST_READY" -eq 0 && "$REQUEST_AUTOMERGE" -eq 0 ]]; then
+  info "Status for PR #${PR_NUMBER}: state=${PR_STATE}, draft=${PR_IS_DRAFT}, lane-hint=${lane_hint}."
+  if [[ "$PR_IS_DRAFT" == "true" ]]; then
+    info "Blocker: PR is still draft. Use --request-ready when author action items are closed."
+  else
+    info "PR is already in a non-draft state."
+  fi
+  echo "[OK] Status only. Use --request-ready and/or --request-automerge to request transitions. GitHub remains the final merge gate: $PR_URL"
+  exit 0
 fi
 
 info "Preparing helper requests for PR #${PR_NUMBER}. GitHub remains the final merge gate."
@@ -154,7 +175,7 @@ if [[ -n "$LABELS_TO_ADD" ]]; then
   fi
 fi
 
-if [[ "$MARK_READY" -eq 1 && "$PR_IS_DRAFT" == "true" ]]; then
+if [[ "$REQUEST_READY" -eq 1 && "$PR_IS_DRAFT" == "true" ]]; then
   if [[ "$DRY_RUN" -eq 1 ]]; then
     echo "[DRY] gh pr ready \"$PR_NUMBER\""
   else
@@ -201,13 +222,11 @@ if [[ "$RUN_CLEANUP" -eq 1 ]]; then
     fi
   elif [[ "$REQUEST_AUTOMERGE" -eq 1 && "$WAIT_FOR_CLOSE" -eq 0 ]]; then
     launch_background_watcher "no-wait"
-  elif [[ "$REQUEST_AUTOMERGE" -eq 0 ]]; then
-    launch_background_watcher "manual-lane"
   fi
 fi
 
 READY_SUMMARY="did not request ready-for-review"
-if [[ "$MARK_READY" -eq 1 ]]; then
+if [[ "$REQUEST_READY" -eq 1 ]]; then
   if [[ "$PR_IS_DRAFT" == "true" ]]; then
     READY_SUMMARY="requested ready-for-review"
   else
