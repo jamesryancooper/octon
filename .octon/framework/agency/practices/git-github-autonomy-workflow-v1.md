@@ -163,6 +163,9 @@ Ready PR status responses:
 - `git-pr-cleanup.sh` converges refs and `main` after closure, prunes safe
   linked worktrees when possible, and prints manual follow-up steps when the
   current or another in-use worktree cannot be removed automatically.
+- `/closeout-pr` owns the full agent-driven closeout loop from current branch
+  worktree through checks, conversations, ready state, and merge or explicit
+  blocker.
 
 ---
 
@@ -175,6 +178,7 @@ Use this table to find canonical detail by concern.
 | Machine-readable Git/worktree/PR contract | `.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml` |
 | Commit contract and branch naming | `.octon/framework/agency/practices/commits.md` |
 | PR quality policy and autonomy flow | `.octon/framework/agency/practices/pull-request-standards.md` |
+| Agent-driven closeout loop | `.octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md` |
 | Machine-enforced commit/PR contract | `.octon/framework/agency/practices/standards/commit-pr-standards.json` |
 | Merge-critical control-plane contract | `.octon/framework/agency/practices/standards/github-control-plane-contract.json` |
 | AI gate policy contract | `.octon/framework/agency/practices/standards/ai-gate-policy.json` |

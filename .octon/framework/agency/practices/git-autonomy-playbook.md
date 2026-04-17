@@ -16,6 +16,11 @@ Treat that contract as the durable source of truth for operating model,
 closeout contexts, remediation policy, helper semantics, and validation
 scenarios.
 
+For agent-driven autonomous closeout from a branch worktree, use the
+`/closeout-pr` skill. It owns the full loop from task-scoped file review
+through commit, draft PR, check remediation, review-thread remediation, ready
+gate, and merge or explicit blocker.
+
 This playbook covers the helper lane:
 
 - `.octon/framework/agency/_ops/scripts/git/git-wt-new.sh`
@@ -159,6 +164,28 @@ Behavior:
   was made.
 - Requests a workflow transition, but does not decide whether the PR is truly
   complete or mergeable.
+
+### 3A. Agent-driven autonomous closeout
+
+Use `/closeout-pr` when the work has reached a credible completion point and
+the process should continue autonomously until merge or a real external
+blocker.
+
+Core loop:
+
+1. start from the current branch worktree
+2. review tracked, unstaged, and untracked changes
+3. stage the intended files only
+4. commit, push, and create or update the draft PR
+5. poll checks and unresolved conversations
+6. if a check fails, inspect the run, apply the smallest credible fix,
+   validate locally, commit, push, and recheck
+7. if unresolved conversations remain, address them with
+   `fix + commit + push + reply`
+8. move out of draft only when checks are green, conversations are cleared,
+   author action items are closed, and the lane is correct
+9. request squash auto-merge for the autonomous lane, or keep the PR ready in
+   the manual lane until merged by an authorized human
 
 ### 4. Enforce local cleanup state on demand
 

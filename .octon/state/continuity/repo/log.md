@@ -387,6 +387,46 @@ lookups and clean duplicate validation receipt noise from the branch
 - Bash-invoked GitHub API calls in this environment still intermittently fail
   at the transport layer; the helpers now surface that as a blocker instead of
   misreporting PR state
+
+## 2026-04-17
+
+**Session focus:** Implement a first-class autonomous PR closeout loop surface
+
+**Completed:**
+
+- Added the new remediation skill
+  `/.octon/framework/capabilities/runtime/skills/remediation/closeout-pr/`
+  with explicit phase, decision, checkpoint, I/O, safety, validation, and
+  dependency references
+- Registered `closeout-pr` in the skills capability group, manifest, and
+  registry so it becomes a discoverable invocable remediation surface
+- Extended the machine-readable workflow contract in
+  `git-worktree-autonomy-contract.yml` with an `autonomous_closeout_loop`
+  section covering:
+  current-branch start context, task-scoped staging, same-branch/same-PR
+  lifetime, polling/remediation loop behavior, conversation policy, ready
+  gate, merge-lane policy, and merged-or-blocker end states
+- Updated the Git autonomy playbook and workflow overview to point agent-driven
+  closeout to `/closeout-pr` as the owner surface for the full loop
+- Expanded
+  `validate-git-github-workflow-alignment.sh`
+  so the workflow validator now enforces the new closeout-pr owner surface and
+  its core invariants
+- Republished effective capability routing so the generated capability state now
+  includes `framework.skill.closeout-pr`
+- Confirmed the targeted workflow alignment validator passes after the new
+  closeout surface was introduced
+
+**Next:**
+
+- Stage, commit, push, and open a draft PR for the new closeout workflow
+  implementation if the branch should move into PR review
+
+**Blockers:**
+
+- `validate-runtime-effective-state.sh` was started after capability
+  republication and had not emitted a final summary before this log entry was
+  recorded
 - Wrote the matching `refine-prompt` run log under
   `/.octon/state/evidence/runs/skills/refine-prompt/2026-04-06-target-state-closure-provable-closure.md`
 

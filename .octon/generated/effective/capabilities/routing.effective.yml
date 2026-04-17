@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-4e6026e01f23
-published_at: 2026-04-17T20:55:19Z
+generation_id: capabilities-6c2f39d1284a
+published_at: 2026-04-17T23:04:15Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-17T20-55-19Z-capabilities-4e6026e01f23.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-17T23-04-15Z-capabilities-6c2f39d1284a.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -17,9 +17,9 @@ source:
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 5adf62d75c4f6d58e76760e6c2474c50ec4aef4773de847a567987f4a28f8e50
+  framework_skills_manifest_sha256: 1de2b7cfbbc6961262fa493a8453b834ca80eddd2f82cfdc7f41d22a09b73b09
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+  framework_skills_registry_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: e62418eb25400dfc808bc292b62f8e482221188ad17beac81b08e2d913fdc472
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+  extensions_catalog_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 69b5ee7e6fcaf1fd2428ea97fdc2cf21b4c937e8b40d69e294fc6907a4624ccb
+  extensions_generation_lock_sha256: 0034ade7d05463f2c7f46371049adb42f5de8fcca663b0733f3b5c06b6f41086
   extensions_generation_id: extensions-090beb843d30
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -1947,6 +1947,34 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-skill-framework.skill.ci-gate-triage
     projection_name: ci-gate-triage
+  - effective_id: framework.skill.closeout-pr
+    artifact_map_id: framework-skill-closeout-pr
+    origin_class: framework
+    capability_kind: skill
+    capability_id: closeout-pr
+    display_name: Closeout PR
+    summary: Autonomously close out one branch worktree until the PR is merged or explicitly blocked.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: remediation
+    host_adapters: []
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-skill-framework.skill.closeout-pr
+    projection_name: closeout-pr
   - effective_id: framework.skill.create-skill
     artifact_map_id: framework-skill-create-skill
     origin_class: framework
@@ -4638,6 +4666,7 @@ resolution_order:
   - framework.skill.audit-ui
   - framework.skill.build-mcp-server
   - framework.skill.ci-gate-triage
+  - framework.skill.closeout-pr
   - framework.skill.create-skill
   - framework.skill.deploy-status
   - framework.skill.incident-response

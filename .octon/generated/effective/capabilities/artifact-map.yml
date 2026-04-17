@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-4e6026e01f23
-published_at: 2026-04-17T20:55:19Z
+generation_id: capabilities-6c2f39d1284a
+published_at: 2026-04-17T23:04:15Z
 artifacts:
   - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration
     effective_id: extension.command.octon-concept-integration.octon-concept-integration
@@ -11,9 +11,9 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -26,9 +26,9 @@ artifacts:
     display_name: Architecture Revision Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -41,9 +41,9 @@ artifacts:
     display_name: Constitutional Challenge Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -56,9 +56,9 @@ artifacts:
     display_name: Multi-Source Synthesis Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -71,9 +71,9 @@ artifacts:
     display_name: Packet Refresh And Supersession
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -86,9 +86,9 @@ artifacts:
     display_name: Packet To Implementation
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -101,9 +101,9 @@ artifacts:
     display_name: Repo Internal Concept Mining
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -116,9 +116,9 @@ artifacts:
     display_name: Source To Architecture Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -131,9 +131,9 @@ artifacts:
     display_name: Source To Migration Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -146,9 +146,9 @@ artifacts:
     display_name: Source To Policy Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -161,9 +161,9 @@ artifacts:
     display_name: Subsystem Targeted Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -176,9 +176,9 @@ artifacts:
     display_name: Octon Decision Drafter
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -191,9 +191,9 @@ artifacts:
     display_name: ADR Update Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -206,9 +206,9 @@ artifacts:
     display_name: Change Receipt Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -221,9 +221,9 @@ artifacts:
     display_name: Migration Rationale Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -236,9 +236,9 @@ artifacts:
     display_name: Rollback Notes Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -251,9 +251,9 @@ artifacts:
     display_name: Octon Drift Triage
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-drift-triage
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -266,9 +266,9 @@ artifacts:
     display_name: Octon Impact Map And Validation Selector
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -281,9 +281,9 @@ artifacts:
     display_name: Mixed Input Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -296,9 +296,9 @@ artifacts:
     display_name: Proposal Packet Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -311,9 +311,9 @@ artifacts:
     display_name: Refactor Target Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -326,9 +326,9 @@ artifacts:
     display_name: Touched Paths Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: command
@@ -341,9 +341,9 @@ artifacts:
     display_name: Octon Concept Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -356,9 +356,9 @@ artifacts:
     display_name: Architecture Revision Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -371,9 +371,9 @@ artifacts:
     display_name: Constitutional Challenge Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -386,9 +386,9 @@ artifacts:
     display_name: Multi-Source Synthesis Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -401,9 +401,9 @@ artifacts:
     display_name: Packet Refresh And Supersession
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -416,9 +416,9 @@ artifacts:
     display_name: Packet To Implementation
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -431,9 +431,9 @@ artifacts:
     display_name: Repo Internal Concept Mining
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -446,9 +446,9 @@ artifacts:
     display_name: Source To Architecture Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -461,9 +461,9 @@ artifacts:
     display_name: Source To Migration Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -476,9 +476,9 @@ artifacts:
     display_name: Source To Policy Packet
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -491,9 +491,9 @@ artifacts:
     display_name: Subsystem Targeted Integration
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-concept-integration
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -506,9 +506,9 @@ artifacts:
     display_name: Octon Decision Drafter
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -521,9 +521,9 @@ artifacts:
     display_name: ADR Update Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -536,9 +536,9 @@ artifacts:
     display_name: Change Receipt Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -551,9 +551,9 @@ artifacts:
     display_name: Migration Rationale Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -566,9 +566,9 @@ artifacts:
     display_name: Rollback Notes Draft
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-decision-drafter
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -581,9 +581,9 @@ artifacts:
     display_name: Octon Drift Triage
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-drift-triage
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -596,9 +596,9 @@ artifacts:
     display_name: Octon Impact Map And Validation Selector
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -611,9 +611,9 @@ artifacts:
     display_name: Mixed Input Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -626,9 +626,9 @@ artifacts:
     display_name: Proposal Packet Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -641,9 +641,9 @@ artifacts:
     display_name: Refactor Target Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -656,9 +656,9 @@ artifacts:
     display_name: Touched Paths Impact Map
     source_kind: extension-export
     source_manifest_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_manifest_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_manifest_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     source_path: .octon/generated/effective/extensions/catalog.effective.yml
-    source_sha256: 9c44bd0ce981258c08c7189069e37d9af1018e753e134fcd399442139d3cd218
+    source_sha256: aad12b2dd95fdac633c80160cdc27eedf57e16a13e4b5c21b5c96d001803d6ba
     extension_pack_id: octon-impact-map-and-validation-selector
     extension_source_id: bundled-first-party
     extension_export_kind: skill
@@ -1144,7 +1144,7 @@ artifacts:
     display_name: Audit Api Contract
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-api-contract/SKILL.md
     source_sha256: 1038e246264d4085f8bba0391cb7ec9ba3844c251525151aa9aade9fd1423416
   - artifact_map_id: framework-skill-audit-architecture-readiness
@@ -1155,7 +1155,7 @@ artifacts:
     display_name: Audit Architecture Readiness
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-architecture-readiness/SKILL.md
     source_sha256: 668b809c18699222fae6aa45b8da9af2b54ccfa0426d9dffe10461e2b31d030c
   - artifact_map_id: framework-skill-audit-charter
@@ -1166,7 +1166,7 @@ artifacts:
     display_name: Audit Charter
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-charter/SKILL.md
     source_sha256: 8526033f314a275a78f0be539e399a721ea0dd070dc8f81fdea5e411a2dd11f9
   - artifact_map_id: framework-skill-audit-ci-latency
@@ -1177,7 +1177,7 @@ artifacts:
     display_name: Audit Ci Latency
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-ci-latency/SKILL.md
     source_sha256: 451bd15586d2dba9c4370a080de866a3bc98ba85a54e40205f87c0d435c6bba5
   - artifact_map_id: framework-skill-audit-cross-subsystem-coherence
@@ -1188,7 +1188,7 @@ artifacts:
     display_name: Audit Cross Subsystem Coherence
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-cross-subsystem-coherence/SKILL.md
     source_sha256: 4c9b74ef5f5c94cccc74c0a17626f3fff22be49286a5513c3fea96ee504d095c
   - artifact_map_id: framework-skill-audit-data-governance
@@ -1199,7 +1199,7 @@ artifacts:
     display_name: Audit Data Governance
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-data-governance/SKILL.md
     source_sha256: 5ca31782d71c8cdd5109446a85184ce96352a64f6b13d8a37bce3a7b378a4939
   - artifact_map_id: framework-skill-audit-documentation-standards
@@ -1210,7 +1210,7 @@ artifacts:
     display_name: Audit Documentation Standards
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-documentation-standards/SKILL.md
     source_sha256: 7f1f6edb60ea0a744fffe234322eac36b87ba06dd0f69094843e3f114d60aae4
   - artifact_map_id: framework-skill-audit-domain-architecture
@@ -1221,7 +1221,7 @@ artifacts:
     display_name: Audit Domain Architecture
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/SKILL.md
     source_sha256: e7c0fe278793c193e2f7a8870a6fb05ea330bfe9de946ae6a3192f1156066982
   - artifact_map_id: framework-skill-audit-freshness-and-supersession
@@ -1232,7 +1232,7 @@ artifacts:
     display_name: Audit Freshness And Supersession
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-freshness-and-supersession/SKILL.md
     source_sha256: b94cc1f9812b39f41b295047b82b879990743ff7c860e7fdd16751610c2b5f82
   - artifact_map_id: framework-skill-audit-migration
@@ -1243,7 +1243,7 @@ artifacts:
     display_name: Audit Migration
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-migration/SKILL.md
     source_sha256: 81d99fd09a7523f1bf4eac9c121179d05737a8122be315540cced6cffc5d2abb
   - artifact_map_id: framework-skill-audit-observability-coverage
@@ -1254,7 +1254,7 @@ artifacts:
     display_name: Audit Observability Coverage
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-observability-coverage/SKILL.md
     source_sha256: f795cce44c01dfacceb9216efb8cfa4286caa6da11b5bad9b356179c2f385206
   - artifact_map_id: framework-skill-audit-operational-readiness
@@ -1265,7 +1265,7 @@ artifacts:
     display_name: Audit Operational Readiness
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-operational-readiness/SKILL.md
     source_sha256: 13be57719725d2bd24ea890e1eeb236fc9a38f1051da7f2b7a96c7453e8f0e37
   - artifact_map_id: framework-skill-audit-release-readiness
@@ -1276,7 +1276,7 @@ artifacts:
     display_name: Audit Release Readiness
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-release-readiness/SKILL.md
     source_sha256: b85b5bf0eb4daccfc71397211a2687c4acd3047d1c1d05e721980ab24b769b74
   - artifact_map_id: framework-skill-audit-security-compliance
@@ -1287,7 +1287,7 @@ artifacts:
     display_name: Audit Security Compliance
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-security-compliance/SKILL.md
     source_sha256: a8fbedc9fcc8d5428a2c156b8e40d1cbe05ecc16ff73f31b9f4916dd754a37f4
   - artifact_map_id: framework-skill-audit-subsystem-health
@@ -1298,7 +1298,7 @@ artifacts:
     display_name: Audit Subsystem Health
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-subsystem-health/SKILL.md
     source_sha256: 81aa9c64c0fb9a50254aa1a70f203a9a3c52a373c74e26648e40074d83c61b18
   - artifact_map_id: framework-skill-audit-surface-architecture
@@ -1309,7 +1309,7 @@ artifacts:
     display_name: Audit Surface Architecture
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/SKILL.md
     source_sha256: e4a6b0b9ed9f3ad4db0c7b61b63bc0cf6740cf08e19066413f8c66c32eea68e1
   - artifact_map_id: framework-skill-audit-test-quality
@@ -1320,7 +1320,7 @@ artifacts:
     display_name: Audit Test Quality
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-test-quality/SKILL.md
     source_sha256: df8797a89df919e9035e543e78902ac6a653a8c8a90989136fbbad9a273afc3b
   - artifact_map_id: framework-skill-audit-ui
@@ -1331,7 +1331,7 @@ artifacts:
     display_name: Audit UI
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/audit/audit-ui/SKILL.md
     source_sha256: cafcb31458c1a62f412214cd631cfe6c97fa5eed5a2cb9c120c38ec9133b32bf
   - artifact_map_id: framework-skill-build-mcp-server
@@ -1342,7 +1342,7 @@ artifacts:
     display_name: Build MCP Server
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/meta/build-mcp-server/SKILL.md
     source_sha256: e96dd0dd7384b6b5730f4bf816a9d4e9c1d34d996db8c1063ca5cc4a25de2380
   - artifact_map_id: framework-skill-ci-gate-triage
@@ -1353,9 +1353,20 @@ artifacts:
     display_name: CI Gate Triage
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/remediation/ci-gate-triage/SKILL.md
     source_sha256: ba76ee536bf53f44ae9426f2270d3fd8ccbccb27e2208f57d9e15bbaf0d2cbe0
+  - artifact_map_id: framework-skill-closeout-pr
+    effective_id: framework.skill.closeout-pr
+    origin_class: framework
+    capability_kind: skill
+    capability_id: closeout-pr
+    display_name: Closeout PR
+    source_kind: framework-native
+    source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
+    source_path: .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md
+    source_sha256: 03d22a8654b0719c918057fda240e3d4cf8d80b4e2057a41f01e6a2df2ebee8b
   - artifact_map_id: framework-skill-create-skill
     effective_id: framework.skill.create-skill
     origin_class: framework
@@ -1364,7 +1375,7 @@ artifacts:
     display_name: Create Skill
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/meta/create-skill/SKILL.md
     source_sha256: 4e0cad464937e59980cf88dd5610ca5eb844cd7978385a7b8a2df3768aa657b7
   - artifact_map_id: framework-skill-deploy-status
@@ -1375,7 +1386,7 @@ artifacts:
     display_name: Deploy Status
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/deploy-status/SKILL.md
     source_sha256: c0bc4e2dcd89b7287dd18a6a6734806d231333cf23dfcb95a1bda77abf1231fa
   - artifact_map_id: framework-skill-incident-response
@@ -1386,7 +1397,7 @@ artifacts:
     display_name: Incident Response
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/operations/incident-response/SKILL.md
     source_sha256: 0f522eeab6d51d7664bfa4fc2c3a3ababdb1fdb7e402d818ba48432b28342f45
   - artifact_map_id: framework-skill-plan-charter-alignment
@@ -1397,7 +1408,7 @@ artifacts:
     display_name: Plan Charter Alignment
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/synthesis/plan-charter-alignment/SKILL.md
     source_sha256: fe7c946bbd5e5d2e348492769cf29f49ae90fd55ef0e70b2c01badf923621d12
   - artifact_map_id: framework-skill-postgres
@@ -1408,7 +1419,7 @@ artifacts:
     display_name: Postgres
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/postgres/SKILL.md
     source_sha256: aef8d08e6ef564cd6686fffe58a7a8153a972adebafba760845842b858f59bfb
   - artifact_map_id: framework-skill-postgres-best-practices
@@ -1419,7 +1430,7 @@ artifacts:
     display_name: Postgres Best Practices
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/postgres/best-practices/SKILL.md
     source_sha256: 023158be282db9a76ab674a05fa93eebc74f9c14e1e65e64dac7a6fdf47dd57f
   - artifact_map_id: framework-skill-provider-github-gates
@@ -1430,7 +1441,7 @@ artifacts:
     display_name: Provider GitHub Gates
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/provider-github-gates/SKILL.md
     source_sha256: 94724b25527d3368c7b08c0f40d085178cd8e15d2bd54a09152ab276f1b59ab4
   - artifact_map_id: framework-skill-provider-nextjs-astro-runtime
@@ -1441,7 +1452,7 @@ artifacts:
     display_name: Provider Nextjs Astro Runtime
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/provider-nextjs-astro-runtime/SKILL.md
     source_sha256: 9b16c4591393aad5d15d39d8a4c8d7458b3a5ad2aee3969f41e76d18e77a5335
   - artifact_map_id: framework-skill-provider-preview-smoke
@@ -1452,7 +1463,7 @@ artifacts:
     display_name: Provider Preview Smoke
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/provider-preview-smoke/SKILL.md
     source_sha256: 40dd13dd38f3158501e64f8fe41896e87cc2b7c2d0546d65938762471f1816cc
   - artifact_map_id: framework-skill-provider-vercel-delivery
@@ -1463,7 +1474,7 @@ artifacts:
     display_name: Provider Vercel Delivery
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/provider-vercel-delivery/SKILL.md
     source_sha256: 5499b6bc2fa9339b57dfab9d5e4cc02c837cf4572de9c2564665aac70fde2b3a
   - artifact_map_id: framework-skill-python-api
@@ -1474,7 +1485,7 @@ artifacts:
     display_name: Python Api
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/SKILL.md
     source_sha256: 086a5be6ebf6563d89405d0da74dd77c4823d70daa8209185dae41f2643b381f
   - artifact_map_id: framework-skill-python-contract-first-api
@@ -1485,7 +1496,7 @@ artifacts:
     display_name: Python Contract First Api
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/contract-first-api/SKILL.md
     source_sha256: fd975316ebf3ae716adc87c9f5cbe69e55e9f6393497850b8a42e542897975a6
   - artifact_map_id: framework-skill-python-contributor-guide
@@ -1496,7 +1507,7 @@ artifacts:
     display_name: Python Contributor Guide
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/contributor-guide/SKILL.md
     source_sha256: 520fc7987c833e38ecbcb87222cad30849730d38ac16b9e1031d96a637249100
   - artifact_map_id: framework-skill-python-dev-toolchain
@@ -1507,7 +1518,7 @@ artifacts:
     display_name: Python Dev Toolchain
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/dev-toolchain/SKILL.md
     source_sha256: 17cf14e7f154ec2f1eab572b31800d560f1e85749d3bb88a8029413e7ade4c30
   - artifact_map_id: framework-skill-python-infra-manifest
@@ -1518,7 +1529,7 @@ artifacts:
     display_name: Python Infra Manifest
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/infra-manifest/SKILL.md
     source_sha256: 1ec13736931e38b3c9b703d3bb043fec5c4c9e810bc7cd6ad943f349962153e3
   - artifact_map_id: framework-skill-python-scaffold-package
@@ -1529,7 +1540,7 @@ artifacts:
     display_name: Python Scaffold Package
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/scaffold-package/SKILL.md
     source_sha256: 4f2d14f219aaff9b49540411338543f3823af3ac4279b51d20a5deb03d564d7e
   - artifact_map_id: framework-skill-python-test-harness
@@ -1540,7 +1551,7 @@ artifacts:
     display_name: Python Test Harness
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/python-api/test-harness/SKILL.md
     source_sha256: d4dd99567cf1b1be03395acc98f2367aaf8514e556b646ca1f6ab77309d2f2a0
   - artifact_map_id: framework-skill-react
@@ -1551,7 +1562,7 @@ artifacts:
     display_name: React
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/react/SKILL.md
     source_sha256: b2fff6da7eb9fa8f82646fc5f7cfeb8c6733807c433e9260f74ff9297a9651a6
   - artifact_map_id: framework-skill-react-best-practices
@@ -1562,7 +1573,7 @@ artifacts:
     display_name: React Best Practices
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/react/best-practices/SKILL.md
     source_sha256: 5cdaf7b7ce25f4117c55ce22b09800e8ebe3c0c37c8d67c13ee21c7a1ca33bb1
   - artifact_map_id: framework-skill-react-composition-patterns
@@ -1573,7 +1584,7 @@ artifacts:
     display_name: React Composition Patterns
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/react/composition-patterns/SKILL.md
     source_sha256: 34126acecd4f34f8621536a06bcdaa00b0469ede849fea54772908265827de31
   - artifact_map_id: framework-skill-react-native
@@ -1584,7 +1595,7 @@ artifacts:
     display_name: React Native
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/react-native/SKILL.md
     source_sha256: 8fb281e8ca800d5780d6b6393eab931f7e1227d67004eefd1aacfff8907864ef
   - artifact_map_id: framework-skill-react-native-best-practices
@@ -1595,7 +1606,7 @@ artifacts:
     display_name: React Native Best Practices
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/react-native/best-practices/SKILL.md
     source_sha256: beec41af30f26c9a4be8c0b08f3e178b0d5789cb6644e5cc6906112dd9120c3d
   - artifact_map_id: framework-skill-refactor
@@ -1606,7 +1617,7 @@ artifacts:
     display_name: Refactor
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/refactor/refactor/SKILL.md
     source_sha256: 11a3b61faaadb98981a2fd9e8767d24f3383774c776aa510543279afa2405df7
   - artifact_map_id: framework-skill-refine-prompt
@@ -1617,7 +1628,7 @@ artifacts:
     display_name: Refine Prompt
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/synthesis/refine-prompt/SKILL.md
     source_sha256: c81930b5533c58990720d24dfa171001b7a6fc57e4c4cbbc9881fc673289d2f2
   - artifact_map_id: framework-skill-resolve-pr-comments
@@ -1628,7 +1639,7 @@ artifacts:
     display_name: Resolve PR Comments
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md
     source_sha256: fe2cd7fb8d690d035ffc1b35c3f14fba208573f835ac90989680aeb2c5effc79
   - artifact_map_id: framework-skill-spec-to-implementation
@@ -1639,7 +1650,7 @@ artifacts:
     display_name: Spec to Implementation
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/synthesis/spec-to-implementation/SKILL.md
     source_sha256: d2b9882f1ad7d9e7e4d05c6efbdd6399366e19b22c19b9f9f30efb14986955e7
   - artifact_map_id: framework-skill-swift-cli-interface
@@ -1650,7 +1661,7 @@ artifacts:
     display_name: Swift Cli Interface
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/cli-interface/SKILL.md
     source_sha256: 6405223884c45af603000c3bb66a2a3f40dfe5eeafc262452ffaf2190a9fd050
   - artifact_map_id: framework-skill-swift-contributor-guide
@@ -1661,7 +1672,7 @@ artifacts:
     display_name: Swift Contributor Guide
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/contributor-guide/SKILL.md
     source_sha256: 3ecf404f8c8bcfe10461df0a754f29f67c640999de5584e37e397357f04afd61
   - artifact_map_id: framework-skill-swift-daemon-service
@@ -1672,7 +1683,7 @@ artifacts:
     display_name: Swift Daemon Service
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/daemon-service/SKILL.md
     source_sha256: 7d8bf20b12fd29dcf9d728df8c33e92bf2fdee52c335075be98396f8c0fff985
   - artifact_map_id: framework-skill-swift-data-layer
@@ -1683,7 +1694,7 @@ artifacts:
     display_name: Swift Data Layer
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/data-layer/SKILL.md
     source_sha256: 0bff76b9984c2e58e3f7fc8f8dbcbff0493087cc7a26328de1dbab63f2164b33
   - artifact_map_id: framework-skill-swift-macos-app
@@ -1694,7 +1705,7 @@ artifacts:
     display_name: Swift Macos App
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/SKILL.md
     source_sha256: 2b436f7447e927033e1ebd4046c669111577dd73eec6972e0ecb7502aa194b4c
   - artifact_map_id: framework-skill-swift-scaffold-package
@@ -1705,7 +1716,7 @@ artifacts:
     display_name: Swift Scaffold Package
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/scaffold-package/SKILL.md
     source_sha256: 401eb8e344ca931ec2d851296817ed86a61bf90e53a24f65be86b7ecdf81fd99
   - artifact_map_id: framework-skill-swift-test-harness
@@ -1716,7 +1727,7 @@ artifacts:
     display_name: Swift Test Harness
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/test-harness/SKILL.md
     source_sha256: cc3fcb00682541ed5962ef5635e3126030c868c56a22e0e29f88a8cb787e5337
   - artifact_map_id: framework-skill-synthesize-research
@@ -1727,7 +1738,7 @@ artifacts:
     display_name: Synthesize Research
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/synthesis/synthesize-research/SKILL.md
     source_sha256: 6198de9d302e919d14591c39eada54baa04d80863bd2d2daaf9731f86a607de0
   - artifact_map_id: framework-skill-triage-ci-failure
@@ -1738,7 +1749,7 @@ artifacts:
     display_name: Triage CI Failure
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/remediation/triage-ci-failure/SKILL.md
     source_sha256: 195cc5190092ceadd410f94d2c9d4478a5a911b5703d21ffe60c5c992bf4667b
   - artifact_map_id: framework-skill-turborepo-taskgraph
@@ -1749,7 +1760,7 @@ artifacts:
     display_name: Turborepo Taskgraph
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/turborepo-taskgraph/SKILL.md
     source_sha256: 21e843dc0f78c3c5e46b3c4dcfc3329b3b78643585286c6e3ab564eb0814cf7c
   - artifact_map_id: framework-skill-vercel
@@ -1760,7 +1771,7 @@ artifacts:
     display_name: Vercel
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/vercel/SKILL.md
     source_sha256: 17d6f467bd169520e0f3ee4a366d87575355e0d135aa7f3644bd058d88d5cd19
   - artifact_map_id: framework-skill-vercel-deploy
@@ -1771,7 +1782,7 @@ artifacts:
     display_name: Vercel Deploy
     source_kind: framework-native
     source_manifest_path: .octon/framework/capabilities/runtime/skills/registry.yml
-    source_manifest_sha256: 4e02e747de2236ae443025ffbf41df8ca1c5e9e998ac7d893730e82f03103599
+    source_manifest_sha256: 974e4bec80ff70637cb445bf1e8fffa9d06ab67da125b15ad2d3fb36eff9341d
     source_path: .octon/framework/capabilities/runtime/skills/platforms/vercel/deploy/SKILL.md
     source_sha256: c4be5de5551ade1085a467c9581b43f8845d45bf9e04860884d3a6eba5ce2176
   - artifact_map_id: framework-tool-ci-integration
