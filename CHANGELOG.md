@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.29](https://github.com/jamesryancooper/octon/compare/octon-v0.6.28...octon-v0.6.29) (2026-04-17)
+
+
+### Features
+
+* **extensions:** add impact map validation selector pack ([#303](https://github.com/jamesryancooper/octon/issues/303)) ([df65eab](https://github.com/jamesryancooper/octon/commit/df65eab17764adbf04950074e338ef9f83f2e83b))
+
+
+### Bug Fixes
+
+* **projections:** restore decision drafter host projections ([#305](https://github.com/jamesryancooper/octon/issues/305)) ([9c1377a](https://github.com/jamesryancooper/octon/commit/9c1377a2eeaa4d356cdc5d6504f541afa06a6a89))
+
 ## [0.6.28](https://github.com/jamesryancooper/octon/compare/octon-v0.6.27...octon-v0.6.28) (2026-04-16)
 
 
