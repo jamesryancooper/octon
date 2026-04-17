@@ -3278,6 +3278,82 @@ skills:
       fingerprints:
         tech_tags: []
         language_tags: []
+  closeout-pr:
+    version: 1.0.0
+    commands:
+    - /closeout-pr
+    parameters:
+    - name: pr
+      type: text
+      required: false
+      description: Existing PR number or URL
+    - name: title
+      type: text
+      required: false
+      description: Commit/PR title when a PR must be created
+    - name: summary
+      type: text
+      required: false
+      description: Summary text for PR creation
+    - name: no_issue
+      type: text
+      required: false
+      default: autonomy-closeout
+      description: No-Issue reason when no linked issue exists
+    - name: include_paths
+      type: text
+      required: false
+      description: Optional comma-separated include paths
+    - name: exclude_paths
+      type: text
+      required: false
+      description: Optional comma-separated exclude paths
+    - name: poll_seconds
+      type: text
+      required: false
+      default: '30'
+      description: Poll interval between PR rechecks
+    requires:
+      context:
+      - type: command_available
+        command: gh
+        description: Requires GitHub CLI installed and authenticated
+    io:
+      inputs: []
+      outputs:
+      - name: closeout_report
+        path: /.octon/state/evidence/validation/analysis/{{date}}-pr-closeout-{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Structured closeout report covering commit, PR, checks, and merge state
+      - name: run_log
+        path: /.octon/state/evidence/runs/skills/closeout-pr/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for closeout-pr runs
+      - name: log_index
+        path: /.octon/state/evidence/runs/skills/closeout-pr/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Index of closeout-pr runs
+      - name: top_log_index
+        path: /.octon/state/evidence/runs/skills/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Top-level log index (cross-skill)
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags: []
+        language_tags: []
   triage-ci-failure:
     version: 1.0.1
     commands:

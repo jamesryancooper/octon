@@ -90,7 +90,7 @@ skill_group_definitions:
   remediation:
     description: Resolve review and CI quality issues
     path: remediation/
-    members: [resolve-pr-comments, triage-ci-failure, ci-gate-triage]
+    members: [resolve-pr-comments, closeout-pr, triage-ci-failure, ci-gate-triage]
 
   operations:
     description: Operational response and incident handling workflows

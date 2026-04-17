@@ -104,3 +104,37 @@ validation:
     - "ready_pr status handling"
     - "review remediation with new commits"
     - "safe linked-worktree cleanup"
+autonomous_closeout_loop:
+  owner_surface: "/closeout-pr"
+  start_context: "current branch worktree at a credible completion point"
+  worktree_review:
+    inspect:
+      - "tracked_changes"
+      - "unstaged_changes"
+      - "untracked_changes"
+    stage_rule: "include only files that belong to the intended task"
+  draft_pr_flow:
+    commit_push_and_pr: true
+    same_branch_same_pr_for_life_of_task: true
+  polling_loop:
+    checks_running: "wait and poll again"
+    check_failure: "inspect run, apply smallest credible fix, validate locally, commit, push, recheck"
+    unresolved_conversations: "treat as merge blocker and continue remediation loop"
+  conversation_policy:
+    author_path:
+      - "fix"
+      - "commit"
+      - "push"
+      - "reply"
+    reviewer_owned_thread_resolution: "never programmatic by author"
+  ready_gate:
+    required_checks_green: true
+    unresolved_conversations_cleared: true
+    author_action_items_cleared: true
+    correct_merge_lane: true
+  merge_lane_policy:
+    autonomous_lane: "request squash auto-merge or merge when GitHub allows"
+    manual_lane: "leave ready for authorized human review and keep observing until merged"
+  end_states:
+    - "merged"
+    - "explicit_external_blocker"

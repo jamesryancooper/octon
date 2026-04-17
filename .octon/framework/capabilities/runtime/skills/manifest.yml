@@ -1152,6 +1152,35 @@ skills:
     capabilities:
       - external-dependent
 
+  - id: closeout-pr
+    display_name: Closeout PR
+    group: remediation
+    path: remediation/closeout-pr/
+    skill_class: invocable
+    summary: "Autonomously close out one branch worktree until the PR is merged or explicitly blocked."
+    status: active
+    tags:
+      - pr
+      - closeout
+      - github
+      - remediation
+      - merge
+    triggers:
+      - "close out this pr"
+      - "close out this branch"
+      - "autonomous pr closeout"
+      - "watch this pr until merged"
+      - "finish this branch worktree"
+    skill_sets:
+      - executor
+      - collaborator
+      - guardian
+      - integrator
+    capabilities:
+      - external-dependent
+      - long-running
+      - stateful
+
   - id: triage-ci-failure
     display_name: Triage CI Failure
     group: remediation

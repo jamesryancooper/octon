@@ -12,6 +12,7 @@ PLAYBOOK_FILE="$OCTON_DIR/framework/agency/practices/git-autonomy-playbook.md"
 OVERVIEW_FILE="$OCTON_DIR/framework/agency/practices/git-github-autonomy-workflow-v1.md"
 PR_DOC_FILE="$OCTON_DIR/framework/agency/practices/pull-request-standards.md"
 SHIP_SCRIPT="$OCTON_DIR/framework/agency/_ops/scripts/git/git-pr-ship.sh"
+CLOSEOUT_SKILL_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
 SKILL_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md"
 SAFETY_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references/safety.md"
 TEMPLATE_FILE="$ROOT_DIR/.github/PULL_REQUEST_TEMPLATE.md"
@@ -105,6 +106,11 @@ check_contract() {
     '.helpers.git_pr_ship.explicit_request_flags[] | select(. == "--request-ready")' \
     "workflow contract defines explicit ready request flag" \
     "workflow contract missing explicit ready request flag"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.autonomous_closeout_loop.owner_surface' \
+    "workflow contract defines an owner surface for the autonomous closeout loop" \
+    "workflow contract missing autonomous closeout loop owner surface"
 }
 
 check_ingress() {
@@ -146,6 +152,16 @@ check_docs() {
     ".octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml" \
     "workflow overview references canonical workflow contract" \
     "workflow overview missing canonical workflow contract reference"
+  require_literal \
+    "$PLAYBOOK_FILE" \
+    "/closeout-pr" \
+    "playbook documents the closeout-pr skill" \
+    "playbook missing closeout-pr skill reference"
+  require_literal \
+    "$OVERVIEW_FILE" \
+    "closeout-pr" \
+    "workflow overview documents the closeout-pr skill" \
+    "workflow overview missing closeout-pr skill reference"
   require_absent_literal \
     "$PLAYBOOK_FILE" \
     "Opens or updates the PR in draft-first posture." \
@@ -204,6 +220,23 @@ check_helper_and_skill() {
     "Bash(git push *)" \
     "resolve-pr-comments skill allows git push" \
     "resolve-pr-comments skill missing git push from allowed-tools"
+  require_file \
+    "$CLOSEOUT_SKILL_FILE"
+  require_literal \
+    "$CLOSEOUT_SKILL_FILE" \
+    "same branch and same PR for the life of the task" \
+    "closeout-pr skill preserves same branch and same PR lifetime" \
+    "closeout-pr skill missing same branch/same PR lifetime rule"
+  require_literal \
+    "$CLOSEOUT_SKILL_FILE" \
+    "fix + commit + push + reply" \
+    "closeout-pr skill uses fix + commit + push + reply remediation" \
+    "closeout-pr skill missing fix + commit + push + reply remediation rule"
+  require_literal \
+    "$CLOSEOUT_SKILL_FILE" \
+    "Continue until merged or until a precise external blocker is reached and reported" \
+    "closeout-pr skill defines the merged-or-blocker stop condition" \
+    "closeout-pr skill missing merged-or-blocker stop condition"
   require_literal \
     "$SAFETY_FILE" \
     "Push the updated branch before replying that the fix landed" \
