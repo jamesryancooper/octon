@@ -349,6 +349,44 @@ future Codex-shell recovery
 **Blockers:**
 
 - None
+
+## 2026-04-17
+
+**Session focus:** Harden the Git helpers against flaky bash-side GitHub API
+lookups and clean duplicate validation receipt noise from the branch
+
+**Completed:**
+
+- Confirmed PR `#312` exists and that direct `gh` PR/API operations can still
+  work from this shell even while bash-invoked helper lookups intermittently
+  fail with `error connecting to api.github.com`
+- Updated
+  `/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`
+  to:
+  resolve the repo explicitly from `origin`, use retrying REST lookups, and
+  fail soft in status mode by reporting a GitHub lookup blocker instead of
+  aborting with a hard error
+- Updated
+  `/.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh`
+  to use the same explicit repo resolution and retrying REST lookups for PR
+  watch/list/view operations
+- Verified the helper syntax remains valid and confirmed the new status-mode
+  behavior on PR `#312`: when the bash-side lookup flakes, the helper now
+  prints a blocker-style status message rather than a false hard failure
+- Removed the duplicate untracked validation receipts from earlier repeated
+  publication runs so the branch worktree returned to intentional tracked
+  changes only
+
+**Next:**
+
+- Push the helper hardening follow-up commit so PR `#312` includes the
+  bash-side GitHub lookup resilience change
+
+**Blockers:**
+
+- Bash-invoked GitHub API calls in this environment still intermittently fail
+  at the transport layer; the helpers now surface that as a blocker instead of
+  misreporting PR state
 - Wrote the matching `refine-prompt` run log under
   `/.octon/state/evidence/runs/skills/refine-prompt/2026-04-06-target-state-closure-provable-closure.md`
 

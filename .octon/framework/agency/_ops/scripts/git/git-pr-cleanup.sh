@@ -51,6 +51,59 @@ require_cmd() {
   command -v "$cmd" >/dev/null 2>&1 || error "Missing required command: $cmd"
 }
 
+urlencode() {
+  jq -nr --arg value "$1" '$value|@uri'
+}
+
+origin_repo_slug() {
+  local url
+  url="$(git remote get-url origin 2>/dev/null || true)"
+  case "$url" in
+    git@github.com:*)
+      url="${url#git@github.com:}"
+      ;;
+    ssh://git@github.com/*)
+      url="${url#ssh://git@github.com/}"
+      ;;
+    https://github.com/*)
+      url="${url#https://github.com/}"
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+  url="${url%.git}"
+  printf '%s\n' "$url"
+}
+
+gh_api_retry() {
+  local attempt output err_file err_text rc
+  local -a args=("$@")
+
+  for attempt in 1 2 3; do
+    err_file="$(mktemp "${TMPDIR:-/tmp}/gh-api.XXXXXX")"
+    if output="$(gh api "${args[@]}" 2>"$err_file")"; then
+      rm -f "$err_file"
+      printf '%s' "$output"
+      return 0
+    fi
+    rc=$?
+    err_text="$(cat "$err_file")"
+    rm -f "$err_file"
+
+    if [[ $attempt -lt 3 ]] && [[ "$err_text" == *"error connecting to api.github.com"* ]]; then
+      sleep "$attempt"
+      continue
+    fi
+
+    [[ -n "$err_text" ]] && printf '%s\n' "$err_text" >&2
+    return "$rc"
+  done
+
+  [[ -n "${err_text:-}" ]] && printf '%s\n' "$err_text" >&2
+  return 1
+}
+
 manual_worktree_remove_cmd() {
   local path="$1"
   printf 'git worktree remove "%s"' "$path"
@@ -162,6 +215,9 @@ require_cmd jq
 
 REPO_ROOT="$(repo_root)"
 [[ -n "$REPO_ROOT" ]] || error "Run this command from inside a git repository."
+REPO_SLUG="$(origin_repo_slug)"
+[[ -n "$REPO_SLUG" ]] || error "Unable to resolve origin repo slug."
+REPO_OWNER="${REPO_SLUG%%/*}"
 
 if [[ -n "$WATCH_PR_NUMBER" ]]; then
   [[ "$WATCH_TIMEOUT_SECONDS" =~ ^[0-9]+$ ]] || error "--watch-timeout-seconds must be a positive integer."
@@ -169,14 +225,14 @@ if [[ -n "$WATCH_PR_NUMBER" ]]; then
   info "Watching PR #${WATCH_PR_NUMBER} for closure (timeout=${WATCH_TIMEOUT_SECONDS}s)."
   start_epoch="$(date +%s)"
   while true; do
-    PR_PAYLOAD="$(gh pr view "$WATCH_PR_NUMBER" --json state,url 2>/dev/null || true)"
+    PR_PAYLOAD="$(gh_api_retry "repos/${REPO_SLUG}/pulls/${WATCH_PR_NUMBER}" || true)"
     [[ -n "$PR_PAYLOAD" ]] || {
       sleep 15
       continue
     }
 
-    PR_STATE="$(jq -r '.state' <<<"$PR_PAYLOAD")"
-    PR_URL="$(jq -r '.url' <<<"$PR_PAYLOAD")"
+    PR_STATE="$(jq -r '.state | ascii_upcase' <<<"$PR_PAYLOAD")"
+    PR_URL="$(jq -r '.html_url // .url' <<<"$PR_PAYLOAD")"
     if [[ "$PR_STATE" != "OPEN" ]]; then
       info "Observed PR closure for #${WATCH_PR_NUMBER} (${PR_URL})."
       PR_NUMBER="$WATCH_PR_NUMBER"
@@ -221,13 +277,13 @@ add_candidate() {
 info "Fetching and pruning origin refs."
 run_cmd git -C "$REPO_ROOT" fetch --prune origin
 
-PR_INDEX="$(gh pr list --state all --limit 200 --json number,state,headRefName,baseRefName,url,updatedAt)"
+PR_INDEX="$(gh_api_retry --paginate "repos/${REPO_SLUG}/pulls?state=all&per_page=100" | jq -c '[.[] | {number, state:(.state|ascii_upcase), headRefName:.head.ref, baseRefName:.base.ref, url:(.html_url // .url), updatedAt:.updated_at}]')"
 
 CANDIDATES=()
 TARGET_BASE_BRANCH="main"
 
 if [[ -n "$PR_NUMBER" ]]; then
-  PR_JSON="$(gh pr view "$PR_NUMBER" --json number,state,headRefName,baseRefName,url 2>/dev/null || true)"
+  PR_JSON="$(gh_api_retry "repos/${REPO_SLUG}/pulls/${PR_NUMBER}" | jq -c '{number, state:(.state|ascii_upcase), headRefName:.head.ref, baseRefName:.base.ref, url:(.html_url // .url)}' 2>/dev/null || true)"
   [[ -n "$PR_JSON" ]] || error "Unable to load PR #${PR_NUMBER}."
   PR_STATE="$(jq -r '.state' <<<"$PR_JSON")"
   if [[ "$PR_STATE" == "OPEN" ]]; then
@@ -285,7 +341,8 @@ worktree_manual_followups=0
 for branch in "${CANDIDATES[@]}"; do
   [[ "$branch" == "main" ]] && continue
 
-  open_count="$(gh pr list --state open --head "$branch" --limit 1 --json number | jq 'length')"
+  HEAD_QUERY="$(urlencode "${REPO_OWNER}:${branch}")"
+  open_count="$(gh_api_retry "repos/${REPO_SLUG}/pulls?state=open&head=${HEAD_QUERY}&per_page=1" | jq 'length')"
   if [[ "$open_count" != "0" ]]; then
     skipped_open=$((skipped_open + 1))
     continue
