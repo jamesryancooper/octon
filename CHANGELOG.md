@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.30](https://github.com/jamesryancooper/octon/compare/octon-v0.6.29...octon-v0.6.30) (2026-04-17)
+
+
+### Features
+
+* **extensions:** add octon drift triage pack ([#306](https://github.com/jamesryancooper/octon/issues/306)) ([e8b081d](https://github.com/jamesryancooper/octon/commit/e8b081d2822544c05c86248301d7bf24adeb47d4))
+
 ## [0.6.29](https://github.com/jamesryancooper/octon/compare/octon-v0.6.28...octon-v0.6.29) (2026-04-17)
 
 
