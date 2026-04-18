@@ -5,7 +5,16 @@ release_id="$(resolve_release_id "${1:-}")"
 out="$(release_root "$release_id")/closure/claim-drift-report.yml"
 mkdir -p "$(dirname "$out")"
 pattern="$(forbidden_phrase_pattern)"
-matches="$(rg -n -i "$pattern" "$OCTON_DIR/instance/governance/disclosure/harness-card.yml" "$OCTON_DIR/instance/governance/closure/closure-summary.yml" "$OCTON_DIR/state/evidence/disclosure/runs" || true)"
+search_paths=(
+  "$OCTON_DIR/instance/governance/disclosure/harness-card.yml"
+  "$OCTON_DIR/instance/governance/closure/closure-summary.yml"
+  "$OCTON_DIR/state/evidence/disclosure/runs"
+)
+if command -v rg >/dev/null 2>&1; then
+  matches="$(rg -n -i -- "$pattern" "${search_paths[@]}" || true)"
+else
+  matches="$(grep -RinE -- "$pattern" "${search_paths[@]}" || true)"
+fi
 status="pass"
 [[ -z "$matches" ]] || status="fail"
 {

@@ -27,6 +27,10 @@ jobs:
             const { owner, repo } = context.repo;
             const sha = context.sha;
             const message = context.payload.head_commit?.message || '';
+            const prNumberPatterns = [
+              /(?:^|\n)Merge pull request #(\d+)\b/m,
+              /\(#(\d+)\)(?:\s*$|\n)/m
+            ];
 
             const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
               owner,
@@ -39,6 +43,42 @@ jobs:
               core.info(`Main update is associated with merged PR #${merged[0].number}.`);
               core.setOutput('mode', 'pr');
               return;
+            }
+
+            for (const pattern of prNumberPatterns) {
+              const match = message.match(pattern);
+              if (!match) {
+                continue;
+              }
+
+              const pull_number = Number.parseInt(match[1], 10);
+              if (!Number.isInteger(pull_number)) {
+                continue;
+              }
+
+              try {
+                const { data: pr } = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number
+                });
+
+                if (pr.merged_at && pr.base?.ref === 'main' && pr.merge_commit_sha === sha) {
+                  core.info(`Main update is associated with merged PR #${pr.number} via commit message fallback.`);
+                  core.setOutput('mode', 'pr');
+                  return;
+                }
+
+                core.warning(
+                  `Commit message referenced PR #${pull_number}, but the merged PR ` +
+                  `did not validate for ${sha}.`
+                );
+              } catch (error) {
+                core.warning(
+                  `Commit message referenced PR #${pull_number}, but PR validation ` +
+                  `failed: ${error.message}`
+                );
+              }
             }
 
             const match = message.match(/BREAK-GLASS:\s*(OVR-\d{4}-\d{2}-\d{2}-\d{3})/i);
