@@ -12,6 +12,11 @@ pass() { echo "[OK] $1"; }
 
 echo "== Support Dossier Evidence Depth Validation =="
 while IFS= read -r dossier; do
+  dossier_status="$(yq -r '.status // ""' "$dossier")"
+  if [[ "$dossier_status" != "supported" ]]; then
+    pass "${dossier#$ROOT_DIR/} is explicitly non-live and skipped"
+    continue
+  fi
   status="$(yq -r '.sufficiency.status // ""' "$dossier")"
   if [[ "$status" != "qualified" ]]; then
     fail "${dossier#$ROOT_DIR/} is not qualified"

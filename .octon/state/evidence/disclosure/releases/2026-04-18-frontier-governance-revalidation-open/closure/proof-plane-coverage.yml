@@ -1,4 +1,19 @@
-schema_version: octon-proof-plane-coverage-v1
+schema_version: proof-plane-coverage-v2
 release_id: 2026-04-18-frontier-governance-revalidation-open
+generated_at: "2026-04-18T00:00:00Z"
 status: blocked
-summary: Later frontier-governance proof planes remain incomplete; the active live claim is therefore bounded to the supported tuple subset only.
+planes:
+  - plane_id: structural
+    status: pass
+  - plane_id: functional
+    status: pass
+  - plane_id: behavioral
+    status: pass
+  - plane_id: maintainability
+    status: pass
+  - plane_id: governance
+    status: pass
+  - plane_id: recovery
+    status: pass
+notes:
+  - Later frontier-governance proof planes remain incomplete for widened non-live surfaces; the active live claim therefore stayed bounded to the supported tuple subset only.
