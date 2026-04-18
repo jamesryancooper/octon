@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.31](https://github.com/jamesryancooper/octon/compare/octon-v0.6.30...octon-v0.6.31) (2026-04-18)
+
+
+### Features
+
+* **workflow:** add autonomous closeout skill ([#314](https://github.com/jamesryancooper/octon/issues/314)) ([3136df7](https://github.com/jamesryancooper/octon/commit/3136df7fabbefa356cd5343d053e500509594bfd))
+
 ## [0.6.30](https://github.com/jamesryancooper/octon/compare/octon-v0.6.29...octon-v0.6.30) (2026-04-17)
 
 
