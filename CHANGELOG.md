@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.32](https://github.com/jamesryancooper/octon/compare/octon-v0.6.31...octon-v0.6.32) (2026-04-18)
+
+
+### Bug Fixes
+
+* **workflow:** harden main push workflow guards ([#318](https://github.com/jamesryancooper/octon/issues/318)) ([010900f](https://github.com/jamesryancooper/octon/commit/010900f80b1baf9a916170580dd6669ce660cdb8))
+
 ## [0.6.31](https://github.com/jamesryancooper/octon/compare/octon-v0.6.30...octon-v0.6.31) (2026-04-18)
 
 
