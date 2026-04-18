@@ -11,7 +11,6 @@ ISSUE_NUMBER=""
 NO_ISSUE_REASON="autonomy-script"
 COMMIT_MESSAGE=""
 BASE_BRANCH="main"
-DRAFT=1
 DRY_RUN=0
 LABELS_CSV=""
 STAGE_ALL=0
@@ -27,7 +26,6 @@ Options:
   --no-issue <reason>        Add "No-Issue: <reason>" linkage (default).
   --commit-message <text>    Commit message for staged changes (defaults to --title).
   --base <branch>            Base branch for PR creation (default: main).
-  --ready                    Open non-draft PR instead of draft.
   --label <name>             Add label at PR creation (repeatable).
   --stage-all                Stage all tracked/untracked files before commit.
   --dry-run                  Print actions without mutating state.
@@ -35,7 +33,7 @@ Options:
 Behavior:
   - Commits staged changes, or stages all changes with --stage-all.
   - Pushes current branch to origin.
-  - Creates a PR body from .github/PULL_REQUEST_TEMPLATE.md with issue linkage.
+  - Populates canonical PR template sections by heading and always opens a draft PR.
 USAGE
 }
 
@@ -55,6 +53,78 @@ require_cmd() {
 
 repo_root() {
   git rev-parse --show-toplevel 2>/dev/null || true
+}
+
+replace_markdown_section() {
+  local file="$1"
+  local heading="$2"
+  local replacement="$3"
+  local tmp
+
+  tmp="$(mktemp "${TMPDIR:-/tmp}/octon-pr-body-section.XXXXXX")"
+  if ! awk -v heading="$heading" -v replacement="$replacement" '
+    BEGIN {
+      found = 0
+      in_section = 0
+    }
+    $0 == heading {
+      found = 1
+      in_section = 1
+      print
+      print ""
+      print replacement
+      print ""
+      next
+    }
+    /^## / {
+      in_section = 0
+    }
+    !in_section {
+      print
+    }
+    END {
+      if (!found) {
+        exit 1
+      }
+    }
+  ' "$file" > "$tmp"; then
+    rm -f "$tmp"
+    error "Canonical PR template is missing expected section heading: $heading"
+  fi
+
+  mv "$tmp" "$file"
+}
+
+replace_literal_line() {
+  local file="$1"
+  local needle="$2"
+  local replacement="$3"
+  local tmp
+
+  tmp="$(mktemp "${TMPDIR:-/tmp}/octon-pr-body-line.XXXXXX")"
+  if ! awk -v needle="$needle" -v replacement="$replacement" '
+    BEGIN {
+      found = 0
+    }
+    {
+      if ($0 == needle) {
+        print replacement
+        found = 1
+        next
+      }
+      print
+    }
+    END {
+      if (!found) {
+        exit 1
+      }
+    }
+  ' "$file" > "$tmp"; then
+    rm -f "$tmp"
+    error "Canonical PR template is missing expected line: $needle"
+  fi
+
+  mv "$tmp" "$file"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -90,7 +160,7 @@ while [[ $# -gt 0 ]]; do
       BASE_BRANCH="$1"
       ;;
     --ready)
-      DRAFT=0
+      error "git-pr-open.sh is draft-only. Use git-pr-ship.sh --request-ready once author action items are closed."
       ;;
     --label)
       shift
@@ -225,56 +295,18 @@ fi
 WHY_TEXT="${SUMMARY} ${ISSUE_LINK}"
 
 BODY_TMP="$(mktemp "${TMPDIR:-/tmp}/octon-pr-body.XXXXXX")"
-awk \
-  -v what="$SUMMARY" \
-  -v why="$WHY_TEXT" \
-  -v how="$HOW_TEXT" \
-  -v tradeoffs="$TRADEOFFS_TEXT" \
-  -v testing="$TESTING_TEXT" \
-  -v rollout="$ROLLOUT_TEXT" '
-  $0 == "One or two sentences describing what this PR changes." {
-    print what
-    next
-  }
-  $0 == "The problem this solves and why it matters. Include ticket/issue links." {
-    print why
-    next
-  }
-  $0 == "Approach summary, including non-obvious design choices and alternatives rejected." {
-    print how
-    next
-  }
-  $0 == "Known compromises, remaining risks, and any follow-up tickets." {
-    print tradeoffs
-    next
-  }
-  $0 == "How this was verified (automated and manual), including edge cases covered." {
-    print testing
-    next
-  }
-  $0 == "Release strategy (flags, migration sequencing, canary/gradual rollout) or `n/a`." {
-    print rollout
-    next
-  }
-  $0 == "- Risk class: [ ] Trivial [ ] Low [ ] Medium [ ] High" {
-    print "- Risk class: [ ] Trivial [x] Low [ ] Medium [ ] High"
-    next
-  }
-  $0 == "- Rollback plan:" {
-    print "- Rollback plan: revert the squash commit if needed."
-    next
-  }
-  $0 == "- Flags changed (name, owner, expiry, rollout):" {
-    print "- Flags changed (name, owner, expiry, rollout): none."
-    next
-  }
-  { print }
-' "$TEMPLATE_FILE" > "$BODY_TMP"
+cp "$TEMPLATE_FILE" "$BODY_TMP"
+replace_markdown_section "$BODY_TMP" "## What" "$SUMMARY"
+replace_markdown_section "$BODY_TMP" "## Why" "$WHY_TEXT"
+replace_markdown_section "$BODY_TMP" "## How" "$HOW_TEXT"
+replace_markdown_section "$BODY_TMP" "## Tradeoffs" "$TRADEOFFS_TEXT"
+replace_markdown_section "$BODY_TMP" "## Testing" "$TESTING_TEXT"
+replace_markdown_section "$BODY_TMP" "## Rollout" "$ROLLOUT_TEXT"
+replace_literal_line "$BODY_TMP" "- Risk class: [ ] Trivial [ ] Low [ ] Medium [ ] High" "- Risk class: [ ] Trivial [x] Low [ ] Medium [ ] High"
+replace_literal_line "$BODY_TMP" "- Rollback plan:" "- Rollback plan: revert the squash commit if needed."
+replace_literal_line "$BODY_TMP" "- Flags changed (name, owner, expiry, rollout):" "- Flags changed (name, owner, expiry, rollout): none."
 
-PR_ARGS=(pr create --base "$BASE_BRANCH" --head "$CURRENT_BRANCH" --title "$TITLE" --body-file "$BODY_TMP")
-if [[ "$DRAFT" -eq 1 ]]; then
-  PR_ARGS+=(--draft)
-fi
+PR_ARGS=(pr create --base "$BASE_BRANCH" --head "$CURRENT_BRANCH" --title "$TITLE" --body-file "$BODY_TMP" --draft)
 if [[ -n "$LABELS_CSV" ]]; then
   PR_ARGS+=(--label "$LABELS_CSV")
 fi

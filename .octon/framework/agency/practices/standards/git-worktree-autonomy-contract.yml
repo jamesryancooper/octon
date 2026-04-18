@@ -80,6 +80,7 @@ remediation:
 helpers:
   git_pr_open:
     posture: "create-oriented"
+    draft_only: true
     later_updates: "push follow-up commits to the same branch"
   git_pr_ship:
     default_mode: "status"
@@ -94,6 +95,8 @@ validation:
   drift_classes:
     - "ready_pr declared without explicit handling"
     - "stale rebase or force-push remediation guidance"
+    - "git-pr-open widening initial PR creation beyond draft-first"
+    - "git-pr-open template population coupled to stale placeholder prose"
     - "helper docs overstating behavior"
     - "remediation skill promise exceeding its allowed-tools boundary"
     - "helper messaging implying readiness proof rather than request semantics"
@@ -102,6 +105,8 @@ validation:
     - "helper-lane"
   scenario_focus:
     - "ready_pr status handling"
+    - "git-pr-open draft-only creation"
+    - "git-pr-open canonical template population"
     - "review remediation with new commits"
     - "safe linked-worktree cleanup"
 autonomous_closeout_loop:

@@ -11,6 +11,7 @@ INGRESS_FILE="$OCTON_DIR/instance/ingress/AGENTS.md"
 PLAYBOOK_FILE="$OCTON_DIR/framework/agency/practices/git-autonomy-playbook.md"
 OVERVIEW_FILE="$OCTON_DIR/framework/agency/practices/git-github-autonomy-workflow-v1.md"
 PR_DOC_FILE="$OCTON_DIR/framework/agency/practices/pull-request-standards.md"
+OPEN_SCRIPT="$OCTON_DIR/framework/agency/_ops/scripts/git/git-pr-open.sh"
 SHIP_SCRIPT="$OCTON_DIR/framework/agency/_ops/scripts/git/git-pr-ship.sh"
 CLOSEOUT_SKILL_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
 SKILL_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md"
@@ -108,9 +109,24 @@ check_contract() {
     "workflow contract missing explicit ready request flag"
   require_yq_value \
     "$CONTRACT_FILE" \
+    '.helpers.git_pr_open.draft_only | select(. == true)' \
+    "workflow contract defines git-pr-open as draft-only" \
+    "workflow contract missing draft-only git-pr-open semantics"
+  require_yq_value \
+    "$CONTRACT_FILE" \
     '.autonomous_closeout_loop.owner_surface' \
     "workflow contract defines an owner surface for the autonomous closeout loop" \
     "workflow contract missing autonomous closeout loop owner surface"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.validation.drift_classes[] | select(. == "git-pr-open widening initial PR creation beyond draft-first")' \
+    "workflow contract tracks git-pr-open draft-first drift" \
+    "workflow contract missing git-pr-open draft-first drift coverage"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.validation.drift_classes[] | select(. == "git-pr-open template population coupled to stale placeholder prose")' \
+    "workflow contract tracks git-pr-open template-population drift" \
+    "workflow contract missing git-pr-open template-population drift coverage"
 }
 
 check_ingress() {
@@ -180,6 +196,31 @@ check_docs() {
 }
 
 check_helper_and_skill() {
+  require_literal \
+    "$OPEN_SCRIPT" \
+    "git-pr-open.sh is draft-only. Use git-pr-ship.sh --request-ready once author action items are closed." \
+    "git-pr-open rejects non-draft widening" \
+    "git-pr-open missing draft-only rejection guidance"
+  require_literal \
+    "$OPEN_SCRIPT" \
+    'PR_ARGS=(pr create --base "$BASE_BRANCH" --head "$CURRENT_BRANCH" --title "$TITLE" --body-file "$BODY_TMP" --draft)' \
+    "git-pr-open always creates draft PRs" \
+    "git-pr-open is not pinned to draft PR creation"
+  require_literal \
+    "$OPEN_SCRIPT" \
+    'replace_markdown_section "$BODY_TMP" "## Why" "$WHY_TEXT"' \
+    "git-pr-open populates the Why section from the canonical heading" \
+    "git-pr-open missing canonical Why-section population"
+  require_absent_literal \
+    "$OPEN_SCRIPT" \
+    "Open non-draft PR instead of draft." \
+    "git-pr-open no longer advertises non-draft PR creation" \
+    "git-pr-open still advertises non-draft PR creation"
+  require_absent_literal \
+    "$OPEN_SCRIPT" \
+    "The problem this solves and why it matters. Include ticket/issue links." \
+    "git-pr-open no longer depends on stale placeholder prose" \
+    "git-pr-open still depends on stale placeholder prose"
   require_literal \
     "$SHIP_SCRIPT" \
     "--request-ready" \
@@ -286,6 +327,7 @@ main() {
   require_file "$PLAYBOOK_FILE"
   require_file "$OVERVIEW_FILE"
   require_file "$PR_DOC_FILE"
+  require_file "$OPEN_SCRIPT"
   require_file "$SHIP_SCRIPT"
   require_file "$SKILL_FILE"
   require_file "$SAFETY_FILE"
