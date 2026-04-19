@@ -19,6 +19,7 @@ PR_STALE_CLOSE="$ROOT_DIR/.github/workflows/pr-stale-close.yml"
 GIT_PR_SHIP="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
 AI_GATE_AGGREGATE="$OCTON_DIR/framework/execution-roles/_ops/scripts/ai-gate/aggregate-decision.sh"
 LABEL_SYNC="$OCTON_DIR/framework/execution-roles/_ops/scripts/github/sync-github-labels.sh"
+EXECUTION_ROLE_VALIDATE_WORKFLOW="$ROOT_DIR/.github/workflows/execution-role-validate.yml"
 
 errors=0
 
@@ -102,16 +103,16 @@ main() {
   require_file "$AI_GATE_AGGREGATE"
   require_file "$LABEL_SYNC"
 
-  require_text 'Agency kernel path is fixed: `framework/constitution/**` -> `instance/ingress/AGENTS.md` -> `runtime/orchestrator/ROLE.md`.' "$AGENCY_README" "agency README publishes orchestrator-first kernel path"
-  require_text 'Agency kernel path:' "$AGENCY_SPEC" "agency specification documents orchestrator-first kernel path"
+  require_text 'The execution-role kernel path is fixed:' "$AGENCY_README" "execution-role README publishes orchestrator-first kernel path"
+  require_text 'Execution roles never authorize themselves.' "$AGENCY_SPEC" "execution-role specification documents engine-owned authorization boundary"
   forbid_text 'framework/execution-roles/governance/CONSTITUTION.md' "$INGRESS" "instance ingress excludes agency CONSTITUTION.md from kernel path"
   require_text '.octon/framework/execution-roles/runtime/orchestrator/ROLE.md' "$INGRESS" "instance ingress points at orchestrator contract"
   require_text 'historical-shim' "$CONTRACT_REGISTRY" "contract registry demotes duplicate constitutional shims"
 
   forbid_text 'SOUL.md' "$OCTON_DIR/framework/execution-roles/runtime/orchestrator/ROLE.md" "orchestrator contract no longer depends on SOUL.md"
-  forbid_text 'SOUL.md' "$OCTON_DIR/framework/execution-roles/runtime/agents/verifier/AGENT.md" "verifier contract no longer depends on SOUL.md"
+  forbid_text 'SOUL.md' "$OCTON_DIR/framework/execution-roles/runtime/verifiers/independent-verifier/VERIFIER.md" "verifier contract no longer depends on SOUL.md"
 
-  if [[ -f "$OCTON_DIR/framework/execution-roles/runtime/agents/orchestrator/SOUL.md" || -f "$OCTON_DIR/framework/execution-roles/runtime/agents/verifier/SOUL.md" || -f "$OCTON_DIR/framework/execution-roles/runtime/agents/_scaffold/template/SOUL.md" ]]; then
+  if [[ -f "$OCTON_DIR/framework/execution-roles/runtime/orchestrator/SOUL.md" || -f "$OCTON_DIR/framework/execution-roles/runtime/verifiers/independent-verifier/SOUL.md" ]]; then
     fail "active or scaffolded SOUL.md overlays remain in the kernel path"
   else
     pass "active and scaffolded SOUL.md overlays are retired"
@@ -160,8 +161,8 @@ main() {
     "PR triage workflow remains valid YAML" \
     yq -e '.' "$PR_TRIAGE"
   run_test \
-    "agency validate workflow remains valid YAML" \
-    yq -e '.' "$ROOT_DIR/.github/workflows/agency-validate.yml"
+    "execution-role validate workflow remains valid YAML" \
+    yq -e '.' "$EXECUTION_ROLE_VALIDATE_WORKFLOW"
   run_test \
     "architecture conformance workflow remains valid YAML" \
     yq -e '.' "$ARCH_WORKFLOW"
