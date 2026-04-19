@@ -23,7 +23,7 @@ done
 
 echo ""
 echo "Key harness surfaces:"
-for dir in ../framework/agency ../framework/capabilities ../framework/cognition ../framework/orchestration ../framework/assurance ../framework/engine ../framework/scaffolding ../instance/ingress ../instance/bootstrap ../instance/locality ../instance/locality/scopes ../instance/cognition ../instance/cognition/context/scopes ../instance/capabilities/runtime ../instance/orchestration/missions ../inputs/additive/extensions ../state/continuity/repo ../state/continuity/scopes ../state/evidence ../state/control ../state/control/extensions ../state/control/locality ../generated/effective/locality ../generated/effective/capabilities ../generated/effective/extensions ../generated/proposals; do
+for dir in ../framework/execution-roles ../framework/capabilities ../framework/cognition ../framework/orchestration ../framework/assurance ../framework/engine ../framework/scaffolding ../instance/ingress ../instance/bootstrap ../instance/locality ../instance/locality/scopes ../instance/cognition ../instance/cognition/context/scopes ../instance/capabilities/runtime ../instance/orchestration/missions ../inputs/additive/extensions ../state/continuity/repo ../state/continuity/scopes ../state/evidence ../state/control ../state/control/extensions ../state/control/locality ../generated/effective/locality ../generated/effective/capabilities ../generated/effective/extensions ../generated/proposals; do
   if [ -e "$dir" ]; then
     echo "✓ $dir"
   else
@@ -43,7 +43,7 @@ done
 
 echo ""
 echo "Packet 4 repo-instance surfaces:"
-for dir in ../instance/governance/policies ../instance/governance/contracts ../instance/agency/runtime ../instance/assurance/runtime ../instance/capabilities/runtime/commands; do
+for dir in ../instance/governance/policies ../instance/governance/contracts ../instance/execution-roles/runtime ../instance/assurance/runtime ../instance/capabilities/runtime/commands; do
   if [ -e "$dir" ]; then
     echo "✓ $dir"
   else

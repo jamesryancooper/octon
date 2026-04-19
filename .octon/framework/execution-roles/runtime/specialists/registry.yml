@@ -1,0 +1,27 @@
+schema_version: "specialist-registry-v1"
+
+specialists:
+  - specialist_id: "reviewer"
+    path: "reviewer/"
+    contract_file: "SPECIALIST.md"
+    contract_ref: "reviewer/specialist.yml"
+    aliases: ["@reviewer", "@review", "@rev"]
+    stateless: true
+    description: "Independent code review specialist for correctness, risk, and change safety."
+    escalation_target: "orchestrator"
+  - specialist_id: "refactor"
+    path: "refactor/"
+    contract_file: "SPECIALIST.md"
+    contract_ref: "refactor/specialist.yml"
+    aliases: ["@refactor", "@ref"]
+    stateless: true
+    description: "Bounded refactor specialist for controlled structural change."
+    escalation_target: "orchestrator"
+  - specialist_id: "docs"
+    path: "docs/"
+    contract_file: "SPECIALIST.md"
+    contract_ref: "docs/specialist.yml"
+    aliases: ["@docs", "@doc"]
+    stateless: true
+    description: "Documentation specialist for authoritative docs, receipts, and operator clarity."
+    escalation_target: "orchestrator"

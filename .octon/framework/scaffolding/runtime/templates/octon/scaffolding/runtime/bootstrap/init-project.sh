@@ -906,7 +906,7 @@ if [[ -z "$OBJECTIVE_APPROVED_BY" ]]; then
   OBJECTIVE_APPROVED_BY="$OBJECTIVE_OWNER"
 fi
 
-DEFAULT_AGENT_EXECUTION_CONTRACT=".octon/framework/agency/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
+DEFAULT_AGENT_EXECUTION_CONTRACT=".octon/framework/execution-roles/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
 
 echo "== Project Init =="
 echo "Repo root: $REPO_ROOT"

@@ -1,0 +1,28 @@
+schema_version: "execution-role-manifest-v1"
+default_execution_role: "orchestrator"
+
+routing:
+  specialist_prefix: "@"
+  ambiguity_resolution: "ask"
+  locality: "repo-instance-scope-registry"
+
+registries:
+  execution_roles: "registry.yml"
+  specialists: "runtime/specialists/registry.yml"
+  verifiers: "runtime/verifiers/registry.yml"
+  composition_profiles: "runtime/composition-profiles/registry.yml"
+
+policy:
+  default_topology: "orchestrator-only"
+  optional_topologies:
+    - "orchestrator+specialists"
+    - "orchestrator+verifier"
+    - "orchestrator+specialists+verifier"
+  additional_roles_require:
+    - "separation-of-duties"
+    - "context-isolation"
+    - "bounded-parallelism"
+  allow_skill_role_delegation: false
+  mission_owner_types: [orchestrator, human]
+  specialist_mission_ownership: false
+  canonical_memory_owner: "none"

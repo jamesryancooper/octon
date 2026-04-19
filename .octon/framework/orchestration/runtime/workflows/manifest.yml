@@ -591,12 +591,12 @@ workflow_group_definitions:
 # ============================================================================
 # GOVERNANCE LINKAGE
 # Capability map governs whether workflows may run autonomous or require
-# agent-augmented / human-only execution.
+# role-mediated / human-only execution.
 # ============================================================================
 governance:
   capability_map_ref: "../../governance/capability-map-v1.yml"
   capability_map_schema_ref: "../../governance/capability-map-v1.schema.json"
   classification_field: "capability_classification"
   autonomy_gate:
-    autonomous_execution_requires: "agent-ready"
-    non_ready_modes: ["agent-augmented", "human-only"]
+    autonomous_execution_requires: "execution-role-ready"
+    non_ready_modes: ["role-mediated", "human-only"]

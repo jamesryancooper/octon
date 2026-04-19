@@ -128,7 +128,7 @@ jobs:
               --issued-by "github://workflow/pr-auto-merge" \
               --status "staged" \
               --support-tier "repo-local-consequential" \
-              --workflow-mode "agent-augmented" \
+              --workflow-mode "role-mediated" \
               --reason-code "PR_AUTONOMY_DISABLED" \
               --projection-check "github://pull/${PR_NUMBER}#check:Validate autonomy policy" \
               --output-json ".octon/generated/.tmp/pr-auto-merge/authority-${PR_NUMBER}.json" >/dev/null
@@ -168,7 +168,7 @@ jobs:
             .octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh \
               --pr-json "${pr_json}" \
               --changed-files-json "${files_json}" \
-              --standards-json ".octon/framework/agency/practices/standards/commit-pr-standards.json" \
+              --standards-json ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json" \
               --pr-template ".github/PULL_REQUEST_TEMPLATE.md" \
               --output-json "${result_json}" >/dev/null
 
@@ -191,7 +191,7 @@ jobs:
               --issued-by "github://workflow/pr-auto-merge" \
               --status "${status}" \
               --support-tier "repo-local-consequential" \
-              --workflow-mode "agent-augmented" \
+              --workflow-mode "role-mediated" \
               --required-evidence "pr-autonomy-policy" \
               --required-evidence "required-checks" \
               --reason-code "${reason_code}" \

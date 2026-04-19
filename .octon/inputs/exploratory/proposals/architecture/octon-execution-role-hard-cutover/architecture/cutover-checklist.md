@@ -1,0 +1,39 @@
+# Cutover Checklist
+
+- [ ] Accept proposal for implementation.
+- [ ] Freeze current support-target and runtime-service baseline.
+- [ ] Add `framework/execution-roles/**`.
+- [ ] Add execution-role registry and role contracts.
+- [ ] Add specialist, verifier, and composition-profile registries.
+- [ ] Add `execution-request-v3.schema.json`.
+- [ ] Add `execution-receipt-v3.schema.json`.
+- [ ] Add `runtime-event-v1.schema.json`.
+- [ ] Update execution authorization spec.
+- [ ] Update `.octon/README.md`.
+- [ ] Update `.octon/octon.yml`.
+- [ ] Update `.octon/AGENTS.md`.
+- [ ] Update `instance/ingress/AGENTS.md`.
+- [ ] Update constitution charter mode vocabulary.
+- [ ] Update cognition umbrella spec.
+- [ ] Update overlay registry.
+- [ ] Update instance manifest.
+- [ ] Update support-targets.
+- [ ] Replace egress policy.
+- [ ] Replace execution budget policy.
+- [ ] Update runtime service manifest.
+- [ ] Remove unsupported browser/API live claims or add proof-backed services.
+- [ ] Reduce workflow manifest.
+- [ ] Delete `framework/agency/**`.
+- [ ] Delete active experimental external adapter.
+- [ ] Add hard-cutover validator.
+- [ ] Run proposal standard validator.
+- [ ] Run hard-cutover validator.
+- [ ] Run schema validators.
+- [ ] Run support-target validators.
+- [ ] Run workflow validators.
+- [ ] Run runtime conformance tests.
+- [ ] Run rollback/recovery drill.
+- [ ] Run scenario/shadow tests.
+- [ ] Generate retained promotion evidence.
+- [ ] Mark proposal implemented.
+- [ ] Archive proposal with promotion evidence.

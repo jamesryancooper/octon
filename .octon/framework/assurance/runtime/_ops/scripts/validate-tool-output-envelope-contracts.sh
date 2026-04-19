@@ -7,7 +7,7 @@ OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
 SCHEMA_FILE="$OCTON_DIR/framework/constitution/contracts/adapters/tool-output-envelope-v1.schema.json"
-BUDGET_FILE="$OCTON_DIR/instance/agency/runtime/tool-output-budgets.yml"
+BUDGET_FILE="$OCTON_DIR/instance/execution-roles/runtime/tool-output-budgets.yml"
 DIR="$OCTON_DIR/state/evidence/validation/tool-output-envelope/2026-04-11-selected-harness-concepts-integration"
 ENVELOPE_FILE="$DIR/envelope.yml"
 RAW_FILE="$DIR/raw-payload.json"
@@ -53,7 +53,7 @@ main() {
     fail "raw payload ref must resolve through retained evidence"
   fi
 
-  yq -e '.within_budget == true and .budget_profile_ref == ".octon/instance/agency/runtime/tool-output-budgets.yml"' "$RECEIPT_FILE" >/dev/null 2>&1 \
+  yq -e '.within_budget == true and .budget_profile_ref == ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"' "$RECEIPT_FILE" >/dev/null 2>&1 \
     && pass "receipt records budget validation against the repo-owned profile" \
     || fail "receipt must record budget validation against the repo-owned profile"
 

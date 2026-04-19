@@ -1,0 +1,27 @@
+schema_version: "browser-api-live-support-policy-v1"
+owner: "Octon governance"
+default_status: "stage_only"
+
+live_requirements:
+  required_services:
+    - "interfaces/browser-session"
+    - "interfaces/browser-replay"
+    - "interfaces/api-client"
+    - "interfaces/connector-registry"
+    - "interfaces/multimodal-provenance"
+    - "execution/egress-lease-controller"
+    - "execution/rollback-recovery"
+  required_evidence:
+    - "support-target-admission"
+    - "support-dossier"
+    - "egress-lease"
+    - "action-record"
+    - "redaction-metadata"
+    - "replay-manifest"
+    - "event-ledger"
+    - "rollback-or-compensation-posture"
+    - "scenario-or-shadow-proof"
+
+policy:
+  without_all_requirements: "non_live"
+  admitted_mode_only_when: "runtime_real_and_proof_backed"

@@ -198,7 +198,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         &input,
                         &service.manifest.capabilities_required,
                     );
-                    let (intent_ref, actor_ref, metadata) = match request::bind_repo_local_request(
+                    let (intent_ref, execution_role_ref, metadata) = match request::bind_repo_local_request(
                         &ctx.cfg,
                         service_profile.metadata.clone(),
                     ) {
@@ -227,11 +227,11 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                             ..SideEffectFlags::default()
                         },
                         risk_tier: "medium".to_string(),
-                        workflow_mode: request::agent_augmented_mode(),
+                        workflow_mode: request::role_mediated_mode(),
                         locality_scope: None,
                         intent_ref: Some(intent_ref),
                         autonomy_context: None,
-                        actor_ref: Some(actor_ref),
+                        execution_role_ref: Some(execution_role_ref),
                         parent_run_ref: None,
                         review_requirements: ReviewRequirements::default(),
                         scope_constraints: ScopeConstraints {

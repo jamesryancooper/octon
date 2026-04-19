@@ -12,7 +12,7 @@ governance_evidence_root: ".octon/state/evidence/governance/build-to-delete/**"
 scope:
   - ".octon/instance/bootstrap/OBJECTIVE.md"
   - ".octon/instance/cognition/context/shared/intent.contract.yml"
-  - ".octon/framework/agency/governance/CONSTITUTION.md"
+  - ".octon/framework/execution-roles/governance/CONSTITUTION.md"
   - ".octon/framework/cognition/governance/CHARTER.md"
   - ".octon/framework/assurance/governance/CHARTER.md"
   - ".octon/framework/orchestration/runtime/_ops/scripts/write-decision.sh"

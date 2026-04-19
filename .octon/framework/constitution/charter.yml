@@ -69,7 +69,7 @@ live_model:
   profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-18-octon-frontier-governance-target-state/plan.md"
   consequential_execution_unit: "run-contract"
   authority_engine: "runtime-consumed"
-  support_universe_mode: "bounded-admitted-finite-product"
+  support_universe_mode: "bounded-admitted-finite"
   support_universe_doctrine: >-
     The live support universe remains finite and bounded by admitted supported
     tuples; every claim-critical modeled surface must be dossier-backed,

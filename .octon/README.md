@@ -83,7 +83,7 @@ Overlay-capable repo authority is legal only when
 | `instance-governance-exclusions` | `instance/governance/exclusions/**` | `replace_by_path` | 27 |
 | `instance-governance-capability-packs` | `instance/governance/capability-packs/**` | `replace_by_path` | 28 |
 | `instance-governance-decisions` | `instance/governance/decisions/**` | `append_only` | 29 |
-| `instance-agency-runtime` | `instance/agency/runtime/**` | `merge_by_id` | 30 |
+| `instance-execution-roles-runtime` | `instance/execution-roles/runtime/**` | `merge_by_id` | 30 |
 | `instance-assurance-runtime` | `instance/assurance/runtime/**` | `append_only` | 40 |
 
 No other `instance/**` subtree is overlay-capable in v1.
@@ -181,8 +181,8 @@ No other `instance/**` subtree is overlay-capable in v1.
 - Root manifest: `/.octon/octon.yml`
 - Execution authorization contracts:
   `/.octon/framework/engine/runtime/spec/execution-authorization-v1.md`,
-  `execution-request-v2.schema.json`, `execution-grant-v1.schema.json`,
-  `execution-receipt-v2.schema.json`, `policy-receipt-v2.schema.json`,
+  `execution-request-v3.schema.json`, `execution-grant-v1.schema.json`,
+  `execution-receipt-v3.schema.json`, `policy-receipt-v2.schema.json`,
   `policy-digest-v2.md`, and `executor-profile-v1.schema.json`
 - Export workflow: `/.octon/framework/orchestration/runtime/workflows/meta/export-harness/`
 - Canonical structural architecture contract:

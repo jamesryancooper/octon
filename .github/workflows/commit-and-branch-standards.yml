@@ -1,6 +1,7 @@
 name: Commit and Branch Standards
 
 on:
+  push:
   pull_request:
     types:
       - opened
@@ -26,7 +27,7 @@ jobs:
       - name: Validate head branch from standards source
         uses: actions/github-script@v7
         env:
-          BRANCH_NAME: ${{ github.head_ref }}
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
         with:
           script: |
             async function readStandards(pathCandidates) {
@@ -36,7 +37,7 @@ jobs:
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     path,
-                    ref: baseSha
+                    ref: standardsRef
                   });
                   if (!Array.isArray(response.data) && ("content" in response.data)) {
                     return JSON.parse(
@@ -53,10 +54,13 @@ jobs:
               throw new Error(`Could not load standards from base SHA. Tried: ${pathCandidates.join(", ")}`);
             }
 
-            const pr = context.payload.pull_request;
-            const headRef = pr?.head?.ref || "";
-            const author = pr?.user?.login || "";
-            const labels = (pr?.labels || []).map((label) => label.name);
+            const pr = context.payload.pull_request || null;
+            const isPullRequest = Boolean(pr);
+            const headRef = isPullRequest
+              ? (pr?.head?.ref || "")
+              : (process.env.BRANCH_NAME || context.ref.replace(/^refs\/heads\//, ""));
+            const author = isPullRequest ? (pr?.user?.login || "") : (context.actor || "");
+            const labels = isPullRequest ? ((pr?.labels || []).map((label) => label.name)) : [];
 
             const isDependabot = author === "dependabot[bot]" || headRef.startsWith("dependabot/");
             const isReleasePlease =
@@ -68,13 +72,16 @@ jobs:
               return;
             }
 
-            const baseSha = context.payload.pull_request?.base?.sha;
-            if (!baseSha) {
-              core.setFailed("Unable to determine PR base SHA for branch validation.");
+            const standardsRef = isPullRequest
+              ? context.payload.pull_request?.base?.sha
+              : context.sha;
+            if (!standardsRef) {
+              core.setFailed("Unable to determine standards ref for branch validation.");
               return;
             }
 
             const standards = await readStandards([
+              ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json",
               ".octon/framework/agency/practices/standards/commit-pr-standards.json"
             ]);
 
@@ -102,6 +109,7 @@ jobs:
 
   validate-commit-messages:
     name: Validate commit messages (advisory)
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -158,7 +166,7 @@ jobs:
             let standards;
             try {
               standards = await readStandards([
-                ".octon/framework/agency/practices/standards/commit-pr-standards.json"
+                ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json"
               ]);
             } catch (error) {
               core.warning(error.message);

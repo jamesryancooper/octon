@@ -172,7 +172,7 @@ After onboarding, a developer should:
 
 ## Related Documentation
 
-- [START-HERE.md](/.octon/framework/agency/practices/start-here.md) - The reference doc developers use daily
-- [DAILY-FLOW.md](/.octon/framework/agency/practices/daily-flow.md) - How a typical day looks
+- [START-HERE.md](/.octon/framework/execution-roles/practices/start-here.md) - The reference doc developers use daily
+- [DAILY-FLOW.md](/.octon/framework/execution-roles/practices/daily-flow.md) - How a typical day looks
 - [RISK-TIERS.md](/.octon/instance/cognition/context/shared/risk-tiers.md) - Understanding T1/T2/T3
 - [fix-a-bug.md](./fix-a-bug.md) - Detailed bug fix workflow

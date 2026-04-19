@@ -91,7 +91,7 @@ jobs:
               "type:revert": { color: "BFD4F2", description: "Revert change" },
               "type:unknown": { color: "D4C5F9", description: "Unclassified branch type" },
 
-              "area:agency": { color: "0E8A16", description: "Octon agency domain" },
+              "area:execution-roles": { color: "0E8A16", description: "Octon execution-role domain" },
               "area:capabilities": { color: "0E8A16", description: "Octon capabilities domain" },
               "area:cognition": { color: "0E8A16", description: "Octon cognition domain" },
               "area:orchestration": { color: "0E8A16", description: "Octon orchestration domain" },
@@ -165,7 +165,7 @@ jobs:
             }
 
             const areaPrefixMap = [
-              [".octon/framework/agency/", "area:agency"],
+              [".octon/framework/execution-roles/", "area:execution-roles"],
               [".octon/framework/capabilities/", "area:capabilities"],
               [".octon/framework/cognition/", "area:cognition"],
               [".octon/framework/orchestration/", "area:orchestration"],
@@ -200,7 +200,7 @@ jobs:
             const highImpactPathPatterns = [
               ".github/",
               "AGENTS.md",
-              ".octon/framework/agency/governance/",
+              ".octon/framework/execution-roles/governance/",
               ".octon/framework/cognition/governance/",
               ".octon/framework/capabilities/governance/",
               ".octon/framework/engine/governance/",
@@ -208,7 +208,7 @@ jobs:
               ".octon/framework/assurance/governance/"
             ];
             const mediumImpactPathPatterns = [
-              ".octon/framework/agency/runtime/",
+              ".octon/framework/execution-roles/runtime/",
               ".octon/framework/capabilities/runtime/",
               ".octon/framework/orchestration/runtime/",
               ".octon/framework/assurance/runtime/",

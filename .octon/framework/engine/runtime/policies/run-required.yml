@@ -30,8 +30,8 @@ consequential_surfaces:
   - surface: "studio"
     route: "compatibility-run-binding"
   - surface: "workflow:run"
-    route: "compatibility-wrapper"
+    route: "deny"
 rules:
   - "No consequential surface may execute without a canonical control-root run contract and manifest."
-  - "Compatibility entry points may synthesize canonical run artifacts only as a short-lived wrapper over run-first execution."
+  - "Compatibility entry points must not survive as live consequential execution lanes."
   - "Observation-only surfaces may execute directly when they do not mutate repo, control state, evidence, or external systems."

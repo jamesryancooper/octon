@@ -1,7 +1,7 @@
 schema_version: "runtime-service-contract-v1"
 service_id: "browser-session"
 owner: "Octon runtime"
-status: "active"
+status: "stage_only"
 service_kind: "boundary-sensitive-runtime-substrate"
 capability_pack: "browser"
 support_target_ref: ".octon/instance/governance/support-targets.yml"

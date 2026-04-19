@@ -213,7 +213,7 @@ main() {
     any(.[]?;
       startswith(".github/")
       or . == "AGENTS.md"
-      or startswith(".octon/framework/agency/governance/")
+      or startswith(".octon/framework/execution-roles/governance/")
       or startswith(".octon/framework/cognition/governance/")
       or startswith(".octon/framework/capabilities/governance/")
       or startswith(".octon/framework/engine/governance/")
@@ -223,7 +223,7 @@ main() {
     is_high_impact=true
   elif jq -e '
     any(.[]?;
-      startswith(".octon/framework/agency/runtime/")
+      startswith(".octon/framework/execution-roles/runtime/")
       or startswith(".octon/framework/capabilities/runtime/")
       or startswith(".octon/framework/orchestration/runtime/")
       or startswith(".octon/framework/assurance/runtime/")
@@ -281,7 +281,7 @@ main() {
         --issued-by "$ISSUED_BY" \
         --status "$project_status" \
         --support-tier "$SUPPORT_TIER" \
-        --workflow-mode "agent-augmented" \
+        --workflow-mode "role-mediated" \
         --required-evidence "pr-autonomy-policy" \
         --required-evidence "required-checks" \
         --reason-code "$reason_code" \

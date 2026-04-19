@@ -9,7 +9,7 @@ active:
     status: "draft"
     promotion_targets:
       - ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json"
-      - ".octon/instance/agency/runtime/tool-output-budgets.yml"
+      - ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"
       - ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json"
       - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
       - ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json"
@@ -673,7 +673,7 @@ archived:
       - ".octon/instance/governance/contracts/failure-distillation-workflow.yml"
       - ".octon/state/evidence/validation/failure-distillation/2026-04-11-selected-harness-concepts-integration/bundle.yml"
       - ".octon/framework/constitution/contracts/adapters/tool-output-envelope-v1.schema.json"
-      - ".octon/instance/agency/runtime/tool-output-budgets.yml"
+      - ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"
       - ".octon/state/evidence/validation/tool-output-envelope/2026-04-11-selected-harness-concepts-integration/receipt.yml"
       - ".octon/framework/constitution/contracts/assurance/distillation-bundle-v1.schema.json"
       - ".octon/instance/governance/contracts/evidence-distillation-workflow.yml"

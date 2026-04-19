@@ -2005,3 +2005,28 @@
 {"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-03-10T00:47:07Z"}
 {"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"agent","timestamp":"2026-03-10T00:47:08Z"}
 {"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"agent","timestamp":"2026-03-10T00:47:09Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"prompt","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"cost","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"spec","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"plan","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"playbook","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"critic","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"replan","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"scheduler","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"capability-bind","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"contingency","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"agent","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"agent-platform","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"query","timestamp":"2026-04-19T16:19:06Z"}
+{"allow":false,"mode":"hard-enforce","deny":{"code":"DDB015_REVIEW_AGENT_REQUIRED","message":"Risk tier requires review agent","scope":"service","target":"guard","remediation_hint":"Set OCTON_REVIEW_AGENT_ID","risk_tier":"medium"},"service":"guard","timestamp":"2026-04-19T16:19:07Z"}
+{"allow":false,"mode":"hard-enforce","deny":{"code":"DDB017_QUORUM_TOKEN_REQUIRED","message":"Risk tier requires quorum token","scope":"service","target":"guard","remediation_hint":"Set OCTON_QUORUM_TOKEN","risk_tier":"high"},"service":"guard","timestamp":"2026-04-19T16:19:07Z"}
+{"allow":false,"mode":"hard-enforce","deny":{"code":"DDB019_KILL_SWITCH_ACTIVE","message":"Matching kill-switch is active for requested scope","scope":"service","target":"guard","remediation_hint":"Clear or expire kill-switch record for this scope","risk_tier":"low"},"service":"guard","timestamp":"2026-04-19T16:19:07Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:07Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:07Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:08Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:08Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:09Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"guard","timestamp":"2026-04-19T16:19:10Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"agent","timestamp":"2026-04-19T16:19:11Z"}
+{"allow":true,"mode":"hard-enforce","notes":["service-preflight-pass"],"service":"agent","timestamp":"2026-04-19T16:19:12Z"}

@@ -1,0 +1,41 @@
+schema_version: "execution-role-supervision-policy-v1"
+owner: "Octon governance"
+default_posture: "observe"
+
+supervision_axes:
+  - "reversibility"
+  - "irreversibility"
+  - "external_effect"
+  - "data_exposure"
+  - "materiality"
+  - "support_target_class"
+  - "capability_pack"
+  - "rollback_posture"
+
+postures:
+  - posture_id: "observe"
+    meaning: "Inspect and retain trace without side effects."
+  - posture_id: "notify"
+    meaning: "Proceed and record according to policy."
+  - posture_id: "feedback-window"
+    meaning: "Pause at a boundary and wait for feedback before continuing."
+  - posture_id: "approve"
+    meaning: "Governance or authorized policy authority must approve before action."
+  - posture_id: "escalate"
+    meaning: "The system cannot decide locally and must route to authority."
+  - posture_id: "revoke"
+    meaning: "A live grant, lease, or capability is withdrawn."
+  - posture_id: "override"
+    meaning: "A governance owner supersedes a default control decision with evidence."
+  - posture_id: "break-glass"
+    meaning: "Emergency override under strict owner and evidence rules."
+  - posture_id: "audit-after-the-fact"
+    meaning: "Low-risk admitted work may be reviewed after completion from retained evidence."
+
+reversibility_classes:
+  - class_id: "reversible"
+    default_postures: ["notify", "feedback-window"]
+  - class_id: "compensable"
+    default_postures: ["approve", "escalate"]
+  - class_id: "irreversible"
+    default_postures: ["approve"]

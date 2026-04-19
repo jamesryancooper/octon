@@ -37,7 +37,7 @@ main() {
   echo "== Support-Target Live Claim Validation =="
 
   require_yq '.support_claim_mode == "bounded-admitted-finite"' "$SUPPORT_TARGETS" "support-target declaration uses bounded admitted-finite claim mode"
-  require_yq '(.tuple_admissions | length) == 6' "$SUPPORT_TARGETS" "all six target tuples remain inventoried"
+  require_yq '(.tuple_admissions | length) == 3' "$SUPPORT_TARGETS" "live support tuple inventory is narrowed to the three admitted tuples"
   require_yq '.live_support_universe.host_adapters[] | select(. == "repo-shell")' "$SUPPORT_TARGETS" "repo-shell host adapter is live supported"
   require_yq '.live_support_universe.host_adapters[] | select(. == "ci-control-plane")' "$SUPPORT_TARGETS" "ci host adapter is live supported"
   require_yq '.resolved_non_live_surfaces.host_adapters[] | select(. == "github-control-plane")' "$SUPPORT_TARGETS" "github host adapter is explicitly non-live"

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://octon.local/orchestration/governance/capability-map-v1.schema.json",
   "title": "Octon Capability Map v1",
-  "description": "Workflow autonomy classification map for agent-ready, agent-augmented, and human-only execution modes.",
+  "description": "Workflow autonomy classification map for execution-role-ready, role-mediated, and human-only execution modes.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -49,8 +49,8 @@
         "classification": {
           "type": "string",
           "enum": [
-            "agent-ready",
-            "agent-augmented",
+            "execution-role-ready",
+            "role-mediated",
             "human-only"
           ]
         },
@@ -78,8 +78,8 @@
           "classification": {
             "type": "string",
             "enum": [
-              "agent-ready",
-              "agent-augmented",
+              "execution-role-ready",
+              "role-mediated",
               "human-only"
             ]
           },

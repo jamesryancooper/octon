@@ -493,7 +493,7 @@ acp:
         phase: [promote]
         target:
           workflow_mode: [autonomous]
-          capability_classification: [agent-ready]
+          capability_classification: [execution-role-ready]
           boundary_route: [allow]
       require:
         acp: ACP-1
@@ -513,7 +513,7 @@ acp:
         phase: [promote]
         target:
           workflow_mode: [autonomous]
-          capability_classification: [agent-ready]
+          capability_classification: [execution-role-ready]
           boundary_route: [escalate]
       require:
         acp: ACP-2
@@ -546,7 +546,7 @@ acp:
         phase: [promote]
         target:
           workflow_mode: [autonomous]
-          capability_classification: [agent-augmented, human-only]
+          capability_classification: [role-mediated, human-only]
       require:
         acp: ACP-4
         phase: promote

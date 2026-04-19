@@ -53,7 +53,7 @@ Behavior:
    `/.octon/AGENTS.md`, using a symlink when possible and otherwise a
    byte-for-byte parity copy.
 3. Resolve a common objective from `.octon/framework/scaffolding/runtime/bootstrap/objectives/` and generate the canonical workspace charter pair at `/.octon/instance/charter/workspace.{md,yml}` plus compatibility shims at `/.octon/instance/bootstrap/OBJECTIVE.md` and `/.octon/instance/cognition/context/shared/intent.contract.yml`.
-4. Use `.octon/framework/agency/manifest.yml` `default_agent` for contract paths.
+4. Use `.octon/framework/execution-roles/manifest.yml` `default_agent` for contract paths.
 5. Enforce developer-context policy limits for the generated AGENTS contract content before writing ingress adapters.
 6. Optionally render `BOOT.md` and `BOOTSTRAP.md` for BOOT compatibility.
 7. Render root `alignment-check` shim from `.octon/framework/scaffolding/runtime/bootstrap/alignment-check`.

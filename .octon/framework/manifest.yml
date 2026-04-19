@@ -5,7 +5,7 @@ supported_instance_schema_versions:
   - octon-instance-manifest-v1
 overlay_registry: .octon/framework/overlay-points/registry.yml
 subsystems:
-  - agency
+  - execution-roles
   - assurance
   - capabilities
   - cognition
@@ -17,7 +17,7 @@ generators:
   - assurance-outputs
   - validation-reports
 bundled_policy_sets:
-  - .octon/framework/agency/governance/
+  - .octon/framework/execution-roles/governance/
   - .octon/framework/assurance/governance/
   - .octon/framework/capabilities/governance/
   - .octon/framework/cognition/governance/

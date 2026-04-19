@@ -30,7 +30,7 @@
     "action_type": { "type": "string", "minLength": 1 },
     "path_type": { "type": "string", "minLength": 1 },
     "environment_class": { "type": "string", "enum": ["development", "protected"] },
-    "workflow_mode": { "type": "string", "enum": ["autonomous", "agent-augmented", "human-only"] },
+    "workflow_mode": { "type": "string", "enum": ["autonomous", "role-mediated", "human-only"] },
     "requested_capabilities": { "type": "array", "items": { "type": "string" } },
     "granted_capabilities": { "type": "array", "items": { "type": "string" } },
     "requested_capability_packs": { "type": "array", "items": { "type": "string" } },

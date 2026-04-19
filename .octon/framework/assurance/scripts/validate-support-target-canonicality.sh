@@ -5,11 +5,15 @@ source "$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)/../runtime/_ops/scri
 require_yq
 
 matrix="$OCTON_DIR/generated/effective/governance/support-target-matrix.yml"
+support_targets="$OCTON_DIR/instance/governance/support-targets.yml"
 errors=0
 
 while IFS= read -r admission; do
   [[ -f "$admission" ]] || continue
   tuple_id="$(yq -r '.tuple_id' "$admission")"
+  if ! yq -e ".tuple_admissions[] | select(.tuple_id == \"$tuple_id\")" "$support_targets" >/dev/null 2>&1; then
+    continue
+  fi
   route="$(yq -r '.route // ""' "$admission")"
   requires_mission="$(yq -r '.requires_mission // false' "$admission")"
   matrix_route="$(yq -r ".supported_tuples[] | select(.tuple_id == \"$tuple_id\") | .route" "$matrix" 2>/dev/null || true)"

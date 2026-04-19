@@ -1,0 +1,13 @@
+schema_version: "composition-profile-registry-v1"
+
+composition_profiles:
+  - profile_id: "high-risk-review"
+    path: "high-risk-review/"
+    contract_file: "PROFILE.md"
+    contract_ref: "high-risk-review/composition-profile.yml"
+    purpose: "High-risk routing profile with one orchestrator, bounded specialists, and an independent verifier."
+    topology:
+      - "orchestrator"
+      - "specialist"
+      - "verifier"
+    executes: false

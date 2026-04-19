@@ -223,7 +223,7 @@ check_active_reference_drift() {
     "$INSTANCE_DIR/ingress/AGENTS.md"
     "$INSTANCE_DIR/bootstrap"
     "$INSTANCE_DIR/cognition/context/shared"
-    "$OCTON_DIR/framework/agency/practices"
+    "$OCTON_DIR/framework/execution-roles/practices"
     "$OCTON_DIR/framework/assurance/practices"
     "$OCTON_DIR/framework/capabilities/practices"
     "$OCTON_DIR/framework/capabilities/runtime/commands"

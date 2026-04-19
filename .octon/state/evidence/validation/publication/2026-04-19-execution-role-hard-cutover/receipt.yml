@@ -1,0 +1,33 @@
+schema_version: "publication-validation-receipt-v1"
+receipt_id: "publication-validation://octon/2026-04-19-execution-role-hard-cutover"
+created_at: "2026-04-19T00:00:00Z"
+change_profile: "atomic"
+release_state: "pre-1.0"
+claim: "execution-role-hard-cutover"
+status: "partial-runtime-cutover"
+
+validated_surfaces:
+  - ".octon/framework/execution-roles/**"
+  - ".octon/framework/engine/runtime/spec/execution-request-v3.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+  - ".octon/framework/overlay-points/registry.yml"
+  - ".octon/instance/manifest.yml"
+  - ".octon/instance/ingress/**"
+  - ".octon/instance/governance/support-targets.yml"
+
+checks_run:
+  - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh"
+  - "bash .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh"
+  - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-ingress-manifest-parity.sh"
+  - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh"
+  - "bash .octon/framework/assurance/scripts/validate-support-target-canonicality.sh"
+  - "bash .octon/framework/assurance/governance/_ops/scripts/validate-support-target-normalization.sh"
+  - "bash .octon/framework/assurance/governance/_ops/scripts/validate-capability-truthfulness.sh"
+  - "bash .octon/framework/assurance/runtime/_ops/scripts/verify-support-dossier-parity.sh"
+  - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proof-plane-coverage.sh"
+
+notes:
+  - "Historical run/state evidence remains retained lineage and was not back-edited."
+  - "Browser/API capability packs remain stage-only and excluded from the live admitted support universe."
+  - "Runtime emitters still require further cutover work before all live run artifacts are v3-only."

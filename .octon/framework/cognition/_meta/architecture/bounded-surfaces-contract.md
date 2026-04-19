@@ -34,9 +34,9 @@ For subsystems that define executable actors or runtime-routing artifacts:
 
 Agency is the first subsystem applying this contract:
 
-- runtime artifacts: `/.octon/framework/agency/runtime/`
-- governance contracts: `/.octon/framework/agency/governance/`
-- operating standards: `/.octon/framework/agency/practices/`
+- runtime artifacts: `/.octon/framework/execution-roles/runtime/`
+- governance contracts: `/.octon/framework/execution-roles/governance/`
+- operating standards: `/.octon/framework/execution-roles/practices/`
 
 Legacy root-level actor and governance paths are removed as part of the clean-break migration.
 

@@ -1,0 +1,74 @@
+schema_version: architecture-proposal-v1
+architecture_scope: repo-architecture
+decision_type: boundary-change
+executive_thesis: >-
+  Octon must hard-cut from its legacy agency ontology to a frontier-governance
+  execution-role subsystem. The final system uses execution role as the canonical
+  durable noun and exposes only orchestrator, specialist, verifier, and
+  composition profile as operator-facing role concepts. All consequential work
+  remains governed by objective, mission, run-contract, workflow instance,
+  context pack, support-target tuple, capability pack, adapter tuple,
+  authorization grant, evidence, replay, rollback, intervention, and disclosure.
+target_state_decisions:
+  canonical_noun: execution role
+  execution_roles:
+    - orchestrator
+    - specialist
+    - verifier
+    - composition profile
+  primary_execution_unit: run-contract
+  mission_role: continuity-and-autonomy-container
+  workflow_role: governance-evidence-recovery-sequencing-only
+  memory_model: work-owned-continuity-and-evidence-owned-proof
+  runtime_boundary: engine-owned-authorize-execution
+  support_boundary: finite-admitted-support-target-tuples
+  generated_boundary: derived-only-never-authority
+current_state_disposition:
+  keep:
+    - five-class super-root
+    - constitutional kernel
+    - authored authority boundaries
+    - state/control, state/continuity, state/evidence split
+    - run-first execution
+    - mission continuity/autonomy
+    - support-target and capability-pack governance
+    - lab, observability, and assurance proof surfaces
+  replace:
+    - framework/agency/**
+    - agency runtime agents/assistants/teams
+    - actor_ref schema language
+    - agent-augmented workflow mode language
+  delete:
+    - durable agent ontology
+    - durable assistant ontology
+    - durable team ontology
+    - durable subagent ontology
+    - persona or identity authority
+    - mission-only execution fallback
+    - unsupported live browser/API/multimodal claims
+implementation_motions:
+  - create framework/execution-roles/**
+  - delete framework/agency/** from active authority
+  - rename actor_ref to execution_role_ref in execution schemas
+  - require context_pack_ref, risk_materiality_ref, support_target_tuple_ref, rollback_plan_ref for consequential requests
+  - replace agency overlay point with execution-role overlay point
+  - reduce workflow manifest to governance-critical workflows only
+  - harden service manifest before admitting browser/API support
+deletion_motions:
+  - remove runtime/agents/**
+  - remove runtime/assistants/**
+  - remove runtime/teams/**
+  - remove experimental-external active adapter discovery
+  - remove thinking-only workflows from canonical workflow manifest
+validation_motions:
+  - deterministic schema validation
+  - execution-role topology validation
+  - support-target tuple validation
+  - context-pack and rollback-plan validation
+  - browser/API runtime-real proof validation
+  - proposal standard validation
+closure_motions:
+  - all acceptance criteria pass
+  - no legacy agency paths remain active
+  - retained promotion evidence exists
+  - RunCard/HarnessCard generators consume only retained evidence

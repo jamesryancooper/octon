@@ -22,12 +22,12 @@ Pressure-test the audited package before any rigorous-mode mutation stages run.
 2. Substitute `<PACKAGE_PATH>` with the target package path.
 3. Execute the prompt against the current package state.
 4. Persist the resulting report at:
-   - `bundle/reports/03-design-red-team.md`
+   - `bundle/reports/03-design-red-PROFILE.md`
 5. Record the highest-risk design ambiguities and unsafe implementation paths.
 
 ## Output
 
-- `bundle/reports/03-design-red-team.md`
+- `bundle/reports/03-design-red-PROFILE.md`
 - Risk inventory for the hardening stage
 
 ## Proceed When

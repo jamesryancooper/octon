@@ -1,0 +1,53 @@
+name: Agency Validation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.octon/framework/execution-roles/**'
+      - '.octon/octon.yml'
+      - '.octon/instance/bootstrap/START.md'
+      - '.octon/README.md'
+      - '.octon/instance/bootstrap/scope.md'
+      - '.octon/framework/scaffolding/runtime/bootstrap/**'
+      - '.octon/framework/scaffolding/runtime/templates/octon/**'
+  pull_request:
+    paths:
+      - '.octon/framework/execution-roles/**'
+      - '.octon/octon.yml'
+      - '.octon/instance/bootstrap/START.md'
+      - '.octon/README.md'
+      - '.octon/instance/bootstrap/scope.md'
+      - '.octon/framework/scaffolding/runtime/bootstrap/**'
+      - '.octon/framework/scaffolding/runtime/templates/octon/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: execution-role-validate-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate execution-role contracts
+        run: |
+          chmod +x .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh
+          .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh
+
+      - name: Validate GitHub label catalog
+        run: |
+          chmod +x .octon/framework/execution-roles/_ops/scripts/validate/validate-autonomy-labels.sh
+          .octon/framework/execution-roles/_ops/scripts/validate/validate-autonomy-labels.sh
+
+      - name: Report validation failure
+        if: failure()
+        run: |
+          echo "::error::Execution-role validation failed. Run '.octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh' locally to inspect errors."

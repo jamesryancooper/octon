@@ -10,8 +10,8 @@
 - `watcher-signal-policy.md` - Canonical policy for watcher signal emission and routing-hint posture.
 - `incidents.md` - Canonical incident governance contract for severity, authority, escalation, and closure.
 - `production-incident-runbook.md` - Product-specific operational response guide for production rollback and investigation.
-- `capability-map-v1.yml` - Workflow autonomy classification (`agent-ready`,
-  `agent-augmented`, `human-only`).
+- `capability-map-v1.yml` - Workflow autonomy classification (`execution-role-ready`,
+  `role-mediated`, `human-only`).
 - `capability-map-v1.schema.json` - Validation schema for capability map
   updates.
 - `workflow-system-audit-v1.yml` - Machine-readable contract for the workflow-system bounded audit.
@@ -23,5 +23,5 @@ This surface is policy and governance only.
 Executable workflows and mission state belong in `../runtime/`.
 
 Autonomous workflow execution is permitted only when classification is
-`agent-ready`. `agent-augmented` and `human-only` modes require non-autonomous
+`execution-role-ready`. `role-mediated` and `human-only` modes require non-autonomous
 routing.

@@ -1,0 +1,75 @@
+schema_version: proposal-v1
+proposal_id: octon-execution-role-hard-cutover
+title: "Octon Execution Role Hard Cutover"
+summary: >-
+  Big-bang architecture proposal packet that replaces Octon's legacy agency
+  ontology with a frontier-governance execution-role subsystem. The target
+  removes canonical agent, assistant, team, actor, persona, and durable subagent
+  surfaces; promotes execution role as the canonical agency-facing noun; keeps
+  run-contract as the atomic consequential execution unit; and hardens context
+  packs, support-target tuples, capability packs, runtime authorization,
+  browser/API proof, rollback, replay, intervention, and evidence closure.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/README.md
+  - .octon/octon.yml
+  - .octon/AGENTS.md
+  - .octon/instance/ingress/AGENTS.md
+  - .octon/framework/constitution/CHARTER.md
+  - .octon/framework/constitution/charter.yml
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - .octon/framework/execution-roles/README.md
+  - .octon/framework/execution-roles/_meta/architecture/specification.md
+  - .octon/framework/execution-roles/registry.yml
+  - .octon/framework/execution-roles/governance/DELEGATION.md
+  - .octon/framework/execution-roles/governance/MEMORY.md
+  - .octon/framework/execution-roles/runtime/orchestrator/ROLE.md
+  - .octon/framework/execution-roles/runtime/orchestrator/role.yml
+  - .octon/framework/execution-roles/runtime/specialists/registry.yml
+  - .octon/framework/execution-roles/runtime/verifiers/registry.yml
+  - .octon/framework/execution-roles/runtime/composition-profiles/registry.yml
+  - .octon/framework/orchestration/_meta/architecture/specification.md
+  - .octon/framework/orchestration/runtime/workflows/manifest.yml
+  - .octon/framework/capabilities/_meta/architecture/specification.md
+  - .octon/framework/capabilities/runtime/services/manifest.runtime.yml
+  - .octon/framework/engine/runtime/spec/execution-authorization-v1.md
+  - .octon/framework/engine/runtime/spec/execution-request-v3.schema.json
+  - .octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json
+  - .octon/framework/engine/runtime/spec/runtime-event-v1.schema.json
+  - .octon/framework/engine/runtime/spec/policy-interface-v1.md
+  - .octon/framework/overlay-points/registry.yml
+  - .octon/framework/lab/README.md
+  - .octon/framework/observability/README.md
+  - .octon/framework/assurance/README.md
+  - .octon/instance/manifest.yml
+  - .octon/instance/governance/support-targets.yml
+  - .octon/instance/governance/policies/network-egress.yml
+  - .octon/instance/governance/policies/execution-budgets.yml
+  - .octon/instance/governance/policies/execution-role-supervision.yml
+  - .octon/instance/governance/policies/browser-api-live-support.yml
+  - .octon/instance/cognition/decisions/091-execution-role-hard-cutover.md
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh
+status: in-review
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the execution-role subsystem, delete the legacy agency subsystem,
+    harden runtime/context/support/proof contracts, run the hard-cutover
+    validator suite, retain promotion evidence, and archive this proposal once
+    the promoted targets stand without proposal-path dependency.
+related_proposals: []
+source_authorities:
+  - current Octon repository on main
+  - .octon/README.md
+  - .octon/framework/constitution/CHARTER.md
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/framework/engine/runtime/spec/execution-authorization-v1.md
+  - frontier-governance target-state direction supplied for this packet
+non_goals:
+  - preserve legacy agency terminology
+  - create compatibility aliases for agents, assistants, or teams
+  - create a rival control plane outside .octon
+  - treat generated outputs as authority
+  - keep browser/API support live without runtime services and proof

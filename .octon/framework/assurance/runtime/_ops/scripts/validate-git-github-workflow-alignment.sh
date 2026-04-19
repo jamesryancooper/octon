@@ -5,14 +5,14 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-CONTRACT_FILE="$OCTON_DIR/framework/agency/practices/standards/git-worktree-autonomy-contract.yml"
+CONTRACT_FILE="$OCTON_DIR/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
 MANIFEST_FILE="$OCTON_DIR/instance/ingress/manifest.yml"
 INGRESS_FILE="$OCTON_DIR/instance/ingress/AGENTS.md"
-PLAYBOOK_FILE="$OCTON_DIR/framework/agency/practices/git-autonomy-playbook.md"
-OVERVIEW_FILE="$OCTON_DIR/framework/agency/practices/git-github-autonomy-workflow-v1.md"
-PR_DOC_FILE="$OCTON_DIR/framework/agency/practices/pull-request-standards.md"
-OPEN_SCRIPT="$OCTON_DIR/framework/agency/_ops/scripts/git/git-pr-open.sh"
-SHIP_SCRIPT="$OCTON_DIR/framework/agency/_ops/scripts/git/git-pr-ship.sh"
+PLAYBOOK_FILE="$OCTON_DIR/framework/execution-roles/practices/git-autonomy-playbook.md"
+OVERVIEW_FILE="$OCTON_DIR/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+PR_DOC_FILE="$OCTON_DIR/framework/execution-roles/practices/pull-request-standards.md"
+OPEN_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-pr-open.sh"
+SHIP_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
 CLOSEOUT_SKILL_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
 SKILL_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md"
 SAFETY_FILE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references/safety.md"
@@ -160,12 +160,12 @@ check_ingress() {
 check_docs() {
   require_literal \
     "$PLAYBOOK_FILE" \
-    ".octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml" \
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml" \
     "playbook references canonical workflow contract" \
     "playbook missing canonical workflow contract reference"
   require_literal \
     "$OVERVIEW_FILE" \
-    ".octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml" \
+    ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml" \
     "workflow overview references canonical workflow contract" \
     "workflow overview missing canonical workflow contract reference"
   require_literal \

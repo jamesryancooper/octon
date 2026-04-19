@@ -367,17 +367,17 @@ octon_acp_gate_enforce() {
     if type != "object" then
       {
         workflow_mode: "autonomous",
-        capability_classification: "agent-ready",
+        capability_classification: "execution-role-ready",
         boundary_route: "allow"
       }
     else
       . + {
         workflow_mode: (.workflow_mode // "autonomous"),
-        capability_classification: (.capability_classification // "agent-ready"),
+        capability_classification: (.capability_classification // "execution-role-ready"),
         boundary_route: (.boundary_route // "allow")
       }
     end
-  ' <<<"$target_json" 2>/dev/null || echo '{"workflow_mode":"autonomous","capability_classification":"agent-ready","boundary_route":"allow"}')"
+  ' <<<"$target_json" 2>/dev/null || echo '{"workflow_mode":"autonomous","capability_classification":"execution-role-ready","boundary_route":"allow"}')"
   if [[ -n "${OCTON_TARGET_BRANCH:-}" ]]; then
     target_json="$(jq -c --arg branch "$OCTON_TARGET_BRANCH" '
       if type != "object" then

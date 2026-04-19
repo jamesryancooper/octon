@@ -29,7 +29,7 @@ main() {
   require_yq '.live_support_universe.host_adapters[] | select(. == "ci-control-plane")' "$SUPPORT_TARGETS" "live support universe includes ci-control-plane"
   require_yq '.resolved_non_live_surfaces.host_adapters[] | select(. == "studio-control-plane")' "$SUPPORT_TARGETS" "studio-control-plane is explicitly non-live"
   require_yq 'has("compatibility_matrix") | not' "$SUPPORT_TARGETS" "support-target declaration no longer embeds a duplicate compatibility matrix"
-  require_yq '(.tuple_admissions | length) == 6' "$SUPPORT_TARGETS" "all six tuples remain inventoried in the declaration"
+  require_yq '(.tuple_admissions | length) == 3' "$SUPPORT_TARGETS" "live tuple admissions are narrowed to the three active tuples"
   require_yq '.tuple_admissions[] | select(.tuple_id == "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell") | .admission_ref == ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"' "$SUPPORT_TARGETS" "repo-shell consequential tuple points at canonical admission"
   require_yq '(.resolved_non_live_surfaces.host_adapters | length) >= 1' "$SUPPORT_TARGETS" "resolved non-live host adapters are tracked explicitly"
   require_ref "$(yq -r '.generated_projection_ref' "$SUPPORT_TARGETS")" "generated effective matrix ref"

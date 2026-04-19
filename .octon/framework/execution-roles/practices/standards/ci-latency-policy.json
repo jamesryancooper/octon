@@ -1,0 +1,55 @@
+{
+  "version": "2026-03-12",
+  "window_runs": 40,
+  "newest_bucket": 10,
+  "previous_bucket": 10,
+  "required_checks_contract_path": ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json",
+  "required_path_median_seconds": 420,
+  "required_path_p90_seconds": 600,
+  "workflow_regression_percent": 20,
+  "top_workflows": 5,
+  "issue": {
+    "title": "[ci-latency] weekly audit breach",
+    "label": "ci-latency"
+  },
+  "duplicate_work_patterns": [
+    {
+      "id": "checkout",
+      "description": "Repository checkout repeated across workflows",
+      "match": "uses: actions/checkout@v4",
+      "severity": "low"
+    },
+    {
+      "id": "rust-toolchain",
+      "description": "Rust toolchain setup repeated across workflows",
+      "match": "uses: dtolnay/rust-toolchain@stable",
+      "severity": "medium"
+    },
+    {
+      "id": "rust-cache",
+      "description": "Rust cache restore repeated across workflows",
+      "match": "uses: swatinem/rust-cache@v2",
+      "severity": "medium"
+    },
+    {
+      "id": "paths-filter",
+      "description": "Path filtering repeated across workflows",
+      "match": "uses: dorny/paths-filter@v3",
+      "severity": "low"
+    },
+    {
+      "id": "cargo-component-install",
+      "description": "cargo-component installation repeated across workflows",
+      "match": "cargo install --locked cargo-component",
+      "severity": "high",
+      "estimated_seconds_per_occurrence": 180
+    },
+    {
+      "id": "filesystem-service-build",
+      "description": "Filesystem service builds repeated across workflows",
+      "match": ".octon/framework/engine/runtime/run service build interfaces/filesystem-snapshot",
+      "severity": "high",
+      "estimated_seconds_per_occurrence": 120
+    }
+  ]
+}

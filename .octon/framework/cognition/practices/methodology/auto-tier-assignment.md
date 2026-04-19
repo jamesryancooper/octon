@@ -7,9 +7,9 @@ scope: methodology-governance
 last_reviewed: 2026-03-05
 canonical_links:
   - "/AGENTS.md"
-  - "/.octon/framework/agency/governance/CONSTITUTION.md"
-  - "/.octon/framework/agency/governance/DELEGATION.md"
-  - "/.octon/framework/agency/governance/MEMORY.md"
+  - "/.octon/framework/execution-roles/governance/CONSTITUTION.md"
+  - "/.octon/framework/execution-roles/governance/DELEGATION.md"
+  - "/.octon/framework/execution-roles/governance/MEMORY.md"
   - "/.octon/framework/cognition/practices/methodology/authority-crosswalk.md"
 ---
 
@@ -206,7 +206,7 @@ t3_path_triggers:
   # Governance and methodology contract surfaces
   governance_patterns:
     - "AGENTS.md"
-    - ".octon/framework/agency/governance/**"
+    - ".octon/framework/execution-roles/governance/**"
     - ".octon/framework/capabilities/governance/**"
     - ".octon/framework/cognition/governance/**"
     - ".octon/framework/orchestration/governance/**"

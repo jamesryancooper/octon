@@ -1,0 +1,13 @@
+schema_version: "verifier-registry-v1"
+
+verifiers:
+  - verifier_id: "independent-verifier"
+    path: "independent-verifier/"
+    contract_file: "VERIFIER.md"
+    contract_ref: "independent-verifier/verifier.yml"
+    independence_required: true
+    activation_criteria:
+      - "high-materiality"
+      - "separation-of-duties"
+      - "support-proof"
+      - "weak-deterministic-proof"

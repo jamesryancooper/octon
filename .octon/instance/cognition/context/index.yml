@@ -94,7 +94,7 @@ ops_mutation_policy:
     - ../../../state/evidence
   immutable_targets:
     - ../../../framework/cognition/governance/principles/principles.md
-    - ../../../framework/agency/governance
+    - ../../../framework/execution-roles/governance
     - ../../../framework/capabilities/governance
     - ../../../framework/cognition/governance
     - ../../../framework/orchestration/governance

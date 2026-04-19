@@ -1,4 +1,4 @@
-Policy reference: `.octon/framework/agency/practices/pull-request-standards.md`
+Policy reference: `.octon/framework/execution-roles/practices/pull-request-standards.md`
 Working agreement: `.octon/framework/orchestration/practices/orchestration-domain-implementation-agreement.md`
 Backlog reference: `.octon/inputs/exploratory/plans/2026-03-10-orchestration-domain-phase0-backlog.md`
 Reminder: Run `@codex review`.

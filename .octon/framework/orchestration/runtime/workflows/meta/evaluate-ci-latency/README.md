@@ -42,7 +42,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `window_runs` (text, required=false), default=`40`: Number of recent successful PR runs used for latency analysis.
 - `top_workflows` (text, required=false), default=`5`: Number of slow or regressed workflows to inspect for hotspot detail.
 - `gate_scope` (text, required=false), default=`required`: Latency scope emphasized in the report: required or all.
-- `policy_path` (file, required=false), default=`.octon/framework/agency/practices/standards/ci-latency-policy.json`: Policy contract defining thresholds, window sizes, and issue semantics.
+- `policy_path` (file, required=false), default=`.octon/framework/execution-roles/practices/standards/ci-latency-policy.json`: Policy contract defining thresholds, window sizes, and issue semantics.
 
 ## Failure Conditions
 

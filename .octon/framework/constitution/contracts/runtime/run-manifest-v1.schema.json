@@ -10,7 +10,7 @@
     "run_id",
     "run_contract_ref",
     "intent_ref",
-    "actor_ref",
+    "execution_role_ref",
     "support_tier",
     "support_target",
     "support_target_ref",
@@ -61,7 +61,7 @@
         "version": { "type": "string", "minLength": 1 }
       }
     },
-    "actor_ref": {
+    "execution_role_ref": {
       "type": "object",
       "additionalProperties": false,
       "required": ["kind", "id"],

@@ -11,10 +11,10 @@ mandatory_read_set:
   - .octon/framework/constitution/contracts/registry.yml
   - .octon/instance/charter/workspace.md
   - .octon/instance/charter/workspace.yml
-  - .octon/framework/agency/runtime/agents/orchestrator/AGENT.md
+  - .octon/framework/execution-roles/runtime/orchestrator/ROLE.md
 optional_overlays:
-  - .octon/framework/agency/governance/DELEGATION.md
-  - .octon/framework/agency/governance/MEMORY.md
+  - .octon/framework/execution-roles/governance/DELEGATION.md
+  - .octon/framework/execution-roles/governance/MEMORY.md
   - .octon/instance/bootstrap/START.md
   - .octon/instance/bootstrap/scope.md
   - .octon/instance/bootstrap/conventions.md
@@ -30,7 +30,7 @@ adapter_parity_targets:
   - .octon/AGENTS.md
   - AGENTS.md
   - CLAUDE.md
-workflow_contract_ref: .octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml
+workflow_contract_ref: .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
 branch_closeout_gate:
   mode: contextual
   deprecated_fallback_prompt: Are you ready to closeout this branch?

@@ -1,0 +1,12 @@
+schema_version: "verifier-v1"
+verifier_id: "independent-verifier"
+contract_file: "VERIFIER.md"
+independence_required: true
+allowed_capability_packs:
+  - "repo"
+  - "telemetry"
+activation_criteria:
+  - "high-materiality"
+  - "separation-of-duties"
+  - "support-proof"
+  - "weak-deterministic-proof"

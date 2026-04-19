@@ -1,0 +1,9 @@
+schema_version: "specialist-v1"
+specialist_id: "reviewer"
+contract_file: "SPECIALIST.md"
+stateless: true
+scope: "bounded-review"
+escalation_target: "orchestrator"
+allowed_capability_packs:
+  - "repo"
+  - "telemetry"

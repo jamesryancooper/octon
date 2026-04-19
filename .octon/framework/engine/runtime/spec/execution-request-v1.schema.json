@@ -25,7 +25,7 @@
     "side_effect_flags": { "type": "object" },
     "risk_tier": { "type": "string", "minLength": 1 },
     "intent_ref": { "type": "object" },
-    "actor_ref": { "type": "object" },
+    "execution_role_ref": { "type": "object" },
     "review_requirements": { "type": "object" },
     "scope_constraints": { "type": "object" },
     "policy_mode_requested": { "type": "string" }

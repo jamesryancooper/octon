@@ -44,7 +44,7 @@ main() {
   while IFS= read -r entry; do
     rel="${entry#$OCTON_DIR/framework/}"
     case "$rel" in
-      manifest.yml|overlay-points|agency|assurance|capabilities|cognition|constitution|engine|lab|observability|orchestration|scaffolding)
+      manifest.yml|overlay-points|execution-roles|assurance|capabilities|cognition|constitution|engine|lab|observability|orchestration|scaffolding)
         ;;
       *)
         unexpected_framework_entries+=("framework/$rel")

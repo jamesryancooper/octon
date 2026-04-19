@@ -1,0 +1,126 @@
+schema_version: "execution-role-registry-v1"
+default_execution_role: "orchestrator"
+canonical_noun: "execution role"
+
+execution_roles:
+  - role_id: "orchestrator"
+    role_kind: "orchestrator"
+    path: "runtime/orchestrator/"
+    contract_file: "ROLE.md"
+    contract_ref: "runtime/orchestrator/role.yml"
+    authority_posture: "single-accountable-default"
+    continuity_posture: "mission-mediated-only"
+    delegation_posture: "bounded-specialist-delegation-and-verifier-request-only"
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+    support_target_constraints:
+      - "tuple-admitted-only"
+      - "grant-bounded"
+    activation_criteria:
+      - "default-consequential-execution-role"
+    evidence_obligations:
+      - "execution-receipt"
+      - "run-contract"
+      - "context-pack-receipt"
+      - "closeout-evidence"
+    escalation_policy: "runtime/orchestrator/ROLE.md"
+  - role_id: "reviewer"
+    role_kind: "specialist"
+    path: "runtime/specialists/reviewer/"
+    contract_file: "SPECIALIST.md"
+    contract_ref: "runtime/specialists/reviewer/specialist.yml"
+    authority_posture: "scoped-non-owning"
+    continuity_posture: "none"
+    delegation_posture: "cannot-delegate"
+    allowed_capability_packs:
+      - "repo"
+      - "telemetry"
+    support_target_constraints:
+      - "inherits-orchestrator-grant"
+    activation_criteria:
+      - "bounded-review-task"
+      - "separation-of-duties"
+    evidence_obligations:
+      - "structured-findings"
+    escalation_policy: "runtime/specialists/reviewer/SPECIALIST.md"
+  - role_id: "refactor"
+    role_kind: "specialist"
+    path: "runtime/specialists/refactor/"
+    contract_file: "SPECIALIST.md"
+    contract_ref: "runtime/specialists/refactor/specialist.yml"
+    authority_posture: "scoped-non-owning"
+    continuity_posture: "none"
+    delegation_posture: "cannot-delegate"
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+    support_target_constraints:
+      - "inherits-orchestrator-grant"
+    activation_criteria:
+      - "bounded-restructure-task"
+      - "context-isolation"
+    evidence_obligations:
+      - "structured-change-summary"
+    escalation_policy: "runtime/specialists/refactor/SPECIALIST.md"
+  - role_id: "docs"
+    role_kind: "specialist"
+    path: "runtime/specialists/docs/"
+    contract_file: "SPECIALIST.md"
+    contract_ref: "runtime/specialists/docs/specialist.yml"
+    authority_posture: "scoped-non-owning"
+    continuity_posture: "none"
+    delegation_posture: "cannot-delegate"
+    allowed_capability_packs:
+      - "repo"
+      - "shell"
+    support_target_constraints:
+      - "inherits-orchestrator-grant"
+    activation_criteria:
+      - "bounded-documentation-task"
+    evidence_obligations:
+      - "structured-doc-update-summary"
+    escalation_policy: "runtime/specialists/docs/SPECIALIST.md"
+  - role_id: "independent-verifier"
+    role_kind: "verifier"
+    path: "runtime/verifiers/independent-verifier/"
+    contract_file: "VERIFIER.md"
+    contract_ref: "runtime/verifiers/independent-verifier/verifier.yml"
+    authority_posture: "independent-non-authorizing"
+    continuity_posture: "none"
+    delegation_posture: "cannot-delegate"
+    allowed_capability_packs:
+      - "repo"
+      - "telemetry"
+    support_target_constraints:
+      - "inherits-run-envelope"
+      - "must-remain-independent"
+    activation_criteria:
+      - "high-materiality"
+      - "separation-of-duties"
+      - "support-proof"
+      - "weak-deterministic-proof"
+    evidence_obligations:
+      - "independent-verdict"
+      - "evidence-linked-assessment"
+    escalation_policy: "runtime/verifiers/independent-verifier/VERIFIER.md"
+  - role_id: "high-risk-review"
+    role_kind: "composition_profile"
+    path: "runtime/composition-profiles/high-risk-review/"
+    contract_file: "PROFILE.md"
+    contract_ref: "runtime/composition-profiles/high-risk-review/composition-profile.yml"
+    authority_posture: "non-executing-routing-profile"
+    continuity_posture: "none"
+    delegation_posture: "non-executing"
+    allowed_capability_packs: []
+    support_target_constraints:
+      - "profile-only"
+    activation_criteria:
+      - "high-risk-change"
+      - "manual-review-lane"
+    evidence_obligations:
+      - "topology-selection-receipt"
+    escalation_policy: "runtime/composition-profiles/high-risk-review/PROFILE.md"

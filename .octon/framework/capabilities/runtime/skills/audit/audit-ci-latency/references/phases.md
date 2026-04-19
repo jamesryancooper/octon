@@ -4,7 +4,7 @@
 
 - Resolve the repository and run-window parameters.
 - Run the shared wrapper:
-  `bash .octon/framework/agency/_ops/scripts/ci/audit-ci-latency.sh`
+  `bash .octon/framework/execution-roles/_ops/scripts/ci/audit-ci-latency.sh`
 - Confirm both Markdown and JSON outputs were produced.
 
 ## Phase 2: Classify

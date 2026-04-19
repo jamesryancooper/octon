@@ -671,7 +671,7 @@ write_nonzero_intervention() {
         subject_ref: ".octon/state/control/execution/runs/\($run_id)/run-contract.yml",
         kind: "manual-review-override",
         disclosed: true,
-        actor_ref: "operator://octon-maintainers",
+        execution_role_ref: "operator://octon-maintainers",
         details: "Human governance confirmed the bounded approval exercise and recorded the intervention explicitly.",
         evidence_refs: [
           ".octon/state/control/execution/approvals/requests/\($run_id).yml",

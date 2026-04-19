@@ -276,7 +276,7 @@ run_harness() {
   run_step \
     "Validate execution-profile governance PR contract entries" \
     search_regex "Profile Selection Receipt|Implementation Plan|Impact Map \\(code, tests, docs, contracts\\)|Compliance Receipt|Exceptions/Escalations|change_profile" \
-      "$OCTON_DIR/framework/agency/practices/pull-request-standards.md" \
+      "$OCTON_DIR/framework/execution-roles/practices/pull-request-standards.md" \
       "$OCTON_DIR/../.github/PULL_REQUEST_TEMPLATE.md" \
       "$OCTON_DIR/../.github/PULL_REQUEST_TEMPLATE/kaizen.md"
 
@@ -313,7 +313,7 @@ run_intent_layer() {
 run_agency() {
   run_step \
     "Validate agency contracts" \
-    bash "$OCTON_DIR/framework/agency/_ops/scripts/validate/validate-agency.sh"
+    bash "$OCTON_DIR/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh"
 }
 
 run_workflows() {

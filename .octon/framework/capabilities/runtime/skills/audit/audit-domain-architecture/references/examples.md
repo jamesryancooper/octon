@@ -11,7 +11,7 @@ Representative examples for the audit-domain-architecture skill.
 
 These targets are supported directly:
 
-- `.octon/framework/agency`
+- `.octon/framework/execution-roles`
 - `.octon/framework/assurance`
 - `.octon/framework/capabilities`
 - `.octon/framework/cognition`

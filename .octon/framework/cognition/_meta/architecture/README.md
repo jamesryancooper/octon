@@ -50,7 +50,7 @@ The cross-subsystem canonical contract is:
 
 Use subsystem specs for expanded contract details:
 
-- `/.octon/framework/agency/_meta/architecture/specification.md`
+- `/.octon/framework/execution-roles/_meta/architecture/specification.md`
 - `/.octon/framework/capabilities/_meta/architecture/specification.md`
 - `/.octon/framework/orchestration/_meta/architecture/specification.md`
 - `/.octon/framework/engine/_meta/architecture/README.md`
@@ -65,10 +65,10 @@ Cross-subsystem structure contract:
 
 For the finalized agency model, see:
 
-- `.octon/framework/agency/_meta/architecture/README.md`
-- `.octon/framework/agency/_meta/architecture/specification.md`
-- `.octon/framework/agency/_meta/architecture/architecture.md`
-- `.octon/framework/agency/_meta/architecture/finalization-plan.md`
+- `.octon/framework/execution-roles/_meta/architecture/README.md`
+- `.octon/framework/execution-roles/_meta/architecture/specification.md`
+- `.octon/framework/execution-roles/_meta/architecture/architecture.md`
+- `.octon/framework/execution-roles/_meta/architecture/finalization-plan.md`
 
 ---
 
@@ -114,7 +114,7 @@ Canonical root-harness structure:
 | --- | --- | --- | ---: |
 | `instance-governance-policies` | `instance/governance/policies/**` | `replace_by_path` | 10 |
 | `instance-governance-contracts` | `instance/governance/contracts/**` | `replace_by_path` | 20 |
-| `instance-agency-runtime` | `instance/agency/runtime/**` | `merge_by_id` | 30 |
+| `instance-execution-roles-runtime` | `instance/execution-roles/runtime/**` | `merge_by_id` | 30 |
 | `instance-assurance-runtime` | `instance/assurance/runtime/**` | `append_only` | 40 |
 
 All other `instance/**` surfaces remain instance-native rather than
@@ -497,7 +497,7 @@ current class-root topology:
 
 | Previous Path | Current Path |
 |---------------|--------------|
-| `agents/`, `assistants/`, `teams/` | `framework/agency/runtime/` |
+| `agents/`, `assistants/`, `teams/` | `framework/execution-roles/runtime/` |
 | `commands/`, `skills/`, `tools/`, `services/` | `framework/capabilities/runtime/` |
 | `context/` | `instance/cognition/context/` |
 | `progress/` | `state/continuity/{repo/,scopes/<scope-id>/}` |
@@ -701,7 +701,7 @@ the authoritative token budget table used by Cursor rule adapters.
 - [Taxonomy](./taxonomy.md) --- Harness entry points, harness commands, workflows, and their relationships
 - [Harness Workflows](/.octon/framework/orchestration/_meta/architecture/workflows.md) --- Multi-step procedures and the Universal Harness-Agnostic Pattern
 - [Harness Commands](/.octon/framework/capabilities/_meta/architecture/commands.md) --- Harness-scoped atomic operations
-- [Agency](/.octon/framework/agency/_meta/architecture/README.md) --- Canonical actor taxonomy, contracts, and architecture
+- [Agency](/.octon/framework/execution-roles/_meta/architecture/README.md) --- Canonical actor taxonomy, contracts, and architecture
 - [Missions](/.octon/framework/orchestration/_meta/architecture/missions.md) --- Time-bounded sub-projects
 - [Skills](/.octon/framework/capabilities/_meta/architecture/README.md) --- Composable capabilities with defined I/O
 

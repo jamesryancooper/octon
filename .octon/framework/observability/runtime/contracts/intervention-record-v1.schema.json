@@ -39,7 +39,7 @@
     "disclosed": {
       "type": "boolean"
     },
-    "actor_ref": {
+    "execution_role_ref": {
       "type": [
         "string",
         "null"

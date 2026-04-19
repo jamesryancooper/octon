@@ -1,0 +1,10 @@
+schema_version: "specialist-v1"
+specialist_id: "refactor"
+contract_file: "SPECIALIST.md"
+stateless: true
+scope: "bounded-refactor"
+escalation_target: "orchestrator"
+allowed_capability_packs:
+  - "repo"
+  - "git"
+  - "shell"

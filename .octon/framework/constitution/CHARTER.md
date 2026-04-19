@@ -91,7 +91,7 @@ tuple set:
 - authority, assurance, disclosure, and adapter families are active
 - host and model adapters remain replaceable and non-authoritative
 - the live support universe is declared, governed, evidenced, and disclosed as
-  one bounded admitted finite product architecture
+  one bounded admitted finite architecture
 - stage-only, unadmitted, and unsupported surfaces remain outside the active
   live claim until they are runtime-real and proof-backed
 

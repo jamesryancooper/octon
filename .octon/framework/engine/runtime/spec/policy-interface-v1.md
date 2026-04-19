@@ -117,7 +117,7 @@ Fail-closed behavior:
 
 - Missing `intent_ref`: deny with reason code `INTENT_MISSING`
 - Invalid/unknown `intent_ref`: deny with reason code `INTENT_REF_INVALID`
-- Autonomous run for non-`agent-ready` classification: deny with reason code
+- Autonomous run for non-`execution-role-ready` classification: deny with reason code
   `MODE_VIOLATION_AUTONOMY_NOT_ALLOWED`
 
 Autonomous execution requests that operate under Mission-Scoped Reversible

@@ -35,11 +35,6 @@ shim_surfaces:
     role: "adapter-only projected ingress surfaces"
     status: "permanent-projection"
     retirement_condition: "Remove when supported tools can enter directly through /.octon/instance/ingress/AGENTS.md without repo-root adapters."
-  agency_constitution_application:
-    path: ".octon/framework/agency/governance/CONSTITUTION.md"
-    role: "historical agency constitutional shim retained outside the required execution path"
-    status: "historical-shim"
-    retirement_condition: "Delete when lineage references stop requiring the historical agency constitutional shim."
   cognition_governance_charter:
     path: ".octon/framework/cognition/governance/CHARTER.md"
     role: "historical cognition-governance charter shim"
@@ -232,7 +227,7 @@ integration_surfaces:
     path: ".octon/state/evidence/validation/publication/build-to-delete/**"
     status: "active"
   tool_output_budget_profile:
-    path: ".octon/instance/agency/runtime/tool-output-budgets.yml"
+    path: ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"
     status: "active"
 notes:
   - "Wave 0 established the constitutional kernel and reserved the objective contract family."

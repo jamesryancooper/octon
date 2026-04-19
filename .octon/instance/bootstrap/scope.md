@@ -7,7 +7,7 @@ description: Boundaries and responsibilities for the root .octon/ harness.
 
 ## This Harness Covers
 
-The root `.octon/` is the **repo-wide agent harness** for repository-wide operations, decisions, and context.
+The root `.octon/` is the **repo-wide execution-governance harness** for repository-wide operations, decisions, and context.
 
 This harness contains:
 
@@ -45,9 +45,7 @@ runtime/governance surfaces live under `framework/**`.
 |--------------|----------|---------|
 | **Shared (in `.octon/`)** | | |
 | Harness templates | `.octon/framework/scaffolding/runtime/templates/` | `octon/` |
-| Generic agents | `.octon/framework/agency/runtime/agents/` | `orchestrator/`, `verifier/` |
-| Generic assistants | `.octon/framework/agency/runtime/assistants/` | `reviewer/`, `refactor/`, `docs/` |
-| Team compositions | `.octon/framework/agency/runtime/teams/` | `delivery-core/` |
+| Execution roles | `.octon/framework/execution-roles/runtime/` | `orchestrator/`, `specialists/`, `verifiers/`, `composition-profiles/` |
 | Harness management workflows | `.octon/framework/orchestration/runtime/workflows/meta/` | `migrate-harness`, `update-harness` |
 | Mission management workflows | `.octon/framework/orchestration/runtime/workflows/missions/` | `create-mission`, `complete-mission` |
 | Generic skills | `.octon/framework/capabilities/runtime/skills/` | `synthesize-research/` |
@@ -79,7 +77,7 @@ runtime/governance surfaces live under `framework/**`.
 
 | Area | Relationship |
 |------|--------------|
-| `.octon/` | Shared foundation — actors, templates, workflows, skills |
+| `.octon/` | Shared foundation — execution roles, templates, workflows, skills |
 | `.octon/framework/scaffolding/runtime/templates/` | Harness scaffolding (base and scoped variants) |
 | `.cursor/` | IDE-specific agent configuration (complementary) |
 | `.octon/framework/cognition/_meta/architecture/` | Canonical documentation for harness pattern |

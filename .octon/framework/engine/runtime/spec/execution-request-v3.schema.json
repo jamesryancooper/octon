@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/execution-request-v3.schema.json",
+  "title": "Octon Execution Request v3",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "request_id",
+    "caller_path",
+    "action_type",
+    "target_id",
+    "requested_capabilities",
+    "side_effect_flags",
+    "risk_tier",
+    "workflow_mode",
+    "requested_capability_packs",
+    "execution_role_ref",
+    "context_pack_ref",
+    "risk_materiality_ref",
+    "support_target_tuple_ref",
+    "rollback_plan_ref"
+  ],
+  "properties": {
+    "request_id": { "type": "string", "minLength": 1 },
+    "caller_path": { "type": "string", "minLength": 1 },
+    "action_type": { "type": "string", "minLength": 1 },
+    "target_id": { "type": "string", "minLength": 1 },
+    "requested_capabilities": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "side_effect_flags": { "type": "object" },
+    "risk_tier": { "type": "string", "minLength": 1 },
+    "workflow_mode": {
+      "type": "string",
+      "enum": ["autonomous", "role-mediated", "human-only"]
+    },
+    "requested_capability_packs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "execution_role_ref": { "type": "object" },
+    "context_pack_ref": { "type": "string", "minLength": 1 },
+    "risk_materiality_ref": { "type": "string", "minLength": 1 },
+    "support_target_tuple_ref": { "type": "string", "minLength": 1 },
+    "rollback_plan_ref": { "type": "string", "minLength": 1 },
+    "browser_ui_execution_ref": { "type": ["string", "null"] },
+    "api_egress_ref": { "type": ["string", "null"] },
+    "intent_ref": { "type": "object" },
+    "review_requirements": { "type": "object" },
+    "scope_constraints": { "type": "object" },
+    "policy_mode_requested": { "type": "string" },
+    "autonomy_context": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "mission_ref",
+        "slice_ref",
+        "intent_ref",
+        "mission_class",
+        "oversight_mode",
+        "execution_posture",
+        "reversibility_class",
+        "boundary_id"
+      ],
+      "properties": {
+        "mission_ref": { "type": "object" },
+        "slice_ref": { "type": "object" },
+        "intent_ref": { "type": "object" },
+        "mission_class": { "type": "string", "minLength": 1 },
+        "oversight_mode": { "type": "string", "enum": ["silent", "notify", "feedback_window", "proceed_on_silence", "approval_required"] },
+        "execution_posture": { "type": "string", "enum": ["one_shot", "continuous", "interruptible_scheduled"] },
+        "reversibility_class": { "type": "string", "enum": ["reversible", "compensable", "irreversible"] },
+        "boundary_id": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "workflow_mode": { "const": "autonomous" }
+        },
+        "required": ["workflow_mode"]
+      },
+      "then": {
+        "required": ["autonomy_context"]
+      }
+    }
+  ]
+}

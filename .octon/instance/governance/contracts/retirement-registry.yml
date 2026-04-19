@@ -55,7 +55,7 @@ entries:
     status: "historical-retained-noncritical"
     disposition: "historical-shim"
     paths:
-      - ".octon/framework/agency/governance/CONSTITUTION.md"
+      - ".octon/framework/execution-roles/governance/CONSTITUTION.md"
       - ".octon/framework/cognition/governance/CHARTER.md"
       - ".octon/framework/assurance/governance/CHARTER.md"
     owner_ref: "operator://octon-maintainers"
@@ -191,9 +191,9 @@ entries:
     status: "retired"
     disposition: "deleted"
     paths:
-      - ".octon/framework/agency/runtime/agents/orchestrator/SOUL.md"
-      - ".octon/framework/agency/runtime/agents/verifier/SOUL.md"
-      - ".octon/framework/agency/runtime/agents/_scaffold/template/SOUL.md"
+      - ".octon/framework/execution-roles/runtime/agents/orchestrator/SOUL.md"
+      - ".octon/framework/execution-roles/runtime/agents/verifier/SOUL.md"
+      - ".octon/framework/execution-roles/runtime/agents/_scaffold/template/SOUL.md"
     owner_ref: "operator://octon-maintainers"
     support_scope: "Former persona overlays in the runtime-agent kernel path."
     value_metric: "Zero required-path or scaffold references remain."
@@ -203,7 +203,7 @@ entries:
       - "Phase 6 simplification removed persona overlays from the kernel path."
     required_ablation_suite:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
-      - ".octon/framework/agency/_ops/scripts/validate/validate-agency.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh"
     evidence_requirements:
       - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/"
       - "ablation-deletion-receipt"
@@ -217,9 +217,9 @@ entries:
       - ".github/workflows/pr-clean-state-enforcer.yml"
       - ".github/workflows/pr-stale-close.yml"
       - ".github/workflows/pr-triage.yml"
-      - ".octon/framework/agency/_ops/scripts/ai-gate/aggregate-decision.sh"
-      - ".octon/framework/agency/_ops/scripts/git/git-pr-ship.sh"
-      - ".octon/framework/agency/_ops/scripts/github/sync-github-labels.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/ai-gate/aggregate-decision.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/github/sync-github-labels.sh"
     owner_ref: "operator://octon-maintainers"
     support_scope: "Former autonomy-lane and AI-gate label projections in the live GitHub control plane."
     value_metric: "Checks and canonical authority artifacts, not labels, carry merge and gate posture."
@@ -229,7 +229,7 @@ entries:
       - "Phase 6 removed label-native control-plane behavior from live workflows and helper scripts."
     required_ablation_suite:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase6-simplification-deletion.sh"
-      - ".octon/framework/agency/_ops/scripts/validate/validate-autonomy-labels.sh"
+      - ".octon/framework/execution-roles/_ops/scripts/validate/validate-autonomy-labels.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh"
     evidence_requirements:
       - ".octon/state/evidence/migration/2026-03-29-unified-execution-constitution-phase6-simplification-deletion/"

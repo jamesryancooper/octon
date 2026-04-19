@@ -180,10 +180,10 @@ jobs:
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-target-parity.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-target-parity.sh
 
-      - name: Validate agency contracts
+      - name: Validate execution-role contracts
         run: |
-          chmod +x .octon/framework/agency/_ops/scripts/validate/validate-agency.sh
-          .octon/framework/agency/_ops/scripts/validate/validate-agency.sh
+          chmod +x .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh
+          .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh
 
   docs-only-skip:
     name: Narrative Markdown Skip

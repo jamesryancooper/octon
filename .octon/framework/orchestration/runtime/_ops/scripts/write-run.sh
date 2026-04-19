@@ -1374,7 +1374,7 @@ write_run_card_file() {
   local generated_at="$4"
   local decision_id="$5"
   local support_tier="repo-consequential"
-  local workflow_mode="agent-augmented"
+  local workflow_mode="role-mediated"
   local model_tier="repo-local-governed"
   local workload_tier="repo-consequential"
   local language_resource_tier="reference-owned"
@@ -1389,13 +1389,13 @@ write_run_card_file() {
   local conformance_criteria_json='[]'
   if [[ -f "$(run_contract_path "$run_id")" ]]; then
     support_tier="$(yq -r '.support_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
-    workflow_mode="$(yq -r '.mission_mode // "agent-augmented"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'agent-augmented')"
+    workflow_mode="$(yq -r '.mission_mode // "role-mediated"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'role-mediated')"
     model_tier="$(yq -r '.support_target.model_tier // "repo-local-governed"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-local-governed')"
     workload_tier="$(yq -r '.support_target.workload_tier // "repo-consequential"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'repo-consequential')"
     language_resource_tier="$(yq -r '.support_target.language_resource_tier // "reference-owned"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'reference-owned')"
     locale_tier="$(yq -r '.support_target.locale_tier // "english-primary"' "$(run_contract_path "$run_id")" 2>/dev/null || printf 'english-primary')"
     requested_capability_packs_json="$(yq -o=json '.requested_capability_packs // ["repo","telemetry"]' "$(run_contract_path "$run_id")" 2>/dev/null || printf '["repo","telemetry"]')"
-    [[ "$workflow_mode" == "none" ]] && workflow_mode="agent-augmented"
+    [[ "$workflow_mode" == "none" ]] && workflow_mode="role-mediated"
   fi
   if [[ -f "$OCTON_DIR/instance/governance/support-targets.yml" ]]; then
     host_support_status="$(adapter_status "host_adapters" "$host_adapter")"

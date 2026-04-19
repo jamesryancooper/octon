@@ -69,13 +69,13 @@ The primitives form a hierarchical multi-agent system:
 
 ## Agents
 
-**Location:** `.octon/framework/agency/runtime/agents/<agent-name>/AGENT.md` with optional `.octon/framework/agency/runtime/agents/<agent-name>/SOUL.md`
+**Location:** `.octon/framework/execution-roles/runtime/agents/<agent-name>/AGENT.md` with optional `.octon/framework/execution-roles/runtime/agents/<agent-name>/SOUL.md`
 
 **Repo-local constitutional kernel:** `.octon/framework/constitution/CHARTER.md`, `.octon/framework/constitution/precedence/normative.yml`
 
-**Cross-agent overlays:** `.octon/framework/agency/governance/CONSTITUTION.md`, `.octon/framework/agency/governance/DELEGATION.md`, `.octon/framework/agency/governance/MEMORY.md`
+**Cross-agent overlays:** `.octon/framework/execution-roles/governance/CONSTITUTION.md`, `.octon/framework/execution-roles/governance/DELEGATION.md`, `.octon/framework/execution-roles/governance/MEMORY.md`
 
-**Registry:** `.octon/framework/agency/runtime/agents/registry.yml`
+**Registry:** `.octon/framework/execution-roles/runtime/agents/registry.yml`
 
 **Purpose:** Accountable execution roles that orchestrate complex work, command missions, and delegate to assistants when boundary value is real.
 
@@ -285,9 +285,9 @@ See `.octon/framework/capabilities/_meta/architecture/` for migration guidance.
 
 ## Assistants
 
-**Location:** `.octon/framework/agency/runtime/assistants/<assistant-name>/assistant.md`
+**Location:** `.octon/framework/execution-roles/runtime/specialists/<assistant-name>/SPECIALIST.md`
 
-**Registry:** `.octon/framework/agency/runtime/assistants/registry.yml`
+**Registry:** `.octon/framework/execution-roles/runtime/specialists/registry.yml`
 
 **Purpose:** Specialized subagents that perform focused tasks for agents or humans within the multi-agent hierarchy.
 
@@ -333,7 +333,7 @@ See `.octon/framework/capabilities/_meta/architecture/` for migration guidance.
 ```
 
 ```markdown
-# assistant.md sections
+# SPECIALIST.md sections
 - Mission
 - Invocation
 - Operating Rules
@@ -587,11 +587,11 @@ Registry supports skill-local `composition` metadata for reusable child-skill or
 
 | Primitive | Registry | Template | Documentation |
 |-----------|----------|----------|---------------|
-| Agents | `.octon/framework/agency/runtime/agents/registry.yml` | `.octon/framework/agency/runtime/agents/_scaffold/template/` | `.octon/framework/agency/_meta/architecture/README.md` |
-| Teams | `.octon/framework/agency/runtime/teams/registry.yml` | `.octon/framework/agency/runtime/teams/_scaffold/template/` | `.octon/framework/agency/_meta/architecture/architecture.md` |
+| Agents | `.octon/framework/execution-roles/runtime/agents/registry.yml` | `.octon/framework/execution-roles/runtime/agents/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/README.md` |
+| Teams | `.octon/framework/execution-roles/runtime/composition-profiles/registry.yml` | `.octon/framework/execution-roles/runtime/composition-profiles/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/architecture.md` |
 | Missions | `.octon/instance/orchestration/missions/registry.yml` | `.octon/instance/orchestration/missions/_scaffold/template/` | `.octon/framework/orchestration/_meta/architecture/missions.md` |
 | Skills | `.octon/framework/capabilities/runtime/skills/registry.yml` | `.octon/framework/capabilities/runtime/skills/_scaffold/template/` | `.octon/framework/capabilities/_meta/architecture/` |
-| Assistants | `.octon/framework/agency/runtime/assistants/registry.yml` | `.octon/framework/agency/runtime/assistants/_scaffold/template/` | `.octon/framework/agency/_meta/architecture/README.md` |
+| Assistants | `.octon/framework/execution-roles/runtime/specialists/registry.yml` | `.octon/framework/execution-roles/runtime/specialists/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/README.md` |
 | Commands | — | — | `.octon/framework/capabilities/_meta/architecture/commands.md` |
 | Checklists | — | — | `.octon/framework/assurance/_meta/architecture/checklists.md` |
 | Prompts | — | — | `.octon/framework/scaffolding/_meta/architecture/prompts.md` |

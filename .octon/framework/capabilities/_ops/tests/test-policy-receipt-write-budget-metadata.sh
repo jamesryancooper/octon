@@ -66,7 +66,7 @@ case_receipt_includes_budget_metadata() {
   "boundary_id": "service",
   "boundary_set_version": "v1",
   "workflow_mode": "autonomous",
-  "capability_classification": "agent-ready",
+  "capability_classification": "execution-role-ready",
   "budget_rule_id": "workflow-stage-openai",
   "budget_reason_codes": ["EXECUTION_BUDGET_WARN_THRESHOLD_EXCEEDED"],
   "cost_evidence_path": ".octon/state/evidence/runs/tool-budget-metadata/cost.json",
@@ -91,7 +91,7 @@ case_receipt_includes_budget_metadata() {
     "class": "service.execute",
     "target": {
       "workflow_mode": "autonomous",
-      "capability_classification": "agent-ready"
+      "capability_classification": "execution-role-ready"
     }
   },
   "phase": "promote"

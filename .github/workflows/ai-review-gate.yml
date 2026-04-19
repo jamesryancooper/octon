@@ -103,8 +103,8 @@ jobs:
         run: |
           set -euo pipefail
 
-          policy=".octon/framework/agency/practices/standards/ai-gate-policy.json"
-          schema=".octon/framework/agency/practices/standards/ai-gate-findings.schema.json"
+          policy=".octon/framework/execution-roles/practices/standards/ai-gate-policy.json"
+          schema=".octon/framework/execution-roles/practices/standards/ai-gate-findings.schema.json"
           diff=".octon/generated/.tmp/ai-gate/pr.diff"
           output=".octon/generated/.tmp/ai-gate/findings-${{ matrix.provider }}.json"
           adapter_manifest=".octon/framework/assurance/evaluators/adapters/${{ matrix.provider }}-review.yml"
@@ -216,13 +216,13 @@ jobs:
         run: |
           set -euo pipefail
 
-          policy=".octon/framework/agency/practices/standards/ai-gate-policy.json"
-          schema=".octon/framework/agency/practices/standards/ai-gate-findings.schema.json"
+          policy=".octon/framework/execution-roles/practices/standards/ai-gate-policy.json"
+          schema=".octon/framework/execution-roles/practices/standards/ai-gate-findings.schema.json"
           findings_dir=".octon/generated/.tmp/ai-gate/artifacts"
           output=".octon/generated/.tmp/ai-gate/decision.json"
 
-          chmod +x .octon/framework/agency/_ops/scripts/ai-gate/aggregate-decision.sh
-          .octon/framework/agency/_ops/scripts/ai-gate/aggregate-decision.sh \
+          chmod +x .octon/framework/execution-roles/_ops/scripts/ai-gate/aggregate-decision.sh
+          .octon/framework/execution-roles/_ops/scripts/ai-gate/aggregate-decision.sh \
             --policy "${policy}" \
             --schema "${schema}" \
             --findings-dir "${findings_dir}" \
@@ -256,7 +256,7 @@ jobs:
             --issued-by "github://workflow/ai-review-gate" \
             --status "${status}" \
             --support-tier "repo-local-consequential" \
-            --workflow-mode "agent-augmented" \
+            --workflow-mode "role-mediated" \
             --required-evidence "ai-review-gate-decision" \
             --required-evidence "provider-findings" \
             --reason-code "AI_GATE_DECISION_$(printf '%s' "${decision}" | tr '[:lower:]-' '[:upper:]_')" \

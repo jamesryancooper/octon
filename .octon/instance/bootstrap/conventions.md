@@ -71,10 +71,10 @@ Use visuals to reduce ambiguity and improve comprehension, not for decoration.
 
 ## Version Control Standards
 
-- Follow `.octon/framework/agency/practices/commits.md` for commit message format, branch naming,
+- Follow `.octon/framework/execution-roles/practices/commits.md` for commit message format, branch naming,
   and commit discipline.
 - Enforcement values are defined in
-  `.octon/framework/agency/practices/standards/commit-pr-standards.json`.
+  `.octon/framework/execution-roles/practices/standards/commit-pr-standards.json`.
 - Use Conventional Commits with explicit scope:
   `<type>(<scope>): <summary>`.
 - Keep commit summaries outcome-focused and <=72 characters.

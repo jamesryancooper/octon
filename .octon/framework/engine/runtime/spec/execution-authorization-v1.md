@@ -47,9 +47,10 @@ artifacts, and grant bundles under `state/control/execution/**` and
 
 ## Related Contracts
 
-- `execution-request-v2.schema.json`
+- `execution-request-v3.schema.json`
 - `execution-grant-v1.schema.json`
-- `execution-receipt-v2.schema.json`
+- `execution-receipt-v3.schema.json`
+- `runtime-event-v1.schema.json`
 - `/.octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json`
 - `/.octon/framework/constitution/contracts/runtime/context-pack-v1.schema.json`
 - `/.octon/framework/constitution/contracts/runtime/rollback-plan-v1.schema.json`

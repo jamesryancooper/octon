@@ -5,9 +5,9 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-COMMITS_DOC="$OCTON_DIR/framework/agency/practices/commits.md"
-PR_DOC="$OCTON_DIR/framework/agency/practices/pull-request-standards.md"
-STANDARDS_JSON="$OCTON_DIR/framework/agency/practices/standards/commit-pr-standards.json"
+COMMITS_DOC="$OCTON_DIR/framework/execution-roles/practices/commits.md"
+PR_DOC="$OCTON_DIR/framework/execution-roles/practices/pull-request-standards.md"
+STANDARDS_JSON="$OCTON_DIR/framework/execution-roles/practices/standards/commit-pr-standards.json"
 PR_TEMPLATE="$ROOT_DIR/.github/PULL_REQUEST_TEMPLATE.md"
 COMMIT_WORKFLOW="$ROOT_DIR/.github/workflows/commit-and-branch-standards.yml"
 PR_WORKFLOW="$ROOT_DIR/.github/workflows/pr-quality.yml"
@@ -137,13 +137,13 @@ check_type_alignment() {
 check_standards_contract() {
   check_contains_literal \
     "$STANDARDS_JSON" \
-    "\"commit_policy_doc\": \".octon/framework/agency/practices/commits.md\"" \
+    "\"commit_policy_doc\": \".octon/framework/execution-roles/practices/commits.md\"" \
     "standards json points commit policy to commits.md" \
     "standards json missing canonical commit policy path"
 
   check_contains_literal \
     "$STANDARDS_JSON" \
-    "\"pr_policy_doc\": \".octon/framework/agency/practices/pull-request-standards.md\"" \
+    "\"pr_policy_doc\": \".octon/framework/execution-roles/practices/pull-request-standards.md\"" \
     "standards json points pr policy to pull-request-standards.md" \
     "standards json missing canonical pr policy path"
 
@@ -191,7 +191,7 @@ check_pr_policy_alignment() {
 check_workflow_alignment() {
   check_contains_literal \
     "$COMMIT_WORKFLOW" \
-    ".octon/framework/agency/practices/standards/commit-pr-standards.json" \
+    ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json" \
     "commit-and-branch workflow reads standards json" \
     "commit-and-branch workflow not reading standards json"
 

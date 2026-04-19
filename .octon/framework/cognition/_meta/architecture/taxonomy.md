@@ -18,7 +18,7 @@ This document clarifies the distinctions between harness artifact types: **comma
 | **Harness Workflow** | `.octon/framework/orchestration/runtime/workflows/` | Multi-step procedure (source of truth) | Complex, sequential operation |
 | **Harness Prompt** | `.octon/framework/scaffolding/practices/prompts/` | Task template | Context-dependent, requires judgment |
 | **Harness Skill** | `.octon/framework/capabilities/runtime/skills/` | Composable capability | Defined I/O, pipelines, auditability |
-| **Assistant** | `.octon/framework/agency/runtime/assistants/` | Focused specialist | Scoped, delegatable tasks |
+| **Assistant** | `.octon/framework/execution-roles/runtime/specialists/` | Focused specialist | Scoped, delegatable tasks |
 | **Mission** | `.octon/instance/orchestration/missions/` | Sub-project | Isolated, time-bounded work |
 
 ---
@@ -206,7 +206,7 @@ See `.octon/instance/bootstrap/catalog.md#command-vs-prompt-decision` for the ca
 
 ## Assistants
 
-**Location:** `.octon/framework/agency/runtime/assistants/<name>/assistant.md`
+**Location:** `.octon/framework/execution-roles/runtime/specialists/<name>/SPECIALIST.md`
 
 Focused specialists that serve agents or humans for scoped, one-off tasks.
 
@@ -335,7 +335,7 @@ See `.octon/instance/bootstrap/catalog.md` for complete decision flowcharts and 
 | Harness Commands | `.octon/framework/capabilities/runtime/commands/*.md` | This harness only | No (unless wrapped) |
 | Harness Workflows | `.octon/framework/orchestration/runtime/workflows/*.md` | This harness only | No (unless wrapped) |
 | Prompts | `.octon/framework/scaffolding/practices/prompts/*.md` | Task templates | No |
-| Assistants | `.octon/framework/agency/runtime/assistants/<name>/` | Focused specialists | Via @mention |
+| Assistants | `.octon/framework/execution-roles/runtime/specialists/<name>/` | Focused specialists | Via @mention |
 | Missions | `.octon/instance/orchestration/missions/<slug>/` | Sub-projects | No |
 | Checklists | `.octon/framework/assurance/*.md` | Quality gates | No |
 

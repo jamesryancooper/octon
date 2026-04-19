@@ -1,0 +1,7 @@
+schema_version: octon-support-universe-evidence-depth-v1
+release_id: 2026-04-18-frontier-governance-bounded-complete
+status: pass
+summary:
+  dossiers_checked: 3
+  dossier_admission_parity_ok: 3
+  parity_failures: 0

@@ -28,7 +28,7 @@
     "risk_tier": { "type": "string", "minLength": 1 },
     "workflow_mode": {
       "type": "string",
-      "enum": ["autonomous", "agent-augmented", "human-only"]
+      "enum": ["autonomous", "role-mediated", "human-only"]
     },
     "requested_capability_packs": {
       "type": "array",
@@ -40,7 +40,7 @@
     "browser_ui_execution_ref": { "type": ["string", "null"] },
     "api_egress_ref": { "type": ["string", "null"] },
     "intent_ref": { "type": "object" },
-    "actor_ref": { "type": "object" },
+    "execution_role_ref": { "type": "object" },
     "review_requirements": { "type": "object" },
     "scope_constraints": { "type": "object" },
     "policy_mode_requested": { "type": "string" },

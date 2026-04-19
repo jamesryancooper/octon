@@ -2,7 +2,7 @@
 
 ## Required Local Checks
 
-- `bash .octon/framework/agency/_ops/scripts/validate/validate-agency.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh`
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-orchestration-design-proposal.sh`
 - `bash .octon/framework/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh`
 - `bash .octon/framework/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict`
@@ -11,7 +11,7 @@
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-authoritative-doc-triggers.sh`
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-github-action-pins.sh`
 - `OCTON_RUNTIME_STRICT_PACKAGING=1 bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-target-parity.sh`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,agency,workflows,skills`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,execution-roles,workflows,skills`
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-create-design-proposal-workflow.sh`
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-validate-create-design-proposal-workflow.sh`
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-create-design-proposal-workflow-runner.sh`

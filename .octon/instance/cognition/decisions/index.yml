@@ -187,3 +187,5 @@ records:
     path: 091-browser-api-live-claim-restaging.md
   - id: 092-frontier-governance-bounded-completion
     path: 092-frontier-governance-bounded-completion.md
+  - id: 093-execution-role-hard-cutover
+    path: 093-execution-role-hard-cutover.md

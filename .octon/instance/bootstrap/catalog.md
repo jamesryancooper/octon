@@ -15,7 +15,7 @@ The canonical cross-subsystem spec is:
 
 Subsystem expansion specs:
 
-- [`.octon/framework/agency/_meta/architecture/specification.md`](./agency/_meta/architecture/specification.md)
+- [`.octon/framework/execution-roles/_meta/architecture/specification.md`](./execution-roles/_meta/architecture/specification.md)
 - [`.octon/framework/capabilities/_meta/architecture/specification.md`](./capabilities/_meta/architecture/specification.md)
 - [`.octon/framework/orchestration/_meta/architecture/specification.md`](./orchestration/_meta/architecture/specification.md)
 
@@ -35,31 +35,31 @@ Canonical registry:
 
 ---
 
-## Assistants
+## Specialists
 
-Focused specialists in `agency/runtime/assistants/`:
+Focused specialists in `execution-roles/runtime/specialists/`:
 
-| Assistant | Aliases | Description |
+| Specialist | Aliases | Description |
 |-----------|---------|-------------|
-| [reviewer](./agency/runtime/assistants/reviewer/assistant.md) | `@reviewer`, `@review`, `@rev` | Code review: quality, style, correctness, security |
-| [refactor](./agency/runtime/assistants/refactor/assistant.md) | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
-| [docs](./agency/runtime/assistants/docs/assistant.md) | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
+| [reviewer](./execution-roles/runtime/specialists/reviewer/SPECIALIST.md) | `@reviewer`, `@review`, `@rev` | Code review: correctness, change safety, support drift |
+| [refactor](./execution-roles/runtime/specialists/refactor/SPECIALIST.md) | `@refactor`, `@ref` | Code restructuring: extract, rename, simplify |
+| [docs](./execution-roles/runtime/specialists/docs/SPECIALIST.md) | `@docs`, `@doc` | Documentation: clarity, completeness, accuracy |
 
-**Invocation:** Type `@name task` in chat or let agents delegate subtasks.
+**Invocation:** Type `@name task` in chat or let the orchestrator delegate bounded subtasks.
 
-See `agency/manifest.yml` for actor discovery and `agency/runtime/assistants/registry.yml` for alias mappings.
+See `execution-roles/manifest.yml` for discovery and `execution-roles/runtime/specialists/registry.yml` for alias mappings.
 
 ---
 
-## Teams
+## Composition Profiles
 
-Reusable multi-actor compositions in `agency/runtime/teams/`:
+Reusable non-executing routing profiles in `execution-roles/runtime/composition-profiles/`:
 
-| Team | Lead | Members | Description |
+| Profile | Lead | Members | Description |
 |------|------|---------|-------------|
-| [delivery-core](./agency/runtime/teams/delivery-core/team.md) | `orchestrator` | `orchestrator`, `verifier`, `reviewer`, `refactor`, `docs` | Default end-to-end delivery composition with one accountable owner and optional independent verification |
+| [high-risk-review](./execution-roles/runtime/composition-profiles/high-risk-review/PROFILE.md) | `orchestrator` | `independent-verifier`, `reviewer`, `refactor`, `docs` | High-risk routing profile with one accountable owner and optional bounded specialists plus independent verification |
 
-**Invocation:** `use team: <id>` (if supported by caller) or by explicit agent/workflow routing.
+**Invocation:** `use composition profile: <id>` (if supported by caller) or by explicit orchestrator routing.
 
 ---
 

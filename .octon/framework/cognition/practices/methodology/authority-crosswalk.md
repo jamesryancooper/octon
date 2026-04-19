@@ -9,9 +9,9 @@ canonical_links:
   - "/AGENTS.md"
   - "/.octon/framework/constitution/CHARTER.md"
   - "/.octon/framework/constitution/precedence/normative.yml"
-  - "/.octon/framework/agency/governance/CONSTITUTION.md"
-  - "/.octon/framework/agency/governance/DELEGATION.md"
-  - "/.octon/framework/agency/governance/MEMORY.md"
+  - "/.octon/framework/execution-roles/governance/CONSTITUTION.md"
+  - "/.octon/framework/execution-roles/governance/DELEGATION.md"
+  - "/.octon/framework/execution-roles/governance/MEMORY.md"
   - "/.octon/framework/cognition/governance/principles/principles.md"
   - "/.octon/framework/cognition/governance/pillars/README.md"
 ---
@@ -28,10 +28,10 @@ When instructions conflict, methodology policy follows repository precedence:
 2. `/.octon/framework/constitution/CHARTER.md`
 3. `/.octon/framework/constitution/obligations/fail-closed.yml`
 4. `/.octon/framework/constitution/precedence/normative.yml`
-5. `/.octon/framework/agency/governance/CONSTITUTION.md`
-6. `/.octon/framework/agency/governance/DELEGATION.md`
-7. `/.octon/framework/agency/governance/MEMORY.md`
-8. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+5. `/.octon/framework/execution-roles/governance/CONSTITUTION.md`
+6. `/.octon/framework/execution-roles/governance/DELEGATION.md`
+7. `/.octon/framework/execution-roles/governance/MEMORY.md`
+8. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 
 This precedence is authoritative for execution contracts, profile governance, escalation behavior, and implementation receipts.
 

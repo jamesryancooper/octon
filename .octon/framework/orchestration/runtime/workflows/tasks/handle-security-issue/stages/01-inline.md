@@ -438,5 +438,5 @@ octon security fix pentest --severity high
 
 - [Run a data migration](./run-data-migration.md)
 - [Fix a bug](./fix-a-bug.md)
-- Back to [DAILY-FLOW.md](/.octon/framework/agency/practices/daily-flow.md)
+- Back to [DAILY-FLOW.md](/.octon/framework/execution-roles/practices/daily-flow.md)
 - [Security Baseline](/.octon/framework/cognition/practices/methodology/security-baseline.md) (full details)

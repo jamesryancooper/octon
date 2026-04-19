@@ -21,7 +21,7 @@ pub enum ExecutionMateriality {
 }
 
 #[derive(Debug, Clone, Serialize)]
-struct BoundActorRef<'a> {
+struct BoundExecutionRoleRef<'a> {
     kind: &'a str,
     id: &'a str,
 }
@@ -84,7 +84,7 @@ struct RunContractV2<'a> {
     run_card_ref: String,
     objective_refs: BTreeMap<&'static str, &'static str>,
     intent_ref: BoundIntentRef<'a>,
-    actor_ref: BoundActorRef<'a>,
+    execution_role_ref: BoundExecutionRoleRef<'a>,
     created_at: &'a str,
     issued_at: &'a str,
     updated_at: &'a str,
@@ -104,7 +104,7 @@ struct RunManifestV2<'a> {
     requested_capability_packs: Vec<String>,
     requested_capabilities: Vec<String>,
     intent_ref: BoundIntentRef<'a>,
-    actor_ref: BoundActorRef<'a>,
+    execution_role_ref: BoundExecutionRoleRef<'a>,
     authority_bundle_ref: String,
     decision_artifact_ref: Option<String>,
     approval_request_ref: Option<String>,
@@ -326,7 +326,7 @@ fn materialize_run_binding(
             ),
         ]),
         intent_ref: bound_intent_ref(request)?,
-        actor_ref: bound_actor_ref(request),
+        execution_role_ref: bound_execution_role_ref(request),
         created_at: &now,
         issued_at: &now,
         updated_at: &now,
@@ -346,7 +346,7 @@ fn materialize_run_binding(
         requested_capability_packs: infer_capability_packs(request),
         requested_capabilities: grant.granted_capabilities.clone(),
         intent_ref: bound_intent_ref(request)?,
-        actor_ref: bound_actor_ref(request),
+        execution_role_ref: bound_execution_role_ref(request),
         authority_bundle_ref: authority_bundle_rel.clone(),
         decision_artifact_ref: grant.decision_artifact_ref.clone(),
         approval_request_ref: grant.approval_request_ref.clone(),
@@ -659,9 +659,9 @@ fn bound_intent_ref(request: &ExecutionRequest) -> Result<BoundIntentRef<'_>> {
     })
 }
 
-fn bound_actor_ref(request: &ExecutionRequest) -> BoundActorRef<'_> {
-    let actor = request.actor_ref.as_ref();
-    BoundActorRef {
+fn bound_execution_role_ref(request: &ExecutionRequest) -> BoundExecutionRoleRef<'_> {
+    let actor = request.execution_role_ref.as_ref();
+    BoundExecutionRoleRef {
         kind: actor.map(|value| value.kind.as_str()).unwrap_or("system"),
         id: actor
             .map(|value| value.id.as_str())

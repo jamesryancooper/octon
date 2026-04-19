@@ -23,10 +23,23 @@ use std::fs;
 use std::path::PathBuf;
 use std::process::Command as ProcessCommand;
 use std::sync::Arc;
+#[cfg(test)]
+use std::sync::{Mutex, MutexGuard, OnceLock};
 
 use crate::context::KernelContext;
 use crate::pipeline::RunPipelineOptions;
 use crate::workflow::ExecutorKind;
+
+#[cfg(test)]
+static KERNEL_TEST_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
+#[cfg(test)]
+pub(crate) fn acquire_kernel_test_lock() -> MutexGuard<'static, ()> {
+    KERNEL_TEST_LOCK
+        .get_or_init(|| Mutex::new(()))
+        .lock()
+        .unwrap_or_else(|poisoned| poisoned.into_inner())
+}
 
 #[derive(Parser)]
 #[command(name = "octon", version, about = "Octon executable runtime layer (v1)")]
@@ -179,7 +192,7 @@ enum RunCmd {
 enum WorkflowCmd {
     /// List canonical workflows.
     List,
-    /// Run a canonical workflow through the compatibility wrapper.
+    /// Workflow execution must enter through `octon run start --contract ...`.
     Run {
         /// Canonical workflow id.
         workflow_id: String,
@@ -422,7 +435,7 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
     };
     let service_profile =
         service_capability_profile(&svc.key.id(), &input, &svc.manifest.capabilities_required);
-    let (intent_ref, actor_ref, metadata) =
+    let (intent_ref, execution_role_ref, metadata) =
         request::bind_repo_observe_request(&ctx.cfg, service_profile.metadata.clone())?;
 
     let request = ExecutionRequest {
@@ -438,11 +451,11 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> any
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: request::agent_augmented_mode(),
+        workflow_mode: request::role_mediated_mode(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -519,7 +532,7 @@ fn cmd_studio() -> anyhow::Result<()> {
         .join("engine")
         .join("build")
         .join("runtime-crates-target");
-    let (intent_ref, actor_ref, metadata) =
+    let (intent_ref, execution_role_ref, metadata) =
         request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
 
     let request = ExecutionRequest {
@@ -540,11 +553,11 @@ fn cmd_studio() -> anyhow::Result<()> {
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: request::agent_augmented_mode(),
+        workflow_mode: request::role_mediated_mode(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements {
             human_approval: true,
@@ -633,7 +646,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 .join("services")
                 .join(&category)
                 .join(&name);
-            let (intent_ref, actor_ref, metadata) =
+            let (intent_ref, execution_role_ref, metadata) =
                 request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
             let request = ExecutionRequest {
                 request_id: new_request_id("service-new"),
@@ -651,11 +664,11 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                     ..SideEffectFlags::default()
                 },
                 risk_tier: "medium".to_string(),
-                workflow_mode: request::agent_augmented_mode(),
+                workflow_mode: request::role_mediated_mode(),
                 locality_scope: None,
                 intent_ref: Some(intent_ref),
                 autonomy_context: None,
-                actor_ref: Some(actor_ref),
+                execution_role_ref: Some(execution_role_ref),
                 parent_run_ref: None,
                 review_requirements: ReviewRequirements {
                     human_approval: true,
@@ -721,7 +734,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                 .join("state")
                 .join("build")
                 .join(format!("{category}-{name}-target"));
-            let (intent_ref, actor_ref, metadata) =
+            let (intent_ref, execution_role_ref, metadata) =
                 request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
             let request = ExecutionRequest {
                 request_id: new_request_id("service-build"),
@@ -741,11 +754,11 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                     ..SideEffectFlags::default()
                 },
                 risk_tier: "medium".to_string(),
-                workflow_mode: request::agent_augmented_mode(),
+                workflow_mode: request::role_mediated_mode(),
                 locality_scope: None,
                 intent_ref: Some(intent_ref),
                 autonomy_context: None,
-                actor_ref: Some(actor_ref),
+                execution_role_ref: Some(execution_role_ref),
                 parent_run_ref: None,
                 review_requirements: ReviewRequirements {
                     human_approval: true,
@@ -833,28 +846,20 @@ fn cmd_workflow(cmd: WorkflowCmd) -> anyhow::Result<()> {
             model,
             prepare_only,
         } => {
-            eprintln!(
-                "workflow run is a compatibility wrapper; prefer `octon run start --contract ...`."
+            let _ = (
+                workflow_id,
+                run_id,
+                mission_id,
+                set,
+                executor,
+                executor_bin,
+                output_slug,
+                model,
+                prepare_only,
             );
-            let input_overrides = parse_kv_overrides(&set)?;
-            let result = pipeline::run_pipeline_from_octon_dir(
-                &octon_dir,
-                RunPipelineOptions {
-                    pipeline_id: workflow_id,
-                    run_id,
-                    mission_id,
-                    resume_existing: false,
-                    executor,
-                    executor_bin: executor_bin.map(Into::into),
-                    output_slug,
-                    model,
-                    prepare_only,
-                    input_overrides,
-                },
-            )?;
-            println!("bundle_root: {}", result.bundle_root.display());
-            println!("summary_report: {}", result.summary_report.display());
-            println!("final_verdict: {}", result.final_verdict);
+            anyhow::bail!(
+                "workflow run is retired; start consequential execution with `octon run start --contract ...`"
+            );
         }
         WorkflowCmd::Validate { workflow_id } => {
             pipeline::validate_pipelines_from_octon_dir(&octon_dir, workflow_id.as_deref())?;
@@ -954,7 +959,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                 .as_deref()
                 .map(|path| resolve_output_path(&repo_root, path));
             if let Some(path) = output_report.as_ref() {
-                let (intent_ref, actor_ref, metadata) =
+                let (intent_ref, execution_role_ref, metadata) =
                     request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
                 let request = ExecutionRequest {
                     request_id: new_request_id("orchestration-lookup"),
@@ -968,11 +973,11 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                         ..SideEffectFlags::default()
                     },
                     risk_tier: "low".to_string(),
-                    workflow_mode: request::agent_augmented_mode(),
+                    workflow_mode: request::role_mediated_mode(),
                     locality_scope: None,
                     intent_ref: Some(intent_ref),
                     autonomy_context: None,
-                    actor_ref: Some(actor_ref),
+                    execution_role_ref: Some(execution_role_ref),
                     parent_run_ref: None,
                     review_requirements: ReviewRequirements::default(),
                     scope_constraints: ScopeConstraints {
@@ -1032,7 +1037,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                 .as_deref()
                 .map(|path| resolve_output_path(&repo_root, path));
             if let Some(path) = output_report.as_ref() {
-                let (intent_ref, actor_ref, metadata) =
+                let (intent_ref, execution_role_ref, metadata) =
                     request::bind_repo_local_request(&ctx.cfg, std::collections::BTreeMap::new())?;
                 let request = ExecutionRequest {
                     request_id: new_request_id("orchestration-summary"),
@@ -1046,11 +1051,11 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                         ..SideEffectFlags::default()
                     },
                     risk_tier: "low".to_string(),
-                    workflow_mode: request::agent_augmented_mode(),
+                    workflow_mode: request::role_mediated_mode(),
                     locality_scope: None,
                     intent_ref: Some(intent_ref),
                     autonomy_context: None,
-                    actor_ref: Some(actor_ref),
+                    execution_role_ref: Some(execution_role_ref),
                     parent_run_ref: None,
                     review_requirements: ReviewRequirements::default(),
                     scope_constraints: ScopeConstraints {
@@ -1111,7 +1116,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                     .as_deref()
                     .map(|path| resolve_output_path(&repo_root, path));
                 if let Some(path) = output_report.as_ref() {
-                    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+                    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
                         &ctx.cfg,
                         std::collections::BTreeMap::new(),
                     )?;
@@ -1127,11 +1132,11 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> anyhow::Result<()> {
                             ..SideEffectFlags::default()
                         },
                         risk_tier: "low".to_string(),
-                        workflow_mode: request::agent_augmented_mode(),
+                        workflow_mode: request::role_mediated_mode(),
                         locality_scope: None,
                         intent_ref: Some(intent_ref),
                         autonomy_context: None,
-                        actor_ref: Some(actor_ref),
+                        execution_role_ref: Some(execution_role_ref),
                         parent_run_ref: None,
                         review_requirements: ReviewRequirements::default(),
                         scope_constraints: ScopeConstraints {

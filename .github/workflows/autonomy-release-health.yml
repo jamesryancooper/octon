@@ -29,7 +29,7 @@ jobs:
       AUTONOMY_AUTO_MERGE_ENABLED: ${{ vars.AUTONOMY_AUTO_MERGE_ENABLED || '' }}
       AUTONOMY_POLICY_ENFORCE: ${{ vars.AUTONOMY_POLICY_ENFORCE || '' }}
       RELEASE_BRANCH: release-please--branches--main--components--octon
-      CONTROL_PLANE_CONTRACT_PATH: .octon/framework/agency/practices/standards/github-control-plane-contract.json
+      CONTROL_PLANE_CONTRACT_PATH: .octon/framework/execution-roles/practices/standards/github-control-plane-contract.json
     steps:
       - name: Checkout
         uses: actions/checkout@v4

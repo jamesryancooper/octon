@@ -273,7 +273,7 @@ main() {
       capability_classification: (
         $req[0].capability_classification //
         $req[0].operation.target.capability_classification //
-        "agent-ready"
+        "execution-role-ready"
       ),
       budget_rule_id: ($req[0].budget_rule_id // null),
       budget_reason_codes: ($req[0].budget_reason_codes // []),

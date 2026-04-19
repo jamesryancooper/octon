@@ -91,7 +91,7 @@ defaults:
       acceptance_criteria: "Complexity is minimal sufficient, proportional, and justified by risk, scale, safety, performance, or compliance."
       evidence:
         - .octon/framework/cognition/governance/principles/complexity-calibration.md
-        - .octon/framework/agency/practices/pull-request-standards.md
+        - .octon/framework/execution-roles/practices/pull-request-standards.md
     evolvability:
       score: 4
       target_score: 5
@@ -170,7 +170,7 @@ defaults:
       target_score: 4
       acceptance_criteria: "Developer or operator workflow remains understandable and low-friction."
       evidence:
-        - .octon/framework/agency/runtime/agents/orchestrator/AGENT.md
+        - .octon/framework/execution-roles/runtime/orchestrator/ROLE.md
         - .octon/framework/cognition/governance/principles/accessibility-baseline.md
     accessibility:
       score: 2

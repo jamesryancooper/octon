@@ -2,7 +2,7 @@ schema_version: agency-surface-classification-ledger-v1
 updated_at: 2026-04-02T00:00:00Z
 surfaces:
   - surface_id: orchestrator
-    path: .octon/framework/agency/runtime/agents/orchestrator/AGENT.md
+    path: .octon/framework/execution-roles/runtime/orchestrator/ROLE.md
     current_role: accountable-orchestrator
     live_use_evidence:
       - .octon/framework/constitution/CHARTER.md
@@ -12,7 +12,7 @@ surfaces:
     decision: kernel
     review_date: 2026-04-02
   - surface_id: verifier
-    path: .octon/framework/agency/runtime/agents/verifier/AGENT.md
+    path: .octon/framework/execution-roles/runtime/agents/verifier/AGENT.md
     current_role: independent-verification
     live_use_evidence:
       - .octon/framework/assurance/evaluators/review-routing.yml
@@ -21,37 +21,37 @@ surfaces:
     decision: defer-delete-pending-proof
     review_date: 2026-04-02
   - surface_id: reviewer-assistant
-    path: .octon/framework/agency/runtime/assistants/reviewer/assistant.md
+    path: .octon/framework/execution-roles/runtime/specialists/reviewer/SPECIALIST.md
     current_role: bounded-specialist
     live_use_evidence:
-      - .octon/framework/agency/runtime/assistants/registry.yml
+      - .octon/framework/execution-roles/runtime/specialists/registry.yml
     supported_envelope_relevance: optional
     deletion_risk: low
     decision: optional-overlay
     review_date: 2026-04-02
   - surface_id: refactor-assistant
-    path: .octon/framework/agency/runtime/assistants/refactor/assistant.md
+    path: .octon/framework/execution-roles/runtime/specialists/refactor/SPECIALIST.md
     current_role: bounded-specialist
     live_use_evidence:
-      - .octon/framework/agency/runtime/assistants/registry.yml
+      - .octon/framework/execution-roles/runtime/specialists/registry.yml
     supported_envelope_relevance: optional
     deletion_risk: low
     decision: optional-overlay
     review_date: 2026-04-02
   - surface_id: docs-assistant
-    path: .octon/framework/agency/runtime/assistants/docs/assistant.md
+    path: .octon/framework/execution-roles/runtime/specialists/docs/SPECIALIST.md
     current_role: bounded-specialist
     live_use_evidence:
-      - .octon/framework/agency/runtime/assistants/registry.yml
+      - .octon/framework/execution-roles/runtime/specialists/registry.yml
     supported_envelope_relevance: optional
     deletion_risk: low
     decision: optional-overlay
     review_date: 2026-04-02
   - surface_id: delivery-core-team
-    path: .octon/framework/agency/runtime/teams/delivery-core/team.md
+    path: .octon/framework/execution-roles/runtime/composition-profiles/delivery-core/PROFILE.md
     current_role: composition-wrapper
     live_use_evidence:
-      - .octon/framework/agency/runtime/teams/registry.yml
+      - .octon/framework/execution-roles/runtime/composition-profiles/registry.yml
     supported_envelope_relevance: optional
     deletion_risk: medium
     decision: optional-overlay

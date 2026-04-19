@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use octon_authority_engine::{
-    active_intent_ref, default_actor_ref, with_authority_env_metadata, ActorRef, IntentRef,
+    active_intent_ref, default_execution_role_ref, with_authority_env_metadata, ExecutionRoleRef, IntentRef,
 };
 use octon_core::config::RuntimeConfig;
 use std::collections::BTreeMap;
@@ -23,11 +23,11 @@ pub fn workflow_mode(mission_id: Option<&str>) -> String {
     if mission_id.is_some() {
         "autonomous".to_string()
     } else {
-        "agent-augmented".to_string()
+        "role-mediated".to_string()
     }
 }
 
-pub fn agent_augmented_mode() -> String {
+pub fn role_mediated_mode() -> String {
     workflow_mode(None)
 }
 
@@ -36,10 +36,10 @@ pub fn bind_request(
     metadata: BTreeMap<String, String>,
     workload_tier: &str,
     host_adapter: &str,
-) -> Result<(IntentRef, ActorRef, BTreeMap<String, String>)> {
+) -> Result<(IntentRef, ExecutionRoleRef, BTreeMap<String, String>)> {
     let intent_ref = active_intent_ref(cfg)
         .ok_or_else(|| anyhow!("consequential execution requires an active workspace intent"))?;
-    let actor_ref = default_actor_ref();
+    let execution_role_ref = default_execution_role_ref();
     let mut metadata = with_authority_env_metadata(metadata);
 
     insert_if_missing(&mut metadata, "support_tier", workload_tier);
@@ -57,20 +57,20 @@ pub fn bind_request(
         DEFAULT_MODEL_ADAPTER,
     );
 
-    Ok((intent_ref, actor_ref, metadata))
+    Ok((intent_ref, execution_role_ref, metadata))
 }
 
 pub fn bind_repo_local_request(
     cfg: &RuntimeConfig,
     metadata: BTreeMap<String, String>,
-) -> Result<(IntentRef, ActorRef, BTreeMap<String, String>)> {
+) -> Result<(IntentRef, ExecutionRoleRef, BTreeMap<String, String>)> {
     bind_request(cfg, metadata, DEFAULT_WORKLOAD_TIER, DEFAULT_HOST_ADAPTER)
 }
 
 pub fn bind_repo_observe_request(
     cfg: &RuntimeConfig,
     metadata: BTreeMap<String, String>,
-) -> Result<(IntentRef, ActorRef, BTreeMap<String, String>)> {
+) -> Result<(IntentRef, ExecutionRoleRef, BTreeMap<String, String>)> {
     bind_request(
         cfg,
         metadata,

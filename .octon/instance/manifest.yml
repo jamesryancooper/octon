@@ -9,7 +9,7 @@ enabled_overlay_points:
   - "instance-governance-retirement"
   - "instance-governance-capability-packs"
   - "instance-governance-decisions"
-  - "instance-agency-runtime"
+  - "instance-execution-roles-runtime"
   - "instance-assurance-runtime"
 locality:
   registry_path: ".octon/instance/locality/registry.yml"

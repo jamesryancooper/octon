@@ -747,7 +747,7 @@ fn run_generic_pipeline(
         None => new_request_id("workflow"),
     };
     let workflow_side_effects = aggregated_workflow_side_effects(&contract, options.prepare_only);
-    let (intent_ref, actor_ref, metadata) = if flags_require_repo_consequential_mode(&workflow_side_effects)
+    let (intent_ref, execution_role_ref, metadata) = if flags_require_repo_consequential_mode(&workflow_side_effects)
     {
         request::bind_repo_local_request(
             &runtime_cfg,
@@ -775,7 +775,7 @@ fn run_generic_pipeline(
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: workflow_autonomy_context.clone(),
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -955,7 +955,7 @@ fn run_generic_pipeline(
                 )
             })
             .transpose()?;
-        let (intent_ref, actor_ref, metadata) = if side_effects_require_repo_consequential_mode(
+        let (intent_ref, execution_role_ref, metadata) = if side_effects_require_repo_consequential_mode(
             &stage.authorization.side_effects,
         ) {
             request::bind_repo_local_request(&runtime_cfg, executor_metadata)?
@@ -986,7 +986,7 @@ fn run_generic_pipeline(
             locality_scope: None,
             intent_ref: Some(intent_ref),
             autonomy_context: stage_autonomy_context,
-            actor_ref: Some(actor_ref),
+            execution_role_ref: Some(execution_role_ref),
             parent_run_ref: Some(workflow_request.request_id.clone()),
             review_requirements: ReviewRequirements {
                 human_approval: stage.authorization.review_requirements.human_approval,
@@ -1652,16 +1652,10 @@ mod tests {
     use super::*;
     use std::collections::HashMap;
     use std::path::PathBuf;
-    use std::sync::{Mutex, OnceLock};
     use walkdir::WalkDir;
 
-    static PIPELINE_TEST_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
-
     fn acquire_pipeline_test_lock() -> std::sync::MutexGuard<'static, ()> {
-        PIPELINE_TEST_LOCK
-            .get_or_init(|| Mutex::new(()))
-            .lock()
-            .expect("pipeline test lock should acquire")
+        crate::acquire_kernel_test_lock()
     }
 
     fn source_repo_root() -> PathBuf {
@@ -2183,9 +2177,9 @@ stages:
     }
 
     #[test]
-    fn generic_workflow_without_mission_id_uses_agent_augmented_mode() {
+    fn generic_workflow_without_mission_id_uses_role_mediated_mode() {
         let _guard = acquire_pipeline_test_lock();
-        let root = make_temp_root("agent-augmented");
+        let root = make_temp_root("role-mediated");
         let octon_dir = seed_generic_workflow_fixture(&root);
 
         let result = run_pipeline_from_octon_dir(
@@ -2197,13 +2191,13 @@ stages:
                 resume_existing: false,
                 executor: ExecutorKind::Mock,
                 executor_bin: None,
-                output_slug: Some("agent-augmented".to_string()),
+                output_slug: Some("role-mediated".to_string()),
                 model: None,
-                prepare_only: false,
+                prepare_only: true,
                 input_overrides: HashMap::new(),
             },
         )
-        .expect("workflow without mission id should run in agent-augmented mode");
+        .expect("workflow without mission id should run in role-mediated mode");
 
         let workflow_receipt: serde_json::Value = serde_json::from_str(
             &fs::read_to_string(
@@ -2214,7 +2208,7 @@ stages:
             .expect("workflow receipt should exist"),
         )
         .expect("workflow receipt should parse");
-        assert_eq!(workflow_receipt["workflow_mode"], "agent-augmented");
+        assert_eq!(workflow_receipt["workflow_mode"], "role-mediated");
         assert!(workflow_receipt["mission_ref"].is_null());
 
         fs::remove_dir_all(root).ok();

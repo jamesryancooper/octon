@@ -24,8 +24,8 @@ governance:
   capability_map_schema_ref: "../../governance/capability-map-v1.schema.json"
   classification_source: "workflow-capability-map"
   autonomy_policy:
-    autonomous_requires_classification: "agent-ready"
-    fallback_modes: ["agent-augmented", "human-only"]
+    autonomous_requires_classification: "execution-role-ready"
+    fallback_modes: ["role-mediated", "human-only"]
 workflows:
   # --- Fully specified (spec-compliant) ---
   audit-orchestration:
@@ -1063,7 +1063,7 @@ workflows:
           determinism: unique
           description: "Short-mode remediation report and package delta receipt"
         - name: design_red_team_report
-          path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-team.md"
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-PROFILE.md"
           kind: file
           format: markdown
           determinism: unique
@@ -1290,7 +1290,7 @@ workflows:
       - name: policy_path
         type: file
         required: false
-        default: ".octon/framework/agency/practices/standards/ci-latency-policy.json"
+        default: ".octon/framework/execution-roles/practices/standards/ci-latency-policy.json"
         description: "Policy contract defining thresholds, window sizes, and issue semantics."
     access: human
     depends_on:

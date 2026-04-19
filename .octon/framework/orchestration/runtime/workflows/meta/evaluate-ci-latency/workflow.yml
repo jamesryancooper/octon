@@ -31,7 +31,7 @@ inputs:
 - name: policy_path
   type: file
   required: false
-  default: ".octon/framework/agency/practices/standards/ci-latency-policy.json"
+  default: ".octon/framework/execution-roles/practices/standards/ci-latency-policy.json"
   description: Policy contract defining thresholds, window sizes, and issue semantics.
 stages:
 - id: collect-latency-evidence

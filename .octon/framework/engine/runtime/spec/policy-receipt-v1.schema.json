@@ -106,15 +106,15 @@
       "type": "string",
       "enum": [
         "autonomous",
-        "agent-augmented",
+        "role-mediated",
         "human-only"
       ]
     },
     "capability_classification": {
       "type": "string",
       "enum": [
-        "agent-ready",
-        "agent-augmented",
+        "execution-role-ready",
+        "role-mediated",
         "human-only"
       ]
     },

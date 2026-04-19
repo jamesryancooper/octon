@@ -214,7 +214,7 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/framework/capabilities/runtime/skills/native-skill" \
     "$fixture_root/.octon/framework/capabilities/runtime/services" \
     "$fixture_root/.octon/framework/capabilities/runtime/tools" \
-    "$fixture_root/.octon/framework/agency/governance" \
+    "$fixture_root/.octon/framework/execution-roles/governance" \
     "$fixture_root/.octon/framework/assurance/governance" \
     "$fixture_root/.octon/framework/capabilities/governance" \
     "$fixture_root/.octon/framework/cognition/governance" \
@@ -327,7 +327,7 @@ subsystems:
 generators:
   - "proposal-registry"
 bundled_policy_sets:
-  - ".octon/framework/agency/governance/"
+  - ".octon/framework/execution-roles/governance/"
   - ".octon/framework/assurance/governance/"
   - ".octon/framework/capabilities/governance/"
   - ".octon/framework/cognition/governance/"

@@ -33,7 +33,7 @@
     },
     "workflow_mode": {
       "type": "string",
-      "enum": ["autonomous", "agent-augmented", "human-only"]
+      "enum": ["autonomous", "role-mediated", "human-only"]
     },
     "support_tier": {
       "type": ["string", "null"]

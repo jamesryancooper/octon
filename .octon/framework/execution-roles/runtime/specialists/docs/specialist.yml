@@ -1,0 +1,9 @@
+schema_version: "specialist-v1"
+specialist_id: "docs"
+contract_file: "SPECIALIST.md"
+stateless: true
+scope: "bounded-doc-update"
+escalation_target: "orchestrator"
+allowed_capability_packs:
+  - "repo"
+  - "shell"

@@ -36,8 +36,8 @@ The engine runtime now exposes run-first operator surfaces through the shared
 - `octon run replay --run-id <run-id>`
 - `octon run disclose --run-id <run-id>`
 
-`octon workflow run ...` remains available only as a compatibility wrapper
-over the canonical run-first lifecycle.
+`octon workflow run ...` is not a live consequential execution lane. Use
+`octon run start --contract <run-contract>` instead.
 
 The runtime also exposes orchestration operator inspection through the same
 CLI and Studio host:

@@ -9,9 +9,9 @@ canonical_links:
   - "/AGENTS.md"
   - "/.octon/framework/constitution/CHARTER.md"
   - "/.octon/framework/constitution/precedence/normative.yml"
-  - "/.octon/framework/agency/governance/CONSTITUTION.md"
-  - "/.octon/framework/agency/governance/DELEGATION.md"
-  - "/.octon/framework/agency/governance/MEMORY.md"
+  - "/.octon/framework/execution-roles/governance/CONSTITUTION.md"
+  - "/.octon/framework/execution-roles/governance/DELEGATION.md"
+  - "/.octon/framework/execution-roles/governance/MEMORY.md"
   - "/.octon/framework/cognition/practices/methodology/authority-crosswalk.md"
 ---
 
@@ -82,9 +82,9 @@ Methodology policy checks should run in CI using existing assurance surfaces rat
    - `/.octon/framework/constitution/CHARTER.md`
    - `/.octon/framework/constitution/obligations/fail-closed.yml`
    - `/.octon/framework/constitution/precedence/normative.yml`
-   - `/.octon/framework/agency/governance/CONSTITUTION.md`
-   - `/.octon/framework/agency/governance/DELEGATION.md`
-   - `/.octon/framework/agency/governance/MEMORY.md`
+   - `/.octon/framework/execution-roles/governance/CONSTITUTION.md`
+   - `/.octon/framework/execution-roles/governance/DELEGATION.md`
+   - `/.octon/framework/execution-roles/governance/MEMORY.md`
 2. **Cognition governance framing (principles and pillars)**
    - `/.octon/framework/cognition/governance/principles/principles.md`
    - `/.octon/framework/cognition/governance/principles/README.md`

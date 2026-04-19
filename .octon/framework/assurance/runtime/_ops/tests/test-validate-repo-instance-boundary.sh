@@ -50,7 +50,7 @@ write_valid_packet4_fixture() {
     "$fixture_root/.octon/instance/orchestration/missions/_scaffold/template" \
     "$fixture_root/.octon/instance/governance/policies" \
     "$fixture_root/.octon/instance/governance/contracts" \
-    "$fixture_root/.octon/instance/agency/runtime" \
+    "$fixture_root/.octon/instance/execution-roles/runtime" \
     "$fixture_root/.octon/instance/assurance/runtime" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture" \
     "$fixture_root/.octon/framework/orchestration/practices" \
@@ -73,9 +73,9 @@ overlay_points:
     merge_mode: "replace_by_path"
     validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
     precedence: 20
-  - overlay_point_id: "instance-agency-runtime"
+  - overlay_point_id: "instance-execution-roles-runtime"
     owning_domain: "agency"
-    instance_glob: ".octon/instance/agency/runtime/**"
+    instance_glob: ".octon/instance/execution-roles/runtime/**"
     merge_mode: "merge_by_id"
     validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
     precedence: 30
@@ -94,7 +94,7 @@ framework_id: "octon-core"
 enabled_overlay_points:
   - "instance-governance-policies"
   - "instance-governance-contracts"
-  - "instance-agency-runtime"
+  - "instance-execution-roles-runtime"
   - "instance-assurance-runtime"
 locality:
   registry_path: ".octon/instance/locality/registry.yml"
@@ -158,7 +158,7 @@ EOF
   cat >"$fixture_root/.octon/instance/governance/contracts/README.md" <<'EOF'
 # Contracts
 EOF
-  cat >"$fixture_root/.octon/instance/agency/runtime/README.md" <<'EOF'
+  cat >"$fixture_root/.octon/instance/execution-roles/runtime/README.md" <<'EOF'
 # Agency Runtime
 EOF
   cat >"$fixture_root/.octon/instance/assurance/runtime/README.md" <<'EOF'

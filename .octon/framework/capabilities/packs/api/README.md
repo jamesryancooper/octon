@@ -2,6 +2,7 @@
 
 Governed outbound API pack surface.
 
-This surface has a repo-local admission dossier and is admitted only through
-canonical support-target governance, authority routing, replay evidence,
-behavioral proof, and closure evidence.
+This surface is stage-only in the current repository. It has supporting dossier
+material, but it is not part of the live admitted support universe until
+runtime services, connector-lease egress governance, replay, and proof are
+promoted.

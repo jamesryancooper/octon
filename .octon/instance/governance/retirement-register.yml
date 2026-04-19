@@ -33,7 +33,7 @@ entries:
     next_review_due: "2026-06-29"
   - surface: duplicate-constitutional-shims
     paths:
-      - .octon/framework/agency/governance/CONSTITUTION.md
+      - .octon/framework/execution-roles/governance/CONSTITUTION.md
       - .octon/framework/cognition/governance/CHARTER.md
       - .octon/framework/assurance/governance/CHARTER.md
     status: retained_with_rationale

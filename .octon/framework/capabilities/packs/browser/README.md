@@ -2,6 +2,6 @@
 
 Governed browser automation pack surface.
 
-This surface has a repo-local admission dossier and is admitted only through
-canonical support-target governance, browser proof, recovery posture, and
-closure evidence.
+This surface is stage-only in the current repository. It has supporting dossier
+material, but it is not part of the live admitted support universe until
+runtime services, replay, redaction, lease governance, and proof are promoted.

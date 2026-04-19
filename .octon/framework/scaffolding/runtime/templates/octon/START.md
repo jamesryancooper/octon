@@ -60,7 +60,7 @@ Overlay-capable repo authority is limited to declared enabled overlay points:
 | --- | --- | --- | ---: |
 | `instance-governance-policies` | `instance/governance/policies/**` | `replace_by_path` | 10 |
 | `instance-governance-contracts` | `instance/governance/contracts/**` | `replace_by_path` | 20 |
-| `instance-agency-runtime` | `instance/agency/runtime/**` | `merge_by_id` | 30 |
+| `instance-execution-roles-runtime` | `instance/execution-roles/runtime/**` | `merge_by_id` | 30 |
 | `instance-assurance-runtime` | `instance/assurance/runtime/**` | `append_only` | 40 |
 
 Root `AGENTS.md` and `CLAUDE.md` are thin adapters to `.octon/AGENTS.md`

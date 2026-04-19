@@ -9,7 +9,7 @@ tuple:
   locale_tier: english-primary
   host_adapter: repo-shell
   model_adapter: repo-local-governed
-requires_mission: true
+requires_mission: false
 consequence_class: repo-local-medium
 reversibility_class: fully_reversible
 execution_horizon: multi_stage_single_run
@@ -44,8 +44,8 @@ required_authority_artifacts:
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml
-  - .octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-card.yml
-  - .octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-role-mediated-1/run-card.yml
+  - .octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-role-mediated-1/run-card.yml
 support_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml
 review_due_at: "2026-06-30T00:00:00Z"
 claim_effect: admitted-live-claim

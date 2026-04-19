@@ -55,7 +55,7 @@ Related composition primitives:
 - Workflows:
   - `.octon/framework/orchestration/runtime/workflows/README.md`
 - Teams:
-  - `.octon/framework/agency/runtime/teams/README.md`
+  - `.octon/framework/execution-roles/runtime/composition-profiles/README.md`
 
 ## Legacy Mapping (Engine -> Composite Service)
 

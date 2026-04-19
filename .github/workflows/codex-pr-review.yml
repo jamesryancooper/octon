@@ -36,7 +36,7 @@ jobs:
           filters: |
             risky:
               - '.github/workflows/**'
-              - '.octon/framework/agency/governance/**'
+              - '.octon/framework/execution-roles/governance/**'
               - '.octon/framework/cognition/governance/**'
               - '.octon/framework/capabilities/runtime/**'
               - '.octon/framework/engine/runtime/**'

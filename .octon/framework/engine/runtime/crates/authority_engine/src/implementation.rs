@@ -25,7 +25,7 @@ pub struct IntentRef {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct ActorRef {
+pub struct ExecutionRoleRef {
     pub kind: String,
     pub id: String,
 }
@@ -131,7 +131,7 @@ pub struct ExecutionRequest {
     #[serde(default)]
     pub autonomy_context: Option<AutonomyContext>,
     #[serde(default)]
-    pub actor_ref: Option<ActorRef>,
+    pub execution_role_ref: Option<ExecutionRoleRef>,
     #[serde(default)]
     pub parent_run_ref: Option<String>,
     #[serde(default)]
@@ -373,7 +373,7 @@ pub struct GrantBundle {
     pub intent_ref: IntentRef,
     #[serde(default)]
     pub autonomy_context: Option<AutonomyContext>,
-    pub actor_ref: ActorRef,
+    pub execution_role_ref: ExecutionRoleRef,
     pub run_root: String,
     #[serde(default)]
     pub run_control_root: Option<String>,
@@ -495,7 +495,7 @@ pub struct ExecutionReceipt {
     pub applied_directive_refs: Vec<String>,
     #[serde(default)]
     pub applied_authorize_update_refs: Vec<String>,
-    pub actor_ref: ActorRef,
+    pub execution_role_ref: ExecutionRoleRef,
     #[serde(default)]
     pub requested_capabilities: Vec<String>,
     #[serde(default)]
@@ -582,16 +582,16 @@ pub struct ExecutorCommandSpec<'a> {
     pub profile: &'a ExecutorProfileConfig,
 }
 
-pub fn default_actor_ref() -> ActorRef {
-    ActorRef {
-        kind: std::env::var("OCTON_EXECUTION_ACTOR_KIND").unwrap_or_else(|_| "system".to_string()),
-        id: std::env::var("OCTON_EXECUTION_ACTOR_ID")
+pub fn default_execution_role_ref() -> ExecutionRoleRef {
+    ExecutionRoleRef {
+        kind: std::env::var("OCTON_EXECUTION_ROLE_KIND").unwrap_or_else(|_| "system".to_string()),
+        id: std::env::var("OCTON_EXECUTION_ROLE_ID")
             .unwrap_or_else(|_| "octon-kernel".to_string()),
     }
 }
 
 fn default_workflow_mode() -> String {
-    "agent-augmented".to_string()
+    "role-mediated".to_string()
 }
 
 fn canonical_quorum_policy_ref() -> &'static str {
@@ -786,7 +786,7 @@ struct RunContractRecord {
     #[serde(default)]
     intent_ref: Option<IntentRef>,
     #[serde(default)]
-    actor_ref: Option<ActorRef>,
+    execution_role_ref: Option<ExecutionRoleRef>,
     #[serde(default)]
     required_approvals: Vec<String>,
     #[serde(default)]
@@ -1627,7 +1627,7 @@ fn bind_run_lifecycle(
             )
             .with_details(json!({"reason_codes":["INTENT_MISSING"]}))
         })?;
-    let resolved_actor_ref = request.actor_ref.clone().unwrap_or_else(default_actor_ref);
+    let resolved_execution_role_ref = request.execution_role_ref.clone().unwrap_or_else(default_execution_role_ref);
     let reversibility_class = autonomy_state
         .map(|state| state.context.reversibility_class.clone())
         .unwrap_or_else(|| "reversible".to_string());
@@ -1763,9 +1763,9 @@ fn bind_run_lifecycle(
                     "id": resolved_intent_ref.id,
                     "version": resolved_intent_ref.version,
                 },
-                "actor_ref": {
-                    "kind": resolved_actor_ref.kind,
-                    "id": resolved_actor_ref.id,
+                "execution_role_ref": {
+                    "kind": resolved_execution_role_ref.kind,
+                    "id": resolved_execution_role_ref.id,
                 },
                 "reversibility_class": reversibility_class,
                 "support_tier": support_tier,
@@ -1839,9 +1839,9 @@ fn bind_run_lifecycle(
                 "id": resolved_intent_ref.id,
                 "version": resolved_intent_ref.version,
             },
-            "actor_ref": {
-                "kind": resolved_actor_ref.kind,
-                "id": resolved_actor_ref.id,
+            "execution_role_ref": {
+                "kind": resolved_execution_role_ref.kind,
+                "id": resolved_execution_role_ref.id,
             },
             "support_tier": support_tier,
             "support_target": {
@@ -1923,7 +1923,7 @@ fn bind_run_lifecycle(
                 "completion_status": "criteria-pending",
                 "rollback_candidate": reversibility_class != "irreversible",
                 "rollback_notes": "Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.",
-                "issued_by": resolved_actor_ref.id,
+                "issued_by": resolved_execution_role_ref.id,
                 "validated_by": "octon-kernel",
                 "created_at": now,
                 "updated_at": now
@@ -2738,8 +2738,8 @@ fn load_run_contract_record(
             .clone()
             .or_else(|| active_intent_ref(cfg));
     }
-    if record.actor_ref.is_none() {
-        record.actor_ref = Some(request.actor_ref.clone().unwrap_or_else(default_actor_ref));
+    if record.execution_role_ref.is_none() {
+        record.execution_role_ref = Some(request.execution_role_ref.clone().unwrap_or_else(default_execution_role_ref));
     }
     if record.reversibility_class.trim().is_empty() {
         record.reversibility_class = autonomy_state
@@ -4382,7 +4382,7 @@ pub fn authorize_execution(
             )
             .with_details(json!({"reason_codes":["INTENT_MISSING"]}))
         })?;
-    let actor_ref = request.actor_ref.clone().unwrap_or_else(default_actor_ref);
+    let execution_role_ref = request.execution_role_ref.clone().unwrap_or_else(default_execution_role_ref);
     let autonomy_state = resolve_autonomy_state(cfg, request, &intent_ref)?;
 
     let requested_mode = request
@@ -4926,7 +4926,7 @@ pub fn authorize_execution(
         cfg,
         request,
         &intent_ref,
-        &actor_ref,
+        &execution_role_ref,
         &effective_policy_mode,
         budget_preview.as_ref(),
         autonomy_state.as_ref(),
@@ -4996,7 +4996,7 @@ pub fn authorize_execution(
         workflow_mode: request.workflow_mode.clone(),
         intent_ref,
         autonomy_context: autonomy_state.as_ref().map(|state| state.context.clone()),
-        actor_ref,
+        execution_role_ref,
         run_root: run_root_rel,
         run_control_root: Some(bound_run.control_root_rel.clone()),
         run_receipts_root: Some(bound_run.receipts_root_rel.clone()),
@@ -5131,7 +5131,7 @@ pub fn write_execution_start(
             "schema_version": "execution-request-v2",
             "request": request,
             "resolved_intent_ref": grant.intent_ref,
-            "resolved_actor_ref": grant.actor_ref,
+            "resolved_execution_role_ref": grant.execution_role_ref,
             "resolved_autonomy_context": grant.autonomy_context.clone(),
         }),
     )?;
@@ -5320,7 +5320,7 @@ pub fn finalize_execution(
             .as_ref()
             .map(|context| context.applied_authorize_update_refs.clone())
             .unwrap_or_default(),
-        actor_ref: grant.actor_ref.clone(),
+        execution_role_ref: grant.execution_role_ref.clone(),
         requested_capabilities: request.requested_capabilities.clone(),
         granted_capabilities: grant.granted_capabilities.clone(),
         policy_mode_requested: request
@@ -5758,7 +5758,7 @@ fn materialize_run_disclosure(
             "subject_ref": run_contract_ref,
             "kind": "no-material-intervention",
             "disclosed": true,
-            "actor_ref": serde_json::Value::Null,
+            "execution_role_ref": serde_json::Value::Null,
             "details": "No hidden or material human intervention occurred during the retained exemplar run.",
             "evidence_refs": [path_tail(repo_root, &intervention_path)],
             "recorded_at": outcome.completed_at,
@@ -6128,8 +6128,8 @@ fn dangerous_flags_for(kind: &ManagedExecutorKind) -> Vec<String> {
 fn capability_classification_for_mode(workflow_mode: &str) -> &str {
     match workflow_mode {
         "human-only" => "human-only",
-        "agent-augmented" => "agent-augmented",
-        _ => "agent-ready",
+        "role-mediated" => "role-mediated",
+        _ => "execution-role-ready",
     }
 }
 
@@ -6147,7 +6147,7 @@ fn compose_policy_receipt(
     cfg: &RuntimeConfig,
     request: &ExecutionRequest,
     intent_ref: &IntentRef,
-    actor_ref: &ActorRef,
+    execution_role_ref: &ExecutionRoleRef,
     effective_policy_mode: &str,
     budget_preview: Option<&BudgetMetadata>,
     autonomy_state: Option<&ResolvedAutonomyState>,
@@ -6243,7 +6243,7 @@ fn compose_policy_receipt(
         cfg,
         request,
         intent_ref,
-        actor_ref,
+        execution_role_ref,
         effective_policy_mode,
         budget_preview,
         autonomy_state,
@@ -6524,7 +6524,7 @@ fn build_policy_request_json(
     cfg: &RuntimeConfig,
     request: &ExecutionRequest,
     intent_ref: &IntentRef,
-    actor_ref: &ActorRef,
+    execution_role_ref: &ExecutionRoleRef,
     effective_policy_mode: &str,
     budget_preview: Option<&BudgetMetadata>,
     autonomy_state: Option<&ResolvedAutonomyState>,
@@ -6589,8 +6589,8 @@ fn build_policy_request_json(
     Ok(json!({
         "run_id": request.request_id,
         "actor": {
-            "id": actor_ref.id,
-            "type": actor_ref.kind
+            "id": execution_role_ref.id,
+            "type": execution_role_ref.kind
         },
         "profile": policy_profile_for_request(request),
         "phase": phase,
@@ -7303,7 +7303,7 @@ mod tests {
             locality_scope: None,
             intent_ref: None,
             autonomy_context: None,
-            actor_ref: Some(default_actor_ref()),
+            execution_role_ref: Some(default_execution_role_ref()),
             parent_run_ref: None,
             review_requirements: ReviewRequirements::default(),
             scope_constraints: ScopeConstraints {
@@ -7549,7 +7549,7 @@ mod tests {
     }
 
     #[test]
-    fn admitted_api_pack_allows_declared_execution() {
+    fn unadmitted_api_pack_denies_declared_execution() {
         let cfg = temp_runtime_config();
         let policy = PolicyEngine::new(cfg.clone());
         let mut request = minimal_request();
@@ -7557,18 +7557,16 @@ mod tests {
             .metadata
             .insert("support_capability_packs".to_string(), "api".to_string());
 
-        let grant = authorize_execution(&cfg, &policy, &request, None)
-            .expect("admitted api pack should authorize when declared");
-        assert!(grant
-            .support_posture
-            .as_ref()
-            .expect("support posture")
-            .allowed_capability_packs
-            .contains(&"api".to_string()));
+        let err = authorize_execution(&cfg, &policy, &request, None)
+            .expect_err("unadmitted api pack should deny when declared");
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("SUPPORT_TIER_UNSUPPORTED")
+        );
     }
 
     #[test]
-    fn admitted_browser_pack_allows_declared_execution() {
+    fn unadmitted_browser_pack_denies_declared_execution() {
         let cfg = temp_runtime_config();
         let policy = PolicyEngine::new(cfg.clone());
         let mut request = minimal_request();
@@ -7580,14 +7578,12 @@ mod tests {
             "browser".to_string(),
         );
 
-        let grant = authorize_execution(&cfg, &policy, &request, None)
-            .expect("admitted browser pack should authorize when declared");
-        assert!(grant
-            .support_posture
-            .as_ref()
-            .expect("support posture")
-            .allowed_capability_packs
-            .contains(&"browser".to_string()));
+        let err = authorize_execution(&cfg, &policy, &request, None)
+            .expect_err("unadmitted browser pack should deny when declared");
+        assert_eq!(
+            err.details["reason_codes"][0].as_str(),
+            Some("SUPPORT_TIER_UNSUPPORTED")
+        );
     }
 
     #[test]

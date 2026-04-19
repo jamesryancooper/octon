@@ -13,7 +13,7 @@ metadata:
   updated: "2026-03-12"
 skill_sets: [executor, guardian]
 capabilities: [domain-specialized, self-validating, external-dependent]
-allowed-tools: Read Glob Grep Bash(gh *) Bash(bash .octon/framework/agency/_ops/scripts/ci/audit-ci-latency.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Bash(gh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/ci/audit-ci-latency.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Audit CI Latency

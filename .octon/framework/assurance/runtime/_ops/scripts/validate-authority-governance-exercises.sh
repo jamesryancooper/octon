@@ -48,7 +48,7 @@ main() {
   require_file "$OCTON_DIR/state/evidence/disclosure/runs/${approval_run}/run-card.yml"
   require_file "$OCTON_DIR/state/evidence/control/execution/authority-decision-${approval_run}.yml"
 
-  require_yq '.workflow_mode == "agent-augmented"' "$OCTON_DIR/state/control/execution/approvals/requests/${approval_run}.yml" "approval exercise uses agent-augmented request"
+  require_yq '.workflow_mode == "role-mediated"' "$OCTON_DIR/state/control/execution/approvals/requests/${approval_run}.yml" "approval exercise uses role-mediated request"
   require_yq '.state == "active"' "$OCTON_DIR/state/control/execution/approvals/grants/grant-${approval_run}.yml" "approval exercise grant is active"
   require_yq '.decision == "ALLOW"' "$OCTON_DIR/state/evidence/control/execution/authority-decision-${approval_run}.yml" "approval exercise decision is ALLOW"
 

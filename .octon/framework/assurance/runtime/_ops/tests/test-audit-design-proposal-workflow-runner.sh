@@ -146,7 +146,7 @@ case_rigorous_mock_runner_passes() {
   assert_file_exists "$summary_report" || return 1
   assert_bundle_contract "$bundle_root" || return 1
   assert_file_exists "$bundle_root/reports/01-design-proposal-audit.md" || return 1
-  assert_file_exists "$bundle_root/reports/03-design-red-team.md" || return 1
+  assert_file_exists "$bundle_root/reports/03-design-red-PROFILE.md" || return 1
   assert_file_exists "$bundle_root/reports/04-design-hardening.md" || return 1
   assert_file_exists "$bundle_root/reports/05-design-integration.md" || return 1
   assert_file_exists "$bundle_root/reports/06-implementation-simulation.md" || return 1

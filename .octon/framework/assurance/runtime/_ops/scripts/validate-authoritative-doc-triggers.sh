@@ -116,7 +116,7 @@ main() {
     assert_classification "$required_doc" "authoritative-doc"
   done < <(yq -r '.execution.required_doc_surfaces[]? | select(test("\\.md$"))' "$REGISTRY_FILE")
 
-  assert_classification ".octon/framework/agency/practices/pull-request-standards.md" "authoritative-doc"
+  assert_classification ".octon/framework/execution-roles/practices/pull-request-standards.md" "authoritative-doc"
   assert_classification ".octon/instance/cognition/decisions/062-self-audit-and-release-hardening-atomic-cutover.md" "authoritative-doc"
   assert_classification ".github/PULL_REQUEST_TEMPLATE.md" "authoritative-doc"
   assert_classification ".github/PULL_REQUEST_TEMPLATE/kaizen.md" "authoritative-doc"

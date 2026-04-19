@@ -35,28 +35,28 @@ create_fixture() {
   CLEANUP_DIRS+=("$fixture_root")
 
   mkdir -p \
-    "$fixture_root/.octon/framework/agency/practices/standards" \
-    "$fixture_root/.octon/framework/agency/practices" \
-    "$fixture_root/.octon/framework/agency/_ops/scripts/git" \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards" \
+    "$fixture_root/.octon/framework/execution-roles/practices" \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git" \
     "$fixture_root/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/instance/ingress" \
     "$fixture_root/.github/workflows"
 
-  cp "$REPO_ROOT/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml" \
-    "$fixture_root/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml" \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   cp "$REPO_ROOT/.octon/instance/ingress/manifest.yml" \
     "$fixture_root/.octon/instance/ingress/manifest.yml"
   cp "$REPO_ROOT/.octon/instance/ingress/AGENTS.md" \
     "$fixture_root/.octon/instance/ingress/AGENTS.md"
-  cp "$REPO_ROOT/.octon/framework/agency/practices/git-autonomy-playbook.md" \
-    "$fixture_root/.octon/framework/agency/practices/git-autonomy-playbook.md"
-  cp "$REPO_ROOT/.octon/framework/agency/practices/git-github-autonomy-workflow-v1.md" \
-    "$fixture_root/.octon/framework/agency/practices/git-github-autonomy-workflow-v1.md"
-  cp "$REPO_ROOT/.octon/framework/agency/practices/pull-request-standards.md" \
-    "$fixture_root/.octon/framework/agency/practices/pull-request-standards.md"
-  cp "$REPO_ROOT/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh" \
-    "$fixture_root/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/git-autonomy-playbook.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/git-autonomy-playbook.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/pull-request-standards.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/pull-request-standards.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh" \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
   cp "$REPO_ROOT/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md" \
     "$fixture_root/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md"
   cp "$REPO_ROOT/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references/safety.md" \
@@ -99,7 +99,7 @@ case_stale_remediation_wording_fails() {
   local fixture_root
   fixture_root="$(create_fixture)"
   perl -0pi -e 's/Do not amend, rebase, or force-push during ordinary review remediation\./Rebase and force-push cleanup./' \
-    "$fixture_root/.octon/framework/agency/practices/pull-request-standards.md"
+    "$fixture_root/.octon/framework/execution-roles/practices/pull-request-standards.md"
   ! run_validator "$fixture_root"
 }
 
@@ -107,7 +107,7 @@ case_helper_missing_explicit_flags_fails() {
   local fixture_root
   fixture_root="$(create_fixture)"
   perl -0pi -e 's/--request-ready/--deprecated-ready/g; s/--request-automerge/--deprecated-automerge/g' \
-    "$fixture_root/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh"
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
   ! run_validator "$fixture_root"
 }
 

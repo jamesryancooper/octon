@@ -56,9 +56,9 @@ overlay_points:
     precedence: 29
     artifact_kinds:
       - "decision"
-  - overlay_point_id: "instance-agency-runtime"
-    owning_domain: "agency"
-    instance_glob: ".octon/instance/agency/runtime/**"
+  - overlay_point_id: "instance-execution-roles-runtime"
+    owning_domain: "execution-roles"
+    instance_glob: ".octon/instance/execution-roles/runtime/**"
     merge_mode: "merge_by_id"
     validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
     precedence: 30

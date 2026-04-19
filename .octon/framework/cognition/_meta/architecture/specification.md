@@ -407,7 +407,7 @@ projection until normalized into the standard packet contract.
 | --- | --- | --- | ---: |
 | `instance-governance-policies` | `.octon/instance/governance/policies/**` | `replace_by_path` | 10 |
 | `instance-governance-contracts` | `.octon/instance/governance/contracts/**` | `replace_by_path` | 20 |
-| `instance-agency-runtime` | `.octon/instance/agency/runtime/**` | `merge_by_id` | 30 |
+| `instance-execution-roles-runtime` | `.octon/instance/execution-roles/runtime/**` | `merge_by_id` | 30 |
 | `instance-assurance-runtime` | `.octon/instance/assurance/runtime/**` | `append_only` | 40 |
 
 No blanket shadow-tree model exists for `instance/**`. Any future

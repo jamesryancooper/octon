@@ -21,9 +21,7 @@ This harness uses one repo-root `.octon/` per repository.
 
 | Component | Canonical Path |
 |-----------|----------------|
-| Agents | `.octon/framework/agency/runtime/agents/` |
-| Assistants | `.octon/framework/agency/runtime/assistants/` |
-| Teams | `.octon/framework/agency/runtime/teams/` |
+| Execution roles | `.octon/framework/execution-roles/runtime/` |
 | Templates | `.octon/framework/scaffolding/runtime/templates/` |
 | Workflows | `.octon/framework/orchestration/runtime/workflows/` |
 | Skills | `.octon/framework/capabilities/runtime/skills/` |
@@ -352,7 +350,7 @@ Overlay-capable repo authority is limited to these declared enabled points:
 | --- | --- | --- | ---: |
 | `instance-governance-policies` | `instance/governance/policies/**` | `replace_by_path` | 10 |
 | `instance-governance-contracts` | `instance/governance/contracts/**` | `replace_by_path` | 20 |
-| `instance-agency-runtime` | `instance/agency/runtime/**` | `merge_by_id` | 30 |
+| `instance-execution-roles-runtime` | `instance/execution-roles/runtime/**` | `merge_by_id` | 30 |
 | `instance-assurance-runtime` | `instance/assurance/runtime/**` | `append_only` | 40 |
 
 No other `instance/**` subtree is overlay-capable in v1.
@@ -389,13 +387,11 @@ Run this first when onboarding or resuming local repo work:
 - human-readable guide:
   `/.octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/README.md`
 
-Canonical workflow contract:
+Canonical execution-role entrypoints:
 
-- `/.octon/framework/orchestration/runtime/workflows/tasks/agent-led-happy-path/workflow.yml`
-
-Human-readable guide:
-
-- `/.octon/framework/orchestration/runtime/workflows/tasks/agent-led-happy-path/README.md`
+- `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
+- `/.octon/framework/execution-roles/runtime/specialists/registry.yml`
+- `/.octon/framework/execution-roles/runtime/verifiers/registry.yml`
 
 Flow:
 

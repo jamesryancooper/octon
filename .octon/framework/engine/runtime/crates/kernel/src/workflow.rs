@@ -241,8 +241,8 @@ const RIGOROUS_STAGES: &[StageDefinition] = &[
     },
     StageDefinition {
         id: "03",
-        prompt_file: "04-design-red-team.md",
-        report_file: "03-design-red-team.md",
+        prompt_file: "04-design-red-PROFILE.md",
+        report_file: "03-design-red-PROFILE.md",
         class: StageClass::Evaluative,
     },
     StageDefinition {
@@ -643,7 +643,7 @@ fn authorize_workflow_stage(
     if let Some(support_tier) = support_tier_override {
         metadata.insert("support_tier".to_string(), support_tier.to_string());
     }
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(runtime_cfg, metadata)?;
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(runtime_cfg, metadata)?;
     let request = ExecutionRequest {
         request_id: format!("{workflow_id}-{stage_id}"),
         caller_path: "workflow-stage".to_string(),
@@ -665,7 +665,7 @@ fn authorize_workflow_stage(
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: stage_autonomy_context,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: Some(workflow_id.to_string()),
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -786,7 +786,7 @@ pub fn run_create_design_package_from_octon_dir(
             )
         })
         .transpose()?;
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
         BTreeMap::from([(
             "workflow_id".to_string(),
@@ -804,7 +804,7 @@ pub fn run_create_design_package_from_octon_dir(
             "evidence.write".to_string(),
         ],
         side_effect_flags: SideEffectFlags {
-            write_repo: true,
+            write_repo: false,
             write_evidence: true,
             ..SideEffectFlags::default()
         },
@@ -813,7 +813,7 @@ pub fn run_create_design_package_from_octon_dir(
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: workflow_autonomy_context.clone(),
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -1460,7 +1460,7 @@ pub fn run_create_static_proposal_from_octon_dir(
             )
         })
         .transpose()?;
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
         BTreeMap::from([(
             "workflow_id".to_string(),
@@ -1487,7 +1487,7 @@ pub fn run_create_static_proposal_from_octon_dir(
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: workflow_autonomy_context.clone(),
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -1869,7 +1869,7 @@ pub fn run_audit_static_proposal_from_octon_dir(
         &format!("audit-{}-proposal", kind.as_str()),
         options.resume_existing,
     )?;
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
         BTreeMap::from([
             (
@@ -1886,16 +1886,16 @@ pub fn run_audit_static_proposal_from_octon_dir(
         target_id: format!("audit-{}-proposal", kind.as_str()),
         requested_capabilities: vec!["workflow.execute".to_string(), "evidence.write".to_string()],
         side_effect_flags: SideEffectFlags {
-            write_repo: true,
+            write_repo: false,
             write_evidence: true,
             ..SideEffectFlags::default()
         },
         risk_tier: "low".to_string(),
-        workflow_mode: request::agent_augmented_mode(),
+        workflow_mode: request::role_mediated_mode(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -2115,7 +2115,7 @@ pub fn run_validate_proposal_from_octon_dir(
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
         BTreeMap::from([("workflow_id".to_string(), "validate-proposal".to_string())]),
     )?;
@@ -2130,11 +2130,11 @@ pub fn run_validate_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "low".to_string(),
-        workflow_mode: request::agent_augmented_mode(),
+        workflow_mode: request::role_mediated_mode(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -2486,7 +2486,7 @@ pub fn run_promote_proposal_from_octon_dir(
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
         BTreeMap::from([("workflow_id".to_string(), "promote-proposal".to_string())]),
     )?;
@@ -2506,11 +2506,11 @@ pub fn run_promote_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: request::agent_augmented_mode(),
+        workflow_mode: request::role_mediated_mode(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -2845,7 +2845,7 @@ pub fn run_archive_proposal_from_octon_dir(
 
     let reports_root = repo_root.join(REPORTS_ROOT_REL);
     let workflow_bundles_root = repo_root.join(WORKFLOW_REPORTS_ROOT_REL);
-    let (intent_ref, actor_ref, metadata) = request::bind_repo_local_request(
+    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(
         &runtime_cfg,
         BTreeMap::from([("workflow_id".to_string(), "archive-proposal".to_string())]),
     )?;
@@ -2865,11 +2865,11 @@ pub fn run_archive_proposal_from_octon_dir(
             ..SideEffectFlags::default()
         },
         risk_tier: "medium".to_string(),
-        workflow_mode: request::agent_augmented_mode(),
+        workflow_mode: request::role_mediated_mode(),
         locality_scope: None,
         intent_ref: Some(intent_ref),
         autonomy_context: None,
-        actor_ref: Some(actor_ref),
+        execution_role_ref: Some(execution_role_ref),
         parent_run_ref: None,
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
@@ -3497,7 +3497,7 @@ impl Runner {
     ) -> Result<ExecutionRequest> {
         metadata.insert("workflow_id".to_string(), WORKFLOW_ID.to_string());
         metadata.insert("stage_id".to_string(), stage.id.to_string());
-        let (intent_ref, actor_ref, metadata) =
+        let (intent_ref, execution_role_ref, metadata) =
             request::bind_repo_local_request(&self.runtime_cfg, metadata)?;
         Ok(ExecutionRequest {
             request_id: format!("{}-stage-{}", self.slug, stage.id),
@@ -3531,11 +3531,11 @@ impl Runner {
             } else {
                 "low".to_string()
             },
-            workflow_mode: request::agent_augmented_mode(),
+            workflow_mode: request::role_mediated_mode(),
             locality_scope: None,
             intent_ref: Some(intent_ref),
             autonomy_context: None,
-            actor_ref: Some(actor_ref),
+            execution_role_ref: Some(execution_role_ref),
             parent_run_ref: Some(self.slug.clone()),
             review_requirements: ReviewRequirements {
                 human_approval: false,
@@ -5949,16 +5949,10 @@ fn resolve_requested_workflow_run_id(
 mod tests {
     use super::*;
     use std::os::unix::fs::PermissionsExt;
-    use std::sync::{Mutex, OnceLock};
     use std::time::{SystemTime, UNIX_EPOCH};
 
-    static WORKFLOW_TEST_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
-
     fn acquire_workflow_test_lock() -> std::sync::MutexGuard<'static, ()> {
-        WORKFLOW_TEST_LOCK
-            .get_or_init(|| Mutex::new(()))
-            .lock()
-            .expect("workflow test lock should acquire")
+        crate::acquire_kernel_test_lock()
     }
 
     fn make_temp_root(label: &str) -> PathBuf {
@@ -6095,7 +6089,7 @@ mod tests {
         for name in [
             "02-design-audit.md",
             "03-design-proposal-remediation.md",
-            "04-design-red-team.md",
+            "04-design-red-PROFILE.md",
             "05-design-hardening.md",
             "06-design-integration.md",
             "07-implementation-simulation.md",
@@ -6507,7 +6501,7 @@ mod tests {
         assert_eq!(result.final_verdict, "mock-executed");
         assert!(result
             .bundle_root
-            .join("reports/03-design-red-team.md")
+            .join("reports/03-design-red-PROFILE.md")
             .is_file());
         assert!(result
             .bundle_root
@@ -6548,7 +6542,7 @@ mod tests {
                 executor: ExecutorKind::Codex,
                 executor_bin: Some(fake_codex),
                 output_slug: Some("failing-executor".to_string()),
-                model: None,
+                model: Some("gpt-5".to_string()),
                 prepare_only: false,
             },
         )

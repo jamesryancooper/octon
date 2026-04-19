@@ -9,7 +9,7 @@
 ## Charter Metadata
 
 - Charter: `.octon/framework/assurance/governance/CHARTER.md`
-- Version: `2.1.0`
+- Version: `2.2.3`
 - Umbrella chain: `Assurance (assurance) > Productivity (productivity) > Integration (integration)`
 - Tie-break rule: When weighted priority ties, prioritize items mapped to higher umbrellas in chain order.
 

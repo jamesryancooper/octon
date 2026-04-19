@@ -27,7 +27,7 @@
     "reason_codes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
     "reason_details": { "type": "array" },
     "remediation": { "type": "string", "minLength": 1 },
-    "workflow_mode": { "type": "string", "enum": ["autonomous", "agent-augmented", "human-only"] },
+    "workflow_mode": { "type": "string", "enum": ["autonomous", "role-mediated", "human-only"] },
     "mission_ref": { "type": ["object", "null"] },
     "slice_ref": { "type": ["object", "null"] },
     "oversight_mode": { "type": ["string", "null"] },

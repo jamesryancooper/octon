@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/runtime-event-v1.schema.json",
+  "title": "Octon Runtime Event v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "event_id",
+    "event_type",
+    "run_id",
+    "timestamp"
+  ],
+  "properties": {
+    "schema_version": { "const": "runtime-event-v1" },
+    "event_id": { "type": "string", "minLength": 1 },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "run.started",
+        "run.context_pack_bound",
+        "run.grant_issued",
+        "run.grant_denied",
+        "approval.requested",
+        "approval.resolved",
+        "capability.invoked",
+        "checkpoint.created",
+        "evidence.persisted",
+        "replay.available",
+        "rollback.started",
+        "rollback.completed",
+        "intervention.recorded",
+        "disclosure.ready",
+        "run.closed"
+      ]
+    },
+    "run_id": { "type": "string", "minLength": 1 },
+    "timestamp": { "type": "string", "minLength": 1 },
+    "request_id": { "type": ["string", "null"] },
+    "refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "details": { "type": "object" }
+  }
+}

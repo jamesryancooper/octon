@@ -24,10 +24,10 @@ compatibility fallback prompt.
   - `.octon/framework/constitution/ownership/roles.yml`
   - `.octon/framework/constitution/contracts/registry.yml`
 - kernel execution profile:
-  - `.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+  - `.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 - optional supporting overlays:
-  - `.octon/framework/agency/governance/DELEGATION.md`
-  - `.octon/framework/agency/governance/MEMORY.md`
+  - `.octon/framework/execution-roles/governance/DELEGATION.md`
+  - `.octon/framework/execution-roles/governance/MEMORY.md`
 - active workspace objective pair:
   - `.octon/instance/charter/workspace.md`
   - `.octon/instance/charter/workspace.yml`
@@ -49,7 +49,7 @@ The ordered mandatory read set below must remain in parity with
 8. `.octon/framework/constitution/contracts/registry.yml`
 9. `.octon/instance/charter/workspace.md`
 10. `.octon/instance/charter/workspace.yml`
-11. `.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+11. `.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 
 ## Optional Orientation
 
@@ -100,7 +100,7 @@ canonical closeout contract. Do not ask one fixed closeout question after
 every file-changing turn.
 
 The broader Git/worktree/PR/remediation workflow contract lives at
-`/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`.
+`/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`.
 Use that contract together with the ingress manifest when closeout, review
 remediation, or helper semantics need interpretation.
 

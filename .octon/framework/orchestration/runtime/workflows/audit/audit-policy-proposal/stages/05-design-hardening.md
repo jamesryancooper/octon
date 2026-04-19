@@ -10,7 +10,7 @@ description: Execute prompt 04, apply required package changes, and persist the 
 
 - `bundle/plan.md`
 - target proposal at `package_path`
-- `bundle/reports/03-design-red-team.md`
+- `bundle/reports/03-design-red-PROFILE.md`
 - injected prior report: `<RED_TEAM_REPORT>`
 - canonical stage prompt for design hardening
 

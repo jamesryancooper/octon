@@ -16,8 +16,8 @@ Actor configuration in `agency/`:
 | `agency/manifest.yml` | Actor discovery and routing metadata |
 | `agency/governance/` | Cross-agent governance contracts and precedence overlays |
 | `agency/runtime/agents/registry.yml` | Supervisor definitions and delegation policy |
-| `agency/runtime/assistants/registry.yml` | Assistant aliases and escalation policy |
-| `agency/runtime/teams/registry.yml` | Reusable multi-actor compositions |
+| `agency/runtime/specialists/registry.yml` | Assistant aliases and escalation policy |
+| `agency/runtime/composition-profiles/registry.yml` | Reusable multi-actor compositions |
 
 ## Commands
 

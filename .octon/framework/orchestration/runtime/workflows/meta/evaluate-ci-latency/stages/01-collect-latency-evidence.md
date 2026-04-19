@@ -5,7 +5,7 @@ Gather the inputs needed for the CI latency report.
 ## Actions
 
 1. Read the policy contract at `policy_path`.
-2. Run the shared wrapper at `.octon/framework/agency/_ops/scripts/ci/audit-ci-latency.sh`.
+2. Run the shared wrapper at `.octon/framework/execution-roles/_ops/scripts/ci/audit-ci-latency.sh`.
 3. Confirm both Markdown and JSON outputs exist.
 4. Capture the key input facts:
    - repository

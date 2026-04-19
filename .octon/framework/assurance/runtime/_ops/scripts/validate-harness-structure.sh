@@ -113,7 +113,7 @@ require_file "$OCTON_DIR/framework/constitution/contracts/retention/external-rep
 require_file "$OCTON_DIR/framework/constitution/contracts/retention/replay-storage-class-v1.schema.json"
 require_file "$OCTON_DIR/framework/constitution/support-targets.schema.json"
 require_file "$OCTON_DIR/framework/overlay-points/registry.yml"
-require_dir "$OCTON_DIR/framework/agency"
+require_dir "$OCTON_DIR/framework/execution-roles"
 require_dir "$OCTON_DIR/framework/assurance"
 require_dir "$OCTON_DIR/framework/assurance/structural"
 require_file "$OCTON_DIR/framework/assurance/structural/README.md"
@@ -325,9 +325,9 @@ require_file "$OCTON_DIR/instance/governance/contracts/README.md"
 require_file "$OCTON_DIR/instance/governance/contracts/disclosure-retention.yml"
 require_file "$OCTON_DIR/instance/governance/contracts/failure-distillation-workflow.yml"
 require_file "$OCTON_DIR/instance/governance/contracts/evidence-distillation-workflow.yml"
-require_dir "$OCTON_DIR/instance/agency/runtime"
-require_file "$OCTON_DIR/instance/agency/runtime/README.md"
-require_file "$OCTON_DIR/instance/agency/runtime/tool-output-budgets.yml"
+require_dir "$OCTON_DIR/instance/execution-roles/runtime"
+require_file "$OCTON_DIR/instance/execution-roles/runtime/README.md"
+require_file "$OCTON_DIR/instance/execution-roles/runtime/tool-output-budgets.yml"
 require_dir "$OCTON_DIR/instance/assurance/runtime"
 require_file "$OCTON_DIR/instance/assurance/runtime/README.md"
 
@@ -473,7 +473,7 @@ unexpected_framework_entries=()
 while IFS= read -r entry; do
   rel="${entry#$OCTON_DIR/framework/}"
   case "$rel" in
-    manifest.yml|overlay-points|agency|assurance|capabilities|cognition|constitution|engine|lab|observability|orchestration|scaffolding)
+    manifest.yml|overlay-points|execution-roles|assurance|capabilities|cognition|constitution|engine|lab|observability|orchestration|scaffolding)
       ;;
     *)
       unexpected_framework_entries+=("framework/$rel")

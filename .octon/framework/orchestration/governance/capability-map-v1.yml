@@ -6,72 +6,72 @@ approved_by: "octon-platform"
 review_cadence_days: 30
 
 defaults:
-  classification: "agent-augmented"
+  classification: "role-mediated"
   autonomous_allowed: false
 
 workflows:
   - workflow_id: "evaluate-harness"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "evaluate-ci-latency"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "migrate-harness"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "export-harness"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "update-harness"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-skill"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-workflow"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "evaluate-workflow"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "update-workflow"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "refactor"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "agent-led-happy-path"
-    classification: "agent-ready"
+    classification: "execution-role-ready"
     autonomous_allowed: true
     required_contracts:
       - "intent-contract-v1"
@@ -79,37 +79,37 @@ workflows:
       - "policy-receipt-v1"
 
   - workflow_id: "audit-orchestration"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-design-proposal"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-design-proposal"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-migration-proposal"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-policy-proposal"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-workflow-system"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
@@ -121,103 +121,103 @@ workflows:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-change-risk"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-continuous"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-post-incident"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-release-readiness"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-architecture-readiness"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "audit-documentation"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "python-api-foundation"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "swift-macos-app-foundation"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-mission"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "complete-mission"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "create-project"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "promote-from-scratchpad"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "add-api-endpoint"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "add-ui-feature"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "fix-a-bug"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "handle-security-issue"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"
 
   - workflow_id: "run-data-migration"
-    classification: "agent-augmented"
+    classification: "role-mediated"
     autonomous_allowed: false
     required_contracts:
       - "delegation-boundaries-v1"

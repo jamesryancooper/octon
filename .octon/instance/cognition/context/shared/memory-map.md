@@ -11,7 +11,7 @@ This document prevents duplicated memory surfaces by clarifying canonical owners
 
 | Memory Concern | Canonical Location | Notes |
 |---|---|---|
-| Memory policy (classes, retention, redaction) | `.octon/framework/agency/governance/MEMORY.md` | Governs what may be retained and how. |
+| Memory policy (classes, retention, redaction) | `.octon/framework/execution-roles/governance/MEMORY.md` | Governs what may be retained and how. |
 | Repo continuity and cross-scope active work state | `.octon/state/continuity/repo/{log.md,tasks.json,entities.json,next.md}` | Operational handoff state for repo-wide and cross-scope work. |
 | Scope continuity and scope-local active work state | `.octon/state/continuity/scopes/<scope-id>/{log.md,tasks.json,entities.json,next.md}` | Operational handoff state for stable single-scope work. |
 | Run evidence memory lifecycle | `.octon/state/evidence/runs/retention.json` and `.octon/framework/cognition/_meta/architecture/state/continuity/runs-retention.md` | Retention classes and lifecycle actions for run receipts and digests. |

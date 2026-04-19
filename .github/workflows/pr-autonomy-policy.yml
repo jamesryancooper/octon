@@ -1,6 +1,7 @@
 name: PR Autonomy Policy
 
 on:
+  push:
   pull_request:
     types:
       - opened
@@ -51,7 +52,26 @@ jobs:
 
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const pr = context.payload.pull_request;
+            let pr = context.payload.pull_request || null;
+            const branchRef = pr?.head?.ref || context.ref.replace(/^refs\/heads\//, "");
+
+            if (!pr) {
+              const { data: pulls } = await github.rest.pulls.list({
+                owner,
+                repo,
+                state: "open",
+                head: `${owner}:${branchRef}`,
+                per_page: 1
+              });
+              pr = pulls[0] || null;
+            }
+
+            if (!pr) {
+              core.notice(`No open PR found for branch '${branchRef}'. Skipping autonomy evaluation on this push.`);
+              core.setOutput("skip", "true");
+              return;
+            }
+
             const baseSha = pr.base?.sha;
 
             if (!baseSha) {
@@ -90,7 +110,23 @@ jobs:
             let standardsText = "";
             let templateText = "";
             try {
-              standardsText = await readTextFile(".octon/framework/agency/practices/standards/commit-pr-standards.json");
+              const standardsCandidates = [
+                ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json",
+                ".octon/framework/agency/practices/standards/commit-pr-standards.json"
+              ];
+              let standardsLoaded = false;
+              for (const candidate of standardsCandidates) {
+                try {
+                  standardsText = await readTextFile(candidate);
+                  standardsLoaded = true;
+                  break;
+                } catch (error) {
+                  if (!/Not Found/.test(error.message)) throw error;
+                }
+              }
+              if (!standardsLoaded) {
+                throw new Error(`Could not load standards from base SHA. Tried: ${standardsCandidates.join(", ")}`);
+              }
               templateText = await readTextFile(".github/PULL_REQUEST_TEMPLATE.md");
             } catch (error) {
               core.setFailed(`Could not load standards/template from base SHA: ${error.message}`);
@@ -103,8 +139,10 @@ jobs:
             fs.writeFileSync(path.join(tempDir, `pr-template-${pr.number}.md`), templateText);
 
             core.setOutput("pr_number", String(pr.number));
+            core.setOutput("skip", "false");
 
       - name: Evaluate autonomy policy
+        if: steps.collect.outputs.skip != 'true'
         env:
           PR_NUMBER: ${{ steps.collect.outputs.pr_number }}
         run: |
@@ -145,7 +183,7 @@ jobs:
           fi
 
       - name: Upload protected execution receipt
-        if: always()
+        if: always() && steps.collect.outputs.skip != 'true'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: pr-autonomy-policy-protected-execution-receipt

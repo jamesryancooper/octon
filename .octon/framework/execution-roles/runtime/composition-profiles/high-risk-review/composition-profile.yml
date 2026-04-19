@@ -1,0 +1,10 @@
+schema_version: "composition-profile-v1"
+profile_id: "high-risk-review"
+executes: false
+topology:
+  - "orchestrator"
+  - "specialist"
+  - "verifier"
+activation_criteria:
+  - "high-risk-change"
+  - "manual-review-lane"

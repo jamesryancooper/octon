@@ -15,16 +15,16 @@ check_no_text() {
 
 check_no_text 'architect/SOUL|SOUL\.md' \
   "$ROOT_DIR/instance/ingress/AGENTS.md" \
-  "$ROOT_DIR/framework/agency/runtime/agents/orchestrator/AGENT.md" \
-  "$ROOT_DIR/framework/agency/runtime/agents/verifier/AGENT.md" \
-  "$ROOT_DIR/framework/agency/manifest.yml"
+  "$ROOT_DIR/framework/execution-roles/runtime/orchestrator/ROLE.md" \
+  "$ROOT_DIR/framework/execution-roles/runtime/verifiers/independent-verifier/VERIFIER.md" \
+  "$ROOT_DIR/framework/execution-roles/manifest.yml"
 
-[[ -f "$ROOT_DIR/framework/agency/runtime/agents/orchestrator/SOUL.md" ]] && {
+[[ -f "$ROOT_DIR/framework/execution-roles/runtime/orchestrator/SOUL.md" ]] && {
   echo "[ERROR] orchestrator SOUL overlay still exists" >&2
   errors=$((errors + 1))
 }
 
-[[ -f "$ROOT_DIR/framework/agency/runtime/agents/verifier/SOUL.md" ]] && {
+[[ -f "$ROOT_DIR/framework/execution-roles/runtime/verifiers/independent-verifier/SOUL.md" ]] && {
   echo "[ERROR] verifier SOUL overlay still exists" >&2
   errors=$((errors + 1))
 }

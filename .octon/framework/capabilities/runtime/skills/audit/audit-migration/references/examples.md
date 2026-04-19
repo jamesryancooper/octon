@@ -67,7 +67,7 @@ migration:
     - old: "missions/"
       new: "instance/orchestration/missions/"
     - old: "assistants/"
-      new: "agency/runtime/assistants/"
+      new: "agency/runtime/specialists/"
     - old: "templates/"
       new: "scaffolding/runtime/templates/"
     - old: "prompts/"

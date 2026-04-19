@@ -87,7 +87,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - `design_proposal_workflow_bundle` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/`: Workflow bundle containing stage reports, metadata, validation state, and aggregate proposal deltas
 - `design_audit_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/01-design-proposal-audit.md`: Stage report produced by the design proposal audit prompt
 - `design_proposal_remediation_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/02-design-proposal-remediation.md`: Short-mode remediation report and package delta receipt
-- `design_red_team_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-team.md`: Rigorous-mode adversarial report
+- `design_red_team_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/03-design-red-PROFILE.md`: Rigorous-mode adversarial report
 - `design_hardening_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/04-design-hardening.md`: Rigorous-mode hardening report and package delta receipt
 - `design_integration_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/05-design-integration.md`: Rigorous-mode integration report and package delta receipt
 - `implementation_simulation_report` -> `/.octon/state/evidence/runs/workflows/{{date}}-audit-design-proposal-{{slug}}/reports/06-implementation-simulation.md`: Buildability simulation report

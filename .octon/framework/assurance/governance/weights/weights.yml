@@ -1,6 +1,6 @@
 meta:
-  version: "2.2.2"
-  updated_at: "2026-03-19"
+  version: "2.2.3"
+  updated_at: "2026-04-19"
   owner: "octon-platform"
   status: "active"
   schema_version: "2"
@@ -8,7 +8,7 @@ meta:
 
 charter:
   ref: ".octon/framework/assurance/governance/CHARTER.md"
-  version: "2.2.2"
+  version: "2.2.3"
   priority_chain:
     - id: assurance
       name: Assurance
@@ -302,6 +302,12 @@ guardrails:
     min_release_cycles_before_removal: 2
 
 changelog:
+  - date: "2026-04-19"
+    version: "2.2.3"
+    change: "Aligned assurance governance metadata to the execution-role hard cutover and bounded live support envelope."
+    rationale: "The execution-role migration changed active charter wording and score inputs, so assurance weights need a synchronized version bump and changelog entry for the new governance baseline."
+    adr: ".octon/instance/cognition/decisions/093-execution-role-hard-cutover.md"
+    charter_ref: ".octon/framework/assurance/governance/CHARTER.md"
   - date: "2026-03-29"
     version: "2.2.2"
     change: "Reframed the assurance charter as a subordinate governance shim beneath the constitutional kernel."
