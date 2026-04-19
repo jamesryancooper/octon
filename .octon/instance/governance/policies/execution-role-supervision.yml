@@ -20,7 +20,7 @@ postures:
   - posture_id: "feedback-window"
     meaning: "Pause at a boundary and wait for feedback before continuing."
   - posture_id: "approve"
-    meaning: "Human or authorized policy authority must approve before action."
+    meaning: "Governance or authorized policy authority must approve before action."
   - posture_id: "escalate"
     meaning: "The system cannot decide locally and must route to authority."
   - posture_id: "revoke"

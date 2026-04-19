@@ -165,7 +165,7 @@ stages:
     allowed_executor_profiles:
     - scoped_repo_mutation
 - id: design-red-team
-  asset: stages/04-design-red-PROFILE.md
+  asset: stages/04-design-red-team.md
   kind: analysis
   consumes:
   - stage:design-audit

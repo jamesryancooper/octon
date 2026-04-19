@@ -12,7 +12,7 @@ steps:
     file: "stages/03-design-proposal-remediation.md"
     description: "design-proposal-remediation"
   - id: "design-red-team"
-    file: "stages/04-design-red-PROFILE.md"
+    file: "stages/04-design-red-team.md"
     description: "design-red-team"
   - id: "design-hardening"
     file: "stages/05-design-hardening.md"
@@ -100,7 +100,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 1. [configure](./stages/01-configure.md)
 2. [design-audit](./stages/02-design-audit.md)
 3. [design-proposal-remediation](./stages/03-design-proposal-remediation.md)
-4. [design-red-team](./stages/04-design-red-PROFILE.md)
+4. [design-red-team](./stages/04-design-red-team.md)
 5. [design-hardening](./stages/05-design-hardening.md)
 6. [design-integration](./stages/06-design-integration.md)
 7. [implementation-simulation](./stages/07-implementation-simulation.md)

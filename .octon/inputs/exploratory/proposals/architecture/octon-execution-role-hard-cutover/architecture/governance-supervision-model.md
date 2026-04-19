@@ -22,7 +22,7 @@ It is not keyed to arbitrary step count.
 | observe | The system may inspect/read and retain trace without side effects. |
 | notify | The system proceeds but records and notifies according to policy. |
 | feedback window | The system pauses or waits for feedback before continuing beyond a boundary. |
-| approve | Human or authorized policy authority must approve before action. |
+| approve | Governance or authorized policy authority must approve before action. |
 | escalate | The system cannot decide locally; it routes to human/policy authority. |
 | revoke | A live grant/lease/capability is withdrawn through canonical control state. |
 | override | A human governance owner intentionally supersedes a default control decision, with evidence. |
