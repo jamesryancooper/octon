@@ -32,6 +32,7 @@ second authority plane. The constitutional kernel anchor remains
 4. Run the standard preflight before the first material task when local harness
    health or publication freshness matters.
    - `/bootstrap-doctor`
+   - `provision-host-tools`
    - canonical workflow:
      `/.octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/workflow.yml`
 5. Resume continuity if the work is not greenfield.
