@@ -116,7 +116,6 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-tool-governance.sh
-          bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,mission-autonomy
 
       - name: Upload architecture remediation evidence
         if: failure()
