@@ -111,5 +111,6 @@ The ingress manifest owns:
 - the deprecated compatibility fallback for adapters that still read it
 
 This ingress surface intentionally does not restate the prompt matrix or
-deprecated fallback wording. Read the manifest when exact prompt text or gate
-contexts matter.
+full deprecated fallback matrix. The manifest remains authoritative; the
+compatibility fallback prompt is retained here only for parity:
+`Are you ready to closeout this branch?`
