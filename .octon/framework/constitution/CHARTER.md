@@ -1,9 +1,9 @@
-title: Octon Harness Charter
+title: Octon Constitutional Engineering Harness Charter
 description: Supreme repo-local constitutional charter for the bounded-admitted Octon super-root.
 status: Active
 ---
 
-# Octon Harness Charter
+# Octon Constitutional Engineering Harness Charter
 
 ## Charter Scope
 
@@ -17,11 +17,13 @@ status: Active
 
 ## Purpose
 
-Octon is an authored harness core designed for profile-driven portability and
-replaceable adapters across repositories.
+Octon is an authored Constitutional Engineering Harness designed for
+profile-driven portability, replaceable adapters, governed execution, and
+durable assurance across repositories.
 
-Enable reliable agent execution that is deterministic enough to trust,
-observable enough to debug, and flexible enough to evolve.
+Its execution core is a Governed Agent Runtime that enables reliable agent
+execution deterministic enough to trust, observable enough to debug, bounded
+enough to govern, and flexible enough to evolve.
 
 The live support universe in this repository is the bounded admitted finite
 universe declared in `/.octon/instance/governance/support-targets.yml`.
@@ -31,8 +33,9 @@ those conditions must be removed from the live claim and remain explicit as
 stage-only, unadmitted, reduced, or unsupported rather than surviving as
 silent architectural debt.
 
-The harness exists to make consequential autonomous work explicitly scoped,
-authorized, fail-closed, observable, and reviewable.
+The Constitutional Engineering Harness exists to make consequential autonomous
+engineering work explicitly scoped, authorized, fail-closed, observable,
+reviewable, and recoverable.
 
 ## Non-Goals
 
@@ -125,6 +128,10 @@ tuple set:
   `/.octon/instance/governance/support-targets.yml`
 - governance exclusions declaration:
   `/.octon/instance/governance/exclusions/action-classes.yml`
+- terminology constitution:
+  `/.octon/framework/cognition/_meta/terminology/naming-constitution.md`
+- terminology glossary:
+  `/.octon/framework/cognition/_meta/terminology/glossary.md`
 
 ## Amendment Policy
 

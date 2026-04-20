@@ -1,13 +1,17 @@
 ---
 title: Start Here
-description: Boot sequence and orientation for the root .octon harness.
+description: Boot sequence and orientation for the root .octon Constitutional Engineering Harness.
 ---
 
 # .octon: Start Here
 
-Octon is an authored harness core designed for profile-driven portability and replaceable adapters across repositories.
+Octon is an authored Constitutional Engineering Harness designed for
+profile-driven portability, replaceable adapters, governed execution, and
+durable assurance across repositories.
 
-Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+Its execution core is a Governed Agent Runtime that enables reliable agent
+execution deterministic enough to trust, observable enough to debug, bounded
+enough to govern, and flexible enough to evolve.
 
 The currently proved live consequential envelope in this repository is the
 retained `MT-B / WT-2 / LT-REF / LOC-EN` tuple using the `repo-shell` host
@@ -17,7 +21,8 @@ and support-target publication promote it into a live claim.
 
 ## Single-Root Model
 
-This harness uses one repo-root `.octon/` per repository.
+This Constitutional Engineering Harness uses one repo-root `.octon/` per
+repository.
 
 | Component | Canonical Path |
 |-----------|----------------|

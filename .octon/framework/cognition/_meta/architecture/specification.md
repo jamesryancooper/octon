@@ -1,15 +1,15 @@
 ---
-title: Octon Harness Umbrella Specification
-description: Canonical cross-subsystem contract for the Octon super-root.
+title: Octon Constitutional Engineering Harness Umbrella Specification
+description: Canonical cross-subsystem contract for the Octon Constitutional Engineering Harness super-root.
 status: Active
 ---
 
-# Octon Harness Umbrella Specification
+# Octon Constitutional Engineering Harness Umbrella Specification
 
 ## Purpose
 
-Define the authoritative cross-subsystem contract for `/.octon/` after the
-super-root cutover.
+Define the authoritative cross-subsystem contract for `/.octon/` as the
+super-root of the Octon Constitutional Engineering Harness.
 
 ## Constitutional Authority
 
@@ -30,9 +30,9 @@ The repo-local supreme control regime for `/.octon/` lives under
 - `/.octon/framework/constitution/support-targets.schema.json`
 
 This umbrella specification remains the canonical cross-subsystem topology,
-placement, and structural SSOT surface. It is subordinate to the
-constitutional kernel and must not restate competing repo-local constitutional
-authority.
+placement, terminology-alignment, and structural SSOT surface for the
+Constitutional Engineering Harness. It is subordinate to the constitutional
+kernel and must not restate competing repo-local constitutional authority.
 
 ## Root Invariants
 
@@ -292,6 +292,10 @@ redefine these placement rules.
   `/.octon/framework/constitution/contracts/registry.yml`
 - support-target schema:
   `/.octon/framework/constitution/support-targets.schema.json`
+- terminology constitution:
+  `/.octon/framework/cognition/_meta/terminology/naming-constitution.md`
+- terminology glossary:
+  `/.octon/framework/cognition/_meta/terminology/glossary.md`
 - support-target declaration:
   `/.octon/instance/governance/support-targets.yml`
 - root manifest: `/.octon/octon.yml`

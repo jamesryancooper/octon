@@ -55,9 +55,9 @@ cd /repo/packages/kits/flowkit/src
 # → Resolves to repo harness (explicit override)
 ```
 
-## Agent Harness Implementation
+## Runtime Implementation
 
-Agent harnesses should:
+Runtime implementations should:
 
 1. **Track CWD** — Maintain awareness of current working directory
 2. **Resolve harness** — Apply the resolution algorithm before skill execution

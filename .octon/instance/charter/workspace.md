@@ -14,13 +14,15 @@ change_profile: "atomic"
 profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-18-octon-frontier-governance-target-state/plan.md"
 ---
 
-# Workspace Charter: Octon Governed Harness
+# Workspace Charter: Octon Constitutional Engineering Harness
 
 ## Workspace Goal
 
-Octon is an authored harness core designed for profile-driven portability and
-replaceable adapters across repositories. Use Octon in `octon` to evolve the
-harness itself with safe, reviewable, and verifiable changes.
+Octon is an authored Constitutional Engineering Harness designed for
+profile-driven portability, replaceable adapters, governed execution, and
+durable assurance across repositories. Its execution core is a Governed Agent
+Runtime. Use Octon in `octon` to evolve the Constitutional Engineering Harness
+itself with safe, reviewable, and verifiable changes.
 
 Octon now operates a bounded admitted live support universe. Live support is
 only the supported tuple set that the authoritative support-target declaration
@@ -40,7 +42,8 @@ execution unit.
 
 ## What Octon Should Optimize For
 
-- correctness and coherence of the harness runtime, governance, and bootstrap model
+- correctness and coherence of the Constitutional Engineering Harness runtime,
+  governance, and bootstrap model
 - profile-driven portability and self-containment without leaving liminal live
   support surfaces behind
 - deterministic validation, safe autonomy boundaries, and clear operational evidence
@@ -52,7 +55,8 @@ execution unit.
 ## In Scope
 
 - `.octon/` runtime, governance, practices, and scaffolding surfaces in this repository
-- harness tooling, validation, docs, workflows, and bootstrap behavior
+- Constitutional Engineering Harness tooling, validation, docs, workflows, and
+  bootstrap behavior
 - repo-local changes that materially improve Octon's reliability, portability
   intent, or operator clarity
 
@@ -67,7 +71,8 @@ execution unit.
 - bootstrap and execution surfaces remain self-contained, discoverable, and
   internally consistent across the admitted live support universe
 - active docs, validators, and runtime behavior agree on the same authority model
-- changes ship with enough evidence and verification to trust autonomous use of the harness
+- changes ship with enough evidence and verification to trust autonomous use of
+  the Constitutional Engineering Harness
 
 ## Initial Focus
 
