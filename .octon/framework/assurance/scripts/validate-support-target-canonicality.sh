@@ -14,8 +14,18 @@ while IFS= read -r admission; do
   if ! yq -e ".tuple_admissions[] | select(.tuple_id == \"$tuple_id\")" "$support_targets" >/dev/null 2>&1; then
     continue
   fi
-  if ! grep -Fq "tuple_id: $tuple_id" "$matrix"; then
+  route="$(yq -r '.route // ""' "$admission")"
+  requires_mission="$(yq -r '.requires_mission // false' "$admission")"
+  matrix_tuple_count="$(yq -r "[.supported_tuples[] | select(.tuple_id == \"$tuple_id\")] | length" "$matrix" 2>/dev/null || printf '0')"
+  matrix_route="$(yq -r "[.supported_tuples[] | select(.tuple_id == \"$tuple_id\") | .route][0] // \"\"" "$matrix" 2>/dev/null || true)"
+  matrix_mission="$(yq -r "[.supported_tuples[] | select(.tuple_id == \"$tuple_id\") | (.requires_mission | tostring)][0] // \"\"" "$matrix" 2>/dev/null || true)"
+  if [[ "$matrix_tuple_count" == "0" ]]; then
     echo "[ERROR] matrix mismatch for $tuple_id" >&2
+    errors=$((errors + 1))
+    continue
+  fi
+  if [[ "$route" != "$matrix_route" || "$requires_mission" != "$matrix_mission" ]]; then
+    echo "[ERROR] matrix semantic mismatch for $tuple_id" >&2
     errors=$((errors + 1))
   fi
 done < <(tuple_inventory_files)
