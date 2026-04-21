@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.36](https://github.com/jamesryancooper/octon/compare/octon-v0.6.35...octon-v0.6.36) (2026-04-21)
+
+
+### Bug Fixes
+
+* **assurance:** align post-merge gates ([6524d7e](https://github.com/jamesryancooper/octon/commit/6524d7ebccb1ebee58b19634b3aa9d49957f1194))
+
 ## [0.6.35](https://github.com/jamesryancooper/octon/compare/octon-v0.6.34...octon-v0.6.35) (2026-04-21)
 
 
