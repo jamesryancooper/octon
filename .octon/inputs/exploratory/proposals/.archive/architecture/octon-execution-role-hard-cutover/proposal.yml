@@ -49,9 +49,18 @@ promotion_targets:
   - .octon/instance/governance/policies/execution-budgets.yml
   - .octon/instance/governance/policies/execution-role-supervision.yml
   - .octon/instance/governance/policies/browser-api-live-support.yml
-  - .octon/instance/cognition/decisions/091-execution-role-hard-cutover.md
+  - .octon/instance/cognition/decisions/093-execution-role-hard-cutover.md
   - .octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh
-status: in-review
+status: archived
+archive:
+  archived_at: "2026-04-20"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-execution-role-hard-cutover"
+  promotion_evidence:
+    - ".octon/instance/cognition/decisions/093-execution-role-hard-cutover.md"
+    - ".octon/state/evidence/validation/publication/2026-04-19-execution-role-hard-cutover/receipt.yml"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh"
 lifecycle:
   temporary: true
   exit_expectation: >-

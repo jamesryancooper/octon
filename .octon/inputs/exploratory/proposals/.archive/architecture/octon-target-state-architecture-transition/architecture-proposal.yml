@@ -1,0 +1,39 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+executive_thesis: >-
+  Preserve Octon's strong constitutional super-root and class-root architecture, but transition the current live architecture
+  to a target-state where material side-effect coverage is provable, runtime authorization is phase-auditable, proof-plane
+  completeness is enforceable, support dossiers have closure-grade sufficiency, registry-backed navigation is generated,
+  and compatibility projections are explicitly retired rather than allowed to become parallel architecture.
+current_state_score: "7.7/10"
+severity_judgment: "focused gap-closing with moderate runtime restructuring"
+target_state_decisions:
+  preserve:
+    - "single .octon super-root"
+    - "framework/ and instance/ as the only authored authority roots"
+    - "state/control, state/evidence, and state/continuity separation"
+    - "generated/** as derived-only and inputs/** as non-authoritative"
+    - "mission authority as continuity container"
+    - "run contract as atomic consequential execution authority"
+    - "engine-owned authorize_execution boundary"
+    - "bounded support-target tuple architecture"
+  harden:
+    - "material side-effect inventory and authorization-boundary coverage proof"
+    - "fail-closed and evidence obligation identifier uniqueness"
+    - "generated/effective publication freshness enforcement"
+    - "support-dossier proof sufficiency and negative-control evidence"
+    - "active-doc hygiene and registry-generated navigation maps"
+  refactor:
+    - "kernel command hub into command modules and request builders"
+    - "authorization implementation into phase modules with phase-level results"
+    - "compatibility projections into generated retirement maps with owner, consumer, and expiry"
+  avoid:
+    - "proposal-path runtime dependency"
+    - "generated read-model authority"
+    - "host UI, label, check, or comment authority"
+    - "new top-level roots or rival policy planes"
+implementation_posture:
+  cutover_style: "staged hardening with fail-closed validators before live-claim expansion"
+  first_promotable_slice: "identifier hygiene plus active-doc hygiene validators"
+  final_promotable_slice: "coverage-proof and proof-bundle closeout with retained promotion evidence"

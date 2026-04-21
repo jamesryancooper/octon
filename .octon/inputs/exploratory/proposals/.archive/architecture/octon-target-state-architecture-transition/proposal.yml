@@ -1,0 +1,88 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-target-state-architecture-transition"
+title: "Octon Target-State Architecture Transition"
+summary: >-
+  Architecture proposal packet for transitioning the current live Octon repository from a strong but partially
+  enforced constitutional harness into a target-state governed runtime architecture with complete authorization-boundary
+  coverage, modular runtime internals, stronger proof-plane sufficiency, generated registry-backed navigation maps,
+  and explicit retirement of transitional compatibility projections.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/authorization-phase-result-v1.schema.json"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/request_builders/"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/phases/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-fail-closed-obligation-ids.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-obligation-ids.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-completeness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-active-doc-hygiene.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-generated-as-authority-denial.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-support-tuple-proof-sufficiency.sh"
+  - ".octon/framework/observability/README.md"
+  - ".octon/framework/lab/README.md"
+  - ".octon/instance/governance/contracts/support-target-review.yml"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/support-dossiers/"
+  - ".octon/instance/cognition/decisions/101-target-state-architecture-transition.md"
+  - ".octon/generated/cognition/projections/definitions/architecture-map.yml"
+  - ".octon/generated/cognition/projections/materialized/architecture-map.md"
+  - ".octon/generated/cognition/projections/materialized/authorization-coverage-map.md"
+  - ".octon/generated/cognition/projections/materialized/compatibility-retirement-map.md"
+  - ".octon/state/evidence/validation/architecture-target-state-transition/"
+status: "archived"
+archive:
+  archived_at: "2026-04-21"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-target-state-architecture-transition"
+  promotion_evidence:
+    - ".octon/instance/cognition/decisions/101-target-state-architecture-transition.md"
+    - ".octon/state/evidence/validation/architecture-target-state-transition/manifest.yml"
+    - ".octon/state/evidence/validation/architecture-target-state-transition/closure-certification.yml"
+    - ".octon/state/evidence/validation/architecture-target-state-transition/promotion/receipt-ledger.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only the durable authority, runtime, validator, generated-projection, and retained-evidence outputs named
+    in promotion_targets; retain validation and promotion receipts under state/evidence; remove proposal-path dependencies;
+    then archive this packet when promoted surfaces stand on their own.
+related_proposals:
+  - "octon-execution-role-hard-cutover"
+  - "octon-instruction-layer-execution-envelope-hardening"
+source_authorities:
+  - "live Octon repository on main, inspected 2026-04-21"
+  - ".octon/README.md"
+  - ".octon/octon.yml"
+  - ".octon/inputs/exploratory/proposals/README.md"
+  - ".octon/framework/scaffolding/governance/patterns/proposal-standard.md"
+  - ".octon/framework/scaffolding/governance/patterns/architecture-proposal-standard.md"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/constitution/CHARTER.md"
+  - ".octon/framework/constitution/precedence/normative.yml"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
+  - ".octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml"
+non_goals:
+  - "create a rival control plane outside .octon"
+  - "make generated outputs authoritative"
+  - "route runtime or policy directly through inputs/exploratory/proposals/**"
+  - "re-found Octon's class-root, constitution, mission/run, support-target, or evidence model"
+  - "claim broader live adapter support without admission, proof bundle, and disclosure coverage"

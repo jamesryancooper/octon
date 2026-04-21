@@ -9,7 +9,7 @@ proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:
   - ".octon/framework/constitution/"
-  - ".octon/framework/agency/"
+  - ".octon/framework/execution-roles/"
   - ".octon/framework/assurance/"
   - ".octon/framework/engine/runtime/"
   - ".octon/framework/orchestration/"

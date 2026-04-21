@@ -56,7 +56,7 @@ For a planned domain that may not exist yet:
 
 Canonical Octon domains supported by default:
 
-- `.octon/framework/agency`
+- `.octon/framework/execution-roles`
 - `.octon/framework/assurance`
 - `.octon/framework/capabilities`
 - `.octon/framework/cognition`

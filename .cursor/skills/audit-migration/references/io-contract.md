@@ -268,7 +268,7 @@ No external dependencies required.
 /audit-migration manifest="..." partition="docs-architecture" file_filter=".octon/framework/cognition/_meta/architecture/**"
 
 # Audit only agency files
-/audit-migration manifest="..." partition="agency-files" file_filter=".octon/framework/agency/**"
+/audit-migration manifest="..." partition="agency-files" file_filter=".octon/framework/execution-roles/**"
 
 # Audit only YAML/JSON config files
 /audit-migration manifest="..." partition="config-files" file_filter="**/*.{yml,yaml,json}"

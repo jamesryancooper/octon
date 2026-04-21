@@ -1,6 +1,8 @@
-schema_version: octon-architecture-proposal-v1
-proposal_id: octon-architecture-10of10-remediation
-architecture_scope:
+schema_version: "architecture-proposal-v1"
+proposal_id: "octon-architecture-10of10-remediation"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+legacy_scope_frame:
   super_root: .octon/
   affected_classes:
     - framework
@@ -9,7 +11,7 @@ architecture_scope:
     - generated
     - inputs
   proposal_workspace_is_non_authoritative: true
-decision_type: target-state-remediation-program
+legacy_decision_type: "target-state-remediation-program"
 executive_thesis: >-
   Octon's current architecture is directionally correct and should not be
   re-founded. It should be promoted to 10/10 by making its existing constitutional

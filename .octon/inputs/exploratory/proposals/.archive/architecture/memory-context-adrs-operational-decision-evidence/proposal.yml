@@ -8,7 +8,7 @@ promotion_targets:
   - ".octon/README.md"
   - ".octon/octon.yml"
   - ".octon/instance/bootstrap/START.md"
-  - ".octon/framework/agency/governance/MEMORY.md"
+  - ".octon/framework/execution-roles/governance/MEMORY.md"
   - ".octon/framework/cognition/_meta/architecture/specification.md"
   - ".octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md"
   - ".octon/framework/cognition/_meta/architecture/state/continuity/"

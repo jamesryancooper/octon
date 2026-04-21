@@ -12,7 +12,7 @@ promotion_targets:
   - ".octon/instance/cognition/context/shared/intent.contract.yml"
   - ".octon/framework/cognition/_meta/architecture/specification.md"
   - ".octon/framework/constitution/"
-  - ".octon/framework/agency/"
+  - ".octon/framework/execution-roles/"
   - ".octon/framework/assurance/"
   - ".octon/framework/engine/runtime/"
   - ".octon/framework/orchestration/"

@@ -7,7 +7,7 @@ promotion_scope: "octon-internal"
 promotion_targets:
   - ".octon/framework/constitution/"
   - ".octon/framework/engine/runtime/"
-  - ".octon/framework/agency/"
+  - ".octon/framework/execution-roles/"
   - ".octon/framework/assurance/"
   - ".octon/framework/lab/"
   - ".octon/framework/observability/"

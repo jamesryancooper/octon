@@ -1,26 +1,38 @@
-schema_version: octon-proposal-v1
-proposal_id: octon-architecture-10of10-remediation
-title: Octon Architecture 10/10 Remediation Program
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-10of10-remediation"
+title: "Octon Architecture 10/10 Remediation Program"
 summary: >-
   Manifest-governed architecture remediation packet defining the concrete
   target-state, file-level change plan, validators, proof artifacts, and
   closure criteria required to move Octon from the evaluated 7.1/10 architecture
   to a true 10/10 architecture without replacing Octon's existing constitutional
   authority model.
-proposal_kind: architecture-remediation-program
-status: archived
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/engine/runtime/"
+  - ".octon/framework/assurance/runtime/"
+  - ".octon/instance/cognition/decisions/094-architecture-10of10-remediation-adoption.md"
+  - ".octon/instance/cognition/decisions/095-architecture-topology-registry-consolidation.md"
+  - ".octon/instance/cognition/decisions/096-active-doc-roles-registry-backing.md"
+  - ".octon/instance/cognition/decisions/097-authorization-boundary-coverage-closeout.md"
+  - ".octon/instance/cognition/decisions/098-evidence-store-and-proof-plane-closeout.md"
+  - ".octon/instance/cognition/decisions/099-promotion-semantics-hardening.md"
+  - ".octon/instance/cognition/decisions/100-architecture-10of10-remediation-closure-certification.md"
+  - ".octon/state/evidence/validation/architecture/10of10-remediation/"
+status: "archived"
 lifecycle:
-  created_for: architecture remediation planning
-  current_phase: archived-lineage
-  may_execute_directly: false
-  may_inform_promotion: true
-  close_when: >-
-    All mandatory remediation surfaces are promoted outside inputs/**,
-    validators pass, closure certification evidence is retained, and decision
-    records identify the proposal as archived lineage only.
+  temporary: true
+  exit_expectation: >-
+    This packet exits active proposal status only after durable framework,
+    instance, state, generated-read-model, and validation surfaces are promoted
+    outside the proposal tree and closure evidence is retained.
 archive:
   archived_at: "2026-04-20"
-  archived_from_status: "proposed"
+  archived_from_status: "implemented"
   disposition: "implemented"
   original_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-10of10-remediation"
   promotion_evidence:
@@ -33,21 +45,26 @@ archive:
     - ".octon/instance/cognition/decisions/100-architecture-10of10-remediation-closure-certification.md"
     - ".octon/state/evidence/validation/architecture/10of10-remediation/manifest.yml"
     - ".octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml"
+legacy_lifecycle:
+  created_for: "architecture remediation planning"
+  current_phase: "archived-lineage"
+  may_execute_directly: false
+  may_inform_promotion: true
+  close_when: >-
+    All mandatory remediation surfaces are promoted outside inputs/**,
+    validators pass, closure certification evidence is retained, and decision
+    records identify the proposal as archived lineage only.
 temporary_archival_intent:
   temporary_workspace: true
   archive_after_promotion: true
-  archive_path: .octon/inputs/exploratory/proposals/.archive/architecture/octon-architecture-10of10-remediation/
-exit_expectation: >-
-  This packet exits active proposal status only after durable framework,
-  instance, state, generated-read-model, and validation surfaces are promoted
-  outside the proposal tree and closure evidence is retained.
-promotion_scope:
+  archive_path: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-architecture-10of10-remediation/"
+legacy_promotion_scope:
   kind: bounded-architecture-remediation
   severity: moderate-restructuring
   no_foundational_rewrite: true
   no_rival_control_plane: true
   preserve_existing_authority_model: true
-explicit_promotion_targets:
+legacy_explicit_promotion_targets:
   framework_authority:
     - .octon/framework/cognition/_meta/architecture/contract-registry.yml
     - .octon/framework/cognition/_meta/architecture/specification.md
