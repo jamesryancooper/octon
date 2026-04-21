@@ -1,4 +1,14 @@
 schema_version: "octon-constitution-fail-closed-v1"
+reason_code_contract:
+  id_namespace: "FCR"
+  id_pattern: "^FCR-[0-9]{3}$"
+  uniqueness_required: true
+  stability_policy: "append-only"
+  owner: "Octon governance"
+  validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-fail-closed-obligation-ids.sh"
+  evidence_refs:
+    - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md"
 default_route: "DENY"
 route_options:
   - "DENY"
@@ -97,15 +107,15 @@ rules:
     condition: "A generated operator read model is published as current status without required source traceability or freshness metadata."
     route: "STAGE_ONLY"
     adoption_status: "active"
-  - id: "FCR-017"
+  - id: "FCR-022"
     condition: "A class-boundary promotion or runtime-facing publication lacks a required promotion or publication receipt."
     route: "DENY"
     adoption_status: "active"
-  - id: "FCR-018"
+  - id: "FCR-023"
     condition: "A material side-effect path cannot prove authorization-boundary coverage."
     route: "DENY"
     adoption_status: "active"
-  - id: "FCR-019"
+  - id: "FCR-024"
     condition: "A support tuple is claimed as admitted live support without a proof bundle, denied-scenario evidence, or disclosure coverage."
     route: "DENY"
     adoption_status: "active"

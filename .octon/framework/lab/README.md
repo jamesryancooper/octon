@@ -9,11 +9,6 @@ The lab is distinct from ordinary assurance:
 - lab owns the authored scenario, replay, and experiment surfaces that feed
   behavioral proof
 
-Wave 4 remediation also adds:
-
-- a lab catalog for reusable scenario and benchmark disclosure assets
-- reusable writers for HarnessCards and evaluator-backed benchmark claims
-
 The authored lab surface explicitly covers:
 
 - scenario proof

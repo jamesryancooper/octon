@@ -198,21 +198,22 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         &input,
                         &service.manifest.capabilities_required,
                     );
-                    let (intent_ref, execution_role_ref, metadata) = match request::bind_repo_local_request(
-                        &ctx.cfg,
-                        service_profile.metadata.clone(),
-                    ) {
-                        Ok(bindings) => bindings,
-                        Err(error) => {
-                            let err = KernelError::new(
-                                ErrorCode::CapabilityDenied,
-                                format!("failed to bind canonical execution request: {error}"),
-                            );
-                            let _ = out_tx.send(response_error(&id, err));
-                            let _ = inflight.lock().unwrap().remove(&id);
-                            return;
-                        }
-                    };
+                    let (intent_ref, execution_role_ref, metadata) =
+                        match request::bind_repo_local_request(
+                            &ctx.cfg,
+                            service_profile.metadata.clone(),
+                        ) {
+                            Ok(bindings) => bindings,
+                            Err(error) => {
+                                let err = KernelError::new(
+                                    ErrorCode::CapabilityDenied,
+                                    format!("failed to bind canonical execution request: {error}"),
+                                );
+                                let _ = out_tx.send(response_error(&id, err));
+                                let _ = inflight.lock().unwrap().remove(&id);
+                                return;
+                            }
+                        };
 
                     let request = ExecutionRequest {
                         request_id: format!("stdio-{id}"),
@@ -243,6 +244,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                         policy_mode_requested: None,
                         environment_hint: None,
                         metadata,
+                        ..ExecutionRequest::default()
                     };
                     let grant = match authorize_execution(
                         &ctx.cfg,

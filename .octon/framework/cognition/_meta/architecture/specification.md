@@ -46,8 +46,13 @@ Use these sections of
   consumers, and validators
 - `publication_metadata`: runtime-facing and operator-facing publication rules
 - `doc_targets`: steady-state roles for active authoritative docs
+- `compatibility_retirement`: explicit retirement governance for retained
+  compatibility surfaces
+- `runtime_authorization_coverage`: runtime boundary, side-effect inventory,
+  coverage, and phase-result contract surfaces
 - `execution`, `mission_autonomy`, and `documentation`: compatibility
-  projections retained for current validators and runtime tooling
+  projections retained only as transitional readers, never as a parallel
+  authority model
 
 ## Canonical Operational Roots
 
@@ -172,6 +177,13 @@ The structural registry recognizes three steady-state publication classes:
 
 Generated publication metadata remains machine-readable in the registry and
 must stay aligned with `octon.yml#policies.generated_commit_defaults`.
+
+The target-state navigation maps are generated from registry-backed truth and
+remain non-authoritative:
+
+- `generated/cognition/projections/materialized/architecture-map.md`
+- `generated/cognition/projections/materialized/authorization-coverage-map.md`
+- `generated/cognition/projections/materialized/compatibility-retirement-map.md`
 
 ## Active Doc Roles
 

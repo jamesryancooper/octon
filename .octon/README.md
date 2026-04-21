@@ -65,6 +65,17 @@ Use `/.octon/instance/bootstrap/START.md` for the steady-state boot sequence
 and `/.octon/framework/cognition/_meta/architecture/specification.md` for the
 human-readable structural contract.
 
+### Instance-Native Surfaces
+
+- `instance/manifest.yml`
+- `instance/ingress/**`
+- `instance/bootstrap/**`
+- `instance/locality/**`
+- `instance/cognition/decisions/**`
+- `instance/capabilities/runtime/**`
+- `instance/orchestration/missions/**`
+- `instance/governance/**`
+
 ## Portability
 
 Portability is profile-driven through `/.octon/octon.yml`:

@@ -110,6 +110,7 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh

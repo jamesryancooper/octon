@@ -1,0 +1,15 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-bootstrap-doctor-workflow-20260413-v4-stage-inline
+scope: run
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+entries:
+  - entry_id: bootstrap-doctor-workflow-20260413-v4-stage-inline-replay-payload
+    run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:bootstrap-doctor-workflow-20260413-v4-stage-inline
+    locator: immutable://octon/replays/bootstrap-doctor-workflow-20260413-v4-stage-inline/bundle.jsonl
+    manifest_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay/manifest.yml
+    recorded_at: "2026-04-13T14:45:34Z"
+updated_at: "2026-04-13T14:45:34Z"

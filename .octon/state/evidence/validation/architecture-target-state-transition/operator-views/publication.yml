@@ -1,0 +1,15 @@
+schema_version: operator-read-model-publication-v1
+view_contract_ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+published_views:
+  - view_kind: architecture
+    projection_ref: /.octon/generated/cognition/projections/materialized/architecture-map.md
+    summary_ref: /.octon/state/evidence/validation/architecture-target-state-transition/summary.md
+  - view_kind: authorization-coverage
+    projection_ref: /.octon/generated/cognition/projections/materialized/authorization-coverage-map.md
+    summary_ref: /.octon/state/evidence/validation/architecture-target-state-transition/authorization-boundary/coverage.yml
+  - view_kind: compatibility-retirement
+    projection_ref: /.octon/generated/cognition/projections/materialized/compatibility-retirement-map.md
+    summary_ref: /.octon/state/evidence/validation/architecture-target-state-transition/compatibility/retirement.yml
+  - view_kind: support
+    projection_ref: /.octon/generated/cognition/projections/materialized/support-cards/repo-shell-repo-consequential-en.yml
+    summary_ref: /.octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml

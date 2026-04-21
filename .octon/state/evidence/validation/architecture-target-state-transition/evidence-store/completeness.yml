@@ -1,0 +1,48 @@
+schema_version: evidence-completeness-receipt-v1
+source_receipt_ref: .octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+representative_runs:
+  - run_id: uec-global-repo-shell-observe-read-20260404
+    run_contract_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
+    run_manifest_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-manifest.yml
+    runtime_state_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/runtime-state.yml
+    rollback_posture_ref: .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/rollback-posture.yml
+    retained_evidence_ref: .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/retained-run-evidence.yml
+    evidence_classification_ref: .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/evidence-classification.yml
+    replay_pointers_ref: .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/replay-pointers.yml
+    trace_pointers_ref: .octon/state/evidence/runs/uec-global-repo-shell-observe-read-20260404/trace-pointers.yml
+    run_card_ref: .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml
+    disclosure_root_ref: .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404
+    decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-global-repo-shell-observe-read-20260404.yml
+    grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-repo-shell-observe-read-20260404.yml
+    allowed_runtime_statuses:
+      - succeeded
+  - run_id: uec-global-ci-observe-read-20260404
+    run_contract_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+    run_manifest_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-manifest.yml
+    runtime_state_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/runtime-state.yml
+    rollback_posture_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/rollback-posture.yml
+    retained_evidence_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/retained-run-evidence.yml
+    evidence_classification_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/evidence-classification.yml
+    replay_pointers_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/replay-pointers.yml
+    trace_pointers_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/trace-pointers.yml
+    run_card_ref: .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml
+    disclosure_root_ref: .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404
+    decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-global-ci-observe-read-20260404.yml
+    grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-ci-observe-read-20260404.yml
+    allowed_runtime_statuses:
+      - succeeded
+  - run_id: uec-repo-shell-repo-consequential-recertified-20260410
+    run_contract_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+    run_manifest_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-manifest.yml
+    runtime_state_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
+    rollback_posture_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/rollback-posture.yml
+    retained_evidence_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml
+    evidence_classification_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/evidence-classification.yml
+    replay_pointers_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/replay-pointers.yml
+    trace_pointers_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/trace-pointers.yml
+    run_card_ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+    disclosure_root_ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410
+    decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-repo-shell-repo-consequential-recertified-20260410.yml
+    grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml
+    allowed_runtime_statuses:
+      - succeeded

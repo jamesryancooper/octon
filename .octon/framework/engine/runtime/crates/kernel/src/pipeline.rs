@@ -747,18 +747,18 @@ fn run_generic_pipeline(
         None => new_request_id("workflow"),
     };
     let workflow_side_effects = aggregated_workflow_side_effects(&contract, options.prepare_only);
-    let (intent_ref, execution_role_ref, metadata) = if flags_require_repo_consequential_mode(&workflow_side_effects)
-    {
-        request::bind_repo_local_request(
-            &runtime_cfg,
-            BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
-        )?
-    } else {
-        request::bind_repo_observe_request(
-            &runtime_cfg,
-            BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
-        )?
-    };
+    let (intent_ref, execution_role_ref, metadata) =
+        if flags_require_repo_consequential_mode(&workflow_side_effects) {
+            request::bind_repo_local_request(
+                &runtime_cfg,
+                BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+            )?
+        } else {
+            request::bind_repo_observe_request(
+                &runtime_cfg,
+                BTreeMap::from([("workflow_id".to_string(), entry.id.clone())]),
+            )?
+        };
     let workflow_request = ExecutionRequest {
         request_id,
         caller_path: "workflow".to_string(),
@@ -787,6 +787,7 @@ fn run_generic_pipeline(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -955,13 +956,12 @@ fn run_generic_pipeline(
                 )
             })
             .transpose()?;
-        let (intent_ref, execution_role_ref, metadata) = if side_effects_require_repo_consequential_mode(
-            &stage.authorization.side_effects,
-        ) {
-            request::bind_repo_local_request(&runtime_cfg, executor_metadata)?
-        } else {
-            request::bind_repo_observe_request(&runtime_cfg, executor_metadata)?
-        };
+        let (intent_ref, execution_role_ref, metadata) =
+            if side_effects_require_repo_consequential_mode(&stage.authorization.side_effects) {
+                request::bind_repo_local_request(&runtime_cfg, executor_metadata)?
+            } else {
+                request::bind_repo_observe_request(&runtime_cfg, executor_metadata)?
+            };
         let stage_request = ExecutionRequest {
             request_id: format!("{}-stage-{}", workflow_request.request_id, stage.id),
             caller_path: "workflow-stage".to_string(),
@@ -1011,6 +1011,7 @@ fn run_generic_pipeline(
                 metadata.insert("stage_id".to_string(), stage.id.clone());
                 metadata
             },
+            ..ExecutionRequest::default()
         };
         let stage_grant = authorize_execution(&runtime_cfg, &policy, &stage_request, None)?;
         let stage_artifacts = write_execution_start(
@@ -2301,7 +2302,7 @@ stages:
                 .expect("stage receipt should exist"),
         )
         .expect("stage receipt should parse");
-        assert_eq!(receipt["schema_version"], "execution-receipt-v2");
+        assert_eq!(receipt["schema_version"], "execution-receipt-v3");
         assert_eq!(receipt["workflow_mode"], "autonomous");
         assert!(receipt["reason_codes"]
             .as_array()

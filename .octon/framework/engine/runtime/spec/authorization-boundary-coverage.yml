@@ -1,0 +1,83 @@
+schema_version: authorization-boundary-coverage-v1
+paths:
+  - path_id: kernel-tool-invoke
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    side_effect_class: "service-invocation"
+    affected_root: ".octon/state/evidence/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_observe_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "generated-as-authority denial"
+      - "host-projection-as-authority denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: kernel-studio-launch
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    side_effect_class: "executor-launch"
+    affected_root: ".octon/generated/.tmp/engine/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "missing mission/run authority denial"
+      - "unmediated side-effect denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: kernel-service-scaffold
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    side_effect_class: "repo-mutation"
+    affected_root: ".octon/framework/capabilities/runtime/services/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "unsupported support-claim denial"
+      - "unmediated side-effect denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: workflow-pipeline-run
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
+    side_effect_class: "control-mutation"
+    affected_root: ".octon/state/control/execution/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "missing mission/run authority denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: workflow-stage-run
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
+    side_effect_class: "repo-mutation"
+    affected_root: ".octon/framework/orchestration/runtime/workflows/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "stale generated/effective denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: stdio-service-run
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/stdio.rs"
+    side_effect_class: "service-invocation"
+    affected_root: ".octon/state/evidence/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_observe_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "host-projection-as-authority denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"

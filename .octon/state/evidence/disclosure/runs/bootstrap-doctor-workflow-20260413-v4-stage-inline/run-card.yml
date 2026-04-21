@@ -1,0 +1,71 @@
+adapter_support:
+  conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - HOST-004
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+  host_adapter: repo-shell
+  host_support_status: supported
+  model_adapter: repo-local-governed
+  model_support_status: supported
+authority_refs:
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+  retained_run_evidence: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml
+  run_contract: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml
+runtime_artifact_depth:
+  validation_status: pass
+  replay_integrity: pass
+  stage_attempts:
+    applicable: true
+    present: true
+  checkpoints:
+    applicable: true
+    present: true
+  continuity:
+    applicable: true
+    present: true
+  contamination:
+    applicable: true
+    present: true
+  retries:
+    applicable: true
+    present: true
+generated_at: 2026-04-13T14:45:34.120799Z
+intervention_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/interventions/log.yml
+known_limits:
+- Support posture remains bounded to the support-target declaration under .octon/instance/governance/support-targets.yml.
+measurement_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/measurements/summary.yml
+proof_plane_refs:
+  behavioral: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/behavioral.yml
+  evaluator: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/evaluator.yml
+  functional: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/functional.yml
+  governance: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/governance.yml
+  maintainability: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/recovery.yml
+  structural: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/structural.yml
+recovery_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/assurance/recovery.yml
+replay_ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay/manifest.yml
+requested_capability_packs:
+- repo
+- telemetry
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+runtime_service_refs:
+  replay_store: .octon/framework/engine/runtime/crates/replay_store
+  runtime_bus: .octon/framework/engine/runtime/crates/runtime_bus
+  telemetry_sink: .octon/framework/engine/runtime/crates/telemetry_sink
+schema_version: run-card-v2
+status: succeeded
+summary: Consequential run bootstrap-doctor-workflow-20260413-v4-stage-inline for target bootstrap-doctor::inline completed with status succeeded under support tier observe-and-read.
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_target_tuple:
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_tier: repo-local-governed
+  support_status: supported
+  workload_tier: observe-and-read
+support_tier: observe-and-read
+workflow_mode: agent-augmented

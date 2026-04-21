@@ -12,3 +12,15 @@ files:
     path: cognition-runtime-surface-map.yml
     summary: Definition for the cognition runtime surface map projection.
     when: When regenerating runtime surface-map materializations.
+  - id: architecture-map-definition
+    path: architecture-map.yml
+    summary: Definition for the generated architecture navigation map.
+    when: When structural topology, publication, or doc-role truth changes.
+  - id: authorization-coverage-map-definition
+    path: authorization-coverage-map.yml
+    summary: Definition for the generated authorization boundary coverage map.
+    when: When runtime boundary coverage, inventory, or validators change.
+  - id: compatibility-retirement-map-definition
+    path: compatibility-retirement-map.yml
+    summary: Definition for the generated compatibility retirement map.
+    when: When retained transitional surfaces or their successors change.

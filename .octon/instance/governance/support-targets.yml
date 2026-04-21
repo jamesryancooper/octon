@@ -5,8 +5,11 @@ review_cadence: "quarterly and before any support-universe amendment"
 governance_exclusions_ref: ".octon/instance/governance/exclusions/action-classes.yml"
 support_claim_mode: "bounded-admitted-finite"
 generated_projection_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
+support_proof_bundle_root: ".octon/state/evidence/validation/support-targets"
+support_card_projection_root: ".octon/generated/cognition/projections/materialized/support-cards"
 pack_registry_ref: ".octon/instance/governance/capability-packs/registry.yml"
 admission_review_contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
+support_proofing_contract_ref: ".octon/instance/governance/contracts/support-target-proofing.yml"
 support_dossier_root: ".octon/instance/governance/support-dossiers"
 live_support_universe:
   model_classes:
@@ -93,6 +96,8 @@ tuple_admissions:
       model_adapter: "repo-local-governed"
     admission_ref: ".octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml"
     support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-observe-read-en/dossier.yml"
+    proof_bundle_ref: ".octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml"
+    support_card_ref: ".octon/generated/cognition/projections/materialized/support-cards/repo-shell-observe-read-en.yml"
   - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
     tuple:
       model_tier: "repo-local-governed"
@@ -103,6 +108,8 @@ tuple_admissions:
       model_adapter: "repo-local-governed"
     admission_ref: ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
     support_dossier_ref: ".octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml"
+    proof_bundle_ref: ".octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml"
+    support_card_ref: ".octon/generated/cognition/projections/materialized/support-cards/repo-shell-repo-consequential-en.yml"
   - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
     tuple:
       model_tier: "repo-local-governed"
@@ -113,6 +120,8 @@ tuple_admissions:
       model_adapter: "repo-local-governed"
     admission_ref: ".octon/instance/governance/support-target-admissions/ci-observe-read-en.yml"
     support_dossier_ref: ".octon/instance/governance/support-dossiers/ci-observe-read-en/dossier.yml"
+    proof_bundle_ref: ".octon/state/evidence/validation/support-targets/ci-observe-read-en.yml"
+    support_card_ref: ".octon/generated/cognition/projections/materialized/support-cards/ci-observe-read-en.yml"
 adapter_conformance_criteria:
   - criterion_id: "HOST-001"
     adapter_kind: "host"

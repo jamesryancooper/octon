@@ -1,4 +1,14 @@
 schema_version: "octon-constitution-evidence-obligations-v1"
+obligation_contract:
+  id_namespace: "EVI"
+  id_pattern: "^EVI-[0-9]{3}$"
+  uniqueness_required: true
+  stability_policy: "append-only"
+  owner: "Octon governance"
+  validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-obligation-ids.sh"
+  evidence_refs:
+    - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+    - ".octon/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json"
 retained_evidence_roots:
   - ".octon/state/evidence/runs/**"
   - ".octon/state/evidence/disclosure/**"
@@ -88,13 +98,13 @@ obligations:
       metadata to canonical authority or evidence roots and never substitute
       for those roots.
     adoption_status: "active"
-  - id: "EVI-013"
+  - id: "EVI-017"
     requirement: >-
       Consequential execution and closure validation retain evidence under the
       canonical evidence-store contract, distinguishing retained evidence from
       transport-only CI artifacts and generated mirrors.
     adoption_status: "active"
-  - id: "EVI-014"
+  - id: "EVI-018"
     requirement: >-
       Closure-grade support claims retain a tuple-level proof bundle, evidence
       completeness receipt, and disclosure references under architecture or

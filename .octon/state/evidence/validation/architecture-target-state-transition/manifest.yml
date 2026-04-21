@@ -1,0 +1,22 @@
+schema_version: architecture-target-state-transition-v1
+proposal_id: octon-target-state-architecture-transition
+status: complete
+validated_at: "2026-04-20T23:30:00Z"
+summary: >-
+  Retained evidence root for the Octon target-state architecture transition.
+  This root collects packet-named validation receipts, support proof bundles,
+  generated-map publication, retirement evidence, and closure certification.
+validator_receipts:
+  - .octon/state/evidence/validation/architecture-target-state-transition/authorization-boundary/coverage.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/evidence-store/completeness.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/support-targets/proofing.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/promotion/receipt-ledger.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/docs/active-doc-hygiene.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/publication/freshness.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/compatibility/retirement.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/operator-views/publication.yml
+  - .octon/state/evidence/validation/architecture-target-state-transition/closure-certification.yml
+support_bundle_refs:
+  - .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
+  - .octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml
+  - .octon/state/evidence/validation/support-targets/ci-observe-read-en.yml

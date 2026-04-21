@@ -139,6 +139,26 @@ pub(crate) fn evidence_links(
     }
     if let Some(path) = &grant.run_receipts_root {
         links.insert("run_receipts_root".to_string(), path.clone());
+        links.insert(
+            "authorization_phase_preflight".to_string(),
+            format!("{path}/authorization-phases/preflight.json"),
+        );
+        links.insert(
+            "authorization_phase_routing".to_string(),
+            format!("{path}/authorization-phases/routing.json"),
+        );
+        links.insert(
+            "authorization_phase_grant".to_string(),
+            format!("{path}/authorization-phases/grant.json"),
+        );
+        links.insert(
+            "authorization_phase_request_materialization".to_string(),
+            format!("{path}/authorization-phases/request-materialization.json"),
+        );
+        links.insert(
+            "authorization_phase_receipt_materialization".to_string(),
+            format!("{path}/authorization-phases/receipt-materialization.json"),
+        );
     }
     if let Some(path) = &grant.replay_pointers_path {
         links.insert("replay_pointers".to_string(), path.clone());

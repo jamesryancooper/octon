@@ -1,0 +1,39 @@
+schema_version: architecture-target-state-closure-v1
+proposal_id: octon-target-state-architecture-transition
+status: implemented
+validated_at: "2026-04-20T23:59:00Z"
+promoted_branch_ref: local-worktree
+validator_suite:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-fail-closed-obligation-ids.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-obligation-ids.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-completeness.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-active-doc-hygiene.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-dossier-evidence-depth.sh
+validator_receipts:
+  obligation_id_uniqueness:
+    fail_closed: .octon/framework/assurance/runtime/_ops/scripts/validate-fail-closed-obligation-ids.sh
+    evidence: .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-obligation-ids.sh
+  authorization_coverage_report: .octon/state/evidence/validation/architecture-target-state-transition/authorization-boundary/coverage.yml
+  generated_effective_freshness_receipt: .octon/state/evidence/validation/architecture-target-state-transition/publication/freshness.yml
+  support_proof_bundle_validation: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/proofing.yml
+  compatibility_retirement_report: .octon/state/evidence/validation/architecture-target-state-transition/compatibility/retirement.yml
+  active_doc_hygiene_report: .octon/state/evidence/validation/architecture-target-state-transition/docs/active-doc-hygiene.yml
+  operator_view_publication: .octon/state/evidence/validation/architecture-target-state-transition/operator-views/publication.yml
+adr_ref: .octon/instance/cognition/decisions/101-target-state-architecture-transition.md
+proposal_path_dependency_scan:
+  status: pass
+  allowed_lineage_refs:
+    - .octon/instance/cognition/decisions/101-target-state-architecture-transition.md
+    - .octon/state/evidence/validation/architecture-target-state-transition/**
+summary: >-
+  The target-state architecture transition is closure-ready: packet-named
+  runtime schemas and module roots exist, phase results are retained, support
+  tuples bind proof bundles and SupportCards, generated navigation maps are
+  published as non-authoritative read models, and the promoted runtime and
+  policy surfaces no longer depend on the proposal path for live behavior.

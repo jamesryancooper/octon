@@ -1,0 +1,10 @@
+schema_version: support-card-v1
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+claim_effect: admitted-live-claim
+support_target_ref: .octon/instance/governance/support-targets.yml
+proof_bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml
+admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml
+run_card_refs:
+  - .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+summary: Repo-shell consequential support remains admitted only with explicit authority routing, proof coverage, and retained evidence.

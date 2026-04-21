@@ -714,9 +714,15 @@ fn write_runtime_state(
     insert_yaml_string(&mut root, "workflow_mode", workflow_mode);
     insert_yaml_string(&mut root, "decision_state", "allow");
     root.entry(serde_yaml::Value::String("run_contract_ref".into()))
-        .or_insert(serde_yaml::Value::String(rel(cfg, &cfg.run_control_root(run_id).join("run-contract.yml"))?));
+        .or_insert(serde_yaml::Value::String(rel(
+            cfg,
+            &cfg.run_control_root(run_id).join("run-contract.yml"),
+        )?));
     root.entry(serde_yaml::Value::String("run_manifest_ref".into()))
-        .or_insert(serde_yaml::Value::String(rel(cfg, &cfg.run_control_root(run_id).join("run-manifest.yml"))?));
+        .or_insert(serde_yaml::Value::String(rel(
+            cfg,
+            &cfg.run_control_root(run_id).join("run-manifest.yml"),
+        )?));
     root.entry(serde_yaml::Value::String("current_stage_attempt_id".into()))
         .or_insert(serde_yaml::Value::String("initial".into()));
     root.entry(serde_yaml::Value::String("last_checkpoint_ref".into()))

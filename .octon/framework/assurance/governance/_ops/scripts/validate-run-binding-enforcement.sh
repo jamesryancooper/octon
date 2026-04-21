@@ -6,6 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../.." && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 CONFIG_FILE="$OCTON_DIR/instance/governance/closure/uec-packet-certification-runs.yml"
 MAIN_RS="$OCTON_DIR/framework/engine/runtime/crates/kernel/src/main.rs"
+COMMANDS_RS="$OCTON_DIR/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
 RUN_BINDING_RS="$OCTON_DIR/framework/engine/runtime/crates/kernel/src/run_binding.rs"
 
 errors=0
@@ -28,12 +29,13 @@ main() {
   echo "== Run-Binding Enforcement Validation =="
 
   require_file "$RUN_BINDING_RS"
+  require_file "$COMMANDS_RS"
   require_file "$OCTON_DIR/framework/engine/runtime/policies/run-required.yml"
   require_file "$OCTON_DIR/framework/engine/runtime/policies/materiality-classification.yml"
   require_text '^mod run_binding;' "$MAIN_RS" "kernel loads run_binding module"
-  require_text 'ensure_canonical_run_binding\(&ctx\.cfg, &request, &grant, "tool"\)' "$MAIN_RS" "tool command is run-bound"
-  require_text 'ensure_canonical_run_binding\(&ctx\.cfg, &request, &grant, "studio"\)' "$MAIN_RS" "studio command is run-bound"
-  require_text 'ensure_canonical_run_binding\(&ctx\.cfg, &request, &grant, "service"\)' "$MAIN_RS" "service commands are run-bound"
+  require_text 'ensure_canonical_run_binding\(&ctx\.cfg, &request, &grant, "tool"\)' "$COMMANDS_RS" "tool command is run-bound"
+  require_text 'ensure_canonical_run_binding\(&ctx\.cfg, &request, &grant, "studio"\)' "$COMMANDS_RS" "studio command is run-bound"
+  require_text 'ensure_canonical_run_binding\(&ctx\.cfg, &request, &grant, "service"\)' "$COMMANDS_RS" "service commands are run-bound"
 
   local run_id
   for run_id in \

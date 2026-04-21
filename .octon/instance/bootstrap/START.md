@@ -15,6 +15,17 @@ second authority plane. The constitutional kernel anchor remains
 `/.octon/framework/lab/`, and retained lab evidence remains under
 `/.octon/state/evidence/lab/`.
 
+Instance-native repo authority lives at:
+
+- `/.octon/instance/manifest.yml`
+- `/.octon/instance/ingress/**`
+- `/.octon/instance/bootstrap/**`
+- `/.octon/instance/charter/**`
+- `/.octon/instance/governance/**`
+- `/.octon/instance/locality/**`
+- `/.octon/instance/cognition/decisions/**`
+- `/.octon/instance/orchestration/missions/**`
+
 ## Boot Sequence
 
 1. Enter through ingress.
@@ -77,6 +88,14 @@ is blocked unless a human explicitly scopes the request.
 Proposal packets under `/.octon/inputs/exploratory/proposals/**` may inform
 review or promotion work, but they remain non-authoritative lineage until their
 content is promoted outside `inputs/**`.
+
+## Additive Inputs
+
+- raw pack input: `inputs/additive/extensions/<pack-id>/**`
+- desired trust activation: `instance/extensions.yml`
+- actual active state: `state/control/extensions/active.yml`
+- quarantine state: `state/control/extensions/quarantine.yml`
+- compiled runtime-facing outputs: `generated/effective/extensions/**`
 
 ## When You Need History
 

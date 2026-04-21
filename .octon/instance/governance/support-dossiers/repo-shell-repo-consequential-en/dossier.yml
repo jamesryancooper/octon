@@ -29,9 +29,15 @@ required_lab_scenarios:
   - recovery-fault-baseline
 representative_retained_runs:
   - .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+  - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-contract.yml
+  - .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
 known_exclusions: []
 recertification_cadence: quarterly
 support_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml
+proof_bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml
+support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/repo-shell-repo-consequential-en.yml
+review_due_at: "2026-06-30T00:00:00Z"
+last_recertification_receipt_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/proofing.yml
 sufficiency:
   required_proof_planes:
     - structural
@@ -45,8 +51,9 @@ sufficiency:
     - governance-or-approval
     - adversarial-or-hidden-check
     - recovery-or-replay
-  minimum_retained_runs: 1
-  current_retained_runs: 1
+    - negative-control
+  minimum_retained_runs: 3
+  current_retained_runs: 3
   evaluator_classes_required:
     - deterministic-or-authored-validator
     - hidden-check-or-replay-shadow-evaluator
@@ -78,6 +85,7 @@ sufficiency:
   representative_run_classes_present:
     - naturalistic
     - recertified
+    - negative-control
   naturalistic_representative_run_present: true
   last_current_release_run_ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
   status: qualified

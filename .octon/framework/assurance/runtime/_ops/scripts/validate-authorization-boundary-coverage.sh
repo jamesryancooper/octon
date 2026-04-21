@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
-RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-remediation/authorization-boundary/coverage.yml"
+RECEIPT="$OCTON_DIR/state/evidence/validation/architecture-target-state-transition/authorization-boundary/coverage.yml"
 
 errors=0
 

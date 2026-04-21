@@ -15,3 +15,5 @@ The authored observability domain covers:
 - drift incidents
 - failure taxonomy
 - report-bundle conventions for release-grade closeout claims
+- proof-query inputs that answer which authority route, receipts, freshness
+  state, and proof planes supported one consequential run or support claim

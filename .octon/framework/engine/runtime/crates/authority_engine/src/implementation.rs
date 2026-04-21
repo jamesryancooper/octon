@@ -3,6 +3,8 @@ mod authority;
 mod autonomy;
 mod common;
 mod execution;
+#[path = "phases/mod.rs"]
+mod phases;
 mod policy;
 mod records;
 mod runtime_state;

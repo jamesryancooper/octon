@@ -99,7 +99,7 @@ pub struct ScopeConstraints {
     pub locality_scope: Option<String>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct ExecutionRequest {
     pub request_id: String,
     pub caller_path: String,
@@ -112,6 +112,18 @@ pub struct ExecutionRequest {
     pub risk_tier: String,
     #[serde(default = "default_workflow_mode")]
     pub workflow_mode: String,
+    #[serde(default)]
+    pub context_pack_ref: Option<String>,
+    #[serde(default)]
+    pub risk_materiality_ref: Option<String>,
+    #[serde(default)]
+    pub support_target_tuple_ref: Option<String>,
+    #[serde(default)]
+    pub rollback_plan_ref: Option<String>,
+    #[serde(default)]
+    pub browser_ui_execution_ref: Option<String>,
+    #[serde(default)]
+    pub api_egress_ref: Option<String>,
     #[serde(default)]
     pub locality_scope: Option<String>,
     #[serde(default)]
@@ -454,11 +466,34 @@ pub struct ExecutionReceipt {
     pub path_type: String,
     pub environment_class: String,
     pub workflow_mode: String,
-    pub intent_ref: IntentRef,
+    #[serde(default)]
+    pub requested_capability_packs: Vec<String>,
+    #[serde(default)]
+    pub granted_capability_packs: Vec<String>,
+    #[serde(default)]
+    pub requested_capabilities: Vec<String>,
+    #[serde(default)]
+    pub granted_capabilities: Vec<String>,
+    pub policy_mode_requested: String,
+    pub policy_mode_effective: String,
+    pub decision: ExecutionDecision,
+    #[serde(default)]
+    pub reason_codes: Vec<String>,
+    pub execution_role_ref: ExecutionRoleRef,
+    pub context_pack_ref: String,
+    pub risk_materiality_ref: String,
+    pub support_target_tuple_ref: String,
+    pub rollback_plan_ref: String,
+    #[serde(default)]
+    pub browser_ui_record_refs: Vec<String>,
+    #[serde(default)]
+    pub api_egress_record_refs: Vec<String>,
+    pub side_effects: SideEffectSummary,
     #[serde(default)]
     pub mission_ref: Option<AutonomyRef>,
     #[serde(default)]
     pub slice_ref: Option<AutonomyRef>,
+    pub intent_ref: IntentRef,
     #[serde(default)]
     pub mission_class: Option<String>,
     #[serde(default)]
@@ -483,19 +518,8 @@ pub struct ExecutionReceipt {
     pub applied_directive_refs: Vec<String>,
     #[serde(default)]
     pub applied_authorize_update_refs: Vec<String>,
-    pub execution_role_ref: ExecutionRoleRef,
-    #[serde(default)]
-    pub requested_capabilities: Vec<String>,
-    #[serde(default)]
-    pub granted_capabilities: Vec<String>,
-    pub policy_mode_requested: String,
-    pub policy_mode_effective: String,
-    pub decision: ExecutionDecision,
-    #[serde(default)]
-    pub reason_codes: Vec<String>,
     #[serde(default)]
     pub touched_scope: Vec<String>,
-    pub side_effects: SideEffectSummary,
     pub override_requested: bool,
     pub override_accepted: bool,
     pub ai_review_enforced: bool,
@@ -522,6 +546,8 @@ pub struct ExecutionReceipt {
     pub authority_grant_bundle_ref: Option<String>,
     #[serde(default)]
     pub network_egress_posture: Option<NetworkEgressPosture>,
+    #[serde(default)]
+    pub evidence_completeness_status: Option<String>,
     pub timestamps: ReceiptTimestamps,
 }
 

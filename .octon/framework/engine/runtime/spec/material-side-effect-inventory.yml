@@ -1,0 +1,77 @@
+schema_version: material-side-effect-inventory-v1
+classes:
+  - id: repo-mutation
+    roots:
+      - ".octon/framework/capabilities/runtime/services/**"
+      - ".octon/state/control/**"
+    examples:
+      - "service scaffold creation"
+      - "repo-local runtime mutation"
+      - "workflow stage write"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "medium"
+    material: true
+  - id: evidence-mutation
+    roots:
+      - ".octon/state/evidence/**"
+    examples:
+      - "execution receipt write"
+      - "retained evidence linkage"
+      - "disclosure materialization"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "medium"
+    material: true
+  - id: control-mutation
+    roots:
+      - ".octon/state/control/**"
+    examples:
+      - "run lifecycle binding"
+      - "approval, exception, or revocation control mutation"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "high"
+    material: true
+  - id: generated-effective-publication
+    roots:
+      - ".octon/generated/effective/**"
+    examples:
+      - "support target matrix publication"
+      - "effective locality refresh"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "medium"
+    material: true
+  - id: executor-launch
+    roots:
+      - ".octon/generated/.tmp/execution/**"
+      - ".octon/generated/.tmp/engine/**"
+    examples:
+      - "studio launch"
+      - "executor bootstrap"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "high"
+    material: true
+  - id: service-invocation
+    roots:
+      - ".octon/framework/capabilities/runtime/services/**"
+    examples:
+      - "tool or service invocation"
+      - "stdio-mediated service execution"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "medium"
+    material: true
+  - id: read-only-projection
+    roots:
+      - ".octon/generated/cognition/**"
+      - ".octon/state/evidence/**"
+    examples:
+      - "read-only orchestration inspection"
+      - "operator projection rendering"
+    required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    owner: "Octon runtime"
+    risk_tier: "low"
+    material: false

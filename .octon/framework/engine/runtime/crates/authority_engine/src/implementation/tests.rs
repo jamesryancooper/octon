@@ -339,6 +339,12 @@ fn minimal_request() -> ExecutionRequest {
         },
         risk_tier: "low".to_string(),
         workflow_mode: "human-only".to_string(),
+        context_pack_ref: None,
+        risk_materiality_ref: None,
+        support_target_tuple_ref: None,
+        rollback_plan_ref: None,
+        browser_ui_execution_ref: None,
+        api_egress_ref: None,
         locality_scope: None,
         intent_ref: None,
         autonomy_context: None,
@@ -739,6 +745,33 @@ fn failed_run_measurement_artifacts_remain_workflow_agnostic() {
         &SideEffectSummary::default(),
     )
     .expect("finalize execution should emit disclosure");
+
+    let request_payload: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(&paths.request).expect("read request payload"),
+    )
+    .expect("parse request payload");
+    let receipt_payload: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(&paths.receipt).expect("read receipt payload"),
+    )
+    .expect("parse receipt payload");
+    assert_eq!(
+        request_payload["schema_version"].as_str(),
+        Some("execution-request-v3")
+    );
+    assert_eq!(
+        receipt_payload["schema_version"].as_str(),
+        Some("execution-receipt-v3")
+    );
+    assert!(
+        cfg.run_root(&request.request_id)
+            .join("receipts/authorization-phases/request-materialization.json")
+            .is_file()
+    );
+    assert!(
+        cfg.run_root(&request.request_id)
+            .join("receipts/authorization-phases/receipt-materialization.json")
+            .is_file()
+    );
 
     let measurement_path = cfg
         .run_root(&request.request_id)

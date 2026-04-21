@@ -203,3 +203,5 @@ records:
     path: 099-promotion-semantics-hardening.md
   - id: 100-architecture-10of10-remediation-closure-certification
     path: 100-architecture-10of10-remediation-closure-certification.md
+  - id: 101-target-state-architecture-transition
+    path: 101-target-state-architecture-transition.md

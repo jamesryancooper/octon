@@ -1,0 +1,15 @@
+schema_version: generated-effective-freshness-receipt-v1
+generated_effective_outputs:
+  - output_ref: .octon/generated/effective/governance/support-target-matrix.yml
+    evidence_ref: .octon/state/evidence/validation/publication/unified-execution-constitution-closure/summary.md
+    freshness_refs:
+      - .octon/generated/effective/locality/generation.lock.yml
+  - output_ref: .octon/generated/effective/locality/artifact-map.yml
+    evidence_ref: .octon/state/evidence/validation/publication/locality/README.md
+    freshness_refs:
+      - .octon/generated/effective/locality/generation.lock.yml
+  - output_ref: .octon/generated/cognition/projections/materialized/architecture-map.md
+    evidence_ref: .octon/state/evidence/validation/architecture-target-state-transition/promotion/receipt-ledger.yml
+    freshness_refs:
+      - .octon/generated/cognition/projections/materialized/index.yml
+status: current

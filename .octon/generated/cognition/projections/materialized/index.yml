@@ -1,0 +1,23 @@
+schema_version: "1.0"
+files:
+  - id: cognition-runtime-surface-map
+    path: cognition-runtime-surface-map.latest.yml
+    summary: Current joined runtime cognition surface index.
+  - id: architecture-map
+    path: architecture-map.md
+    summary: Registry-backed architecture navigation map.
+  - id: authorization-coverage-map
+    path: authorization-coverage-map.md
+    summary: Runtime authorization boundary coverage summary.
+  - id: compatibility-retirement-map
+    path: compatibility-retirement-map.md
+    summary: Transitional compatibility retirement summary.
+  - id: support-card-repo-shell-observe-read
+    path: support-cards/repo-shell-observe-read-en.yml
+    summary: Derived support proof card for repo-shell observe-and-read support.
+  - id: support-card-repo-shell-repo-consequential
+    path: support-cards/repo-shell-repo-consequential-en.yml
+    summary: Derived support proof card for repo-shell consequential support.
+  - id: support-card-ci-observe-read
+    path: support-cards/ci-observe-read-en.yml
+    summary: Derived support proof card for CI observe-and-read support.

@@ -630,7 +630,11 @@ fn authorize_workflow_stage(
                 mission_id,
                 stage_id,
                 &format!("workflow-stage:{stage_id}"),
-                if write_repo { "feedback_window" } else { "notify" },
+                if write_repo {
+                    "feedback_window"
+                } else {
+                    "notify"
+                },
                 "continuous",
                 "reversible",
             )
@@ -643,7 +647,8 @@ fn authorize_workflow_stage(
     if let Some(support_tier) = support_tier_override {
         metadata.insert("support_tier".to_string(), support_tier.to_string());
     }
-    let (intent_ref, execution_role_ref, metadata) = request::bind_repo_local_request(runtime_cfg, metadata)?;
+    let (intent_ref, execution_role_ref, metadata) =
+        request::bind_repo_local_request(runtime_cfg, metadata)?;
     let request = ExecutionRequest {
         request_id: format!("{workflow_id}-{stage_id}"),
         caller_path: "workflow-stage".to_string(),
@@ -677,6 +682,7 @@ fn authorize_workflow_stage(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let grant = authorize_execution(runtime_cfg, policy, &request, None)?;
     let artifacts =
@@ -829,6 +835,7 @@ pub fn run_create_design_package_from_octon_dir(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_auth = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&design_proposals_root)
@@ -1503,6 +1510,7 @@ pub fn run_create_static_proposal_from_octon_dir(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&proposals_root)?;
@@ -1910,6 +1918,7 @@ pub fn run_audit_static_proposal_from_octon_dir(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -2149,6 +2158,7 @@ pub fn run_validate_proposal_from_octon_dir(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -2526,6 +2536,7 @@ pub fn run_promote_proposal_from_octon_dir(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -2885,6 +2896,7 @@ pub fn run_archive_proposal_from_octon_dir(
         policy_mode_requested: None,
         environment_hint: None,
         metadata,
+        ..ExecutionRequest::default()
     };
     let workflow_grant = authorize_execution(&runtime_cfg, &policy, &workflow_request, None)?;
     fs::create_dir_all(&reports_root)?;
@@ -3558,6 +3570,7 @@ impl Runner {
             policy_mode_requested: None,
             environment_hint: None,
             metadata,
+            ..ExecutionRequest::default()
         })
     }
 
@@ -6250,12 +6263,14 @@ mod tests {
             &source_repo_root().join(".octon/generated/effective/orchestration/missions"),
             &root.join(".octon/generated/effective/orchestration/missions"),
         );
-        let lease_path = octon_dir.join(
-            "state/control/execution/missions/mission-autonomy-live-validation/lease.yml",
-        );
+        let lease_path = octon_dir
+            .join("state/control/execution/missions/mission-autonomy-live-validation/lease.yml");
         let lease = fs::read_to_string(&lease_path).expect("read mission lease");
-        fs::write(&lease_path, lease.replace("state: \"paused\"", "state: \"active\""))
-            .expect("rewrite mission lease active");
+        fs::write(
+            &lease_path,
+            lease.replace("state: \"paused\"", "state: \"active\""),
+        )
+        .expect("rewrite mission lease active");
         let mode_state_path = octon_dir.join(
             "state/control/execution/missions/mission-autonomy-live-validation/mode-state.yml",
         );
@@ -6263,7 +6278,10 @@ mod tests {
         fs::write(
             &mode_state_path,
             mode_state
-                .replace("oversight_mode: \"notify\"", "oversight_mode: \"feedback_window\"")
+                .replace(
+                    "oversight_mode: \"notify\"",
+                    "oversight_mode: \"feedback_window\"",
+                )
                 .replace(
                     "execution_posture: \"interruptible_scheduled\"",
                     "execution_posture: \"continuous\"",
@@ -6274,23 +6292,29 @@ mod tests {
         let scenario_path = octon_dir.join(
             "generated/effective/orchestration/missions/mission-autonomy-live-validation/scenario-resolution.yml",
         );
-        let scenario = fs::read_to_string(&scenario_path).expect("read mission scenario resolution");
+        let scenario =
+            fs::read_to_string(&scenario_path).expect("read mission scenario resolution");
         let scenario = replace_yaml_scalar(&scenario, "generated_at", "2099-03-23T00:00:00Z");
         let scenario = replace_yaml_scalar(&scenario, "fresh_until", "2099-03-30T00:00:00Z");
         fs::write(
             &scenario_path,
             scenario
-                .replace("oversight_mode: \"notify\"", "oversight_mode: \"feedback_window\"")
+                .replace(
+                    "oversight_mode: \"notify\"",
+                    "oversight_mode: \"feedback_window\"",
+                )
                 .replace(
                     "execution_posture: \"interruptible_scheduled\"",
                     "execution_posture: \"continuous\"",
                 )
-                .replace("feedback_window_required: false", "feedback_window_required: true"),
+                .replace(
+                    "feedback_window_required: false",
+                    "feedback_window_required: true",
+                ),
         )
         .expect("rewrite mission scenario resolution active");
-        let schedule_path = octon_dir.join(
-            "state/control/execution/missions/mission-autonomy-live-validation/schedule.yml",
-        );
+        let schedule_path = octon_dir
+            .join("state/control/execution/missions/mission-autonomy-live-validation/schedule.yml");
         let schedule = fs::read_to_string(&schedule_path).expect("read mission schedule");
         fs::write(
             &schedule_path,
@@ -6299,7 +6323,10 @@ mod tests {
                     "cadence_or_trigger: \"interruptible_scheduled\"",
                     "cadence_or_trigger: \"continuous\"",
                 )
-                .replace("pause_active_run_requested: true", "pause_active_run_requested: false"),
+                .replace(
+                    "pause_active_run_requested: true",
+                    "pause_active_run_requested: false",
+                ),
         )
         .expect("rewrite mission schedule active");
 

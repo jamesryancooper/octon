@@ -1,3 +1,4 @@
+use super::phases;
 use super::*;
 use anyhow::Context;
 use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
@@ -198,6 +199,56 @@ pub fn authorize_execution(
     let support_tier =
         resolve_support_tier_posture(cfg, request, &run_contract, autonomy_state.as_ref())?;
     let reversibility = reversibility_payload(request, &run_contract, autonomy_state.as_ref());
+    let preflight_result = phases::results::AuthorizationPhaseResult {
+        schema_version: "authorization-phase-result-v1".to_string(),
+        request_id: request.request_id.clone(),
+        run_id: request.request_id.clone(),
+        phase_id: "preflight".to_string(),
+        phase_status: "completed".to_string(),
+        decision: ExecutionDecision::Allow,
+        reason_codes: vec!["PREFLIGHT_READY".to_string()],
+        artifact_refs: BTreeMap::from([
+            (
+                "run_contract".to_string(),
+                path_tail(&cfg.repo_root, &run_contract_path(cfg, &request.request_id)),
+            ),
+            (
+                "runtime_state".to_string(),
+                path_tail(
+                    &cfg.repo_root,
+                    &runtime_state_path(cfg, &request.request_id),
+                ),
+            ),
+            (
+                "replay_pointers".to_string(),
+                path_tail(
+                    &cfg.repo_root,
+                    &replay_pointers_path(cfg, &request.request_id),
+                ),
+            ),
+            (
+                "retained_evidence".to_string(),
+                path_tail(
+                    &cfg.repo_root,
+                    &retained_evidence_path(cfg, &request.request_id),
+                ),
+            ),
+        ]),
+        details: phases::preflight::preflight_details(
+            &environment,
+            &effective_policy_mode,
+            executor_profile.map(|profile| profile.name.as_str()),
+            &ownership.status,
+            &support_tier.route,
+        ),
+        generated_at: now_rfc3339()?,
+    };
+    let _ = phases::results::record_phase_result(
+        cfg,
+        &bound_run,
+        &request.request_id,
+        &preflight_result,
+    );
 
     let requested_capabilities = dedupe_strings(&request.requested_capabilities);
     let requested_network = requested_capabilities
@@ -306,11 +357,11 @@ pub fn authorize_execution(
             request,
             decision.clone(),
             reason_codes.clone(),
-            ownership,
-            support_tier,
-            reversibility,
-            budget,
-            egress,
+            ownership.clone(),
+            support_tier.clone(),
+            reversibility.clone(),
+            budget.clone(),
+            egress.clone(),
             approval_request_ref,
             approval_grant_refs.clone(),
             exception_refs.clone(),
@@ -344,6 +395,34 @@ pub fn authorize_execution(
             &request.request_id,
             "authority_decision",
             decision_ref.clone(),
+        );
+        let route_result = phases::routing::route_phase_result(
+            &request.request_id,
+            match decision {
+                ExecutionDecision::Allow => "completed",
+                ExecutionDecision::StageOnly => "staged",
+                ExecutionDecision::Deny => "denied",
+                ExecutionDecision::Escalate => "escalated",
+            },
+            decision.clone(),
+            reason_codes.clone(),
+            BTreeMap::from([
+                ("decision_artifact".to_string(), decision_ref.clone()),
+                ("authority_decision".to_string(), decision_ref.clone()),
+            ]),
+            phases::routing::route_details(
+                &ownership,
+                &support_tier,
+                &reversibility,
+                &budget,
+                &egress,
+            ),
+        );
+        let _ = phases::results::record_phase_result(
+            cfg,
+            &bound_run,
+            &request.request_id,
+            &route_result,
         );
         Err(
             KernelError::new(ErrorCode::CapabilityDenied, message).with_details(json!({
@@ -693,6 +772,11 @@ pub fn authorize_execution(
             "execution-request.json".to_string(),
             "policy-decision.json".to_string(),
             "grant-bundle.json".to_string(),
+            "authorization-phases/preflight.json".to_string(),
+            "authorization-phases/routing.json".to_string(),
+            "authorization-phases/grant.json".to_string(),
+            "authorization-phases/request-materialization.json".to_string(),
+            "authorization-phases/receipt-materialization.json".to_string(),
             "side-effects.json".to_string(),
             "outcome.json".to_string(),
             "execution-receipt.json".to_string(),
@@ -803,6 +887,35 @@ pub fn authorize_execution(
             authority_bundle_ref,
         )?;
     }
+    let grant_phase_result = phases::receipt::request_phase_result(
+        &request.request_id,
+        ExecutionDecision::Allow,
+        grant.reason_codes.clone(),
+        BTreeMap::from([
+            (
+                "decision_artifact".to_string(),
+                grant.decision_artifact_ref.clone().unwrap_or_default(),
+            ),
+            (
+                "authority_grant_bundle".to_string(),
+                grant.authority_grant_bundle_ref.clone().unwrap_or_default(),
+            ),
+        ]),
+        json!({
+            "effective_policy_mode": grant.effective_policy_mode,
+            "environment_class": grant.environment_class.as_str(),
+            "approval_required": approval_required,
+            "quorum_required": quorum_required,
+        }),
+        "grant",
+        "completed",
+    );
+    let _ = phases::results::record_phase_result(
+        cfg,
+        &bound_run,
+        &request.request_id,
+        &grant_phase_result,
+    );
     update_bound_runtime_state(
         &bound_run,
         "authorized",
@@ -832,13 +945,7 @@ pub fn write_execution_start(
     let paths = ExecutionArtifactPaths::new(root.to_path_buf());
     write_json(
         &paths.request,
-        &json!({
-            "schema_version": "execution-request-v2",
-            "request": request,
-            "resolved_intent_ref": grant.intent_ref,
-            "resolved_execution_role_ref": grant.execution_role_ref,
-            "resolved_autonomy_context": grant.autonomy_context.clone(),
-        }),
+        &phases::receipt::execution_request_payload(request, grant),
     )?;
     write_json(
         &paths.decision,
@@ -867,6 +974,60 @@ pub fn write_execution_start(
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         copy_json_if_present(&paths.grant, &grant_receipt)
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let request_phase_result = phases::receipt::request_phase_result(
+            &request.request_id,
+            ExecutionDecision::Allow,
+            vec!["REQUEST_MATERIALIZED".to_string()],
+            BTreeMap::from([
+                (
+                    "execution_request".to_string(),
+                    path_tail(
+                        &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                        &request_receipt,
+                    ),
+                ),
+                (
+                    "policy_decision".to_string(),
+                    path_tail(
+                        &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                        &decision_receipt,
+                    ),
+                ),
+                (
+                    "grant_bundle".to_string(),
+                    path_tail(
+                        &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
+                        &grant_receipt,
+                    ),
+                ),
+            ]),
+            json!({
+                "resolved_intent_ref": grant.intent_ref,
+                "resolved_execution_role_ref": grant.execution_role_ref,
+                "resolved_autonomy_context": grant.autonomy_context.clone(),
+            }),
+            "request-materialization",
+            "completed",
+        );
+        let request_phase_path = bound
+            .receipts_root
+            .join("authorization-phases")
+            .join("request-materialization.json");
+        write_json(&request_phase_path, &request_phase_result)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let repo_root = discover_repo_root(root).unwrap_or_else(|| PathBuf::from("."));
+        let request_phase_ref = path_tail(&repo_root, &request_phase_path);
+        let _ = merge_replay_receipt_ref(
+            &bound.replay_pointers_path,
+            &request.request_id,
+            request_phase_ref.clone(),
+        );
+        let _ = merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "authorization_phase_request_materialization",
+            request_phase_ref,
+        );
         let start_control = bound
             .control_root
             .join("checkpoints")
@@ -947,10 +1108,7 @@ pub fn write_execution_start(
             &bound.retained_evidence_path,
             &request.request_id,
             "grant_bundle",
-            path_tail(
-                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
-                &grant_receipt,
-            ),
+            path_tail(&repo_root, &grant_receipt),
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
     }
@@ -967,97 +1125,14 @@ pub fn finalize_execution(
 ) -> anyhow::Result<()> {
     write_json(&paths.side_effects, side_effects)?;
     write_json(&paths.outcome, outcome)?;
-    let override_requested = request
-        .policy_mode_requested
-        .as_ref()
-        .map(|value| value != &grant.effective_policy_mode)
-        .unwrap_or(false);
-    let receipt = ExecutionReceipt {
-        schema_version: "execution-receipt-v2".to_string(),
-        request_id: request.request_id.clone(),
-        grant_id: grant.grant_id.clone(),
-        target_id: request.target_id.clone(),
-        action_type: request.action_type.clone(),
-        path_type: request.caller_path.clone(),
-        environment_class: grant.environment_class.as_str().to_string(),
-        workflow_mode: grant.workflow_mode.clone(),
-        intent_ref: grant.intent_ref.clone(),
-        mission_ref: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.mission_ref.clone()),
-        slice_ref: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.slice_ref.clone()),
-        mission_class: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.mission_class.clone()),
-        oversight_mode: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.oversight_mode.clone()),
-        execution_posture: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.execution_posture.clone()),
-        reversibility_class: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.reversibility_class.clone()),
-        boundary_id: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.boundary_id.clone()),
-        rollback_handle: grant.rollback_handle.clone(),
-        compensation_handle: grant.compensation_handle.clone(),
-        recovery_window: grant.recovery_window.clone(),
-        autonomy_budget_state: grant.autonomy_budget_state.clone(),
-        breaker_state: grant.breaker_state.clone(),
-        applied_directive_refs: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.applied_directive_refs.clone())
-            .unwrap_or_default(),
-        applied_authorize_update_refs: grant
-            .autonomy_context
-            .as_ref()
-            .map(|context| context.applied_authorize_update_refs.clone())
-            .unwrap_or_default(),
-        execution_role_ref: grant.execution_role_ref.clone(),
-        requested_capabilities: request.requested_capabilities.clone(),
-        granted_capabilities: grant.granted_capabilities.clone(),
-        policy_mode_requested: request
-            .policy_mode_requested
-            .clone()
-            .unwrap_or_else(|| grant.effective_policy_mode.clone()),
-        policy_mode_effective: grant.effective_policy_mode.clone(),
-        decision: grant.decision.clone(),
-        reason_codes: grant.reason_codes.clone(),
-        touched_scope: side_effects.touched_scope.clone(),
-        side_effects: side_effects.clone(),
-        override_requested,
-        override_accepted: !override_requested,
-        ai_review_enforced: env_bool("AI_GATE_ENFORCE") || env_bool("OCTON_AI_GATE_ENFORCE"),
-        autonomy_policy_enforced: env_bool("AUTONOMY_POLICY_ENFORCE")
-            || env_bool("OCTON_AUTONOMY_POLICY_ENFORCE"),
-        evidence_links: evidence_links(paths, grant),
-        budget: grant.budget.clone(),
-        support_tier: grant.support_tier.clone(),
-        ownership_refs: grant.ownership_refs.clone(),
-        approval_request_ref: grant.approval_request_ref.clone(),
-        approval_grant_refs: grant.approval_grant_refs.clone(),
-        exception_lease_refs: grant.exception_lease_refs.clone(),
-        revocation_refs: grant.revocation_refs.clone(),
-        decision_artifact_ref: grant.decision_artifact_ref.clone(),
-        authority_grant_bundle_ref: grant.authority_grant_bundle_ref.clone(),
-        network_egress_posture: grant.network_egress_posture.clone(),
-        timestamps: ReceiptTimestamps {
-            started_at: started_at.to_string(),
-            completed_at: outcome.completed_at.clone(),
-        },
-    };
+    let receipt = phases::receipt::execution_receipt_payload(
+        request,
+        grant,
+        started_at,
+        outcome,
+        side_effects,
+        paths,
+    );
     write_json(&paths.receipt, &receipt)?;
     if let Some(bound) = bound_run_from_grant(&paths.root, grant) {
         let side_effects_receipt = bound.receipts_root.join("side-effects.json");
@@ -1069,6 +1144,50 @@ pub fn finalize_execution(
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         copy_json_if_present(&paths.receipt, &execution_receipt)
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let repo_root = discover_repo_root(&paths.root).unwrap_or_else(|| PathBuf::from("."));
+        let receipt_phase_result = phases::receipt::request_phase_result(
+            &request.request_id,
+            grant.decision.clone(),
+            grant.reason_codes.clone(),
+            BTreeMap::from([
+                (
+                    "side_effects".to_string(),
+                    path_tail(&repo_root, &side_effects_receipt),
+                ),
+                (
+                    "outcome".to_string(),
+                    path_tail(&repo_root, &outcome_receipt),
+                ),
+                (
+                    "execution_receipt".to_string(),
+                    path_tail(&repo_root, &execution_receipt),
+                ),
+            ]),
+            json!({
+                "outcome_status": outcome.status,
+                "started_at": started_at,
+                "completed_at": outcome.completed_at,
+            }),
+            "receipt-materialization",
+            "completed",
+        );
+        let receipt_phase_path = bound
+            .receipts_root
+            .join("authorization-phases")
+            .join("receipt-materialization.json");
+        write_json(&receipt_phase_path, &receipt_phase_result)?;
+        let receipt_phase_ref = path_tail(&repo_root, &receipt_phase_path);
+        let _ = merge_replay_receipt_ref(
+            &bound.replay_pointers_path,
+            &request.request_id,
+            receipt_phase_ref.clone(),
+        );
+        let _ = merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "authorization_phase_receipt_materialization",
+            receipt_phase_ref,
+        );
         let terminal_control = bound
             .control_root
             .join("checkpoints")

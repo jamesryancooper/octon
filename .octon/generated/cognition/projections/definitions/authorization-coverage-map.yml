@@ -1,0 +1,23 @@
+id: authorization-coverage-map
+schema_version: "1.0"
+description: Generated navigation map joining runtime boundary specs, inventory, validators, and retained coverage evidence.
+
+sources:
+  - /.octon/framework/engine/runtime/spec/execution-authorization-v1.md
+  - /.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+  - /.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json
+  - /.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+  - /.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json
+  - /.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+  - /.octon/state/evidence/validation/architecture-target-state-transition/authorization-boundary/coverage.yml
+
+refresh:
+  mode: on-change
+  trigger_paths:
+    - .octon/framework/engine/runtime/spec/**
+    - .octon/framework/engine/runtime/crates/kernel/**
+    - .octon/framework/engine/runtime/crates/authority_engine/**
+    - .octon/state/evidence/validation/architecture-target-state-transition/authorization-boundary/**
+
+materialization:
+  output: ../materialized/authorization-coverage-map.md

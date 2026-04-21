@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/authorization-phase-result-v1.schema.json",
+  "title": "Octon Authorization Phase Result v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "request_id",
+    "run_id",
+    "phase_id",
+    "phase_status",
+    "decision",
+    "generated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "authorization-phase-result-v1" },
+    "request_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "phase_id": { "type": "string", "minLength": 1 },
+    "phase_status": { "type": "string", "minLength": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["ALLOW", "STAGE_ONLY", "DENY", "ESCALATE"]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "artifact_refs": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "details": { "type": "object" },
+    "generated_at": { "type": "string", "minLength": 1 }
+  }
+}

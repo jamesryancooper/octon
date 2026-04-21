@@ -10,11 +10,16 @@ triggers:
 cadence: "Before support widening and at every release that changes support-target, admission, or capability-pack surfaces."
 required_inputs:
   - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/contracts/support-target-proofing.yml"
   - ".octon/framework/capabilities/packs/**"
   - ".octon/instance/governance/capability-packs/**"
   - ".octon/framework/constitution/contracts/adapters/**"
+  - ".octon/state/evidence/validation/support-targets/**"
 evidence_requirements:
   - "Approved support-target-review receipt under .octon/state/evidence/validation/publication/build-to-delete/<date>/support-target-review.yml"
   - "Validation evidence that governance exclusions still fail closed and admitted packs remain bounded by the declared support universe."
+  - "A current per-tuple support proof bundle for every admitted tuple cited by live support or closure claims."
+  - "A current derived SupportCard or support-proof projection for every admitted tuple cited by live support or closure claims."
+  - "Current recertification and review-due evidence for each admitted live tuple."
 blocking_rule: "Reject when support posture, pack admission, or disclosure claims exceed the declared support-target matrix."
 retirement_path: "Retire only if support-target review is subsumed by a stricter successor governance review with the same fail-closed guarantees."

@@ -152,9 +152,8 @@ Use this decision sequence:
     assurance `_ops/`; the resulting proposal registry remains a generated
     discovery artifact under `/.octon/generated/proposals/registry.yml`.
   - Proposal packets and the generated proposal registry never authorize
-    runtime behavior; for MSRAOM, runtime closeout remains in ADR 067 and
-    proposal-lineage closeout remains in ADR 068 plus the matching migration
-    record.
+    runtime behavior; closeout and migration lineage remain in durable ADR and
+    retained evidence surfaces rather than in active runtime contracts.
   - retained assurance and validation receipts live under
     `/.octon/state/evidence/validation/assurance/**`.
   - runtime-facing publication receipts live under

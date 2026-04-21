@@ -50,6 +50,7 @@ artifacts, and grant bundles under `state/control/execution/**` and
 - `execution-request-v3.schema.json`
 - `execution-grant-v1.schema.json`
 - `execution-receipt-v3.schema.json`
+- `authorization-phase-result-v1.schema.json`
 - `runtime-event-v1.schema.json`
 - `/.octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json`
 - `/.octon/framework/constitution/contracts/runtime/context-pack-v1.schema.json`
@@ -60,3 +61,8 @@ artifacts, and grant bundles under `state/control/execution/**` and
 - `policy-interface-v1.md`
 - `policy-receipt-v2.schema.json`
 - `policy-digest-v2.md`
+
+Phase results are retained under the canonical run receipts root at
+`state/evidence/runs/<run_id>/receipts/authorization-phases/**` and are
+mirrored into the run evidence trail alongside the decision, grant, request,
+and execution receipt artifacts.

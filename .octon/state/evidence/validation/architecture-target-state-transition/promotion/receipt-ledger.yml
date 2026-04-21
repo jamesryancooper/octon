@@ -1,0 +1,16 @@
+schema_version: promotion-receipt-ledger-v1
+rationale: The target-state transition promotes durable authored, validation, and projection surfaces directly into live Octon paths without granting authority to proposal-local or generated sources.
+receipts_required_for:
+  - inputs/** -> framework/**
+  - inputs/** -> instance/**
+  - inputs/** -> state/control/**
+  - generated/** -> framework/**
+  - generated/** -> instance/**
+  - generated/** -> state/control/**
+  - generated/** -> generated/effective/**
+slice_status: no-live-promotions-required
+observed_promotions: []
+non_authority_publication_roots:
+  - .octon/generated/cognition/
+  - .octon/generated/effective/
+  - .octon/state/evidence/validation/architecture-target-state-transition/

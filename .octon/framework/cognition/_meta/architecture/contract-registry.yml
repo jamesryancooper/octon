@@ -125,6 +125,12 @@ delegated_registries:
     machine_keys:
       - "records"
     status: "active"
+  retirement_register:
+    path: ".octon/instance/governance/retirement-register.yml"
+    role: "Repo-owned compatibility-retirement inventory for retained transitional surfaces."
+    machine_keys:
+      - "entries"
+    status: "active"
 path_families:
   constitutional_kernel:
     class_root: "framework"
@@ -174,11 +180,56 @@ path_families:
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-authoritative-doc-triggers.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-active-doc-hygiene.sh"
     doc_target_refs:
       - "super_root_readme"
       - "architecture_specification"
       - "bootstrap_start"
       - "ingress_surface"
+  compatibility_retirement:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/governance/retirement-register.yml"
+      - ".octon/instance/governance/contracts/retirement-policy.yml"
+      - ".octon/instance/governance/contracts/retirement-review.yml"
+    authority_class: "transitional-retirement-governance"
+    role: "Declares retained compatibility surfaces, their successors, and the review/retirement contract."
+    allowed_consumers:
+      - "docs"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "runtime or policy as a parallel authority path"
+    delegated_registry_refs:
+      - "retirement_register"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
+  runtime_authorization_coverage:
+    class_root: "framework"
+    canonical_paths:
+      - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+      - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md"
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+      - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+      - ".octon/framework/engine/runtime/spec/authorization-phase-result-v1.schema.json"
+    authority_class: "runtime-boundary-coverage-contract"
+    role: "Runtime-owned boundary, inventory, coverage, and phase-result contract surfaces."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "generated projections as an authority substitute"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+    doc_target_refs:
+      - "architecture_specification"
   overlay_resolution:
     class_root: "framework"
     related_class_roots:
@@ -533,6 +584,16 @@ publication_metadata:
     required_conditions:
       - "field-level traceability to canonical authored, control, evidence, or continuity sources"
       - "freshness bounded by retained evidence and current control state"
+    named_maps:
+      - projection_id: "architecture-map"
+        definition_ref: ".octon/generated/cognition/projections/definitions/architecture-map.yml"
+        materialized_ref: ".octon/generated/cognition/projections/materialized/architecture-map.md"
+      - projection_id: "authorization-coverage-map"
+        definition_ref: ".octon/generated/cognition/projections/definitions/authorization-coverage-map.yml"
+        materialized_ref: ".octon/generated/cognition/projections/materialized/authorization-coverage-map.md"
+      - projection_id: "compatibility-retirement-map"
+        definition_ref: ".octon/generated/cognition/projections/definitions/compatibility-retirement-map.yml"
+        materialized_ref: ".octon/generated/cognition/projections/materialized/compatibility-retirement-map.md"
   proposal_discovery:
     output_path: ".octon/generated/proposals/registry.yml"
     authority_status: "derived-only"
@@ -598,6 +659,7 @@ doc_targets:
         - "overlay_points_registry"
         - "instance_manifest"
         - "decisions_index"
+        - "retirement_register"
     must_not_restate:
       - "generated or proposal publication as authority"
       - "historical wave or cutover narrative"
@@ -758,12 +820,19 @@ execution:
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-fail-closed-obligation-ids.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-obligation-ids.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-completeness.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-active-doc-hygiene.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"

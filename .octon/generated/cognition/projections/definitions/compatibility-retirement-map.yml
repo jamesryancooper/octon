@@ -1,0 +1,20 @@
+id: compatibility-retirement-map
+schema_version: "1.0"
+description: Generated map of retained transitional compatibility surfaces, successors, review dates, and retirement evidence.
+
+sources:
+  - /.octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - /.octon/instance/governance/retirement-register.yml
+  - /.octon/instance/governance/contracts/retirement-policy.yml
+  - /.octon/state/evidence/validation/architecture-target-state-transition/compatibility/retirement.yml
+
+refresh:
+  mode: on-change
+  trigger_paths:
+    - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+    - .octon/instance/governance/retirement-register.yml
+    - .octon/instance/governance/contracts/retirement-policy.yml
+    - .octon/state/evidence/validation/architecture-target-state-transition/compatibility/**
+
+materialization:
+  output: ../materialized/compatibility-retirement-map.md

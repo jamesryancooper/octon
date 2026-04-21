@@ -1,0 +1,12 @@
+schema_version: active-doc-hygiene-receipt-v1
+checked_docs:
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md
+  - .octon/framework/observability/README.md
+  - .octon/framework/lab/README.md
+  - .octon/instance/bootstrap/START.md
+required_absent_patterns:
+  - "proposal-lineage closeout remains in"
+  - "for MSRAOM"
+  - "Wave 4 remediation also adds"
+status: current

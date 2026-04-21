@@ -1,0 +1,19 @@
+schema_version: support-target-proofing-receipt-v1
+support_target_ref: .octon/instance/governance/support-targets.yml
+proof_cards:
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+    card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/repo-shell-observe-read-en.yml
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+    card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/repo-shell-repo-consequential-en.yml
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+    card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/ci-observe-read-en.yml
+proof_bundles:
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+    bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
+    support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/repo-shell-observe-read-en.yml
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+    bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml
+    support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/repo-shell-repo-consequential-en.yml
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+    bundle_ref: .octon/state/evidence/validation/support-targets/ci-observe-read-en.yml
+    support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/ci-observe-read-en.yml

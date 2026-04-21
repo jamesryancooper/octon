@@ -26,9 +26,15 @@ required_lab_scenarios:
   - repo-shell-supported-scenario
 representative_retained_runs:
   - .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/run-contract.yml
+  - .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4/run-contract.yml
+  - .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-contract.yml
 known_exclusions: []
 recertification_cadence: quarterly
 support_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml
+proof_bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
+support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/repo-shell-observe-read-en.yml
+review_due_at: "2026-06-30T00:00:00Z"
+last_recertification_receipt_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/proofing.yml
 sufficiency:
   required_proof_planes:
     - structural
@@ -62,6 +68,7 @@ sufficiency:
   representative_run_classes_present:
     - naturalistic
     - recertified
+    - negative-control
   naturalistic_representative_run_present: true
   last_current_release_run_ref: .octon/state/evidence/disclosure/runs/uec-global-repo-shell-observe-read-20260404/run-card.yml
   status: qualified

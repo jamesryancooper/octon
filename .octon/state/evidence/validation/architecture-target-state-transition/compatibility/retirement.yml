@@ -1,0 +1,12 @@
+schema_version: compatibility-retirement-receipt-v1
+retirement_register_ref: .octon/instance/governance/retirement-register.yml
+retirement_policy_ref: .octon/instance/governance/contracts/retirement-policy.yml
+retirement_review_ref: .octon/instance/governance/contracts/retirement-review.yml
+materialized_map_ref: .octon/generated/cognition/projections/materialized/compatibility-retirement-map.md
+status: current
+retained_surfaces:
+  - ingress-projection-adapters
+  - duplicate-constitutional-shims
+  - run-local-disclosure-mirrors
+  - lab-local-harness-card-mirrors
+summary: Transitional surfaces remain explicitly inventoried, bounded by review cadence, and subordinate to canonical successors.

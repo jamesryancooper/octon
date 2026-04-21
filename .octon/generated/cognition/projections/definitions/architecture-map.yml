@@ -1,0 +1,21 @@
+id: architecture-map
+schema_version: "1.0"
+description: Registry-backed navigation map for the Octon target-state architecture transition.
+
+sources:
+  - /.octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - /.octon/framework/cognition/_meta/architecture/specification.md
+  - /.octon/framework/constitution/CHARTER.md
+  - /.octon/instance/charter/workspace.md
+  - /.octon/instance/governance/support-targets.yml
+
+refresh:
+  mode: on-change
+  trigger_paths:
+    - .octon/framework/cognition/_meta/architecture/**
+    - .octon/framework/constitution/**
+    - .octon/instance/charter/**
+    - .octon/instance/governance/support-targets.yml
+
+materialization:
+  output: ../materialized/architecture-map.md
