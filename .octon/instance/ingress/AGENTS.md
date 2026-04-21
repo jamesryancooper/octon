@@ -67,6 +67,7 @@ Use these only after the minimal constitutional read set above is bound:
 
 ## Topology Reference
 
+- Only `framework/**` and `instance/**` are authored authority surfaces.
 - authored authority lives only under `framework/**` and `instance/**`
 - mutable operational truth and retained evidence live under `state/**`
 - generated outputs live under `generated/**` and remain derived-only
