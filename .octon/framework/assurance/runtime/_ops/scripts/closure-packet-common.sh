@@ -122,7 +122,33 @@ run_contract_path() { printf '%s/state/control/execution/runs/%s/run-contract.ym
 run_manifest_path() { printf '%s/state/control/execution/runs/%s/run-manifest.yml\n' "$OCTON_DIR" "$1"; }
 runtime_state_path() { printf '%s/state/control/execution/runs/%s/runtime-state.yml\n' "$OCTON_DIR" "$1"; }
 rollback_posture_path() { printf '%s/state/control/execution/runs/%s/rollback-posture.yml\n' "$OCTON_DIR" "$1"; }
-stage_attempt_path() { printf '%s/state/control/execution/runs/%s/stage-attempts/initial.yml\n' "$OCTON_DIR" "$1"; }
+stage_attempt_path() {
+  local run_id="$1"
+  local runtime_state contract notes_ref stage_attempt_id candidate
+
+  runtime_state="$(runtime_state_path "$run_id")"
+  if [[ -f "$runtime_state" ]]; then
+    stage_attempt_id="$(yq -r '.current_stage_attempt_id // ""' "$runtime_state" 2>/dev/null || true)"
+    if [[ -n "$stage_attempt_id" ]]; then
+      candidate="$OCTON_DIR/state/control/execution/runs/$run_id/stage-attempts/$stage_attempt_id.yml"
+      if [[ -f "$candidate" ]]; then
+        printf '%s\n' "$candidate"
+        return 0
+      fi
+    fi
+  fi
+
+  contract="$(run_contract_path "$run_id")"
+  if [[ -f "$contract" ]]; then
+    notes_ref="$(yq -r '.notes_ref // ""' "$contract" 2>/dev/null || true)"
+    if [[ -n "$notes_ref" && -f "$ROOT_DIR/$notes_ref" ]]; then
+      printf '%s\n' "$ROOT_DIR/$notes_ref"
+      return 0
+    fi
+  fi
+
+  printf '%s/state/control/execution/runs/%s/stage-attempts/initial.yml\n' "$OCTON_DIR" "$run_id"
+}
 classification_path() { printf '%s/state/evidence/runs/%s/evidence-classification.yml\n' "$OCTON_DIR" "$1"; }
 run_card_path() { printf '%s/state/evidence/disclosure/runs/%s/run-card.yml\n' "$OCTON_DIR" "$1"; }
 retained_evidence_path() { printf '%s/state/evidence/runs/%s/retained-run-evidence.yml\n' "$OCTON_DIR" "$1"; }
@@ -213,6 +239,46 @@ tuple_value_from_run_card() {
   local run_id="$1"
   local key="$2"
   yq -r ".support_target_tuple.$key // \"\"" "$(run_card_path "$run_id")"
+}
+
+run_contract_support_ref() {
+  yq -r '.support_target_ref // ""' "$(run_contract_path "$1")"
+}
+
+run_contract_support_admission_ref() {
+  yq -r '.support_target_admission_ref // ""' "$(run_contract_path "$1")"
+}
+
+run_contract_support_tuple_id() {
+  yq -r '.support_target_tuple_id // ""' "$(run_contract_path "$1")"
+}
+
+run_contract_support_component() {
+  local run_id="$1"
+  local key="$2"
+
+  case "$key" in
+    workload_tier)
+      yq -r '.support_target.workload_tier // .support_target_tuple.workload_tier // .support_tier // ""' "$(run_contract_path "$run_id")"
+      ;;
+    *)
+      yq -r ".support_target.$key // .support_target_tuple.$key // \"\"" "$(run_contract_path "$run_id")"
+      ;;
+  esac
+}
+
+run_contract_support_semantics_match_admission() {
+  local run_id="$1"
+  local admission="$2"
+  local key expected actual
+
+  for key in model_tier workload_tier language_resource_tier locale_tier model_adapter; do
+    expected="$(yq -r ".tuple.$key // \"\"" "$admission")"
+    actual="$(run_contract_support_component "$run_id" "$key")"
+    [[ "$actual" == "$expected" ]] || return 1
+  done
+
+  return 0
 }
 
 sha256_file() {

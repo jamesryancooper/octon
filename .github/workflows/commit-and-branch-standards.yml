@@ -66,9 +66,19 @@ jobs:
             const isReleasePlease =
               headRef.startsWith("release-please--") ||
               labels.some((name) => name.startsWith("autorelease:"));
+            const defaultBranch = context.payload.repository?.default_branch || "main";
+            const isCanonicalPushBranch =
+              !isPullRequest &&
+              context.ref.startsWith("refs/heads/") &&
+              headRef === defaultBranch;
 
             if (isDependabot || isReleasePlease) {
               core.notice(`Skipping branch-name validation for bot-managed branch '${headRef}'.`);
+              return;
+            }
+
+            if (isCanonicalPushBranch) {
+              core.notice(`Skipping branch-name validation for canonical push branch '${headRef}'.`);
               return;
             }
 

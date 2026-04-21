@@ -40,7 +40,7 @@ case "$claim_status" in
       summary="The active HarnessCard discloses a complete admitted support universe with explicit bounded known limits."
     fi
     ;;
-  provisional|recertification_open)
+  provisional|recertification_open|incomplete)
     if [[ "$known_limits_count" == "0" ]]; then
       echo "[ERROR] non-complete HarnessCard claims must disclose at least one known limit" >&2
       exit 1

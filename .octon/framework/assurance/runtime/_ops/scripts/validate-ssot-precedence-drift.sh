@@ -65,7 +65,7 @@ require_text() {
   local file="$1"
   local text="$2"
   local message="$3"
-  if grep -Fq "$text" "$file"; then
+  if grep -Fq -- "$text" "$file"; then
     pass "$message"
   else
     fail "$message"
@@ -95,38 +95,48 @@ normalize_rel() {
 check_matrix_contract() {
   require_text \
     "$SPEC_FILE" \
-    "## Structural SSOT Matrix (Runtime, Governance, Practices)" \
-    "spec declares structural SSOT matrix section"
+    "The machine-readable source of truth for topology, authority families," \
+    "spec declares the contract registry as machine-readable structural ssot"
 
   require_text \
     "$SPEC_FILE" \
-    "| runtime-execution | \`/.octon/framework/engine/runtime/**\` |" \
-    "spec matrix includes runtime-execution authority row"
+    "Structural interpretation flows through the contract registry rather than" \
+    "spec routes structural interpretation through the contract registry"
 
   require_text \
     "$SPEC_FILE" \
-    "MUST NOT override engine enforcement." \
-    "spec matrix defines runtime non-override rule"
+    "through repeated hand-maintained path matrices." \
+    "spec forbids repeated hand-maintained path matrices as structural ssot"
 
   require_text \
     "$SPEC_FILE" \
-    "| governance-policy | \`/.octon/*/governance/**\` |" \
-    "spec matrix includes governance-policy authority row"
+    "- \`path_families\`: canonical steady-state path families, authority classes," \
+    "spec enumerates path family registry ownership"
 
   require_text \
     "$SPEC_FILE" \
-    "MUST NOT be superseded by practices guidance." \
-    "spec matrix defines governance non-supersession rule"
+    "- \`publication_metadata\`: runtime-facing and operator-facing publication rules" \
+    "spec enumerates publication metadata registry ownership"
 
   require_text \
     "$SPEC_FILE" \
-    "| operating-practices | \`/.octon/*/practices/**\` |" \
-    "spec matrix includes operating-practices authority row"
+    "- \`doc_targets\`: steady-state roles for active authoritative docs" \
+    "spec enumerates doc target registry ownership"
 
   require_text \
     "$SPEC_FILE" \
-    "MUST NOT override runtime or governance contracts." \
-    "spec matrix defines practices non-override rule"
+    "- \`runtime_authorization_coverage\`: runtime boundary, side-effect inventory," \
+    "spec enumerates runtime authorization coverage registry ownership"
+
+  require_text \
+    "$SPEC_FILE" \
+    "These docs are registry-backed. They must not carry:" \
+    "spec declares active docs as registry-backed"
+
+  require_text \
+    "$SPEC_FILE" \
+    "- full hand-maintained canonical path matrices" \
+    "spec forbids hand-maintained canonical path matrices in active docs"
 }
 
 check_cross_doc_alignment() {
