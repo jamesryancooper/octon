@@ -1,0 +1,15 @@
+schema_version: external-replay-index-v1
+index_id: external-replay-repo-consequential-preflight-workflow-20260413-v4
+scope: run
+run_id: repo-consequential-preflight-workflow-20260413-v4
+entries:
+  - entry_id: repo-consequential-preflight-workflow-20260413-v4-replay-payload
+    run_id: repo-consequential-preflight-workflow-20260413-v4
+    artifact_kind: replay-payload
+    evidence_class: C
+    storage_class: external-immutable
+    content_digest: sha256:repo-consequential-preflight-workflow-20260413-v4
+    locator: immutable://octon/replays/repo-consequential-preflight-workflow-20260413-v4/bundle.jsonl
+    manifest_ref: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/replay/manifest.yml
+    recorded_at: "2026-04-13T14:45:34Z"
+updated_at: "2026-04-13T14:45:34Z"
