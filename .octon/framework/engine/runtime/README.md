@@ -14,6 +14,39 @@
 - `spec/`: runtime schema/protocol contracts
 - `wit/`: canonical WIT contracts
 
+## Authority Engine
+
+`crates/authority_engine/src/implementation.rs` is the facade for the runtime
+authority surface. The implementation now lives under
+`crates/authority_engine/src/implementation/` in auditable modules aligned to
+stable concepts:
+
+- `api.rs`: public request, grant, receipt, and executor surface types
+- `records.rs`: retained runtime, support-target, and authority record shapes
+- `common.rs`: shared filesystem, path, and decision helpers
+- `runtime_state.rs`: canonical run-root binding and lifecycle synchronization
+- `support.rs`: ownership, support-target, adapter, and capability-pack routing
+- `authority.rs`: approval, revocation, decision, and grant artifact emission
+- `autonomy.rs`: mission-backed autonomy resolution
+- `policy.rs`: ACP receipt composition, budget, and egress enforcement
+- `execution.rs`: authorization orchestration and execution artifact materialization
+
+The authority engine is anchored to the runtime spec surfaces under `spec/`,
+especially:
+
+- `spec/execution-request-v3.schema.json`
+- `spec/execution-grant-v1.schema.json`
+- `spec/execution-receipt-v3.schema.json`
+- `spec/execution-authorization-v1.md`
+- `spec/authorization-boundary-coverage-v1.md`
+- `spec/evidence-store-v1.md`
+- `spec/run-lifecycle-v1.md`
+- `spec/operator-read-models-v1.md`
+- `spec/promotion-activation-v1.md`
+- `spec/policy-interface-v1.md`
+- `spec/policy-receipt-v2.schema.json`
+- `spec/policy-digest-v2.md`
+
 ## Packaging Contract
 
 - `release-targets.yml` is the single source of truth for runtime target ids,

@@ -1,0 +1,9 @@
+schema_version: support-target-proofing-receipt-v1
+support_target_ref: .octon/instance/governance/support-targets.yml
+proof_cards:
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+    card_ref: .octon/state/evidence/validation/architecture/10of10-remediation/support-targets/cards/repo-shell-observe-read-en.yml
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+    card_ref: .octon/state/evidence/validation/architecture/10of10-remediation/support-targets/cards/repo-shell-repo-consequential-en.yml
+  - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+    card_ref: .octon/state/evidence/validation/architecture/10of10-remediation/support-targets/cards/ci-observe-read-en.yml

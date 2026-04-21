@@ -1,0 +1,26 @@
+schema_version: architecture-remediation-closeout-receipt-v1
+proposal_id: octon-architecture-10of10-remediation
+slice_id: architecture-10of10-remediation
+status: complete
+validated_at: "2026-04-20T21:21:38Z"
+implemented_validators:
+  - validate-architecture-contract-registry.sh
+  - validate-authorization-boundary-coverage.sh
+  - validate-evidence-completeness.sh
+  - validate-generated-non-authority.sh
+  - validate-input-non-authority.sh
+  - validate-promotion-receipts.sh
+  - validate-support-target-proofing.sh
+  - validate-operator-read-models.sh
+  - validate-runtime-docs-consistency.sh
+generated_read_models:
+  - /.octon/generated/cognition/projections/materialized/runs/architecture-10of10-remediation-run.yml
+  - /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-evidence.yml
+  - /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-support.yml
+  - /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-closeout.yml
+pending_program_families: []
+ci_wiring_ref: .octon/state/evidence/validation/architecture/10of10-remediation/ci/wiring.yml
+summary: >-
+  The validator suite, runtime authority-engine modularization, registry-backed
+  docs, retained evidence-store checks, support proofing, promotion semantics,
+  operator read models, and closure wiring are all present and retained.

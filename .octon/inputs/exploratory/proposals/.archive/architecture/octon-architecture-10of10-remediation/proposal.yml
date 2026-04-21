@@ -1,0 +1,144 @@
+schema_version: octon-proposal-v1
+proposal_id: octon-architecture-10of10-remediation
+title: Octon Architecture 10/10 Remediation Program
+summary: >-
+  Manifest-governed architecture remediation packet defining the concrete
+  target-state, file-level change plan, validators, proof artifacts, and
+  closure criteria required to move Octon from the evaluated 7.1/10 architecture
+  to a true 10/10 architecture without replacing Octon's existing constitutional
+  authority model.
+proposal_kind: architecture-remediation-program
+status: archived
+lifecycle:
+  created_for: architecture remediation planning
+  current_phase: archived-lineage
+  may_execute_directly: false
+  may_inform_promotion: true
+  close_when: >-
+    All mandatory remediation surfaces are promoted outside inputs/**,
+    validators pass, closure certification evidence is retained, and decision
+    records identify the proposal as archived lineage only.
+archive:
+  archived_at: "2026-04-20"
+  archived_from_status: "proposed"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-10of10-remediation"
+  promotion_evidence:
+    - ".octon/instance/cognition/decisions/094-architecture-10of10-remediation-adoption.md"
+    - ".octon/instance/cognition/decisions/095-architecture-topology-registry-consolidation.md"
+    - ".octon/instance/cognition/decisions/096-active-doc-roles-registry-backing.md"
+    - ".octon/instance/cognition/decisions/097-authorization-boundary-coverage-closeout.md"
+    - ".octon/instance/cognition/decisions/098-evidence-store-and-proof-plane-closeout.md"
+    - ".octon/instance/cognition/decisions/099-promotion-semantics-hardening.md"
+    - ".octon/instance/cognition/decisions/100-architecture-10of10-remediation-closure-certification.md"
+    - ".octon/state/evidence/validation/architecture/10of10-remediation/manifest.yml"
+    - ".octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml"
+temporary_archival_intent:
+  temporary_workspace: true
+  archive_after_promotion: true
+  archive_path: .octon/inputs/exploratory/proposals/.archive/architecture/octon-architecture-10of10-remediation/
+exit_expectation: >-
+  This packet exits active proposal status only after durable framework,
+  instance, state, generated-read-model, and validation surfaces are promoted
+  outside the proposal tree and closure evidence is retained.
+promotion_scope:
+  kind: bounded-architecture-remediation
+  severity: moderate-restructuring
+  no_foundational_rewrite: true
+  no_rival_control_plane: true
+  preserve_existing_authority_model: true
+explicit_promotion_targets:
+  framework_authority:
+    - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/constitution/contracts/registry.yml
+    - .octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json
+    - .octon/framework/constitution/contracts/authority/promotion-receipt-v1.schema.json
+    - .octon/framework/constitution/contracts/disclosure/run-card-v1.schema.json
+    - .octon/framework/constitution/contracts/disclosure/harness-card-v1.schema.json
+    - .octon/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json
+  runtime_contracts:
+    - .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+    - .octon/framework/engine/runtime/spec/evidence-store-v1.md
+    - .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+    - .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    - .octon/framework/engine/runtime/spec/promotion-activation-v1.md
+  runtime_implementation:
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/authority.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/autonomy.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/common.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/records.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs
+    - .octon/framework/engine/runtime/crates/authority_engine/src/implementation/support.rs
+  validators:
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
+  instance_governance:
+    - .octon/instance/governance/contracts/promotion-receipts.yml
+    - .octon/instance/governance/contracts/support-target-proofing.yml
+    - .octon/instance/governance/policies/promotion-semantics.yml
+    - .octon/instance/governance/support-target-admissions/**
+    - .octon/instance/governance/support-dossiers/**
+  decisions:
+    - .octon/instance/cognition/decisions/094-architecture-10of10-remediation-adoption.md
+    - .octon/instance/cognition/decisions/095-architecture-topology-registry-consolidation.md
+    - .octon/instance/cognition/decisions/096-active-doc-roles-registry-backing.md
+    - .octon/instance/cognition/decisions/097-authorization-boundary-coverage-closeout.md
+    - .octon/instance/cognition/decisions/098-evidence-store-and-proof-plane-closeout.md
+    - .octon/instance/cognition/decisions/099-promotion-semantics-hardening.md
+    - .octon/instance/cognition/decisions/100-architecture-10of10-remediation-closure-certification.md
+  state_and_evidence:
+    - .octon/state/evidence/validation/architecture/10of10-remediation/**
+    - .octon/state/evidence/control/execution/**
+    - .octon/state/evidence/runs/**
+    - .octon/state/evidence/lab/**
+  generated_read_models:
+    - .octon/generated/cognition/summaries/operators/**
+    - .octon/generated/cognition/projections/materialized/missions/**
+    - .octon/generated/cognition/projections/materialized/runs/**
+    - .octon/generated/cognition/projections/materialized/evidence/**
+source_authorities:
+  mandatory_evaluation_artifact: resources/full-architectural-evaluation.md
+  repo_paths:
+    - .octon/README.md
+    - .octon/AGENTS.md
+    - .octon/instance/ingress/AGENTS.md
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/constitution/**
+    - .octon/framework/engine/runtime/**
+    - .octon/framework/capabilities/runtime/services/**
+    - .octon/framework/capabilities/runtime/skills/**
+    - .octon/framework/observability/**
+    - .octon/framework/overlay-points/registry.yml
+    - .octon/instance/manifest.yml
+    - .octon/instance/governance/**
+    - .octon/instance/orchestration/**
+    - .octon/instance/locality/**
+    - .octon/state/**
+    - .github/workflows/**
+non_goals:
+  - foundational rewrite of Octon
+  - rival authority model outside framework/** and instance/**
+  - generated artifacts becoming authoritative
+  - raw inputs becoming runtime or policy dependencies
+  - weakening fail-closed behavior
+  - broadening support claims without proof
+  - turning Octon into a general IDE, CI platform, issue tracker, or plugin marketplace
+related_proposals: []
+review_requirements:
+  required_reviewers:
+    - architecture-owner
+    - runtime-owner
+    - governance-owner
+    - assurance-owner
+  closeout_requires_human_governance_approval: true

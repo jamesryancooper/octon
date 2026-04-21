@@ -1,0 +1,22 @@
+schema_version: runtime-docs-consistency-receipt-v1
+config_alignment:
+  - label: support target declaration aligns between architecture and constitution registries
+    left_file: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+    left_query: .execution.policy_roots.support_targets
+    right_file: .octon/framework/constitution/contracts/registry.yml
+    right_query: .kernel_surfaces.support_targets.authoritative_declaration
+doc_assertions:
+  - doc_ref: .octon/framework/engine/runtime/README.md
+    required_text:
+      - spec/authorization-boundary-coverage-v1.md
+      - spec/evidence-store-v1.md
+      - spec/run-lifecycle-v1.md
+      - spec/operator-read-models-v1.md
+      - spec/promotion-activation-v1.md
+workflow_assertions:
+  - workflow_ref: .github/workflows/runtime-binaries.yml
+    required_text:
+      - validate-runtime-docs-consistency.sh
+  - workflow_ref: .github/workflows/architecture-conformance.yml
+    required_text:
+      - validate-runtime-docs-consistency.sh

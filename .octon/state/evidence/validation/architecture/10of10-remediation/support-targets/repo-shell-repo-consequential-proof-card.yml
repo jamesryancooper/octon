@@ -1,0 +1,12 @@
+schema_version: support-target-proof-card-v1
+proposal_id: octon-architecture-10of10-remediation
+validated_at: "2026-04-20T21:21:38Z"
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+status: qualified
+admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml
+representative_run_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+disclosure_ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+evidence_completeness_ref: .octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+denied_case_ref: .octon/instance/governance/exclusions/action-classes.yml
+summary: Repo-shell consequential support remains backed by canonical recertification run evidence and explicit deny-only governance exclusions.

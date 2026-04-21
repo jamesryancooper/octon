@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/retention/evidence-store-v1.schema.json",
+  "title": "Octon Evidence Store v1",
+  "description": "Conformance manifest for the retained evidence needed to support consequential run closeout, disclosure, replay, and release activation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "store_id",
+    "scope",
+    "subject_ref",
+    "generated_at",
+    "canonical_roots",
+    "retained_artifacts",
+    "transport_artifacts",
+    "completeness"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-evidence-store-v1"
+    },
+    "store_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "scope": {
+      "type": "string",
+      "enum": [
+        "run",
+        "release",
+        "control-mutation",
+        "validation"
+      ]
+    },
+    "subject_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "release_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_target_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "canonical_roots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_evidence_root",
+        "control_evidence_root",
+        "disclosure_root",
+        "external_index_root"
+      ],
+      "properties": {
+        "run_control_root": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "run_evidence_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "control_evidence_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "disclosure_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "external_index_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lab_evidence_root": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "retained_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "artifact_ref",
+          "evidence_class",
+          "storage_class",
+          "claim_roles",
+          "required_for_closeout",
+          "source_kind"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "artifact_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_class": {
+            "type": "string",
+            "enum": [
+              "A",
+              "B",
+              "C"
+            ]
+          },
+          "storage_class": {
+            "type": "string",
+            "enum": [
+              "git-inline",
+              "git-pointer",
+              "external-immutable"
+            ]
+          },
+          "claim_roles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "authority",
+                "lifecycle",
+                "replay",
+                "assurance",
+                "measurement",
+                "intervention",
+                "disclosure",
+                "support-proof",
+                "release-activation"
+              ]
+            }
+          },
+          "required_for_closeout": {
+            "type": "boolean"
+          },
+          "source_kind": {
+            "type": "string",
+            "enum": [
+              "retained-primary",
+              "retained-derived-from-primary",
+              "external-indexed"
+            ]
+          },
+          "source_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "digest_or_locator": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "external_index_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "transport_artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_id",
+          "transport_kind",
+          "canonicality"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "transport_kind": {
+            "type": "string",
+            "enum": [
+              "ci-upload",
+              "cache",
+              "stdout-capture",
+              "local-preview",
+              "ephemeral-workdir"
+            ]
+          },
+          "artifact_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "canonicality": {
+            "type": "string",
+            "enum": [
+              "transport-only",
+              "mirrored-from-retained",
+              "reindexed-into-retained-store"
+            ]
+          },
+          "retained_equivalent_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "completeness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "required_artifact_ids",
+        "missing_artifact_ids",
+        "generated_disclosures_from_retained_only",
+        "closeout_eligible",
+        "verified_at",
+        "validator_refs"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "complete",
+            "partial",
+            "missing"
+          ]
+        },
+        "required_artifact_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "missing_artifact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "generated_disclosures_from_retained_only": {
+          "type": "boolean"
+        },
+        "closeout_eligible": {
+          "type": "boolean"
+        },
+        "verified_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "validator_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

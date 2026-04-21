@@ -8,8 +8,13 @@ on:
       - '.octon/framework/capabilities/runtime/skills/**'
       - '.octon/framework/capabilities/governance/policy/**'
       - '.octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh'
+      - '.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh'
       - '.octon/framework/engine/runtime/spec/policy-interface-v1.md'
+      - '.octon/framework/engine/runtime/spec/execution-authorization-v1.md'
+      - '.octon/framework/engine/runtime/crates/kernel/**'
+      - '.octon/framework/engine/runtime/crates/authority_engine/**'
       - '.octon/framework/engine/runtime/crates/policy_engine/**'
+      - '.octon/state/evidence/validation/architecture/10of10-remediation/authorization-boundary/**'
   push:
     branches:
       - main
@@ -19,8 +24,13 @@ on:
       - '.octon/framework/capabilities/runtime/skills/**'
       - '.octon/framework/capabilities/governance/policy/**'
       - '.octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh'
+      - '.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh'
       - '.octon/framework/engine/runtime/spec/policy-interface-v1.md'
+      - '.octon/framework/engine/runtime/spec/execution-authorization-v1.md'
+      - '.octon/framework/engine/runtime/crates/kernel/**'
+      - '.octon/framework/engine/runtime/crates/authority_engine/**'
       - '.octon/framework/engine/runtime/crates/policy_engine/**'
+      - '.octon/state/evidence/validation/architecture/10of10-remediation/authorization-boundary/**'
 
 permissions:
   contents: read
@@ -50,6 +60,11 @@ jobs:
       - name: Set up Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
       - name: Restore Rust cache
         uses: swatinem/rust-cache@v2
         with:
@@ -69,6 +84,11 @@ jobs:
         run: |
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-capability-engine-consistency.sh
+
+      - name: Validate authorization boundary coverage
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
 
       - name: Friction SLO report
         run: |

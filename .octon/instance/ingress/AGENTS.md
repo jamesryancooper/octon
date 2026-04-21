@@ -7,10 +7,14 @@ Enable reliable agent execution that is deterministic enough to trust,
 observable enough to debug, and flexible enough to evolve.
 
 The machine-readable ingress declaration lives at
-`/.octon/instance/ingress/manifest.yml`. Treat the manifest as the source of
+`/.octon/instance/ingress/manifest.yml`. Treat that manifest as the source of
 truth for mandatory reads, optional overlays, conditional overlays, adapter
-parity targets, and the branch closeout gate, including any deprecated
-compatibility fallback prompt.
+parity targets, and the branch closeout gate.
+
+Structural topology, class roots, publication metadata, and doc-target roles
+live at `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`.
+This ingress surface binds execution posture and required reads; it does not
+restate the full topology registry.
 
 ## Behavioral Contract
 
@@ -25,9 +29,6 @@ compatibility fallback prompt.
   - `.octon/framework/constitution/contracts/registry.yml`
 - kernel execution profile:
   - `.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
-- optional supporting overlays:
-  - `.octon/framework/execution-roles/governance/DELEGATION.md`
-  - `.octon/framework/execution-roles/governance/MEMORY.md`
 - active workspace objective pair:
   - `.octon/instance/charter/workspace.md`
   - `.octon/instance/charter/workspace.yml`
@@ -64,23 +65,15 @@ Use these only after the minimal constitutional read set above is bound:
 - `.octon/state/continuity/scopes/<scope-id>/{log.md,tasks.json}` when the
   current work is primarily owned by a declared scope
 
-## Super-Root Topology
+## Topology Reference
 
-- `framework/` holds portable authored Octon core.
-- `instance/` holds repo-specific durable authored authority.
-- `inputs/` holds non-authoritative additive and exploratory inputs.
-- `state/` holds operational truth and retained evidence.
-- `generated/` holds rebuildable outputs only.
-
-Only `framework/**` and `instance/**` are authored authority surfaces. Raw
-`inputs/**` must never become direct runtime or policy dependencies.
-`framework/constitution/**` is the supreme repo-local control regime within
-those authored authority surfaces.
-
-## Human-Led Zone
-
-`/.octon/inputs/exploratory/ideation/**` is human-led. Autonomous access is
-blocked unless a human explicitly scopes the request.
+- authored authority lives only under `framework/**` and `instance/**`
+- mutable operational truth and retained evidence live under `state/**`
+- generated outputs live under `generated/**` and remain derived-only
+- raw `inputs/**` never becomes a direct runtime or policy dependency
+- `inputs/exploratory/ideation/**` remains human-led
+- overlay legality, publication metadata, and steady-state path families are
+  registry-backed rather than hand-maintained here
 
 ## Execution Profile Governance
 
@@ -90,8 +83,13 @@ Before planning or implementation:
 2. record `release_state`
 3. emit a `Profile Selection Receipt`
 
-For this repository, `pre-1.0` defaults to `atomic` unless a hard gate requires
-`transitional`.
+For this repository, `pre-1.0` defaults to `atomic` unless a hard gate
+requires `transitional`.
+
+## Human-Led Zone
+
+`/.octon/inputs/exploratory/ideation/**` is human-led. Autonomous access is
+blocked unless a human explicitly scopes the request.
 
 ## Branch Closeout Gate
 
@@ -104,42 +102,15 @@ The broader Git/worktree/PR/remediation workflow contract lives at
 Use that contract together with the ingress manifest when closeout, review
 remediation, or helper semantics need interpretation.
 
-- trigger the gate only when:
-  - a turn changed files and reached a credible completion point
-  - the user explicitly asks to finish, ship, or closeout
-- detect context from:
-  - whether the work is on the primary `main` worktree or clone, versus a
-    branch worktree
-  - whether a PR exists for the current branch, and whether it is draft or
-    ready
-  - whether the branch belongs in Octon's autonomous lane or manual lane
-- lane selection:
-  - autonomous lane when the draft PR is completion-ready and the work is not
-    `exp/*`, not a high-impact governance or control-plane change, and not a
-    major or unknown Dependabot transition
-  - manual lane for `exp/*`, high-impact governance or control-plane changes,
-    and major or unknown Dependabot transitions
-- suppress closeout prompting when:
-  - implementation is still underway
-  - required checks are red
-  - author action items remain
-  - a ready PR is waiting on reviewer or maintainer confirmation
-  - another blocker makes closeout misleading
-- use the contextual prompt that matches the current state:
-  - primary `main` worktree:
-    - "This work is on the main worktree, and Octon does not open PRs from `main`. Should I branch it into a feature worktree and prepare a draft PR?"
-  - branch worktree with no PR:
-    - "This branch worktree looks ready for PR closeout. Should I stage, commit, push, and open a draft PR?"
-  - branch worktree with a draft PR in the autonomous lane:
-    - "This draft PR looks ready for Octon's autonomous merge lane. Should I mark it ready and request squash auto-merge?"
-  - branch worktree with a draft PR in the manual lane:
-    - "This draft PR looks ready for the manual lane. Should I mark it ready for human review and keep auto-merge off?"
-- Ready PR states report status instead of asking another closeout question:
-  - waiting on required checks or auto-merge
-  - waiting on reviewer or maintainer confirmation
-  - ready in the manual lane and waiting on human review or merge
-- blocked or not-ready states:
-  - do not ask a closeout question; report blockers or remaining work instead
-- deprecated compatibility fallback:
-  - `Are you ready to closeout this branch?`
-  - use only for adapters that have not yet bound the structured gate
+The ingress manifest owns:
+
+- when closeout may trigger
+- how worktree and PR context are detected
+- when autonomous versus manual merge lanes apply
+- when prompts are suppressed and status should be reported instead
+- the deprecated compatibility fallback for adapters that still read it
+
+This ingress surface intentionally does not restate the prompt matrix or
+full deprecated fallback matrix. The manifest remains authoritative; the
+compatibility fallback prompt is retained here only for parity:
+`Are you ready to closeout this branch?`

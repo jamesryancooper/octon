@@ -189,3 +189,17 @@ records:
     path: 092-frontier-governance-bounded-completion.md
   - id: 093-execution-role-hard-cutover
     path: 093-execution-role-hard-cutover.md
+  - id: 094-architecture-10of10-remediation-adoption
+    path: 094-architecture-10of10-remediation-adoption.md
+  - id: 095-architecture-topology-registry-consolidation
+    path: 095-architecture-topology-registry-consolidation.md
+  - id: 096-active-doc-roles-registry-backing
+    path: 096-active-doc-roles-registry-backing.md
+  - id: 097-authorization-boundary-coverage-closeout
+    path: 097-authorization-boundary-coverage-closeout.md
+  - id: 098-evidence-store-and-proof-plane-closeout
+    path: 098-evidence-store-and-proof-plane-closeout.md
+  - id: 099-promotion-semantics-hardening
+    path: 099-promotion-semantics-hardening.md
+  - id: 100-architecture-10of10-remediation-closure-certification
+    path: 100-architecture-10of10-remediation-closure-certification.md

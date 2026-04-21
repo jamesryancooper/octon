@@ -1,0 +1,88 @@
+schema_version: "repo-governance-policy-v1"
+policy_id: "promotion-semantics"
+owner: "Octon governance"
+status: "active"
+purpose: "Prevent quiet authority creation and keep promotion, publication, activation, and supersession semantics explicit across authored, control, disclosure, and generated surfaces."
+source_classes:
+  inputs:
+    roots:
+      - ".octon/inputs/**"
+    authority_mode: "non-authoritative"
+  generated:
+    roots:
+      - ".octon/generated/**"
+    authority_mode: "derived-non-authority"
+  authored:
+    roots:
+      - ".octon/framework/**"
+      - ".octon/instance/**"
+    authority_mode: "authoritative"
+  control:
+    roots:
+      - ".octon/state/control/**"
+    authority_mode: "mutable-control"
+  retained_evidence:
+    roots:
+      - ".octon/state/evidence/**"
+    authority_mode: "retained-evidence"
+promotion_classes:
+  authoritative_promotion:
+    allowed_sources:
+      - "inputs"
+      - "generated"
+      - "authored"
+    allowed_targets:
+      - "framework-authority"
+      - "instance-authority"
+    receipt_required: true
+    generated_source_requires_authored_successor: true
+    claim_effect: "authoritative-change"
+  control_materialization:
+    allowed_sources:
+      - "inputs"
+      - "generated"
+      - "authored"
+      - "retained_evidence"
+    allowed_targets:
+      - "state-control"
+      - "state-evidence-control"
+    receipt_required: true
+    requires_authority_route: true
+    claim_effect: "control-change"
+  effective_publication:
+    allowed_sources:
+      - "authored"
+      - "control"
+      - "retained_evidence"
+    allowed_targets:
+      - "generated-effective"
+      - "generated-read-model"
+    receipt_required: true
+    result_authority_mode: "derived-non-authority"
+    claim_effect: "derived-view-refresh"
+  release_activation:
+    allowed_sources:
+      - "authored"
+      - "retained_evidence"
+    allowed_targets:
+      - "release-disclosure"
+      - "release-lineage"
+    receipt_required: true
+    required_refs:
+      - ".octon/instance/governance/disclosure/harness-card.yml"
+      - ".octon/instance/governance/disclosure/release-lineage.yml"
+      - ".octon/state/evidence/disclosure/releases/<release-id>/closure/support-universe-coverage.yml"
+      - ".octon/state/evidence/disclosure/releases/<release-id>/closure/proof-plane-coverage.yml"
+    claim_effect: "active-release-change"
+prohibited_flows:
+  - "inputs/** -> framework/** or instance/** without a retained promotion receipt"
+  - "inputs/** or generated/** -> state/control/** without a retained promotion receipt and normal authority route"
+  - "generated/cognition/** or generated/effective/** -> runtime or policy decision input"
+  - "release activation without exactly one active release in release-lineage"
+  - "release activation without HarnessCard v2 and release coverage refs"
+rules:
+  - "Generated summaries, operator digests, mission views, and effective projections may mirror status but never mint authority."
+  - "Promotion receipts must cite source refs, target refs, authority basis, policy refs, and semantic effect."
+  - "Superseding an active release requires marking the previous release historical or superseded in release-lineage."
+  - "The active disclosure family remains RunCard v2 and HarnessCard v2; promotion or activation must not invent a parallel live disclosure family."
+blocking_rule: "Reject when a change would create live authority, live control state, or active release meaning without an explicit promotion class and retained receipt."

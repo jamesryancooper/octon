@@ -804,7 +804,7 @@ pub fn run_create_design_package_from_octon_dir(
             "evidence.write".to_string(),
         ],
         side_effect_flags: SideEffectFlags {
-            write_repo: false,
+            write_repo: true,
             write_evidence: true,
             ..SideEffectFlags::default()
         },

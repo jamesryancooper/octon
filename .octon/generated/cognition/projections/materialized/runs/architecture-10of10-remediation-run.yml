@@ -1,0 +1,77 @@
+schema_version: operator-read-model-v1
+view_id: architecture-10of10-remediation-run
+view_kind: run
+operator_id: octon-maintainers
+proposal_id: octon-architecture-10of10-remediation
+mutability: generated
+non_authority_statement: Generated operator projection only; authority remains in canonical control and evidence roots.
+generated_from:
+  - /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+  - /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-manifest.yml
+  - /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
+  - /.octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+generated_at: "2026-04-20T21:21:38Z"
+generator_version: manual-derived-v1
+summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-run.md
+summary:
+  status: seeded
+  attention_required: false
+  summary_text: Representative consequential run remains closed, evidenced, and disclosed.
+view:
+  run_id:
+    value: uec-repo-shell-repo-consequential-recertified-20260410
+    _source_trace:
+      - surface: run-contract
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+        field: run_id
+        authority_class: state-control
+  runtime_status:
+    value: succeeded
+    _source_trace:
+      - surface: runtime-state
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
+        field: status
+        authority_class: state-control
+  mission_id:
+    value: mission-autonomy-live-validation
+    _source_trace:
+      - surface: run-contract
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+        field: mission_id
+        authority_class: state-control
+  support_tuple_id:
+    value: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+    _source_trace:
+      - surface: run-contract
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+        field: support_target_tuple_id
+        authority_class: state-control
+  workflow_mode:
+    value: agent-augmented
+    _source_trace:
+      - surface: run-contract
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+        field: workflow_mode
+        authority_class: state-control
+  run_card_ref:
+    value: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+    _source_trace:
+      - surface: run-manifest
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-manifest.yml
+        field: run_card_ref
+        authority_class: state-control
+  evidence_root:
+    value: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410
+    _source_trace:
+      - surface: run-manifest
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-manifest.yml
+        field: evidence_root
+        authority_class: state-control
+  evidence_completeness_ref:
+    value: .octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+    _source_trace:
+      - surface: remediation-evidence
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+        field: representative_runs[0].run_id
+        authority_class: state-evidence

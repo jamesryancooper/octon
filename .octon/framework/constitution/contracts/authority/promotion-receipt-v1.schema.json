@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/promotion-receipt-v1.schema.json",
+  "title": "Octon Promotion Receipt v1",
+  "description": "Retained receipt for any promotion or activation that changes authoritative, control, release, or runtime-facing generated-effective state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "promotion_kind",
+    "status",
+    "source_surface",
+    "target_surface",
+    "claim_effect",
+    "authority_basis",
+    "policy_refs",
+    "non_authority_attestation",
+    "applied_at",
+    "issuer_ref"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-promotion-receipt-v1"
+    },
+    "receipt_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "promotion_kind": {
+      "type": "string",
+      "enum": [
+        "authoritative-promotion",
+        "control-materialization",
+        "effective-publication",
+        "release-activation",
+        "release-supersession"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "applied",
+        "rejected",
+        "superseded"
+      ]
+    },
+    "source_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref",
+        "source_class",
+        "source_authority_mode"
+      ],
+      "properties": {
+        "source_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_class": {
+          "type": "string",
+          "enum": [
+            "inputs",
+            "generated",
+            "authored",
+            "retained-evidence",
+            "control"
+          ]
+        },
+        "source_authority_mode": {
+          "type": "string",
+          "enum": [
+            "non-authoritative",
+            "authoritative",
+            "retained-evidence",
+            "mutable-control"
+          ]
+        },
+        "source_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "target_surface": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_ref",
+        "target_class",
+        "target_authority_mode"
+      ],
+      "properties": {
+        "target_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_class": {
+          "type": "string",
+          "enum": [
+            "framework-authority",
+            "instance-authority",
+            "state-control",
+            "state-evidence-control",
+            "generated-effective",
+            "generated-read-model",
+            "release-disclosure",
+            "release-lineage"
+          ]
+        },
+        "target_authority_mode": {
+          "type": "string",
+          "enum": [
+            "authoritative",
+            "mutable-control",
+            "retained-evidence",
+            "derived-non-authority",
+            "live-release-selector"
+          ]
+        },
+        "target_digest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "claim_effect": {
+      "type": "string",
+      "enum": [
+        "none",
+        "authoritative-change",
+        "control-change",
+        "derived-view-refresh",
+        "active-release-change"
+      ]
+    },
+    "authority_basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_artifact_ref",
+        "grant_bundle_ref"
+      ],
+      "properties": {
+        "decision_artifact_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "grant_bundle_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approval_request_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "approval_grant_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "quorum_policy_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "release_lineage_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "policy_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_authority_attestation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_was_non_authoritative",
+        "receipt_required_for_target",
+        "generated_projections_remain_non_authoritative"
+      ],
+      "properties": {
+        "source_was_non_authoritative": {
+          "type": "boolean"
+        },
+        "receipt_required_for_target": {
+          "type": "boolean"
+        },
+        "generated_projections_remain_non_authoritative": {
+          "type": "boolean"
+        }
+      }
+    },
+    "supersedes_receipt_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "applied_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "issuer_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

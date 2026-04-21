@@ -1,0 +1,33 @@
+schema_version: architecture-remediation-ci-wiring-v1
+proposal_id: octon-architecture-10of10-remediation
+validated_at: "2026-04-20T21:21:38Z"
+workflows:
+  - workflow_ref: .github/workflows/architecture-conformance.yml
+    job_id: architecture
+    validators:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
+  - workflow_ref: .github/workflows/architecture-conformance.yml
+    job_id: runtime-effective-state
+    validators:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh
+  - workflow_ref: .github/workflows/architecture-conformance.yml
+    job_id: mission-runtime-contracts
+    validators:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh
+  - workflow_ref: .github/workflows/architecture-conformance.yml
+    job_id: adapter-support-hardening
+    validators:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+  - workflow_ref: .github/workflows/deny-by-default-gates.yml
+    step_name: Validate authorization boundary coverage
+    validators:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+  - workflow_ref: .github/workflows/runtime-binaries.yml
+    step_name: Validate runtime docs and release target consistency
+    validators:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-target-parity.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh

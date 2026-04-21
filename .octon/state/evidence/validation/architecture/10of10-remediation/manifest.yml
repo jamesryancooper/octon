@@ -1,0 +1,30 @@
+schema_version: architecture-remediation-slice-v1
+proposal_id: octon-architecture-10of10-remediation
+slice_id: architecture-10of10-remediation
+status: complete
+validated_at: "2026-04-20T21:21:38Z"
+source_commit: "4c72fe015"
+summary: >-
+  This retained evidence root certifies the registry, docs, runtime boundary,
+  evidence-store, support proofing, promotion semantics, operator read models,
+  and closure wiring of the 10of10 remediation program.
+closeout_receipt_ref: .octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml
+ci_wiring_ref: .octon/state/evidence/validation/architecture/10of10-remediation/ci/wiring.yml
+validator_receipts:
+  - .octon/state/evidence/validation/architecture/10of10-remediation/registry/contract-registry-receipt.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/registry/input-non-authority-scan.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/authorization-boundary/coverage.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/promotion/receipt-ledger.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/support-targets/proofing.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/docs-simplification/runtime-docs-consistency.yml
+operator_read_models:
+  - /.octon/generated/cognition/projections/materialized/runs/architecture-10of10-remediation-run.yml
+  - /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-evidence.yml
+  - /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-support.yml
+  - /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-closeout.yml
+non_authority_statement: >-
+  Generated read models remain projections only; durable authority stays in
+  framework/**, instance/**, and canonical state/** roots.

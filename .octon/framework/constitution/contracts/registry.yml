@@ -60,7 +60,7 @@ families:
     path: ".octon/framework/constitution/contracts/authority/**"
     activation_wave: 2
     status: "active"
-    description: "Approval, exception, revocation, and grant-bundle contracts."
+    description: "Approval, exception, revocation, grant-bundle, and promotion-receipt contracts."
   - family_id: "runtime"
     path: ".octon/framework/constitution/contracts/runtime/**"
     activation_wave: 3
@@ -70,7 +70,7 @@ families:
     path: ".octon/framework/constitution/contracts/assurance/**"
     activation_wave: 4
     status: "active"
-    description: "Proof-plane and assurance gating contracts."
+    description: "Proof-plane, support-target proof-bundle, and assurance gating contracts."
   - family_id: "disclosure"
     path: ".octon/framework/constitution/contracts/disclosure/**"
     activation_wave: 4
@@ -85,7 +85,7 @@ families:
     path: ".octon/framework/constitution/contracts/retention/**"
     activation_wave: 6
     status: "active"
-    description: "Retention, replay, and evidence lifecycle contracts."
+    description: "Retention, evidence-store, replay, and evidence lifecycle contracts."
 integration_surfaces:
   objective_contract_family:
     root: ".octon/framework/constitution/contracts/objective/**"
@@ -106,6 +106,9 @@ integration_surfaces:
     status: "active"
   retention_contract_family:
     root: ".octon/framework/constitution/contracts/retention/**"
+    status: "active"
+  evidence_store_contract:
+    path: ".octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json"
     status: "active"
   run_manifest_file:
     path: ".octon/state/control/execution/runs/<run-id>/run-manifest.yml"
@@ -192,6 +195,41 @@ integration_surfaces:
     exceptions: ".octon/state/control/execution/exceptions/**"
     revocations: ".octon/state/control/execution/revocations/**"
     status: "active"
+  promotion_receipt_contract:
+    path: ".octon/framework/constitution/contracts/authority/promotion-receipt-v1.schema.json"
+    status: "active"
+  support_target_proof_bundle_contract:
+    path: ".octon/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json"
+    status: "active"
+  runtime_authorization_boundary_coverage_contract:
+    path: ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md"
+    status: "active"
+  runtime_evidence_store_contract:
+    path: ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+    status: "active"
+  runtime_run_lifecycle_contract:
+    path: ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+    status: "active"
+  runtime_operator_read_model_contract:
+    path: ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+    status: "active"
+  runtime_promotion_activation_contract:
+    path: ".octon/framework/engine/runtime/spec/promotion-activation-v1.md"
+    status: "active"
+  operator_read_model_roots:
+    mission_summaries: ".octon/generated/cognition/summaries/missions/**"
+    operator_digests: ".octon/generated/cognition/summaries/operators/**"
+    mission_views: ".octon/generated/cognition/projections/materialized/missions/**"
+    status: "active"
+  governance_promotion_receipts_contract:
+    path: ".octon/instance/governance/contracts/promotion-receipts.yml"
+    status: "active"
+  governance_support_target_proofing_contract:
+    path: ".octon/instance/governance/contracts/support-target-proofing.yml"
+    status: "active"
+  governance_promotion_semantics_policy:
+    path: ".octon/instance/governance/policies/promotion-semantics.yml"
+    status: "active"
   repo_policy_inputs:
     - ".octon/instance/governance/policies/**"
     - ".octon/instance/governance/contracts/**"
@@ -213,6 +251,8 @@ integration_surfaces:
     - ".octon/state/evidence/runs/**"
     - ".octon/state/evidence/lab/**"
     - ".octon/state/evidence/control/execution/**"
+    - ".octon/state/evidence/disclosure/**"
+    - ".octon/state/evidence/external-index/**"
     - ".octon/state/evidence/validation/publication/**"
   failure_distillation_validation_root:
     path: ".octon/state/evidence/validation/failure-distillation/**"
@@ -244,3 +284,5 @@ notes:
   - "Wave 7 completes the finite global support universe, admits browser and API packs, adds runtime service roots, and moves deny-only classes into governance exclusions."
   - "Phase 3 codifies `run-manifest.yml` as the canonical run-manifest model, adds per-run evidence classification, and requires external immutable replay indexing for supported boundary-sensitive run classes."
   - "Phase 7 institutionalizes build-to-delete governance with a retirement registry, recurring drift/support-target/adapter/retirement reviews, and ablation-backed deletion receipts."
+  - "Architecture 10of10 remediation hardens promotion receipts, evidence-store completeness, lifecycle coverage, and per-tuple support proofing without widening the bounded admitted live support universe."
+  - "Active disclosure remains the RunCard v2 and HarnessCard v2 family; operator read models and generated/effective outputs stay traceable projections rather than alternate authority."

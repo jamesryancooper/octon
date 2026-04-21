@@ -1,0 +1,76 @@
+schema_version: architecture-contract-registry-receipt-v1
+registry_ref: .octon/framework/cognition/_meta/architecture/contract-registry.yml
+registry_queries:
+  - id: class-root-framework
+    query: .class_roots.framework.root
+    expected_path: .octon/framework/
+    path_kind: dir
+  - id: class-root-instance
+    query: .class_roots.instance.root
+    expected_path: .octon/instance/
+    path_kind: dir
+  - id: class-root-state
+    query: .class_roots.state.root
+    expected_path: .octon/state/
+    path_kind: dir
+  - id: class-root-generated
+    query: .class_roots.generated.root
+    expected_path: .octon/generated/
+    path_kind: dir
+  - id: class-root-inputs
+    query: .class_roots.inputs.root
+    expected_path: .octon/inputs/
+    path_kind: dir
+  - id: overlay-registry
+    query: .delegated_registries.overlay_points_registry.path
+    expected_path: .octon/framework/overlay-points/registry.yml
+    path_kind: file
+  - id: ingress-manifest
+    query: .delegated_registries.ingress_manifest.path
+    expected_path: .octon/instance/ingress/manifest.yml
+    path_kind: file
+  - id: runtime-effective-receipt-root
+    query: .publication_metadata.runtime_effective.receipt_root
+    expected_path: .octon/state/evidence/validation/publication/
+    path_kind: dir
+  - id: super-root-readme
+    query: .doc_targets.super_root_readme.path
+    expected_path: .octon/README.md
+    path_kind: file
+required_blocking_checks:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
+required_doc_surfaces:
+  - .octon/README.md
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/instance/bootstrap/START.md
+  - .octon/instance/ingress/AGENTS.md
+doc_assertions:
+  - doc_ref: .octon/README.md
+    required_text:
+      - contract-registry.yml
+      - registry-backed orientation surface
+  - doc_ref: .octon/framework/cognition/_meta/architecture/specification.md
+    required_text:
+      - machine-readable source of truth
+      - contract-registry.yml
+  - doc_ref: .octon/instance/bootstrap/START.md
+    required_text:
+      - steady-state boot sequence
+      - contract-registry.yml
+  - doc_ref: .octon/instance/ingress/AGENTS.md
+    required_text:
+      - manifest.yml
+      - contract-registry.yml
+validator_receipts:
+  - .octon/state/evidence/validation/architecture/10of10-remediation/authorization-boundary/coverage.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/support-targets/proofing.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/registry/input-non-authority-scan.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/promotion/receipt-ledger.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/docs-simplification/runtime-docs-consistency.yml
+  - .octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml

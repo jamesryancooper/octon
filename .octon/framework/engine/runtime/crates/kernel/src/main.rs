@@ -750,6 +750,7 @@ fn cmd_service(cmd: ServiceCmd) -> anyhow::Result<()> {
                     write_repo: true,
                     write_evidence: true,
                     shell: true,
+                    network: true,
                     state_mutation: true,
                     ..SideEffectFlags::default()
                 },

@@ -73,6 +73,52 @@ jobs:
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@631a55b12751854ce901bb631d5902ceb48146f7 # stable
 
+      - name: Install yq
+        shell: bash
+        run: |
+          set -euo pipefail
+          if command -v yq >/dev/null 2>&1; then
+            exit 0
+          fi
+
+          mkdir -p "$RUNNER_TEMP/bin"
+
+          case "$(uname -s)" in
+            Linux)
+              case "$(uname -m)" in
+                x86_64) asset="yq_linux_amd64" ;;
+                aarch64|arm64) asset="yq_linux_arm64" ;;
+                *) echo "unsupported Linux arch: $(uname -m)" >&2; exit 1 ;;
+              esac
+              curl -sSfL "https://github.com/mikefarah/yq/releases/download/v4.50.1/${asset}" -o "$RUNNER_TEMP/bin/yq"
+              chmod +x "$RUNNER_TEMP/bin/yq"
+              ;;
+            Darwin)
+              case "$(uname -m)" in
+                x86_64) asset="yq_darwin_amd64" ;;
+                arm64) asset="yq_darwin_arm64" ;;
+                *) echo "unsupported macOS arch: $(uname -m)" >&2; exit 1 ;;
+              esac
+              curl -sSfL "https://github.com/mikefarah/yq/releases/download/v4.50.1/${asset}" -o "$RUNNER_TEMP/bin/yq"
+              chmod +x "$RUNNER_TEMP/bin/yq"
+              ;;
+            MINGW*|MSYS*|CYGWIN*)
+              case "$(uname -m)" in
+                x86_64) asset="yq_windows_amd64.exe" ;;
+                aarch64|arm64) asset="yq_windows_arm64.exe" ;;
+                *) echo "unsupported Windows arch: $(uname -m)" >&2; exit 1 ;;
+              esac
+              curl -sSfL "https://github.com/mikefarah/yq/releases/download/v4.50.1/${asset}" -o "$RUNNER_TEMP/bin/yq.exe"
+              chmod +x "$RUNNER_TEMP/bin/yq.exe"
+              ;;
+            *)
+              echo "unsupported runner OS: $(uname -s)" >&2
+              exit 1
+              ;;
+          esac
+
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
       - name: Build octon runtime (release)
         shell: bash
         working-directory: .octon/framework/engine/runtime/crates
@@ -84,6 +130,13 @@ jobs:
           set -euo pipefail
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-target-parity.sh
           .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-target-parity.sh
+
+      - name: Validate runtime docs and release target consistency
+        shell: bash
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
 
       - name: Package runtime binary
         shell: bash

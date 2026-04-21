@@ -1,0 +1,47 @@
+schema_version: authorization-boundary-coverage-v1
+spec_ref: .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+spec_assertions:
+  - service invocation
+  - workflow-stage execution
+  - executor launch
+  - control mutations under `/.octon/state/control/**`
+inventory:
+  - path_id: kernel-service-cli
+    file: .octon/framework/engine/runtime/crates/kernel/src/main.rs
+    required_patterns:
+      - authorize_execution(
+      - finalize_execution(
+  - path_id: kernel-stdio
+    file: .octon/framework/engine/runtime/crates/kernel/src/stdio.rs
+    required_patterns:
+      - authorize_execution(
+      - finalize_execution(
+  - path_id: workflow-pipeline
+    file: .octon/framework/engine/runtime/crates/kernel/src/pipeline.rs
+    required_patterns:
+      - authorize_execution(
+      - finalize_execution(
+  - path_id: workflow-design-proposal
+    file: .octon/framework/engine/runtime/crates/kernel/src/workflow.rs
+    required_patterns:
+      - authorize_execution(
+      - write_execution_start(
+      - finalize_execution(
+  - path_id: authority-execution
+    file: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs
+    required_patterns:
+      - pub fn authorize_execution(
+      - bind_run_lifecycle(
+      - write_decision_artifact(
+  - path_id: authority-policy-bridge
+    file: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs
+    required_patterns:
+      - authorize_network_egress(
+      - preview_execution_budget(
+workflow_gates:
+  - workflow_ref: .github/workflows/architecture-conformance.yml
+    required_text:
+      - validate-authorization-boundary-coverage.sh
+  - workflow_ref: .github/workflows/deny-by-default-gates.yml
+    required_text:
+      - validate-authorization-boundary-coverage.sh

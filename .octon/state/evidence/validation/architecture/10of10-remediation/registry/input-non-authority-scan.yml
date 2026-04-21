@@ -1,0 +1,8 @@
+schema_version: input-non-authority-scan-v1
+scan_roots:
+  - .octon/framework/engine/runtime/crates/authority_engine
+  - .octon/instance/governance/policies
+scan_patterns:
+  - .octon/inputs/exploratory/proposals/
+allowed_reference_files: []
+allowed_reference_assertions: []

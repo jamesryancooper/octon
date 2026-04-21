@@ -1,0 +1,69 @@
+schema_version: operator-read-model-v1
+view_id: architecture-10of10-remediation-evidence
+view_kind: evidence
+operator_id: octon-maintainers
+proposal_id: octon-architecture-10of10-remediation
+mutability: generated
+non_authority_statement: Generated operator projection only; retained evidence remains canonical.
+generated_from:
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+  - /.octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml
+  - /.octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml
+generated_at: "2026-04-20T21:21:38Z"
+generator_version: manual-derived-v1
+summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-evidence.md
+summary:
+  status: seeded
+  attention_required: false
+  summary_text: Representative run evidence bundle is complete enough for disclosure, replay pointers, and operator legibility.
+view:
+  representative_run_id:
+    value: uec-repo-shell-repo-consequential-recertified-20260410
+    _source_trace:
+      - surface: completeness-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+        field: representative_runs[0].run_id
+        authority_class: state-evidence
+  required_receipt_count:
+    value: 7
+    _source_trace:
+      - surface: completeness-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+        field: representative_runs[0].required_receipts
+        authority_class: state-evidence
+  assurance_report_count:
+    value: 7
+    _source_trace:
+      - surface: completeness-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+        field: representative_runs[0].required_assurance
+        authority_class: state-evidence
+  retained_evidence_ref:
+    value: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml
+    _source_trace:
+      - surface: completeness-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+        field: representative_runs[0].retained_evidence_ref
+        authority_class: state-evidence
+  run_card_ref:
+    value: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+    _source_trace:
+      - surface: completeness-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+        field: representative_runs[0].run_card_ref
+        authority_class: state-evidence
+  publication_receipt_ref:
+    value: .octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml
+    _source_trace:
+      - surface: operator-view-publication
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml
+        field: receipt_id
+        authority_class: state-evidence
+  completeness_status:
+    value: pass
+    _source_trace:
+      - surface: runtime-state
+        path: /.octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
+        field: status
+        authority_class: state-control

@@ -9,6 +9,7 @@ on:
       - ".octon/instance/governance/**"
       - ".octon/state/control/execution/**"
       - ".octon/state/evidence/**"
+      - ".octon/state/evidence/validation/architecture/**"
       - ".octon/framework/lab/**"
       - ".octon/framework/assurance/runtime/_ops/scripts/**"
       - ".github/workflows/closure-certification.yml"
@@ -22,6 +23,7 @@ on:
       - ".octon/instance/governance/**"
       - ".octon/state/control/execution/**"
       - ".octon/state/evidence/**"
+      - ".octon/state/evidence/validation/architecture/**"
       - ".octon/framework/lab/**"
       - ".octon/framework/assurance/runtime/_ops/scripts/**"
       - ".github/workflows/closure-certification.yml"
@@ -47,6 +49,15 @@ jobs:
 
       - name: Pass 1
         run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-bounded-claim-nomenclature.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-review-packet-freshness.sh
@@ -64,6 +75,15 @@ jobs:
 
       - name: Pass 2
         run: |
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-bounded-claim-nomenclature.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-audit-crosswalk.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-review-packet-freshness.sh
@@ -78,3 +98,12 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-global-retirement-closure.sh
           bash .octon/framework/assurance/governance/_ops/scripts/assert-unified-execution-closure.sh
+
+      - name: Upload architecture remediation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-10of10-remediation-evidence
+          path: .octon/state/evidence/validation/architecture/10of10-remediation/**
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,15 @@
+schema_version: operator-read-model-publication-v1
+view_contract_ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+published_views:
+  - view_kind: run
+    projection_ref: /.octon/generated/cognition/projections/materialized/runs/architecture-10of10-remediation-run.yml
+    summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-run.md
+  - view_kind: evidence
+    projection_ref: /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-evidence.yml
+    summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-evidence.md
+  - view_kind: support
+    projection_ref: /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-support.yml
+    summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-support.md
+  - view_kind: closeout
+    projection_ref: /.octon/generated/cognition/projections/materialized/evidence/architecture-10of10-remediation-closeout.yml
+    summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-closeout.md

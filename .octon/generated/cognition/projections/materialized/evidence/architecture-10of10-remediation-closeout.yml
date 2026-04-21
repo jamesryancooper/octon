@@ -1,0 +1,62 @@
+schema_version: operator-read-model-v1
+view_id: architecture-10of10-remediation-closeout
+view_kind: closeout
+operator_id: octon-maintainers
+proposal_id: octon-architecture-10of10-remediation
+mutability: generated
+non_authority_statement: Generated operator projection only; closure authority remains in retained evidence and human governance decisions.
+generated_from:
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/manifest.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/ci/wiring.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml
+generated_at: "2026-04-20T21:21:38Z"
+generator_version: manual-derived-v1
+summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-closeout.md
+summary:
+  status: seeded
+  attention_required: false
+  summary_text: The remediation closure evidence, validator suite, and archive wiring are retained and complete.
+view:
+  slice_status:
+    value: complete
+    _source_trace:
+      - surface: closeout-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml
+        field: status
+        authority_class: state-evidence
+  implemented_validator_count:
+    value: 9
+    _source_trace:
+      - surface: closeout-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml
+        field: implemented_validators
+        authority_class: state-evidence
+  ci_workflow_count:
+    value: 3
+    _source_trace:
+      - surface: ci-wiring
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/ci/wiring.yml
+        field: workflows
+        authority_class: state-evidence
+  published_operator_view_count:
+    value: 4
+    _source_trace:
+      - surface: operator-view-publication
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml
+        field: published_views
+        authority_class: state-evidence
+  evidence_root:
+    value: .octon/state/evidence/validation/architecture/10of10-remediation
+    _source_trace:
+      - surface: manifest
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/manifest.yml
+        field: proposal_id
+        authority_class: state-evidence
+  pending_program_families:
+    value: []
+    _source_trace:
+      - surface: closeout-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/closeout/receipt.yml
+        field: pending_program_families
+        authority_class: state-evidence

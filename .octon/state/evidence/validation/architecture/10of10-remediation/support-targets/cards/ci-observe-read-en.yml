@@ -1,0 +1,8 @@
+schema_version: support-target-proof-card-v1
+tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+admission_ref: .octon/instance/governance/support-target-admissions/ci-observe-read-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/ci-observe-read-en/dossier.yml
+representative_run_ref: .octon/state/control/execution/runs/uec-global-ci-observe-read-20260404/run-contract.yml
+disclosure_ref: .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml
+evidence_completeness_ref: .octon/state/evidence/validation/architecture/10of10-remediation/evidence-store/completeness.yml
+denied_case_ref: .octon/instance/governance/support-target-admissions/repo-shell-boundary-sensitive-en.yml

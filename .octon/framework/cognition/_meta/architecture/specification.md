@@ -1,6 +1,6 @@
 ---
 title: Octon Constitutional Engineering Harness Umbrella Specification
-description: Canonical cross-subsystem contract for the Octon Constitutional Engineering Harness super-root.
+description: Canonical cross-subsystem structural contract for the Octon Constitutional Engineering Harness super-root.
 status: Active
 ---
 
@@ -8,460 +8,227 @@ status: Active
 
 ## Purpose
 
-Define the authoritative cross-subsystem contract for `/.octon/` as the
-super-root of the Octon Constitutional Engineering Harness.
+Define the steady-state structural contract for `/.octon/` as Octon's single
+authoritative super-root.
+
+The machine-readable source of truth for topology, authority families,
+publication metadata, and doc targets is:
+
+- `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`
+
+This specification is the human-readable companion to that registry. It stays
+subordinate to the constitutional kernel and must not restate competing
+constitutional authority.
 
 ## Constitutional Authority
 
-The repo-local supreme control regime for `/.octon/` lives under
-`framework/constitution/**`:
+Repo-local supreme control authority lives under
+`/.octon/framework/constitution/**`, including:
 
-- `/.octon/framework/constitution/CHARTER.md`
-- `/.octon/framework/constitution/charter.yml`
-- `/.octon/framework/constitution/precedence/{normative.yml,epistemic.yml}`
-- `/.octon/framework/constitution/obligations/{fail-closed.yml,evidence.yml}`
-- `/.octon/framework/constitution/ownership/roles.yml`
-- `/.octon/framework/constitution/contracts/registry.yml`
-- `/.octon/framework/constitution/contracts/authority/**`
-- `/.octon/framework/constitution/contracts/runtime/**`
-- `/.octon/framework/constitution/contracts/assurance/**`
-- `/.octon/framework/constitution/contracts/disclosure/**`
-- `/.octon/framework/constitution/contracts/adapters/**`
-- `/.octon/framework/constitution/support-targets.schema.json`
+- `CHARTER.md` and `charter.yml`
+- `precedence/{normative.yml,epistemic.yml}`
+- `obligations/{fail-closed.yml,evidence.yml}`
+- `ownership/roles.yml`
+- `contracts/registry.yml` and the constitutional contract families
 
-This umbrella specification remains the canonical cross-subsystem topology,
-placement, terminology-alignment, and structural SSOT surface for the
-Constitutional Engineering Harness. It is subordinate to the constitutional
-kernel and must not restate competing repo-local constitutional authority.
+Structural interpretation flows through the contract registry rather than
+through repeated hand-maintained path matrices.
 
-## Root Invariants
+## How To Use The Structural Registry
 
-1. `/.octon/` is the single authoritative super-root.
-2. The only canonical class roots are `framework/`, `instance/`, `inputs/`,
-   `state/`, and `generated/`.
-3. Only `framework/**` and `instance/**` are authored authority.
-4. `framework/**` is limited to portable authored core and portable helper
-   assets only, including assurance, lab, and observability contract
-   surfaces; repo-local mutable state, retained evidence, and generated
-   outputs are forbidden there.
-5. `state/**` is authoritative only as operational truth and retained
-   evidence.
-6. `state/**` is class-organized into `state/continuity/**`,
-   `state/evidence/**`, and `state/control/**`.
-7. `generated/**` is never source of truth.
-8. Raw `inputs/**` paths must never become direct runtime or policy
-   dependencies.
-9. Human-led ideation lives under `inputs/exploratory/ideation/**`.
-10. Retired legacy roots from the mixed-tree topology must not be
-   reintroduced.
-11. `/.octon/octon.yml` is the authoritative root manifest for topology,
-    versioning, profiles, and fail-closed policy hooks.
-12. `repo_snapshot` is behaviorally complete and includes enabled-pack
-    dependency closure.
-13. `full_fidelity` is advisory only and is not a synthetic export payload.
-14. `framework/overlay-points/registry.yml` is the canonical framework-authored
-    overlay declaration surface.
-15. `instance/manifest.yml#enabled_overlay_points` is the canonical repo-side
-    overlay enablement surface.
-16. Canonical internal ingress lives under `instance/ingress/**`;
-    `/.octon/AGENTS.md` is the projected ingress surface; repo-root ingress
-    files are thin adapters only.
-17. Repo-root ingress files are valid only as a symlink to `/.octon/AGENTS.md`
-    or a byte-for-byte parity copy.
-18. Overlay-capable instance surfaces are legal only at framework-declared
-    overlay points enabled by `instance/manifest.yml`.
-19. Allowed v1 overlay merge modes are `replace_by_path`, `merge_by_id`, and
-    `append_only`.
-20. Overlay-capable artifacts may not target closed framework domains such as
-    `framework/engine/runtime/**`.
-21. Undeclared or disabled overlay artifacts fail closed.
-22. Repo-owned bootstrap, locality, context, ADRs, repo-native capabilities,
-    missions, and desired extension configuration belong in `instance/**`.
-23. `instance/locality/manifest.yml`, `instance/locality/registry.yml`, and
-    `instance/locality/scopes/<scope-id>/scope.yml` are the only authored
-    locality authority surfaces.
-24. In v1, each `scope_id` declares exactly one `root_path`.
-25. In v1, locality resolution yields zero or one active scope per target
-    path.
-26. Descendant `.octon/` roots, hierarchical scope inheritance, and
-    ancestor-chain scope composition are invalid locality models.
-27. `state/continuity/repo/**` is the canonical repo-wide and cross-scope
-    continuity surface.
-28. `state/continuity/scopes/<scope-id>/**` is legal only for declared,
-    non-quarantined scopes.
-29. `state/evidence/**` is retained evidence and must not be treated as
-    rebuildable generated output, including run-local proof/disclosure
-    families and lab evidence.
-30. `instance/extensions.yml`, `state/control/extensions/active.yml`,
-    `state/control/extensions/quarantine.yml`, and
-    `generated/effective/extensions/**` form the canonical desired/actual/
-    quarantine/compiled extension publication model.
-31. `state/control/locality/quarantine.yml` is mutable operational control
-    truth; `generated/effective/locality/**` is non-authoritative compiled
-    locality state.
-32. `generated/effective/capabilities/**` is the only runtime-facing
-    capability-routing surface and must publish
-    `routing.effective.yml`, `artifact-map.yml`, and `generation.lock.yml`.
-33. `generated/cognition/**` contains derived cognition summaries, graph
-    datasets, and projections only; it never becomes memory or ADR authority.
-34. Retained assurance and validation receipts belong under
-    `state/evidence/validation/**`, not under `generated/**`.
-35. Runtime-facing publication receipts live under
-    `state/evidence/validation/publication/**` and remain retained
-    operational evidence rather than generated outputs.
-36. Raw exploratory proposals live only under
-    `inputs/exploratory/proposals/<kind>/<proposal_id>/**`; archived proposal
-    packages live only under
-    `inputs/exploratory/proposals/.archive/<kind>/<proposal_id>/**`.
-37. `generated/proposals/registry.yml` is the only generated proposal
-    discovery surface, is rebuilt deterministically from proposal manifests,
-    and remains non-authoritative.
-38. `octon.yml#policies.generated_commit_defaults` is the binding default
-    commit-versus-rebuild policy for generated outputs.
-39. Proposals are excluded from runtime resolution, policy resolution,
-    `bootstrap_core`, and `repo_snapshot`.
-40. No descendant-local or scope-local proposal workspace exists in v1.
-41. Raw extension packs use `octon-extension-pack-v4` and must carry
-    `compatibility.required_contracts`,
-    `compatibility.profile_path: "validation/compatibility.yml"`, and
-    pack-authored provenance fields.
-42. Repo trust decisions remain in `instance/extensions.yml`; pack provenance
-    remains in `pack.yml`.
-43. `pack_bundle` is a trust-agnostic raw additive transfer profile and does
-    not imply pack activation or publication.
-44. Material execution must resolve through the engine-owned
-    `authorize_execution(...)` boundary before side effects occur.
-45. Protected execution is legal only under `hard-enforce`.
-46. Workflow contracts use `workflow-contract-v2` and declare stage-level
-    authorization metadata.
-47. Runtime execution evidence, receipts, checkpoints, replay manifests and
-    pointers, retained run evidence, assurance reports, measurements,
-    interventions, and RunCards belong under `state/evidence/runs/**`.
-48. Lab scenario proof bundles, benchmark measurements, evaluator reviews, and
-    HarnessCards belong under `state/evidence/lab/**`.
-49. Canonical mutable execution control truth belongs under
-    `state/control/execution/**`; per-run lifecycle control roots live under
-    `state/control/execution/runs/<run-id>/**`.
-50. Canonical approval, exception, and revocation control truth live only under
-    `state/control/execution/{approvals,exceptions,revocations}/**`.
-51. Canonical ephemeral execution scratch belongs under
-    `generated/.tmp/execution/**`.
-52. Repo-owned network egress policy lives at
-    `instance/governance/policies/network-egress.yml`.
-53. Repo-owned execution budget policy lives at
-    `instance/governance/policies/execution-budgets.yml`.
-54. Repo-owned support-target declarations live at
-    `instance/governance/support-targets.yml`.
-55. Runtime host and model adapter manifests live only under
-    `framework/engine/runtime/adapters/{host,model}/**` and remain
-    replaceable, non-authoritative boundaries.
-56. The machine-readable execution path and policy invariant registry lives at
-    `framework/cognition/_meta/architecture/contract-registry.yml`.
-57. Mission authority discovery lives only under
-    `instance/orchestration/missions/**`; active mission charters use
-    `octon-mission-v2` and remain continuity containers rather than the
-    atomic execution unit.
-58. Mission-scoped mutable execution control truth lives only under
-    `state/control/execution/missions/<mission-id>/**`.
-59. Consequential run contracts live only under
-    `state/control/execution/runs/<run-id>/run-contract.yml`.
-60. Runtime-state, rollback-posture, and control checkpoints for consequential
-    runs live only under `state/control/execution/runs/<run-id>/**`.
-61. Retained control-plane mutation evidence and authority decision evidence
-    live only under
-    `state/evidence/control/execution/**`.
-62. Mission continuity and handoff state lives only under
-    `state/continuity/repo/missions/<mission-id>/**`.
-63. Mission/operator read models under
-    `generated/cognition/summaries/{missions,operators}/**` are derived only
-    from canonical authority, control, evidence, and continuity surfaces and
-    consume per-run run evidence when runs are bound.
-64. Mission effective scenario resolution lives only under
-    `generated/effective/orchestration/missions/<mission-id>/scenario-resolution.yml`
-    and remains derived-only, freshness-bounded runtime input.
-65. No autonomous runtime path may silently fall back to mission-less
-    execution after the mission-scoped reversible autonomy cutover.
-66. External UI, chat, or in-memory session state may not become a second
-    authoritative mission control plane.
-67. Labels, comments, checks, and similar host affordances are
-    non-authoritative projections only; canonical authority lives under
-    `state/control/execution/**`.
-68. For Mission-Scoped Reversible Autonomy, runtime closeout records under
-    `instance/cognition/decisions/067-*.md`; proposal-lineage closeout records
-    under `instance/cognition/decisions/068-*.md` plus the matching migration
-    plan under `instance/cognition/context/shared/migrations/**`; proposal
-    packets remain historical lineage only.
+Use these sections of
+`/.octon/framework/cognition/_meta/architecture/contract-registry.yml`:
 
-## Class-Root Authority Order
+- `class_roots`: canonical class-root bindings and placement rules
+- `delegated_registries`: machine-readable surfaces that own more specific
+  subdomains
+- `path_families`: canonical steady-state path families, authority classes,
+  consumers, and validators
+- `publication_metadata`: runtime-facing and operator-facing publication rules
+- `doc_targets`: steady-state roles for active authoritative docs
+- `execution`, `mission_autonomy`, and `documentation`: compatibility
+  projections retained for current validators and runtime tooling
 
-The order below is the structural class-root resolution order for placement and
-source-of-truth family conflicts. Normative and epistemic precedence live under
-`framework/constitution/precedence/**`.
+## Canonical Operational Roots
 
-1. `framework/**` base contracts and runtime authority
-2. `instance/**` repo-specific authored authority
-3. `state/**` operational truth
-4. `generated/**` derived support artifacts
-5. `inputs/**` non-authoritative raw input
+- constitutional kernel anchor: `/.octon/framework/constitution/CHARTER.md`
+- constitutional runtime contracts:
+  `/.octon/framework/constitution/contracts/runtime/**`
+- canonical execution control root:
+  `/.octon/state/control/execution/**`
+- canonical execution scratch root:
+  `/.octon/generated/.tmp/execution/**`
+- repo-owned network egress policy:
+  `/.octon/instance/governance/policies/network-egress.yml`
+- repo-owned execution budget policy:
+  `/.octon/instance/governance/policies/execution-budgets.yml`
+- repo-owned support-target declarations:
+  `/.octon/instance/governance/support-targets.yml`
+- canonical approval request root:
+  `/.octon/state/control/execution/approvals/requests`
+- canonical exception lease root:
+  `/.octon/state/control/execution/exceptions/leases/`
+- canonical revocation root:
+  `/.octon/state/control/execution/revocations/`
+- authored lab framework root: `/.octon/framework/lab/`
+- authored observability framework root: `/.octon/framework/observability/`
+- maintainability proof plane:
+  `/.octon/framework/assurance/maintainability/`
+- retained lab evidence root: `/.octon/state/evidence/lab/`
 
-Within a declared overlay point:
+## Structural Invariants
 
-- `replace_by_path`: instance content replaces the framework artifact at the
-  overlay point
-- `merge_by_id`: instance content merges into keyed framework sets
-- `append_only`: instance content appends to the framework register
+1. `/.octon/` is the only super-root for this repository.
+2. The only class roots are `framework/`, `instance/`, `state/`,
+   `generated/`, and `inputs/`.
+3. Durable authored authority may live only under `framework/**` and
+   `instance/**`.
+4. `state/**` is operational truth only and is split into
+   `state/control/**`, `state/evidence/**`, and `state/continuity/**`.
+5. `generated/**` is rebuildable and never mints authority.
+6. `inputs/**` is non-authoritative; human-led ideation remains confined to
+   `inputs/exploratory/ideation/**` unless a human explicitly scopes access.
+7. `/.octon/octon.yml` owns super-root bindings, profiles, resolution inputs,
+   and generated commit defaults.
+8. `/.octon/instance/ingress/manifest.yml` owns mandatory ingress reads,
+   optional orientation overlays, and the branch closeout gate.
+9. Overlay legality exists only where
+   `/.octon/framework/overlay-points/registry.yml` declares a point and
+   `/.octon/instance/manifest.yml` enables it.
+10. Mission authority remains the continuity container under
+    `instance/orchestration/missions/**`; consequential run control lives under
+    `state/control/execution/runs/**`.
+11. Retained evidence, disclosure, and validation receipts live only under
+    `state/evidence/**`.
+12. Runtime-facing effective outputs under `generated/effective/**` require
+    publication receipts and freshness artifacts before runtime may trust them.
+13. Proposal packets remain under `inputs/exploratory/proposals/**` and stay
+    lineage-only; generated proposal discovery stays non-authoritative.
 
-Outside declared overlay points, framework wins and instance overlay content is
-invalid.
+## Delegated Registries
+
+The structural registry delegates detail ownership to the following
+machine-readable surfaces:
+
+| Surface | Owns |
+| --- | --- |
+| `/.octon/octon.yml` | Class-root bindings, portability profiles, runtime resolution inputs, generated commit defaults |
+| `/.octon/framework/constitution/contracts/registry.yml` | Constitutional families and integration surfaces |
+| `/.octon/framework/overlay-points/registry.yml` | Legal overlay points and merge modes |
+| `/.octon/instance/manifest.yml` | Repo-side overlay enablement |
+| `/.octon/instance/ingress/manifest.yml` | Mandatory ingress read order and closeout gate |
+| `/.octon/instance/cognition/decisions/index.yml` | Append-only ADR discovery |
+
+When any delegated registry changes, this specification stays descriptive and
+the machine-readable registry remains canonical.
+
+## Path Families
+
+Steady-state topology and authority are organized through these canonical
+family groups:
+
+| Family | Canonical root or surface | Role |
+| --- | --- | --- |
+| `constitutional_kernel` | `framework/constitution/**` | Supreme repo-local authority |
+| `structural_architecture` | `framework/cognition/_meta/architecture/**` | Structural registry plus narrative companion |
+| `overlay_resolution` | `framework/overlay-points/registry.yml` + `instance/manifest.yml` | Declared overlay legality |
+| `instance_ingress_and_bootstrap` | `instance/{ingress,bootstrap}/**` | Ingress and optional orientation |
+| `workspace_charter_pair` | `instance/charter/{workspace.md,workspace.yml}` | Repo-wide objective authority |
+| `instance_governance` | `instance/governance/**` | Support targets, exclusions, policy, ownership, governance disclosure |
+| `instance_locality` | `instance/locality/**` | Scope and locality authority |
+| `instance_decisions` | `instance/cognition/decisions/**` | Durable ADRs and discovery index |
+| `instance_missions` | `instance/orchestration/missions/**` | Mission continuity authority |
+| `state_control_execution` | `state/control/**` | Mutable execution, publication, and quarantine truth |
+| `state_evidence` | `state/evidence/**` | Retained evidence, disclosure, and validation receipts |
+| `state_continuity` | `state/continuity/**` | Handoff and resumption state |
+| `generated_effective` | `generated/effective/**` | Runtime-facing effective outputs |
+| `generated_cognition` | `generated/cognition/**` | Non-authoritative operator and mission read models |
+| `generated_proposals` | `generated/proposals/registry.yml` | Non-authoritative proposal discovery |
+| `inputs_additive` | `inputs/additive/extensions/**` | Raw additive packs before trust activation and publication |
+| `inputs_exploratory` | `inputs/exploratory/**` | Ideation and proposal lineage only |
+
+Full canonical paths, allowed consumers, forbidden consumers, validators, and
+doc bindings are maintained in the registry rather than in this document.
+
+## Publication Model
+
+The structural registry recognizes three steady-state publication classes:
+
+1. `runtime_effective`
+   - output root: `/.octon/generated/effective/`
+   - trust condition: retained publication receipt plus current freshness
+     artifacts
+   - source rule: no direct raw-input publication into runtime-facing outputs
+2. `cognition_read_models`
+   - output root: `/.octon/generated/cognition/`
+   - role: operator and mission projections only
+   - traceability rule: every field must trace back to authored authority,
+     control truth, retained evidence, or continuity state
+3. `proposal_discovery`
+   - output path: `/.octon/generated/proposals/registry.yml`
+   - role: deterministic proposal discovery only
+   - authority rule: proposal lifecycle still resolves from proposal manifests,
+     never from the generated registry
+
+Generated publication metadata remains machine-readable in the registry and
+must stay aligned with `octon.yml#policies.generated_commit_defaults`.
+
+## Active Doc Roles
+
+The registry assigns these steady-state roles to the active authoritative docs:
+
+| Doc | Role |
+| --- | --- |
+| `/.octon/README.md` | Concise super-root orientation and class-root summary |
+| `/.octon/framework/cognition/_meta/architecture/specification.md` | Human-readable steady-state structural contract narrative |
+| `/.octon/instance/bootstrap/START.md` | Boot sequence and first-run operator orientation |
+| `/.octon/instance/ingress/AGENTS.md` | Canonical internal ingress surface for mandatory reads and execution posture |
+
+These docs are registry-backed. They must not carry:
+
+- full hand-maintained canonical path matrices
+- historical wave or cutover chronology
+- proposal-lineage closeout detail
+
+Historical migrations and proposal lineage belong in ADRs and retained evidence
+rather than in active operating docs.
+
+## Fail-Closed Structural Rules
+
+- Wrong-class placement is invalid.
+- Undeclared or disabled overlay content is invalid.
+- Runtime or policy direct reads from `inputs/**` are invalid.
+- Generated outputs are invalid as authority when freshness or publication
+  receipts are missing.
+- Repo-root ingress adapters are invalid if they diverge from the projected
+  ingress surface.
+- Host affordances, chat transcripts, and generated views may mirror state but
+  never mint authority.
 
 ## Contract Markers
 
 ### OCTON-SPEC-015
 
-The umbrella specification is the canonical cross-subsystem topology and
-placement registry surface for the super-root. It must align with, and never
-outrank, the constitutional kernel.
+The umbrella specification is the human-readable companion to the structural
+contract registry. The registry is the canonical machine-readable topology and
+authority surface; this specification explains the steady-state model without
+outranking the constitutional kernel.
 
 ### OCTON-SPEC-016
 
-The umbrella specification owns the structural SSOT matrix for runtime,
-governance, and practices. Normative and epistemic precedence belong to the
-constitutional kernel.
-
-## Structural SSOT Matrix (Runtime, Governance, Practices)
-
-| Authority slice | Canonical surface | Rule |
-| --- | --- | --- |
-| runtime-execution | `/.octon/framework/engine/runtime/**` | Engine execution authority MUST NOT override engine enforcement. |
-| governance-policy | `/.octon/*/governance/**` | Governance policy MUST NOT be superseded by practices guidance. |
-| operating-practices | `/.octon/*/practices/**` | Practices guidance MUST NOT override runtime or governance contracts. |
-
-## Feature Placement (Normative Summary)
-
-Feature placement for Octon surfaces follows these canonical rules:
-
-- Only `framework/**` and `instance/**` are authored authority.
-- Raw `inputs/**` content is non-authoritative and must never become a direct
-  runtime or policy dependency.
-- Portable always-on harness behavior belongs in `framework/**`; repo-owned
-  live authority belongs in `instance/**`.
-- Governance and contract surfaces own rules, claims, bounds, admissions,
-  evidence requirements, and schemas rather than executable behavior.
-- Adapters are replaceable, non-authoritative host or model boundaries.
-- Capability packs govern broad action surfaces bounded by support targets.
-- Raw extension packs remain additive and optional under
-  `inputs/additive/extensions/**`; runtime-facing extension consumption must
-  flow through `generated/effective/extensions/**`.
-- Workflows are reserved for explicit multi-stage orchestration; recurrence and
-  unattended launch belong to automation and mission surfaces instead.
-- Proposal packets remain non-canonical and must not be direct live runtime or
-  policy dependencies.
-
-Use the methodology guide at
-`/.octon/framework/cognition/practices/methodology/feature-placement-guide.md`
-for the full operator-facing decision matrix, comparisons, and placement
-checklist. That guide is subordinate to this structural SSOT and must not
-redefine these placement rules.
+The umbrella specification owns the steady-state structural narrative for
+runtime, governance, publication, and practices placement. Detailed canonical
+paths, publication metadata, and doc bindings resolve from the structural
+contract registry and its delegated registries.
 
 ## Canonical References
 
-- constitutional charter: `/.octon/framework/constitution/CHARTER.md`
-- constitutional manifest: `/.octon/framework/constitution/charter.yml`
-- normative precedence:
-  `/.octon/framework/constitution/precedence/normative.yml`
-- epistemic precedence:
-  `/.octon/framework/constitution/precedence/epistemic.yml`
-- fail-closed obligations:
-  `/.octon/framework/constitution/obligations/fail-closed.yml`
-- evidence obligations:
-  `/.octon/framework/constitution/obligations/evidence.yml`
-- ownership roles: `/.octon/framework/constitution/ownership/roles.yml`
-- constitutional objective contracts:
-  `/.octon/framework/constitution/contracts/objective/**`
-- constitutional authority contracts:
-  `/.octon/framework/constitution/contracts/authority/**`
-- constitutional runtime contracts:
-  `/.octon/framework/constitution/contracts/runtime/**`
-- constitutional assurance contracts:
-  `/.octon/framework/constitution/contracts/assurance/**`
-- constitutional disclosure contracts:
-  `/.octon/framework/constitution/contracts/disclosure/**`
-- constitutional adapter contracts:
-  `/.octon/framework/constitution/contracts/adapters/**`
+- structural contract registry:
+  `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`
 - constitutional contract registry:
   `/.octon/framework/constitution/contracts/registry.yml`
-- support-target schema:
-  `/.octon/framework/constitution/support-targets.schema.json`
-- terminology constitution:
-  `/.octon/framework/cognition/_meta/terminology/naming-constitution.md`
-- terminology glossary:
-  `/.octon/framework/cognition/_meta/terminology/glossary.md`
-- support-target declaration:
-  `/.octon/instance/governance/support-targets.yml`
 - root manifest: `/.octon/octon.yml`
 - overlay registry: `/.octon/framework/overlay-points/registry.yml`
 - overlay enablement: `/.octon/instance/manifest.yml#enabled_overlay_points`
-- projected ingress: `/.octon/AGENTS.md`
-- desired extension config: `/.octon/instance/extensions.yml`
-- raw additive extension packs: `/.octon/inputs/additive/extensions/`
-- lab framework root: `/.octon/framework/lab/`
-- observability framework root: `/.octon/framework/observability/`
-- maintainability proof plane: `/.octon/framework/assurance/maintainability/`
-- retained lab evidence root: `/.octon/state/evidence/lab/`
-- raw exploratory proposals: `/.octon/inputs/exploratory/proposals/`
-- archived exploratory proposals:
-  `/.octon/inputs/exploratory/proposals/.archive/`
-- ingress: `/.octon/instance/ingress/AGENTS.md`
-- bootstrap docs: `/.octon/instance/bootstrap/`
-- locality: `/.octon/instance/locality/`
-- scope schema contract:
-  `/.octon/framework/cognition/_meta/architecture/instance/locality/schemas/scope.schema.json`
-- scope-local durable context: `/.octon/instance/cognition/context/scopes/`
-- repo continuity: `/.octon/state/continuity/repo/`
-- scope continuity: `/.octon/state/continuity/scopes/`
-- retained evidence: `/.octon/state/evidence/`
-- publication validation receipts:
-  `/.octon/state/evidence/validation/publication/`
-- extension actual state: `/.octon/state/control/extensions/active.yml`
-- extension quarantine state: `/.octon/state/control/extensions/quarantine.yml`
-- locality quarantine: `/.octon/state/control/locality/quarantine.yml`
-- execution budget state: `/.octon/state/control/execution/budgets/`
-- approval request root:
-  `/.octon/state/control/execution/approvals/requests`
-- approval grant root:
-  `/.octon/state/control/execution/approvals/grants`
-- execution exception leases:
-  `/.octon/state/control/execution/exceptions/leases/`
-- execution revocations:
-  `/.octon/state/control/execution/revocations/`
-- mission control root:
-  `/.octon/state/control/execution/missions/`
-- retained control evidence:
-  `/.octon/state/evidence/control/execution/`
-- effective mission scenario routes:
-  `/.octon/generated/effective/orchestration/missions/`
-- effective locality outputs: `/.octon/generated/effective/locality/`
-- effective capability-routing outputs:
-  `/.octon/generated/effective/capabilities/`
-- effective extension outputs: `/.octon/generated/effective/extensions/`
-- execution scratch root: `/.octon/generated/.tmp/execution/`
-- derived cognition outputs: `/.octon/generated/cognition/`
-- mission summaries:
-  `/.octon/generated/cognition/summaries/missions/`
-- operator digests:
-  `/.octon/generated/cognition/summaries/operators/`
-- machine mission views:
-  `/.octon/generated/cognition/projections/materialized/missions/`
-- readable decision summary:
-  `/.octon/generated/cognition/summaries/decisions.md`
-- repo context and ADRs: `/.octon/instance/cognition/`
-- repo missions: `/.octon/instance/orchestration/missions/`
-- mission autonomy policy:
-  `/.octon/instance/governance/policies/mission-autonomy.yml`
-- ownership registry:
-  `/.octon/instance/governance/ownership/registry.yml`
-- export runner: `/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh`
-- framework architecture: `/.octon/framework/cognition/_meta/architecture/`
-- execution contract registry:
-  `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`
-- repo-owned network egress policy:
-  `/.octon/instance/governance/policies/network-egress.yml`
-- repo-owned execution budget policy:
-  `/.octon/instance/governance/policies/execution-budgets.yml`
-- runtime host adapter root:
-  `/.octon/framework/engine/runtime/adapters/host/`
-- runtime model adapter root:
-  `/.octon/framework/engine/runtime/adapters/model/`
-- generated proposal registry: `/.octon/generated/proposals/registry.yml`
-
-Mission-scoped autonomy uses one authority/control/evidence/read-model split:
-authored mission scaffolds stay under `instance/orchestration/missions/**`,
-mutable control truth stays under `state/control/execution/missions/**`,
-retained control evidence stays under `state/evidence/control/execution/**`,
-and generated route/view surfaces stay under `generated/**`.
-Wave 2 additionally requires approval, exception, and revocation truth to land
-under `state/control/execution/{approvals,exceptions,revocations}/**`.
-No autonomous active or paused mission is valid until the seed-before-active
-path materializes that full family.
-
-Proposal lifecycle authority stays in `proposal.yml` and the subtype manifest.
-`navigation/source-of-truth-map.md` is the manual proposal-local precedence
-map, `navigation/artifact-catalog.md` is generated inventory, and the proposal
-registry is discovery-only. Archived design imports with
-`archive.archived_from_status=legacy-unknown` stay off the main registry
-projection until normalized into the standard packet contract.
-
-## Overlay And Ingress Contract
-
-### Instance-Native Surfaces
-
-- `instance/manifest.yml`
-- `instance/ingress/**`
-- `instance/bootstrap/**`
-- `instance/locality/**`
-- `instance/cognition/context/**`
-- `instance/cognition/decisions/**`
-- `instance/capabilities/runtime/**`
-- `instance/orchestration/missions/**`
-- `instance/extensions.yml`
-
-### Overlay-Capable Surfaces
-
-| Overlay point | Instance path | Merge mode | Precedence |
-| --- | --- | --- | ---: |
-| `instance-governance-policies` | `.octon/instance/governance/policies/**` | `replace_by_path` | 10 |
-| `instance-governance-contracts` | `.octon/instance/governance/contracts/**` | `replace_by_path` | 20 |
-| `instance-execution-roles-runtime` | `.octon/instance/execution-roles/runtime/**` | `merge_by_id` | 30 |
-| `instance-assurance-runtime` | `.octon/instance/assurance/runtime/**` | `append_only` | 40 |
-
-No blanket shadow-tree model exists for `instance/**`. Any future
-overlay-capable surface must be declared in the framework overlay registry
-before it becomes legal.
-
-## Locality And Scope Contract
-
-- locality authority is rooted under `instance/locality/**`
-- each scope is authored once at `instance/locality/scopes/<scope-id>/scope.yml`
-- `include_globs` and `exclude_globs` refine a single rooted subtree and may
-  not redefine scope authority into multiple roots
-- mutable scope continuity belongs under `state/continuity/scopes/<scope-id>/**`
-  and must not exist for undeclared or quarantined scopes
-- missions may reference scopes, but they do not define locality
-- runtime-facing locality consumers use compiled
-  `generated/effective/locality/**`
-- invalid scope state quarantines locally under
-  `state/control/locality/quarantine.yml`
-
-### Overlay Resolution Order
-
-1. Load `framework/manifest.yml`.
-2. Load `framework/overlay-points/registry.yml`.
-3. Load `instance/manifest.yml`.
-4. Verify `enabled_overlay_points` are a subset of declared overlay points.
-5. Collect instance overlay artifacts only from the declared `instance_glob`
-   paths.
-6. Apply the validator and merge mode for each enabled overlay point.
-7. Publish the resolved authoritative overlay result into the active runtime
-   view.
-
-## Fail-Closed Rules
-
-- Missing required manifests block runtime.
-- Wrong-class placement blocks runtime.
-- Missing execution grants or execution receipts for material runtime paths
-  block runtime.
-- Invalid overlay registries, undeclared enablement, unsupported merge modes,
-  or overlay artifacts outside enabled declared roots block runtime.
-- Repo-root ingress files that diverge from the projected ingress surface block
-  runtime.
-- Framework-local `_ops/state/**` paths block runtime.
-- Stale required generated outputs block runtime.
-- Stale required effective publication families block runtime and policy use.
-- Runtime-effective publication validators must require coherent publication
-  receipts under `state/evidence/validation/publication/**`.
-- Direct reads from raw `inputs/**` by runtime or policy code block runtime.
-- Direct reads from raw exploratory proposal paths by runtime or policy code
-  are always invalid raw-input dependencies.
-- Incomplete enabled-pack closure blocks `repo_snapshot` export.
-- Missing required pack provenance or unsupported `required_contracts` blocks
-  pack publication and any `repo_snapshot` that depends on the pack.
+- ingress manifest: `/.octon/instance/ingress/manifest.yml`
+- decisions index: `/.octon/instance/cognition/decisions/index.yml`

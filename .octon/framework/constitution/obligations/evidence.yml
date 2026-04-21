@@ -1,8 +1,10 @@
 schema_version: "octon-constitution-evidence-obligations-v1"
 retained_evidence_roots:
   - ".octon/state/evidence/runs/**"
+  - ".octon/state/evidence/disclosure/**"
   - ".octon/state/evidence/lab/**"
   - ".octon/state/evidence/control/execution/**"
+  - ".octon/state/evidence/external-index/**"
   - ".octon/state/evidence/validation/publication/**"
 obligations:
   - id: "EVI-001"
@@ -59,3 +61,42 @@ obligations:
       bundle, one proof or lab bundle, and final disclosure coverage.
     adoption_status: "active"
     activation_wave: 7
+  - id: "EVI-013"
+    requirement: >-
+      Consequential run closeout retains an evidence-store completeness record
+      that ties canonical authority, lifecycle, assurance, replay, disclosure,
+      and evidence-classification artifacts together.
+    adoption_status: "active"
+    activation_wave: 6
+  - id: "EVI-014"
+    requirement: >-
+      Promotion or activation that changes authoritative, control, active
+      release, or runtime-facing generated-effective meaning retains a
+      promotion receipt under the canonical control-evidence root.
+    adoption_status: "active"
+  - id: "EVI-015"
+    requirement: >-
+      Each admitted support-target tuple retains a current proof bundle that
+      links admission, support dossier sufficiency, representative retained run
+      disclosure, proof-plane coverage, and negative-control evidence before
+      live claims may cite the tuple.
+    adoption_status: "active"
+    activation_wave: 7
+  - id: "EVI-016"
+    requirement: >-
+      Generated operator read models retain freshness and source-traceability
+      metadata to canonical authority or evidence roots and never substitute
+      for those roots.
+    adoption_status: "active"
+  - id: "EVI-013"
+    requirement: >-
+      Consequential execution and closure validation retain evidence under the
+      canonical evidence-store contract, distinguishing retained evidence from
+      transport-only CI artifacts and generated mirrors.
+    adoption_status: "active"
+  - id: "EVI-014"
+    requirement: >-
+      Closure-grade support claims retain a tuple-level proof bundle, evidence
+      completeness receipt, and disclosure references under architecture or
+      publication validation evidence roots.
+    adoption_status: "active"

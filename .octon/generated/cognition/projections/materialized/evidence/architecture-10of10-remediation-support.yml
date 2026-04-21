@@ -1,0 +1,65 @@
+schema_version: operator-read-model-v1
+view_id: architecture-10of10-remediation-support
+view_kind: support
+operator_id: octon-maintainers
+proposal_id: octon-architecture-10of10-remediation
+mutability: generated
+non_authority_statement: Generated operator projection only; support claims remain bounded by authoritative admissions and dossiers.
+generated_from:
+  - /.octon/instance/governance/support-targets.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/proofing.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/repo-shell-observe-read-proof-card.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/repo-shell-repo-consequential-proof-card.yml
+  - /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/ci-observe-read-proof-card.yml
+generated_at: "2026-04-20T21:21:38Z"
+generator_version: manual-derived-v1
+summary_ref: /.octon/generated/cognition/summaries/operators/octon-maintainers/architecture-10of10-remediation-support.md
+summary:
+  status: seeded
+  attention_required: false
+  summary_text: Admitted support tuples are covered by proof cards, dossiers, and explicit deny-only governance references.
+view:
+  admitted_tuple_count:
+    value: 3
+    _source_trace:
+      - surface: support-targets
+        path: /.octon/instance/governance/support-targets.yml
+        field: tuple_admissions
+        authority_class: instance-governance
+  proof_card_count:
+    value: 3
+    _source_trace:
+      - surface: support-proofing-receipt
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/proofing.yml
+        field: proof_cards
+        authority_class: state-evidence
+  consequential_tuple_status:
+    value: qualified
+    _source_trace:
+      - surface: support-proof-card
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/repo-shell-repo-consequential-proof-card.yml
+        field: status
+        authority_class: state-evidence
+  repo_shell_tuple_ids:
+    value:
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+    _source_trace:
+      - surface: support-targets
+        path: /.octon/instance/governance/support-targets.yml
+        field: tuple_admissions
+        authority_class: instance-governance
+  ci_tuple_id:
+    value: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+    _source_trace:
+      - surface: support-proof-card
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/ci-observe-read-proof-card.yml
+        field: tuple_id
+        authority_class: state-evidence
+  governance_exclusions_ref:
+    value: .octon/instance/governance/exclusions/action-classes.yml
+    _source_trace:
+      - surface: support-proof-card
+        path: /.octon/state/evidence/validation/architecture/10of10-remediation/support-targets/repo-shell-repo-consequential-proof-card.yml
+        field: denied_case_ref
+        authority_class: state-evidence

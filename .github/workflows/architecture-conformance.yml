@@ -37,6 +37,7 @@ on:
       - ".octon/state/evidence/runs/**"
       - ".octon/state/evidence/lab/**"
       - ".octon/state/evidence/validation/publication/**"
+      - ".octon/state/evidence/validation/architecture/**"
       - ".octon/state/continuity/repo/missions/**"
       - ".octon/generated/effective/**"
       - ".octon/generated/cognition/**"
@@ -82,6 +83,7 @@ on:
       - ".octon/state/evidence/runs/**"
       - ".octon/state/evidence/lab/**"
       - ".octon/state/evidence/validation/publication/**"
+      - ".octon/state/evidence/validation/architecture/**"
       - ".octon/state/continuity/repo/missions/**"
       - ".octon/generated/effective/**"
       - ".octon/generated/cognition/**"
@@ -107,8 +109,22 @@ jobs:
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-tool-governance.sh
-          bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness,mission-autonomy
+
+      - name: Upload architecture remediation evidence
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: architecture-10of10-remediation-evidence
+          path: .octon/state/evidence/validation/architecture/10of10-remediation/**
+          if-no-files-found: error
+          retention-days: 7
 
   mission-runtime-contracts:
     runs-on: ubuntu-latest
@@ -124,6 +140,7 @@ jobs:
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-intent-invariants.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-source-of-truth.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh
 
   mission-lifecycle-cutover:
     runs-on: ubuntu-latest
@@ -152,6 +169,7 @@ jobs:
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh
 
   mission-autonomy-scenarios:
     runs-on: ubuntu-latest
@@ -207,6 +225,7 @@ jobs:
       - name: Validate Phase 5 adapter and support-target hardening
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-phase5-adapter-support-target-hardening.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
 
   simplification-deletion:
     runs-on: ubuntu-latest

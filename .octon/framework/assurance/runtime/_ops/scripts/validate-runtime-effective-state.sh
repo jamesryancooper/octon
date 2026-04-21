@@ -86,48 +86,6 @@ main() {
   run_validator \
     "capability publication state is current and coherent" \
     "$SCRIPT_DIR/validate-capability-publication-state.sh"
-  run_validator \
-    "architecture contract registry and execution conformance are current" \
-    "$SCRIPT_DIR/validate-architecture-conformance.sh"
-  run_validator \
-    "execution governance contracts and protected CI posture are current" \
-    "$SCRIPT_DIR/validate-execution-governance.sh"
-  run_optional_validator \
-    "objective binding cutover surfaces are current" \
-    "$SCRIPT_DIR/validate-objective-binding-cutover.sh"
-  run_optional_validator \
-    "runtime lifecycle normalization surfaces are current" \
-    "$SCRIPT_DIR/validate-runtime-lifecycle-normalization.sh"
-  run_optional_validator \
-    "mission-scoped reversible autonomy contracts and enforcement are current" \
-    "$SCRIPT_DIR/validate-mission-runtime-contracts.sh"
-  run_optional_validator \
-    "mission lifecycle cutover is fail-closed" \
-    "$SCRIPT_DIR/validate-mission-lifecycle-cutover.sh"
-  run_optional_validator \
-    "mission control state surfaces are current" \
-    "$SCRIPT_DIR/validate-mission-control-state.sh"
-  run_optional_validator \
-    "mission intent invariants are current" \
-    "$SCRIPT_DIR/validate-mission-intent-invariants.sh"
-  run_optional_validator \
-    "mission effective scenario routes are current" \
-    "$SCRIPT_DIR/validate-mission-effective-routes.sh"
-  run_optional_validator \
-    "mission route normalization is current" \
-    "$SCRIPT_DIR/validate-route-normalization.sh"
-  run_optional_validator \
-    "mission generated summaries are current" \
-    "$SCRIPT_DIR/validate-mission-generated-summaries.sh"
-  run_optional_validator \
-    "mission view generation is current" \
-    "$SCRIPT_DIR/validate-mission-view-generation.sh"
-  run_optional_validator \
-    "mission control evidence is current" \
-    "$SCRIPT_DIR/validate-mission-control-evidence.sh"
-  run_optional_validator \
-    "mission source-of-truth rules hold" \
-    "$SCRIPT_DIR/validate-mission-source-of-truth.sh"
 
   echo "Validation summary: errors=$errors"
   if [[ $errors -gt 0 ]]; then

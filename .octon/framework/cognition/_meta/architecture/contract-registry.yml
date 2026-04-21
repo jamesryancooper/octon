@@ -1,4 +1,649 @@
-schema_version: "architecture-contract-registry-v1"
+schema_version: "architecture-contract-registry-v2"
+registry:
+  registry_id: "octon-topology-authority-registry"
+  role: >-
+    Machine-readable topology, authority, publication, and doc-target registry
+    for the Octon super-root.
+  status: "active"
+  structural_authority_note: >-
+    This registry is the canonical machine-readable structural authority
+    surface for class roots, delegated registries, path families, publication
+    metadata, and active doc targets. It remains subordinate to the
+    constitutional kernel and preserves the legacy execution, mission_autonomy,
+    and documentation projections for existing validators.
+  subordinate_to:
+    - ".octon/framework/constitution/CHARTER.md"
+    - ".octon/framework/constitution/charter.yml"
+    - ".octon/framework/constitution/precedence/normative.yml"
+  compatibility_projections:
+    - "execution"
+    - "mission_autonomy"
+    - "documentation"
+class_roots:
+  resolution_order:
+    - "framework"
+    - "instance"
+    - "state"
+    - "generated"
+    - "inputs"
+  framework:
+    root: ".octon/framework/"
+    authority_class: "portable-authored-authority"
+    authored_authority: true
+    steady_state_role: >-
+      Portable authored Octon core, constitutional contracts, runtime
+      components, validators, and helper assets.
+    must_not_contain:
+      - "repo-local mutable control truth"
+      - "retained evidence"
+      - "generated outputs"
+  instance:
+    root: ".octon/instance/"
+    authority_class: "repo-specific-authored-authority"
+    authored_authority: true
+    steady_state_role: >-
+      Repo-specific durable authored authority including ingress, bootstrap,
+      workspace charter, governance, locality, cognition decisions, runtime
+      capability projections, and missions.
+    must_not_contain:
+      - "rebuildable generated outputs presented as authority"
+      - "raw exploratory inputs presented as runtime or policy authority"
+  state:
+    root: ".octon/state/"
+    authority_class: "operational-truth-and-retained-evidence"
+    authored_authority: false
+    steady_state_role: >-
+      Mutable control truth, retained evidence, disclosure receipts, validation
+      evidence, and active continuity or handoff state.
+    must_not_contain:
+      - "portable authored framework contracts"
+      - "repo-owned durable governance policy"
+  generated:
+    root: ".octon/generated/"
+    authority_class: "derived-projection"
+    authored_authority: false
+    steady_state_role: >-
+      Rebuildable effective outputs, cognition summaries, materialized
+      projections, and proposal discovery projections.
+    must_not_contain:
+      - "durable authority"
+      - "retained evidence presented as rebuildable output"
+  inputs:
+    root: ".octon/inputs/"
+    authority_class: "non-authoritative-input"
+    authored_authority: false
+    steady_state_role: >-
+      Raw additive packs, exploratory proposals, and human-led ideation that
+      may inform promotion or publication work without becoming direct runtime
+      or policy dependencies.
+    must_not_contain:
+      - "direct runtime dependencies"
+      - "direct policy dependencies"
+delegated_registries:
+  root_manifest:
+    path: ".octon/octon.yml"
+    role: >-
+      Super-root manifest for class-root bindings, portability profiles,
+      runtime input bindings, and generated commit defaults.
+    machine_keys:
+      - "topology.class_roots"
+      - "profiles"
+      - "resolution"
+      - "policies.generated_commit_defaults"
+    status: "active"
+  constitutional_contract_registry:
+    path: ".octon/framework/constitution/contracts/registry.yml"
+    role: "Constitutional contract-family registry and integration-surface register."
+    machine_keys:
+      - "kernel_surfaces"
+      - "families"
+      - "integration_surfaces"
+    status: "active"
+  overlay_points_registry:
+    path: ".octon/framework/overlay-points/registry.yml"
+    role: "Framework-authored declaration of legal overlay points and merge modes."
+    status: "active"
+  instance_manifest:
+    path: ".octon/instance/manifest.yml"
+    role: "Repo-side overlay enablement and instance-local overlay bindings."
+    machine_keys:
+      - "enabled_overlay_points"
+    status: "active"
+  ingress_manifest:
+    path: ".octon/instance/ingress/manifest.yml"
+    role: >-
+      Mandatory ingress read order, optional orientation overlays, adapter
+      parity targets, and branch closeout gate.
+    machine_keys:
+      - "mandatory_reads"
+      - "optional_orientation"
+      - "branch_closeout_gate"
+    status: "active"
+  decisions_index:
+    path: ".octon/instance/cognition/decisions/index.yml"
+    role: "Append-only machine discovery surface for durable ADR lineage."
+    machine_keys:
+      - "records"
+    status: "active"
+path_families:
+  constitutional_kernel:
+    class_root: "framework"
+    canonical_paths:
+      - ".octon/framework/constitution/CHARTER.md"
+      - ".octon/framework/constitution/charter.yml"
+      - ".octon/framework/constitution/precedence/**"
+      - ".octon/framework/constitution/obligations/**"
+      - ".octon/framework/constitution/ownership/**"
+      - ".octon/framework/constitution/contracts/**"
+    authority_class: "supreme-repo-local-authority"
+    role: "Repo-local constitutional kernel and constitutional contract families."
+    allowed_consumers:
+      - "docs"
+      - "runtime"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "generated projections as authority substitutes"
+      - "host affordances as authority substitutes"
+    delegated_registry_refs:
+      - "constitutional_contract_registry"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-contract-governance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+      - "ingress_surface"
+  structural_architecture:
+    class_root: "framework"
+    canonical_paths:
+      - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+      - ".octon/framework/cognition/_meta/architecture/specification.md"
+    authority_class: "structural-topology-authority"
+    role: >-
+      Machine-readable and human-readable structural architecture contract for
+      placement, topology, publication, and doc-role invariants.
+    allowed_consumers:
+      - "docs"
+      - "validators"
+      - "runtime packaging and conformance tooling"
+    forbidden_consumers:
+      - "constitutional override logic"
+      - "generated projections as source of truth"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-authoritative-doc-triggers.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+      - "ingress_surface"
+  overlay_resolution:
+    class_root: "framework"
+    related_class_roots:
+      - "instance"
+    canonical_paths:
+      - ".octon/framework/overlay-points/registry.yml"
+      - ".octon/instance/manifest.yml"
+    authority_class: "declared-overlay-boundary"
+    role: "Declares which instance surfaces may overlay framework-authored authority."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "undeclared instance shadow trees"
+    delegated_registry_refs:
+      - "overlay_points_registry"
+      - "instance_manifest"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+  instance_ingress_and_bootstrap:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/ingress/**"
+      - ".octon/instance/bootstrap/**"
+    authority_class: "repo-specific-orientation-authority"
+    role: "Ingress, optional orientation, and repo-local bootstrap guidance."
+    allowed_consumers:
+      - "agents"
+      - "operators"
+      - "validators"
+    forbidden_consumers:
+      - "runtime as a substitute for constitutional or workspace authority"
+    delegated_registry_refs:
+      - "ingress_manifest"
+    doc_target_refs:
+      - "bootstrap_start"
+      - "ingress_surface"
+  workspace_charter_pair:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/charter/workspace.md"
+      - ".octon/instance/charter/workspace.yml"
+    authority_class: "workspace-objective-authority"
+    role: "Repo-wide objective authority bound beneath the constitutional kernel."
+    allowed_consumers:
+      - "agents"
+      - "runtime"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "generated summaries as substitutes"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
+    doc_target_refs:
+      - "bootstrap_start"
+      - "ingress_surface"
+  instance_governance:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/governance/support-targets.yml"
+      - ".octon/instance/governance/exclusions/action-classes.yml"
+      - ".octon/instance/governance/policies/**"
+      - ".octon/instance/governance/contracts/**"
+      - ".octon/instance/governance/ownership/registry.yml"
+      - ".octon/instance/governance/disclosure/**"
+    authority_class: "repo-policy-authority"
+    role: >-
+      Repo-owned policy, ownership, support-target, exclusion, contract, and
+      governance disclosure surfaces.
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "docs"
+      - "operators"
+    forbidden_consumers:
+      - "raw inputs"
+      - "generated projections as authority substitutes"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+  instance_locality:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/locality/manifest.yml"
+      - ".octon/instance/locality/registry.yml"
+      - ".octon/instance/locality/scopes/<scope-id>/scope.yml"
+      - ".octon/instance/cognition/context/scopes/<scope-id>/**"
+    authority_class: "repo-locality-authority"
+    role: "Repo-owned scope and locality declarations plus scope-local durable context."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "descendant .octon roots"
+      - "ancestor-chain scope composition"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+  instance_decisions:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/cognition/decisions/<NNN>-<slug>.md"
+      - ".octon/instance/cognition/decisions/index.yml"
+    authority_class: "durable-decision-record"
+    role: "Append-only durable ADR surface and machine discovery index."
+    allowed_consumers:
+      - "operators"
+      - "docs"
+      - "validators"
+    forbidden_consumers:
+      - "runtime authority routing"
+    delegated_registry_refs:
+      - "decisions_index"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+  instance_missions:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/orchestration/missions/**"
+    authority_class: "mission-continuity-authority"
+    role: "Durable mission authority and long-horizon autonomy container."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "docs"
+      - "operators"
+    forbidden_consumers:
+      - "unsupported mission-only consequential execution"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-source-of-truth.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+  state_control_execution:
+    class_root: "state"
+    canonical_paths:
+      - ".octon/state/control/execution/runs/**"
+      - ".octon/state/control/execution/approvals/**"
+      - ".octon/state/control/execution/exceptions/**"
+      - ".octon/state/control/execution/revocations/**"
+      - ".octon/state/control/execution/missions/**"
+      - ".octon/state/control/extensions/{active.yml,quarantine.yml}"
+      - ".octon/state/control/locality/quarantine.yml"
+    authority_class: "mutable-operational-control-truth"
+    role: >-
+      Canonical mutable control truth for execution, publication, extensions,
+      and quarantine state.
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "generated projections as authority substitutes"
+      - "raw inputs"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-control-evidence.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
+  state_evidence:
+    class_root: "state"
+    canonical_paths:
+      - ".octon/state/evidence/runs/**"
+      - ".octon/state/evidence/lab/**"
+      - ".octon/state/evidence/control/execution/**"
+      - ".octon/state/evidence/disclosure/**"
+      - ".octon/state/evidence/validation/**"
+    authority_class: "retained-evidence-and-disclosure"
+    role: "Retained proof, receipts, disclosure artifacts, and validation evidence."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+      - "docs"
+    forbidden_consumers:
+      - "generated projections without cited retained evidence"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase4-proof-lab-enforcement.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-assurance-disclosure-expansion.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
+  state_continuity:
+    class_root: "state"
+    canonical_paths:
+      - ".octon/state/continuity/repo/**"
+      - ".octon/state/continuity/scopes/**"
+      - ".octon/state/continuity/runs/**"
+    authority_class: "active-handoff-and-resumption-state"
+    role: "Resumable handoff and continuity state for repo, scope, mission, and run work."
+    allowed_consumers:
+      - "agents"
+      - "operators"
+      - "runtime"
+    forbidden_consumers:
+      - "constitutional override logic"
+      - "generated summaries as canonical memory"
+    doc_target_refs:
+      - "bootstrap_start"
+      - "ingress_surface"
+  generated_effective:
+    class_root: "generated"
+    canonical_paths:
+      - ".octon/generated/effective/**"
+    authority_class: "runtime-facing-derived-publication"
+    role: "Freshness-bounded runtime-facing effective outputs."
+    allowed_consumers:
+      - "runtime"
+      - "operators"
+      - "validators"
+    forbidden_consumers:
+      - "authority minting"
+      - "stale publication without receipts"
+    publication_ref: "runtime_effective"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+  generated_cognition:
+    class_root: "generated"
+    canonical_paths:
+      - ".octon/generated/cognition/**"
+    authority_class: "non-authoritative-derived-read-model"
+    role: "Generated mission, operator, and decision summaries plus materialized projections."
+    allowed_consumers:
+      - "operators"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "runtime authority routing"
+      - "policy authority routing"
+    publication_ref: "cognition_read_models"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+  generated_proposals:
+    class_root: "generated"
+    canonical_paths:
+      - ".octon/generated/proposals/registry.yml"
+    authority_class: "non-authoritative-discovery-projection"
+    role: "Deterministic discovery projection for raw proposal manifests."
+    allowed_consumers:
+      - "operators"
+      - "docs"
+      - "validators"
+    forbidden_consumers:
+      - "runtime"
+      - "policy"
+    publication_ref: "proposal_discovery"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+  inputs_additive:
+    class_root: "inputs"
+    canonical_paths:
+      - ".octon/inputs/additive/extensions/**"
+    authority_class: "non-authoritative-additive-input"
+    role: >-
+      Raw additive extension packs with compatibility and provenance, subject
+      to explicit trust activation and publication.
+    allowed_consumers:
+      - "pack tooling"
+      - "validators"
+      - "publication workflows"
+    forbidden_consumers:
+      - "runtime direct reads before publication"
+      - "policy direct reads before publication"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+  inputs_exploratory:
+    class_root: "inputs"
+    canonical_paths:
+      - ".octon/inputs/exploratory/ideation/**"
+      - ".octon/inputs/exploratory/proposals/**"
+    authority_class: "non-authoritative-exploratory-input"
+    role: "Human-led ideation and proposal packets retained as exploratory lineage."
+    allowed_consumers:
+      - "humans"
+      - "proposal tooling"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "runtime"
+      - "policy"
+      - "autonomous ideation access without explicit scope"
+    doc_target_refs:
+      - "super_root_readme"
+      - "architecture_specification"
+      - "bootstrap_start"
+      - "ingress_surface"
+publication_metadata:
+  runtime_effective:
+    output_root: ".octon/generated/effective/"
+    authority_status: "derived-only"
+    runtime_facing: true
+    receipt_root: ".octon/state/evidence/validation/publication/"
+    freshness_artifacts:
+      - "artifact-map.yml"
+      - "generation.lock.yml"
+    commit_default_ref: ".octon/octon.yml#policies.generated_commit_defaults"
+    allowed_source_family_refs:
+      - "instance_governance"
+      - "instance_locality"
+      - "instance_missions"
+      - "state_control_execution"
+      - "state_evidence"
+    forbidden_source_family_refs:
+      - "inputs_additive"
+      - "inputs_exploratory"
+    required_conditions:
+      - "publication receipt retained"
+      - "generation lock current"
+      - "no authority widening beyond canonical sources"
+  cognition_read_models:
+    output_root: ".octon/generated/cognition/"
+    authority_status: "derived-only"
+    runtime_facing: false
+    receipt_root: ".octon/state/evidence/validation/"
+    commit_default_ref: ".octon/octon.yml#policies.generated_commit_defaults"
+    allowed_source_family_refs:
+      - "instance_decisions"
+      - "instance_missions"
+      - "state_control_execution"
+      - "state_evidence"
+      - "state_continuity"
+    forbidden_source_family_refs:
+      - "inputs_exploratory"
+    required_conditions:
+      - "field-level traceability to canonical authored, control, evidence, or continuity sources"
+      - "freshness bounded by retained evidence and current control state"
+  proposal_discovery:
+    output_path: ".octon/generated/proposals/registry.yml"
+    authority_status: "derived-only"
+    runtime_facing: false
+    source_family_ref: "inputs_exploratory"
+    lifecycle_authority: "proposal.yml and subtype manifests only"
+    forbidden_consumers:
+      - "runtime"
+      - "policy"
+    required_conditions:
+      - "deterministic rebuild from proposal manifests"
+      - "archive status preserved as lineage only"
+doc_targets:
+  super_root_readme:
+    path: ".octon/README.md"
+    doc_class: "authoritative-doc"
+    role: "Concise super-root orientation and class-root summary."
+    registry_backed: true
+    source_refs:
+      path_family_refs:
+        - "constitutional_kernel"
+        - "instance_governance"
+        - "instance_decisions"
+        - "generated_effective"
+        - "generated_cognition"
+        - "generated_proposals"
+        - "inputs_additive"
+        - "inputs_exploratory"
+      delegated_registry_refs:
+        - "root_manifest"
+        - "constitutional_contract_registry"
+        - "decisions_index"
+    must_not_restate:
+      - "full hand-maintained canonical path matrices"
+      - "wave or cutover chronology"
+      - "proposal-lineage closeout detail"
+  architecture_specification:
+    path: ".octon/framework/cognition/_meta/architecture/specification.md"
+    doc_class: "authoritative-doc"
+    role: "Human-readable steady-state structural contract narrative."
+    registry_backed: true
+    source_refs:
+      path_family_refs:
+        - "structural_architecture"
+        - "constitutional_kernel"
+        - "overlay_resolution"
+        - "workspace_charter_pair"
+        - "instance_governance"
+        - "instance_locality"
+        - "instance_decisions"
+        - "instance_missions"
+        - "state_control_execution"
+        - "state_evidence"
+        - "state_continuity"
+        - "generated_effective"
+        - "generated_cognition"
+        - "generated_proposals"
+        - "inputs_additive"
+        - "inputs_exploratory"
+      delegated_registry_refs:
+        - "root_manifest"
+        - "constitutional_contract_registry"
+        - "overlay_points_registry"
+        - "instance_manifest"
+        - "decisions_index"
+    must_not_restate:
+      - "generated or proposal publication as authority"
+      - "historical wave or cutover narrative"
+      - "proposal archive chronology"
+  bootstrap_start:
+    path: ".octon/instance/bootstrap/START.md"
+    doc_class: "authoritative-doc"
+    role: "Boot sequence and first-run operator orientation."
+    registry_backed: true
+    source_refs:
+      path_family_refs:
+        - "constitutional_kernel"
+        - "structural_architecture"
+        - "instance_ingress_and_bootstrap"
+        - "workspace_charter_pair"
+        - "state_continuity"
+        - "generated_effective"
+        - "generated_cognition"
+        - "inputs_exploratory"
+      delegated_registry_refs:
+        - "ingress_manifest"
+        - "root_manifest"
+        - "decisions_index"
+    must_not_restate:
+      - "full topology tables"
+      - "wave or cutover chronology"
+      - "proposal-lineage closeout detail"
+  ingress_surface:
+    path: ".octon/instance/ingress/AGENTS.md"
+    doc_class: "authoritative-doc"
+    role: "Canonical internal ingress surface for mandatory reads and execution posture."
+    registry_backed: true
+    source_refs:
+      path_family_refs:
+        - "constitutional_kernel"
+        - "structural_architecture"
+        - "workspace_charter_pair"
+        - "instance_ingress_and_bootstrap"
+        - "state_continuity"
+        - "inputs_exploratory"
+      delegated_registry_refs:
+        - "ingress_manifest"
+        - "root_manifest"
+    must_not_restate:
+      - "duplicate topology matrices better read from the registry"
+      - "historical migration chronology"
 execution:
   write_roots:
     run_continuity_root: ".octon/state/continuity/runs"
@@ -110,8 +755,17 @@ execution:
     - ".octon/state/control/README.md"
     - ".octon/state/evidence/README.md"
   blocking_checks:
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-completeness.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-objective-binding-cutover.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"

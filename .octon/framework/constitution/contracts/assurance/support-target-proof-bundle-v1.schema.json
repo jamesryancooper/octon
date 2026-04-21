@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json",
+  "title": "Octon Support Target Proof Bundle v1",
+  "description": "Per-tuple proof bundle that links support admission, dossier sufficiency, representative retained runs, proof-plane evidence, and disclosure coverage.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "tuple_id",
+    "tuple",
+    "claim_effect",
+    "support_target_ref",
+    "admission_ref",
+    "support_dossier_ref",
+    "generated_at",
+    "freshness",
+    "proof_planes",
+    "scenario_evidence",
+    "disclosure_evidence",
+    "sufficiency"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "support-target-proof-bundle-v1"
+    },
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tuple_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tuple": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_tier",
+        "workload_tier",
+        "language_resource_tier",
+        "locale_tier",
+        "host_adapter",
+        "model_adapter"
+      ],
+      "properties": {
+        "model_tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "workload_tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "language_resource_tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "locale_tier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "host_adapter": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_adapter": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "claim_effect": {
+      "type": "string",
+      "enum": [
+        "admitted-live-claim",
+        "stage-only",
+        "non-live"
+      ]
+    },
+    "support_target_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "admission_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_dossier_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewed_at",
+        "review_due_at"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "current",
+            "review_due",
+            "stale"
+          ]
+        },
+        "reviewed_at": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review_due_at": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "proof_planes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "plane_id",
+          "status",
+          "coverage_ref"
+        ],
+        "properties": {
+          "plane_id": {
+            "type": "string",
+            "enum": [
+              "structural",
+              "functional",
+              "behavioral",
+              "maintainability",
+              "governance",
+              "recovery"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "conditional",
+              "fail"
+            ]
+          },
+          "coverage_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "scenario_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_scenarios",
+        "representative_run_refs",
+        "negative_control_refs"
+      ],
+      "properties": {
+        "required_scenarios": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "representative_run_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "negative_control_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "lab_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "authority_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "decision_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "grant_bundle_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "disclosure_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_card_refs"
+      ],
+      "properties": {
+        "run_card_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "harness_card_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "support_universe_coverage_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "proof_plane_coverage_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "sufficiency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minimum_retained_runs",
+        "current_retained_runs",
+        "status"
+      ],
+      "properties": {
+        "minimum_retained_runs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "current_retained_runs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "qualified",
+            "degraded",
+            "unqualified"
+          ]
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

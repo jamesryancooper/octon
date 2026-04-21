@@ -1,0 +1,124 @@
+schema_version: octon-architecture-proposal-v1
+proposal_id: octon-architecture-10of10-remediation
+architecture_scope:
+  super_root: .octon/
+  affected_classes:
+    - framework
+    - instance
+    - state
+    - generated
+    - inputs
+  proposal_workspace_is_non_authoritative: true
+decision_type: target-state-remediation-program
+executive_thesis: >-
+  Octon's current architecture is directionally correct and should not be
+  re-founded. It should be promoted to 10/10 by making its existing constitutional
+  authority model mechanically enforceable, proof-complete, maintainable,
+  operator-legible, and self-validating.
+target_state_decisions:
+  - id: D-001
+    title: Single canonical topology and authority registry
+    decision: >-
+      Use .octon/framework/cognition/_meta/architecture/contract-registry.yml as
+      the machine-readable canonical registry for path, authority, dependency,
+      publication, and validation invariants; generate human docs from it.
+  - id: D-002
+    title: Total authorization-boundary coverage
+    decision: >-
+      Every material side-effect path must be inventoried and proven to cross
+      authorize_execution(...) before side effects. Missing coverage fails CI.
+  - id: D-003
+    title: Decompose authority engine
+    decision: >-
+      Split the authority engine into auditable modules aligned to stable
+      concepts: request normalization, support targets, ownership, risk,
+      mission/run binding, capability admission, rollback, budget, egress,
+      decisions, reasons, receipts, evidence, and finalization.
+  - id: D-004
+    title: Evidence durable by construction
+    decision: >-
+      Introduce evidence-store and evidence-completeness contracts that separate
+      retained canonical evidence from CI artifact transport and generated views.
+  - id: D-005
+    title: Promotion semantics hardening
+    decision: >-
+      Require promotion/activation receipts for every generated/** or inputs/**
+      artifact that becomes durable authority, durable context, runtime-facing
+      effective output, or operational control truth.
+  - id: D-006
+    title: Formal run lifecycle state machine
+    decision: >-
+      Define requested, authorized, denied, staged, escalated, prepared,
+      executing, checkpointed, verifying, closing, closed, failed, paused,
+      revoked, and rolled_back states with authority/evidence/support/rollback
+      requirements for every transition.
+  - id: D-007
+    title: Support-target proofing
+    decision: >-
+      An admitted support tuple must have conformance suites, live and denied
+      scenarios, proof bundle, evidence completeness check, and disclosure.
+  - id: D-008
+    title: Operator-grade non-authoritative read models
+    decision: >-
+      Generate mission, run, grant, evidence, support, and closeout-readiness
+      views from canonical authority/control/evidence surfaces only.
+current_state_disposition:
+  preserved_unchanged:
+    - five-class super-root model
+    - constitutional kernel under framework/constitution/**
+    - authored authority in framework/** and instance/** only
+    - generated non-authority rule
+    - raw input non-authority rule
+    - state/control/evidence/continuity separation
+    - support-target boundedness
+    - mission/run separation
+    - adapter non-authority
+    - overlay-point restriction
+  refined:
+    - framework/cognition/_meta/architecture/specification.md
+    - framework/cognition/_meta/architecture/contract-registry.yml
+    - framework/engine/runtime/spec/**
+    - framework/constitution/contracts/**
+    - instance/governance/support-targets.yml
+    - instance/governance/support-target-admissions/**
+  relocated:
+    - historical wave/cutover/proposal-lineage content from active docs to instance/cognition/decisions/** or state/evidence/migration/**
+  reduced:
+    - repeated hand-maintained topology/source-of-truth tables
+    - active operator vocabulary exposed before first run
+  deleted:
+    - any direct or implied runtime dependency on inputs/exploratory/proposals/**
+    - any duplicate topology list not generated from the canonical registry
+    - any quiet promotion path into instance/** without receipts
+  newly_introduced:
+    - evidence-store-v1 contract
+    - run-lifecycle-v1 state machine
+    - authorization-boundary-coverage-v1 contract
+    - promotion-activation-v1 contract
+    - operator-read-models-v1 contract
+    - support-target-proof-bundle-v1 contract
+implementation_motions:
+  - inventory material execution call paths and bind them to authorization coverage tests
+  - split authority_engine/src/implementation.rs into stable modules
+  - add evidence completeness and durable retention validators
+  - render docs from contract-registry.yml
+  - add operator read-model generators and consistency validators
+  - add support tuple proof bundles before any support claim expansion
+deletion_motions:
+  - remove duplicated canonical path matrices from active docs once generated replacements exist
+  - remove or archive active-doc wave/cutover language after decision records are created
+  - remove any generated/effective publication path lacking receipt-backed freshness
+validation_motions:
+  - architecture contract registry validation
+  - authorization coverage validation
+  - generated non-authority validation
+  - input non-authority validation
+  - promotion receipt validation
+  - evidence completeness validation
+  - support-target proof validation
+  - runtime/docs consistency validation
+  - operator read-model consistency validation
+closure_motions:
+  - retain closure evidence under .octon/state/evidence/validation/architecture/10of10-remediation/**
+  - create closeout ADRs under .octon/instance/cognition/decisions/**
+  - archive this proposal packet after promotion and closure certification

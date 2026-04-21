@@ -1,0 +1,14 @@
+schema_version: generated-non-authority-scan-v1
+scan_roots:
+  - .octon/framework/engine/runtime/crates
+  - .octon/instance/governance/policies
+scan_patterns:
+  - .octon/generated/cognition/
+allowed_reference_files: []
+required_rule_refs:
+  - doc_ref: .octon/framework/constitution/obligations/fail-closed.yml
+    required_text:
+      - A generated artifact is treated as source-of-truth or as a second control plane.
+  - doc_ref: .octon/framework/cognition/_meta/architecture/specification.md
+    required_text:
+      - "`generated/**` is rebuildable and never mints authority."
