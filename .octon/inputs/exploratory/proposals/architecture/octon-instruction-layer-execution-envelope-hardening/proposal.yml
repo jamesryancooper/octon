@@ -8,7 +8,7 @@ proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:
   - ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json"
-  - ".octon/instance/agency/runtime/tool-output-budgets.yml"
+  - ".octon/instance/execution-roles/runtime/tool-output-budgets.yml"
   - ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json"
   - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
   - ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json"
