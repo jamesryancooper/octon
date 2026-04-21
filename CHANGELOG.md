@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.34](https://github.com/jamesryancooper/octon/compare/octon-v0.6.33...octon-v0.6.34) (2026-04-21)
+
+
+### Refactors
+
+* **architecture:** land 10of10 remediation surfaces ([#329](https://github.com/jamesryancooper/octon/issues/329)) ([12b694b](https://github.com/jamesryancooper/octon/commit/12b694b020e777768b26608ff1f2267ce4f16b58))
+
 ## [0.6.33](https://github.com/jamesryancooper/octon/compare/octon-v0.6.32...octon-v0.6.33) (2026-04-19)
 
 
