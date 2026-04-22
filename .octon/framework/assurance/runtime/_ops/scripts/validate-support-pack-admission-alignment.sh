@@ -10,6 +10,7 @@ CONTRACT="$OCTON_DIR/instance/governance/contracts/support-pack-admission-alignm
 SUPPORT_TARGETS="$OCTON_DIR/instance/governance/support-targets.yml"
 GOV_REGISTRY="$OCTON_DIR/instance/governance/capability-packs/registry.yml"
 RUNTIME_REGISTRY="$OCTON_DIR/instance/capabilities/runtime/packs/registry.yml"
+PACK_ROUTES="$OCTON_DIR/generated/effective/capabilities/pack-routes.effective.yml"
 
 errors=0
 
@@ -35,6 +36,7 @@ main() {
   [[ -f "$SUPPORT_TARGETS" ]] && pass "support target declaration present" || fail "missing support target declaration"
   [[ -f "$GOV_REGISTRY" ]] && pass "governance pack registry present" || fail "missing governance pack registry"
   [[ -f "$RUNTIME_REGISTRY" ]] && pass "runtime pack registry present" || fail "missing runtime pack registry"
+  [[ -f "$PACK_ROUTES" ]] && pass "runtime pack routes present" || fail "missing runtime pack routes"
 
   while IFS= read -r pack_id; do
     [[ -n "$pack_id" ]] || continue
@@ -57,8 +59,10 @@ main() {
     gov_targets="$(sorted_yaml_values "$gov_manifest" '.support_target_refs')"
     admission_targets="$(sorted_yaml_values "$runtime_admission" '.support_target_refs')"
     registry_targets="$(sorted_yaml_values "$RUNTIME_REGISTRY" ".packs[] | select(.pack_id == \"$pack_id\") | .support_target_refs")"
+    pack_route_targets="$(yq -r ".packs[] | select(.pack_id == \"$pack_id\") | .tuple_routes[]?.tuple_id // \"\"" "$PACK_ROUTES" 2>/dev/null | awk 'NF' | LC_ALL=C sort)"
     [[ "$gov_targets" == "$admission_targets" ]] && pass "$pack_id governance/runtime support targets aligned" || fail "$pack_id governance/runtime support target drift"
     [[ "$admission_targets" == "$registry_targets" ]] && pass "$pack_id runtime registry support targets aligned" || fail "$pack_id runtime registry support target drift"
+    [[ "$admission_targets" == "$pack_route_targets" ]] && pass "$pack_id pack-route support targets aligned" || fail "$pack_id pack-route support target drift"
 
     admission_proof="$(sorted_yaml_values "$runtime_admission" '.required_proof')"
     registry_proof="$(sorted_yaml_values "$RUNTIME_REGISTRY" ".packs[] | select(.pack_id == \"$pack_id\") | .required_proof")"
@@ -79,6 +83,11 @@ main() {
         pass "$tuple_id remains inside $pack_id support envelope"
       else
         fail "$tuple_id missing from $pack_id support envelope"
+      fi
+      if yq -e ".packs[] | select(.pack_id == \"$pack_id\") | .tuple_routes[] | select(.tuple_id == \"$tuple_id\" and .claim_effect == \"$claim_effect\")" "$PACK_ROUTES" >/dev/null 2>&1; then
+        pass "$tuple_id claim effect remains explicit in pack route for $pack_id"
+      else
+        fail "$tuple_id claim effect missing from pack route for $pack_id"
       fi
       if [[ "$claim_effect" == "admitted-live-claim" && "$registry_status" != "admitted" ]]; then
         fail "$tuple_id is live but pack $pack_id is not admitted"

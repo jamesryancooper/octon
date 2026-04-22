@@ -1,0 +1,10 @@
+schema_version: support-target-proof-refresh-v1
+validated_at: "2026-04-22T03:39:11Z"
+proofing_receipt_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/proofing.yml
+support_bundle_refs:
+  - .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
+  - .octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml
+  - .octon/state/evidence/validation/support-targets/ci-observe-read-en.yml
+  - .octon/state/evidence/validation/support-targets/repo-shell-boundary-sensitive-en.yml
+  - .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+  - .octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml

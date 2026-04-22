@@ -18,7 +18,10 @@ authority remains in `framework/**`, `instance/**`, `state/control/**`, and
 ## Target-State Navigation
 
 - Authorization boundary contracts: `framework/engine/runtime/spec/**`
+- Delegated runtime resolution: `instance/governance/runtime-resolution.yml`
+- Runtime route bundle: `generated/effective/runtime/{route-bundle.yml,route-bundle.lock.yml}`
+- Runtime pack routes: `generated/effective/capabilities/{pack-routes.effective.yml,pack-routes.lock.yml}`
 - Runtime kernels and authority engine: `framework/engine/runtime/crates/**`
-- Packet-named closure evidence: `state/evidence/validation/architecture-target-state-transition/**`
+- Packet-named closure evidence: `state/evidence/validation/architecture/10of10-target-transition/**`
 - Tuple proof bundles: `state/evidence/validation/support-targets/**`
 - Transitional retirement inventory: `instance/governance/retirement-register.yml`

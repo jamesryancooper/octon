@@ -1,0 +1,13 @@
+schema_version: "operator-read-model-publication-v1"
+generated_at: "2026-04-22T03:44:21Z"
+view_contract_ref: ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+published_views:
+  - view_kind: "runtime-route"
+    projection_ref: ".octon/generated/cognition/projections/materialized/runtime-route-map.md"
+    summary_ref: ".octon/generated/effective/runtime/route-bundle.yml"
+  - view_kind: "support-pack-route"
+    projection_ref: ".octon/generated/cognition/projections/materialized/support-pack-route-map.md"
+    summary_ref: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  - view_kind: "architecture"
+    projection_ref: ".octon/generated/cognition/projections/materialized/architecture-map.md"
+    summary_ref: ".octon/state/evidence/validation/architecture/10of10-target-transition/manifest.yml"

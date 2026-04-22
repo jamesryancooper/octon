@@ -10,10 +10,13 @@ required_inputs:
   - ".octon/instance/governance/capability-packs/**"
   - ".octon/instance/capabilities/runtime/packs/admissions/**"
   - ".octon/instance/capabilities/runtime/packs/registry.yml"
+  - ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  - ".octon/generated/effective/capabilities/pack-routes.lock.yml"
   - ".octon/framework/capabilities/packs/**"
 alignment_requirements:
   - "Every pack id in governance intent resolves to one runtime admission and one runtime registry entry."
   - "Governance and runtime pack support_target_refs stay equal after sorting."
+  - "Compiled pack routes retain tuple claim_effect and never widen beyond admitted support tuples."
   - "Live tuples may cite only admitted packs."
   - "Stage-only or non-live tuples may cite unadmitted packs only when the tuple remains non-live."
   - "Runtime registry status, default_route, support_target_refs, and required_proof remain in parity with runtime admissions."

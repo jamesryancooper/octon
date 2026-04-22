@@ -1,0 +1,8 @@
+schema_version: pack-route-no-widening-v1
+validated_at: "2026-04-22T03:39:11Z"
+contract_ref: .octon/instance/governance/contracts/support-pack-admission-alignment.yml
+pack_routes_ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+pack_routes_lock_ref: .octon/generated/effective/capabilities/pack-routes.lock.yml
+support_targets_ref: .octon/instance/governance/support-targets.yml
+runtime_registry_ref: .octon/instance/capabilities/runtime/packs/registry.yml
+result: pass

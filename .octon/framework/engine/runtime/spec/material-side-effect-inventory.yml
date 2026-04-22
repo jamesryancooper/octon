@@ -39,6 +39,8 @@ classes:
     examples:
       - "support target matrix publication"
       - "effective locality refresh"
+      - "runtime route bundle publication"
+      - "pack route compilation"
     required_boundary: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
     owner: "Octon runtime"
     risk_tier: "medium"

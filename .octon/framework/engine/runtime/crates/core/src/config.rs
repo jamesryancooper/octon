@@ -1,4 +1,6 @@
 use crate::errors::{ErrorCode, KernelError, Result};
+use octon_runtime_resolver::verify_runtime_route_bundle;
+use serde_json::json;
 use serde::Deserialize;
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
@@ -12,6 +14,13 @@ pub struct RuntimeConfig {
     pub run_continuity_root: PathBuf,
     pub execution_control_root: PathBuf,
     pub execution_tmp_root: PathBuf,
+    pub runtime_resolution_path: PathBuf,
+    pub runtime_route_bundle_path: PathBuf,
+    pub runtime_route_bundle_lock_path: PathBuf,
+    pub runtime_pack_routes_effective_path: PathBuf,
+    pub runtime_pack_routes_lock_path: PathBuf,
+    pub runtime_route_bundle_generation_id: String,
+    pub runtime_route_bundle_sha256: String,
 
     pub policy: PolicyConfig,
     pub policy_path: Option<PathBuf>,
@@ -187,6 +196,20 @@ impl ConfigLoader {
         let run_continuity_root = octon_dir.join("state").join("continuity").join("runs");
         let execution_control_root = octon_dir.join("state").join("control").join("execution");
         let execution_tmp_root = octon_dir.join("generated").join(".tmp").join("execution");
+        let runtime_bundle = verify_runtime_route_bundle(&octon_dir).map_err(|e| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!("runtime-effective route bundle validation failed: {e}"),
+            )
+            .with_details(json!({"reason_codes":["FCR-025"]}))
+        })?;
+        let runtime_resolution_path = runtime_bundle.resolution_path.clone();
+        let runtime_route_bundle_path = runtime_bundle.bundle_path.clone();
+        let runtime_route_bundle_lock_path = runtime_bundle.lock_path.clone();
+        let runtime_pack_routes_effective_path = runtime_bundle.pack_routes_effective_path.clone();
+        let runtime_pack_routes_lock_path = runtime_bundle.pack_routes_lock_path.clone();
+        let runtime_route_bundle_generation_id = runtime_bundle.bundle.generation_id.clone();
+        let runtime_route_bundle_sha256 = runtime_bundle.bundle_sha256.clone();
 
         let root_manifest = Self::load_root_manifest(&octon_dir)?;
 
@@ -217,6 +240,13 @@ impl ConfigLoader {
             run_continuity_root,
             execution_control_root,
             execution_tmp_root,
+            runtime_resolution_path,
+            runtime_route_bundle_path,
+            runtime_route_bundle_lock_path,
+            runtime_pack_routes_effective_path,
+            runtime_pack_routes_lock_path,
+            runtime_route_bundle_generation_id,
+            runtime_route_bundle_sha256,
             policy,
             policy_path,
             execution_governance,

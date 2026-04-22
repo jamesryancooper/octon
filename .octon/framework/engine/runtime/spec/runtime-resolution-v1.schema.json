@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/runtime-resolution-v1.schema.json",
+  "title": "Octon Runtime Resolution v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "owner",
+    "root_manifest_ref",
+    "runtime_effective_route_bundle_ref",
+    "runtime_effective_route_bundle_lock_ref",
+    "pack_routes_effective_ref",
+    "pack_routes_lock_ref",
+    "support_target_matrix_ref",
+    "extensions_catalog_ref",
+    "extensions_generation_lock_ref",
+    "mission_effective_route_root",
+    "runtime_inputs"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-runtime-resolution-v1" },
+    "owner": { "type": "string", "minLength": 1 },
+    "root_manifest_ref": { "type": "string", "minLength": 1 },
+    "runtime_effective_route_bundle_ref": { "type": "string", "minLength": 1 },
+    "runtime_effective_route_bundle_lock_ref": { "type": "string", "minLength": 1 },
+    "pack_routes_effective_ref": { "type": "string", "minLength": 1 },
+    "pack_routes_lock_ref": { "type": "string", "minLength": 1 },
+    "support_target_matrix_ref": { "type": "string", "minLength": 1 },
+    "extensions_catalog_ref": { "type": "string", "minLength": 1 },
+    "extensions_generation_lock_ref": { "type": "string", "minLength": 1 },
+    "mission_effective_route_root": { "type": "string", "minLength": 1 },
+    "generated_non_authority_roots": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "forbidden_runtime_authority_roots": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "runtime_inputs": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    }
+  },
+  "additionalProperties": true
+}

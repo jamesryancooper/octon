@@ -1,0 +1,150 @@
+schema_version: "octon-runtime-pack-routes-effective-v1"
+generation_id: "pack-routes-8af1c1063906"
+generated_at: "2026-04-22T03:37:58Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/capabilities/2026-04-22T03-37-58Z-pack-routes-8af1c1063906.yml"
+packs:
+  - pack_id: "repo"
+    admission_status: "admitted"
+    default_route: "allow"
+    governance_manifest_ref: ".octon/instance/governance/capability-packs/repo.yml"
+    runtime_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+    tuple_routes:
+      - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+  - pack_id: "git"
+    admission_status: "admitted"
+    default_route: "allow"
+    governance_manifest_ref: ".octon/instance/governance/capability-packs/git.yml"
+    runtime_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+    tuple_routes:
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: false
+      - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+  - pack_id: "shell"
+    admission_status: "admitted"
+    default_route: "allow"
+    governance_manifest_ref: ".octon/instance/governance/capability-packs/shell.yml"
+    runtime_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+    tuple_routes:
+      - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+  - pack_id: "telemetry"
+    admission_status: "admitted"
+    default_route: "allow"
+    governance_manifest_ref: ".octon/instance/governance/capability-packs/telemetry.yml"
+    runtime_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+    tuple_routes:
+      - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: false
+      - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+        claim_effect: "admitted-live-claim"
+        route: "allow"
+        requires_mission: false
+      - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+  - pack_id: "browser"
+    admission_status: "unadmitted"
+    default_route: "escalate"
+    governance_manifest_ref: ".octon/instance/governance/capability-packs/browser.yml"
+    runtime_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+    tuple_routes:
+      - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+      - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+  - pack_id: "api"
+    admission_status: "unadmitted"
+    default_route: "escalate"
+    governance_manifest_ref: ".octon/instance/governance/capability-packs/api.yml"
+    runtime_registry_ref: ".octon/instance/capabilities/runtime/packs/registry.yml"
+    tuple_routes:
+      - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true
+      - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: false
+      - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+        claim_effect: "stage-only-non-live"
+        route: "stage_only"
+        requires_mission: true

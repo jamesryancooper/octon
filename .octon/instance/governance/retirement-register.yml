@@ -95,3 +95,16 @@ entries:
     review_artifact_ref: .octon/instance/governance/contracts/closeout-reviews.yml
     latest_review_packet_ref: .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening
     next_review_due: "2026-06-30"
+  - surface: runtime-capability-pack-projection
+    paths:
+      - .octon/instance/capabilities/runtime/packs/**
+    status: retained_with_rationale
+    disposition: compatibility-projection
+    claim_adjacent: true
+    rationale: Runtime pack projection remains readable for compatibility and audit parity, but the generated/effective pack route is the target-state runtime-facing route.
+    canonical_successor_ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    certificate_blocker: false
+    future_widening_blocker: true
+    review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
+    latest_review_packet_ref: .octon/inputs/exploratory/proposals/architecture/octon-architecture-10of10-target-state-transition/
+    next_review_due: "2026-06-30"

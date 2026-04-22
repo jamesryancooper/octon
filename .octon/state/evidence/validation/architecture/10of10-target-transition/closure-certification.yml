@@ -1,0 +1,17 @@
+schema_version: architecture-10of10-closure-v1
+proposal_id: octon-architecture-10of10-target-state-transition
+status: pending-validation
+validated_at: "2026-04-22T03:44:21Z"
+validator_receipts:
+  authorization_coverage_report: .octon/state/evidence/validation/architecture/10of10-target-transition/authorization-boundary/coverage.yml
+  generated_effective_freshness_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml
+  support_path_normalization_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/path-normalization.yml
+  support_proof_refresh_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
+  pack_route_no_widening_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/capabilities/pack-route-no-widening.yml
+  extension_active_state_compaction_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/extensions/active-state-compaction.yml
+  operator_view_generation_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+summary: >-
+  Runtime resolution is delegated into the authored runtime-resolution selector,
+  runtime-facing pack routes and the route bundle are fresh and receipt-backed,
+  support claim-state partitions are canonical, and extension active state is
+  compact enough to rely on generated locks for expansion.

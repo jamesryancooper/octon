@@ -110,3 +110,27 @@ obligations:
       completeness receipt, and disclosure references under architecture or
       publication validation evidence roots.
     adoption_status: "active"
+  - id: "EVI-019"
+    requirement: >-
+      Runtime-effective route-bundle publication retains current source digests,
+      publication receipt linkage, and freshness proof under
+      state/evidence/validation/architecture/10of10-target-transition/**.
+    adoption_status: "active"
+  - id: "EVI-020"
+    requirement: >-
+      Compiled pack-route publication retains no-widening proof linking support
+      tuple admission, governance intent, and generated/effective runtime
+      routes.
+    adoption_status: "active"
+  - id: "EVI-021"
+    requirement: >-
+      Support-path normalization retains path-normalization and proof-refresh
+      receipts when admissions, dossiers, support cards, and support matrices
+      are republished.
+    adoption_status: "active"
+  - id: "EVI-022"
+    requirement: >-
+      Compact extension active state retains publication and compatibility
+      receipt linkage while moving dependency closure and required inputs into
+      generation locks and artifact maps.
+    adoption_status: "active"

@@ -1,0 +1,117 @@
+schema_version: "octon-runtime-effective-route-bundle-v1"
+generation_id: "runtime-route-bundle-c029628e00b1"
+generated_at: "2026-04-22T03:44:21Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-04-22T03-44-21Z-runtime-route-bundle-c029628e00b1.yml"
+source_refs:
+  root_manifest_ref: ".octon/octon.yml"
+  runtime_resolution_ref: ".octon/instance/governance/runtime-resolution.yml"
+  support_target_matrix_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
+  pack_routes_effective_ref: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  pack_routes_lock_ref: ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+  extensions_catalog_ref: ".octon/generated/effective/extensions/catalog.effective.yml"
+  extensions_generation_lock_ref: ".octon/generated/effective/extensions/generation.lock.yml"
+routes:
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "observe-and-read"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    claim_effect: "admitted-live-claim"
+    route: "allow"
+    requires_mission: false
+    allowed_capability_packs:
+      - "repo"
+      - "shell"
+      - "telemetry"
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "repo-consequential"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    claim_effect: "admitted-live-claim"
+    route: "allow"
+    requires_mission: false
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+  - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "observe-and-read"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "ci-control-plane"
+      model_adapter: "repo-local-governed"
+    claim_effect: "admitted-live-claim"
+    route: "allow"
+    requires_mission: false
+    allowed_capability_packs:
+      - "repo"
+      - "shell"
+      - "telemetry"
+  - tuple_id: "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "boundary-sensitive"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "repo-shell"
+      model_adapter: "repo-local-governed"
+    claim_effect: "stage-only-non-live"
+    route: "stage_only"
+    requires_mission: true
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+      - "browser"
+      - "api"
+  - tuple_id: "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane"
+    tuple:
+      model_tier: "repo-local-governed"
+      workload_tier: "repo-consequential"
+      language_resource_tier: "reference-owned"
+      locale_tier: "english-primary"
+      host_adapter: "github-control-plane"
+      model_adapter: "repo-local-governed"
+    claim_effect: "stage-only-non-live"
+    route: "stage_only"
+    requires_mission: false
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+      - "api"
+  - tuple_id: "tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane"
+    tuple:
+      model_tier: "frontier-governed"
+      workload_tier: "boundary-sensitive"
+      language_resource_tier: "extended-governed"
+      locale_tier: "spanish-secondary"
+      host_adapter: "studio-control-plane"
+      model_adapter: "frontier-governed"
+    claim_effect: "stage-only-non-live"
+    route: "stage_only"
+    requires_mission: true
+    allowed_capability_packs:
+      - "repo"
+      - "git"
+      - "shell"
+      - "telemetry"
+      - "browser"
+      - "api"
+extensions:
+  generation_id: "extensions-090beb843d30"
+  status: "published"
+  quarantine_count: 0

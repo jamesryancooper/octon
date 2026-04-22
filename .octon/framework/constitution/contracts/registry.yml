@@ -137,6 +137,21 @@ integration_surfaces:
   effective_support_target_projection:
     path: ".octon/generated/effective/governance/support-target-matrix.yml"
     status: "active"
+  runtime_resolution_selector:
+    path: ".octon/instance/governance/runtime-resolution.yml"
+    status: "active"
+  runtime_effective_route_bundle:
+    path: ".octon/generated/effective/runtime/route-bundle.yml"
+    status: "active"
+  runtime_effective_route_bundle_lock:
+    path: ".octon/generated/effective/runtime/route-bundle.lock.yml"
+    status: "active"
+  runtime_pack_route_projection:
+    path: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+    status: "active"
+  runtime_pack_route_lock:
+    path: ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+    status: "active"
   non_authority_register:
     path: ".octon/instance/governance/non-authority-register.yml"
     status: "active"
@@ -204,6 +219,12 @@ integration_surfaces:
   runtime_authorization_boundary_coverage_contract:
     path: ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md"
     status: "active"
+  runtime_resolution_contract:
+    path: ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
+    status: "active"
+  runtime_route_bundle_contract:
+    path: ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-v1.schema.json"
+    status: "active"
   runtime_evidence_store_contract:
     path: ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
     status: "active"
@@ -220,6 +241,9 @@ integration_surfaces:
     mission_summaries: ".octon/generated/cognition/summaries/missions/**"
     operator_digests: ".octon/generated/cognition/summaries/operators/**"
     mission_views: ".octon/generated/cognition/projections/materialized/missions/**"
+    architecture_views: ".octon/generated/cognition/projections/materialized/architecture-map.md"
+    runtime_route_views: ".octon/generated/cognition/projections/materialized/runtime-route-map.md"
+    support_pack_route_views: ".octon/generated/cognition/projections/materialized/support-pack-route-map.md"
     status: "active"
   governance_promotion_receipts_contract:
     path: ".octon/instance/governance/contracts/promotion-receipts.yml"
@@ -247,6 +271,7 @@ integration_surfaces:
     framework: ".octon/framework/capabilities/packs/**"
     governance: ".octon/instance/governance/capability-packs/**"
     projection: ".octon/instance/capabilities/runtime/packs/**"
+    effective_runtime_route: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
   retained_evidence_roots:
     - ".octon/state/evidence/runs/**"
     - ".octon/state/evidence/lab/**"

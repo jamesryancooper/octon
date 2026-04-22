@@ -76,6 +76,9 @@ resolution:
     - instance
     - state
     - generated
+  runtime_resolution_ref: .octon/instance/governance/runtime-resolution.yml
+  runtime_effective_route_bundle_ref: .octon/generated/effective/runtime/route-bundle.yml
+  runtime_effective_route_bundle_lock_ref: .octon/generated/effective/runtime/route-bundle.lock.yml
   runtime_inputs:
     objective_contract_family: .octon/framework/constitution/contracts/objective
     runtime_contract_family: .octon/framework/constitution/contracts/runtime
@@ -86,34 +89,14 @@ resolution:
     governance_exclusions: .octon/instance/governance/exclusions/action-classes.yml
     workspace_objective_brief: .octon/instance/charter/workspace.md
     workspace_machine_charter: .octon/instance/charter/workspace.yml
-    proposals_registry: .octon/generated/proposals/registry.yml
-    continuity: .octon/state/continuity/
     run_continuity_root: .octon/state/continuity/runs
     run_control_root: .octon/state/control/execution/runs
     run_manifest_file: .octon/state/control/execution/runs/<run-id>/run-manifest.yml
     run_evidence_root: .octon/state/evidence/runs
     run_evidence_classification_file: .octon/state/evidence/runs/<run-id>/evidence-classification.yml
-    external_evidence_index_root: .octon/state/evidence/external-index
-    host_adapter_root: .octon/framework/engine/runtime/adapters/host
-    model_adapter_root: .octon/framework/engine/runtime/adapters/model
-    runtime_bus_root: .octon/framework/engine/runtime/crates/runtime_bus
-    replay_store_root: .octon/framework/engine/runtime/crates/replay_store
-    telemetry_sink_root: .octon/framework/engine/runtime/crates/telemetry_sink
-    framework_capability_pack_root: .octon/framework/capabilities/packs
-    runtime_capability_pack_root: .octon/instance/governance/capability-packs
-    runtime_capability_pack_projection_root: .octon/instance/capabilities/runtime/packs
-    lab_framework_root: .octon/framework/lab
-    observability_framework_root: .octon/framework/observability
-    lab_evidence_root: .octon/state/evidence/lab
-    missions_registry: .octon/instance/orchestration/missions/registry.yml
     mission_control_root: .octon/state/control/execution/missions
-    mission_continuity_root: .octon/state/continuity/repo/missions
-    mission_effective_route_root: .octon/generated/effective/orchestration/missions
     ownership_registry: .octon/instance/governance/ownership/registry.yml
     mission_autonomy_policy: .octon/instance/governance/policies/mission-autonomy.yml
-    mission_summary_root: .octon/generated/cognition/summaries/missions
-    operator_digest_root: .octon/generated/cognition/summaries/operators
-    mission_projection_root: .octon/generated/cognition/projections/materialized/missions
 execution_governance:
   policy_mode:
     default: hard-enforce

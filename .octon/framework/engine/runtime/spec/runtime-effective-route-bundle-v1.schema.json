@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/runtime-effective-route-bundle-v1.schema.json",
+  "title": "Octon Runtime Effective Route Bundle v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "generation_id",
+    "generated_at",
+    "publication_status",
+    "publication_receipt_path",
+    "routes",
+    "extensions"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-runtime-effective-route-bundle-v1" },
+    "generation_id": { "type": "string", "minLength": 1 },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "publication_status": { "type": "string", "minLength": 1 },
+    "publication_receipt_path": { "type": "string", "minLength": 1 },
+    "source_refs": {
+      "type": "object",
+      "additionalProperties": { "type": "string", "minLength": 1 }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "tuple_id",
+          "tuple",
+          "claim_effect",
+          "route",
+          "requires_mission",
+          "allowed_capability_packs"
+        ],
+        "properties": {
+          "tuple_id": { "type": "string", "minLength": 1 },
+          "tuple": {
+            "type": "object",
+            "required": [
+              "model_tier",
+              "workload_tier",
+              "language_resource_tier",
+              "locale_tier",
+              "host_adapter",
+              "model_adapter"
+            ],
+            "properties": {
+              "model_tier": { "type": "string", "minLength": 1 },
+              "workload_tier": { "type": "string", "minLength": 1 },
+              "language_resource_tier": { "type": "string", "minLength": 1 },
+              "locale_tier": { "type": "string", "minLength": 1 },
+              "host_adapter": { "type": "string", "minLength": 1 },
+              "model_adapter": { "type": "string", "minLength": 1 }
+            }
+          },
+          "claim_effect": { "type": "string", "minLength": 1 },
+          "route": { "type": "string", "minLength": 1 },
+          "requires_mission": { "type": "boolean" },
+          "allowed_capability_packs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          }
+        }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "required": ["generation_id", "status", "quarantine_count"],
+      "properties": {
+        "generation_id": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "quarantine_count": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "additionalProperties": true
+}

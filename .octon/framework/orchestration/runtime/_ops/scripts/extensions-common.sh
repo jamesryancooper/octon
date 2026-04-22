@@ -1786,6 +1786,13 @@ ext_load_published_keys_from_active_state() {
     EXT_SELECTED_KEYS+=("$(ext_pack_key "$pack_id" "$source_id")")
   done < <(yq -r '.published_active_packs[]? | [.pack_id, .source_id] | @tsv' "$ACTIVE_STATE" 2>/dev/null || true)
 
+  local closure_query
+  if yq -e '.dependency_closure' "$ACTIVE_STATE" >/dev/null 2>&1; then
+    closure_query='.dependency_closure[]? | [.pack_id, .source_id, .version, .origin_class, .manifest_path] | @tsv'
+  else
+    closure_query='.dependency_closure[]? | [.pack_id, .source_id, .version, .origin_class, .manifest_path] | @tsv'
+  fi
+
   while IFS=$'\t' read -r pack_id source_id version origin_class manifest_path; do
     local key
     [[ -z "$pack_id" ]] && continue
@@ -1795,7 +1802,7 @@ ext_load_published_keys_from_active_state() {
     EXT_PUBLISHED_ORIGIN_CLASS["$key"]="$origin_class"
     EXT_PUBLISHED_MANIFEST_REL["$key"]="$manifest_path"
     EXT_PUBLISHED_SOURCE_ID["$key"]="$source_id"
-  done < <(yq -r '.dependency_closure[]? | [.pack_id, .source_id, .version, .origin_class, .manifest_path] | @tsv' "$ACTIVE_STATE" 2>/dev/null || true)
+  done < <(yq -r "$closure_query" "$CATALOG_FILE" 2>/dev/null || true)
 }
 
 ext_pack_key_sort() {

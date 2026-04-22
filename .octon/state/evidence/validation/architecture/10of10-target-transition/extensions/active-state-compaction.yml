@@ -1,0 +1,6 @@
+schema_version: extension-active-state-compaction-v1
+validated_at: "2026-04-22T03:39:11Z"
+active_state_ref: .octon/state/control/extensions/active.yml
+generation_lock_ref: .octon/generated/effective/extensions/generation.lock.yml
+artifact_map_ref: .octon/generated/effective/extensions/artifact-map.yml
+result: pass

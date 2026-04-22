@@ -13,4 +13,5 @@ sha2.workspace = true
 time.workspace = true
 
 octon_core = { path = "../core" }
+octon_runtime_resolver = { path = "../runtime_resolver" }
 octon_wasm_host = { path = "../wasm_host" }

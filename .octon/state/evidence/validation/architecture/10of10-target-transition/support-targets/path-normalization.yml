@@ -1,0 +1,13 @@
+schema_version: support-target-path-normalization-v1
+validated_at: "2026-04-22T03:39:11Z"
+support_target_ref: .octon/instance/governance/support-targets.yml
+result: pass
+partition_roots:
+  - .octon/instance/governance/support-target-admissions/live
+  - .octon/instance/governance/support-target-admissions/stage-only
+  - .octon/instance/governance/support-target-admissions/unadmitted
+  - .octon/instance/governance/support-target-admissions/retired
+  - .octon/instance/governance/support-dossiers/live
+  - .octon/instance/governance/support-dossiers/stage-only
+  - .octon/instance/governance/support-dossiers/unadmitted
+  - .octon/instance/governance/support-dossiers/retired

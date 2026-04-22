@@ -1,0 +1,12 @@
+schema_version: architecture-10of10-target-transition-v1
+proposal_id: octon-architecture-10of10-target-state-transition
+status: in-progress
+validated_at: "2026-04-22T03:44:21Z"
+validator_receipts:
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/authorization-boundary/coverage.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/path-normalization.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/capabilities/pack-route-no-widening.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/extensions/active-state-compaction.yml
+  - .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml

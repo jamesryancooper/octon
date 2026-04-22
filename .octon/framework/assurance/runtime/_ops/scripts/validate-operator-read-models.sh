@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
-RECEIPT="$OCTON_DIR/state/evidence/validation/architecture-target-state-transition/operator-views/publication.yml"
+RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml"
 
 errors=0
 
@@ -91,36 +91,7 @@ main() {
         fi
         ;;
       *.yml)
-        if [[ "$view_kind" == "support" && "$(yq -r '.schema_version // ""' "$resolved_projection")" == "support-card-v1" ]]; then
-          pass "$view_kind support projection schema is current"
-          [[ -n "$(yq -r '.claim_effect // ""' "$resolved_projection")" ]] && pass "$view_kind support projection declares claim effect" || fail "$view_kind support projection must declare claim effect"
-          [[ -n "$(yq -r '.proof_bundle_ref // ""' "$resolved_projection")" ]] && pass "$view_kind support projection cites proof bundle" || fail "$view_kind support projection must cite proof bundle"
-          [[ -n "$(yq -r '.support_target_ref // ""' "$resolved_projection")" ]] && pass "$view_kind support projection cites support target" || fail "$view_kind support projection must cite support target"
-        elif [[ "$(yq -r '.schema_version // ""' "$resolved_projection")" == "operator-read-model-v1" ]]; then
-          pass "$view_kind projection schema is current"
-          if [[ "$(yq -r '.view_kind // ""' "$resolved_projection")" == "$view_kind" ]]; then
-            pass "$view_kind projection kind matches receipt"
-          else
-            fail "$view_kind projection kind must match receipt"
-          fi
-          if [[ "$(yq -r '.mutability // ""' "$resolved_projection")" == "generated" ]]; then
-            pass "$view_kind projection is marked generated"
-          else
-            fail "$view_kind projection must declare mutability: generated"
-          fi
-          if [[ -n "$(yq -r '.non_authority_statement // ""' "$resolved_projection")" ]]; then
-            pass "$view_kind projection declares non-authority status"
-          else
-            fail "$view_kind projection must declare non-authority status"
-          fi
-          if [[ "$(yq -r '.generated_from | length' "$resolved_projection")" -gt 0 ]]; then
-            pass "$view_kind projection carries generated_from provenance"
-          else
-            fail "$view_kind projection must carry generated_from provenance"
-          fi
-        else
-          fail "$view_kind projection schema is unsupported"
-        fi
+        fail "$view_kind projection schema is unsupported"
         ;;
       *)
         fail "$view_kind projection has unsupported extension"

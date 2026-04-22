@@ -6,8 +6,8 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 
-CONTRACT="$OCTON_DIR/framework/engine/runtime/spec/publication-freshness-gates-v1.md"
-RECEIPT="$OCTON_DIR/state/evidence/validation/architecture-target-state-transition/publication/freshness.yml"
+CONTRACT="$OCTON_DIR/framework/engine/runtime/spec/publication-freshness-gates-v2.md"
+RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml"
 
 errors=0
 
@@ -41,10 +41,17 @@ main() {
   yq -e '.generated_effective_outputs[] | select(.output_ref == ".octon/generated/effective/capabilities/routing.effective.yml")' "$RECEIPT" >/dev/null 2>&1 \
     && pass "freshness receipt covers capabilities publication" \
     || fail "freshness receipt must cover capabilities publication"
+  yq -e '.generated_effective_outputs[] | select(.output_ref == ".octon/generated/effective/capabilities/pack-routes.effective.yml")' "$RECEIPT" >/dev/null 2>&1 \
+    && pass "freshness receipt covers pack-route publication" \
+    || fail "freshness receipt must cover pack-route publication"
+  yq -e '.generated_effective_outputs[] | select(.output_ref == ".octon/generated/effective/runtime/route-bundle.yml")' "$RECEIPT" >/dev/null 2>&1 \
+    && pass "freshness receipt covers runtime route-bundle publication" \
+    || fail "freshness receipt must cover runtime route-bundle publication"
 
   run_validator "validate-generated-effective-freshness.sh"
   run_validator "validate-capability-publication-state.sh"
   run_validator "validate-extension-publication-state.sh"
+  run_validator "validate-runtime-effective-route-bundle.sh"
 
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]

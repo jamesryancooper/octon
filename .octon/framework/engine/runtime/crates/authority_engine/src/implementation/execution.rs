@@ -11,6 +11,7 @@ use octon_core::execution_integrity::{
 };
 use octon_core::policy::PolicyEngine;
 use octon_core::registry::ServiceDescriptor;
+use octon_runtime_resolver::{verify_runtime_route_bundle, RuntimeSupportTupleRef};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sha2::{Digest, Sha256};
@@ -72,6 +73,20 @@ pub fn authorize_execution(
 ) -> CoreResult<GrantBundle> {
     let mut request = request.clone();
     request.metadata = with_authority_env_metadata(request.metadata);
+    let verified_runtime_route_bundle = verify_runtime_route_bundle(&cfg.octon_dir)
+        .map_err(runtime_route_bundle_denial)?;
+    request.metadata.insert(
+        "runtime_effective_route_bundle_generation_id".to_string(),
+        verified_runtime_route_bundle.generation_id().to_string(),
+    );
+    request.metadata.insert(
+        "runtime_effective_route_bundle_sha256".to_string(),
+        verified_runtime_route_bundle.bundle_sha256.clone(),
+    );
+    request.metadata.insert(
+        "runtime_effective_route_bundle_ref".to_string(),
+        path_tail(&cfg.repo_root, &verified_runtime_route_bundle.bundle_path),
+    );
     let request = &request;
     let environment = resolve_execution_environment(cfg, request);
     let intent_ref = request
@@ -198,6 +213,27 @@ pub fn authorize_execution(
     let ownership = resolve_ownership_posture(cfg, request, &run_contract)?;
     let support_tier =
         resolve_support_tier_posture(cfg, request, &run_contract, autonomy_state.as_ref())?;
+    let requested_support_tuple = if run_contract.support_target.workload_tier.trim().is_empty() {
+        requested_support_target_tuple(request)?
+    } else {
+        run_contract.support_target.clone()
+    };
+    verified_runtime_route_bundle
+        .ensure_live_tuple_and_packs(
+            &RuntimeSupportTupleRef {
+                model_tier: requested_support_tuple.model_tier.clone(),
+                workload_tier: requested_support_tuple.workload_tier.clone(),
+                language_resource_tier: requested_support_tuple.language_resource_tier.clone(),
+                locale_tier: requested_support_tuple.locale_tier.clone(),
+                host_adapter: requested_support_tuple.host_adapter.clone(),
+                model_adapter: requested_support_tuple.model_adapter.clone(),
+            },
+            &support_tier.requested_capability_packs,
+        )
+        .map_err(runtime_route_bundle_denial)?;
+    verified_runtime_route_bundle
+        .ensure_extensions_available()
+        .map_err(runtime_route_bundle_denial)?;
     let reversibility = reversibility_payload(request, &run_contract, autonomy_state.as_ref());
     let preflight_result = phases::results::AuthorizationPhaseResult {
         schema_version: "authorization-phase-result-v1".to_string(),
@@ -925,6 +961,16 @@ pub fn authorize_execution(
     )?;
     update_stage_attempt_status(&bound_run, "planned", grant.policy_receipt_path.clone())?;
     Ok(grant)
+}
+
+fn runtime_route_bundle_denial(err: anyhow::Error) -> KernelError {
+    KernelError::new(
+        ErrorCode::CapabilityDenied,
+        format!("runtime-effective route bundle denied execution: {err}"),
+    )
+    .with_details(
+        json!({"reason_codes":["FCR-025","FCR-026","FCR-028","FCR-029"]}),
+    )
 }
 
 pub fn artifact_root_from_relative(

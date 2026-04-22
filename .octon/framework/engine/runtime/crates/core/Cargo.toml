@@ -18,3 +18,5 @@ hex.workspace = true
 time.workspace = true
 uuid.workspace = true
 parking_lot.workspace = true
+
+octon_runtime_resolver = { path = "../runtime_resolver" }

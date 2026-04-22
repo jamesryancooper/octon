@@ -258,13 +258,40 @@ path_families:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
     doc_target_refs:
       - "architecture_specification"
+  runtime_resolution:
+    class_root: "framework"
+    related_class_roots:
+      - "instance"
+      - "generated"
+    canonical_paths:
+      - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
+      - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-v1.schema.json"
+      - ".octon/instance/governance/runtime-resolution.yml"
+    authority_class: "delegated-runtime-resolution-contract"
+    role: "Delegated runtime-resolution contract, selector, and route-bundle family."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "docs"
+      - "operators"
+    forbidden_consumers:
+      - "proposal packets as runtime authority"
+      - "generated cognition as runtime authority"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-resolution.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh"
+    doc_target_refs:
+      - "architecture_specification"
   runtime_architecture_health:
     class_root: "framework"
     canonical_paths:
       - ".octon/framework/engine/runtime/spec/architecture-health-contract-v1.md"
-      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v1.md"
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v2.md"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-resolution.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
     authority_class: "aggregate-runtime-health-contract"
     role: "Aggregate runtime architecture health, publication freshness, and lifecycle coverage surfaces."
@@ -502,6 +529,31 @@ path_families:
     doc_target_refs:
       - "bootstrap_start"
       - "ingress_surface"
+  support_path_normalization:
+    class_root: "instance"
+    canonical_paths:
+      - ".octon/instance/governance/support-target-admissions/live/**"
+      - ".octon/instance/governance/support-target-admissions/stage-only/**"
+      - ".octon/instance/governance/support-target-admissions/unadmitted/**"
+      - ".octon/instance/governance/support-target-admissions/retired/**"
+      - ".octon/instance/governance/support-dossiers/live/**"
+      - ".octon/instance/governance/support-dossiers/stage-only/**"
+      - ".octon/instance/governance/support-dossiers/unadmitted/**"
+      - ".octon/instance/governance/support-dossiers/retired/**"
+    authority_class: "partitioned-support-claim-state"
+    role: "Canonical claim-state partitioning for support admissions and dossiers."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+      - "docs"
+    forbidden_consumers:
+      - "flat compatibility shims as canonical support state"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-path-normalization.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"
+    doc_target_refs:
+      - "architecture_specification"
   generated_effective:
     class_root: "generated"
     canonical_paths:
@@ -524,6 +576,65 @@ path_families:
       - "super_root_readme"
       - "architecture_specification"
       - "bootstrap_start"
+  runtime_effective_route_bundle:
+    class_root: "generated"
+    canonical_paths:
+      - ".octon/generated/effective/runtime/route-bundle.yml"
+      - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+    authority_class: "compiled-runtime-route-bundle"
+    role: "Freshness-gated runtime-effective route bundle compiled from canonical authority and generated/effective publication state."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "direct string-path runtime reads without freshness gating"
+    publication_ref: "runtime_effective"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
+  runtime_pack_routes:
+    class_root: "generated"
+    canonical_paths:
+      - ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+      - ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+    authority_class: "compiled-runtime-pack-route"
+    role: "Generated/effective runtime-facing pack routes with explicit tuple claim effects and no-widening discipline."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "support widening beyond canonical admissions"
+    publication_ref: "runtime_effective"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-pack-admission-alignment.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-support-pack-no-widening.sh"
+    doc_target_refs:
+      - "architecture_specification"
+  extension_active_state_compactness:
+    class_root: "state"
+    canonical_paths:
+      - ".octon/state/control/extensions/active.yml"
+      - ".octon/state/control/extensions/quarantine.yml"
+      - ".octon/generated/effective/extensions/catalog.effective.yml"
+      - ".octon/generated/effective/extensions/generation.lock.yml"
+    authority_class: "compact-extension-activation-control"
+    role: "Desired/active/quarantine extension lifecycle with compact active control state and publication-safe generated outputs."
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "over-expanded active state as a mutable shadow control plane"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-active-state-compactness.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+    doc_target_refs:
+      - "architecture_specification"
   generated_cognition:
     class_root: "generated"
     canonical_paths:
@@ -623,6 +734,7 @@ publication_metadata:
     required_conditions:
       - "publication receipt retained"
       - "generation lock current"
+      - "freshness-checked runtime handle required"
       - "no authority widening beyond canonical sources"
   cognition_read_models:
     output_root: ".octon/generated/cognition/"
@@ -645,6 +757,12 @@ publication_metadata:
       - projection_id: "architecture-map"
         definition_ref: ".octon/generated/cognition/projections/definitions/architecture-map.yml"
         materialized_ref: ".octon/generated/cognition/projections/materialized/architecture-map.md"
+      - projection_id: "runtime-route-map"
+        definition_ref: ".octon/generated/cognition/projections/definitions/authorization-coverage-map.yml"
+        materialized_ref: ".octon/generated/cognition/projections/materialized/runtime-route-map.md"
+      - projection_id: "support-pack-route-map"
+        definition_ref: ".octon/generated/cognition/projections/definitions/compatibility-retirement-map.yml"
+        materialized_ref: ".octon/generated/cognition/projections/materialized/support-pack-route-map.md"
       - projection_id: "authorization-coverage-map"
         definition_ref: ".octon/generated/cognition/projections/definitions/authorization-coverage-map.yml"
         materialized_ref: ".octon/generated/cognition/projections/materialized/authorization-coverage-map.md"

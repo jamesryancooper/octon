@@ -1,0 +1,37 @@
+schema_version: generated-effective-freshness-receipt-v1
+generated_effective_outputs:
+  - output_ref: .octon/generated/effective/runtime/route-bundle.yml
+    evidence_ref: .octon/state/evidence/validation/publication/runtime/2026-04-22T03-44-21Z-runtime-route-bundle-c029628e00b1.yml
+    freshness_refs:
+      - .octon/generated/effective/runtime/route-bundle.lock.yml
+  - output_ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    evidence_ref: .octon/state/evidence/validation/publication/capabilities/2026-04-22T03-37-58Z-pack-routes-8af1c1063906.yml
+    freshness_refs:
+      - .octon/generated/effective/capabilities/pack-routes.lock.yml
+  - output_ref: .octon/generated/effective/capabilities/routing.effective.yml
+    evidence_ref: ".octon/state/evidence/validation/publication/capabilities/2026-04-22T03-45-28Z-capabilities-6993ac4334cd.yml"
+    freshness_refs:
+      - .octon/generated/effective/capabilities/generation.lock.yml
+      - .octon/generated/effective/capabilities/artifact-map.yml
+  - output_ref: .octon/generated/effective/governance/support-target-matrix.yml
+    evidence_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/proofing.yml
+    freshness_refs:
+      - .octon/generated/effective/governance/support-target-matrix.yml
+  - output_ref: .octon/generated/effective/extensions/catalog.effective.yml
+    evidence_ref: .octon/state/evidence/validation/publication/extensions/2026-04-22T03-42-29Z-extensions-090beb843d30.yml
+    freshness_refs:
+      - .octon/generated/effective/extensions/generation.lock.yml
+      - .octon/generated/effective/extensions/artifact-map.yml
+  - output_ref: .octon/generated/cognition/projections/materialized/architecture-map.md
+    evidence_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/manifest.yml
+    freshness_refs:
+      - .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+  - output_ref: .octon/generated/cognition/projections/materialized/runtime-route-map.md
+    evidence_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+    freshness_refs:
+      - .octon/generated/effective/runtime/route-bundle.lock.yml
+  - output_ref: .octon/generated/cognition/projections/materialized/support-pack-route-map.md
+    evidence_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
+    freshness_refs:
+      - .octon/generated/effective/capabilities/pack-routes.lock.yml
+status: current

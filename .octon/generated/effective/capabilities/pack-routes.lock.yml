@@ -1,0 +1,36 @@
+schema_version: "octon-runtime-pack-routes-lock-v1"
+generation_id: "pack-routes-8af1c1063906"
+published_at: "2026-04-22T03:37:58Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/capabilities/2026-04-22T03-37-58Z-pack-routes-8af1c1063906.yml"
+publication_receipt_sha256: "8aed4c3c69b22b0580225487a13caf90a71a8759ced0d5cf83f9f1bd06fff082"
+pack_routes_sha256: "58f8cdbb2d7423356f4da39f1c76789f03294140f739068ace5fde2d356223cd"
+support_targets_sha256: "8af1c10639060a579b289b32887382abd8b5706a7e92730fb47b631b6e683305"
+governance_registry_sha256: "32b0108ad626df74639469393beed758f90abda8626ebf0b942af99b3b6bfa98"
+runtime_registry_sha256: "b1a84e56f03c427c83575a55a515fe4e7e0ce249edb2f485a4693df462ff7800"
+support_target_matrix_sha256: "64fae47429d5e76113774c01547ae30eacffb054f1a074fcbc873360870db584"
+required_inputs:
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/capability-packs/registry.yml"
+  - ".octon/instance/capabilities/runtime/packs/registry.yml"
+  - ".octon/generated/effective/governance/support-target-matrix.yml"
+  - ".octon/instance/governance/capability-packs/repo.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/repo.yml"
+  - ".octon/instance/governance/capability-packs/git.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/git.yml"
+  - ".octon/instance/governance/capability-packs/shell.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/shell.yml"
+  - ".octon/instance/governance/capability-packs/telemetry.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/telemetry.yml"
+  - ".octon/instance/governance/capability-packs/browser.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/browser.yml"
+  - ".octon/instance/governance/capability-packs/api.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/api.yml"
+invalidation_conditions:
+  - support-targets-sha-changed
+  - governance-pack-registry-sha-changed
+  - runtime-pack-registry-sha-changed
+  - support-matrix-sha-changed
+published_files:
+  - path: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  - path: ".octon/generated/effective/capabilities/pack-routes.lock.yml"

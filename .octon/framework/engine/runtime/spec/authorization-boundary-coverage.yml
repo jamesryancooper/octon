@@ -12,8 +12,11 @@ paths:
     negative_controls:
       - "generated-as-authority denial"
       - "host-projection-as-authority denial"
+      - "stale route-bundle denial"
+      - "missing publication receipt denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: kernel-studio-launch
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "executor-launch"
@@ -26,8 +29,10 @@ paths:
     negative_controls:
       - "missing mission/run authority denial"
       - "unmediated side-effect denial"
+      - "quarantined extension denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: kernel-service-build
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "repo-mutation"
@@ -40,8 +45,10 @@ paths:
     negative_controls:
       - "unsupported support-claim denial"
       - "unmediated side-effect denial"
+      - "unadmitted pack denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: kernel-service-scaffold
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "repo-mutation"
@@ -54,8 +61,10 @@ paths:
     negative_controls:
       - "unsupported support-claim denial"
       - "unmediated side-effect denial"
+      - "runtime-effective direct-read denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: workflow-pipeline-run
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
     side_effect_class: "control-mutation"
@@ -67,8 +76,10 @@ paths:
     denial_reason_code: "FCR-023"
     negative_controls:
       - "missing mission/run authority denial"
+      - "stale route-bundle denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: workflow-stage-run
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
     side_effect_class: "repo-mutation"
@@ -80,8 +91,10 @@ paths:
     denial_reason_code: "FCR-023"
     negative_controls:
       - "stale generated/effective denial"
+      - "runtime-effective direct-read denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: stdio-service-run
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/stdio.rs"
     side_effect_class: "service-invocation"
@@ -93,8 +106,10 @@ paths:
     denial_reason_code: "FCR-023"
     negative_controls:
       - "host-projection-as-authority denial"
+      - "stale route-bundle denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: orchestration-report-write
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "evidence-mutation"
@@ -107,8 +122,10 @@ paths:
     negative_controls:
       - "host-projection-as-authority denial"
       - "unmediated side-effect denial"
+      - "unpublished extension denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: authority-execution
     entrypoint: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
     side_effect_class: "control-mutation"
@@ -121,8 +138,12 @@ paths:
     negative_controls:
       - "generated-as-authority denial"
       - "unmediated side-effect denial"
+      - "stale route-bundle denial"
+      - "unadmitted pack denial"
+      - "quarantined extension denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: authority-phases
     entrypoint: ".octon/framework/engine/runtime/crates/authority_engine/src/phases/receipt.rs"
     side_effect_class: "evidence-mutation"

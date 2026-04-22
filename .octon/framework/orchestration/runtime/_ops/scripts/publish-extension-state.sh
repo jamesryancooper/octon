@@ -958,7 +958,6 @@ write_effective_files() {
     printf '  sha256: "%s"\n' "$desired_sha"
     ext_emit_pack_ref_list "desired_selected_packs" "${EXT_SELECTED_KEYS[@]}"
     ext_emit_pack_ref_list "published_active_packs" "${PUBLISHED_SELECTED_KEYS[@]}"
-    ext_emit_dependency_closure_list "dependency_closure" "${EXT_PUBLISHED_KEYS[@]}"
     printf 'generation_id: "%s"\n' "$GENERATION_ID"
     printf 'published_effective_catalog: ".octon/generated/effective/extensions/catalog.effective.yml"\n'
     printf 'published_artifact_map: ".octon/generated/effective/extensions/artifact-map.yml"\n'
@@ -970,21 +969,6 @@ write_effective_files() {
     printf 'compatibility_receipt_sha256: "%s"\n' "$compatibility_receipt_sha"
     printf 'invalidation_conditions:\n'
     write_string_array_yaml '  ' "${invalidation_conditions[@]}"
-    printf 'required_inputs:\n'
-    printf '  - ".octon/instance/extensions.yml"\n'
-    printf '  - ".octon/octon.yml"\n'
-    for key in "${EXT_SELECTED_KEYS[@]}"; do
-      printf '  - ".octon/inputs/additive/extensions/%s/pack.yml"\n' "$(ext_key_pack_id "$key")"
-      printf '  - ".octon/inputs/additive/extensions/%s/validation/compatibility.yml"\n' "$(ext_key_pack_id "$key")"
-      while IFS= read -r prompt_manifest; do
-        [[ -n "$prompt_manifest" ]] || continue
-        printf '  - "%s"\n' "${prompt_manifest#$ROOT_DIR/}"
-        while IFS= read -r anchor_path; do
-          [[ -n "$anchor_path" ]] || continue
-          printf '  - "%s"\n' "$anchor_path"
-        done < <(yq -r '.required_repo_anchors[]? // ""' "$prompt_manifest" 2>/dev/null || true)
-      done < <(ext_prompt_bundle_manifest_files_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")")
-    done
     printf 'validation_timestamp: "%s"\n' "$PUBLISHED_AT"
     printf 'status: "%s"\n' "$status"
   } >"$active_tmp"

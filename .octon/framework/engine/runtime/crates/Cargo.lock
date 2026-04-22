@@ -4143,6 +4143,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "octon_core",
+ "octon_runtime_resolver",
  "octon_wasm_host",
  "serde",
  "serde_json",
@@ -4158,6 +4159,7 @@ dependencies = [
  "anyhow",
  "hex",
  "jsonschema",
+ "octon_runtime_resolver",
  "parking_lot",
  "semver",
  "serde",
@@ -4201,6 +4203,19 @@ name = "octon_runtime_bus"
 version = "1.0.0"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "octon_runtime_resolver"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "hex",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2",
+ "time",
 ]
 
 [[package]]

@@ -1,0 +1,34 @@
+schema_version: "octon-runtime-effective-route-bundle-lock-v1"
+generation_id: "runtime-route-bundle-c029628e00b1"
+published_at: "2026-04-22T03:44:21Z"
+publication_status: "published"
+publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-04-22T03-44-21Z-runtime-route-bundle-c029628e00b1.yml"
+publication_receipt_sha256: "205852b44a226578c81efb0255eafdd0f0d65bb7a8f741b1e316d3de4a1e3178"
+route_bundle_sha256: "1ad840831b2f7a20ad859beed199f2f2df7fe290df75fdfa5e5e55d15ad79383"
+runtime_resolution_sha256: "c029628e00b1f486d5ffd91f6122d3bd2d7cf14af24e3f1fd004d2e848271be4"
+root_manifest_sha256: "cdbd5516ff52e0b6f8902679fcc7974a577518e6803f66d40e31074fca030895"
+support_target_matrix_sha256: "64fae47429d5e76113774c01547ae30eacffb054f1a074fcbc873360870db584"
+pack_routes_effective_sha256: "58f8cdbb2d7423356f4da39f1c76789f03294140f739068ace5fde2d356223cd"
+pack_routes_lock_sha256: "1df244b6707b29a5aaedb507574b2485d27edebdce4e1a9d42d3599c863b16e6"
+extensions_catalog_sha256: "161ecf741e5e1dfe4712127158cc78aeadc5f9cbe5f548c9fed3baf8f09e26d5"
+extensions_generation_lock_sha256: "187ca0054719e5bb2d3e65b7fdde95e0beb20bc8ad0b7cf9f5c181b9817c133a"
+fresh_until: "2099-12-31T00:00:00Z"
+required_inputs:
+  - ".octon/octon.yml"
+  - ".octon/instance/governance/runtime-resolution.yml"
+  - ".octon/generated/effective/governance/support-target-matrix.yml"
+  - ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  - ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+  - ".octon/generated/effective/extensions/catalog.effective.yml"
+  - ".octon/generated/effective/extensions/generation.lock.yml"
+  - ".octon/state/control/extensions/active.yml"
+  - ".octon/state/control/extensions/quarantine.yml"
+invalidation_conditions:
+  - runtime-resolution-sha-changed
+  - root-manifest-sha-changed
+  - support-target-matrix-sha-changed
+  - pack-routes-sha-changed
+  - extensions-publication-sha-changed
+published_files:
+  - path: ".octon/generated/effective/runtime/route-bundle.yml"
+  - path: ".octon/generated/effective/runtime/route-bundle.lock.yml"

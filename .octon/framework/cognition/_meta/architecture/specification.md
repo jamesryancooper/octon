@@ -93,8 +93,9 @@ Use these sections of
 5. `generated/**` is rebuildable and never mints authority.
 6. `inputs/**` is non-authoritative; human-led ideation remains confined to
    `inputs/exploratory/ideation/**` unless a human explicitly scopes access.
-7. `/.octon/octon.yml` owns super-root bindings, profiles, resolution inputs,
-   and generated commit defaults.
+7. `/.octon/octon.yml` owns super-root bindings, profiles,
+   runtime-resolution anchors, and generated commit defaults. Dense
+   runtime-resolution detail lives in delegated runtime-resolution surfaces.
 8. `/.octon/instance/ingress/manifest.yml` owns mandatory ingress reads,
    optional orientation overlays, and the canonical branch/PR closeout
    workflow pointer.
@@ -139,6 +140,7 @@ family groups:
 | `structural_architecture` | `framework/cognition/_meta/architecture/**` | Structural registry plus narrative companion |
 | `compatibility_retirement` | `instance/governance/retirement-register.yml` + retirement contracts | Retained compatibility inventory, review cadence, and retirement posture |
 | `runtime_authorization_coverage` | `framework/engine/runtime/spec/{execution-authorization-v1.md,authorization-boundary-coverage.yml,material-side-effect-inventory.yml}` | Authorization-boundary and material-side-effect coverage contract |
+| `runtime_resolution` | `framework/engine/runtime/spec/runtime-resolution-v1.md` + `instance/governance/runtime-resolution.yml` | Delegated runtime-resolution selector and route-bundle contract |
 | `runtime_architecture_health` | `framework/engine/runtime/spec/architecture-health-contract-v1.md` + health/freshness validators | Aggregate runtime health, lifecycle, and publication-freshness gate |
 | `overlay_resolution` | `framework/overlay-points/registry.yml` + `instance/manifest.yml` | Declared overlay legality |
 | `instance_ingress_and_bootstrap` | `instance/{ingress,bootstrap}/**` | Ingress and optional orientation |
@@ -152,6 +154,8 @@ family groups:
 | `state_evidence` | `state/evidence/**` | Retained evidence, disclosure, and validation receipts |
 | `state_continuity` | `state/continuity/**` | Handoff and resumption state |
 | `generated_effective` | `generated/effective/**` | Runtime-facing effective outputs |
+| `runtime_effective_route_bundle` | `generated/effective/runtime/{route-bundle.yml,route-bundle.lock.yml}` | Single fresh, receipt-backed runtime route bundle |
+| `runtime_pack_routes` | `generated/effective/capabilities/{pack-routes.effective.yml,pack-routes.lock.yml}` | Generated runtime-facing pack route view |
 | `generated_cognition` | `generated/cognition/**` | Non-authoritative operator and mission read models |
 | `generated_proposals` | `generated/proposals/registry.yml` | Non-authoritative proposal discovery |
 | `inputs_additive` | `inputs/additive/extensions/**` | Raw additive packs before trust activation and publication |
@@ -169,6 +173,8 @@ The structural registry recognizes three steady-state publication classes:
    - trust condition: retained publication receipt plus current freshness
      artifacts
    - source rule: no direct raw-input publication into runtime-facing outputs
+   - runtime handle rule: runtime-facing reads must resolve through
+     freshness-checked handles rather than raw string paths
 2. `cognition_read_models`
    - output root: `/.octon/generated/cognition/`
    - role: operator and mission projections only
@@ -187,6 +193,8 @@ The target-state navigation maps are generated from registry-backed truth and
 remain non-authoritative:
 
 - `generated/cognition/projections/materialized/architecture-map.md`
+- `generated/cognition/projections/materialized/runtime-route-map.md`
+- `generated/cognition/projections/materialized/support-pack-route-map.md`
 - `generated/cognition/projections/materialized/authorization-coverage-map.md`
 - `generated/cognition/projections/materialized/compatibility-retirement-map.md`
 
