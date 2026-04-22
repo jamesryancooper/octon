@@ -297,7 +297,7 @@ main() {
         [[ "$(ext_hash_file "$prompt_root_abs/$asset_path")" == "$asset_sha" ]] && pass "shared reference asset digest current for $pack_id/$prompt_set_id: $asset_path" || fail "shared reference asset digest stale for $pack_id/$prompt_set_id: $asset_path"
       done < <(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .prompt_bundles[]? | select(.prompt_set_id == \"$prompt_set_id\") | .shared_reference_assets[]? | [.path, .sha256] | @tsv" "$CATALOG_FILE" 2>/dev/null || true)
     done < <(ext_prompt_bundle_manifest_files_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}")
-  done < <(yq -r '.packs[]? | [.pack_id, .source_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true)
+  done < <(yq -r '.pack_payload_digests[]? | [.pack_id, .source_id] | @tsv' "$GENERATION_LOCK_FILE" 2>/dev/null || true)
 
   local native_command_ids native_skill_ids collision_lines
   native_command_ids="$(

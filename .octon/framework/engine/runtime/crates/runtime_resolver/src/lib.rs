@@ -249,11 +249,23 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
     if bundle.generation_id != lock.generation_id {
         return Err(anyhow!("CAPABILITY_DENIED: runtime route bundle generation_id mismatch"));
     }
-    if !lock.route_bundle_sha256.is_empty() && lock.route_bundle_sha256 != bundle_sha256 {
+    require_non_empty(&lock.publication_receipt_sha256, "publication_receipt_sha256")?;
+    require_non_empty(&lock.route_bundle_sha256, "route_bundle_sha256")?;
+    require_non_empty(&lock.runtime_resolution_sha256, "runtime_resolution_sha256")?;
+    require_non_empty(&lock.root_manifest_sha256, "root_manifest_sha256")?;
+    require_non_empty(&lock.support_target_matrix_sha256, "support_target_matrix_sha256")?;
+    require_non_empty(&lock.pack_routes_effective_sha256, "pack_routes_effective_sha256")?;
+    require_non_empty(&lock.pack_routes_lock_sha256, "pack_routes_lock_sha256")?;
+    require_non_empty(&lock.extensions_catalog_sha256, "extensions_catalog_sha256")?;
+    require_non_empty(
+        &lock.extensions_generation_lock_sha256,
+        "extensions_generation_lock_sha256",
+    )?;
+
+    if lock.route_bundle_sha256 != bundle_sha256 {
         return Err(anyhow!("CAPABILITY_DENIED: runtime route bundle digest drift detected"));
     }
-    if !lock.runtime_resolution_sha256.is_empty() && lock.runtime_resolution_sha256 != resolution_digest
-    {
+    if lock.runtime_resolution_sha256 != resolution_digest {
         return Err(anyhow!("CAPABILITY_DENIED: runtime-resolution selector digest drift detected"));
     }
     if !lock.fresh_until.trim().is_empty() {
@@ -270,8 +282,7 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
     let receipt_sha256 = sha256_hex(&receipt_bytes);
     let receipt: PublicationReceipt =
         serde_yaml::from_slice(&receipt_bytes).context("runtime route bundle receipt is not valid YAML")?;
-    if !lock.publication_receipt_sha256.is_empty() && lock.publication_receipt_sha256 != receipt_sha256
-    {
+    if lock.publication_receipt_sha256 != receipt_sha256 {
         return Err(anyhow!("CAPABILITY_DENIED: runtime route bundle publication receipt digest drift detected"));
     }
     if receipt.schema_version != "octon-validation-publication-receipt-v1" {
@@ -332,6 +343,16 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
         bundle,
         lock,
     })
+}
+
+fn require_non_empty(value: &str, field: &str) -> Result<()> {
+    if value.trim().is_empty() {
+        return Err(anyhow!(
+            "CAPABILITY_DENIED: runtime route bundle lock field '{}' must be non-empty",
+            field
+        ));
+    }
+    Ok(())
 }
 
 fn resolve_repo_path(root_dir: &Path, raw: &str) -> PathBuf {
