@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.37](https://github.com/jamesryancooper/octon/compare/octon-v0.6.36...octon-v0.6.37) (2026-04-22)
+
+
+### Refactors
+
+* **octon:** harden target-state architecture ([#336](https://github.com/jamesryancooper/octon/issues/336)) ([0abd2af](https://github.com/jamesryancooper/octon/commit/0abd2afd56dcc23ce6a5316f6f909a4e66430120))
+
 ## [0.6.36](https://github.com/jamesryancooper/octon/compare/octon-v0.6.35...octon-v0.6.36) (2026-04-21)
 
 
