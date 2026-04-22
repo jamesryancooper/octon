@@ -15,7 +15,7 @@ issues:
     title: "Support-target matrix over-admits missionless execution"
     evidence_refs:
       - ".octon/instance/governance/support-targets.yml"
-      - ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
+      - ".octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml"
   - issue_id: "OCT-F003"
     status: "closed"
     title: "Capability-pack admission is internally contradictory"

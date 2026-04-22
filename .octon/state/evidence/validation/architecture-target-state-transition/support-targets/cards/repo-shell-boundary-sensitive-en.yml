@@ -1,0 +1,12 @@
+schema_version: support-target-proof-card-v1
+proposal_id: octon-target-state-architecture-transition
+validated_at: "2026-04-21T23:30:00Z"
+tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+status: stage_only
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/repo-shell-boundary-sensitive-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
+representative_run_ref: .octon/state/control/execution/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/run-contract.yml
+disclosure_ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/run-card.yml
+evidence_completeness_ref: .octon/state/evidence/validation/architecture-target-state-transition/evidence-store/completeness.yml
+denied_case_ref: .octon/instance/governance/exclusions/action-classes.yml
+summary: Repo-shell boundary-sensitive posture remains explicit stage-only evidence and is excluded from the live support claim.

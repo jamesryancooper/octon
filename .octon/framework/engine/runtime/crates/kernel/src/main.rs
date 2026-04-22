@@ -36,6 +36,13 @@ struct Cli {
 
 #[derive(Subcommand)]
 enum Command {
+    /// Run doctor checks over the live runtime architecture.
+    Doctor {
+        /// Validate the aggregate architecture health gate.
+        #[arg(long, default_value_t = false)]
+        architecture: bool,
+    },
+
     /// Print kernel info.
     Info,
 
@@ -372,6 +379,17 @@ mod tests {
             help.contains("Launch Octon Studio desktop UI"),
             "help output should include studio description"
         );
+    }
+
+    #[test]
+    fn cli_parses_doctor_architecture_command() {
+        let cli = Cli::try_parse_from(["octon", "doctor", "--architecture"])
+            .expect("doctor command should parse successfully");
+
+        match cli.cmd {
+            Command::Doctor { architecture } => assert!(architecture),
+            _ => panic!("parsed command should be doctor"),
+        }
     }
 
     #[test]

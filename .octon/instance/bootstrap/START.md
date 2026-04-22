@@ -42,7 +42,8 @@ Instance-native repo authority lives at:
    - `/.octon/framework/cognition/_meta/architecture/specification.md`
 4. Run the standard preflight before the first material task when local harness
    health or publication freshness matters.
-   - `/bootstrap-doctor`
+   - `octon doctor --architecture`
+   - `/bootstrap-doctor` as the workflow-backed readiness companion
    - `provision-host-tools`
    - canonical workflow:
      `/.octon/framework/orchestration/runtime/workflows/tasks/bootstrap-doctor/workflow.yml`
@@ -113,4 +114,7 @@ boot document. Use:
 2. Read the structural registry if the task affects topology, docs, bootstrap,
    publication, or placement.
 3. Run `/bootstrap-doctor` when freshness or local harness health is in doubt.
-4. Resume continuity, then execute the highest-priority unblocked task.
+4. Use `octon run start --contract <path>` for the first consequential run, then
+   inspect, disclose, close, and replay it through the `octon run` lifecycle
+   commands.
+5. Resume continuity, then execute the highest-priority unblocked task.

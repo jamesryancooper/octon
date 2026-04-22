@@ -3,7 +3,6 @@ pack_id: shell
 status: admitted
 default_route: allow
 contract_ref: .octon/framework/capabilities/packs/shell/manifest.yml
-source_admission_ref: .octon/instance/capabilities/runtime/packs/admissions/shell.yml
 support_target_refs:
   - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
   - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell

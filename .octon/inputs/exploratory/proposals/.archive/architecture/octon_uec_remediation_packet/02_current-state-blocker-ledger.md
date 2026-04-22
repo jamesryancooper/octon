@@ -7,8 +7,8 @@
 - **Classification:** normalize / re-bound / harden
 - **Exact repo paths / subsystems:**
   - `.octon/instance/governance/support-targets.yml`
-  - `.octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml`
-  - `.octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml`
+  - `.octon/instance/governance/support-target-admissions/stage-only/frontier-studio-boundary-sensitive-es.yml`
+  - `.octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml`
   - `.octon/instance/governance/support-dossiers/**`
   - `.octon/generated/effective/governance/support-target-matrix.yml`
   - `.octon/state/control/execution/runs/**/run-contract.yml`

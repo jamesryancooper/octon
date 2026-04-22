@@ -1,0 +1,12 @@
+schema_version: support-target-proof-card-v1
+proposal_id: octon-target-state-architecture-transition
+validated_at: "2026-04-21T23:30:00Z"
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+status: stage_only
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
+representative_run_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+disclosure_ref: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+evidence_completeness_ref: .octon/state/evidence/validation/architecture-target-state-transition/evidence-store/completeness.yml
+denied_case_ref: .octon/instance/governance/exclusions/action-classes.yml
+summary: GitHub repo-consequential posture remains explicit stage-only evidence and is excluded from the live support claim.

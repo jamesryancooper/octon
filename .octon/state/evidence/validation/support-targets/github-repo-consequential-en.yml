@@ -1,0 +1,65 @@
+schema_version: support-target-proof-bundle-v1
+bundle_id: support-proof://github-repo-consequential-en/current
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: github-control-plane
+  model_adapter: repo-local-governed
+claim_effect: stage-only
+support_target_ref: .octon/instance/governance/support-targets.yml
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
+generated_at: "2026-04-21T23:30:00Z"
+freshness:
+  status: current
+  reviewed_at: "2026-04-21T23:30:00Z"
+  review_due_at: "2026-06-30T00:00:00Z"
+proof_planes:
+  - plane_id: structural
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/structural.yml
+  - plane_id: functional
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/functional.yml
+  - plane_id: behavioral
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/behavioral.yml
+  - plane_id: governance
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/governance.yml
+  - plane_id: maintainability
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/maintainability.yml
+  - plane_id: recovery
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance/recovery.yml
+scenario_evidence:
+  required_scenarios:
+    - projection-receipt-baseline
+  representative_run_refs:
+    - .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+  negative_control_refs:
+    - .octon/instance/governance/exclusions/action-classes.yml
+    - .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+authority_evidence:
+  decision_refs:
+    - .octon/state/evidence/control/execution/authority-decision-uec-global-github-repo-consequential-20260404.yml
+  grant_bundle_refs:
+    - .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml
+disclosure_evidence:
+  run_card_refs:
+    - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+  harness_card_ref: .octon/instance/governance/disclosure/harness-card.yml
+  support_universe_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+  proof_plane_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/proof-plane-coverage.yml
+sufficiency:
+  minimum_retained_runs: 1
+  current_retained_runs: 1
+  status: stage_only
+  notes:
+    - GitHub control-plane consequential work remains explicit stage-only posture and may not widen the live support claim.
+notes:
+  - Derived SupportCard: .octon/generated/cognition/projections/materialized/support-cards/github-repo-consequential-en.yml

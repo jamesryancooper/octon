@@ -137,24 +137,19 @@ check_ingress() {
     "ingress manifest missing workflow contract reference"
   require_yq_value \
     "$MANIFEST_FILE" \
-    '.branch_closeout_gate.detect.pr_state.ready_status_contexts[0]' \
-    "ingress manifest defines ready-pr status contexts" \
-    "ingress manifest missing ready-pr status contexts"
-  require_yq_value \
-    "$MANIFEST_FILE" \
-    '.branch_closeout_gate.status_by_context.branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge' \
-    "ingress manifest explicitly handles ready PR waiting on checks or auto-merge" \
-    "ingress manifest missing ready PR status handling for checks or auto-merge"
-  require_yq_value \
-    "$MANIFEST_FILE" \
-    '.branch_closeout_gate.status_by_context.branch_worktree_ready_pr_waiting_on_reviewer_or_maintainer_confirmation' \
-    "ingress manifest explicitly handles ready PR waiting on reviewer confirmation" \
-    "ingress manifest missing ready PR status handling for reviewer confirmation"
+    '.closeout_workflow_ref' \
+    "ingress manifest points to canonical closeout workflow" \
+    "ingress manifest missing closeout workflow reference"
+  if yq -e 'has("branch_closeout_gate") | not' "$MANIFEST_FILE" >/dev/null 2>&1; then
+    pass "ingress manifest does not duplicate closeout gate policy"
+  else
+    fail "ingress manifest must not duplicate closeout gate policy"
+  fi
   require_literal \
     "$INGRESS_FILE" \
-    "Ready PR states report status instead of asking another closeout question" \
-    "ingress AGENTS documents ready-pr status behavior" \
-    "ingress AGENTS missing ready-pr status behavior"
+    "Ingress does not own branch or PR closeout policy." \
+    "ingress AGENTS redirects branch/PR closeout ownership" \
+    "ingress AGENTS must redirect branch/PR closeout ownership"
 }
 
 check_docs() {

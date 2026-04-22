@@ -64,8 +64,9 @@ main() {
     fail "authorization coverage receipt schema must be authorization-boundary-coverage-v1"
   fi
 
-  local spec_ref
+  local spec_ref coverage_map_ref
   spec_ref="$(yq -r '.spec_ref // ""' "$RECEIPT")"
+  coverage_map_ref="$(yq -r '.coverage_map_ref // ""' "$RECEIPT")"
   if [[ -n "$spec_ref" && -f "$(resolve_repo_path "$spec_ref")" ]]; then
     pass "authorization boundary spec present"
     while IFS= read -r required_text; do
@@ -101,6 +102,14 @@ main() {
         fail "$path_id missing pattern: $required_pattern"
       fi
     done < <(yq -r ".inventory[] | select(.path_id == \"$path_id\") | .required_patterns[]? // \"\"" "$RECEIPT")
+
+    local denial_reason_code negative_control_count test_count
+    denial_reason_code="$(yq -r ".paths[] | select(.path_id == \"$path_id\") | .denial_reason_code // \"\"" "$(resolve_repo_path "$coverage_map_ref")")"
+    negative_control_count="$(yq -r ".paths[] | select(.path_id == \"$path_id\") | (.negative_controls // []) | length" "$(resolve_repo_path "$coverage_map_ref")")"
+    test_count="$(yq -r ".paths[] | select(.path_id == \"$path_id\") | (.tests // []) | length" "$(resolve_repo_path "$coverage_map_ref")")"
+    [[ -n "$denial_reason_code" && "$denial_reason_code" != "null" ]] && pass "$path_id declares denial reason code" || fail "$path_id must declare denial reason code"
+    [[ "$negative_control_count" != "0" ]] && pass "$path_id declares negative controls" || fail "$path_id must declare negative controls"
+    [[ "$test_count" != "0" ]] && pass "$path_id declares test coverage" || fail "$path_id must declare test coverage"
   done < <(yq -r '.inventory[]?.path_id // ""' "$RECEIPT")
 
   while IFS= read -r workflow_ref; do

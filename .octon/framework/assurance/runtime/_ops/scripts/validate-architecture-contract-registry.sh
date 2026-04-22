@@ -6,7 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 REGISTRY="$OCTON_DIR/framework/cognition/_meta/architecture/contract-registry.yml"
-RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-remediation/registry/contract-registry-receipt.yml"
+RECEIPT="$OCTON_DIR/state/evidence/validation/architecture-target-state-transition/registry/contract-registry-receipt.yml"
 
 errors=0
 

@@ -47,8 +47,8 @@ support_target:
   workload_tier: repo-consequential
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/github-repo-consequential-en/dossier.yml
+support_target_admission_ref: .octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml
+support_target_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
 support_tier: repo-consequential
 trace_pointers_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/trace-pointers.yml
 updated_at: 2026-04-01T14:24:36.851912Z

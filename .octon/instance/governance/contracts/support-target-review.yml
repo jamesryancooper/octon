@@ -11,6 +11,7 @@ cadence: "Before support widening and at every release that changes support-targ
 required_inputs:
   - ".octon/instance/governance/support-targets.yml"
   - ".octon/instance/governance/contracts/support-target-proofing.yml"
+  - ".octon/instance/governance/contracts/support-pack-admission-alignment.yml"
   - ".octon/framework/capabilities/packs/**"
   - ".octon/instance/governance/capability-packs/**"
   - ".octon/framework/constitution/contracts/adapters/**"

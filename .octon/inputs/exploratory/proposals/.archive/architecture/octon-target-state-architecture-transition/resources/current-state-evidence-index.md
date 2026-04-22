@@ -21,8 +21,8 @@
 | `.octon/framework/overlay-points/registry.yml` | Legal overlay points and merge modes. |
 | `.octon/instance/manifest.yml` | Enabled overlay points and locality binding. |
 | `.octon/instance/governance/support-targets.yml` | Bounded admitted finite support universe, stage-only/non-live surfaces, adapter conformance criteria. |
-| `.octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml` | Supported repo-shell consequential tuple, required proof planes, evidence refs, dossier ref. |
-| `.octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml` | Qualified support dossier with one current retained run and proof-plane requirements. |
+| `.octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml` | Supported repo-shell consequential tuple, required proof planes, evidence refs, dossier ref. |
+| `.octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml` | Qualified support dossier with one current retained run and proof-plane requirements. |
 | `.octon/instance/governance/policies/mission-autonomy.yml` | Mission autonomy modes, preview/digest, pause, recovery, proceed-on-silence, circuit breakers. |
 | `.octon/framework/capabilities/runtime/services/README.md` | Typed services, independence, deny-by-default guardrails, shared policy preflight/enforcement. |
 | `.octon/framework/capabilities/runtime/skills/README.md` | Skill progressive-disclosure model and host projection documentation requiring reconciliation. |

@@ -520,7 +520,7 @@ The single best next move is therefore: **freeze the support universe, harden th
 [22]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml "raw.githubusercontent.com"
 [23]: https://github.com/jamesryancooper/octon/tree/main/.octon/framework/lab/scenarios "octon/.octon/framework/lab/scenarios at main · jamesryancooper/octon · GitHub"
 [24]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/framework/lab/scenarios/README.md "raw.githubusercontent.com"
-[25]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/instance/governance/support-dossiers/repo-shell-observe-read-en/dossier.yml "raw.githubusercontent.com"
+[25]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/instance/governance/support-dossiers/live/repo-shell-observe-read-en/dossier.yml "raw.githubusercontent.com"
 [26]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/instance/governance/exclusions/action-classes.yml "raw.githubusercontent.com"
 [27]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/instance/governance/contracts/support-target-review.yml "raw.githubusercontent.com"
 [28]: https://raw.githubusercontent.com/jamesryancooper/octon/main/.octon/framework/observability/runtime/README.md "raw.githubusercontent.com"

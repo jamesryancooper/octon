@@ -18,36 +18,30 @@ pass() { echo "[OK] $1"; }
 echo "== Ingress Manifest Parity Validation =="
 [[ -f "$MANIFEST" ]] && pass "ingress manifest exists" || fail "missing ingress manifest"
 
-manifest_orchestrator="$(yq -r '.mandatory_read_set[] | select(. == ".octon/framework/execution-roles/runtime/orchestrator/ROLE.md")' "$MANIFEST" 2>/dev/null || true)"
+manifest_orchestrator="$(yq -r '.mandatory_reads[] | select(. == ".octon/framework/execution-roles/runtime/orchestrator/ROLE.md")' "$MANIFEST" 2>/dev/null || true)"
 if [[ -n "$manifest_orchestrator" ]] && /usr/bin/grep -Fq '.octon/framework/execution-roles/runtime/orchestrator/ROLE.md' "$OCTON_DIR/instance/ingress/AGENTS.md"; then
   pass "instance ingress read order includes manifest mandatory orchestrator contract"
 else
   fail "instance ingress read order does not match manifest mandatory orchestrator contract"
 fi
 
-manifest_gate_mode="$(yq -r '.branch_closeout_gate.mode // ""' "$MANIFEST" 2>/dev/null || true)"
-if [[ "$manifest_gate_mode" == "contextual" ]] && /usr/bin/grep -Fq 'branch_closeout_gate' "$OCTON_DIR/instance/ingress/AGENTS.md"; then
-  pass "instance ingress closeout gate matches manifest"
+manifest_closeout_workflow="$(yq -r '.closeout_workflow_ref // ""' "$MANIFEST" 2>/dev/null || true)"
+if [[ -n "$manifest_closeout_workflow" ]] && [[ -f "$ROOT_DIR/$manifest_closeout_workflow" ]] && /usr/bin/grep -Fq 'closeout_workflow_ref' "$OCTON_DIR/instance/ingress/AGENTS.md"; then
+  pass "instance ingress points to canonical closeout workflow"
 else
-  fail "instance ingress closeout gate does not match manifest"
+  fail "instance ingress closeout workflow pointer does not match manifest"
 fi
 
-manifest_fallback="$(yq -r '.branch_closeout_gate.deprecated_fallback_prompt // ""' "$MANIFEST" 2>/dev/null || true)"
-if [[ -z "$manifest_fallback" ]]; then
-  pass "instance ingress deprecated fallback prompt is not required"
-elif /usr/bin/grep -Fq "$manifest_fallback" "$OCTON_DIR/instance/ingress/AGENTS.md"; then
-  pass "instance ingress deprecated fallback prompt matches manifest"
+if yq -e 'has("branch_closeout_gate") | not' "$MANIFEST" >/dev/null 2>&1; then
+  pass "instance ingress manifest no longer carries inline closeout gate policy"
 else
-  fail "instance ingress deprecated fallback prompt does not match manifest"
+  fail "instance ingress manifest must not carry inline closeout gate policy"
 fi
 
-manifest_closeout="$(yq -r '.branch_closeout_prompt // ""' "$MANIFEST" 2>/dev/null || true)"
-if [[ -z "$manifest_closeout" ]]; then
-  pass "legacy scalar closeout prompt is absent"
-elif [[ -n "$manifest_fallback" && "$manifest_closeout" == "$manifest_fallback" ]]; then
-  pass "legacy scalar closeout prompt matches deprecated fallback"
+if yq -e 'has("branch_closeout_prompt") | not' "$MANIFEST" >/dev/null 2>&1; then
+  pass "legacy scalar closeout prompt is absent from ingress manifest"
 else
-  fail "legacy scalar closeout prompt does not match deprecated fallback"
+  fail "legacy scalar closeout prompt must not remain in ingress manifest"
 fi
 
 for target in "$OCTON_ADAPTER" "$ROOT_ADAPTER" "$CLAUDE_ADAPTER"; do

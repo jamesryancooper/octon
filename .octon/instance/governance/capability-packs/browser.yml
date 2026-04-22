@@ -3,7 +3,6 @@ pack_id: browser
 status: unadmitted
 default_route: escalate
 contract_ref: .octon/framework/capabilities/packs/browser/manifest.yml
-source_admission_ref: .octon/instance/capabilities/runtime/packs/admissions/browser.yml
 support_target_refs:
   - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
   - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane

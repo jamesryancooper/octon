@@ -13,5 +13,8 @@ Current pack surfaces:
 - `api`
 - `telemetry`
 
-Framework pack manifests define the pack contract. Repo-local admission remains
-under `/.octon/instance/capabilities/runtime/packs/**`.
+Framework pack manifests define the pack contract. Repo-local governance intent
+lives under `/.octon/instance/governance/capability-packs/**`, and runtime
+admission under `/.octon/instance/capabilities/runtime/packs/**` is the
+projected runtime-facing view that must stay in parity with the governance
+pack declarations.

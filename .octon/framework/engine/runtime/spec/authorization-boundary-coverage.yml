@@ -28,6 +28,20 @@ paths:
       - "unmediated side-effect denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: kernel-service-build
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    side_effect_class: "repo-mutation"
+    affected_root: ".octon/framework/capabilities/runtime/services/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "unsupported support-claim denial"
+      - "unmediated side-effect denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
   - path_id: kernel-service-scaffold
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "repo-mutation"
@@ -79,5 +93,46 @@ paths:
     denial_reason_code: "FCR-023"
     negative_controls:
       - "host-projection-as-authority denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: orchestration-report-write
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    side_effect_class: "evidence-mutation"
+    affected_root: ".octon/state/evidence/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "host-projection-as-authority denial"
+      - "unmediated side-effect denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: authority-execution
+    entrypoint: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+    side_effect_class: "control-mutation"
+    affected_root: ".octon/state/control/execution/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "generated-as-authority denial"
+      - "unmediated side-effect denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: authority-phases
+    entrypoint: ".octon/framework/engine/runtime/crates/authority_engine/src/phases/receipt.rs"
+    side_effect_class: "evidence-mutation"
+    affected_root: ".octon/state/evidence/**"
+    authorize_execution_ref: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::authorize_execution"
+    request_builder: ".octon/framework/engine/runtime/crates/kernel/src/request_builders/mod.rs::bind_repo_local_request"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "phase-result omission denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"

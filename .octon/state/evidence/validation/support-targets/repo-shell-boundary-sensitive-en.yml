@@ -1,0 +1,72 @@
+schema_version: support-target-proof-bundle-v1
+bundle_id: support-proof://repo-shell-boundary-sensitive-en/current
+tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+claim_effect: stage-only
+support_target_ref: .octon/instance/governance/support-targets.yml
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/repo-shell-boundary-sensitive-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
+generated_at: "2026-04-21T23:30:00Z"
+freshness:
+  status: current
+  reviewed_at: "2026-04-21T23:30:00Z"
+  review_due_at: "2026-06-30T00:00:00Z"
+proof_planes:
+  - plane_id: structural
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/assurance/structural.yml
+  - plane_id: functional
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/assurance/functional.yml
+  - plane_id: behavioral
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/assurance/behavioral.yml
+  - plane_id: governance
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/assurance/governance.yml
+  - plane_id: maintainability
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/assurance/maintainability.yml
+  - plane_id: recovery
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/assurance/recovery.yml
+scenario_evidence:
+  required_scenarios:
+    - hidden-check-baseline
+    - adversarial-baseline
+    - replay-shadow-baseline
+    - recovery-fault-baseline
+  representative_run_refs:
+    - .octon/state/control/execution/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/run-contract.yml
+    - .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+  negative_control_refs:
+    - .octon/instance/governance/exclusions/action-classes.yml
+    - .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+  lab_refs:
+    - .octon/state/evidence/lab/adversarial/adv-supported-envelope-20260402/adversarial-report.yml
+authority_evidence:
+  decision_refs:
+    - .octon/state/evidence/control/execution/authority-decision-uec-repo-shell-boundary-sensitive-recertified-20260410.yml
+  grant_bundle_refs:
+    - .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-boundary-sensitive-recertified-20260410.yml
+disclosure_evidence:
+  run_card_refs:
+    - .octon/state/evidence/disclosure/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/run-card.yml
+    - .octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml
+  harness_card_ref: .octon/instance/governance/disclosure/harness-card.yml
+  support_universe_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+  proof_plane_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/proof-plane-coverage.yml
+sufficiency:
+  minimum_retained_runs: 1
+  current_retained_runs: 2
+  status: stage_only
+  notes:
+    - Boundary-sensitive repo-shell remains explicit stage-only posture and may not enter the live claim envelope.
+notes:
+  - Derived SupportCard: .octon/generated/cognition/projections/materialized/support-cards/repo-shell-boundary-sensitive-en.yml

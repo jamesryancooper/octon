@@ -4,8 +4,8 @@ generated_at: "2026-04-10T21:00:00Z"
 repo_rev: working-tree
 input_refs:
   - .octon/instance/governance/support-targets.yml
-  - .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
-  - .octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml
+  - .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
+  - .octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml
 status: pass
 blocking: false
 findings:
@@ -13,7 +13,7 @@ findings:
     severity: critical
     summary: Every admitted tuple now has a clean active exemplar or retained closure-grade proof path inside the preserved support universe.
 resolved_by_refs:
-  - .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
-  - .octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml
+  - .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
+  - .octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml
 notes:
   - Support universe preservation remains intact with no widening.

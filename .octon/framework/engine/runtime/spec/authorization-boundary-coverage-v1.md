@@ -22,6 +22,7 @@ Each family below is claim-critical and must be inventoried explicitly:
 
 - capability or service invocation that can mutate repo state, control state,
   retained evidence, or release disclosure
+- service build and other shell-backed service lifecycle mutations
 - workflow-stage execution and executor launch
 - repo mutation, publication, or release-lineage activation
 - control mutations under `/.octon/state/control/**`

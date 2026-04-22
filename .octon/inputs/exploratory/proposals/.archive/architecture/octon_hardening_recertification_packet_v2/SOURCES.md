@@ -59,9 +59,9 @@ This packet is grounded in the live `main` branch of `jamesryancooper/octon` as 
 - Retirement register  
   `https://github.com/jamesryancooper/octon/blob/main/.octon/instance/governance/retirement-register.yml`
 - Example support admission  
-  `https://github.com/jamesryancooper/octon/blob/main/.octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml`
+  `https://github.com/jamesryancooper/octon/blob/main/.octon/instance/governance/support-target-admissions/live/repo-shell-observe-read-en.yml`
 - Example support dossier  
-  `https://github.com/jamesryancooper/octon/blob/main/.octon/instance/governance/support-dossiers/repo-shell-observe-read-en/dossier.yml`
+  `https://github.com/jamesryancooper/octon/blob/main/.octon/instance/governance/support-dossiers/live/repo-shell-observe-read-en/dossier.yml`
 
 ## Workflow and schema anchors
 

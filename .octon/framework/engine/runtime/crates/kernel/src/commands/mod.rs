@@ -31,6 +31,7 @@ use super::{
 
 pub(crate) fn dispatch(cmd: Command) -> Result<()> {
     match cmd {
+        Command::Doctor { architecture } => cmd_doctor(architecture),
         Command::Info => cmd_info(),
         Command::Services { cmd } => cmd_services(cmd),
         Command::Tool { service, op, json } => cmd_tool(&service, &op, json.as_deref()),
@@ -41,6 +42,35 @@ pub(crate) fn dispatch(cmd: Command) -> Result<()> {
         Command::Run { cmd } => cmd_run(cmd),
         Command::Workflow { cmd } => cmd_workflow(cmd),
         Command::Orchestration { cmd } => cmd_orchestration(cmd),
+    }
+}
+
+fn cmd_doctor(architecture: bool) -> Result<()> {
+    let ctx = KernelContext::load()?;
+    if !architecture {
+        anyhow::bail!("doctor currently requires --architecture");
+    }
+
+    let validator = ctx
+        .cfg
+        .octon_dir
+        .join("framework")
+        .join("assurance")
+        .join("runtime")
+        .join("_ops")
+        .join("scripts")
+        .join("validate-architecture-health.sh");
+
+    let status = ProcessCommand::new("bash")
+        .arg(&validator)
+        .env("OCTON_DIR_OVERRIDE", &ctx.cfg.octon_dir)
+        .env("OCTON_ROOT_DIR", &ctx.cfg.repo_root)
+        .status()?;
+
+    if status.success() {
+        Ok(())
+    } else {
+        anyhow::bail!("architecture health validation failed")
     }
 }
 

@@ -45,8 +45,8 @@ support_target:
   workload_tier: observe-and-read
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/ci-observe-read-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/ci-observe-read-en/dossier.yml
+support_target_admission_ref: .octon/instance/governance/support-target-admissions/live/ci-observe-read-en.yml
+support_target_dossier_ref: .octon/instance/governance/support-dossiers/live/ci-observe-read-en/dossier.yml
 support_tier: observe-and-read
 trace_pointers_ref: .octon/state/evidence/runs/uec-global-ci-observe-read-20260404/trace-pointers.yml
 updated_at: 2026-04-01T14:24:36.851912Z

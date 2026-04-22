@@ -78,8 +78,8 @@ source_authorities:
   - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
   - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
   - ".octon/instance/governance/support-targets.yml"
-  - ".octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml"
-  - ".octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml"
+  - ".octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml"
+  - ".octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml"
 non_goals:
   - "create a rival control plane outside .octon"
   - "make generated outputs authoritative"

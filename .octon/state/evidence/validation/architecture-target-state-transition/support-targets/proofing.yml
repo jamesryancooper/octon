@@ -7,6 +7,12 @@ proof_cards:
     card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/repo-shell-repo-consequential-en.yml
   - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
     card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/ci-observe-read-en.yml
+  - tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+    card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/repo-shell-boundary-sensitive-en.yml
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+    card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/github-repo-consequential-en.yml
+  - tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    card_ref: .octon/state/evidence/validation/architecture-target-state-transition/support-targets/cards/frontier-studio-boundary-sensitive-es.yml
 proof_bundles:
   - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
     bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
@@ -17,3 +23,12 @@ proof_bundles:
   - tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
     bundle_ref: .octon/state/evidence/validation/support-targets/ci-observe-read-en.yml
     support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/ci-observe-read-en.yml
+  - tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+    bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-boundary-sensitive-en.yml
+    support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/repo-shell-boundary-sensitive-en.yml
+  - tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+    bundle_ref: .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+    support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/github-repo-consequential-en.yml
+  - tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    bundle_ref: .octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml
+    support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/frontier-studio-boundary-sensitive-es.yml

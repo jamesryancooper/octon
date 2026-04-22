@@ -20,3 +20,6 @@ support_bundle_refs:
   - .octon/state/evidence/validation/support-targets/repo-shell-observe-read-en.yml
   - .octon/state/evidence/validation/support-targets/repo-shell-repo-consequential-en.yml
   - .octon/state/evidence/validation/support-targets/ci-observe-read-en.yml
+  - .octon/state/evidence/validation/support-targets/repo-shell-boundary-sensitive-en.yml
+  - .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+  - .octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml

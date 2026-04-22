@@ -9,7 +9,7 @@ observable enough to debug, and flexible enough to evolve.
 The machine-readable ingress declaration lives at
 `/.octon/instance/ingress/manifest.yml`. Treat that manifest as the source of
 truth for mandatory reads, optional overlays, conditional overlays, adapter
-parity targets, and the branch closeout gate.
+parity targets, and the canonical branch/PR closeout workflow pointer.
 
 Structural topology, class roots, publication metadata, and doc-target roles
 live at `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`.
@@ -92,26 +92,14 @@ requires `transitional`.
 `/.octon/inputs/exploratory/ideation/**` is human-led. Autonomous access is
 blocked unless a human explicitly scopes the request.
 
-## Branch Closeout Gate
+## Branch And PR Closeout
 
-Use `branch_closeout_gate` from `/.octon/instance/ingress/manifest.yml` as the
-canonical closeout contract. Do not ask one fixed closeout question after
-every file-changing turn.
+Ingress does not own branch or PR closeout policy.
 
-The broader Git/worktree/PR/remediation workflow contract lives at
-`/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`.
-Use that contract together with the ingress manifest when closeout, review
-remediation, or helper semantics need interpretation.
+When work reaches a credible completion point, resolve branch/PR closeout from:
 
-The ingress manifest owns:
+- `closeout_workflow_ref` in `/.octon/instance/ingress/manifest.yml`
+- `/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`
 
-- when closeout may trigger
-- how worktree and PR context are detected
-- when autonomous versus manual merge lanes apply
-- when prompts are suppressed and status should be reported instead
-- the deprecated compatibility fallback for adapters that still read it
-
-This ingress surface intentionally does not restate the prompt matrix or
-full deprecated fallback matrix. The manifest remains authoritative; the
-compatibility fallback prompt is retained here only for parity:
-`Are you ready to closeout this branch?`
+Build-to-delete or claim-closeout governance remains distinct and lives under
+`/.octon/instance/governance/contracts/closeout-reviews.yml`.
