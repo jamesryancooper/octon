@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.40](https://github.com/jamesryancooper/octon/compare/octon-v0.6.39...octon-v0.6.40) (2026-04-22)
+
+
+### Features
+
+* **runtime:** complete 10of10 target state ([#343](https://github.com/jamesryancooper/octon/issues/343)) ([6ccffd9](https://github.com/jamesryancooper/octon/commit/6ccffd9c147c272eb4bc4c9d7c096cfb28a3b400))
+
 ## [0.6.39](https://github.com/jamesryancooper/octon/compare/octon-v0.6.38...octon-v0.6.39) (2026-04-22)
 
 
