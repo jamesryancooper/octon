@@ -113,11 +113,13 @@ delegated_registries:
     path: ".octon/instance/ingress/manifest.yml"
     role: >-
       Mandatory ingress read order, optional orientation overlays, adapter
-      parity targets, and branch closeout gate.
+      parity targets, and the canonical branch/PR closeout workflow pointer.
     machine_keys:
       - "mandatory_reads"
       - "optional_orientation"
-      - "branch_closeout_gate"
+      - "conditional_orientation"
+      - "adapter_parity_targets"
+      - "closeout_workflow_ref"
     status: "active"
   decisions_index:
     path: ".octon/instance/cognition/decisions/index.yml"
@@ -192,6 +194,7 @@ path_families:
       - ".octon/instance/governance/retirement-register.yml"
       - ".octon/instance/governance/contracts/retirement-policy.yml"
       - ".octon/instance/governance/contracts/retirement-review.yml"
+      - ".octon/generated/cognition/projections/materialized/compatibility-retirement-map.md"
     authority_class: "transitional-retirement-governance"
     role: "Declares retained compatibility surfaces, their successors, and the review/retirement contract."
     allowed_consumers:
@@ -204,6 +207,30 @@ path_families:
       - "retirement_register"
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement-readiness.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
+  branch_pr_closeout_workflow:
+    class_root: "framework"
+    canonical_paths:
+      - ".octon/framework/orchestration/runtime/workflows/meta/closeout/**"
+      - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/**"
+    authority_class: "branch-closeout-workflow-governance"
+    role: >-
+      Canonical branch/PR closeout workflow, merge-lane semantics, and
+      autonomous remediation/merge orchestration surfaces.
+    allowed_consumers:
+      - "agents"
+      - "operators"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "ingress manifest as an inline duplicate policy surface"
+      - "build-to-delete governance closeout as a substitute"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh"
     doc_target_refs:
       - "architecture_specification"
       - "bootstrap_start"
@@ -228,8 +255,30 @@ path_families:
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
     doc_target_refs:
       - "architecture_specification"
+  runtime_architecture_health:
+    class_root: "framework"
+    canonical_paths:
+      - ".octon/framework/engine/runtime/spec/architecture-health-contract-v1.md"
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v1.md"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
+    authority_class: "aggregate-runtime-health-contract"
+    role: "Aggregate runtime architecture health, publication freshness, and lifecycle coverage surfaces."
+    allowed_consumers:
+      - "operators"
+      - "validators"
+      - "docs"
+    forbidden_consumers:
+      - "generated summaries as an authority substitute"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
   overlay_resolution:
     class_root: "framework"
     related_class_roots:
@@ -259,7 +308,10 @@ path_families:
       - ".octon/instance/ingress/**"
       - ".octon/instance/bootstrap/**"
     authority_class: "repo-specific-orientation-authority"
-    role: "Ingress, optional orientation, and repo-local bootstrap guidance."
+    role: >-
+      Ingress, optional orientation, adapter parity, and repo-local bootstrap
+      guidance. Branch/PR closeout policy resolves through the dedicated
+      closeout workflow family.
     allowed_consumers:
       - "agents"
       - "operators"
@@ -268,6 +320,9 @@ path_families:
       - "runtime as a substitute for constitutional or workspace authority"
     delegated_registry_refs:
       - "ingress_manifest"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-ingress-manifest-parity.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-boot-surface.sh"
     doc_target_refs:
       - "bootstrap_start"
       - "ingress_surface"
@@ -314,6 +369,7 @@ path_families:
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-constitution-closeout.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-pack-admission-alignment.sh"
     doc_target_refs:
       - "super_root_readme"
       - "architecture_specification"
@@ -463,6 +519,7 @@ path_families:
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-route-normalization.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
     doc_target_refs:
       - "super_root_readme"
       - "architecture_specification"

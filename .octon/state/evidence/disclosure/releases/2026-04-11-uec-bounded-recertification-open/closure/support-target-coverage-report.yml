@@ -4,7 +4,7 @@ generated_at: "2026-04-10T20:00:00Z"
 repo_rev: working-tree
 input_refs:
   - .octon/instance/governance/support-targets.yml
-  - .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
+  - .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
 status: fail
 blocking: true
 findings:

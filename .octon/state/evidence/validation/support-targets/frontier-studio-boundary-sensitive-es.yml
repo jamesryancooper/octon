@@ -1,0 +1,66 @@
+schema_version: support-target-proof-bundle-v1
+bundle_id: support-proof://frontier-studio-boundary-sensitive-es/current
+tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+tuple:
+  model_tier: frontier-governed
+  workload_tier: boundary-sensitive
+  language_resource_tier: extended-governed
+  locale_tier: spanish-secondary
+  host_adapter: studio-control-plane
+  model_adapter: frontier-governed
+claim_effect: stage-only
+support_target_ref: .octon/instance/governance/support-targets.yml
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/frontier-studio-boundary-sensitive-es.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/frontier-studio-boundary-sensitive-es/dossier.yml
+generated_at: "2026-04-21T23:30:00Z"
+freshness:
+  status: current
+  reviewed_at: "2026-04-21T23:30:00Z"
+  review_due_at: "2026-06-30T00:00:00Z"
+proof_planes:
+  - plane_id: structural
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/structural.yml
+  - plane_id: functional
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/functional.yml
+  - plane_id: behavioral
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/behavioral.yml
+  - plane_id: governance
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/governance.yml
+  - plane_id: maintainability
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/maintainability.yml
+  - plane_id: recovery
+    status: pass
+    coverage_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/assurance/recovery.yml
+scenario_evidence:
+  required_scenarios:
+    - adversarial-baseline
+    - recovery-fault-baseline
+  representative_run_refs:
+    - .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+  negative_control_refs:
+    - .octon/instance/governance/exclusions/action-classes.yml
+    - .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+authority_evidence:
+  decision_refs:
+    - .octon/state/evidence/control/execution/authority-decision-uec-global-frontier-browser-api-studio-20260404.yml
+  grant_bundle_refs:
+    - .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-frontier-browser-api-studio-20260404.yml
+disclosure_evidence:
+  run_card_refs:
+    - .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
+  harness_card_ref: .octon/instance/governance/disclosure/harness-card.yml
+  support_universe_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml
+  proof_plane_coverage_ref: .octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/proof-plane-coverage.yml
+sufficiency:
+  minimum_retained_runs: 1
+  current_retained_runs: 1
+  status: stage_only
+  notes:
+    - Frontier-governed Studio/browser/API posture remains explicit stage-only evidence and is excluded from the live admitted claim.
+notes:
+  - Derived SupportCard: .octon/generated/cognition/projections/materialized/support-cards/frontier-studio-boundary-sensitive-es.yml

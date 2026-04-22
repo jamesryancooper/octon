@@ -42,7 +42,7 @@ main() {
   require_yq '.historical_releases[] | select(.release_id == "2026-04-04-uec-global-completion" and .status == "superseded")' "$RELEASE_LINEAGE" "release lineage supersedes the prior global-completion release"
   require_yq '(.surfaces | length) >= 8' "$COVERAGE_LEDGER" "coverage ledger spans admitted support surfaces"
   require_yq 'has("compatibility_matrix") | not' "$SUPPORT_TARGETS" "support-target declaration contains no duplicate compatibility matrix"
-  require_yq '(.tuple_admissions | length) == 3' "$SUPPORT_TARGETS" "live support tuple inventory is narrowed to the three admitted tuples"
+  require_yq '[.tuple_admissions[] | select(.claim_effect == "admitted-live-claim")] | length == 3' "$SUPPORT_TARGETS" "live support tuple inventory is narrowed to the three admitted tuples"
   require_yq '.schema_version == "support-universe-coverage-v2"' "$COVERAGE_LEDGER" "coverage ledger uses v2 schema"
   require_yq '.schema_version == "closure-certificate-v2"' "$CLOSURE_CERTIFICATE" "closure certificate uses v2 schema"
   require_yq '.schema_version == "proof-plane-coverage-v1" or .schema_version == "proof-plane-coverage-v2"' "$PROOF_COVERAGE" "proof-plane coverage artifact exists"

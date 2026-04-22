@@ -1,0 +1,112 @@
+---
+schema_version: workflow-contract-v2
+name: closeout
+description: Resolve branch and PR closeout context from the canonical Git/worktree autonomy contract without duplicating policy in ingress.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
+policy_refs:
+  workflow_contract_ref: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  owner_surface_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
+  governance_closeout_ref: ".octon/instance/governance/contracts/closeout-reviews.yml"
+compatibility:
+  deprecated_fallback_prompt: "Are you ready to closeout this branch?"
+  retirement_register_ref: ".octon/instance/governance/retirement-register.yml"
+inputs: []
+stages:
+  - id: evaluate-context
+    asset: stages/01-evaluate-context.md
+    kind: analysis
+    consumes: []
+    produces:
+      - stage:evaluate-context
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-contract
+          - worktree-state
+          - pr-state
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: request-or-report
+    asset: stages/02-request-or-report.md
+    kind: projection
+    consumes:
+      - stage:evaluate-context
+    produces:
+      - stage:request-or-report
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-contract
+          - workflow-evidence
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+artifacts:
+  - name: closeout_workflow_summary
+    path: "/.octon/state/evidence/validation/analysis/{{date}}-closeout-workflow.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Closeout context resolution summary.
+done_gate:
+  checks:
+    - "closeout context resolves from the Git/worktree autonomy contract"
+    - "already-ready PR contexts report status instead of prompting again"
+    - "ingress remains a pointer to this workflow rather than an inline closeout policy surface"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

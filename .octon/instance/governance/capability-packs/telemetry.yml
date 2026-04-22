@@ -3,7 +3,6 @@ pack_id: telemetry
 status: admitted
 default_route: allow
 contract_ref: .octon/framework/capabilities/packs/telemetry/manifest.yml
-source_admission_ref: .octon/instance/capabilities/runtime/packs/admissions/telemetry.yml
 support_target_refs:
   - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
   - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell

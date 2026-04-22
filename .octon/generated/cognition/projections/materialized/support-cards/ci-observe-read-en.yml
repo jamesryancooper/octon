@@ -3,8 +3,8 @@ tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-p
 claim_effect: admitted-live-claim
 support_target_ref: .octon/instance/governance/support-targets.yml
 proof_bundle_ref: .octon/state/evidence/validation/support-targets/ci-observe-read-en.yml
-admission_ref: .octon/instance/governance/support-target-admissions/ci-observe-read-en.yml
-support_dossier_ref: .octon/instance/governance/support-dossiers/ci-observe-read-en/dossier.yml
+admission_ref: .octon/instance/governance/support-target-admissions/live/ci-observe-read-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/live/ci-observe-read-en/dossier.yml
 run_card_refs:
   - .octon/state/evidence/disclosure/runs/uec-global-ci-observe-read-20260404/run-card.yml
 summary: CI observe-and-read support remains admitted as a projection-only host posture with bounded live coverage.

@@ -50,6 +50,18 @@
       "type": "string",
       "minLength": 1
     },
+    "support_proof_bundle_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_card_projection_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_admission_root": {
+      "type": "string",
+      "minLength": 1
+    },
     "pack_registry_ref": {
       "type": "string",
       "minLength": 1
@@ -57,6 +69,32 @@
     "admission_review_contract_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "support_proofing_contract_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_dossier_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "claim_state_partitions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "live": {
+          "$ref": "#/$defs/claim_state_partition"
+        },
+        "stage-only": {
+          "$ref": "#/$defs/claim_state_partition"
+        },
+        "unadmitted": {
+          "$ref": "#/$defs/claim_state_partition"
+        },
+        "retired": {
+          "$ref": "#/$defs/claim_state_partition"
+        }
+      }
     },
     "live_support_universe": {
       "type": "object",
@@ -163,6 +201,21 @@
     }
   },
   "$defs": {
+    "claim_state_partition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["admission_root", "dossier_root"],
+      "properties": {
+        "admission_root": {
+          "type": "string",
+          "minLength": 1
+        },
+        "dossier_root": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
     "string_array": {
       "type": "array",
       "minItems": 1,
@@ -313,6 +366,18 @@
           "minLength": 1
         },
         "support_dossier_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proof_bundle_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "support_card_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "claim_effect": {
           "type": "string",
           "minLength": 1
         }

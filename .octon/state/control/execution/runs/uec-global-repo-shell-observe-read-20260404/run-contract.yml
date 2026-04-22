@@ -62,8 +62,8 @@ support_target_tuple:
   support_status: supported
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple_id: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-observe-read-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-observe-read-en/dossier.yml
+support_target_admission_ref: .octon/instance/governance/support-target-admissions/live/repo-shell-observe-read-en.yml
+support_target_dossier_ref: .octon/instance/governance/support-dossiers/live/repo-shell-observe-read-en/dossier.yml
 required_approvals: []
 required_evidence:
 - decision-artifact

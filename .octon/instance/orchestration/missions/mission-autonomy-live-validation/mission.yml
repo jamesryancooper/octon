@@ -11,18 +11,16 @@ workspace_refs:
 allowed_run_classes:
   - "observe-and-read"
   - "repo-consequential"
-  - "boundary-sensitive"
 default_support_tiers:
   - "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
   - "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
-  - "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell"
 autonomy_class: "reversible-governed"
 protected_zones:
   - ".octon/framework/constitution/**"
   - ".octon/instance/governance/**"
 scope_refs:
   - "scope://octon-harness"
-approval_policy_ref: "policy://mission-autonomy-default"
+approval_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml"
 quorum_policy_ref: ".octon/instance/governance/contracts/quorum-policies/default.yml"
 revocation_policy_ref: "revocation-policy://default"
 continuity_root_ref: ".octon/state/continuity/missions/mission-autonomy-live-validation"

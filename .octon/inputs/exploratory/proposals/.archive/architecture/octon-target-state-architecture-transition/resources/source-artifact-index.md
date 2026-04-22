@@ -22,8 +22,8 @@ This packet was generated from live repository inspection and the user's archite
 - `/.octon/framework/overlay-points/registry.yml`
 - `/.octon/instance/manifest.yml`
 - `/.octon/instance/governance/support-targets.yml`
-- `/.octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml`
-- `/.octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml`
+- `/.octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml`
+- `/.octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml`
 - `/.octon/instance/governance/policies/mission-autonomy.yml`
 - `/.octon/framework/engine/runtime/spec/execution-authorization-v1.md`
 - `/.octon/framework/engine/runtime/crates/kernel/src/main.rs`

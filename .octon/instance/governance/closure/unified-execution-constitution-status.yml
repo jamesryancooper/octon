@@ -14,7 +14,7 @@ truth_conditions_ref: ".octon/framework/constitution/claim-truth-conditions.yml"
 phase_status_ref: ".octon/instance/governance/closure/phase-status.yml"
 preclaim_blockers_ref: ".octon/instance/governance/closure/preclaim-blockers.yml"
 gate_status_ref: ".octon/instance/governance/closure/gate-status.yml"
-coverage_ledger_ref: ".octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-revalidation-open/closure/support-universe-coverage.yml"
+coverage_ledger_ref: ".octon/state/evidence/disclosure/releases/2026-04-18-frontier-governance-bounded-complete/closure/support-universe-coverage.yml"
 status_summary:
   claim_status: "complete"
   final_verdict: "claim_complete"

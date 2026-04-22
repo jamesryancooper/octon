@@ -21,7 +21,7 @@ fn fixture_path(name: &str) -> PathBuf {
 }
 
 fn repo_root() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../../..")
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../../../../../..")
 }
 
 #[test]

@@ -1,7 +1,8 @@
 # Compatibility Retirement Map
 
 This map summarizes retained transitional compatibility surfaces. It is a
-projection over the retirement register and retained evidence.
+derived, non-authoritative projection over the retirement register and
+retained evidence.
 
 ## Canonical Inputs
 
@@ -14,6 +15,7 @@ projection over the retirement register and retained evidence.
 
 | Surface class | Canonical successor |
 | --- | --- |
+| Structural registry compatibility projections (`execution`, `mission_autonomy`, `documentation`) | Registry-backed path families plus delegated registries |
 | Ingress projection adapters | `/.octon/instance/ingress/AGENTS.md` |
 | Historical charter shims | `/.octon/framework/constitution/CHARTER.md` |
 | Run-local disclosure mirrors | `/.octon/state/evidence/disclosure/runs/**` |

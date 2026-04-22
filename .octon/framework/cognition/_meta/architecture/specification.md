@@ -96,7 +96,8 @@ Use these sections of
 7. `/.octon/octon.yml` owns super-root bindings, profiles, resolution inputs,
    and generated commit defaults.
 8. `/.octon/instance/ingress/manifest.yml` owns mandatory ingress reads,
-   optional orientation overlays, and the branch closeout gate.
+   optional orientation overlays, and the canonical branch/PR closeout
+   workflow pointer.
 9. Overlay legality exists only where
    `/.octon/framework/overlay-points/registry.yml` declares a point and
    `/.octon/instance/manifest.yml` enables it.
@@ -121,7 +122,7 @@ machine-readable surfaces:
 | `/.octon/framework/constitution/contracts/registry.yml` | Constitutional families and integration surfaces |
 | `/.octon/framework/overlay-points/registry.yml` | Legal overlay points and merge modes |
 | `/.octon/instance/manifest.yml` | Repo-side overlay enablement |
-| `/.octon/instance/ingress/manifest.yml` | Mandatory ingress read order and closeout gate |
+| `/.octon/instance/ingress/manifest.yml` | Mandatory ingress read order, optional orientation, and closeout workflow pointer |
 | `/.octon/instance/cognition/decisions/index.yml` | Append-only ADR discovery |
 
 When any delegated registry changes, this specification stays descriptive and
@@ -136,8 +137,12 @@ family groups:
 | --- | --- | --- |
 | `constitutional_kernel` | `framework/constitution/**` | Supreme repo-local authority |
 | `structural_architecture` | `framework/cognition/_meta/architecture/**` | Structural registry plus narrative companion |
+| `compatibility_retirement` | `instance/governance/retirement-register.yml` + retirement contracts | Retained compatibility inventory, review cadence, and retirement posture |
+| `runtime_authorization_coverage` | `framework/engine/runtime/spec/{execution-authorization-v1.md,authorization-boundary-coverage.yml,material-side-effect-inventory.yml}` | Authorization-boundary and material-side-effect coverage contract |
+| `runtime_architecture_health` | `framework/engine/runtime/spec/architecture-health-contract-v1.md` + health/freshness validators | Aggregate runtime health, lifecycle, and publication-freshness gate |
 | `overlay_resolution` | `framework/overlay-points/registry.yml` + `instance/manifest.yml` | Declared overlay legality |
 | `instance_ingress_and_bootstrap` | `instance/{ingress,bootstrap}/**` | Ingress and optional orientation |
+| `branch_pr_closeout_workflow` | `framework/orchestration/runtime/workflows/meta/closeout/**` + Git/worktree autonomy contract | Branch and PR closeout policy plus workflow ownership |
 | `workspace_charter_pair` | `instance/charter/{workspace.md,workspace.yml}` | Repo-wide objective authority |
 | `instance_governance` | `instance/governance/**` | Support targets, exclusions, policy, ownership, governance disclosure |
 | `instance_locality` | `instance/locality/**` | Scope and locality authority |
@@ -201,6 +206,7 @@ These docs are registry-backed. They must not carry:
 - full hand-maintained canonical path matrices
 - historical wave or cutover chronology
 - proposal-lineage closeout detail
+- inline branch/PR closeout policy that duplicates the dedicated closeout workflow family
 
 Historical migrations and proposal lineage belong in ADRs and retained evidence
 rather than in active operating docs.

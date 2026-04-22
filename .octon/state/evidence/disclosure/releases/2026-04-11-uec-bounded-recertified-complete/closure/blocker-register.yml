@@ -81,4 +81,4 @@ items:
     classification: closure-blocking
     summary: Every admitted tuple now has a clean active exemplar or retained closure-grade proof path.
     primary_refs:
-      - .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
+      - .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml

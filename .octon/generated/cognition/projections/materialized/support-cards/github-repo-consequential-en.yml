@@ -1,0 +1,10 @@
+schema_version: support-card-v1
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+claim_effect: stage-only-non-live
+support_target_ref: .octon/instance/governance/support-targets.yml
+proof_bundle_ref: .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
+run_card_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+summary: GitHub repo-consequential posture remains stage-only, projection-only, and excluded from the live admitted claim.

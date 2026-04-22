@@ -1,0 +1,10 @@
+schema_version: support-card-v1
+tuple_id: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+claim_effect: stage-only-non-live
+support_target_ref: .octon/instance/governance/support-targets.yml
+proof_bundle_ref: .octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/frontier-studio-boundary-sensitive-es.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/frontier-studio-boundary-sensitive-es/dossier.yml
+run_card_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
+summary: Frontier Studio/browser/API posture remains stage-only, evidence-backed, and excluded from the live admitted claim.

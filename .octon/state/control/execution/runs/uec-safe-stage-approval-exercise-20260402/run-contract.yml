@@ -60,8 +60,8 @@ support_target_tuple:
   support_status: supported
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-repo-consequential-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-repo-consequential-en/dossier.yml
+support_target_admission_ref: .octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml
+support_target_dossier_ref: .octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml
 required_approvals:
 - .octon/state/control/execution/approvals/requests/uec-safe-stage-approval-exercise-20260402.yml
 required_evidence:

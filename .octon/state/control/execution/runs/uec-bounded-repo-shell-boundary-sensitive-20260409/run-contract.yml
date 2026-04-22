@@ -64,8 +64,8 @@ support_target_tuple:
   support_status: supported
 support_target_ref: .octon/instance/governance/support-targets.yml
 support_target_tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/repo-shell-boundary-sensitive-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
+support_target_admission_ref: .octon/instance/governance/support-target-admissions/stage-only/repo-shell-boundary-sensitive-en.yml
+support_target_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
 required_approvals:
 - .octon/state/control/execution/approvals/requests/uec-bounded-repo-shell-boundary-sensitive-20260409.yml
 required_evidence:

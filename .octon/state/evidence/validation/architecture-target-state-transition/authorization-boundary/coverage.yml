@@ -4,6 +4,7 @@ inventory_ref: .octon/framework/engine/runtime/spec/material-side-effect-invento
 coverage_map_ref: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
 spec_assertions:
   - service invocation
+  - service build
   - workflow-stage execution
   - executor launch
   - control mutations under `/.octon/state/control/**`
@@ -15,6 +16,18 @@ inventory:
       - write_execution_start(
       - finalize_execution(
   - path_id: kernel-studio-launch
+    file: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+    required_patterns:
+      - authorize_execution(
+      - write_execution_start(
+      - finalize_execution(
+  - path_id: kernel-service-build
+    file: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+    required_patterns:
+      - authorize_execution(
+      - write_execution_start(
+      - finalize_execution(
+  - path_id: kernel-service-scaffold
     file: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
     required_patterns:
       - authorize_execution(
@@ -34,6 +47,12 @@ inventory:
       - finalize_execution(
   - path_id: stdio-service-run
     file: .octon/framework/engine/runtime/crates/kernel/src/stdio.rs
+    required_patterns:
+      - authorize_execution(
+      - write_execution_start(
+      - finalize_execution(
+  - path_id: orchestration-report-write
+    file: .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
     required_patterns:
       - authorize_execution(
       - write_execution_start(

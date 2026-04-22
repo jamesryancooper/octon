@@ -1,0 +1,17 @@
+checkpoint_refs:
+- .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/checkpoints/bound.yml
+entrypoint: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline
+external_index_refs:
+- .octon/state/evidence/external-index/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline.yml
+receipt_refs:
+- .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/receipts/execution-receipt.json
+recorded_at: 2026-04-13T14:45:34.120963Z
+replay_payload_class: git-pointer
+reproduction_steps:
+- Read the bound run contract and execution receipt.
+- Follow the replay manifest, checkpoints, trace pointers, and RunCard refs to reproduce the consequential path.
+- Use the external replay index when trace or replay payload retrieval needs a canonical pointer source.
+run_id: repo-consequential-preflight-workflow-20260413-v4-stage-inline
+schema_version: run-replay-manifest-v1
+trace_refs:
+- .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/trace-pointers.yml

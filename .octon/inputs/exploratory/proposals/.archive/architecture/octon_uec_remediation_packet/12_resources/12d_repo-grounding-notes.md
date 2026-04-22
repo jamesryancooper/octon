@@ -6,8 +6,8 @@ This packet was grounded against the live repository claim-bearing surfaces and 
 - `/.octon/framework/constitution/claim-truth-conditions.yml`
 - `/.octon/instance/governance/disclosure/release-lineage.yml`
 - `/.octon/instance/governance/support-targets.yml`
-- `/.octon/instance/governance/support-target-admissions/frontier-studio-boundary-sensitive-es.yml`
-- `/.octon/instance/governance/support-target-admissions/github-repo-consequential-en.yml`
+- `/.octon/instance/governance/support-target-admissions/stage-only/frontier-studio-boundary-sensitive-es.yml`
+- `/.octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml`
 - `/.octon/generated/effective/governance/support-target-matrix.yml`
 - `/.octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml`
 - `/.octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml`

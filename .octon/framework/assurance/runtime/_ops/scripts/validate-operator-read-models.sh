@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
-RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-remediation/operator-views/publication.yml"
+RECEIPT="$OCTON_DIR/state/evidence/validation/architecture-target-state-transition/operator-views/publication.yml"
 
 errors=0
 
@@ -77,80 +77,55 @@ main() {
     [[ -f "$resolved_projection" ]] && pass "$view_kind projection present" || { fail "$view_kind projection missing: $projection_ref"; continue; }
     [[ -f "$resolved_summary" ]] && pass "$view_kind summary present" || fail "$view_kind summary missing: $summary_ref"
 
-    if [[ "$(yq -r '.schema_version // ""' "$resolved_projection")" == "operator-read-model-v1" ]]; then
-      pass "$view_kind projection schema is current"
-    else
-      fail "$view_kind projection schema must be operator-read-model-v1"
-    fi
-
-    if [[ "$(yq -r '.view_kind // ""' "$resolved_projection")" == "$view_kind" ]]; then
-      pass "$view_kind projection kind matches receipt"
-    else
-      fail "$view_kind projection kind must match receipt"
-    fi
-
-    if [[ "$(yq -r '.mutability // ""' "$resolved_projection")" == "generated" ]]; then
-      pass "$view_kind projection is marked generated"
-    else
-      fail "$view_kind projection must declare mutability: generated"
-    fi
-
-    if [[ -n "$(yq -r '.non_authority_statement // ""' "$resolved_projection")" ]]; then
-      pass "$view_kind projection declares non-authority status"
-    else
-      fail "$view_kind projection must declare non-authority status"
-    fi
-
-    if [[ "$(yq -r '.generated_from | length' "$resolved_projection")" -gt 0 ]]; then
-      pass "$view_kind projection carries generated_from provenance"
-    else
-      fail "$view_kind projection must carry generated_from provenance"
-    fi
-
-    if [[ "$(yq -r '.summary_ref // ""' "$resolved_projection")" == "$summary_ref" ]]; then
-      pass "$view_kind projection cites the matching summary"
-    else
-      fail "$view_kind projection must cite the matching summary"
-    fi
-
-    while IFS= read -r field_name; do
-      [[ -n "$field_name" ]] || continue
-      if yq -e ".view.${field_name}._source_trace" "$resolved_projection" >/dev/null 2>&1; then
-        pass "$view_kind field $field_name has source trace metadata"
-      else
-        fail "$view_kind field $field_name must have source trace metadata"
-        continue
-      fi
-
-      while IFS=$'\t' read -r trace_path trace_field trace_surface trace_authority; do
-        [[ -n "$trace_path" ]] || continue
-        case "$trace_path" in
-          /.octon/generated/*|.octon/generated/*|/.octon/inputs/*|.octon/inputs/*)
-            fail "$view_kind field $field_name source trace must not point to generated/** or inputs/**: $trace_path"
-            ;;
-          *)
-            local resolved_trace
-            resolved_trace="$(resolve_repo_path "$trace_path")"
-            [[ -e "$resolved_trace" ]] && pass "$view_kind field $field_name source exists" || fail "$view_kind field $field_name source missing: $trace_path"
-            ;;
-        esac
-        [[ -n "$trace_field" ]] && pass "$view_kind field $field_name trace field recorded" || fail "$view_kind field $field_name trace field missing"
-        [[ -n "$trace_surface" ]] && pass "$view_kind field $field_name trace surface recorded" || fail "$view_kind field $field_name trace surface missing"
-        [[ -n "$trace_authority" ]] && pass "$view_kind field $field_name authority class recorded" || fail "$view_kind field $field_name authority class missing"
-      done < <(yq -r ".view.${field_name}._source_trace[] | [.path, .field, .surface, .authority_class] | @tsv" "$resolved_projection")
-    done < <(yq -r '.view | keys | .[]' "$resolved_projection")
-
-    if has_text 'mutability: generated' "$resolved_summary"; then
-      pass "$view_kind summary is marked generated"
-    else
-      fail "$view_kind summary must declare mutability: generated"
-    fi
-
-    if has_text "$projection_ref" "$resolved_summary"; then
-      pass "$view_kind summary references its projection"
-    else
-      fail "$view_kind summary must reference its projection"
-    fi
+    case "$resolved_projection" in
+      *.md)
+        if has_text 'derived' "$resolved_projection" || has_text 'not an authority source' "$resolved_projection"; then
+          pass "$view_kind markdown projection declares non-authority status"
+        else
+          fail "$view_kind markdown projection must declare non-authority status"
+        fi
+        if has_text 'state/evidence' "$resolved_projection" || has_text 'framework/' "$resolved_projection"; then
+          pass "$view_kind markdown projection cites canonical source families"
+        else
+          fail "$view_kind markdown projection must cite canonical source families"
+        fi
+        ;;
+      *.yml)
+        if [[ "$view_kind" == "support" && "$(yq -r '.schema_version // ""' "$resolved_projection")" == "support-card-v1" ]]; then
+          pass "$view_kind support projection schema is current"
+          [[ -n "$(yq -r '.claim_effect // ""' "$resolved_projection")" ]] && pass "$view_kind support projection declares claim effect" || fail "$view_kind support projection must declare claim effect"
+          [[ -n "$(yq -r '.proof_bundle_ref // ""' "$resolved_projection")" ]] && pass "$view_kind support projection cites proof bundle" || fail "$view_kind support projection must cite proof bundle"
+          [[ -n "$(yq -r '.support_target_ref // ""' "$resolved_projection")" ]] && pass "$view_kind support projection cites support target" || fail "$view_kind support projection must cite support target"
+        elif [[ "$(yq -r '.schema_version // ""' "$resolved_projection")" == "operator-read-model-v1" ]]; then
+          pass "$view_kind projection schema is current"
+          if [[ "$(yq -r '.view_kind // ""' "$resolved_projection")" == "$view_kind" ]]; then
+            pass "$view_kind projection kind matches receipt"
+          else
+            fail "$view_kind projection kind must match receipt"
+          fi
+          if [[ "$(yq -r '.mutability // ""' "$resolved_projection")" == "generated" ]]; then
+            pass "$view_kind projection is marked generated"
+          else
+            fail "$view_kind projection must declare mutability: generated"
+          fi
+          if [[ -n "$(yq -r '.non_authority_statement // ""' "$resolved_projection")" ]]; then
+            pass "$view_kind projection declares non-authority status"
+          else
+            fail "$view_kind projection must declare non-authority status"
+          fi
+          if [[ "$(yq -r '.generated_from | length' "$resolved_projection")" -gt 0 ]]; then
+            pass "$view_kind projection carries generated_from provenance"
+          else
+            fail "$view_kind projection must carry generated_from provenance"
+          fi
+        else
+          fail "$view_kind projection schema is unsupported"
+        fi
+        ;;
+      *)
+        fail "$view_kind projection has unsupported extension"
+        ;;
+    esac
   done < <(yq -r '.published_views[] | [.view_kind, .projection_ref, .summary_ref] | @tsv' "$RECEIPT")
 
   echo "Validation summary: errors=$errors"

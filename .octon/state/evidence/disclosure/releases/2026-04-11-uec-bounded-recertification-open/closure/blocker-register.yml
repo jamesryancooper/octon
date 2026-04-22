@@ -83,4 +83,4 @@ items:
     classification: closure-blocking
     summary: The admitted live support universe still lacks closure-grade tuple coverage for the repo-shell boundary-sensitive path.
     primary_refs:
-      - .octon/instance/governance/support-dossiers/repo-shell-boundary-sensitive-en/dossier.yml
+      - .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml

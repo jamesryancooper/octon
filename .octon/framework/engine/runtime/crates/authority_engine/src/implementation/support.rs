@@ -143,26 +143,33 @@ pub(crate) fn load_support_target_admissions(
     if !root.is_dir() {
         return Ok(admissions);
     }
-    for entry in fs::read_dir(&root).map_err(|e| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!(
-                "failed to read support-target admissions {}: {e}",
-                root.display()
-            ),
-        )
-    })? {
-        let entry = entry.map_err(|e| {
+    let mut pending = vec![root];
+    while let Some(dir) = pending.pop() {
+        for entry in fs::read_dir(&dir).map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,
-                format!("failed to read support-target admission entry: {e}"),
+                format!(
+                    "failed to read support-target admissions {}: {e}",
+                    dir.display()
+                ),
             )
-        })?;
-        let path = entry.path();
-        if path.extension().and_then(|value| value.to_str()) != Some("yml") {
-            continue;
+        })? {
+            let entry = entry.map_err(|e| {
+                KernelError::new(
+                    ErrorCode::Internal,
+                    format!("failed to read support-target admission entry: {e}"),
+                )
+            })?;
+            let path = entry.path();
+            if path.is_dir() {
+                pending.push(path);
+                continue;
+            }
+            if path.extension().and_then(|value| value.to_str()) != Some("yml") {
+                continue;
+            }
+            admissions.push(read_yaml_file(&path)?);
         }
-        admissions.push(read_yaml_file(&path)?);
     }
     Ok(admissions)
 }

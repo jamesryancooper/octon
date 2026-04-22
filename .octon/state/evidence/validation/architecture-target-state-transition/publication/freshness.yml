@@ -8,6 +8,16 @@ generated_effective_outputs:
     evidence_ref: .octon/state/evidence/validation/publication/locality/README.md
     freshness_refs:
       - .octon/generated/effective/locality/generation.lock.yml
+  - output_ref: .octon/generated/effective/extensions/catalog.effective.yml
+    evidence_ref: .octon/state/evidence/validation/publication/extensions/2026-04-21T23-47-33Z-extensions-090beb843d30.yml
+    freshness_refs:
+      - .octon/generated/effective/extensions/generation.lock.yml
+      - .octon/generated/effective/extensions/artifact-map.yml
+  - output_ref: .octon/generated/effective/capabilities/routing.effective.yml
+    evidence_ref: .octon/state/evidence/validation/publication/capabilities/2026-04-21T23-48-46Z-capabilities-000149e40f6d.yml
+    freshness_refs:
+      - .octon/generated/effective/capabilities/generation.lock.yml
+      - .octon/generated/effective/capabilities/artifact-map.yml
   - output_ref: .octon/generated/cognition/projections/materialized/architecture-map.md
     evidence_ref: .octon/state/evidence/validation/architecture-target-state-transition/promotion/receipt-ledger.yml
     freshness_refs:

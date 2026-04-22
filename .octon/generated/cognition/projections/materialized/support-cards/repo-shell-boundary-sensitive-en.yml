@@ -1,0 +1,10 @@
+schema_version: support-card-v1
+tuple_id: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+claim_effect: stage-only-non-live
+support_target_ref: .octon/instance/governance/support-targets.yml
+proof_bundle_ref: .octon/state/evidence/validation/support-targets/repo-shell-boundary-sensitive-en.yml
+admission_ref: .octon/instance/governance/support-target-admissions/stage-only/repo-shell-boundary-sensitive-en.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/repo-shell-boundary-sensitive-en/dossier.yml
+run_card_refs:
+  - .octon/state/evidence/disclosure/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/run-card.yml
+summary: Repo-shell boundary-sensitive posture remains stage-only, proof-backed, and explicitly excluded from the live admitted claim.

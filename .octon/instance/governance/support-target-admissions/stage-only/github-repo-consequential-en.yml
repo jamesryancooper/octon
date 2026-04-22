@@ -1,0 +1,42 @@
+schema_version: support-target-admission-v1
+tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+status: stage_only
+route: stage_only
+tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: github-control-plane
+  model_adapter: repo-local-governed
+requires_mission: false
+consequence_class: repo-local-medium
+reversibility_class: fully_reversible
+execution_horizon: single_run_multi_stage
+recurrence_class: one_shot
+protected_zone_scope:
+  - repo-governance
+allowed_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - api
+required_proof_planes:
+  - structural
+  - functional
+  - behavioral
+  - governance
+  - maintainability
+  - recovery
+required_lab_scenarios:
+  - projection-receipt-baseline
+required_authority_artifacts:
+  - decision-artifact
+  - grant-bundle
+  - external-replay-index
+evidence_refs:
+  - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
+review_due_at: "2026-06-30T00:00:00Z"
+claim_effect: stage-only-non-live

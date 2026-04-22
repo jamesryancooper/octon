@@ -14,6 +14,16 @@ packs:
     admission_status: "admitted"
     default_route: "allow"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/repo.yml"
+    support_target_refs:
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+      - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    required_proof:
+      - governance
+      - maintainability
     required_evidence:
       - "authority-decision-artifact"
   - pack_id: "git"
@@ -21,6 +31,14 @@ packs:
     admission_status: "admitted"
     default_route: "allow"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/git.yml"
+    support_target_refs:
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+      - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    required_proof:
+      - governance
+      - recovery
     required_evidence:
       - "authority-grant-bundle"
       - "rollback-proof"
@@ -29,6 +47,16 @@ packs:
     admission_status: "admitted"
     default_route: "allow"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/shell.yml"
+    support_target_refs:
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+      - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    required_proof:
+      - structural
+      - governance
     required_evidence:
       - "instruction-layer-manifest"
   - pack_id: "telemetry"
@@ -36,6 +64,16 @@ packs:
     admission_status: "admitted"
     default_route: "allow"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/telemetry.yml"
+    support_target_refs:
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+      - tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/ci-control-plane
+      - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    required_proof:
+      - maintainability
+      - recovery
     required_evidence:
       - "run-evidence-root"
   - pack_id: "browser"
@@ -43,6 +81,13 @@ packs:
     admission_status: "unadmitted"
     default_route: "escalate"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/browser.yml"
+    support_target_refs:
+      - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+      - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    required_proof:
+      - behavioral
+      - governance
+      - recovery
     runtime_service_contract_refs:
       - ".octon/framework/capabilities/runtime/services/browser-session/contract.yml"
     required_evidence:
@@ -55,6 +100,14 @@ packs:
     admission_status: "unadmitted"
     default_route: "escalate"
     dossier_ref: ".octon/instance/capabilities/runtime/packs/admissions/api.yml"
+    support_target_refs:
+      - tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+      - tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+      - tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+    required_proof:
+      - behavioral
+      - governance
+      - recovery
     runtime_service_contract_refs:
       - ".octon/framework/capabilities/runtime/services/api-client/contract.yml"
     required_evidence:
