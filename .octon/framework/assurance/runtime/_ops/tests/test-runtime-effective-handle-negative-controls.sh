@@ -8,10 +8,18 @@ pass_count=0
 fail_count=0
 cleanup_dirs=()
 
+remove_dir_tree() {
+  local dir="$1"
+  [[ -d "$dir" ]] || return 0
+
+  find "$dir" -depth \( -type f -o -type l \) -exec rm -f -- {} + 2>/dev/null || true
+  find "$dir" -depth -type d -exec rmdir -- {} + 2>/dev/null || true
+}
+
 cleanup() {
   local dir
   for dir in "${cleanup_dirs[@]}"; do
-    [[ -d "$dir" ]] && rm -rf "$dir"
+    remove_dir_tree "$dir"
   done
 }
 trap cleanup EXIT

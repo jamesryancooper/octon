@@ -1735,6 +1735,21 @@ mod tests {
         hex::encode(hasher.finalize())
     }
 
+    fn copy_fixture_ref(root: &Path, source_root: &Path, relative_ref: &str) {
+        let source = source_root.join(relative_ref);
+        let destination = root.join(relative_ref);
+        if let Some(parent) = destination.parent() {
+            fs::create_dir_all(parent).expect("create fixture ref parent");
+        }
+        fs::copy(&source, &destination).unwrap_or_else(|error| {
+            panic!(
+                "copy fixture ref {} -> {} failed: {error}",
+                source.display(),
+                destination.display()
+            )
+        });
+    }
+
     fn seed_generic_workflow_fixture(root: &Path) -> PathBuf {
         seed_policy_runtime_env();
         let octon_dir = root.join(".octon");
@@ -1767,11 +1782,11 @@ mod tests {
             "schema_version: \"workspace-charter-v1\"\nworkspace_charter_id: \"workspace-charter://test/sample-workflow\"\nversion: \"1.0.0\"\n",
         )
         .expect("write workspace machine charter");
-        fs::write(
+        fs::copy(
+            source_repo_root().join(".octon/octon.yml"),
             octon_dir.join("octon.yml"),
-            "engine:\n  runtime:\n    policy_file: framework/capabilities/governance/policy/deny-by-default.v2.yml\n",
         )
-        .expect("write root manifest");
+        .expect("copy root manifest");
         fs::copy(
             source_repo_root()
                 .join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
@@ -1814,6 +1829,16 @@ mod tests {
             octon_dir.join("generated/effective/extensions/generation.lock.yml"),
         )
         .expect("copy extension generation lock");
+        copy_fixture_ref(
+            root,
+            &source_repo_root(),
+            ".octon/state/evidence/validation/publication/capabilities/2026-04-22T19-02-10Z-pack-routes-f66aed7b3fdd.yml",
+        );
+        copy_fixture_ref(
+            root,
+            &source_repo_root(),
+            ".octon/state/evidence/validation/publication/extensions/2026-04-22T19-03-58Z-extensions-090beb843d30.yml",
+        );
         fs::copy(
             source_repo_root().join(".octon/state/control/extensions/active.yml"),
             octon_dir.join("state/control/extensions/active.yml"),
@@ -1827,6 +1852,14 @@ mod tests {
         copy_tree(
             &source_repo_root().join(".octon/instance/governance/support-target-admissions"),
             &root.join(".octon/instance/governance/support-target-admissions"),
+        );
+        copy_tree(
+            &source_repo_root().join(".octon/instance/governance/capability-packs"),
+            &root.join(".octon/instance/governance/capability-packs"),
+        );
+        copy_tree(
+            &source_repo_root().join(".octon/instance/capabilities/runtime/packs/admissions"),
+            &root.join(".octon/instance/capabilities/runtime/packs/admissions"),
         );
 
         fs::write(
@@ -2081,7 +2114,7 @@ stages:
         fs::write(
             octon_dir.join("generated/effective/runtime/route-bundle.lock.yml"),
             format!(
-                "schema_version: \"octon-runtime-effective-route-bundle-lock-v1\"\ngeneration_id: \"fixture-runtime-route-bundle\"\npublished_at: \"2026-03-23T00:00:00Z\"\npublication_status: \"published\"\npublication_receipt_path: \"{runtime_receipt_rel}\"\npublication_receipt_sha256: \"\"\nroute_bundle_sha256: \"{bundle_sha}\"\nruntime_resolution_sha256: \"{selector_sha}\"\nroot_manifest_sha256: \"{root_manifest_sha}\"\nsupport_target_matrix_sha256: \"{support_target_matrix_sha}\"\npack_routes_effective_sha256: \"{pack_routes_effective_sha}\"\npack_routes_lock_sha256: \"{pack_routes_lock_sha}\"\nextensions_catalog_sha256: \"{extensions_catalog_sha}\"\nextensions_generation_lock_sha256: \"{extensions_generation_lock_sha}\"\nfresh_until: \"2099-03-30T00:00:00Z\"\n"
+                "schema_version: \"octon-runtime-effective-route-bundle-lock-v3\"\ngeneration_id: \"fixture-runtime-route-bundle\"\npublished_at: \"2026-03-23T00:00:00Z\"\npublication_status: \"published\"\npublication_receipt_path: \"{runtime_receipt_rel}\"\npublication_receipt_sha256: \"\"\nroute_bundle_ref: \".octon/generated/effective/runtime/route-bundle.yml\"\nroute_bundle_sha256: \"{bundle_sha}\"\nsource_digests:\n  runtime_resolution_sha256: \"{selector_sha}\"\n  root_manifest_sha256: \"{root_manifest_sha}\"\n  support_target_matrix_sha256: \"{support_target_matrix_sha}\"\n  pack_routes_effective_sha256: \"{pack_routes_effective_sha}\"\n  pack_routes_lock_sha256: \"{pack_routes_lock_sha}\"\n  extensions_catalog_sha256: \"{extensions_catalog_sha}\"\n  extensions_generation_lock_sha256: \"{extensions_generation_lock_sha}\"\nfreshness:\n  mode: \"digest_bound\"\n  invalidation_conditions:\n    - \"runtime-resolution-sha-changed\"\n    - \"root-manifest-sha-changed\"\n    - \"support-target-matrix-sha-changed\"\n    - \"pack-routes-sha-changed\"\n    - \"extensions-publication-sha-changed\"\nallowed_consumers:\n  - \"runtime_resolver\"\n  - \"validators\"\nforbidden_consumers:\n  - \"direct_runtime_raw_path_read\"\n  - \"generated_cognition_as_authority\"\nnon_authority_classification: \"derived-runtime-handle\"\ndependency_handles:\n  - artifact_kind: \"support_matrix\"\n    output_ref: \".octon/generated/effective/governance/support-target-matrix.yml\"\n    lock_ref: null\n    requirement: \"required\"\n    purpose: \"route-bundle publication input only\"\n  - artifact_kind: \"pack_routes\"\n    output_ref: \".octon/generated/effective/capabilities/pack-routes.effective.yml\"\n    lock_ref: \".octon/generated/effective/capabilities/pack-routes.lock.yml\"\n    requirement: \"required\"\n    purpose: \"capability-pack route narrowing\"\n  - artifact_kind: \"extension_catalog\"\n    output_ref: \".octon/generated/effective/extensions/catalog.effective.yml\"\n    lock_ref: \".octon/generated/effective/extensions/generation.lock.yml\"\n    requirement: \"required\"\n    purpose: \"extension publication state\"\n  - artifact_kind: \"extension_generation_lock\"\n    output_ref: \".octon/generated/effective/extensions/generation.lock.yml\"\n    lock_ref: null\n    requirement: \"required\"\n    purpose: \"extension generation freshness and receipt linkage\"\n"
             ),
         )
         .expect("write fixture runtime route bundle lock");
