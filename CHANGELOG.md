@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.39](https://github.com/jamesryancooper/octon/compare/octon-v0.6.38...octon-v0.6.39) (2026-04-22)
+
+
+### Refactors
+
+* **octon:** complete 10of10 target-state closeout ([#341](https://github.com/jamesryancooper/octon/issues/341)) ([1210d04](https://github.com/jamesryancooper/octon/commit/1210d041541588b7923c0cb834c8d02645da70df))
+
 ## [0.6.38](https://github.com/jamesryancooper/octon/compare/octon-v0.6.37...octon-v0.6.38) (2026-04-22)
 
 
