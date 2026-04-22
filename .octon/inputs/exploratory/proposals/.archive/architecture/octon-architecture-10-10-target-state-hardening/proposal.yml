@@ -1,0 +1,88 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-architecture-10-10-target-state-hardening"
+title: "Octon 10/10 Target-State Architecture Hardening"
+summary: >-
+  Proposal-first, promotion-safe architecture packet that transitions Octon from
+  the current live registry-backed constitutional harness architecture to the
+  strongest plausible target-state architecture required to credibly earn a true
+  10/10 architecture evaluation score. The packet preserves Octon's existing
+  super-root, class-root authority model, run-first execution model, mission
+  continuity model, support-target discipline, pack/extension lifecycle, and
+  generated-vs-authored firewall while hardening enforcement, proof maturity,
+  support/pack/admission invariants, publication freshness, operator boot,
+  runtime deployment, and transitional-shim retirement.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/octon.yml"
+  - ".octon/instance/ingress/manifest.yml"
+  - ".octon/instance/bootstrap/START.md"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/support-target-admissions/live/**"
+  - ".octon/instance/governance/support-target-admissions/stage-only/**"
+  - ".octon/instance/governance/support-target-admissions/unadmitted/**"
+  - ".octon/instance/governance/support-target-admissions/retired/**"
+  - ".octon/instance/governance/support-dossiers/live/**"
+  - ".octon/instance/governance/support-dossiers/stage-only/**"
+  - ".octon/instance/governance/support-dossiers/unadmitted/**"
+  - ".octon/instance/governance/support-dossiers/retired/**"
+  - ".octon/instance/governance/contracts/support-target-review.yml"
+  - ".octon/instance/governance/retirement-register.yml"
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v1.md"
+  - ".octon/framework/engine/runtime/spec/architecture-health-contract-v1.md"
+  - ".octon/framework/capabilities/packs/registry.yml"
+  - ".octon/instance/governance/capability-packs/registry.yml"
+  - ".octon/instance/capabilities/runtime/packs/admissions/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/README.md"
+  - ".octon/framework/capabilities/runtime/services/manifest.runtime.yml"
+  - ".octon/instance/extensions.yml"
+  - ".octon/instance/governance/contracts/extension-publication-policy.yml"
+  - ".octon/framework/observability/**"
+  - ".octon/framework/lab/**"
+  - ".octon/framework/assurance/maintainability/**"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-pack-admission-alignment.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement-readiness.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-boot-surface.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-architecture-health.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-support-pack-admission-alignment.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-publication-freshness-gates.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-run-lifecycle-transition-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-operator-boot-surface.sh"
+status: "archived"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote target-state hardening into durable Octon architecture, runtime,
+    governance, support, pack/publication, proof-plane, and validator surfaces;
+    retain promotion evidence and closure certification; then archive this
+    proposal packet so no canonical target depends on proposal-local paths.
+archive:
+  archived_at: "2026-04-21"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-architecture-10-10-target-state-hardening"
+  promotion_evidence:
+    - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+    - ".octon/framework/cognition/_meta/architecture/specification.md"
+    - ".octon/instance/ingress/manifest.yml"
+    - ".octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
+    - ".octon/instance/governance/support-targets.yml"
+    - ".octon/instance/governance/contracts/support-pack-admission-alignment.yml"
+    - ".octon/instance/governance/contracts/extension-publication-policy.yml"
+    - ".octon/framework/engine/runtime/spec/architecture-health-contract-v1.md"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh"
+    - ".octon/state/evidence/validation/architecture-target-state-transition/authorization-boundary/coverage.yml"
+    - ".octon/state/evidence/validation/architecture-target-state-transition/publication/freshness.yml"
+related_proposals:
+  - "octon-instruction-layer-execution-envelope-hardening"
