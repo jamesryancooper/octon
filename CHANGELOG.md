@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.38](https://github.com/jamesryancooper/octon/compare/octon-v0.6.37...octon-v0.6.38) (2026-04-22)
+
+
+### Refactors
+
+* **architecture:** land 10of10 target-state closeout ([#339](https://github.com/jamesryancooper/octon/issues/339)) ([a160518](https://github.com/jamesryancooper/octon/commit/a160518107c2fac32ca860f865b80012dd74a43a))
+
 ## [0.6.37](https://github.com/jamesryancooper/octon/compare/octon-v0.6.36...octon-v0.6.37) (2026-04-22)
 
 
