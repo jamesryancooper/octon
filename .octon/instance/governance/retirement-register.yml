@@ -1,6 +1,6 @@
 schema_version: retirement-register-v3
 owner: Octon governance
-updated_at: "2026-04-09T00:00:00Z"
+updated_at: "2026-04-22T00:00:00Z"
 entries:
   - surface: ingress-projection-adapters
     paths:
@@ -101,10 +101,11 @@ entries:
     status: retained_with_rationale
     disposition: compatibility-projection
     claim_adjacent: true
-    rationale: Runtime pack projection remains readable for compatibility and audit parity, but the generated/effective pack route is the target-state runtime-facing route.
+    rationale: Runtime pack projection remains readable for compatibility and audit parity only; runtime, policy, and support-claim consumers must use the generated/effective pack route successor instead.
     canonical_successor_ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
     certificate_blocker: false
     future_widening_blocker: true
+    compatibility_cutover_contract_ref: .octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md
     allowed_consumers:
       - validators
       - operators
@@ -114,8 +115,13 @@ entries:
       - policy
       - support-claim-evaluation
     retirement_readiness: "frozen-compatibility-only"
+    required_negative_controls:
+      - runtime-direct-read-denial
+      - policy-direct-read-denial
+      - support-claim-direct-read-denial
     evidence_refs:
       - .octon/state/evidence/validation/architecture/10of10-target-transition/capabilities/pack-route-no-widening.yml
+      - .octon/state/evidence/validation/architecture/10of10-target-transition/compatibility/retirement.yml
     review_artifact_ref: .octon/instance/governance/contracts/retirement-review.yml
-    latest_review_packet_ref: .octon/inputs/exploratory/proposals/architecture/octon-architecture-10of10-target-state-transition/
+    latest_review_packet_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/compatibility/retirement.yml
     next_review_due: "2026-06-30"

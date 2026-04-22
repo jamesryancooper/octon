@@ -17,8 +17,9 @@ use crate::request;
 use octon_authority_engine::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
-    ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, GrantBundle,
-    ManagedExecutorKind, ReviewRequirements, ScopeConstraints, SideEffectFlags, SideEffectSummary,
+    ExecutionArtifactEffects, ExecutionArtifactPaths, ExecutionOutcome, ExecutionRequest,
+    ExecutorCommandSpec, GrantBundle, ManagedExecutorKind, ReviewRequirements, ScopeConstraints,
+    SideEffectFlags, SideEffectSummary,
 };
 
 const WORKFLOW_ID: &str = "audit-design-proposal";
@@ -601,8 +602,13 @@ struct StageExecutionResult {
 struct AuthorizedWorkflowStage {
     request: ExecutionRequest,
     grant: GrantBundle,
+    effects: ExecutionArtifactEffects,
     artifacts: ExecutionArtifactPaths,
     started_at: String,
+}
+
+fn artifact_effects_for_root(root: &Path, grant: &GrantBundle) -> Result<ExecutionArtifactEffects> {
+    Ok(grant.execution_artifact_effects(root.display().to_string())?)
 }
 
 fn authorize_workflow_stage(
@@ -685,12 +691,14 @@ fn authorize_workflow_stage(
         ..ExecutionRequest::default()
     };
     let grant = authorize_execution(runtime_cfg, policy, &request, None)?;
-    let artifacts =
-        write_execution_start(&bundle_root.join("stages").join(stage_id), &request, &grant)?;
+    let artifact_root = bundle_root.join("stages").join(stage_id);
+    let effects = artifact_effects_for_root(&artifact_root, &grant)?;
+    let artifacts = write_execution_start(&artifact_root, &request, &grant, &effects)?;
     let started_at = auth_now_rfc3339()?;
     Ok(AuthorizedWorkflowStage {
         request,
         grant,
+        effects,
         artifacts,
         started_at,
     })
@@ -706,6 +714,7 @@ fn finalize_workflow_stage(
         &stage.artifacts,
         &stage.request,
         &stage.grant,
+        &stage.effects,
         &stage.started_at,
         &ExecutionOutcome {
             status: status.to_string(),
@@ -729,10 +738,12 @@ fn finalize_workflow_failure(
     error: String,
     touched_scope: Vec<String>,
 ) -> Result<()> {
+    let effects = artifact_effects_for_root(&artifacts.root, grant)?;
     finalize_execution(
         artifacts,
         request,
         grant,
+        &effects,
         started_at,
         &ExecutionOutcome {
             status: "failed".to_string(),
@@ -857,10 +868,13 @@ pub fn run_create_design_package_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_auth)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_auth,
+        &workflow_effects,
     )?;
     let summary_report = unique_file(
         &reports_root,
@@ -1382,6 +1396,7 @@ pub fn run_create_design_package_from_octon_dir(
             &workflow_artifacts,
             &workflow_request,
             &workflow_auth,
+            &workflow_effects,
             &started_at,
             &ExecutionOutcome {
                 status: "failed".to_string(),
@@ -1406,6 +1421,7 @@ pub fn run_create_design_package_from_octon_dir(
         &workflow_artifacts,
         &workflow_request,
         &workflow_auth,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -1530,10 +1546,13 @@ pub fn run_create_static_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
     )?;
     let summary_report = unique_file(
         &reports_root,
@@ -1829,6 +1848,7 @@ pub fn run_create_static_proposal_from_octon_dir(
         &workflow_artifacts,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -1936,10 +1956,13 @@ pub fn run_audit_static_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
     )?;
     let summary_report = unique_file(
         &reports_root,
@@ -2075,6 +2098,7 @@ pub fn run_audit_static_proposal_from_octon_dir(
         &workflow_artifacts,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -2172,10 +2196,13 @@ pub fn run_validate_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
     )?;
     let summary_report = unique_file(&reports_root, &format!("{date}-validate-proposal"), "md")?;
 
@@ -2450,6 +2477,7 @@ pub fn run_validate_proposal_from_octon_dir(
         &workflow_artifacts,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -2550,10 +2578,13 @@ pub fn run_promote_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
     )?;
     let summary_report = unique_file(&reports_root, &format!("{date}-promote-proposal"), "md")?;
 
@@ -2803,6 +2834,7 @@ pub fn run_promote_proposal_from_octon_dir(
         &workflow_artifacts,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -2910,10 +2942,13 @@ pub fn run_archive_proposal_from_octon_dir(
     fs::create_dir_all(bundle_root.join("reports"))?;
     fs::create_dir_all(bundle_root.join("stage-inputs"))?;
     fs::create_dir_all(bundle_root.join("stage-logs"))?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
     )?;
     let summary_report = unique_file(&reports_root, &format!("{date}-archive-proposal"), "md")?;
 
@@ -3224,6 +3259,7 @@ pub fn run_archive_proposal_from_octon_dir(
         &workflow_artifacts,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -3676,10 +3712,20 @@ impl Runner {
                         error.to_string(),
                     )
                 })?;
+            let stage_artifact_root = self.bundle_root.join("stages").join(stage.id);
+            let stage_effects = artifact_effects_for_root(&stage_artifact_root, &stage_grant)
+                .map_err(|error| {
+                    RunFailure::new(
+                        FailureClass::ExecutorEnvironment,
+                        Some(stage.id),
+                        error.to_string(),
+                    )
+                })?;
             let stage_artifacts = write_execution_start(
-                &self.bundle_root.join("stages").join(stage.id),
+                &stage_artifact_root,
                 &stage_request,
                 &stage_grant,
+                &stage_effects,
             )
             .map_err(|error| {
                 RunFailure::new(
@@ -3707,6 +3753,7 @@ impl Runner {
                         &stage_artifacts,
                         &stage_request,
                         &stage_grant,
+                        &stage_effects,
                         &stage_started_at,
                         &ExecutionOutcome {
                             status: "failed".to_string(),
@@ -3826,6 +3873,7 @@ impl Runner {
                 &stage_artifacts,
                 &stage_request,
                 &stage_grant,
+                &stage_effects,
                 &stage_started_at,
                 &ExecutionOutcome {
                     status: "succeeded".to_string(),

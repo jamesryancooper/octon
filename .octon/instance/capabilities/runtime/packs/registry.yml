@@ -1,6 +1,20 @@
 schema_version: "octon-runtime-capability-pack-registry-v1"
 owner: "Octon governance"
 support_target_ref: ".octon/instance/governance/support-targets.yml"
+projection_posture: "compatibility-only"
+canonical_successor_ref: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+compatibility_cutover_contract_ref: ".octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md"
+retirement_register_ref: ".octon/instance/governance/retirement-register.yml"
+retirement_review_ref: ".octon/instance/governance/contracts/retirement-review.yml"
+non_authority_register_ref: ".octon/instance/governance/non-authority-register.yml"
+allowed_consumers:
+  - "validators"
+  - "operators"
+  - "migration-comparison"
+forbidden_consumers:
+  - "runtime"
+  - "policy"
+  - "support-claim-evaluation"
 generated_from:
   - ".octon/instance/capabilities/runtime/packs/admissions/repo.yml"
   - ".octon/instance/capabilities/runtime/packs/admissions/git.yml"

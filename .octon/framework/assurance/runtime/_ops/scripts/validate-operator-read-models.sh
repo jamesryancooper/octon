@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
+source "$SCRIPT_DIR/validator-result-common.sh"
 RECEIPT="$OCTON_DIR/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml"
 
 errors=0
@@ -52,21 +53,33 @@ has_text() {
   fi
 }
 
+reset_validator_result_metadata
+validator_result_add_evidence \
+  ".octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml"
+validator_result_add_schema_version \
+  "operator-read-model-publication-v1" \
+  "operator-read-model-publication-v2" \
+  "operator-read-model-traceability-v1"
+
 main() {
   echo "== Operator Read Models Validation =="
 
   require_yq
   [[ -f "$RECEIPT" ]] && pass "operator read-model publication receipt present" || { fail "missing receipt $RECEIPT"; echo "Validation summary: errors=$errors"; exit 1; }
 
-  if [[ "$(yq -r '.schema_version // ""' "$RECEIPT")" == "operator-read-model-publication-v1" ]]; then
-    pass "operator read-model publication schema is current"
-  else
-    fail "operator read-model publication schema must be operator-read-model-publication-v1"
-  fi
+  case "$(yq -r '.schema_version // ""' "$RECEIPT")" in
+    operator-read-model-publication-v1|operator-read-model-publication-v2|operator-read-model-traceability-v1)
+      pass "operator read-model publication schema is current"
+      ;;
+    *)
+      fail "operator read-model publication schema is unsupported"
+      ;;
+  esac
 
   local view_contract_ref
   view_contract_ref="$(yq -r '.view_contract_ref // ""' "$RECEIPT")"
   [[ -f "$(resolve_repo_path "$view_contract_ref")" ]] && pass "operator read-model contract present" || fail "missing operator read-model contract: $view_contract_ref"
+  [[ -n "$view_contract_ref" ]] && validator_result_add_contract "$view_contract_ref"
 
   while IFS=$'\t' read -r view_kind projection_ref summary_ref; do
     [[ -n "$view_kind" ]] || continue
@@ -97,9 +110,16 @@ main() {
         fail "$view_kind projection has unsupported extension"
         ;;
     esac
+
+    validator_result_add_evidence "$projection_ref" "$summary_ref"
   done < <(yq -r '.published_views[] | [.view_kind, .projection_ref, .summary_ref] | @tsv' "$RECEIPT")
 
   echo "Validation summary: errors=$errors"
+  if [[ $errors -eq 0 ]]; then
+    emit_validator_result "validate-operator-read-models.sh" "operator_read_models" "semantic" "semantic" "pass"
+  else
+    emit_validator_result "validate-operator-read-models.sh" "operator_read_models" "semantic" "existence" "fail"
+  fi
   [[ $errors -eq 0 ]]
 }
 

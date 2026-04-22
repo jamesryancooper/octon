@@ -1,4 +1,8 @@
 use super::*;
+use octon_authorized_effects::{
+    AuthorizedEffect, EffectKind, EvidenceMutation, ExecutorLaunch, RepoMutation,
+    ServiceInvocation, StateControlMutation,
+};
 use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
 use serde::{Deserialize, Serialize};
@@ -427,6 +431,81 @@ pub struct GrantBundle {
     pub authority_grant_bundle_ref: Option<String>,
     #[serde(default)]
     pub network_egress_posture: Option<NetworkEgressPosture>,
+}
+
+#[derive(Debug, Clone)]
+pub struct ExecutionArtifactEffects {
+    pub evidence: AuthorizedEffect<EvidenceMutation>,
+    pub control: AuthorizedEffect<StateControlMutation>,
+}
+
+impl GrantBundle {
+    fn issue_effect<T: EffectKind>(&self, scope_ref: impl Into<String>) -> CoreResult<AuthorizedEffect<T>> {
+        if !matches!(self.decision, ExecutionDecision::Allow) {
+            return Err(KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!(
+                    "cannot issue authorized effect '{}' from non-allow decision",
+                    T::KIND
+                ),
+            ));
+        }
+        let allowed_capability_packs = self
+            .support_posture
+            .as_ref()
+            .map(|posture| {
+                if posture.requested_capability_packs.is_empty() {
+                    posture.allowed_capability_packs.clone()
+                } else {
+                    posture.requested_capability_packs.clone()
+                }
+            })
+            .unwrap_or_default();
+        let support_tuple_ref = self
+            .support_posture
+            .as_ref()
+            .map(|posture| posture.support_tier.clone())
+            .filter(|value| !value.trim().is_empty());
+        Ok(AuthorizedEffect::new(
+            self.request_id.clone(),
+            self.run_root.clone(),
+            support_tuple_ref,
+            allowed_capability_packs,
+            scope_ref,
+        ))
+    }
+
+    pub fn execution_artifact_effects(
+        &self,
+        artifact_root: impl Into<String>,
+    ) -> CoreResult<ExecutionArtifactEffects> {
+        let artifact_root = artifact_root.into();
+        Ok(ExecutionArtifactEffects {
+            evidence: self.issue_effect::<EvidenceMutation>(artifact_root.clone())?,
+            control: self.issue_effect::<StateControlMutation>(artifact_root)?,
+        })
+    }
+
+    pub fn service_invocation_effect(
+        &self,
+        scope_ref: impl Into<String>,
+    ) -> CoreResult<AuthorizedEffect<ServiceInvocation>> {
+        self.issue_effect::<ServiceInvocation>(scope_ref)
+    }
+
+    pub fn repo_mutation_effect(
+        &self,
+        scope_ref: impl Into<String>,
+    ) -> CoreResult<AuthorizedEffect<RepoMutation>> {
+        self.issue_effect::<RepoMutation>(scope_ref)
+    }
+
+    pub fn executor_launch_effect(
+        &self,
+        scope_ref: impl Into<String>,
+    ) -> CoreResult<AuthorizedEffect<ExecutorLaunch>> {
+        self.issue_effect::<ExecutorLaunch>(scope_ref)
+    }
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

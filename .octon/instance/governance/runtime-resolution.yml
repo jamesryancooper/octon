@@ -1,7 +1,23 @@
 schema_version: "octon-runtime-resolution-v1"
 owner: "Octon governance"
 root_manifest_ref: ".octon/octon.yml"
-runtime_effective_handle_contract_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
+runtime_effective_handle_contract_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+runtime_effective_handle_schema_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.schema.json"
+runtime_effective_route_bundle_lock_schema_ref: ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v3.schema.json"
+publication_freshness_contract_ref: ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+architecture_health_contract_ref: ".octon/framework/engine/runtime/spec/architecture-health-contract-v3.md"
+compatibility_retirement_cutover_ref: ".octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md"
+historical_contract_lineage:
+  runtime_effective_handle_contract_ref:
+    - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
+  runtime_effective_handle_schema_ref:
+    - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.schema.json"
+  runtime_effective_route_bundle_lock_schema_ref:
+    - ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v2.schema.json"
+  publication_freshness_contract_ref:
+    - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
+  architecture_health_contract_ref:
+    - ".octon/framework/engine/runtime/spec/architecture-health-contract-v2.md"
 runtime_effective_route_bundle_ref: ".octon/generated/effective/runtime/route-bundle.yml"
 runtime_effective_route_bundle_lock_ref: ".octon/generated/effective/runtime/route-bundle.lock.yml"
 pack_routes_effective_ref: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
@@ -17,27 +33,45 @@ forbidden_runtime_authority_roots:
   - ".octon/inputs/**"
   - ".octon/generated/cognition/**"
   - ".octon/generated/proposals/**"
+route_bundle_dependency_order:
+  - "support_matrix"
+  - "pack_routes"
+  - "extension_catalog"
+  - "extension_generation_lock"
+  - "capability_routing"
 runtime_effective_handle_kinds:
   runtime_route_bundle:
     output_ref: ".octon/generated/effective/runtime/route-bundle.yml"
     lock_ref: ".octon/generated/effective/runtime/route-bundle.lock.yml"
     freshness_mode: "digest_bound"
+    runtime_consumption: "resolver-only"
   pack_routes:
     output_ref: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
     lock_ref: ".octon/generated/effective/capabilities/pack-routes.lock.yml"
     freshness_mode: "digest_bound"
+    runtime_consumption: "resolver-only"
+    support_claim_widening: "forbidden"
   support_matrix:
     output_ref: ".octon/generated/effective/governance/support-target-matrix.yml"
     lock_ref: ""
     freshness_mode: "digest_bound"
+    runtime_consumption: "route-bundle-publication-only"
+    support_claim_widening: "forbidden"
   extension_catalog:
     output_ref: ".octon/generated/effective/extensions/catalog.effective.yml"
     lock_ref: ".octon/generated/effective/extensions/generation.lock.yml"
     freshness_mode: "receipt_bound"
+    runtime_consumption: "resolver-only"
+  extension_generation_lock:
+    output_ref: ".octon/generated/effective/extensions/generation.lock.yml"
+    lock_ref: ""
+    freshness_mode: "receipt_bound"
+    runtime_consumption: "resolver-only"
   capability_routing:
     output_ref: ".octon/generated/effective/capabilities/routing.effective.yml"
     lock_ref: ".octon/generated/effective/capabilities/generation.lock.yml"
     freshness_mode: "receipt_bound"
+    runtime_consumption: "resolver-only-when-present"
 runtime_inputs:
   proposals_registry: ".octon/generated/proposals/registry.yml"
   continuity: ".octon/state/continuity/"
@@ -50,6 +84,7 @@ runtime_inputs:
   framework_capability_pack_root: ".octon/framework/capabilities/packs"
   runtime_capability_pack_root: ".octon/instance/governance/capability-packs"
   runtime_capability_pack_projection_root: ".octon/instance/capabilities/runtime/packs"
+  runtime_capability_pack_projection_mode: "compatibility-only"
   runtime_pack_route_effective_ref: ".octon/generated/effective/capabilities/pack-routes.effective.yml"
   runtime_pack_route_lock_ref: ".octon/generated/effective/capabilities/pack-routes.lock.yml"
   lab_framework_root: ".octon/framework/lab"

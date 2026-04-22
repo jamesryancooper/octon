@@ -1,0 +1,12 @@
+schema_version: authorized-effect-token-coverage-v1
+validated_at: "2026-04-22T20:23:39Z"
+status: pass
+spec_contract_ref: .octon/framework/engine/runtime/spec/authorized-effect-token-v1.md
+crate_ref: .octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs
+inventory_declares_token_types: true
+coverage_map_declares_token_types: true
+token_shell_negative_controls_pass: true
+rust_api_token_mediation_live: true
+notes:
+  - GrantBundle issues typed authorized effects for artifact, service, repo, and executor paths.
+  - Kernel command, stdio, workflow, and pipeline runtime APIs now consume AuthorizedEffect<T> products.

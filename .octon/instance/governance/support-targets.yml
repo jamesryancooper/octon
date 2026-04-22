@@ -11,6 +11,22 @@ support_admission_root: ".octon/instance/governance/support-target-admissions"
 pack_registry_ref: ".octon/instance/governance/capability-packs/registry.yml"
 admission_review_contract_ref: ".octon/instance/governance/contracts/support-target-review.yml"
 support_proofing_contract_ref: ".octon/instance/governance/contracts/support-target-proofing.yml"
+generated_support_matrix_contract_refs:
+  handle_contract_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+  freshness_contract_ref: ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+  runtime_resolution_ref: ".octon/instance/governance/runtime-resolution.yml"
+support_matrix_posture:
+  authority_mode: "derived-runtime-handle"
+  runtime_consumption: "route-bundle-publication-only"
+  support_claim_widening: "forbidden"
+  allowed_consumers:
+    - "publication-workflows"
+    - "validators"
+    - "operators"
+  forbidden_consumers:
+    - "policy"
+    - "support-claim-evaluation"
+    - "direct-runtime-reads"
 support_dossier_root: ".octon/instance/governance/support-dossiers"
 claim_state_partitions:
   live:
@@ -396,6 +412,7 @@ model_adapters:
 notes:
   - "The live claim is the bounded admitted finite supported tuple set; tuple_admissions is the inventory and authoritative reference layer for both supported and non-live tuples."
   - "Tuple-specific route, mission, capability-pack, proof-plane, authority-artifact, and claim-effect semantics live only in support-target-admissions/**."
+  - "The generated support-target matrix is a derived runtime-effective handle for publication or runtime narrowing only and must not widen authored support claims."
   - "Stage-only, unsupported, and unadmitted tuple surfaces remain explicit non-live posture and must not be widened by generated or disclosure projections."
 retired_surfaces:
   - "experimental-model-surface"

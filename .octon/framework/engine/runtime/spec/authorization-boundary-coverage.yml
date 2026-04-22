@@ -1,6 +1,7 @@
 schema_version: authorization-boundary-coverage-v1
 paths:
   - path_id: kernel-tool-invoke
+    authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "service-invocation"
     affected_root: ".octon/state/evidence/**"
@@ -14,10 +15,12 @@ paths:
       - "host-projection-as-authority denial"
       - "stale route-bundle denial"
       - "missing publication receipt denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: kernel-studio-launch
+    authorized_effect_token_type: "AuthorizedEffect<ExecutorLaunch>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "executor-launch"
     affected_root: ".octon/generated/.tmp/engine/**"
@@ -30,10 +33,12 @@ paths:
       - "missing mission/run authority denial"
       - "unmediated side-effect denial"
       - "quarantined extension denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: kernel-service-build
+    authorized_effect_token_type: "AuthorizedEffect<RepoMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "repo-mutation"
     affected_root: ".octon/framework/capabilities/runtime/services/**"
@@ -46,10 +51,12 @@ paths:
       - "unsupported support-claim denial"
       - "unmediated side-effect denial"
       - "unadmitted pack denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: kernel-service-scaffold
+    authorized_effect_token_type: "AuthorizedEffect<RepoMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "repo-mutation"
     affected_root: ".octon/framework/capabilities/runtime/services/**"
@@ -62,10 +69,12 @@ paths:
       - "unsupported support-claim denial"
       - "unmediated side-effect denial"
       - "runtime-effective direct-read denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: workflow-pipeline-run
+    authorized_effect_token_type: "AuthorizedEffect<StateControlMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/pipeline.rs"
     side_effect_class: "control-mutation"
     affected_root: ".octon/state/control/execution/**"
@@ -77,10 +86,12 @@ paths:
     negative_controls:
       - "missing mission/run authority denial"
       - "stale route-bundle denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: workflow-stage-run
+    authorized_effect_token_type: "AuthorizedEffect<RepoMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs"
     side_effect_class: "repo-mutation"
     affected_root: ".octon/framework/orchestration/runtime/workflows/**"
@@ -92,10 +103,12 @@ paths:
     negative_controls:
       - "stale generated/effective denial"
       - "runtime-effective direct-read denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: stdio-service-run
+    authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/stdio.rs"
     side_effect_class: "service-invocation"
     affected_root: ".octon/state/evidence/**"
@@ -107,10 +120,12 @@ paths:
     negative_controls:
       - "host-projection-as-authority denial"
       - "stale route-bundle denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: orchestration-report-write
+    authorized_effect_token_type: "AuthorizedEffect<EvidenceMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
     side_effect_class: "evidence-mutation"
     affected_root: ".octon/state/evidence/**"
@@ -123,10 +138,12 @@ paths:
       - "host-projection-as-authority denial"
       - "unmediated side-effect denial"
       - "unpublished extension denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: authority-execution
+    authorized_effect_token_type: "AuthorizedEffect<StateControlMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
     side_effect_class: "control-mutation"
     affected_root: ".octon/state/control/execution/**"
@@ -141,10 +158,12 @@ paths:
       - "stale route-bundle denial"
       - "unadmitted pack denial"
       - "quarantined extension denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-negative-controls.sh"
   - path_id: authority-phases
+    authorized_effect_token_type: "AuthorizedEffect<EvidenceMutation>"
     entrypoint: ".octon/framework/engine/runtime/crates/authority_engine/src/phases/receipt.rs"
     side_effect_class: "evidence-mutation"
     affected_root: ".octon/state/evidence/**"
@@ -155,5 +174,6 @@ paths:
     denial_reason_code: "FCR-023"
     negative_controls:
       - "phase-result omission denial"
+      - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"

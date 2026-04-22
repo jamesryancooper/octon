@@ -19,6 +19,9 @@ freshness:
   review_due_at: "2026-06-30T00:00:00Z"
 command_or_evaluator: validator://validate-proof-bundle-executability
 evaluator_version: executable-proof-bundle-v1
+execution:
+  mode: replay
+  replay_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay/manifest.yml
 input_digests:
   support_targets_sha256: 8af1c10639060a579b289b32887382abd8b5706a7e92730fb47b631b6e683305
   support_dossier_sha256: 9a7054346e1a4436515a6410c6fea974636a057bdf48a101f272e1e7d36684b2
@@ -52,6 +55,8 @@ proof_planes:
 scenario_evidence:
   required_scenarios:
     - projection-receipt-baseline
+  replay_refs:
+    - .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay/manifest.yml
   representative_run_refs:
     - .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
   negative_control_refs:

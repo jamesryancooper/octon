@@ -1,0 +1,20 @@
+schema_version: architecture-health-v3-result-v1
+validated_at: "2026-04-22T20:23:39Z"
+result: pass
+aggregate_status: closure-grade
+dimensions:
+  structural_contract: semantic
+  runtime_effective_handles: runtime
+  freshness_modes: runtime
+  publication_receipts: runtime
+  authorization_coverage: runtime
+  authorized_effect_tokens: runtime
+  capability_pack_cutover: runtime
+  extension_lifecycle: runtime
+  support_proof: proof
+  operator_read_models: semantic
+  compatibility_retirement: semantic
+notes:
+  - Validator aggregation passed after the publication chain was refreshed.
+  - Authorized-effect-token enforcement is live in compiled Rust runtime paths.
+  - Route-bundle publication now emits the authored v3 lock shape.

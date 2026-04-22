@@ -82,13 +82,25 @@ resolution:
   runtime_contract_refs:
     resolution_spec: .octon/framework/engine/runtime/spec/runtime-resolution-v1.md
     effective_handle_contract: >-
-      .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md
+      .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md
     effective_handle_schema: >-
-      .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.schema.json
+      .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.schema.json
     route_bundle_lock_schema: >-
-      .octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v2.schema.json
-    publication_freshness_gates: .octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md
-    architecture_health_contract: .octon/framework/engine/runtime/spec/architecture-health-contract-v2.md
+      .octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v3.schema.json
+    publication_freshness_gates: .octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md
+    architecture_health_contract: .octon/framework/engine/runtime/spec/architecture-health-contract-v3.md
+    compatibility_retirement_cutover: .octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md
+    historical_lineage:
+      effective_handle_contract:
+        - .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md
+      effective_handle_schema:
+        - .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.schema.json
+      route_bundle_lock_schema:
+        - .octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v2.schema.json
+      publication_freshness_gates:
+        - .octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md
+      architecture_health_contract:
+        - .octon/framework/engine/runtime/spec/architecture-health-contract-v2.md
   architecture_transition_evidence_roots:
     canonical: .octon/state/evidence/validation/architecture/10of10-target-transition
     historical_compatibility:

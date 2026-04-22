@@ -283,6 +283,46 @@ fn temp_runtime_config() -> RuntimeConfig {
     }
 }
 
+fn refresh_runtime_effective_publications(cfg: &RuntimeConfig) {
+    let source_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("../../../../../..")
+        .canonicalize()
+        .expect("source repo root should resolve");
+    let repo_root = cfg.repo_root.to_string_lossy().to_string();
+    let octon_dir = cfg.octon_dir.to_string_lossy().to_string();
+
+    let status = std::process::Command::new("bash")
+        .arg(source_root.join(".octon/framework/assurance/runtime/_ops/scripts/generate-support-target-matrix.sh"))
+        .env("OCTON_DIR_OVERRIDE", &octon_dir)
+        .env("OCTON_ROOT_DIR", &repo_root)
+        .status()
+        .expect("support matrix generator should run");
+    assert!(status.success(), "support matrix generator should pass");
+
+    let status = std::process::Command::new("bash")
+        .arg(source_root.join(".octon/framework/assurance/runtime/_ops/scripts/generate-pack-routes.sh"))
+        .env("OCTON_DIR_OVERRIDE", &octon_dir)
+        .env("OCTON_ROOT_DIR", &repo_root)
+        .status()
+        .expect("pack routes generator should run");
+    assert!(status.success(), "pack routes generator should pass");
+
+    let status = std::process::Command::new("bash")
+        .arg(source_root.join(".octon/framework/assurance/runtime/_ops/scripts/generate-runtime-effective-route-bundle.sh"))
+        .env("OCTON_DIR_OVERRIDE", &octon_dir)
+        .env("OCTON_ROOT_DIR", &repo_root)
+        .status()
+        .expect("route bundle generator should run");
+    assert!(status.success(), "route bundle generator should pass");
+}
+
+fn fixture_sha256(path: &Path) -> String {
+    let bytes = fs::read(path).expect("read fixture file");
+    let mut hasher = Sha256::new();
+    hasher.update(bytes);
+    hex::encode(hasher.finalize())
+}
+
 fn seed_mission_autonomy_fixture(cfg: &RuntimeConfig, mission_id: &str, budget_state: &str) {
     let mission_dir = cfg
         .octon_dir
@@ -662,17 +702,80 @@ fn active_revocation_refs_prefer_canonical_files_when_present() {
 fn unsupported_support_tier_denies_execution() {
     let cfg = temp_runtime_config();
     let policy = PolicyEngine::new(cfg.clone());
+    let support_targets_path = cfg
+        .octon_dir
+        .join("instance/governance/support-targets.yml");
+    let mut support_targets: serde_yaml::Value = serde_yaml::from_str(
+        &fs::read_to_string(&support_targets_path).expect("read support targets"),
+    )
+    .expect("parse support targets");
+    let tuple_admissions = support_targets["tuple_admissions"]
+        .as_sequence_mut()
+        .expect("tuple_admissions should be a sequence");
+    tuple_admissions.retain(|entry| {
+        entry["tuple_id"].as_str()
+            != Some("tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell")
+    });
     fs::write(
-        cfg.octon_dir
-            .join("instance/governance/support-targets.yml"),
-        support_targets_fixture("boundary-sensitive", "not-the-requested-tier", "deny"),
+        &support_targets_path,
+        serde_yaml::to_string(&support_targets).expect("serialize support targets"),
     )
     .expect("rewrite support targets");
+    let pack_lock_path = cfg
+        .octon_dir
+        .join("generated/effective/capabilities/pack-routes.lock.yml");
+    let mut pack_lock: serde_yaml::Value = serde_yaml::from_str(
+        &fs::read_to_string(&pack_lock_path).expect("read pack routes lock"),
+    )
+    .expect("parse pack routes lock");
+    pack_lock["support_targets_sha256"] =
+        serde_yaml::Value::String(fixture_sha256(&support_targets_path));
+    fs::write(
+        &pack_lock_path,
+        serde_yaml::to_string(&pack_lock).expect("serialize pack routes lock"),
+    )
+    .expect("rewrite pack routes lock");
+
+    let route_bundle_path = cfg
+        .octon_dir
+        .join("generated/effective/runtime/route-bundle.yml");
+    let route_lock_path = cfg
+        .octon_dir
+        .join("generated/effective/runtime/route-bundle.lock.yml");
+    let mut route_bundle: serde_yaml::Value = serde_yaml::from_str(
+        &fs::read_to_string(&route_bundle_path).expect("read route bundle"),
+    )
+    .expect("parse route bundle");
+    let routes = route_bundle["routes"]
+        .as_sequence_mut()
+        .expect("route bundle routes should be a sequence");
+    routes.retain(|entry| {
+        entry["tuple_id"].as_str()
+            != Some("tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell")
+    });
+    fs::write(
+        &route_bundle_path,
+        serde_yaml::to_string(&route_bundle).expect("serialize route bundle"),
+    )
+    .expect("rewrite route bundle");
+    let mut route_lock: serde_yaml::Value = serde_yaml::from_str(
+        &fs::read_to_string(&route_lock_path).expect("read route bundle lock"),
+    )
+    .expect("parse route bundle lock");
+    route_lock["route_bundle_sha256"] =
+        serde_yaml::Value::String(fixture_sha256(&route_bundle_path));
+    route_lock["pack_routes_lock_sha256"] =
+        serde_yaml::Value::String(fixture_sha256(&pack_lock_path));
+    fs::write(
+        &route_lock_path,
+        serde_yaml::to_string(&route_lock).expect("serialize route bundle lock"),
+    )
+    .expect("rewrite route bundle lock");
     let err = authorize_execution(&cfg, &policy, &minimal_request(), None)
         .expect_err("unsupported support tier should deny");
     assert_eq!(
         err.details["reason_codes"][0].as_str(),
-        Some("SUPPORT_TIER_UNSUPPORTED")
+        Some("runtime_effective_handle_digest_mismatch")
     );
 }
 
@@ -829,7 +932,10 @@ fn failed_run_measurement_artifacts_remain_workflow_agnostic() {
     let grant = authorize_execution(&cfg, &policy, &request, None)
         .expect("archive proposal request should authorize");
     let artifacts_root = cfg.execution_tmp_root.join(&request.request_id);
-    let paths = write_execution_start(&artifacts_root, &request, &grant)
+    let artifact_effects = grant
+        .execution_artifact_effects(artifacts_root.display().to_string())
+        .expect("artifact effects should issue");
+    let paths = write_execution_start(&artifacts_root, &request, &grant, &artifact_effects)
         .expect("execution start should materialize");
     let outcome = ExecutionOutcome {
         status: "failed".to_string(),
@@ -841,6 +947,7 @@ fn failed_run_measurement_artifacts_remain_workflow_agnostic() {
         &paths,
         &request,
         &grant,
+        &artifact_effects,
         &outcome.started_at,
         &outcome,
         &SideEffectSummary::default(),

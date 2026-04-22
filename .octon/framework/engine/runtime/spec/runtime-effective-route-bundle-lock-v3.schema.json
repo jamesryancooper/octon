@@ -1,0 +1,248 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v3.schema.json",
+  "title": "Runtime Effective Route Bundle Lock v3",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generation_id",
+    "published_at",
+    "publication_status",
+    "publication_receipt_path",
+    "publication_receipt_sha256",
+    "route_bundle_ref",
+    "route_bundle_sha256",
+    "source_digests",
+    "freshness",
+    "allowed_consumers",
+    "forbidden_consumers",
+    "non_authority_classification",
+    "required_inputs",
+    "published_files",
+    "dependency_handles"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-runtime-effective-route-bundle-lock-v3"
+    },
+    "generation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "published_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publication_status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "published_with_quarantine"
+      ]
+    },
+    "publication_receipt_path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publication_receipt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "route_bundle_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "route_bundle_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_resolution_sha256",
+        "root_manifest_sha256",
+        "support_target_matrix_sha256",
+        "pack_routes_effective_sha256",
+        "pack_routes_lock_sha256",
+        "extensions_catalog_sha256",
+        "extensions_generation_lock_sha256"
+      ],
+      "properties": {
+        "runtime_resolution_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "root_manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "support_target_matrix_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "pack_routes_effective_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "pack_routes_lock_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "extensions_catalog_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "extensions_generation_lock_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "capability_routing_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^([a-f0-9]{64})?$"
+        },
+        "capability_routing_lock_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^([a-f0-9]{64})?$"
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "invalidation_conditions"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "digest_bound",
+            "ttl_bound",
+            "receipt_bound"
+          ]
+        },
+        "ttl_seconds": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "invalidation_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "allowed_consumers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "forbidden_consumers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_authority_classification": {
+      "const": "derived-runtime-handle"
+    },
+    "required_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "published_files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "dependency_handles": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_kind",
+          "output_ref",
+          "requirement",
+          "purpose"
+        ],
+        "properties": {
+          "artifact_kind": {
+            "type": "string",
+            "enum": [
+              "support_matrix",
+              "pack_routes",
+              "extension_catalog",
+              "extension_generation_lock",
+              "capability_routing"
+            ]
+          },
+          "output_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lock_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "requirement": {
+            "type": "string",
+            "enum": [
+              "required",
+              "optional"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "dependency_handle_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/properties/dependency_handles/items"
+      }
+    }
+  }
+}

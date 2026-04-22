@@ -252,9 +252,10 @@ path_families:
       - ".octon/instance/governance/retirement-register.yml"
       - ".octon/instance/governance/contracts/retirement-policy.yml"
       - ".octon/instance/governance/contracts/retirement-review.yml"
+      - ".octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md"
       - ".octon/generated/cognition/projections/materialized/compatibility-retirement-map.md"
     authority_class: "transitional-retirement-governance"
-    role: "Declares retained compatibility surfaces, their successors, and the review/retirement contract."
+    role: "Declares retained compatibility surfaces, their successors, forbidden-consumer cutover posture, and the review/retirement contract."
     allowed_consumers:
       - "docs"
       - "validators"
@@ -352,11 +353,15 @@ path_families:
       - "generated"
       - "state"
     canonical_paths:
+      - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+      - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.schema.json"
+      - ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v3.schema.json"
+    historical_lineage_refs:
       - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
       - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.schema.json"
       - ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v2.schema.json"
     authority_class: "generated-runtime-handle-contract"
-    role: "Canonical contract for resolver-verified handles over runtime-facing generated/effective artifacts."
+    role: "Canonical contract for recursive resolver-verified handles over runtime-facing generated/effective artifacts."
     allowed_consumers:
       - "runtime_resolver"
       - "validators"
@@ -376,11 +381,13 @@ path_families:
       - "generated"
       - "state"
     canonical_paths:
-      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
       - ".octon/state/evidence/validation/publication/**"
       - ".octon/state/evidence/validation/architecture/10of10-target-transition/publication/**"
+    historical_lineage_refs:
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
     authority_class: "publication-freshness-contract"
-    role: "Explicit freshness-mode, digest, receipt, and invalidation contract for runtime-facing publication."
+    role: "Explicit freshness-mode, digest, receipt, dependency-handle, and legacy-timestamp deauthorization contract for runtime-facing publication."
     allowed_consumers:
       - "runtime_resolver"
       - "validators"
@@ -397,8 +404,8 @@ path_families:
   runtime_architecture_health:
     class_root: "framework"
     canonical_paths:
-      - ".octon/framework/engine/runtime/spec/architecture-health-contract-v2.md"
-      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
+      - ".octon/framework/engine/runtime/spec/architecture-health-contract-v3.md"
+      - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-resolution.sh"
@@ -408,8 +415,10 @@ path_families:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement-cutover.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
       - ".octon/state/evidence/validation/architecture/10of10-target-transition/closure/**"
+    historical_lineage_refs:
+      - ".octon/framework/engine/runtime/spec/architecture-health-contract-v2.md"
     authority_class: "aggregate-runtime-health-contract"
-    role: "Depth-aware closure-grade runtime architecture health, publication freshness, proof, and compatibility coverage surfaces."
+    role: "Achieved-depth closure-grade runtime architecture health, publication freshness, proof, and compatibility coverage surfaces."
     allowed_consumers:
       - "operators"
       - "validators"
@@ -784,7 +793,7 @@ path_families:
     canonical_paths:
       - ".octon/generated/effective/governance/support-target-matrix.yml"
     authority_class: "generated-runtime-effective-handle"
-    role: "Derived support-matrix handle used for traceability and runtime narrowing, never for widening live support claims."
+    role: "Derived support-matrix handle used for traceability and route-bundle publication only, never for widening live support claims."
     allowed_consumers:
       - "runtime_resolver"
       - "validators"
@@ -929,10 +938,20 @@ publication_metadata:
     architecture_validation_root: ".octon/state/evidence/validation/architecture/10of10-target-transition/"
     historical_compatibility_receipt_roots:
       - ".octon/state/evidence/validation/architecture-target-state-transition/"
-    handle_contract_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
-    handle_schema_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.schema.json"
-    freshness_contract_ref: ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
-    route_bundle_lock_schema_ref: ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v2.schema.json"
+    handle_contract_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+    handle_schema_ref: ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.schema.json"
+    freshness_contract_ref: ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+    route_bundle_lock_schema_ref: ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v3.schema.json"
+    compatibility_retirement_contract_ref: ".octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md"
+    historical_lineage_refs:
+      handle_contract:
+        - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
+      handle_schema:
+        - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.schema.json"
+      freshness_contract:
+        - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
+      route_bundle_lock_schema:
+        - ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v2.schema.json"
     freshness_artifacts:
       - "artifact-map.yml"
       - "generation.lock.yml"
@@ -951,6 +970,8 @@ publication_metadata:
       - "generation lock current"
       - "resolver-verified runtime handle required"
       - "freshness.mode required with digest_bound, ttl_bound, or receipt_bound semantics"
+      - "required dependency handles must verify before parent handles are trusted"
+      - "legacy freshness timestamps remain ignored compatibility metadata, never trust inputs"
       - "root manifest digest drift invalidates trust immediately"
       - "canonical architecture evidence root resolves under architecture/10of10-target-transition"
       - "no authority widening beyond canonical sources"
@@ -1210,9 +1231,11 @@ execution:
     - ".octon/framework/engine/runtime/spec/policy-receipt-v2.schema.json"
     - ".octon/framework/engine/runtime/spec/policy-digest-v2.md"
     - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
-    - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
-    - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
-    - ".octon/framework/engine/runtime/spec/architecture-health-contract-v2.md"
+    - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+    - ".octon/framework/engine/runtime/spec/runtime-effective-route-bundle-lock-v3.schema.json"
+    - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+    - ".octon/framework/engine/runtime/spec/architecture-health-contract-v3.md"
+    - ".octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md"
     - ".octon/state/control/execution/runs/README.md"
     - ".octon/state/control/README.md"
     - ".octon/state/evidence/README.md"
@@ -1299,8 +1322,12 @@ documentation:
         - ".octon/framework/engine/runtime/spec/policy-digest-v2.md"
         - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
         - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md"
+        - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
         - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md"
+        - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
         - ".octon/framework/engine/runtime/spec/architecture-health-contract-v2.md"
+        - ".octon/framework/engine/runtime/spec/architecture-health-contract-v3.md"
+        - ".octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md"
         - ".octon/state/control/README.md"
         - ".octon/state/evidence/README.md"
         - ".octon/state/control/execution/runs/README.md"

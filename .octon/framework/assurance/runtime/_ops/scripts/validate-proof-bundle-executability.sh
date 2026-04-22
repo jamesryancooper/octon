@@ -6,10 +6,61 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
 SUPPORT_TARGETS="$OCTON_DIR/instance/governance/support-targets.yml"
+source "$SCRIPT_DIR/validator-result-common.sh"
+PROOF_EXECUTION_CONTRACT="$(pick_existing_file "$OCTON_DIR/framework/engine/runtime/spec/proof-bundle-execution-v1.md" || true)"
 
 errors=0
 fail() { echo "[ERROR] $1"; errors=$((errors + 1)); }
 pass() { echo "[OK] $1"; }
+
+has_execution_or_replay_evidence() {
+  local file="$1"
+  local execution_mode evaluator_version
+
+  execution_mode="$(yq -r '.execution.mode // ""' "$file" 2>/dev/null || true)"
+  evaluator_version="$(yq -r '.evaluator_version // ""' "$file" 2>/dev/null || true)"
+
+  if [[ -n "$execution_mode" && "$execution_mode" != "null" ]]; then
+    case "$execution_mode" in
+      command|command_only|hybrid)
+        yq -e '.execution.command_ref // .command_or_evaluator' "$file" >/dev/null 2>&1 \
+          && pass "execution command declared for $file" \
+          || fail "execution command missing for $file"
+        ;;
+    esac
+
+    case "$execution_mode" in
+      replay|replay_only|hybrid)
+        yq -e '.execution.replay_ref // .scenario_evidence.replay_refs[0] // .scenario_evidence.lab_refs[0]' "$file" >/dev/null 2>&1 \
+          && pass "replay evidence declared for $file" \
+          || fail "replay evidence missing for $file"
+        ;;
+    esac
+
+    return 0
+  fi
+
+  if [[ "$evaluator_version" == *"executable"* || "$evaluator_version" == *"replay"* ]]; then
+    if yq -e '.scenario_evidence.replay_refs[0] // .scenario_evidence.lab_refs[0]' "$file" >/dev/null 2>&1; then
+      validator_result_add_limitation "$file relies on evaluator_version plus scenario replay/lab refs without an explicit execution block"
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+reset_validator_result_metadata
+validator_result_add_evidence \
+  ".octon/instance/governance/support-targets.yml"
+validator_result_add_runtime_test \
+  ".octon/framework/assurance/runtime/_ops/tests/test-proof-bundle-execution.sh"
+validator_result_add_negative_control \
+  "missing-proof-execution-or-replay-evidence-denies"
+validator_result_add_schema_version \
+  "support-target-proof-bundle-v1" \
+  "support-target-proof-bundle-v2"
+[[ -n "${PROOF_EXECUTION_CONTRACT:-}" ]] && validator_result_add_contract "${PROOF_EXECUTION_CONTRACT#$ROOT_DIR/}"
 
 echo "== Proof Bundle Executability Validation =="
 
@@ -50,7 +101,29 @@ while IFS= read -r ref; do
   yq -e '.receipt_refs | length > 0' "$file" >/dev/null 2>&1 \
     && pass "receipt refs present for $ref" \
     || fail "receipt refs missing for $ref"
+
+  case "$(yq -r '.schema_version // ""' "$file")" in
+    support-target-proof-bundle-v1|support-target-proof-bundle-v2)
+      pass "proof bundle schema version supported for $ref"
+      ;;
+    *)
+      fail "proof bundle schema version unsupported for $ref"
+      ;;
+  esac
+
+  if has_execution_or_replay_evidence "$file"; then
+    pass "proof execution or replay evidence present for $ref"
+  else
+    fail "proof bundle must declare executable or replayable evidence for $ref"
+  fi
+
+  validator_result_add_evidence "$ref"
 done < <(yq -r '.tuple_admissions[]?.proof_bundle_ref // ""' "$SUPPORT_TARGETS")
 
 echo "Validation summary: errors=$errors"
+if [[ $errors -eq 0 ]]; then
+  emit_validator_result "validate-proof-bundle-executability.sh" "support_proof" "proof" "proof" "pass"
+else
+  emit_validator_result "validate-proof-bundle-executability.sh" "support_proof" "proof" "existence" "fail"
+fi
 [[ $errors -eq 0 ]]

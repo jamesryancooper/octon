@@ -19,11 +19,16 @@ use crate::workflow::{
 use octon_authority_engine::{
     authorize_execution, build_executor_command, default_autonomy_context, finalize_execution,
     now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, write_execution_start,
-    ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec, ManagedExecutorKind,
-    ReviewRequirements, ScopeConstraints, SideEffectFlags, SideEffectSummary,
+    ExecutionArtifactEffects, ExecutionOutcome, ExecutionRequest, ExecutorCommandSpec,
+    GrantBundle, ManagedExecutorKind, ReviewRequirements, ScopeConstraints, SideEffectFlags,
+    SideEffectSummary,
 };
 
 const WORKFLOW_REPORTS_ROOT_REL: &str = ".octon/state/evidence/runs/workflows";
+
+fn artifact_effects_for_root(root: &Path, grant: &GrantBundle) -> Result<ExecutionArtifactEffects> {
+    Ok(grant.execution_artifact_effects(root.display().to_string())?)
+}
 
 fn workflows_root(octon_dir: &Path) -> PathBuf {
     octon_dir
@@ -806,10 +811,13 @@ fn run_generic_pipeline(
     fs::create_dir_all(&reports_dir)?;
     fs::create_dir_all(&stage_inputs_dir)?;
     fs::create_dir_all(&stage_logs_dir)?;
+    let workflow_artifact_root = bundle_root.join("workflow-execution");
+    let workflow_effects = artifact_effects_for_root(&workflow_artifact_root, &workflow_grant)?;
     let workflow_artifacts = write_execution_start(
-        &bundle_root.join("workflow-execution"),
+        &workflow_artifact_root,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
     )?;
 
     let summary_report = bundle_root.join("summary.md");
@@ -1014,10 +1022,13 @@ fn run_generic_pipeline(
             ..ExecutionRequest::default()
         };
         let stage_grant = authorize_execution(&runtime_cfg, &policy, &stage_request, None)?;
+        let stage_artifact_root = bundle_root.join("stages").join(&stage.id);
+        let stage_effects = artifact_effects_for_root(&stage_artifact_root, &stage_grant)?;
         let stage_artifacts = write_execution_start(
-            &bundle_root.join("stages").join(&stage.id),
+            &stage_artifact_root,
             &stage_request,
             &stage_grant,
+            &stage_effects,
         )?;
         let stage_started_at = auth_now_rfc3339()?;
 
@@ -1051,6 +1062,7 @@ fn run_generic_pipeline(
                     &stage_artifacts,
                     &stage_request,
                     &stage_grant,
+                    &stage_effects,
                     &stage_started_at,
                     &ExecutionOutcome {
                         status: "succeeded".to_string(),
@@ -1098,6 +1110,7 @@ fn run_generic_pipeline(
                     &stage_artifacts,
                     &stage_request,
                     &stage_grant,
+                    &stage_effects,
                     &stage_started_at,
                     &ExecutionOutcome {
                         status: "succeeded".to_string(),
@@ -1232,6 +1245,7 @@ fn run_generic_pipeline(
         &workflow_artifacts,
         &workflow_request,
         &workflow_grant,
+        &workflow_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),

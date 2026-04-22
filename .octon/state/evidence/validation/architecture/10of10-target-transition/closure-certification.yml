@@ -1,7 +1,7 @@
 schema_version: architecture-10of10-closure-v1
 proposal_id: octon-architecture-10of10-target-state-transition
 status: validated
-validated_at: "2026-04-22T15:05:44Z"
+validated_at: "2026-04-22T20:23:39Z"
 validator_receipts:
   authorization_coverage_report: .octon/state/evidence/validation/architecture/10of10-target-transition/authorization-boundary/coverage.yml
   generated_effective_freshness_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml
@@ -11,8 +11,7 @@ validator_receipts:
   extension_active_state_compaction_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/extensions/active-state-compaction.yml
   operator_view_generation_receipt: .octon/state/evidence/validation/architecture/10of10-target-transition/operator-views/generation.yml
 summary: >-
-  Structural, publication, pack-alignment, extension, proof, aggregate
-  architecture-health, and full runtime workspace test validation now pass
-  under the canonical 10of10 evidence root, including the stricter
-  runtime-resolution and generated/effective fixture paths used by workflow
-  tests.
+  Structural, runtime-effective, freshness, token-enforcement, proof,
+  compatibility-retirement, and full runtime crate validation now pass under
+  the canonical 10of10 evidence root, including v3 route-bundle lock
+  publication and runtime-enforced authorized-effect products.

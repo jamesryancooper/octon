@@ -4142,6 +4142,8 @@ name = "octon_authority_engine"
 version = "1.0.0"
 dependencies = [
  "anyhow",
+ "hex",
+ "octon_authorized_effects",
  "octon_core",
  "octon_runtime_resolver",
  "octon_wasm_host",
@@ -4150,6 +4152,13 @@ dependencies = [
  "serde_yaml",
  "sha2",
  "time",
+]
+
+[[package]]
+name = "octon_authorized_effects"
+version = "1.0.0"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

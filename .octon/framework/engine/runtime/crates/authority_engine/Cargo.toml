@@ -10,8 +10,10 @@ serde.workspace = true
 serde_json.workspace = true
 serde_yaml.workspace = true
 sha2.workspace = true
+hex.workspace = true
 time.workspace = true
 
 octon_core = { path = "../core" }
+octon_authorized_effects = { path = "../authorized_effects" }
 octon_runtime_resolver = { path = "../runtime_resolver" }
 octon_wasm_host = { path = "../wasm_host" }

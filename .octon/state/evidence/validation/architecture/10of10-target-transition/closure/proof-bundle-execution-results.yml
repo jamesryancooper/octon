@@ -1,0 +1,8 @@
+schema_version: proof-bundle-execution-results-v1
+validated_at: "2026-04-22T19:14:30Z"
+status: pass
+bundles_with_explicit_replay:
+  - .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
+  - .octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml
+validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-proof-bundle-executability.sh
+test_ref: .octon/framework/assurance/runtime/_ops/tests/test-proof-bundle-execution.sh

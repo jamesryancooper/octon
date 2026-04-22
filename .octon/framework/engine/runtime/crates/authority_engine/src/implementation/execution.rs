@@ -1007,11 +1007,17 @@ fn runtime_route_bundle_denial(err: anyhow::Error) -> KernelError {
         "SUPPORT_TIER_UNSUPPORTED"
     } else if message.contains("non-authority classification is invalid") {
         "runtime_effective_handle_missing"
+    } else if message.contains("consumer '") && message.contains("is not allowed") {
+        "runtime_effective_consumer_forbidden"
+    } else if message.contains("consumer '") && message.contains("is forbidden") {
+        "runtime_effective_consumer_forbidden"
     } else if message.contains("freshness mode is invalid")
         || message.contains("freshness window expired")
         || message.contains("ttl-bound freshness window expired")
     {
         "runtime_effective_handle_stale"
+    } else if message.contains("support matrix is not a direct runtime authority handle") {
+        "runtime_effective_consumer_forbidden"
     } else if message.contains("digest drift detected") {
         "runtime_effective_handle_digest_mismatch"
     } else if message.contains("publication receipt") {
@@ -1046,11 +1052,59 @@ pub fn artifact_root_from_relative(
     repo_root.join(relative_root).join(request_id)
 }
 
+pub fn validate_authorized_effect<T: EffectKind>(
+    grant: &GrantBundle,
+    effect: &AuthorizedEffect<T>,
+) -> CoreResult<()> {
+    if !matches!(grant.decision, ExecutionDecision::Allow) {
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!(
+                "authorized effect '{}' requires an allow decision",
+                T::KIND
+            ),
+        ));
+    }
+    if effect.request_id != grant.request_id {
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!(
+                "authorized effect '{}' request id mismatch",
+                T::KIND
+            ),
+        ));
+    }
+    if effect.run_root != grant.run_root {
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!(
+                "authorized effect '{}' run root mismatch",
+                T::KIND
+            ),
+        ));
+    }
+    if effect.scope_ref.trim().is_empty() {
+        return Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!(
+                "authorized effect '{}' must declare a scope",
+                T::KIND
+            ),
+        ));
+    }
+    Ok(())
+}
+
 pub fn write_execution_start(
     root: &Path,
     request: &ExecutionRequest,
     grant: &GrantBundle,
+    effects: &ExecutionArtifactEffects,
 ) -> anyhow::Result<ExecutionArtifactPaths> {
+    validate_authorized_effect(grant, &effects.evidence)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
+    validate_authorized_effect(grant, &effects.control)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
     fs::create_dir_all(root)
         .with_context(|| format!("create execution artifact root {}", root.display()))?;
     let paths = ExecutionArtifactPaths::new(root.to_path_buf());
@@ -1230,10 +1284,15 @@ pub fn finalize_execution(
     paths: &ExecutionArtifactPaths,
     request: &ExecutionRequest,
     grant: &GrantBundle,
+    effects: &ExecutionArtifactEffects,
     started_at: &str,
     outcome: &ExecutionOutcome,
     side_effects: &SideEffectSummary,
 ) -> anyhow::Result<()> {
+    validate_authorized_effect(grant, &effects.evidence)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
+    validate_authorized_effect(grant, &effects.control)
+        .map_err(|error| anyhow::anyhow!(error.to_string()))?;
     write_json(&paths.side_effects, side_effects)?;
     write_json(&paths.outcome, outcome)?;
     let receipt = phases::receipt::execution_receipt_payload(

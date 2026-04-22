@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.schema.json",
+  "title": "Runtime Effective Artifact Handle v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "artifact_kind",
+    "generation_id",
+    "output_ref",
+    "output_sha256",
+    "publication_receipt_ref",
+    "publication_receipt_sha256",
+    "source_refs",
+    "source_digests",
+    "freshness",
+    "allowed_consumers",
+    "forbidden_consumers",
+    "non_authority_classification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "runtime-effective-artifact-handle-v2"
+    },
+    "artifact_kind": {
+      "type": "string",
+      "enum": [
+        "runtime_route_bundle",
+        "pack_routes",
+        "support_matrix",
+        "extension_catalog",
+        "extension_generation_lock",
+        "capability_routing"
+      ]
+    },
+    "generation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "output_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lock_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "lock_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^([a-f0-9]{64})?$"
+    },
+    "publication_receipt_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "publication_receipt_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "source_digests": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "invalidation_conditions"
+      ],
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "digest_bound",
+            "ttl_bound",
+            "receipt_bound"
+          ]
+        },
+        "ttl_seconds": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "invalidation_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "allowed_consumers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "forbidden_consumers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "non_authority_classification": {
+      "const": "derived-runtime-handle"
+    },
+    "dependency_handle_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "artifact_kind",
+          "output_ref",
+          "requirement",
+          "purpose"
+        ],
+        "properties": {
+          "artifact_kind": {
+            "type": "string",
+            "enum": [
+              "runtime_route_bundle",
+              "pack_routes",
+              "support_matrix",
+              "extension_catalog",
+              "extension_generation_lock",
+              "capability_routing"
+            ]
+          },
+          "output_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "lock_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "requirement": {
+            "type": "string",
+            "enum": [
+              "required",
+              "optional"
+            ]
+          },
+          "purpose": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+schema_version: architecture-10of10-closure-certificate-v2
+validated_at: "2026-04-22T20:23:39Z"
+result: pass
+closure_grade: earned
+publication_chain_status: pass
+validator_gate_status: pass
+acceptance_criteria_status:
+  recursive_runtime_effective_handle_closure: pass
+  freshness_closure: pass
+  proof_plane_closure: pass
+  architecture_health_closure: pass
+  compatibility_retirement_closure: pass
+  boundary_and_non_authority_closure: pass
+  authorized_effect_token_closure: pass
+blocking_reasons: []
+refs:
+  validator_results: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/validator-results.yml
+  architecture_health: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/architecture-health-v3-result.yml
+  negative_controls: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/negative-control-results.yml
+  proof_execution: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/proof-bundle-execution-results.yml
+  runtime_handles: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/runtime-effective-handle-verification-results.yml
+  token_coverage: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/authorized-effect-token-coverage.yml
+  compatibility: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/compatibility-retirement-results.yml
+  support_claims: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/support-claim-proof-results.yml
+  publications: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/generated-effective-publication-results.yml
+  source_digests: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/final-source-digests.yml
+  residual_risks: .octon/state/evidence/validation/architecture/10of10-target-transition/closure/residual-risk-register.md

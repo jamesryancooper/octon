@@ -1,0 +1,22 @@
+schema_version: architecture-negative-control-results-v1
+validated_at: "2026-04-22T19:14:30Z"
+results:
+  - test: .octon/framework/assurance/runtime/_ops/tests/test-runtime-effective-handle-negative-controls.sh
+    status: pass
+    cases:
+      - current route and pack lock variants pass
+      - route lock v3 requires dependency handles
+      - invalid freshness mode fails closed
+      - missing invalidation conditions fail closed
+      - missing allowed consumer fails closed
+      - invalid non-authority classification fails closed
+  - test: .octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh
+    status: pass
+    cases:
+      - token enforcement fails without token types
+      - token enforcement passes with declared token mediation
+      - token enforcement fails without token bypass negative controls
+  - test: .octon/framework/assurance/runtime/_ops/tests/test-architecture-health-depth.sh
+    status: pass
+  - test: .octon/framework/assurance/runtime/_ops/tests/test-proof-bundle-execution.sh
+    status: pass

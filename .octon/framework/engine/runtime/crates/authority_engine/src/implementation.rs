@@ -10,6 +10,12 @@ mod records;
 mod runtime_state;
 mod support;
 
+pub use octon_authorized_effects::{
+    AuthorizedEffect, CapabilityPackActivation, EffectKind, EvidenceMutation,
+    ExecutorLaunch, ExtensionActivation, GeneratedEffectivePublication, ProtectedCiCheck,
+    RepoMutation, ServiceInvocation, StateControlMutation,
+};
+
 // Compatibility note for validator readers:
 // `authorize_execution` now lives in `implementation/execution.rs`, where it
 // binds canonical run lifecycle roots via `bind_run_lifecycle(...)` and carries
@@ -19,7 +25,7 @@ pub use api::*;
 pub use authority::with_authority_env_metadata;
 pub use execution::{
     artifact_root_from_relative, authorize_execution, default_autonomy_context, finalize_execution,
-    write_execution_start,
+    validate_authorized_effect, write_execution_start,
 };
 pub use policy::{build_executor_command, now_rfc3339, resolve_executor_profile};
 

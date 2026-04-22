@@ -1,8 +1,8 @@
 schema_version: "octon-runtime-effective-route-bundle-v1"
-generation_id: "runtime-route-bundle-0e35dffede77"
-generated_at: "2026-04-22T13:33:00Z"
+generation_id: "runtime-route-bundle-d832aab6f332"
+generated_at: "2026-04-22T20:19:51Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-04-22T13-33-00Z-runtime-route-bundle-0e35dffede77.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-04-22T20-19-51Z-runtime-route-bundle-d832aab6f332.yml"
 source_refs:
   root_manifest_ref: ".octon/octon.yml"
   runtime_resolution_ref: ".octon/instance/governance/runtime-resolution.yml"

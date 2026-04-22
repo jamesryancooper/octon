@@ -1,0 +1,14 @@
+schema_version: final-source-digests-v1
+recorded_at: "2026-04-22T20:23:39Z"
+digests:
+  .octon/octon.yml: 8c7ac4d2704ea71b82a3b54a9ae68bb9be79e69087e6d0a8e3d48e6a1db662ed
+  .octon/instance/governance/runtime-resolution.yml: d832aab6f332e75d9711871bd42399380bbde1c377d4fd481f26045cc2972c13
+  .octon/generated/effective/runtime/route-bundle.yml: a4c4ef43efba7a119c5da1f73b0a832a0a57ef5728f3203baf75282d4504f96c
+  .octon/generated/effective/runtime/route-bundle.lock.yml: 5406398c7e9176ad501ea618801d1829dc87ba65c69bfa50716fe3f3453b7013
+  .octon/generated/effective/capabilities/pack-routes.effective.yml: 079ab2e45a390cef0c972159527bc082a270ca263e68c984bd35d9ad46cfa433
+  .octon/generated/effective/capabilities/pack-routes.lock.yml: d51dfaf2263c82aba57d43804c64b0adb77b761da630450f50c3fb20a1c801cc
+  .octon/generated/effective/capabilities/routing.effective.yml: 30b95cde98e7ad01fd21779f1e2fe8b32e6a0e1b4f13959eafa7f9f78dbb623c
+  .octon/generated/effective/capabilities/generation.lock.yml: 32b75c726d46e24681c0c8a34d84f96bcaadd68855cf1320fb28f3665a08d66c
+  .octon/generated/effective/extensions/catalog.effective.yml: 4c474e79b7bf4de6533b5a15739c3f43fbfd9cbe0cb1de421a8fad7190493be9
+  .octon/generated/effective/extensions/generation.lock.yml: 5e5117347baaee1616662b090e70158f2367960b31983a9b46acf4bb15818462
+  .octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml: bbbd041d9e7b498edc9dbe3f208f00704834e9a8b8dbfcb7d32f251b0c08014e

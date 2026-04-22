@@ -1,6 +1,6 @@
 schema_version: non-authority-register-v1
 owner: Octon governance
-updated_at: "2026-04-10T20:00:00Z"
+updated_at: "2026-04-22T00:00:00Z"
 entries:
   - surface_id: runtime-route-bundle-handle
     surface_class: effective-generated-view
@@ -9,6 +9,9 @@ entries:
       - .octon/generated/effective/runtime/route-bundle.lock.yml
     canonical_source_ref: .octon/instance/governance/runtime-resolution.yml
     authority_mode: derived-runtime-handle
+    handle_contract_ref: .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md
+    runtime_effective_handle_kinds:
+      - runtime_route_bundle
     generation_or_projection_mechanism: generated-from runtime selector, support matrix, pack routes, and extension publication state
     claim_adjacent: true
     validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh
@@ -21,11 +24,45 @@ entries:
       - .octon/generated/effective/capabilities/pack-routes.lock.yml
     canonical_source_ref: .octon/instance/governance/capability-packs/registry.yml
     authority_mode: derived-runtime-handle
+    handle_contract_ref: .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md
+    runtime_effective_handle_kinds:
+      - pack_routes
     generation_or_projection_mechanism: generated-from governance pack intent, runtime admissions, and support-target claim state
     claim_adjacent: true
     validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh
     retained_forever: true
     rationale: Pack routes remain generated routing handles and may narrow execution but never widen authority or support by themselves.
+  - surface_id: runtime-extension-publication-handles
+    surface_class: effective-generated-view
+    paths:
+      - .octon/generated/effective/extensions/catalog.effective.yml
+      - .octon/generated/effective/extensions/generation.lock.yml
+    canonical_source_ref: .octon/instance/governance/runtime-resolution.yml
+    authority_mode: derived-runtime-handle
+    handle_contract_ref: .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md
+    runtime_effective_handle_kinds:
+      - extension_catalog
+      - extension_generation_lock
+    generation_or_projection_mechanism: generated-from extension publication state with catalog and generation-lock linkage
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh
+    retained_forever: true
+    rationale: Extension catalog and generation-lock surfaces remain generated publication handles and must never become independent authority or bypass quarantine state.
+  - surface_id: runtime-capability-routing-handle
+    surface_class: effective-generated-view
+    paths:
+      - .octon/generated/effective/capabilities/routing.effective.yml
+      - .octon/generated/effective/capabilities/generation.lock.yml
+    canonical_source_ref: .octon/instance/governance/runtime-resolution.yml
+    authority_mode: derived-runtime-handle
+    handle_contract_ref: .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md
+    runtime_effective_handle_kinds:
+      - capability_routing
+    generation_or_projection_mechanism: generated-from capability routing publication state and generation-lock evidence
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh
+    retained_forever: true
+    rationale: Capability routing remains a runtime-facing generated handle only through verified metadata and cannot mint policy or support authority.
   - surface_id: operator-navigation-maps
     surface_class: effective-generated-view
     paths:
@@ -79,9 +116,13 @@ entries:
     paths:
       - .octon/generated/effective/governance/support-target-matrix.yml
     canonical_source_ref: .octon/instance/governance/support-targets.yml
-    authority_mode: derived-non-authority
-    generation_or_projection_mechanism: generated-from support-target declaration plus admissions
+    authority_mode: derived-runtime-handle
+    handle_contract_ref: .octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md
+    runtime_effective_handle_kinds:
+      - support_matrix
+    runtime_consumption: route-bundle-publication-only
+    generation_or_projection_mechanism: generated-from support-target declaration plus admissions and consumed only for route-bundle publication under target-state handle posture
     claim_adjacent: true
     validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
     retained_forever: true
-    rationale: The effective support-target matrix remains a generated convenience view and must not widen support beyond the authored declaration and admissions.
+    rationale: The effective support-target matrix remains a generated handle for route-bundle publication only and must not widen support beyond the authored declaration and admissions.

@@ -1,0 +1,15 @@
+schema_version: runtime-effective-handle-verification-results-v1
+validated_at: "2026-04-22T20:23:39Z"
+status: pass
+route_bundle:
+  generation_id: runtime-route-bundle-d832aab6f332
+  receipt_ref: .octon/state/evidence/validation/publication/runtime/2026-04-22T20-19-51Z-runtime-route-bundle-d832aab6f332.yml
+pack_routes:
+  generation_id: pack-routes-f66aed7b3fdd
+  receipt_ref: .octon/state/evidence/validation/publication/capabilities/2026-04-22T19-02-10Z-pack-routes-f66aed7b3fdd.yml
+capability_routing:
+  generation_id: capabilities-b3576bf05533
+  receipt_ref: .octon/state/evidence/validation/publication/capabilities/2026-04-22T19-06-00Z-capabilities-b3576bf05533.yml
+extensions:
+  generation_id: extensions-090beb843d30
+  receipt_ref: .octon/state/evidence/validation/publication/extensions/2026-04-22T19-03-58Z-extensions-090beb843d30.yml

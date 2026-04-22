@@ -55,6 +55,17 @@ These classes keep target-state language precise without creating a rival
 control plane. The registry is the machine-readable source for their role and
 boundaries.
 
+The active target-state runtime contract family is:
+
+- `runtime-effective-artifact-handle-v2.md`
+- `runtime-effective-route-bundle-lock-v3.schema.json`
+- `publication-freshness-gates-v4.md`
+- `architecture-health-contract-v3.md`
+- `compatibility-retirement-cutover-v2.md`
+
+Older `v1`/`v2`/`v3` predecessors remain retained lineage rather than active
+default references.
+
 ## How To Use The Structural Registry
 
 Use these sections of
@@ -178,9 +189,9 @@ family groups:
 | `compatibility_retirement` | `instance/governance/retirement-register.yml` + retirement contracts | Retained compatibility inventory, review cadence, and retirement posture |
 | `runtime_authorization_coverage` | `framework/engine/runtime/spec/{execution-authorization-v1.md,authorization-boundary-coverage.yml,material-side-effect-inventory.yml}` | Authorization-boundary and material-side-effect coverage contract |
 | `runtime_resolution` | `framework/engine/runtime/spec/runtime-resolution-v1.md` + `instance/governance/runtime-resolution.yml` | Delegated runtime-resolution selector and route-bundle contract |
-| `runtime_effective_handle_contract` | `framework/engine/runtime/spec/{runtime-effective-artifact-handle-v1.md,runtime-effective-artifact-handle-v1.schema.json,runtime-effective-route-bundle-lock-v2.schema.json}` | Resolver-verified generated/effective handle contract |
-| `runtime_publication_freshness` | `framework/engine/runtime/spec/publication-freshness-gates-v3.md` + publication receipts | Freshness-mode, digest, and receipt gate |
-| `runtime_architecture_health` | `framework/engine/runtime/spec/architecture-health-contract-v2.md` + health/freshness validators | Depth-aware closure-grade runtime health gate |
+| `runtime_effective_handle_contract` | `framework/engine/runtime/spec/{runtime-effective-artifact-handle-v2.md,runtime-effective-artifact-handle-v2.schema.json,runtime-effective-route-bundle-lock-v3.schema.json}` | Recursive resolver-verified generated/effective handle contract |
+| `runtime_publication_freshness` | `framework/engine/runtime/spec/publication-freshness-gates-v4.md` + publication receipts | Freshness-mode, digest, receipt, and legacy-timestamp deauthorization gate |
+| `runtime_architecture_health` | `framework/engine/runtime/spec/architecture-health-contract-v3.md` + health/freshness validators | Achieved-depth closure-grade runtime health gate |
 | `proof_bundle_executability` | support-target proof contract + executability validator + retained proof-plane evidence | Executable proof sufficiency contract |
 | `overlay_resolution` | `framework/overlay-points/registry.yml` + `instance/manifest.yml` | Declared overlay legality |
 | `instance_ingress_and_bootstrap` | `instance/{ingress,bootstrap}/**` | Ingress and optional orientation |
@@ -309,11 +320,13 @@ contract registry and its delegated registries.
   `/.octon/framework/constitution/contracts/registry.yml`
 - root manifest: `/.octon/octon.yml`
 - runtime-effective handle contract:
-  `/.octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v1.md`
+  `/.octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md`
 - publication freshness contract:
-  `/.octon/framework/engine/runtime/spec/publication-freshness-gates-v3.md`
+  `/.octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md`
 - architecture health contract:
-  `/.octon/framework/engine/runtime/spec/architecture-health-contract-v2.md`
+  `/.octon/framework/engine/runtime/spec/architecture-health-contract-v3.md`
+- compatibility-retirement cutover contract:
+  `/.octon/framework/engine/runtime/spec/compatibility-retirement-cutover-v2.md`
 - overlay registry: `/.octon/framework/overlay-points/registry.yml`
 - overlay enablement: `/.octon/instance/manifest.yml#enabled_overlay_points`
 - ingress manifest: `/.octon/instance/ingress/manifest.yml`

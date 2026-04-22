@@ -1,0 +1,95 @@
+---
+schema_version: "octon-validator-result-v1"
+validator_id: "validate-runtime-effective-route-bundle.sh"
+dimension: "runtime_effective_handles"
+claimed_depth: "runtime"
+achieved_depth: "runtime"
+status: "pass"
+evidence_refs:
+  - ".octon/generated/effective/runtime/route-bundle.yml"
+  - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+runtime_tests_executed:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-runtime-effective-handle-negative-controls.sh"
+negative_controls_executed:
+  - "root-manifest-digest-drift-denies"
+  - "publication-receipt-digest-drift-denies"
+recognized_contracts:
+  - ".octon/framework/engine/runtime/spec/runtime-effective-artifact-handle-v2.md"
+recognized_schema_versions:
+  - "octon-runtime-effective-route-bundle-v1"
+  - "octon-runtime-effective-route-bundle-lock-v3"
+limitations:
+---
+schema_version: "octon-validator-result-v1"
+validator_id: "validate-publication-freshness-gates.sh"
+dimension: "freshness_modes"
+claimed_depth: "runtime"
+achieved_depth: "runtime"
+status: "pass"
+evidence_refs:
+  - ".octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml"
+runtime_tests_executed:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-runtime-effective-handle-negative-controls.sh"
+negative_controls_executed:
+  - "stale-runtime-route-bundle-denies"
+  - "invalid-freshness-mode-denies"
+recognized_contracts:
+  - ".octon/framework/engine/runtime/spec/publication-freshness-gates-v4.md"
+recognized_schema_versions:
+  - "generated-effective-freshness-receipt-v1"
+limitations:
+---
+schema_version: "octon-validator-result-v1"
+validator_id: "validate-proof-bundle-executability.sh"
+dimension: "support_proof"
+claimed_depth: "proof"
+achieved_depth: "proof"
+status: "pass"
+evidence_refs:
+  - ".octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml"
+  - ".octon/state/evidence/validation/support-targets/frontier-studio-boundary-sensitive-es.yml"
+runtime_tests_executed:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-proof-bundle-execution.sh"
+negative_controls_executed:
+  - "missing-proof-execution-or-replay-evidence-denies"
+recognized_contracts:
+  - ".octon/framework/engine/runtime/spec/proof-bundle-execution-v1.md"
+recognized_schema_versions:
+  - "support-target-proof-bundle-v1"
+limitations:
+---
+schema_version: "octon-validator-result-v1"
+validator_id: "validate-authorization-boundary-coverage.sh"
+dimension: "authorization_coverage"
+claimed_depth: "runtime"
+achieved_depth: "runtime"
+status: "pass"
+evidence_refs:
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+runtime_tests_executed:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh"
+negative_controls_executed:
+  - "token-bypass-denial-declared"
+recognized_contracts:
+  - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md"
+recognized_schema_versions:
+  - "authorization-boundary-coverage-v1"
+limitations:
+---
+schema_version: "octon-validator-result-v1"
+validator_id: "validate-architecture-health.sh"
+dimension: "closure_grade"
+claimed_depth: "closure-grade"
+achieved_depth: "closure-grade"
+status: "pass"
+evidence_refs:
+  - ".octon/state/evidence/validation/architecture/10of10-target-transition/closure/architecture-health-v3-result.yml"
+runtime_tests_executed:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-architecture-health-depth.sh"
+negative_controls_executed:
+  - "achieved-depth-too-shallow-denies"
+recognized_contracts:
+  - ".octon/framework/engine/runtime/spec/architecture-health-contract-v3.md"
+recognized_schema_versions:
+  - "octon-validator-result-v1"
+limitations:

@@ -7,6 +7,12 @@ use std::path::{Path, PathBuf};
 use time::format_description::well_known::Rfc3339;
 use time::OffsetDateTime;
 
+mod handles;
+
+pub use handles::{
+    runtime_effective_handle_present, verify_runtime_effective_handle, VerifiedRuntimeHandle,
+};
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct RuntimeResolutionRecord {
     pub schema_version: String,
@@ -113,6 +119,8 @@ pub struct RuntimeEffectiveRouteBundleLock {
     #[serde(default)]
     pub publication_receipt_sha256: String,
     #[serde(default)]
+    pub route_bundle_ref: String,
+    #[serde(default)]
     pub route_bundle_sha256: String,
     #[serde(default)]
     pub runtime_resolution_sha256: String,
@@ -129,6 +137,10 @@ pub struct RuntimeEffectiveRouteBundleLock {
     #[serde(default)]
     pub extensions_generation_lock_sha256: String,
     #[serde(default)]
+    pub capability_routing_sha256: String,
+    #[serde(default)]
+    pub capability_routing_lock_sha256: String,
+    #[serde(default)]
     pub fresh_until: String,
     #[serde(default)]
     pub source_digests: BTreeMap<String, String>,
@@ -142,6 +154,24 @@ pub struct RuntimeEffectiveRouteBundleLock {
     pub forbidden_consumers: Vec<String>,
     #[serde(default)]
     pub non_authority_classification: String,
+    #[serde(default)]
+    pub dependency_handles: Vec<RuntimeDependencyHandle>,
+    #[serde(default)]
+    pub dependency_handle_refs: Vec<RuntimeDependencyHandle>,
+}
+
+#[derive(Debug, Clone, Deserialize, Default)]
+pub struct RuntimeDependencyHandle {
+    #[serde(default)]
+    pub artifact_kind: String,
+    #[serde(default)]
+    pub output_ref: String,
+    #[serde(default)]
+    pub lock_ref: Option<String>,
+    #[serde(default)]
+    pub requirement: String,
+    #[serde(default)]
+    pub purpose: String,
 }
 
 #[derive(Debug, Clone, Deserialize, Default)]
@@ -271,6 +301,7 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
         serde_yaml::from_slice(&lock_bytes).context("runtime route bundle lock is not valid YAML")?;
     if lock.schema_version != "octon-runtime-effective-route-bundle-lock-v1"
         && lock.schema_version != "octon-runtime-effective-route-bundle-lock-v2"
+        && lock.schema_version != "octon-runtime-effective-route-bundle-lock-v3"
     {
         return Err(anyhow!(
             "INVALID_INPUT: unsupported runtime route bundle lock schema '{}'",
@@ -315,9 +346,28 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
         return Err(anyhow!("CAPABILITY_DENIED: runtime-resolution selector digest drift detected"));
     }
 
-    if lock.schema_version == "octon-runtime-effective-route-bundle-lock-v2" {
+    if lock.schema_version == "octon-runtime-effective-route-bundle-lock-v2"
+        || lock.schema_version == "octon-runtime-effective-route-bundle-lock-v3"
+    {
         require_handle_metadata(&lock)?;
         enforce_handle_freshness(&lock)?;
+        if lock.schema_version == "octon-runtime-effective-route-bundle-lock-v3" {
+            if lock.route_bundle_ref != resolution.runtime_effective_route_bundle_ref {
+                return Err(anyhow!(
+                    "CAPABILITY_DENIED: runtime route bundle lock route_bundle_ref drift detected"
+                ));
+            }
+            let dependency_handles = if lock.dependency_handles.is_empty() {
+                &lock.dependency_handle_refs
+            } else {
+                &lock.dependency_handles
+            };
+            if dependency_handles.is_empty() {
+                return Err(anyhow!(
+                    "CAPABILITY_DENIED: runtime route bundle lock must declare dependency handles"
+                ));
+            }
+        }
     } else if !lock.fresh_until.trim().is_empty() {
         let fresh_until = OffsetDateTime::parse(lock.fresh_until.trim(), &Rfc3339)
             .context("runtime route bundle lock fresh_until is not valid RFC3339")?;
@@ -382,6 +432,49 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
         source_digest(&lock, "extensions_generation_lock_sha256"),
         "extensions generation lock",
     )?;
+
+    let _support_matrix = handles::verify_runtime_effective_handle(
+        octon_dir,
+        "support_matrix",
+        "route_bundle_compiler",
+    )?;
+    let _pack_routes = handles::verify_runtime_effective_handle(
+        octon_dir,
+        "pack_routes",
+        "runtime_resolver",
+    )?;
+    let extension_catalog = handles::verify_runtime_effective_handle(
+        octon_dir,
+        "extension_catalog",
+        "runtime_resolver",
+    )?;
+    let extension_generation_lock = handles::verify_runtime_effective_handle(
+        octon_dir,
+        "extension_generation_lock",
+        "runtime_resolver",
+    )?;
+    if handles::runtime_effective_handle_present(octon_dir, "capability_routing")? {
+        let _capability_routing = handles::verify_runtime_effective_handle(
+            octon_dir,
+            "capability_routing",
+            "runtime_resolver",
+        )?;
+    }
+    if bundle.extensions.generation_id != extension_catalog.generation_id {
+        return Err(anyhow!(
+            "CAPABILITY_DENIED: runtime route bundle extension generation does not match the verified extension catalog"
+        ));
+    }
+    if bundle.extensions.generation_id != extension_generation_lock.generation_id {
+        return Err(anyhow!(
+            "CAPABILITY_DENIED: runtime route bundle extension generation does not match the verified extension generation lock"
+        ));
+    }
+    if bundle.extensions.status != extension_catalog.publication_status {
+        return Err(anyhow!(
+            "CAPABILITY_DENIED: runtime route bundle extension status does not match the verified extension catalog"
+        ));
+    }
 
     Ok(VerifiedRuntimeRouteBundle {
         resolution_path,

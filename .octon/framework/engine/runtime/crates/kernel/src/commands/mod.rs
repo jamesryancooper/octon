@@ -9,8 +9,10 @@ use crate::workflow::{self, ExecutorKind};
 use anyhow::Result;
 use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
-    write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
-    ScopeConstraints, SideEffectFlags, SideEffectSummary,
+    validate_authorized_effect, write_execution_start, AuthorizedEffect, ExecutionArtifactEffects,
+    ExecutionOutcome, ExecutionRequest, ExecutorLaunch, GrantBundle, RepoMutation,
+    ReviewRequirements, ScopeConstraints, ServiceInvocation, SideEffectFlags,
+    SideEffectSummary,
 };
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::execution_integrity::service_capability_profile;
@@ -28,6 +30,60 @@ use super::{
     Command, OrchestrationCmd, OrchestrationIncidentCmd, OrchestrationSurfaceArg, RunCmd,
     ServiceCmd, ServicesCmd, WorkflowCmd,
 };
+
+fn artifact_effects_for_root(root: &Path, grant: &GrantBundle) -> Result<ExecutionArtifactEffects> {
+    Ok(grant.execution_artifact_effects(root.display().to_string())?)
+}
+
+fn invoke_service_with_effect(
+    ctx: &KernelContext,
+    grant: &GrantBundle,
+    effect: &AuthorizedEffect<ServiceInvocation>,
+    svc: &octon_core::registry::ServiceDescriptor,
+    op: &str,
+    input: serde_json::Value,
+    trace: Option<&TraceWriter>,
+    run_root: &Path,
+    adapter_id: Option<&str>,
+) -> Result<serde_json::Value> {
+    validate_authorized_effect(grant, effect)?;
+    let grants = GrantSet::new(grant.granted_capabilities.clone());
+    Ok(ctx
+        .invoker
+        .invoke(svc, grants, op, input, trace, run_root, adapter_id, None, None)?)
+}
+
+fn scaffold_service_new_with_effect(
+    octon_dir: &Path,
+    category: &str,
+    name: &str,
+    grant: &GrantBundle,
+    effect: &AuthorizedEffect<RepoMutation>,
+) -> Result<()> {
+    validate_authorized_effect(grant, effect)?;
+    scaffold::service_new(octon_dir, category, name)
+}
+
+fn scaffold_service_build_with_effect(
+    octon_dir: &Path,
+    category: &str,
+    name: &str,
+    grant: &GrantBundle,
+    effect: &AuthorizedEffect<RepoMutation>,
+) -> Result<()> {
+    validate_authorized_effect(grant, effect)?;
+    scaffold::service_build(octon_dir, category, name)
+}
+
+fn ensure_dir_with_executor_effect(
+    path: &Path,
+    grant: &GrantBundle,
+    effect: &AuthorizedEffect<ExecutorLaunch>,
+) -> Result<()> {
+    validate_authorized_effect(grant, effect)?;
+    std::fs::create_dir_all(path)?;
+    Ok(())
+}
 
 pub(crate) fn dispatch(cmd: Command) -> Result<()> {
     match cmd {
@@ -182,35 +238,34 @@ fn cmd_tool(service_id_or_name: &str, op: &str, input_json: Option<&str>) -> Res
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, Some(svc))?;
     run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "tool")?;
-    let artifacts = write_execution_start(
-        &artifact_root_from_relative(
-            &ctx.cfg.repo_root,
-            &ctx.cfg.execution_governance.receipt_roots.services,
-            &request.request_id,
-        ),
-        &request,
-        &grant,
-    )?;
+    let artifact_root = artifact_root_from_relative(
+        &ctx.cfg.repo_root,
+        &ctx.cfg.execution_governance.receipt_roots.services,
+        &request.request_id,
+    );
+    let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+    let artifacts = write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
     let started_at = now_rfc3339()?;
-    let grants = GrantSet::new(grant.granted_capabilities.clone());
     let run_root = ctx.cfg.repo_root.join(&grant.run_root);
     ctx.cfg.ensure_execution_write_path(&run_root)?;
     let trace = TraceWriter::new(&run_root, None).ok();
-    let out = ctx.invoker.invoke(
+    let service_effect = grant.service_invocation_effect(format!("{}::{op}", svc.key.id()))?;
+    let out = invoke_service_with_effect(
+        &ctx,
+        &grant,
+        &service_effect,
         svc,
-        grants,
         op,
         input,
         trace.as_ref(),
         &run_root,
         service_profile.adapter_id.as_deref(),
-        None,
-        None,
     )?;
     finalize_execution(
         &artifacts,
         &request,
         &grant,
+        &artifact_effects,
         &started_at,
         &ExecutionOutcome {
             status: "succeeded".to_string(),
@@ -289,18 +344,17 @@ fn cmd_studio() -> Result<()> {
     };
     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
     run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "studio")?;
-    let artifacts = write_execution_start(
-        &artifact_root_from_relative(
-            &ctx.cfg.repo_root,
-            &ctx.cfg.execution_governance.receipt_roots.executors,
-            &request.request_id,
-        ),
-        &request,
-        &grant,
-    )?;
+    let artifact_root = artifact_root_from_relative(
+        &ctx.cfg.repo_root,
+        &ctx.cfg.execution_governance.receipt_roots.executors,
+        &request.request_id,
+    );
+    let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+    let artifacts = write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
     let started_at = now_rfc3339()?;
+    let executor_effect = grant.executor_launch_effect(target_dir.display().to_string())?;
 
-    std::fs::create_dir_all(&target_dir)?;
+    ensure_dir_with_executor_effect(&target_dir, &grant, &executor_effect)?;
 
     let status = ProcessCommand::new("cargo")
         .arg("run")
@@ -318,6 +372,7 @@ fn cmd_studio() -> Result<()> {
         &artifacts,
         &request,
         &grant,
+        &artifact_effects,
         &started_at,
         &ExecutionOutcome {
             status: if status.success() {
@@ -401,21 +456,21 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
             };
             let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
             run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "service")?;
-            let artifacts = write_execution_start(
-                &artifact_root_from_relative(
-                    &ctx.cfg.repo_root,
-                    &ctx.cfg.execution_governance.receipt_roots.kernel,
-                    &request.request_id,
-                ),
-                &request,
-                &grant,
-            )?;
+            let artifact_root = artifact_root_from_relative(
+                &ctx.cfg.repo_root,
+                &ctx.cfg.execution_governance.receipt_roots.kernel,
+                &request.request_id,
+            );
+            let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+            let artifacts = write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
             let started_at = now_rfc3339()?;
-            scaffold::service_new(&octon_dir, &category, &name)?;
+            let repo_effect = grant.repo_mutation_effect(service_root.display().to_string())?;
+            scaffold_service_new_with_effect(&octon_dir, &category, &name, &grant, &repo_effect)?;
             finalize_execution(
                 &artifacts,
                 &request,
                 &grant,
+                &artifact_effects,
                 &started_at,
                 &ExecutionOutcome {
                     status: "succeeded".to_string(),
@@ -496,21 +551,21 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
             };
             let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
             run_binding::ensure_canonical_run_binding(&ctx.cfg, &request, &grant, "service")?;
-            let artifacts = write_execution_start(
-                &artifact_root_from_relative(
-                    &ctx.cfg.repo_root,
-                    &ctx.cfg.execution_governance.receipt_roots.kernel,
-                    &request.request_id,
-                ),
-                &request,
-                &grant,
-            )?;
+            let artifact_root = artifact_root_from_relative(
+                &ctx.cfg.repo_root,
+                &ctx.cfg.execution_governance.receipt_roots.kernel,
+                &request.request_id,
+            );
+            let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+            let artifacts = write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
             let started_at = now_rfc3339()?;
-            scaffold::service_build(&octon_dir, &category, &name)?;
+            let repo_effect = grant.repo_mutation_effect(service_root.display().to_string())?;
+            scaffold_service_build_with_effect(&octon_dir, &category, &name, &grant, &repo_effect)?;
             finalize_execution(
                 &artifacts,
                 &request,
                 &grant,
+                &artifact_effects,
                 &started_at,
                 &ExecutionOutcome {
                     status: "succeeded".to_string(),
@@ -708,15 +763,13 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> Result<()> {
                     ..ExecutionRequest::default()
                 };
                 let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
-                let artifacts = write_execution_start(
-                    &artifact_root_from_relative(
-                        &ctx.cfg.repo_root,
-                        &ctx.cfg.execution_governance.receipt_roots.kernel,
-                        &request.request_id,
-                    ),
-                    &request,
-                    &grant,
-                )?;
+                let artifact_root = artifact_root_from_relative(
+                    &ctx.cfg.repo_root,
+                    &ctx.cfg.execution_governance.receipt_roots.kernel,
+                    &request.request_id,
+                );
+                let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+                let artifacts = write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
                 let started_at = now_rfc3339()?;
                 orchestration::write_lookup(
                     &octon_dir,
@@ -728,6 +781,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> Result<()> {
                     &artifacts,
                     &request,
                     &grant,
+                    &artifact_effects,
                     &started_at,
                     &ExecutionOutcome {
                         status: "succeeded".to_string(),
@@ -787,15 +841,13 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> Result<()> {
                     ..ExecutionRequest::default()
                 };
                 let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
-                let artifacts = write_execution_start(
-                    &artifact_root_from_relative(
-                        &ctx.cfg.repo_root,
-                        &ctx.cfg.execution_governance.receipt_roots.kernel,
-                        &request.request_id,
-                    ),
-                    &request,
-                    &grant,
-                )?;
+                let artifact_root = artifact_root_from_relative(
+                    &ctx.cfg.repo_root,
+                    &ctx.cfg.execution_governance.receipt_roots.kernel,
+                    &request.request_id,
+                );
+                let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+                let artifacts = write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
                 let started_at = now_rfc3339()?;
                 orchestration::write_summary(
                     &octon_dir,
@@ -807,6 +859,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> Result<()> {
                     &artifacts,
                     &request,
                     &grant,
+                    &artifact_effects,
                     &started_at,
                     &ExecutionOutcome {
                         status: "succeeded".to_string(),
@@ -867,15 +920,14 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> Result<()> {
                         ..ExecutionRequest::default()
                     };
                     let grant = authorize_execution(&ctx.cfg, &ctx.policy, &request, None)?;
-                    let artifacts = write_execution_start(
-                        &artifact_root_from_relative(
-                            &ctx.cfg.repo_root,
-                            &ctx.cfg.execution_governance.receipt_roots.kernel,
-                            &request.request_id,
-                        ),
-                        &request,
-                        &grant,
-                    )?;
+                    let artifact_root = artifact_root_from_relative(
+                        &ctx.cfg.repo_root,
+                        &ctx.cfg.execution_governance.receipt_roots.kernel,
+                        &request.request_id,
+                    );
+                    let artifact_effects = artifact_effects_for_root(&artifact_root, &grant)?;
+                    let artifacts =
+                        write_execution_start(&artifact_root, &request, &grant, &artifact_effects)?;
                     let started_at = now_rfc3339()?;
                     orchestration::write_incident_closure_readiness(
                         &octon_dir,
@@ -887,6 +939,7 @@ fn cmd_orchestration(cmd: OrchestrationCmd) -> Result<()> {
                         &artifacts,
                         &request,
                         &grant,
+                        &artifact_effects,
                         &started_at,
                         &ExecutionOutcome {
                             status: "succeeded".to_string(),

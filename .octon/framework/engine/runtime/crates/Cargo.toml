@@ -3,6 +3,7 @@ resolver = "2"
 members = [
   "core",
   "runtime_resolver",
+  "authorized_effects",
   "authority_engine",
   "wasm_host",
   "kernel",

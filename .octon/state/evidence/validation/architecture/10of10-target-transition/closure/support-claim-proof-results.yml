@@ -1,0 +1,8 @@
+schema_version: support-claim-proof-results-v1
+validated_at: "2026-04-22T19:14:30Z"
+status: pass
+proofing_receipt_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
+proof_refresh_receipt_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
+notes:
+  - All six tuples remain represented by proof cards and dossiers.
+  - Two stage-only bundles were updated to declare replay evidence explicitly.

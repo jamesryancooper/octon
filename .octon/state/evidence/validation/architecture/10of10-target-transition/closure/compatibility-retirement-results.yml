@@ -1,0 +1,8 @@
+schema_version: compatibility-retirement-results-v1
+validated_at: "2026-04-22T19:14:30Z"
+status: pass
+validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement-cutover.sh
+compatibility_projection:
+  path: .octon/instance/capabilities/runtime/packs/**
+  posture: compatibility-only
+  canonical_successor: .octon/generated/effective/capabilities/pack-routes.effective.yml

@@ -2,8 +2,9 @@ use crate::context::KernelContext;
 use crate::request;
 use octon_authority_engine::{
     artifact_root_from_relative, authorize_execution, finalize_execution, now_rfc3339,
-    write_execution_start, ExecutionOutcome, ExecutionRequest, ReviewRequirements,
-    ScopeConstraints, SideEffectFlags, SideEffectSummary,
+    validate_authorized_effect, write_execution_start, AuthorizedEffect, ExecutionArtifactEffects,
+    ExecutionOutcome, ExecutionRequest, GrantBundle, ReviewRequirements, ScopeConstraints,
+    ServiceInvocation, SideEffectFlags, SideEffectSummary,
 };
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::execution_integrity::service_capability_profile;
@@ -16,6 +17,21 @@ use serde_json::json;
 use std::collections::HashMap;
 use std::io;
 use std::sync::{mpsc, Arc, Mutex};
+
+fn artifact_effects_for_root(
+    root: &std::path::Path,
+    grant: &GrantBundle,
+) -> anyhow::Result<ExecutionArtifactEffects> {
+    Ok(grant.execution_artifact_effects(root.display().to_string())?)
+}
+
+fn service_grants_for_effect(
+    grant: &GrantBundle,
+    effect: &AuthorizedEffect<ServiceInvocation>,
+) -> anyhow::Result<GrantSet> {
+    validate_authorized_effect(grant, effect)?;
+    Ok(GrantSet::new(grant.granted_capabilities.clone()))
+}
 
 #[derive(Default)]
 struct InflightEntry {
@@ -259,14 +275,28 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                             return;
                         }
                     };
+                    let artifact_root = artifact_root_from_relative(
+                        &ctx.cfg.repo_root,
+                        &ctx.cfg.execution_governance.receipt_roots.services,
+                        &request.request_id,
+                    );
+                    let artifact_effects = match artifact_effects_for_root(&artifact_root, &grant) {
+                        Ok(effects) => effects,
+                        Err(error) => {
+                            let err = KernelError::new(
+                                ErrorCode::Internal,
+                                format!("failed to issue stdio artifact effects: {error}"),
+                            );
+                            let _ = out_tx.send(response_error(&id, err));
+                            let _ = inflight.lock().unwrap().remove(&id);
+                            return;
+                        }
+                    };
                     let artifacts = match write_execution_start(
-                        &artifact_root_from_relative(
-                            &ctx.cfg.repo_root,
-                            &ctx.cfg.execution_governance.receipt_roots.services,
-                            &request.request_id,
-                        ),
+                        &artifact_root,
                         &request,
                         &grant,
+                        &artifact_effects,
                     ) {
                         Ok(paths) => paths,
                         Err(error) => {
@@ -291,7 +321,32 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                             return;
                         }
                     };
-                    let grants = GrantSet::new(grant.granted_capabilities.clone());
+                    let service_effect = match grant
+                        .service_invocation_effect(format!("{}::{op}", service.key.id()))
+                    {
+                        Ok(effect) => effect,
+                        Err(error) => {
+                            let err = KernelError::new(
+                                ErrorCode::CapabilityDenied,
+                                format!("failed to issue stdio service effect: {error}"),
+                            );
+                            let _ = out_tx.send(response_error(&id, err));
+                            let _ = inflight.lock().unwrap().remove(&id);
+                            return;
+                        }
+                    };
+                    let grants = match service_grants_for_effect(&grant, &service_effect) {
+                        Ok(grants) => grants,
+                        Err(error) => {
+                            let err = KernelError::new(
+                                ErrorCode::CapabilityDenied,
+                                format!("failed to validate stdio service effect: {error}"),
+                            );
+                            let _ = out_tx.send(response_error(&id, err));
+                            let _ = inflight.lock().unwrap().remove(&id);
+                            return;
+                        }
+                    };
                     let run_root = ctx.cfg.repo_root.join(&grant.run_root);
                     if let Err(error) = ctx.cfg.ensure_execution_write_path(&run_root) {
                         let _ = out_tx.send(response_error(&id, error));
@@ -318,6 +373,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                                 &artifacts,
                                 &request,
                                 &grant,
+                                &artifact_effects,
                                 &started_at,
                                 &ExecutionOutcome {
                                     status: "succeeded".to_string(),
@@ -338,6 +394,7 @@ pub fn serve_stdio(ctx: Arc<KernelContext>) -> anyhow::Result<()> {
                                 &artifacts,
                                 &request,
                                 &grant,
+                                &artifact_effects,
                                 &started_at,
                                 &ExecutionOutcome {
                                     status: "failed".to_string(),
