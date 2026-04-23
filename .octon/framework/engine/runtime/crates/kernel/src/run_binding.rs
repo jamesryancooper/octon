@@ -708,21 +708,46 @@ fn write_runtime_state(
         serde_yaml::Mapping::new()
     };
 
-    insert_yaml_string(&mut root, "schema_version", "run-runtime-state-v1");
-    insert_yaml_string(&mut root, "run_id", run_id);
-    insert_yaml_string(&mut root, "status", "bound");
-    insert_yaml_string(&mut root, "workflow_mode", workflow_mode);
-    insert_yaml_string(&mut root, "decision_state", "allow");
+    normalize_runtime_state_mapping(
+        &mut root,
+        run_id,
+        workflow_mode,
+        now,
+        rel(cfg, &cfg.run_control_root(run_id).join("run-contract.yml"))?,
+        rel(cfg, &cfg.run_control_root(run_id).join("run-manifest.yml"))?,
+    );
+
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    fs::write(path, serde_yaml::to_string(&root)?)?;
+    Ok(())
+}
+
+fn normalize_runtime_state_mapping(
+    root: &mut serde_yaml::Mapping,
+    run_id: &str,
+    workflow_mode: &str,
+    now: &str,
+    run_contract_ref: String,
+    run_manifest_ref: String,
+) {
+    let canonical_state = yaml_string(root, "state")
+        .or_else(|| yaml_string(root, "status"))
+        .unwrap_or_else(|| "bound".to_string());
+
+    remove_yaml_key(root, "status");
+
+    insert_yaml_string(&mut *root, "schema_version", "runtime-state-v2");
+    insert_yaml_string(root, "run_id", run_id);
+    insert_yaml_string(root, "state", &canonical_state);
+    insert_yaml_string(root, "workflow_mode", workflow_mode);
+    root.entry(serde_yaml::Value::String("decision_state".into()))
+        .or_insert(serde_yaml::Value::String("allow".into()));
     root.entry(serde_yaml::Value::String("run_contract_ref".into()))
-        .or_insert(serde_yaml::Value::String(rel(
-            cfg,
-            &cfg.run_control_root(run_id).join("run-contract.yml"),
-        )?));
+        .or_insert(serde_yaml::Value::String(run_contract_ref));
     root.entry(serde_yaml::Value::String("run_manifest_ref".into()))
-        .or_insert(serde_yaml::Value::String(rel(
-            cfg,
-            &cfg.run_control_root(run_id).join("run-manifest.yml"),
-        )?));
+        .or_insert(serde_yaml::Value::String(run_manifest_ref));
     root.entry(serde_yaml::Value::String("current_stage_attempt_id".into()))
         .or_insert(serde_yaml::Value::String("initial".into()));
     root.entry(serde_yaml::Value::String("last_checkpoint_ref".into()))
@@ -735,13 +760,7 @@ fn write_runtime_state(
         .or_insert(serde_yaml::Value::Null);
     root.entry(serde_yaml::Value::String("created_at".into()))
         .or_insert(serde_yaml::Value::String(now.to_string()));
-    insert_yaml_string(&mut root, "updated_at", now);
-
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent)?;
-    }
-    fs::write(path, serde_yaml::to_string(&root)?)?;
-    Ok(())
+    insert_yaml_string(root, "updated_at", now);
 }
 
 fn insert_yaml_string(map: &mut serde_yaml::Mapping, key: &str, value: &str) {
@@ -749,4 +768,42 @@ fn insert_yaml_string(map: &mut serde_yaml::Mapping, key: &str, value: &str) {
         serde_yaml::Value::String(key.to_string()),
         serde_yaml::Value::String(value.to_string()),
     );
+}
+
+fn remove_yaml_key(map: &mut serde_yaml::Mapping, key: &str) {
+    map.remove(serde_yaml::Value::String(key.to_string()));
+}
+
+fn yaml_string(map: &serde_yaml::Mapping, key: &str) -> Option<String> {
+    map.get(serde_yaml::Value::String(key.to_string()))
+        .and_then(|value| value.as_str().map(ToOwned::to_owned))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn runtime_state_normalization_drops_legacy_status_key() {
+        let mut root = serde_yaml::Mapping::new();
+        insert_yaml_string(&mut root, "schema_version", "run-runtime-state-v1");
+        insert_yaml_string(&mut root, "state", "authorized");
+        insert_yaml_string(&mut root, "status", "bound");
+
+        normalize_runtime_state_mapping(
+            &mut root,
+            "tool-run",
+            "role-mediated",
+            "2026-04-23T00:00:00Z",
+            ".octon/state/control/execution/runs/tool-run/run-contract.yml".to_string(),
+            ".octon/state/control/execution/runs/tool-run/run-manifest.yml".to_string(),
+        );
+
+        assert_eq!(
+            yaml_string(&root, "schema_version").as_deref(),
+            Some("runtime-state-v2")
+        );
+        assert_eq!(yaml_string(&root, "state").as_deref(), Some("authorized"));
+        assert_eq!(yaml_string(&root, "status"), None);
+    }
 }
