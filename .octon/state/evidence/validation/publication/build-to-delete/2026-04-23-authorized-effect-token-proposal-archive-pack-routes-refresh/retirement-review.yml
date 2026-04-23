@@ -1,0 +1,16 @@
+schema_version: "build-to-delete-review-evidence-v1"
+review_id: "retirement-review"
+contract_ref: ".octon/instance/governance/contracts/retirement-review.yml"
+owner: "Octon governance"
+status: "approved"
+reviewed_at: "2026-04-23T20:43:29Z"
+triggered_by:
+  - "Authorized Effect Token publication wrapper hardening"
+summary: "Transient publish-* validation run artifacts are retired after canonical publication receipts were retained."
+counts:
+  retired: 1
+findings: []
+evidence_refs:
+  - ".octon/instance/governance/contracts/retirement-review.yml"
+  - ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+  - ".octon/state/evidence/validation/publication/build-to-delete/2026-04-23-authorized-effect-token-proposal-archive-pack-routes-refresh/ablation-deletion-receipt.yml"
