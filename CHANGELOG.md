@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.42](https://github.com/jamesryancooper/octon/compare/octon-v0.6.41...octon-v0.6.42) (2026-04-23)
+
+
+### Bug Fixes
+
+* **runtime:** close authorized effect token migration ([#347](https://github.com/jamesryancooper/octon/issues/347)) ([d0e2ef5](https://github.com/jamesryancooper/octon/commit/d0e2ef558c31ca2a5e77aee24ba22d74ce16e059))
+
 ## [0.6.41](https://github.com/jamesryancooper/octon/compare/octon-v0.6.40...octon-v0.6.41) (2026-04-23)
 
 
