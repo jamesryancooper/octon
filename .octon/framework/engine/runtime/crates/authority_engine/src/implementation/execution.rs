@@ -162,7 +162,10 @@ fn granted_effect_kinds_for_request(request: &ExecutionRequest) -> Vec<String> {
             }
         }
     }
-    if request.side_effect_flags.network || request.side_effect_flags.model_invoke {
+    if request.action_type == "invoke_service"
+        || request.side_effect_flags.network
+        || request.side_effect_flags.model_invoke
+    {
         effect_kinds.push(ServiceInvocation::KIND.to_string());
     }
     if request.action_type == "launch_executor" || request.target_id == "octon-studio" {

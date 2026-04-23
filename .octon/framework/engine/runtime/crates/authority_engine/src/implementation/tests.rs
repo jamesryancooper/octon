@@ -547,6 +547,26 @@ fn development_mode_allows_soft_enforce() {
 }
 
 #[test]
+fn invoke_service_requests_always_grant_service_invocation_effects() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.action_type = "invoke_service".to_string();
+    request.target_id = "interfaces/filesystem-watch::watch.poll".to_string();
+    request.side_effect_flags.network = false;
+    request.side_effect_flags.model_invoke = false;
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("invoke_service request should authorize");
+    assert!(
+        grant.granted_effect_kinds
+            .iter()
+            .any(|kind| kind == ServiceInvocation::KIND),
+        "invoke_service requests must always carry the service-invocation effect grant"
+    );
+}
+
+#[test]
 fn issued_effect_verifies_and_records_consumption_receipt() {
     let cfg = temp_runtime_config();
     let policy = PolicyEngine::new(cfg.clone());
