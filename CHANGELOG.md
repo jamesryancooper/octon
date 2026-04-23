@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.43](https://github.com/jamesryancooper/octon/compare/octon-v0.6.42...octon-v0.6.43) (2026-04-23)
+
+
+### Bug Fixes
+
+* **runtime:** refresh evidence publication state ([#353](https://github.com/jamesryancooper/octon/issues/353)) ([1abe313](https://github.com/jamesryancooper/octon/commit/1abe3132b7d855ce75691b2d6c6f9bf1c453248f))
+* **runtime:** refresh main publication state ([#350](https://github.com/jamesryancooper/octon/issues/350)) ([356364a](https://github.com/jamesryancooper/octon/commit/356364a6a0c60282d1bb64e97568262b81d327a9))
+
 ## [0.6.42](https://github.com/jamesryancooper/octon/compare/octon-v0.6.41...octon-v0.6.42) (2026-04-23)
 
 
