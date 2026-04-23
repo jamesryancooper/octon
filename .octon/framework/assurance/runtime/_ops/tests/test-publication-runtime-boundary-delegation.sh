@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 TMPDIR_PUBLICATION="$(mktemp -d "${TMPDIR:-/tmp}/octon-publication-boundary.XXXXXX")"
-trap 'rm -rf "$TMPDIR_PUBLICATION"' EXIT
+trap 'rm -fr -- "$TMPDIR_PUBLICATION"' EXIT
 
 LOG_FILE="$TMPDIR_PUBLICATION/kernel-args.log"
 FAKE_KERNEL="$TMPDIR_PUBLICATION/octon"

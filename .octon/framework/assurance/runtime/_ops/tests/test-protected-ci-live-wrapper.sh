@@ -5,7 +5,7 @@ ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 WORKFLOW="$ROOT_DIR/.github/workflows/pr-auto-merge.yml"
 WRAPPER="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/protected-ci-auto-merge.sh"
 TMPDIR_CI="$(mktemp -d "${TMPDIR:-/tmp}/octon-protected-ci.XXXXXX")"
-trap 'rm -rf "$TMPDIR_CI"' EXIT
+trap 'rm -fr -- "$TMPDIR_CI"' EXIT
 
 LOG_FILE="$TMPDIR_CI/kernel-args.log"
 FAKE_KERNEL="$TMPDIR_CI/octon"

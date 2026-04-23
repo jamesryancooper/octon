@@ -86,7 +86,7 @@ timestamp="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
 printf '%s\n' "${REL_TARGETS[@]}" >"$paths_txt"
 
 for path in "${TARGETS[@]}"; do
-  rm -rf "$path"
+  rm -fr -- "$path"
 done
 
 echo "[OK] cleaned publication validation run artifacts; receipt at ${receipt#$ROOT_DIR/}"
