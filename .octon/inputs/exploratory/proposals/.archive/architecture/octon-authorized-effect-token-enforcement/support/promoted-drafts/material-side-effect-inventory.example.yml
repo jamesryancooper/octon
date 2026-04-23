@@ -1,0 +1,28 @@
+schema_version: "material-side-effect-inventory-v1"
+classes:
+  - id: "repo-mutation"
+    roots:
+      - "."
+    material: true
+    risk_tier: "repo-consequential"
+    required_boundary: "authorize_execution -> AuthorizedEffect<RepoMutation> -> VerifiedEffect<RepoMutation>"
+    owner: ".octon/framework/engine/runtime/crates/authority_engine"
+    token_required: true
+    effect_kind: "repo-mutation"
+    consumer_api_ref: "authority_engine::execution::perform_repo_mutation"
+    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-negative-bypass.sh#repo-mutation"
+    consumption_receipt_required: true
+    journal_event_required: true
+  - id: "evidence-mutation"
+    roots:
+      - ".octon/state/evidence/**"
+    material: true
+    risk_tier: "evidence-critical"
+    required_boundary: "authorize_execution -> AuthorizedEffect<EvidenceMutation> -> VerifiedEffect<EvidenceMutation>"
+    owner: ".octon/framework/engine/runtime/crates/authority_engine"
+    token_required: true
+    effect_kind: "evidence-mutation"
+    consumer_api_ref: "authority_engine::execution::persist_evidence"
+    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-negative-bypass.sh#evidence-mutation"
+    consumption_receipt_required: true
+    journal_event_required: true

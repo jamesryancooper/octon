@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/authorized-effect-token-consumption-v1.schema.json",
+  "title": "Octon Authorized Effect Token Consumption v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "consumption_id",
+    "token_id",
+    "effect_kind",
+    "request_id",
+    "grant_id",
+    "run_id",
+    "consumer_api_ref",
+    "decision",
+    "reason_codes",
+    "attempted_at",
+    "journal_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "authorized-effect-token-consumption-v1" },
+    "consumption_id": { "type": "string", "minLength": 1 },
+    "token_id": { "type": "string", "minLength": 1 },
+    "effect_kind": { "type": "string", "minLength": 1 },
+    "request_id": { "type": "string", "minLength": 1 },
+    "grant_id": { "type": "string", "minLength": 1 },
+    "run_id": { "type": "string", "minLength": 1 },
+    "consumer_api_ref": { "type": "string", "minLength": 1 },
+    "target_ref": { "type": ["string", "null"] },
+    "decision": { "type": "string", "enum": ["CONSUMED", "REJECTED", "EXPIRED", "REVOKED", "OUT_OF_SCOPE", "WRONG_KIND", "WRONG_RUN", "FORGED", "ALREADY_CONSUMED"] },
+    "reason_codes": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "attempted_at": { "type": "string", "minLength": 1 },
+    "completed_at": { "type": ["string", "null"] },
+    "journal_ref": { "type": "string", "minLength": 1 },
+    "evidence_ref": { "type": ["string", "null"] }
+  }
+}

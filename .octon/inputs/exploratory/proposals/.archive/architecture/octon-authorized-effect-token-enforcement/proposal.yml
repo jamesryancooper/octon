@@ -1,0 +1,59 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-authorized-effect-token-enforcement"
+title: "Octon Authorized Effect Token Enforcement and Boundary Coverage"
+summary: >-
+  Architecture proposal packet for making Authorized Effect Tokens mandatory across every
+  material side-effect path family, with enforcement hardening and negative bypass proof.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md"
+  - ".octon/framework/engine/runtime/spec/authorized-effect-token-v2.schema.json"
+  - ".octon/framework/engine/runtime/spec/authorized-effect-token-consumption-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+  - ".octon/framework/engine/runtime/spec/execution-request-v3.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/authority.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+  - ".octon/framework/engine/runtime/crates/core/src/execution_integrity.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs"
+  - ".octon/framework/engine/runtime/crates/replay_store/src/lib.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-negative-bypass.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-consumption.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
+  - ".octon/instance/governance/policies/repo-shell-execution-classes.yml"
+  - ".octon/instance/governance/support-targets.yml"
+status: "archived"
+archive:
+  archived_at: "2026-04-23"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-authorized-effect-token-enforcement"
+  promotion_evidence:
+    - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md"
+    - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
+    - ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh"
+    - ".octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-negative-bypass.sh"
+    - ".octon/state/control/execution/runs/protected-ci-1776956405637-68212/run-contract.yml"
+    - ".octon/state/evidence/validation/publication/build-to-delete/2026-04-23-authorized-effect-token-closeout/github-actions-observation.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote Authorized Effect Token enforcement and coverage proof into durable runtime spec,
+    runtime implementation, governance policy, and assurance validator surfaces; then archive
+    this proposal once promoted surfaces stand alone without proposal-path dependencies.
+related_proposals:
+  - "octon-instruction-layer-execution-envelope-hardening"
