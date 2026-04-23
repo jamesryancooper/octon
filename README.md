@@ -7,6 +7,8 @@ description: Root overview for the Octon Constitutional Engineering Harness repo
 
 Octon is a **Constitutional Engineering Harness** whose execution core is a **Governed Agent Runtime**. It uses a class-root super-root under [`.octon/`](.octon/) to keep constitutional authority, instance authority, inputs, state, evidence, and generated projections separated.
 
+Committed generated projections may be retained for durability, but they remain derived outputs rather than authoritative control surfaces.
+
 ## Core Layout
 
 - [`.octon/framework/`](.octon/framework/) contains portable authored Octon core.
