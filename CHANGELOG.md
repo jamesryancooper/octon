@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.41](https://github.com/jamesryancooper/octon/compare/octon-v0.6.40...octon-v0.6.41) (2026-04-23)
+
+
+### Refactors
+
+* **runtime:** finalize run journal cutover ([#345](https://github.com/jamesryancooper/octon/issues/345)) ([bd4bda0](https://github.com/jamesryancooper/octon/commit/bd4bda03d6bba6330b06249baac176b2f7fd7014))
+
 ## [0.6.40](https://github.com/jamesryancooper/octon/compare/octon-v0.6.39...octon-v0.6.40) (2026-04-22)
 
 
