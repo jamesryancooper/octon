@@ -50,9 +50,19 @@ effect:
 
 - `run-contract.yml`
 - `run-manifest.yml`
+- `events.ndjson`
+- `events.manifest.yml`
 - `runtime-state.yml`
 - `rollback-posture.yml`
 - `/.octon/state/evidence/runs/<run-id>/**`
+
+For any material side-effecting path, the boundary proof must show journal
+coverage for:
+
+- the authority request or denial/grant outcome,
+- the capability authorization/invocation pair or equivalent committed effect,
+- any checkpoint or rollback/recovery transition the effect depends on, and
+- the retained receipt or evidence snapshot that closes the path.
 
 Release activation and authoritative promotion additionally require a retained
 promotion receipt. Generated read models, labels, comments, checks, and other

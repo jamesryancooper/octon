@@ -1,0 +1,49 @@
+{
+  "schema_version": "run-event-ledger-v2",
+  "run_id": "runtime-state-conflict",
+  "ledger_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/control/events.ndjson",
+  "manifest_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/control/events.manifest.yml",
+  "event_schema_ref": ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json",
+  "runtime_state_schema_ref": ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json",
+  "state_reconstruction_ref": ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md",
+  "ledger_digest": "sha256:736c9c38f0f9b5dd286fb12ee2b4852f7f85ec2263d1800e373bfe4aee70c3c0",
+  "event_count": 11,
+  "first_event_ref": {
+    "event_id": "evt-001-run-created",
+    "sequence": 1,
+    "event_hash": "sha256:0513a4f109729b2fb6a03e5676b1ef5be36628732de317923939f7e99d710422"
+  },
+  "last_event_ref": {
+    "event_id": "evt-011-run-closed",
+    "sequence": 11,
+    "event_hash": "sha256:85d5f097aba94a5a588d127fab7af5c805fa2656687445c11df602d2d9f7f875"
+  },
+  "hash_chain": {
+    "hash_algorithm": "sha256",
+    "chain_status": "verified",
+    "head_event_hash": "sha256:0513a4f109729b2fb6a03e5676b1ef5be36628732de317923939f7e99d710422",
+    "tail_event_hash": "sha256:85d5f097aba94a5a588d127fab7af5c805fa2656687445c11df602d2d9f7f875"
+  },
+  "governing_event_refs": {
+    "runtime_state_ref": "evt-011-run-closed",
+    "checkpoint_ref": "evt-008-checkpoint-created",
+    "disclosure_ref": "evt-009-run-card-published"
+  },
+  "snapshot_refs": {
+    "control_snapshot_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/control/events.ndjson",
+    "evidence_snapshot_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/evidence/run-journal/events.snapshot.ndjson",
+    "evidence_manifest_snapshot_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/evidence/run-journal/events.manifest.snapshot.yml",
+    "redaction_record_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/evidence/run-journal/redactions.yml"
+  },
+  "last_materialization": {
+    "runtime_state_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/runtime-state-conflict/control/runtime-state.yml",
+    "last_applied_event_id": "evt-011-run-closed",
+    "last_applied_sequence": 11,
+    "last_applied_event_hash": "sha256:85d5f097aba94a5a588d127fab7af5c805fa2656687445c11df602d2d9f7f875",
+    "materialized_at": "2026-04-22T12:00:11Z",
+    "materialized_by_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null,
+  "updated_at": "2026-04-22T12:00:11Z"
+}

@@ -10,6 +10,12 @@ use octon_core::execution_integrity::{
 };
 use octon_core::policy::PolicyEngine;
 use octon_core::registry::ServiceDescriptor;
+use octon_runtime_bus::{
+    append_event as append_run_journal_event, JournalActor, JournalCausality,
+    JournalClassification, JournalEffect, JournalGoverningRefs, JournalLifecycle,
+    JournalPayload, JournalRedaction, load_journal as load_run_journal,
+    RunJournalAppendRequest, RunJournalMaterialization, RunJournalSnapshotRefs,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sha2::{Digest, Sha256};
@@ -293,9 +299,10 @@ pub(crate) fn bind_run_lifecycle(
     write_yaml(
         &run_manifest_path,
         &json!({
-            "schema_version": "run-manifest-v1",
+            "schema_version": "run-manifest-v2",
             "run_id": run_id,
             "run_contract_ref": run_contract_ref,
+            "authority_bundle_ref": authority_grant_bundle_ref,
             "intent_ref": {
                 "id": resolved_intent_ref.id,
                 "version": resolved_intent_ref.version,
@@ -405,7 +412,7 @@ pub(crate) fn bind_run_lifecycle(
     if runtime_state.created_at.trim().is_empty() {
         runtime_state.created_at = now.clone();
     }
-    runtime_state.schema_version = "run-runtime-state-v1".to_string();
+    runtime_state.schema_version = "runtime-state-v2".to_string();
     runtime_state.run_id = run_id.to_string();
     runtime_state.status = "authorizing".to_string();
     runtime_state.workflow_mode = request.workflow_mode.clone();
@@ -416,16 +423,16 @@ pub(crate) fn bind_run_lifecycle(
     runtime_state.last_checkpoint_ref = Some(control_checkpoint_ref.clone());
     runtime_state.mission_id = mission_id.clone();
     runtime_state.parent_run_ref = parent_run_ref.clone();
+    runtime_state.source_ledger_ref = Some(path_tail(
+        &cfg.repo_root,
+        &run_journal_path(cfg, run_id),
+    ));
+    runtime_state.source_ledger_manifest_ref = Some(path_tail(
+        &cfg.repo_root,
+        &run_journal_manifest_path(cfg, run_id),
+    ));
+    runtime_state.rollback_posture_ref = Some(rollback_posture_ref.clone());
     runtime_state.updated_at = now.clone();
-    write_yaml(&runtime_state_path, &runtime_state).map_err(|e| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!(
-                "failed to write runtime-state {}: {e}",
-                runtime_state_path.display()
-            ),
-        )
-    })?;
 
     let rollback_strategy = if rollback_ref.is_some() || reversibility_class == "reversible" {
         "rollback"
@@ -692,6 +699,52 @@ pub(crate) fn bind_run_lifecycle(
             ),
         )
     })?;
+    let journal_materialization = initialize_run_journal(
+        cfg,
+        run_id,
+        &control_root,
+        &control_root_rel,
+        &run_contract_ref,
+        &run_manifest_ref,
+        &runtime_state_ref,
+        &rollback_posture_ref,
+        &control_checkpoint_ref,
+        &stage_attempt_ref,
+        &support_target,
+        &now,
+    )?;
+    runtime_state.schema_version = "runtime-state-v2".to_string();
+    runtime_state.source_ledger_ref = Some(path_tail(&cfg.repo_root, &run_journal_path(cfg, run_id)));
+    runtime_state.source_ledger_manifest_ref =
+        Some(path_tail(&cfg.repo_root, &run_journal_manifest_path(cfg, run_id)));
+    runtime_state.support_target_tuple_ref = Some(format!(
+        "tuple://{}/{}/{}/{}/{}/{}",
+        support_target.model_tier,
+        support_target.workload_tier,
+        support_target.language_resource_tier,
+        support_target.locale_tier,
+        support_target.host_adapter,
+        support_target.model_adapter,
+    ));
+    runtime_state.rollback_posture_ref = Some(rollback_posture_ref.clone());
+    runtime_state.last_applied_event_id = journal_materialization.last_applied_event_id.clone();
+    runtime_state.last_applied_sequence = journal_materialization.last_applied_sequence;
+    runtime_state.last_applied_event_hash = journal_materialization.last_applied_event_hash.clone();
+    runtime_state.materialized_at = journal_materialization.materialized_at.clone();
+    runtime_state.materialized_by = Some(RuntimeStateMaterializedByRecord {
+        actor_class: "runtime".to_string(),
+        actor_ref: ".octon/framework/engine/runtime/crates/runtime_bus".to_string(),
+    });
+    runtime_state.drift_status = Some("in-sync".to_string());
+    write_yaml(&runtime_state_path, &runtime_state).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to rewrite runtime-state {} after journal materialization: {e}",
+                runtime_state_path.display()
+            ),
+        )
+    })?;
     sync_run_continuity(
         &RunContinuityRecord {
             schema_version: "run-continuity-v1".to_string(),
@@ -750,6 +803,310 @@ pub(crate) fn bind_run_lifecycle(
     })
 }
 
+fn initialize_run_journal(
+    cfg: &RuntimeConfig,
+    run_id: &str,
+    control_root: &Path,
+    control_root_rel: &str,
+    run_contract_ref: &str,
+    run_manifest_ref: &str,
+    runtime_state_ref: &str,
+    rollback_posture_ref: &str,
+    control_checkpoint_ref: &str,
+    stage_attempt_ref: &str,
+    support_target: &SupportTargetTuple,
+    recorded_at: &str,
+) -> CoreResult<RunJournalMaterialization> {
+    let support_target_tuple_ref = Some(format!(
+        "tuple://{}/{}/{}/{}/{}/{}",
+        support_target.model_tier,
+        support_target.workload_tier,
+        support_target.language_resource_tier,
+        support_target.locale_tier,
+        support_target.host_adapter,
+        support_target.model_adapter,
+    ));
+
+    let created = append_run_journal(
+        control_root,
+        RunJournalAppendRequest {
+            run_id: run_id.to_string(),
+            control_root_ref: control_root_rel.to_string(),
+            event_id: format!("evt-001-run-created-{run_id}"),
+            event_type: "run-created".to_string(),
+            recorded_at: recorded_at.to_string(),
+            subject_ref: Some(run_contract_ref.to_string()),
+            actor: runtime_bus_actor("authority-engine"),
+            classification: JournalClassification {
+                event_plane: "committed-effect".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            lifecycle: JournalLifecycle {
+                state_before: Some("created".to_string()),
+                state_after: Some("bound".to_string()),
+            },
+            governing_refs: journal_governing_refs(
+                run_contract_ref,
+                run_manifest_ref,
+                support_target_tuple_ref.clone(),
+                Some(rollback_posture_ref.to_string()),
+                None,
+                None,
+            ),
+            payload: inline_payload(
+                Some(serde_json::json!({
+                    "summary": "Canonical run root created for the bound consequential execution unit.",
+                    "run_control_root_ref": control_root_rel,
+                })),
+                Some("Run created.".to_string()),
+            ),
+            effect: journal_effect("write"),
+            redaction: unredacted(),
+            causality: JournalCausality::default(),
+            governing_manifest_roles: vec!["run_contract_ref".to_string()],
+            materialization: None,
+            snapshot_refs: None,
+            drift_status: Some("in-sync".to_string()),
+            drift_ref: None,
+        },
+    )?;
+
+    let bound = append_run_journal(
+        control_root,
+        RunJournalAppendRequest {
+            run_id: run_id.to_string(),
+            control_root_ref: control_root_rel.to_string(),
+            event_id: format!("evt-002-run-bound-{run_id}"),
+            event_type: "run-bound".to_string(),
+            recorded_at: recorded_at.to_string(),
+            subject_ref: Some(run_manifest_ref.to_string()),
+            actor: runtime_bus_actor("authority-engine"),
+            classification: JournalClassification {
+                event_plane: "committed-effect".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            lifecycle: JournalLifecycle {
+                state_before: Some("bound".to_string()),
+                state_after: Some("bound".to_string()),
+            },
+            governing_refs: journal_governing_refs(
+                run_contract_ref,
+                run_manifest_ref,
+                support_target_tuple_ref.clone(),
+                Some(rollback_posture_ref.to_string()),
+                Some(stage_attempt_ref.to_string()),
+                None,
+            ),
+            payload: inline_payload(
+                Some(serde_json::json!({
+                    "stage_attempt_ref": stage_attempt_ref,
+                    "runtime_state_ref": runtime_state_ref,
+                })),
+                Some("Run binding became authoritative.".to_string()),
+            ),
+            effect: journal_effect("write"),
+            redaction: unredacted(),
+            causality: JournalCausality::default(),
+            governing_manifest_roles: vec!["run_manifest_ref".to_string()],
+            materialization: None,
+            snapshot_refs: None,
+            drift_status: Some("in-sync".to_string()),
+            drift_ref: None,
+        },
+    )?;
+
+    let _requested = append_run_journal(
+        control_root,
+        RunJournalAppendRequest {
+            run_id: run_id.to_string(),
+            control_root_ref: control_root_rel.to_string(),
+            event_id: format!("evt-003-authority-requested-{run_id}"),
+            event_type: "authority-requested".to_string(),
+            recorded_at: recorded_at.to_string(),
+            subject_ref: Some(runtime_state_ref.to_string()),
+            actor: runtime_bus_actor("authority-engine"),
+            classification: JournalClassification {
+                event_plane: "requested-action".to_string(),
+                replay_disposition: "not-applicable".to_string(),
+            },
+            lifecycle: JournalLifecycle {
+                state_before: Some("bound".to_string()),
+                state_after: Some("authorizing".to_string()),
+            },
+            governing_refs: journal_governing_refs(
+                run_contract_ref,
+                run_manifest_ref,
+                support_target_tuple_ref.clone(),
+                Some(rollback_posture_ref.to_string()),
+                Some(stage_attempt_ref.to_string()),
+                None,
+            ),
+            payload: inline_payload(
+                Some(serde_json::json!({
+                    "runtime_state_ref": runtime_state_ref,
+                    "support_target_tuple_ref": support_target_tuple_ref,
+                })),
+                Some("Authorization routing entered the canonical journal.".to_string()),
+            ),
+            effect: journal_effect("authorization"),
+            redaction: unredacted(),
+            causality: JournalCausality::default(),
+            governing_manifest_roles: vec!["runtime_state_ref".to_string()],
+            materialization: None,
+            snapshot_refs: None,
+            drift_status: Some("in-sync".to_string()),
+            drift_ref: None,
+        },
+    )?;
+
+    let checkpoint = append_run_journal(
+        control_root,
+        RunJournalAppendRequest {
+            run_id: run_id.to_string(),
+            control_root_ref: control_root_rel.to_string(),
+            event_id: format!("evt-004-checkpoint-bound-{run_id}"),
+            event_type: "checkpoint-created".to_string(),
+            recorded_at: recorded_at.to_string(),
+            subject_ref: Some(control_checkpoint_ref.to_string()),
+            actor: runtime_bus_actor("runtime"),
+            classification: JournalClassification {
+                event_plane: "retained-evidence".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            lifecycle: JournalLifecycle {
+                state_before: Some("authorizing".to_string()),
+                state_after: Some("authorizing".to_string()),
+            },
+            governing_refs: journal_governing_refs(
+                run_contract_ref,
+                run_manifest_ref,
+                support_target_tuple_ref,
+                Some(rollback_posture_ref.to_string()),
+                Some(stage_attempt_ref.to_string()),
+                Some(control_checkpoint_ref.to_string()),
+            ),
+            payload: inline_payload(
+                Some(serde_json::json!({"checkpoint_kind":"binding"})),
+                Some("Binding checkpoint materialized.".to_string()),
+            ),
+            effect: journal_effect("evidence"),
+            redaction: unredacted(),
+            causality: JournalCausality::default(),
+            governing_manifest_roles: vec!["checkpoint_ref".to_string()],
+            materialization: None,
+            snapshot_refs: None,
+            drift_status: Some("in-sync".to_string()),
+            drift_ref: None,
+        },
+    )?;
+
+    Ok(materialization_for_event(
+        runtime_state_ref,
+        ".octon/framework/engine/runtime/crates/runtime_bus",
+        &checkpoint.event,
+    ))
+}
+
+fn append_run_journal(
+    control_root: &Path,
+    request: RunJournalAppendRequest,
+) -> CoreResult<octon_runtime_bus::RunJournalAppendReceipt> {
+    append_run_journal_event(control_root, request).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to append canonical run journal event: {error}"),
+        )
+    })
+}
+
+fn runtime_bus_actor(actor_class: &str) -> JournalActor {
+    JournalActor {
+        actor_class: actor_class.to_string(),
+        actor_ref: ".octon/framework/engine/runtime/crates/runtime_bus".to_string(),
+    }
+}
+
+fn journal_governing_refs(
+    run_contract_ref: &str,
+    run_manifest_ref: &str,
+    support_target_tuple_ref: Option<String>,
+    rollback_posture_ref: Option<String>,
+    stage_attempt_ref: Option<String>,
+    checkpoint_ref: Option<String>,
+) -> JournalGoverningRefs {
+    JournalGoverningRefs {
+        run_contract_ref: run_contract_ref.to_string(),
+        run_manifest_ref: run_manifest_ref.to_string(),
+        execution_request_ref: None,
+        authority_route_receipt_ref: None,
+        grant_bundle_ref: None,
+        policy_receipt_ref: None,
+        approval_ref: None,
+        lease_ref: None,
+        revocation_ref: None,
+        support_target_tuple_ref,
+        rollback_plan_ref: None,
+        rollback_posture_ref,
+        context_pack_ref: None,
+        stage_attempt_ref,
+        checkpoint_ref,
+        validator_result_ref: None,
+        evidence_snapshot_ref: None,
+        disclosure_ref: None,
+        drift_ref: None,
+        continuity_ref: None,
+        additional_refs: Vec::new(),
+    }
+}
+
+fn inline_payload(typed_body: Option<serde_json::Value>, summary: Option<String>) -> JournalPayload {
+    JournalPayload {
+        payload_kind: if typed_body.is_some() {
+            "inline-typed".to_string()
+        } else {
+            "none".to_string()
+        },
+        schema_ref: None,
+        typed_body,
+        artifact_ref: None,
+        artifact_hash: None,
+        content_type: None,
+        summary,
+    }
+}
+
+fn journal_effect(effect_class: &str) -> JournalEffect {
+    JournalEffect {
+        effect_class: effect_class.to_string(),
+        reversibility_class: "reversible".to_string(),
+        evidence_class: "required".to_string(),
+    }
+}
+
+fn unredacted() -> JournalRedaction {
+    JournalRedaction {
+        redacted: false,
+        justification: None,
+        lineage_ref: None,
+        omitted_fields: Vec::new(),
+    }
+}
+
+fn materialization_for_event(
+    runtime_state_ref: &str,
+    materialized_by_ref: &str,
+    event: &octon_runtime_bus::RunJournalEvent,
+) -> RunJournalMaterialization {
+    RunJournalMaterialization {
+        runtime_state_ref: Some(runtime_state_ref.to_string()),
+        last_applied_event_id: Some(event.event_id.clone()),
+        last_applied_sequence: Some(event.sequence),
+        last_applied_event_hash: Some(event.integrity.event_hash.clone()),
+        materialized_at: Some(event.recorded_at.clone()),
+        materialized_by_ref: Some(materialized_by_ref.to_string()),
+    }
+}
+
 pub(crate) fn update_bound_runtime_state(
     bound: &BoundRunLifecycle,
     status: &str,
@@ -766,7 +1123,7 @@ pub(crate) fn update_bound_runtime_state(
             )
         })?;
     }
-    state.schema_version = "run-runtime-state-v1".to_string();
+    state.schema_version = "runtime-state-v2".to_string();
     state.run_id = bound
         .control_root
         .file_name()
@@ -776,6 +1133,21 @@ pub(crate) fn update_bound_runtime_state(
     state.status = status.to_string();
     if state.run_manifest_ref.trim().is_empty() {
         state.run_manifest_ref = bound.run_manifest_ref.clone();
+    }
+    if state.source_ledger_ref.is_none() {
+        state.source_ledger_ref = Some(format!(
+            ".octon/state/control/execution/runs/{}/events.ndjson",
+            state.run_id
+        ));
+    }
+    if state.source_ledger_manifest_ref.is_none() {
+        state.source_ledger_manifest_ref = Some(format!(
+            ".octon/state/control/execution/runs/{}/events.manifest.yml",
+            state.run_id
+        ));
+    }
+    if state.drift_status.is_none() {
+        state.drift_status = Some("in-sync".to_string());
     }
     state.decision_state = decision_state
         .map(ToOwned::to_owned)
@@ -792,6 +1164,22 @@ pub(crate) fn update_bound_runtime_state(
             format!("failed to compute runtime-state timestamp: {e}"),
         )
     })?;
+    state.materialized_at = Some(state.updated_at.clone());
+    state.materialized_by = Some(RuntimeStateMaterializedByRecord {
+        actor_class: "runtime".to_string(),
+        actor_ref: ".octon/framework/engine/runtime/crates/runtime_bus".to_string(),
+    });
+    if let Ok(journal) = load_run_journal(&bound.control_root) {
+        if let Some(last_event) = journal.events.last() {
+            state.last_applied_event_id = Some(last_event.event_id.clone());
+            state.last_applied_sequence = Some(last_event.sequence);
+            state.last_applied_event_hash = Some(last_event.integrity.event_hash.clone());
+            state.source_ledger_ref = Some(journal.manifest.ledger_ref.clone());
+            state.source_ledger_manifest_ref = Some(journal.manifest.manifest_ref.clone());
+        }
+        state.drift_status = Some(journal.manifest.drift_status.clone());
+        state.drift_ref = journal.manifest.drift_ref.clone();
+    }
     write_yaml(&bound.runtime_state_path, &state).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,

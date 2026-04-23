@@ -11,6 +11,11 @@ use octon_core::execution_integrity::{
 };
 use octon_core::policy::PolicyEngine;
 use octon_core::registry::ServiceDescriptor;
+use octon_runtime_bus::{
+    append_event as append_run_journal_event, JournalActor, JournalClassification, JournalEffect,
+    JournalGoverningRefs, JournalLifecycle, JournalPayload, JournalRedaction,
+    RunJournalAppendRequest, RunJournalSnapshotRefs,
+};
 use octon_runtime_resolver::{verify_runtime_route_bundle, RuntimeSupportTupleRef};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
@@ -1052,6 +1057,222 @@ pub fn artifact_root_from_relative(
     repo_root.join(relative_root).join(request_id)
 }
 
+fn append_runtime_journal_event(
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    event_id: impl Into<String>,
+    event_type: &str,
+    recorded_at: &str,
+    subject_ref: Option<String>,
+    classification: JournalClassification,
+    lifecycle: JournalLifecycle,
+    governing_refs: JournalGoverningRefs,
+    payload: JournalPayload,
+    effect: JournalEffect,
+    governing_manifest_roles: Vec<String>,
+    snapshot_refs: Option<RunJournalSnapshotRefs>,
+) -> CoreResult<octon_runtime_bus::RunJournalAppendReceipt> {
+    append_run_journal_event(
+        &bound.control_root,
+        RunJournalAppendRequest {
+            run_id: request.request_id.clone(),
+            control_root_ref: bound.control_root_rel.clone(),
+            event_id: event_id.into(),
+            event_type: event_type.to_string(),
+            recorded_at: recorded_at.to_string(),
+            subject_ref,
+            actor: JournalActor {
+                actor_class: "runtime".to_string(),
+                actor_ref: ".octon/framework/engine/runtime/crates/runtime_bus".to_string(),
+            },
+            classification,
+            lifecycle,
+            governing_refs,
+            payload,
+            effect,
+            redaction: JournalRedaction {
+                redacted: false,
+                justification: None,
+                lineage_ref: None,
+                omitted_fields: Vec::new(),
+            },
+            causality: octon_runtime_bus::JournalCausality::default(),
+            governing_manifest_roles,
+            materialization: None,
+            snapshot_refs,
+            drift_status: Some("in-sync".to_string()),
+            drift_ref: None,
+        },
+    )
+    .map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to append runtime journal event: {error}"),
+        )
+    })
+}
+
+fn journal_governing_refs_for_bound_run(
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    grant: &GrantBundle,
+    checkpoint_ref: Option<String>,
+    disclosure_ref: Option<String>,
+    evidence_snapshot_ref: Option<String>,
+) -> JournalGoverningRefs {
+    JournalGoverningRefs {
+        run_contract_ref: format!(
+            ".octon/state/control/execution/runs/{}/run-contract.yml",
+            request.request_id
+        ),
+        run_manifest_ref: bound.run_manifest_ref.clone(),
+        execution_request_ref: Some(format!(
+            ".octon/state/evidence/runs/{}/receipts/execution-request.json",
+            request.request_id
+        )),
+        authority_route_receipt_ref: grant.decision_artifact_ref.clone(),
+        grant_bundle_ref: grant.authority_grant_bundle_ref.clone(),
+        policy_receipt_ref: grant.policy_receipt_path.clone(),
+        approval_ref: grant
+            .approval_request_ref
+            .clone()
+            .or_else(|| grant.approval_grant_refs.first().cloned()),
+        lease_ref: grant.exception_lease_refs.first().cloned(),
+        revocation_ref: grant.revocation_refs.first().cloned(),
+        support_target_tuple_ref: request
+            .metadata
+            .get("runtime_effective_support_tuple")
+            .cloned()
+            .or_else(|| grant.support_tier.clone()),
+        rollback_plan_ref: grant.rollback_handle.clone(),
+        rollback_posture_ref: Some(format!(
+            ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+            request.request_id
+        )),
+        context_pack_ref: request.metadata.get("context_pack_ref").cloned(),
+        stage_attempt_ref: bound.stage_attempt_ref.clone().into(),
+        checkpoint_ref,
+        validator_result_ref: None,
+        evidence_snapshot_ref,
+        disclosure_ref,
+        drift_ref: None,
+        continuity_ref: Some(format!(
+            ".octon/state/continuity/runs/{}/handoff.yml",
+            request.request_id
+        )),
+        additional_refs: Vec::new(),
+    }
+}
+
+fn journal_payload(
+    typed_body: Option<serde_json::Value>,
+    artifact_ref: Option<String>,
+    summary: Option<String>,
+) -> JournalPayload {
+    JournalPayload {
+        payload_kind: if artifact_ref.is_some() {
+            "side-artifact-ref".to_string()
+        } else if typed_body.is_some() {
+            "inline-typed".to_string()
+        } else {
+            "none".to_string()
+        },
+        schema_ref: None,
+        typed_body,
+        artifact_ref,
+        artifact_hash: None,
+        content_type: None,
+        summary,
+    }
+}
+
+fn journal_effect(effect_class: &str) -> JournalEffect {
+    JournalEffect {
+        effect_class: effect_class.to_string(),
+        reversibility_class: "compensable".to_string(),
+        evidence_class: "required".to_string(),
+    }
+}
+
+fn snapshot_run_journal(repo_root: &Path, request_id: &str) -> CoreResult<RunJournalSnapshotRefs> {
+    let control_events = repo_root
+        .join(".octon/state/control/execution/runs")
+        .join(request_id)
+        .join("events.ndjson");
+    let control_manifest = repo_root
+        .join(".octon/state/control/execution/runs")
+        .join(request_id)
+        .join("events.manifest.yml");
+    let snapshot_root = repo_root
+        .join(".octon/state/evidence/runs")
+        .join(request_id)
+        .join("run-journal");
+    let evidence_events = snapshot_root.join("events.snapshot.ndjson");
+    let evidence_manifest = snapshot_root.join("events.manifest.snapshot.yml");
+    let redactions = snapshot_root.join("redactions.yml");
+
+    fs::create_dir_all(&snapshot_root).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to create run journal snapshot root {}: {e}",
+                snapshot_root.display()
+            ),
+        )
+    })?;
+    fs::copy(&control_events, &evidence_events).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to copy run journal events from {} to {}: {e}",
+                control_events.display(),
+                evidence_events.display()
+            ),
+        )
+    })?;
+    fs::copy(&control_manifest, &evidence_manifest).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to copy run journal manifest from {} to {}: {e}",
+                control_manifest.display(),
+                evidence_manifest.display()
+            ),
+        )
+    })?;
+    if !redactions.is_file() {
+        write_yaml(
+            &redactions,
+            &json!({
+                "schema_version": "run-journal-redactions-v1",
+                "run_id": request_id,
+                "records": [],
+                "generated_at": now_rfc3339().map_err(|error| {
+                    KernelError::new(
+                        ErrorCode::Internal,
+                        format!("failed to timestamp run journal redactions: {error}"),
+                    )
+                })?,
+            }),
+        )?;
+    }
+
+    Ok(RunJournalSnapshotRefs {
+        control_snapshot_ref: Some(format!(
+            ".octon/state/control/execution/runs/{request_id}/events.ndjson"
+        )),
+        evidence_snapshot_ref: Some(format!(
+            ".octon/state/evidence/runs/{request_id}/run-journal/events.snapshot.ndjson"
+        )),
+        evidence_manifest_snapshot_ref: Some(format!(
+            ".octon/state/evidence/runs/{request_id}/run-journal/events.manifest.snapshot.yml"
+        )),
+        redaction_record_ref: Some(format!(
+            ".octon/state/evidence/runs/{request_id}/run-journal/redactions.yml"
+        )),
+    })
+}
+
 pub fn validate_authorized_effect<T: EffectKind>(
     grant: &GrantBundle,
     effect: &AuthorizedEffect<T>,
@@ -1211,18 +1432,162 @@ pub fn write_execution_start(
             "Execution artifacts materialized under the canonical run root.",
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let start_checkpoint_ref = path_tail(&repo_root, &start_control);
+        let grant_receipt_ref = path_tail(&repo_root, &grant_receipt);
+        let journal_started_at = request
+            .metadata
+            .get("generated_at")
+            .cloned()
+            .unwrap_or_else(|| {
+                now_rfc3339().unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string())
+            });
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-capability-authorized-{}", request.request_id),
+            "capability-authorized",
+            &journal_started_at,
+            Some(grant_receipt_ref.clone()),
+            JournalClassification {
+                event_plane: "authorized-action".to_string(),
+                replay_disposition: "requires-fresh-authorization".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some("authorizing".to_string()),
+                state_after: Some("authorized".to_string()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                None,
+                None,
+                None,
+            ),
+            journal_payload(
+                Some(json!({
+                    "granted_capabilities": grant.granted_capabilities.clone(),
+                    "effective_policy_mode": grant.effective_policy_mode,
+                })),
+                None,
+                Some("Capability authorization entered the canonical Run Journal.".to_string()),
+            ),
+            journal_effect("authorization"),
+            vec!["runtime_state_ref".to_string()],
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-stage-started-{}", request.request_id),
+            "stage-started",
+            &journal_started_at,
+            Some(bound.stage_attempt_ref.clone()),
+            JournalClassification {
+                event_plane: "committed-effect".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some("authorized".to_string()),
+                state_after: Some("running".to_string()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                None,
+                None,
+                None,
+            ),
+            journal_payload(
+                Some(json!({"stage_attempt_id": bound.stage_attempt_id.clone()})),
+                None,
+                Some("Initial stage attempt entered the running state.".to_string()),
+            ),
+            journal_effect("write"),
+            vec!["stage_attempt_ref".to_string()],
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-capability-invoked-{}", request.request_id),
+            "capability-invoked",
+            &journal_started_at,
+            Some(path_tail(&repo_root, &paths.root)),
+            JournalClassification {
+                event_plane: "committed-effect".to_string(),
+                replay_disposition: "requires-fresh-authorization".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some("running".to_string()),
+                state_after: Some("running".to_string()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                None,
+                None,
+                None,
+            ),
+            journal_payload(
+                Some(json!({
+                    "requested_capabilities": request.requested_capabilities.clone(),
+                    "scope_ref": effects.control.scope_ref.clone(),
+                })),
+                None,
+                Some("Capability invocation is journal-covered before consequential execution proceeds.".to_string()),
+            ),
+            journal_effect("mutate"),
+            Vec::new(),
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-checkpoint-start-{}", request.request_id),
+            "checkpoint-created",
+            &journal_started_at,
+            Some(start_checkpoint_ref.clone()),
+            JournalClassification {
+                event_plane: "retained-evidence".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some("running".to_string()),
+                state_after: Some("running".to_string()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                Some(start_checkpoint_ref.clone()),
+                None,
+                None,
+            ),
+            journal_payload(
+                Some(json!({
+                    "checkpoint_kind":"execution-start",
+                    "evidence_checkpoint_ref": evidence_checkpoint_ref,
+                })),
+                None,
+                Some("Execution-start checkpoint materialized under canonical run roots.".to_string()),
+            ),
+            journal_effect("evidence"),
+            vec!["checkpoint_ref".to_string()],
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         update_bound_runtime_state(
             &bound,
             "running",
             Some("allow"),
-            Some(path_tail(
-                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
-                &grant_receipt,
-            )),
-            Some(path_tail(
-                &discover_repo_root(root).unwrap_or_else(|| PathBuf::from(".")),
-                &start_control,
-            )),
+            Some(grant_receipt_ref),
+            Some(start_checkpoint_ref),
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         update_stage_attempt_status(
@@ -1376,13 +1741,89 @@ pub fn finalize_execution(
             "Execution outcome materialized under the canonical run root.",
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
-        let repo_root = discover_repo_root(&paths.root).unwrap_or_else(|| PathBuf::from("."));
+        let terminal_checkpoint_ref = path_tail(&repo_root, &terminal_control);
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-capability-terminal-{}", request.request_id),
+            if outcome.status == "succeeded" {
+                "capability-completed"
+            } else {
+                "capability-failed"
+            },
+            &outcome.completed_at,
+            Some(path_tail(&repo_root, &execution_receipt)),
+            JournalClassification {
+                event_plane: "committed-effect".to_string(),
+                replay_disposition: "requires-fresh-authorization".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some("running".to_string()),
+                state_after: Some(outcome.status.clone()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                None,
+                None,
+                None,
+            ),
+            journal_payload(
+                Some(json!({
+                    "outcome_status": outcome.status,
+                    "execution_receipt_ref": path_tail(&repo_root, &execution_receipt),
+                })),
+                None,
+                Some("Capability terminal outcome is recorded in the canonical Run Journal.".to_string()),
+            ),
+            journal_effect("mutate"),
+            Vec::new(),
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-checkpoint-complete-{}", request.request_id),
+            "checkpoint-created",
+            &outcome.completed_at,
+            Some(terminal_checkpoint_ref.clone()),
+            JournalClassification {
+                event_plane: "retained-evidence".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some(outcome.status.clone()),
+                state_after: Some(outcome.status.clone()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                Some(terminal_checkpoint_ref.clone()),
+                None,
+                None,
+            ),
+            journal_payload(
+                Some(json!({
+                    "checkpoint_kind":"execution-complete",
+                    "evidence_checkpoint_ref": evidence_checkpoint_ref.clone(),
+                })),
+                None,
+                Some("Execution-complete checkpoint materialized under canonical run roots.".to_string()),
+            ),
+            journal_effect("evidence"),
+            vec!["checkpoint_ref".to_string()],
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         update_bound_runtime_state(
             &bound,
             &outcome.status,
             Some("allow"),
             Some(path_tail(&repo_root, &execution_receipt)),
-            Some(path_tail(&repo_root, &terminal_control)),
+            Some(terminal_checkpoint_ref.clone()),
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         let terminal_stage_status = match outcome.status.as_str() {
@@ -1431,6 +1872,129 @@ pub fn finalize_execution(
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         materialize_run_disclosure(&repo_root, request, grant, outcome, &bound)?;
+        let run_card_ref = format!(
+            ".octon/state/evidence/disclosure/runs/{}/run-card.yml",
+            request.request_id
+        );
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-run-card-published-{}", request.request_id),
+            "run-card-published",
+            &outcome.completed_at,
+            Some(run_card_ref.clone()),
+            JournalClassification {
+                event_plane: "generated-disclosure".to_string(),
+                replay_disposition: "no-live-side-effect".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some(outcome.status.clone()),
+                state_after: Some(outcome.status.clone()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                Some(terminal_checkpoint_ref.clone()),
+                Some(run_card_ref.clone()),
+                None,
+            ),
+            journal_payload(
+                None,
+                Some(run_card_ref.clone()),
+                Some("RunCard publication is traceable to canonical journal and retained evidence roots.".to_string()),
+            ),
+            journal_effect("disclosure"),
+            vec!["disclosure_ref".to_string()],
+            None,
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let snapshot_refs = snapshot_run_journal(&repo_root, &request.request_id)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-evidence-snapshot-created-{}", request.request_id),
+            "evidence-snapshot-created",
+            &outcome.completed_at,
+            snapshot_refs.evidence_snapshot_ref.clone(),
+            JournalClassification {
+                event_plane: "retained-evidence".to_string(),
+                replay_disposition: "dry-run-only".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some(outcome.status.clone()),
+                state_after: Some(outcome.status.clone()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                Some(terminal_checkpoint_ref.clone()),
+                Some(run_card_ref.clone()),
+                snapshot_refs.evidence_snapshot_ref.clone(),
+            ),
+            journal_payload(
+                Some(json!({
+                    "control_snapshot_ref": snapshot_refs.control_snapshot_ref.clone(),
+                    "evidence_snapshot_ref": snapshot_refs.evidence_snapshot_ref.clone(),
+                    "evidence_manifest_snapshot_ref": snapshot_refs.evidence_manifest_snapshot_ref.clone(),
+                })),
+                None,
+                Some("Run Journal closeout snapshot mirrored control truth into retained evidence.".to_string()),
+            ),
+            journal_effect("evidence"),
+            vec!["evidence_snapshot_ref".to_string()],
+            Some(snapshot_refs.clone()),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        append_runtime_journal_event(
+            &bound,
+            request,
+            format!("evt-run-closed-{}", request.request_id),
+            "run-closed",
+            &outcome.completed_at,
+            Some(format!(
+                ".octon/state/control/execution/runs/{}/runtime-state.yml",
+                request.request_id
+            )),
+            JournalClassification {
+                event_plane: "derived-view".to_string(),
+                replay_disposition: "no-live-side-effect".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some(outcome.status.clone()),
+                state_after: Some("closed".to_string()),
+            },
+            journal_governing_refs_for_bound_run(
+                &bound,
+                request,
+                grant,
+                Some(terminal_checkpoint_ref),
+                Some(run_card_ref),
+                snapshot_refs.evidence_snapshot_ref.clone(),
+            ),
+            journal_payload(
+                Some(json!({"final_state":"closed","outcome_status": outcome.status})),
+                None,
+                Some("Run reached closure with journal snapshot and disclosure retained.".to_string()),
+            ),
+            journal_effect("write"),
+            vec!["runtime_state_ref".to_string(), "disclosure_ref".to_string()],
+            Some(snapshot_refs),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        update_bound_runtime_state(
+            &bound,
+            "closed",
+            Some("allow"),
+            Some(path_tail(&repo_root, &execution_receipt)),
+            Some(format!(
+                ".octon/state/control/execution/runs/{}/checkpoints/execution-complete.yml",
+                request.request_id
+            )),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
     }
     Ok(())
 }

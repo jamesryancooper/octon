@@ -1,0 +1,3 @@
+{
+  "expected_failure_contains": "runtime-state last_applied_event_id mismatch"
+}

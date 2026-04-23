@@ -1,0 +1,3 @@
+{
+  "expected_failure_contains": "capability invocation missing authority coverage"
+}

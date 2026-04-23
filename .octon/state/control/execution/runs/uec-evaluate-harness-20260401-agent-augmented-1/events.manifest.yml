@@ -1,14 +1,49 @@
-schema_version: run-event-ledger-v1
-run_id: uec-evaluate-harness-20260401-agent-augmented-1
-ledger_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson
-event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v1.schema.json
-event_count: 9
-first_event_id: '"evt-001-run-created"'
-last_event_id: '"evt-012-run-closed"'
-governing_event_refs:
-  runtime_state_ref: evt-012-run-closed
-  rollback_posture_ref: evt-012-run-closed
-  stage_attempt_ref: evt-009-stage-completed
-  disclosure_ref: evt-011-disclosure-generated
-  authority_root_ref: evt-003-authority-resolution
-updated_at: "2026-04-01T14:28:16.190671Z"
+{
+  "schema_version": "run-event-ledger-v2",
+  "run_id": "uec-evaluate-harness-20260401-agent-augmented-1",
+  "ledger_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson",
+  "manifest_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml",
+  "event_schema_ref": ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json",
+  "runtime_state_schema_ref": ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json",
+  "state_reconstruction_ref": ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md",
+  "ledger_digest": "sha256:9acc9205a36fa1f32374d1bee2d0c3217069b630add68b1d0bdca04f81c9a26b",
+  "event_count": 14,
+  "first_event_ref": {
+    "event_id": "evt-001-run-created",
+    "sequence": 1,
+    "event_hash": "sha256:b25071ee1ad069e7159c9251021d52b028fe66a7d32fe8ec4d78398626b5bdbc"
+  },
+  "last_event_ref": {
+    "event_id": "evt-014-run-closed",
+    "sequence": 14,
+    "event_hash": "sha256:25a8fdeac1d54b64f60802eeb87b0f24c6512e83e6f76fd37ed0ec6b58b25c66"
+  },
+  "hash_chain": {
+    "hash_algorithm": "sha256",
+    "chain_status": "verified",
+    "head_event_hash": "sha256:b25071ee1ad069e7159c9251021d52b028fe66a7d32fe8ec4d78398626b5bdbc",
+    "tail_event_hash": "sha256:25a8fdeac1d54b64f60802eeb87b0f24c6512e83e6f76fd37ed0ec6b58b25c66"
+  },
+  "governing_event_refs": {
+    "runtime_state_ref": "evt-014-run-closed",
+    "disclosure_ref": "evt-012-run-card-published",
+    "checkpoint_ref": "evt-011-checkpoint-created"
+  },
+  "snapshot_refs": {
+    "control_snapshot_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson",
+    "evidence_snapshot_ref": ".octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-journal/events.snapshot.ndjson",
+    "evidence_manifest_snapshot_ref": ".octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-journal/events.manifest.snapshot.yml",
+    "redaction_record_ref": ".octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-journal/redactions.yml"
+  },
+  "last_materialization": {
+    "runtime_state_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/runtime-state.yml",
+    "last_applied_event_id": "evt-014-run-closed",
+    "last_applied_sequence": 14,
+    "last_applied_event_hash": "sha256:55d5c12b5be9e97985f152e80d2e273e798760dc713b80385be4dbdd7e6cefb2",
+    "materialized_at": "2026-04-01T14:28:16.190671Z",
+    "materialized_by_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null,
+  "updated_at": "2026-04-01T14:28:16.190671Z"
+}

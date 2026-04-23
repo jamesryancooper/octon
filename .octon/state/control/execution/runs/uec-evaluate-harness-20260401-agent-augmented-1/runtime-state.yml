@@ -1,14 +1,29 @@
-schema_version: run-runtime-state-v1
-run_id: uec-evaluate-harness-20260401-agent-augmented-1
-status: succeeded
-workflow_mode: agent-augmented
-decision_state: allow
-run_contract_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
-run_manifest_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml
-current_stage_attempt_id: initial
-last_checkpoint_ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/execution-complete.yml
-last_receipt_ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/execution-receipt.json
-mission_id: null
-parent_run_ref: null
-created_at: 2026-04-01T14:28:15.200349Z
-updated_at: 2026-04-01T14:28:16.190671Z
+{
+  "schema_version": "runtime-state-v2",
+  "run_id": "uec-evaluate-harness-20260401-agent-augmented-1",
+  "state": "closed",
+  "workflow_mode": "agent-augmented",
+  "decision_state": "allow",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml",
+  "run_manifest_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml",
+  "source_ledger_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson",
+  "source_ledger_manifest_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml",
+  "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "context_pack_ref": null,
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/rollback-posture.yml",
+  "current_stage_attempt_id": "initial",
+  "last_checkpoint_ref": ".octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/checkpoints/execution-complete.yml",
+  "last_receipt_ref": ".octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/receipts/execution-receipt.json",
+  "mission_id": null,
+  "parent_run_ref": null,
+  "last_applied_event_id": "evt-014-run-closed",
+  "last_applied_sequence": 14,
+  "last_applied_event_hash": "sha256:55d5c12b5be9e97985f152e80d2e273e798760dc713b80385be4dbdd7e6cefb2",
+  "materialized_at": "2026-04-01T14:28:16.190671Z",
+  "materialized_by": {
+    "actor_class": "runtime",
+    "actor_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null
+}

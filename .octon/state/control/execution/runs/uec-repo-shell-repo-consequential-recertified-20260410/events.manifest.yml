@@ -1,14 +1,49 @@
-schema_version: run-event-ledger-v1
-run_id: uec-repo-shell-repo-consequential-recertified-20260410
-ledger_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.ndjson
-event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v1.schema.json
-event_count: 9
-first_event_id: evt-001-run-created
-last_event_id: evt-012-run-closed
-governing_event_refs:
-  runtime_state_ref: evt-012-run-closed
-  rollback_posture_ref: evt-012-run-closed
-  stage_attempt_ref: evt-009-stage-completed
-  disclosure_ref: evt-011-disclosure-generated
-  authority_root_ref: evt-003-authority-resolution
-updated_at: "2026-04-05T12:00:00Z"
+{
+  "schema_version": "run-event-ledger-v2",
+  "run_id": "uec-repo-shell-repo-consequential-recertified-20260410",
+  "ledger_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.ndjson",
+  "manifest_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.manifest.yml",
+  "event_schema_ref": ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json",
+  "runtime_state_schema_ref": ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json",
+  "state_reconstruction_ref": ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md",
+  "ledger_digest": "sha256:27093079113a74b94f32a1f5281cc96e3e46672d38931d39fa24b82e51c19428",
+  "event_count": 14,
+  "first_event_ref": {
+    "event_id": "evt-001-run-created",
+    "sequence": 1,
+    "event_hash": "sha256:5a9d0d956caf694df979d511d54e0f090083daa72d496024e75ce056d90a17c9"
+  },
+  "last_event_ref": {
+    "event_id": "evt-014-run-closed",
+    "sequence": 14,
+    "event_hash": "sha256:b459c0f84d78aaed338c1351b8ce9497608f4591ef7080101f402533fbbb683c"
+  },
+  "hash_chain": {
+    "hash_algorithm": "sha256",
+    "chain_status": "verified",
+    "head_event_hash": "sha256:5a9d0d956caf694df979d511d54e0f090083daa72d496024e75ce056d90a17c9",
+    "tail_event_hash": "sha256:b459c0f84d78aaed338c1351b8ce9497608f4591ef7080101f402533fbbb683c"
+  },
+  "governing_event_refs": {
+    "runtime_state_ref": "evt-014-run-closed",
+    "disclosure_ref": "evt-012-run-card-published",
+    "checkpoint_ref": "evt-011-checkpoint-created"
+  },
+  "snapshot_refs": {
+    "control_snapshot_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.ndjson",
+    "evidence_snapshot_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-journal/events.snapshot.ndjson",
+    "evidence_manifest_snapshot_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-journal/events.manifest.snapshot.yml",
+    "redaction_record_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-journal/redactions.yml"
+  },
+  "last_materialization": {
+    "runtime_state_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml",
+    "last_applied_event_id": "evt-014-run-closed",
+    "last_applied_sequence": 14,
+    "last_applied_event_hash": "sha256:b459c0f84d78aaed338c1351b8ce9497608f4591ef7080101f402533fbbb683c",
+    "materialized_at": "2026-04-05T12:00:00Z",
+    "materialized_by_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null,
+  "updated_at": "2026-04-05T12:00:00Z"
+}

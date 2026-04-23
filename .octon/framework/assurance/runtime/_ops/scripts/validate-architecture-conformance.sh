@@ -325,6 +325,18 @@ main() {
     "\"budget_rule_id\"" \
     "policy receipt schema exposes budget metadata fields"
 
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-run-journal-contracts.sh" >/dev/null; then
+    pass "Run Journal contract validation passed"
+  else
+    fail "Run Journal contract validation failed"
+  fi
+
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-support-target-admission.sh" >/dev/null; then
+    pass "support-target admission validation passed"
+  else
+    fail "support-target admission validation failed"
+  fi
+
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then
     exit 1

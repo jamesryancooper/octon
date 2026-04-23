@@ -41,6 +41,16 @@ required_authority_artifacts:
   - exception-lease
   - revocation
   - quorum-policy
+required_runtime_evidence:
+  - valid-run-journal-conformance
+  - deterministic-state-reconstruction
+  - journal-closeout-snapshot-match
+required_runtime_validators:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh
+live_claim_blockers:
+  - missing-valid-run-journal-conformance
+  - missing-deterministic-state-reconstruction
+  - journal-closeout-snapshot-drift
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-approval-exercise-20260402/run-card.yml
   - .octon/state/evidence/disclosure/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-card.yml

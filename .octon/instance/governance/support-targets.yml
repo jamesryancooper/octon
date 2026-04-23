@@ -96,7 +96,7 @@ tiers:
     - id: "repo-consequential"
       label: "repo-consequential"
       default_route: "escalate"
-      description: "Consequential repository work is admitted when it remains governed, evidenced, and disclosed through canonical run roots."
+      description: "Consequential repository work is admitted when it remains governed, evidenced, disclosed, and for supported tuples proves valid Run Journal conformance plus deterministic state reconstruction through canonical run roots."
     - id: "boundary-sensitive"
       label: "boundary-sensitive"
       default_route: "escalate"
@@ -412,6 +412,7 @@ model_adapters:
 notes:
   - "The live claim is the bounded admitted finite supported tuple set; tuple_admissions is the inventory and authoritative reference layer for both supported and non-live tuples."
   - "Tuple-specific route, mission, capability-pack, proof-plane, authority-artifact, and claim-effect semantics live only in support-target-admissions/**."
+  - "Any supported repo-consequential tuple may retain admitted-live-claim only when its admission and proof bundle carry valid Run Journal conformance and deterministic state-reconstruction proof; stage-only consequential tuples remain explicit non-live until that proof exists."
   - "The generated support-target matrix is a derived runtime-effective handle for publication or runtime narrowing only and must not widen authored support claims."
   - "Stage-only, unsupported, and unadmitted tuple surfaces remain explicit non-live posture and must not be widened by generated or disclosure projections."
 retired_surfaces:

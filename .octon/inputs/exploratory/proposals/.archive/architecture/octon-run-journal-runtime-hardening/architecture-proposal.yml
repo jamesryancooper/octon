@@ -1,0 +1,25 @@
+schema_version: architecture-proposal-v1
+proposal_id: octon-run-journal-runtime-hardening
+architecture_scope: repo-architecture
+decision_type: boundary-change
+summary: >-
+  Reposition Octon's existing run event ledger from a partially specified
+  runtime/evidence convention into the canonical append-only execution substrate
+  for every consequential Run, while preserving the Constitutional Engineering
+  Harness boundary: authored authority remains under framework/instance, live
+  control truth remains under state/control, retained evidence remains under
+  state/evidence, generated views remain derived-only, and the Governed Agent
+  Runtime remains the engine-owned execution substrate rather than a rival
+  control plane.
+non_goals:
+  - Admit browser, API, MCP, GitHub control-plane, or frontier-governed model adapter support.
+  - Redesign Octon's full target-state architecture.
+  - Replace Octon's existing constitutional runtime contracts with a greenfield journal model.
+  - Make generated read models, operator digests, host labels, comments, or chat transcripts authoritative.
+  - Change Octon's deny-by-default support-target posture.
+primary_decision: >-
+  Adopt a v2 canonical Run Journal contract that aligns the existing
+  constitutional run-event-ledger/run-event/runtime-state/state-reconstruction
+  surfaces with the Governed Agent Runtime's run-lifecycle, runtime-event,
+  evidence-store, operator-read-model, replay-store, runtime-bus, and
+  authorization-boundary coverage surfaces.

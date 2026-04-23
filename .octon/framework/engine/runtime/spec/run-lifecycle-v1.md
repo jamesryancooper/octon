@@ -9,13 +9,17 @@ Each bound run is anchored by:
 
 - `/.octon/state/control/execution/runs/<run-id>/run-contract.yml`
 - `/.octon/state/control/execution/runs/<run-id>/run-manifest.yml`
+- `/.octon/state/control/execution/runs/<run-id>/events.ndjson`
+- `/.octon/state/control/execution/runs/<run-id>/events.manifest.yml`
 - `/.octon/state/control/execution/runs/<run-id>/runtime-state.yml`
 - `/.octon/state/control/execution/runs/<run-id>/rollback-posture.yml`
 - `/.octon/state/evidence/runs/<run-id>/**`
 - `/.octon/state/evidence/disclosure/runs/<run-id>/run-card.yml`
 
-`runtime-state.yml` carries the mutable current status. This document is the
-normative transition contract that the mutable status must satisfy.
+`events.ndjson` and `events.manifest.yml` are the canonical transition record.
+`runtime-state.yml` is the mutable derived view over that journal. This
+document is the normative transition contract that the journal-driven runtime
+state must satisfy.
 
 ## States
 
@@ -37,13 +41,21 @@ normative transition contract that the mutable status must satisfy.
 ## Transition Rules
 
 - `bound` requires canonical run roots before any consequential side effect.
+- `bound` requires `run-created`, `run-bound`, and initial checkpoint coverage
+  in the canonical Run Journal.
 - `authorized` requires both a decision artifact and a grant bundle.
+- `authorized` requires journal coverage for authority request and authority
+  resolution before any capability execution continues.
 - `running` requires the active stage attempt to remain within the granted
   support-target and capability-pack envelope.
+- `running` requires event-driven transitions such as `stage-started`,
+  `capability-authorized`, `capability-invoked`, and checkpoint coverage.
 - `paused`, `staged`, `revoked`, and `failed` must remain operator-visible via
-  `runtime-state.yml` and refreshed read-model projections.
+  `runtime-state.yml` and refreshed read-model projections, but the journal
+  remains the source of truth on conflict.
 - `closed` requires evidence-store completeness, current rollback posture,
-  canonical disclosure, and any blocking review dispositions to be resolved.
+  canonical disclosure, journal closeout snapshot linkage, and any blocking
+  review dispositions to be resolved.
 - Any transition missing required authority, evidence, rollback, or visibility
   facts is invalid and must fail closed.
 
@@ -55,6 +67,7 @@ normative transition contract that the mutable status must satisfy.
 
 ## Related Contracts
 
+- `/.octon/framework/engine/runtime/spec/run-journal-v1.md`
 - `/.octon/framework/engine/runtime/spec/evidence-store-v1.md`
 - `/.octon/framework/engine/runtime/spec/operator-read-models-v1.md`
 - `/.octon/framework/constitution/contracts/authority/decision-artifact-v2.schema.json`

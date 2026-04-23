@@ -29,6 +29,8 @@ pass_fail_criteria:
   - "proof planes and negative controls remain linked to canonical disclosure"
 receipt_refs:
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
+run_journal_validation_refs:
+  - .octon/state/evidence/validation/run-journal-runtime-hardening/support-target-admission/repo-shell-repo-consequential-en.yml
 result: pass
 proof_planes:
   - plane_id: structural
@@ -57,9 +59,9 @@ scenario_evidence:
     - recovery-fault-baseline
   representative_run_refs:
     - .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
-    - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-contract.yml
+    - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
     - .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
-    - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/run-contract.yml
+    - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
   negative_control_refs:
     - .octon/instance/governance/exclusions/action-classes.yml
     - .octon/state/evidence/validation/architecture/10of10-remediation/registry/generated-non-authority-scan.yml
@@ -70,12 +72,14 @@ scenario_evidence:
 authority_evidence:
   decision_refs:
     - .octon/state/evidence/control/execution/authority-decision-uec-repo-shell-repo-consequential-recertified-20260410.yml
-    - .octon/state/evidence/control/execution/authority-decision-repo-consequential-preflight-workflow-20260413-v4.yml
+    - .octon/state/evidence/control/execution/authority-decision-uec-evaluate-harness-20260401-agent-augmented-1.yml
     - .octon/state/evidence/control/execution/authority-decision-uec-safe-stage-approval-exercise-20260402.yml
+    - .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
   grant_bundle_refs:
     - .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml
-    - .octon/state/evidence/control/execution/authority-grant-bundle-repo-consequential-preflight-workflow-20260413-v4.yml
+    - .octon/state/evidence/control/execution/authority-grant-bundle-uec-evaluate-harness-20260401-agent-augmented-1.yml
     - .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-approval-exercise-20260402.yml
+    - .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
 disclosure_evidence:
   run_card_refs:
     - .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml

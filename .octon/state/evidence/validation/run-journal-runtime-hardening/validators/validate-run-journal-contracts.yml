@@ -1,0 +1,23 @@
+{
+  "schema_version": "run-journal-validation-receipt-v1",
+  "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh",
+  "fixture_run_ids": [
+    "checkpoint-resume",
+    "denied-authorization",
+    "operator-intervention",
+    "repo-consequential-staged",
+    "rollback-recovery",
+    "successful-observe-read"
+  ],
+  "negative_test_ids": [
+    "missing-middle-event",
+    "out-of-order-events",
+    "hash-mismatch",
+    "runtime-state-conflict",
+    "omitted-closeout-snapshot",
+    "capability-without-authority",
+    "generated-authority-use",
+    "replay-live-without-fresh-grant"
+  ],
+  "generated_at": "2026-04-22T12:30:00Z"
+}

@@ -152,6 +152,33 @@ pub(crate) fn runtime_state_path(cfg: &RuntimeConfig, request_id: &str) -> PathB
     cfg.run_control_root(request_id).join("runtime-state.yml")
 }
 
+pub(crate) fn run_journal_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id).join("events.ndjson")
+}
+
+pub(crate) fn run_journal_manifest_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_control_root(request_id).join("events.manifest.yml")
+}
+
+pub(crate) fn run_journal_snapshot_root(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    cfg.run_root(request_id).join("run-journal")
+}
+
+pub(crate) fn run_journal_snapshot_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    run_journal_snapshot_root(cfg, request_id).join("events.snapshot.ndjson")
+}
+
+pub(crate) fn run_journal_manifest_snapshot_path(
+    cfg: &RuntimeConfig,
+    request_id: &str,
+) -> PathBuf {
+    run_journal_snapshot_root(cfg, request_id).join("events.manifest.snapshot.yml")
+}
+
+pub(crate) fn run_journal_redaction_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
+    run_journal_snapshot_root(cfg, request_id).join("redactions.yml")
+}
+
 pub(crate) fn rollback_posture_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
     cfg.run_control_root(request_id)
         .join("rollback-posture.yml")

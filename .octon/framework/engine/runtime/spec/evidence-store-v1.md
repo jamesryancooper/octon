@@ -30,6 +30,7 @@ not satisfy disclosure, replay, or closure requirements on its own.
 Each consequential run must retain enough material to regenerate its RunCard
 from retained evidence only:
 
+- run journal control truth: `events.ndjson` and `events.manifest.yml`
 - bound lifecycle control: `run-contract.yml`, `run-manifest.yml`,
   `runtime-state.yml`, `rollback-posture.yml`, checkpoints, and stage attempts
 - authority evidence: decision artifact, grant bundle, and any approval,
@@ -47,6 +48,18 @@ The claim-bearing run disclosure root is
 mirrors under `/.octon/state/evidence/runs/<run-id>/disclosure/**` may remain
 for lineage or convenience only.
 
+## Run Journal Snapshot Rule
+
+Closeout must retain an evidence mirror of the canonical control journal:
+
+- `/.octon/state/evidence/runs/<run-id>/run-journal/events.snapshot.ndjson`
+- `/.octon/state/evidence/runs/<run-id>/run-journal/events.manifest.snapshot.yml`
+- `/.octon/state/evidence/runs/<run-id>/run-journal/redactions.yml`
+
+The evidence mirror is not the live control source, but it must hash-match the
+control journal at closeout and remain explicitly linked from the canonical
+journal manifest.
+
 ## Minimum Support And Release Bundle
 
 System-level support or closure claims must additionally retain:
@@ -63,6 +76,7 @@ System-level support or closure claims must additionally retain:
 Run or release closeout is valid only when:
 
 - all required retained artifacts are present in canonical roots
+- the retained journal snapshot matches the live control journal at closeout
 - disclosure artifacts are generated from retained evidence, not from transport
   artifacts or chat/operator summaries
 - external immutable payloads are reachable through a retained content-addressed

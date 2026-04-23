@@ -1,14 +1,29 @@
-schema_version: run-runtime-state-v1
-run_id: uec-safe-stage-approval-exercise-20260402
-status: succeeded
-workflow_mode: agent-augmented
-decision_state: allow
-run_contract_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
-run_manifest_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-manifest.yml
-current_stage_attempt_id: initial
-last_checkpoint_ref: .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/checkpoints/execution-complete.yml
-last_receipt_ref: .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts/execution-receipt.json
-mission_id: mission-autonomy-live-validation
-parent_run_ref: null
-created_at: '2026-04-02T00:00:00Z'
-updated_at: '2026-04-05T12:00:00Z'
+{
+  "schema_version": "runtime-state-v2",
+  "run_id": "uec-safe-stage-approval-exercise-20260402",
+  "state": "closed",
+  "workflow_mode": "agent-augmented",
+  "decision_state": "allow",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml",
+  "run_manifest_ref": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-manifest.yml",
+  "source_ledger_ref": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/events.ndjson",
+  "source_ledger_manifest_ref": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/events.manifest.yml",
+  "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "context_pack_ref": null,
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/rollback-posture.yml",
+  "current_stage_attempt_id": "initial",
+  "last_checkpoint_ref": ".octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/checkpoints/execution-complete.yml",
+  "last_receipt_ref": ".octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/receipts/execution-receipt.json",
+  "mission_id": "mission-autonomy-live-validation",
+  "parent_run_ref": null,
+  "last_applied_event_id": "evt-014-run-closed",
+  "last_applied_sequence": 14,
+  "last_applied_event_hash": "sha256:834c868561fa03e9cd3ab339c312110e711a2e88224855aa9f610eec0aee3cc4",
+  "materialized_at": "2026-04-05T12:00:00Z",
+  "materialized_by": {
+    "actor_class": "runtime",
+    "actor_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null
+}

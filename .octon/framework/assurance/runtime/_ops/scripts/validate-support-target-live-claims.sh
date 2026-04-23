@@ -36,6 +36,12 @@ require_equal_rendered() {
 main() {
   echo "== Support-Target Live Claim Validation =="
 
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" bash "$SCRIPT_DIR/validate-support-target-admission.sh" >/dev/null; then
+    pass "Run Journal consequential admission requirements passed"
+  else
+    fail "Run Journal consequential admission requirements failed"
+  fi
+
   require_yq '.support_claim_mode == "bounded-admitted-finite"' "$SUPPORT_TARGETS" "support-target declaration uses bounded admitted-finite claim mode"
   require_yq '(.tuple_admissions | length) == 6' "$SUPPORT_TARGETS" "tuple admission inventory includes live and cited non-live tuples"
   require_yq '[.tuple_admissions[] | select(.claim_effect == "admitted-live-claim")] | length == 3' "$SUPPORT_TARGETS" "live support tuple inventory remains narrowed to the three admitted tuples"

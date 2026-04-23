@@ -1,43 +1,48 @@
-schema_version: run-manifest-v1
-run_id: uec-repo-shell-repo-consequential-recertified-20260410
-run_contract_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
-runtime_state_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
-run_continuity_ref: .octon/state/continuity/runs/uec-repo-shell-repo-consequential-recertified-20260410/handoff.yml
-decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-repo-shell-repo-consequential-recertified-20260410.yml
-authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml
-support_tier: repo-consequential
-support_target:
-  model_tier: repo-local-governed
-  workload_tier: repo-consequential
-  language_resource_tier: reference-owned
-  locale_tier: english-primary
-  host_adapter: repo-shell
-  model_adapter: repo-local-governed
-support_target_ref: .octon/instance/governance/support-targets.yml
-support_target_tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml
-mission_id: mission-autonomy-live-validation
-parent_run_ref: null
-host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
-model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
-requested_capability_packs:
-  - repo
-  - telemetry
-stage_attempt_root: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/stage-attempts
-control_checkpoint_root: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/checkpoints
-rollback_posture_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/rollback-posture.yml
-evidence_root: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410
-evidence_classification_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/evidence-classification.yml
-assurance_root: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/assurance
-measurement_root: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/measurements
-intervention_root: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/interventions
-replay_pointers_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/replay-pointers.yml
-trace_pointers_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/trace-pointers.yml
-external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-repo-shell-repo-consequential-recertified-20260410.yml
-retained_evidence_ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml
-run_card_ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
-disclosure_root: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410
-receipt_root: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/receipts
-created_at: '2026-04-10T20:30:00Z'
-updated_at: '2026-04-10T20:30:00Z'
+{
+  "schema_version": "run-manifest-v2",
+  "run_id": "uec-repo-shell-repo-consequential-recertified-20260410",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml",
+  "runtime_state_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml",
+  "run_continuity_ref": ".octon/state/continuity/runs/uec-repo-shell-repo-consequential-recertified-20260410/handoff.yml",
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-uec-repo-shell-repo-consequential-recertified-20260410.yml",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml",
+  "support_tier": "repo-consequential",
+  "support_target": {
+    "model_tier": "repo-local-governed",
+    "workload_tier": "repo-consequential",
+    "language_resource_tier": "reference-owned",
+    "locale_tier": "english-primary",
+    "host_adapter": "repo-shell",
+    "model_adapter": "repo-local-governed"
+  },
+  "support_target_ref": ".octon/instance/governance/support-targets.yml",
+  "support_target_tuple_id": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "support_target_admission_ref": ".octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml",
+  "support_target_dossier_ref": ".octon/instance/governance/support-dossiers/live/repo-shell-repo-consequential-en/dossier.yml",
+  "mission_id": "mission-autonomy-live-validation",
+  "parent_run_ref": null,
+  "host_adapter_ref": ".octon/framework/engine/runtime/adapters/host/repo-shell.yml",
+  "model_adapter_ref": ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml",
+  "requested_capability_packs": [
+    "repo",
+    "telemetry"
+  ],
+  "stage_attempt_root": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/stage-attempts",
+  "control_checkpoint_root": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/checkpoints",
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/rollback-posture.yml",
+  "evidence_root": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410",
+  "evidence_classification_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/evidence-classification.yml",
+  "assurance_root": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/assurance",
+  "measurement_root": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/measurements",
+  "intervention_root": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/interventions",
+  "replay_pointers_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/replay-pointers.yml",
+  "trace_pointers_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/trace-pointers.yml",
+  "external_replay_index_ref": ".octon/state/evidence/external-index/runs/uec-repo-shell-repo-consequential-recertified-20260410.yml",
+  "retained_evidence_ref": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml",
+  "run_card_ref": ".octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml",
+  "disclosure_root": ".octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410",
+  "receipt_root": ".octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/receipts",
+  "created_at": "2026-04-10T20:30:00Z",
+  "updated_at": "2026-04-10T20:30:00Z",
+  "authority_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml"
+}

@@ -1,0 +1,3 @@
+{
+  "expected_failure_contains": "replay event missing fresh grant"
+}

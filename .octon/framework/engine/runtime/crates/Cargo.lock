@@ -4145,6 +4145,7 @@ dependencies = [
  "hex",
  "octon_authorized_effects",
  "octon_core",
+ "octon_runtime_bus",
  "octon_runtime_resolver",
  "octon_wasm_host",
  "serde",
@@ -4204,14 +4205,23 @@ dependencies = [
 name = "octon_replay_store"
 version = "1.0.0"
 dependencies = [
+ "hex",
  "serde",
+ "serde_json",
+ "sha2",
+ "thiserror 1.0.69",
 ]
 
 [[package]]
 name = "octon_runtime_bus"
 version = "1.0.0"
 dependencies = [
+ "hex",
  "serde",
+ "serde_json",
+ "serde_yaml",
+ "sha2",
+ "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -4244,7 +4254,9 @@ dependencies = [
 name = "octon_telemetry_sink"
 version = "1.0.0"
 dependencies = [
+ "octon_replay_store",
  "serde",
+ "thiserror 1.0.69",
 ]
 
 [[package]]

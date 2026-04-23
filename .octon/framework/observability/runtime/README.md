@@ -14,3 +14,5 @@ Runtime contracts also define:
 - failure taxonomy bundles
 - observability report bundles that aggregate measurement, intervention, and
   failure-class evidence without becoming a control surface
+- telemetry derived from the canonical Run Journal through `telemetry_sink`
+  without minting authority or replacing the bound run roots

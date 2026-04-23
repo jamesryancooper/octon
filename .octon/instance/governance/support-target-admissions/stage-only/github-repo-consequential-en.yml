@@ -35,6 +35,12 @@ required_authority_artifacts:
   - decision-artifact
   - grant-bundle
   - external-replay-index
+live_promotion_prerequisites:
+  - valid-run-journal-conformance
+  - deterministic-state-reconstruction
+  - journal-closeout-snapshot-match
+live_promotion_validators:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
 support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml

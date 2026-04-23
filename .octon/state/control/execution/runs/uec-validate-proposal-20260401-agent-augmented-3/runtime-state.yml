@@ -1,14 +1,29 @@
-schema_version: run-runtime-state-v1
-run_id: uec-validate-proposal-20260401-agent-augmented-3
-status: succeeded
-workflow_mode: agent-augmented
-decision_state: allow
-run_contract_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
-run_manifest_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml
-current_stage_attempt_id: initial
-last_checkpoint_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/execution-complete.yml
-last_receipt_ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json
-mission_id: null
-parent_run_ref: null
-created_at: 2026-04-01T14:24:36.851912Z
-updated_at: 2026-04-01T14:26:11.554148Z
+{
+  "schema_version": "runtime-state-v2",
+  "run_id": "uec-validate-proposal-20260401-agent-augmented-3",
+  "state": "closed",
+  "workflow_mode": "agent-augmented",
+  "decision_state": "allow",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml",
+  "run_manifest_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml",
+  "source_ledger_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson",
+  "source_ledger_manifest_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml",
+  "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "context_pack_ref": null,
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/rollback-posture.yml",
+  "current_stage_attempt_id": "initial",
+  "last_checkpoint_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/checkpoints/execution-complete.yml",
+  "last_receipt_ref": ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/receipts/execution-receipt.json",
+  "mission_id": null,
+  "parent_run_ref": null,
+  "last_applied_event_id": "evt-014-run-closed",
+  "last_applied_sequence": 14,
+  "last_applied_event_hash": "sha256:903d0f82d7c442ed970505ff04ad0f06b3cd65308dd536c61bf39bde5b4bd7e2",
+  "materialized_at": "2026-04-01T14:26:11.554148Z",
+  "materialized_by": {
+    "actor_class": "runtime",
+    "actor_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null
+}

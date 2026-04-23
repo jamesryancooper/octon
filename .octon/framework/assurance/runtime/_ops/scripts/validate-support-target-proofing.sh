@@ -123,6 +123,38 @@ main() {
       fail "$tuple_id proof card must use a representative retained run"
     fi
 
+    local workload_tier representative_run_dir representative_manifest representative_state representative_ledger
+    workload_tier="$(yq -r '.tuple.workload_tier // ""' "$resolved_card")"
+    if [[ "$workload_tier" == "repo-consequential" ]]; then
+      representative_run_dir="$(dirname "$(resolve_repo_path "$representative_run_ref")")"
+      representative_manifest="$representative_run_dir/run-manifest.yml"
+      representative_state="$representative_run_dir/runtime-state.yml"
+      representative_ledger="$representative_run_dir/events.manifest.yml"
+      if [[ -f "$representative_manifest" && -f "$representative_state" && -f "$representative_ledger" ]]; then
+        [[ "$(yq -r '.schema_version // ""' "$representative_manifest")" == "run-manifest-v2" ]] \
+          && pass "$tuple_id representative run manifest is v2" \
+          || fail "$tuple_id representative run manifest must be run-manifest-v2"
+        [[ "$(yq -r '.schema_version // ""' "$representative_state")" == "runtime-state-v2" ]] \
+          && pass "$tuple_id representative runtime-state is v2" \
+          || fail "$tuple_id representative runtime-state must be runtime-state-v2"
+        [[ "$(yq -r '.schema_version // ""' "$representative_ledger")" == "run-event-ledger-v2" ]] \
+          && pass "$tuple_id representative journal manifest is v2" \
+          || fail "$tuple_id representative journal manifest must be run-event-ledger-v2"
+        if yq -e ".support_target.model_tier == \"$(yq -r '.tuple.model_tier' "$resolved_card")\" and .support_target.workload_tier == \"$(yq -r '.tuple.workload_tier' "$resolved_card")\" and .support_target.language_resource_tier == \"$(yq -r '.tuple.language_resource_tier' "$resolved_card")\" and .support_target.locale_tier == \"$(yq -r '.tuple.locale_tier' "$resolved_card")\"" "$representative_manifest" >/dev/null 2>&1; then
+          pass "$tuple_id representative run manifest tuple is normalized"
+        else
+          fail "$tuple_id representative run manifest tuple must match the claimed tuple"
+        fi
+        if [[ "$(yq -r '.support_target_tuple_ref // ""' "$representative_state")" == "$tuple_id" ]]; then
+          pass "$tuple_id representative runtime-state tuple ref is normalized"
+        else
+          fail "$tuple_id representative runtime-state tuple ref must match the claimed tuple"
+        fi
+      else
+        fail "$tuple_id representative run must retain v2 manifest, state, and journal surfaces"
+      fi
+    fi
+
     if yq -e ".evidence_refs[] | select(. == \"$disclosure_ref\")" "$(resolve_repo_path "$admission_ref")" >/dev/null 2>&1 \
       || [[ "$(yq -r '.sufficiency.last_current_release_run_ref // ""' "$(resolve_repo_path "$dossier_ref")")" == "$disclosure_ref" ]]; then
       pass "$tuple_id proof card disclosure is backed by admission or dossier evidence"

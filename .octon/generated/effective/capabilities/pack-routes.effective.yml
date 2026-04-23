@@ -1,8 +1,8 @@
 schema_version: "octon-runtime-pack-routes-effective-v1"
-generation_id: "pack-routes-f66aed7b3fdd"
-generated_at: "2026-04-22T19:02:10Z"
+generation_id: "pack-routes-a215e6a2e1a1"
+generated_at: "2026-04-23T01:13:02Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/capabilities/2026-04-22T19-02-10Z-pack-routes-f66aed7b3fdd.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/capabilities/2026-04-23T01-13-02Z-pack-routes-a215e6a2e1a1.yml"
 packs:
   - pack_id: "repo"
     admission_status: "admitted"

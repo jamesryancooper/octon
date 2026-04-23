@@ -34,6 +34,7 @@ stable concepts:
 The authority engine is anchored to the runtime spec surfaces under `spec/`,
 especially:
 
+- `spec/run-journal-v1.md`
 - `spec/execution-request-v3.schema.json`
 - `spec/execution-grant-v1.schema.json`
 - `spec/execution-receipt-v3.schema.json`
@@ -91,3 +92,18 @@ root under `/.octon/state/evidence/runs/<run-id>/` before side effects occur.
 Canonical run manifests, receipts, checkpoints, replay pointers, evidence
 classification, and rollback posture remain under the bound run root;
 deprecated compatibility artifacts are retired.
+
+The canonical append-only execution history for a consequential run is the Run
+Journal:
+
+- `events.ndjson` is the canonical event stream
+- `events.manifest.yml` is the canonical journal manifest
+- `runtime-state.yml` is the mutable derived view over that journal
+- `runtime_bus` is the sole canonical append path
+- retained journal closeout snapshots live under
+  `state/evidence/runs/<run-id>/run-journal/**`
+
+events.ndjson is the canonical event stream for consequential run execution.
+
+Generated/operator views may summarize lifecycle and closeout state, but they
+remain derived-only and non-authoritative.

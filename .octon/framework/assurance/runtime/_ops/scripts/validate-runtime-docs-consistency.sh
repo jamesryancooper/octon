@@ -123,6 +123,30 @@ main() {
     done < <(yq -r ".workflow_assertions[] | select(.workflow_ref == \"$workflow_ref\") | .required_text[]? // \"\"" "$RECEIPT")
   done < <(yq -r '.workflow_assertions[]?.workflow_ref // ""' "$RECEIPT")
 
+  if [[ -f "$OCTON_DIR/framework/engine/runtime/spec/run-journal-v1.md" ]]; then
+    pass "run journal runtime spec present"
+  else
+    fail "missing run journal runtime spec"
+  fi
+
+  if has_text "runtime_bus is the only canonical append path" "$OCTON_DIR/framework/engine/runtime/spec/run-journal-v1.md"; then
+    pass "run journal spec describes runtime_bus as the sole append path"
+  else
+    fail "run journal spec must describe runtime_bus as the sole append path"
+  fi
+
+  if has_text "events.ndjson is the canonical event stream" "$OCTON_DIR/framework/engine/runtime/README.md"; then
+    pass "runtime README references the canonical run journal"
+  else
+    fail "runtime README must reference the canonical run journal"
+  fi
+
+  if has_text "journal and retained evidence roots remain the only valid sources" "$OCTON_DIR/framework/engine/runtime/spec/operator-read-models-v1.md"; then
+    pass "operator read model spec preserves non-authority discipline"
+  else
+    fail "operator read model spec must preserve non-authority discipline"
+  fi
+
   echo "Validation summary: errors=$errors"
   [[ $errors -eq 0 ]]
 }

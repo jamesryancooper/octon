@@ -17,3 +17,5 @@ The authored observability domain covers:
 - report-bundle conventions for release-grade closeout claims
 - proof-query inputs that answer which authority route, receipts, freshness
   state, and proof planes supported one consequential run or support claim
+- journal-derived telemetry that traces back to canonical Run Journal events
+  rather than to generated/operator summaries

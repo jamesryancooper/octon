@@ -1,14 +1,29 @@
-schema_version: run-runtime-state-v1
-run_id: uec-audit-workflow-system-20260401-agent-augmented-1
-status: succeeded
-workflow_mode: agent-augmented
-decision_state: allow
-run_contract_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml
-run_manifest_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-manifest.yml
-current_stage_attempt_id: initial
-last_checkpoint_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints/execution-complete.yml
-last_receipt_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/execution-receipt.json
-mission_id: null
-parent_run_ref: null
-created_at: 2026-04-01T14:28:31.847273Z
-updated_at: 2026-04-01T14:28:33.96128Z
+{
+  "schema_version": "runtime-state-v2",
+  "run_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
+  "state": "closed",
+  "workflow_mode": "agent-augmented",
+  "decision_state": "allow",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml",
+  "run_manifest_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-manifest.yml",
+  "source_ledger_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/events.ndjson",
+  "source_ledger_manifest_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/events.manifest.yml",
+  "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "context_pack_ref": null,
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/rollback-posture.yml",
+  "current_stage_attempt_id": "initial",
+  "last_checkpoint_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints/execution-complete.yml",
+  "last_receipt_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts/execution-receipt.json",
+  "mission_id": null,
+  "parent_run_ref": null,
+  "last_applied_event_id": "evt-014-run-closed",
+  "last_applied_sequence": 14,
+  "last_applied_event_hash": "sha256:89c409e63464684c9d03246e1f53db0466a8987c16c7c6680cc972c33ba355b8",
+  "materialized_at": "2026-04-01T14:28:33.96128Z",
+  "materialized_by": {
+    "actor_class": "runtime",
+    "actor_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null
+}

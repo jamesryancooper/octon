@@ -1,0 +1,831 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/run-event-v2.schema.json",
+  "title": "Octon Run Event v2",
+  "description": "Canonical append-only run journal event envelope. Dot-named runtime-event-v1 engine events are compatibility aliases only and must be normalized to the canonical hyphenated run-event-v2 family before persistence, replay, or validation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event_id",
+    "run_id",
+    "sequence",
+    "event_type",
+    "recorded_at",
+    "actor",
+    "causality",
+    "classification",
+    "lifecycle",
+    "governing_refs",
+    "payload",
+    "effect",
+    "redaction",
+    "integrity"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-event-v2"
+    },
+    "event_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "run_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "event_type": {
+      "$ref": "#/$defs/eventType"
+    },
+    "recorded_at": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "subject_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "actor": {
+      "$ref": "#/$defs/actor"
+    },
+    "causality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "causal_parent_event_ids"
+      ],
+      "properties": {
+        "causal_parent_event_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        },
+        "command_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "correlation_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "idempotency_key": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_plane",
+        "replay_disposition"
+      ],
+      "properties": {
+        "event_plane": {
+          "type": "string",
+          "enum": [
+            "observation",
+            "command",
+            "requested-action",
+            "authorized-action",
+            "committed-effect",
+            "retained-evidence",
+            "generated-disclosure",
+            "derived-view",
+            "replay"
+          ]
+        },
+        "replay_disposition": {
+          "type": "string",
+          "enum": [
+            "dry-run-only",
+            "requires-fresh-authorization",
+            "no-live-side-effect",
+            "not-applicable"
+          ]
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_before",
+        "state_after"
+      ],
+      "properties": {
+        "state_before": {
+          "$ref": "#/$defs/runtimeStateOrNull"
+        },
+        "state_after": {
+          "$ref": "#/$defs/runtimeStateOrNull"
+        }
+      }
+    },
+    "governing_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_contract_ref",
+        "run_manifest_ref"
+      ],
+      "properties": {
+        "run_contract_ref": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "run_manifest_ref": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "execution_request_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "authority_route_receipt_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "grant_bundle_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "policy_receipt_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "approval_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "lease_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "revocation_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "support_target_tuple_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "rollback_plan_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "rollback_posture_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "context_pack_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "stage_attempt_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "checkpoint_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "validator_result_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "evidence_snapshot_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "disclosure_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "drift_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "continuity_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "additional_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "payload_kind"
+      ],
+      "properties": {
+        "payload_kind": {
+          "type": "string",
+          "enum": [
+            "inline-typed",
+            "side-artifact-ref",
+            "none"
+          ]
+        },
+        "schema_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "typed_body": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "artifact_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "artifact_hash": {
+          "$ref": "#/$defs/hashOrNull"
+        },
+        "content_type": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "summary": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effect_class",
+        "reversibility_class",
+        "evidence_class"
+      ],
+      "properties": {
+        "effect_class": {
+          "type": "string",
+          "enum": [
+            "observe",
+            "read",
+            "write",
+            "mutate",
+            "external-side-effect",
+            "authorization",
+            "approval",
+            "lease",
+            "validation",
+            "checkpoint",
+            "rollback",
+            "recovery",
+            "disclosure",
+            "materialization",
+            "drift"
+          ]
+        },
+        "reversibility_class": {
+          "type": "string",
+          "enum": [
+            "reversible",
+            "compensable",
+            "irreversible",
+            "none"
+          ]
+        },
+        "evidence_class": {
+          "type": "string",
+          "enum": [
+            "required",
+            "optional",
+            "none"
+          ]
+        }
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "redacted"
+      ],
+      "properties": {
+        "redacted": {
+          "type": "boolean"
+        },
+        "redaction_record_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "redacted_fields": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hash_algorithm",
+        "previous_event_hash",
+        "payload_hash",
+        "event_hash"
+      ],
+      "properties": {
+        "hash_algorithm": {
+          "type": "string",
+          "const": "sha256"
+        },
+        "previous_event_hash": {
+          "$ref": "#/$defs/hashOrNull"
+        },
+        "payload_hash": {
+          "$ref": "#/$defs/hashOrNull"
+        },
+        "event_hash": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    },
+    "details": {
+      "$ref": "#/$defs/nullableString"
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_class",
+        "actor_ref"
+      ],
+      "properties": {
+        "actor_class": {
+          "type": "string",
+          "enum": [
+            "runtime",
+            "model-adapter",
+            "capability-adapter",
+            "operator",
+            "validator",
+            "replay-service",
+            "policy-engine",
+            "authority-engine"
+          ]
+        },
+        "actor_ref": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "eventType": {
+      "type": "string",
+      "enum": [
+        "run-created",
+        "run-bound",
+        "run-closed",
+        "context-pack-bound",
+        "context-pack-invalidated",
+        "context-reset-recorded",
+        "authority-requested",
+        "authority-granted",
+        "authority-denied",
+        "approval-requested",
+        "approval-granted",
+        "approval-denied",
+        "approval-expired",
+        "lease-issued",
+        "lease-revoked",
+        "lease-expired",
+        "revocation-activated",
+        "capability-requested",
+        "capability-authorized",
+        "capability-invoked",
+        "capability-completed",
+        "capability-failed",
+        "stage-started",
+        "stage-completed",
+        "attempt-started",
+        "attempt-completed",
+        "checkpoint-created",
+        "replay-materialized",
+        "rollback-requested",
+        "rollback-started",
+        "rollback-completed",
+        "recovery-started",
+        "recovery-completed",
+        "operator-intervention-recorded",
+        "operator-digest-published",
+        "validator-started",
+        "validator-completed",
+        "assurance-failed",
+        "evidence-snapshot-created",
+        "run-card-published",
+        "disclosure-published",
+        "drift-detected",
+        "drift-repaired"
+      ]
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "hashOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "runtimeState": {
+      "type": "string",
+      "enum": [
+        "created",
+        "bound",
+        "authorizing",
+        "approval-pending",
+        "authorized",
+        "stage-only",
+        "denied",
+        "running",
+        "paused",
+        "checkpointed",
+        "rolling-back",
+        "recovering",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "closed"
+      ]
+    },
+    "runtimeStateOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/runtimeState"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "payload_kind": {
+                "const": "inline-typed"
+              }
+            },
+            "required": [
+              "payload_kind"
+            ]
+          }
+        },
+        "required": [
+          "payload"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "schema_ref",
+              "typed_body"
+            ],
+            "properties": {
+              "schema_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "typed_body": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "payload": {
+            "properties": {
+              "payload_kind": {
+                "const": "side-artifact-ref"
+              }
+            },
+            "required": [
+              "payload_kind"
+            ]
+          }
+        },
+        "required": [
+          "payload"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "required": [
+              "schema_ref",
+              "artifact_ref",
+              "artifact_hash"
+            ],
+            "properties": {
+              "schema_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "artifact_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "artifact_hash": {
+                "$ref": "#/$defs/hash"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "redaction": {
+            "properties": {
+              "redacted": {
+                "const": true
+              }
+            },
+            "required": [
+              "redacted"
+            ]
+          }
+        },
+        "required": [
+          "redaction"
+        ]
+      },
+      "then": {
+        "properties": {
+          "redaction": {
+            "required": [
+              "redaction_record_ref",
+              "redacted_fields"
+            ],
+            "properties": {
+              "redaction_record_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "redacted_fields": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/nonEmptyString"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "classification": {
+            "properties": {
+              "event_plane": {
+                "enum": [
+                  "command",
+                  "requested-action",
+                  "authorized-action"
+                ]
+              }
+            },
+            "required": [
+              "event_plane"
+            ]
+          }
+        },
+        "required": [
+          "classification"
+        ]
+      },
+      "then": {
+        "properties": {
+          "causality": {
+            "required": [
+              "command_ref"
+            ],
+            "properties": {
+              "command_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": [
+              "run-bound",
+              "run-closed",
+              "authority-requested",
+              "authority-granted",
+              "authority-denied",
+              "approval-requested",
+              "approval-granted",
+              "approval-denied",
+              "approval-expired",
+              "lease-issued",
+              "lease-revoked",
+              "lease-expired",
+              "revocation-activated",
+              "rollback-requested",
+              "rollback-started",
+              "rollback-completed",
+              "recovery-started",
+              "recovery-completed"
+            ]
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "governing_refs": {
+            "anyOf": [
+              {
+                "required": [
+                  "policy_receipt_ref"
+                ],
+                "properties": {
+                  "policy_receipt_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "grant_bundle_ref"
+                ],
+                "properties": {
+                  "grant_bundle_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "approval_ref"
+                ],
+                "properties": {
+                  "approval_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "lease_ref"
+                ],
+                "properties": {
+                  "lease_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "revocation_ref"
+                ],
+                "properties": {
+                  "revocation_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "support_target_tuple_ref"
+                ],
+                "properties": {
+                  "support_target_tuple_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "rollback_plan_ref"
+                ],
+                "properties": {
+                  "rollback_plan_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "validator_result_ref"
+                ],
+                "properties": {
+                  "validator_result_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "context_pack_ref"
+                ],
+                "properties": {
+                  "context_pack_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": [
+              "evidence-snapshot-created",
+              "run-card-published",
+              "disclosure-published",
+              "operator-digest-published"
+            ]
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "governing_refs": {
+            "anyOf": [
+              {
+                "required": [
+                  "evidence_snapshot_ref"
+                ],
+                "properties": {
+                  "evidence_snapshot_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "required": [
+                  "disclosure_ref"
+                ],
+                "properties": {
+                  "disclosure_ref": {
+                    "$ref": "#/$defs/nonEmptyString"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "event_type": {
+            "enum": [
+              "drift-detected",
+              "drift-repaired"
+            ]
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "governing_refs": {
+            "required": [
+              "drift_ref"
+            ],
+            "properties": {
+              "drift_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

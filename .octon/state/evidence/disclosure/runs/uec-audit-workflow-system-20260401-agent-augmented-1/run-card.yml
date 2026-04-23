@@ -1,67 +1,82 @@
-adapter_support:
-  conformance_criteria:
-  - HOST-001
-  - HOST-002
-  - HOST-004
-  - MODEL-001
-  - MODEL-002
-  - MODEL-003
-  - MODEL-004
-  host_adapter: repo-shell
-  host_support_status: supported
-  model_adapter: repo-local-governed
-  model_support_status: supported
-authority_refs:
-  decision_artifact: .octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml
-  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml
-  retained_run_evidence: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/retained-run-evidence.yml
-  run_contract: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml
-runtime_artifact_depth:
-  validation_status: pass
-  replay_integrity: pass
-  stage_attempts:
-    applicable: true
-    present: true
-  checkpoints:
-    applicable: true
-    present: true
-  continuity:
-    applicable: true
-    present: true
-  contamination:
-    applicable: true
-    present: true
-  retries:
-    applicable: true
-    present: true
-generated_at: 2026-04-01T14:28:33.960219Z
-intervention_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/interventions/log.yml
-known_limits:
-- Support posture remains bounded to the support-target declaration under .octon/instance/governance/support-targets.yml.
-measurement_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/measurements/summary.yml
-proof_plane_refs:
-  behavioral: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/behavioral.yml
-  evaluator: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/evaluator.yml
-  functional: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/functional.yml
-  governance: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/governance.yml
-  maintainability: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/maintainability.yml
-  recovery: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/recovery.yml
-  structural: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/structural.yml
-replay_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay/manifest.yml
-requested_capability_packs:
-- repo
-- git
-- telemetry
-run_id: uec-audit-workflow-system-20260401-agent-augmented-1
-schema_version: run-card-v1
-status: succeeded
-summary: Consequential run uec-audit-workflow-system-20260401-agent-augmented-1 for target audit-workflow-system completed with status succeeded under support tier repo-local-consequential.
-support_target_ref: .octon/instance/governance/support-targets.yml
-support_target_tuple:
-  language_resource_tier: LT-REF
-  locale_tier: LOC-EN
-  model_tier: MT-B
-  support_status: supported
-  workload_tier: WT-2
-support_tier: repo-local-consequential
-workflow_mode: agent-augmented
+{
+  "adapter_support": {
+    "conformance_criteria": [
+      "HOST-001",
+      "HOST-002",
+      "HOST-004",
+      "MODEL-001",
+      "MODEL-002",
+      "MODEL-003",
+      "MODEL-004"
+    ],
+    "host_adapter": "repo-shell",
+    "host_support_status": "supported",
+    "model_adapter": "repo-local-governed",
+    "model_support_status": "supported"
+  },
+  "authority_refs": {
+    "decision_artifact": ".octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+    "grant_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+    "retained_run_evidence": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/retained-run-evidence.yml",
+    "run_contract": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml"
+  },
+  "runtime_artifact_depth": {
+    "validation_status": "pass",
+    "replay_integrity": "pass",
+    "stage_attempts": {
+      "applicable": true,
+      "present": true
+    },
+    "checkpoints": {
+      "applicable": true,
+      "present": true
+    },
+    "continuity": {
+      "applicable": true,
+      "present": true
+    },
+    "contamination": {
+      "applicable": true,
+      "present": true
+    },
+    "retries": {
+      "applicable": true,
+      "present": true
+    }
+  },
+  "generated_at": "2026-04-01T14:28:33.960219Z",
+  "intervention_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/interventions/log.yml",
+  "known_limits": [
+    "Support posture remains bounded to the support-target declaration under .octon/instance/governance/support-targets.yml."
+  ],
+  "measurement_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/measurements/summary.yml",
+  "proof_plane_refs": {
+    "behavioral": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/behavioral.yml",
+    "evaluator": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/evaluator.yml",
+    "functional": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/functional.yml",
+    "governance": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/governance.yml",
+    "maintainability": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/maintainability.yml",
+    "recovery": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/recovery.yml",
+    "structural": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance/structural.yml"
+  },
+  "replay_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay/manifest.yml",
+  "requested_capability_packs": [
+    "repo",
+    "git",
+    "telemetry"
+  ],
+  "run_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
+  "schema_version": "run-card-v1",
+  "status": "succeeded",
+  "summary": "Consequential run uec-audit-workflow-system-20260401-agent-augmented-1 for target audit-workflow-system completed with status succeeded under support tier repo-consequential.",
+  "support_target_ref": ".octon/instance/governance/support-targets.yml",
+  "support_target_tuple": {
+    "language_resource_tier": "reference-owned",
+    "locale_tier": "english-primary",
+    "model_tier": "repo-local-governed",
+    "support_status": "supported",
+    "workload_tier": "repo-consequential"
+  },
+  "support_tier": "repo-consequential",
+  "workflow_mode": "agent-augmented"
+}

@@ -1,0 +1,29 @@
+{
+  "schema_version": "runtime-state-v2",
+  "run_id": "operator-intervention",
+  "state": "closed",
+  "workflow_mode": "agent-augmented",
+  "decision_state": "allow",
+  "run_contract_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/control/run-contract.yml",
+  "run_manifest_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/control/run-manifest.yml",
+  "source_ledger_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/control/events.ndjson",
+  "source_ledger_manifest_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/control/events.manifest.yml",
+  "support_target_tuple_ref": "tuple://fixture/operator-intervention",
+  "context_pack_ref": null,
+  "rollback_posture_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/control/rollback-posture.yml",
+  "current_stage_attempt_id": "initial",
+  "last_checkpoint_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/control/checkpoints/execution-complete.yml",
+  "last_receipt_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/operator-intervention/evidence/receipts/execution-receipt.json",
+  "mission_id": null,
+  "parent_run_ref": null,
+  "last_applied_event_id": "evt-008-run-closed",
+  "last_applied_sequence": 8,
+  "last_applied_event_hash": "sha256:18502043a1c8443010acd107c4d09a16c270ce4f0a385c1f932e912a8674f957",
+  "materialized_at": "2026-04-22T12:00:08Z",
+  "materialized_by": {
+    "actor_class": "runtime",
+    "actor_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null
+}

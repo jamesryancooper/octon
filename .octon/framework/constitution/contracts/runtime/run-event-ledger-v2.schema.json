@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/run-event-ledger-v2.schema.json",
+  "title": "Octon Run Event Ledger v2",
+  "description": "Canonical append-only run journal manifest with integrity, schema, materialization, snapshot, and drift metadata. Dot-named runtime-event-v1 aliases must be canonicalized before they are admitted into this ledger.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "ledger_ref",
+    "manifest_ref",
+    "event_schema_ref",
+    "runtime_state_schema_ref",
+    "state_reconstruction_ref",
+    "event_count",
+    "first_event_ref",
+    "last_event_ref",
+    "hash_chain",
+    "governing_event_refs",
+    "snapshot_refs",
+    "last_materialization",
+    "drift_status",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-event-ledger-v2"
+    },
+    "run_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "ledger_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "manifest_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "event_schema_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "runtime_state_schema_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "state_reconstruction_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "ledger_digest": {
+      "$ref": "#/$defs/hashOrNull"
+    },
+    "event_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "first_event_ref": {
+      "$ref": "#/$defs/eventRef"
+    },
+    "last_event_ref": {
+      "$ref": "#/$defs/eventRef"
+    },
+    "hash_chain": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "hash_algorithm",
+        "chain_status",
+        "head_event_hash",
+        "tail_event_hash"
+      ],
+      "properties": {
+        "hash_algorithm": {
+          "type": "string",
+          "const": "sha256"
+        },
+        "chain_status": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "broken",
+            "unverified"
+          ]
+        },
+        "head_event_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "tail_event_hash": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    },
+    "governing_event_refs": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/nonEmptyString"
+      }
+    },
+    "snapshot_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_snapshot_ref",
+        "evidence_snapshot_ref",
+        "evidence_manifest_snapshot_ref",
+        "redaction_record_ref"
+      ],
+      "properties": {
+        "control_snapshot_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "evidence_snapshot_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "evidence_manifest_snapshot_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "redaction_record_ref": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    },
+    "last_materialization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "runtime_state_ref",
+        "last_applied_event_id",
+        "last_applied_sequence",
+        "last_applied_event_hash",
+        "materialized_at",
+        "materialized_by_ref"
+      ],
+      "properties": {
+        "runtime_state_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "last_applied_event_id": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "last_applied_sequence": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "last_applied_event_hash": {
+          "$ref": "#/$defs/hashOrNull"
+        },
+        "materialized_at": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "materialized_by_ref": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    },
+    "drift_status": {
+      "type": "string",
+      "enum": [
+        "in-sync",
+        "reconstruction-required",
+        "drift-detected",
+        "repair-pending",
+        "repaired"
+      ]
+    },
+    "drift_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "updated_at": {
+      "$ref": "#/$defs/nonEmptyString"
+    }
+  },
+  "$defs": {
+    "eventRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "sequence",
+        "event_hash"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "event_hash": {
+          "$ref": "#/$defs/hash"
+        }
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "hashOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "drift_status": {
+            "enum": [
+              "reconstruction-required",
+              "drift-detected",
+              "repair-pending",
+              "repaired"
+            ]
+          }
+        },
+        "required": [
+          "drift_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "drift_ref"
+        ],
+        "properties": {
+          "drift_ref": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "snapshot_refs": {
+            "properties": {
+              "evidence_snapshot_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "evidence_snapshot_ref"
+            ]
+          }
+        },
+        "required": [
+          "snapshot_refs"
+        ]
+      },
+      "then": {
+        "properties": {
+          "snapshot_refs": {
+            "required": [
+              "evidence_manifest_snapshot_ref"
+            ],
+            "properties": {
+              "evidence_manifest_snapshot_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

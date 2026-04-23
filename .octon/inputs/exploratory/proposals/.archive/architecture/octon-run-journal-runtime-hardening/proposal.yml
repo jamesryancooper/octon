@@ -1,0 +1,57 @@
+schema_version: proposal-v1
+proposal_id: octon-run-journal-runtime-hardening
+title: Run Journal Runtime Hardening
+summary: >-
+  Implement the highest-leverage next step for Octon's Constitutional Engineering
+  Harness and Governed Agent Runtime by hardening the existing canonical run event
+  ledger into an append-only, typed, causally replayable Run Journal with a
+  derived runtime-state view, closeout evidence mirror, validation coverage, and
+  runtime enforcement across authorization, lifecycle, capability invocation,
+  replay, operator read models, and support-target admission.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+  - .octon/framework/constitution/contracts/runtime/run-event-ledger-v2.schema.json
+  - .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+  - .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+  - .octon/framework/constitution/contracts/runtime/family.yml
+  - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - .octon/framework/engine/runtime/README.md
+  - .octon/framework/engine/runtime/spec/run-journal-v1.md
+  - .octon/framework/engine/runtime/spec/runtime-event-v1.schema.json
+  - .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md
+  - .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+  - .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+  - .octon/framework/engine/runtime/crates/runtime_bus
+  - .octon/framework/engine/runtime/crates/replay_store
+  - .octon/framework/engine/runtime/crates/telemetry_sink
+  - .octon/framework/engine/runtime/crates/authority_engine
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-admission.sh
+  - .octon/framework/observability/README.md
+  - .octon/framework/lab/README.md
+  - .octon/instance/governance/support-targets.yml
+  - .octon/instance/governance/policies/mission-autonomy.yml
+status: archived
+archive:
+  archived_at: "2026-04-23T02:15:22Z"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-run-journal-runtime-hardening"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/run-journal-runtime-hardening/closure-certification.yml"
+    - ".octon/state/evidence/validation/run-journal-runtime-hardening/validators/validate-architecture-health.log"
+    - ".octon/state/evidence/validation/run-journal-runtime-hardening/validators/cargo-authority-engine-tests.log"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the accepted runtime-journal contracts, validators, runtime emitter
+    hardening, and support-target admission checks into authored Octon authority;
+    retain this packet only as proposal evidence until promotion, closure, or
+    archival under Octon's proposal lifecycle.
+related_proposals:
+  - octon-instruction-layer-execution-envelope-hardening

@@ -50,11 +50,12 @@ required_bundle_contents:
 evidence_requirements:
   - "A current proof bundle for every admitted tuple cited by live support or release disclosure."
   - "Executable or replayable proof execution receipts for every admitted-live tuple claim."
+  - "Any admitted-live repo-consequential tuple includes current Run Journal conformance and deterministic state-reconstruction proof in its retained receipts or validator outputs before the tuple may remain supported."
   - "Representative retained run disclosure for the tuple's admitted support posture."
   - "Negative-control or denied-scenario evidence showing unsupported or excluded flows remain non-live."
   - "Release disclosure coverage showing the tuple is either admitted-live or explicit non-live posture."
   - "Recovery or replay evidence for each admitted live tuple."
   - "A derived SupportCard or support-proof projection that traces only to retained evidence and durable authority."
-blocking_rule: "Reject when an admitted tuple lacks a current proof bundle, executable or replayable proof execution, has degraded dossier sufficiency, or is cited by live disclosure without representative retained run evidence and negative controls."
+blocking_rule: "Reject when an admitted tuple lacks a current proof bundle, executable or replayable proof execution, has degraded dossier sufficiency, is cited by live disclosure without representative retained run evidence and negative controls, or any admitted-live repo-consequential tuple lacks valid Run Journal conformance plus deterministic state-reconstruction proof."
 execution_rule: "Metadata-only or summary-only proof is insufficient for admitted-live claims; executable or replayable proof receipts must be present or the tuple remains non-live."
 retirement_path: "Retire only if proof-bundle coverage is subsumed by a stricter per-tuple support certification regime with equivalent fail-closed semantics."

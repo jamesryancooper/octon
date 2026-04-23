@@ -46,6 +46,10 @@ Run roots are the primary execution-time unit of truth.
 ## Canonical Files
 
 - `family.yml`
+- `run-event-v2.schema.json`
+- `run-event-ledger-v2.schema.json`
+- `runtime-state-v2.schema.json`
+- `state-reconstruction-v2.md`
 - `run-event-v1.schema.json`
 - `run-event-ledger-v1.schema.json`
 - `run-manifest-v1.schema.json`
@@ -66,6 +70,9 @@ Run roots are the primary execution-time unit of truth.
 
 ## Compatibility/Historical Surfaces
 
+- `run-event-v1.schema.json`, `run-event-ledger-v1.schema.json`,
+  `runtime-state-v1.schema.json`, and `state-reconstruction-v1.md` remain
+  historical lineage and compatibility references only.
 - `checkpoint-v1.schema.json` remains compatibility-only when retained for lineage.
 
 ## Non-Authority Note

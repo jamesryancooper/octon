@@ -13,8 +13,13 @@ activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-04-11-octon-selected-harness-concepts-integration/plan.md"
 run_lifecycle:
   event_ledger:
-    event_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-v1.schema.json"
-    ledger_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-ledger-v1.schema.json"
+    event_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json"
+    ledger_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-ledger-v2.schema.json"
+    historical_schema_refs:
+      event:
+        - ".octon/framework/constitution/contracts/runtime/run-event-v1.schema.json"
+      ledger:
+        - ".octon/framework/constitution/contracts/runtime/run-event-ledger-v1.schema.json"
     control_root: ".octon/state/control/execution/runs"
     canonical_files:
       - "events.ndjson"
@@ -28,7 +33,9 @@ run_lifecycle:
     continuity_root: ".octon/state/continuity/runs"
     canonical_file: "handoff.yml"
   runtime_state:
-    schema_ref: ".octon/framework/constitution/contracts/runtime/runtime-state-v1.schema.json"
+    schema_ref: ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json"
+    historical_schema_refs:
+      - ".octon/framework/constitution/contracts/runtime/runtime-state-v1.schema.json"
     control_root: ".octon/state/control/execution/runs"
     canonical_file: "runtime-state.yml"
   rollback_posture:
@@ -80,8 +87,10 @@ bridges:
     runtime_bus: ".octon/framework/engine/runtime/crates/runtime_bus"
     rule: "Replay, telemetry, and runtime-event services are first-class runtime inputs and not merely post hoc evidence conventions."
   state_reconstruction:
-    ref: ".octon/framework/constitution/contracts/runtime/state-reconstruction-v1.md"
-    rule: "Mutable run state is derived from the append-only event ledger plus bounded side artifacts."
+    ref: ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md"
+    historical_lineage_refs:
+      - ".octon/framework/constitution/contracts/runtime/state-reconstruction-v1.md"
+    rule: "Mutable run state is derived from the append-only canonical Run Journal plus bounded side artifacts; the journal wins on conflict."
   run_continuity:
     source_root: ".octon/state/continuity/runs"
     rule: "Run continuity carries resumability and handoff state; `run-manifest.yml`, checkpoints, replay pointers, and retained evidence remain the authoritative artifact-rooted resume set."
@@ -92,3 +101,76 @@ bridges:
     summary_root: ".octon/generated/cognition/summaries/missions"
     projection_root: ".octon/generated/cognition/projections/materialized/missions"
     rule: "Generated mission summaries and mission views must reference per-run evidence when runs are bound."
+migration:
+  event_family_canonicalization:
+    source_contract_ref: ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+    canonical_contract_ref: ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json"
+    rule: >-
+      Engine-local dot-named runtime-event-v1 events are compatibility aliases
+      only. Canonical control ledgers, reconstruction, replay, and closeout
+      snapshots must normalize them into the hyphenated run-event-v2 family
+      before validation or persistence.
+    aliases:
+      - legacy_event_type: "run.started"
+        canonical_event_types:
+          - "run-created"
+          - "run-bound"
+        mapping_rule: "Use run-created for initial run identity creation; use run-bound once the bound run root becomes authoritative."
+      - legacy_event_type: "run.context_pack_bound"
+        canonical_event_types:
+          - "context-pack-bound"
+        mapping_rule: "Preserve the bound context pack ref."
+      - legacy_event_type: "run.grant_issued"
+        canonical_event_types:
+          - "authority-granted"
+        mapping_rule: "Preserve policy, grant-bundle, and support-target refs."
+      - legacy_event_type: "run.grant_denied"
+        canonical_event_types:
+          - "authority-denied"
+        mapping_rule: "Preserve denial reason and governing policy refs."
+      - legacy_event_type: "approval.requested"
+        canonical_event_types:
+          - "approval-requested"
+        mapping_rule: "Preserve approval target and request refs."
+      - legacy_event_type: "approval.resolved"
+        canonical_event_types:
+          - "approval-granted"
+          - "approval-denied"
+        mapping_rule: "Choose the canonical event from the resolved decision outcome."
+      - legacy_event_type: "capability.invoked"
+        canonical_event_types:
+          - "capability-invoked"
+        mapping_rule: "Preserve capability request, authorization, and invocation refs when available."
+      - legacy_event_type: "checkpoint.created"
+        canonical_event_types:
+          - "checkpoint-created"
+        mapping_rule: "Preserve checkpoint side-artifact refs."
+      - legacy_event_type: "evidence.persisted"
+        canonical_event_types:
+          - "evidence-snapshot-created"
+        mapping_rule: "Preserve evidence snapshot and manifest refs."
+      - legacy_event_type: "replay.available"
+        canonical_event_types:
+          - "replay-materialized"
+        mapping_rule: "Preserve replay manifest or replay pointer refs."
+      - legacy_event_type: "rollback.started"
+        canonical_event_types:
+          - "rollback-started"
+        mapping_rule: "Preserve rollback posture or plan refs."
+      - legacy_event_type: "rollback.completed"
+        canonical_event_types:
+          - "rollback-completed"
+        mapping_rule: "Preserve rollback completion evidence refs."
+      - legacy_event_type: "intervention.recorded"
+        canonical_event_types:
+          - "operator-intervention-recorded"
+        mapping_rule: "Preserve intervention actor and disclosure refs."
+      - legacy_event_type: "disclosure.ready"
+        canonical_event_types:
+          - "run-card-published"
+          - "disclosure-published"
+        mapping_rule: "Use run-card-published for RunCard materialization; otherwise use disclosure-published."
+      - legacy_event_type: "run.closed"
+        canonical_event_types:
+          - "run-closed"
+        mapping_rule: "Preserve closure evidence and final state refs."

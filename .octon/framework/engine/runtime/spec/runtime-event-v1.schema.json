@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://octon.local/engine/runtime/spec/runtime-event-v1.schema.json",
   "title": "Octon Runtime Event v1",
+  "description": "Compatibility-only engine-local runtime event envelope. Dot-named runtime-event-v1 events must be normalized into canonical hyphenated run-event-v2 events before they enter the canonical control journal, reconstruction path, replay path, or closeout evidence snapshots.",
   "type": "object",
   "additionalProperties": true,
   "required": [
@@ -36,6 +37,37 @@
     },
     "run_id": { "type": "string", "minLength": 1 },
     "timestamp": { "type": "string", "minLength": 1 },
+    "canonical_event_type": {
+      "type": ["string", "null"],
+      "enum": [
+        "run-created",
+        "run-bound",
+        "context-pack-bound",
+        "authority-granted",
+        "authority-denied",
+        "approval-requested",
+        "approval-granted",
+        "approval-denied",
+        "capability-invoked",
+        "checkpoint-created",
+        "evidence-snapshot-created",
+        "replay-materialized",
+        "rollback-started",
+        "rollback-completed",
+        "operator-intervention-recorded",
+        "run-card-published",
+        "disclosure-published",
+        "run-closed",
+        null
+      ]
+    },
+    "alias_status": {
+      "type": "string",
+      "const": "compatibility-alias-only"
+    },
+    "normalization_rule_ref": {
+      "type": ["string", "null"]
+    },
     "request_id": { "type": ["string", "null"] },
     "refs": {
       "type": "array",

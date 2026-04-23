@@ -1,54 +1,61 @@
-actor_ref:
-  id: octon-kernel
-  kind: system
-approval_grant_refs: []
-approval_request_ref: null
-assurance_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance
-authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml
-control_checkpoint_root: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/checkpoints
-created_at: 2026-04-01T14:24:36.851912Z
-decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-global-github-repo-consequential-20260404.yml
-disclosure_root: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404
-evidence_classification_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/evidence-classification.yml
-evidence_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404
-external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-global-github-repo-consequential-20260404.yml
-host_adapter_ref: .octon/framework/engine/runtime/adapters/host/github-control-plane.yml
-intent_ref:
-  id: intent://octon/octon-governed-harness
-  version: 1.1.0
-intervention_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/interventions
-measurement_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/measurements
-mission_id: null
-model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
-parent_run_ref: null
-receipt_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/receipts
-replay_pointers_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay-pointers.yml
-requested_capability_packs:
-  - repo
-  - git
-  - shell
-  - telemetry
-  - api
-retained_evidence_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/retained-run-evidence.yml
-rollback_posture_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/rollback-posture.yml
-run_card_ref: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
-run_continuity_ref: .octon/state/continuity/runs/uec-global-github-repo-consequential-20260404/handoff.yml
-run_contract_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
-run_id: uec-global-github-repo-consequential-20260404
-runtime_state_ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml
-schema_version: run-manifest-v1
-stage_attempt_root: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/stage-attempts
-support_target:
-  host_adapter: github-control-plane
-  language_resource_tier: reference-owned
-  locale_tier: english-primary
-  model_adapter: repo-local-governed
-  model_tier: repo-local-governed
-  workload_tier: repo-consequential
-support_target_ref: .octon/instance/governance/support-targets.yml
-support_target_tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
-support_target_admission_ref: .octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml
-support_target_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
-support_tier: repo-consequential
-trace_pointers_ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/trace-pointers.yml
-updated_at: 2026-04-01T14:24:36.851912Z
+{
+  "actor_ref": {
+    "id": "octon-kernel",
+    "kind": "system"
+  },
+  "approval_grant_refs": [],
+  "approval_request_ref": null,
+  "assurance_root": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/assurance",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml",
+  "control_checkpoint_root": ".octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/checkpoints",
+  "created_at": "2026-04-01T14:24:36.851912Z",
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-uec-global-github-repo-consequential-20260404.yml",
+  "disclosure_root": ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404",
+  "evidence_classification_ref": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/evidence-classification.yml",
+  "evidence_root": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404",
+  "external_replay_index_ref": ".octon/state/evidence/external-index/runs/uec-global-github-repo-consequential-20260404.yml",
+  "host_adapter_ref": ".octon/framework/engine/runtime/adapters/host/github-control-plane.yml",
+  "intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "intervention_root": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/interventions",
+  "measurement_root": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/measurements",
+  "mission_id": null,
+  "model_adapter_ref": ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml",
+  "parent_run_ref": null,
+  "receipt_root": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/receipts",
+  "replay_pointers_ref": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay-pointers.yml",
+  "requested_capability_packs": [
+    "repo",
+    "git",
+    "shell",
+    "telemetry",
+    "api"
+  ],
+  "retained_evidence_ref": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/retained-run-evidence.yml",
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/rollback-posture.yml",
+  "run_card_ref": ".octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml",
+  "run_continuity_ref": ".octon/state/continuity/runs/uec-global-github-repo-consequential-20260404/handoff.yml",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml",
+  "run_id": "uec-global-github-repo-consequential-20260404",
+  "runtime_state_ref": ".octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml",
+  "schema_version": "run-manifest-v2",
+  "stage_attempt_root": ".octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/stage-attempts",
+  "support_target": {
+    "host_adapter": "github-control-plane",
+    "language_resource_tier": "reference-owned",
+    "locale_tier": "english-primary",
+    "model_adapter": "repo-local-governed",
+    "model_tier": "repo-local-governed",
+    "workload_tier": "repo-consequential"
+  },
+  "support_target_ref": ".octon/instance/governance/support-targets.yml",
+  "support_target_tuple_id": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane",
+  "support_target_admission_ref": ".octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml",
+  "support_target_dossier_ref": ".octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml",
+  "support_tier": "repo-consequential",
+  "trace_pointers_ref": ".octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/trace-pointers.yml",
+  "updated_at": "2026-04-01T14:24:36.851912Z",
+  "authority_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml"
+}

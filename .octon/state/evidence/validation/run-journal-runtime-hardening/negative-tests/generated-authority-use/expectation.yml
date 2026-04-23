@@ -1,0 +1,3 @@
+{
+  "expected_failure_contains": "operator read model missing non-authority classification"
+}

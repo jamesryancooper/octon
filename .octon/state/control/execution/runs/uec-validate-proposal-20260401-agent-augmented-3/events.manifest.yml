@@ -1,14 +1,49 @@
-schema_version: run-event-ledger-v1
-run_id: uec-validate-proposal-20260401-agent-augmented-3
-ledger_ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson
-event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v1.schema.json
-event_count: 9
-first_event_id: '"evt-001-run-created"'
-last_event_id: '"evt-012-run-closed"'
-governing_event_refs:
-  runtime_state_ref: evt-012-run-closed
-  rollback_posture_ref: evt-012-run-closed
-  stage_attempt_ref: evt-009-stage-completed
-  disclosure_ref: evt-011-disclosure-generated
-  authority_root_ref: evt-003-authority-resolution
-updated_at: "2026-04-01T14:26:11.554148Z"
+{
+  "schema_version": "run-event-ledger-v2",
+  "run_id": "uec-validate-proposal-20260401-agent-augmented-3",
+  "ledger_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson",
+  "manifest_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml",
+  "event_schema_ref": ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json",
+  "runtime_state_schema_ref": ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json",
+  "state_reconstruction_ref": ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md",
+  "ledger_digest": "sha256:55176b05a5b69e48dcf91a53c5bb11bf9418a17fbddb6ba5006accb5df48cd70",
+  "event_count": 14,
+  "first_event_ref": {
+    "event_id": "evt-001-run-created",
+    "sequence": 1,
+    "event_hash": "sha256:6f3d03ed24795e44778c5cb9b0b69e380827a37e3e832eb7404cfc73397f93d8"
+  },
+  "last_event_ref": {
+    "event_id": "evt-014-run-closed",
+    "sequence": 14,
+    "event_hash": "sha256:90cb9433e29c5bdb33f8ddfd82b2bd74f8e98bc1ea6ed069e207c1d0118924c8"
+  },
+  "hash_chain": {
+    "hash_algorithm": "sha256",
+    "chain_status": "verified",
+    "head_event_hash": "sha256:6f3d03ed24795e44778c5cb9b0b69e380827a37e3e832eb7404cfc73397f93d8",
+    "tail_event_hash": "sha256:90cb9433e29c5bdb33f8ddfd82b2bd74f8e98bc1ea6ed069e207c1d0118924c8"
+  },
+  "governing_event_refs": {
+    "runtime_state_ref": "evt-014-run-closed",
+    "disclosure_ref": "evt-012-run-card-published",
+    "checkpoint_ref": "evt-011-checkpoint-created"
+  },
+  "snapshot_refs": {
+    "control_snapshot_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson",
+    "evidence_snapshot_ref": ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/run-journal/events.snapshot.ndjson",
+    "evidence_manifest_snapshot_ref": ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/run-journal/events.manifest.snapshot.yml",
+    "redaction_record_ref": ".octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/run-journal/redactions.yml"
+  },
+  "last_materialization": {
+    "runtime_state_ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/runtime-state.yml",
+    "last_applied_event_id": "evt-014-run-closed",
+    "last_applied_sequence": 14,
+    "last_applied_event_hash": "sha256:903d0f82d7c442ed970505ff04ad0f06b3cd65308dd536c61bf39bde5b4bd7e2",
+    "materialized_at": "2026-04-01T14:26:11.554148Z",
+    "materialized_by_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null,
+  "updated_at": "2026-04-01T14:26:11.554148Z"
+}

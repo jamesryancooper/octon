@@ -32,6 +32,8 @@ pass_fail_criteria:
   - "negative controls and representative disclosure continue to resolve"
 receipt_refs:
   - .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proofing.yml
+run_journal_validation_refs:
+  - .octon/state/evidence/validation/run-journal-runtime-hardening/support-target-admission/github-repo-consequential-en.yml
 result: pass
 proof_planes:
   - plane_id: structural

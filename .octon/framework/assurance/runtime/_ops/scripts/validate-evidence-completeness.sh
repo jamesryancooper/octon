@@ -165,11 +165,15 @@ main() {
     fi
 
     local runtime_status allowed_status
-    runtime_status="$(yq -r '.status // ""' "$resolved_runtime_state")"
+    runtime_status="$(yq -r '.state // .status // ""' "$resolved_runtime_state")"
     local allowed=false
     while IFS= read -r allowed_status; do
       [[ -n "$allowed_status" ]] || continue
       if [[ "$runtime_status" == "$allowed_status" ]]; then
+        allowed=true
+        break
+      fi
+      if [[ "$runtime_status" == "closed" && "$allowed_status" =~ ^(succeeded|failed|denied|cancelled)$ ]]; then
         allowed=true
         break
       fi

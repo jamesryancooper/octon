@@ -1166,13 +1166,100 @@ execution:
     workspace_machine_charter: ".octon/instance/charter/workspace.yml"
   runtime_binding:
     contract_family_root: ".octon/framework/constitution/contracts/runtime"
+    run_event_file: ".octon/state/control/execution/runs/<run-id>/events.ndjson"
+    run_event_manifest_file: ".octon/state/control/execution/runs/<run-id>/events.manifest.yml"
+    run_event_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json"
+    run_event_ledger_schema_ref: ".octon/framework/constitution/contracts/runtime/run-event-ledger-v2.schema.json"
     run_manifest_file: ".octon/state/control/execution/runs/<run-id>/run-manifest.yml"
     run_continuity_file: ".octon/state/continuity/runs/<run-id>/handoff.yml"
     runtime_state_file: ".octon/state/control/execution/runs/<run-id>/runtime-state.yml"
+    runtime_state_schema_ref: ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json"
+    state_reconstruction_ref: ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md"
     rollback_posture_file: ".octon/state/control/execution/runs/<run-id>/rollback-posture.yml"
     checkpoint_root: ".octon/state/control/execution/runs/<run-id>/checkpoints"
     receipt_root: ".octon/state/evidence/runs/<run-id>/receipts"
     replay_pointer_file: ".octon/state/evidence/runs/<run-id>/replay-pointers.yml"
+    historical_lineage_refs:
+      run_event_schema:
+        - ".octon/framework/constitution/contracts/runtime/run-event-v1.schema.json"
+      run_event_ledger_schema:
+        - ".octon/framework/constitution/contracts/runtime/run-event-ledger-v1.schema.json"
+      runtime_state_schema:
+        - ".octon/framework/constitution/contracts/runtime/runtime-state-v1.schema.json"
+      state_reconstruction:
+        - ".octon/framework/constitution/contracts/runtime/state-reconstruction-v1.md"
+    migration_notes:
+      engine_runtime_event_schema_ref: ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+      canonicalization_rule: >-
+        Engine-local dot-named runtime-event-v1 events are compatibility
+        aliases only and must be normalized into canonical hyphenated
+        run-event-v2 event types before they enter the canonical control
+        ledger, derived runtime-state materialization, replay reconstruction,
+        or closeout evidence snapshots.
+      event_aliases:
+        - legacy_event_type: "run.started"
+          canonical_event_types:
+            - "run-created"
+            - "run-bound"
+          mapping_rule: "Use run-created for initial run identity creation; use run-bound once the bound run root becomes authoritative."
+        - legacy_event_type: "run.context_pack_bound"
+          canonical_event_types:
+            - "context-pack-bound"
+          mapping_rule: "Preserve the bound context pack ref."
+        - legacy_event_type: "run.grant_issued"
+          canonical_event_types:
+            - "authority-granted"
+          mapping_rule: "Preserve policy, grant-bundle, and support-target refs."
+        - legacy_event_type: "run.grant_denied"
+          canonical_event_types:
+            - "authority-denied"
+          mapping_rule: "Preserve denial reason and governing policy refs."
+        - legacy_event_type: "approval.requested"
+          canonical_event_types:
+            - "approval-requested"
+          mapping_rule: "Preserve approval target and request refs."
+        - legacy_event_type: "approval.resolved"
+          canonical_event_types:
+            - "approval-granted"
+            - "approval-denied"
+          mapping_rule: "Choose the canonical event from the resolved decision outcome."
+        - legacy_event_type: "capability.invoked"
+          canonical_event_types:
+            - "capability-invoked"
+          mapping_rule: "Preserve capability request, authorization, and invocation refs when available."
+        - legacy_event_type: "checkpoint.created"
+          canonical_event_types:
+            - "checkpoint-created"
+          mapping_rule: "Preserve checkpoint side-artifact refs."
+        - legacy_event_type: "evidence.persisted"
+          canonical_event_types:
+            - "evidence-snapshot-created"
+          mapping_rule: "Preserve evidence snapshot and manifest refs."
+        - legacy_event_type: "replay.available"
+          canonical_event_types:
+            - "replay-materialized"
+          mapping_rule: "Preserve replay manifest or replay pointer refs."
+        - legacy_event_type: "rollback.started"
+          canonical_event_types:
+            - "rollback-started"
+          mapping_rule: "Preserve rollback posture or plan refs."
+        - legacy_event_type: "rollback.completed"
+          canonical_event_types:
+            - "rollback-completed"
+          mapping_rule: "Preserve rollback completion evidence refs."
+        - legacy_event_type: "intervention.recorded"
+          canonical_event_types:
+            - "operator-intervention-recorded"
+          mapping_rule: "Preserve intervention actor and disclosure refs."
+        - legacy_event_type: "disclosure.ready"
+          canonical_event_types:
+            - "run-card-published"
+            - "disclosure-published"
+          mapping_rule: "Use run-card-published for RunCard materialization; otherwise use disclosure-published."
+        - legacy_event_type: "run.closed"
+          canonical_event_types:
+            - "run-closed"
+          mapping_rule: "Preserve closure evidence and final state refs."
   assurance_binding:
     contract_family_root: ".octon/framework/constitution/contracts/assurance"
     functional_report_file: ".octon/state/evidence/runs/<run-id>/assurance/functional.yml"

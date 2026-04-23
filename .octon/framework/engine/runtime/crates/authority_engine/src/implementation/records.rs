@@ -480,7 +480,7 @@ pub(crate) struct RuntimeStateRecord {
     pub(crate) schema_version: String,
     #[serde(default)]
     pub(crate) run_id: String,
-    #[serde(default)]
+    #[serde(default, rename = "state", alias = "status")]
     pub(crate) status: String,
     #[serde(default)]
     pub(crate) workflow_mode: String,
@@ -501,9 +501,41 @@ pub(crate) struct RuntimeStateRecord {
     #[serde(default)]
     pub(crate) parent_run_ref: Option<String>,
     #[serde(default)]
+    pub(crate) source_ledger_ref: Option<String>,
+    #[serde(default)]
+    pub(crate) source_ledger_manifest_ref: Option<String>,
+    #[serde(default)]
+    pub(crate) support_target_tuple_ref: Option<String>,
+    #[serde(default)]
+    pub(crate) context_pack_ref: Option<String>,
+    #[serde(default)]
+    pub(crate) rollback_posture_ref: Option<String>,
+    #[serde(default)]
+    pub(crate) last_applied_event_id: Option<String>,
+    #[serde(default)]
+    pub(crate) last_applied_sequence: Option<u64>,
+    #[serde(default)]
+    pub(crate) last_applied_event_hash: Option<String>,
+    #[serde(default)]
+    pub(crate) materialized_at: Option<String>,
+    #[serde(default)]
+    pub(crate) materialized_by: Option<RuntimeStateMaterializedByRecord>,
+    #[serde(default)]
+    pub(crate) drift_status: Option<String>,
+    #[serde(default)]
+    pub(crate) drift_ref: Option<String>,
+    #[serde(default)]
     pub(crate) created_at: String,
     #[serde(default)]
     pub(crate) updated_at: String,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub(crate) struct RuntimeStateMaterializedByRecord {
+    #[serde(default)]
+    pub(crate) actor_class: String,
+    #[serde(default)]
+    pub(crate) actor_ref: String,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]

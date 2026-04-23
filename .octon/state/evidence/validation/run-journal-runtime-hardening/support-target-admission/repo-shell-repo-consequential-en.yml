@@ -1,0 +1,15 @@
+{
+  "schema_version": "run-journal-support-target-admission-v1",
+  "admission_id": "repo-shell-repo-consequential-en",
+  "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh",
+  "fixture_refs": [
+    ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/successful-observe-read/control/events.manifest.yml",
+    ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/rollback-recovery/control/events.manifest.yml"
+  ],
+  "negative_control_refs": [
+    ".octon/state/evidence/validation/run-journal-runtime-hardening/negative-tests/hash-mismatch/control/events.manifest.yml",
+    ".octon/state/evidence/validation/run-journal-runtime-hardening/negative-tests/runtime-state-conflict/control/runtime-state.yml"
+  ],
+  "result": "pass",
+  "generated_at": "2026-04-22T12:30:00Z"
+}

@@ -1,0 +1,219 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/runtime-state-v2.schema.json",
+  "title": "Octon Run Runtime State v2",
+  "description": "Derived runtime-state materialization for one bound run root. The canonical run journal ledger wins on conflict; this file exists as a mutable read model over the journal plus bounded side artifacts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "state",
+    "workflow_mode",
+    "run_contract_ref",
+    "run_manifest_ref",
+    "source_ledger_ref",
+    "source_ledger_manifest_ref",
+    "last_applied_event_id",
+    "last_applied_sequence",
+    "last_applied_event_hash",
+    "materialized_at",
+    "materialized_by",
+    "drift_status"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "runtime-state-v2"
+    },
+    "run_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "state": {
+      "$ref": "#/$defs/runtimeState"
+    },
+    "workflow_mode": {
+      "type": "string",
+      "enum": [
+        "agent-augmented",
+        "autonomous",
+        "role-mediated",
+        "human-only"
+      ]
+    },
+    "decision_state": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "pending",
+        "allow",
+        "stage_only",
+        "deny",
+        "escalate",
+        "resolved",
+        null
+      ]
+    },
+    "run_contract_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "run_manifest_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "source_ledger_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "source_ledger_manifest_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "support_target_tuple_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "context_pack_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "rollback_posture_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "current_stage_attempt_id": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "last_checkpoint_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "last_receipt_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "mission_id": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "parent_run_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "last_applied_event_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "last_applied_sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "last_applied_event_hash": {
+      "$ref": "#/$defs/hash"
+    },
+    "materialized_at": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "materialized_by": {
+      "$ref": "#/$defs/actor"
+    },
+    "drift_status": {
+      "type": "string",
+      "enum": [
+        "in-sync",
+        "reconstruction-required",
+        "drift-detected",
+        "repair-pending",
+        "repaired"
+      ]
+    },
+    "drift_ref": {
+      "$ref": "#/$defs/nullableString"
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_class",
+        "actor_ref"
+      ],
+      "properties": {
+        "actor_class": {
+          "type": "string",
+          "enum": [
+            "runtime",
+            "model-adapter",
+            "capability-adapter",
+            "operator",
+            "validator",
+            "replay-service",
+            "policy-engine",
+            "authority-engine"
+          ]
+        },
+        "actor_ref": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "runtimeState": {
+      "type": "string",
+      "enum": [
+        "created",
+        "bound",
+        "authorizing",
+        "approval-pending",
+        "authorized",
+        "stage_only",
+        "stage-only",
+        "denied",
+        "running",
+        "paused",
+        "checkpointed",
+        "rolling-back",
+        "recovering",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "closed"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "drift_status": {
+            "enum": [
+              "reconstruction-required",
+              "drift-detected",
+              "repair-pending",
+              "repaired"
+            ]
+          }
+        },
+        "required": [
+          "drift_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "drift_ref"
+        ],
+        "properties": {
+          "drift_ref": {
+            "$ref": "#/$defs/nonEmptyString"
+          }
+        }
+      }
+    }
+  ]
+}

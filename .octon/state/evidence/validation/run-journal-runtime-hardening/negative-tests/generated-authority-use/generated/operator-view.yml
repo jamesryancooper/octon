@@ -1,0 +1,16 @@
+{
+  "schema_version": "generated-run-journal-summary-v1",
+  "run_id": "generated-authority-use",
+  "generated_at": "2026-04-22T12:00:11Z",
+  "freshness": {
+    "mode": "digest_bound",
+    "status": "current"
+  },
+  "non_authority_classification": "missing",
+  "source_refs": [],
+  "forbidden_consumers": [
+    "policy",
+    "support-claim-evaluation",
+    "direct-runtime-reads"
+  ]
+}

@@ -29,9 +29,9 @@ required_lab_scenarios:
   - recovery-fault-baseline
 representative_retained_runs:
   - .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
-  - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-contract.yml
+  - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
   - .octon/state/control/execution/runs/uec-safe-stage-approval-exercise-20260402/run-contract.yml
-  - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/run-contract.yml
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
 known_exclusions: []
 recertification_cadence: quarterly
 support_admission_ref: .octon/instance/governance/support-target-admissions/live/repo-shell-repo-consequential-en.yml

@@ -1,49 +1,57 @@
-actor_ref:
-  id: octon-kernel
-  kind: system
-approval_grant_refs: []
-approval_request_ref: null
-assurance_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance
-authority_grant_bundle_ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml
-control_checkpoint_root: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints
-created_at: 2026-04-01T14:28:31.847273Z
-decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml
-disclosure_root: .octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1
-evidence_classification_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/evidence-classification.yml
-evidence_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1
-external_replay_index_ref: .octon/state/evidence/external-index/runs/uec-audit-workflow-system-20260401-agent-augmented-1.yml
-host_adapter_ref: .octon/framework/engine/runtime/adapters/host/repo-shell.yml
-intent_ref:
-  id: intent://octon/octon-governed-harness
-  version: 1.1.0
-intervention_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/interventions
-measurement_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/measurements
-mission_id: null
-model_adapter_ref: .octon/framework/engine/runtime/adapters/model/repo-local-governed.yml
-parent_run_ref: null
-receipt_root: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts
-replay_pointers_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay-pointers.yml
-requested_capability_packs:
-- repo
-- git
-- telemetry
-retained_evidence_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/retained-run-evidence.yml
-rollback_posture_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/rollback-posture.yml
-run_card_ref: .octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml
-run_continuity_ref: .octon/state/continuity/runs/uec-audit-workflow-system-20260401-agent-augmented-1/handoff.yml
-run_contract_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml
-run_id: uec-audit-workflow-system-20260401-agent-augmented-1
-runtime_state_ref: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/runtime-state.yml
-schema_version: run-manifest-v1
-stage_attempt_root: .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts
-support_target:
-  host_adapter: repo-shell
-  language_resource_tier: LT-REF
-  locale_tier: LOC-EN
-  model_adapter: repo-local-governed
-  model_tier: MT-B
-  workload_tier: repo-local-consequential
-support_target_ref: .octon/instance/governance/support-targets.yml
-support_tier: repo-local-consequential
-trace_pointers_ref: .octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/trace-pointers.yml
-updated_at: 2026-04-01T14:28:31.847273Z
+{
+  "actor_ref": {
+    "id": "octon-kernel",
+    "kind": "system"
+  },
+  "approval_grant_refs": [],
+  "approval_request_ref": null,
+  "assurance_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/assurance",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+  "control_checkpoint_root": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/checkpoints",
+  "created_at": "2026-04-01T14:28:31.847273Z",
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+  "disclosure_root": ".octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1",
+  "evidence_classification_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/evidence-classification.yml",
+  "evidence_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1",
+  "external_replay_index_ref": ".octon/state/evidence/external-index/runs/uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+  "host_adapter_ref": ".octon/framework/engine/runtime/adapters/host/repo-shell.yml",
+  "intent_ref": {
+    "id": "intent://octon/octon-governed-harness",
+    "version": "1.1.0"
+  },
+  "intervention_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/interventions",
+  "measurement_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/measurements",
+  "mission_id": null,
+  "model_adapter_ref": ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml",
+  "parent_run_ref": null,
+  "receipt_root": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/receipts",
+  "replay_pointers_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/replay-pointers.yml",
+  "requested_capability_packs": [
+    "repo",
+    "git",
+    "telemetry"
+  ],
+  "retained_evidence_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/retained-run-evidence.yml",
+  "rollback_posture_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/rollback-posture.yml",
+  "run_card_ref": ".octon/state/evidence/disclosure/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-card.yml",
+  "run_continuity_ref": ".octon/state/continuity/runs/uec-audit-workflow-system-20260401-agent-augmented-1/handoff.yml",
+  "run_contract_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-contract.yml",
+  "run_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
+  "runtime_state_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/runtime-state.yml",
+  "schema_version": "run-manifest-v2",
+  "stage_attempt_root": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/stage-attempts",
+  "support_target": {
+    "host_adapter": "repo-shell",
+    "language_resource_tier": "reference-owned",
+    "locale_tier": "english-primary",
+    "model_adapter": "repo-local-governed",
+    "model_tier": "repo-local-governed",
+    "workload_tier": "repo-consequential"
+  },
+  "support_target_ref": ".octon/instance/governance/support-targets.yml",
+  "support_tier": "repo-consequential",
+  "trace_pointers_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/trace-pointers.yml",
+  "updated_at": "2026-04-01T14:28:31.847273Z",
+  "authority_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-audit-workflow-system-20260401-agent-augmented-1.yml",
+  "support_target_tuple_id": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell"
+}

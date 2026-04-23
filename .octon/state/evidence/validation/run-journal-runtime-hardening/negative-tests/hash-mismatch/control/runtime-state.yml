@@ -1,0 +1,29 @@
+{
+  "schema_version": "runtime-state-v2",
+  "run_id": "hash-mismatch",
+  "state": "closed",
+  "workflow_mode": "agent-augmented",
+  "decision_state": "allow",
+  "run_contract_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/control/run-contract.yml",
+  "run_manifest_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/control/run-manifest.yml",
+  "source_ledger_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/control/events.ndjson",
+  "source_ledger_manifest_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/control/events.manifest.yml",
+  "support_target_tuple_ref": "tuple://fixture/hash-mismatch",
+  "context_pack_ref": null,
+  "rollback_posture_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/control/rollback-posture.yml",
+  "current_stage_attempt_id": "initial",
+  "last_checkpoint_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/control/checkpoints/execution-complete.yml",
+  "last_receipt_ref": ".octon/state/evidence/validation/run-journal-runtime-hardening/fixture-runs/hash-mismatch/evidence/receipts/execution-receipt.json",
+  "mission_id": null,
+  "parent_run_ref": null,
+  "last_applied_event_id": "evt-011-run-closed",
+  "last_applied_sequence": 11,
+  "last_applied_event_hash": "sha256:0cbbbccdb0e1ed02b274cbdfa3cfdb2fbbdf7ccd08e25f4eb0b2920c83df3563",
+  "materialized_at": "2026-04-22T12:00:11Z",
+  "materialized_by": {
+    "actor_class": "runtime",
+    "actor_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null
+}

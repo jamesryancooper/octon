@@ -26,6 +26,8 @@ Every operator read model must retain:
 - `generated_at`
 - source traceability such as `generated_from`, `source_refs`, or both
 - freshness metadata when the underlying source is time-bounded
+- the canonical run-journal refs and latest event hash when the view summarizes
+  run lifecycle or closeout state
 - canonical refs for any authority, support, disclosure, or evidence claims
 
 Every rendered fact must trace either directly to a canonical authored/control/
@@ -38,6 +40,12 @@ canonical source.
   and freshness.
 - Operator read models may never be the sole input to runtime policy,
   authority routing, or claim validation.
+- Operator read models may never be consumed as authorization, policy,
+  support-target, or state-reconstruction input; journal and retained evidence
+  roots remain the only valid sources for those paths.
+
+journal and retained evidence roots remain the only valid sources for runtime,
+policy, support, and reconstruction inputs.
 - Generated summaries, mission views, and operator digests may mirror current
   state but must not outstate `support-targets.yml`, release-lineage, RunCard
   v2, or HarnessCard v2.

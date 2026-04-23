@@ -1,0 +1,49 @@
+{
+  "schema_version": "run-event-ledger-v2",
+  "run_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
+  "ledger_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/events.ndjson",
+  "manifest_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/events.manifest.yml",
+  "event_schema_ref": ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json",
+  "runtime_state_schema_ref": ".octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json",
+  "state_reconstruction_ref": ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md",
+  "ledger_digest": "sha256:51c15f383a56d2a6199bbeb9b60e5f89881d8d3e34924fb266900db0525e666b",
+  "event_count": 14,
+  "first_event_ref": {
+    "event_id": "evt-001-run-created",
+    "sequence": 1,
+    "event_hash": "sha256:70b375e032ba535490ec4b5b097d62e926f465c1589344011b13cccb63c16b36"
+  },
+  "last_event_ref": {
+    "event_id": "evt-014-run-closed",
+    "sequence": 14,
+    "event_hash": "sha256:6a328e4e9b4d7582f963a3d81dbc9135cbfe191ff6c8e8ee60ce8ffc076fc454"
+  },
+  "hash_chain": {
+    "hash_algorithm": "sha256",
+    "chain_status": "verified",
+    "head_event_hash": "sha256:70b375e032ba535490ec4b5b097d62e926f465c1589344011b13cccb63c16b36",
+    "tail_event_hash": "sha256:6a328e4e9b4d7582f963a3d81dbc9135cbfe191ff6c8e8ee60ce8ffc076fc454"
+  },
+  "governing_event_refs": {
+    "runtime_state_ref": "evt-014-run-closed",
+    "disclosure_ref": "evt-012-run-card-published",
+    "checkpoint_ref": "evt-011-checkpoint-created"
+  },
+  "snapshot_refs": {
+    "control_snapshot_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/events.ndjson",
+    "evidence_snapshot_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-journal/events.snapshot.ndjson",
+    "evidence_manifest_snapshot_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-journal/events.manifest.snapshot.yml",
+    "redaction_record_ref": ".octon/state/evidence/runs/uec-audit-workflow-system-20260401-agent-augmented-1/run-journal/redactions.yml"
+  },
+  "last_materialization": {
+    "runtime_state_ref": ".octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/runtime-state.yml",
+    "last_applied_event_id": "evt-014-run-closed",
+    "last_applied_sequence": 14,
+    "last_applied_event_hash": "sha256:89c409e63464684c9d03246e1f53db0466a8987c16c7c6680cc972c33ba355b8",
+    "materialized_at": "2026-04-01T14:28:33.96128Z",
+    "materialized_by_ref": ".octon/framework/engine/runtime/crates/runtime_bus"
+  },
+  "drift_status": "in-sync",
+  "drift_ref": null,
+  "updated_at": "2026-04-01T14:28:33.96128Z"
+}
