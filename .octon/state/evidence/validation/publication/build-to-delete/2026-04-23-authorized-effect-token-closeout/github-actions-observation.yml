@@ -1,22 +1,56 @@
 schema_version: support-target-actions-observation-v1
 tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
-observed_at: "2026-04-23T14:06:35Z"
+observed_at: "2026-04-23T19:31:57Z"
 observer: octon-local-closeout
 workflow_run:
-  run_id: 24802746609
+  run_id: 24854534382
   workflow_name: PR Auto Merge
   event: pull_request_target
   conclusion: success
-  created_at: "2026-04-22T21:07:54Z"
-  url: https://github.com/jamesryancooper/octon/actions/runs/24802746609
+  status: completed
+  created_at: "2026-04-23T19:26:44Z"
+  head_branch: chore/authorized-effect-token-observation
+  head_sha: bf574749c61f6de6a1ad8c084b9990d99d267e9b
+  display_title: "docs(readme): clarify generated projections are derived"
+  url: https://github.com/jamesryancooper/octon/actions/runs/24854534382
 job:
-  job_id: 72589333554
-  name: auto-merge-pr-343
-  url: https://github.com/jamesryancooper/octon/actions/runs/24802746609/job/72589333554
+  job_id: 72763809816
+  name: auto-merge-pr-349
+  status: completed
+  conclusion: success
+  created_at: "2026-04-23T19:27:16Z"
+  started_at: "2026-04-23T19:27:18Z"
+  completed_at: "2026-04-23T19:29:51Z"
+  url: https://github.com/jamesryancooper/octon/actions/runs/24854534382/job/72763809816
+  wrapper_step:
+    name: Enable auto-merge for eligible PRs (race-safe)
+    started_at: "2026-04-23T19:27:22Z"
+    completed_at: "2026-04-23T19:29:47Z"
+    conclusion: success
 artifact:
-  artifact_id: 6588772924
-  url: https://github.com/jamesryancooper/octon/actions/runs/24802746609/artifacts/6588772924
+  artifact_id: 6610301919
+  name: pr-auto-merge-control-artifacts-349
+  url: https://github.com/jamesryancooper/octon/actions/runs/24854534382/artifacts/6610301919
+  api_url: https://api.github.com/repos/jamesryancooper/octon/actions/artifacts/6610301919
+  archive_download_url: https://api.github.com/repos/jamesryancooper/octon/actions/artifacts/6610301919/zip
+  digest: sha256:9e1407d95b5f25dc4603f52b780d7d6846ab9f951ab8e48162aabd1a691826e9
+  created_at: "2026-04-23T19:29:49Z"
+  expires_at: "2026-04-30T19:29:48Z"
+wrapperized_workflow_change:
+  commit: d0e2ef558c31ca2a5e77aee24ba22d74ce16e059
+  committed_at: "2026-04-23T18:07:19Z"
+  subject: "fix(runtime): close authorized effect token migration (#347)"
+  workflow_ref: .github/workflows/pr-auto-merge.yml
+naturalistic_closure:
+  post_change_observation: true
+  newer_than_wrapperized_workflow_change: true
+  wrapperized_lane_exercised: true
+  runtime_protected_merge_completed: true
+  observation_pr: https://github.com/jamesryancooper/octon/pull/349
+  observation_pr_merge_commit: 8e0201971caa3b3423cc3dfddd759dd70ce87dfa
 observations:
-  - The published default-branch workflow still exercised the PR Auto Merge lane on GitHub-hosted runners with live control artifacts.
-  - That observed run predates the local wrapperized protected-CI workflow update, so it is retained as naturalistic context only.
+  - The observed run is newer than the wrapperized protected-CI workflow change in d0e2ef558c31ca2a5e77aee24ba22d74ce16e059.
+  - The observed run used the pull_request_target PR Auto Merge lane on GitHub-hosted runners for non-fork PR #349.
+  - The auto-merge job completed the wrapper step successfully and logged "Merged PR #349 through the runtime-protected CI boundary."
+  - The run uploaded pr-auto-merge-control-artifacts-349 with control and evidence artifacts for the protected-CI operation.
   - The representative retained runtime proof for the current token-enforced implementation is .octon/state/control/execution/runs/protected-ci-1776956405637-68212/run-contract.yml.
