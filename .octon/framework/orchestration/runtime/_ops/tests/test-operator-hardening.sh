@@ -86,6 +86,10 @@ create_fixture() {
     "$fixture_root/.octon/framework/orchestration/runtime/workflows/example/sample" \
     "$fixture_root/.octon/state/evidence/decisions/repo/dec-001" \
     "$fixture_root/.octon/state/evidence/runs/run-001" \
+    "$fixture_root/.octon/state/evidence/validation/publication/capabilities" \
+    "$fixture_root/.octon/state/evidence/validation/publication/extensions" \
+    "$fixture_root/.octon/state/evidence/validation/compatibility/extensions" \
+    "$fixture_root/.octon/state/evidence/validation/extensions/prompt-alignment" \
     "$fixture_root/.octon/state/evidence/validation/publication/runtime" \
     "$fixture_root/.octon/framework/orchestration/governance" \
     "$fixture_root/.octon/framework/engine/runtime/config" \
@@ -110,16 +114,36 @@ create_fixture() {
     "$fixture_root/.octon/generated/effective/runtime/route-bundle.lock.yml"
   cp "$REPO_ROOT/.octon/generated/effective/governance/support-target-matrix.yml" \
     "$fixture_root/.octon/generated/effective/governance/support-target-matrix.yml"
+  cp "$REPO_ROOT/.octon/generated/effective/capabilities/routing.effective.yml" \
+    "$fixture_root/.octon/generated/effective/capabilities/routing.effective.yml"
+  cp "$REPO_ROOT/.octon/generated/effective/capabilities/artifact-map.yml" \
+    "$fixture_root/.octon/generated/effective/capabilities/artifact-map.yml"
+  cp "$REPO_ROOT/.octon/generated/effective/capabilities/generation.lock.yml" \
+    "$fixture_root/.octon/generated/effective/capabilities/generation.lock.yml"
   cp "$REPO_ROOT/.octon/generated/effective/capabilities/pack-routes.effective.yml" \
     "$fixture_root/.octon/generated/effective/capabilities/pack-routes.effective.yml"
   cp "$REPO_ROOT/.octon/generated/effective/capabilities/pack-routes.lock.yml" \
     "$fixture_root/.octon/generated/effective/capabilities/pack-routes.lock.yml"
   cp "$REPO_ROOT/.octon/generated/effective/extensions/catalog.effective.yml" \
     "$fixture_root/.octon/generated/effective/extensions/catalog.effective.yml"
+  cp "$REPO_ROOT/.octon/generated/effective/extensions/artifact-map.yml" \
+    "$fixture_root/.octon/generated/effective/extensions/artifact-map.yml"
   cp "$REPO_ROOT/.octon/generated/effective/extensions/generation.lock.yml" \
     "$fixture_root/.octon/generated/effective/extensions/generation.lock.yml"
+  cp "$REPO_ROOT/.octon/state/control/extensions/active.yml" \
+    "$fixture_root/.octon/state/control/extensions/active.yml"
+  cp "$REPO_ROOT/.octon/state/control/extensions/quarantine.yml" \
+    "$fixture_root/.octon/state/control/extensions/quarantine.yml"
   cp -R "$REPO_ROOT/.octon/state/evidence/validation/publication/runtime/." \
     "$fixture_root/.octon/state/evidence/validation/publication/runtime/"
+  cp -R "$REPO_ROOT/.octon/state/evidence/validation/publication/capabilities/." \
+    "$fixture_root/.octon/state/evidence/validation/publication/capabilities/"
+  cp -R "$REPO_ROOT/.octon/state/evidence/validation/publication/extensions/." \
+    "$fixture_root/.octon/state/evidence/validation/publication/extensions/"
+  cp -R "$REPO_ROOT/.octon/state/evidence/validation/compatibility/extensions/." \
+    "$fixture_root/.octon/state/evidence/validation/compatibility/extensions/"
+  cp -R "$REPO_ROOT/.octon/state/evidence/validation/extensions/prompt-alignment/." \
+    "$fixture_root/.octon/state/evidence/validation/extensions/prompt-alignment/"
 
   cat > "$fixture_root/.octon/framework/orchestration/runtime/queue/registry.yml" <<'EOF'
 schema_version: "orchestration-queue-registry-v1"
