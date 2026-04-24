@@ -4,6 +4,12 @@
 topology and authority registry lives at
 `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`.
 
+At the repository level, Octon is a Constitutional Engineering Harness for
+controlled autonomy: agents get governed room to work only inside admitted,
+evidenced, reviewable boundaries. This super-root owns the authority, runtime,
+support, evidence, continuity, and generated read-model surfaces that keep that
+claim bounded.
+
 This README is the concise, registry-backed orientation surface. It summarizes
 the class-root model, the canonical registries, and the bootstrap entrypoints
 without restating the full path topology.

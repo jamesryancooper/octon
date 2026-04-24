@@ -38,6 +38,14 @@ Controlled shorthand for **Constitutional Engineering Harness** after the full
 term has been established, or for retained terms such as **HarnessCard**. Do
 not use as a vague synonym for prompt, model, framework, or orchestrator.
 
+### Controlled Autonomy
+
+The public-facing description of Octon's governed autonomy posture: agents get
+bounded freedom to work only inside areas that have been admitted, checked,
+evidenced, and made reviewable. Use to explain why Octon's limits are a trust
+feature. Do not use to widen support claims beyond the admitted support
+envelope.
+
 ## Agent Terms
 
 ### Model
