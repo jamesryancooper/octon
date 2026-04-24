@@ -18,6 +18,23 @@ Retained evidence lives under these roots:
 Mutable control state under `/.octon/state/control/**` remains authoritative for
 live control truth, but it is not sufficient closeout evidence by itself.
 
+## Control And Evidence Boundary
+
+Run lifecycle state is controlled by `/.octon/state/control/**` journal and
+manifest files. Retained evidence under `/.octon/state/evidence/**` proves,
+replays, and discloses the run, but it does not become the live lifecycle
+control plane.
+
+Transition and reconstruction records may cite both control refs and retained
+evidence refs. Those refs must remain role-separated:
+
+- control refs establish the current journal head, lifecycle state, authority
+  route, rollback posture, and materialized `runtime-state.yml`;
+- retained evidence refs establish replay inputs, immutable snapshots,
+  disclosure inputs, and closeout completeness; and
+- generated/operator refs may summarize evidence but never satisfy control or
+  evidence requirements by themselves.
+
 ## Retained Versus Transport Artifacts
 
 CI uploads, caches, local previews, stdout captures, and other transport
@@ -61,6 +78,10 @@ Closeout must retain an evidence mirror of the canonical control journal:
 The evidence mirror is not the live control source, but it must hash-match the
 control journal at closeout and remain explicitly linked from the canonical
 journal manifest.
+
+The mirror may satisfy retained evidence and disclosure requirements only after
+the hash match is recorded. It must not be used to repair or overwrite the live
+control journal.
 
 ## Minimum Support And Release Bundle
 

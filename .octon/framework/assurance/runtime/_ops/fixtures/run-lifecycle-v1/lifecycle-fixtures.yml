@@ -1,0 +1,568 @@
+schema_version: "run-lifecycle-v1-fixture-set"
+fixture_set_id: "run-lifecycle-v1-state-machine-enforcement"
+lab_scenario_ref: ".octon/framework/lab/scenarios/packs/run-lifecycle-v1-boundary-composition.yml"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh"
+cases:
+  - case_id: "successful-closeout"
+    expectation: "pass"
+    coverage:
+      - "positive-transitions"
+      - "journal-derived-runtime-state"
+      - "closeout-completeness"
+      - "boundary-composition"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "running"
+        operation_id: "start-stage"
+        required_refs: ["stage_attempt", "effect_token"]
+      - from: "running"
+        to: "succeeded"
+        operation_id: "complete-run"
+        required_refs: ["retained_evidence", "effect_token"]
+        material_effect: true
+        effect_token_ref: "effect_token"
+        authority_source_ref: "decision_artifact"
+      - from: "succeeded"
+        to: "closed"
+        operation_id: "close-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+    effect_tokens:
+      effect_token:
+        status: "valid"
+        state_scope: "running"
+        single_use: true
+
+  - case_id: "paused-resumed-success"
+    expectation: "pass"
+    coverage:
+      - "positive-transitions"
+      - "pause-resume"
+      - "context-refresh"
+      - "closeout-completeness"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "running"
+        operation_id: "start-stage"
+        required_refs: ["stage_attempt", "effect_token"]
+      - from: "running"
+        to: "paused"
+        operation_id: "pause-run"
+        required_refs: ["checkpoint", "pause_receipt"]
+      - from: "paused"
+        to: "running"
+        operation_id: "resume-run"
+        required_refs: ["grant_bundle", "context_pack", "resume_receipt"]
+      - from: "running"
+        to: "succeeded"
+        operation_id: "complete-run"
+        required_refs: ["retained_evidence", "effect_token"]
+        material_effect: true
+        effect_token_ref: "effect_token"
+        authority_source_ref: "decision_artifact"
+      - from: "succeeded"
+        to: "closed"
+        operation_id: "close-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+    effect_tokens:
+      effect_token:
+        status: "valid"
+        state_scope: "running"
+        single_use: true
+
+  - case_id: "denied-closeout"
+    expectation: "pass"
+    coverage:
+      - "positive-transitions"
+      - "denial-path"
+      - "closeout-completeness"
+    transitions:
+      - from: "draft"
+        to: "denied"
+        operation_id: "deny-request"
+        required_refs: ["denial_receipt"]
+      - from: "denied"
+        to: "closed"
+        operation_id: "close-denied-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition", "denial_receipt"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+
+  - case_id: "stage-only-closeout-boundary"
+    expectation: "pass"
+    coverage:
+      - "positive-transitions"
+      - "stage-only"
+      - "boundary-composition"
+      - "closeout-completeness"
+      - "bound-stage-only"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "staged"
+        operation_id: "stage-only-route"
+        required_refs: ["stage_only_decision"]
+      - from: "staged"
+        to: "closed"
+        operation_id: "close-staged-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition", "stage_only_decision"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+
+  - case_id: "authorized-stage-only-closeout-boundary"
+    expectation: "pass"
+    coverage:
+      - "positive-transitions"
+      - "stage-only"
+      - "boundary-composition"
+      - "closeout-completeness"
+      - "authorized-stage-only"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "staged"
+        operation_id: "stage-only-route"
+        required_refs: ["stage_only_decision"]
+      - from: "staged"
+        to: "closed"
+        operation_id: "close-staged-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition", "stage_only_decision"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+
+  - case_id: "failed-rolled-back-closeout"
+    expectation: "pass"
+    coverage:
+      - "positive-transitions"
+      - "rollback"
+      - "closeout-completeness"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "running"
+        operation_id: "start-stage"
+        required_refs: ["stage_attempt", "effect_token"]
+      - from: "running"
+        to: "failed"
+        operation_id: "fail-run"
+        required_refs: ["failure_receipt", "rollback_posture"]
+      - from: "failed"
+        to: "rolled_back"
+        operation_id: "rollback-run"
+        required_refs: ["rollback_evidence", "rollback_posture"]
+      - from: "rolled_back"
+        to: "closed"
+        operation_id: "close-rolled-back-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition", "rollback_evidence"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+
+  - case_id: "invalid-running-before-authorized"
+    expectation: "fail"
+    expected_failure_contains: "invalid transition bound -> running"
+    coverage:
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "running"
+        operation_id: "start-without-authorization"
+        required_refs: ["stage_attempt"]
+    runtime_state:
+      drift_status: "in-sync"
+
+  - case_id: "bound-staged-without-stage-only-authority"
+    expectation: "fail"
+    expected_failure_contains: "bound->staged missing precondition ref: stage_only_decision"
+    coverage:
+      - "invalid-transitions-fail-closed"
+      - "boundary-composition"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "staged"
+        operation_id: "stage-only-route-without-authority"
+        required_refs: []
+    runtime_state:
+      drift_status: "in-sync"
+
+  - case_id: "bound-staged-with-allow-decision"
+    expectation: "fail"
+    expected_failure_contains: "stage_only_decision is not stage-only or escalation"
+    coverage:
+      - "invalid-transitions-fail-closed"
+      - "boundary-composition"
+      - "stage-only"
+    ref_postures:
+      stage_only_decision: "allow"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "staged"
+        operation_id: "stage-only-route-with-allow-decision"
+        required_refs: ["stage_only_decision"]
+    runtime_state:
+      drift_status: "in-sync"
+
+  - case_id: "authorized-without-grant"
+    expectation: "fail"
+    expected_failure_contains: "bound->authorized missing precondition ref: grant_bundle"
+    coverage:
+      - "authority-preconditions"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "context_pack"]
+    runtime_state:
+      drift_status: "in-sync"
+
+  - case_id: "runtime-state-drift"
+    expectation: "fail"
+    expected_failure_contains: "runtime-state final state mismatch"
+    coverage:
+      - "journal-derived-runtime-state"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+    runtime_state:
+      state: "bound"
+      drift_status: "in-sync"
+
+  - case_id: "closeout-missing-evidence"
+    expectation: "fail"
+    expected_failure_contains: "succeeded->closed missing precondition ref: evidence_store_completeness"
+    coverage:
+      - "closeout-completeness"
+      - "invalid-transitions-fail-closed"
+    missing_artifacts:
+      - "evidence_store_completeness"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "running"
+        operation_id: "start-stage"
+        required_refs: ["stage_attempt", "effect_token"]
+      - from: "running"
+        to: "succeeded"
+        operation_id: "complete-run"
+        required_refs: ["retained_evidence", "effect_token"]
+        material_effect: true
+        effect_token_ref: "effect_token"
+        authority_source_ref: "decision_artifact"
+      - from: "succeeded"
+        to: "closed"
+        operation_id: "close-run"
+        required_refs: ["journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    effect_tokens:
+      effect_token:
+        status: "valid"
+        state_scope: "running"
+        single_use: true
+
+  - case_id: "closeout-fake-evidence-ref"
+    expectation: "fail"
+    expected_failure_contains: "required artifact invalid: evidence_store_completeness"
+    coverage:
+      - "closeout-completeness"
+      - "invalid-transitions-fail-closed"
+    invalid_artifacts:
+      - "evidence_store_completeness"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "running"
+        operation_id: "start-stage"
+        required_refs: ["stage_attempt", "effect_token"]
+      - from: "running"
+        to: "succeeded"
+        operation_id: "complete-run"
+        required_refs: ["retained_evidence", "effect_token"]
+        material_effect: true
+        effect_token_ref: "effect_token"
+      - from: "succeeded"
+        to: "closed"
+        operation_id: "close-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    effect_tokens:
+      effect_token:
+        status: "valid"
+        state_scope: "running"
+        single_use: true
+
+  - case_id: "closeout-unresolved-blocking-risk"
+    expectation: "fail"
+    expected_failure_contains: "closeout unresolved blocking risk"
+    coverage:
+      - "closeout-completeness"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "running"
+        operation_id: "start-stage"
+        required_refs: ["stage_attempt", "effect_token"]
+      - from: "running"
+        to: "succeeded"
+        operation_id: "complete-run"
+        required_refs: ["retained_evidence", "effect_token"]
+        material_effect: true
+        effect_token_ref: "effect_token"
+      - from: "succeeded"
+        to: "closed"
+        operation_id: "close-run"
+        required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+    runtime_state:
+      drift_status: "in-sync"
+    closeout:
+      required_refs: ["evidence_store_completeness", "journal_snapshot", "rollback_posture", "run_card", "review_dispositions", "risk_disposition"]
+      risk_disposition:
+        status: "open"
+        unresolved_risk_count: 1
+    effect_tokens:
+      effect_token:
+        status: "valid"
+        state_scope: "running"
+        single_use: true
+
+  - case_id: "generated-read-model-authority"
+    expectation: "fail"
+    expected_failure_contains: "generated or input source used as lifecycle authority"
+    coverage:
+      - "generated-non-authority"
+      - "boundary-composition"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+        authority_source_ref: "operator_view"
+    runtime_state:
+      drift_status: "in-sync"
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+
+  - case_id: "absolute-generated-read-model-authority"
+    expectation: "fail"
+    expected_failure_contains: "generated or input source used as lifecycle authority"
+    coverage:
+      - "generated-non-authority"
+      - "boundary-composition"
+      - "invalid-transitions-fail-closed"
+    refs:
+      operator_view: "{ROOT_DIR}/.octon/generated/cognition/projections/materialized/runs/fixture-absolute-generated-read-model-authority.yml"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+        authority_source_ref: "operator_view"
+    runtime_state:
+      drift_status: "in-sync"
+    generated_operator_view:
+      ref_key: "operator_view"
+      non_authority_classification: "generated-run-lifecycle-summary"
+      source_refs: ["events.ndjson", "runtime-state.yml"]
+      forbidden_consumers: ["runtime", "policy", "authority"]
+
+  - case_id: "effect-token-outside-running"
+    expectation: "fail"
+    expected_failure_contains: "material effect outside running"
+    coverage:
+      - "effect-token-preconditions"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorized"
+        operation_id: "authorize-run"
+        required_refs: ["decision_artifact", "grant_bundle", "context_pack"]
+      - from: "authorized"
+        to: "staged"
+        operation_id: "stage-only-route"
+        required_refs: ["stage_only_decision", "effect_token"]
+        material_effect: true
+        effect_token_ref: "effect_token"
+        authority_source_ref: "decision_artifact"
+    runtime_state:
+      drift_status: "in-sync"
+    effect_tokens:
+      effect_token:
+        status: "valid"
+        state_scope: "running"
+        single_use: true
+
+  - case_id: "unknown-created-state"
+    expectation: "fail"
+    expected_failure_contains: "unknown lifecycle state: created"
+    coverage:
+      - "unknown-state-fail-closed"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "created"
+        to: "bound"
+        operation_id: "bind-from-created"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+    runtime_state:
+      drift_status: "in-sync"
+
+  - case_id: "unknown-authorizing-state"
+    expectation: "fail"
+    expected_failure_contains: "unknown lifecycle state: authorizing"
+    coverage:
+      - "unknown-state-fail-closed"
+      - "invalid-transitions-fail-closed"
+    transitions:
+      - from: "draft"
+        to: "bound"
+        operation_id: "bind-run"
+        required_refs: ["run_contract", "run_manifest", "runtime_state", "rollback_posture", "bound_checkpoint"]
+      - from: "bound"
+        to: "authorizing"
+        operation_id: "enter-authorizing"
+        required_refs: ["decision_artifact"]
+    runtime_state:
+      drift_status: "in-sync"

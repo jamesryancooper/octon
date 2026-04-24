@@ -34,6 +34,19 @@ Every rendered fact must trace either directly to a canonical authored/control/
 evidence source or to another generated field that itself resolves to a
 canonical source.
 
+## Lifecycle Refresh Rule
+
+When an operator read model summarizes run lifecycle state, its source refs must
+include the canonical journal refs and latest event hash used by a
+journal-derived reconstruction report. A read model may also cite retained
+evidence, RunCard, or disclosure refs for proof and operator context, but it
+must not cite itself or another generated view as the lifecycle source.
+
+If reconstruction reports drift, missing side artifacts, or journal/runtime
+state mismatch, generated lifecycle summaries must be marked stale or withheld
+until the control journal is repaired or an explicit recovery posture closes
+the mismatch.
+
 ## Non-Authority Rules
 
 - Operator read models may summarize status, support posture, closure state,
@@ -43,9 +56,6 @@ canonical source.
 - Operator read models may never be consumed as authorization, policy,
   support-target, or state-reconstruction input; journal and retained evidence
   roots remain the only valid sources for those paths.
-
-journal and retained evidence roots remain the only valid sources for runtime,
-policy, support, and reconstruction inputs.
 - Generated summaries, mission views, and operator digests may mirror current
   state but must not outstate `support-targets.yml`, release-lineage, RunCard
   v2, or HarnessCard v2.

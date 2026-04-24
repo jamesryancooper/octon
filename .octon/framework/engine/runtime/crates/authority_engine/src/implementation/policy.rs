@@ -8,9 +8,7 @@ use octon_core::execution_integrity::{
     record_budget_consumption, write_execution_cost_evidence, BudgetCheckContext, BudgetDecision,
     NetworkEgressContext, NetworkEgressDecision,
 };
-use octon_core::policy::PolicyEngine;
-use octon_core::registry::ServiceDescriptor;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::json;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
@@ -310,7 +308,9 @@ pub(crate) fn compose_policy_receipt(
     };
     let mut policy_runner = std::env::var("OCTON_POLICY_RUNNER_OVERRIDE")
         .map(PathBuf::from)
-        .unwrap_or_else(|_| cfg.repo_root.join(".octon/framework/engine/runtime/policy"));
+        .ok()
+        .filter(|override_path| !cfg!(test) || override_path.starts_with(&cfg.repo_root))
+        .unwrap_or_else(|| cfg.repo_root.join(".octon/framework/engine/runtime/policy"));
     let mut policy_file = resolve_acp_policy_path(cfg);
     let mut receipt_writer = cfg
         .repo_root

@@ -1,24 +1,10 @@
-use super::*;
 use crate::implementation::execution::normalized_repo_relative_ref;
-use anyhow::Context;
-use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
-use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
-use octon_core::execution_integrity::{
-    evaluate_execution_budget, evaluate_network_egress, infer_provider_from_model,
-    load_execution_budget_policy, load_execution_exception_leases, load_network_egress_policy,
-    record_budget_consumption, write_execution_cost_evidence, BudgetCheckContext, BudgetDecision,
-    NetworkEgressContext, NetworkEgressDecision,
-};
+use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::policy::PolicyEngine;
-use octon_core::registry::ServiceDescriptor;
-use serde::{Deserialize, Serialize};
 use serde_json::json;
 use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, BTreeSet};
-use std::fs;
-use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::sync::{Mutex, OnceLock};
+use std::collections::BTreeMap;
+use std::path::Path;
 
 mod tests {
 use super::*;
@@ -27,7 +13,10 @@ use octon_core::config::{
 };
 use std::fs;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{SystemTime, UNIX_EPOCH};
+
+static TEMP_RUNTIME_COUNTER: AtomicU64 = AtomicU64::new(0);
 
 fn support_targets_fixture(
     workload_id: &str,
@@ -44,8 +33,11 @@ fn temp_runtime_config() -> RuntimeConfig {
         .duration_since(UNIX_EPOCH)
         .expect("time should move forward")
         .as_nanos();
-    let base =
-        std::env::temp_dir().join(format!("octon-auth-test-{}-{stamp}", std::process::id()));
+    let serial = TEMP_RUNTIME_COUNTER.fetch_add(1, Ordering::Relaxed);
+    let base = std::env::temp_dir().join(format!(
+        "octon-auth-test-{}-{stamp}-{serial}",
+        std::process::id()
+    ));
     let _ = fs::remove_dir_all(&base);
     fs::create_dir_all(base.join(".octon/instance/charter"))
         .expect("create workspace charter dir");
@@ -290,39 +282,6 @@ fn temp_runtime_config() -> RuntimeConfig {
     }
 }
 
-fn refresh_runtime_effective_publications(cfg: &RuntimeConfig) {
-    let source_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-        .join("../../../../../..")
-        .canonicalize()
-        .expect("source repo root should resolve");
-    let repo_root = cfg.repo_root.to_string_lossy().to_string();
-    let octon_dir = cfg.octon_dir.to_string_lossy().to_string();
-
-    let status = std::process::Command::new("bash")
-        .arg(source_root.join(".octon/framework/assurance/runtime/_ops/scripts/publish-support-target-matrix.sh"))
-        .env("OCTON_DIR_OVERRIDE", &octon_dir)
-        .env("OCTON_ROOT_DIR", &repo_root)
-        .status()
-        .expect("support matrix generator should run");
-    assert!(status.success(), "support matrix generator should pass");
-
-    let status = std::process::Command::new("bash")
-        .arg(source_root.join(".octon/framework/assurance/runtime/_ops/scripts/publish-pack-routes.sh"))
-        .env("OCTON_DIR_OVERRIDE", &octon_dir)
-        .env("OCTON_ROOT_DIR", &repo_root)
-        .status()
-        .expect("pack routes generator should run");
-    assert!(status.success(), "pack routes generator should pass");
-
-    let status = std::process::Command::new("bash")
-        .arg(source_root.join(".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh"))
-        .env("OCTON_DIR_OVERRIDE", &octon_dir)
-        .env("OCTON_ROOT_DIR", &repo_root)
-        .status()
-        .expect("route bundle generator should run");
-    assert!(status.success(), "route bundle generator should pass");
-}
-
 fn fixture_sha256(path: &Path) -> String {
     let bytes = fs::read(path).expect("read fixture file");
     let mut hasher = Sha256::new();
@@ -552,6 +511,24 @@ fn repo_ref_path(cfg: &RuntimeConfig, reference: &str) -> PathBuf {
     cfg.repo_root.join(reference)
 }
 
+fn start_run_for_effect_consumption(
+    cfg: &RuntimeConfig,
+    request: &ExecutionRequest,
+    grant: &GrantBundle,
+) -> PathBuf {
+    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
+    fs::create_dir_all(&runtime_path).expect("create runtime path");
+    let artifact_effects = issue_execution_artifact_effects(
+        &runtime_path,
+        grant,
+        runtime_path.display().to_string(),
+    )
+    .expect("execution artifact effects should mint");
+    write_execution_start(&runtime_path, request, grant, &artifact_effects)
+        .expect("run should enter running state");
+    runtime_path
+}
+
 fn read_json_value(path: &Path) -> serde_json::Value {
     serde_json::from_str(&fs::read_to_string(path).expect("read json artifact"))
         .expect("parse json artifact")
@@ -619,6 +596,100 @@ fn context_pack_journal_uses_canonical_run_events() {
 }
 
 #[test]
+fn lifecycle_reconstruction_authorizes_from_journal_head() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-lifecycle-authorized".to_string();
+
+    authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let report = validate_run_lifecycle_operation(
+        &cfg.repo_root,
+        &request.request_id,
+        RunLifecycleOperation::Start,
+    )
+    .expect("authorized run should pass start gate");
+    assert_eq!(report.reconstructed_state, "authorized");
+    assert!(report.runtime_state_match);
+    assert!(report.latest_sequence.is_some());
+    assert!(report.latest_hash.is_some());
+}
+
+#[test]
+fn lifecycle_gate_blocks_runtime_state_drift() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-lifecycle-drift".to_string();
+
+    authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_state_path = cfg
+        .execution_control_root
+        .join("runs")
+        .join(&request.request_id)
+        .join("runtime-state.yml");
+    let mut state: serde_yaml::Mapping =
+        serde_yaml::from_str(&fs::read_to_string(&runtime_state_path).expect("read state"))
+            .expect("parse runtime-state");
+    state.insert(
+        serde_yaml::Value::String("state".to_string()),
+        serde_yaml::Value::String("running".to_string()),
+    );
+    fs::write(
+        &runtime_state_path,
+        serde_yaml::to_string(&state).expect("serialize tampered state"),
+    )
+    .expect("write tampered runtime-state");
+
+    let err = validate_run_lifecycle_operation(
+        &cfg.repo_root,
+        &request.request_id,
+        RunLifecycleOperation::Inspect,
+    )
+    .expect_err("runtime-state drift should fail closed");
+    assert_eq!(err.code, ErrorCode::CapabilityDenied);
+    assert!(
+        err.details["reason_codes"]
+            .as_array()
+            .expect("reason codes")
+            .iter()
+            .any(|value| value.as_str() == Some("RUN_LIFECYCLE_DRIFT"))
+    );
+}
+
+#[test]
+fn material_effect_consumption_outside_running_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-effect-outside-running".to_string();
+    request.action_type = "mutate_repo".to_string();
+    request.side_effect_flags.write_repo = true;
+    request.policy_mode_requested = Some("hard-enforce".to_string());
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
+    fs::create_dir_all(&runtime_path).expect("create runtime path");
+    let effect = issue_repo_mutation_effect(&runtime_path, &grant, "repo-scope")
+        .expect("repo effect should mint");
+
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::repo_consumer",
+        "repo-scope",
+    )
+    .expect_err("repo mutation should not verify before running");
+    assert!(
+        err.details["reason_codes"]
+            .as_array()
+            .expect("reason codes should be present")
+            .iter()
+            .any(|value| value.as_str() == Some("EFFECT_TOKEN_WRONG_LIFECYCLE_STATE"))
+    );
+}
+
+#[test]
 fn context_pack_retains_exact_model_visible_hash() {
     let cfg = temp_runtime_config();
     let policy = PolicyEngine::new(cfg.clone());
@@ -678,7 +749,6 @@ fn optional_supplied_context_binding_is_still_validated() {
     let (cfg, mut request, mut binding) =
         supplied_context_fixture("req-optional-context-binding-invalid");
     let policy = PolicyEngine::new(cfg.clone());
-    let _ = fs::remove_file(run_contract_path(&cfg, &request.request_id));
     request.side_effect_flags = SideEffectFlags::default();
     request.requires_context_evidence = false;
     request.boundary_sensitive = false;
@@ -697,7 +767,7 @@ fn optional_supplied_context_binding_is_still_validated() {
 }
 
 #[test]
-fn execution_request_payload_omits_absent_context_binding() {
+fn execution_request_payload_includes_authorized_context_binding() {
     let cfg = temp_runtime_config();
     let policy = PolicyEngine::new(cfg.clone());
     let mut request = minimal_request();
@@ -710,14 +780,19 @@ fn execution_request_payload_omits_absent_context_binding() {
         .insert("support_tier".to_string(), "observe-and-read".to_string());
 
     let grant = authorize_execution(&cfg, &policy, &request, None)
-        .expect("optional context request should authorize without a binding");
-    assert!(grant.context_evidence_binding.is_none());
+        .expect("authorization should build context-pack proof before authorizing");
+    let binding = grant
+        .context_evidence_binding
+        .as_ref()
+        .expect("Context Pack Builder v1 binding should be retained");
+    assert_eq!(grant.context_pack_ref.as_deref(), Some(binding.context_pack_ref.as_str()));
 
     let payload = phases::receipt::execution_request_payload(&request, &grant);
-    assert!(payload.get("context_evidence_binding").is_none());
-    assert!(payload["request"].get("context_evidence_binding").is_none());
-    assert!(payload.get("context_pack_ref").is_none());
-    assert!(payload["request"].get("context_pack_ref").is_none());
+    assert_eq!(payload["context_pack_ref"], binding.context_pack_ref);
+    assert_eq!(
+        payload["context_evidence_binding"]["context_pack_receipt_ref"],
+        binding.context_pack_receipt_ref
+    );
 }
 
 #[test]
@@ -934,7 +1009,7 @@ fn issued_effect_verifies_and_records_consumption_receipt() {
     let policy = PolicyEngine::new(cfg.clone());
     let request = minimal_request();
     let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
-    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
     let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
         .expect("service effect should mint");
     let verified = verify_authorized_effect(
@@ -1019,7 +1094,7 @@ fn single_use_effect_cannot_be_consumed_twice() {
     request.side_effect_flags.write_repo = true;
     request.policy_mode_requested = Some("hard-enforce".to_string());
     let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
-    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
     let effect = issue_repo_mutation_effect(&runtime_path, &grant, "repo-scope")
         .expect("repo effect should mint");
     verify_authorized_effect(
@@ -1050,7 +1125,7 @@ fn wrong_scope_effect_fails_closed() {
     request.side_effect_flags.write_repo = true;
     request.policy_mode_requested = Some("hard-enforce".to_string());
     let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
-    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
     let effect = issue_repo_mutation_effect(&runtime_path, &grant, "allowed-scope")
         .expect("repo effect should mint");
     let err = verify_authorized_effect(
@@ -1070,7 +1145,7 @@ fn expired_effect_is_rejected() {
     let policy = PolicyEngine::new(cfg.clone());
     let request = minimal_request();
     let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
-    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
     let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
         .expect("service effect should mint");
     let record_path = effect_token_record_path(&runtime_path, effect.token_record_ref());
@@ -1120,8 +1195,7 @@ fn verification_bundle_scope_mismatch_fails_closed() {
         Some(value) => std::env::set_var("OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE", value),
         None => std::env::remove_var("OCTON_ALLOW_STALE_RUNTIME_ROUTE_BUNDLE"),
     }
-    let runtime_path = cfg.execution_tmp_root.join(&request.request_id);
-    fs::create_dir_all(&runtime_path).expect("create runtime path");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
     let execution_grant_path = runtime_path.join("grant-bundle.json");
     fs::write(
         &execution_grant_path,
@@ -1611,6 +1685,40 @@ fn failed_run_measurement_artifacts_remain_workflow_agnostic() {
     assert!(metric_ids.contains(&"checkpoint-count"));
     assert!(metric_ids.contains(&"proof-plane-count"));
     assert!(!metric_ids.contains(&"validator-count"));
+
+    let close_report = validate_run_lifecycle_operation(
+        &cfg.repo_root,
+        &request.request_id,
+        RunLifecycleOperation::Close,
+    )
+    .expect("closed failed run should satisfy closeout completeness");
+    assert_eq!(close_report.reconstructed_state, "closed");
+
+    let review_dispositions_path = cfg
+        .execution_control_root
+        .join("runs")
+        .join(&request.request_id)
+        .join("authority/review-dispositions.yml");
+    let evidence_completeness_path = cfg
+        .run_root(&request.request_id)
+        .join("closeout/evidence-store-completeness.yml");
+    assert!(review_dispositions_path.is_file());
+    assert!(evidence_completeness_path.is_file());
+
+    fs::remove_file(&review_dispositions_path).expect("remove review disposition fixture");
+    let err = validate_run_lifecycle_operation(
+        &cfg.repo_root,
+        &request.request_id,
+        RunLifecycleOperation::Close,
+    )
+    .expect_err("closed run without review/risk disposition should fail closed");
+    assert!(
+        err.details["reason_codes"]
+            .as_array()
+            .expect("reason codes")
+            .iter()
+            .any(|value| value.as_str() == Some("RUN_LIFECYCLE_REVIEW_DISPOSITION_MISSING"))
+    );
 }
 
 #[test]

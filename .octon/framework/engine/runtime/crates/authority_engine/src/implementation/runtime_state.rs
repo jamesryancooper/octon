@@ -1,29 +1,1223 @@
 use super::*;
-use anyhow::Context;
-use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
+use octon_core::config::RuntimeConfig;
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
-use octon_core::execution_integrity::{
-    evaluate_execution_budget, evaluate_network_egress, infer_provider_from_model,
-    load_execution_budget_policy, load_execution_exception_leases, load_network_egress_policy,
-    record_budget_consumption, write_execution_cost_evidence, BudgetCheckContext, BudgetDecision,
-    NetworkEgressContext, NetworkEgressDecision,
-};
-use octon_core::policy::PolicyEngine;
-use octon_core::registry::ServiceDescriptor;
 use octon_runtime_bus::{
     append_event as append_run_journal_event, load_journal as load_run_journal, JournalActor,
     JournalCausality, JournalClassification, JournalEffect, JournalGoverningRefs, JournalLifecycle,
-    JournalPayload, JournalRedaction, RunJournalAppendRequest, RunJournalMaterialization,
-    RunJournalSnapshotRefs,
+    JournalPayload, JournalRedaction, RunJournalAppendReceipt, RunJournalAppendRequest,
+    RunJournalMaterialization,
 };
 use serde::{Deserialize, Serialize};
 use serde_json::json;
-use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::sync::{Mutex, OnceLock};
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum RunLifecycleState {
+    Draft,
+    Bound,
+    Authorized,
+    Running,
+    Paused,
+    Staged,
+    Revoked,
+    Failed,
+    RolledBack,
+    Succeeded,
+    Denied,
+    Closed,
+}
+
+impl RunLifecycleState {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Draft => "draft",
+            Self::Bound => "bound",
+            Self::Authorized => "authorized",
+            Self::Running => "running",
+            Self::Paused => "paused",
+            Self::Staged => "staged",
+            Self::Revoked => "revoked",
+            Self::Failed => "failed",
+            Self::RolledBack => "rolled_back",
+            Self::Succeeded => "succeeded",
+            Self::Denied => "denied",
+            Self::Closed => "closed",
+        }
+    }
+
+    fn parse(value: &str) -> Option<Self> {
+        match value {
+            "draft" => Some(Self::Draft),
+            "bound" => Some(Self::Bound),
+            "authorized" => Some(Self::Authorized),
+            "running" => Some(Self::Running),
+            "paused" => Some(Self::Paused),
+            "staged" | "stage_only" => Some(Self::Staged),
+            "revoked" => Some(Self::Revoked),
+            "failed" => Some(Self::Failed),
+            "rolled_back" => Some(Self::RolledBack),
+            "succeeded" => Some(Self::Succeeded),
+            "denied" => Some(Self::Denied),
+            "closed" => Some(Self::Closed),
+            _ => None,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RunLifecycleOperation {
+    Start,
+    Resume,
+    Checkpoint,
+    Close,
+    Replay,
+    Disclose,
+    Inspect,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct RunLifecycleReconstruction {
+    pub schema_version: String,
+    pub run_id: String,
+    pub journal_ref: String,
+    pub manifest_ref: String,
+    pub latest_sequence: Option<u64>,
+    pub latest_hash: Option<String>,
+    pub reconstructed_state: String,
+    pub runtime_state_ref: String,
+    pub runtime_state_match: bool,
+    #[serde(default)]
+    pub drift_findings: Vec<String>,
+    #[serde(default)]
+    pub missing_side_artifact_refs: Vec<String>,
+}
+
+impl RunLifecycleReconstruction {
+    fn is_clean(&self) -> bool {
+        self.runtime_state_match
+            && self.drift_findings.is_empty()
+            && self.missing_side_artifact_refs.is_empty()
+    }
+}
+
+pub fn validate_run_lifecycle_operation(
+    repo_root: &Path,
+    run_id: &str,
+    operation: RunLifecycleOperation,
+) -> CoreResult<RunLifecycleReconstruction> {
+    let control_root = repo_root
+        .join(".octon/state/control/execution/runs")
+        .join(run_id);
+    let runtime_state_path = control_root.join("runtime-state.yml");
+    let report = reconstruct_run_lifecycle(repo_root, &control_root, &runtime_state_path)?;
+    let state = RunLifecycleState::parse(&report.reconstructed_state).ok_or_else(|| {
+        lifecycle_denial(
+            format!(
+                "run {run_id} reconstructed to unsupported lifecycle state '{}'",
+                report.reconstructed_state
+            ),
+            vec!["RUN_LIFECYCLE_STATE_INVALID"],
+            Some(&report),
+        )
+    })?;
+    if operation != RunLifecycleOperation::Close {
+        require_reconstruction_clean(&report)?;
+    }
+
+    match operation {
+        RunLifecycleOperation::Start => {
+            if !matches!(
+                state,
+                RunLifecycleState::Bound
+                    | RunLifecycleState::Authorized
+                    | RunLifecycleState::Staged
+            ) {
+                return Err(lifecycle_denial(
+                    format!(
+                        "run {run_id} cannot start from lifecycle state '{}'",
+                        state.as_str()
+                    ),
+                    vec!["RUN_LIFECYCLE_START_STATE_INVALID", "FCR-020"],
+                    Some(&report),
+                ));
+            }
+        }
+        RunLifecycleOperation::Resume => {
+            if !matches!(state, RunLifecycleState::Paused | RunLifecycleState::Staged) {
+                return Err(lifecycle_denial(
+                    format!(
+                        "run {run_id} cannot resume from lifecycle state '{}'",
+                        state.as_str()
+                    ),
+                    vec!["RUN_LIFECYCLE_RESUME_STATE_INVALID", "FCR-020"],
+                    Some(&report),
+                ));
+            }
+        }
+        RunLifecycleOperation::Checkpoint => {
+            if matches!(state, RunLifecycleState::Draft | RunLifecycleState::Closed) {
+                return Err(lifecycle_denial(
+                    format!(
+                        "run {run_id} cannot checkpoint from lifecycle state '{}'",
+                        state.as_str()
+                    ),
+                    vec!["RUN_LIFECYCLE_CHECKPOINT_STATE_INVALID", "FCR-020"],
+                    Some(&report),
+                ));
+            }
+        }
+        RunLifecycleOperation::Close => {
+            if state != RunLifecycleState::Closed {
+                return Err(lifecycle_denial(
+                    format!(
+                        "run {run_id} is not closed; reconstructed lifecycle state is '{}'",
+                        state.as_str()
+                    ),
+                    vec!["RUN_LIFECYCLE_CLOSE_STATE_INVALID", "FCR-018", "FCR-020"],
+                    Some(&report),
+                ));
+            }
+            validate_closeout_completeness(repo_root, run_id, &control_root, &report)?;
+            require_reconstruction_clean(&report)?;
+        }
+        RunLifecycleOperation::Replay => {
+            if matches!(state, RunLifecycleState::Draft) {
+                return Err(lifecycle_denial(
+                    format!("run {run_id} has no bound journal to replay"),
+                    vec!["RUN_LIFECYCLE_REPLAY_STATE_INVALID", "FCR-020"],
+                    Some(&report),
+                ));
+            }
+        }
+        RunLifecycleOperation::Disclose => {
+            if state != RunLifecycleState::Closed {
+                return Err(lifecycle_denial(
+                    format!(
+                        "run {run_id} cannot disclose from lifecycle state '{}'",
+                        state.as_str()
+                    ),
+                    vec!["RUN_LIFECYCLE_DISCLOSE_STATE_INVALID", "FCR-018", "FCR-020"],
+                    Some(&report),
+                ));
+            }
+            validate_disclosure_inputs(repo_root, run_id, &report)?;
+        }
+        RunLifecycleOperation::Inspect => {}
+    }
+
+    Ok(report)
+}
+
+pub(crate) fn append_validated_run_journal_event(
+    control_root: &Path,
+    runtime_state_path: &Path,
+    mut request: RunJournalAppendRequest,
+) -> CoreResult<RunJournalAppendReceipt> {
+    let repo_root = discover_repo_root(control_root).unwrap_or_else(|| PathBuf::from("."));
+    let before_report = reconstruct_run_lifecycle(&repo_root, control_root, runtime_state_path)?;
+    require_reconstruction_clean(&before_report)?;
+    let current_state =
+        RunLifecycleState::parse(&before_report.reconstructed_state).ok_or_else(|| {
+            lifecycle_denial(
+                format!(
+                    "run {} reconstructed to unsupported lifecycle state '{}'",
+                    request.run_id, before_report.reconstructed_state
+                ),
+                vec!["RUN_LIFECYCLE_STATE_INVALID"],
+                Some(&before_report),
+            )
+        })?;
+    let requested_before = request
+        .lifecycle
+        .state_before
+        .as_deref()
+        .map(parse_lifecycle_state)
+        .transpose()?
+        .unwrap_or(current_state);
+    let requested_after = request
+        .lifecycle
+        .state_after
+        .as_deref()
+        .map(parse_lifecycle_state)
+        .transpose()?
+        .unwrap_or(requested_before);
+
+    if requested_before != current_state {
+        return Err(lifecycle_denial(
+            format!(
+                "run {} lifecycle transition '{}' expected state '{}' but journal reconstructed '{}'",
+                request.run_id,
+                request.event_type,
+                requested_before.as_str(),
+                current_state.as_str()
+            ),
+            vec!["RUN_LIFECYCLE_STATE_BEFORE_MISMATCH", "FCR-020"],
+            Some(&before_report),
+        ));
+    }
+    validate_lifecycle_transition(requested_before, requested_after).map_err(|reason| {
+        lifecycle_denial(
+            format!(
+                "illegal lifecycle transition for run {}: {} -> {} ({reason})",
+                request.run_id,
+                requested_before.as_str(),
+                requested_after.as_str()
+            ),
+            vec!["RUN_LIFECYCLE_TRANSITION_ILLEGAL", "FCR-020"],
+            Some(&before_report),
+        )
+    })?;
+    validate_transition_required_refs(&request, requested_before, requested_after)?;
+
+    request.lifecycle.state_before = Some(requested_before.as_str().to_string());
+    request.lifecycle.state_after = Some(requested_after.as_str().to_string());
+    request.drift_status = Some("in-sync".to_string());
+    request.drift_ref = None;
+    let receipt = append_run_journal_event(control_root, request).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to append validated run journal event: {error}"),
+        )
+    })?;
+    materialize_runtime_state_from_receipt(runtime_state_path, &receipt)?;
+    Ok(receipt)
+}
+
+pub(crate) fn reconstructed_lifecycle_state(bound: &BoundRunLifecycle) -> CoreResult<String> {
+    let repo_root = discover_repo_root(&bound.control_root).unwrap_or_else(|| PathBuf::from("."));
+    let report =
+        reconstruct_run_lifecycle(&repo_root, &bound.control_root, &bound.runtime_state_path)?;
+    require_reconstruction_clean(&report)?;
+    Ok(report.reconstructed_state)
+}
+
+pub(crate) fn ensure_material_effect_lifecycle_allowed(
+    bound: &BoundRunLifecycle,
+    effect_kind: &str,
+    target_scope: &str,
+) -> CoreResult<()> {
+    let state = reconstructed_lifecycle_state(bound)?;
+    let allowed = match effect_kind {
+        "state-control-mutation" | "evidence-mutation" => {
+            matches!(state.as_str(), "authorized" | "running")
+        }
+        _ => state == "running",
+    };
+    if allowed {
+        Ok(())
+    } else {
+        Err(KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!(
+                "EFFECT_TOKEN_WRONG_LIFECYCLE_STATE: run lifecycle state '{state}' does not permit effect token consumption for {target_scope}"
+            ),
+        )
+        .with_details(json!({
+            "reason_codes":["EFFECT_TOKEN_WRONG_LIFECYCLE_STATE","FCR-020"]
+        })))
+    }
+}
+
+fn reconstruct_run_lifecycle(
+    repo_root: &Path,
+    control_root: &Path,
+    runtime_state_path: &Path,
+) -> CoreResult<RunLifecycleReconstruction> {
+    let run_id = control_root
+        .file_name()
+        .and_then(|value| value.to_str())
+        .unwrap_or_default()
+        .to_string();
+    let journal_ref = path_tail(repo_root, &control_root.join("events.ndjson"));
+    let manifest_ref = path_tail(repo_root, &control_root.join("events.manifest.yml"));
+    let runtime_state_ref = path_tail(repo_root, runtime_state_path);
+    let mut report = RunLifecycleReconstruction {
+        schema_version: "run-lifecycle-reconstruction-v1".to_string(),
+        run_id,
+        journal_ref,
+        manifest_ref,
+        latest_sequence: None,
+        latest_hash: None,
+        reconstructed_state: RunLifecycleState::Draft.as_str().to_string(),
+        runtime_state_ref,
+        runtime_state_match: true,
+        drift_findings: Vec::new(),
+        missing_side_artifact_refs: Vec::new(),
+    };
+
+    let journal = match load_run_journal(control_root) {
+        Ok(journal) => journal,
+        Err(octon_runtime_bus::RuntimeBusError::MissingJournal { .. }) => {
+            compare_runtime_state_to_report(runtime_state_path, &mut report)?;
+            return Ok(report);
+        }
+        Err(error) => {
+            report
+                .drift_findings
+                .push(format!("run journal failed integrity validation: {error}"));
+            compare_runtime_state_to_report(runtime_state_path, &mut report)?;
+            return Ok(report);
+        }
+    };
+
+    report.latest_sequence = Some(journal.manifest.last_event_ref.sequence);
+    report.latest_hash = Some(journal.manifest.last_event_ref.event_hash.clone());
+    let mut state = RunLifecycleState::Draft;
+    for event in &journal.events {
+        let before = match event.lifecycle.state_before.as_deref() {
+            Some(value) => match RunLifecycleState::parse(value) {
+                Some(value) => value,
+                None => {
+                    report.drift_findings.push(format!(
+                        "event {} declares unsupported state_before '{}'",
+                        event.event_id, value
+                    ));
+                    continue;
+                }
+            },
+            None => state,
+        };
+        let after = match event.lifecycle.state_after.as_deref() {
+            Some(value) => match RunLifecycleState::parse(value) {
+                Some(value) => value,
+                None => {
+                    report.drift_findings.push(format!(
+                        "event {} declares unsupported state_after '{}'",
+                        event.event_id, value
+                    ));
+                    continue;
+                }
+            },
+            None => before,
+        };
+        if before != state {
+            report.drift_findings.push(format!(
+                "event {} expected state_before '{}' but reconstructed state was '{}'",
+                event.event_id,
+                before.as_str(),
+                state.as_str()
+            ));
+        }
+        if let Err(reason) = validate_lifecycle_transition(before, after) {
+            report.drift_findings.push(format!(
+                "event {} has illegal transition {} -> {}: {reason}",
+                event.event_id,
+                before.as_str(),
+                after.as_str()
+            ));
+        }
+        collect_missing_event_refs(repo_root, event, &mut report);
+        state = after;
+    }
+    report.reconstructed_state = state.as_str().to_string();
+    compare_runtime_state_to_report(runtime_state_path, &mut report)?;
+    Ok(report)
+}
+
+fn compare_runtime_state_to_report(
+    runtime_state_path: &Path,
+    report: &mut RunLifecycleReconstruction,
+) -> CoreResult<()> {
+    if !runtime_state_path.is_file() {
+        if report.reconstructed_state != RunLifecycleState::Draft.as_str() {
+            report.runtime_state_match = false;
+            report
+                .drift_findings
+                .push("runtime-state.yml is missing for a journaled run".to_string());
+        }
+        return Ok(());
+    }
+
+    let state: RuntimeStateRecord = read_yaml_or_default(runtime_state_path)?;
+    let normalized_state = RunLifecycleState::parse(&state.status)
+        .map(|state| state.as_str().to_string())
+        .unwrap_or_else(|| state.status.clone());
+    if !normalized_state.is_empty() && normalized_state != report.reconstructed_state {
+        report.runtime_state_match = false;
+        report.drift_findings.push(format!(
+            "runtime-state status '{}' does not match journal-derived state '{}'",
+            state.status, report.reconstructed_state
+        ));
+    }
+    if let (Some(actual), Some(expected)) = (state.last_applied_sequence, report.latest_sequence) {
+        if actual != expected {
+            report.runtime_state_match = false;
+            report.drift_findings.push(format!(
+                "runtime-state last_applied_sequence {actual} does not match journal head {expected}"
+            ));
+        }
+    }
+    if let (Some(actual), Some(expected)) = (
+        state.last_applied_event_hash.as_deref(),
+        report.latest_hash.as_deref(),
+    ) {
+        if actual != expected {
+            report.runtime_state_match = false;
+            report.drift_findings.push(format!(
+                "runtime-state last_applied_event_hash '{actual}' does not match journal head '{expected}'"
+            ));
+        }
+    }
+    if state
+        .drift_status
+        .as_deref()
+        .is_some_and(|value| value != "in-sync")
+    {
+        report.runtime_state_match = false;
+        report.drift_findings.push(format!(
+            "runtime-state drift_status is '{}'",
+            state.drift_status.unwrap_or_default()
+        ));
+    }
+    Ok(())
+}
+
+fn require_reconstruction_clean(report: &RunLifecycleReconstruction) -> CoreResult<()> {
+    if report.is_clean() {
+        return Ok(());
+    }
+    let repo_root = discover_repo_root(Path::new(&report.runtime_state_ref))
+        .unwrap_or_else(|| PathBuf::from("."));
+    let _ = write_lifecycle_drift_report(&repo_root, report);
+    Err(lifecycle_denial(
+        format!(
+            "run {} lifecycle reconstruction detected drift",
+            report.run_id
+        ),
+        vec!["RUN_LIFECYCLE_DRIFT", "FCR-020"],
+        Some(report),
+    ))
+}
+
+fn materialize_runtime_state_from_receipt(
+    runtime_state_path: &Path,
+    receipt: &RunJournalAppendReceipt,
+) -> CoreResult<()> {
+    let mut state: RuntimeStateRecord = read_yaml_or_default(runtime_state_path)?;
+    if state.created_at.trim().is_empty() {
+        state.created_at = receipt.event.recorded_at.clone();
+    }
+    state.schema_version = "runtime-state-v2".to_string();
+    state.run_id = receipt.event.run_id.clone();
+    state.status = receipt
+        .event
+        .lifecycle
+        .state_after
+        .clone()
+        .unwrap_or_else(|| RunLifecycleState::Draft.as_str().to_string());
+    if state.run_contract_ref.trim().is_empty() {
+        state.run_contract_ref = receipt.event.governing_refs.run_contract_ref.clone();
+    }
+    if state.run_manifest_ref.trim().is_empty() {
+        state.run_manifest_ref = receipt.event.governing_refs.run_manifest_ref.clone();
+    }
+    if let Some(stage_attempt_ref) = &receipt.event.governing_refs.stage_attempt_ref {
+        if state.current_stage_attempt_id.is_none() {
+            state.current_stage_attempt_id = Path::new(stage_attempt_ref)
+                .file_stem()
+                .and_then(|value| value.to_str())
+                .map(ToOwned::to_owned);
+        }
+    }
+    if let Some(checkpoint_ref) = &receipt.event.governing_refs.checkpoint_ref {
+        state.last_checkpoint_ref = Some(checkpoint_ref.clone());
+    }
+    if let Some(receipt_ref) = receipt
+        .event
+        .governing_refs
+        .policy_receipt_ref
+        .clone()
+        .or_else(|| receipt.event.governing_refs.evidence_snapshot_ref.clone())
+    {
+        state.last_receipt_ref = Some(receipt_ref);
+    }
+    if state.support_target_tuple_ref.is_none() {
+        state.support_target_tuple_ref = receipt
+            .event
+            .governing_refs
+            .support_target_tuple_ref
+            .clone();
+    }
+    if let Some(context_pack_ref) = &receipt.event.governing_refs.context_pack_ref {
+        state.context_pack_ref = Some(context_pack_ref.clone());
+    }
+    if let Some(rollback_posture_ref) = &receipt.event.governing_refs.rollback_posture_ref {
+        state.rollback_posture_ref = Some(rollback_posture_ref.clone());
+    }
+    state.source_ledger_ref = Some(receipt.manifest.ledger_ref.clone());
+    state.source_ledger_manifest_ref = Some(receipt.manifest.manifest_ref.clone());
+    state.last_applied_event_id = Some(receipt.event.event_id.clone());
+    state.last_applied_sequence = Some(receipt.event.sequence);
+    state.last_applied_event_hash = Some(receipt.event.integrity.event_hash.clone());
+    state.materialized_at = Some(receipt.event.recorded_at.clone());
+    state.materialized_by = Some(RuntimeStateMaterializedByRecord {
+        actor_class: "runtime".to_string(),
+        actor_ref: ".octon/framework/engine/runtime/crates/runtime_bus".to_string(),
+    });
+    state.drift_status = Some("in-sync".to_string());
+    state.drift_ref = None;
+    state.updated_at = receipt.event.recorded_at.clone();
+    write_yaml(runtime_state_path, &state).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to materialize runtime-state {}: {e}",
+                runtime_state_path.display()
+            ),
+        )
+    })
+}
+
+fn parse_lifecycle_state(value: &str) -> CoreResult<RunLifecycleState> {
+    RunLifecycleState::parse(value).ok_or_else(|| {
+        lifecycle_denial(
+            format!("unsupported run lifecycle state '{value}'"),
+            vec!["RUN_LIFECYCLE_STATE_INVALID", "FCR-020"],
+            None,
+        )
+    })
+}
+
+fn validate_lifecycle_transition(
+    before: RunLifecycleState,
+    after: RunLifecycleState,
+) -> Result<(), &'static str> {
+    if before == after && before != RunLifecycleState::Closed {
+        return Ok(());
+    }
+    let allowed = match before {
+        RunLifecycleState::Draft => {
+            matches!(after, RunLifecycleState::Bound | RunLifecycleState::Denied)
+        }
+        RunLifecycleState::Bound => matches!(
+            after,
+            RunLifecycleState::Authorized | RunLifecycleState::Staged | RunLifecycleState::Denied
+        ),
+        RunLifecycleState::Authorized => matches!(
+            after,
+            RunLifecycleState::Running
+                | RunLifecycleState::Staged
+                | RunLifecycleState::Revoked
+                | RunLifecycleState::Denied
+        ),
+        RunLifecycleState::Running => matches!(
+            after,
+            RunLifecycleState::Paused
+                | RunLifecycleState::Failed
+                | RunLifecycleState::Revoked
+                | RunLifecycleState::Succeeded
+                | RunLifecycleState::Staged
+        ),
+        RunLifecycleState::Paused => matches!(
+            after,
+            RunLifecycleState::Running | RunLifecycleState::Revoked | RunLifecycleState::Failed
+        ),
+        RunLifecycleState::Staged => matches!(
+            after,
+            RunLifecycleState::Authorized | RunLifecycleState::Revoked | RunLifecycleState::Closed
+        ),
+        RunLifecycleState::Revoked => {
+            matches!(
+                after,
+                RunLifecycleState::RolledBack | RunLifecycleState::Closed
+            )
+        }
+        RunLifecycleState::Failed => {
+            matches!(
+                after,
+                RunLifecycleState::RolledBack | RunLifecycleState::Closed
+            )
+        }
+        RunLifecycleState::RolledBack => matches!(after, RunLifecycleState::Closed),
+        RunLifecycleState::Succeeded => matches!(after, RunLifecycleState::Closed),
+        RunLifecycleState::Denied => matches!(after, RunLifecycleState::Closed),
+        RunLifecycleState::Closed => false,
+    };
+    if allowed {
+        Ok(())
+    } else {
+        Err("transition is not in the run-lifecycle-v1 exit table")
+    }
+}
+
+fn validate_transition_required_refs(
+    request: &RunJournalAppendRequest,
+    before: RunLifecycleState,
+    after: RunLifecycleState,
+) -> CoreResult<()> {
+    let refs = &request.governing_refs;
+    let mut missing = Vec::new();
+    if before == after {
+        if request.event_type == "checkpoint-created" && refs.checkpoint_ref.is_none() {
+            missing.push("checkpoint_ref");
+        }
+    } else {
+        match after {
+            RunLifecycleState::Bound => {
+                require_nonempty_ref(&refs.run_contract_ref, "run_contract_ref", &mut missing);
+                require_nonempty_ref(&refs.run_manifest_ref, "run_manifest_ref", &mut missing);
+                require_optional_ref(
+                    &refs.rollback_posture_ref,
+                    "rollback_posture_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::Authorized => {
+                require_optional_ref(
+                    &refs.authority_route_receipt_ref,
+                    "authority_route_receipt_ref",
+                    &mut missing,
+                );
+                require_optional_ref(&refs.grant_bundle_ref, "grant_bundle_ref", &mut missing);
+                require_optional_ref(&refs.policy_receipt_ref, "policy_receipt_ref", &mut missing);
+                require_optional_ref(&refs.context_pack_ref, "context_pack_ref", &mut missing);
+                require_optional_ref(
+                    &refs.support_target_tuple_ref,
+                    "support_target_tuple_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::Running => {
+                require_optional_ref(&refs.grant_bundle_ref, "grant_bundle_ref", &mut missing);
+                require_optional_ref(&refs.stage_attempt_ref, "stage_attempt_ref", &mut missing);
+            }
+            RunLifecycleState::Paused => {
+                require_optional_ref(&refs.checkpoint_ref, "checkpoint_ref", &mut missing);
+            }
+            RunLifecycleState::Staged => {
+                require_optional_ref(
+                    &refs.authority_route_receipt_ref,
+                    "authority_route_receipt_ref",
+                    &mut missing,
+                );
+                require_additional_ref(
+                    &refs.additional_refs,
+                    "authority-decision",
+                    "stage_only_decision_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::Revoked => {
+                require_optional_ref(&refs.revocation_ref, "revocation_ref", &mut missing);
+                require_optional_ref(
+                    &refs.rollback_posture_ref,
+                    "rollback_posture_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::Failed => {
+                if request
+                    .subject_ref
+                    .as_deref()
+                    .unwrap_or_default()
+                    .is_empty()
+                {
+                    missing.push("subject_ref");
+                }
+                require_optional_ref(
+                    &refs.rollback_posture_ref,
+                    "rollback_posture_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::RolledBack => {
+                require_optional_ref(
+                    &refs.rollback_posture_ref,
+                    "rollback_posture_ref",
+                    &mut missing,
+                );
+                require_optional_ref(&refs.checkpoint_ref, "checkpoint_ref", &mut missing);
+            }
+            RunLifecycleState::Succeeded => {
+                if request
+                    .subject_ref
+                    .as_deref()
+                    .unwrap_or_default()
+                    .is_empty()
+                {
+                    missing.push("subject_ref");
+                }
+            }
+            RunLifecycleState::Denied => {
+                require_optional_ref(
+                    &refs.authority_route_receipt_ref,
+                    "authority_route_receipt_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::Closed => {
+                require_optional_ref(
+                    &refs.rollback_posture_ref,
+                    "rollback_posture_ref",
+                    &mut missing,
+                );
+                require_optional_ref(
+                    &refs.evidence_snapshot_ref,
+                    "evidence_snapshot_ref",
+                    &mut missing,
+                );
+                require_optional_ref(&refs.disclosure_ref, "disclosure_ref", &mut missing);
+                require_additional_ref(
+                    &refs.additional_refs,
+                    "authority/review-dispositions.yml",
+                    "review_dispositions_ref",
+                    &mut missing,
+                );
+                require_additional_ref(
+                    &refs.additional_refs,
+                    "/closeout/evidence-store-completeness.yml",
+                    "evidence_store_completeness_ref",
+                    &mut missing,
+                );
+            }
+            RunLifecycleState::Draft => {}
+        }
+    }
+    if missing.is_empty() {
+        Ok(())
+    } else {
+        Err(lifecycle_denial(
+            format!(
+                "run {} transition {} -> {} is missing required refs: {}",
+                request.run_id,
+                before.as_str(),
+                after.as_str(),
+                missing.join(", ")
+            ),
+            vec!["RUN_LIFECYCLE_REQUIRED_REF_MISSING", "FCR-020"],
+            None,
+        ))
+    }
+}
+
+fn require_nonempty_ref<'a>(value: &'a str, key: &'a str, missing: &mut Vec<&'a str>) {
+    if value.trim().is_empty() {
+        missing.push(key);
+    }
+}
+
+fn require_optional_ref<'a>(value: &'a Option<String>, key: &'a str, missing: &mut Vec<&'a str>) {
+    if value.as_deref().unwrap_or_default().trim().is_empty() {
+        missing.push(key);
+    }
+}
+
+fn require_additional_ref<'a>(
+    values: &[String],
+    needle: &str,
+    key: &'a str,
+    missing: &mut Vec<&'a str>,
+) {
+    if !values.iter().any(|value| value.contains(needle)) {
+        missing.push(key);
+    }
+}
+
+fn collect_missing_event_refs(
+    repo_root: &Path,
+    event: &octon_runtime_bus::RunJournalEvent,
+    report: &mut RunLifecycleReconstruction,
+) {
+    let evidence_snapshot_ref = if matches!(
+        event.event_type.as_str(),
+        "evidence-snapshot-created" | "run-closed"
+    ) {
+        None
+    } else {
+        event.governing_refs.evidence_snapshot_ref.as_deref()
+    };
+    let refs = [
+        Some(event.governing_refs.run_contract_ref.as_str()),
+        Some(event.governing_refs.run_manifest_ref.as_str()),
+        event.governing_refs.authority_route_receipt_ref.as_deref(),
+        event.governing_refs.grant_bundle_ref.as_deref(),
+        event.governing_refs.policy_receipt_ref.as_deref(),
+        event.governing_refs.rollback_posture_ref.as_deref(),
+        event.governing_refs.context_pack_ref.as_deref(),
+        event.governing_refs.stage_attempt_ref.as_deref(),
+        event.governing_refs.checkpoint_ref.as_deref(),
+        evidence_snapshot_ref,
+        event.governing_refs.disclosure_ref.as_deref(),
+    ];
+    if let Some(subject_ref) = event.subject_ref.as_deref() {
+        if !event.event_type.starts_with("effect-token-") {
+            collect_missing_ref(repo_root, subject_ref, report);
+        }
+    }
+    for reference in refs.into_iter().flatten() {
+        collect_missing_ref(repo_root, reference, report);
+    }
+    for reference in &event.governing_refs.additional_refs {
+        collect_missing_ref(repo_root, reference, report);
+    }
+    report.missing_side_artifact_refs.sort();
+    report.missing_side_artifact_refs.dedup();
+}
+
+fn collect_missing_ref(repo_root: &Path, reference: &str, report: &mut RunLifecycleReconstruction) {
+    if reference.trim().is_empty() || reference.starts_with("tuple://") {
+        return;
+    }
+    let Some(path_part) = reference.split('#').next() else {
+        return;
+    };
+    if !resolve_repo_ref_from_root(repo_root, path_part).exists() {
+        report
+            .missing_side_artifact_refs
+            .push(path_part.to_string());
+    }
+}
+
+fn validate_closeout_completeness(
+    repo_root: &Path,
+    run_id: &str,
+    control_root: &Path,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<()> {
+    let journal = load_run_journal(control_root).map_err(|error| {
+        lifecycle_denial(
+            format!("failed to load closed run journal for {run_id}: {error}"),
+            vec!["RUN_LIFECYCLE_JOURNAL_INVALID", "FCR-018"],
+            Some(report),
+        )
+    })?;
+    let snapshot_refs = &journal.manifest.snapshot_refs;
+    let control_snapshot = required_snapshot_path(
+        repo_root,
+        snapshot_refs.control_snapshot_ref.as_deref(),
+        "control_snapshot_ref",
+        report,
+    )?;
+    let evidence_snapshot = required_snapshot_path(
+        repo_root,
+        snapshot_refs.evidence_snapshot_ref.as_deref(),
+        "evidence_snapshot_ref",
+        report,
+    )?;
+    let evidence_manifest = required_snapshot_path(
+        repo_root,
+        snapshot_refs.evidence_manifest_snapshot_ref.as_deref(),
+        "evidence_manifest_snapshot_ref",
+        report,
+    )?;
+    if sha256_file(&control_root.join("events.ndjson")) != sha256_file(&evidence_snapshot) {
+        return Err(lifecycle_denial(
+            format!("run {run_id} evidence journal snapshot does not hash-match control journal"),
+            vec!["RUN_LIFECYCLE_SNAPSHOT_HASH_MISMATCH", "FCR-018"],
+            Some(report),
+        ));
+    }
+    if sha256_file(&control_root.join("events.manifest.yml")) != sha256_file(&evidence_manifest) {
+        return Err(lifecycle_denial(
+            format!("run {run_id} evidence manifest snapshot does not hash-match control manifest"),
+            vec!["RUN_LIFECYCLE_SNAPSHOT_HASH_MISMATCH", "FCR-018"],
+            Some(report),
+        ));
+    }
+    ensure_ref_exists(
+        repo_root,
+        &format!(".octon/state/control/execution/runs/{run_id}/rollback-posture.yml"),
+        "rollback_posture_ref",
+        report,
+    )?;
+    ensure_ref_exists(
+        repo_root,
+        &format!(".octon/state/evidence/disclosure/runs/{run_id}/run-card.yml"),
+        "run_card_ref",
+        report,
+    )?;
+    ensure_ref_exists(
+        repo_root,
+        &format!(".octon/state/evidence/runs/{run_id}/retained-run-evidence.yml"),
+        "retained_evidence_ref",
+        report,
+    )?;
+    let _ = control_snapshot;
+    validate_review_dispositions(repo_root, run_id, report)?;
+    validate_evidence_store_completeness(repo_root, run_id, report)?;
+    Ok(())
+}
+
+fn validate_disclosure_inputs(
+    repo_root: &Path,
+    run_id: &str,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<()> {
+    ensure_ref_exists(
+        repo_root,
+        &format!(".octon/state/evidence/disclosure/runs/{run_id}/run-card.yml"),
+        "run_card_ref",
+        report,
+    )?;
+    ensure_ref_exists(
+        repo_root,
+        &format!(".octon/state/evidence/runs/{run_id}/retained-run-evidence.yml"),
+        "retained_evidence_ref",
+        report,
+    )?;
+    Ok(())
+}
+
+fn required_snapshot_path(
+    repo_root: &Path,
+    reference: Option<&str>,
+    key: &str,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<PathBuf> {
+    let Some(reference) = reference.filter(|value| !value.trim().is_empty()) else {
+        return Err(lifecycle_denial(
+            format!("run {} closeout is missing {key}", report.run_id),
+            vec!["RUN_LIFECYCLE_CLOSEOUT_REF_MISSING", "FCR-018"],
+            Some(report),
+        ));
+    };
+    ensure_ref_exists(repo_root, reference, key, report)
+}
+
+fn ensure_ref_exists(
+    repo_root: &Path,
+    reference: &str,
+    key: &str,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<PathBuf> {
+    let path = resolve_repo_ref_from_root(repo_root, reference);
+    if path.exists() {
+        Ok(path)
+    } else {
+        Err(lifecycle_denial(
+            format!(
+                "run {} closeout/disclosure required {key} does not exist: {reference}",
+                report.run_id
+            ),
+            vec!["RUN_LIFECYCLE_REQUIRED_REF_MISSING", "FCR-018"],
+            Some(report),
+        ))
+    }
+}
+
+fn validate_review_dispositions(
+    repo_root: &Path,
+    run_id: &str,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<()> {
+    let path = repo_root
+        .join(".octon/state/control/execution/runs")
+        .join(run_id)
+        .join("authority/review-dispositions.yml");
+    if !path.is_file() {
+        return Err(lifecycle_denial(
+            format!("run {run_id} closeout is missing review/risk dispositions"),
+            vec!["RUN_LIFECYCLE_REVIEW_DISPOSITION_MISSING", "FCR-018"],
+            Some(report),
+        ));
+    }
+    let raw = fs::read_to_string(&path).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to read review dispositions {}: {error}",
+                path.display()
+            ),
+        )
+    })?;
+    let value: serde_yaml::Value = serde_yaml::from_str(&raw).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to parse review dispositions {}: {error}",
+                path.display()
+            ),
+        )
+    })?;
+    let unresolved = value
+        .get("dispositions")
+        .and_then(|value| value.as_sequence())
+        .into_iter()
+        .flatten()
+        .any(|entry| {
+            entry
+                .get("blocking")
+                .and_then(|value| value.as_bool())
+                .unwrap_or(false)
+                && entry
+                    .get("status")
+                    .and_then(|value| value.as_str())
+                    .is_some_and(|status| status != "resolved")
+        });
+    if unresolved {
+        return Err(lifecycle_denial(
+            format!("run {run_id} has unresolved blocking review dispositions"),
+            vec!["RUN_LIFECYCLE_REVIEW_DISPOSITION_BLOCKING", "FCR-018"],
+            Some(report),
+        ));
+    }
+    let risk = value.get("risk_disposition");
+    if risk.is_none() {
+        return Err(lifecycle_denial(
+            format!("run {run_id} closeout is missing risk disposition"),
+            vec!["RUN_LIFECYCLE_RISK_DISPOSITION_MISSING", "FCR-018"],
+            Some(report),
+        ));
+    }
+    let risk = risk.expect("checked above");
+    let unresolved_risk_count = risk
+        .get("unresolved_risk_count")
+        .and_then(|value| value.as_i64())
+        .unwrap_or(0);
+    let risk_status = risk
+        .get("status")
+        .and_then(|value| value.as_str())
+        .unwrap_or_default();
+    if unresolved_risk_count > 0 && !matches!(risk_status, "accepted" | "resolved") {
+        return Err(lifecycle_denial(
+            format!("run {run_id} has unresolved risk disposition"),
+            vec!["RUN_LIFECYCLE_RISK_DISPOSITION_BLOCKING", "FCR-018"],
+            Some(report),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_evidence_store_completeness(
+    repo_root: &Path,
+    run_id: &str,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<()> {
+    let path = ensure_ref_exists(
+        repo_root,
+        &format!(".octon/state/evidence/runs/{run_id}/closeout/evidence-store-completeness.yml"),
+        "evidence_store_completeness_ref",
+        report,
+    )?;
+    let raw = fs::read_to_string(&path).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to read evidence-store completeness {}: {error}",
+                path.display()
+            ),
+        )
+    })?;
+    let value: serde_yaml::Value = serde_yaml::from_str(&raw).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to parse evidence-store completeness {}: {error}",
+                path.display()
+            ),
+        )
+    })?;
+    if value
+        .get("completeness_status")
+        .and_then(|value| value.as_str())
+        != Some("complete")
+    {
+        return Err(lifecycle_denial(
+            format!("run {run_id} evidence-store completeness is not complete"),
+            vec!["RUN_LIFECYCLE_EVIDENCE_COMPLETENESS_INCOMPLETE", "FCR-018"],
+            Some(report),
+        ));
+    }
+    for (key, default_ref) in [
+        (
+            "journal_snapshot_ref",
+            format!(".octon/state/evidence/runs/{run_id}/run-journal/events.snapshot.ndjson"),
+        ),
+        (
+            "evidence_manifest_snapshot_ref",
+            format!(".octon/state/evidence/runs/{run_id}/run-journal/events.manifest.snapshot.yml"),
+        ),
+        (
+            "rollback_posture_ref",
+            format!(".octon/state/control/execution/runs/{run_id}/rollback-posture.yml"),
+        ),
+        (
+            "run_card_ref",
+            format!(".octon/state/evidence/disclosure/runs/{run_id}/run-card.yml"),
+        ),
+        (
+            "review_dispositions_ref",
+            format!(
+                ".octon/state/control/execution/runs/{run_id}/authority/review-dispositions.yml"
+            ),
+        ),
+        (
+            "retained_evidence_ref",
+            format!(".octon/state/evidence/runs/{run_id}/retained-run-evidence.yml"),
+        ),
+    ] {
+        let reference = value
+            .get(key)
+            .and_then(|value| value.as_str())
+            .unwrap_or(default_ref.as_str());
+        ensure_ref_exists(repo_root, reference, key, report)?;
+    }
+    if value
+        .get("replay_disclosure_ready")
+        .and_then(|value| value.as_bool())
+        != Some(true)
+    {
+        return Err(lifecycle_denial(
+            format!("run {run_id} closeout is not marked replay/disclosure ready"),
+            vec!["RUN_LIFECYCLE_DISCLOSURE_READINESS_MISSING", "FCR-018"],
+            Some(report),
+        ));
+    }
+    Ok(())
+}
+
+fn resolve_repo_ref_from_root(repo_root: &Path, reference: &str) -> PathBuf {
+    let path = PathBuf::from(reference);
+    if path.is_absolute() {
+        path
+    } else {
+        repo_root.join(path)
+    }
+}
+
+fn write_lifecycle_drift_report(
+    repo_root: &Path,
+    report: &RunLifecycleReconstruction,
+) -> CoreResult<()> {
+    if report.run_id.trim().is_empty() {
+        return Ok(());
+    }
+    let timestamp = now_rfc3339().unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string());
+    let stable = timestamp
+        .chars()
+        .map(|ch| if ch.is_ascii_alphanumeric() { ch } else { '-' })
+        .collect::<String>();
+    let path = repo_root
+        .join(".octon/state/evidence/runs")
+        .join(&report.run_id)
+        .join("assurance")
+        .join(format!("lifecycle-drift-{stable}.json"));
+    write_json(&path, report).map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to retain lifecycle drift report {}: {error}",
+                path.display()
+            ),
+        )
+    })
+}
+
+fn lifecycle_denial(
+    message: impl Into<String>,
+    reason_codes: Vec<&str>,
+    report: Option<&RunLifecycleReconstruction>,
+) -> KernelError {
+    let mut details = json!({
+        "reason_codes": reason_codes,
+    });
+    if let Some(report) = report {
+        details["reconstruction"] = serde_json::to_value(report).unwrap_or_else(|_| json!({}));
+    }
+    KernelError::new(ErrorCode::CapabilityDenied, message).with_details(details)
+}
 
 pub(crate) fn bind_run_lifecycle(
     cfg: &RuntimeConfig,
@@ -159,6 +1353,42 @@ pub(crate) fn bind_run_lifecycle(
     let retained_evidence_ref = path_tail(&cfg.repo_root, &retained_evidence_path);
     let evidence_classification_ref = path_tail(&cfg.repo_root, &evidence_classification_path);
     let stage_attempt_ref = path_tail(&cfg.repo_root, &stage_attempt_path);
+
+    if run_journal_path(cfg, run_id).is_file() && run_journal_manifest_path(cfg, run_id).is_file() {
+        let report = reconstruct_run_lifecycle(&cfg.repo_root, &control_root, &runtime_state_path)?;
+        require_reconstruction_clean(&report)?;
+        return Ok(BoundRunLifecycle {
+            control_root,
+            evidence_root: evidence_root.clone(),
+            assurance_root: evidence_root.join("assurance"),
+            measurement_root: evidence_root.join("measurements"),
+            intervention_root: evidence_root.join("interventions"),
+            disclosure_root: cfg
+                .repo_root
+                .join(".octon/state/evidence/disclosure/runs")
+                .join(run_id),
+            replay_manifest_path: evidence_root.join("replay").join("manifest.yml"),
+            continuity_handoff_path,
+            _run_manifest_path: run_manifest_path,
+            runtime_state_path,
+            receipts_root,
+            replay_pointers_path,
+            _evidence_classification_path: evidence_classification_path,
+            retained_evidence_path,
+            stage_attempt_path,
+            control_root_rel,
+            evidence_root_rel,
+            control_checkpoint_ref,
+            run_manifest_ref,
+            receipts_root_rel,
+            replay_pointers_ref,
+            trace_pointers_ref,
+            evidence_classification_ref,
+            retained_evidence_ref,
+            stage_attempt_ref,
+            stage_attempt_id,
+        });
+    }
 
     if !run_contract_path.is_file() {
         let scope_in = if request.scope_constraints.read.is_empty() {
@@ -414,7 +1644,7 @@ pub(crate) fn bind_run_lifecycle(
     }
     runtime_state.schema_version = "runtime-state-v2".to_string();
     runtime_state.run_id = run_id.to_string();
-    runtime_state.status = "authorizing".to_string();
+    runtime_state.status = "bound".to_string();
     runtime_state.workflow_mode = request.workflow_mode.clone();
     runtime_state.decision_state = Some("pending".to_string());
     runtime_state.run_contract_ref = run_contract_ref.clone();
@@ -742,7 +1972,7 @@ pub(crate) fn bind_run_lifecycle(
         &RunContinuityRecord {
             schema_version: "run-continuity-v1".to_string(),
             run_id: run_id.to_string(),
-            status: "authorizing".to_string(),
+            status: "bound".to_string(),
             run_contract_ref: run_contract_ref.clone(),
             run_manifest_ref: run_manifest_ref.clone(),
             retained_evidence_ref: retained_evidence_ref.clone(),
@@ -753,7 +1983,7 @@ pub(crate) fn bind_run_lifecycle(
             resume_from_stage_attempt_id: Some(stage_attempt_id.clone()),
             mission_id: mission_id.clone(),
             parent_run_ref: parent_run_ref.clone(),
-            next_action: next_action_for_run_status("authorizing"),
+            next_action: next_action_for_run_status("bound"),
             updated_at: now.clone(),
         },
         &continuity_handoff_path,
@@ -797,7 +2027,7 @@ pub(crate) fn bind_run_lifecycle(
 }
 
 fn initialize_run_journal(
-    cfg: &RuntimeConfig,
+    _cfg: &RuntimeConfig,
     run_id: &str,
     control_root: &Path,
     control_root_rel: &str,
@@ -812,7 +2042,7 @@ fn initialize_run_journal(
 ) -> CoreResult<RunJournalMaterialization> {
     let support_target_tuple_ref = Some(support_target_tuple_id(support_target));
 
-    let created = append_run_journal(
+    let _created = append_run_journal(
         control_root,
         RunJournalAppendRequest {
             run_id: run_id.to_string(),
@@ -827,7 +2057,7 @@ fn initialize_run_journal(
                 replay_disposition: "dry-run-only".to_string(),
             },
             lifecycle: JournalLifecycle {
-                state_before: Some("created".to_string()),
+                state_before: Some("draft".to_string()),
                 state_after: Some("bound".to_string()),
             },
             governing_refs: journal_governing_refs(
@@ -856,7 +2086,7 @@ fn initialize_run_journal(
         },
     )?;
 
-    let bound = append_run_journal(
+    let _bound = append_run_journal(
         control_root,
         RunJournalAppendRequest {
             run_id: run_id.to_string(),
@@ -916,7 +2146,7 @@ fn initialize_run_journal(
             },
             lifecycle: JournalLifecycle {
                 state_before: Some("bound".to_string()),
-                state_after: Some("authorizing".to_string()),
+                state_after: Some("bound".to_string()),
             },
             governing_refs: journal_governing_refs(
                 run_contract_ref,
@@ -959,8 +2189,8 @@ fn initialize_run_journal(
                 replay_disposition: "dry-run-only".to_string(),
             },
             lifecycle: JournalLifecycle {
-                state_before: Some("authorizing".to_string()),
-                state_after: Some("authorizing".to_string()),
+                state_before: Some("bound".to_string()),
+                state_after: Some("bound".to_string()),
             },
             governing_refs: journal_governing_refs(
                 run_contract_ref,
@@ -996,12 +2226,11 @@ fn append_run_journal(
     control_root: &Path,
     request: RunJournalAppendRequest,
 ) -> CoreResult<octon_runtime_bus::RunJournalAppendReceipt> {
-    append_run_journal_event(control_root, request).map_err(|error| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!("failed to append canonical run journal event: {error}"),
-        )
-    })
+    append_validated_run_journal_event(
+        control_root,
+        &control_root.join("runtime-state.yml"),
+        request,
+    )
 }
 
 fn runtime_bus_actor(actor_class: &str) -> JournalActor {
@@ -1102,6 +2331,23 @@ pub(crate) fn update_bound_runtime_state(
     last_receipt_ref: Option<String>,
     last_checkpoint_ref: Option<String>,
 ) -> CoreResult<()> {
+    let requested_status = RunLifecycleState::parse(status)
+        .map(|state| state.as_str().to_string())
+        .unwrap_or_else(|| status.to_string());
+    let repo_root = discover_repo_root(&bound.control_root).unwrap_or_else(|| PathBuf::from("."));
+    let report =
+        reconstruct_run_lifecycle(&repo_root, &bound.control_root, &bound.runtime_state_path)?;
+    require_reconstruction_clean(&report)?;
+    if report.reconstructed_state != requested_status {
+        return Err(lifecycle_denial(
+            format!(
+                "refusing to write runtime-state status '{}' because journal-derived state is '{}'",
+                requested_status, report.reconstructed_state
+            ),
+            vec!["RUN_LIFECYCLE_RUNTIME_STATE_WRITE_MISMATCH", "FCR-020"],
+            Some(&report),
+        ));
+    }
     let mut state: RuntimeStateRecord = read_yaml_or_default(&bound.runtime_state_path)?;
     if state.created_at.trim().is_empty() {
         state.created_at = now_rfc3339().map_err(|e| {
@@ -1118,7 +2364,7 @@ pub(crate) fn update_bound_runtime_state(
         .and_then(|value| value.to_str())
         .unwrap_or_default()
         .to_string();
-    state.status = status.to_string();
+    state.status = requested_status;
     if state.run_manifest_ref.trim().is_empty() {
         state.run_manifest_ref = bound.run_manifest_ref.clone();
     }
@@ -1217,14 +2463,14 @@ pub(crate) fn update_bound_runtime_state(
 
 pub(crate) fn next_action_for_run_status(status: &str) -> Option<String> {
     match status {
-        "authorizing" => Some(
+        "bound" | "authorizing" => Some(
             "Complete authority routing before any consequential side effects.".to_string(),
         ),
         "authorized" | "running" => Some(
             "Resume from the current stage attempt using the retained receipt and checkpoint roots."
                 .to_string(),
         ),
-        "stage_only" => Some(
+        "staged" | "stage_only" => Some(
             "Supply the required approval or evidence bundle before reauthorizing this run."
                 .to_string(),
         ),

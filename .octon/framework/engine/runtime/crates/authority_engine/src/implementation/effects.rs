@@ -416,12 +416,7 @@ pub fn verify_authorized_effect<T: EffectKind>(
         );
     }
 
-    ensure_run_lifecycle_allows_consumption(&bound, &target_scope).map_err(|error| {
-        KernelError::new(
-            ErrorCode::CapabilityDenied,
-            format!("authorized effect lifecycle check failed: {error}"),
-        )
-    })?;
+    ensure_run_lifecycle_allows_consumption::<T>(&bound, &target_scope)?;
 
     if record.single_use && record.status == "consumed" {
         return reject_with_record(
@@ -952,8 +947,10 @@ fn append_effect_token_event(
     typed_body: Option<serde_json::Value>,
     summary: Option<String>,
 ) -> CoreResult<String> {
-    let receipt = octon_runtime_bus::append_event(
+    let state = reconstructed_lifecycle_state(bound)?;
+    let receipt = append_validated_run_journal_event(
         &bound.control_root,
+        &bound.runtime_state_path,
         RunJournalAppendRequest {
             run_id: grant.request_id.clone(),
             control_root_ref: bound.control_root_rel.clone(),
@@ -970,8 +967,8 @@ fn append_effect_token_event(
                 replay_disposition: replay_disposition.to_string(),
             },
             lifecycle: JournalLifecycle {
-                state_before: Some("authorized".to_string()),
-                state_after: Some("authorized".to_string()),
+                state_before: Some(state.clone()),
+                state_after: Some(state),
             },
             governing_refs: token_journal_governing_refs(bound, grant),
             payload: JournalPayload {
@@ -1005,13 +1002,7 @@ fn append_effect_token_event(
             drift_status: Some("in-sync".to_string()),
             drift_ref: None,
         },
-    )
-    .map_err(|error| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!("failed to append effect token event {event_type}: {error}"),
-        )
-    })?;
+    )?;
     Ok(format!(
         "{}#{}",
         path_tail(repo_root, &receipt.ledger_path),
@@ -1166,20 +1157,11 @@ fn timestamp_is_expired(expires_at: &str, now: &str) -> CoreResult<bool> {
     Ok(expires_at < now)
 }
 
-fn ensure_run_lifecycle_allows_consumption(
+fn ensure_run_lifecycle_allows_consumption<T: EffectKind>(
     bound: &BoundRunLifecycle,
     target_scope: &str,
 ) -> CoreResult<()> {
-    let state: RuntimeStateRecord = read_yaml_or_default(&bound.runtime_state_path)?;
-    match state.status.as_str() {
-        "authorized" | "running" | "bound" | "authorizing" => Ok(()),
-        other => Err(KernelError::new(
-            ErrorCode::CapabilityDenied,
-            format!(
-                "run lifecycle state '{other}' does not permit effect token consumption for {target_scope}"
-            ),
-        )),
-    }
+    ensure_material_effect_lifecycle_allowed(bound, T::KIND, target_scope)
 }
 
 fn load_active_revocation_refs_from_repo_root(

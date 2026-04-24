@@ -1,0 +1,544 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/run-lifecycle-reconstruction-v1.schema.json",
+  "title": "Octon Run Lifecycle Reconstruction v1",
+  "description": "Machine-readable reconstruction report for rebuilding lifecycle state from the canonical run journal plus bounded side artifacts. Runtime-state.yml is compared as a derived mutable view; generated views are never reconstruction authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "reconstruction_id",
+    "run_id",
+    "journal_ref",
+    "manifest_ref",
+    "event_schema_ref",
+    "ledger_schema_ref",
+    "latest_sequence",
+    "latest_hash",
+    "reconstructed_state",
+    "runtime_state_ref",
+    "runtime_state_match",
+    "drift_status",
+    "drift_findings",
+    "missing_side_artifact_refs",
+    "event_ref_index",
+    "source_refs",
+    "side_artifact_refs",
+    "replay_support",
+    "disclosure_support",
+    "closeout_refs",
+    "control_evidence_boundary",
+    "reconstructed_at",
+    "reconstructed_by"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "run-lifecycle-reconstruction-v1"
+    },
+    "reconstruction_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "run_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "journal_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "manifest_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "event_schema_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "ledger_schema_ref": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "runtime_state_schema_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "state_reconstruction_contract_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "latest_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "latest_hash": {
+      "$ref": "#/$defs/hashOrNull"
+    },
+    "reconstructed_state": {
+      "$ref": "#/$defs/lifecycleState"
+    },
+    "runtime_state_ref": {
+      "$ref": "#/$defs/nullableString"
+    },
+    "runtime_state_hash": {
+      "$ref": "#/$defs/hashOrNull"
+    },
+    "runtime_state_state": {
+      "$ref": "#/$defs/lifecycleStateOrNull"
+    },
+    "runtime_state_match": {
+      "type": "boolean"
+    },
+    "drift_status": {
+      "type": "string",
+      "enum": [
+        "in-sync",
+        "reconstruction-required",
+        "drift-detected",
+        "repair-pending",
+        "repaired"
+      ]
+    },
+    "drift_findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/driftFinding"
+      },
+      "uniqueItems": true
+    },
+    "missing_side_artifact_refs": {
+      "$ref": "#/$defs/refArray"
+    },
+    "event_ref_index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_rebuild_event_refs",
+        "transition_event_refs",
+        "replay_event_refs",
+        "disclosure_event_refs",
+        "evidence_snapshot_event_refs",
+        "drift_event_refs"
+      ],
+      "properties": {
+        "state_rebuild_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        },
+        "transition_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        },
+        "replay_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        },
+        "disclosure_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        },
+        "evidence_snapshot_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        },
+        "drift_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        }
+      }
+    },
+    "source_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_refs",
+        "retained_evidence_refs",
+        "external_index_refs",
+        "non_authority_generated_refs"
+      ],
+      "properties": {
+        "control_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "retained_evidence_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "external_index_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "non_authority_generated_refs": {
+          "$ref": "#/$defs/refArray"
+        }
+      }
+    },
+    "side_artifact_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_side_artifact_refs",
+        "retained_evidence_side_artifact_refs"
+      ],
+      "properties": {
+        "control_side_artifact_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "retained_evidence_side_artifact_refs": {
+          "$ref": "#/$defs/refArray"
+        }
+      }
+    },
+    "replay_support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replay_pointer_refs",
+        "trace_pointer_refs",
+        "default_replay_mode",
+        "live_replay_requires_fresh_authorization"
+      ],
+      "properties": {
+        "replay_pointer_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "trace_pointer_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "default_replay_mode": {
+          "type": "string",
+          "enum": [
+            "dry-run",
+            "sandbox"
+          ]
+        },
+        "live_replay_requires_fresh_authorization": {
+          "type": "boolean",
+          "const": true
+        }
+      }
+    },
+    "disclosure_support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_card_refs",
+        "disclosure_refs",
+        "evidence_snapshot_refs"
+      ],
+      "properties": {
+        "run_card_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "disclosure_refs": {
+          "$ref": "#/$defs/refArray"
+        },
+        "evidence_snapshot_refs": {
+          "$ref": "#/$defs/refArray"
+        }
+      }
+    },
+    "closeout_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal_snapshot_ref",
+        "journal_snapshot_manifest_ref",
+        "rollback_posture_ref",
+        "evidence_completeness_ref",
+        "disclosure_ref",
+        "review_disposition_ref"
+      ],
+      "properties": {
+        "journal_snapshot_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "journal_snapshot_manifest_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "rollback_posture_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "evidence_completeness_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "disclosure_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "review_disposition_ref": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    },
+    "control_evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_source",
+        "runtime_state_role",
+        "evidence_role",
+        "generated_views_usable_as_authority"
+      ],
+      "properties": {
+        "state_source": {
+          "type": "string",
+          "const": "canonical control journal"
+        },
+        "runtime_state_role": {
+          "type": "string",
+          "const": "derived mutable control view"
+        },
+        "evidence_role": {
+          "type": "string",
+          "const": "retained proof and closeout mirror"
+        },
+        "generated_views_usable_as_authority": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "reconstructed_at": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "reconstructed_by": {
+      "$ref": "#/$defs/actor"
+    }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actor_class",
+        "actor_ref"
+      ],
+      "properties": {
+        "actor_class": {
+          "type": "string",
+          "enum": [
+            "runtime",
+            "authority-engine",
+            "policy-engine",
+            "validator",
+            "operator",
+            "model-adapter",
+            "capability-adapter",
+            "replay-service"
+          ]
+        },
+        "actor_ref": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "driftFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "finding_type",
+        "severity",
+        "related_event_refs"
+      ],
+      "properties": {
+        "finding_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "finding_type": {
+          "type": "string",
+          "enum": [
+            "journal-runtime-state-mismatch",
+            "missing-side-artifact",
+            "hash-chain-invalid",
+            "sequence-gap",
+            "manifest-mismatch",
+            "alias-canonicalization-failed",
+            "control-evidence-boundary-violation",
+            "generated-view-used-as-authority",
+            "closeout-incomplete",
+            "other"
+          ]
+        },
+        "severity": {
+          "type": "string",
+          "enum": [
+            "blocking",
+            "warning",
+            "info"
+          ]
+        },
+        "finding_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "related_event_refs": {
+          "$ref": "#/$defs/eventRefArray"
+        }
+      }
+    },
+    "eventRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "sequence",
+        "event_hash",
+        "event_type"
+      ],
+      "properties": {
+        "event_id": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "event_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "event_type": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "ledger_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "manifest_ref": {
+          "$ref": "#/$defs/nullableString"
+        }
+      }
+    },
+    "eventRefArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/eventRef"
+      },
+      "uniqueItems": true
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "hashOrNull": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "lifecycleState": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "bound",
+        "authorized",
+        "running",
+        "paused",
+        "staged",
+        "revoked",
+        "failed",
+        "rolled_back",
+        "succeeded",
+        "denied",
+        "closed"
+      ]
+    },
+    "lifecycleStateOrNull": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/lifecycleState"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "refArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "runtime_state_match": {
+            "const": false
+          }
+        },
+        "required": [
+          "runtime_state_match"
+        ]
+      },
+      "then": {
+        "properties": {
+          "drift_findings": {
+            "minItems": 1
+          },
+          "drift_status": {
+            "enum": [
+              "drift-detected",
+              "repair-pending"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "drift_status": {
+            "enum": [
+              "reconstruction-required",
+              "drift-detected",
+              "repair-pending"
+            ]
+          }
+        },
+        "required": [
+          "drift_status"
+        ]
+      },
+      "then": {
+        "properties": {
+          "drift_findings": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reconstructed_state": {
+            "const": "closed"
+          }
+        },
+        "required": [
+          "reconstructed_state"
+        ]
+      },
+      "then": {
+        "properties": {
+          "closeout_refs": {
+            "properties": {
+              "journal_snapshot_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "journal_snapshot_manifest_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "rollback_posture_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "evidence_completeness_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "disclosure_ref": {
+                "$ref": "#/$defs/nonEmptyString"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

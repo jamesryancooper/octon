@@ -23,7 +23,7 @@ requested_capability_packs:
   - repo
   - telemetry
 quorum_policy_ref: .octon/instance/governance/contracts/quorum-policies/default.yml
-generated_at: "2026-04-02T00:00:00Z"
+generated_at: "2026-04-10T20:30:00Z"
 route_outcome: allow
 budget_ledger_ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/authority/budget-ledger.yml
 exception_lease_refs: []

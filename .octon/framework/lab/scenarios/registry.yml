@@ -19,3 +19,5 @@ entries:
     path: ".octon/framework/lab/scenarios/packs/api/api-supported-scenario.yml"
   - scenario_id: "repo-shell-supported-scenario"
     path: ".octon/framework/lab/scenarios/packs/repo-shell/repo-shell-supported-scenario.yml"
+  - scenario_id: "run-lifecycle-v1-boundary-composition"
+    path: ".octon/framework/lab/scenarios/packs/run-lifecycle-v1-boundary-composition.yml"

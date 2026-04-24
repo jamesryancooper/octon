@@ -13,11 +13,12 @@ use octon_authority_engine::{
     issue_execution_artifact_effects, issue_executor_launch_effect,
     issue_extension_activation_effect, issue_generated_effective_publication_effect,
     issue_protected_ci_check_effect, issue_repo_mutation_effect, issue_service_invocation_effect,
-    now_rfc3339, verify_authorized_effect, verify_authorized_effect_verification_bundle,
-    write_authorized_effect_verification_bundle, write_execution_start, AuthorizedEffectReference,
-    AuthorizedEffectVerificationBundle, ExecutionArtifactEffects, ExecutionOutcome,
-    ExecutionRequest, ExecutorLaunch, GrantBundle, RepoMutation, ReviewRequirements,
-    ScopeConstraints, ServiceInvocation, SideEffectFlags, SideEffectSummary, VerifiedEffect,
+    now_rfc3339, validate_run_lifecycle_operation, verify_authorized_effect,
+    verify_authorized_effect_verification_bundle, write_authorized_effect_verification_bundle,
+    write_execution_start, AuthorizedEffectReference, AuthorizedEffectVerificationBundle,
+    ExecutionArtifactEffects, ExecutionOutcome, ExecutionRequest, ExecutorLaunch, GrantBundle,
+    RepoMutation, ReviewRequirements, RunLifecycleOperation, ScopeConstraints, ServiceInvocation,
+    SideEffectFlags, SideEffectSummary, VerifiedEffect,
 };
 use octon_core::errors::{ErrorCode, KernelError};
 use octon_core::execution_integrity::service_capability_profile;
@@ -1292,12 +1293,6 @@ struct ProtectedCiApprovalProjection {
     approval_granted: bool,
 }
 
-fn repo_relative_path(repo_root: &Path, path: &Path) -> String {
-    path.strip_prefix(repo_root)
-        .map(|value| value.display().to_string())
-        .unwrap_or_else(|_| path.display().to_string())
-}
-
 fn percent_encode_path_segment(value: &str) -> String {
     let mut encoded = String::new();
     for byte in value.bytes() {
@@ -1664,6 +1659,7 @@ fn cmd_workflow(cmd: WorkflowCmd) -> Result<()> {
 
 fn cmd_run(cmd: RunCmd) -> Result<()> {
     let octon_dir = octon_core::root::RootResolver::resolve()?;
+    let repo_root = octon_dir.parent().unwrap_or(&octon_dir).to_path_buf();
     match cmd {
         RunCmd::Start {
             contract,
@@ -1674,6 +1670,11 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
         } => {
             let contract_path = resolve_octon_path(&octon_dir, &contract);
             let descriptor = load_run_descriptor(&octon_dir, &contract_path)?;
+            validate_run_lifecycle_operation(
+                &repo_root,
+                &descriptor.run_id,
+                RunLifecycleOperation::Start,
+            )?;
             run_descriptor_start(
                 &octon_dir,
                 descriptor,
@@ -1686,6 +1687,7 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
         }
         RunCmd::Inspect { run_id } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            validate_run_lifecycle_operation(&repo_root, &run_id, RunLifecycleOperation::Inspect)?;
             print_run_inspection(&octon_dir, &descriptor)
         }
         RunCmd::Resume {
@@ -1696,6 +1698,7 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
             prepare_only,
         } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            validate_run_lifecycle_operation(&repo_root, &run_id, RunLifecycleOperation::Resume)?;
             print_resume_summary(&octon_dir, &descriptor)?;
             run_descriptor_start(
                 &octon_dir,
@@ -1709,6 +1712,11 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
         }
         RunCmd::Checkpoint { run_id } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            validate_run_lifecycle_operation(
+                &repo_root,
+                &run_id,
+                RunLifecycleOperation::Checkpoint,
+            )?;
             print_yaml_file(&resolve_ref_path(
                 &octon_dir,
                 &descriptor.last_checkpoint_ref,
@@ -1716,10 +1724,12 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
         }
         RunCmd::Close { run_id } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            validate_run_lifecycle_operation(&repo_root, &run_id, RunLifecycleOperation::Close)?;
             print_yaml_file(&resolve_ref_path(&octon_dir, &descriptor.run_card_ref)?)
         }
         RunCmd::Replay { run_id } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            validate_run_lifecycle_operation(&repo_root, &run_id, RunLifecycleOperation::Replay)?;
             print_yaml_file(&resolve_ref_path(
                 &octon_dir,
                 &descriptor.replay_manifest_ref,
@@ -1727,6 +1737,7 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
         }
         RunCmd::Disclose { run_id } => {
             let descriptor = load_run_descriptor_by_id(&octon_dir, &run_id)?;
+            validate_run_lifecycle_operation(&repo_root, &run_id, RunLifecycleOperation::Disclose)?;
             print_yaml_file(&resolve_ref_path(&octon_dir, &descriptor.run_card_ref)?)
         }
     }

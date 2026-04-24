@@ -1,0 +1,58 @@
+schema_version: "run-lifecycle-v1-transition-matrix-fixture"
+matrix_id: "run-lifecycle-v1-state-machine"
+allowed_transitions:
+  draft:
+    - "bound"
+    - "denied"
+  bound:
+    - "authorized"
+    - "staged"
+    - "denied"
+  authorized:
+    - "running"
+    - "staged"
+    - "revoked"
+    - "denied"
+  running:
+    - "paused"
+    - "failed"
+    - "revoked"
+    - "succeeded"
+    - "staged"
+  paused:
+    - "running"
+    - "revoked"
+    - "failed"
+  staged:
+    - "authorized"
+    - "revoked"
+    - "closed"
+  revoked:
+    - "rolled_back"
+    - "closed"
+  failed:
+    - "rolled_back"
+    - "closed"
+  rolled_back:
+    - "closed"
+  succeeded:
+    - "closed"
+  denied:
+    - "closed"
+  closed: []
+invalid_transition_controls:
+  - from: "draft"
+    to: "running"
+    reason: "run roots and authority are missing"
+  - from: "bound"
+    to: "running"
+    reason: "authorization is missing"
+  - from: "authorized"
+    to: "closed"
+    reason: "terminal evidence is missing"
+  - from: "paused"
+    to: "succeeded"
+    reason: "resume or failure transition is required"
+  - from: "closed"
+    to: "running"
+    reason: "closed is terminal"

@@ -3,16 +3,16 @@ grant_id: grant-uec-repo-shell-boundary-sensitive-recertified-20260410
 request_id: uec-repo-shell-boundary-sensitive-recertified-20260410
 run_id: uec-repo-shell-boundary-sensitive-recertified-20260410
 workflow_mode: agent-augmented
-support_tier: repo-consequential
+support_tier: boundary-sensitive
 support_target:
   model_tier: repo-local-governed
-  workload_tier: repo-consequential
+  workload_tier: boundary-sensitive
   language_resource_tier: reference-owned
   locale_tier: english-primary
   host_adapter: repo-shell
   model_adapter: repo-local-governed
   support_status: supported
-  route: deny
+  route: allow
 approval_request_ref: .octon/state/control/execution/approvals/requests/uec-repo-shell-boundary-sensitive-recertified-20260410.yml
 approval_grant_refs:
   - .octon/state/control/execution/approvals/grants/grant-uec-repo-shell-boundary-sensitive-recertified-20260410.yml
@@ -25,7 +25,7 @@ requested_capability_packs:
   - repo
   - telemetry
 quorum_policy_ref: .octon/instance/governance/contracts/quorum-policies/default.yml
-generated_at: "2026-04-02T00:00:00Z"
+generated_at: "2026-04-10T20:30:00Z"
 route_outcome: allow
 budget_ledger_ref: .octon/state/control/execution/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/authority/budget-ledger.yml
 exception_lease_refs:

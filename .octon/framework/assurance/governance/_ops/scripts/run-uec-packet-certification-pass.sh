@@ -42,7 +42,7 @@ main() {
   mkdir -p "$OUTPUT_DIR"
 
   local -a steps=(
-    "01-normalize|bash .octon/framework/assurance/governance/_ops/scripts/normalize-uec-packet-certification-runs.sh"
+    "01-verify-run-journals-and-auxiliary-evidence|bash .octon/framework/assurance/governance/_ops/scripts/normalize-uec-packet-certification-runs.sh"
     "02-run-binding|bash .octon/framework/assurance/governance/_ops/scripts/validate-run-binding-enforcement.sh"
     "03-runtime|bash .octon/framework/assurance/governance/_ops/scripts/validate-uec-packet-runtime-normalization.sh"
     "04-authority|bash .octon/framework/assurance/governance/_ops/scripts/validate-authority-bundle-resolution.sh"

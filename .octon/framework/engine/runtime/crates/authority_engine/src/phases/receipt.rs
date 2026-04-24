@@ -34,10 +34,18 @@ pub(crate) fn execution_request_payload(
         "browser_ui_execution_ref": request.browser_ui_execution_ref.clone(),
         "api_egress_ref": request.api_egress_ref.clone(),
     });
-    if let Some(context_pack_ref) = request.context_pack_ref.as_deref() {
+    let context_pack_ref = request
+        .context_pack_ref
+        .as_deref()
+        .or(grant.context_pack_ref.as_deref());
+    if let Some(context_pack_ref) = context_pack_ref {
         payload["context_pack_ref"] = json!(context_pack_ref);
     }
-    if let Some(binding) = request.context_evidence_binding.clone() {
+    if let Some(binding) = request
+        .context_evidence_binding
+        .clone()
+        .or_else(|| grant.context_evidence_binding.clone())
+    {
         payload["context_evidence_binding"] = json!(binding);
     }
     payload
@@ -71,7 +79,10 @@ pub(crate) fn execution_receipt_payload(
         .clone()
         .into_iter()
         .collect::<Vec<_>>();
-    let context_pack_ref = request.context_pack_ref.clone();
+    let context_pack_ref = request
+        .context_pack_ref
+        .clone()
+        .or_else(|| grant.context_pack_ref.clone());
     let risk_materiality_ref = request.risk_materiality_ref.clone().unwrap_or_else(|| {
         ".octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json"
             .to_string()
@@ -111,7 +122,10 @@ pub(crate) fn execution_receipt_payload(
         execution_role_ref: grant.execution_role_ref.clone(),
         context_pack_ref,
         context_evidence_required: grant.context_evidence_required,
-        context_evidence_binding: grant.context_evidence_binding.clone(),
+        context_evidence_binding: request
+            .context_evidence_binding
+            .clone()
+            .or_else(|| grant.context_evidence_binding.clone()),
         risk_materiality_ref,
         support_target_tuple_ref,
         rollback_plan_ref,
