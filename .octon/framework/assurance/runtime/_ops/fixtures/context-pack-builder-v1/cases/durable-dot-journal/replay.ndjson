@@ -1,0 +1,3 @@
+{"event_type":"context-pack-requested","payload":{"run_id":"fixture-run-durable-dot-journal"}}
+{"event_type":"run.context_pack_built","payload":{"context_pack_ref":"cases/durable-dot-journal/pack.json"}}
+{"event_type":"context-pack-bound","payload":{"context_pack_ref":"cases/durable-dot-journal/pack.json"}}

@@ -1137,6 +1137,18 @@ pub(crate) fn update_bound_runtime_state(
     if state.drift_status.is_none() {
         state.drift_status = Some("in-sync".to_string());
     }
+    if state.context_pack_ref.is_none() {
+        let context_pack = bound
+            .evidence_root
+            .join("context")
+            .join("context-pack.json");
+        if context_pack.is_file() {
+            state.context_pack_ref = Some(format!(
+                ".octon/state/evidence/runs/{}/context/context-pack.json",
+                state.run_id
+            ));
+        }
+    }
     state.decision_state = decision_state
         .map(ToOwned::to_owned)
         .or(state.decision_state);

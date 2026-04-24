@@ -1,0 +1,17 @@
+schema_version: "context-pack-builder-receipt-v1"
+builder_version: "context-pack-builder-v1"
+context_pack_ref: "cases/replay-reconstruction/pack.yml"
+status: "current"
+invalidated: false
+generated_at: "2026-04-23T00:00:00Z"
+input_refs:
+  - ".octon/framework/context/source-a.md"
+  - ".octon/instance/context/source-b.yml"
+canonical_input_sha256: "sha256:359943d11709525f410cb5d894d2795d98cea213cee12366c16eaa17d02b1998"
+source_digests:
+  - path: ".octon/framework/context/source-a.md"
+    sha256: "sha256:c72c8287fbab9d236b424641a4bcfddc74e3668f4c1b44e83bc3c0f4df97f3e1"
+  - path: ".octon/instance/context/source-b.yml"
+    sha256: "sha256:433645743b26b70ef21fda19e1dc1eb98fa2161d0e02c8cd02e8f5db8f182369"
+output_context_pack_sha256: "sha256:cf504d5a7527296ef797d7f3413b7d77755a8fc2f98a87c198b7bd2f33d87628"
+replay_ref: "cases/replay-reconstruction/replay.ndjson"

@@ -1048,7 +1048,7 @@ fn token_journal_governing_refs(
             ".octon/state/control/execution/runs/{}/rollback-posture.yml",
             grant.request_id
         )),
-        context_pack_ref: None,
+        context_pack_ref: grant.context_pack_ref.clone(),
         stage_attempt_ref: grant.stage_attempt_ref.clone(),
         checkpoint_ref: None,
         validator_result_ref: None,

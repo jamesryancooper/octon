@@ -1,4 +1,5 @@
 use super::*;
+use crate::implementation::execution::normalized_repo_relative_ref;
 use anyhow::Context;
 use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
@@ -118,7 +119,13 @@ fn temp_runtime_config() -> RuntimeConfig {
         fs::copy(source_root.join(rel), target).expect("copy fixture path");
     };
     copy_rel(".octon/octon.yml");
+    copy_rel(".octon/framework/constitution/CHARTER.md");
+    copy_rel(".octon/framework/constitution/obligations/fail-closed.yml");
+    copy_rel(".octon/framework/engine/runtime/spec/context-pack-builder-v1.md");
+    copy_rel(".octon/framework/engine/runtime/spec/execution-authorization-v1.md");
+    copy_rel(".octon/instance/charter/workspace.md");
     copy_rel(".octon/instance/governance/runtime-resolution.yml");
+    copy_rel(".octon/instance/governance/policies/context-packing.yml");
     copy_rel(".octon/instance/governance/support-targets.yml");
     copy_rel(".octon/instance/governance/capability-packs/registry.yml");
     copy_rel(".octon/instance/governance/capability-packs/repo.yml");
@@ -481,6 +488,9 @@ fn minimal_request() -> ExecutionRequest {
         risk_tier: "low".to_string(),
         workflow_mode: "human-only".to_string(),
         context_pack_ref: None,
+        context_evidence_binding: None,
+        requires_context_evidence: false,
+        boundary_sensitive: false,
         risk_materiality_ref: None,
         support_target_tuple_ref: None,
         rollback_plan_ref: None,
@@ -521,6 +531,358 @@ fn minimal_request() -> ExecutionRequest {
             ),
         ]),
     }
+}
+
+fn supplied_context_fixture(
+    request_id: &str,
+) -> (RuntimeConfig, ExecutionRequest, ContextEvidenceBinding) {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = request_id.to_string();
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("context-required request should authorize");
+    let binding = grant
+        .context_evidence_binding
+        .expect("context evidence binding should be present");
+    (cfg, request, binding)
+}
+
+fn repo_ref_path(cfg: &RuntimeConfig, reference: &str) -> PathBuf {
+    cfg.repo_root.join(reference)
+}
+
+fn read_json_value(path: &Path) -> serde_json::Value {
+    serde_json::from_str(&fs::read_to_string(path).expect("read json artifact"))
+        .expect("parse json artifact")
+}
+
+fn write_json_value(path: &Path, value: &serde_json::Value) {
+    fs::write(
+        path,
+        serde_json::to_vec_pretty(value).expect("serialize json artifact"),
+    )
+    .expect("write json artifact");
+}
+
+fn assert_context_reason(err: KernelError, reason_code: &str) {
+    assert_eq!(err.code, ErrorCode::CapabilityDenied);
+    assert!(
+        err.details["reason_codes"]
+            .as_array()
+            .expect("reason codes should be present")
+            .iter()
+            .any(|value| value.as_str() == Some(reason_code)),
+        "expected reason code {reason_code}, got {:?}",
+        err.details["reason_codes"]
+    );
+}
+
+#[test]
+fn context_pack_journal_uses_canonical_run_events() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-context-journal".to_string();
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("context-required request should authorize");
+    let binding = grant
+        .context_evidence_binding
+        .expect("context evidence binding should be present");
+    assert!(binding.model_visible_context_ref.is_some());
+
+    let journal_path = cfg
+        .execution_control_root
+        .join("runs")
+        .join(&request.request_id)
+        .join("events.ndjson");
+    let raw = fs::read_to_string(&journal_path).expect("read run journal");
+    assert!(
+        !raw.contains("run.context_pack_"),
+        "canonical journal must not persist runtime-event-v1 aliases"
+    );
+    let event_types: Vec<String> = raw
+        .lines()
+        .filter(|line| !line.trim().is_empty())
+        .map(|line| {
+            serde_json::from_str::<serde_json::Value>(line)
+                .expect("journal event should parse")["event_type"]
+                .as_str()
+                .expect("event_type should be a string")
+                .to_string()
+        })
+        .collect();
+    assert!(event_types.iter().any(|value| value == "context-pack-requested"));
+    assert!(event_types.iter().any(|value| value == "context-pack-built"));
+    assert!(event_types.iter().any(|value| value == "context-pack-bound"));
+}
+
+#[test]
+fn context_pack_retains_exact_model_visible_hash() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-model-visible-hash".to_string();
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("context-required request should authorize");
+    let binding = grant
+        .context_evidence_binding
+        .expect("context evidence binding should be present");
+    let model_ref = binding
+        .model_visible_context_ref
+        .expect("model-visible context ref should be bound");
+    let model_path = cfg.repo_root.join(model_ref);
+    let model_bytes = fs::read(&model_path).expect("read model-visible context");
+    let computed = format!("sha256:{}", sha256_bytes(&model_bytes));
+    assert_eq!(
+        binding.model_visible_context_sha256.as_deref(),
+        Some(computed.as_str())
+    );
+    let retained_hash = fs::read_to_string(model_path.with_file_name("model-visible-context.sha256"))
+        .expect("read retained model-visible hash");
+    assert_eq!(retained_hash.trim(), computed);
+}
+
+#[test]
+fn supplied_context_binding_model_hash_mismatch_denies() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-context-hash-mismatch".to_string();
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("context-required request should authorize");
+    let mut binding = grant
+        .context_evidence_binding
+        .expect("context evidence binding should be present");
+    binding.model_visible_context_sha256 = Some(
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+            .to_string(),
+    );
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("model-visible hash mismatch should deny");
+    assert_eq!(err.code, ErrorCode::CapabilityDenied);
+    assert!(
+        err.details["reason_codes"]
+            .as_array()
+            .expect("reason codes should be present")
+            .iter()
+            .any(|value| value.as_str() == Some("CONTEXT_MODEL_VISIBLE_DIGEST_MISMATCH"))
+    );
+}
+
+#[test]
+fn optional_supplied_context_binding_is_still_validated() {
+    let (cfg, mut request, mut binding) =
+        supplied_context_fixture("req-optional-context-binding-invalid");
+    let policy = PolicyEngine::new(cfg.clone());
+    let _ = fs::remove_file(run_contract_path(&cfg, &request.request_id));
+    request.side_effect_flags = SideEffectFlags::default();
+    request.requires_context_evidence = false;
+    request.boundary_sensitive = false;
+    request
+        .metadata
+        .insert("support_tier".to_string(), "observe-and-read".to_string());
+    binding.model_visible_context_sha256 = Some(
+        "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+            .to_string(),
+    );
+    request.context_evidence_binding = Some(binding);
+
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("optional supplied context binding should still be validated");
+    assert_context_reason(err, "CONTEXT_MODEL_VISIBLE_DIGEST_MISMATCH");
+}
+
+#[test]
+fn execution_request_payload_omits_absent_context_binding() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-optional-context-payload".to_string();
+    request.side_effect_flags = SideEffectFlags::default();
+    request.requires_context_evidence = false;
+    request.boundary_sensitive = false;
+    request
+        .metadata
+        .insert("support_tier".to_string(), "observe-and-read".to_string());
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("optional context request should authorize without a binding");
+    assert!(grant.context_evidence_binding.is_none());
+
+    let payload = phases::receipt::execution_request_payload(&request, &grant);
+    assert!(payload.get("context_evidence_binding").is_none());
+    assert!(payload["request"].get("context_evidence_binding").is_none());
+    assert!(payload.get("context_pack_ref").is_none());
+    assert!(payload["request"].get("context_pack_ref").is_none());
+}
+
+#[test]
+fn supplied_context_binding_stale_or_invalidated_denies() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "req-context-state-deny".to_string();
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("context-required request should authorize");
+    let binding = grant
+        .context_evidence_binding
+        .expect("context evidence binding should be present");
+
+    let mut stale_request = request.clone();
+    let mut stale_binding = binding.clone();
+    stale_binding.valid_until = Some("2020-01-01T00:00:00Z".to_string());
+    stale_request.context_evidence_binding = Some(stale_binding);
+    let stale_err = authorize_execution(&cfg, &policy, &stale_request, None)
+        .expect_err("expired context binding should deny");
+    assert_eq!(stale_err.code, ErrorCode::CapabilityDenied);
+
+    let mut invalidated_request = request;
+    let mut invalidated_binding = binding;
+    invalidated_binding.context_validity_state = Some("invalidated".to_string());
+    invalidated_request.context_evidence_binding = Some(invalidated_binding);
+    let invalidated_err = authorize_execution(&cfg, &policy, &invalidated_request, None)
+        .expect_err("invalidated context binding should deny");
+    assert_eq!(invalidated_err.code, ErrorCode::CapabilityDenied);
+}
+
+#[test]
+fn supplied_context_binding_missing_hash_sidecar_denies() {
+    let (cfg, mut request, binding) = supplied_context_fixture("req-context-missing-hash-file");
+    let policy = PolicyEngine::new(cfg.clone());
+    let model_path = repo_ref_path(
+        &cfg,
+        binding
+            .model_visible_context_ref
+            .as_deref()
+            .expect("model-visible ref"),
+    );
+    fs::remove_file(model_path.with_file_name("model-visible-context.sha256"))
+        .expect("remove retained model-visible hash");
+
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("missing retained model-visible hash should deny");
+    assert_context_reason(err, "CONTEXT_MODEL_VISIBLE_HASH_MISSING");
+}
+
+#[test]
+fn supplied_context_binding_missing_source_manifest_denies() {
+    let (cfg, mut request, binding) = supplied_context_fixture("req-context-missing-source-manifest");
+    let policy = PolicyEngine::new(cfg.clone());
+    let receipt_path = repo_ref_path(&cfg, &binding.context_pack_receipt_ref);
+    let receipt = read_json_value(&receipt_path);
+    let source_manifest_ref = receipt["source_manifest_ref"]
+        .as_str()
+        .expect("source manifest ref");
+    fs::remove_file(repo_ref_path(&cfg, source_manifest_ref))
+        .expect("remove retained source manifest");
+
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("missing retained source manifest should deny");
+    assert_context_reason(err, "CONTEXT_SOURCE_MANIFEST_MISSING");
+}
+
+#[test]
+fn supplied_context_binding_replay_refs_missing_hash_denies() {
+    let (cfg, mut request, mut binding) =
+        supplied_context_fixture("req-context-replay-missing-hash-ref");
+    let policy = PolicyEngine::new(cfg.clone());
+    let receipt_path = repo_ref_path(&cfg, &binding.context_pack_receipt_ref);
+    let mut receipt = read_json_value(&receipt_path);
+    let hash_ref = binding
+        .model_visible_context_ref
+        .as_deref()
+        .expect("model-visible ref")
+        .replace("model-visible-context.json", "model-visible-context.sha256");
+    receipt["replay_reconstruction_refs"]
+        .as_array_mut()
+        .expect("replay refs")
+        .retain(|value| value.as_str() != Some(hash_ref.as_str()));
+    write_json_value(&receipt_path, &receipt);
+    binding.receipt_sha256 = format!("sha256:{}", fixture_sha256(&receipt_path));
+
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("missing replay hash ref should deny");
+    assert_context_reason(err, "CONTEXT_REPLAY_REF_MISSING");
+}
+
+#[test]
+fn supplied_context_binding_retained_source_manifest_mismatch_denies() {
+    let (cfg, mut request, binding) = supplied_context_fixture("req-context-source-manifest-mismatch");
+    let policy = PolicyEngine::new(cfg.clone());
+    let receipt_path = repo_ref_path(&cfg, &binding.context_pack_receipt_ref);
+    let receipt = read_json_value(&receipt_path);
+    let source_manifest_ref = receipt["source_manifest_ref"]
+        .as_str()
+        .expect("source manifest ref");
+    write_json_value(
+        &repo_ref_path(&cfg, source_manifest_ref),
+        &json!([".octon/framework/context/tampered.md sha256:0000000000000000000000000000000000000000000000000000000000000000"]),
+    );
+
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("retained source manifest mismatch should deny");
+    assert_context_reason(err, "CONTEXT_SOURCE_MANIFEST_MISMATCH");
+}
+
+#[test]
+fn supplied_context_binding_missing_source_file_denies() {
+    let (cfg, mut request, binding) = supplied_context_fixture("req-context-missing-source-file");
+    let policy = PolicyEngine::new(cfg.clone());
+    let receipt_path = repo_ref_path(&cfg, &binding.context_pack_receipt_ref);
+    let receipt = read_json_value(&receipt_path);
+    let source_ref = receipt["sources"]
+        .as_array()
+        .expect("sources")
+        .iter()
+        .find_map(|source| source["source_ref"].as_str())
+        .expect("source ref");
+    fs::remove_file(repo_ref_path(&cfg, source_ref)).expect("remove valid source");
+
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("missing source file should deny");
+    assert_context_reason(err, "CONTEXT_SOURCE_MISSING");
+}
+
+#[test]
+fn supplied_context_binding_source_digest_drift_denies() {
+    let (cfg, mut request, binding) = supplied_context_fixture("req-context-source-digest-drift");
+    let policy = PolicyEngine::new(cfg.clone());
+    let receipt_path = repo_ref_path(&cfg, &binding.context_pack_receipt_ref);
+    let receipt = read_json_value(&receipt_path);
+    let source_ref = receipt["sources"]
+        .as_array()
+        .expect("sources")
+        .iter()
+        .find_map(|source| source["source_ref"].as_str())
+        .expect("source ref");
+    fs::write(repo_ref_path(&cfg, source_ref), "tampered source\n").expect("tamper source");
+
+    request.context_evidence_binding = Some(binding);
+    let err = authorize_execution(&cfg, &policy, &request, None)
+        .expect_err("source digest drift should deny");
+    assert_context_reason(err, "CONTEXT_SOURCE_DIGEST_MISMATCH");
+}
+
+#[test]
+fn absolute_generated_authority_path_normalizes_to_forbidden_prefix() {
+    let cfg = temp_runtime_config();
+    let generated_source = cfg
+        .repo_root
+        .join(".octon/generated/effective/runtime/route-bundle.yml")
+        .display()
+        .to_string();
+    let normalized = normalized_repo_relative_ref(&cfg.repo_root, &generated_source)
+        .expect("absolute repo-local source should normalize");
+    assert!(normalized.starts_with(".octon/generated/"));
 }
 
 fn effect_token_record_path(runtime_path: &Path, token_record_ref: &str) -> PathBuf {

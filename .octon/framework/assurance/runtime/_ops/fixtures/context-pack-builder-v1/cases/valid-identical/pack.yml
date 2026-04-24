@@ -1,0 +1,30 @@
+schema_version: "context-pack-v1"
+context_pack_id: "fixture-identical"
+run_id: "fixture-run-identical"
+authority_sources:
+  - path: ".octon/framework/context/source-a.md"
+    sha256: null
+    authority_label: "authoritative"
+  - path: ".octon/instance/context/source-b.yml"
+    sha256: null
+    authority_label: "authoritative"
+  - path: ".octon/state/evidence/context/source-c.yml"
+    sha256: null
+    authority_label: "authoritative"
+derived_sources:
+  - path: ".octon/generated/effective/runtime/route-bundle.yml"
+    sha256: null
+    authority_label: "derived"
+non_authoritative_inputs:
+  - path: ".octon/inputs/raw/operator-note.md"
+    sha256: null
+    authority_label: "non_authoritative"
+omissions: []
+budget:
+  max_prompt_bytes: 32768
+  max_estimated_input_tokens: 4096
+  model_context_limit: null
+freshness:
+  generated_at: "2026-04-23T00:00:00Z"
+  fresh_until: "2026-12-31T00:00:00Z"
+generated_at: "2026-04-23T00:00:00Z"

@@ -180,6 +180,1648 @@ fn granted_effect_kinds_for_request(request: &ExecutionRequest) -> Vec<String> {
     dedupe_strings(&effect_kinds)
 }
 
+const CONTEXT_BUILDER_SPEC_REF: &str =
+    ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md";
+const CONTEXT_BUILDER_VERSION: &str = "context-pack-builder-v1";
+const CONTEXT_POLICY_REF: &str = ".octon/instance/governance/policies/context-packing.yml";
+const CONTEXT_MODEL_VISIBLE_FORMAT: &str = "context-pack-builder-v1/model-visible-context-json";
+const CONTEXT_RECEIPT_VALID_UNTIL: &str = "9999-12-31T23:59:59Z";
+
+#[derive(Debug, Clone)]
+struct ContextSourceCandidate {
+    path: String,
+    authority_label: &'static str,
+    source_class: &'static str,
+    trust_class: &'static str,
+    source_role: &'static str,
+    receipt_kind: &'static str,
+    required: bool,
+}
+
+fn context_evidence_required_for_request(
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+) -> bool {
+    if request.requires_context_evidence || request.boundary_sensitive {
+        return true;
+    }
+    let risk_tier = request.risk_tier.to_ascii_lowercase();
+    if risk_tier.contains("consequential")
+        || risk_tier.contains("boundary-sensitive")
+        || risk_tier == "acp-2"
+        || risk_tier == "acp-3"
+        || material_side_effect(request)
+    {
+        return true;
+    }
+    let workload = run_contract
+        .support_target
+        .workload_tier
+        .trim()
+        .to_ascii_lowercase();
+    workload == "repo-consequential" || workload == "boundary-sensitive"
+}
+
+fn ensure_context_evidence_binding(
+    cfg: &RuntimeConfig,
+    bound: &BoundRunLifecycle,
+    request: &mut ExecutionRequest,
+    run_contract: &RunContractRecord,
+    required: bool,
+) -> CoreResult<Option<ContextEvidenceBinding>> {
+    request.requires_context_evidence = request.requires_context_evidence || required;
+    if let Some(binding) = request.context_evidence_binding.clone() {
+        validate_context_evidence_binding(cfg, &binding, request, run_contract, required)?;
+        request.context_pack_ref = Some(binding.context_pack_ref.clone());
+        publish_context_binding_metadata(request, &binding);
+        return Ok(Some(binding));
+    }
+    if !required {
+        return Ok(None);
+    }
+    let binding = build_context_evidence_binding(cfg, bound, request, run_contract)?;
+    validate_context_evidence_binding(cfg, &binding, request, run_contract, true)?;
+    request.context_pack_ref = Some(binding.context_pack_ref.clone());
+    request.context_evidence_binding = Some(binding.clone());
+    publish_context_binding_metadata(request, &binding);
+    Ok(Some(binding))
+}
+
+fn validate_context_evidence_binding(
+    cfg: &RuntimeConfig,
+    binding: &ContextEvidenceBinding,
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+    _required: bool,
+) -> CoreResult<()> {
+    let refs = [
+        binding.context_pack_ref.as_str(),
+        binding.context_pack_receipt_ref.as_str(),
+        binding
+            .model_visible_context_ref
+            .as_deref()
+            .unwrap_or_default(),
+        binding.context_policy_ref.as_deref().unwrap_or_default(),
+        binding.context_rebuild_ref.as_deref().unwrap_or_default(),
+        binding
+            .context_invalidation_ref
+            .as_deref()
+            .unwrap_or_default(),
+    ];
+    if refs
+        .iter()
+        .any(|value| value.contains(".octon/inputs/exploratory/"))
+    {
+        return context_evidence_denial(
+            "context evidence may not depend on proposal-local exploratory paths",
+            "CONTEXT_PROPOSAL_DEPENDENCY",
+        );
+    }
+    if binding.verification_status != "valid" {
+        return context_evidence_denial(
+            "context evidence verification is not valid",
+            "CONTEXT_EVIDENCE_INVALID",
+        );
+    }
+    if binding.freshness_status != "valid" {
+        return context_evidence_denial("context evidence is stale", "CONTEXT_EVIDENCE_STALE");
+    }
+    if let Some(valid_until) = binding.valid_until.as_deref() {
+        let valid_until_time = parse_rfc3339(valid_until).map_err(|_| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                "context evidence valid_until is not parseable",
+            )
+            .with_details(
+                json!({"reason_codes":["CONTEXT_VALID_UNTIL_INVALID","CONTEXT_EVIDENCE_REQUIRED"]}),
+            )
+        })?;
+        if valid_until_time < time::OffsetDateTime::now_utc() {
+            return context_evidence_denial(
+                "context evidence freshness window expired",
+                "CONTEXT_EVIDENCE_EXPIRED",
+            );
+        }
+    }
+    if binding.context_validity_state.as_deref() != Some("valid") {
+        return context_evidence_denial(
+            "context evidence validity state is not valid",
+            "CONTEXT_VALIDITY_STATE_INVALID",
+        );
+    }
+    if binding.failed_required_source_count != 0 {
+        return context_evidence_denial(
+            "context evidence has failed required sources",
+            "CONTEXT_REQUIRED_SOURCE_FAILED",
+        );
+    }
+    if binding.source_count == 0 {
+        return context_evidence_denial(
+            "context evidence has no resolved sources",
+            "CONTEXT_EVIDENCE_EMPTY",
+        );
+    }
+    if !binding.subordinate_to_authorize_execution {
+        return context_evidence_denial(
+            "context evidence is not subordinate to authorize_execution",
+            "CONTEXT_AUTHORITY_BOUNDARY_MISSING",
+        );
+    }
+    if binding.builder_spec_ref != CONTEXT_BUILDER_SPEC_REF {
+        return context_evidence_denial(
+            "context evidence builder spec does not match Context Pack Builder v1",
+            "CONTEXT_BUILDER_SPEC_MISMATCH",
+        );
+    }
+    if binding.builder_version != CONTEXT_BUILDER_VERSION {
+        return context_evidence_denial(
+            "context evidence builder version does not match Context Pack Builder v1",
+            "CONTEXT_BUILDER_VERSION_MISMATCH",
+        );
+    }
+    let expected_policy_ref = binding.context_policy_ref.as_deref().ok_or_else(|| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            "context evidence missing context policy ref",
+        )
+        .with_details(
+            json!({"reason_codes":["CONTEXT_POLICY_REF_MISSING","CONTEXT_EVIDENCE_REQUIRED"]}),
+        )
+    })?;
+    if expected_policy_ref != CONTEXT_POLICY_REF {
+        return context_evidence_denial(
+            "context evidence policy ref does not match active context packing policy",
+            "CONTEXT_POLICY_REF_MISMATCH",
+        );
+    }
+    let pack_path = resolve_repo_ref(&cfg.repo_root, &binding.context_pack_ref);
+    let receipt_path = resolve_repo_ref(&cfg.repo_root, &binding.context_pack_receipt_ref);
+    let model_visible_ref = binding
+        .model_visible_context_ref
+        .as_deref()
+        .ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                "context evidence missing model-visible context ref",
+            )
+            .with_details(json!({"reason_codes":["CONTEXT_MODEL_VISIBLE_REF_MISSING","CONTEXT_EVIDENCE_REQUIRED"]}))
+        })?;
+    let model_visible_path = resolve_repo_ref(&cfg.repo_root, model_visible_ref);
+    if !pack_path.is_file() {
+        return context_evidence_denial("context pack artifact is missing", "CONTEXT_PACK_MISSING");
+    }
+    if !receipt_path.is_file() {
+        return context_evidence_denial(
+            "context pack receipt artifact is missing",
+            "CONTEXT_PACK_RECEIPT_MISSING",
+        );
+    }
+    if !model_visible_path.is_file() {
+        return context_evidence_denial(
+            "model-visible context artifact is missing",
+            "CONTEXT_MODEL_VISIBLE_MISSING",
+        );
+    }
+    let pack_sha = sha256_file_prefixed(&pack_path)?;
+    if pack_sha != binding.context_pack_sha256 {
+        return context_evidence_denial(
+            "context pack digest does not match binding",
+            "CONTEXT_PACK_DIGEST_MISMATCH",
+        );
+    }
+    let receipt_sha = sha256_file_prefixed(&receipt_path)?;
+    if receipt_sha != binding.receipt_sha256 {
+        return context_evidence_denial(
+            "context pack receipt digest does not match binding",
+            "CONTEXT_RECEIPT_DIGEST_MISMATCH",
+        );
+    }
+    let model_visible_sha = sha256_file_prefixed(&model_visible_path)?;
+    if Some(model_visible_sha.as_str()) != binding.model_visible_context_sha256.as_deref() {
+        return context_evidence_denial(
+            "model-visible context digest does not match binding",
+            "CONTEXT_MODEL_VISIBLE_DIGEST_MISMATCH",
+        );
+    }
+    let hash_path = model_visible_path.with_file_name("model-visible-context.sha256");
+    let model_visible_hash_ref = path_tail(&cfg.repo_root, &hash_path);
+    if !hash_path.is_file() {
+        return context_evidence_denial(
+            "retained model-visible context hash file is missing",
+            "CONTEXT_MODEL_VISIBLE_HASH_MISSING",
+        );
+    }
+    let retained_hash = fs::read_to_string(&hash_path).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to read model-visible context hash: {e}"),
+        )
+    })?;
+    if retained_hash.trim() != model_visible_sha {
+        return context_evidence_denial(
+            "retained model-visible context hash file does not match serialization",
+            "CONTEXT_MODEL_VISIBLE_HASH_MISMATCH",
+        );
+    }
+
+    let pack = read_context_json_value(&pack_path)?;
+    let receipt = read_context_json_value(&receipt_path)?;
+    let model_visible = read_context_json_value(&model_visible_path)?;
+    let expected_support_tuple = request
+        .support_target_tuple_ref
+        .clone()
+        .unwrap_or_else(|| support_target_tuple_id(&run_contract.support_target));
+    require_json_string(
+        &pack,
+        "schema_version",
+        "context-pack-v1",
+        "CONTEXT_PACK_SCHEMA_INVALID",
+    )?;
+    require_json_string(
+        &receipt,
+        "schema_version",
+        "context-pack-receipt-v1",
+        "CONTEXT_RECEIPT_SCHEMA_INVALID",
+    )?;
+    require_json_string(
+        &pack,
+        "run_id",
+        &request.request_id,
+        "CONTEXT_PACK_RUN_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "run_id",
+        &request.request_id,
+        "CONTEXT_RECEIPT_RUN_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "request_id",
+        &request.request_id,
+        "CONTEXT_RECEIPT_REQUEST_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "context_pack_ref",
+        &binding.context_pack_ref,
+        "CONTEXT_RECEIPT_PACK_REF_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "context_pack_sha256",
+        &binding.context_pack_sha256,
+        "CONTEXT_RECEIPT_PACK_DIGEST_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "builder_spec_ref",
+        CONTEXT_BUILDER_SPEC_REF,
+        "CONTEXT_BUILDER_SPEC_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "builder_version",
+        CONTEXT_BUILDER_VERSION,
+        "CONTEXT_BUILDER_VERSION_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "context_policy_ref",
+        expected_policy_ref,
+        "CONTEXT_POLICY_REF_MISMATCH",
+    )?;
+    require_json_string(
+        &pack,
+        "context_policy_ref",
+        expected_policy_ref,
+        "CONTEXT_PACK_POLICY_REF_MISMATCH",
+    )?;
+    require_json_string(
+        &pack,
+        "model_visible_context_ref",
+        model_visible_ref,
+        "CONTEXT_PACK_MODEL_VISIBLE_REF_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "model_visible_context_ref",
+        model_visible_ref,
+        "CONTEXT_RECEIPT_MODEL_VISIBLE_REF_MISMATCH",
+    )?;
+    require_json_string(
+        &pack,
+        "model_visible_context_sha256",
+        &model_visible_sha,
+        "CONTEXT_PACK_MODEL_VISIBLE_HASH_MISMATCH",
+    )?;
+    require_json_string(
+        &receipt,
+        "model_visible_context_sha256",
+        &model_visible_sha,
+        "CONTEXT_RECEIPT_MODEL_VISIBLE_HASH_MISMATCH",
+    )?;
+    require_json_string_at(
+        &pack,
+        &["replay", "model_visible_context_ref"],
+        model_visible_ref,
+        "CONTEXT_PACK_REPLAY_MODEL_VISIBLE_REF_MISMATCH",
+    )?;
+    require_json_string_at(
+        &pack,
+        &["replay", "replay_inputs_sha256"],
+        &model_visible_sha,
+        "CONTEXT_PACK_REPLAY_HASH_MISMATCH",
+    )?;
+    require_json_string(
+        &model_visible,
+        "schema_version",
+        "model-visible-context-v1",
+        "CONTEXT_MODEL_VISIBLE_SCHEMA_INVALID",
+    )?;
+    require_json_string(
+        &model_visible,
+        "run_id",
+        &request.request_id,
+        "CONTEXT_MODEL_VISIBLE_RUN_MISMATCH",
+    )?;
+    require_json_string(
+        &model_visible,
+        "context_policy_ref",
+        expected_policy_ref,
+        "CONTEXT_MODEL_VISIBLE_POLICY_MISMATCH",
+    )?;
+    require_json_string(
+        &model_visible,
+        "serialization_format",
+        CONTEXT_MODEL_VISIBLE_FORMAT,
+        "CONTEXT_MODEL_VISIBLE_FORMAT_MISMATCH",
+    )?;
+    require_json_string(
+        &pack,
+        "validity_state",
+        "valid",
+        "CONTEXT_PACK_VALIDITY_INVALID",
+    )?;
+    require_json_string(
+        &receipt,
+        "validity_state",
+        "valid",
+        "CONTEXT_RECEIPT_VALIDITY_INVALID",
+    )?;
+    require_json_string(
+        &receipt,
+        "verification_status",
+        "valid",
+        "CONTEXT_RECEIPT_VERIFICATION_INVALID",
+    )?;
+    require_json_string(
+        &receipt,
+        "invalidation_state",
+        "not_invalidated",
+        "CONTEXT_RECEIPT_INVALIDATED",
+    )?;
+    require_json_string_at(
+        &receipt,
+        &["freshness", "freshness_status"],
+        "valid",
+        "CONTEXT_RECEIPT_FRESHNESS_INVALID",
+    )?;
+    require_json_string_at(
+        &receipt,
+        &["request_binding", "request_id"],
+        &request.request_id,
+        "CONTEXT_RECEIPT_REQUEST_BINDING_MISMATCH",
+    )?;
+    require_json_string_at(
+        &receipt,
+        &["request_binding", "target_id"],
+        &request.target_id,
+        "CONTEXT_RECEIPT_TARGET_MISMATCH",
+    )?;
+    require_json_string_at(
+        &receipt,
+        &["request_binding", "action_type"],
+        &request.action_type,
+        "CONTEXT_RECEIPT_ACTION_MISMATCH",
+    )?;
+    require_json_string_at(
+        &receipt,
+        &["request_binding", "workflow_mode"],
+        &request.workflow_mode,
+        "CONTEXT_RECEIPT_WORKFLOW_MISMATCH",
+    )?;
+    require_json_string_at(
+        &receipt,
+        &["request_binding", "support_target_tuple_ref"],
+        &expected_support_tuple,
+        "CONTEXT_RECEIPT_SUPPORT_TUPLE_MISMATCH",
+    )?;
+    let receipt_valid_until = json_string_at(&receipt, &["freshness", "valid_until"]).ok_or_else(|| {
+        KernelError::new(ErrorCode::CapabilityDenied, "context receipt missing valid_until")
+            .with_details(json!({"reason_codes":["CONTEXT_RECEIPT_VALID_UNTIL_MISSING","CONTEXT_EVIDENCE_REQUIRED"]}))
+    })?;
+    if parse_rfc3339(receipt_valid_until)
+        .map(|value| value < time::OffsetDateTime::now_utc())
+        .unwrap_or(true)
+    {
+        return context_evidence_denial(
+            "context receipt freshness window expired",
+            "CONTEXT_RECEIPT_EXPIRED",
+        );
+    }
+    let replay_refs = json_string_array_at(
+        &receipt,
+        &["replay_reconstruction_refs"],
+        "CONTEXT_REPLAY_REFS_MISSING",
+    )?;
+    if !replay_refs.iter().any(|value| value == model_visible_ref)
+        || !replay_refs
+            .iter()
+            .any(|value| value == &model_visible_hash_ref)
+    {
+        return context_evidence_denial(
+            "context receipt replay reconstruction refs do not include retained model-visible serialization and hash",
+            "CONTEXT_REPLAY_REF_MISSING",
+        );
+    }
+    let authorization_refs = json_string_array_at(
+        &receipt,
+        &["authorization_binding_refs"],
+        "CONTEXT_AUTHORIZATION_REFS_MISSING",
+    )?;
+    for expected_ref in [
+        format!(
+            ".octon/state/evidence/runs/{}/execution-request.json",
+            request.request_id
+        ),
+        format!(
+            ".octon/state/evidence/runs/{}/execution-receipt.json",
+            request.request_id
+        ),
+    ] {
+        if !authorization_refs
+            .iter()
+            .any(|value| value == &expected_ref)
+        {
+            return context_evidence_denial(
+                "context receipt authorization binding refs are incomplete",
+                "CONTEXT_AUTHORIZATION_REF_MISSING",
+            );
+        }
+    }
+    let source_manifest_ref = required_json_string_at(
+        &receipt,
+        &["source_manifest_ref"],
+        "CONTEXT_SOURCE_MANIFEST_REF_MISSING",
+    )?;
+    let omissions_ref = required_json_string_at(
+        &receipt,
+        &["omissions_ref"],
+        "CONTEXT_OMISSIONS_REF_MISSING",
+    )?;
+    let redactions_ref = required_json_string_at(
+        &receipt,
+        &["redactions_ref"],
+        "CONTEXT_REDACTIONS_REF_MISSING",
+    )?;
+    let invalidation_events_ref = required_json_string_at(
+        &receipt,
+        &["invalidation_events_ref"],
+        "CONTEXT_INVALIDATION_EVENTS_REF_MISSING",
+    )?;
+    let source_manifest = read_retained_context_json(
+        &cfg.repo_root,
+        &source_manifest_ref,
+        "context source manifest",
+        "CONTEXT_SOURCE_MANIFEST_MISSING",
+    )?;
+    let omissions = read_retained_context_json(
+        &cfg.repo_root,
+        &omissions_ref,
+        "context omissions manifest",
+        "CONTEXT_OMISSIONS_MISSING",
+    )?;
+    let redactions = read_retained_context_json(
+        &cfg.repo_root,
+        &redactions_ref,
+        "context redactions manifest",
+        "CONTEXT_REDACTIONS_MISSING",
+    )?;
+    let invalidation_events = read_retained_context_json(
+        &cfg.repo_root,
+        &invalidation_events_ref,
+        "context invalidation events",
+        "CONTEXT_INVALIDATION_EVENTS_MISSING",
+    )?;
+    let sources = receipt
+        .get("sources")
+        .and_then(|value| value.as_array())
+        .ok_or_else(|| {
+            KernelError::new(ErrorCode::CapabilityDenied, "context receipt sources missing")
+                .with_details(json!({"reason_codes":["CONTEXT_RECEIPT_SOURCES_MISSING","CONTEXT_EVIDENCE_REQUIRED"]}))
+        })?;
+    if sources.len() as u64 != binding.source_count {
+        return context_evidence_denial(
+            "context receipt source count does not match binding",
+            "CONTEXT_SOURCE_COUNT_MISMATCH",
+        );
+    }
+    let failed_required = json_u64_at(
+        &receipt,
+        &["source_summary", "failed_required_source_count"],
+    )
+    .unwrap_or(u64::MAX);
+    if failed_required != binding.failed_required_source_count || failed_required != 0 {
+        return context_evidence_denial(
+            "context receipt required source failure count does not match binding",
+            "CONTEXT_REQUIRED_SOURCE_COUNT_MISMATCH",
+        );
+    }
+    let mut expected_source_manifest = Vec::new();
+    for source in sources {
+        let source_ref =
+            required_json_string_at(source, &["source_ref"], "CONTEXT_SOURCE_REF_MISSING")?;
+        if source_ref.contains(".octon/inputs/exploratory/") {
+            return context_evidence_denial(
+                "context source may not depend on proposal-local exploratory paths",
+                "CONTEXT_PROPOSAL_DEPENDENCY",
+            );
+        }
+        let declared_sha =
+            required_json_string_at(source, &["sha256"], "CONTEXT_SOURCE_DIGEST_MISSING")?;
+        expected_source_manifest.push(format!("{source_ref} {declared_sha}"));
+        if source
+            .get("required")
+            .and_then(|value| value.as_bool())
+            .unwrap_or(false)
+        {
+            if json_string_at(source, &["verification_status"]) != Some("valid")
+                || json_string_at(source, &["freshness_status"]) != Some("valid")
+            {
+                return context_evidence_denial(
+                    "required context source is not valid and fresh",
+                    "CONTEXT_REQUIRED_SOURCE_INVALID",
+                );
+            }
+        }
+    }
+    expected_source_manifest.sort();
+    let retained_source_manifest =
+        json_string_array(&source_manifest, "CONTEXT_SOURCE_MANIFEST_INVALID")?;
+    if retained_source_manifest != expected_source_manifest {
+        return context_evidence_denial(
+            "retained context source manifest does not match receipt sources",
+            "CONTEXT_SOURCE_MANIFEST_MISMATCH",
+        );
+    }
+    if json_string_array_at(
+        &pack,
+        &["source_manifest"],
+        "CONTEXT_PACK_SOURCE_MANIFEST_INVALID",
+    )? != expected_source_manifest
+    {
+        return context_evidence_denial(
+            "context pack source manifest does not match receipt sources",
+            "CONTEXT_PACK_SOURCE_MANIFEST_MISMATCH",
+        );
+    }
+    if json_string_array_at(
+        &model_visible,
+        &["source_manifest"],
+        "CONTEXT_MODEL_VISIBLE_SOURCE_MANIFEST_INVALID",
+    )? != expected_source_manifest
+    {
+        return context_evidence_denial(
+            "model-visible source manifest does not match receipt sources",
+            "CONTEXT_MODEL_VISIBLE_SOURCE_MANIFEST_MISMATCH",
+        );
+    }
+    for source in sources {
+        let source_ref =
+            required_json_string_at(source, &["source_ref"], "CONTEXT_SOURCE_REF_MISSING")?;
+        let declared_sha =
+            required_json_string_at(source, &["sha256"], "CONTEXT_SOURCE_DIGEST_MISSING")?;
+        if json_string_at(source, &["verification_status"]) == Some("valid") {
+            let source_path = resolve_repo_ref(&cfg.repo_root, &source_ref);
+            if !source_path.is_file() {
+                return context_evidence_denial(
+                    "context source declared valid is missing",
+                    "CONTEXT_SOURCE_MISSING",
+                );
+            }
+            if sha256_file_prefixed(&source_path)? != declared_sha {
+                return context_evidence_denial(
+                    "context source digest drifted after receipt",
+                    "CONTEXT_SOURCE_DIGEST_MISMATCH",
+                );
+            }
+        }
+    }
+    require_json_value_match(
+        &pack,
+        &["omissions"],
+        &omissions,
+        "CONTEXT_OMISSIONS_MISMATCH",
+    )?;
+    require_json_value_match(
+        &model_visible,
+        &["omissions"],
+        &omissions,
+        "CONTEXT_MODEL_VISIBLE_OMISSIONS_MISMATCH",
+    )?;
+    require_json_value_match(
+        &pack,
+        &["redactions"],
+        &redactions,
+        "CONTEXT_REDACTIONS_MISMATCH",
+    )?;
+    require_json_value_match(
+        &model_visible,
+        &["redactions"],
+        &redactions,
+        "CONTEXT_MODEL_VISIBLE_REDACTIONS_MISMATCH",
+    )?;
+    if !matches!(invalidation_events.as_array(), Some(events) if events.is_empty()) {
+        return context_evidence_denial(
+            "context receipt is not invalidated but retained invalidation events are present",
+            "CONTEXT_INVALIDATION_EVENTS_PRESENT",
+        );
+    }
+    for source in pack
+        .get("authority_sources")
+        .and_then(|value| value.as_array())
+        .into_iter()
+        .flatten()
+    {
+        let path = json_string_at(source, &["path"]).unwrap_or_default();
+        let Some(normalized_path) = normalized_repo_relative_ref(&cfg.repo_root, &path) else {
+            return context_evidence_denial(
+                "authority source must be repo-local",
+                "CONTEXT_AUTHORITY_SOURCE_OUTSIDE_REPO",
+            );
+        };
+        if normalized_path.starts_with(".octon/generated/")
+            || normalized_path.starts_with(".octon/inputs/")
+        {
+            return context_evidence_denial(
+                "generated or raw input source cannot be authority",
+                "CONTEXT_FORBIDDEN_AUTHORITY_SOURCE",
+            );
+        }
+        if json_string_at(source, &["authority_label"]) != Some("authoritative") {
+            return context_evidence_denial(
+                "authority source is not labeled authoritative",
+                "CONTEXT_AUTHORITY_LABEL_INVALID",
+            );
+        }
+    }
+    Ok(())
+}
+
+fn build_context_evidence_binding(
+    cfg: &RuntimeConfig,
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+) -> CoreResult<ContextEvidenceBinding> {
+    let now = now_rfc3339().map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to compute context-pack timestamp: {e}"),
+        )
+    })?;
+    let context_pack_id = format!("context-pack-{}", request.request_id);
+    let context_root = bound.evidence_root.join("context");
+    let control_context_root = bound.control_root.join("context");
+    fs::create_dir_all(&context_root).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to create context evidence root: {e}"),
+        )
+    })?;
+    fs::create_dir_all(&control_context_root).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to create context control root: {e}"),
+        )
+    })?;
+    let context_policy_path = resolve_repo_ref(&cfg.repo_root, CONTEXT_POLICY_REF);
+    let context_policy_raw = fs::read_to_string(&context_policy_path).map_err(|e| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!("context packing policy is missing: {e}"),
+        )
+        .with_details(
+            json!({"reason_codes":["CONTEXT_POLICY_MISSING","CONTEXT_EVIDENCE_REQUIRED"]}),
+        )
+    })?;
+    serde_yaml::from_str::<serde_yaml::Value>(&context_policy_raw).map_err(|e| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!("context packing policy is unparsable: {e}"),
+        )
+        .with_details(
+            json!({"reason_codes":["CONTEXT_POLICY_INVALID","CONTEXT_EVIDENCE_REQUIRED"]}),
+        )
+    })?;
+
+    let candidates = context_source_candidates(bound, request, run_contract);
+    let mut authority_sources = Vec::new();
+    let mut receipt_sources = Vec::new();
+    let mut source_manifest = Vec::new();
+    for candidate in candidates {
+        let abs = resolve_repo_ref(&cfg.repo_root, &candidate.path);
+        if !abs.is_file() {
+            if candidate.required {
+                return context_evidence_denial(
+                    &format!("required context source is missing: {}", candidate.path),
+                    "CONTEXT_REQUIRED_SOURCE_MISSING",
+                );
+            }
+            continue;
+        }
+        let sha256 = sha256_file_prefixed(&abs)?;
+        let byte_count = fs::metadata(&abs)
+            .map(|meta| meta.len() as usize)
+            .unwrap_or(0);
+        let estimated_tokens = byte_count.saturating_add(3) / 4;
+        authority_sources.push(json!({
+            "path": candidate.path,
+            "sha256": sha256,
+            "source_class": candidate.source_class,
+            "surface_class": candidate.source_class,
+            "authority_label": candidate.authority_label,
+            "trust_class": candidate.trust_class,
+            "source_role": candidate.source_role,
+            "inclusion_mode": "digest-only",
+            "model_visible": true,
+            "byte_count": byte_count,
+            "bytes_included": 0,
+            "estimated_token_count": estimated_tokens,
+            "estimated_tokens": 0,
+            "policy_ref": CONTEXT_POLICY_REF,
+            "policy_reason": "digest_visible_by_context_packing_policy",
+        }));
+        receipt_sources.push(json!({
+            "source_ref": candidate.path,
+            "source_kind": candidate.receipt_kind,
+            "authority_label": candidate.authority_label,
+            "required": candidate.required,
+            "sha256": sha256,
+            "verification_status": "valid",
+            "freshness_status": "valid",
+            "resolved_at": now,
+            "evidence_ref": candidate.path,
+        }));
+        source_manifest.push(format!("{} {}", candidate.path, sha256));
+    }
+    if authority_sources.is_empty() {
+        return context_evidence_denial(
+            "context builder found no authority sources",
+            "CONTEXT_EVIDENCE_EMPTY",
+        );
+    }
+
+    source_manifest.sort();
+    let source_manifest_path = context_root.join("source-manifest.json");
+    let omissions_path = context_root.join("omissions.json");
+    let redactions_path = context_root.join("redactions.json");
+    let invalidation_path = context_root.join("invalidation-events.json");
+    let model_visible_context_path = context_root.join("model-visible-context.json");
+    let model_visible_hash_path = context_root.join("model-visible-context.sha256");
+    let context_pack_path = context_root.join("context-pack.json");
+    let context_receipt_path = context_root.join("context-pack-receipt.json");
+    let context_pack_ref = path_tail(&cfg.repo_root, &context_pack_path);
+    let context_receipt_ref = path_tail(&cfg.repo_root, &context_receipt_path);
+    let model_visible_context_ref = path_tail(&cfg.repo_root, &model_visible_context_path);
+
+    write_context_json(&source_manifest_path, &source_manifest)?;
+    write_context_json(&omissions_path, &json!([]))?;
+    write_context_json(&redactions_path, &json!([]))?;
+    write_context_json(&invalidation_path, &json!([]))?;
+    let model_visible_context = json!({
+        "schema_version": "model-visible-context-v1",
+        "serialization_format": CONTEXT_MODEL_VISIBLE_FORMAT,
+        "run_id": request.request_id,
+        "context_pack_id": context_pack_id,
+        "context_policy_ref": CONTEXT_POLICY_REF,
+        "builder_version": CONTEXT_BUILDER_VERSION,
+        "created_at": now,
+        "support_target_tuple_ref": request
+            .support_target_tuple_ref
+            .clone()
+            .unwrap_or_else(|| support_target_tuple_id(&run_contract.support_target)),
+        "source_manifest": source_manifest,
+        "authority_sources": authority_sources,
+        "omissions": [],
+        "redactions": [],
+        "freshness": {
+            "generated_at": now,
+            "valid_until": CONTEXT_RECEIPT_VALID_UNTIL,
+            "freshness_status": "valid",
+        },
+        "replay": {
+            "replay_pointers_ref": bound.replay_pointers_ref,
+            "replayable": true,
+        },
+    });
+    let model_visible_bytes =
+        write_context_json_bytes(&model_visible_context_path, &model_visible_context)?;
+    let model_visible_context_sha256 = format!("sha256:{}", sha256_bytes(&model_visible_bytes));
+    fs::write(
+        &model_visible_hash_path,
+        format!("{model_visible_context_sha256}\n"),
+    )
+    .map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write model-visible context hash: {e}"),
+        )
+    })?;
+
+    let pack = json!({
+        "schema_version": "context-pack-v1",
+        "context_pack_id": context_pack_id,
+        "pack_id": context_pack_id,
+        "run_id": request.request_id,
+        "builder_id": "octon-authority-engine",
+        "builder_version": CONTEXT_BUILDER_VERSION,
+        "context_policy_ref": CONTEXT_POLICY_REF,
+        "model_visible_context_sha256": model_visible_context_sha256,
+        "model_visible_context_ref": model_visible_context_ref,
+        "model_visible_serialization_format": CONTEXT_MODEL_VISIBLE_FORMAT,
+        "created_at": now,
+        "validity_state": "valid",
+        "authority_sources": authority_sources,
+        "control_sources": [],
+        "evidence_sources": [],
+        "continuity_sources": [],
+        "generated_runtime_effective_handles": [],
+        "capability_schema_sources": [],
+        "derived_sources": [],
+        "non_authoritative_inputs": [],
+        "omissions": [],
+        "redactions": [],
+        "source_manifest": source_manifest,
+        "source_manifest_ref": path_tail(&cfg.repo_root, &source_manifest_path),
+        "budget": {
+            "max_prompt_bytes": 400000,
+            "max_estimated_input_tokens": 100000,
+            "model_context_limit": null,
+            "included_bytes": 0,
+            "model_visible_bytes": model_visible_bytes.len(),
+            "estimated_input_tokens": model_visible_bytes.len().saturating_add(3) / 4,
+            "model_visible_estimated_tokens": model_visible_bytes.len().saturating_add(3) / 4,
+        },
+        "freshness": {
+            "generated_at": now,
+            "fresh_until": CONTEXT_RECEIPT_VALID_UNTIL,
+            "freshness_mode": "receipt-verified",
+        },
+        "invalidation": {
+            "mode": "source-digest",
+            "watch_refs": source_manifest,
+            "invalidated_at": null,
+            "reason": null,
+        },
+        "rebuild": {
+            "rebuild_required": false,
+            "rebuild_refs": [],
+        },
+        "replay": {
+            "replay_pointers_ref": bound.replay_pointers_ref,
+            "replayable": true,
+            "replay_inputs_sha256": model_visible_context_sha256,
+            "model_visible_context_ref": model_visible_context_ref,
+        },
+        "receipt_ref": context_receipt_ref,
+        "generated_at": now,
+    });
+    write_context_json(&context_pack_path, &pack)?;
+    let context_pack_sha256 = sha256_file_prefixed(&context_pack_path)?;
+
+    let receipt = json!({
+        "schema_version": "context-pack-receipt-v1",
+        "receipt_id": format!("context-pack-receipt-{}", request.request_id),
+        "context_pack_id": context_pack_id,
+        "context_pack_ref": context_pack_ref,
+        "context_pack_sha256": context_pack_sha256,
+        "run_id": request.request_id,
+        "request_id": request.request_id,
+        "builder_spec_ref": CONTEXT_BUILDER_SPEC_REF,
+        "builder_version": CONTEXT_BUILDER_VERSION,
+        "context_policy_ref": CONTEXT_POLICY_REF,
+        "model_visible_context_sha256": model_visible_context_sha256,
+        "model_visible_context_ref": model_visible_context_ref,
+        "source_manifest_ref": path_tail(&cfg.repo_root, &source_manifest_path),
+        "omissions_ref": path_tail(&cfg.repo_root, &omissions_path),
+        "redactions_ref": path_tail(&cfg.repo_root, &redactions_path),
+        "invalidation_events_ref": path_tail(&cfg.repo_root, &invalidation_path),
+        "built_at": now,
+        "freshness": {
+            "generated_at": now,
+            "valid_until": CONTEXT_RECEIPT_VALID_UNTIL,
+            "freshness_status": "valid",
+        },
+        "validity_state": "valid",
+        "invalidation_state": "not_invalidated",
+        "rebuild_refs": [],
+        "compaction_refs": [],
+        "replay_reconstruction_refs": [
+            model_visible_context_ref,
+            path_tail(&cfg.repo_root, &model_visible_hash_path)
+        ],
+        "authorization_binding_refs": [
+            format!(".octon/state/evidence/runs/{}/execution-request.json", request.request_id),
+            format!(".octon/state/evidence/runs/{}/execution-receipt.json", request.request_id)
+        ],
+        "verification_status": "valid",
+        "authority_boundary": {
+            "authorize_execution_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md#authorize_execution",
+            "subordinate_to_authorize_execution": true,
+        },
+        "request_binding": {
+            "request_id": request.request_id,
+            "target_id": request.target_id,
+            "action_type": request.action_type,
+            "workflow_mode": request.workflow_mode,
+            "risk_tier": request.risk_tier,
+            "support_target_tuple_ref": request
+                .support_target_tuple_ref
+                .clone()
+                .unwrap_or_else(|| support_target_tuple_id(&run_contract.support_target)),
+            "requires_context_evidence": true,
+            "boundary_sensitive": request.boundary_sensitive,
+            "consequential": context_evidence_required_for_request(request, run_contract),
+        },
+        "source_summary": {
+            "authority_source_count": receipt_sources.len(),
+            "evidence_source_count": 0,
+            "derived_source_count": 0,
+            "non_authoritative_source_count": 0,
+            "required_source_count": receipt_sources.len(),
+            "failed_required_source_count": 0,
+        },
+        "sources": receipt_sources,
+        "omissions": [],
+        "failure_policy": {
+            "missing_required_context_route": "DENY",
+            "stale_required_context_route": "DENY",
+            "invalid_required_context_route": "DENY",
+            "unverifiable_required_context_route": "DENY",
+            "reason_codes": ["CONTEXT_EVIDENCE_REQUIRED", "FCR-007", "FCR-013"],
+        },
+        "builder_notes": [
+            "Context Pack Builder remains subordinate to authorize_execution.",
+            "Generated and raw input sources are excluded from authority sources.",
+        ],
+    });
+    write_context_json(&context_receipt_path, &receipt)?;
+    let receipt_sha256 = sha256_file_prefixed(&context_receipt_path)?;
+
+    write_yaml(
+        &control_context_root.join("active-context-pack.yml"),
+        &json!({
+            "schema_version": "active-context-pack-v1",
+            "run_id": request.request_id,
+            "context_pack_ref": context_pack_ref,
+            "context_pack_receipt_ref": context_receipt_ref,
+            "context_pack_sha256": context_pack_sha256,
+            "receipt_sha256": receipt_sha256,
+            "model_visible_context_sha256": model_visible_context_sha256,
+            "context_policy_ref": CONTEXT_POLICY_REF,
+            "validity_state": "valid",
+            "updated_at": now,
+            "model_visible_context_ref": model_visible_context_ref,
+        }),
+    )
+    .map_err(|e| KernelError::new(ErrorCode::Internal, e.to_string()))?;
+    write_yaml(
+        &control_context_root.join("status.yml"),
+        &json!({
+            "schema_version": "context-pack-status-v1",
+            "run_id": request.request_id,
+            "status": "bound",
+            "validity_state": "valid",
+            "freshness_status": "valid",
+            "context_pack_ref": context_pack_ref,
+            "context_pack_receipt_ref": context_receipt_ref,
+            "model_visible_context_ref": model_visible_context_ref,
+            "updated_at": now,
+        }),
+    )
+    .map_err(|e| KernelError::new(ErrorCode::Internal, e.to_string()))?;
+
+    append_context_pack_journal_events(
+        bound,
+        request,
+        &context_pack_ref,
+        &context_receipt_ref,
+        &model_visible_context_ref,
+        &model_visible_context_sha256,
+        &now,
+    )?;
+    merge_replay_receipt_ref(
+        &bound.replay_pointers_path,
+        &request.request_id,
+        context_receipt_ref.clone(),
+    )?;
+    merge_retained_evidence_ref(
+        &bound.retained_evidence_path,
+        &request.request_id,
+        "context_pack",
+        context_pack_ref.clone(),
+    )?;
+    merge_retained_evidence_ref(
+        &bound.retained_evidence_path,
+        &request.request_id,
+        "context_pack_receipt",
+        context_receipt_ref.clone(),
+    )?;
+
+    Ok(ContextEvidenceBinding {
+        context_pack_ref,
+        context_pack_receipt_ref: context_receipt_ref,
+        context_pack_sha256,
+        receipt_sha256,
+        builder_spec_ref: CONTEXT_BUILDER_SPEC_REF.to_string(),
+        builder_version: CONTEXT_BUILDER_VERSION.to_string(),
+        verification_status: "valid".to_string(),
+        freshness_status: "valid".to_string(),
+        valid_until: Some(CONTEXT_RECEIPT_VALID_UNTIL.to_string()),
+        context_policy_ref: Some(CONTEXT_POLICY_REF.to_string()),
+        model_visible_context_ref: Some(model_visible_context_ref),
+        model_visible_context_sha256: Some(model_visible_context_sha256),
+        context_validity_state: Some("valid".to_string()),
+        context_rebuild_ref: None,
+        context_invalidation_ref: None,
+        source_count: receipt_sources.len() as u64,
+        failed_required_source_count: 0,
+        subordinate_to_authorize_execution: true,
+    })
+}
+
+fn context_source_candidates(
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    run_contract: &RunContractRecord,
+) -> Vec<ContextSourceCandidate> {
+    let mut candidates = vec![
+        context_source(
+            ".octon/framework/constitution/CHARTER.md",
+            "framework",
+            "constitutional",
+            "constitutional-kernel",
+            "constitutional-kernel",
+            true,
+        ),
+        context_source(
+            ".octon/framework/constitution/obligations/fail-closed.yml",
+            "framework",
+            "constitutional",
+            "constitutional-kernel",
+            "constitutional-kernel",
+            true,
+        ),
+        context_source(
+            ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+            "framework",
+            "authored-authority",
+            "authority-artifact",
+            "run-authority",
+            true,
+        ),
+        context_source(
+            CONTEXT_BUILDER_SPEC_REF,
+            "framework",
+            "authored-authority",
+            "policy",
+            "governance-declaration",
+            true,
+        ),
+        context_source(
+            CONTEXT_POLICY_REF,
+            "instance",
+            "authored-authority",
+            "policy",
+            "governance-declaration",
+            true,
+        ),
+        context_source(
+            ".octon/instance/charter/workspace.md",
+            "instance",
+            "authored-authority",
+            "workspace-charter",
+            "governance-declaration",
+            true,
+        ),
+        context_source(
+            ".octon/instance/charter/workspace.yml",
+            "instance",
+            "authored-authority",
+            "workspace-charter",
+            "governance-declaration",
+            true,
+        ),
+        context_source(
+            ".octon/instance/governance/support-targets.yml",
+            "instance",
+            "authored-authority",
+            "support-target",
+            "support-target",
+            true,
+        ),
+        context_source(
+            &bound.run_manifest_ref,
+            "state",
+            "control",
+            "run-contract",
+            "run-authority",
+            true,
+        ),
+        context_source(
+            &format!(
+                ".octon/state/control/execution/runs/{}/run-contract.yml",
+                request.request_id
+            ),
+            "state",
+            "control",
+            "run-contract",
+            "run-authority",
+            true,
+        ),
+    ];
+    if !run_contract.support_target.host_adapter.trim().is_empty() {
+        candidates.push(context_source(
+            &format!(
+                ".octon/framework/engine/runtime/adapters/host/{}.yml",
+                run_contract.support_target.host_adapter
+            ),
+            "framework",
+            "authored-authority",
+            "adapter-projection",
+            "capability-or-adapter",
+            false,
+        ));
+    }
+    if !run_contract.support_target.model_adapter.trim().is_empty() {
+        candidates.push(context_source(
+            &format!(
+                ".octon/framework/engine/runtime/adapters/model/{}.yml",
+                run_contract.support_target.model_adapter
+            ),
+            "framework",
+            "authored-authority",
+            "adapter-projection",
+            "capability-or-adapter",
+            false,
+        ));
+    }
+    candidates.sort_by(|left, right| left.path.cmp(&right.path));
+    candidates.dedup_by(|left, right| left.path == right.path);
+    candidates
+}
+
+fn context_source(
+    path: &str,
+    source_class: &'static str,
+    trust_class: &'static str,
+    source_role: &'static str,
+    receipt_kind: &'static str,
+    required: bool,
+) -> ContextSourceCandidate {
+    ContextSourceCandidate {
+        path: path.to_string(),
+        authority_label: "authoritative",
+        source_class,
+        trust_class,
+        source_role,
+        receipt_kind,
+        required,
+    }
+}
+
+fn append_context_pack_journal_events(
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    context_pack_ref: &str,
+    context_pack_receipt_ref: &str,
+    model_visible_context_ref: &str,
+    model_visible_context_sha256: &str,
+    recorded_at: &str,
+) -> CoreResult<()> {
+    for (suffix, event_type, before, after) in [
+        (
+            "requested",
+            "context-pack-requested",
+            "bound",
+            "context_requested",
+        ),
+        (
+            "built",
+            "context-pack-built",
+            "context_requested",
+            "context_built",
+        ),
+        (
+            "bound",
+            "context-pack-bound",
+            "context_built",
+            "context_bound",
+        ),
+    ] {
+        append_runtime_journal_event(
+            bound,
+            request,
+            format!("evt-context-pack-{suffix}-{}", request.request_id),
+            event_type,
+            recorded_at,
+            Some(context_pack_ref.to_string()),
+            JournalClassification {
+                event_plane: "retained-evidence".to_string(),
+                replay_disposition: "replayable".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some(before.to_string()),
+                state_after: Some(after.to_string()),
+            },
+            context_pack_journal_refs(bound, request, context_pack_ref, context_pack_receipt_ref),
+            journal_payload(
+                Some(json!({
+                    "context_pack_ref": context_pack_ref,
+                    "context_pack_receipt_ref": context_pack_receipt_ref,
+                    "model_visible_context_ref": model_visible_context_ref,
+                    "model_visible_context_sha256": model_visible_context_sha256,
+                    "context_policy_ref": CONTEXT_POLICY_REF,
+                })),
+                None,
+                Some("Context Pack Builder v1 lifecycle event is journaled.".to_string()),
+            ),
+            journal_effect("evidence"),
+            vec!["context_pack_ref".to_string()],
+            None,
+        )?;
+    }
+    Ok(())
+}
+
+fn context_pack_journal_refs(
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    context_pack_ref: &str,
+    context_pack_receipt_ref: &str,
+) -> JournalGoverningRefs {
+    JournalGoverningRefs {
+        run_contract_ref: format!(
+            ".octon/state/control/execution/runs/{}/run-contract.yml",
+            request.request_id
+        ),
+        run_manifest_ref: bound.run_manifest_ref.clone(),
+        execution_request_ref: None,
+        authority_route_receipt_ref: None,
+        grant_bundle_ref: None,
+        policy_receipt_ref: None,
+        approval_ref: None,
+        lease_ref: None,
+        revocation_ref: None,
+        support_target_tuple_ref: request.support_target_tuple_ref.clone(),
+        rollback_plan_ref: request.rollback_plan_ref.clone(),
+        rollback_posture_ref: Some(format!(
+            ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+            request.request_id
+        )),
+        context_pack_ref: Some(context_pack_ref.to_string()),
+        stage_attempt_ref: Some(bound.stage_attempt_ref.clone()),
+        checkpoint_ref: None,
+        validator_result_ref: None,
+        evidence_snapshot_ref: Some(context_pack_receipt_ref.to_string()),
+        disclosure_ref: None,
+        drift_ref: None,
+        continuity_ref: Some(format!(
+            ".octon/state/continuity/runs/{}/handoff.yml",
+            request.request_id
+        )),
+        additional_refs: vec![CONTEXT_POLICY_REF.to_string()],
+    }
+}
+
+fn publish_context_binding_metadata(
+    request: &mut ExecutionRequest,
+    binding: &ContextEvidenceBinding,
+) {
+    request.metadata.insert(
+        "context_pack_ref".to_string(),
+        binding.context_pack_ref.clone(),
+    );
+    request.metadata.insert(
+        "context_pack_receipt_ref".to_string(),
+        binding.context_pack_receipt_ref.clone(),
+    );
+    request.metadata.insert(
+        "context_pack_sha256".to_string(),
+        binding.context_pack_sha256.clone(),
+    );
+    request.metadata.insert(
+        "context_receipt_sha256".to_string(),
+        binding.receipt_sha256.clone(),
+    );
+    request.metadata.insert(
+        "model_visible_context_sha256".to_string(),
+        binding
+            .model_visible_context_sha256
+            .clone()
+            .unwrap_or_default(),
+    );
+    request.metadata.insert(
+        "model_visible_context_ref".to_string(),
+        binding
+            .model_visible_context_ref
+            .clone()
+            .unwrap_or_default(),
+    );
+    request.metadata.insert(
+        "context_policy_ref".to_string(),
+        binding.context_policy_ref.clone().unwrap_or_default(),
+    );
+    request.metadata.insert(
+        "context_validity_state".to_string(),
+        binding
+            .context_validity_state
+            .clone()
+            .unwrap_or_else(|| binding.verification_status.clone()),
+    );
+}
+
+fn resolve_repo_ref(repo_root: &Path, reference: &str) -> PathBuf {
+    let path = PathBuf::from(reference);
+    if path.is_absolute() {
+        path
+    } else {
+        repo_root.join(reference)
+    }
+}
+
+pub(crate) fn normalized_repo_relative_ref(repo_root: &Path, reference: &str) -> Option<String> {
+    let path = resolve_repo_ref(repo_root, reference);
+    let relative = path.strip_prefix(repo_root).ok()?;
+    Some(normalize_relative_path(relative))
+}
+
+fn normalize_relative_path(path: &Path) -> String {
+    let mut parts: Vec<String> = Vec::new();
+    for component in path.components() {
+        match component {
+            std::path::Component::CurDir => {}
+            std::path::Component::ParentDir => {
+                if matches!(parts.last().map(String::as_str), Some("..") | None) {
+                    parts.push("..".to_string());
+                } else {
+                    parts.pop();
+                }
+            }
+            std::path::Component::Normal(value) => {
+                parts.push(value.to_string_lossy().to_string());
+            }
+            _ => {}
+        }
+    }
+    parts.join("/")
+}
+
+fn sha256_file_prefixed(path: &Path) -> CoreResult<String> {
+    fs::read(path)
+        .map(|bytes| format!("sha256:{}", sha256_bytes(&bytes)))
+        .map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to hash {}: {e}", path.display()),
+            )
+        })
+}
+
+fn read_context_json_value(path: &Path) -> CoreResult<serde_json::Value> {
+    let raw = fs::read_to_string(path).map_err(|e| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!("failed to read context evidence {}: {e}", path.display()),
+        )
+        .with_details(
+            json!({"reason_codes":["CONTEXT_EVIDENCE_READ_FAILED","CONTEXT_EVIDENCE_REQUIRED"]}),
+        )
+    })?;
+    serde_json::from_str(&raw).map_err(|e| {
+        KernelError::new(
+            ErrorCode::CapabilityDenied,
+            format!("failed to parse context evidence {}: {e}", path.display()),
+        )
+        .with_details(
+            json!({"reason_codes":["CONTEXT_EVIDENCE_PARSE_FAILED","CONTEXT_EVIDENCE_REQUIRED"]}),
+        )
+    })
+}
+
+fn read_retained_context_json(
+    repo_root: &Path,
+    reference: &str,
+    label: &str,
+    missing_reason_code: &str,
+) -> CoreResult<serde_json::Value> {
+    if reference.contains(".octon/inputs/exploratory/") {
+        return context_evidence_denial(
+            "retained context evidence may not depend on proposal-local exploratory paths",
+            "CONTEXT_PROPOSAL_DEPENDENCY",
+        );
+    }
+    let path = resolve_repo_ref(repo_root, reference);
+    if !path.is_file() {
+        return context_evidence_denial(
+            &format!("retained {label} artifact is missing"),
+            missing_reason_code,
+        );
+    }
+    read_context_json_value(&path)
+}
+
+fn json_string_at<'a>(value: &'a serde_json::Value, path: &[&str]) -> Option<&'a str> {
+    let mut current = value;
+    for key in path {
+        current = current.get(*key)?;
+    }
+    current.as_str()
+}
+
+fn json_u64_at(value: &serde_json::Value, path: &[&str]) -> Option<u64> {
+    let mut current = value;
+    for key in path {
+        current = current.get(*key)?;
+    }
+    current.as_u64()
+}
+
+fn required_json_string_at(
+    value: &serde_json::Value,
+    path: &[&str],
+    reason_code: &str,
+) -> CoreResult<String> {
+    json_string_at(value, path)
+        .map(ToOwned::to_owned)
+        .ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!("context evidence field '{}' is missing", path.join(".")),
+            )
+            .with_details(json!({"reason_codes":[reason_code,"CONTEXT_EVIDENCE_REQUIRED"]}))
+        })
+}
+
+fn json_string_array(value: &serde_json::Value, reason_code: &str) -> CoreResult<Vec<String>> {
+    let Some(values) = value.as_array() else {
+        return context_evidence_denial(
+            "context evidence array is missing or invalid",
+            reason_code,
+        );
+    };
+    let mut result = Vec::with_capacity(values.len());
+    for item in values {
+        let Some(item) = item.as_str() else {
+            return context_evidence_denial(
+                "context evidence array contains a non-string value",
+                reason_code,
+            );
+        };
+        result.push(item.to_string());
+    }
+    Ok(result)
+}
+
+fn json_string_array_at(
+    value: &serde_json::Value,
+    path: &[&str],
+    reason_code: &str,
+) -> CoreResult<Vec<String>> {
+    let mut current = value;
+    for key in path {
+        current = current.get(*key).ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!("context evidence array '{}' is missing", path.join(".")),
+            )
+            .with_details(json!({"reason_codes":[reason_code,"CONTEXT_EVIDENCE_REQUIRED"]}))
+        })?;
+    }
+    json_string_array(current, reason_code)
+}
+
+fn require_json_value_match(
+    value: &serde_json::Value,
+    path: &[&str],
+    expected: &serde_json::Value,
+    reason_code: &str,
+) -> CoreResult<()> {
+    let mut current = value;
+    for key in path {
+        current = current.get(*key).ok_or_else(|| {
+            KernelError::new(
+                ErrorCode::CapabilityDenied,
+                format!("context evidence field '{}' is missing", path.join(".")),
+            )
+            .with_details(json!({"reason_codes":[reason_code,"CONTEXT_EVIDENCE_REQUIRED"]}))
+        })?;
+    }
+    if current == expected {
+        Ok(())
+    } else {
+        context_evidence_denial(
+            &format!(
+                "context evidence field '{}' does not match retained evidence",
+                path.join(".")
+            ),
+            reason_code,
+        )
+    }
+}
+
+fn require_json_string(
+    value: &serde_json::Value,
+    key: &str,
+    expected: &str,
+    reason_code: &str,
+) -> CoreResult<()> {
+    require_json_string_at(value, &[key], expected, reason_code)
+}
+
+fn require_json_string_at(
+    value: &serde_json::Value,
+    path: &[&str],
+    expected: &str,
+    reason_code: &str,
+) -> CoreResult<()> {
+    if json_string_at(value, path) == Some(expected) {
+        Ok(())
+    } else {
+        context_evidence_denial(
+            &format!(
+                "context evidence field '{}' did not match expected value",
+                path.join(".")
+            ),
+            reason_code,
+        )
+    }
+}
+
+fn write_context_json_bytes(path: &Path, value: &impl Serialize) -> CoreResult<Vec<u8>> {
+    let bytes = serde_json::to_vec_pretty(value).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!(
+                "failed to serialize context artifact {}: {e}",
+                path.display()
+            ),
+        )
+    })?;
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).map_err(|e| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!(
+                    "failed to create context artifact parent {}: {e}",
+                    parent.display()
+                ),
+            )
+        })?;
+    }
+    fs::write(path, &bytes).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write context artifact {}: {e}", path.display()),
+        )
+    })?;
+    Ok(bytes)
+}
+
+fn write_context_json(path: &Path, value: &impl Serialize) -> CoreResult<()> {
+    write_json(path, value).map_err(|e| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to write context artifact {}: {e}", path.display()),
+        )
+    })
+}
+
+fn context_evidence_denial<T>(message: &str, reason_code: &str) -> CoreResult<T> {
+    Err(
+        KernelError::new(ErrorCode::CapabilityDenied, message).with_details(json!({
+            "reason_codes": [
+                reason_code,
+                "CONTEXT_EVIDENCE_REQUIRED",
+                "FCR-007",
+                "FCR-013"
+            ]
+        })),
+    )
+}
+
 pub fn authorize_execution(
     cfg: &RuntimeConfig,
     policy: &PolicyEngine,
@@ -387,6 +2029,14 @@ pub fn authorize_execution(
     let ownership = resolve_ownership_posture(cfg, &request, &run_contract)?;
     let support_tier =
         resolve_support_tier_posture(cfg, &request, &run_contract, autonomy_state.as_ref())?;
+    let context_evidence_required = context_evidence_required_for_request(&request, &run_contract);
+    let context_evidence_binding = ensure_context_evidence_binding(
+        cfg,
+        &bound_run,
+        &mut request,
+        &run_contract,
+        context_evidence_required,
+    )?;
     let requested_support_tuple = if run_contract.support_target.workload_tier.trim().is_empty() {
         requested_support_target_tuple(&request)?
     } else {
@@ -1051,6 +2701,9 @@ pub fn authorize_execution(
         expires_after: None,
         receipt_requirements: vec![
             "execution-request.json".to_string(),
+            ".octon/state/evidence/runs/<run-id>/context/context-pack.json".to_string(),
+            ".octon/state/evidence/runs/<run-id>/context/context-pack-receipt.json".to_string(),
+            ".octon/state/evidence/runs/<run-id>/context/model-visible-context.sha256".to_string(),
             "policy-decision.json".to_string(),
             "grant-bundle.json".to_string(),
             "authorization-phases/preflight.json".to_string(),
@@ -1062,6 +2715,9 @@ pub fn authorize_execution(
             "outcome.json".to_string(),
             "execution-receipt.json".to_string(),
         ],
+        context_evidence_required,
+        context_pack_ref: request.context_pack_ref.clone(),
+        context_evidence_binding,
         environment_class: environment,
         workflow_mode: request.workflow_mode.clone(),
         intent_ref,
@@ -2669,7 +4325,10 @@ fn materialize_run_disclosure(
         .join("checkpoints")
         .join("execution-complete.yml");
     let contamination_path = bound.control_root.join("contamination").join("current.yml");
-    let retry_path = bound.control_root.join("retry-records").join("baseline.yml");
+    let retry_path = bound
+        .control_root
+        .join("retry-records")
+        .join("baseline.yml");
     let runtime_artifact_depth = json!({
         "validation_status": if outcome.status == "succeeded"
             && bound.stage_attempt_path.is_file()

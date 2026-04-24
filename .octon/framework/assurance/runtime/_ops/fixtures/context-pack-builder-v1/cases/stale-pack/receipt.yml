@@ -1,0 +1,14 @@
+schema_version: "context-pack-builder-receipt-v1"
+builder_version: "context-pack-builder-v1"
+context_pack_ref: "cases/stale-pack/pack.yml"
+status: "stale"
+invalidated: false
+generated_at: "2026-04-23T00:00:00Z"
+input_refs:
+  - ".octon/framework/context/source-a.md"
+canonical_input_sha256: "sha256:b0ebd985247e489527dd8ce4a1352e6917f54fdbb5eae86352e62d8323525d42"
+source_digests:
+  - path: ".octon/framework/context/source-a.md"
+    sha256: "sha256:c72c8287fbab9d236b424641a4bcfddc74e3668f4c1b44e83bc3c0f4df97f3e1"
+output_context_pack_sha256: "sha256:774cc42b977b762b16b6715b6e94c36e4bf429d178b320761d36473c5a483ed0"
+replay_ref: "cases/stale-pack/replay.ndjson"

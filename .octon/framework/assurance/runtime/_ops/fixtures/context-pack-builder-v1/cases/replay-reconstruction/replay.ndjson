@@ -1,0 +1,3 @@
+{"event_type":"context-pack-requested","payload":{"run_id":"fixture-run-replay-reconstruction"}}
+{"event_type":"context-pack-built","payload":{"context_pack_ref":"cases/replay-reconstruction/pack.yml","source_refs":[".octon/instance/context/source-b.yml",".octon/framework/context/source-a.md"]}}
+{"event_type":"context-pack-bound","payload":{"context_pack_ref":"cases/replay-reconstruction/pack.yml","context_pack_sha256":"sha256:cf504d5a7527296ef797d7f3413b7d77755a8fc2f98a87c198b7bd2f33d87628"}}

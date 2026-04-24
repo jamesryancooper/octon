@@ -24,11 +24,80 @@
       "type": "string",
       "minLength": 1
     },
+    "pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
     "run_id": {
       "type": "string",
       "minLength": 1
     },
+    "builder_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "builder_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "builder": {
+      "$ref": "#/$defs/builder"
+    },
+    "context_policy_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "pack_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "model_visible_context_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "model_visible_context_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "model_visible_serialization_format": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "model_visible": {
+      "type": "boolean"
+    },
+    "byte_count": {
+      "$ref": "#/$defs/non_negative_integer"
+    },
+    "estimated_token_count": {
+      "$ref": "#/$defs/non_negative_integer"
+    },
     "authority_sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_entry"
+      }
+    },
+    "control_sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_entry"
+      }
+    },
+    "evidence_sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_entry"
+      }
+    },
+    "continuity_sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_entry"
+      }
+    },
+    "generated_runtime_effective_handles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/source_entry"
+      }
+    },
+    "capability_schema_sources": {
       "type": "array",
       "items": {
         "$ref": "#/$defs/source_entry"
@@ -49,23 +118,23 @@
     "omissions": {
       "type": "array",
       "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "path",
-          "reason"
-        ],
-        "properties": {
-          "path": {
-            "type": "string",
-            "minLength": 1
-          },
-          "reason": {
-            "type": "string",
-            "minLength": 1
-          }
-        }
+        "$ref": "#/$defs/omission"
       }
+    },
+    "redactions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/redaction"
+      }
+    },
+    "source_manifest": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "source_manifest_ref": {
+      "$ref": "#/$defs/non_empty_string"
     },
     "budget": {
       "type": "object",
@@ -89,6 +158,18 @@
             "null"
           ],
           "minimum": 0
+        },
+        "included_bytes": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "model_visible_bytes": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "estimated_input_tokens": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "model_visible_estimated_tokens": {
+          "$ref": "#/$defs/non_negative_integer"
         }
       }
     },
@@ -107,15 +188,115 @@
         "fresh_until": {
           "type": "string",
           "minLength": 1
+        },
+        "freshness_mode": {
+          "type": "string",
+          "enum": [
+            "point-in-time",
+            "bounded-window",
+            "rebuild-required",
+            "receipt-verified"
+          ]
+        },
+        "source_digest_set_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "invalidated_by": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/non_empty_string"
+          }
         }
+      }
+    },
+    "invalidation": {
+      "$ref": "#/$defs/invalidation"
+    },
+    "rebuild": {
+      "$ref": "#/$defs/rebuild"
+    },
+    "replay": {
+      "$ref": "#/$defs/replay"
+    },
+    "receipt_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "receipt_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
       }
     },
     "generated_at": {
       "type": "string",
       "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validity_state": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "stale",
+        "invalidated",
+        "rebuild_required",
+        "unverifiable"
+      ]
     }
   },
+  "dependentRequired": {
+    "model_visible_context_ref": [
+      "model_visible_context_sha256",
+      "model_visible_serialization_format",
+      "context_policy_ref"
+    ],
+    "model_visible_context_sha256": [
+      "model_visible_context_ref",
+      "model_visible_serialization_format",
+      "context_policy_ref"
+    ],
+    "receipt_ref": [
+      "model_visible_context_ref",
+      "model_visible_context_sha256"
+    ]
+  },
   "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "non_negative_integer": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$|^[A-Fa-f0-9]{64}$"
+    },
+    "builder": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "builder_id",
+        "builder_version"
+      ],
+      "properties": {
+        "builder_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "builder_version": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "builder_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
     "source_entry": {
       "type": "object",
       "additionalProperties": false,
@@ -129,10 +310,201 @@
           "minLength": 1
         },
         "sha256": {
-          "type": [
-            "string",
-            "null"
+          "$ref": "#/$defs/sha256"
+        },
+        "source_class": {
+          "type": "string",
+          "enum": [
+            "framework",
+            "instance",
+            "state",
+            "state/control",
+            "state/evidence",
+            "state/continuity",
+            "generated",
+            "generated/runtime-effective",
+            "inputs",
+            "raw-input",
+            "external",
+            "runtime",
+            "host",
+            "model",
+            "unknown"
           ]
+        },
+        "surface_class": {
+          "type": "string",
+          "enum": [
+            "framework",
+            "instance",
+            "state",
+            "state/control",
+            "state/evidence",
+            "state/continuity",
+            "generated",
+            "generated/runtime-effective",
+            "inputs",
+            "raw-input",
+            "external",
+            "runtime",
+            "host",
+            "model",
+            "unknown"
+          ]
+        },
+        "authority_label": {
+          "type": "string",
+          "enum": [
+            "authoritative",
+            "retained-proof",
+            "derived",
+            "non_authoritative"
+          ]
+        },
+        "trust_class": {
+          "type": "string",
+          "enum": [
+            "constitutional",
+            "authored-authority",
+            "control",
+            "retained-evidence",
+            "fresh-generated-effective",
+            "generated-effective-handle",
+            "derived-only",
+            "non-authoritative-input",
+            "untrusted-input",
+            "advisory",
+            "untrusted"
+          ]
+        },
+        "source_role": {
+          "type": "string",
+          "enum": [
+            "constitutional-kernel",
+            "workspace-charter",
+            "governance-declaration",
+            "mission-authority",
+            "run-contract",
+            "run-authority",
+            "policy",
+            "support-target",
+            "authority-artifact",
+            "adapter-projection",
+            "evidence",
+            "continuity",
+            "runtime-effective-handle",
+            "operator-context",
+            "operator-input",
+            "non-authoritative-input",
+            "other"
+          ]
+        },
+        "inclusion_mode": {
+          "type": "string",
+          "enum": [
+            "full",
+            "excerpt",
+            "summary",
+            "handle-only",
+            "digest-only",
+            "metadata-only",
+            "omitted",
+            "redacted"
+          ]
+        },
+        "model_visible": {
+          "type": "boolean"
+        },
+        "byte_count": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "bytes_included": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "estimated_token_count": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "estimated_tokens": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "included_range": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "start_byte": {
+              "$ref": "#/$defs/non_negative_integer"
+            },
+            "end_byte": {
+              "$ref": "#/$defs/non_negative_integer"
+            }
+          }
+        },
+        "summary_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "handle_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "freshness": {
+          "$ref": "#/$defs/source_freshness"
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "policy_reason": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "omission_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "redaction_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/non_empty_string"
+          }
+        }
+      }
+    },
+    "source_freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "observed_at": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "fresh_until": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "freshness_mode": {
+          "type": "string",
+          "enum": [
+            "point-in-time",
+            "bounded-window",
+            "rebuild-required",
+            "receipt-verified"
+          ]
+        },
+        "staleness_policy_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "omission": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "reason"
+      ],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "reason": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "source_role": {
+          "$ref": "#/$defs/non_empty_string"
         },
         "authority_label": {
           "type": "string",
@@ -141,6 +513,117 @@
             "derived",
             "non_authoritative"
           ]
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "model_visible": {
+          "type": "boolean"
+        }
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "redaction_id",
+        "path",
+        "reason",
+        "policy_ref"
+      ],
+      "properties": {
+        "redaction_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "path": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "reason": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "policy_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "byte_count_removed": {
+          "$ref": "#/$defs/non_negative_integer"
+        },
+        "estimated_tokens_removed": {
+          "$ref": "#/$defs/non_negative_integer"
+        }
+      }
+    },
+    "invalidation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": [
+            "source-digest",
+            "freshness-window",
+            "policy-change",
+            "manual",
+            "never"
+          ]
+        },
+        "watch_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/non_empty_string"
+          }
+        },
+        "invalidated_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    },
+    "rebuild": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "rebuild_required": {
+          "type": "boolean"
+        },
+        "rebuild_command_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "rebuild_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/non_empty_string"
+          }
+        },
+        "last_rebuilt_at": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "replay_manifest_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "replay_pointers_ref": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "replayable": {
+          "type": "boolean"
+        },
+        "replay_inputs_sha256": {
+          "$ref": "#/$defs/sha256"
         }
       }
     }

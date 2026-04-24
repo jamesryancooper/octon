@@ -1,0 +1,283 @@
+schema_version: "context-packing-policy-v1"
+policy_id: "repo-local-context-packing"
+owner: "Octon governance"
+status: "active"
+scope: "repo-local model-visible context assembly for governed execution"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+evidence_obligations_ref: ".octon/framework/constitution/obligations/evidence.yml"
+fail_closed_ref: ".octon/framework/constitution/obligations/fail-closed.yml"
+normative_precedence_ref: ".octon/framework/constitution/precedence/normative.yml"
+epistemic_precedence_ref: ".octon/framework/constitution/precedence/epistemic.yml"
+default_route: "deny"
+
+doctrine:
+  - "A context pack is a bounded transport artifact, not an authority source."
+  - "Context packing may narrow or summarize model-visible material but may not widen authority, support, tool access, or claim scope."
+  - "Every model-visible pack must be replayable from cited repo sources, retained evidence, and deterministic omission records."
+  - "Raw inputs, generated projections, host state, chat history, and model priors remain non-authoritative unless a higher authority surface explicitly incorporates them."
+
+source_classes:
+  - class_id: "authored-authority"
+    roots:
+      - ".octon/framework/**"
+      - ".octon/instance/**"
+    authority_posture: "authoritative-when-current"
+    model_visible_default: "include-when-relevant"
+    required_handling:
+      - "cite canonical path and digest"
+      - "preserve normative precedence"
+      - "include controlling conflict or fail-closed rule when applicable"
+  - class_id: "retained-control-and-evidence"
+    roots:
+      - ".octon/state/control/**"
+      - ".octon/state/evidence/**"
+    authority_posture: "runtime-factual-or-control-truth-by-contract"
+    model_visible_default: "include-summary-plus-citations"
+    required_handling:
+      - "cite run, receipt, proof, or control root"
+      - "distinguish factual evidence from authority grants"
+      - "include freshness and replay pointers when relied upon"
+  - class_id: "generated-derived"
+    roots:
+      - ".octon/generated/**"
+    authority_posture: "derived-only"
+    model_visible_default: "include-only-with-source-traceability"
+    required_handling:
+      - "mark non-authoritative"
+      - "cite source refs and publication or freshness receipt"
+      - "deny runtime, policy, support, or authority use without resolver-verified handle where required"
+  - class_id: "raw-input"
+    roots:
+      - ".octon/inputs/**"
+    authority_posture: "non-authoritative"
+    model_visible_default: "exclude"
+    required_handling:
+      - "include only when explicitly scoped by a human or incorporated by an authored authority surface"
+      - "preserve source label as raw input"
+      - "deny direct runtime or policy dependency"
+  - class_id: "human-led-ideation"
+    roots:
+      - ".octon/inputs/exploratory/**"
+    authority_posture: "human-led-non-authoritative"
+    model_visible_default: "deny"
+    required_handling:
+      - "require explicit human scoping for access"
+      - "never use as support, runtime, or policy authority"
+  - class_id: "host-and-conversation"
+    roots:
+      - "host-ui-state"
+      - "chat-history"
+      - "operator-comments"
+    authority_posture: "advisory-only"
+    model_visible_default: "include-only-for-current-request-binding"
+    required_handling:
+      - "do not mint authority"
+      - "materialize required approvals, decisions, or evidence into canonical repo surfaces before relying on them"
+
+trust_and_authority:
+  precedence_order:
+    - "non-waivable external obligations, break-glass directives, and live revocations"
+    - "constitutional kernel"
+    - "repo governance declarations"
+    - "run-specific authority artifacts"
+    - "workspace and mission authority"
+    - "run and stage-attempt contracts"
+    - "capability, tool, and adapter contracts"
+    - "informative context"
+  rules:
+    - id: "CPA-001"
+      rule: "Context packs must carry authority labels for every included source class."
+    - id: "CPA-002"
+      rule: "When source classes conflict, pack assembly must preserve both the conflict and the controlling precedence rule or fail closed."
+    - id: "CPA-003"
+      rule: "A summarized source inherits no greater authority than the cited source."
+    - id: "CPA-004"
+      rule: "Capability schemas and support-target declarations may narrow available actions but may not authorize material effects alone."
+
+model_visible_rules:
+  required_fields:
+    - "context_pack_id"
+    - "created_at"
+    - "assembler_id"
+    - "request_scope"
+    - "support_target_tuple_ref"
+    - "source_manifest"
+    - "authority_manifest"
+    - "omission_manifest"
+    - "freshness_manifest"
+    - "redaction_manifest"
+    - "replay_manifest"
+    - "budget_receipt"
+  prohibited_content:
+    - "uncited authority claims"
+    - "generated projection presented as source-of-truth"
+    - "raw input presented as policy or runtime dependency"
+    - "hidden tool or capability grants"
+    - "secret or credential material"
+  rendering_rules:
+    - "Use concise excerpts, structured summaries, and path citations instead of broad unbounded dumps."
+    - "Expose uncertainty, staleness, omissions, and redactions inside the model-visible pack."
+    - "Keep final model-visible instructions separable from supporting context."
+
+generated_and_raw_input_treatment:
+  generated:
+    allowed_uses:
+      - "operator orientation"
+      - "runtime narrowing through freshness-checked handles"
+      - "publication views with source traceability"
+    forbidden_uses:
+      - "authority source"
+      - "policy source"
+      - "support-claim widening"
+      - "direct runtime read when a resolver-verified handle is required"
+  raw_inputs:
+    allowed_uses:
+      - "explicitly scoped research input"
+      - "proposal source material after authority labeling"
+      - "human-led ideation when explicitly requested"
+    forbidden_uses:
+      - "direct runtime dependency"
+      - "direct policy dependency"
+      - "implicit support evidence"
+
+capability_schema_rules:
+  capability_refs:
+    - ".octon/framework/capabilities/**"
+    - ".octon/framework/capabilities/packs/**"
+    - ".octon/instance/governance/capability-packs/**"
+    - ".octon/instance/capabilities/runtime/packs/**"
+  requirements:
+    - "Include only capability schemas relevant to the admitted tuple and requested action class."
+    - "Expose capability denies, stage-only routes, approval requirements, and evidence requirements."
+    - "Fail closed when capability schema, adapter declaration, support target, or governance exclusion conflicts."
+    - "Never infer capability availability from host tool presence alone."
+
+budgets:
+  pack_limits:
+    max_model_visible_bytes: 400000
+    max_source_excerpt_bytes_per_file: 12000
+    max_generated_projection_bytes: 40000
+    max_raw_input_bytes_without_explicit_scope: 0
+  overflow_route: "stage_only"
+  overflow_requirements:
+    - "emit omission_manifest entries"
+    - "prefer authoritative controlling rules over explanatory context"
+    - "retain replay manifest sufficient to reconstruct omitted candidates"
+  budget_receipt_required: true
+
+freshness:
+  required_for:
+    - "generated-derived"
+    - "support-target declarations"
+    - "capability schemas"
+    - "run-control artifacts"
+    - "retained evidence relied on for live status"
+  freshness_signals:
+    - "path"
+    - "digest"
+    - "last_observed_at"
+    - "source_ref"
+    - "publication_receipt_ref when generated or runtime-facing"
+  stale_route: "deny"
+  unknown_freshness_route: "stage_only"
+
+invalidation:
+  invalidate_pack_when:
+    - "any cited source digest changes"
+    - "support-target declaration or admission changes"
+    - "governance exclusions change"
+    - "capability schema or adapter declaration changes"
+    - "run contract, approval, exception, or revocation state changes"
+    - "publication receipt for a cited generated effective artifact is missing, stale, or digest-drifted"
+    - "human scope changes for raw input or ideation material"
+  invalidated_pack_route: "deny"
+  reuse_requires: "fresh assembly with a new context_pack_id and replay manifest"
+
+omission_taxonomy:
+  - omission_code: "OMIT-IRRELEVANT"
+    meaning: "Source is outside the bound request scope."
+    route: "allow"
+  - omission_code: "OMIT-BUDGET"
+    meaning: "Source is relevant but excluded or summarized because of pack budget."
+    route: "stage_only"
+  - omission_code: "OMIT-RAW-UNSCOPED"
+    meaning: "Raw input is excluded because no explicit human scope exists."
+    route: "allow"
+  - omission_code: "OMIT-SECRET"
+    meaning: "Material is redacted or excluded because it contains secrets, credentials, or sensitive operator data."
+    route: "allow"
+  - omission_code: "OMIT-STALE"
+    meaning: "Source exists but freshness cannot be proven."
+    route: "stage_only"
+  - omission_code: "OMIT-CONFLICT"
+    meaning: "Source conflicts with controlling authority and cannot be safely reconciled."
+    route: "deny"
+
+redaction:
+  required_redaction_classes:
+    - "secrets"
+    - "credentials"
+    - "tokens"
+    - "private keys"
+    - "personal data not required for the run"
+    - "external account identifiers not required for the run"
+  redaction_manifest_required: true
+  redaction_manifest_fields:
+    - "redaction_id"
+    - "source_ref"
+    - "redaction_class"
+    - "replacement_marker"
+    - "reason"
+  secret_material_route: "deny_model_visible"
+
+replay:
+  replay_manifest_required: true
+  replay_manifest_fields:
+    - "source_refs"
+    - "source_digests"
+    - "assembler_version"
+    - "budget_inputs"
+    - "omission_manifest_ref"
+    - "redaction_manifest_ref"
+    - "freshness_manifest_ref"
+    - "support_target_tuple_ref"
+  replay_failure_route: "stage_only"
+  replay_mismatch_route: "deny"
+
+support_target_overrides:
+  mode: "narrow-only"
+  applies_to_claim_effects:
+    - "admitted-live-claim"
+  required_evidence:
+    - "context-pack-receipt"
+    - "source-manifest"
+    - "omission-manifest"
+    - "freshness-manifest"
+    - "replay-manifest"
+  rules:
+    - "A supported tuple remains claimable only when context-pack evidence exists for executions that rely on model-visible repo context."
+    - "Missing context-pack evidence may demote or block a run route but must not create a new supported tuple."
+    - "Stage-only, unadmitted, unsupported, or retired surfaces remain non-live even when a context pack exists."
+
+fail_closed_conditions:
+  - condition_id: "CP-FC-001"
+    condition: "Context pack cannot identify controlling authority surfaces."
+    route: "deny"
+  - condition_id: "CP-FC-002"
+    condition: "Required support-target tuple or adapter declaration is missing."
+    route: "deny"
+  - condition_id: "CP-FC-003"
+    condition: "Generated artifact is included as authority or without required source traceability."
+    route: "deny"
+  - condition_id: "CP-FC-004"
+    condition: "Raw input or human-led ideation is included without explicit scope."
+    route: "deny"
+  - condition_id: "CP-FC-005"
+    condition: "Omission, freshness, redaction, replay, or budget manifest is missing."
+    route: "stage_only"
+  - condition_id: "CP-FC-006"
+    condition: "Capability schema or support-target interpretation would widen authority, support, or available effects."
+    route: "deny"
+  - condition_id: "CP-FC-007"
+    condition: "Pack replay fails or source digests drift."
+    route: "deny"

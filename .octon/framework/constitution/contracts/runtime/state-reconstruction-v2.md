@@ -28,7 +28,13 @@ used for canonical ledger validation, replay, or closeout snapshots.
 | Legacy runtime-event-v1 | Canonical run-event-v2 | Mapping rule |
 |---|---|---|
 | `run.started` | `run-created` or `run-bound` | Use `run-created` for initial run identity creation; use `run-bound` once the bound run root becomes authoritative. |
+| `run.context_pack_requested` | `context-pack-requested` | Preserve the requested context policy and run binding. |
+| `run.context_pack_built` | `context-pack-built` | Preserve the context pack, receipt, and model-visible context refs. |
 | `run.context_pack_bound` | `context-pack-bound` | Preserve the bound context pack ref. |
+| `run.context_pack_rejected` | `context-pack-rejected` | Preserve the denial reason and failed context evidence refs. |
+| `run.context_pack_compacted` | `context-pack-compacted` | Preserve the compaction ref and model-visible context hash. |
+| `run.context_pack_invalidated` | `context-pack-invalidated` | Preserve the invalidation reason and stale context evidence refs. |
+| `run.context_pack_rebuilt` | `context-pack-rebuilt` | Preserve the rebuild ref, prior pack ref, and rebuilt pack ref. |
 | `run.grant_issued` | `authority-granted` | Preserve policy, grant-bundle, and support-target refs. |
 | `run.grant_denied` | `authority-denied` | Preserve denial reason and governing policy refs. |
 | `approval.requested` | `approval-requested` | Preserve approval target and request refs. |

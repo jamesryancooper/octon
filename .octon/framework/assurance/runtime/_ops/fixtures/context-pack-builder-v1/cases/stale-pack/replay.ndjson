@@ -1,0 +1,3 @@
+{"event_type":"context-pack-requested","payload":{"run_id":"fixture-run-stale-pack"}}
+{"event_type":"context-pack-built","payload":{"context_pack_ref":"cases/stale-pack/pack.yml","source_refs":[".octon/framework/context/source-a.md"]}}
+{"event_type":"context-pack-bound","payload":{"context_pack_ref":"cases/stale-pack/pack.yml","context_pack_sha256":"sha256:774cc42b977b762b16b6715b6e94c36e4bf429d178b320761d36473c5a483ed0"}}

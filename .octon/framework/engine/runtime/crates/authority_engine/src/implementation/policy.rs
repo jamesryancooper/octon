@@ -521,6 +521,7 @@ pub(crate) fn compose_policy_receipt(
     })?;
     write_instruction_manifest(
         &instruction_manifest_path,
+        request,
         request_json
             .get("instruction_layers")
             .cloned()
@@ -863,7 +864,11 @@ pub(crate) fn policy_profile_for_request(request: &ExecutionRequest) -> &'static
     }
 }
 
-pub(crate) fn write_instruction_manifest(path: &Path, layers: serde_json::Value) -> CoreResult<()> {
+pub(crate) fn write_instruction_manifest(
+    path: &Path,
+    request: &ExecutionRequest,
+    layers: serde_json::Value,
+) -> CoreResult<()> {
     if let Some(parent) = path.parent() {
         fs::create_dir_all(parent).map_err(|e| {
             KernelError::new(
@@ -872,16 +877,144 @@ pub(crate) fn write_instruction_manifest(path: &Path, layers: serde_json::Value)
             )
         })?;
     }
+    let now = time::OffsetDateTime::now_utc()
+        .format(&time::format_description::well_known::Rfc3339)
+        .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string());
+    let run_mode = if request.autonomy_context.is_some() {
+        "mission-bound"
+    } else {
+        "run-only"
+    };
+    let mut source_digests = Vec::new();
+    if let Some(items) = layers.as_array() {
+        for item in items {
+            let source = item
+                .get("source")
+                .and_then(|value| value.as_str())
+                .unwrap_or("unknown");
+            let sha256 = item
+                .get("sha256")
+                .and_then(|value| value.as_str())
+                .unwrap_or("");
+            if !sha256.is_empty() {
+                source_digests.push(format!("{source} {sha256}"));
+            }
+        }
+    }
+    if source_digests.is_empty() {
+        source_digests.push(format!(
+            "execution-request {}",
+            sha256_bytes(request.request_id.as_bytes())
+        ));
+    }
+    let support_target_tuple_id = request
+        .support_target_tuple_ref
+        .clone()
+        .unwrap_or_else(|| "support-target://unresolved".to_string());
+    let mut adapter_projection_refs = Vec::new();
+    if let Some(host_adapter) = request.metadata.get("host_adapter_id") {
+        adapter_projection_refs.push(format!(
+            ".octon/framework/engine/runtime/adapters/host/{host_adapter}.yml"
+        ));
+    }
+    if let Some(model_adapter) = request.metadata.get("model_adapter_id") {
+        adapter_projection_refs.push(format!(
+            ".octon/framework/engine/runtime/adapters/model/{model_adapter}.yml"
+        ));
+    }
+    let mut manifest = serde_json::Map::new();
+    manifest.insert(
+        "schema_version".to_string(),
+        json!("instruction-layer-manifest-v2"),
+    );
+    manifest.insert("run_id".to_string(), json!(request.request_id));
+    manifest.insert("run_mode".to_string(), json!(run_mode));
+    manifest.insert(
+        "workspace_charter_refs".to_string(),
+        json!([
+            ".octon/instance/charter/workspace.md",
+            ".octon/instance/charter/workspace.yml"
+        ]),
+    );
+    if let Some(autonomy) = request.autonomy_context.as_ref() {
+        manifest.insert("mission_id".to_string(), json!(autonomy.mission_ref.id));
+        manifest.insert(
+            "mission_refs".to_string(),
+            json!([format!(
+                ".octon/instance/orchestration/missions/{}/mission.yml",
+                autonomy.mission_ref.id
+            )]),
+        );
+    } else {
+        manifest.insert("mission_refs".to_string(), json!([]));
+    }
+    manifest.insert(
+        "run_contract_ref".to_string(),
+        json!(format!(
+            ".octon/state/control/execution/runs/{}/run-contract.yml",
+            request.request_id
+        )),
+    );
+    manifest.insert(
+        "support_target_tuple_id".to_string(),
+        json!(support_target_tuple_id),
+    );
+    if let Some(binding) = request.context_evidence_binding.as_ref() {
+        manifest.insert(
+            "context_pack_ref".to_string(),
+            json!(binding.context_pack_ref),
+        );
+        manifest.insert(
+            "context_pack_receipt_ref".to_string(),
+            json!(binding.context_pack_receipt_ref),
+        );
+        if let Some(hash) = binding.model_visible_context_sha256.as_ref() {
+            manifest.insert("model_visible_context_sha256".to_string(), json!(hash));
+        }
+        if let Some(model_ref) = binding.model_visible_context_ref.as_ref() {
+            manifest.insert("model_visible_context_ref".to_string(), json!(model_ref));
+        }
+        if let Some(policy_ref) = binding.context_policy_ref.as_ref() {
+            manifest.insert("context_policy_ref".to_string(), json!(policy_ref));
+        }
+        manifest.insert("context_compaction_refs".to_string(), json!([]));
+        manifest.insert(
+            "context_rebuild_refs".to_string(),
+            json!(binding
+                .context_rebuild_ref
+                .as_ref()
+                .map(|value| vec![value.clone()])
+                .unwrap_or_default()),
+        );
+    }
+    manifest.insert(
+        "authority_refs".to_string(),
+        json!([
+            ".octon/framework/constitution/CHARTER.md",
+            ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+        ]),
+    );
+    manifest.insert(
+        "precedence_stack".to_string(),
+        json!([
+            "constitutional-kernel",
+            "workspace-charter",
+            "run-contract",
+            "authorization-policy",
+            "instruction-layer"
+        ]),
+    );
+    manifest.insert(
+        "adapter_projection_refs".to_string(),
+        json!(adapter_projection_refs),
+    );
+    manifest.insert("generated_at".to_string(), json!(now));
+    manifest.insert("generated_by".to_string(), json!("octon-authority-engine"));
+    manifest.insert("source_digests".to_string(), json!(source_digests));
+
     fs::write(
         path,
-        serde_json::to_vec_pretty(&json!({
-            "schema_version": "instruction-layer-manifest-v1",
-            "generated_at": time::OffsetDateTime::now_utc()
-                .format(&time::format_description::well_known::Rfc3339)
-                .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
-            "layers": layers,
-        }))
-        .map_err(|e| {
+        serde_json::to_vec_pretty(&serde_json::Value::Object(manifest)).map_err(|e| {
             KernelError::new(
                 ErrorCode::Internal,
                 format!("failed to serialize instruction manifest: {e}"),

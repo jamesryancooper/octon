@@ -1,0 +1,136 @@
+{
+  "schema_version": "context-pack-receipt-v1",
+  "receipt_id": "context-pack-receipt-fixture-run-durable-invalidated",
+  "context_pack_id": "context-pack-fixture-run-durable-invalidated",
+  "context_pack_ref": "cases/durable-invalidated/pack.json",
+  "context_pack_sha256": "sha256:1322274354af9bd66e9bba9ba4f5e72687fb8961dafb523284a96d94cbb694a1",
+  "run_id": "fixture-run-durable-invalidated",
+  "request_id": "fixture-run-durable-invalidated",
+  "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+  "builder_version": "context-pack-builder-v1",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "model_visible_context_ref": "cases/durable-invalidated/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:40cc42f86aa6a47d6492792df02cf16407841e20ba2853c9f07e0b0de3e88fc4",
+  "source_manifest_ref": "cases/durable-invalidated/source-manifest.json",
+  "omissions_ref": "cases/durable-invalidated/omissions.json",
+  "redactions_ref": "cases/durable-invalidated/redactions.json",
+  "invalidation_events_ref": "cases/durable-invalidated/invalidation-events.json",
+  "built_at": "2026-04-23T00:00:00Z",
+  "freshness": {
+    "generated_at": "2026-04-23T00:00:00Z",
+    "valid_until": "9999-12-31T23:59:59Z",
+    "freshness_status": "valid"
+  },
+  "validity_state": "invalidated",
+  "invalidation_state": "invalidated",
+  "rebuild_refs": [
+
+  ],
+  "compaction_refs": [
+
+  ],
+  "replay_ref": "cases/durable-invalidated/replay.ndjson",
+  "replay_reconstruction_refs": [
+    "cases/durable-invalidated/model-visible-context.json",
+    "cases/durable-invalidated/model-visible-context.sha256"
+  ],
+  "authorization_binding_refs": [
+    "cases/durable-invalidated/execution-request.json",
+    "cases/durable-invalidated/execution-receipt.json"
+  ],
+  "verification_status": "valid",
+  "authority_boundary": {
+    "authorize_execution_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md#authorize_execution",
+    "subordinate_to_authorize_execution": true
+  },
+  "request_binding": {
+    "request_id": "fixture-run-durable-invalidated",
+    "target_id": "octon-runtime",
+    "action_type": "consequential-fixture-run",
+    "workflow_mode": "autonomous",
+    "risk_tier": "consequential",
+    "support_target_tuple_ref": "tuple://local/repo/consequential",
+    "requires_context_evidence": true,
+    "boundary_sensitive": true,
+    "consequential": true
+  },
+  "source_summary": {
+    "authority_source_count": 2,
+    "evidence_source_count": 1,
+    "derived_source_count": 1,
+    "non_authoritative_source_count": 1,
+    "required_source_count": 3,
+    "failed_required_source_count": 0
+  },
+  "sources": [
+    {
+      "source_ref": ".octon/framework/context/source-a.md",
+      "source_kind": "run-authority",
+      "authority_label": "authoritative",
+      "required": true,
+      "sha256": "sha256:c72c8287fbab9d236b424641a4bcfddc74e3668f4c1b44e83bc3c0f4df97f3e1",
+      "verification_status": "valid",
+      "freshness_status": "valid",
+      "resolved_at": "2026-04-23T00:00:00Z",
+      "evidence_ref": ".octon/framework/context/source-a.md"
+    },
+    {
+      "source_ref": ".octon/instance/context/source-b.yml",
+      "source_kind": "governance-declaration",
+      "authority_label": "authoritative",
+      "required": true,
+      "sha256": "sha256:433645743b26b70ef21fda19e1dc1eb98fa2161d0e02c8cd02e8f5db8f182369",
+      "verification_status": "valid",
+      "freshness_status": "valid",
+      "resolved_at": "2026-04-23T00:00:00Z",
+      "evidence_ref": ".octon/instance/context/source-b.yml"
+    },
+    {
+      "source_ref": ".octon/state/evidence/context/source-c.yml",
+      "source_kind": "retained-evidence",
+      "authority_label": "retained-proof",
+      "required": true,
+      "sha256": "sha256:580793ef7611e0ebbf384036cec4e001758c39ddcc0b996e8ab45644decdf956",
+      "verification_status": "valid",
+      "freshness_status": "valid",
+      "resolved_at": "2026-04-23T00:00:00Z",
+      "evidence_ref": ".octon/state/evidence/context/source-c.yml"
+    },
+    {
+      "source_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "source_kind": "generated-effective-handle",
+      "authority_label": "derived",
+      "required": false,
+      "sha256": "sha256:e47630da5ad30f6d963dd338b810d21b01a7486bba6075d79a7b2e525b1f906f",
+      "verification_status": "valid",
+      "freshness_status": "valid",
+      "resolved_at": "2026-04-23T00:00:00Z",
+      "evidence_ref": ".octon/generated/effective/runtime/route-bundle.yml"
+    },
+    {
+      "source_ref": ".octon/inputs/raw/operator-note.md",
+      "source_kind": "non-authoritative-input",
+      "authority_label": "non_authoritative",
+      "required": false,
+      "sha256": "sha256:5e9824f8f2503e4197387212e717de1100d8b7d7efb775c094359fb962a32261",
+      "verification_status": "valid",
+      "freshness_status": "valid",
+      "resolved_at": "2026-04-23T00:00:00Z",
+      "evidence_ref": ".octon/inputs/raw/operator-note.md"
+    }
+  ],
+  "omissions": [
+
+  ],
+  "failure_policy": {
+    "missing_required_context_route": "DENY",
+    "stale_required_context_route": "DENY",
+    "invalid_required_context_route": "DENY",
+    "unverifiable_required_context_route": "DENY",
+    "reason_codes": [
+      "CONTEXT_EVIDENCE_REQUIRED",
+      "FCR-007",
+      "FCR-013"
+    ]
+  }
+}

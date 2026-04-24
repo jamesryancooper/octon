@@ -1,0 +1,3 @@
+schema_version: "fixture-generated-effective-v1"
+route_id: "fixture-route"
+non_authority_notice: "Generated effective fixture output."

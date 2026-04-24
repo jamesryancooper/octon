@@ -1,0 +1,116 @@
+{
+  "schema_version": "model-visible-context-v1",
+  "serialization_format": "context-pack-builder-v1/model-visible-context-json",
+  "run_id": "fixture-run-durable-generated-authority",
+  "context_pack_id": "context-pack-fixture-run-durable-generated-authority",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "builder_version": "context-pack-builder-v1",
+  "created_at": "2026-04-23T00:00:00Z",
+  "support_target_tuple_ref": "tuple://local/repo/consequential",
+  "source_manifest": [
+    ".octon/framework/context/source-a.md sha256:c72c8287fbab9d236b424641a4bcfddc74e3668f4c1b44e83bc3c0f4df97f3e1",
+    ".octon/generated/effective/runtime/route-bundle.yml sha256:e47630da5ad30f6d963dd338b810d21b01a7486bba6075d79a7b2e525b1f906f",
+    ".octon/inputs/raw/operator-note.md sha256:5e9824f8f2503e4197387212e717de1100d8b7d7efb775c094359fb962a32261",
+    ".octon/instance/context/source-b.yml sha256:433645743b26b70ef21fda19e1dc1eb98fa2161d0e02c8cd02e8f5db8f182369",
+    ".octon/state/evidence/context/source-c.yml sha256:580793ef7611e0ebbf384036cec4e001758c39ddcc0b996e8ab45644decdf956"
+  ],
+  "source_records": [
+    {
+      "path": ".octon/framework/context/source-a.md",
+      "sha256": "sha256:c72c8287fbab9d236b424641a4bcfddc74e3668f4c1b44e83bc3c0f4df97f3e1",
+      "surface_class": "framework",
+      "source_class": "framework",
+      "authority_label": "authoritative",
+      "trust_class": "authored-authority",
+      "source_role": "run-authority",
+      "inclusion_mode": "digest-only",
+      "model_visible": true,
+      "byte_count": 106,
+      "bytes_included": 0,
+      "estimated_tokens": 0,
+      "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "policy_reason": "digest_visible_by_context_packing_policy"
+    },
+    {
+      "path": ".octon/generated/effective/runtime/route-bundle.yml",
+      "sha256": "sha256:e47630da5ad30f6d963dd338b810d21b01a7486bba6075d79a7b2e525b1f906f",
+      "surface_class": "generated/runtime-effective",
+      "source_class": "generated/runtime-effective",
+      "authority_label": "authoritative",
+      "trust_class": "generated-effective-handle",
+      "source_role": "runtime-effective-handle",
+      "inclusion_mode": "handle-only",
+      "model_visible": false,
+      "byte_count": 135,
+      "bytes_included": 0,
+      "estimated_tokens": 0,
+      "handle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "policy_reason": "handle_only_non_authority"
+    },
+    {
+      "path": ".octon/inputs/raw/operator-note.md",
+      "sha256": "sha256:5e9824f8f2503e4197387212e717de1100d8b7d7efb775c094359fb962a32261",
+      "surface_class": "raw-input",
+      "source_class": "raw-input",
+      "authority_label": "non_authoritative",
+      "trust_class": "untrusted-input",
+      "source_role": "operator-input",
+      "inclusion_mode": "handle-only",
+      "model_visible": false,
+      "byte_count": 102,
+      "bytes_included": 0,
+      "estimated_tokens": 0,
+      "handle_ref": ".octon/inputs/raw/operator-note.md",
+      "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "policy_reason": "handle_only_non_authority"
+    },
+    {
+      "path": ".octon/instance/context/source-b.yml",
+      "sha256": "sha256:433645743b26b70ef21fda19e1dc1eb98fa2161d0e02c8cd02e8f5db8f182369",
+      "surface_class": "instance",
+      "source_class": "instance",
+      "authority_label": "authoritative",
+      "trust_class": "authored-authority",
+      "source_role": "governance-declaration",
+      "inclusion_mode": "digest-only",
+      "model_visible": true,
+      "byte_count": 155,
+      "bytes_included": 0,
+      "estimated_tokens": 0,
+      "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "policy_reason": "digest_visible_by_context_packing_policy"
+    },
+    {
+      "path": ".octon/state/evidence/context/source-c.yml",
+      "sha256": "sha256:580793ef7611e0ebbf384036cec4e001758c39ddcc0b996e8ab45644decdf956",
+      "surface_class": "state/evidence",
+      "source_class": "state/evidence",
+      "authority_label": "retained-proof",
+      "trust_class": "retained-evidence",
+      "source_role": "evidence",
+      "inclusion_mode": "digest-only",
+      "model_visible": true,
+      "byte_count": 150,
+      "bytes_included": 0,
+      "estimated_tokens": 0,
+      "policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+      "policy_reason": "digest_visible_by_context_packing_policy"
+    }
+  ],
+  "omissions": [
+
+  ],
+  "redactions": [
+
+  ],
+  "freshness": {
+    "generated_at": "2026-04-23T00:00:00Z",
+    "valid_until": "9999-12-31T23:59:59Z",
+    "freshness_status": "valid"
+  },
+  "replay": {
+    "replay_pointers_ref": "cases/durable-generated-authority/replay.ndjson",
+    "replayable": true
+  }
+}

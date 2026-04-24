@@ -1,0 +1,14 @@
+schema_version: "context-pack-builder-receipt-v1"
+builder_version: "context-pack-builder-v1"
+context_pack_ref: "cases/forbidden-source-class/pack.yml"
+status: "current"
+invalidated: false
+generated_at: "2026-04-23T00:00:00Z"
+input_refs:
+  - ".octon/generated/effective/runtime/route-bundle.yml"
+canonical_input_sha256: "sha256:d09156eabf94e4783b6550c82faee4c239db460ca4ca90c3f24dd5ee035e0a10"
+source_digests:
+  - path: ".octon/generated/effective/runtime/route-bundle.yml"
+    sha256: "sha256:e47630da5ad30f6d963dd338b810d21b01a7486bba6075d79a7b2e525b1f906f"
+output_context_pack_sha256: "sha256:f5b317ffe70551b1cf10393e62fd4db8ec5f78885d3e263a348d79107fdbc9b3"
+replay_ref: "cases/forbidden-source-class/replay.ndjson"

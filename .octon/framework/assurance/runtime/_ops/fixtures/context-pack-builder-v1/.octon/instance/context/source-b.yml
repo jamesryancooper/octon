@@ -1,0 +1,3 @@
+schema_version: "fixture-authority-source-v1"
+source_id: "instance-source-b"
+purpose: "Instance authority source for deterministic context pack fixtures."

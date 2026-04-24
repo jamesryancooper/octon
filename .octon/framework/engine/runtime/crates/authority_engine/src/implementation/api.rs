@@ -112,8 +112,14 @@ pub struct ExecutionRequest {
     pub risk_tier: String,
     #[serde(default = "default_workflow_mode")]
     pub workflow_mode: String,
-    #[serde(default)]
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub context_pack_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub context_evidence_binding: Option<ContextEvidenceBinding>,
+    #[serde(default)]
+    pub requires_context_evidence: bool,
+    #[serde(default)]
+    pub boundary_sensitive: bool,
     #[serde(default)]
     pub risk_materiality_ref: Option<String>,
     #[serde(default)]
@@ -144,6 +150,38 @@ pub struct ExecutionRequest {
     pub environment_hint: Option<String>,
     #[serde(default)]
     pub metadata: BTreeMap<String, String>,
+}
+
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ContextEvidenceBinding {
+    pub context_pack_ref: String,
+    pub context_pack_receipt_ref: String,
+    pub context_pack_sha256: String,
+    pub receipt_sha256: String,
+    pub builder_spec_ref: String,
+    pub builder_version: String,
+    pub verification_status: String,
+    pub freshness_status: String,
+    #[serde(default)]
+    pub valid_until: Option<String>,
+    #[serde(default)]
+    pub context_policy_ref: Option<String>,
+    #[serde(default)]
+    pub model_visible_context_ref: Option<String>,
+    #[serde(default)]
+    pub model_visible_context_sha256: Option<String>,
+    #[serde(default)]
+    pub context_validity_state: Option<String>,
+    #[serde(default)]
+    pub context_rebuild_ref: Option<String>,
+    #[serde(default)]
+    pub context_invalidation_ref: Option<String>,
+    #[serde(default)]
+    pub source_count: u64,
+    #[serde(default)]
+    pub failed_required_source_count: u64,
+    #[serde(default)]
+    pub subordinate_to_authorize_execution: bool,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -370,6 +408,12 @@ pub struct GrantBundle {
     pub expires_after: Option<String>,
     #[serde(default)]
     pub receipt_requirements: Vec<String>,
+    #[serde(default)]
+    pub context_evidence_required: bool,
+    #[serde(default)]
+    pub context_pack_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub context_evidence_binding: Option<ContextEvidenceBinding>,
     pub environment_class: ExecutionEnvironment,
     pub workflow_mode: String,
     pub intent_ref: IntentRef,
@@ -492,7 +536,12 @@ pub struct ExecutionReceipt {
     #[serde(default)]
     pub reason_codes: Vec<String>,
     pub execution_role_ref: ExecutionRoleRef,
-    pub context_pack_ref: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub context_pack_ref: Option<String>,
+    #[serde(default)]
+    pub context_evidence_required: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub context_evidence_binding: Option<ContextEvidenceBinding>,
     pub risk_materiality_ref: String,
     pub support_target_tuple_ref: String,
     pub rollback_plan_ref: String,

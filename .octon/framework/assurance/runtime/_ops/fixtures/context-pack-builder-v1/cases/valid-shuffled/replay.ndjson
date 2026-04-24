@@ -1,0 +1,3 @@
+{"event_type":"context-pack-requested","payload":{"run_id":"fixture-run-identical"}}
+{"event_type":"context-pack-built","payload":{"context_pack_ref":"cases/valid-shuffled/pack.yml","source_refs":[".octon/inputs/raw/operator-note.md",".octon/state/evidence/context/source-c.yml",".octon/framework/context/source-a.md",".octon/generated/effective/runtime/route-bundle.yml",".octon/instance/context/source-b.yml"]}}
+{"event_type":"context-pack-bound","payload":{"context_pack_ref":"cases/valid-shuffled/pack.yml","context_pack_sha256":"sha256:b4eabe8622d9ed009475a67585af90b68ca4db42f27fee310ddd322046df2ea3"}}

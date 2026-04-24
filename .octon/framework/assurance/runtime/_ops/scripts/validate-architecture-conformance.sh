@@ -337,6 +337,12 @@ main() {
     fail "support-target admission validation failed"
   fi
 
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" OCTON_CONTRACT_ROOT="$ROOT_DIR" bash "$SCRIPT_DIR/../tests/test-context-pack-builder.sh" >/dev/null; then
+    pass "Context Pack Builder validation passed"
+  else
+    fail "Context Pack Builder validation failed"
+  fi
+
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then
     exit 1

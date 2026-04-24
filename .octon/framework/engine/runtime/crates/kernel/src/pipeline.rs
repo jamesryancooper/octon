@@ -2216,6 +2216,42 @@ stages:
             octon_dir.join("instance/governance/support-targets.yml"),
         )
         .expect("copy support targets");
+        fs::create_dir_all(octon_dir.join("framework/constitution/obligations"))
+            .expect("create context constitution fixture root");
+        fs::create_dir_all(octon_dir.join("framework/engine/runtime/spec"))
+            .expect("create context runtime spec fixture root");
+        for (source_rel, target_rel) in [
+            (
+                ".octon/framework/constitution/CHARTER.md",
+                "framework/constitution/CHARTER.md",
+            ),
+            (
+                ".octon/framework/constitution/obligations/fail-closed.yml",
+                "framework/constitution/obligations/fail-closed.yml",
+            ),
+            (
+                ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+                "framework/engine/runtime/spec/execution-authorization-v1.md",
+            ),
+            (
+                ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+                "framework/engine/runtime/spec/context-pack-builder-v1.md",
+            ),
+            (
+                ".octon/instance/charter/workspace.md",
+                "instance/charter/workspace.md",
+            ),
+            (
+                ".octon/instance/governance/policies/context-packing.yml",
+                "instance/governance/policies/context-packing.yml",
+            ),
+        ] {
+            fs::copy(
+                source_repo_root().join(source_rel),
+                octon_dir.join(target_rel),
+            )
+            .expect("copy context evidence authority fixture");
+        }
         fs::create_dir_all(octon_dir.join("instance/capabilities/runtime/packs"))
             .expect("create runtime pack dir");
         fs::create_dir_all(octon_dir.join("framework/engine/runtime/adapters/host"))

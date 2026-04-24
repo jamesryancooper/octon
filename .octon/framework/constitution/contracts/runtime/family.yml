@@ -120,6 +120,30 @@ migration:
         canonical_event_types:
           - "context-pack-bound"
         mapping_rule: "Preserve the bound context pack ref."
+      - legacy_event_type: "run.context_pack_requested"
+        canonical_event_types:
+          - "context-pack-requested"
+        mapping_rule: "Preserve the requested context policy and run binding."
+      - legacy_event_type: "run.context_pack_built"
+        canonical_event_types:
+          - "context-pack-built"
+        mapping_rule: "Preserve the context pack, receipt, and model-visible context refs."
+      - legacy_event_type: "run.context_pack_rejected"
+        canonical_event_types:
+          - "context-pack-rejected"
+        mapping_rule: "Preserve the denial reason and failed context evidence refs."
+      - legacy_event_type: "run.context_pack_compacted"
+        canonical_event_types:
+          - "context-pack-compacted"
+        mapping_rule: "Preserve the compaction ref and model-visible context hash."
+      - legacy_event_type: "run.context_pack_invalidated"
+        canonical_event_types:
+          - "context-pack-invalidated"
+        mapping_rule: "Preserve the invalidation reason and stale context evidence refs."
+      - legacy_event_type: "run.context_pack_rebuilt"
+        canonical_event_types:
+          - "context-pack-rebuilt"
+        mapping_rule: "Preserve the rebuild ref, prior pack ref, and rebuilt pack ref."
       - legacy_event_type: "run.grant_issued"
         canonical_event_types:
           - "authority-granted"

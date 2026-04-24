@@ -1,0 +1,3 @@
+{"event_type":"context-pack-requested","payload":{"run_id":"fixture-run-raw-input-authority"}}
+{"event_type":"context-pack-built","payload":{"context_pack_ref":"cases/raw-input-authority/pack.yml","source_refs":[".octon/inputs/raw/operator-note.md"]}}
+{"event_type":"context-pack-bound","payload":{"context_pack_ref":"cases/raw-input-authority/pack.yml","context_pack_sha256":"sha256:35168c0786ed12a9888778cc782b0b061a9dba16e4fae24c5eb67e75a2ccaa62"}}

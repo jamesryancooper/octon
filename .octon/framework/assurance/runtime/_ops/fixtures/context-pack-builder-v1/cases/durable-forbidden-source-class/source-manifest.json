@@ -1,0 +1,8 @@
+[
+  ".octon/framework/context/source-a.md sha256:c72c8287fbab9d236b424641a4bcfddc74e3668f4c1b44e83bc3c0f4df97f3e1",
+  ".octon/generated/effective/runtime/route-bundle.yml sha256:e47630da5ad30f6d963dd338b810d21b01a7486bba6075d79a7b2e525b1f906f",
+  ".octon/inputs/raw/operator-note.md sha256:5e9824f8f2503e4197387212e717de1100d8b7d7efb775c094359fb962a32261",
+  ".octon/instance/context/source-b.yml sha256:433645743b26b70ef21fda19e1dc1eb98fa2161d0e02c8cd02e8f5db8f182369",
+  ".octon/state/evidence/context/source-c.yml sha256:580793ef7611e0ebbf384036cec4e001758c39ddcc0b996e8ab45644decdf956",
+  "outside/source.txt sha256:1111111111111111111111111111111111111111111111111111111111111111"
+]

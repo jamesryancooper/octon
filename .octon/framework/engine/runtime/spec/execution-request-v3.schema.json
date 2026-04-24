@@ -15,7 +15,6 @@
     "risk_tier",
     "workflow_mode",
     "execution_role_ref",
-    "context_pack_ref",
     "risk_materiality_ref",
     "support_target_tuple_ref",
     "rollback_plan_ref"
@@ -50,6 +49,9 @@
     "risk_materiality_ref": { "type": "string", "minLength": 1 },
     "support_target_tuple_ref": { "type": "string", "minLength": 1 },
     "rollback_plan_ref": { "type": "string", "minLength": 1 },
+    "context_evidence_binding": { "$ref": "#/$defs/context_evidence_binding" },
+    "requires_context_evidence": { "type": "boolean" },
+    "boundary_sensitive": { "type": "boolean" },
     "browser_ui_execution_ref": { "type": ["string", "null"] },
     "api_egress_ref": { "type": ["string", "null"] },
     "intent_ref": { "type": "object" },
@@ -81,6 +83,66 @@
       }
     }
   },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^(sha256:)?[a-f0-9]{64}$"
+    },
+    "context_evidence_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_pack_ref",
+        "context_pack_receipt_ref",
+        "context_pack_sha256",
+        "receipt_sha256",
+        "builder_spec_ref",
+        "builder_version",
+        "verification_status",
+        "freshness_status",
+        "valid_until",
+        "context_policy_ref",
+        "model_visible_context_ref",
+        "model_visible_context_sha256",
+        "context_validity_state",
+        "source_count",
+        "failed_required_source_count",
+        "subordinate_to_authorize_execution"
+      ],
+      "properties": {
+        "context_pack_ref": { "type": "string", "minLength": 1 },
+        "context_pack_receipt_ref": { "type": "string", "minLength": 1 },
+        "context_pack_sha256": { "$ref": "#/$defs/sha256" },
+        "receipt_sha256": { "$ref": "#/$defs/sha256" },
+        "builder_spec_ref": {
+          "type": "string",
+          "const": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+        },
+        "builder_version": { "type": "string", "const": "context-pack-builder-v1" },
+        "verification_status": {
+          "type": "string",
+          "enum": ["valid", "missing", "stale", "invalid", "unverifiable"]
+        },
+        "freshness_status": {
+          "type": "string",
+          "enum": ["valid", "stale", "unverifiable"]
+        },
+        "valid_until": { "type": "string", "minLength": 1 },
+        "context_policy_ref": { "type": "string", "minLength": 1 },
+        "model_visible_context_ref": { "type": "string", "minLength": 1 },
+        "model_visible_context_sha256": { "$ref": "#/$defs/sha256" },
+        "context_validity_state": {
+          "type": "string",
+          "enum": ["valid", "stale", "invalidated", "rebuild_required", "unverifiable"]
+        },
+        "context_rebuild_ref": { "type": ["string", "null"] },
+        "context_invalidation_ref": { "type": ["string", "null"] },
+        "source_count": { "type": "integer", "minimum": 0 },
+        "failed_required_source_count": { "type": "integer", "minimum": 0 },
+        "subordinate_to_authorize_execution": { "const": true }
+      }
+    }
+  },
   "allOf": [
     {
       "if": {
@@ -91,6 +153,45 @@
       },
       "then": {
         "required": ["autonomy_context"]
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          {
+            "properties": {
+              "requires_context_evidence": { "const": true }
+            },
+            "required": ["requires_context_evidence"]
+          },
+          {
+            "properties": {
+              "boundary_sensitive": { "const": true }
+            },
+            "required": ["boundary_sensitive"]
+          },
+          {
+            "properties": {
+              "risk_tier": { "enum": ["consequential", "boundary-sensitive"] }
+            },
+            "required": ["risk_tier"]
+          }
+        ]
+      },
+      "then": {
+        "required": ["context_pack_ref", "context_evidence_binding"],
+        "properties": {
+          "context_evidence_binding": {
+            "properties": {
+              "verification_status": { "const": "valid" },
+              "freshness_status": { "const": "valid" },
+              "context_validity_state": { "const": "valid" },
+              "source_count": { "minimum": 1 },
+              "failed_required_source_count": { "const": 0 },
+              "subordinate_to_authorize_execution": { "const": true }
+            }
+          }
+        }
       }
     }
   ]

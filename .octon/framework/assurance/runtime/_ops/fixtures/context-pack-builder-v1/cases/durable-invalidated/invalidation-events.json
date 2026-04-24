@@ -1,0 +1,6 @@
+[
+  {
+    "event_type": "context-pack-invalidated",
+    "reason": "source_digest_drift"
+  }
+]

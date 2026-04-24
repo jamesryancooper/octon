@@ -1,0 +1,58 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-deterministic-context-pack-builder-v1"
+title: "Octon Deterministic Context Pack Builder v1"
+summary: >-
+  Closure packet for deterministic Context Pack Builder v1 promotion into
+  durable runtime, contract, governance, support-target, and assurance surfaces.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/runtime/context-pack-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md"
+  - ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json"
+  - ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+  - ".octon/framework/engine/runtime/spec/context-pack-receipt-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-request-v3.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
+  - ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+  - ".octon/framework/engine/runtime/README.md"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/policy.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/phases/receipt.rs"
+  - ".octon/instance/governance/policies/context-packing.yml"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-context-pack-builder.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/context-pack-builder-v1"
+status: "archived"
+archive:
+  archived_at: "2026-04-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-deterministic-context-pack-builder-v1"
+  promotion_evidence:
+    - ".octon/framework/constitution/contracts/runtime/context-pack-v1.schema.json"
+    - ".octon/framework/constitution/contracts/runtime/run-event-v2.schema.json"
+    - ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+    - ".octon/framework/engine/runtime/spec/context-pack-receipt-v1.schema.json"
+    - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+    - ".octon/instance/governance/policies/context-packing.yml"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh"
+    - ".octon/framework/assurance/runtime/_ops/tests/test-context-pack-builder.sh"
+    - ".octon/state/evidence/validation/publication/capabilities/2026-04-23T22-38-07Z-pack-routes-4ac5c45f0d45.yml"
+    - ".octon/state/evidence/validation/publication/runtime/2026-04-23T22-38-11Z-runtime-route-bundle-d832aab6f332.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Retain this packet as exploratory lineage only until maintainers archive it;
+    durable runtime behavior must resolve from the promoted targets, never from
+    proposal-local paths.
+related_proposals: []

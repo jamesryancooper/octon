@@ -170,6 +170,12 @@
         "context_pack_ref": {
           "$ref": "#/$defs/nullableString"
         },
+        "context_pack_receipt_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "model_visible_context_ref": {
+          "$ref": "#/$defs/nullableString"
+        },
         "stage_attempt_ref": {
           "$ref": "#/$defs/nullableString"
         },
@@ -370,8 +376,13 @@
         "run-created",
         "run-bound",
         "run-closed",
+        "context-pack-requested",
+        "context-pack-built",
         "context-pack-bound",
+        "context-pack-rejected",
+        "context-pack-compacted",
         "context-pack-invalidated",
+        "context-pack-rebuilt",
         "context-reset-recorded",
         "authority-requested",
         "authority-granted",

@@ -1,0 +1,3 @@
+{"event_type":"context-pack-requested","payload":{"run_id":"fixture-run-durable-replay-mismatch"}}
+{"event_type":"context-pack-built","payload":{"context_pack_ref":"cases/durable-replay-mismatch/pack.json","model_visible_context_ref":"cases/durable-replay-mismatch/model-visible-context.json","model_visible_context_sha256":"sha256:3333333333333333333333333333333333333333333333333333333333333333"}}
+{"event_type":"context-pack-bound","payload":{"context_pack_ref":"cases/durable-replay-mismatch/pack.json","context_pack_sha256":"sha256:4444444444444444444444444444444444444444444444444444444444444444"}}

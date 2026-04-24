@@ -1,0 +1,14 @@
+schema_version: "context-pack-builder-receipt-v1"
+builder_version: "context-pack-builder-v1"
+context_pack_ref: "cases/raw-input-authority/pack.yml"
+status: "current"
+invalidated: false
+generated_at: "2026-04-23T00:00:00Z"
+input_refs:
+  - ".octon/inputs/raw/operator-note.md"
+canonical_input_sha256: "sha256:46c540d56364ca2a67329f44220764f90b1baa2a3670eabdd132d6409dc5209b"
+source_digests:
+  - path: ".octon/inputs/raw/operator-note.md"
+    sha256: "sha256:5e9824f8f2503e4197387212e717de1100d8b7d7efb775c094359fb962a32261"
+output_context_pack_sha256: "sha256:35168c0786ed12a9888778cc782b0b061a9dba16e4fae24c5eb67e75a2ccaa62"
+replay_ref: "cases/raw-input-authority/replay.ndjson"
