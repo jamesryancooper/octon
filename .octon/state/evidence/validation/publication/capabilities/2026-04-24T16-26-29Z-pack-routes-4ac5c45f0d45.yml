@@ -1,0 +1,25 @@
+schema_version: "octon-validation-publication-receipt-v1"
+receipt_id: "runtime-pack-routes-2026-04-24T16-26-29Z-pack-routes-4ac5c45f0d45"
+publication_family: "runtime-pack-routes"
+generation_id: "pack-routes-4ac5c45f0d45"
+result: "published"
+validated_at: "2026-04-24T16:26:29Z"
+validator_version: "runtime-pack-route-publication-v1"
+contract_refs:
+  - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
+  - ".octon/instance/governance/contracts/support-pack-admission-alignment.yml"
+source_digests:
+  root_manifest_sha256: "c08ac4bdfd1f31a2516ae08eec94d8b47046020ab1ab7c2856ba2a90e0fca5f3"
+  support_targets_sha256: "4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008"
+  governance_registry_sha256: "32b0108ad626df74639469393beed758f90abda8626ebf0b942af99b3b6bfa98"
+  runtime_registry_sha256: "e33db316daadb6495d58d25d37181946738c8386482dd0f8ecc8ca465e1841da"
+  support_target_matrix_sha256: "99740e3f5e96a29ea4d4ae998f54ac6b683654cd0e50e3bfd4414c8726a69b02"
+blocked_reasons: []
+published_paths:
+  - ".octon/generated/effective/capabilities/pack-routes.effective.yml"
+  - ".octon/generated/effective/capabilities/pack-routes.lock.yml"
+required_inputs:
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/capability-packs/registry.yml"
+  - ".octon/instance/capabilities/runtime/packs/registry.yml"
+  - ".octon/generated/effective/governance/support-target-matrix.yml"
