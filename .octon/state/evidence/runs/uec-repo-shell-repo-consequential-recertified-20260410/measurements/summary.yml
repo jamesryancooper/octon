@@ -15,4 +15,4 @@ metrics:
     value: 1
     unit: count
 summary: Governance exercise emitted approval, decision, disclosure, and disclosed human intervention artifacts.
-recorded_at: "2026-04-10T15:27:53Z"
+recorded_at: "2026-04-24T12:10:03Z"

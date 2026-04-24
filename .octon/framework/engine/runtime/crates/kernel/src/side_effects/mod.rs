@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use octon_authority_engine::SideEffectFlags;
 use std::collections::BTreeMap;
 

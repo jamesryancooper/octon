@@ -2,9 +2,8 @@ use super::*;
 use octon_core::config::RuntimeConfig;
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
 use serde::{Deserialize, Serialize};
-use serde_json::{json, Value};
+use serde_json::Value;
 use std::collections::BTreeMap;
-use std::path::Path;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub(crate) struct AuthorizationPhaseResult {
@@ -21,15 +20,6 @@ pub(crate) struct AuthorizationPhaseResult {
     #[serde(default)]
     pub details: Value,
     pub generated_at: String,
-}
-
-pub(crate) fn write_phase_result(
-    receipts_root: &Path,
-    phase_result: &AuthorizationPhaseResult,
-) -> anyhow::Result<String> {
-    let path = phase_results_root(receipts_root).join(format!("{}.json", phase_result.phase_id));
-    write_json(&path, phase_result)?;
-    Ok(path.display().to_string())
 }
 
 pub(crate) fn record_phase_result(
@@ -58,11 +48,4 @@ pub(crate) fn record_phase_result(
         rel.clone(),
     )?;
     Ok(rel)
-}
-
-pub(crate) fn phase_result_details(summary: impl Into<String>, extra: Value) -> Value {
-    json!({
-        "summary": summary.into(),
-        "extra": extra,
-    })
 }

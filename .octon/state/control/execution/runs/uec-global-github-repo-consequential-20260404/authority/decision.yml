@@ -45,13 +45,11 @@ support_tier:
     - git
     - shell
     - telemetry
-    - api
   requested_capability_packs:
     - repo
     - git
     - shell
     - telemetry
-    - api
   declaration_ref: .octon/instance/governance/support-targets.yml
 reversibility:
   effective: reversible

@@ -11,7 +11,6 @@ requested_capability_packs:
   - git
   - shell
   - telemetry
-  - api
 revocation_refs: []
 run_id: uec-global-github-repo-consequential-20260404
 schema_version: authority-grant-bundle-v1

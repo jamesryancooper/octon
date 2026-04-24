@@ -1,0 +1,13 @@
+schema_version: "lab-scenario-v1"
+scenario_id: "run-lifecycle-v1-boundary-composition"
+purpose: "Exercise run lifecycle enforcement across control roots, retained evidence roots, disclosure roots, and generated non-authority read models."
+supported_planes:
+  - "functional"
+  - "behavioral"
+  - "recovery"
+expected_outputs:
+  - "lifecycle-validation-report"
+  - "positive-transition-coverage"
+  - "negative-control-fail-closed-evidence"
+  - "journal-derived-runtime-state-rebuild"
+  - "closeout-completeness-proof"

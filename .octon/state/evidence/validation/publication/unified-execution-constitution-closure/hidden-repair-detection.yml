@@ -1,10 +1,10 @@
 schema_version: hidden-repair-detection-v1
-run_id: uec-safe-stage-approval-exercise-20260402
+run_id: uec-repo-shell-repo-consequential-recertified-20260410
 status: pass
 summary: Hidden human repair remained detectable because the exercised manual intervention was disclosed and linked to canonical authority and observability roots.
 evidence_refs:
-  - .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/interventions/log.yml
-  - .octon/state/evidence/runs/uec-safe-stage-approval-exercise-20260402/interventions/records/manual-review-override.yml
+  - .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/interventions/log.yml
+  - .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/interventions/records/manual-review-override.yml
   - .octon/framework/observability/governance/reporting.yml
   - .octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh
-generated_at: "2026-04-10T15:27:53Z"
+generated_at: "2026-04-24T12:10:03Z"

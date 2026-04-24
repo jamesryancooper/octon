@@ -6319,6 +6319,11 @@ mod tests {
         fs::create_dir_all(octon_dir.join("framework/capabilities/governance/policy"))
             .expect("policy root should exist");
         copy_rel(".octon/octon.yml");
+        copy_rel(".octon/framework/constitution/CHARTER.md");
+        copy_rel(".octon/framework/constitution/obligations/fail-closed.yml");
+        copy_rel(".octon/framework/engine/runtime/spec/context-pack-builder-v1.md");
+        copy_rel(".octon/framework/engine/runtime/spec/execution-authorization-v1.md");
+        copy_rel(".octon/instance/charter/workspace.md");
         fs::copy(
             source_root
                 .join(".octon/framework/capabilities/governance/policy/deny-by-default.v2.yml"),
@@ -6550,6 +6555,11 @@ mod tests {
             "schema_version: \"ownership-registry-v1\"\ndirective_precedence:\n  - mission_owner\noperators:\n  - operator_id: \"fixtures\"\n    display_name: \"Fixtures\"\n    contact: \"repo://fixtures\"\ndefaults:\n  operator_id: \"fixtures\"\n  support_tier: \"observe-and-read\"\nassets:\n  - asset_id: \"workflow-scope\"\n    path_globs:\n      - \"workflow-scope\"\n    owners:\n      - \"fixtures\"\nservices: []\nsubscriptions: {}\n",
         );
         copy_rel(".octon/octon.yml");
+        copy_rel(".octon/framework/constitution/CHARTER.md");
+        copy_rel(".octon/framework/constitution/obligations/fail-closed.yml");
+        copy_rel(".octon/framework/engine/runtime/spec/context-pack-builder-v1.md");
+        copy_rel(".octon/framework/engine/runtime/spec/execution-authorization-v1.md");
+        copy_rel(".octon/instance/charter/workspace.md");
         copy_rel(".octon/instance/governance/runtime-resolution.yml");
         copy_rel(".octon/instance/governance/support-targets.yml");
         copy_tree(

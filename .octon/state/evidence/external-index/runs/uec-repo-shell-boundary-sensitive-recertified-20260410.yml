@@ -8,17 +8,17 @@ entries:
     artifact_kind: replay-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:32dba5a7993db79a5e1fae9ee3d0752aa66b105f0e24799065751a92f0f2898c
+    content_digest: sha256:a09a16d4fbd0d51b8b3bef121426b996088a80022b33647979edba5f1f89cd5f
     locator: immutable://octon/replays/uec-repo-shell-boundary-sensitive-recertified-20260410/bundle.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/replay/manifest.yml
-    recorded_at: "2026-04-10T15:27:53Z"
+    recorded_at: "2026-04-24T12:10:03Z"
   - entry_id: uec-repo-shell-boundary-sensitive-recertified-20260410-trace-payload
     run_id: uec-repo-shell-boundary-sensitive-recertified-20260410
     artifact_kind: trace-payload
     evidence_class: C
     storage_class: external-immutable
-    content_digest: sha256:eda653df1f1754f3cdd44f6b87b60997a4850f5cf33875b73237ff88d081c97c
+    content_digest: sha256:596da5088b50c142b5745c592d4b3d91fe5bbef7d25772fdddf428dfc8347b81
     locator: immutable://octon/replays/uec-repo-shell-boundary-sensitive-recertified-20260410/trace.jsonl
     manifest_ref: .octon/state/evidence/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/replay/manifest.yml
-    recorded_at: "2026-04-10T15:27:53Z"
-updated_at: "2026-04-10T15:27:53Z"
+    recorded_at: "2026-04-24T12:10:03Z"
+updated_at: "2026-04-24T12:10:03Z"

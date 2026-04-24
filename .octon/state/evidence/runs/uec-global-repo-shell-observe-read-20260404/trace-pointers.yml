@@ -2,6 +2,6 @@ schema_version: trace-pointer-v2
 run_id: uec-global-repo-shell-observe-read-20260404
 external_index_refs:
   - .octon/state/evidence/external-index/runs/uec-global-repo-shell-observe-read-20260404.yml
-updated_at: "2026-04-10T15:27:53Z"
-recorded_at: "2026-04-10T15:27:53Z"
+updated_at: "2026-04-24T12:10:03Z"
+recorded_at: "2026-04-24T12:10:03Z"
 notes: Canonical Class C trace payload retained through the external immutable index.

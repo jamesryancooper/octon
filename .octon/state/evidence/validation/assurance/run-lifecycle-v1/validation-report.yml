@@ -1,0 +1,265 @@
+schema_version: run-lifecycle-v1-validation-report
+status: pass
+validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh
+fixture_set_ref: .octon/framework/assurance/runtime/_ops/fixtures/run-lifecycle-v1/lifecycle-fixtures.yml
+transition_matrix_ref: .octon/framework/assurance/runtime/_ops/fixtures/run-lifecycle-v1/transition-matrix.yml
+lab_scenario_ref: .octon/framework/lab/scenarios/packs/run-lifecycle-v1-boundary-composition.yml
+generated_at: '2026-04-24T12:09:27Z'
+journal_append_boundary_guard:
+  status: pass
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-append-boundary.sh
+coverage:
+- authority-preconditions
+- authorized-stage-only
+- bound-stage-only
+- boundary-composition
+- closeout-completeness
+- context-refresh
+- denial-path
+- effect-token-preconditions
+- generated-non-authority
+- invalid-transitions-fail-closed
+- journal-append-boundary
+- journal-derived-runtime-state
+- pause-resume
+- positive-transitions
+- rollback
+- stage-only
+- unknown-state-fail-closed
+required_coverage:
+- boundary-composition
+- closeout-completeness
+- invalid-transitions-fail-closed
+- journal-append-boundary
+- journal-derived-runtime-state
+- positive-transitions
+- unknown-state-fail-closed
+matrix_failures: []
+unexpected_failures: []
+cases:
+- case_id: successful-closeout
+  expectation: pass
+  coverage:
+  - boundary-composition
+  - closeout-completeness
+  - journal-derived-runtime-state
+  - positive-transitions
+  reconstructed_state: closed
+  latest_sequence: 5
+  latest_hash: sha256:bf6ba565d870245e2a4e10cab9059974375ce16c6a68888c43a98d23e8dc8153
+  failures: []
+  outcome: pass
+- case_id: paused-resumed-success
+  expectation: pass
+  coverage:
+  - closeout-completeness
+  - context-refresh
+  - pause-resume
+  - positive-transitions
+  reconstructed_state: closed
+  latest_sequence: 7
+  latest_hash: sha256:4e0ab8b9347c70b731406a6ce673874c5d9f6fb8c67faa29894dac7f545441a0
+  failures: []
+  outcome: pass
+- case_id: denied-closeout
+  expectation: pass
+  coverage:
+  - closeout-completeness
+  - denial-path
+  - positive-transitions
+  reconstructed_state: closed
+  latest_sequence: 2
+  latest_hash: sha256:f97552540b2e08bb397f132f13ee930f13aa6514475a7a9d33870b3d6a033b24
+  failures: []
+  outcome: pass
+- case_id: stage-only-closeout-boundary
+  expectation: pass
+  coverage:
+  - bound-stage-only
+  - boundary-composition
+  - closeout-completeness
+  - positive-transitions
+  - stage-only
+  reconstructed_state: closed
+  latest_sequence: 3
+  latest_hash: sha256:6c481e1ec2e5097ebb1357f004bf34b596d2091a814cb6ed8f95fc9d5a5791d6
+  failures: []
+  outcome: pass
+- case_id: authorized-stage-only-closeout-boundary
+  expectation: pass
+  coverage:
+  - authorized-stage-only
+  - boundary-composition
+  - closeout-completeness
+  - positive-transitions
+  - stage-only
+  reconstructed_state: closed
+  latest_sequence: 4
+  latest_hash: sha256:6f4df2d84496b8f321482ce81421ba2b60fe73449817b3edbb7cb9f555f2b6d0
+  failures: []
+  outcome: pass
+- case_id: failed-rolled-back-closeout
+  expectation: pass
+  coverage:
+  - closeout-completeness
+  - positive-transitions
+  - rollback
+  reconstructed_state: closed
+  latest_sequence: 6
+  latest_hash: sha256:767bee481e38134572ad467934563ebd5f3ed39415da8aee55c06a88b8daddf1
+  failures: []
+  outcome: pass
+- case_id: invalid-running-before-authorized
+  expectation: fail
+  coverage:
+  - invalid-transitions-fail-closed
+  reconstructed_state: running
+  latest_sequence: 2
+  latest_hash: sha256:334d55c74c058cc041f321fc67d44e7eae372ae9f05ceb962655fd1e64c3b668
+  failures:
+  - invalid transition bound -> running
+  outcome: expected-fail-closed
+- case_id: bound-staged-without-stage-only-authority
+  expectation: fail
+  coverage:
+  - boundary-composition
+  - invalid-transitions-fail-closed
+  reconstructed_state: staged
+  latest_sequence: 2
+  latest_hash: sha256:4ea23e494e3f0ef44faeebce6eff6ec95d94eda7b9ab8086f8dfb4bf650dbbb0
+  failures:
+  - 'bound->staged missing precondition ref: stage_only_decision'
+  outcome: expected-fail-closed
+- case_id: bound-staged-with-allow-decision
+  expectation: fail
+  coverage:
+  - boundary-composition
+  - invalid-transitions-fail-closed
+  - stage-only
+  reconstructed_state: staged
+  latest_sequence: 2
+  latest_hash: sha256:09a9209d28869f8a6dc82e6f681461dd05cfe1db42330802e7829f074d481e37
+  failures:
+  - bound-staged-with-allow-decision:fixture-bound-staged-with-allow-decision-evt-002-stage-only-route-with-allow-decision
+    stage_only_decision is not stage-only or escalation
+  outcome: expected-fail-closed
+- case_id: authorized-without-grant
+  expectation: fail
+  coverage:
+  - authority-preconditions
+  - invalid-transitions-fail-closed
+  reconstructed_state: authorized
+  latest_sequence: 2
+  latest_hash: sha256:06a051e75a9bab7b9ac8d21a5a565ac7515f901929d57a4fc0d8ed92aae00389
+  failures:
+  - 'bound->authorized missing precondition ref: grant_bundle'
+  outcome: expected-fail-closed
+- case_id: runtime-state-drift
+  expectation: fail
+  coverage:
+  - invalid-transitions-fail-closed
+  - journal-derived-runtime-state
+  reconstructed_state: authorized
+  latest_sequence: 2
+  latest_hash: sha256:fec4a58d45432b5fc783d839d5142663cde0af8944e8c04726ad34fb999dd13b
+  failures:
+  - runtime-state final state mismatch
+  outcome: expected-fail-closed
+- case_id: closeout-missing-evidence
+  expectation: fail
+  coverage:
+  - closeout-completeness
+  - invalid-transitions-fail-closed
+  reconstructed_state: closed
+  latest_sequence: 5
+  latest_hash: sha256:f41bd7b354512d543f2e90aae03c45b487f672d34b84a81f6c462f6ae7d28f01
+  failures:
+  - 'succeeded->closed missing precondition ref: evidence_store_completeness'
+  - 'closeout-missing-evidence:fixture-closeout-missing-evidence-evt-005-close-run required artifact not present: evidence_store_completeness'
+  - 'closeout missing required ref: evidence_store_completeness'
+  - 'closeout required artifact not present: evidence_store_completeness'
+  outcome: expected-fail-closed
+- case_id: closeout-fake-evidence-ref
+  expectation: fail
+  coverage:
+  - closeout-completeness
+  - invalid-transitions-fail-closed
+  reconstructed_state: closed
+  latest_sequence: 5
+  latest_hash: sha256:e1d645a7924772596be6744aca7af924907fdab5b8b9d34873f1dec6a5ebe063
+  failures:
+  - 'closeout-fake-evidence-ref:fixture-closeout-fake-evidence-ref-evt-005-close-run required artifact invalid: evidence_store_completeness'
+  - 'closeout required artifact invalid: evidence_store_completeness'
+  outcome: expected-fail-closed
+- case_id: closeout-unresolved-blocking-risk
+  expectation: fail
+  coverage:
+  - closeout-completeness
+  - invalid-transitions-fail-closed
+  reconstructed_state: closed
+  latest_sequence: 5
+  latest_hash: sha256:f79113c0067ea7d75ec69f1904e2b2154589665292aaf5ec483f13dfc39d41f6
+  failures:
+  - closeout unresolved blocking risk
+  outcome: expected-fail-closed
+- case_id: generated-read-model-authority
+  expectation: fail
+  coverage:
+  - boundary-composition
+  - generated-non-authority
+  - invalid-transitions-fail-closed
+  reconstructed_state: authorized
+  latest_sequence: 2
+  latest_hash: sha256:c6a3a01b9294caf0ebf4117cb26d36ae82e1ae8e9cc17d4da6d54bb9ae4ff8ae
+  failures:
+  - generated or input source used as lifecycle authority
+  outcome: expected-fail-closed
+- case_id: absolute-generated-read-model-authority
+  expectation: fail
+  coverage:
+  - boundary-composition
+  - generated-non-authority
+  - invalid-transitions-fail-closed
+  reconstructed_state: authorized
+  latest_sequence: 2
+  latest_hash: sha256:b51a58f8c96fac3c96fa626bea20b1d5cf3f2fe34e1ba09cd1d65ab26deef598
+  failures:
+  - generated or input source used as lifecycle authority
+  outcome: expected-fail-closed
+- case_id: effect-token-outside-running
+  expectation: fail
+  coverage:
+  - effect-token-preconditions
+  - invalid-transitions-fail-closed
+  reconstructed_state: staged
+  latest_sequence: 3
+  latest_hash: sha256:1f9b02784874d88240de2d31de50b3e0c3dc422fa1987fd9670d6e436a2e2d09
+  failures:
+  - material effect outside running
+  outcome: expected-fail-closed
+- case_id: unknown-created-state
+  expectation: fail
+  coverage:
+  - invalid-transitions-fail-closed
+  - unknown-state-fail-closed
+  reconstructed_state: bound
+  latest_sequence: 1
+  latest_hash: sha256:76f8e597d8f11fdb79f1617140f736480f7cf2146816f190c179f904598a348b
+  failures:
+  - 'unknown-created-state:fixture-unknown-created-state-evt-001-bind-from-created unknown lifecycle state: created'
+  - 'unknown-created-state:fixture-unknown-created-state-evt-001-bind-from-created journal rebuild state mismatch: expected
+    draft, got created'
+  - invalid transition created -> bound
+  outcome: expected-fail-closed
+- case_id: unknown-authorizing-state
+  expectation: fail
+  coverage:
+  - invalid-transitions-fail-closed
+  - unknown-state-fail-closed
+  reconstructed_state: authorizing
+  latest_sequence: 2
+  latest_hash: sha256:2e19b387b385f2f6f887e6d1f9c88cb4c0a32c7cfd54672f7725af7134ca1301
+  failures:
+  - 'unknown-authorizing-state:fixture-unknown-authorizing-state-evt-002-enter-authorizing unknown lifecycle state: authorizing'
+  - invalid transition bound -> authorizing
+  outcome: expected-fail-closed

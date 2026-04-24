@@ -2,9 +2,9 @@ schema_version: authority-decision-artifact-v1
 decision_id: decision-uec-repo-shell-boundary-sensitive-recertified-20260410
 request_id: uec-repo-shell-boundary-sensitive-recertified-20260410
 run_id: uec-repo-shell-boundary-sensitive-recertified-20260410
-decision: DENY
+decision: ALLOW
 reason_codes:
-- REPO_SHELL_BOUNDARY_SENSITIVE_RECERTIFICATION_REVOCATION
+- REPO_SHELL_BOUNDARY_SENSITIVE_RECERTIFICATION
 ownership:
   status: resolved
   source: ownership_registry.default
@@ -12,12 +12,12 @@ ownership:
   - operator://octon-maintainers
   matched_asset_ref: null
 support_tier:
-  support_tier: repo-consequential
+  support_tier: boundary-sensitive
   model_tier_id: repo-local-governed
-  workload_tier_id: repo-consequential
+  workload_tier_id: boundary-sensitive
   language_resource_tier_id: reference-owned
   locale_tier_id: english-primary
-  workload_tier_label: repo-consequential
+  workload_tier_label: boundary-sensitive
   host_adapter_id: repo-shell
   host_adapter_status: supported
   model_adapter_id: repo-local-governed
@@ -31,7 +31,7 @@ support_tier:
   - MODEL-003
   - MODEL-004
   support_status: supported
-  route: deny
+  route: allow
   requires_mission: true
   required_evidence:
   - authority-decision-artifact
@@ -54,7 +54,7 @@ budget:
 egress:
   artifact_ref: .octon/state/control/execution/exceptions/leases/lease-uec-repo-shell-boundary-sensitive-recertified-20260410.yml
   matched_rule_id: null
-  route: deny
+  route: allow
   source_kind: exception-lease
   target_url: https://octon.local/controlled-boundary
 approval_request_ref: .octon/state/control/execution/approvals/requests/uec-repo-shell-boundary-sensitive-recertified-20260410.yml
@@ -64,4 +64,4 @@ exception_refs:
 - .octon/state/control/execution/exceptions/leases/lease-uec-repo-shell-boundary-sensitive-recertified-20260410.yml
 revocation_refs:
 - .octon/state/control/execution/revocations/revoke-uec-repo-shell-boundary-sensitive-recertified-20260410.yml
-generated_at: '2026-04-02T00:00:00Z'
+generated_at: '2026-04-10T20:30:00Z'

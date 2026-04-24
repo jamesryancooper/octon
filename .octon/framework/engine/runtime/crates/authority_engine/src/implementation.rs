@@ -39,6 +39,9 @@ pub use execution::{
     write_execution_start,
 };
 pub use policy::{build_executor_command, now_rfc3339, resolve_executor_profile};
+pub use runtime_state::{
+    validate_run_lifecycle_operation, RunLifecycleOperation, RunLifecycleReconstruction,
+};
 
 pub(crate) use common::*;
 pub(crate) use records::*;
@@ -52,12 +55,10 @@ pub(crate) use authority::{
 };
 pub(crate) use autonomy::resolve_autonomy_state;
 pub(crate) use policy::{
-    authorize_network_egress, budget_metadata_from_decision, capability_classification_for_mode,
-    compose_policy_receipt, current_branch, dangerous_flags_for, dedupe_strings, env_bool,
-    evidence_links, file_size, finalize_execution_budget, is_critical_action, material_side_effect,
-    path_tail, policy_profile_for_request, preview_execution_budget, sha256_bytes, sha256_file,
-    unique_temp_file, write_instruction_manifest, write_json, write_yaml, zero_sha256,
-    PolicyArtifacts,
+    authorize_network_egress, budget_metadata_from_decision, compose_policy_receipt,
+    current_branch, dedupe_strings, env_bool, evidence_links, finalize_execution_budget,
+    is_critical_action, path_tail, preview_execution_budget, sha256_bytes, sha256_file, write_json,
+    write_yaml,
 };
 
 #[cfg(test)]

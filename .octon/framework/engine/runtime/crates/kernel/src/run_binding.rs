@@ -1,5 +1,8 @@
 use anyhow::{anyhow, Result};
-use octon_authority_engine::{ExecutionDecision, ExecutionRequest, GrantBundle};
+use octon_authority_engine::{
+    validate_run_lifecycle_operation, ExecutionDecision, ExecutionRequest, GrantBundle,
+    RunLifecycleOperation,
+};
 use octon_core::config::RuntimeConfig;
 use serde::Serialize;
 use std::collections::BTreeMap;
@@ -400,13 +403,18 @@ fn materialize_run_binding(
     };
     write_yaml(&control_root.join("run-manifest.yml"), &run_manifest)?;
 
-    write_runtime_state(
-        cfg,
-        &control_root.join("runtime-state.yml"),
-        run_id,
-        &request.workflow_mode,
-        &now,
-    )?;
+    if control_root.join("events.ndjson").is_file() {
+        validate_run_lifecycle_operation(&cfg.repo_root, run_id, RunLifecycleOperation::Inspect)
+            .map_err(|error| anyhow!(error.to_string()))?;
+    } else {
+        write_runtime_state(
+            cfg,
+            &control_root.join("runtime-state.yml"),
+            run_id,
+            &request.workflow_mode,
+            &now,
+        )?;
+    }
 
     let budget_ledger = BudgetLedgerV1 {
         schema_version: "budget-ledger-v1",

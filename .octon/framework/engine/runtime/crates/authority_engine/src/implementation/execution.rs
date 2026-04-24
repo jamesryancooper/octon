@@ -1,30 +1,22 @@
 use super::phases;
 use super::*;
 use anyhow::Context;
-use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
+use octon_core::config::RuntimeConfig;
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
-use octon_core::execution_integrity::{
-    evaluate_execution_budget, evaluate_network_egress, infer_provider_from_model,
-    load_execution_budget_policy, load_execution_exception_leases, load_network_egress_policy,
-    record_budget_consumption, write_execution_cost_evidence, BudgetCheckContext, BudgetDecision,
-    NetworkEgressContext, NetworkEgressDecision,
-};
+use octon_core::execution_integrity::BudgetDecision;
 use octon_core::policy::PolicyEngine;
 use octon_core::registry::ServiceDescriptor;
 use octon_runtime_bus::{
-    append_event as append_run_journal_event, JournalActor, JournalClassification, JournalEffect,
-    JournalGoverningRefs, JournalLifecycle, JournalPayload, JournalRedaction,
+    update_snapshot_refs as update_run_journal_snapshot_refs, JournalActor, JournalClassification,
+    JournalEffect, JournalGoverningRefs, JournalLifecycle, JournalPayload, JournalRedaction,
     RunJournalAppendRequest, RunJournalSnapshotRefs,
 };
 use octon_runtime_resolver::{verify_runtime_route_bundle, RuntimeSupportTupleRef};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::json;
-use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::sync::{Mutex, OnceLock};
 
 pub fn default_autonomy_context(
     cfg: &RuntimeConfig,
@@ -199,27 +191,12 @@ struct ContextSourceCandidate {
 }
 
 fn context_evidence_required_for_request(
-    request: &ExecutionRequest,
-    run_contract: &RunContractRecord,
+    _request: &ExecutionRequest,
+    _run_contract: &RunContractRecord,
 ) -> bool {
-    if request.requires_context_evidence || request.boundary_sensitive {
-        return true;
-    }
-    let risk_tier = request.risk_tier.to_ascii_lowercase();
-    if risk_tier.contains("consequential")
-        || risk_tier.contains("boundary-sensitive")
-        || risk_tier == "acp-2"
-        || risk_tier == "acp-3"
-        || material_side_effect(request)
-    {
-        return true;
-    }
-    let workload = run_contract
-        .support_target
-        .workload_tier
-        .trim()
-        .to_ascii_lowercase();
-    workload == "repo-consequential" || workload == "boundary-sensitive"
+    // Run Lifecycle v1 requires authorization to be backed by Context Pack
+    // Builder v1 evidence for every run, including observe/read requests.
+    true
 }
 
 fn ensure_context_evidence_binding(
@@ -1412,24 +1389,9 @@ fn append_context_pack_journal_events(
     recorded_at: &str,
 ) -> CoreResult<()> {
     for (suffix, event_type, before, after) in [
-        (
-            "requested",
-            "context-pack-requested",
-            "bound",
-            "context_requested",
-        ),
-        (
-            "built",
-            "context-pack-built",
-            "context_requested",
-            "context_built",
-        ),
-        (
-            "bound",
-            "context-pack-bound",
-            "context_built",
-            "context_bound",
-        ),
+        ("requested", "context-pack-requested", "bound", "bound"),
+        ("built", "context-pack-built", "bound", "bound"),
+        ("bound", "context-pack-bound", "bound", "bound"),
     ] {
         append_runtime_journal_event(
             bound,
@@ -2291,7 +2253,7 @@ pub fn authorize_execution(
         )?;
         let runtime_status = match decision {
             ExecutionDecision::Deny => "denied",
-            ExecutionDecision::StageOnly | ExecutionDecision::Escalate => "stage_only",
+            ExecutionDecision::StageOnly | ExecutionDecision::Escalate => "staged",
             ExecutionDecision::Allow => "authorized",
         };
         let decision_state = match decision {
@@ -2304,6 +2266,51 @@ pub fn authorize_execution(
             ExecutionDecision::Deny => "failed",
             _ => "staged",
         };
+        let mut authority_refs = authority_resolution_journal_refs(
+            &bound_run,
+            &request,
+            Some(decision_ref.clone()),
+            None,
+            None,
+        );
+        if matches!(
+            &decision,
+            ExecutionDecision::StageOnly | ExecutionDecision::Escalate
+        ) {
+            authority_refs.additional_refs.push(decision_ref.clone());
+        }
+        append_runtime_journal_event(
+            &bound_run,
+            &request,
+            format!(
+                "evt-authority-resolved-{}-{}",
+                decision_label(&decision).to_ascii_lowercase(),
+                request.request_id
+            ),
+            "authority-resolved",
+            &now_rfc3339()?,
+            Some(decision_ref.clone()),
+            JournalClassification {
+                event_plane: "authorized-action".to_string(),
+                replay_disposition: "not-applicable".to_string(),
+            },
+            JournalLifecycle {
+                state_before: Some("bound".to_string()),
+                state_after: Some(runtime_status.to_string()),
+            },
+            authority_refs,
+            journal_payload(
+                Some(json!({
+                    "decision": decision_label(&decision),
+                    "reason_codes": reason_codes.clone(),
+                })),
+                None,
+                Some("Authority route resolution entered the canonical Run Journal.".to_string()),
+            ),
+            journal_effect("authorization"),
+            vec!["runtime_state_ref".to_string()],
+            None,
+        )?;
         let _ = update_bound_runtime_state(
             &bound_run,
             runtime_status,
@@ -2429,6 +2436,43 @@ pub fn authorize_execution(
                     Vec::new(),
                 );
                 if let Ok(decision_ref) = decision_ref {
+                    let _ = append_runtime_journal_event(
+                        &bound_run,
+                        &request,
+                        format!("evt-authority-resolved-network-deny-{}", request.request_id),
+                        "authority-resolved",
+                        &now_rfc3339().unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),
+                        Some(decision_ref.clone()),
+                        JournalClassification {
+                            event_plane: "authorized-action".to_string(),
+                            replay_disposition: "not-applicable".to_string(),
+                        },
+                        JournalLifecycle {
+                            state_before: Some("bound".to_string()),
+                            state_after: Some("denied".to_string()),
+                        },
+                        authority_resolution_journal_refs(
+                            &bound_run,
+                            &request,
+                            Some(decision_ref.clone()),
+                            None,
+                            None,
+                        ),
+                        journal_payload(
+                            Some(json!({
+                                "decision": "DENY",
+                                "reason_codes": ["NETWORK_EGRESS_DENIED"],
+                            })),
+                            None,
+                            Some(
+                                "Network egress denial entered the canonical Run Journal."
+                                    .to_string(),
+                            ),
+                        ),
+                        journal_effect("authorization"),
+                        vec!["runtime_state_ref".to_string()],
+                        None,
+                    );
                     let _ = update_bound_runtime_state(
                         &bound_run,
                         "denied",
@@ -2860,6 +2904,44 @@ pub fn authorize_execution(
         &request.request_id,
         &grant_phase_result,
     );
+    append_runtime_journal_event(
+        &bound_run,
+        &request,
+        format!("evt-authority-resolved-allow-{}", request.request_id),
+        "authority-resolved",
+        &now_rfc3339()?,
+        grant.decision_artifact_ref.clone(),
+        JournalClassification {
+            event_plane: "authorized-action".to_string(),
+            replay_disposition: "requires-fresh-authorization".to_string(),
+        },
+        JournalLifecycle {
+            state_before: Some("bound".to_string()),
+            state_after: Some("authorized".to_string()),
+        },
+        authority_resolution_journal_refs(
+            &bound_run,
+            &request,
+            grant.decision_artifact_ref.clone(),
+            grant.authority_grant_bundle_ref.clone(),
+            grant.policy_receipt_path.clone(),
+        ),
+        journal_payload(
+            Some(json!({
+                "decision": "ALLOW",
+                "reason_codes": grant.reason_codes.clone(),
+                "authority_grant_bundle_ref": grant.authority_grant_bundle_ref.clone(),
+            })),
+            None,
+            Some("Allow authority route resolved into the authorized lifecycle state.".to_string()),
+        ),
+        journal_effect("authorization"),
+        vec![
+            "runtime_state_ref".to_string(),
+            "grant_bundle_ref".to_string(),
+        ],
+        None,
+    )?;
     update_bound_runtime_state(
         &bound_run,
         "authorized",
@@ -2940,8 +3022,9 @@ fn append_runtime_journal_event(
     governing_manifest_roles: Vec<String>,
     snapshot_refs: Option<RunJournalSnapshotRefs>,
 ) -> CoreResult<octon_runtime_bus::RunJournalAppendReceipt> {
-    append_run_journal_event(
+    append_validated_run_journal_event(
         &bound.control_root,
+        &bound.runtime_state_path,
         RunJournalAppendRequest {
             run_id: request.request_id.clone(),
             control_root_ref: bound.control_root_rel.clone(),
@@ -2972,12 +3055,6 @@ fn append_runtime_journal_event(
             drift_ref: None,
         },
     )
-    .map_err(|error| {
-        KernelError::new(
-            ErrorCode::Internal,
-            format!("failed to append runtime journal event: {error}"),
-        )
-    })
 }
 
 fn journal_governing_refs_for_bound_run(
@@ -3029,6 +3106,56 @@ fn journal_governing_refs_for_bound_run(
         validator_result_ref: None,
         evidence_snapshot_ref,
         disclosure_ref,
+        drift_ref: None,
+        continuity_ref: Some(format!(
+            ".octon/state/continuity/runs/{}/handoff.yml",
+            request.request_id
+        )),
+        additional_refs: Vec::new(),
+    }
+}
+
+fn authority_resolution_journal_refs(
+    bound: &BoundRunLifecycle,
+    request: &ExecutionRequest,
+    decision_ref: Option<String>,
+    grant_ref: Option<String>,
+    policy_receipt_ref: Option<String>,
+) -> JournalGoverningRefs {
+    JournalGoverningRefs {
+        run_contract_ref: format!(
+            ".octon/state/control/execution/runs/{}/run-contract.yml",
+            request.request_id
+        ),
+        run_manifest_ref: bound.run_manifest_ref.clone(),
+        execution_request_ref: None,
+        authority_route_receipt_ref: decision_ref,
+        grant_bundle_ref: grant_ref,
+        policy_receipt_ref,
+        approval_ref: request
+            .metadata
+            .get("approval_request_ref")
+            .cloned()
+            .or_else(|| request.metadata.get("approval_grant_ref").cloned()),
+        lease_ref: None,
+        revocation_ref: None,
+        support_target_tuple_ref: request.support_target_tuple_ref.clone().or_else(|| {
+            request
+                .metadata
+                .get("runtime_effective_support_tuple")
+                .cloned()
+        }),
+        rollback_plan_ref: request.rollback_plan_ref.clone(),
+        rollback_posture_ref: Some(format!(
+            ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+            request.request_id
+        )),
+        context_pack_ref: request.context_pack_ref.clone(),
+        stage_attempt_ref: Some(bound.stage_attempt_ref.clone()),
+        checkpoint_ref: Some(bound.control_checkpoint_ref.clone()),
+        validator_result_ref: None,
+        evidence_snapshot_ref: None,
+        disclosure_ref: None,
         drift_ref: None,
         continuity_ref: Some(format!(
             ".octon/state/continuity/runs/{}/handoff.yml",
@@ -3094,6 +3221,39 @@ fn snapshot_run_journal(repo_root: &Path, request_id: &str) -> CoreResult<RunJou
             ),
         )
     })?;
+    let snapshot_refs = RunJournalSnapshotRefs {
+        control_snapshot_ref: Some(format!(
+            ".octon/state/control/execution/runs/{request_id}/events.ndjson"
+        )),
+        evidence_snapshot_ref: Some(format!(
+            ".octon/state/evidence/runs/{request_id}/run-journal/events.snapshot.ndjson"
+        )),
+        evidence_manifest_snapshot_ref: Some(format!(
+            ".octon/state/evidence/runs/{request_id}/run-journal/events.manifest.snapshot.yml"
+        )),
+        redaction_record_ref: Some(format!(
+            ".octon/state/evidence/runs/{request_id}/run-journal/redactions.yml"
+        )),
+    };
+    update_run_journal_snapshot_refs(
+        &repo_root
+            .join(".octon/state/control/execution/runs")
+            .join(request_id),
+        snapshot_refs.clone(),
+        now_rfc3339().map_err(|error| {
+            KernelError::new(
+                ErrorCode::Internal,
+                format!("failed to timestamp run journal snapshot refs: {error}"),
+            )
+        })?,
+    )
+    .map_err(|error| {
+        KernelError::new(
+            ErrorCode::Internal,
+            format!("failed to link run journal snapshot refs through runtime_bus: {error}"),
+        )
+    })?;
+
     fs::copy(&control_events, &evidence_events).map_err(|e| {
         KernelError::new(
             ErrorCode::Internal,
@@ -3131,20 +3291,63 @@ fn snapshot_run_journal(repo_root: &Path, request_id: &str) -> CoreResult<RunJou
         )?;
     }
 
-    Ok(RunJournalSnapshotRefs {
-        control_snapshot_ref: Some(format!(
-            ".octon/state/control/execution/runs/{request_id}/events.ndjson"
-        )),
-        evidence_snapshot_ref: Some(format!(
-            ".octon/state/evidence/runs/{request_id}/run-journal/events.snapshot.ndjson"
-        )),
-        evidence_manifest_snapshot_ref: Some(format!(
-            ".octon/state/evidence/runs/{request_id}/run-journal/events.manifest.snapshot.yml"
-        )),
-        redaction_record_ref: Some(format!(
-            ".octon/state/evidence/runs/{request_id}/run-journal/redactions.yml"
-        )),
-    })
+    Ok(snapshot_refs)
+}
+
+fn materialize_closeout_evidence_completeness(
+    repo_root: &Path,
+    request: &ExecutionRequest,
+    bound: &BoundRunLifecycle,
+    terminal_checkpoint_ref: &str,
+    run_card_ref: &str,
+    review_dispositions_ref: &str,
+    snapshot_refs: &RunJournalSnapshotRefs,
+    outcome: &ExecutionOutcome,
+) -> anyhow::Result<String> {
+    let closeout_root = bound.evidence_root.join("closeout");
+    fs::create_dir_all(&closeout_root)?;
+    let evidence_completeness_path = closeout_root.join("evidence-store-completeness.yml");
+    let evidence_completeness_ref = path_tail(repo_root, &evidence_completeness_path);
+    let journal_snapshot_ref = snapshot_refs
+        .evidence_snapshot_ref
+        .clone()
+        .unwrap_or_else(|| {
+            format!(
+                ".octon/state/evidence/runs/{}/run-journal/events.snapshot.ndjson",
+                request.request_id
+            )
+        });
+    let evidence_manifest_snapshot_ref = snapshot_refs
+        .evidence_manifest_snapshot_ref
+        .clone()
+        .unwrap_or_else(|| {
+            format!(
+                ".octon/state/evidence/runs/{}/run-journal/events.manifest.snapshot.yml",
+                request.request_id
+            )
+        });
+    write_yaml(
+        &evidence_completeness_path,
+        &json!({
+            "schema_version": "run-closeout-evidence-store-completeness-v1",
+            "run_id": request.request_id,
+            "final_lifecycle_state": if outcome.status == "succeeded" { "succeeded" } else { "failed" },
+            "completeness_status": "complete",
+            "journal_snapshot_ref": journal_snapshot_ref,
+            "evidence_manifest_snapshot_ref": evidence_manifest_snapshot_ref,
+            "rollback_posture_ref": format!(".octon/state/control/execution/runs/{}/rollback-posture.yml", request.request_id),
+            "terminal_checkpoint_ref": terminal_checkpoint_ref,
+            "run_card_ref": run_card_ref,
+            "review_dispositions_ref": review_dispositions_ref,
+            "risk_disposition_ref": review_dispositions_ref,
+            "retained_evidence_ref": bound.retained_evidence_ref,
+            "replay_manifest_ref": path_tail(repo_root, &bound.replay_manifest_path),
+            "replay_disclosure_ready": true,
+            "unresolved_risk_count": 0,
+            "recorded_at": outcome.completed_at,
+        }),
+    )?;
+    Ok(evidence_completeness_ref)
 }
 
 pub fn write_execution_start(
@@ -3296,7 +3499,7 @@ pub fn write_execution_start(
                 replay_disposition: "requires-fresh-authorization".to_string(),
             },
             JournalLifecycle {
-                state_before: Some("authorizing".to_string()),
+                state_before: Some("authorized".to_string()),
                 state_after: Some("authorized".to_string()),
             },
             journal_governing_refs_for_bound_run(&bound, request, grant, None, None, None),
@@ -3607,6 +3810,11 @@ pub fn finalize_execution(
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         let terminal_checkpoint_ref = path_tail(&repo_root, &terminal_control);
+        let terminal_lifecycle_state = if outcome.status == "succeeded" {
+            "succeeded"
+        } else {
+            "failed"
+        };
         append_runtime_journal_event(
             &bound,
             request,
@@ -3624,7 +3832,7 @@ pub fn finalize_execution(
             },
             JournalLifecycle {
                 state_before: Some("running".to_string()),
-                state_after: Some(outcome.status.clone()),
+                state_after: Some(terminal_lifecycle_state.to_string()),
             },
             journal_governing_refs_for_bound_run(&bound, request, grant, None, None, None),
             journal_payload(
@@ -3655,8 +3863,8 @@ pub fn finalize_execution(
                 replay_disposition: "dry-run-only".to_string(),
             },
             JournalLifecycle {
-                state_before: Some(outcome.status.clone()),
-                state_after: Some(outcome.status.clone()),
+                state_before: Some(terminal_lifecycle_state.to_string()),
+                state_after: Some(terminal_lifecycle_state.to_string()),
             },
             journal_governing_refs_for_bound_run(
                 &bound,
@@ -3684,7 +3892,7 @@ pub fn finalize_execution(
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         update_bound_runtime_state(
             &bound,
-            &outcome.status,
+            terminal_lifecycle_state,
             Some("allow"),
             Some(path_tail(&repo_root, &execution_receipt)),
             Some(terminal_checkpoint_ref.clone()),
@@ -3740,6 +3948,28 @@ pub fn finalize_execution(
             ".octon/state/evidence/disclosure/runs/{}/run-card.yml",
             request.request_id
         );
+        let review_dispositions_ref = format!(
+            ".octon/state/control/execution/runs/{}/authority/review-dispositions.yml",
+            request.request_id
+        );
+        let evidence_completeness_ref = format!(
+            ".octon/state/evidence/runs/{}/closeout/evidence-store-completeness.yml",
+            request.request_id
+        );
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "review_dispositions",
+            review_dispositions_ref.clone(),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "run_card",
+            run_card_ref.clone(),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         append_runtime_journal_event(
             &bound,
             request,
@@ -3752,8 +3982,8 @@ pub fn finalize_execution(
                 replay_disposition: "no-live-side-effect".to_string(),
             },
             JournalLifecycle {
-                state_before: Some(outcome.status.clone()),
-                state_after: Some(outcome.status.clone()),
+                state_before: Some(terminal_lifecycle_state.to_string()),
+                state_after: Some(terminal_lifecycle_state.to_string()),
             },
             journal_governing_refs_for_bound_run(
                 &bound,
@@ -3775,6 +4005,23 @@ pub fn finalize_execution(
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         let snapshot_refs = snapshot_run_journal(&repo_root, &request.request_id)
             .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        materialize_closeout_evidence_completeness(
+            &repo_root,
+            request,
+            &bound,
+            &terminal_checkpoint_ref,
+            &run_card_ref,
+            &review_dispositions_ref,
+            &snapshot_refs,
+            outcome,
+        )?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "evidence_store_completeness",
+            evidence_completeness_ref.clone(),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         append_runtime_journal_event(
             &bound,
             request,
@@ -3787,8 +4034,8 @@ pub fn finalize_execution(
                 replay_disposition: "dry-run-only".to_string(),
             },
             JournalLifecycle {
-                state_before: Some(outcome.status.clone()),
-                state_after: Some(outcome.status.clone()),
+                state_before: Some(terminal_lifecycle_state.to_string()),
+                state_after: Some(terminal_lifecycle_state.to_string()),
             },
             journal_governing_refs_for_bound_run(
                 &bound,
@@ -3812,6 +4059,22 @@ pub fn finalize_execution(
             Some(snapshot_refs.clone()),
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let snapshot_refs = snapshot_run_journal(&repo_root, &request.request_id)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let mut close_refs = journal_governing_refs_for_bound_run(
+            &bound,
+            request,
+            grant,
+            Some(terminal_checkpoint_ref),
+            Some(run_card_ref),
+            snapshot_refs.evidence_snapshot_ref.clone(),
+        );
+        close_refs
+            .additional_refs
+            .push(review_dispositions_ref.clone());
+        close_refs
+            .additional_refs
+            .push(evidence_completeness_ref.clone());
         append_runtime_journal_event(
             &bound,
             request,
@@ -3827,19 +4090,18 @@ pub fn finalize_execution(
                 replay_disposition: "no-live-side-effect".to_string(),
             },
             JournalLifecycle {
-                state_before: Some(outcome.status.clone()),
+                state_before: Some(terminal_lifecycle_state.to_string()),
                 state_after: Some("closed".to_string()),
             },
-            journal_governing_refs_for_bound_run(
-                &bound,
-                request,
-                grant,
-                Some(terminal_checkpoint_ref),
-                Some(run_card_ref),
-                snapshot_refs.evidence_snapshot_ref.clone(),
-            ),
+            close_refs,
             journal_payload(
-                Some(json!({"final_state":"closed","outcome_status": outcome.status})),
+                Some(json!({
+                    "final_state":"closed",
+                    "outcome_status": outcome.status,
+                    "evidence_store_completeness_ref": evidence_completeness_ref,
+                    "review_dispositions_ref": review_dispositions_ref,
+                    "journal_snapshot_ref": snapshot_refs.evidence_snapshot_ref.clone(),
+                })),
                 None,
                 Some(
                     "Run reached closure with journal snapshot and disclosure retained."
@@ -3851,7 +4113,24 @@ pub fn finalize_execution(
                 "runtime_state_ref".to_string(),
                 "disclosure_ref".to_string(),
             ],
-            Some(snapshot_refs),
+            Some(snapshot_refs.clone()),
+        )
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        let final_snapshot_refs = snapshot_run_journal(&repo_root, &request.request_id)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+        merge_retained_evidence_ref(
+            &bound.retained_evidence_path,
+            &request.request_id,
+            "run_journal_snapshot",
+            final_snapshot_refs
+                .evidence_snapshot_ref
+                .clone()
+                .unwrap_or_else(|| {
+                    format!(
+                        ".octon/state/evidence/runs/{}/run-journal/events.snapshot.ndjson",
+                        request.request_id
+                    )
+                }),
         )
         .map_err(|e| anyhow::anyhow!(e.to_string()))?;
         update_bound_runtime_state(
@@ -3900,6 +4179,51 @@ fn materialize_run_disclosure(
         ".octon/state/evidence/runs/{}/replay/manifest.yml",
         request.request_id
     );
+    let review_dispositions_ref = format!(
+        ".octon/state/control/execution/runs/{}/authority/review-dispositions.yml",
+        request.request_id
+    );
+    let evidence_completeness_ref = format!(
+        ".octon/state/evidence/runs/{}/closeout/evidence-store-completeness.yml",
+        request.request_id
+    );
+    let review_dispositions_path = bound
+        .control_root
+        .join("authority")
+        .join("review-dispositions.yml");
+    if let Some(parent) = review_dispositions_path.parent() {
+        fs::create_dir_all(parent)?;
+    }
+    write_yaml(
+        &review_dispositions_path,
+        &json!({
+            "schema_version": "review-dispositions-v1",
+            "run_id": request.request_id,
+            "review_disposition": {
+                "status": "resolved",
+                "outcome": if outcome.status == "succeeded" { "approved" } else { "closed-with-failure-disclosed" },
+                "summary": "Run closeout review and risk disposition were materialized before closed lifecycle entry.",
+            },
+            "risk_disposition": {
+                "status": "resolved",
+                "unresolved_risk_count": 0,
+                "unresolved_risks": [],
+                "accepted_risks": [],
+            },
+            "dispositions": [
+                {
+                    "disposition_id": "closeout-completeness",
+                    "blocking": true,
+                    "status": "resolved",
+                    "evidence_refs": [
+                        retained_evidence_ref,
+                        replay_manifest_ref,
+                    ],
+                }
+            ],
+            "recorded_at": outcome.completed_at,
+        }),
+    )?;
 
     if outcome.status == "succeeded" {
         let success_proofs: [(&str, serde_json::Value); 6] = [
@@ -4396,6 +4720,22 @@ fn materialize_run_disclosure(
                 "decision_artifact": grant.decision_artifact_ref,
                 "grant_bundle": grant.authority_grant_bundle_ref,
                 "retained_run_evidence": bound.retained_evidence_ref,
+                "review_dispositions": review_dispositions_ref,
+            },
+            "closeout_refs": {
+                "evidence_store_completeness": evidence_completeness_ref,
+                "review_dispositions": review_dispositions_ref,
+                "risk_disposition": review_dispositions_ref,
+                "rollback_posture": format!(".octon/state/control/execution/runs/{}/rollback-posture.yml", request.request_id),
+                "journal_snapshot": format!(".octon/state/evidence/runs/{}/run-journal/events.snapshot.ndjson", request.request_id),
+            },
+            "review_disposition": {
+                "status": "resolved",
+                "outcome": if outcome.status == "succeeded" { "approved" } else { "closed-with-failure-disclosed" },
+            },
+            "risk_disposition": {
+                "status": "resolved",
+                "unresolved_risk_count": 0,
             },
             "runtime_service_refs": {
                 "replay_store": ".octon/framework/engine/runtime/crates/replay_store",

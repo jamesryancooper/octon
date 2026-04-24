@@ -1,23 +1,10 @@
 use super::*;
-use anyhow::Context;
-use octon_core::config::{ExecutorProfileConfig, RuntimeConfig};
+use octon_core::config::RuntimeConfig;
 use octon_core::errors::{ErrorCode, KernelError, Result as CoreResult};
-use octon_core::execution_integrity::{
-    evaluate_execution_budget, evaluate_network_egress, infer_provider_from_model,
-    load_execution_budget_policy, load_execution_exception_leases, load_network_egress_policy,
-    record_budget_consumption, write_execution_cost_evidence, BudgetCheckContext, BudgetDecision,
-    NetworkEgressContext, NetworkEgressDecision,
-};
-use octon_core::policy::PolicyEngine;
-use octon_core::registry::ServiceDescriptor;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
 use serde_json::json;
-use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
-use std::process::Command;
-use std::sync::{Mutex, OnceLock};
 
 pub(crate) fn mission_denial(message: impl Into<String>, reason_codes: Vec<&str>) -> KernelError {
     KernelError::new(ErrorCode::CapabilityDenied, message.into()).with_details(json!({
@@ -158,22 +145,6 @@ pub(crate) fn run_journal_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf
 
 pub(crate) fn run_journal_manifest_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
     cfg.run_control_root(request_id).join("events.manifest.yml")
-}
-
-pub(crate) fn run_journal_snapshot_root(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
-    cfg.run_root(request_id).join("run-journal")
-}
-
-pub(crate) fn run_journal_snapshot_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
-    run_journal_snapshot_root(cfg, request_id).join("events.snapshot.ndjson")
-}
-
-pub(crate) fn run_journal_manifest_snapshot_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
-    run_journal_snapshot_root(cfg, request_id).join("events.manifest.snapshot.yml")
-}
-
-pub(crate) fn run_journal_redaction_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {
-    run_journal_snapshot_root(cfg, request_id).join("redactions.yml")
 }
 
 pub(crate) fn rollback_posture_path(cfg: &RuntimeConfig, request_id: &str) -> PathBuf {

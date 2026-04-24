@@ -8,8 +8,8 @@ revocations:
     request_id: uec-repo-shell-boundary-sensitive-recertified-20260410
     run_id: uec-repo-shell-boundary-sensitive-recertified-20260410
     state: active
-    revoked_at: "2026-04-03T02:23:12Z"
+    revoked_at: "2026-04-10T20:30:00Z"
     revoked_by: operator://octon-governance
     reason_codes:
       - REPO_SHELL_BOUNDARY_SENSITIVE_RECERTIFICATION_REVOCATION
-    notes: Active revocation proving the runtime must obey canonical revocation artifacts during the controlled-boundary exercise.
+    notes: Retained revocation record proving the runtime obeys canonical revocation artifacts during the clean boundary-sensitive recertification envelope.

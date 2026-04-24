@@ -1,0 +1,50 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "governed-agent-runtime"
+decision_type: "boundary-change"
+recommended_step:
+  id: "run-lifecycle-v1-enforcement"
+  title: "Enforce Run Lifecycle v1 end-to-end as the runtime state machine"
+  rank: "single-highest-leverage-next-step-after-run-journal-aet-context-pack-builder"
+  target_subsystem: "Governed Agent Runtime"
+  harness_scope: "Constitutional Engineering Harness runtime enforcement"
+problem_statement: >-
+  Octon already has the Run Journal, Authorized Effect Token enforcement, and
+  Context Pack Builder v1. The remaining highest-leverage gap is that every
+  consequential Run must be forced through the normative Run Lifecycle v1
+  state machine, with illegal transitions failing closed and runtime-state.yml
+  rebuilt as a derived view over the canonical journal.
+non_goals:
+  - "Do not redesign Octon's whole Constitutional Engineering Harness."
+  - "Do not create a rival control plane."
+  - "Do not widen support targets or admit browser/API/frontier tuples."
+  - "Do not make generated/operator read models authoritative."
+  - "Do not relocate proposal material into runtime authority."
+primary_authoritative_inputs:
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+  - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
+  - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md"
+  - ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/framework/assurance/README.md"
+closure_condition: >-
+  The runtime refuses every illegal Run lifecycle transition, materializes
+  runtime-state.yml only from the canonical Run Journal plus bounded side
+  artifacts, reconstructs state deterministically from events, and proves
+  closeout only when evidence-store completeness, rollback posture, disclosure,
+  journal snapshot linkage, review dispositions, and risk dispositions are
+  satisfied, with active durable tooling guarded from direct canonical journal
+  writes outside runtime_bus.
+closure_status:
+  state: "implemented-archived"
+  reviewed_at: "2026-04-24"
+  promotion_safe_non_authority: true
+  summary: >-
+    The implementation now exists in durable runtime/spec/assurance/lab surfaces
+    with retained validation evidence outside this proposal. The final closure
+    pass removed active UEC journal and auxiliary-evidence repair, added a
+    static append-boundary guard, and made retained lifecycle validation reports
+    idempotent for unchanged semantic results. The packet is archived as
+    lineage-only material under inputs and is not the promoted source of
+    runtime or policy truth.

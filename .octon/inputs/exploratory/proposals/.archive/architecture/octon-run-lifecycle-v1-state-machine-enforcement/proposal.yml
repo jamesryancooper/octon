@@ -1,0 +1,116 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-run-lifecycle-v1-state-machine-enforcement"
+title: "Octon Run Lifecycle v1 State-Machine Enforcement"
+summary: >-
+  Proposal packet to implement Run Lifecycle v1 as the fail-closed,
+  journal-driven execution state machine for Octon's Governed Agent Runtime,
+  after Run Journal v1, Authorized Effect Token enforcement, and Context Pack
+  Builder v1 are already present.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-transition-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-reconstruction-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+  - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_bus"
+  - ".octon/framework/engine/runtime/crates/core"
+  - ".octon/framework/engine/runtime/run"
+  - ".octon/framework/engine/runtime/run.cmd"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-append-boundary.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-run-lifecycle-v1.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/run-lifecycle-v1"
+  - ".octon/framework/assurance/governance/_ops/scripts/normalize-uec-packet-certification-runs.sh"
+  - ".octon/framework/assurance/governance/_ops/scripts/run-uec-packet-certification-pass.sh"
+  - ".octon/instance/assurance/runtime/run-lifecycle-v1.yml"
+  - ".octon/state/evidence/validation/assurance/run-lifecycle-v1"
+status: "archived"
+archive:
+  archived_at: "2026-04-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-run-lifecycle-v1-state-machine-enforcement"
+  promotion_evidence:
+    - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+    - ".octon/framework/engine/runtime/spec/run-journal-v1.md"
+    - ".octon/framework/engine/runtime/spec/run-lifecycle-transition-v1.schema.json"
+    - ".octon/framework/engine/runtime/spec/run-lifecycle-reconstruction-v1.schema.json"
+    - ".octon/framework/engine/runtime/crates/runtime_bus"
+    - ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs"
+    - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-append-boundary.sh"
+    - ".octon/state/evidence/validation/assurance/run-lifecycle-v1"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Durable runtime, spec, assurance, lab, and retained validation surfaces now
+    exist outside this proposal tree. This archived packet is preserved as
+    non-authoritative closure lineage after promotion-readiness validation
+    confirmed no runtime, policy, or assurance surface depends on this proposal
+    path.
+implementation_status:
+  state: "implemented-archived"
+  reviewed_at: "2026-04-24"
+  change_profile: "atomic"
+  release_state: "pre-1.0"
+  promotion_safe_non_authority: true
+  implementation_summary: >-
+    Run Lifecycle v1 enforcement has been implemented through durable runtime,
+    spec, assurance, lab, and retained validation surfaces. Closure hardening
+    now places semantic checks at the canonical runtime_bus append boundary for
+    fake closeout refs, unresolved risks, non-stage-only staged routing, and
+    relative or absolute generated/input governing refs. Assurance closure also
+    verifies that unknown lifecycle states such as created and authorizing fail
+    closed, and includes a static append-boundary guard proving active durable
+    scripts do not mint canonical run journals outside runtime_bus. The UEC
+    certification pass now verifies existing runtime-owned journals and
+    auxiliary evidence read-only instead of synthesizing events.ndjson,
+    events.manifest.yml, or tracked repair artifacts. Retained lifecycle report
+    writing is promotion-clean for unchanged semantic results, so the required
+    validation stack can be rerun after staging without creating unstaged repo
+    diffs. This proposal packet remains lineage-only under
+    inputs/exploratory/proposals/** and does not become runtime, policy,
+    governance, assurance, evidence, or generated authority until separately
+    promoted or archived under the canonical workflow.
+  validation_evidence:
+    - command: "git diff --check"
+      result: "pass"
+      source: "local closure validation"
+    - command: "jq empty .octon/framework/engine/runtime/spec/run-lifecycle-transition-v1.schema.json .octon/framework/engine/runtime/spec/run-lifecycle-reconstruction-v1.schema.json"
+      result: "pass"
+      source: "local closure validation"
+    - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh"
+      result: "pass"
+      evidence_ref: ".octon/state/evidence/validation/assurance/run-lifecycle-v1/validation-report.yml"
+    - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-append-boundary.sh"
+      result: "pass"
+      source: "local closure validation"
+    - command: "bash .octon/framework/assurance/runtime/_ops/tests/test-run-lifecycle-v1.sh"
+      result: "pass"
+      source: "local closure validation"
+    - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh"
+      result: "pass"
+      source: "local closure validation"
+    - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
+      result: "pass"
+      source: "local closure validation"
+    - command: "bash .octon/framework/assurance/governance/_ops/scripts/run-uec-packet-certification-pass.sh --output-dir /tmp/octon-uec-certification-pass"
+      result: "pass"
+      source: "local closure validation"
+    - command: "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -- --test-threads=1"
+      result: "pass"
+      source: "local closure validation"
+    - command: "shasum -a 256 -c SHA256SUMS.txt"
+      result: "pass"
+      source: "packet-local checksum validation"
+related_proposals: []
+non_authority_notice: >-
+  This proposal is lineage-only under inputs/exploratory/proposals/**. It does
+  not become runtime, policy, or architectural authority. All promotion targets
+  point to durable surfaces outside this packet.
