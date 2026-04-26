@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.44](https://github.com/jamesryancooper/octon/compare/octon-v0.6.43...octon-v0.6.44) (2026-04-24)
+
+
+### Features
+
+* **runtime:** enforce run lifecycle v1 ([c4d83dd](https://github.com/jamesryancooper/octon/commit/c4d83dd2b19fd85bf1c84044e5ddb304e9f30385))
+
 ## [0.6.43](https://github.com/jamesryancooper/octon/compare/octon-v0.6.42...octon-v0.6.43) (2026-04-23)
 
 
