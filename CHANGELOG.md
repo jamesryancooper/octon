@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.45](https://github.com/jamesryancooper/octon/compare/octon-v0.6.44...octon-v0.6.45) (2026-04-26)
+
+
+### Features
+
+* **runtime:** materialize governed runtime ([9c0a137](https://github.com/jamesryancooper/octon/commit/9c0a1371ecf77c1ddca5b68de1aef6f579eaefcf))
+
 ## [0.6.44](https://github.com/jamesryancooper/octon/compare/octon-v0.6.43...octon-v0.6.44) (2026-04-24)
 
 
