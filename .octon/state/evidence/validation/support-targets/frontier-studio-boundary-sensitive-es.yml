@@ -23,7 +23,7 @@ execution:
   mode: replay
   replay_ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay/manifest.yml
 input_digests:
-  support_targets_sha256: 8af1c10639060a579b289b32887382abd8b5706a7e92730fb47b631b6e683305
+  support_targets_sha256: 4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
   support_dossier_sha256: 07b8c9c739f0ab6eabb21049d4277b64d47ac1aa826ddfca2fa78365db1e0f24
 output_digests:
   primary_run_card_sha256: 212cf3cbd3b103c4ea330bead450d3ffca6c87d80885730c914c84eaa753750f

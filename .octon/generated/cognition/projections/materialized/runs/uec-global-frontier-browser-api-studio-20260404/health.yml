@@ -1,0 +1,204 @@
+schema_version: run-health-read-model-v1
+run_id: uec-global-frontier-browser-api-studio-20260404
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:fb433b6269b38e533130a41f65e3661382fedd80f1a171a3d41115941d80fbad
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-global-frontier-browser-api-studio-20260404.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-frontier-browser-api-studio-20260404.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404
+  evidence_classification: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/uec-global-frontier-browser-api-studio-20260404/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-contract.yml
+    digest: sha256:d23c16a0322b255a306bb46fe8543ba1bfc321e7d8037fd8687ec79b00f47b23
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/run-manifest.yml
+    digest: sha256:9c6d0412146eb73f3d7dca08797024dcc52da1f847824781a9434e906fedb855
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/events.ndjson
+    digest: sha256:836259deb78116a2e60439190229c37b5fee23dcd5b3f57be50495925ebf005c
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/events.manifest.yml
+    digest: sha256:25d1fbe271f283a69216dd9e81c36b5774980106cb8c01729f42ff074ad4d39d
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/runtime-state.yml
+    digest: sha256:bbc4f18ce6b9f22cb425b4918e2eb1f10ddeda93741a3d423f807ffe6bc13865
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-uec-global-frontier-browser-api-studio-20260404.yml
+    digest: sha256:25f3cff9d519b7f3453a8bd5ef9e76446f3921cc3797a76a0933b7aad6833dec
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-frontier-browser-api-studio-20260404.yml
+    digest: sha256:fc286e21682189e7eaaeae8cce46d78bf0486481fb82f393d64360d81f87dee0
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/uec-global-frontier-browser-api-studio-20260404/rollback-posture.yml
+    digest: sha256:f2aa1da1d0c00fcc475c7a16aed62dc9cd1a17843d076e2a4eb861abad9c6ab2
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404
+    digest: sha256:94e5f2134813650682c2f34fd3465733105063947a57f7c9a6e5c00819313fc1
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/evidence-classification.yml
+    digest: sha256:8e17fd518ea9364d605bfba3ec95c19fe9d4cc12328deb001fe2c2b364a67c8e
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/retained-run-evidence.yml
+    digest: sha256:c65d393ae9179cb0b8c4a86abc375130bae0933eebbc97241cd9e30f1942d173
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/replay-pointers.yml
+    digest: sha256:39de64b39dd66e710ef0a32053f0bbab21639c19ba01b8ba68a0dd63a916ccd9
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/uec-global-frontier-browser-api-studio-20260404/interventions/log.yml
+    digest: sha256:4528a96216e59955ff93f5efee2e90202f0ec1a1c198a8e4a136cb73dbd05040
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/uec-global-frontier-browser-api-studio-20260404/run-card.yml
+    digest: sha256:212cf3cbd3b103c4ea330bead450d3ffca6c87d80885730c914c84eaa753750f
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:8775ca1dbbe5973890f906b018dbe980f5c2d397860b5c4cef0fb7739e64db10
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/uec-global-frontier-browser-api-studio-20260404/handoff.yml
+    digest: sha256:26a1c10450c2aa49f5773fc05c473134ec38d76e212cfeb9c8fcc4d353a48606
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:c6de6e0afd0230309df8d353cbd5299464b9e32f2de7b546ea198027560ea0ff
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: review-required
+  summary: Run inputs disagree or require human review before relying on this projection.
+  next_required_action: review diagnostics and repair source disagreement
+lifecycle:
+  state: succeeded
+  decision_state: allow
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: tuple://frontier-governed/boundary-sensitive/extended-governed/spanish-secondary/studio-control-plane
+  route_status: stage-only
+  pack_status: stage-only
+  support_status: stage-only
+  requested_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+  - browser
+  - api
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-frontier-browser-api-studio-20260404.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: warning
+  code: support-stage-only
+  message: Support tuple or capability pack route is stage-only; operator review is
+    required before relying on this projection.
+  refs: []

@@ -32,6 +32,8 @@ INVENTORY_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-
 COVERAGE_MAP="$OCTON_DIR/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
 EVENT_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/runtime-event-v1.schema.json"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
+TOKEN_FIXTURES="$OCTON_DIR/framework/assurance/runtime/_ops/fixtures/authorized-effect-token-enforcement/fixture-set.yml"
+AUTHORITY_ENGINE_TESTS="$OCTON_DIR/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs"
 
 echo "== Authorized Effect Token Enforcement Validation =="
 
@@ -48,6 +50,8 @@ require_file "$INVENTORY_SCHEMA"
 require_file "$COVERAGE_MAP"
 require_file "$EVENT_SCHEMA"
 require_file "$RECEIPT_SCHEMA"
+require_file "$TOKEN_FIXTURES"
+require_file "$AUTHORITY_ENGINE_TESTS"
 
 has_text "VerifiedEffect<T>" "$TOKEN_V1" \
   && pass "token contract requires VerifiedEffect<T>" \
@@ -71,6 +75,44 @@ do
     && pass "runtime-event-v1 declares $event_name" \
     || fail "runtime-event-v1 must declare $event_name"
 done
+
+while IFS='|' read -r case_id expected_reason; do
+  [[ -n "$case_id" ]] || continue
+  actual_reason="$(yq -r ".cases[] | select(.case_id == \"$case_id\") | (.denial_reason // \"null\")" "$TOKEN_FIXTURES" | head -1)"
+  backing_test="$(yq -r ".cases[] | select(.case_id == \"$case_id\") | (.backing_rust_test // \"\")" "$TOKEN_FIXTURES" | head -1)"
+  if [[ "$actual_reason" == "$expected_reason" ]]; then
+    pass "fixture case $case_id maps to $expected_reason"
+  else
+    fail "fixture case $case_id must map to $expected_reason"
+  fi
+  if [[ -n "$backing_test" ]] && has_text "fn $backing_test" "$AUTHORITY_ENGINE_TESTS"; then
+    pass "fixture case $case_id has backing Rust test $backing_test"
+  else
+    fail "fixture case $case_id missing backing Rust test"
+  fi
+done <<'CASES'
+valid_token_consumes|null
+missing_token|missing_token
+decision_not_allow|decision_not_allow
+wrong_effect_class|wrong_effect_class
+wrong_run|wrong_run
+wrong_route|wrong_route
+stale_token|stale_token
+wrong_support_tuple|wrong_support_tuple
+support_envelope_blocked|wrong_support_tuple
+unsupported_tuple|unsupported_tuple
+excluded_tuple|excluded_tuple
+wrong_capability_pack|wrong_capability_pack
+wrong_scope|wrong_scope
+expired_token|expired_token
+revoked_token|revoked_token
+missing_approval|missing_approval
+missing_exception|missing_exception
+rollback_not_ready|rollback_not_ready
+budget_exceeded|budget_exceeded
+egress_denied|egress_denied
+already_consumed|already_consumed
+CASES
 
 while IFS=$'\t' read -r class_id token_type owner risk material; do
   [[ -n "$class_id" ]] || continue

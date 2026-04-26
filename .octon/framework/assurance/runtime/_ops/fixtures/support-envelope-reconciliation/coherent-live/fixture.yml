@@ -1,0 +1,6 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: coherent-live
+fixture_kind: positive
+expected_status: reconciled
+expected_diagnostics: []
+description: Current support surfaces reconcile without live widening or stale proof.

@@ -1,0 +1,201 @@
+schema_version: run-health-read-model-v1
+run_id: run-wave3-runtime-bridge-20260327
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:2f1563fdb21df7b26ce029ba91c6e85bbe517f724eb8517ddcd69adb6dd285ec
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/runtime-state.yml
+  authority_decision: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/authority/decision.yml
+  authority_bundle: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/authority/grant-bundle.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327
+  evidence_classification: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/run-wave3-runtime-bridge-20260327/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-contract.yml
+    digest: sha256:ecf366bf34b134468f50d13fe9259ef8eff5f0e9b181e97fc9339e5f0f83f29b
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/run-manifest.yml
+    digest: sha256:7f7f0e58779c1a115b98b69dd82832bcf4e52f12981221132724db31652b7586
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/events.ndjson
+    digest: missing
+    status: missing
+  events_manifest:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/events.manifest.yml
+    digest: missing
+    status: missing
+  runtime_state:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/runtime-state.yml
+    digest: sha256:fbbf85e78b11c991bb09d09dcf71cd9acd10916879f8f6e6cf75f1962a4bb0bc
+    status: present
+  authority_decision:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/authority/decision.yml
+    digest: missing
+    status: missing
+  authority_bundle:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/authority/grant-bundle.yml
+    digest: missing
+    status: missing
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/rollback-posture.yml
+    digest: sha256:8015f73a0dd94b07a3aba59a272d9e365ccf1f4f3bde248452f5561736d7142a
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327
+    digest: sha256:98e0b1a5410c62576c43a457d842671dcfd3b651f306f901c40723eaf42eb083
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/evidence-classification.yml
+    digest: sha256:44f529c464a80f9d89b2a4c534860ddb79126f128e115ce31c786aef8fab79ea
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/retained-run-evidence.yml
+    digest: sha256:bbacc90d17dfca9cb68c59399949a41fb0fae028688b2d1d2ceed8253255cfbd
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/replay-pointers.yml
+    digest: sha256:3f2c3a73f7563bb6d2e949163e8baff20cd0e046cdd1073a9df871db8e36df08
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/run-wave3-runtime-bridge-20260327/interventions/log.yml
+    digest: sha256:b9aa44daea7cfbfcae0bd78825a175357dd8d685fca4e5c3505280566e609a81
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/run-wave3-runtime-bridge-20260327/run-card.yml
+    digest: sha256:854da6ca6a54ee6998acd22939d0f3dfa194a65f6ed8e49c30935c4269afa9f4
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:8775ca1dbbe5973890f906b018dbe980f5c2d397860b5c4cef0fb7739e64db10
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/run-wave3-runtime-bridge-20260327/handoff.yml
+    digest: sha256:3aba0ca7f65225fa7beeddcc22b7b94d9d6e2b1c89c47388ae3f76f99df4a887
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:c6de6e0afd0230309df8d353cbd5299464b9e32f2de7b546ea198027560ea0ff
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: evidence-incomplete
+  summary: Required retained run evidence is incomplete for the current lifecycle
+    posture.
+  next_required_action: complete missing retained evidence refs
+lifecycle:
+  state: succeeded
+  decision_state: allow
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: null
+  route_status: unknown
+  pack_status: unknown
+  support_status: unknown
+  requested_capability_packs: []
+authorization:
+  status: unknown
+  active_grants: []
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - events_journal
+  - events_manifest
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: warning
+  code: authorization-unknown
+  message: Authorization posture could not be resolved from decision or grant artifacts.
+  refs:
+  - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/authority/decision.yml
+  - .octon/state/control/execution/runs/run-wave3-runtime-bridge-20260327/authority/grant-bundle.yml

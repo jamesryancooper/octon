@@ -13,6 +13,19 @@ pub use handles::{
     runtime_effective_handle_present, verify_runtime_effective_handle, VerifiedRuntimeHandle,
 };
 
+const RUNTIME_RESOLUTION_REF: &str = ".octon/instance/governance/runtime-resolution.yml";
+const RUNTIME_ROUTE_BUNDLE_REF: &str = ".octon/generated/effective/runtime/route-bundle.yml";
+const RUNTIME_ROUTE_BUNDLE_LOCK_REF: &str =
+    ".octon/generated/effective/runtime/route-bundle.lock.yml";
+const PACK_ROUTES_EFFECTIVE_REF: &str =
+    ".octon/generated/effective/capabilities/pack-routes.effective.yml";
+const PACK_ROUTES_LOCK_REF: &str = ".octon/generated/effective/capabilities/pack-routes.lock.yml";
+const SUPPORT_ENVELOPE_RECONCILIATION_REF: &str =
+    ".octon/generated/effective/governance/support-envelope-reconciliation.yml";
+const PUBLICATION_BYPASS_GENERATION_ID: &str = "runtime-route-bundle-publication-bypass";
+const PUBLICATION_BYPASS_RECEIPT_REF: &str =
+    ".octon/state/evidence/validation/publication/runtime/<pending>";
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct RuntimeResolutionRecord {
     pub schema_version: String,
@@ -198,6 +211,25 @@ pub struct VerifiedRuntimeRouteBundle {
     pub lock: RuntimeEffectiveRouteBundleLock,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum SupportEnvelopeTuplePosture {
+    Live,
+    Missing,
+    Unsupported,
+    Excluded,
+    StageOnly,
+    Stale,
+    Blocked,
+}
+
+#[derive(Debug, Clone)]
+pub struct VerifiedSupportEnvelopeTuple {
+    pub envelope_path: PathBuf,
+    pub tuple_ref: String,
+    pub posture: SupportEnvelopeTuplePosture,
+    pub diagnostics: Vec<String>,
+}
+
 impl VerifiedRuntimeRouteBundle {
     pub fn generation_id(&self) -> &str {
         &self.bundle.generation_id
@@ -263,6 +295,57 @@ impl RuntimePackRoute {
             && self.tuple.host_adapter == tuple.host_adapter
             && self.tuple.model_adapter == tuple.model_adapter
     }
+}
+
+pub fn runtime_route_bundle_publication_bypass(
+    octon_dir: &Path,
+) -> Result<VerifiedRuntimeRouteBundle> {
+    let root_dir = octon_dir
+        .parent()
+        .ok_or_else(|| anyhow!("INTERNAL: .octon has no parent directory"))?;
+    let resolution_path = resolve_repo_path(root_dir, RUNTIME_RESOLUTION_REF);
+    let bundle_path = resolve_repo_path(root_dir, RUNTIME_ROUTE_BUNDLE_REF);
+    let lock_path = resolve_repo_path(root_dir, RUNTIME_ROUTE_BUNDLE_LOCK_REF);
+    let pack_routes_effective_path = resolve_repo_path(root_dir, PACK_ROUTES_EFFECTIVE_REF);
+    let pack_routes_lock_path = resolve_repo_path(root_dir, PACK_ROUTES_LOCK_REF);
+
+    Ok(VerifiedRuntimeRouteBundle {
+        resolution_path,
+        bundle_path,
+        lock_path,
+        pack_routes_effective_path,
+        pack_routes_lock_path,
+        bundle_sha256: PUBLICATION_BYPASS_GENERATION_ID.to_string(),
+        bundle: RuntimeEffectiveRouteBundle {
+            schema_version: "octon-runtime-effective-route-bundle-v1".to_string(),
+            generation_id: PUBLICATION_BYPASS_GENERATION_ID.to_string(),
+            publication_status: "publication-bypass".to_string(),
+            publication_receipt_path: PUBLICATION_BYPASS_RECEIPT_REF.to_string(),
+            routes: Vec::new(),
+            extensions: RuntimeExtensionState {
+                generation_id: "publication-bypass".to_string(),
+                status: "publication-bypass".to_string(),
+                quarantine_count: 0,
+            },
+        },
+        lock: RuntimeEffectiveRouteBundleLock {
+            schema_version: "octon-runtime-effective-route-bundle-lock-v3".to_string(),
+            generation_id: PUBLICATION_BYPASS_GENERATION_ID.to_string(),
+            publication_status: "publication-bypass".to_string(),
+            publication_receipt_path: PUBLICATION_BYPASS_RECEIPT_REF.to_string(),
+            route_bundle_ref: RUNTIME_ROUTE_BUNDLE_REF.to_string(),
+            route_bundle_sha256: PUBLICATION_BYPASS_GENERATION_ID.to_string(),
+            freshness: RuntimeHandleFreshness {
+                mode: "publication-bypass".to_string(),
+                ttl_seconds: None,
+                invalidation_conditions: vec!["publication-receipt-pending".to_string()],
+            },
+            allowed_consumers: vec!["runtime_resolver".to_string()],
+            forbidden_consumers: vec!["direct_runtime_raw_path_read".to_string()],
+            non_authority_classification: "derived-runtime-handle".to_string(),
+            ..RuntimeEffectiveRouteBundleLock::default()
+        },
+    })
 }
 
 pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRouteBundle> {
@@ -517,6 +600,119 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
     })
 }
 
+pub fn verify_support_envelope_tuple(
+    octon_dir: &Path,
+    tuple_ref: &str,
+) -> Result<VerifiedSupportEnvelopeTuple> {
+    let root_dir = octon_dir
+        .parent()
+        .ok_or_else(|| anyhow!("INTERNAL: .octon has no parent directory"))?;
+    let envelope_path = resolve_repo_path(root_dir, SUPPORT_ENVELOPE_RECONCILIATION_REF);
+    let raw = fs::read_to_string(&envelope_path)
+        .with_context(|| format!("failed to read {}", envelope_path.display()))?;
+    let document: serde_yaml::Value = serde_yaml::from_str(&raw)
+        .context("support-envelope reconciliation result is not valid YAML")?;
+
+    if yaml_str(&document, &["schema_version"]) != Some("support-envelope-reconciliation-result-v1")
+        || yaml_str(&document, &["status"]) != Some("reconciled")
+        || yaml_str(&document, &["non_authority_classification"]) != Some("derived-runtime-handle")
+    {
+        return Err(anyhow!(
+            "CAPABILITY_DENIED: support-envelope reconciliation handle metadata is invalid"
+        ));
+    }
+    if sequence_contains(
+        &document,
+        &["forbidden_consumers"],
+        "direct-runtime-raw-path-read",
+    ) || sequence_contains(
+        &document,
+        &["forbidden_consumers"],
+        "direct_runtime_raw_path_read",
+    ) {
+        // This generated handle is allowed to block only through the resolver.
+    } else {
+        return Err(anyhow!(
+            "CAPABILITY_DENIED: support-envelope reconciliation handle does not forbid raw runtime reads"
+        ));
+    }
+
+    let Some(tuple) = document["tuples"]
+        .as_sequence()
+        .into_iter()
+        .flatten()
+        .find(|entry| entry["tuple_ref"].as_str() == Some(tuple_ref))
+    else {
+        return Ok(VerifiedSupportEnvelopeTuple {
+            envelope_path,
+            tuple_ref: tuple_ref.to_string(),
+            posture: SupportEnvelopeTuplePosture::Missing,
+            diagnostics: vec!["support-envelope-tuple-missing".to_string()],
+        });
+    };
+
+    let diagnostics = tuple["diagnostics"]
+        .as_sequence()
+        .into_iter()
+        .flatten()
+        .filter_map(|value| value.as_str().map(ToString::to_string))
+        .collect::<Vec<_>>();
+    let declared = tuple["declared"].as_str().unwrap_or_default();
+    let admitted = tuple["admitted"].as_str().unwrap_or_default();
+    let proof = tuple["proof"].as_str().unwrap_or_default();
+    let route = tuple["route"].as_str().unwrap_or_default();
+    let pack_route = tuple["pack_route"].as_str().unwrap_or_default();
+    let generated_matrix = tuple["generated_matrix"].as_str().unwrap_or_default();
+    let disclosure = tuple["disclosure"].as_str().unwrap_or_default();
+    let effective = tuple["effective"].as_str().unwrap_or_default();
+
+    let values = [
+        declared,
+        admitted,
+        proof,
+        route,
+        pack_route,
+        generated_matrix,
+        disclosure,
+        effective,
+    ];
+    let posture = if values.iter().any(|value| *value == "excluded") {
+        SupportEnvelopeTuplePosture::Excluded
+    } else if proof != "fresh" {
+        SupportEnvelopeTuplePosture::Stale
+    } else if values
+        .iter()
+        .any(|value| *value == "stage_only" || *value == "stage-only")
+    {
+        SupportEnvelopeTuplePosture::StageOnly
+    } else if values
+        .iter()
+        .any(|value| *value == "unsupported" || *value == "not_supported")
+    {
+        SupportEnvelopeTuplePosture::Unsupported
+    } else if declared == "live"
+        && admitted == "live"
+        && proof == "fresh"
+        && route == "allow"
+        && pack_route == "allow"
+        && generated_matrix == "supported"
+        && disclosure == "matches"
+        && effective == "live"
+        && diagnostics.is_empty()
+    {
+        SupportEnvelopeTuplePosture::Live
+    } else {
+        SupportEnvelopeTuplePosture::Blocked
+    };
+
+    Ok(VerifiedSupportEnvelopeTuple {
+        envelope_path,
+        tuple_ref: tuple_ref.to_string(),
+        posture,
+        diagnostics,
+    })
+}
+
 fn source_digest<'a>(lock: &'a RuntimeEffectiveRouteBundleLock, key: &str) -> &'a str {
     if let Some(value) = lock.source_digests.get(key) {
         return value.as_str();
@@ -622,6 +818,29 @@ fn verify_optional_digest(path: &Path, expected_sha256: &str, label: &str) -> Re
         return Err(anyhow!("CAPABILITY_DENIED: {label} digest drift detected"));
     }
     Ok(())
+}
+
+fn yaml_str<'a>(value: &'a serde_yaml::Value, path: &[&str]) -> Option<&'a str> {
+    let mut current = value;
+    for key in path {
+        current = current.get(*key)?;
+    }
+    current.as_str()
+}
+
+fn sequence_contains(value: &serde_yaml::Value, path: &[&str], needle: &str) -> bool {
+    let mut current = value;
+    for key in path {
+        let Some(next) = current.get(*key) else {
+            return false;
+        };
+        current = next;
+    }
+    current
+        .as_sequence()
+        .into_iter()
+        .flatten()
+        .any(|entry| entry.as_str() == Some(needle))
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {

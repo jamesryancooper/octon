@@ -23,9 +23,15 @@ inventory also binds:
 - the consumer API that verifies it,
 - the canonical token-record ref,
 - the consumption receipt ref,
+- route id, runtime-effective generation/freshness refs, support tuple, and
+  capability-pack scope checked by the verifier,
+- approval, exception, rollback, budget, and egress refs when those constraints
+  participate in the grant,
 - the required token lifecycle journal coverage, and
 - negative bypass proof for missing, forged, stale, wrong-kind, wrong-scope,
-  wrong-run, revoked, expired, and already-consumed tokens.
+  wrong-run, wrong-route, wrong-support, wrong-capability-pack, revoked,
+  expired, missing-approval, missing-exception, rollback-not-ready,
+  budget-exceeded, egress-denied, and already-consumed tokens.
 
 ## Material Path Families
 
@@ -98,6 +104,8 @@ The coverage claim is valid only when retained evidence includes:
 - retained receipts whose authority refs resolve to the same boundary used by
   the inventory
 - retained token records and token consumption receipts for material paths
+- deterministic denial reasons on rejection receipts, using the
+  `authorized-effect-token-consumption-v1` denial reason vocabulary
 
 ## Failure Rule
 

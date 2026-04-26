@@ -1,0 +1,95 @@
+schema_version: authorized-effect-token-enforcement-fixture-set-v1
+fixture_set_id: governed-runtime-materialization-v1-authorized-effect-token-enforcement
+classification: non_authoritative_test_fixture
+purpose: >-
+  Maps every governed-runtime-materialization-v1 token enforcement case to the
+  deterministic denial reason and Rust negative-control test that proves it.
+cases:
+  - case_id: valid_token_consumes
+    expected_result: verified
+    denial_reason: null
+    backing_rust_test: issued_effect_verifies_and_records_consumption_receipt
+  - case_id: missing_token
+    expected_result: rejected
+    denial_reason: missing_token
+    backing_rust_test: missing_token_record_fails_closed
+  - case_id: decision_not_allow
+    expected_result: rejected
+    denial_reason: decision_not_allow
+    backing_rust_test: denied_grant_rejects_effect_consumption
+  - case_id: wrong_scope
+    expected_result: rejected
+    denial_reason: wrong_scope
+    backing_rust_test: wrong_scope_effect_fails_closed
+  - case_id: already_consumed
+    expected_result: rejected
+    denial_reason: already_consumed
+    backing_rust_test: single_use_effect_cannot_be_consumed_twice
+  - case_id: expired_token
+    expected_result: rejected
+    denial_reason: expired_token
+    backing_rust_test: expired_effect_is_rejected
+  - case_id: forged_token
+    expected_result: rejected
+    denial_reason: forged_token
+    backing_rust_test: forged_effect_digest_is_rejected
+  - case_id: wrong_effect_class
+    expected_result: rejected
+    denial_reason: wrong_effect_class
+    backing_rust_test: wrong_effect_class_is_rejected
+  - case_id: wrong_run
+    expected_result: rejected
+    denial_reason: wrong_run
+    backing_rust_test: wrong_run_binding_is_rejected
+  - case_id: wrong_route
+    expected_result: rejected
+    denial_reason: wrong_route
+    backing_rust_test: wrong_route_binding_is_rejected
+  - case_id: stale_token
+    expected_result: rejected
+    denial_reason: stale_token
+    backing_rust_test: stale_runtime_effective_route_rejects_effect_consumption
+  - case_id: wrong_support_tuple
+    expected_result: rejected
+    denial_reason: wrong_support_tuple
+    backing_rust_test: wrong_support_tuple_is_rejected
+  - case_id: support_envelope_blocked
+    expected_result: rejected
+    denial_reason: wrong_support_tuple
+    backing_rust_test: support_envelope_block_rejects_effect_consumption
+  - case_id: unsupported_tuple
+    expected_result: rejected
+    denial_reason: unsupported_tuple
+    backing_rust_test: unsupported_support_envelope_tuple_is_rejected
+  - case_id: excluded_tuple
+    expected_result: rejected
+    denial_reason: excluded_tuple
+    backing_rust_test: excluded_support_envelope_tuple_is_rejected
+  - case_id: wrong_capability_pack
+    expected_result: rejected
+    denial_reason: wrong_capability_pack
+    backing_rust_test: wrong_capability_pack_is_rejected
+  - case_id: revoked_token
+    expected_result: rejected
+    denial_reason: revoked_token
+    backing_rust_test: active_revocation_rejects_effect_consumption
+  - case_id: missing_approval
+    expected_result: rejected
+    denial_reason: missing_approval
+    backing_rust_test: missing_approval_binding_rejects_effect_consumption
+  - case_id: missing_exception
+    expected_result: rejected
+    denial_reason: missing_exception
+    backing_rust_test: missing_exception_binding_rejects_effect_consumption
+  - case_id: rollback_not_ready
+    expected_result: rejected
+    denial_reason: rollback_not_ready
+    backing_rust_test: missing_rollback_posture_rejects_effect_consumption
+  - case_id: budget_exceeded
+    expected_result: rejected
+    denial_reason: budget_exceeded
+    backing_rust_test: budget_denial_rejects_effect_consumption
+  - case_id: egress_denied
+    expected_result: rejected
+    denial_reason: egress_denied
+    backing_rust_test: egress_denial_rejects_effect_consumption

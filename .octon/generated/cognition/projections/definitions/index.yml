@@ -24,3 +24,7 @@ files:
     path: compatibility-retirement-map.yml
     summary: Definition for the generated compatibility retirement map.
     when: When retained transitional surfaces or their successors change.
+  - id: run-health-definition
+    path: run-health.yml
+    summary: Definition for generated per-run operator health read models.
+    when: When run lifecycle, evidence, disclosure, or operator health rules change.

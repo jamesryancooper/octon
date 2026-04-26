@@ -33,7 +33,27 @@ pub struct AuthorizedEffectPayload {
     pub run_control_root: String,
     pub run_evidence_root: String,
     #[serde(default)]
+    pub lifecycle_state_ref: String,
+    #[serde(default)]
+    pub route_id: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_route_bundle_ref: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_route_bundle_sha256: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_route_generation_id: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_freshness_mode: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_publication_receipt_ref: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_non_authority_classification: Option<String>,
+    #[serde(default)]
     pub support_target_tuple_ref: Option<String>,
+    #[serde(default)]
+    pub support_claim_effect: Option<String>,
+    #[serde(default)]
+    pub support_route: Option<String>,
     #[serde(default)]
     pub allowed_capability_packs: Vec<String>,
     pub scope_ref: String,
@@ -42,7 +62,21 @@ pub struct AuthorizedEffectPayload {
     #[serde(default)]
     pub rollback_plan_ref: Option<String>,
     #[serde(default)]
+    pub rollback_posture_ref: Option<String>,
+    #[serde(default)]
     pub approval_request_ref: Option<String>,
+    #[serde(default)]
+    pub approval_grant_refs: Vec<String>,
+    #[serde(default)]
+    pub exception_lease_refs: Vec<String>,
+    #[serde(default)]
+    pub budget_ref: Option<String>,
+    #[serde(default)]
+    pub budget_rule_id: Option<String>,
+    #[serde(default)]
+    pub egress_ref: Option<String>,
+    #[serde(default)]
+    pub egress_route: Option<String>,
     pub issued_at: String,
     #[serde(default)]
     pub expires_at: Option<String>,
@@ -113,8 +147,56 @@ impl<T: EffectKind> AuthorizedEffect<T> {
         &self.payload.run_evidence_root
     }
 
+    pub fn lifecycle_state_ref(&self) -> &str {
+        &self.payload.lifecycle_state_ref
+    }
+
+    pub fn route_id(&self) -> Option<&str> {
+        self.payload.route_id.as_deref()
+    }
+
+    pub fn runtime_effective_route_bundle_ref(&self) -> Option<&str> {
+        self.payload.runtime_effective_route_bundle_ref.as_deref()
+    }
+
+    pub fn runtime_effective_route_bundle_sha256(&self) -> Option<&str> {
+        self.payload
+            .runtime_effective_route_bundle_sha256
+            .as_deref()
+    }
+
+    pub fn runtime_effective_route_generation_id(&self) -> Option<&str> {
+        self.payload
+            .runtime_effective_route_generation_id
+            .as_deref()
+    }
+
+    pub fn runtime_effective_freshness_mode(&self) -> Option<&str> {
+        self.payload.runtime_effective_freshness_mode.as_deref()
+    }
+
+    pub fn runtime_effective_publication_receipt_ref(&self) -> Option<&str> {
+        self.payload
+            .runtime_effective_publication_receipt_ref
+            .as_deref()
+    }
+
+    pub fn runtime_effective_non_authority_classification(&self) -> Option<&str> {
+        self.payload
+            .runtime_effective_non_authority_classification
+            .as_deref()
+    }
+
     pub fn support_target_tuple_ref(&self) -> Option<&str> {
         self.payload.support_target_tuple_ref.as_deref()
+    }
+
+    pub fn support_claim_effect(&self) -> Option<&str> {
+        self.payload.support_claim_effect.as_deref()
+    }
+
+    pub fn support_route(&self) -> Option<&str> {
+        self.payload.support_route.as_deref()
     }
 
     pub fn allowed_capability_packs(&self) -> &[String] {
@@ -133,8 +215,36 @@ impl<T: EffectKind> AuthorizedEffect<T> {
         self.payload.rollback_plan_ref.as_deref()
     }
 
+    pub fn rollback_posture_ref(&self) -> Option<&str> {
+        self.payload.rollback_posture_ref.as_deref()
+    }
+
     pub fn approval_request_ref(&self) -> Option<&str> {
         self.payload.approval_request_ref.as_deref()
+    }
+
+    pub fn approval_grant_refs(&self) -> &[String] {
+        &self.payload.approval_grant_refs
+    }
+
+    pub fn exception_lease_refs(&self) -> &[String] {
+        &self.payload.exception_lease_refs
+    }
+
+    pub fn budget_ref(&self) -> Option<&str> {
+        self.payload.budget_ref.as_deref()
+    }
+
+    pub fn budget_rule_id(&self) -> Option<&str> {
+        self.payload.budget_rule_id.as_deref()
+    }
+
+    pub fn egress_ref(&self) -> Option<&str> {
+        self.payload.egress_ref.as_deref()
+    }
+
+    pub fn egress_route(&self) -> Option<&str> {
+        self.payload.egress_route.as_deref()
     }
 
     pub fn issued_at(&self) -> &str {

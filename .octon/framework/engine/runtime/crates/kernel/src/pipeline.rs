@@ -2032,6 +2032,12 @@ mod tests {
         .expect("copy support target matrix");
         fs::copy(
             source_repo_root()
+                .join(".octon/generated/effective/governance/support-envelope-reconciliation.yml"),
+            octon_dir.join("generated/effective/governance/support-envelope-reconciliation.yml"),
+        )
+        .expect("copy support envelope reconciliation");
+        fs::copy(
+            source_repo_root()
                 .join(".octon/generated/effective/capabilities/pack-routes.effective.yml"),
             octon_dir.join("generated/effective/capabilities/pack-routes.effective.yml"),
         )

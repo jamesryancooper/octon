@@ -21,3 +21,6 @@ files:
   - id: support-card-ci-observe-read
     path: support-cards/ci-observe-read-en.yml
     summary: Derived support proof card for CI observe-and-read support.
+  - id: run-health-index
+    path: runs/index.yml
+    summary: Generated non-authoritative per-run health read-model index.

@@ -11,6 +11,9 @@ use octon_runtime_bus::{
     JournalActor, JournalClassification, JournalEffect, JournalGoverningRefs, JournalLifecycle,
     JournalPayload, JournalRedaction, RunJournalAppendRequest,
 };
+use octon_runtime_resolver::{
+    verify_runtime_route_bundle, verify_support_envelope_tuple, SupportEnvelopeTuplePosture,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::collections::BTreeSet;
@@ -26,6 +29,7 @@ const TOKEN_EVENT_PAYLOAD_SCHEMA_REF: &str =
     ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json";
 const TOKEN_VERIFICATION_BUNDLE_SCHEMA_VERSION: &str =
     "authorized-effect-token-verification-bundle-v1";
+const TOKEN_VERIFIER_VERSION: &str = "authorized-effect-verifier-v1";
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AuthorizedEffectVerificationBundle {
@@ -63,13 +67,20 @@ struct AuthorizedEffectConsumptionReceipt {
     schema_version: String,
     token_id: String,
     token_digest: String,
+    source_token_digest: String,
     token_type: String,
     effect_kind: String,
+    material_effect_class: String,
     consumer_api_ref: String,
     target_scope: String,
+    verifier_version: String,
     verification_result: String,
     #[serde(default)]
+    denial_reason: Option<String>,
+    #[serde(default)]
     rejection_reason_codes: Vec<String>,
+    #[serde(default)]
+    approval_trace_refs: Vec<String>,
     #[serde(default)]
     journal_event_refs: Vec<String>,
     #[serde(default)]
@@ -309,6 +320,54 @@ pub fn verify_authorized_effect<T: EffectKind>(
         );
     }
 
+    if !required_authority_refs_exist(&repo_root, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_AUTHORITY_REF_MISSING",
+            "authorized effect decision or grant reference is missing",
+            "effect-token-rejected",
+        );
+    }
+
+    if !run_roots_match(&repo_root, &bound, grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_RUN_ROOT_MISMATCH",
+            "authorized effect run roots do not match the active grant",
+            "effect-token-rejected",
+        );
+    }
+
+    if !route_binding_matches(grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_ROUTE_MISMATCH",
+            "authorized effect route id does not match the active grant",
+            "effect-token-rejected",
+        );
+    }
+
+    if runtime_freshness_denied(&repo_root, grant, effect.payload())? {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_FRESHNESS_STALE",
+            "authorized effect runtime-effective freshness proof is stale or mismatched",
+            "effect-token-rejected",
+        );
+    }
+
     if !grant.granted_effect_kinds.is_empty()
         && !grant
             .granted_effect_kinds
@@ -322,6 +381,18 @@ pub fn verify_authorized_effect<T: EffectKind>(
             &rejection_context,
             "EFFECT_TOKEN_NOT_GRANTED",
             "authorized effect kind is outside the active grant envelope",
+            "effect-token-rejected",
+        );
+    }
+
+    if support_route_denied(grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_SUPPORT_ROUTE_BLOCKED",
+            "authorized effect support route is not allow/admitted-live",
             "effect-token-rejected",
         );
     }
@@ -348,6 +419,17 @@ pub fn verify_authorized_effect<T: EffectKind>(
                 &rejection_context,
                 "EFFECT_TOKEN_SUPPORT_TUPLE_NOT_LIVE",
                 "authorized effect support tuple is not admitted live",
+                "effect-token-rejected",
+            );
+        }
+        if let Some(reason_code) = support_envelope_denial_code(&repo_root, effect.payload())? {
+            return reject_with_record(
+                effect,
+                &mut record,
+                &record_path,
+                &rejection_context,
+                reason_code,
+                "authorized effect support tuple is not live in the reconciled support envelope",
                 "effect-token-rejected",
             );
         }
@@ -413,6 +495,66 @@ pub fn verify_authorized_effect<T: EffectKind>(
             "EFFECT_TOKEN_REVOKED",
             "authorized effect token is revoked",
             "effect-token-revoked",
+        );
+    }
+
+    if approval_denied(&repo_root, grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_APPROVAL_MISSING",
+            "authorized effect approval binding is missing or inactive",
+            "effect-token-rejected",
+        );
+    }
+
+    if exception_denied(&repo_root, grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_EXCEPTION_MISSING",
+            "authorized effect exception lease binding is missing or inactive",
+            "effect-token-rejected",
+        );
+    }
+
+    if rollback_denied(&repo_root, grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_ROLLBACK_NOT_READY",
+            "authorized effect rollback posture is not ready",
+            "effect-token-rejected",
+        );
+    }
+
+    if budget_denied(&repo_root, grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_BUDGET_EXCEEDED",
+            "authorized effect budget binding is missing or exceeded",
+            "effect-token-rejected",
+        );
+    }
+
+    if egress_denied(&repo_root, grant, effect.payload()) {
+        return reject_with_record(
+            effect,
+            &mut record,
+            &record_path,
+            &rejection_context,
+            "EFFECT_TOKEN_EGRESS_DENIED",
+            "authorized effect egress binding is denied or missing",
+            "effect-token-rejected",
         );
     }
 
@@ -482,12 +624,17 @@ pub fn verify_authorized_effect<T: EffectKind>(
         schema_version: TOKEN_CONSUMPTION_SCHEMA_VERSION.to_string(),
         token_id: effect.token_id().to_string(),
         token_digest: effect.token_digest().to_string(),
+        source_token_digest: effect.token_digest().to_string(),
         token_type: effect.token_type().to_string(),
         effect_kind: effect.effect_kind().to_string(),
+        material_effect_class: effect.effect_kind().to_string(),
         consumer_api_ref: consumer_api_ref.to_string(),
         target_scope: target_scope.clone(),
+        verifier_version: TOKEN_VERIFIER_VERSION.to_string(),
         verification_result: "verified".to_string(),
+        denial_reason: None,
         rejection_reason_codes: Vec::new(),
+        approval_trace_refs: approval_trace_refs(effect.payload(), grant),
         journal_event_refs: vec![requested_event_ref.clone(), consumed_event_ref.clone()],
         evidence_refs: vec![effect.token_record_ref().to_string()],
         recorded_at: now.clone(),
@@ -722,17 +869,59 @@ fn issue_authorized_effect<T: EffectKind>(
         authority_grant_bundle_ref: grant.authority_grant_bundle_ref.clone(),
         run_control_root: bound.control_root_rel.clone(),
         run_evidence_root: bound.evidence_root_rel.clone(),
+        lifecycle_state_ref: path_tail(&repo_root, &bound.runtime_state_path),
+        route_id: grant.route_id.clone().or_else(|| route_id_for_grant(grant)),
+        runtime_effective_route_bundle_ref: grant.runtime_effective_route_bundle_ref.clone(),
+        runtime_effective_route_bundle_sha256: grant.runtime_effective_route_bundle_sha256.clone(),
+        runtime_effective_route_generation_id: grant.runtime_effective_route_generation_id.clone(),
+        runtime_effective_freshness_mode: grant.runtime_effective_freshness_mode.clone(),
+        runtime_effective_publication_receipt_ref: grant
+            .runtime_effective_publication_receipt_ref
+            .clone(),
+        runtime_effective_non_authority_classification: grant
+            .runtime_effective_non_authority_classification
+            .clone(),
         support_target_tuple_ref: grant.support_target_tuple_ref.clone().or_else(|| {
             grant
                 .support_posture
                 .as_ref()
                 .and_then(|posture| posture.declaration_ref.clone())
         }),
+        support_claim_effect: grant.runtime_effective_claim_effect.clone(),
+        support_route: grant
+            .support_posture
+            .as_ref()
+            .map(|posture| posture.route.clone()),
         allowed_capability_packs: granted_capability_packs(grant),
         scope_ref,
         scope_envelope: scope_envelope_from_grant(grant),
         rollback_plan_ref: grant.rollback_handle.clone(),
+        rollback_posture_ref: grant.rollback_posture_ref.clone().or_else(|| {
+            Some(format!(
+                ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+                grant.request_id
+            ))
+        }),
         approval_request_ref: grant.approval_request_ref.clone(),
+        approval_grant_refs: grant.approval_grant_refs.clone(),
+        exception_lease_refs: grant.exception_lease_refs.clone(),
+        budget_ref: grant
+            .budget
+            .as_ref()
+            .and_then(|budget| budget.evidence_path.clone()),
+        budget_rule_id: grant
+            .budget
+            .as_ref()
+            .map(|budget| budget.rule_id.clone())
+            .filter(|value| !value.trim().is_empty()),
+        egress_ref: grant
+            .network_egress_posture
+            .as_ref()
+            .and_then(|egress| egress.artifact_ref.clone()),
+        egress_route: grant
+            .network_egress_posture
+            .as_ref()
+            .map(|egress| egress.route.clone()),
         issued_at: now.clone(),
         expires_at: grant.expires_after.clone(),
         single_use,
@@ -785,12 +974,17 @@ fn issue_authorized_effect<T: EffectKind>(
         schema_version: TOKEN_CONSUMPTION_SCHEMA_VERSION.to_string(),
         token_id,
         token_digest: payload.token_digest.clone(),
+        source_token_digest: payload.token_digest.clone(),
         token_type: payload.token_type.clone(),
         effect_kind: payload.effect_kind.clone(),
+        material_effect_class: payload.effect_kind.clone(),
         consumer_api_ref: "authority-engine::mint".to_string(),
         target_scope: payload.scope_ref.clone(),
+        verifier_version: TOKEN_VERIFIER_VERSION.to_string(),
         verification_result: "minted".to_string(),
+        denial_reason: None,
         rejection_reason_codes: Vec::new(),
+        approval_trace_refs: approval_trace_refs(&payload, grant),
         journal_event_refs: vec![requested_event_ref, minted_event_ref],
         evidence_refs: vec![record_ref],
         recorded_at: now,
@@ -1101,6 +1295,41 @@ fn support_tuple_is_live(repo_root: &Path, tuple_ref: &str) -> CoreResult<bool> 
         }))
 }
 
+fn support_envelope_denial_code(
+    repo_root: &Path,
+    payload: &AuthorizedEffectPayload,
+) -> CoreResult<Option<&'static str>> {
+    if payload.runtime_effective_freshness_mode.as_deref() == Some("publication-bypass")
+        && payload.effect_kind == GeneratedEffectivePublication::KIND
+    {
+        return Ok(None);
+    }
+    let Some(tuple_ref) = payload
+        .support_target_tuple_ref
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())
+    else {
+        return Ok(Some("EFFECT_TOKEN_SUPPORT_ENVELOPE_BLOCKED"));
+    };
+    let octon_dir = repo_root.join(".octon");
+    let verified = match verify_support_envelope_tuple(&octon_dir, tuple_ref) {
+        Ok(verified) => verified,
+        Err(_) => return Ok(Some("EFFECT_TOKEN_SUPPORT_ENVELOPE_BLOCKED")),
+    };
+    let reason_code = match verified.posture {
+        SupportEnvelopeTuplePosture::Live => None,
+        SupportEnvelopeTuplePosture::Unsupported | SupportEnvelopeTuplePosture::StageOnly => {
+            Some("EFFECT_TOKEN_SUPPORT_TUPLE_UNSUPPORTED")
+        }
+        SupportEnvelopeTuplePosture::Excluded => Some("EFFECT_TOKEN_SUPPORT_TUPLE_EXCLUDED"),
+        SupportEnvelopeTuplePosture::Stale => Some("EFFECT_TOKEN_FRESHNESS_STALE"),
+        SupportEnvelopeTuplePosture::Missing | SupportEnvelopeTuplePosture::Blocked => {
+            Some("EFFECT_TOKEN_SUPPORT_ENVELOPE_BLOCKED")
+        }
+    };
+    Ok(reason_code)
+}
+
 fn capability_packs_allowed(grant: &GrantBundle, token_packs: &[String]) -> bool {
     let allowed = grant
         .support_posture
@@ -1118,6 +1347,372 @@ fn capability_packs_allowed(grant: &GrantBundle, token_packs: &[String]) -> bool
     }
     let allowed: BTreeSet<_> = allowed.into_iter().collect();
     token_packs.iter().all(|value| allowed.contains(value))
+}
+
+fn required_authority_refs_exist(repo_root: &Path, payload: &AuthorizedEffectPayload) -> bool {
+    payload
+        .decision_artifact_ref
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())
+        .map(|value| repo_ref_exists(repo_root, value))
+        .unwrap_or(false)
+        && payload
+            .authority_grant_bundle_ref
+            .as_deref()
+            .filter(|value| !value.trim().is_empty())
+            .map(|value| repo_ref_exists(repo_root, value))
+            .unwrap_or(false)
+}
+
+fn run_roots_match(
+    repo_root: &Path,
+    bound: &BoundRunLifecycle,
+    grant: &GrantBundle,
+    payload: &AuthorizedEffectPayload,
+) -> bool {
+    let lifecycle_state_ref = path_tail(repo_root, &bound.runtime_state_path);
+    payload.run_control_root == bound.control_root_rel
+        && payload.run_control_root == grant.run_control_root.clone().unwrap_or_default()
+        && payload.run_evidence_root == bound.evidence_root_rel
+        && payload.run_evidence_root == grant.run_root
+        && payload.lifecycle_state_ref == lifecycle_state_ref
+        && repo_ref_exists(repo_root, &payload.lifecycle_state_ref)
+}
+
+fn route_id_for_grant(grant: &GrantBundle) -> Option<String> {
+    let generation_id = grant
+        .runtime_effective_route_generation_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+    let tuple_ref = grant
+        .support_target_tuple_ref
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+    Some(format!("runtime-route:{generation_id}:{tuple_ref}"))
+}
+
+fn route_binding_matches(grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+    let expected_route = grant.route_id.clone().or_else(|| route_id_for_grant(grant));
+    expected_route.as_deref() == payload.route_id.as_deref()
+        && optional_string_matches(
+            grant.runtime_effective_route_bundle_ref.as_deref(),
+            payload.runtime_effective_route_bundle_ref.as_deref(),
+        )
+        && optional_string_matches(
+            grant.runtime_effective_route_bundle_sha256.as_deref(),
+            payload.runtime_effective_route_bundle_sha256.as_deref(),
+        )
+        && optional_string_matches(
+            grant.runtime_effective_route_generation_id.as_deref(),
+            payload.runtime_effective_route_generation_id.as_deref(),
+        )
+        && optional_string_matches(
+            grant.runtime_effective_freshness_mode.as_deref(),
+            payload.runtime_effective_freshness_mode.as_deref(),
+        )
+        && optional_string_matches(
+            grant.runtime_effective_publication_receipt_ref.as_deref(),
+            payload.runtime_effective_publication_receipt_ref.as_deref(),
+        )
+        && optional_string_matches(
+            grant
+                .runtime_effective_non_authority_classification
+                .as_deref(),
+            payload
+                .runtime_effective_non_authority_classification
+                .as_deref(),
+        )
+}
+
+fn runtime_freshness_denied(
+    repo_root: &Path,
+    grant: &GrantBundle,
+    payload: &AuthorizedEffectPayload,
+) -> CoreResult<bool> {
+    let freshness_mode = payload
+        .runtime_effective_freshness_mode
+        .as_deref()
+        .filter(|value| !value.trim().is_empty());
+    if freshness_mode == Some("publication-bypass") {
+        return Ok(false);
+    }
+    if freshness_mode.is_none() {
+        return Ok(true);
+    }
+    let octon_dir = repo_root.join(".octon");
+    let verified = match verify_runtime_route_bundle(&octon_dir) {
+        Ok(verified) => verified,
+        Err(_) => return Ok(true),
+    };
+    let bundle_ref = path_tail(repo_root, &verified.bundle_path);
+    let non_authority_mismatch = !verified.lock.non_authority_classification.trim().is_empty()
+        && payload
+            .runtime_effective_non_authority_classification
+            .as_deref()
+            != Some(verified.lock.non_authority_classification.as_str());
+
+    if payload.runtime_effective_route_bundle_ref.as_deref() != Some(bundle_ref.as_str())
+        || payload.runtime_effective_route_bundle_sha256.as_deref()
+            != Some(verified.bundle_sha256.as_str())
+        || payload.runtime_effective_route_generation_id.as_deref()
+            != Some(verified.generation_id())
+        || payload.runtime_effective_freshness_mode.as_deref() != Some(verified.freshness_mode())
+        || payload.runtime_effective_publication_receipt_ref.as_deref()
+            != Some(verified.lock.publication_receipt_path.as_str())
+        || non_authority_mismatch
+    {
+        return Ok(true);
+    }
+    if let Some(receipt_ref) = payload.runtime_effective_publication_receipt_ref.as_deref() {
+        if !repo_ref_exists(repo_root, receipt_ref) {
+            return Ok(true);
+        }
+    }
+    if !optional_string_matches(
+        grant.runtime_effective_route_generation_id.as_deref(),
+        payload.runtime_effective_route_generation_id.as_deref(),
+    ) {
+        return Ok(true);
+    }
+    Ok(false)
+}
+
+fn support_route_denied(grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+    if payload.support_claim_effect.as_deref() != grant.runtime_effective_claim_effect.as_deref() {
+        return true;
+    }
+    if let Some(claim_effect) = payload.support_claim_effect.as_deref() {
+        if claim_effect != "admitted-live-claim" && claim_effect != "publication-bypass" {
+            return true;
+        }
+    } else {
+        return true;
+    }
+    let grant_route = grant
+        .support_posture
+        .as_ref()
+        .map(|posture| posture.route.as_str());
+    !(payload.support_route.as_deref() == grant_route
+        && payload.support_route.as_deref() == Some("allow"))
+}
+
+fn approval_denied(
+    repo_root: &Path,
+    grant: &GrantBundle,
+    payload: &AuthorizedEffectPayload,
+) -> bool {
+    let approval_required = grant.approval_request_ref.is_some()
+        || payload.approval_request_ref.is_some()
+        || !grant.approval_grant_refs.is_empty()
+        || !payload.approval_grant_refs.is_empty();
+    if !approval_required {
+        return false;
+    }
+    if grant.approval_request_ref.as_deref() != payload.approval_request_ref.as_deref() {
+        return true;
+    }
+    if let Some(request_ref) = payload.approval_request_ref.as_deref() {
+        if !repo_ref_exists(repo_root, request_ref) {
+            return true;
+        }
+    }
+    if grant.approval_grant_refs.is_empty()
+        || payload.approval_grant_refs.is_empty()
+        || !same_string_set(&grant.approval_grant_refs, &payload.approval_grant_refs)
+    {
+        return true;
+    }
+    payload
+        .approval_grant_refs
+        .iter()
+        .any(|grant_ref| !active_yaml_ref(repo_root, grant_ref))
+}
+
+fn exception_denied(
+    repo_root: &Path,
+    grant: &GrantBundle,
+    payload: &AuthorizedEffectPayload,
+) -> bool {
+    let egress_uses_exception = grant
+        .network_egress_posture
+        .as_ref()
+        .and_then(|posture| posture.source_kind.as_deref())
+        == Some("exception-lease");
+    let exception_required = egress_uses_exception
+        || !grant.exception_lease_refs.is_empty()
+        || !payload.exception_lease_refs.is_empty();
+    if !exception_required {
+        return false;
+    }
+    if grant.exception_lease_refs.is_empty()
+        || payload.exception_lease_refs.is_empty()
+        || !same_string_set(&grant.exception_lease_refs, &payload.exception_lease_refs)
+    {
+        return true;
+    }
+    payload
+        .exception_lease_refs
+        .iter()
+        .any(|lease_ref| !active_yaml_ref(repo_root, lease_ref))
+}
+
+fn rollback_denied(
+    repo_root: &Path,
+    grant: &GrantBundle,
+    payload: &AuthorizedEffectPayload,
+) -> bool {
+    let expected_posture_ref = grant.rollback_posture_ref.clone().unwrap_or_else(|| {
+        format!(
+            ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+            grant.request_id
+        )
+    });
+    if payload.rollback_posture_ref.as_deref() != Some(expected_posture_ref.as_str())
+        || !repo_ref_exists(repo_root, &expected_posture_ref)
+    {
+        return true;
+    }
+    if let Some(rollback_handle) = grant.rollback_handle.as_deref() {
+        payload.rollback_plan_ref.as_deref() != Some(rollback_handle)
+    } else {
+        false
+    }
+}
+
+fn budget_denied(repo_root: &Path, grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+    let Some(budget) = grant.budget.as_ref() else {
+        return payload.budget_ref.is_some() || payload.budget_rule_id.is_some();
+    };
+    if budget
+        .reason_codes
+        .iter()
+        .any(|reason| reason.contains("BUDGET_DENY") || reason.contains("BUDGET_EXCEEDED"))
+    {
+        return true;
+    }
+    if payload.budget_rule_id.as_deref() != Some(budget.rule_id.as_str()) {
+        return true;
+    }
+    match budget.evidence_path.as_deref() {
+        Some(evidence_path) => {
+            payload.budget_ref.as_deref() != Some(evidence_path)
+                || !repo_ref_exists(repo_root, evidence_path)
+        }
+        None => payload.budget_ref.is_some(),
+    }
+}
+
+fn egress_denied(repo_root: &Path, grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+    let Some(egress) = grant.network_egress_posture.as_ref() else {
+        return payload.egress_ref.is_some() || payload.egress_route.is_some();
+    };
+    if egress.route != "allow" || payload.egress_route.as_deref() != Some(egress.route.as_str()) {
+        return true;
+    }
+    match egress.artifact_ref.as_deref() {
+        Some(artifact_ref) => {
+            payload.egress_ref.as_deref() != Some(artifact_ref)
+                || !repo_ref_exists(repo_root, artifact_ref)
+        }
+        None => payload.egress_ref.is_some(),
+    }
+}
+
+fn same_string_set(left: &[String], right: &[String]) -> bool {
+    let left: BTreeSet<&str> = left.iter().map(String::as_str).collect();
+    let right: BTreeSet<&str> = right.iter().map(String::as_str).collect();
+    left == right
+}
+
+fn optional_string_matches(expected: Option<&str>, actual: Option<&str>) -> bool {
+    match expected {
+        Some(expected) if !expected.trim().is_empty() => actual == Some(expected),
+        _ => actual.map(|value| value.trim().is_empty()).unwrap_or(true),
+    }
+}
+
+fn repo_ref_exists(repo_root: &Path, reference: &str) -> bool {
+    let trimmed = reference.trim();
+    if trimmed.is_empty() || trimmed.contains("<pending>") {
+        return false;
+    }
+    let path_ref = trimmed.split('#').next().unwrap_or(trimmed);
+    let path = if path_ref.starts_with('/') {
+        PathBuf::from(path_ref)
+    } else {
+        repo_root.join(path_ref)
+    };
+    path.exists()
+}
+
+fn active_yaml_ref(repo_root: &Path, reference: &str) -> bool {
+    let trimmed = reference.trim();
+    if !repo_ref_exists(repo_root, trimmed) {
+        return false;
+    }
+    let path_ref = trimmed.split('#').next().unwrap_or(trimmed);
+    let path = if path_ref.starts_with('/') {
+        PathBuf::from(path_ref)
+    } else {
+        repo_root.join(path_ref)
+    };
+    let raw = match fs::read_to_string(path) {
+        Ok(raw) => raw,
+        Err(_) => return false,
+    };
+    let value: serde_yaml::Value = match serde_yaml::from_str(&raw) {
+        Ok(value) => value,
+        Err(_) => return false,
+    };
+    match value.get("state").and_then(|state| state.as_str()) {
+        Some("active") => true,
+        Some(_) => false,
+        None => true,
+    }
+}
+
+fn approval_trace_refs(payload: &AuthorizedEffectPayload, grant: &GrantBundle) -> Vec<String> {
+    let mut refs = Vec::new();
+    if let Some(value) = payload.approval_request_ref.clone() {
+        refs.push(value);
+    }
+    refs.extend(payload.approval_grant_refs.clone());
+    refs.extend(grant.exception_lease_refs.clone());
+    refs.extend(grant.revocation_refs.clone());
+    dedupe_strings(&refs)
+}
+
+fn denial_reason_for_code(reason_code: &str) -> &'static str {
+    match reason_code {
+        "EFFECT_TOKEN_RECORD_MISSING" => "missing_token",
+        "EFFECT_TOKEN_DIGEST_MISMATCH" | "EFFECT_TOKEN_CANONICAL_MISMATCH" => "forged_token",
+        "EFFECT_TOKEN_KIND_MISMATCH" => "wrong_effect_class",
+        "EFFECT_TOKEN_RUN_MISMATCH"
+        | "EFFECT_TOKEN_REQUEST_MISMATCH"
+        | "EFFECT_TOKEN_RUN_ROOT_MISMATCH" => "wrong_run",
+        "EFFECT_TOKEN_GRANT_MISMATCH" | "EFFECT_TOKEN_AUTHORITY_REF_MISSING" => "forged_token",
+        "EFFECT_TOKEN_ROUTE_MISMATCH" | "EFFECT_TOKEN_SUPPORT_ROUTE_BLOCKED" => "wrong_route",
+        "EFFECT_TOKEN_SUPPORT_TUPLE_MISMATCH"
+        | "EFFECT_TOKEN_SUPPORT_TUPLE_NOT_LIVE"
+        | "EFFECT_TOKEN_SUPPORT_ENVELOPE_BLOCKED" => "wrong_support_tuple",
+        "EFFECT_TOKEN_SUPPORT_TUPLE_UNSUPPORTED" => "unsupported_tuple",
+        "EFFECT_TOKEN_SUPPORT_TUPLE_EXCLUDED" => "excluded_tuple",
+        "EFFECT_TOKEN_CAPABILITY_PACK_MISMATCH" | "EFFECT_TOKEN_NOT_GRANTED" => {
+            "wrong_capability_pack"
+        }
+        "EFFECT_TOKEN_SCOPE_MISMATCH" => "wrong_scope",
+        "EFFECT_TOKEN_FRESHNESS_STALE" => "stale_token",
+        "EFFECT_TOKEN_EXPIRED" => "expired_token",
+        "EFFECT_TOKEN_REVOKED" => "revoked_token",
+        "EFFECT_TOKEN_APPROVAL_MISSING" => "missing_approval",
+        "EFFECT_TOKEN_EXCEPTION_MISSING" => "missing_exception",
+        "EFFECT_TOKEN_ROLLBACK_NOT_READY" => "rollback_not_ready",
+        "EFFECT_TOKEN_BUDGET_EXCEEDED" => "budget_exceeded",
+        "EFFECT_TOKEN_EGRESS_DENIED" => "egress_denied",
+        "EFFECT_TOKEN_ALREADY_CONSUMED" => "already_consumed",
+        "EFFECT_TOKEN_DECISION_NOT_ALLOW" => "decision_not_allow",
+        _ => "token_denied",
+    }
 }
 
 fn scope_matches(
@@ -1261,12 +1856,17 @@ fn reject_without_record<T: EffectKind>(
         schema_version: TOKEN_CONSUMPTION_SCHEMA_VERSION.to_string(),
         token_id: effect.token_id().to_string(),
         token_digest: effect.token_digest().to_string(),
+        source_token_digest: effect.token_digest().to_string(),
         token_type: effect.token_type().to_string(),
         effect_kind: effect.effect_kind().to_string(),
+        material_effect_class: effect.effect_kind().to_string(),
         consumer_api_ref: context.consumer_api_ref.to_string(),
         target_scope: context.target_scope.to_string(),
+        verifier_version: TOKEN_VERIFIER_VERSION.to_string(),
         verification_result: "rejected".to_string(),
+        denial_reason: Some(denial_reason_for_code(reason_code).to_string()),
         rejection_reason_codes: vec![reason_code.to_string()],
+        approval_trace_refs: approval_trace_refs(effect.payload(), context.grant),
         journal_event_refs: vec![requested_event_ref],
         evidence_refs: vec![effect.token_record_ref().to_string()],
         recorded_at: context.recorded_at.to_string(),
@@ -1276,9 +1876,10 @@ fn reject_without_record<T: EffectKind>(
         token_record_ref: effect.token_record_ref().to_string(),
     };
     write_json(&receipt_path, &receipt).map_err(token_write_error)?;
+    let denial_reason = denial_reason_for_code(reason_code);
     Err(KernelError::new(
         ErrorCode::CapabilityDenied,
-        format!("{message} ({reason_code}); receipt={receipt_ref}"),
+        format!("{message} ({reason_code}/{denial_reason}); receipt={receipt_ref}"),
     ))
 }
 
@@ -1321,12 +1922,17 @@ fn reject_with_record<T: EffectKind>(
         schema_version: TOKEN_CONSUMPTION_SCHEMA_VERSION.to_string(),
         token_id: effect.token_id().to_string(),
         token_digest: effect.token_digest().to_string(),
+        source_token_digest: effect.token_digest().to_string(),
         token_type: effect.token_type().to_string(),
         effect_kind: effect.effect_kind().to_string(),
+        material_effect_class: effect.effect_kind().to_string(),
         consumer_api_ref: context.consumer_api_ref.to_string(),
         target_scope: context.target_scope.to_string(),
+        verifier_version: TOKEN_VERIFIER_VERSION.to_string(),
         verification_result: "rejected".to_string(),
+        denial_reason: Some(denial_reason_for_code(reason_code).to_string()),
         rejection_reason_codes: vec![reason_code.to_string()],
+        approval_trace_refs: approval_trace_refs(effect.payload(), context.grant),
         journal_event_refs: vec![event_ref.clone()],
         evidence_refs: vec![effect.token_record_ref().to_string()],
         recorded_at: context.recorded_at.to_string(),
@@ -1348,8 +1954,9 @@ fn reject_with_record<T: EffectKind>(
     record.last_target_scope = Some(context.target_scope.to_string());
     record.rejection_reason_codes = vec![reason_code.to_string()];
     persist_token_record(record_path, record)?;
+    let denial_reason = denial_reason_for_code(reason_code);
     Err(KernelError::new(
         ErrorCode::CapabilityDenied,
-        format!("{message} ({reason_code}); receipt={receipt_ref}"),
+        format!("{message} ({reason_code}/{denial_reason}); receipt={receipt_ref}"),
     ))
 }

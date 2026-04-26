@@ -1,0 +1,47 @@
+schema_version: architecture-proposal-v1
+proposal_id: octon-governed-runtime-materialization-v1
+architecture_scope: repo-architecture
+decision_type: boundary-change
+title: Governed Runtime Materialization v1
+summary: >-
+  Materialize three mutually reinforcing runtime-governance controls:
+  a support-envelope reconciliation gate, end-to-end typed effect-token
+  enforcement, and a generated per-run health read model.
+change_class:
+  - runtime-governance
+  - authorization-boundary
+  - support-claim-integrity
+  - operator-read-model
+  - evidence-closure
+primary_capabilities:
+  - support-envelope-reconciliation
+  - typed-effect-token-enforcement
+  - operator-facing-run-health
+canonical_authority_inputs:
+  - .octon/framework/constitution/CHARTER.md
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - .octon/instance/governance/support-targets.yml
+  - .octon/framework/engine/runtime/spec/execution-authorization-v1.md
+  - .octon/framework/engine/runtime/spec/authorized-effect-token-v1.md
+  - .octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md
+  - .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md
+  - .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+generated_inputs_consulted:
+  - .octon/generated/effective/runtime/route-bundle.yml
+  - .octon/generated/effective/capabilities/pack-routes.effective.yml
+  - .octon/generated/effective/governance/support-target-matrix.yml
+non_goals:
+  - model-adapter expansion
+  - browser or external API autonomy
+  - product UI redesign
+  - broad memory architecture
+  - multi-agent orchestration redesign
+  - making proposal, input, generated, or archived artifacts authoritative
+success_statement: >-
+  Octon can only present live support when support claims reconcile across
+  declared, admitted, proof-backed, route-resolved, capability-routed,
+  generated, support-card, and disclosure surfaces; every material side effect
+  consumes a verified typed effect; and each consequential run has a generated
+  non-authoritative health view grounded in canonical state/control/evidence.

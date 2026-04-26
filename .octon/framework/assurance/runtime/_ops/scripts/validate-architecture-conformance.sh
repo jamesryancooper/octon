@@ -337,6 +337,43 @@ main() {
     fail "support-target admission validation failed"
   fi
 
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-runtime-effective-artifact-handles.sh" >/dev/null; then
+    pass "runtime-effective artifact handle validation passed"
+  else
+    fail "runtime-effective artifact handle validation failed"
+  fi
+
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-no-raw-generated-effective-runtime-reads.sh" >/dev/null; then
+    pass "raw generated/effective runtime read validation passed"
+  else
+    fail "raw generated/effective runtime read validation failed"
+  fi
+
+  require_file "$OCTON_DIR/framework/engine/runtime/spec/support-envelope-reconciliation-v1.md"
+  require_file "$OCTON_DIR/framework/engine/runtime/spec/support-envelope-reconciliation-result-v1.schema.json"
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-support-envelope-reconciliation.sh" >/dev/null; then
+    pass "support-envelope reconciliation validation passed"
+  else
+    fail "support-envelope reconciliation validation failed"
+  fi
+
+  require_file "$OCTON_DIR/framework/engine/runtime/spec/authorized-effect-token-v2.schema.json"
+  require_file "$OCTON_DIR/framework/engine/runtime/spec/authorized-effect-token-consumption-v1.schema.json"
+  if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-authorized-effect-token-enforcement.sh" >/dev/null; then
+    pass "authorized effect-token enforcement validation passed"
+  else
+    fail "authorized effect-token enforcement validation failed"
+  fi
+
+  require_file "$OCTON_DIR/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+  local run_health_output
+  if run_health_output="$(OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" bash "$SCRIPT_DIR/validate-run-health-read-model.sh" 2>&1)"; then
+    pass "run-health read-model validation passed"
+  else
+    printf '%s\n' "$run_health_output"
+    fail "run-health read-model validation failed"
+  fi
+
   if OCTON_DIR_OVERRIDE="$OCTON_DIR" OCTON_ROOT_DIR="$ROOT_DIR" OCTON_CONTRACT_ROOT="$ROOT_DIR" bash "$SCRIPT_DIR/../tests/test-context-pack-builder.sh" >/dev/null; then
     pass "Context Pack Builder validation passed"
   else

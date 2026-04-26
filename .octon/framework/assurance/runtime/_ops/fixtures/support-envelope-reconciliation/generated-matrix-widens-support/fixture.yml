@@ -1,0 +1,7 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: generated-matrix-widens-support
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - generated_matrix_widens_authority
+description: The generated support matrix presents a stage-only tuple as supported live.

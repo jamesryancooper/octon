@@ -346,6 +346,18 @@ pub(crate) fn write_authority_grant_bundle(
             "exception_refs": grant.exception_lease_refs,
             "revocation_refs": grant.revocation_refs,
             "decision_artifact_ref": grant.decision_artifact_ref,
+            "route_id": grant.route_id,
+            "runtime_effective_route_bundle_ref": grant.runtime_effective_route_bundle_ref,
+            "runtime_effective_route_bundle_sha256": grant.runtime_effective_route_bundle_sha256,
+            "runtime_effective_route_generation_id": grant.runtime_effective_route_generation_id,
+            "runtime_effective_freshness_mode": grant.runtime_effective_freshness_mode,
+            "runtime_effective_publication_receipt_ref": grant.runtime_effective_publication_receipt_ref,
+            "runtime_effective_non_authority_classification": grant.runtime_effective_non_authority_classification,
+            "runtime_effective_claim_effect": grant.runtime_effective_claim_effect,
+            "runtime_effective_extensions_status": grant.runtime_effective_extensions_status,
+            "runtime_effective_extensions_generation_id": grant.runtime_effective_extensions_generation_id,
+            "rollback_posture_ref": grant.rollback_posture_ref,
+            "network_egress_posture": grant.network_egress_posture,
             "generated_at": time::OffsetDateTime::now_utc()
                 .format(&time::format_description::well_known::Rfc3339)
                 .unwrap_or_else(|_| "1970-01-01T00:00:00Z".to_string()),

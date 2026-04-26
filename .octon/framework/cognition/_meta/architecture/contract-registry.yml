@@ -305,8 +305,11 @@ path_families:
       - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.schema.json"
       - ".octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml"
       - ".octon/framework/engine/runtime/spec/authorization-phase-result-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/authorized-effect-token-v1.md"
+      - ".octon/framework/engine/runtime/spec/authorized-effect-token-v2.schema.json"
+      - ".octon/framework/engine/runtime/spec/authorized-effect-token-consumption-v1.schema.json"
     authority_class: "runtime-boundary-coverage-contract"
-    role: "Runtime-owned boundary, inventory, coverage, and phase-result contract surfaces."
+    role: "Runtime-owned boundary, inventory, typed effect-token, coverage, and phase-result contract surfaces."
     allowed_consumers:
       - "runtime"
       - "validators"
@@ -316,6 +319,7 @@ path_families:
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
     doc_target_refs:
       - "architecture_specification"
@@ -807,6 +811,26 @@ path_families:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"
     doc_target_refs:
       - "architecture_specification"
+  runtime_support_envelope_reconciliation:
+    class_root: "generated"
+    canonical_paths:
+      - ".octon/generated/effective/governance/support-envelope-reconciliation.yml"
+    authority_class: "generated-runtime-effective-handle"
+    role: "Derived support-envelope gate result reconciling support declarations, proof, routes, pack routes, generated matrices, cards, and active disclosure without widening live claims."
+    allowed_consumers:
+      - "publication-workflows"
+      - "validators"
+      - "operators"
+    forbidden_consumers:
+      - "standalone support authority"
+      - "support widening beyond canonical declarations, admissions, proof bundles, routes, and disclosures"
+      - "direct runtime raw-path reads"
+    publication_ref: "runtime_effective"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-support-envelope-reconciliation.sh"
+    doc_target_refs:
+      - "architecture_specification"
   extension_active_state_compactness:
     class_root: "state"
     canonical_paths:
@@ -831,8 +855,10 @@ path_families:
     class_root: "generated"
     canonical_paths:
       - ".octon/generated/cognition/**"
+      - ".octon/generated/cognition/projections/definitions/run-health.yml"
+      - ".octon/generated/cognition/projections/materialized/runs/**"
     authority_class: "generated-operator-read-model"
-    role: "Generated mission, operator, and decision read models with traceability and explicit non-authority posture."
+    role: "Generated mission, operator, decision, and run-health read models with traceability and explicit non-authority posture."
     allowed_consumers:
       - "operators"
       - "validators"
@@ -845,6 +871,7 @@ path_families:
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-view-generation.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
     doc_target_refs:
       - "super_root_readme"
       - "architecture_specification"
@@ -1344,6 +1371,9 @@ execution:
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-active-doc-hygiene.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement.sh"
     - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-retirement-cutover.sh"

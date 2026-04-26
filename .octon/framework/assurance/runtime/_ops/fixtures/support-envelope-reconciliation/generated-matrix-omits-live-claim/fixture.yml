@@ -1,0 +1,7 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: generated-matrix-omits-live-claim
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - generated_matrix_omits_declared_live_claim
+description: The generated support matrix omits a declared, admitted, proof-fresh live tuple.

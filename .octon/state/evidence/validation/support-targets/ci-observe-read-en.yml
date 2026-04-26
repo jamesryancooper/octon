@@ -20,7 +20,7 @@ freshness:
 command_or_evaluator: validator://validate-proof-bundle-executability
 evaluator_version: executable-proof-bundle-v1
 input_digests:
-  support_targets_sha256: 8af1c10639060a579b289b32887382abd8b5706a7e92730fb47b631b6e683305
+  support_targets_sha256: 4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
   support_dossier_sha256: cca69d1b09aedefa76b46ffa0f99532dd8992619fb5dccb51e603639fd3124ae
 output_digests:
   primary_run_card_sha256: 81abbfef4c02784c71f289fc85d0a7f470a38f6746cdc66eaac1ab0eb9f84c3e

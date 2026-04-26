@@ -458,6 +458,28 @@ pub struct GrantBundle {
     #[serde(default)]
     pub support_posture: Option<SupportTierPosture>,
     #[serde(default)]
+    pub route_id: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_route_bundle_ref: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_route_bundle_sha256: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_route_generation_id: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_freshness_mode: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_publication_receipt_ref: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_non_authority_classification: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_claim_effect: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_extensions_status: Option<String>,
+    #[serde(default)]
+    pub runtime_effective_extensions_generation_id: Option<String>,
+    #[serde(default)]
+    pub rollback_posture_ref: Option<String>,
+    #[serde(default)]
     pub quorum_policy_ref: Option<String>,
     #[serde(default)]
     pub ownership_refs: Vec<String>,

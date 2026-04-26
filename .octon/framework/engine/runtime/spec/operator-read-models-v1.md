@@ -14,6 +14,8 @@ The live repository already publishes these generated read-model families:
   `/.octon/generated/cognition/summaries/operators/**`
 - mission views:
   `/.octon/generated/cognition/projections/materialized/missions/**`
+- run health views:
+  `/.octon/generated/cognition/projections/materialized/runs/<run-id>/health.yml`
 
 Additional run, grant, support, evidence, or closeout views may be added, but
 they must follow this contract.
@@ -46,6 +48,33 @@ If reconstruction reports drift, missing side artifacts, or journal/runtime
 state mismatch, generated lifecycle summaries must be marked stale or withheld
 until the control journal is repaired or an explicit recovery posture closes
 the mismatch.
+
+## Run Health Views
+
+Run health views are generated-only per-run operator read models governed by
+`/.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json`.
+They summarize lifecycle, support, authorization, evidence, rollback,
+intervention, disclosure, and closure posture for one run without authorizing
+continuation or widening support.
+
+Run health statuses are:
+
+- `healthy`
+- `blocked`
+- `stale`
+- `unsupported`
+- `revoked`
+- `approval-required`
+- `review-required`
+- `evidence-incomplete`
+- `rollback-required`
+- `intervention-required`
+- `disclosure-incomplete`
+- `closure-ready`
+
+Every run health view must include canonical refs, source digests, freshness
+metadata, explicit non-authority classification, forbidden consumer
+classification, and diagnostics for uncertainty or input disagreement.
 
 ## Non-Authority Rules
 

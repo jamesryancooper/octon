@@ -1,0 +1,8 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: missing-proof-bundle
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - missing_proof_bundle
+  - declared_live_without_fresh_proof
+description: A declared live tuple points at a missing proof bundle.

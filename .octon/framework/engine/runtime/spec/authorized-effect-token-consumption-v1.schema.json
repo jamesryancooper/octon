@@ -8,10 +8,13 @@
     "schema_version",
     "token_id",
     "token_digest",
+    "source_token_digest",
     "token_type",
     "effect_kind",
+    "material_effect_class",
     "consumer_api_ref",
     "target_scope",
+    "verifier_version",
     "verification_result",
     "journal_event_refs",
     "evidence_refs",
@@ -30,15 +33,52 @@
       "type": "string",
       "pattern": "^sha256:[A-Fa-f0-9]{64}$"
     },
+    "source_token_digest": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
     "token_type": { "type": "string", "minLength": 1 },
     "effect_kind": { "type": "string", "minLength": 1 },
+    "material_effect_class": { "type": "string", "minLength": 1 },
     "consumer_api_ref": { "type": "string", "minLength": 1 },
     "target_scope": { "type": "string", "minLength": 1 },
+    "verifier_version": { "type": "string", "minLength": 1 },
     "verification_result": {
       "type": "string",
       "enum": ["minted", "verified", "rejected"]
     },
+    "denial_reason": {
+      "type": ["string", "null"],
+      "enum": [
+        "missing_token",
+        "forged_token",
+        "wrong_effect_class",
+        "wrong_run",
+        "wrong_route",
+        "wrong_support_tuple",
+        "unsupported_tuple",
+        "excluded_tuple",
+        "wrong_capability_pack",
+        "wrong_scope",
+        "stale_token",
+        "expired_token",
+        "revoked_token",
+        "missing_approval",
+        "missing_exception",
+        "rollback_not_ready",
+        "budget_exceeded",
+        "egress_denied",
+        "already_consumed",
+        "decision_not_allow",
+        "token_denied",
+        null
+      ]
+    },
     "rejection_reason_codes": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "approval_trace_refs": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
     },

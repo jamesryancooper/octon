@@ -39,6 +39,17 @@
     "risk_materiality_ref": { "type": ["string", "null"] },
     "rollback_plan_ref": { "type": ["string", "null"] },
     "support_target_tuple_ref": { "type": ["string", "null"] },
+    "route_id": { "type": ["string", "null"] },
+    "runtime_effective_route_bundle_ref": { "type": ["string", "null"] },
+    "runtime_effective_route_bundle_sha256": { "type": ["string", "null"] },
+    "runtime_effective_route_generation_id": { "type": ["string", "null"] },
+    "runtime_effective_freshness_mode": { "type": ["string", "null"] },
+    "runtime_effective_publication_receipt_ref": { "type": ["string", "null"] },
+    "runtime_effective_non_authority_classification": { "type": ["string", "null"] },
+    "runtime_effective_claim_effect": { "type": ["string", "null"] },
+    "runtime_effective_extensions_status": { "type": ["string", "null"] },
+    "runtime_effective_extensions_generation_id": { "type": ["string", "null"] },
+    "rollback_posture_ref": { "type": ["string", "null"] },
     "reason_codes": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }

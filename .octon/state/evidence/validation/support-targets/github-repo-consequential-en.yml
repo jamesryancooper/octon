@@ -23,8 +23,8 @@ execution:
   mode: replay
   replay_ref: .octon/state/evidence/runs/protected-ci-1776956405637-68212/replay/manifest.yml
 input_digests:
-  support_targets_sha256: 5b35e51a5f7d62ee71113ce06ea482633596f79723f3f245633831a41fb4dae8
-  support_dossier_sha256: 3272b1398afe0ec91a61507b1a4a3af841d60880723b7ecb49e248b3c7c21d05
+  support_targets_sha256: 4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+  support_dossier_sha256: e1d281ba840120f87f32e2562bc6a0e86222dbb3538e9b47643d9aa495d923e2
 output_digests:
   primary_run_card_sha256: b09e61ff6eab15ac4132a8e13f1afd83545f446acd04fc3769260810026d53a5
 pass_fail_criteria:

@@ -57,10 +57,17 @@ Every token must carry at minimum:
 - `grant_id`
 - decision and grant artifact refs
 - canonical run control and evidence roots
+- lifecycle state ref
+- route id plus runtime-effective route-bundle ref, generation id, digest,
+  freshness mode, publication receipt ref, and non-authority classification
 - support-target tuple ref when applicable
+- support claim effect and support route
 - allowed capability packs
 - scope ref plus scope envelope
-- rollback or approval refs when the effect depends on them
+- rollback plan and rollback posture refs
+- approval request and approval grant refs when required
+- exception lease refs when required
+- budget and egress refs when applicable
 - issued timestamp
 - expiry timestamp when bounded by time
 - single-use or scope-bounded validity semantics
@@ -87,11 +94,26 @@ Every token must carry at minimum:
   before mutation.
 - Verification must fail closed when the canonical token record is missing,
   mismatched, expired, revoked, already consumed, outside scope, outside the
-  active support/capability envelope, or when receipt/journal persistence
-  cannot be completed before or at effect attempt.
+  active support/capability envelope, stale relative to runtime-effective
+  freshness, bound to the wrong route/run/support tuple, missing approval or
+  exception evidence, missing rollback posture, over budget, egress denied, or
+  when receipt/journal persistence cannot be completed before or at effect
+  attempt.
+- A support-bound token must also match the generated support-envelope
+  reconciliation result. The verifier must treat that result as a
+  non-authoritative gate handle: it can block live support when canonical
+  declarations, admissions, proof, routes, pack routes, generated matrices, or
+  disclosures disagree, but it cannot widen support.
 - Verification must retain an
   `authorized-effect-token-consumption-v1` receipt for both successful
   verification and rejection.
+- Rejection receipts must include one deterministic denial reason from the
+  closure-grade set: `missing_token`, `forged_token`, `wrong_effect_class`,
+  `wrong_run`, `wrong_route`, `wrong_support_tuple`, `unsupported_tuple`,
+  `excluded_tuple`, `wrong_capability_pack`, `wrong_scope`, `stale_token`,
+  `expired_token`, `revoked_token`, `missing_approval`, `missing_exception`,
+  `rollback_not_ready`, `budget_exceeded`, `egress_denied`,
+  `already_consumed`, or `decision_not_allow`.
 
 ## Acceptance rule
 

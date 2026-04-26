@@ -147,6 +147,7 @@ fn temp_runtime_config() -> RuntimeConfig {
     copy_rel(".octon/generated/effective/runtime/route-bundle.yml");
     copy_rel(".octon/generated/effective/runtime/route-bundle.lock.yml");
     copy_rel(".octon/generated/effective/governance/support-target-matrix.yml");
+    copy_rel(".octon/generated/effective/governance/support-envelope-reconciliation.yml");
     copy_rel(".octon/generated/effective/capabilities/pack-routes.effective.yml");
     copy_rel(".octon/generated/effective/capabilities/pack-routes.lock.yml");
     copy_rel(".octon/generated/effective/extensions/catalog.effective.yml");
@@ -974,6 +975,42 @@ fn recompute_effect_token_digest(payload: &AuthorizedEffectPayload) -> String {
     )
 }
 
+fn rewrite_effect_payload<T: EffectKind>(
+    runtime_path: &Path,
+    effect: &AuthorizedEffect<T>,
+    mutate: impl FnOnce(&mut AuthorizedEffectPayload),
+) -> AuthorizedEffect<T> {
+    let record_path = effect_token_record_path(runtime_path, effect.token_record_ref());
+    let mut record: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(&record_path).expect("read token record"),
+    )
+    .expect("parse token record");
+    let mut payload: AuthorizedEffectPayload =
+        serde_json::from_value(record["payload"].clone()).expect("parse token payload");
+    mutate(&mut payload);
+    payload.token_digest = recompute_effect_token_digest(&payload);
+    record["payload"] = serde_json::to_value(&payload).expect("serialize token payload");
+    fs::write(
+        &record_path,
+        serde_json::to_vec_pretty(&record).expect("serialize updated token record"),
+    )
+    .expect("write updated token record");
+    octon_authorized_effects::authority_mint::mint_authorized_effect::<T>(payload)
+}
+
+fn assert_effect_denial(err: KernelError, code: &str, reason: &str) {
+    assert_eq!(err.code, ErrorCode::CapabilityDenied);
+    let message = err.to_string();
+    assert!(
+        message.contains(code),
+        "expected error code {code}, got {message}"
+    );
+    assert!(
+        message.contains(reason),
+        "expected denial reason {reason}, got {message}"
+    );
+}
+
 #[test]
 fn development_mode_allows_soft_enforce() {
     let cfg = temp_runtime_config();
@@ -1025,6 +1062,15 @@ fn issued_effect_verifies_and_records_consumption_receipt() {
         .repo_root
         .join(verified.consumption_receipt_ref());
     assert!(receipt_path.is_file(), "consumption receipt must exist");
+    let receipt = read_json_value(&receipt_path);
+    assert_eq!(
+        receipt["verifier_version"].as_str(),
+        Some("authorized-effect-verifier-v1")
+    );
+    assert_eq!(
+        receipt["source_token_digest"].as_str(),
+        Some(effect.token_digest())
+    );
 }
 
 #[test]
@@ -1082,7 +1128,33 @@ fn missing_token_record_fails_closed() {
         "service::invoke",
     )
     .expect_err("missing token record must fail closed");
-    assert!(err.to_string().contains("EFFECT_TOKEN_RECORD_MISSING"));
+    assert_effect_denial(err, "EFFECT_TOKEN_RECORD_MISSING", "missing_token");
+}
+
+#[test]
+fn denied_grant_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let mut denied_grant = grant.clone();
+    denied_grant.decision = ExecutionDecision::Deny;
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &denied_grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("denied grant must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_DECISION_NOT_ALLOW",
+        "decision_not_allow",
+    );
 }
 
 #[test]
@@ -1113,7 +1185,11 @@ fn single_use_effect_cannot_be_consumed_twice() {
         "repo-scope",
     )
     .expect_err("second single-use consumption must fail");
-    assert!(err.to_string().contains("EFFECT_TOKEN_ALREADY_CONSUMED"));
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_ALREADY_CONSUMED",
+        "already_consumed",
+    );
 }
 
 #[test]
@@ -1136,7 +1212,7 @@ fn wrong_scope_effect_fails_closed() {
         "other-scope",
     )
     .expect_err("scope mismatch must fail");
-    assert!(err.to_string().contains("EFFECT_TOKEN_SCOPE_MISMATCH"));
+    assert_effect_denial(err, "EFFECT_TOKEN_SCOPE_MISMATCH", "wrong_scope");
 }
 
 #[test]
@@ -1176,7 +1252,504 @@ fn expired_effect_is_rejected() {
         "service::invoke",
     )
     .expect_err("expired token must fail");
-    assert!(err.to_string().contains("EFFECT_TOKEN_EXPIRED"));
+    assert_effect_denial(err, "EFFECT_TOKEN_EXPIRED", "expired_token");
+}
+
+#[test]
+fn forged_effect_digest_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let record_path = effect_token_record_path(&runtime_path, effect.token_record_ref());
+    let mut record = read_json_value(&record_path);
+    record["payload"]["token_digest"] = serde_json::Value::String(format!(
+        "sha256:{}",
+        "0".repeat(64)
+    ));
+    write_json_value(&record_path, &record);
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("forged digest must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_DIGEST_MISMATCH", "forged_token");
+}
+
+#[test]
+fn wrong_effect_class_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let wrong_kind = rewrite_effect_payload(&runtime_path, &effect, |payload| {
+        payload.effect_kind = RepoMutation::KIND.to_string();
+        payload.token_type = "AuthorizedEffect<RepoMutation>".to_string();
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &wrong_kind,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("wrong effect class must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_KIND_MISMATCH", "wrong_effect_class");
+}
+
+#[test]
+fn wrong_run_binding_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let wrong_run = rewrite_effect_payload(&runtime_path, &effect, |payload| {
+        payload.run_id = "other-run".to_string();
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &wrong_run,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("wrong run binding must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_RUN_MISMATCH", "wrong_run");
+}
+
+#[test]
+fn wrong_route_binding_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let wrong_route = rewrite_effect_payload(&runtime_path, &effect, |payload| {
+        payload.route_id = Some("runtime-route:wrong:tuple://wrong".to_string());
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &wrong_route,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("wrong route binding must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_ROUTE_MISMATCH", "wrong_route");
+}
+
+#[test]
+fn stale_runtime_effective_route_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    fs::write(
+        cfg.repo_root
+            .join(".octon/generated/effective/runtime/route-bundle.yml"),
+        "schema_version: octon-runtime-effective-route-bundle-v1\ngeneration_id: stale-fixture\nroutes: []\n",
+    )
+    .expect("tamper runtime-effective route bundle");
+
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("stale runtime-effective route must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_FRESHNESS_STALE", "stale_token");
+}
+
+#[test]
+fn wrong_support_tuple_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let wrong_support = rewrite_effect_payload(&runtime_path, &effect, |payload| {
+        payload.support_target_tuple_ref = Some(
+            "tuple://repo-local-governed/observe-read/reference-owned/english-primary/repo-shell"
+                .to_string(),
+        );
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &wrong_support,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("wrong support tuple must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_SUPPORT_TUPLE_MISMATCH",
+        "wrong_support_tuple",
+    );
+}
+
+#[test]
+fn support_envelope_block_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+
+    let tuple_ref = grant
+        .support_target_tuple_ref
+        .as_deref()
+        .expect("grant should bind a support tuple");
+    let envelope_path = cfg
+        .repo_root
+        .join(".octon/generated/effective/governance/support-envelope-reconciliation.yml");
+    let mut envelope: serde_yaml::Value =
+        serde_yaml::from_str(&fs::read_to_string(&envelope_path).expect("read support envelope"))
+            .expect("parse support envelope");
+    let tuple = envelope["tuples"]
+        .as_sequence_mut()
+        .expect("support envelope tuples")
+        .iter_mut()
+        .find(|entry| entry["tuple_ref"].as_str() == Some(tuple_ref))
+        .expect("support envelope tuple exists");
+    tuple["effective"] = serde_yaml::Value::String("blocked".to_string());
+    tuple["diagnostics"] = serde_yaml::Value::Sequence(vec![serde_yaml::Value::String(
+        "fixture_support_envelope_block".to_string(),
+    )]);
+    fs::write(
+        &envelope_path,
+        serde_yaml::to_string(&envelope).expect("serialize support envelope"),
+    )
+    .expect("write blocked support envelope");
+
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("blocked support envelope must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_SUPPORT_ENVELOPE_BLOCKED",
+        "wrong_support_tuple",
+    );
+}
+
+#[test]
+fn unsupported_support_envelope_tuple_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+
+    let tuple_ref = grant
+        .support_target_tuple_ref
+        .as_deref()
+        .expect("grant should bind a support tuple");
+    let envelope_path = cfg
+        .repo_root
+        .join(".octon/generated/effective/governance/support-envelope-reconciliation.yml");
+    let mut envelope: serde_yaml::Value =
+        serde_yaml::from_str(&fs::read_to_string(&envelope_path).expect("read support envelope"))
+            .expect("parse support envelope");
+    let tuple = envelope["tuples"]
+        .as_sequence_mut()
+        .expect("support envelope tuples")
+        .iter_mut()
+        .find(|entry| entry["tuple_ref"].as_str() == Some(tuple_ref))
+        .expect("support envelope tuple exists");
+    tuple["generated_matrix"] = serde_yaml::Value::String("not_supported".to_string());
+    fs::write(
+        &envelope_path,
+        serde_yaml::to_string(&envelope).expect("serialize support envelope"),
+    )
+    .expect("write unsupported support envelope");
+
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("unsupported support envelope tuple must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_SUPPORT_TUPLE_UNSUPPORTED",
+        "unsupported_tuple",
+    );
+}
+
+#[test]
+fn excluded_support_envelope_tuple_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+
+    let tuple_ref = grant
+        .support_target_tuple_ref
+        .as_deref()
+        .expect("grant should bind a support tuple");
+    let envelope_path = cfg
+        .repo_root
+        .join(".octon/generated/effective/governance/support-envelope-reconciliation.yml");
+    let mut envelope: serde_yaml::Value =
+        serde_yaml::from_str(&fs::read_to_string(&envelope_path).expect("read support envelope"))
+            .expect("parse support envelope");
+    let tuple = envelope["tuples"]
+        .as_sequence_mut()
+        .expect("support envelope tuples")
+        .iter_mut()
+        .find(|entry| entry["tuple_ref"].as_str() == Some(tuple_ref))
+        .expect("support envelope tuple exists");
+    tuple["effective"] = serde_yaml::Value::String("excluded".to_string());
+    fs::write(
+        &envelope_path,
+        serde_yaml::to_string(&envelope).expect("serialize support envelope"),
+    )
+    .expect("write excluded support envelope");
+
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("excluded support envelope tuple must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_SUPPORT_TUPLE_EXCLUDED",
+        "excluded_tuple",
+    );
+}
+
+#[test]
+fn wrong_capability_pack_is_rejected() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let wrong_pack = rewrite_effect_payload(&runtime_path, &effect, |payload| {
+        payload.allowed_capability_packs = vec!["unadmitted-pack".to_string()];
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &wrong_pack,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("wrong capability pack must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_CAPABILITY_PACK_MISMATCH",
+        "wrong_capability_pack",
+    );
+}
+
+#[test]
+fn active_revocation_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    fs::write(
+        cfg.execution_control_root
+            .join("revocations")
+            .join("token-test.yml"),
+        format!(
+            "schema_version: authority-revocation-v1\nrevocation_id: token-test\ngrant_id: {}\nrequest_id: {}\nstate: active\nrevoked_at: 2026-04-24T00:00:00Z\nrevoked_by: operator://test\nreason_codes:\n  - TEST_REVOCATION\n",
+            grant.grant_id, grant.request_id
+        ),
+    )
+    .expect("write revocation");
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("revoked effect must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_REVOKED", "revoked_token");
+}
+
+#[test]
+fn missing_approval_binding_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let mut grant = grant;
+    grant.approval_request_ref =
+        Some(".octon/state/control/execution/approvals/requests/missing.yml".to_string());
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("missing approval must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_APPROVAL_MISSING",
+        "missing_approval",
+    );
+}
+
+#[test]
+fn missing_exception_binding_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let mut grant = grant;
+    grant.exception_lease_refs =
+        vec![".octon/state/control/execution/exceptions/leases/missing.yml".to_string()];
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("missing exception must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_EXCEPTION_MISSING",
+        "missing_exception",
+    );
+}
+
+#[test]
+fn missing_rollback_posture_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let mut grant = grant;
+    grant.rollback_posture_ref =
+        Some(".octon/state/control/execution/runs/missing/rollback-posture.yml".to_string());
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("missing rollback posture must fail");
+    assert_effect_denial(
+        err,
+        "EFFECT_TOKEN_ROLLBACK_NOT_READY",
+        "rollback_not_ready",
+    );
+}
+
+#[test]
+fn budget_denial_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let mut grant = grant;
+    grant.budget = Some(BudgetMetadata {
+        rule_id: "budget-test".to_string(),
+        reason_codes: vec!["BUDGET_EXCEEDED".to_string()],
+        provider: None,
+        model: None,
+        estimated_cost_usd: Some(1000.0),
+        actual_cost_usd: None,
+        evidence_path: Some(".octon/state/evidence/runs/missing/budget.json".to_string()),
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("budget-denied effect must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_BUDGET_EXCEEDED", "budget_exceeded");
+}
+
+#[test]
+fn egress_denial_rejects_effect_consumption() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let grant = authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint");
+    let mut grant = grant;
+    grant.network_egress_posture = Some(NetworkEgressPosture {
+        route: "deny".to_string(),
+        matched_rule_id: Some("egress-test".to_string()),
+        source_kind: Some("policy".to_string()),
+        artifact_ref: None,
+        target_url: Some("https://example.invalid".to_string()),
+    });
+    let err = verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect_err("egress-denied effect must fail");
+    assert_effect_denial(err, "EFFECT_TOKEN_EGRESS_DENIED", "egress_denied");
 }
 
 #[test]

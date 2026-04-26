@@ -1,0 +1,7 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: support-card-overclaims
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - support_card_overclaims_reconciled_support
+description: A stage-only support card presents itself as an admitted live claim.

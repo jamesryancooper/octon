@@ -1,7 +1,7 @@
 schema_version: support-target-admission-v1
 tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
-status: stage_only
-route: stage_only
+status: retired
+route: deny
 tuple:
   model_tier: repo-local-governed
   workload_tier: repo-consequential
@@ -43,6 +43,10 @@ live_promotion_validators:
   - .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh
 evidence_refs:
   - .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
-support_dossier_ref: .octon/instance/governance/support-dossiers/stage-only/github-repo-consequential-en/dossier.yml
+support_dossier_ref: .octon/instance/governance/support-dossiers/retired/github-repo-consequential-en-stage-only-superseded/dossier.yml
 review_due_at: "2026-06-30T00:00:00Z"
-claim_effect: stage-only-non-live
+claim_effect: retired-non-live
+retirement:
+  retired_at: "2026-04-24T00:00:00Z"
+  superseded_by: .octon/instance/governance/support-target-admissions/live/github-repo-consequential-en.yml
+  reason: "Duplicate stage-only GitHub repo-consequential admission superseded by the bounded live protected-CI lane."

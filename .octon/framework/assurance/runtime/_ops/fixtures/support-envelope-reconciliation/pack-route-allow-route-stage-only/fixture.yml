@@ -1,0 +1,7 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: pack-route-allow-route-stage-only
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - pack_route_widens_runtime_route
+description: A pack route remains allow while the runtime route is stage_only.

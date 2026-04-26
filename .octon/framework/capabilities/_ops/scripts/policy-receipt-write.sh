@@ -173,11 +173,12 @@ main() {
   require_context_telemetry "$request_file"
 
   local runs_dir receipt_name digest_name decision_log
-  mapfile -t _paths < <(read_policy_paths "$policy_file")
-  runs_dir="${_paths[0]}"
-  receipt_name="${_paths[1]}"
-  digest_name="${_paths[2]}"
-  decision_log="${_paths[3]}"
+  {
+    IFS= read -r runs_dir
+    IFS= read -r receipt_name
+    IFS= read -r digest_name
+    IFS= read -r decision_log
+  } < <(read_policy_paths "$policy_file")
 
   local run_id
   run_id="$(jq -r '.run_id' "$request_file")"

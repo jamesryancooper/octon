@@ -1,0 +1,8 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: stale-proof-bundle
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - declared_live_without_fresh_proof
+  - stale_proof_bundle
+description: A declared live tuple proof bundle is stale.

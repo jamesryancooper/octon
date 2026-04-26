@@ -1,0 +1,7 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: excluded-target-presented-live
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - excluded_target_presented_live
+description: A resolved non-live boundary-sensitive tuple is declared as live.

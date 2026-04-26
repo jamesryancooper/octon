@@ -1,0 +1,7 @@
+schema_version: support-envelope-reconciliation-fixture-v1
+fixture_id: support-target-live-route-stage-only
+fixture_kind: negative
+expected_status: failed
+expected_diagnostics:
+  - route_stage_only_but_support_declares_live
+description: A declared live tuple is narrowed to stage_only in the runtime route bundle.

@@ -1,5 +1,7 @@
 use crate::errors::{ErrorCode, KernelError, Result};
-use octon_runtime_resolver::verify_runtime_route_bundle;
+use octon_runtime_resolver::{
+    runtime_route_bundle_publication_bypass, verify_runtime_route_bundle,
+};
 use serde::Deserialize;
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
@@ -211,14 +213,22 @@ impl ConfigLoader {
             runtime_route_bundle_generation_id,
             runtime_route_bundle_sha256,
         ) = if allow_stale_runtime_route_bundle() {
+            let runtime_bundle =
+                runtime_route_bundle_publication_bypass(&octon_dir).map_err(|e| {
+                    KernelError::new(
+                        ErrorCode::CapabilityDenied,
+                        format!("runtime-effective route bundle publication bypass failed: {e}"),
+                    )
+                    .with_details(json!({"reason_codes":["FCR-025"]}))
+                })?;
             (
-                octon_dir.join("instance/governance/runtime-resolution.yml"),
-                octon_dir.join("generated/effective/runtime/route-bundle.yml"),
-                octon_dir.join("generated/effective/runtime/route-bundle.lock.yml"),
-                octon_dir.join("generated/effective/capabilities/pack-routes.effective.yml"),
-                octon_dir.join("generated/effective/capabilities/pack-routes.lock.yml"),
-                "runtime-route-bundle-publication-bypass".to_string(),
-                "runtime-route-bundle-publication-bypass".to_string(),
+                runtime_bundle.resolution_path.clone(),
+                runtime_bundle.bundle_path.clone(),
+                runtime_bundle.lock_path.clone(),
+                runtime_bundle.pack_routes_effective_path.clone(),
+                runtime_bundle.pack_routes_lock_path.clone(),
+                runtime_bundle.bundle.generation_id.clone(),
+                runtime_bundle.bundle_sha256.clone(),
             )
         } else {
             let runtime_bundle = verify_runtime_route_bundle(&octon_dir).map_err(|e| {

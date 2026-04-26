@@ -1,0 +1,519 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/run-health-read-model-v1.schema.json",
+  "title": "Octon Run Health Read Model v1",
+  "description": "Generated, non-authoritative per-run operator health view derived from canonical run control, retained evidence, disclosure, and freshness-gated support-routing sources.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "run_id",
+    "generated_at",
+    "generator",
+    "authority",
+    "freshness",
+    "canonical_refs",
+    "source_digests",
+    "health",
+    "lifecycle",
+    "support",
+    "authorization",
+    "evidence",
+    "rollback",
+    "intervention",
+    "disclosure",
+    "closure",
+    "diagnostics"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "run-health-read-model-v1"
+    },
+    "run_id": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "generated_at": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "generator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "validator_ref"
+      ],
+      "properties": {
+        "id": {
+          "const": "generate-run-health-read-model.sh"
+        },
+        "version": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "validator_ref": {
+          "const": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+        }
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "classification",
+        "may_authorize",
+        "may_widen_support",
+        "allowed_consumers",
+        "forbidden_consumers"
+      ],
+      "properties": {
+        "classification": {
+          "const": "generated_read_model_non_authoritative"
+        },
+        "may_authorize": {
+          "const": false
+        },
+        "may_widen_support": {
+          "const": false
+        },
+        "allowed_consumers": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "operators",
+              "validators"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "forbidden_consumers": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "runtime",
+              "policy",
+              "authority",
+              "support-claim-evaluation",
+              "state-reconstruction",
+              "direct-runtime-reads"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 4
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "status",
+        "source_digest_algorithm",
+        "combined_source_digest",
+        "checked_at"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "digest-bound",
+            "ttl-bound",
+            "receipt-bound",
+            "unknown"
+          ]
+        },
+        "status": {
+          "enum": [
+            "fresh",
+            "stale",
+            "unknown"
+          ]
+        },
+        "source_digest_algorithm": {
+          "const": "sha256"
+        },
+        "combined_source_digest": {
+          "$ref": "#/$defs/hashString"
+        },
+        "checked_at": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/nullableString"
+        },
+        "freshness_refs": {
+          "$ref": "#/$defs/refArray"
+        }
+      }
+    },
+    "canonical_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_contract",
+        "run_manifest",
+        "events_journal",
+        "events_manifest",
+        "runtime_state",
+        "authority_decision",
+        "authority_bundle",
+        "rollback_posture",
+        "evidence_root",
+        "evidence_classification",
+        "retained_evidence",
+        "replay_pointers",
+        "intervention_log",
+        "disclosure_run_card",
+        "support_targets",
+        "support_reconciliation",
+        "run_continuity"
+      ],
+      "properties": {
+        "run_contract": { "$ref": "#/$defs/nullableString" },
+        "run_manifest": { "$ref": "#/$defs/nullableString" },
+        "events_journal": { "$ref": "#/$defs/nullableString" },
+        "events_manifest": { "$ref": "#/$defs/nullableString" },
+        "runtime_state": { "$ref": "#/$defs/nullableString" },
+        "authority_decision": { "$ref": "#/$defs/nullableString" },
+        "authority_bundle": { "$ref": "#/$defs/nullableString" },
+        "approval_request": { "$ref": "#/$defs/nullableString" },
+        "approval_grants": { "$ref": "#/$defs/refArray" },
+        "exception_leases": { "$ref": "#/$defs/refArray" },
+        "revocations": { "$ref": "#/$defs/refArray" },
+        "rollback_posture": { "$ref": "#/$defs/nullableString" },
+        "evidence_root": { "$ref": "#/$defs/nullableString" },
+        "evidence_classification": { "$ref": "#/$defs/nullableString" },
+        "retained_evidence": { "$ref": "#/$defs/nullableString" },
+        "replay_pointers": { "$ref": "#/$defs/nullableString" },
+        "intervention_log": { "$ref": "#/$defs/nullableString" },
+        "disclosure_run_card": { "$ref": "#/$defs/nullableString" },
+        "support_targets": { "$ref": "#/$defs/nullableString" },
+        "support_reconciliation": { "$ref": "#/$defs/nullableString" },
+        "run_continuity": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "source_digests": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref",
+          "digest",
+          "status"
+        ],
+        "properties": {
+          "ref": {
+            "$ref": "#/$defs/nullableString"
+          },
+          "digest": {
+            "anyOf": [
+              { "$ref": "#/$defs/hashString" },
+              { "const": "missing" },
+              { "const": "not-applicable" }
+            ]
+          },
+          "status": {
+            "enum": [
+              "present",
+              "missing",
+              "not-applicable"
+            ]
+          }
+        }
+      },
+      "minProperties": 1
+    },
+    "health": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "summary",
+        "next_required_action"
+      ],
+      "properties": {
+        "status": {
+          "$ref": "#/$defs/healthStatus"
+        },
+        "summary": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "next_required_action": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "decision_state",
+        "drift_status",
+        "latest_event_hash"
+      ],
+      "properties": {
+        "state": { "$ref": "#/$defs/nullableString" },
+        "decision_state": { "$ref": "#/$defs/nullableString" },
+        "drift_status": { "$ref": "#/$defs/nullableString" },
+        "latest_event_hash": {
+          "anyOf": [
+            { "$ref": "#/$defs/hashString" },
+            { "type": "null" }
+          ]
+        },
+        "latest_sequence": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "support": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tuple",
+        "route_status",
+        "pack_status",
+        "support_status"
+      ],
+      "properties": {
+        "tuple": { "$ref": "#/$defs/nullableString" },
+        "route_status": {
+          "enum": [
+            "allow",
+            "stage-only",
+            "deny",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "pack_status": {
+          "enum": [
+            "allow",
+            "stage-only",
+            "deny",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "support_status": {
+          "enum": [
+            "supported",
+            "stage-only",
+            "unsupported",
+            "unknown"
+          ]
+        },
+        "requested_capability_packs": {
+          "$ref": "#/$defs/refArray"
+        }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "active_grants",
+        "open_approvals",
+        "active_exceptions",
+        "active_revocations"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "authorized",
+            "approval-required",
+            "revoked",
+            "denied",
+            "review-required",
+            "unknown"
+          ]
+        },
+        "active_grants": { "$ref": "#/$defs/refArray" },
+        "open_approvals": { "$ref": "#/$defs/refArray" },
+        "active_exceptions": { "$ref": "#/$defs/refArray" },
+        "active_revocations": { "$ref": "#/$defs/refArray" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "completeness",
+        "missing_required"
+      ],
+      "properties": {
+        "completeness": {
+          "enum": [
+            "complete",
+            "incomplete",
+            "unknown"
+          ]
+        },
+        "missing_required": { "$ref": "#/$defs/refArray" }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "required",
+            "unavailable",
+            "unknown"
+          ]
+        },
+        "hard_reset_required": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    "intervention": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "undisclosed_count",
+        "records"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "none",
+            "present",
+            "required",
+            "unknown"
+          ]
+        },
+        "undisclosed_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "disclosure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "complete",
+            "incomplete",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "closure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "ready",
+            "not-ready",
+            "blocked",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "severity",
+          "code",
+          "message",
+          "refs"
+        ],
+        "properties": {
+          "severity": {
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ]
+          },
+          "code": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "message": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "refs": {
+            "$ref": "#/$defs/refArray"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "healthStatus": {
+      "enum": [
+        "healthy",
+        "blocked",
+        "stale",
+        "unsupported",
+        "revoked",
+        "approval-required",
+        "review-required",
+        "evidence-incomplete",
+        "rollback-required",
+        "intervention-required",
+        "disclosure-incomplete",
+        "closure-ready"
+      ]
+    },
+    "hashString": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nullableString": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "refArray": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "uniqueItems": true
+    }
+  }
+}

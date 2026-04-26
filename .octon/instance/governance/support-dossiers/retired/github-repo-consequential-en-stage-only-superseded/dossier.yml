@@ -1,6 +1,6 @@
 schema_version: support-dossier-v1
 tuple_id: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
-status: stage_only
+status: retired
 tuple:
   model_tier: repo-local-governed
   workload_tier: repo-consequential
@@ -30,11 +30,15 @@ representative_retained_runs:
 known_exclusions:
   - "api-client remains unadmitted in manifest.runtime.yml"
 recertification_cadence: quarterly
-support_admission_ref: .octon/instance/governance/support-target-admissions/stage-only/github-repo-consequential-en.yml
+support_admission_ref: .octon/instance/governance/support-target-admissions/retired/github-repo-consequential-en-stage-only-superseded.yml
 proof_bundle_ref: .octon/state/evidence/validation/support-targets/github-repo-consequential-en.yml
 support_card_ref: .octon/generated/cognition/projections/materialized/support-cards/github-repo-consequential-en.yml
 review_due_at: "2026-06-30T00:00:00Z"
 last_recertification_receipt_ref: .octon/state/evidence/validation/architecture/10of10-target-transition/support-targets/proof-refresh.yml
+retirement:
+  retired_at: "2026-04-24T00:00:00Z"
+  superseded_by: .octon/instance/governance/support-dossiers/live/github-repo-consequential-en/dossier.yml
+  reason: "Duplicate stage-only GitHub repo-consequential dossier superseded by the bounded live protected-CI lane."
 sufficiency:
   required_proof_planes:
     - structural
@@ -83,4 +87,4 @@ sufficiency:
     - recertified
   naturalistic_representative_run_present: true
   last_current_release_run_ref: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
-  status: stage_only
+  status: retired

@@ -1,0 +1,209 @@
+schema_version: run-health-read-model-v1
+run_id: uec-evaluate-harness-20260401-agent-augmented-1
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:7550fbb7b97bf39f1d95b77aeecb2b5894472575b1dbe600927d926cfcd48c75
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-evaluate-harness-20260401-agent-augmented-1.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-evaluate-harness-20260401-agent-augmented-1.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1
+  evidence_classification: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/uec-evaluate-harness-20260401-agent-augmented-1/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-contract.yml
+    digest: sha256:6ae532affa08e5f3fe9c70f65749e4422dd87ebf6e141963e5c92a114340f07d
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-manifest.yml
+    digest: sha256:f6b34b5f43067feac0c26679367375335c1b4dae88bff15706c132e4a16a2013
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson
+    digest: sha256:9ba5497993e6c4712526179c0cf536c98d13bcf05eebfd73a34d604c3dffc01b
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml
+    digest: sha256:9b79bef5fc955a901352566cfa4a34335d59fcd1affd1cfc7f0355f0e02b26ca
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/runtime-state.yml
+    digest: sha256:fe53e2b1a0ac4b4574296cb41e52ebb542eece3506b2da55374d212281b18a83
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-uec-evaluate-harness-20260401-agent-augmented-1.yml
+    digest: sha256:f8cdbd25d9809504f37cef3e23552cf8d582fb25142a1a27813388702cc7bfce
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-evaluate-harness-20260401-agent-augmented-1.yml
+    digest: sha256:2b84b8d9f713862f8399e613fdc10c5ca5bc8cfc753618747ba0d5c671bb4a24
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/rollback-posture.yml
+    digest: sha256:a1644973d3091f2a37590bc76c5f6c04e6a1e689bfe226cf3985e76aa1131508
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1
+    digest: sha256:487003334aaf55a9a7398039a50ffae590bcacc3aff8668ce9e8a1b32153898b
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/evidence-classification.yml
+    digest: sha256:5d3676d63fb099ff157d6ddfe936f0486e1fbea08b46eb823a9b2ca021c350de
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/retained-run-evidence.yml
+    digest: sha256:e79c0ad16b100b924c52953f888c34bef4f62eb6ce2891f147820552ccbc77d1
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/replay-pointers.yml
+    digest: sha256:b5f83b6324db5756e95fe4a294620828b536348d2b3419864d89b9990bc9c2b2
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/uec-evaluate-harness-20260401-agent-augmented-1/interventions/log.yml
+    digest: sha256:3a45fbfd722b7eb27a038c55febbe9f443b3e6fa162cadf671857e8b25ebb947
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/uec-evaluate-harness-20260401-agent-augmented-1/run-card.yml
+    digest: sha256:cd0dd8e31fa9466177a6936dadf62cad52b5ce4005e8ee15307a44ae62763f6b
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:8775ca1dbbe5973890f906b018dbe980f5c2d397860b5c4cef0fb7739e64db10
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/uec-evaluate-harness-20260401-agent-augmented-1/handoff.yml
+    digest: sha256:e85902995c81ba9539e99841a877729b869f22322180b1dbc16d5de0752a1e8f
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:c6de6e0afd0230309df8d353cbd5299464b9e32f2de7b546ea198027560ea0ff
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:55d5c12b5be9e97985f152e80d2e273e798760dc713b80385be4dbdd7e6cefb2
+  latest_sequence: 14
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - git
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-evaluate-harness-20260401-agent-augmented-1.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: runtime-state-journal-head-mismatch
+  message: runtime-state.yml last applied event hash differs from the events manifest
+    tail hash.
+  refs:
+  - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/runtime-state.yml
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-evaluate-harness-20260401-agent-augmented-1/events.ndjson

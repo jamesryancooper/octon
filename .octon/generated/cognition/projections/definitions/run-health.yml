@@ -1,0 +1,36 @@
+id: run-health
+schema_version: "1.0"
+description: Generated per-run operator health read model. This projection is non-authoritative and cannot authorize execution or widen support.
+
+sources:
+  - /.octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+  - /.octon/framework/engine/runtime/spec/operator-read-models-v1.md
+  - /.octon/state/control/execution/runs/<run-id>/run-contract.yml
+  - /.octon/state/control/execution/runs/<run-id>/run-manifest.yml
+  - /.octon/state/control/execution/runs/<run-id>/events.ndjson
+  - /.octon/state/control/execution/runs/<run-id>/events.manifest.yml
+  - /.octon/state/control/execution/runs/<run-id>/runtime-state.yml
+  - /.octon/state/control/execution/runs/<run-id>/rollback-posture.yml
+  - /.octon/state/evidence/runs/<run-id>/**
+  - /.octon/state/evidence/disclosure/runs/<run-id>/run-card.yml
+  - /.octon/generated/effective/runtime/route-bundle.yml
+  - /.octon/generated/effective/capabilities/pack-routes.effective.yml
+
+refresh:
+  mode: on-change
+  trigger_paths:
+    - .octon/state/control/execution/runs/*/run-contract.yml
+    - .octon/state/control/execution/runs/*/run-manifest.yml
+    - .octon/state/control/execution/runs/*/events.ndjson
+    - .octon/state/control/execution/runs/*/events.manifest.yml
+    - .octon/state/control/execution/runs/*/runtime-state.yml
+    - .octon/state/control/execution/runs/*/rollback-posture.yml
+    - .octon/state/evidence/runs/**
+    - .octon/state/evidence/disclosure/runs/*/run-card.yml
+    - .octon/generated/effective/runtime/route-bundle.yml
+    - .octon/generated/effective/capabilities/pack-routes.effective.yml
+
+materialization:
+  output: ../materialized/runs/<run-id>/health.yml
+  generator: /.octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+  validator: /.octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh

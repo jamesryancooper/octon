@@ -11,7 +11,9 @@ use octon_runtime_bus::{
     JournalEffect, JournalGoverningRefs, JournalLifecycle, JournalPayload, JournalRedaction,
     RunJournalAppendRequest, RunJournalSnapshotRefs,
 };
-use octon_runtime_resolver::{verify_runtime_route_bundle, RuntimeSupportTupleRef};
+use octon_runtime_resolver::{
+    runtime_route_bundle_publication_bypass, verify_runtime_route_bundle, RuntimeSupportTupleRef,
+};
 use serde::Serialize;
 use serde_json::json;
 use std::collections::{BTreeMap, BTreeSet};
@@ -1798,17 +1800,19 @@ pub fn authorize_execution(
         ));
     }
     let verified_runtime_route_bundle = if allow_stale_runtime_route_bundle() {
+        let publication_bypass = runtime_route_bundle_publication_bypass(&cfg.octon_dir)
+            .map_err(runtime_route_bundle_denial)?;
         request.metadata.insert(
             "runtime_effective_route_bundle_generation_id".to_string(),
-            "runtime-route-bundle-publication-bypass".to_string(),
+            publication_bypass.generation_id().to_string(),
         );
         request.metadata.insert(
             "runtime_effective_route_bundle_sha256".to_string(),
-            "runtime-route-bundle-publication-bypass".to_string(),
+            publication_bypass.bundle_sha256.clone(),
         );
         request.metadata.insert(
             "runtime_effective_route_bundle_ref".to_string(),
-            ".octon/generated/effective/runtime/route-bundle.yml".to_string(),
+            path_tail(&cfg.repo_root, &publication_bypass.bundle_path),
         );
         request.metadata.insert(
             "runtime_effective_handle_kind".to_string(),
@@ -1816,15 +1820,15 @@ pub fn authorize_execution(
         );
         request.metadata.insert(
             "runtime_effective_freshness_mode".to_string(),
-            "publication-bypass".to_string(),
+            publication_bypass.freshness_mode().to_string(),
         );
         request.metadata.insert(
             "runtime_effective_publication_receipt_ref".to_string(),
-            ".octon/state/evidence/validation/publication/runtime/<pending>".to_string(),
+            publication_bypass.lock.publication_receipt_path.clone(),
         );
         request.metadata.insert(
             "runtime_effective_non_authority_classification".to_string(),
-            "derived-runtime-handle".to_string(),
+            publication_bypass.lock.non_authority_classification.clone(),
         );
         None
     } else {
@@ -2728,6 +2732,37 @@ pub fn authorize_execution(
         });
     }
 
+    let route_id = Some(format!(
+        "runtime-route:{}:{}",
+        request
+            .metadata
+            .get("runtime_effective_route_bundle_generation_id")
+            .cloned()
+            .unwrap_or_else(|| "unresolved-generation".to_string()),
+        request
+            .support_target_tuple_ref
+            .clone()
+            .unwrap_or_else(|| support_target_tuple_id(&requested_support_tuple))
+    ));
+    let runtime_effective_route_bundle_ref =
+        request_metadata_ref(&request, "runtime_effective_route_bundle_ref");
+    let runtime_effective_route_bundle_sha256 =
+        request_metadata_ref(&request, "runtime_effective_route_bundle_sha256");
+    let runtime_effective_route_generation_id =
+        request_metadata_ref(&request, "runtime_effective_route_bundle_generation_id");
+    let runtime_effective_freshness_mode =
+        request_metadata_ref(&request, "runtime_effective_freshness_mode");
+    let runtime_effective_publication_receipt_ref =
+        request_metadata_ref(&request, "runtime_effective_publication_receipt_ref");
+    let runtime_effective_non_authority_classification =
+        request_metadata_ref(&request, "runtime_effective_non_authority_classification");
+    let runtime_effective_claim_effect =
+        request_metadata_ref(&request, "runtime_effective_claim_effect");
+    let runtime_effective_extensions_status =
+        request_metadata_ref(&request, "runtime_effective_extensions_status");
+    let runtime_effective_extensions_generation_id =
+        request_metadata_ref(&request, "runtime_effective_extensions_generation_id");
+
     let mut grant = GrantBundle {
         grant_id: grant_id.clone(),
         request_id: request.request_id.clone(),
@@ -2802,6 +2837,20 @@ pub fn authorize_execution(
                 .cloned()
         }),
         support_posture: Some(support_tier.clone()),
+        route_id,
+        runtime_effective_route_bundle_ref,
+        runtime_effective_route_bundle_sha256,
+        runtime_effective_route_generation_id,
+        runtime_effective_freshness_mode,
+        runtime_effective_publication_receipt_ref,
+        runtime_effective_non_authority_classification,
+        runtime_effective_claim_effect,
+        runtime_effective_extensions_status,
+        runtime_effective_extensions_generation_id,
+        rollback_posture_ref: Some(format!(
+            ".octon/state/control/execution/runs/{}/rollback-posture.yml",
+            request.request_id
+        )),
         quorum_policy_ref: Some(canonical_quorum_policy_ref().to_string()),
         ownership_refs: ownership.owner_refs.clone(),
         approval_request_ref: approval_request_ref.clone(),
