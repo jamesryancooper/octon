@@ -1,9 +1,9 @@
 schema_version: "support-envelope-validation-receipt-v1"
 validator_id: "validate-support-envelope-reconciliation.sh"
 result: "pass"
-validated_at: "2026-04-24T17:07:17Z"
+validated_at: "2026-04-26T03:36:48Z"
 generated_result_ref: ".octon/generated/effective/governance/support-envelope-reconciliation.yml"
-generated_result_sha256: "db9c558f5f5838fb04beb898f714946f00f17d775b23be2b95d9112b7f1e66d8"
+generated_result_sha256: "30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f"
 contract_refs:
   - ".octon/framework/engine/runtime/spec/support-envelope-reconciliation-v1.md"
   - ".octon/framework/engine/runtime/spec/support-envelope-reconciliation-result-v1.schema.json"

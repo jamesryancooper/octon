@@ -1,0 +1,198 @@
+schema_version: run-health-read-model-v1
+run_id: bootstrap-doctor-workflow-20260413-v4
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:11b38f3afe4731b7a645685ef55615ab825ef7a08f509eb4020302119b0bb84d
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4
+  evidence_classification: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-contract.yml
+    digest: sha256:cc83edfd10122672173b77a6a0ed4e03d6cd4b23bb2f648f46785417d955b1f7
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/run-manifest.yml
+    digest: sha256:514dcce013290f79bc437b4f0d399f722597369912a309c29c9cf8dcebe4af38
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/events.ndjson
+    digest: missing
+    status: missing
+  events_manifest:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/events.manifest.yml
+    digest: missing
+    status: missing
+  runtime_state:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/runtime-state.yml
+    digest: sha256:1f12068e87c6ffb1727604df848bd331239cf7d80f3624bd8e1c3e3728152afb
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4.yml
+    digest: sha256:fa824363e0f3ba016ab15d9e2ded9fc4243262caafc66460951636b0b9feb8f3
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4.yml
+    digest: sha256:76e78c9e55db0ecc9bb2b4505a29df1fa022552b41e3a4e6041d33dbfffe1047
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4/rollback-posture.yml
+    digest: sha256:da08b0bed4ce410b34dc1ee0ef49b7c695dfc17d3353a045eed7e2c863598636
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4
+    digest: sha256:b78850c4b58416adffeb417b636ffc1d6ce4e05a91052f075bea7ad36006727c
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/evidence-classification.yml
+    digest: sha256:4cdc6d2c52709e6878932aabc45e50adbfff84f287903b0da6b10d911c939751
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/retained-run-evidence.yml
+    digest: sha256:76bc6aec78385e1e0681b6f6acd7a93a546c73f71efacca5c4e7a6705250e482
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/replay-pointers.yml
+    digest: sha256:3ecbaec9340ddd604b5779db473d1f3a5f426c6f141fab322ffffcd6ddea65ae
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4/interventions/log.yml
+    digest: sha256:28f797e7089d70dc4adf3dbf5cd1d466f6fdcc37f6689be178db11ee81702a4e
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4/run-card.yml
+    digest: sha256:b64e98f394e97e40b09a6e9dbb45b198e931ead3a2df7c4e24249522dbb5b32b
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4/handoff.yml
+    digest: sha256:216df1180783308667715108ecc6a7d55b106f3bba7a4787d1f5494501119584
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:1fb68fa13332d378499d1ac1045e56e599950730e74a4de997c3435a5135121e
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: evidence-incomplete
+  summary: Required retained run evidence is incomplete for the current lifecycle
+    posture.
+  next_required_action: complete missing retained evidence refs
+lifecycle:
+  state: succeeded
+  decision_state: allow
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - events_journal
+  - events_manifest
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics: []

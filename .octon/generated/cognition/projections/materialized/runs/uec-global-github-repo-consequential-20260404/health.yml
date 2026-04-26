@@ -1,0 +1,201 @@
+schema_version: run-health-read-model-v1
+run_id: uec-global-github-repo-consequential-20260404
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:debb7e6872a0cdc422945afccf8a1f787a501b9d72e62d31bc896c3c36a76542
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-global-github-repo-consequential-20260404.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404
+  evidence_classification: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/uec-global-github-repo-consequential-20260404/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-contract.yml
+    digest: sha256:3550f092c239bbdaccbb8fb4e7ea4da8424a1046d89b916f65d1895433ab1e78
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/run-manifest.yml
+    digest: sha256:60ae33e4b12c395f0685c48542e71fda4c346fd1d57ce262b4e1a4c9533a0eb7
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.ndjson
+    digest: sha256:a60eb402e1206c2b65f57016d5e217c336013a05b96faf7fc1dfd2aa051ecca3
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.manifest.yml
+    digest: sha256:283a7e201db22d840a7c2387f1127295423089e471a998f2e9864ab478b31a64
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/runtime-state.yml
+    digest: sha256:802e5eead81387f4d4c97184e09e645f830147e3a121403c4eeb03bb9c4c1d62
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-uec-global-github-repo-consequential-20260404.yml
+    digest: sha256:01fb8415c68c91ecc5d3e63eaeb786cadc5f39335f0be5df594a7a7b81ff3406
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml
+    digest: sha256:debd1154912bfd330c651410c54e24afa8257b413a77f83c843e3d4bd5a48b07
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/rollback-posture.yml
+    digest: sha256:038dff7f3b982bc44b5ac26dde50eba4eaf91592ee8040f9c52328e65e06ee9e
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404
+    digest: sha256:81193104bf5242e0e97fb4d7f1f12e8d49de3b9380a7777ba5f8424bda184146
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/evidence-classification.yml
+    digest: sha256:8e17fd518ea9364d605bfba3ec95c19fe9d4cc12328deb001fe2c2b364a67c8e
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/retained-run-evidence.yml
+    digest: sha256:5a5e5f9c252082b25af844985ac28c6cd16f1944ce2ca168a129009bb17e3fce
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/replay-pointers.yml
+    digest: sha256:5860f27600b368bad6e8e7b3a7cf901497693af464fcd8e1e0633d2f3106da9c
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/uec-global-github-repo-consequential-20260404/interventions/log.yml
+    digest: sha256:d2dea61e5907808c5047a5c189afa8f41576210da52f7f0b8290728a4136c0f7
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/uec-global-github-repo-consequential-20260404/run-card.yml
+    digest: sha256:192f1a3d5058b25a621df151baf87741af2721880e6baae862a7b54700408252
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/uec-global-github-repo-consequential-20260404/handoff.yml
+    digest: sha256:e1b8141c93c71fdde268656dc9480296a18981f89c8937a752e51c4d309ebb33
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:1fb68fa13332d378499d1ac1045e56e599950730e74a4de997c3435a5135121e
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:6e09b280d6482e3aac2968044001aefc64e4a16449915f945172c47cda502e02
+  latest_sequence: 14
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/github-control-plane
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - git
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-global-github-repo-consequential-20260404.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: complete
+  missing_required: []
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-global-github-repo-consequential-20260404/events.ndjson

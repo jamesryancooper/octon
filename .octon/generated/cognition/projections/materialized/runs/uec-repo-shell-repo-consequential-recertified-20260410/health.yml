@@ -1,0 +1,205 @@
+schema_version: run-health-read-model-v1
+run_id: uec-repo-shell-repo-consequential-recertified-20260410
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:74a995d11ded4398a3b7f547422458d6f377681463135dc29b803ffa7ba30ec7
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-repo-shell-repo-consequential-recertified-20260410.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410
+  evidence_classification: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/uec-repo-shell-repo-consequential-recertified-20260410/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-contract.yml
+    digest: sha256:26a17f29144b8cc8b77517113917d508c9ccbbc54eafca8dc56529c296bf38e3
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-manifest.yml
+    digest: sha256:1410deb103e304a15af032dc43cc43add0cfc7b37d684814a805cdb31904fb58
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.ndjson
+    digest: sha256:fa9c05c47d2e2e1d5dd795bbc307906d2fddbbb29e0d48ada35b03b556acac2c
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.manifest.yml
+    digest: sha256:614c5fdbc4f6071b28c5fe52b634ceeb6fd3d3b78ff7c2964a383fa61ef115d1
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/runtime-state.yml
+    digest: sha256:fd22d400f7e293f2249f77f0a38bd2de4c00424539a894bfda063aba741bf5e9
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-uec-repo-shell-repo-consequential-recertified-20260410.yml
+    digest: sha256:e8decab311b28748400073e52066b9d9f0ead7225e29e0c0c2836f1a75713eb0
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml
+    digest: sha256:d9d0d1a962278131f9b78a9861954b2970ac16a70899b85e116d28a42160cbce
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/rollback-posture.yml
+    digest: sha256:a9f071ea1f616cffc9738f96b678c71f7f7e04d895c9576b5ad7d98457073b35
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410
+    digest: sha256:b0dd3779146d782e32f09d8216ab822a397762b8e8b5e972f47b1465d9d91992
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/evidence-classification.yml
+    digest: sha256:8e17fd518ea9364d605bfba3ec95c19fe9d4cc12328deb001fe2c2b364a67c8e
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/retained-run-evidence.yml
+    digest: sha256:bd441f933021051bfc222d33cb21bdaa36d273f4d23f50ba360e60ae45ca619f
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/replay-pointers.yml
+    digest: sha256:57754717cf261c8a493cd3ba845019e72faebdfd31c0a7f35be71a7a40480009
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/uec-repo-shell-repo-consequential-recertified-20260410/interventions/log.yml
+    digest: sha256:77d7160addbcd9e0fb93a3404580056c5d866845806043dffa347420ab40580d
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/uec-repo-shell-repo-consequential-recertified-20260410/run-card.yml
+    digest: sha256:f12efe93412d67df0f5fdc68bb566cfdec5debd78760e90e8e29a51dae22a0ed
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/uec-repo-shell-repo-consequential-recertified-20260410/handoff.yml
+    digest: sha256:62c6e75ed894fa8aea2bb2c42b6033c6c7f9a47c64f142e2daba002ce1469ae8
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:1fb68fa13332d378499d1ac1045e56e599950730e74a4de997c3435a5135121e
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:b459c0f84d78aaed338c1351b8ce9497608f4591ef7080101f402533fbbb683c
+  latest_sequence: 14
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/control/execution/approvals/grants/grant-uec-repo-shell-repo-consequential-recertified-20260410.yml
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-repo-shell-repo-consequential-recertified-20260410.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: complete
+  missing_required: []
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: present
+  undisclosed_count: 0
+  records:
+  - event_id: evt-manual-review-override
+    kind: manual-review-override
+    disclosed: true
+    details: Human governance intervention was recorded and linked to the canonical
+      approval artifacts.
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-repo-shell-repo-consequential-recertified-20260410/events.ndjson

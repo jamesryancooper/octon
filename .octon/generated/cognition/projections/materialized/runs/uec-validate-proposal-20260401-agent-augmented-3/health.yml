@@ -1,0 +1,206 @@
+schema_version: run-health-read-model-v1
+run_id: uec-validate-proposal-20260401-agent-augmented-3
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:709b8c773418b2cabe41d23b8087b3f67bccd14085a5a4c4c6c2d96647a97a6d
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3
+  evidence_classification: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/uec-validate-proposal-20260401-agent-augmented-3/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-contract.yml
+    digest: sha256:65e2d0d883bdccd75228983f55fb5ee249013ab8088f17062a5a5d8318aa380b
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/run-manifest.yml
+    digest: sha256:73da22e346338d277aecd59112bdfb770ec8967c1974a8596c67ac7e9db54253
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson
+    digest: sha256:2610a7d83f1f8bc24356f0b83bd2e1b7f242429089e0e17192c7481178f133ee
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml
+    digest: sha256:37194215aee6ca1da173157e04146c3f437ae0ec299bd197010976ebd064213d
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/runtime-state.yml
+    digest: sha256:9e7103f86cc71c0063a3100254f713f29acee4cb80712a1b57738012339e64ff
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-uec-validate-proposal-20260401-agent-augmented-3.yml
+    digest: sha256:0a8161b80c3f9327ff10e5b5b9fb8522a08377d51560fc82228be971e322c481
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+    digest: sha256:3d13689c98bd26a6715026750cbda59b8662e44c6e7727831d6170b9851ffc02
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/rollback-posture.yml
+    digest: sha256:444c0f3232c255ea66681fdd29b08ae39835a679d7c0010ff2d4540faac9b61c
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3
+    digest: sha256:482b566efe392adfe39fdd0c62566e321287710b74e926b2b8153c00daf64bbe
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/evidence-classification.yml
+    digest: sha256:31a782906d3824c4bb89d2951e86b6eb8951dd5a24f1475f00f85b6fc0c40bfe
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/retained-run-evidence.yml
+    digest: sha256:d5d375d05a302d408814367e7c821998e4d5eb1b6f040bb8158899b5ea9eeb31
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/replay-pointers.yml
+    digest: sha256:d28f53aed2b9361ca00582574d303ef41b51c1dd7ec592d5600adbde61301b34
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/uec-validate-proposal-20260401-agent-augmented-3/interventions/log.yml
+    digest: sha256:daa39a0a86070439839e6af7336e29cd7f8e7656d085f39afb896fed8cff7aff
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260401-agent-augmented-3/run-card.yml
+    digest: sha256:f3cee5d13b284cdcc6f18481a19399e27e841e6836c9e403dc5737d5b97d1393
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/uec-validate-proposal-20260401-agent-augmented-3/handoff.yml
+    digest: sha256:17adcc96e91446d2b72965c86d63a7398f58beb5a18c3cb93d01e8e314901b17
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:1fb68fa13332d378499d1ac1045e56e599950730e74a4de997c3435a5135121e
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:903d0f82d7c442ed970505ff04ad0f06b3cd65308dd536c61bf39bde5b4bd7e2
+  latest_sequence: 14
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-validate-proposal-20260401-agent-augmented-3.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: complete
+  missing_required: []
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: runtime-state-journal-head-mismatch
+  message: runtime-state.yml last applied event hash differs from the events manifest
+    tail hash.
+  refs:
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/runtime-state.yml
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260401-agent-augmented-3/events.ndjson

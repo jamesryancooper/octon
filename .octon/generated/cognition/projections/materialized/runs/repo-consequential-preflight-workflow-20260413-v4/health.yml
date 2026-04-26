@@ -1,0 +1,198 @@
+schema_version: run-health-read-model-v1
+run_id: repo-consequential-preflight-workflow-20260413-v4
+generated_at: '2026-04-24T18:40:00Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:292f67d755bc0b519e8e8745c0aca641352af1db4726f5af610f2551384fbb73
+  checked_at: '2026-04-24T18:40:00Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-repo-consequential-preflight-workflow-20260413-v4.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-repo-consequential-preflight-workflow-20260413-v4.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4
+  evidence_classification: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/repo-consequential-preflight-workflow-20260413-v4/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/repo-consequential-preflight-workflow-20260413-v4/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-contract.yml
+    digest: sha256:f84d91e29a872402d700b3bed5d73ba47e86765d80ee78163a8ecacd2efc7dc4
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/run-manifest.yml
+    digest: sha256:115973d59a05793fbc23d7561a2268e6bef7ac892a9ee9fd25a11dae7e4ea28d
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/events.ndjson
+    digest: missing
+    status: missing
+  events_manifest:
+    ref: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/events.manifest.yml
+    digest: missing
+    status: missing
+  runtime_state:
+    ref: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/runtime-state.yml
+    digest: sha256:f7f9ee2391be73575f152d29f9e4d93ed787e20b40a0f4309a2e0e1c2d106779
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-repo-consequential-preflight-workflow-20260413-v4.yml
+    digest: sha256:76c60692e3955a4c43c727970d18acdd78213446acf79a0af2a3b5227588d148
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-repo-consequential-preflight-workflow-20260413-v4.yml
+    digest: sha256:0e25978aa7edd6ceb319de9e55b0bbf204e3db32ed0f42b94a0ed2c8ef7e2666
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4/rollback-posture.yml
+    digest: sha256:3eebf3c94a42b96d4673751e91288dcf4f866cbcb3e29372d8e06dca7443066a
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4
+    digest: sha256:aefcead54d5ff7ea9899305dfd30129a1fb043efd9bf715ab2e4814c582e45a6
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/evidence-classification.yml
+    digest: sha256:95c8c9bd27c7bee6bb6863507ace0ae20e2c3da07b1be30b57cf0591c53b5db2
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/retained-run-evidence.yml
+    digest: sha256:f7f91800a8d29ed66f42dd22c0e8c8a6732a4e7a9d61d5d8a45a6eaaaf61cdb2
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/replay-pointers.yml
+    digest: sha256:24313d971132f5b8ce40ea9d209caf095e9f1144800afcaa65b84561de69d04f
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/repo-consequential-preflight-workflow-20260413-v4/interventions/log.yml
+    digest: sha256:489f9a97ef4ec3b69d4268e60714bda12179b52eaed8f2d5345848f2ffd42a48
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/repo-consequential-preflight-workflow-20260413-v4/run-card.yml
+    digest: sha256:3a9e4cc4522ccd83f35bb16e198abe2abae10d9af84653302a16b41b685559e4
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/repo-consequential-preflight-workflow-20260413-v4/handoff.yml
+    digest: sha256:47245760f0f6650be9059a06676e10226cab071c151f97a1e5a7d136011823a8
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:1fb68fa13332d378499d1ac1045e56e599950730e74a4de997c3435a5135121e
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: evidence-incomplete
+  summary: Required retained run evidence is incomplete for the current lifecycle
+    posture.
+  next_required_action: complete missing retained evidence refs
+lifecycle:
+  state: succeeded
+  decision_state: allow
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-repo-consequential-preflight-workflow-20260413-v4.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - events_journal
+  - events_manifest
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics: []
