@@ -28,11 +28,19 @@ import argparse
 import copy
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 
-import jsonschema
-import yaml
+try:
+    import jsonschema
+except ImportError:
+    jsonschema = None
+
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 ROOT_DIR = Path(sys.argv[1])
 OCTON_DIR = Path(sys.argv[2])
@@ -77,9 +85,242 @@ def parse_args():
 
 
 def load_yaml(path):
-    with Path(path).open("r", encoding="utf-8") as handle:
-        data = yaml.safe_load(handle)
-    return data or {}
+    path = Path(path)
+    if yaml is not None:
+        with path.open("r", encoding="utf-8") as handle:
+            data = yaml.safe_load(handle)
+        return data or {}
+    result = subprocess.run(
+        ["yq", "-o=json", ".", str(path)],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    return json.loads(result.stdout or "{}")
+
+
+def is_non_empty_string(value):
+    return isinstance(value, str) and len(value) > 0
+
+
+def is_ref_array(value):
+    return isinstance(value, list) and all(is_non_empty_string(item) for item in value) and len(value) == len(set(value))
+
+
+def is_hash_string(value):
+    if not isinstance(value, str) or not value.startswith("sha256:") or len(value) != 71:
+        return False
+    return all(ch in "0123456789abcdef" for ch in value[7:])
+
+
+def require_object(data, key, failures, context):
+    value = data.get(key)
+    if not isinstance(value, dict):
+        failures.append(f"{context}: schema validation failed: {key} must be an object")
+        return {}
+    return value
+
+
+def validate_schema_or_fallback(schema, data, context):
+    if jsonschema is not None:
+        try:
+            jsonschema.validate(data, schema)
+        except jsonschema.ValidationError as exc:
+            return [f"{context}: schema validation failed: {exc.message}"]
+        return []
+
+    failures = []
+    if not isinstance(data, dict):
+        return [f"{context}: schema validation failed: document must be an object"]
+
+    required_top_level = (
+        "schema_version",
+        "run_id",
+        "generated_at",
+        "generator",
+        "authority",
+        "freshness",
+        "canonical_refs",
+        "source_digests",
+        "health",
+        "lifecycle",
+        "support",
+        "authorization",
+        "evidence",
+        "rollback",
+        "intervention",
+        "disclosure",
+        "closure",
+        "diagnostics",
+    )
+    for key in required_top_level:
+        if key not in data:
+            failures.append(f"{context}: schema validation failed: missing required property {key}")
+    if failures:
+        return failures
+
+    if data.get("schema_version") != "run-health-read-model-v1":
+        failures.append(f"{context}: schema validation failed: schema_version must be run-health-read-model-v1")
+    if not is_non_empty_string(data.get("run_id")):
+        failures.append(f"{context}: schema validation failed: run_id must be a non-empty string")
+    if not is_non_empty_string(data.get("generated_at")):
+        failures.append(f"{context}: schema validation failed: generated_at must be a non-empty string")
+
+    generator = require_object(data, "generator", failures, context)
+    if generator.get("id") != "generate-run-health-read-model.sh":
+        failures.append(f"{context}: schema validation failed: generator.id is invalid")
+    if not is_non_empty_string(generator.get("version")):
+        failures.append(f"{context}: schema validation failed: generator.version must be a non-empty string")
+    if generator.get("validator_ref") != ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh":
+        failures.append(f"{context}: schema validation failed: generator.validator_ref is invalid")
+
+    authority = require_object(data, "authority", failures, context)
+    if authority.get("classification") != "generated_read_model_non_authoritative":
+        failures.append(f"{context}: schema validation failed: authority.classification is invalid")
+    if authority.get("may_authorize") is not False:
+        failures.append(f"{context}: schema validation failed: authority.may_authorize must be false")
+    if authority.get("may_widen_support") is not False:
+        failures.append(f"{context}: schema validation failed: authority.may_widen_support must be false")
+    if not is_ref_array(authority.get("allowed_consumers")):
+        failures.append(f"{context}: schema validation failed: authority.allowed_consumers must be a unique string list")
+    elif not set(authority["allowed_consumers"]).issubset({"operators", "validators"}):
+        failures.append(f"{context}: schema validation failed: authority.allowed_consumers has unsupported values")
+    if not is_ref_array(authority.get("forbidden_consumers")):
+        failures.append(f"{context}: schema validation failed: authority.forbidden_consumers must be a unique string list")
+    elif not set(authority["forbidden_consumers"]).issubset(
+        {"runtime", "policy", "authority", "support-claim-evaluation", "state-reconstruction", "direct-runtime-reads"}
+    ):
+        failures.append(f"{context}: schema validation failed: authority.forbidden_consumers has unsupported values")
+
+    freshness = require_object(data, "freshness", failures, context)
+    if freshness.get("mode") not in {"digest-bound", "ttl-bound", "receipt-bound", "unknown"}:
+        failures.append(f"{context}: schema validation failed: freshness.mode is invalid")
+    if freshness.get("status") not in {"fresh", "stale", "unknown"}:
+        failures.append(f"{context}: schema validation failed: freshness.status is invalid")
+    if freshness.get("source_digest_algorithm") != "sha256":
+        failures.append(f"{context}: schema validation failed: freshness.source_digest_algorithm must be sha256")
+    if not is_hash_string(freshness.get("combined_source_digest")):
+        failures.append(f"{context}: schema validation failed: freshness.combined_source_digest must be a sha256 hash")
+    if not is_non_empty_string(freshness.get("checked_at")):
+        failures.append(f"{context}: schema validation failed: freshness.checked_at must be a non-empty string")
+    if "freshness_refs" in freshness and not is_ref_array(freshness.get("freshness_refs")):
+        failures.append(f"{context}: schema validation failed: freshness.freshness_refs must be a unique string list")
+
+    canonical = require_object(data, "canonical_refs", failures, context)
+    for key in (
+        "run_contract",
+        "run_manifest",
+        "events_journal",
+        "events_manifest",
+        "runtime_state",
+        "authority_decision",
+        "authority_bundle",
+        "rollback_posture",
+        "evidence_root",
+        "evidence_classification",
+        "retained_evidence",
+        "replay_pointers",
+        "intervention_log",
+        "disclosure_run_card",
+        "support_targets",
+        "support_reconciliation",
+        "run_continuity",
+    ):
+        if key not in canonical:
+            failures.append(f"{context}: schema validation failed: canonical_refs.{key} is required")
+
+    digests = require_object(data, "source_digests", failures, context)
+    if not digests:
+        failures.append(f"{context}: schema validation failed: source_digests must not be empty")
+    for key, item in digests.items():
+        if not isinstance(item, dict):
+            failures.append(f"{context}: schema validation failed: source_digests.{key} must be an object")
+            continue
+        if "ref" not in item or "digest" not in item or "status" not in item:
+            failures.append(f"{context}: schema validation failed: source_digests.{key} is missing required fields")
+        if item.get("status") not in {"present", "missing", "not-applicable"}:
+            failures.append(f"{context}: schema validation failed: source_digests.{key}.status is invalid")
+        digest = item.get("digest")
+        if digest not in {"missing", "not-applicable"} and not is_hash_string(digest):
+            failures.append(f"{context}: schema validation failed: source_digests.{key}.digest is invalid")
+
+    health = require_object(data, "health", failures, context)
+    if health.get("status") not in REQUIRED_STATUSES:
+        failures.append(f"{context}: schema validation failed: health.status is invalid")
+    if not is_non_empty_string(health.get("summary")):
+        failures.append(f"{context}: schema validation failed: health.summary must be a non-empty string")
+    if not is_non_empty_string(health.get("next_required_action")):
+        failures.append(f"{context}: schema validation failed: health.next_required_action must be a non-empty string")
+
+    lifecycle = require_object(data, "lifecycle", failures, context)
+    for key in ("state", "decision_state", "drift_status", "latest_event_hash"):
+        if key not in lifecycle:
+            failures.append(f"{context}: schema validation failed: lifecycle.{key} is required")
+    if lifecycle.get("latest_event_hash") is not None and not is_hash_string(lifecycle.get("latest_event_hash")):
+        failures.append(f"{context}: schema validation failed: lifecycle.latest_event_hash is invalid")
+
+    support = require_object(data, "support", failures, context)
+    if support.get("route_status") not in {"allow", "stage-only", "deny", "unsupported", "unknown"}:
+        failures.append(f"{context}: schema validation failed: support.route_status is invalid")
+    if support.get("pack_status") not in {"allow", "stage-only", "deny", "unsupported", "unknown"}:
+        failures.append(f"{context}: schema validation failed: support.pack_status is invalid")
+    if support.get("support_status") not in {"supported", "stage-only", "unsupported", "unknown"}:
+        failures.append(f"{context}: schema validation failed: support.support_status is invalid")
+    if "requested_capability_packs" in support and not is_ref_array(support.get("requested_capability_packs")):
+        failures.append(f"{context}: schema validation failed: support.requested_capability_packs must be a unique string list")
+
+    authorization = require_object(data, "authorization", failures, context)
+    if authorization.get("status") not in {"authorized", "approval-required", "revoked", "denied", "review-required", "unknown"}:
+        failures.append(f"{context}: schema validation failed: authorization.status is invalid")
+    for key in ("active_grants", "open_approvals", "active_exceptions", "active_revocations"):
+        if not is_ref_array(authorization.get(key)):
+            failures.append(f"{context}: schema validation failed: authorization.{key} must be a unique string list")
+
+    evidence = require_object(data, "evidence", failures, context)
+    if evidence.get("completeness") not in {"complete", "incomplete", "unknown"}:
+        failures.append(f"{context}: schema validation failed: evidence.completeness is invalid")
+    if not is_ref_array(evidence.get("missing_required")):
+        failures.append(f"{context}: schema validation failed: evidence.missing_required must be a unique string list")
+
+    rollback = require_object(data, "rollback", failures, context)
+    if rollback.get("status") not in {"ready", "required", "unavailable", "unknown"}:
+        failures.append(f"{context}: schema validation failed: rollback.status is invalid")
+
+    intervention = require_object(data, "intervention", failures, context)
+    if intervention.get("status") not in {"none", "present", "required", "unknown"}:
+        failures.append(f"{context}: schema validation failed: intervention.status is invalid")
+    if not isinstance(intervention.get("undisclosed_count"), int) or intervention.get("undisclosed_count") < 0:
+        failures.append(f"{context}: schema validation failed: intervention.undisclosed_count must be a non-negative integer")
+    if not isinstance(intervention.get("records"), list):
+        failures.append(f"{context}: schema validation failed: intervention.records must be a list")
+
+    disclosure = require_object(data, "disclosure", failures, context)
+    if disclosure.get("status") not in {"complete", "incomplete", "unknown"}:
+        failures.append(f"{context}: schema validation failed: disclosure.status is invalid")
+
+    closure = require_object(data, "closure", failures, context)
+    if closure.get("status") not in {"ready", "not-ready", "blocked", "unknown"}:
+        failures.append(f"{context}: schema validation failed: closure.status is invalid")
+
+    diagnostics = data.get("diagnostics")
+    if not isinstance(diagnostics, list):
+        failures.append(f"{context}: schema validation failed: diagnostics must be a list")
+    else:
+        for index, item in enumerate(diagnostics):
+            if not isinstance(item, dict):
+                failures.append(f"{context}: schema validation failed: diagnostics[{index}] must be an object")
+                continue
+            if item.get("severity") not in {"info", "warning", "error"}:
+                failures.append(f"{context}: schema validation failed: diagnostics[{index}].severity is invalid")
+            if not is_non_empty_string(item.get("code")):
+                failures.append(f"{context}: schema validation failed: diagnostics[{index}].code must be a non-empty string")
+            if not is_non_empty_string(item.get("message")):
+                failures.append(f"{context}: schema validation failed: diagnostics[{index}].message must be a non-empty string")
+            if not is_ref_array(item.get("refs")):
+                failures.append(f"{context}: schema validation failed: diagnostics[{index}].refs must be a unique string list")
+
+    return failures
 
 
 def resolve_ref(ref):
@@ -160,10 +401,9 @@ def validate_one(schema, path):
     failures = []
     data = load_yaml(path)
     context = str(path)
-    try:
-        jsonschema.validate(data, schema)
-    except jsonschema.ValidationError as exc:
-        failures.append(f"{context}: schema validation failed: {exc.message}")
+    schema_failures = validate_schema_or_fallback(schema, data, context)
+    if schema_failures:
+        failures.extend(schema_failures)
         return failures, data
 
     authority = data["authority"]
@@ -235,19 +475,13 @@ def mutate_negative_controls(schema, valid_file):
 
     missing_classification = copy.deepcopy(original)
     missing_classification["authority"]["classification"] = "authority"
-    try:
-        jsonschema.validate(missing_classification, schema)
+    if not validate_schema_or_fallback(schema, missing_classification, "missing-non-authority-classification"):
         failures.append("missing-non-authority-classification negative control unexpectedly passed schema")
-    except jsonschema.ValidationError:
-        pass
 
     authority_widening = copy.deepcopy(original)
     authority_widening["authority"]["may_authorize"] = True
-    try:
-        jsonschema.validate(authority_widening, schema)
+    if not validate_schema_or_fallback(schema, authority_widening, "authority-widening"):
         failures.append("authority-widening negative control unexpectedly passed schema")
-    except jsonschema.ValidationError:
-        pass
 
     digest_drift = copy.deepcopy(original)
     first_key = next(iter(digest_drift["source_digests"]))

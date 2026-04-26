@@ -76,16 +76,7 @@ case_non_authority_mutation_fails() {
       --fixtures-root "$tmp/fixtures" \
       --output-root "$tmp/generated" \
       --evidence-root "$tmp/evidence" >/dev/null
-  python3 - "$tmp/generated/healthy/health.yml" <<'PY'
-from pathlib import Path
-import sys
-import yaml
-
-path = Path(sys.argv[1])
-data = yaml.safe_load(path.read_text())
-data["authority"]["may_authorize"] = True
-path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
-PY
+  yq -i '.authority.may_authorize = true' "$tmp/generated/healthy/health.yml"
   ! bash "$VALIDATOR" \
     --no-live \
     --fixtures-root "$tmp/fixtures" \
@@ -100,17 +91,9 @@ case_digest_mutation_fails() {
       --fixtures-root "$tmp/fixtures" \
       --output-root "$tmp/generated" \
       --evidence-root "$tmp/evidence" >/dev/null
-  python3 - "$tmp/generated/healthy/health.yml" <<'PY'
-from pathlib import Path
-import sys
-import yaml
-
-path = Path(sys.argv[1])
-data = yaml.safe_load(path.read_text())
-first_key = next(iter(data["source_digests"]))
-data["source_digests"][first_key]["digest"] = "sha256:" + ("0" * 64)
-path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
-PY
+  local first_key
+  first_key="$(yq -r '.source_digests | keys | .[0]' "$tmp/generated/healthy/health.yml")"
+  first_key="$first_key" yq -i '.source_digests[strenv(first_key)].digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"' "$tmp/generated/healthy/health.yml"
   ! bash "$VALIDATOR" \
     --no-live \
     --fixtures-root "$tmp/fixtures" \

@@ -13,11 +13,15 @@ import argparse
 import hashlib
 import json
 import os
+import subprocess
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-import yaml
+try:
+    import yaml
+except ImportError:
+    yaml = None
 
 ROOT_DIR = Path(sys.argv[1])
 OCTON_DIR = Path(sys.argv[2])
@@ -69,14 +73,27 @@ def utc_now():
 def load_yaml(path):
     if not path or not Path(path).is_file():
         return {}
-    with Path(path).open("r", encoding="utf-8") as handle:
-        data = yaml.safe_load(handle)
-    return data or {}
+    path = Path(path)
+    if yaml is not None:
+        with path.open("r", encoding="utf-8") as handle:
+            data = yaml.safe_load(handle)
+        return data or {}
+    result = subprocess.run(
+        ["yq", "-o=json", ".", str(path)],
+        check=True,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    return json.loads(result.stdout or "{}")
 
 
 def write_yaml(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+    if yaml is not None:
+        path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
+    else:
+        path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
 def repo_ref(path):

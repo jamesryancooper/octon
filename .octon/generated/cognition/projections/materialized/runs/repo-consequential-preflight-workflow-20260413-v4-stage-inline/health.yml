@@ -23,7 +23,7 @@ freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:1ecf0e75a3aeee70f953808863d86b3cb8aeab068a71b5f38373320d4fd113cf
+  combined_source_digest: sha256:8c0c34f8d7c8d685231fac1b0fc8c244e5ab3fe4e3cd8be24c0304b543f9f9cd
   checked_at: '2026-04-24T18:40:00Z'
   expires_at: null
   freshness_refs:
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:30fac957a5e97e5bc2da2e9bd8cc103722a81d43d6b48e660ec734690704933f
+    digest: sha256:8775ca1dbbe5973890f906b018dbe980f5c2d397860b5c4cef0fb7739e64db10
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/handoff.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:1fb68fa13332d378499d1ac1045e56e599950730e74a4de997c3435a5135121e
+    digest: sha256:c6de6e0afd0230309df8d353cbd5299464b9e32f2de7b546ea198027560ea0ff
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

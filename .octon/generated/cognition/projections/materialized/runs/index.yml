@@ -14,6 +14,15 @@ runs:
 - run_id: protected-ci-1776956405637-68212
   health_ref: .octon/generated/cognition/projections/materialized/runs/protected-ci-1776956405637-68212/health.yml
   status: stale
+- run_id: publish-1777215062293-99294
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777215062293-99294/health.yml
+  status: stale
+- run_id: publish-1777216728113-34874
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777216728113-34874/health.yml
+  status: stale
+- run_id: publish-1777217145785-18561
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777217145785-18561/health.yml
+  status: stale
 - run_id: repo-consequential-preflight-workflow-20260413-v4
   health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml
   status: evidence-incomplete
