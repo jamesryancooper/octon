@@ -13,6 +13,7 @@ import argparse
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -1107,6 +1108,23 @@ def write_evidence(evidence_root, generated_at, outputs, no_evidence):
     )
 
 
+def prune_stale_generated_runs(output_root, live_run_ids):
+    if not output_root.is_dir():
+        return []
+    live_run_ids = set(live_run_ids)
+    pruned = []
+    for candidate in output_root.iterdir():
+        if not candidate.is_dir():
+            continue
+        if candidate.name in live_run_ids:
+            continue
+        if not (candidate / "health.yml").is_file():
+            continue
+        shutil.rmtree(candidate)
+        pruned.append(candidate.name)
+    return sorted(pruned)
+
+
 def main():
     args = parse_args()
     generated_at = args.generated_at or utc_now()
@@ -1125,6 +1143,7 @@ def main():
     run_ids = sorted(set(run_ids))
     if not run_ids:
         raise SystemExit("No run ids supplied. Use --run-id <id> or --all-runs.")
+    pruned = prune_stale_generated_runs(output_root, run_ids) if args.all_runs else []
 
     outputs = []
     for run_id in run_ids:
@@ -1150,6 +1169,8 @@ def main():
         },
     )
     write_evidence(evidence_root, generated_at, outputs, args.no_evidence)
+    if pruned:
+        print(f"Pruned {len(pruned)} stale run-health read models under {output_root}")
     print(f"Generated {len(outputs)} run-health read models under {output_root}")
 
 

@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
-generated_at: '2026-04-28T21:45:38Z'
+generated_at: '2026-04-28T23:45:40Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:5ceaf19b2fa23aad4306dc542baaf89476ab12f8d3a8d0b2f703f9547d02c6a5
-  checked_at: '2026-04-28T21:45:38Z'
+  combined_source_digest: sha256:6741ecbc039a4c9059b601f559639c1d2024bb52ea437bd03cb7b45b683bf1a7
+  checked_at: '2026-04-28T23:45:40Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:44c7ed6e5772f6c093b0c13d8d36e5cad10a90fa33355ba15eb3733fa3e87cbf
+    digest: sha256:eefce0c9cbad53c6700765ad638eaab3cff8c9aab1dd2790ed3727c131033b2e
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/uec-safe-stage-lease-revocation-exercise-20260402/handoff.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:193088594b0cb6357f08fa5c74264304bad60838d787880e5f5f733a6134eb23
+    digest: sha256:c92ec0d3ef359e480dc54eb2dec82bcd8e76932bb5af1027afee779caa9b7cf6
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml

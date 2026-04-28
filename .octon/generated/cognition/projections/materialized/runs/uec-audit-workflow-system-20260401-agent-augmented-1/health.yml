@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: uec-audit-workflow-system-20260401-agent-augmented-1
-generated_at: '2026-04-28T21:45:38Z'
+generated_at: '2026-04-28T23:45:40Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:36f840829dec1b8c3086e884968a0e94ce4a0c9c4465b8314c2d61f6b62c1bb3
-  checked_at: '2026-04-28T21:45:38Z'
+  combined_source_digest: sha256:0f5954d0d41fe38ed770ecd3c53bc383e1d7b4e0a303313dfd6f7fc1aab12b79
+  checked_at: '2026-04-28T23:45:40Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/uec-audit-workflow-system-20260401-agent-augmented-1/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:44c7ed6e5772f6c093b0c13d8d36e5cad10a90fa33355ba15eb3733fa3e87cbf
+    digest: sha256:eefce0c9cbad53c6700765ad638eaab3cff8c9aab1dd2790ed3727c131033b2e
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/uec-audit-workflow-system-20260401-agent-augmented-1/handoff.yml
@@ -137,7 +137,7 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:193088594b0cb6357f08fa5c74264304bad60838d787880e5f5f733a6134eb23
+    digest: sha256:c92ec0d3ef359e480dc54eb2dec82bcd8e76932bb5af1027afee779caa9b7cf6
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
