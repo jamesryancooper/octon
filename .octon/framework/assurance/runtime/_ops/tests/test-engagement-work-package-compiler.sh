@@ -66,7 +66,7 @@ build_generated_fixture() {
     "$case_root/.octon/state/evidence/engagements/eng-001/run-contract-readiness" \
     "$case_root/.octon/state/evidence/engagements/eng-001/cli"
 
-  rm -rf \
+  rm -r -f \
     "$case_root/.octon/framework/engine/runtime/spec" \
     "$case_root/.octon/framework/cognition/_meta/architecture/contract-registry.yml" \
     "$case_root/.octon/framework/constitution/contracts" \

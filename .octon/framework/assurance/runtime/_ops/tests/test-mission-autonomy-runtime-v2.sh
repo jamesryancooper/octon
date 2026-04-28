@@ -8,7 +8,7 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)}"
 "$VALIDATOR" --root "$ROOT_DIR" "$@"
 
 tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
+trap 'rm -r -f "$tmp"' EXIT
 
 mkdir -p "$tmp/.octon/state/control/missions"
 if "$VALIDATOR" --root "$tmp" >/tmp/octon-mar-v2-negative.out 2>&1; then

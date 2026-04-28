@@ -9,7 +9,7 @@ PROGRAM_ID="${PROGRAM_ID:-octon-continuous-stewardship}"
 "$VALIDATOR" --root "$ROOT_DIR" --program-id "$PROGRAM_ID" "$@"
 
 tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
+trap 'rm -r -f "$tmp"' EXIT
 
 mkdir -p "$tmp/.octon"
 ln -s "$ROOT_DIR/.octon/framework" "$tmp/.octon/framework"

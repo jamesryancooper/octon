@@ -8,7 +8,7 @@ ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$SCRIPT_DIR/../../../../../.." && pwd)}"
 "$VALIDATOR" --root "$ROOT_DIR" --connector mcp --operation observe-context "$@"
 
 tmp="$(mktemp -d)"
-trap 'rm -rf "$tmp"' EXIT
+trap 'rm -r -f "$tmp"' EXIT
 cp -R "$ROOT_DIR/.octon" "$tmp/.octon"
 
 expect_fail() {
