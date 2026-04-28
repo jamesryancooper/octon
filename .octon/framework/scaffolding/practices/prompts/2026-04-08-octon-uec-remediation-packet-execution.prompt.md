@@ -42,8 +42,8 @@ Read these before planning or implementation:
 9. `/.octon/framework/constitution/contracts/registry.yml`
 10. `/.octon/instance/charter/workspace.md`
 11. `/.octon/instance/charter/workspace.yml`
-12. `/.octon/framework/agency/practices/commits.md`
-13. `/.octon/framework/agency/practices/pull-request-standards.md`
+12. `/.octon/framework/execution-roles/practices/commits.md`
+13. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 14. `/.octon/inputs/exploratory/proposals/architecture/octon_uec_remediation_packet/00_packet-index.md`
 15. `/.octon/inputs/exploratory/proposals/architecture/octon_uec_remediation_packet/12_resources/12a_current-implementation-audit.md`
 16. `/.octon/inputs/exploratory/proposals/architecture/octon_uec_remediation_packet/02_current-state-blocker-ledger.md`

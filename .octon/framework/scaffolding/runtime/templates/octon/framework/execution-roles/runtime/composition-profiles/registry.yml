@@ -1,0 +1,15 @@
+schema_version: "execution-role-composition-profile-registry-v1"
+default: null
+
+composition_profiles: []
+# Example:
+#   - id: delivery-core
+#     path: delivery-core/
+#     purpose: "Default delivery composition with one accountable owner and optional independent verification"
+#     lead_execution_role: orchestrator
+#     members:
+#       orchestrator: orchestrator
+#       specialists: [reviewer, refactor, docs]
+#       verifiers: [independent-verifier]
+#     handoff_policy: "orchestrator-owns -> specialists-isolate-bounded-work -> verifier-checks-when-needed"
+#     default_workflow: null

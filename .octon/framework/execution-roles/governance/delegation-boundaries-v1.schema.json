@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://octon.local/agency/governance/delegation-boundaries-v1.schema.json",
+  "$id": "https://octon.local/execution-roles/governance/delegation-boundaries-v1.schema.json",
   "title": "Octon Delegation Boundaries v1",
   "description": "Machine-readable delegation boundary set for deterministic allow/escalate/block routing.",
   "type": "object",

@@ -1,11 +1,11 @@
 ---
 title: Start Here
-description: Your entry point to Octon—an agent-first, system-governed methodology for building enterprise-quality software.
+description: Your entry point to Octon—a governed execution-role methodology for building enterprise-quality software.
 ---
 
 # Octon: Start Here
 
-Welcome to Octon. Octon is **agent-first and system-governed**: agents run standardized contracts, workflows, and checks by default. You provide governance oversight, policy decisions, and escalation authority.
+Welcome to Octon. Octon is **execution-role-first and system-governed**: execution roles run standardized contracts, workflows, and checks by default. You provide governance oversight, policy decisions, and escalation authority.
 
 ---
 
@@ -13,7 +13,7 @@ Welcome to Octon. Octon is **agent-first and system-governed**: agents run stand
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  YOU GOVERN            │  AGENTS HANDLE                        │
+│  YOU GOVERN            │  EXECUTION ROLES HANDLE               │
 ├─────────────────────────────────────────────────────────────────┤
 │  Policy → Priorities   │  Specs, code, tests, docs, gates,     │
 │  → Review → Escalate   │  security analysis, observability,    │
@@ -25,9 +25,9 @@ Kits: The tools AI uses under the hood. You don't call them directly.
 
 **The simple version:**
 - You set policy and priorities
-- Agents do the heavy lifting under default governance
+- Execution roles do the heavy lifting under default governance
 - You review risk-tiered outputs and approve when required
-- Agents ship safely with receipts and rollback paths
+- Execution roles ship safely with receipts and rollback paths
 
 ---
 
@@ -187,4 +187,4 @@ The simple docs you're reading are the human-facing layer. For full details on m
 - **Kit Documentation**: [Kits Reference](/.octon/framework/capabilities/runtime/services/_meta/docs/kits-reference.md)
 - **Security Policies**: [cognition/practices/methodology/security-baseline.md](../../cognition/practices/methodology/security-baseline.md)
 
-These docs are detailed and comprehensive—designed for AI agents to consume. You don't need to read them unless you want to understand how things work under the hood.
+These docs are detailed and comprehensive, designed for governed execution roles to consume. You don't need to read them unless you want to understand how things work under the hood.

@@ -462,7 +462,7 @@ If the repo still enables these points, prefer them when appropriate:
 - `instance-governance-exclusions`
 - `instance-governance-capability-packs`
 - `instance-governance-decisions`
-- `instance-agency-runtime`
+- `instance-execution-roles-runtime`
 - `instance-assurance-runtime`
 
 If a change naturally fits one of these, use it. If it does not, do not force-fit it into an overlay. If the concept requires a currently undeclared overlay point, make that explicit and justify why an existing instance-native surface is insufficient.

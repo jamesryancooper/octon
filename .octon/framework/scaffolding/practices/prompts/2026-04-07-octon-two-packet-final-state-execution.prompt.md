@@ -81,8 +81,8 @@ Read these before planning or implementation:
 14. `/.octon/instance/governance/contracts/retirement-policy.yml`
 15. `/.octon/instance/governance/contracts/retirement-registry.yml`
 16. `/.octon/instance/governance/contracts/closeout-reviews.yml`
-17. `/.octon/framework/agency/practices/commits.md`
-18. `/.octon/framework/agency/practices/pull-request-standards.md`
+17. `/.octon/framework/execution-roles/practices/commits.md`
+18. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 19. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_remediation_certification/README.md`
 20. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_remediation_certification/00-executive-framing.md`
 21. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon_remediation_certification/03-bounded-certification-plan.md`

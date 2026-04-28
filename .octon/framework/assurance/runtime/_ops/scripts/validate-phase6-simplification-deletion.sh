@@ -105,7 +105,7 @@ main() {
 
   require_text 'The execution-role kernel path is fixed:' "$AGENCY_README" "execution-role README publishes orchestrator-first kernel path"
   require_text 'Execution roles never authorize themselves.' "$AGENCY_SPEC" "execution-role specification documents engine-owned authorization boundary"
-  forbid_text 'framework/execution-roles/governance/CONSTITUTION.md' "$INGRESS" "instance ingress excludes agency CONSTITUTION.md from kernel path"
+  forbid_text 'framework/execution-roles/governance/CONSTITUTION.md' "$INGRESS" "instance ingress excludes retired governance CONSTITUTION.md from kernel path"
   require_text '.octon/framework/execution-roles/runtime/orchestrator/ROLE.md' "$INGRESS" "instance ingress points at orchestrator contract"
   require_text 'historical-shim' "$CONTRACT_REGISTRY" "contract registry demotes duplicate constitutional shims"
 
@@ -137,10 +137,10 @@ main() {
   require_text '.octon/framework/scaffolding/**' "$ARCH_WORKFLOW" "architecture conformance workflow triggers on scaffolding changes"
 
   run_test \
-    "agency validator passes with orchestrator-first path" \
+    "execution-role validator passes with orchestrator-first path" \
     bash "$OCTON_DIR/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh"
   run_test \
-    "agency label catalog validator passes after lane-label deletion" \
+    "execution-role label catalog validator passes after lane-label deletion" \
     bash "$OCTON_DIR/framework/execution-roles/_ops/scripts/validate/validate-autonomy-labels.sh"
   run_test \
     "bootstrap ingress validator passes" \

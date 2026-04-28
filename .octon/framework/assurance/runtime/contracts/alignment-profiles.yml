@@ -38,7 +38,7 @@ profiles:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-constitutional-family-live-model.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-disclosure-live-roots.sh"
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-wave5-agency-adapter-hardening.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-adapter-hardening.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-review-disposition-integration.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-distillation-refinements.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-tool-output-envelope-contracts.sh"
@@ -89,12 +89,12 @@ profiles:
     consumers:
       - "local"
       - "ci"
-  - id: "agency"
-    label: "Agency contract and registry checks"
-    entrypoint: "run_agency"
+  - id: "execution-roles"
+    label: "Execution-role contract and registry checks"
+    entrypoint: "run_execution_roles"
     required_paths:
       - ".octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh"
-      - ".octon/framework/assurance/runtime/_ops/scripts/validate-wave5-agency-adapter-hardening.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-adapter-hardening.sh"
     dry_run_safe: true
     consumers:
       - "local"

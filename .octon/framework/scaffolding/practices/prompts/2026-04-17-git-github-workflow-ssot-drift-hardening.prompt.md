@@ -83,12 +83,12 @@ Read these before making changes:
 10. `/.octon/framework/constitution/contracts/registry.yml`
 11. `/.octon/instance/charter/workspace.md`
 12. `/.octon/instance/charter/workspace.yml`
-13. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+13. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 14. `/.octon/instance/ingress/manifest.yml`
-15. `/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`
-16. `/.octon/framework/agency/practices/git-autonomy-playbook.md`
-17. `/.octon/framework/agency/practices/git-github-autonomy-workflow-v1.md`
-18. `/.octon/framework/agency/practices/pull-request-standards.md`
+15. `/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`
+16. `/.octon/framework/execution-roles/practices/git-autonomy-playbook.md`
+17. `/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md`
+18. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 19. `/.octon/framework/agency/_ops/scripts/git/git-pr-open.sh`
 20. `/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`
 21. `/.octon/framework/agency/_ops/scripts/git/git-pr-cleanup.sh`

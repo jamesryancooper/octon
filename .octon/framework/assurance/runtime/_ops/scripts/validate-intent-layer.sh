@@ -58,8 +58,8 @@ main() {
   echo "== Intent Layer Validation =="
 
   local intent_schema="$OCTON_DIR/engine/runtime/spec/intent-contract-v1.schema.json"
-  local boundary_contract="$OCTON_DIR/agency/governance/delegation-boundaries-v1.yml"
-  local boundary_schema="$OCTON_DIR/agency/governance/delegation-boundaries-v1.schema.json"
+  local boundary_contract="$OCTON_DIR/execution-roles/governance/delegation-boundaries-v1.yml"
+  local boundary_schema="$OCTON_DIR/execution-roles/governance/delegation-boundaries-v1.schema.json"
   local capability_map="$OCTON_DIR/orchestration/governance/capability-map-v1.yml"
   local capability_map_schema="$OCTON_DIR/orchestration/governance/capability-map-v1.schema.json"
   local policy_receipt_schema="$OCTON_DIR/engine/runtime/spec/policy-receipt-v1.schema.json"
@@ -88,9 +88,9 @@ main() {
 
   require_rg "intent_ref" "$policy_interface_spec" "policy interface requires intent_ref"
   require_rg "MODE_VIOLATION_AUTONOMY_NOT_ALLOWED" "$policy_interface_spec" "policy interface declares autonomy mode violation deny"
-  require_rg "acp-service-execute-mode-violation" "$policy_file" "policy contains mode-violation routing rule"
-  require_rg "acp-service-execute-boundary-escalate" "$policy_file" "policy contains boundary escalate routing rule"
-  require_rg "acp-service-execute-boundary-block" "$policy_file" "policy contains boundary block routing rule"
+  require_rg "acp-service-execute-human" "$policy_file" "policy contains role-mediated service execution route"
+  require_rg "boundary_route: \\[allow\\]" "$policy_file" "policy contains explicit boundary allow route"
+  require_rg "service.autonomy_route_missing" "$policy_file" "policy contains autonomous route-missing deny rule"
   require_rg "intent_ref|boundary_id|workflow_mode|capability_classification" "$receipt_writer" "receipt writer emits intent-layer provenance fields"
 
   if [[ $warnings -gt 0 ]]; then

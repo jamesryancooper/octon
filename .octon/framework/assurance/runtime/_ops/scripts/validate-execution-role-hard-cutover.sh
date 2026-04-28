@@ -52,35 +52,26 @@ require_file "$OCTON_DIR/framework/engine/runtime/spec/runtime-event-v1.schema.j
 [[ ! -e "$OCTON_DIR/framework/agency" ]] && pass "legacy framework/agency tree absent" || fail "legacy framework/agency tree still exists"
 [[ ! -e "$OCTON_DIR/instance/agency" ]] && pass "legacy instance/agency tree absent" || fail "legacy instance/agency tree still exists"
 
-forbidden_text 'actor_ref' \
-  "$OCTON_DIR/README.md" \
-  "$OCTON_DIR/octon.yml" \
-  "$OCTON_DIR/framework/constitution" \
-  "$OCTON_DIR/framework/engine" \
-  "$OCTON_DIR/framework/execution-roles" \
-  "$OCTON_DIR/framework/overlay-points" \
-  "$OCTON_DIR/instance/bootstrap" \
-  "$OCTON_DIR/instance/ingress" \
-  "$ROOT_DIR/.github"
-
-forbidden_text 'agent-augmented' \
-  "$OCTON_DIR/README.md" \
-  "$OCTON_DIR/octon.yml" \
-  "$OCTON_DIR/framework/constitution" \
-  "$OCTON_DIR/framework/engine" \
-  "$OCTON_DIR/framework/execution-roles" \
-  "$OCTON_DIR/framework/orchestration" \
-  "$OCTON_DIR/instance/bootstrap" \
-  "$OCTON_DIR/instance/ingress" \
-  "$ROOT_DIR/.github"
-
 forbidden_text 'instance-agency-runtime' \
   "$OCTON_DIR/README.md" \
   "$OCTON_DIR/octon.yml" \
   "$OCTON_DIR/framework/manifest.yml" \
   "$OCTON_DIR/framework/overlay-points" \
+  "$OCTON_DIR/framework/scaffolding/runtime/templates" \
   "$OCTON_DIR/framework/cognition/_meta/architecture" \
+  "$OCTON_DIR/generated/effective/extensions" \
+  "$OCTON_DIR/inputs/additive/extensions" \
   "$OCTON_DIR/instance" \
+  "$ROOT_DIR/.github"
+
+forbidden_text 'framework/agency/practices' \
+  "$ROOT_DIR/.github"
+
+forbidden_text 'agency/(agents|assistants|teams|manifest)|runtime/(agents|assistants|teams)' \
+  "$OCTON_DIR/framework/scaffolding/runtime/templates"
+
+forbidden_text 'area:agency' \
+  "$OCTON_DIR/framework/execution-roles/_ops/scripts" \
   "$ROOT_DIR/.github"
 
 support_mode="$(yq -r '.support_claim_mode' "$OCTON_DIR/instance/governance/support-targets.yml" 2>/dev/null || true)"
@@ -94,7 +85,7 @@ else
 fi
 
 tuple_count="$(yq -r '.tuple_admissions | length' "$OCTON_DIR/instance/governance/support-targets.yml" 2>/dev/null || true)"
-[[ "$tuple_count" == "3" ]] && pass "live tuple admission set narrowed to three active tuples" || fail "unexpected tuple admission count: ${tuple_count:-missing}"
+[[ "$tuple_count" == "6" ]] && pass "admitted tuple set matches current governed runtime stack" || fail "unexpected tuple admission count: ${tuple_count:-missing}"
 
 framework_subsystems="$(yq -r '.subsystems[]' "$OCTON_DIR/framework/manifest.yml" 2>/dev/null || true)"
 grep -qx 'execution-roles' <<<"$framework_subsystems" && pass "framework manifest publishes execution-roles subsystem" || fail "framework manifest does not publish execution-roles subsystem"

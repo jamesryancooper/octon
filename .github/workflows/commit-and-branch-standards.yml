@@ -91,8 +91,7 @@ jobs:
             }
 
             const standards = await readStandards([
-              ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json",
-              ".octon/framework/agency/practices/standards/commit-pr-standards.json"
+              ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json"
             ]);
 
             const branch = standards.branch;

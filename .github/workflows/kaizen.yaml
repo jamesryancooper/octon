@@ -18,5 +18,4 @@ jobs:
         uses: actions/checkout@v4
       - name: Note
         run: |
-          echo "Kaizen workflow placeholder. Replace with real steps (e.g., kaizen/agents and kaizen/evaluators) when ready."
-
+          echo "Kaizen workflow placeholder. Replace with real steps (e.g., kaizen/execution-roles and kaizen/evaluators) when ready."

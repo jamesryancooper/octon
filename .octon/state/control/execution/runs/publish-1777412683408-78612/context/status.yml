@@ -1,9 +1,0 @@
-context_pack_receipt_ref: .octon/state/evidence/runs/publish-1777412683408-78612/context/context-pack-receipt.json
-context_pack_ref: .octon/state/evidence/runs/publish-1777412683408-78612/context/context-pack.json
-freshness_status: valid
-model_visible_context_ref: .octon/state/evidence/runs/publish-1777412683408-78612/context/model-visible-context.json
-run_id: publish-1777412683408-78612
-schema_version: context-pack-status-v1
-status: bound
-updated_at: 2026-04-28T21:44:43.426092Z
-validity_state: valid

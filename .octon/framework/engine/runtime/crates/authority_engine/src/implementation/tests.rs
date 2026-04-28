@@ -1461,6 +1461,37 @@ fn support_envelope_block_rejects_effect_consumption() {
 }
 
 #[test]
+fn effect_tokens_derive_support_tuple_from_support_posture() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let request = minimal_request();
+    let mut grant =
+        authorize_execution(&cfg, &policy, &request, None).expect("request should authorize");
+    let expected_tuple = grant
+        .support_target_tuple_ref
+        .clone()
+        .expect("fixture grant should bind a support tuple");
+    grant.support_target_tuple_ref = None;
+
+    let runtime_path = start_run_for_effect_consumption(&cfg, &request, &grant);
+    let effect = issue_service_invocation_effect(&runtime_path, &grant, "service::invoke")
+        .expect("service effect should mint from support posture");
+
+    assert_eq!(
+        effect.payload().support_target_tuple_ref.as_deref(),
+        Some(expected_tuple.as_str())
+    );
+    verify_authorized_effect(
+        &runtime_path,
+        &grant,
+        &effect,
+        "test::service_consumer",
+        "service::invoke",
+    )
+    .expect("derived support tuple should satisfy the live support envelope");
+}
+
+#[test]
 fn unsupported_support_envelope_tuple_is_rejected() {
     let cfg = temp_runtime_config();
     let policy = PolicyEngine::new(cfg.clone());

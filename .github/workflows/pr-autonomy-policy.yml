@@ -111,8 +111,7 @@ jobs:
             let templateText = "";
             try {
               const standardsCandidates = [
-                ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json",
-                ".octon/framework/agency/practices/standards/commit-pr-standards.json"
+                ".octon/framework/execution-roles/practices/standards/commit-pr-standards.json"
               ];
               let standardsLoaded = false;
               for (const candidate of standardsCandidates) {
