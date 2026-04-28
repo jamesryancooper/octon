@@ -1,0 +1,13 @@
+schema_version: "generated-evolution-candidates-projection-v1"
+generated_projection: true
+authority: "derived-non-authority"
+forbidden_consumers:
+  - "runtime_authority"
+  - "policy_authority"
+  - "promotion_authority"
+source_refs:
+  - ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+candidates:
+  - candidate_id: "evolution-candidate-v5-validation"
+    disposition: "open_proposal"
+    risk_materiality: "constitutional"

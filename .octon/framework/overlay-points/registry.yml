@@ -48,6 +48,14 @@ overlay_points:
     precedence: 28
     artifact_kinds:
       - "contract"
+  - overlay_point_id: "instance-governance-engagements"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/engagements/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh"
+    precedence: 28
+    artifact_kinds:
+      - "engagement-path-family-registry"
   - overlay_point_id: "instance-governance-connectors"
     owning_domain: "governance"
     instance_glob: ".octon/instance/governance/connectors/**"

@@ -110,8 +110,16 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/retirement/*" \
       ! -path "$INSTANCE_DIR/governance/capability-packs" \
       ! -path "$INSTANCE_DIR/governance/capability-packs/*" \
+      ! -path "$INSTANCE_DIR/governance/connector-admissions" \
+      ! -path "$INSTANCE_DIR/governance/connector-admissions/*" \
+      ! -path "$INSTANCE_DIR/governance/connectors" \
+      ! -path "$INSTANCE_DIR/governance/connectors/*" \
       ! -path "$INSTANCE_DIR/governance/decisions" \
       ! -path "$INSTANCE_DIR/governance/decisions/*" \
+      ! -path "$INSTANCE_DIR/governance/engagements" \
+      ! -path "$INSTANCE_DIR/governance/engagements/*" \
+      ! -path "$INSTANCE_DIR/governance/evolution" \
+      ! -path "$INSTANCE_DIR/governance/evolution/*" \
       ! -path "$INSTANCE_DIR/governance/ownership" \
       ! -path "$INSTANCE_DIR/governance/ownership/*" \
       ! -path "$INSTANCE_DIR/governance/retirement-register.yml" \

@@ -1,0 +1,30 @@
+schema_version: "generated-evolution-ledger-projection-v1"
+generated_projection: true
+authority: "derived-non-authority"
+forbidden_consumers:
+  - "runtime_authority"
+  - "policy_authority"
+  - "source_truth"
+source_ref: ".octon/state/control/evolution/ledger.yml"
+refreshed_after_refs:
+  - ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+  - ".octon/state/control/evolution/recertification-requests/evolution-recertification-v5-validation.yml"
+  - ".octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+  - ".octon/instance/cognition/decisions/102-self-evolution-proposal-to-promotion-runtime.md"
+summary:
+  programs: 1
+  candidates: 1
+  simulations: 1
+  lab_gates: 1
+  decisions: 1
+  amendment_requests: 1
+  promotions: 1
+  recertification_requests: 1
+  recertifications: 1
+  rollbacks: 1
+  retirements: 1
+  durable_decisions: 1
+source_truth_boundaries:
+  ledger_replaces_source_truth: false
+  proposal_packets_are_authority: false
+  generated_projection_is_authority: false

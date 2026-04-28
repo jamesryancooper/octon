@@ -1,0 +1,11 @@
+schema_version: "generated-evolution-open-decisions-v1"
+generated_projection: true
+authority: "derived-non-authority"
+source_refs:
+  - ".octon/state/control/evolution/decisions/evolution-decision-v5-validation.yml"
+  - ".octon/state/control/evolution/amendment-requests/evolution-amendment-v5-validation.yml"
+decisions:
+  - decision_request_id: "evolution-decision-v5-validation"
+    status: "resolved_by_explicit_operator_implementation_request"
+  - request_id: "evolution-amendment-v5-validation"
+    human_or_quorum_approval_required: true
