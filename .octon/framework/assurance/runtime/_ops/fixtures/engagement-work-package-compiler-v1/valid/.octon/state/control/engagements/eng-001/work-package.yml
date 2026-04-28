@@ -1,0 +1,56 @@
+schema_version: "work-package-v1"
+work_package_id: "wp-001"
+engagement_ref: ".octon/state/control/engagements/eng-001/engagement.yml"
+project_profile_ref: ".octon/instance/locality/project-profile.yml"
+objective_brief_ref: ".octon/state/control/engagements/eng-001/objective-brief.yml"
+authority_binding:
+  authority_ref: ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"
+  workspace_charter_ref: ".octon/instance/charter/workspace.yml"
+  support_target_ref: ".octon/instance/governance/support-targets.yml"
+support_posture:
+  support_target_ref: ".octon/instance/governance/support-targets.yml"
+  support_target_tuple:
+    host_adapter: "repo-shell"
+    model_adapter: "repo-local-governed"
+    workload_tier: "repo-consequential"
+  admission_status: "admitted"
+  proof_bundle_ref: ".octon/state/evidence/lab/support-targets/repo-shell-repo-consequential/proof-bundle.yml"
+capability_posture:
+  requested_capability_packs:
+    - "repo"
+    - "telemetry"
+  admission_status: "admitted"
+connector_posture:
+  requested_connectors: []
+evidence_profile:
+  selected_profile: "repo-consequential"
+  selection_rationale: "Fixture candidate is a repo-local governed run candidate."
+  required_evidence:
+    - "run-contract-candidate"
+    - "support-target-reconciliation"
+    - "context-pack-receipt"
+    - "rollback-plan"
+context_pack:
+  request_ref: ".octon/state/control/engagements/eng-001/context-pack-request.yml"
+  receipt_ref: ".octon/state/evidence/engagements/eng-001/context/context-pack-receipt.yml"
+decision_requests:
+  - decision_request_id: "decision-001"
+    ref: ".octon/state/control/engagements/eng-001/decisions/decision-001.yml"
+rollback:
+  rollback_posture_ref: ".octon/state/control/engagements/eng-001/rollback-posture.yml"
+  reversibility_class: "reversible"
+validation:
+  commands:
+    - ".octon/framework/assurance/runtime/_ops/tests/test-engagement-work-package-compiler.sh"
+risk_materiality:
+  materiality: "medium"
+  risk_class: "low"
+run_contract_candidate:
+  ref: ".octon/state/control/engagements/eng-001/run-contract-candidate.yml"
+  handoff_entrypoint: "octon run start --contract"
+generated_projection_ref: ".octon/generated/cognition/projections/materialized/work-packages/wp-001.yml"
+generated_projection_non_authority: true
+outcome:
+  status: "ready_for_authorization"
+  blockers: []
+  reason_refs: []

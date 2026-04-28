@@ -1,0 +1,9 @@
+candidate_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/run-candidates/engagement-compiler-v1-validation-run-1/run-contract.candidate.yml
+decision_request_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/engagement-compiler-v1-validation-authorize-run.yml
+decision_status: open
+direct_execution_allowed: false
+engagement_id: engagement-compiler-v1-validation
+material_execution_entrypoint: octon run start --contract
+recorded_at: 2026-04-28T14:01:13.233377Z
+run_id: engagement-compiler-v1-validation-run-1
+schema_version: run-contract-readiness-evidence-v1

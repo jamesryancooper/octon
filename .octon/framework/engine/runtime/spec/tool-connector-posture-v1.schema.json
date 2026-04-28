@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json",
+  "title": "Octon Tool/MCP Connector Posture v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "connector_class",
+    "operation_id",
+    "connector_policy_schema_ref",
+    "connector_registry_schema_ref",
+    "connector_policy_ref",
+    "connector_registry_ref",
+    "readme_authority_allowed",
+    "posture",
+    "side_effect_class",
+    "capability_packs",
+    "credential_class",
+    "egress_requirements",
+    "replayability",
+    "rollback_posture",
+    "evidence_obligations",
+    "allowed_modes",
+    "timeout_budget_class",
+    "support_posture"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "tool-connector-posture-v1"
+    },
+    "connector_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_class": {
+      "type": "string",
+      "enum": [
+        "tool",
+        "mcp",
+        "api",
+        "browser",
+        "host"
+      ]
+    },
+    "operation_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_policy_schema_ref": {
+      "const": ".octon/framework/engine/runtime/spec/connector-posture-policy-v1.schema.json"
+    },
+    "connector_registry_schema_ref": {
+      "const": ".octon/framework/engine/runtime/spec/connector-posture-registry-v1.schema.json"
+    },
+    "connector_policy_ref": {
+      "const": ".octon/instance/governance/connectors/posture.yml"
+    },
+    "connector_registry_ref": {
+      "const": ".octon/instance/governance/connectors/registry.yml"
+    },
+    "readme_authority_allowed": {
+      "const": false
+    },
+    "posture": {
+      "type": "string",
+      "enum": [
+        "observe_only",
+        "dry_run",
+        "stage_only",
+        "blocked",
+        "denied"
+      ]
+    },
+    "side_effect_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capability_packs": {
+      "type": "array"
+    },
+    "credential_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "egress_requirements": {
+      "type": "array"
+    },
+    "replayability": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rollback_posture": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_obligations": {
+      "type": "array"
+    },
+    "allowed_modes": {
+      "type": "array"
+    },
+    "timeout_budget_class": {
+      "type": "string",
+      "minLength": 1
+    },
+    "support_posture": {
+      "type": "string",
+      "enum": [
+        "admitted",
+        "stage_only",
+        "unadmitted",
+        "blocked",
+        "denied"
+      ]
+    }
+  }
+}

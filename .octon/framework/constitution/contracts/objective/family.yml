@@ -20,8 +20,16 @@ objective_stack:
     role: "workspace objective authority"
   mission_charter_pair:
     root: ".octon/instance/orchestration/missions/**"
-    machine_schema_ref: ".octon/framework/constitution/contracts/objective/mission-charter-v1.schema.json"
+    machine_schema_ref: ".octon/framework/constitution/contracts/objective/mission-charter-v2.schema.json"
+    runtime_schema_ref: ".octon/framework/engine/runtime/spec/mission-charter-v2.schema.json"
+    historical_schema_refs:
+      - ".octon/framework/constitution/contracts/objective/mission-charter-v1.schema.json"
     role: "continuity-container"
+  engagement_objective_brief_candidate:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/engagement-objective-brief-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+    control_root: ".octon/state/control/engagements/<engagement-id>/objective"
+    role: "cross-reference only; per-engagement candidate control state and not workspace-charter authority"
   run_contract:
     schema_ref: ".octon/framework/constitution/contracts/runtime/run-contract-v3.schema.json"
     control_root: ".octon/state/control/execution/runs"

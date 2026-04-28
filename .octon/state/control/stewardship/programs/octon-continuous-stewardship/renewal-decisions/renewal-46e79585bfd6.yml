@@ -1,0 +1,17 @@
+breaker_status: reviewed
+budget_status: reviewed
+context_profile_freshness: required_refs_present
+created_at: 2026-04-28T17:01:43.65806Z
+decision_id: renewal-46e79585bfd6
+decision_request_status: clear
+epoch_closeout_evidence_ref: .octon/state/evidence/stewardship/programs/octon-continuous-stewardship/closeout/octon-continuous-stewardship-epoch-1/closeout.yml
+epoch_id: octon-continuous-stewardship-epoch-1
+outcome: idle_until_next_trigger
+program_id: octon-continuous-stewardship
+renewal_decision_authorizes_material_execution: false
+renewal_policy_conformance: true
+schema_version: stewardship-renewal-decision-v1
+silent_authority_widening: false
+support_posture_ref: .octon/instance/governance/support-targets.yml
+unresolved_risk_review: []
+updated_at: 2026-04-28T17:01:43.65806Z

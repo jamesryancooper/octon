@@ -1,0 +1,15 @@
+schema_version: stewardship-campaign-policy-v1
+program_id: octon-continuous-stewardship
+campaign_promotion_criteria_ref: .octon/framework/orchestration/practices/campaign-promotion-criteria.md
+standing_decision: deferred_by_default
+campaigns_are_execution_containers: false
+campaigns_may_launch_workflows: false
+campaigns_may_claim_queue_items: false
+campaigns_may_own_runs: false
+campaigns_may_own_incidents: false
+campaigns_may_replace_missions: false
+campaigns_may_replace_stewardship: false
+campaigns_required_for_normal_stewardship: false
+campaign_candidate_requires_evidence_backed_go_decision: true
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

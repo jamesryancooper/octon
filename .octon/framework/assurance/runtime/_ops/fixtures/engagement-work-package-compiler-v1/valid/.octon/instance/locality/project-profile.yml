@@ -1,0 +1,11 @@
+schema_version: "project-profile-v1"
+profile_id: "profile-001"
+project_type: "octon-fixture"
+source_evidence_refs:
+  - ".octon/state/evidence/project-profiles/profile-001/source-facts.yml"
+validation_strategy:
+  commands:
+    - ".octon/framework/assurance/runtime/_ops/tests/test-engagement-work-package-compiler.sh"
+protected_zones:
+  - ".octon/framework/constitution/**"
+  - ".octon/instance/governance/**"

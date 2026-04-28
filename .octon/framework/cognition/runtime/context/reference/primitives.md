@@ -67,23 +67,23 @@ The primitives form a hierarchical multi-agent system:
 
 ---
 
-## Agents
+## Execution Roles
 
-**Location:** `.octon/framework/execution-roles/runtime/agents/<agent-name>/AGENT.md` with optional `.octon/framework/execution-roles/runtime/agents/<agent-name>/SOUL.md`
+**Location:** `.octon/framework/execution-roles/runtime/orchestrator/ROLE.md` and execution-role registries under `.octon/framework/execution-roles/`
 
 **Repo-local constitutional kernel:** `.octon/framework/constitution/CHARTER.md`, `.octon/framework/constitution/precedence/normative.yml`
 
-**Cross-agent overlays:** `.octon/framework/execution-roles/governance/CONSTITUTION.md`, `.octon/framework/execution-roles/governance/DELEGATION.md`, `.octon/framework/execution-roles/governance/MEMORY.md`
+**Cross-role overlays:** `.octon/framework/execution-roles/governance/CONSTITUTION.md`, `.octon/framework/execution-roles/governance/DELEGATION.md`, `.octon/framework/execution-roles/governance/MEMORY.md`
 
-**Registry:** `.octon/framework/execution-roles/runtime/agents/registry.yml`
+**Registry:** `.octon/framework/execution-roles/registry.yml`
 
-**Purpose:** Accountable execution roles that orchestrate complex work, command missions, and delegate to assistants when boundary value is real.
+**Purpose:** Accountable execution roles that orchestrate complex work, command missions, and coordinate specialists when boundary value is real.
 
 ### Characteristics
 
 - **Persistent** — Maintains context and memory across sessions
 - **Autonomous** — Perceives, reasons, plans, and decides
-- **Supervisory** — Delegates to assistants, commands missions
+- **Supervisory** — Coordinates specialists, commands missions
 - **High-level** — Focuses on *what* and *who*, not *how*
 
 ### When to Use
@@ -91,9 +91,9 @@ The primitives form a hierarchical multi-agent system:
 - Autonomous orchestration of complex work
 - Persistent context across sessions required
 - Commands missions (durable, multi-session work)
-- Coordinates multiple assistants
+- Coordinates multiple specialists
 
-### Agent Roles
+### Execution-Role Classes
 
 | Role | Purpose |
 |------|---------|
@@ -111,13 +111,13 @@ The primitives form a hierarchical multi-agent system:
   role: "Default accountable execution role"
   capabilities:
     - bounded-planning
-    - assistant-delegation
+    - specialist-coordination
   delegates_to:
-    assistants: [reviewer, refactor, docs]
+    specialists: [reviewer, refactor, docs]
 ```
 
 ```markdown
-# AGENT.md sections
+# ROLE.md sections
 - Contract Scope
 - Role
 - Capabilities
@@ -143,7 +143,7 @@ The primitives form a hierarchical multi-agent system:
 
 **Location:** `.octon/instance/orchestration/missions/<mission-id>/mission.yml`
 
-**Purpose:** Durable, multi-session orchestration units with formal state machines, commanded by agents.
+**Purpose:** Durable, multi-session orchestration units with formal state machines, commanded by execution roles.
 
 ### Characteristics
 
@@ -237,16 +237,16 @@ See `.octon/framework/capabilities/runtime/skills/_scaffold/template/SKILL.md`
 
 ### Characteristics
 
-- Minimal frontmatter: `description`, `access` (human/agent)
+- Minimal frontmatter: `description`, `access` (human/execution-role)
 - Often delegates to a workflow for implementation
-- Access control: `human` (has IDE wrapper) or `agent` (agent-only)
+- Access control: `human` (has IDE wrapper) or `execution-role` (execution-role-only)
 - Symlinked to harness command directories
 
 ### When to Use
 
 - Simple atomic operation with lightweight docs
 - Quick interface to a complex workflow
-- Access control between humans and agents matters
+- Access control between humans and execution roles matters
 - One-off session task that doesn't need full skill spec
 
 ### Examples
@@ -283,35 +283,35 @@ See `.octon/framework/capabilities/_meta/architecture/` for migration guidance.
 
 ---
 
-## Assistants
+## Specialists
 
-**Location:** `.octon/framework/execution-roles/runtime/specialists/<assistant-name>/SPECIALIST.md`
+**Location:** `.octon/framework/execution-roles/runtime/specialists/<specialist-name>/SPECIALIST.md`
 
 **Registry:** `.octon/framework/execution-roles/runtime/specialists/registry.yml`
 
-**Purpose:** Specialized subagents that perform focused tasks for agents or humans within the multi-agent hierarchy.
+**Purpose:** Specialized execution-role helpers that perform focused tasks for execution roles or humans within governed delegation boundaries.
 
 ### Characteristics
 
-- **Subagent** — Reports to agents, handles specialized work
+- **Specialist** — Reports to execution roles, handles specialized work
 - **Stateless** — Inherits context from caller, returns results
 - **Focused** — Narrow scope, deep expertise
-- **Invokable** — Via `@mention` aliases or agent delegation
+- **Invokable** — Via `@mention` aliases or execution-role coordination
 - **Skill-enabled** — Can use skills to complete tasks
-- **Escalation-aware** — Knows when to escalate to agents/humans
+- **Escalation-aware** — Knows when to escalate to execution roles or humans
 
 ### When to Use
 
 - Focused, specialized task requiring domain expertise
 - Consistent output format is important
-- Agent needs to delegate scoped work
+- Execution role needs to delegate scoped work
 - Task benefits from a specialist persona
 
-### Assistants vs Agents
+### Specialists vs Execution Roles
 
-| Aspect | Agent | Assistant |
+| Aspect | Execution Role | Specialist |
 |--------|-------|-----------|
-| Role | Supervisor | Specialist subagent |
+| Role | Accountable orchestrator | Focused helper |
 | Autonomy | High (reasons, plans) | Focused (executes tasks) |
 | State | Persistent | Stateless |
 | Scope | Broad orchestration | Narrow specialization |
@@ -339,7 +339,7 @@ See `.octon/framework/capabilities/_meta/architecture/` for migration guidance.
 - Operating Rules
 - Output Format
 - Boundaries
-- When to Escalate (to agents or humans)
+- When to Escalate (to execution roles or humans)
 ```
 
 ---
@@ -587,11 +587,11 @@ Registry supports skill-local `composition` metadata for reusable child-skill or
 
 | Primitive | Registry | Template | Documentation |
 |-----------|----------|----------|---------------|
-| Agents | `.octon/framework/execution-roles/runtime/agents/registry.yml` | `.octon/framework/execution-roles/runtime/agents/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/README.md` |
-| Teams | `.octon/framework/execution-roles/runtime/composition-profiles/registry.yml` | `.octon/framework/execution-roles/runtime/composition-profiles/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/architecture.md` |
+| Execution Roles | `.octon/framework/execution-roles/registry.yml` | `.octon/framework/execution-roles/runtime/orchestrator/ROLE.md` | `.octon/framework/execution-roles/_meta/architecture/README.md` |
+| Composition Profiles | `.octon/framework/execution-roles/runtime/composition-profiles/registry.yml` | `.octon/framework/execution-roles/runtime/composition-profiles/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/architecture.md` |
 | Missions | `.octon/instance/orchestration/missions/registry.yml` | `.octon/instance/orchestration/missions/_scaffold/template/` | `.octon/framework/orchestration/_meta/architecture/missions.md` |
 | Skills | `.octon/framework/capabilities/runtime/skills/registry.yml` | `.octon/framework/capabilities/runtime/skills/_scaffold/template/` | `.octon/framework/capabilities/_meta/architecture/` |
-| Assistants | `.octon/framework/execution-roles/runtime/specialists/registry.yml` | `.octon/framework/execution-roles/runtime/specialists/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/README.md` |
+| Specialists | `.octon/framework/execution-roles/runtime/specialists/registry.yml` | `.octon/framework/execution-roles/runtime/specialists/_scaffold/template/` | `.octon/framework/execution-roles/_meta/architecture/README.md` |
 | Commands | — | — | `.octon/framework/capabilities/_meta/architecture/commands.md` |
 | Checklists | — | — | `.octon/framework/assurance/_meta/architecture/checklists.md` |
 | Prompts | — | — | `.octon/framework/scaffolding/_meta/architecture/prompts.md` |

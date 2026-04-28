@@ -1,0 +1,8 @@
+schema_version: connector-operation-admission-state-v1
+connector_id: mcp
+operation_id: observe-context
+admission_state: stage_only
+live_effects_authorized: false
+run_lifecycle_bypass_allowed: false
+execution_authorization_bypass_allowed: false
+updated_at: "2026-04-28T00:00:00Z"

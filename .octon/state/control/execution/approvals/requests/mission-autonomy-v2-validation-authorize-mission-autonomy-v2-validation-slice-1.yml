@@ -1,0 +1,9 @@
+action_type: mission-continuation-control-unblock
+created_at: 2026-04-28T15:52:31.898449Z
+engagement_id: engagement-compiler-v1-validation
+material_execution_authorized: false
+mission_id: mission-autonomy-v2-validation
+request_id: mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+schema_version: authority-approval-request-v1
+status: mission-control-recorded
+updated_at: 2026-04-28T15:52:31.898449Z

@@ -54,7 +54,7 @@ Read these before planning or implementation:
 10. `/.octon/framework/constitution/contracts/registry.yml`
 11. `/.octon/instance/charter/workspace.md`
 12. `/.octon/instance/charter/workspace.yml`
-13. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+13. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 14. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon-selected-harness-concepts-integration-packet/README.md`
 15. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon-selected-harness-concepts-integration-packet/proposal.yml`
 16. `/.octon/inputs/exploratory/proposals/.archive/architecture/octon-selected-harness-concepts-integration-packet/architecture-proposal.yml`

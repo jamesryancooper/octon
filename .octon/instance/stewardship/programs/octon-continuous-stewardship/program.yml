@@ -1,0 +1,53 @@
+schema_version: stewardship-program-v1
+program_id: octon-continuous-stewardship
+title: Octon Continuous Stewardship Runtime v3
+status: active
+stewardship_objective: Maintain governed Octon harness readiness without unbounded execution.
+cared_for_scope:
+  repo_root: .
+  workspace_charter_ref: .octon/instance/charter/workspace.yml
+  support_target_ref: .octon/instance/governance/support-targets.yml
+allowed_stewardship_domains:
+  - scheduled_review
+  - human_objective_intake
+  - mission_followup
+  - governance_readiness
+prohibited_domains:
+  - deployment_automation
+  - credential_provisioning
+  - browser_driving
+  - multi_repo_stewardship
+  - autonomous_governance_amendment
+renewal_cadence: operator_explicit_per_epoch
+observation_cadence: scheduled_review_or_human_trigger
+max_autonomy_ceiling: stage_only_until_mission_run_authorization
+allowed_mission_classes:
+  - maintenance
+  - validation
+  - documentation
+default_safing_subset:
+  - observe_only
+  - stage_only
+default_evidence_profile: stewardship_maintenance
+default_budget_profile: stewardship-mvp-low
+default_circuit_breaker_profile: stewardship-mvp-fail-closed
+event_triggers_ref: .octon/instance/stewardship/programs/octon-continuous-stewardship/trigger-rules.yml
+idle_rules_ref: .octon/instance/stewardship/programs/octon-continuous-stewardship/policy.yml#idle_rules
+renewal_rules_ref: .octon/instance/stewardship/programs/octon-continuous-stewardship/policy.yml#renewal_rules
+human_review_requirements:
+  - renewal
+  - scope_change
+  - campaign_candidate
+  - material_execution_handoff
+closure_rules:
+  - operator_revocation
+  - scope_expiration
+  - explicit_closure_reason
+authority_boundary:
+  program_executes_work_directly: false
+  epoch_replaces_mission_control_lease: false
+  triggers_authorize_work: false
+  admission_authorizes_material_execution: false
+  run_lifecycle_required: true
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

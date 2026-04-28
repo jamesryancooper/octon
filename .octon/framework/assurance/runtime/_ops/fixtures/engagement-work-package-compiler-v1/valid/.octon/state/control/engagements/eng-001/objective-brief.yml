@@ -1,0 +1,8 @@
+schema_version: "engagement-objective-brief-v1"
+objective_brief_id: "objective-brief-001"
+engagement_id: "eng-001"
+placement_role: "engagement-control-candidate-state"
+objective_summary: "Prepare a first governed run-contract candidate without authorizing execution."
+workspace_charter_refs:
+  narrative: ".octon/instance/charter/workspace.md"
+  machine: ".octon/instance/charter/workspace.yml"

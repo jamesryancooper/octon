@@ -1,0 +1,12 @@
+compiler_policy_ref: .octon/instance/governance/policies/engagement-work-package-compiler.yml
+engagement_id: engagement-compiler-v1-validation
+input_refs:
+  objective_brief_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/objective-brief.yml
+  project_profile_ref: .octon/instance/locality/project-profile.yml
+  risk_materiality_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/risk-materiality.yml
+  rollback_plan_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/rollback-plan.yml
+  validation_plan_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/validation-plan.yml
+material_effects_authorized: false
+recorded_at: 2026-04-28T14:01:04.104204Z
+schema_version: work-package-compilation-evidence-v1
+work_package_id: engagement-compiler-v1-validation-work-package

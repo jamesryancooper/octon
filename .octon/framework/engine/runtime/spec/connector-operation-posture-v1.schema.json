@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-operation-posture-v1.schema.json",
+  "title": "Connector Operation Posture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "connector_id", "operation_id", "posture", "live_effects_authorized", "run_authorization_required"],
+  "properties": {
+    "schema_version": { "const": "connector-operation-posture-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "posture": { "type": "string", "enum": ["observe_only", "read_only", "stage_only", "live_effectful", "quarantined", "retired", "denied", "blocked"] },
+    "live_effects_authorized": { "type": "boolean" },
+    "run_authorization_required": { "const": true },
+    "context_pack_required": { "const": true },
+    "receipt_required": { "const": true }
+  }
+}

@@ -13,7 +13,7 @@ run_test() { "$@" >/dev/null 2>&1 && pass "$1" || fail "$1"; }
 main() {
   echo "== Global Adapter And Pack Certification Validation =="
 
-  bash "$SCRIPT_DIR/validate-wave5-agency-adapter-hardening.sh"
+  bash "$SCRIPT_DIR/validate-execution-role-adapter-hardening.sh"
 
   cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::admitted_api_pack_allows_declared_execution -- --exact >/dev/null 2>&1 && pass "kernel admits declared api pack" || fail "kernel admits declared api pack"
   cargo test --manifest-path "$OCTON_DIR/framework/engine/runtime/crates/Cargo.toml" -p octon_kernel authorization::tests::admitted_browser_pack_allows_declared_execution -- --exact >/dev/null 2>&1 && pass "kernel admits declared browser pack" || fail "kernel admits declared browser pack"

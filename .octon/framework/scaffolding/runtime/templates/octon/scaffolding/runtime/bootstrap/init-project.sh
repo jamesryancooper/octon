@@ -101,7 +101,7 @@ BOOTSTRAP_TEMPLATE_FILE="$BOOTSTRAP_DIR/BOOTSTRAP.md"
 ALIGNMENT_CHECK_TEMPLATE_FILE="$BOOTSTRAP_DIR/alignment-check"
 OBJECTIVE_TEMPLATE_ROOT="$BOOTSTRAP_DIR/objectives"
 OBJECTIVE_REGISTRY_FILE="$OBJECTIVE_TEMPLATE_ROOT/registry.txt"
-AGENCY_MANIFEST="$OCTON_DIR/agency/manifest.yml"
+EXECUTION_ROLE_MANIFEST="$OCTON_DIR/execution-roles/manifest.yml"
 CANONICAL_AGENTS_OUT="$REPO_ROOT/.octon/AGENTS.md"
 ROOT_AGENTS_OUT="$REPO_ROOT/AGENTS.md"
 CLAUDE_OUT="$REPO_ROOT/CLAUDE.md"
@@ -460,13 +460,13 @@ resolve_objective_selection() {
 }
 
 render_agents_template() {
-  local escaped_default_agent escaped_execution_contract
-  escaped_default_agent="$(escape_sed_replacement "$DEFAULT_AGENT")"
-  escaped_execution_contract="$(escape_sed_replacement "$DEFAULT_AGENT_EXECUTION_CONTRACT")"
+  local escaped_default_execution_role escaped_execution_contract
+  escaped_default_execution_role="$(escape_sed_replacement "$DEFAULT_EXECUTION_ROLE")"
+  escaped_execution_contract="$(escape_sed_replacement "$DEFAULT_EXECUTION_ROLE_CONTRACT")"
 
   sed \
-    -e "s|{{DEFAULT_AGENT}}|$escaped_default_agent|g" \
-    -e "s|{{DEFAULT_AGENT_EXECUTION_CONTRACT}}|$escaped_execution_contract|g" \
+    -e "s|{{DEFAULT_EXECUTION_ROLE}}|$escaped_default_execution_role|g" \
+    -e "s|{{DEFAULT_EXECUTION_ROLE_CONTRACT}}|$escaped_execution_contract|g" \
     "$AGENTS_TEMPLATE_FILE"
 }
 
@@ -879,8 +879,8 @@ if [[ ! -f "$AGENTS_TEMPLATE_FILE" ]]; then
   exit 1
 fi
 
-if [[ ! -f "$AGENCY_MANIFEST" ]]; then
-  echo "[ERROR] Missing agency manifest: $AGENCY_MANIFEST" >&2
+if [[ ! -f "$EXECUTION_ROLE_MANIFEST" ]]; then
+  echo "[ERROR] Missing execution-role manifest: $EXECUTION_ROLE_MANIFEST" >&2
   exit 1
 fi
 
@@ -894,9 +894,9 @@ if [[ -n "$SELECTED_OBJECTIVE_ID" ]] && ! objective_exists "$SELECTED_OBJECTIVE_
   exit 1
 fi
 
-DEFAULT_AGENT="$(awk '/^default_agent:[[:space:]]*/ {print $2; exit}' "$AGENCY_MANIFEST" | tr -d '"')"
-if [[ -z "$DEFAULT_AGENT" || "$DEFAULT_AGENT" == "null" ]]; then
-  DEFAULT_AGENT="orchestrator"
+DEFAULT_EXECUTION_ROLE="$(awk '/^default_execution_role:[[:space:]]*/ {print $2; exit}' "$EXECUTION_ROLE_MANIFEST" | tr -d '"')"
+if [[ -z "$DEFAULT_EXECUTION_ROLE" || "$DEFAULT_EXECUTION_ROLE" == "null" ]]; then
+  DEFAULT_EXECUTION_ROLE="orchestrator"
 fi
 
 if [[ -z "$OBJECTIVE_OWNER" ]]; then
@@ -906,11 +906,11 @@ if [[ -z "$OBJECTIVE_APPROVED_BY" ]]; then
   OBJECTIVE_APPROVED_BY="$OBJECTIVE_OWNER"
 fi
 
-DEFAULT_AGENT_EXECUTION_CONTRACT=".octon/framework/execution-roles/runtime/agents/${DEFAULT_AGENT}/AGENT.md"
+DEFAULT_EXECUTION_ROLE_CONTRACT=".octon/framework/execution-roles/runtime/orchestrator/ROLE.md"
 
 echo "== Project Init =="
 echo "Repo root: $REPO_ROOT"
-echo "Default agent: $DEFAULT_AGENT"
+echo "Default execution role: $DEFAULT_EXECUTION_ROLE"
 echo ""
 
 write_canonical_agents

@@ -1,0 +1,11 @@
+schema_version: connector-evidence-receipt-v1
+connector_id: mcp
+operation_id: observe-context
+family: drift
+outcome: current
+subject_ref: .octon/state/control/connectors/mcp/operations/observe-context/drift.yml
+retained_evidence: true
+generated_projection_substitute: false
+connector_evidence_replaces_run_evidence: false
+run_evidence_link_required_for_material_operations: true
+captured_at: "2026-04-28T00:00:00Z"

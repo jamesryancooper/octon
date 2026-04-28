@@ -1,0 +1,6 @@
+schema_version: connector-status-v1
+connector_id: mcp
+status: active
+updated_at: "2026-04-28T00:00:00Z"
+connector_identity_ref: .octon/instance/governance/connectors/mcp/connector.yml
+connector_availability_is_authority: false

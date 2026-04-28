@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/constitution/contracts/authority/stewardship-aware-decision-request-v1.schema.json",
+  "title": "Stewardship-Aware Decision Request v1",
+  "description": "Extension shape for Decision Requests that block or resolve stewardship program, epoch, trigger, admission, renewal, campaign, mission-handoff, support, connector, risk, idle, or closure gates.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_request_id",
+    "program_id",
+    "stewardship_decision_type",
+    "status",
+    "decision_type",
+    "question",
+    "allowed_resolutions",
+    "subject_refs",
+    "canonical_resolution_targets",
+    "evidence_root",
+    "created_at",
+    "host_comments_labels_chat_are_authority",
+    "generated_summaries_are_authority",
+    "decision_request_authorizes_material_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "decision-request-v1" },
+    "decision_request_id": { "type": "string", "minLength": 1 },
+    "program_id": { "type": "string", "minLength": 1 },
+    "epoch_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["open", "resolved", "denied", "revoked", "superseded"]
+    },
+    "decision_type": {
+      "enum": [
+        "approval",
+        "denial",
+        "exception_lease",
+        "risk_acceptance",
+        "revocation",
+        "policy_clarification",
+        "support_scope_decision",
+        "capability_admission_decision",
+        "mission_scope_decision",
+        "closure_acceptance"
+      ]
+    },
+    "stewardship_decision_type": {
+      "enum": [
+        "program_opening",
+        "epoch_opening",
+        "epoch_renewal",
+        "stewardship_scope_change",
+        "recurring_observation",
+        "support_posture_widening",
+        "recurring_connector_use",
+        "mission_creation",
+        "campaign_candidate_promotion",
+        "risk_acceptance_across_epochs",
+        "idle_closure_acceptance",
+        "stewardship_gate_blocked"
+      ]
+    },
+    "question": { "type": "string", "minLength": 1 },
+    "allowed_resolutions": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "approval",
+          "denial",
+          "exception_lease",
+          "risk_acceptance",
+          "revocation",
+          "policy_clarification",
+          "support_scope_decision",
+          "capability_admission_decision",
+          "mission_scope_decision",
+          "closure_acceptance"
+        ]
+      }
+    },
+    "subject_refs": { "type": "object" },
+    "canonical_resolution_targets": { "type": "object" },
+    "evidence_root": { "type": "string", "minLength": 1 },
+    "host_comments_labels_chat_are_authority": { "const": false },
+    "generated_summaries_are_authority": { "const": false },
+    "decision_request_authorizes_material_execution": { "const": false }
+  }
+}

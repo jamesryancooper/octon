@@ -1,0 +1,74 @@
+schema_version: proposal-v1
+proposal_id: octon-self-evolution-proposal-to-promotion-runtime-v5
+title: Self-Evolution Proposal-to-Promotion Runtime v5
+summary: >-
+  The selected highest-leverage v5 step is the Self-Evolution Proposal-to-Promotion Runtime: an evidence-backed pipeline that turns retained evidence and friction into Evolution Candidates, compiles review-ready proposal packets, routes authority-changing changes through human/quorum Decision Requests or Constitutional Amendment Requests, promotes accepted outputs into durable authority surfaces, retains promotion receipts, and runs post-promotion recertification. This is narrower than full v5: it does not implement autonomous constitutional amendment, broad lab automation, or general self-modifying runtime.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/engine/runtime/spec/evolution-program-v1.schema.json
+  - .octon/framework/engine/runtime/spec/evolution-candidate-v1.schema.json
+  - .octon/framework/engine/runtime/spec/evidence-to-candidate-distillation-record-v1.schema.json
+  - .octon/framework/engine/runtime/spec/evolution-proposal-compiler-v1.md
+  - .octon/framework/engine/runtime/spec/governance-impact-simulation-v1.schema.json
+  - .octon/framework/engine/runtime/spec/assurance-lab-promotion-gate-v1.schema.json
+  - .octon/framework/engine/runtime/spec/self-evolution-decision-request-v1.schema.json
+  - .octon/framework/engine/runtime/spec/constitutional-amendment-request-v1.schema.json
+  - .octon/framework/engine/runtime/spec/promotion-runtime-v1.md
+  - .octon/framework/engine/runtime/spec/promotion-request-v1.schema.json
+  - .octon/framework/engine/runtime/spec/promotion-receipt-v1.schema.json
+  - .octon/framework/engine/runtime/spec/recertification-runtime-v1.md
+  - .octon/framework/engine/runtime/spec/recertification-request-v1.schema.json
+  - .octon/framework/engine/runtime/spec/recertification-result-v1.schema.json
+  - .octon/framework/engine/runtime/spec/evolution-rollback-retirement-posture-v1.schema.json
+  - .octon/framework/engine/runtime/spec/evolution-evidence-profile-v1.schema.json
+  - .octon/framework/engine/runtime/spec/evolution-ledger-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/evolution-program-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/evolution-candidate-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/evolution-ledger-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/evolution-rollback-retirement-posture-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/evolution-evidence-profile-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/promotion-request-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/recertification-request-v1.schema.json
+  - .octon/framework/constitution/contracts/assurance/evidence-to-candidate-distillation-record-v1.schema.json
+  - .octon/framework/constitution/contracts/assurance/governance-impact-simulation-v1.schema.json
+  - .octon/framework/constitution/contracts/assurance/assurance-lab-promotion-gate-v1.schema.json
+  - .octon/framework/constitution/contracts/assurance/recertification-result-v1.schema.json
+  - .octon/framework/constitution/contracts/authority/self-evolution-decision-request-v1.schema.json
+  - .octon/framework/constitution/contracts/authority/constitutional-amendment-request-v1.schema.json
+  - .octon/framework/constitution/contracts/authority/self-evolution-promotion-receipt-v1.schema.json
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-self-evolution-runtime-v5.sh
+  - .octon/framework/orchestration/practices/evolution-lifecycle-standards.md
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-quorum-policy-bindings.sh
+  - .octon/instance/cognition/decisions/102-self-evolution-proposal-to-promotion-runtime.md
+  - .octon/instance/cognition/decisions/index.yml
+  - .octon/instance/governance/contracts/quorum-policies/default.yml
+  - .octon/instance/governance/evolution/
+  - .octon/state/control/execution/approvals/requests/evolution-promotion-v5-validation.yml
+  - .octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml
+  - .octon/state/control/evolution/
+  - .octon/state/evidence/evolution/
+  - .octon/state/continuity/evolution/
+  - .octon/generated/cognition/projections/materialized/evolution/
+status: archived
+archive:
+  archived_at: "2026-04-28"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/octon-self-evolution-proposal-to-promotion-runtime-v5
+  promotion_evidence:
+    - .octon/framework/engine/runtime/spec/evolution-program-v1.schema.json
+    - .octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh
+    - .octon/state/control/evolution/ledger.yml
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote accepted durable outputs into framework/instance/state/generated targets,
+    retain promotion and recertification evidence, then archive or close this proposal packet.
+implementation_receipt_ref: "resources/implementation-report.md"
+related_proposals: []

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/evolution-candidate-v1.schema.json",
+  "title": "Octon Evolution Candidate v1",
+  "description": "A structured, evidence-backed candidate improvement. It is non-authoritative and cannot directly change runtime behavior.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "source_evidence_refs",
+    "source_type",
+    "affected_surfaces",
+    "proposed_improvement_summary",
+    "risk_materiality",
+    "authority_impact",
+    "constitutional_impact",
+    "runtime_impact",
+    "support_target_impact",
+    "generated_effective_impact",
+    "evidence_obligation_impact",
+    "rollback_retirement_posture",
+    "required_proof_classes",
+    "current_disposition",
+    "candidate_authorizes_change"
+  ],
+  "properties": {
+    "schema_version": { "const": "evolution-candidate-v1" },
+    "candidate_id": { "type": "string", "minLength": 1 },
+    "source_evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "retained_evidence",
+        "validation_failure",
+        "operator_feedback",
+        "lab_failure",
+        "support_target_failure",
+        "connector_drift",
+        "release_failure",
+        "campaign_stewardship_pattern",
+        "replay_mismatch",
+        "proposal_failure",
+        "runtime_doc_mismatch"
+      ]
+    },
+    "affected_surfaces": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "proposed_improvement_summary": { "type": "string", "minLength": 1 },
+    "risk_materiality": { "type": "string", "enum": ["low", "medium", "high", "constitutional"] },
+    "authority_impact": { "type": "string", "enum": ["none", "authored_authority", "mutable_control", "runtime_authorization", "constitutional"] },
+    "constitutional_impact": { "type": "string", "enum": ["none", "possible", "direct"] },
+    "runtime_impact": { "type": "string", "enum": ["none", "read_model", "control_plane", "execution_path"] },
+    "support_target_impact": { "type": "string", "enum": ["none", "narrowing", "widening", "claim_model_change"] },
+    "generated_effective_impact": { "type": "string", "enum": ["none", "refresh_only", "handle_contract_change", "trust_model_change"] },
+    "evidence_obligation_impact": { "type": "string", "enum": ["none", "adds_obligation", "removes_or_weakens_obligation", "changes_evidence_root"] },
+    "rollback_retirement_posture": { "type": "string", "minLength": 1 },
+    "required_proof_classes": { "type": "array", "items": { "type": "string" } },
+    "current_disposition": {
+      "type": "string",
+      "enum": [
+        "ignore",
+        "defer",
+        "merge_with_existing_candidate",
+        "open_proposal",
+        "open_lab_scenario",
+        "request_human_review",
+        "deny"
+      ]
+    },
+    "candidate_authorizes_change": { "const": false }
+  }
+}

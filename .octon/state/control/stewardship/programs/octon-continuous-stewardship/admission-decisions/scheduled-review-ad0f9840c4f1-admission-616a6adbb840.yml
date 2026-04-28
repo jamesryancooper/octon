@@ -1,0 +1,23 @@
+admission_outcome: idle
+campaign_candidate_allowed_without_go_decision: false
+campaign_promotion_criteria_ref: .octon/framework/orchestration/practices/campaign-promotion-criteria.md
+context_freshness: checked_for_mvp_required_refs
+created_at: 2026-04-28T16:45:49.776596Z
+decision_id: scheduled-review-ad0f9840c4f1-admission-616a6adbb840
+epoch_id: octon-continuous-stewardship-epoch-1
+governance_constraints:
+  admission_decision_authorizes_material_execution: false
+  run_gate_required: true
+  stewardship_trigger_authorizes_work: false
+  v2_mission_gate_required: true
+mission_availability: not_handed_off
+mission_handoff_ref: null
+program_id: octon-continuous-stewardship
+project_profile_ref: .octon/instance/locality/project-profile.yml
+required_decision_requests: []
+schema_version: stewardship-admission-decision-v1
+support_posture_ref: .octon/instance/governance/support-targets.yml
+trigger_evidence_ref: .octon/state/evidence/stewardship/programs/octon-continuous-stewardship/triggers/scheduled-review-ad0f9840c4f1/observed.yml
+trigger_id: scheduled-review-ad0f9840c4f1
+updated_at: 2026-04-28T16:45:49.776596Z
+work_package_assumption_freshness: requires_v1_work_package_for_mission_handoff

@@ -1,0 +1,9 @@
+classification: octon-managed-repository
+engagement_id: engagement-compiler-v1-validation
+external_side_effects: false
+generated_effective_publication: false
+lane_policy_ref: .octon/instance/governance/policies/preflight-evidence-lane.yml
+material_effects: none
+project_code_mutation: false
+recorded_at: 2026-04-28T14:00:48.500852Z
+schema_version: engagement-adoption-classification-v1

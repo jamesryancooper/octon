@@ -1,0 +1,14 @@
+schema_version: connector-support-proof-map-v1
+connector_id: mcp
+operation_id: observe-context
+support_target_refs: []
+support_admission_refs: []
+support_dossier_refs: []
+proof_bundle_refs:
+  - .octon/state/evidence/connectors/mcp/trust-dossiers/observe-context/proof-bundle.yml
+support_card_projection_refs:
+  - .octon/generated/cognition/projections/materialized/connectors/support-cards/mcp-observe-context.yml
+support_posture: non_live_stage_only
+generated_support_views_are_authority: false
+generated_support_matrix_can_widen_support: false
+support_proof_map_authorizes_execution: false

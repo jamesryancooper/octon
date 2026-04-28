@@ -1,0 +1,10 @@
+schema_version: "evolution-proposal-compilation-receipt-v1"
+receipt_id: "octon-self-evolution-proposal-to-promotion-runtime-v5-compilation"
+proposal_ref: "octon-self-evolution-proposal-to-promotion-runtime-v5"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+simulation_ref: ".octon/state/control/evolution/simulations/evolution-simulation-v5-validation.yml"
+lab_gate_ref: ".octon/state/control/evolution/lab-gates/evolution-lab-gate-v5-validation.yml"
+constitutional_amendment_request_ref: ".octon/state/control/evolution/amendment-requests/evolution-amendment-v5-validation.yml"
+compiled_packet_is_authority: false
+compiled_packet_promotes_change: false
+declared_promotion_targets_ref: ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"

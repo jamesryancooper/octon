@@ -1,0 +1,38 @@
+schema_version: connector-operation-v1
+connector_id: mcp
+operation_id: observe-context
+operation_version: "1.0.0"
+input_schema_ref: schema://octon/connector/mcp/observe-context/input-v1
+output_schema_ref: schema://octon/connector/mcp/observe-context/output-v1
+side_effect_class: observe_read
+material_effect_class: service-invocation
+capability_packs_consumed:
+  - telemetry
+credential_class: none
+egress_requirements: []
+replayability: stage-only-record
+rollback_compensation_posture: not-required-for-stage-only-no-effect
+evidence_obligations:
+  - connector-admission-record
+  - connector-trust-dossier
+  - connector-drift-record
+  - connector-execution-receipt-if-material-run-attempted
+allowed_modes:
+  - observe_only
+  - stage_only
+timeout_budget_class: none
+support_posture: non_live_stage_only
+privacy_data_handling:
+  data_classes:
+    - repository-context
+  retention: evidence-only-on-admission
+  redaction_required: false
+failure_taxonomy:
+  modes:
+    - missing-operation-contract
+    - stale-dossier
+    - unsupported-live-effect
+    - connector-drift
+  repeated_failure_route: quarantine
+connector_availability_is_authority: false
+operation_authorizes_execution: false

@@ -1,0 +1,152 @@
+schema_version: "octon-evidence-profiles-policy-v1"
+policy_id: "engagement-evidence-profiles"
+owner: "Octon governance"
+status: "active"
+default_route: "deny"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+context_packing_policy_ref: ".octon/instance/governance/policies/context-packing.yml"
+fail_closed_ref: ".octon/framework/constitution/obligations/fail-closed.yml"
+evidence_obligations_ref: ".octon/framework/constitution/obligations/evidence.yml"
+
+selection_doctrine:
+  - "Evidence profiles narrow compiler readiness; they never authorize material effects by themselves."
+  - "A Work Package must select exactly one evidence profile before it can emit a run-contract candidate."
+  - "Missing, stale, or conflicting profile selection blocks readiness until a Decision Request or canonical authority artifact resolves it."
+  - "The compiler may select a stricter profile than the minimum, but it may not downgrade repo-consequential work to orientation-only or stage-only."
+
+profiles:
+  - profile_id: "orientation-only"
+    aliases:
+      - "orientation_only"
+    applies_to:
+      - "start-engagement"
+      - "adoption-preflight"
+      - "project-profile-orientation"
+      - "context-pack-request-preparation"
+    material_effects_allowed: false
+    live_connector_invocation_allowed: false
+    run_contract_handoff_allowed: false
+    ready_for_authorization_allowed: false
+    allowed_outcomes:
+      - "stage_only"
+      - "requires_decision"
+      - "blocked"
+    required_evidence:
+      - "adoption-classification-evidence"
+      - "orientation-scan-evidence"
+      - "project-profile-source-facts"
+    missing_evidence_route: "blocked"
+    rollback_requirements:
+      - "none; material effects are forbidden"
+    verifier_requirements:
+      - "source digest recording"
+      - "placement check"
+    replay_requirements:
+      - "orientation source manifest"
+    disclosure_requirements:
+      - "operator-visible preflight summary"
+    closeout_requirements:
+      - "orientation evidence retained"
+  - profile_id: "stage-only"
+    aliases:
+      - "stage_only"
+    applies_to:
+      - "prepare-only-work-package"
+      - "unsupported-or-unadmitted-surface"
+      - "missing-context-receipt"
+      - "missing-runtime-authorization"
+      - "non-live-connector-posture"
+    material_effects_allowed: false
+    live_connector_invocation_allowed: false
+    run_contract_handoff_allowed: false
+    ready_for_authorization_allowed: false
+    allowed_outcomes:
+      - "stage_only"
+      - "requires_decision"
+      - "blocked"
+      - "denied"
+    required_evidence:
+      - "work-package-compilation-evidence"
+      - "support-posture-evidence"
+      - "capability-posture-evidence"
+      - "decision-request-evidence-when-needed"
+    missing_evidence_route: "blocked"
+    rollback_requirements:
+      - "rollback plan prepared when a candidate is armed"
+    verifier_requirements:
+      - "support posture check"
+      - "capability posture check"
+      - "connector posture check"
+      - "generated/input non-authority check"
+    replay_requirements:
+      - "compiler input refs"
+      - "candidate handoff refs"
+    disclosure_requirements:
+      - "operator Work Package summary"
+    closeout_requirements:
+      - "open Decision Requests carried as blockers or resolved"
+  - profile_id: "repo-consequential"
+    aliases:
+      - "repo_consequential"
+    applies_to:
+      - "repo-local-governed-run-candidate"
+      - "repo-mutation"
+      - "git-commit"
+      - "protected-ci-action"
+      - "generated-effective-publication"
+    material_effects_allowed: true
+    live_connector_invocation_allowed: false
+    run_contract_handoff_allowed: true
+    ready_for_authorization_allowed: true
+    runtime_authorization_required: true
+    required_evidence:
+      - "run-contract-candidate"
+      - "support-target-reconciliation"
+      - "capability-admission-posture"
+      - "context-pack-request"
+      - "context-pack-receipt"
+      - "rollback-plan"
+      - "validation-plan"
+      - "risk-materiality-classification"
+      - "approval-or-grant-bundle-when-required"
+    missing_evidence_route: "blocked"
+    rollback_requirements:
+      - "rollback plan or reversibility posture"
+    verifier_requirements:
+      - "context-pack receipt"
+      - "support tuple admission"
+      - "capability pack admission"
+      - "runtime authorization"
+    replay_requirements:
+      - "run replay manifest"
+      - "trace pointers"
+    disclosure_requirements:
+      - "RunCard"
+      - "known-limits disclosure when applicable"
+    closeout_requirements:
+      - "run terminal state"
+      - "retained execution evidence"
+
+selection_rules:
+  - rule_id: "EPR-001"
+    when: "Work is limited to adoption, orientation, read-only inventory, or Project Profile source-fact capture."
+    select_profile: "orientation-only"
+  - rule_id: "EPR-002"
+    when: "The request requires prepare-only output, has unresolved authority, lacks a context-pack receipt, or touches a stage-only support tuple."
+    select_profile: "stage-only"
+  - rule_id: "EPR-003"
+    when: "The Work Package proposes repo-local material effects through an admitted support tuple and admitted capability packs."
+    select_profile: "repo-consequential"
+  - rule_id: "EPR-004"
+    when: "A non-admitted MCP, API, or browser connector is requested."
+    select_profile: "stage-only"
+    live_effect_route: "denied"
+  - rule_id: "EPR-005"
+    when: "The selected profile is missing, ambiguous, stale, or weaker than the action class requires."
+    select_profile: null
+    fail_closed_route: "blocked"
+
+promotion_constraints:
+  proposal_local_dependency_route: "deny"
+  generated_authority_route: "deny"
+  raw_inputs_authority_route: "deny"

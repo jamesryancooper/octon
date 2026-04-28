@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/mission-continuation-decision-v1.schema.json",
+  "title": "Octon Constitutional Mission Continuation Decision v1",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/mission-continuation-decision-v1.schema.json"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+schema_version: connector-drift-record-v1
+connector_id: mcp
+operation_id: observe-context
+checked_at: "2026-04-28T00:00:00Z"
+current_digest: dd4a1e598e2a99152ecbc662577ab0b59cdbfbc39ae29d3a6bf3414d9ac96da7
+previous_digest: daf904009987e9818069f3d790adbe57e47d9dd2e48194fb056b4848a40150af
+drift_detected: false
+route: current
+quarantine_required: false
+drift_dimensions:
+  - connector manifest
+  - operation schema
+  - support posture
+  - egress destination
+  - credential class
+  - capability mapping
+  - evidence obligations
+  - rollback posture
+  - allowed mode
+  - failure taxonomy
+  - rate/budget class
+connector_availability_is_authority: false
+admission_decision_authorizes_execution: false

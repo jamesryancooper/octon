@@ -1,4 +1,4 @@
-schema_version: "octon-mission-charter-v1"
+schema_version: "octon-mission-v2"
 mission_id: "mission-autonomy-live-validation"
 version: "3.1.0"
 title: "Mission: mission-autonomy-live-validation"
@@ -23,7 +23,7 @@ scope_refs:
 approval_policy_ref: ".octon/instance/governance/policies/mission-autonomy.yml"
 quorum_policy_ref: ".octon/instance/governance/contracts/quorum-policies/default.yml"
 revocation_policy_ref: "revocation-policy://default"
-continuity_root_ref: ".octon/state/continuity/missions/mission-autonomy-live-validation"
+continuity_root_ref: ".octon/state/continuity/repo/missions/mission-autonomy-live-validation"
 retention_expectations:
   replay_required: true
   measurements_required: true

@@ -1,0 +1,14 @@
+all_admitted_triggers_dispositioned: false
+blockers: []
+continuity_updated: false
+epoch_id: octon-continuous-stewardship-epoch-1
+evidence_complete: false
+no_unresolved_blocking_decision_requests: false
+program_id: octon-continuous-stewardship
+renewal_decision_emitted: false
+replay_disclosure_status_known: false
+rollback_compensation_posture_known: false
+schema_version: stewardship-epoch-closeout-v1
+spawned_missions_closed_or_carried_forward: false
+status: open
+updated_at: 2026-04-28T17:01:20.453981Z

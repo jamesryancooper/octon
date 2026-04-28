@@ -46,3 +46,17 @@ rules:
   - "Run continuity must remain distinct from retained evidence."
   - "Replay-heavy external payloads require a content-addressed retained index entry."
   - "Canonical run evidence must declare the packet evidence class plus storage class for each replay-bearing artifact."
+self_evolution_retention:
+  evidence_root: ".octon/state/evidence/evolution/**"
+  retained_families:
+    - "candidates/**"
+    - "distillation/**"
+    - "simulations/**"
+    - "lab-gates/**"
+    - "proposals/**"
+    - "amendment-requests/**"
+    - "promotions/**"
+    - "recertifications/**"
+    - "rollbacks/**"
+    - "retirements/**"
+  rule: "Self-evolution evidence retains proof and receipts without replacing proposal manifests, ADRs, run evidence, or canonical promotion receipts."

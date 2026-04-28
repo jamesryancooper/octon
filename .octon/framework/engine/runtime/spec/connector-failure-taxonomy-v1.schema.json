@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-failure-taxonomy-v1.schema.json",
+  "title": "Connector Failure Taxonomy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "failure_modes", "retry_posture", "compensation_trigger"],
+  "properties": {
+    "schema_version": { "const": "connector-failure-taxonomy-v1" },
+    "failure_modes": { "type": "array", "items": { "type": "string" } },
+    "retry_posture": { "type": "string", "minLength": 1 },
+    "compensation_trigger": { "type": "string", "minLength": 1 },
+    "quarantine_on_repeated_failure": { "type": "boolean" }
+  }
+}

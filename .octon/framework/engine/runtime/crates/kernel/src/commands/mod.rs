@@ -35,9 +35,18 @@ use std::sync::Arc;
 use std::thread;
 use std::time::Duration;
 
+mod engagement;
+mod evolution;
+mod mission;
+mod stewardship;
+
 use super::{
-    Command, OrchestrationCmd, OrchestrationIncidentCmd, ProtectedCiCmd, PublicationInternalCmd,
-    PublishCmd, RunCmd, ServiceCmd, ServicesCmd, WorkflowCmd,
+    ArmCmd, CapabilityCmd, Command, ConnectorAdmitCmd, ConnectorCmd, ConnectorDecisionCmd,
+    ConnectorInspectCmd, ConnectorListCmd, ConnectorOperationCmd, ContinueCmd, DecideCmd,
+    DecisionListCmd, DecisionResolveCmd, MissionCmd, MissionOpenCmd, OrchestrationCmd,
+    OrchestrationIncidentCmd, PlanCmd, ProfileCmd, ProtectedCiCmd, PublicationInternalCmd,
+    PublishCmd, RunCmd, ServiceCmd, ServicesCmd, StartCmd, StatusCmd, SupportCmd,
+    SupportProofSubject, WorkflowCmd,
 };
 
 fn artifact_effects_for_root(root: &Path, grant: &GrantBundle) -> Result<ExecutionArtifactEffects> {
@@ -96,6 +105,22 @@ fn ensure_dir_with_verified_executor_effect(
 
 pub(crate) fn dispatch(cmd: Command) -> Result<()> {
     match cmd {
+        Command::Start(args) => engagement::cmd_start(args),
+        Command::Profile(args) => engagement::cmd_profile(args),
+        Command::Plan(args) => engagement::cmd_plan(args),
+        Command::Arm(args) => engagement::cmd_arm(args),
+        Command::Status(args) => engagement::cmd_status(args),
+        Command::Continue(args) => mission::cmd_continue(args),
+        Command::Mission { cmd } => mission::cmd_mission(cmd),
+        Command::Decide { cmd } => cmd_decide(cmd),
+        Command::Connector { cmd } => mission::cmd_connector(cmd),
+        Command::Support { cmd } => mission::cmd_support(cmd),
+        Command::Capability { cmd } => mission::cmd_capability(cmd),
+        Command::Steward { cmd } => stewardship::cmd_steward(cmd),
+        Command::Evolve { cmd } => evolution::cmd_evolve(cmd),
+        Command::Amend { cmd } => evolution::cmd_amend(cmd),
+        Command::Promote { cmd } => evolution::cmd_promote(cmd),
+        Command::Recertify { cmd } => evolution::cmd_recertify(cmd),
         Command::Doctor { architecture } => cmd_doctor(architecture),
         Command::Info => cmd_info(),
         Command::Services { cmd } => cmd_services(cmd),
@@ -110,6 +135,34 @@ pub(crate) fn dispatch(cmd: Command) -> Result<()> {
         Command::ProtectedCi { cmd } => cmd_protected_ci(cmd),
         Command::PublicationInternal { cmd } => cmd_publication_internal(cmd),
         Command::Orchestration { cmd } => cmd_orchestration(cmd),
+    }
+}
+
+fn cmd_decide(cmd: DecideCmd) -> Result<()> {
+    match cmd {
+        DecideCmd::List(args) => {
+            if args.program_id.is_some() {
+                stewardship::cmd_decision_list(args)
+            } else {
+                mission::cmd_decision_list(args)
+            }
+        }
+        DecideCmd::Resolve(args) => {
+            if args.program_id.is_some()
+                || stewardship::stewardship_decision_exists(
+                    args.program_id.as_deref(),
+                    &args.decision_id,
+                )?
+            {
+                stewardship::cmd_decision_resolve(args)
+            } else if args.mission_id.is_some()
+                || mission::mission_decision_exists(args.mission_id.as_deref(), &args.decision_id)?
+            {
+                mission::cmd_decision_resolve(args)
+            } else {
+                engagement::cmd_decide(args)
+            }
+        }
     }
 }
 
@@ -1669,6 +1722,24 @@ fn cmd_run(cmd: RunCmd) -> Result<()> {
             prepare_only,
         } => {
             let contract_path = resolve_octon_path(&octon_dir, &contract);
+            if engagement::is_run_candidate_contract(&contract_path) {
+                if !prepare_only {
+                    anyhow::bail!(
+                        "run-contract candidates may only be submitted with `octon run start --contract <candidate> --prepare-only`; live execution requires the canonical run contract after authorization binding"
+                    );
+                }
+                let descriptor =
+                    engagement::materialize_run_candidate_for_start(&octon_dir, &contract_path)?;
+                return run_descriptor_start(
+                    &octon_dir,
+                    descriptor,
+                    true,
+                    executor,
+                    executor_bin,
+                    model,
+                    prepare_only,
+                );
+            }
             let descriptor = load_run_descriptor(&octon_dir, &contract_path)?;
             validate_run_lifecycle_operation(
                 &repo_root,

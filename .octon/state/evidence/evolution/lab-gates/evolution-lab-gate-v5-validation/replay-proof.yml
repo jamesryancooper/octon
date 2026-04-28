@@ -1,0 +1,10 @@
+schema_version: "self-evolution-replay-proof-v1"
+lab_gate_ref: ".octon/state/control/evolution/lab-gates/evolution-lab-gate-v5-validation.yml"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+result: "passed"
+replayed_controls:
+  - "proposal-status-mismatch"
+  - "generated-authority"
+  - "durable-proposal-path-dependency"
+governance_effect: "Self-evolution gates replayed as fail-closed checks without changing durable authority."
+non_authority_statement: "Replay proof satisfies assurance evidence; replay success does not approve change."

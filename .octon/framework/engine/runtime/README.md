@@ -117,6 +117,49 @@ especially:
 The engine runtime now exposes run-first operator surfaces through the shared
 `octon` CLI:
 
+- `octon start [--intent <text>] [--prepare-only]`
+- `octon profile --engagement-id <engagement-id>`
+- `octon plan --engagement-id <engagement-id>`
+- `octon arm --engagement-id <engagement-id> --prepare-only`
+- `octon decide list [--engagement-id <engagement-id>] [--mission-id <mission-id>]`
+- `octon decide resolve <decision-id> [--engagement-id <engagement-id>] [--mission-id <mission-id>] --response <resolution>`
+- `octon status --engagement-id <engagement-id>`
+- `octon continue [--engagement-id <engagement-id>] [--mission-id <mission-id>]`
+- `octon mission open --engagement <engagement-id> [--mission-id <mission-id>]`
+- `octon mission status --mission-id <mission-id>`
+- `octon mission continue --mission-id <mission-id> [--start-run]`
+- `octon mission pause --mission-id <mission-id>`
+- `octon mission resume --mission-id <mission-id>`
+- `octon mission revoke --mission-id <mission-id>`
+- `octon mission close --mission-id <mission-id>`
+- `octon mission queue --mission-id <mission-id>`
+- `octon mission next --mission-id <mission-id>`
+- `octon connector list [--connector <connector-id>]`
+- `octon connector inspect [--connector <connector-id>] [--operation <operation-id>]`
+- `octon connector status|validate|stage|quarantine|retire|dossier|evidence|drift --connector <connector-id> --operation <operation-id>`
+- `octon connector admit (--observe-only|--read-only|--stage-only|--live) --connector <connector-id> --operation <operation-id>`
+- `octon connector decision --connector <connector-id> --operation <operation-id> [--type <decision-type>]`
+- `octon support proof connector --connector <connector-id> --operation <operation-id>`
+- `octon support validate-connector --connector <connector-id> --operation <operation-id>`
+- `octon capability map-connector --connector <connector-id> --operation <operation-id>`
+- `octon steward open [--program-id <program-id>] [--epoch-id <epoch-id>]`
+- `octon steward status [--program-id <program-id>]`
+- `octon steward observe [--program-id <program-id>] [--trigger-type <trigger>]`
+- `octon steward admit [--program-id <program-id>] [--trigger-id <trigger-id>]`
+- `octon steward idle [--program-id <program-id>]`
+- `octon steward renew [--program-id <program-id>] [--outcome <outcome>]`
+- `octon steward pause|resume|revoke|close [--program-id <program-id>]`
+- `octon steward ledger|triggers|epochs|decisions [--program-id <program-id>]`
+- `octon evolve observe [--program-id <program-id>]`
+- `octon evolve candidates [--program-id <program-id>]`
+- `octon evolve inspect|classify|simulate|lab|propose <candidate-id>`
+- `octon evolve decide <proposal-or-request>`
+- `octon evolve promote <proposal-id-or-path>`
+- `octon evolve recertify|rollback|retire|ledger [--program-id <program-id>]`
+- `octon amend request <candidate-id>`
+- `octon amend inspect <request-id>`
+- `octon promote inspect|apply|receipt [--promotion-id <promotion-id>]`
+- `octon recertify status|run [--program-id <program-id>]`
 - `octon run start --contract <run-contract>`
 - `octon run inspect --run-id <run-id>`
 - `octon run resume --run-id <run-id>`
@@ -124,6 +167,71 @@ The engine runtime now exposes run-first operator surfaces through the shared
 - `octon run close --run-id <run-id>`
 - `octon run replay --run-id <run-id>`
 - `octon run disclose --run-id <run-id>`
+
+Engagement compiler commands prepare control and evidence artifacts only.
+Per-engagement Objective Brief candidates live under
+`state/control/engagements/<engagement-id>/objective/`. First run-contract
+candidates live under
+`state/control/engagements/<engagement-id>/run-candidates/<run-id>/run-contract.candidate.yml`
+until submitted through `octon run start --contract <candidate>`. The compiler
+does not execute candidates or create canonical run lifecycle roots during
+`octon arm --prepare-only`.
+
+Mission Autonomy Runtime v2 commands consume v1 Engagement and Work Package
+state, open one Mission, maintain one Autonomy Window, one Mission Queue, one
+Mission Run Ledger, mission-aware Decision Requests, and Continuation Decisions.
+Mission state lives under `state/control/execution/missions/<mission-id>/**`;
+mission control evidence lives under `state/evidence/control/execution/missions/<mission-id>/**`;
+mission continuity lives under `state/continuity/repo/missions/<mission-id>/**`.
+Generated mission projections are optional read models only.
+
+`octon decide` records Decision Request resolution evidence and low-level
+canonical refs where applicable. Mission-control approvals do not create active
+execution approval grants. They unblock mission control state only; run
+execution still requires `octon run start --contract` and the execution
+authorization boundary. `octon status` reads Engagement control/evidence state
+and optional non-authoritative projections.
+
+Connector Admission Runtime v4 is operation-level governance for external
+tools. Connector identity, operation contracts, admissions, trust dossiers,
+capability maps, and support-proof maps live under `instance/governance/**`.
+Connector lifecycle truth lives under `state/control/connectors/**`; retained
+connector proof lives under `state/evidence/connectors/**`; generated connector
+views are optional read models only.
+
+Connector commands are administrative inspection/preparation surfaces. They
+must not execute MCP/API/browser/service operations. `--live` creates or
+requires connector Decision Request posture and remains non-effectful; material
+connector execution is still deferred unless routed through
+`octon run start --contract <run-contract>`, context packing, execution
+authorization, authorized-effect token verification, run journal evidence, and
+connector receipts. Active quarantine blocks admission changes until reset
+evidence and required operator/quorum approval exist.
+
+Continuous Stewardship Runtime v3 commands make Octon available over time
+without creating unbounded work. A Stewardship Program under `instance/**`
+opens finite Epochs under `state/control/**`, normalizes triggers, emits
+Admission, Idle, Renewal, and stewardship-aware Decision Requests, and records
+stewardship evidence and continuity. Stewardship never executes material work:
+admitted work must hand off to the v2 Mission Runner and then to
+`octon run start --contract <run-contract>` under the existing authorization
+boundary. Generated stewardship projections are optional read models only.
+
+Self-Evolution Proposal-to-Promotion Runtime v5 commands make Octon's own
+improvement path explicit without self-authorization. Evolution Programs live
+under `instance/governance/evolution/**`; candidates, distillation records,
+simulations, lab gates, amendment requests, promotions, recertifications,
+rollback/retirement posture, decisions, and the Evolution Ledger live under
+`state/control/evolution/**`; retained proof lives under
+`state/evidence/evolution/**`; continuity lives under
+`state/continuity/evolution/**`; generated evolution views are optional
+operator read models only. Evidence distillation, simulations, lab success,
+proposal packets, generated summaries, chat, host comments, and the Evolution
+Ledger cannot approve or promote change. Durable self-evolution requires
+declared targets, human/quorum approval where required, retained promotion
+receipts, rollback or retirement posture, and post-promotion recertification.
+Material implementation work still routes through governed run contracts and
+execution authorization.
 
 `octon workflow run ...` is not a live consequential execution lane. Use
 `octon run start --contract <run-contract>` instead.

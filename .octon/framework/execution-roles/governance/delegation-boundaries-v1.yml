@@ -1,7 +1,7 @@
 schema_version: "delegation-boundaries-v1"
-boundary_set_id: "agency-delegation-core"
+boundary_set_id: "execution-role-delegation-core"
 boundary_set_version: "1.2.0"
-owner: "agency-owner"
+owner: "execution-roles-owner"
 approved_by: "octon-platform"
 review_cadence_days: 30
 

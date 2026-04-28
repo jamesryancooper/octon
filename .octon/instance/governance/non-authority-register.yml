@@ -77,6 +77,21 @@ entries:
     validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh
     retained_forever: true
     rationale: Operator navigation maps improve legibility but remain barred from runtime, policy, and support authority decisions.
+  - surface_id: evolution-operator-read-models
+    surface_class: generated-operator-read-model
+    paths:
+      - .octon/generated/cognition/projections/materialized/evolution/candidates.yml
+      - .octon/generated/cognition/projections/materialized/evolution/ledger.yml
+      - .octon/generated/cognition/projections/materialized/evolution/risk-dashboard.yml
+      - .octon/generated/cognition/projections/materialized/evolution/recertification-status.yml
+      - .octon/generated/cognition/projections/materialized/evolution/open-decisions.yml
+    canonical_source_ref: .octon/state/control/evolution/ledger.yml
+    authority_mode: derived-non-authority
+    generation_or_projection_mechanism: generated-from self-evolution control and evidence roots
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh
+    retained_forever: true
+    rationale: Evolution read models aid operator review but cannot approve, promote, amend, recertify, or authorize Octon's self-evolution.
   - surface_id: effective-closure-claim-status
     surface_class: effective-generated-view
     paths:

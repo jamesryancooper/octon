@@ -1,0 +1,17 @@
+applied_mode_adjustments: []
+counters:
+  authorization_denials: 0
+  breaker_trips: 0
+  continuation_attempts: 0
+  queue_churn: 0
+  run_failures: 0
+  validation_failures: 0
+last_recomputed_at: 2026-04-28T15:52:02.632863Z
+last_state_change_at: 2026-04-28T15:52:02.632863Z
+mission_id: mission-autonomy-v2-validation
+recompute_receipt_ref: mission-open-initial
+schema_version: autonomy-budget-v1
+state: healthy
+threshold_profile_ref: mission-autonomy-runtime-v2.default
+updated_at: 2026-04-28T15:52:02.632863Z
+window: PT24H

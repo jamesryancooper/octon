@@ -1,0 +1,9 @@
+schema_version: "constitutional-amendment-request-evidence-receipt-v1"
+receipt_id: "evolution-amendment-v5-validation-receipt"
+request_ref: ".octon/state/control/evolution/amendment-requests/evolution-amendment-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+human_or_quorum_approval_required: true
+approval_refs:
+  - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+amendment_request_authorizes_change: false
+non_authority_statement: "The amendment request records elevated review requirements and does not authorize change by itself."

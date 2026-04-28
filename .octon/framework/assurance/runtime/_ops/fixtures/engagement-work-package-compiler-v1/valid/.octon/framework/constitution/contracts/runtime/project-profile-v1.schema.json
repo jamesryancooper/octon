@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/project-profile-v1.schema.json",
+  "title": "Constitutional Project Profile v1",
+  "type": "object",
+  "required": ["schema_version", "profile_id", "source_evidence_refs"],
+  "properties": {
+    "schema_version": { "const": "project-profile-v1" },
+    "profile_id": { "type": "string", "minLength": 1 },
+    "source_evidence_refs": { "type": "array" }
+  }
+}

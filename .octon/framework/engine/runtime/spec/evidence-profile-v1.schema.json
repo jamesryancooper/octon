@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/evidence-profile-v1.schema.json",
+  "title": "Octon Evidence Profile v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "material_effects_allowed",
+    "live_connector_invocation_allowed",
+    "run_contract_handoff_allowed",
+    "required_evidence",
+    "state_evidence_roots",
+    "allowed_outcomes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "evidence-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "enum": [
+        "orientation-only",
+        "orientation_only",
+        "stage-only",
+        "stage_only",
+        "repo-consequential",
+        "repo_consequential"
+      ]
+    },
+    "material_effects_allowed": {
+      "type": "boolean"
+    },
+    "live_connector_invocation_allowed": {
+      "type": "boolean"
+    },
+    "run_contract_handoff_allowed": {
+      "type": "boolean"
+    },
+    "required_evidence": {
+      "type": "array"
+    },
+    "state_evidence_roots": {
+      "type": "object",
+      "properties": {
+        "engagement_preflight": {
+          "type": "string",
+          "minLength": 1
+        },
+        "orientation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "project_profile_source_facts": {
+          "type": "string",
+          "minLength": 1
+        },
+        "work_package_compilation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decisions": {
+          "type": "string",
+          "minLength": 1
+        },
+        "run_contract_readiness": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "allowed_outcomes": {
+      "type": "array"
+    }
+  }
+}

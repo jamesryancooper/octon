@@ -1,0 +1,25 @@
+applied_actions: []
+last_recomputed_at: 2026-04-28T15:52:02.632863Z
+mission_id: mission-autonomy-v2-validation
+recompute_receipt_ref: mission-open-initial
+reset_ref: null
+reset_requirements:
+- operator-review-before-reset
+schema_version: circuit-breaker-v1
+state: clear
+trip_conditions_snapshot:
+  budget_exhaustion: false
+  connector_posture_drift: false
+  evidence_emission_failure: false
+  repeated_authorization_denial: false
+  repeated_run_failure: false
+  repeated_validation_failure: false
+  rollback_posture_loss: false
+  stale_context: false
+  support_posture_drift: false
+  unexpected_material_side_effect_attempt: false
+  unresolved_high_priority_decision_request: false
+trip_reasons: []
+tripped_at: null
+tripped_breakers: []
+updated_at: 2026-04-28T15:52:02.632863Z

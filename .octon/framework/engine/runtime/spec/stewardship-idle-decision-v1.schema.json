@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/stewardship-idle-decision-v1.schema.json",
+  "title": "Stewardship Idle Decision v1",
+  "description": "Canonical successful stewardship outcome proving no admissible work exists and no work was executed.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "epoch_id",
+    "decision_id",
+    "reason",
+    "evidence_ref",
+    "next_review_time_or_trigger_condition",
+    "no_work_executed",
+    "idle_is_successful_governed_state"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-idle-decision-v1" },
+    "no_work_executed": { "const": true },
+    "idle_is_successful_governed_state": { "const": true }
+  }
+}

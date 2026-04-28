@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/constitutional-amendment-request-v1.schema.json",
+  "title": "Constitutional Mirror: Constitutional Amendment Request v1",
+  "allOf": [
+    { "$ref": "../../../engine/runtime/spec/constitutional-amendment-request-v1.schema.json" }
+  ]
+}

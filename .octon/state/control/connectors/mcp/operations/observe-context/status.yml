@@ -1,0 +1,8 @@
+schema_version: connector-operation-status-v1
+connector_id: mcp
+operation_id: observe-context
+status: stage_only
+live_effects_authorized: false
+operation_contract_ref: .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+admission_state_ref: .octon/state/control/connectors/mcp/operations/observe-context/admission-state.yml
+updated_at: "2026-04-28T00:00:00Z"

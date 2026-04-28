@@ -1,0 +1,8 @@
+commands:
+- cargo test -p octon_kernel
+done_gate:
+- Engagement compiler commands parse.
+- Run-contract candidate remains under engagement control state until octon run start --contract.
+engagement_id: engagement-compiler-v1-validation
+recorded_at: 2026-04-28T14:01:04.104204Z
+schema_version: validation-plan-v1

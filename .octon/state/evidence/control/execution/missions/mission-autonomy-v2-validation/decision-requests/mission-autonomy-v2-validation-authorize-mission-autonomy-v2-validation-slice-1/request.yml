@@ -1,0 +1,7 @@
+blocking_reasons:
+- mission-run-contract-candidate-requires-operator-resolution
+decision_request_id: mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+decision_request_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/decisions/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1.yml
+mission_id: mission-autonomy-v2-validation
+recorded_at: 2026-04-28T15:52:08.131467Z
+schema_version: mission-decision-request-evidence-v1

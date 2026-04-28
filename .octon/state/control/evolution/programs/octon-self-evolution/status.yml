@@ -1,0 +1,15 @@
+schema_version: "evolution-program-status-v1"
+program_id: "octon-self-evolution"
+status: "active"
+active_candidate_count: 1
+active_promotion_count: 1
+active_recertification_count: 1
+program_authority_ref: ".octon/instance/governance/evolution/programs/octon-self-evolution/program.yml"
+policy_refs:
+  - ".octon/instance/governance/evolution/policies/evolution-policy.yml"
+  - ".octon/instance/governance/evolution/policies/promotion-policy.yml"
+  - ".octon/instance/governance/evolution/policies/recertification-policy.yml"
+last_reviewed_at: "2026-04-28T00:00:00Z"
+program_mutates_authority_directly: false
+self_authorization_allowed: false
+material_execution_requires_run_lifecycle: true

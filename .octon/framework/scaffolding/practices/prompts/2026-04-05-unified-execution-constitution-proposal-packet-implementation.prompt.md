@@ -24,8 +24,8 @@ durable results only into authored authority/runtime/evidence surfaces under
 Read these before making changes:
 
 1. `/.octon/instance/ingress/AGENTS.md`
-2. `/.octon/framework/agency/practices/commits.md`
-3. `/.octon/framework/agency/practices/pull-request-standards.md`
+2. `/.octon/framework/execution-roles/practices/commits.md`
+3. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 4. `/.octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet/README.md`
 5. `/.octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet/00-executive/executive-target-state.md`
 6. `/.octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet/00-executive/claim-boundary-and-truth-conditions.md`

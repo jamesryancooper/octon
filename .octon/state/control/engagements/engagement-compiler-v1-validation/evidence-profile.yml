@@ -1,0 +1,8 @@
+engagement_id: engagement-compiler-v1-validation
+material_effects_allowed_by_compiler: false
+policy_ref: .octon/instance/governance/policies/evidence-profiles.yml
+recorded_at: 2026-04-28T14:01:13.233377Z
+runtime_authorization_required: true
+schema_version: evidence-profile-selection-v1
+selected_profile: repo-consequential
+selection_rationale: Repo-local run-contract candidate handoff is prepared; live effects remain gated by octon run start --contract.

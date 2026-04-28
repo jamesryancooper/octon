@@ -1,0 +1,51 @@
+schema_version: "engagement-evidence-profiles-policy-v1"
+policy_id: "engagement-evidence-profiles"
+owner: "Octon governance"
+status: "active"
+default_route: "deny"
+profiles:
+  - profile_id: "orientation-only"
+    applies_to:
+      - "start-engagement"
+      - "project-profile-orientation"
+    material_effects_allowed: false
+    live_connector_invocation_allowed: false
+    run_contract_handoff_allowed: false
+    ready_for_authorization_allowed: false
+    allowed_outcomes:
+      - "stage_only"
+      - "requires_decision"
+      - "blocked"
+    required_evidence:
+      - "adoption-classification-evidence"
+      - "orientation-scan-evidence"
+  - profile_id: "stage-only"
+    applies_to:
+      - "prepare-only-work-package"
+      - "non-live-connector-posture"
+    material_effects_allowed: false
+    live_connector_invocation_allowed: false
+    run_contract_handoff_allowed: false
+    ready_for_authorization_allowed: false
+    allowed_outcomes:
+      - "stage_only"
+      - "requires_decision"
+      - "blocked"
+      - "denied"
+    required_evidence:
+      - "work-package-compilation-evidence"
+      - "support-posture-evidence"
+  - profile_id: "repo-consequential"
+    applies_to:
+      - "repo-local-governed-run-candidate"
+      - "repo-mutation"
+    material_effects_allowed: true
+    live_connector_invocation_allowed: false
+    run_contract_handoff_allowed: true
+    ready_for_authorization_allowed: true
+    runtime_authorization_required: true
+    required_evidence:
+      - "run-contract-candidate"
+      - "support-target-reconciliation"
+      - "context-pack-receipt"
+      - "rollback-plan"

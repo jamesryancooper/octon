@@ -7,17 +7,17 @@ description: Index of available commands and workflows in this harness.
 
 Available operations in this harness.
 
-## Agency
+## Execution Roles
 
-Actor configuration in `agency/`:
+Execution-role configuration in `framework/execution-roles/`:
 
 | Artifact | Description |
 |----------|-------------|
-| `agency/manifest.yml` | Actor discovery and routing metadata |
-| `agency/governance/` | Cross-agent governance contracts and precedence overlays |
-| `agency/runtime/agents/registry.yml` | Supervisor definitions and delegation policy |
-| `agency/runtime/specialists/registry.yml` | Assistant aliases and escalation policy |
-| `agency/runtime/composition-profiles/registry.yml` | Reusable multi-actor compositions |
+| `framework/execution-roles/manifest.yml` | Execution-role discovery and routing metadata |
+| `framework/execution-roles/governance/` | Delegation and memory governance contracts |
+| `framework/execution-roles/runtime/orchestrator/ROLE.md` | Default accountable execution-role contract |
+| `framework/execution-roles/runtime/specialists/registry.yml` | Specialist aliases and escalation policy |
+| `framework/execution-roles/runtime/composition-profiles/registry.yml` | Reusable execution-role compositions |
 
 ## Commands
 
@@ -69,4 +69,4 @@ cognition summaries:
 | Value | Meaning |
 |-------|---------|
 | `human` | Has a Cursor command wrapper in `.cursor/commands/` |
-| `agent` | Agent-only; no IDE integration |
+| `execution-role` | Execution-role only; no IDE integration |

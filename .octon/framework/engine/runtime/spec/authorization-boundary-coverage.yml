@@ -321,3 +321,37 @@ paths:
       - "token bypass denial"
     tests:
       - ".octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh"
+  - path_id: connector-admission-runtime-admin
+    authorized_effect_token_type: "control-plane-preparation-no-external-effect"
+    entrypoint: ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+    side_effect_class: "control-plane-preparation"
+    affected_root: ".octon/state/control/connectors/**"
+    authorize_execution_ref: "operator-control-plane-command-no-connector-operation-execution"
+    request_builder: "not-applicable-control-plane-preparation"
+    grant_artifact_ref: ".octon/state/evidence/connectors/<connector-id>/**"
+    receipt_artifact_ref: ".octon/state/evidence/connectors/<connector-id>/**/receipt.yml"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "connector availability is not permission"
+      - "live effectful admission denied without run authorization"
+      - "quarantine reset denial without evidence and approval"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh"
+  - path_id: connector-operation-live-effect
+    authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"
+    entrypoint: ".octon/framework/engine/runtime/spec/connector-admission-v1.schema.json"
+    side_effect_class: "service-invocation"
+    affected_root: "external-connector-operation"
+    authorize_execution_ref: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+    request_builder: "future connector operation request builder"
+    grant_artifact_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-<run-id>.yml"
+    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/connector-execution-receipt.yml"
+    denial_reason_code: "FCR-023"
+    negative_controls:
+      - "missing connector admission denial"
+      - "missing context pack denial"
+      - "missing authorization grant denial"
+      - "missing authorized-effect token denial"
+      - "quarantined connector denial"
+    tests:
+      - ".octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh"

@@ -1,0 +1,31 @@
+created_at: 2026-04-28T15:52:02.632863Z
+mission_id: mission-autonomy-v2-validation
+role: mission-level-index-not-run-journal
+run_journal_authority_ref: .octon/state/control/execution/runs/<run-id>/events.ndjson
+runs:
+- action_slice_id: mission-autonomy-v2-validation-slice-1
+  canonical_run_contract_ref: null
+  continuity_update_refs: []
+  disclosure_readiness: pending-run-start
+  evidence_completeness: pending-run-start
+  journal_authority_ref: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-1/events.ndjson
+  replay_readiness: pending-run-start
+  rollback_disposition: pending-run-start
+  run_closeout_state: not_started
+  run_contract_candidate_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/run-candidates/mission-autonomy-v2-validation-run-1/run-contract.candidate.yml
+  run_id: mission-autonomy-v2-validation-run-1
+  run_status: candidate
+- action_slice_id: mission-autonomy-v2-validation-slice-1
+  canonical_run_contract_ref: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/run-contract.yml
+  continuity_update_refs: []
+  disclosure_readiness: pending-run-start
+  evidence_completeness: pending-run-start
+  journal_authority_ref: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/events.ndjson
+  replay_readiness: pending-run-start
+  rollback_disposition: pending-run-start
+  run_closeout_state: not_started
+  run_contract_candidate_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/run-candidates/mission-autonomy-v2-validation-run-2/run-contract.candidate.yml
+  run_id: mission-autonomy-v2-validation-run-2
+  run_status: canonical_contract_prepared
+schema_version: mission-run-ledger-v1
+updated_at: 2026-04-28T16:11:20.033676Z

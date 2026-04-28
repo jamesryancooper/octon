@@ -1,0 +1,10 @@
+schema_version: "evolution-continuity-summary-v1"
+program_id: "octon-self-evolution"
+status: "active"
+summary: >-
+  v5 adds a governed self-evolution pipeline from retained evidence to
+  Evolution Candidates, proposal compilation, human/quorum decisions,
+  promotion receipts, recertification, and an Evolution Ledger.
+non_authority_notice: "Continuity is resumable context and never approval, policy, or runtime authority."
+current_candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+ledger_ref: ".octon/state/control/evolution/ledger.yml"

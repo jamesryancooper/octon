@@ -1,4 +1,7 @@
 schema_version: "network-egress-policy-v1"
+default_route: deny
+egress_policy_authorizes_execution: false
+material_execution_still_requires_run_authorization: true
 rules:
   - id: "langgraph-http-local-runner"
     services:

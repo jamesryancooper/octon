@@ -1,0 +1,7 @@
+schema_version: stewardship-review-cadence-v1
+program_id: octon-continuous-stewardship
+cadence: manual_or_scheduled_review
+max_epoch_duration: P7D
+renewal_requires_operator_command: true
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

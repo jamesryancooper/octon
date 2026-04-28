@@ -28,6 +28,11 @@ support_matrix_posture:
     - "support-claim-evaluation"
     - "direct-runtime-reads"
 support_dossier_root: ".octon/instance/governance/support-dossiers"
+connector_admission_root: ".octon/instance/governance/connector-admissions"
+connector_trust_dossier_root: ".octon/instance/governance/connectors"
+connector_support_proof_root: ".octon/instance/governance/connectors"
+connector_evidence_root: ".octon/state/evidence/connectors"
+connector_support_card_projection_root: ".octon/generated/cognition/projections/materialized/connectors/support-cards"
 claim_state_partitions:
   live:
     admission_root: ".octon/instance/governance/support-target-admissions/live"

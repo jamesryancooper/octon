@@ -1,0 +1,28 @@
+schema_version: "evolution-policy-v1"
+policy_id: "octon-self-evolution-policy"
+owner: "Octon governance"
+status: "active"
+candidate_gate:
+  evidence_refs_required: true
+  risk_classification_required: true
+  authority_impact_required: true
+  initial_disposition_required: true
+candidate_authorizes_change: false
+allowed_candidate_dispositions:
+  - "ignore"
+  - "defer"
+  - "merge_with_existing_candidate"
+  - "open_proposal"
+  - "open_lab_scenario"
+  - "request_human_review"
+  - "deny"
+non_authority_sources:
+  - "chat"
+  - "model_memory"
+  - "generated_summary"
+  - "raw_inputs"
+  - "evidence_distillation"
+  - "proposal_packet"
+  - "simulation_success"
+  - "lab_success"
+blocking_rule: "No candidate may mutate authority or runtime behavior directly."

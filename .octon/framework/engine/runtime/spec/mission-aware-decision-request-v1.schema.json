@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/mission-aware-decision-request-v1.schema.json",
+  "title": "Mission-Aware Decision Request v1",
+  "description": "Mission-scoped extension of Decision Request v1. It blocks mission continuation only and does not authorize execution.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_request_id",
+    "engagement_id",
+    "mission_id",
+    "status",
+    "decision_type",
+    "mission_decision_type",
+    "mission_aware_scope",
+    "question",
+    "allowed_resolutions",
+    "subject_refs",
+    "canonical_resolution_targets",
+    "evidence_root",
+    "created_at"
+  ],
+  "allOf": [
+    {
+      "$ref": "decision-request-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": { "const": "decision-request-v1" },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "mission_decision_type": {
+      "type": "string",
+      "enum": [
+        "approval_required",
+        "risk_acceptance_required",
+        "support_widening_requested",
+        "capability_admission_requested",
+        "connector_admission_requested",
+        "rollback_gap_detected",
+        "validation_gap_detected",
+        "budget_warning",
+        "breaker_reset_required",
+        "mission_scope_change",
+        "mission_closeout_acceptance",
+        "mission_lease_extension"
+      ]
+    },
+    "mission_aware_scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "action_slice",
+          "run",
+          "capability",
+          "connector_operation",
+          "mission_continuation",
+          "mission_lease_extension",
+          "mission_closeout"
+        ]
+      }
+    }
+  }
+}

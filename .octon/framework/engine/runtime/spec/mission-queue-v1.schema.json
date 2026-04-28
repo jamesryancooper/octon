@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/mission-queue-v1.schema.json",
+  "title": "Mission Queue v1",
+  "description": "Mission-level control structure for bounded next work. It never replaces run contracts or run lifecycle state.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "engagement_id",
+    "status",
+    "selection_policy",
+    "action_slices",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "mission-queue-v1" },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "engagement_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["open", "blocked", "paused", "closed"]
+    },
+    "selection_policy": {
+      "type": "object",
+      "required": [
+        "one_active_run_at_a_time",
+        "skip_blocked_dependencies",
+        "skip_unresolved_decision_requests",
+        "risk_ceiling",
+        "progress_gate"
+      ],
+      "properties": {
+        "one_active_run_at_a_time": { "const": true },
+        "skip_blocked_dependencies": { "type": "boolean" },
+        "skip_unresolved_decision_requests": { "type": "boolean" },
+        "risk_ceiling": { "type": "string", "pattern": "^ACP-[0-4]$" },
+        "progress_gate": { "type": "string", "minLength": 1 }
+      }
+    },
+    "action_slices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "schema_version",
+          "slice_id",
+          "mission_id",
+          "engagement_id",
+          "objective_ref",
+          "work_package_ref",
+          "status",
+          "action_class",
+          "scope_ids",
+          "dependencies",
+          "required_capability_packs",
+          "required_connectors",
+          "validation_requirements",
+          "rollback_expectations",
+          "evidence_profile",
+          "decision_request_dependencies",
+          "run_contract_candidate_ref",
+          "terminal_disposition"
+        ],
+        "properties": {
+          "schema_version": { "const": "action-slice-v1" },
+          "slice_id": { "type": "string", "minLength": 1 },
+          "mission_id": { "type": "string", "minLength": 1 },
+          "engagement_id": { "type": "string", "minLength": 1 },
+          "objective_ref": { "type": "string", "minLength": 1 },
+          "work_package_ref": { "type": "string", "minLength": 1 },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "blocked",
+              "ready_for_authorization",
+              "running",
+              "done",
+              "skipped",
+              "denied",
+              "failed"
+            ]
+          },
+          "action_class": { "type": "string", "minLength": 1 },
+          "scope_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "dependencies": { "type": "array" },
+          "required_capability_packs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "required_connectors": { "type": "array" },
+          "validation_requirements": { "type": "array" },
+          "rollback_expectations": { "type": "array" },
+          "evidence_profile": { "type": "string", "minLength": 1 },
+          "decision_request_dependencies": { "type": "array" },
+          "run_contract_candidate_ref": { "type": ["string", "null"] },
+          "terminal_disposition": { "type": ["string", "null"] }
+        }
+      }
+    },
+    "created_at": { "type": "string", "minLength": 1 },
+    "updated_at": { "type": "string", "minLength": 1 }
+  }
+}

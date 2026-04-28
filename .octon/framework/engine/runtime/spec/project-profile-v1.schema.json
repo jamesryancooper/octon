@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/project-profile-v1.schema.json",
+  "title": "Octon Project Profile v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "status",
+    "repo_root",
+    "profile_scope",
+    "evidence_refs",
+    "source_fact_evidence_root",
+    "repo_structure",
+    "language_toolchain_discovery",
+    "build_test_lint_typecheck_discovery",
+    "ci_release_posture",
+    "dependencies",
+    "ownership_hints",
+    "protected_zones",
+    "governance_relevant_paths",
+    "validation_strategy",
+    "rollback_constraints",
+    "known_risks",
+    "current_adoption_state",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "project-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "superseded",
+        "blocked"
+      ]
+    },
+    "repo_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile_scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "object",
+      "minProperties": 1
+    },
+    "source_fact_evidence_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repo_structure": {
+      "type": "object"
+    },
+    "language_toolchain_discovery": {
+      "type": "array"
+    },
+    "build_test_lint_typecheck_discovery": {
+      "type": "object"
+    },
+    "ci_release_posture": {
+      "type": "object"
+    },
+    "dependencies": {
+      "type": "array"
+    },
+    "ownership_hints": {
+      "type": "array"
+    },
+    "protected_zones": {
+      "type": "array"
+    },
+    "governance_relevant_paths": {
+      "type": "array"
+    },
+    "validation_strategy": {
+      "type": "array"
+    },
+    "rollback_constraints": {
+      "type": "array"
+    },
+    "known_risks": {
+      "type": "array"
+    },
+    "current_adoption_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

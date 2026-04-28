@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/stewardship-trigger-v1.schema.json",
+  "title": "Stewardship Trigger v1",
+  "description": "Normalized event or schedule that may enter admission. A trigger never authorizes work.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "epoch_id",
+    "trigger_id",
+    "trigger_type",
+    "recognized",
+    "status",
+    "trigger_authorizes_work",
+    "material_execution_allowed",
+    "admission_required_before_work"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-trigger-v1" },
+    "trigger_type": {
+      "enum": [
+        "scheduled_review",
+        "human_objective",
+        "prior_mission_followup",
+        "validation_evidence_ageout",
+        "repo_change",
+        "ci_failure",
+        "dependency_drift",
+        "support_posture_drift",
+        "context_staleness",
+        "project_profile_staleness",
+        "work_package_assumption_expiry",
+        "decision_request_resolved",
+        "connector_posture_drift",
+        "generated_effective_handle_staleness"
+      ]
+    },
+    "trigger_authorizes_work": { "const": false },
+    "material_execution_allowed": { "const": false },
+    "admission_required_before_work": { "const": true }
+  }
+}

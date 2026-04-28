@@ -212,8 +212,8 @@ run_harness() {
     bash "$SCRIPT_DIR/validate-disclosure-live-roots.sh"
 
   run_step \
-    "Validate Wave 5 agency simplification and adapter hardening" \
-    bash "$SCRIPT_DIR/validate-wave5-agency-adapter-hardening.sh"
+    "Validate execution-role simplification and adapter hardening" \
+    bash "$SCRIPT_DIR/validate-execution-role-adapter-hardening.sh"
 
   run_step \
     "Validate canonical review finding and disposition integration" \
@@ -310,9 +310,9 @@ run_intent_layer() {
     bash "$SCRIPT_DIR/validate-intent-layer.sh"
 }
 
-run_agency() {
+run_execution_roles() {
   run_step \
-    "Validate agency contracts" \
+    "Validate execution-role contracts" \
     bash "$OCTON_DIR/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh"
 }
 

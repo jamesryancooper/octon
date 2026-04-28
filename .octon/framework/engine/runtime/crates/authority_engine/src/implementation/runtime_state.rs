@@ -1172,8 +1172,66 @@ fn resolve_repo_ref_from_root(repo_root: &Path, reference: &str) -> PathBuf {
     let path = PathBuf::from(reference);
     if path.is_absolute() {
         path
+    } else if repo_root.file_name().and_then(|value| value.to_str()) == Some(".octon") {
+        if reference == ".octon" {
+            repo_root.to_path_buf()
+        } else if let Some(stripped) = reference.strip_prefix(".octon/") {
+            repo_root.join(stripped)
+        } else {
+            repo_root.join(path)
+        }
     } else {
         repo_root.join(path)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{discover_repo_root, resolve_repo_ref_from_root};
+    use std::fs;
+    use std::path::PathBuf;
+
+    #[test]
+    fn resolves_dot_octon_refs_when_repo_root_is_octon_root() {
+        let fixture =
+            std::env::temp_dir().join(format!("octon-runtime-state-ref-{}", std::process::id()));
+        let octon_root = fixture.join(".octon");
+        let target = octon_root.join("state/control/example.yml");
+        fs::create_dir_all(target.parent().expect("target parent")).expect("create fixture");
+        fs::write(&target, "ok\n").expect("write fixture");
+
+        let resolved = resolve_repo_ref_from_root(&octon_root, ".octon/state/control/example.yml");
+        assert_eq!(resolved, target);
+
+        let _ = fs::remove_dir_all(&fixture);
+    }
+
+    #[test]
+    fn resolves_dot_octon_refs_when_repo_root_is_workspace_root() {
+        let fixture = PathBuf::from("/tmp/octon-runtime-state-workspace");
+        let resolved = resolve_repo_ref_from_root(&fixture, ".octon/state/control/example.yml");
+        assert_eq!(resolved, fixture.join(".octon/state/control/example.yml"));
+    }
+
+    #[test]
+    fn discovers_workspace_root_from_octon_runtime_path_with_nested_artifacts() {
+        let fixture = std::env::temp_dir().join(format!(
+            "octon-runtime-state-discovery-{}",
+            std::process::id()
+        ));
+        let octon_root = fixture.join(".octon");
+        let nested_artifact = octon_root.join(".octon/state/evidence/example.yml");
+        fs::create_dir_all(nested_artifact.parent().expect("nested parent"))
+            .expect("create nested fixture");
+
+        let discovered = discover_repo_root(&octon_root).expect("repo root should resolve");
+        assert_eq!(discovered, fixture);
+
+        let discovered_from_nested =
+            discover_repo_root(&nested_artifact).expect("nested path should resolve");
+        assert_eq!(discovered_from_nested, fixture);
+
+        let _ = fs::remove_dir_all(&fixture);
     }
 }
 
@@ -2682,6 +2740,13 @@ pub(crate) fn discover_repo_root(path: &Path) -> Option<PathBuf> {
         path.parent()?.to_path_buf()
     };
     loop {
+        if current.file_name().and_then(|value| value.to_str()) == Some(".octon") {
+            let mut root = current.clone();
+            while root.file_name().and_then(|value| value.to_str()) == Some(".octon") {
+                root = root.parent()?.to_path_buf();
+            }
+            return Some(root);
+        }
         if current.join(".octon").is_dir() {
             return Some(current);
         }

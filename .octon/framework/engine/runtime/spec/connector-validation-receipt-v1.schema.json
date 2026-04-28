@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-validation-receipt-v1.schema.json",
+  "title": "Connector Validation Receipt v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "operation_id",
+    "operation_contract_ref",
+    "capability_pack_registry_ref",
+    "material_effect_inventory_ref",
+    "support_target_ref",
+    "live_effectful_execution_authorized",
+    "validated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "connector-validation-receipt-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "operation_contract_ref": { "type": "string", "minLength": 1 },
+    "capability_pack_registry_ref": { "type": "string", "minLength": 1 },
+    "material_effect_inventory_ref": { "type": "string", "minLength": 1 },
+    "support_target_ref": { "type": "string", "minLength": 1 },
+    "live_effectful_execution_authorized": { "const": false },
+    "validated_at": { "type": "string", "minLength": 1 }
+  }
+}

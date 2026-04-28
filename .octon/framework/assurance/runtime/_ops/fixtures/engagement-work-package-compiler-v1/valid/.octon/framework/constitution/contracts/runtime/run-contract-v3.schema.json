@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/run-contract-v3.schema.json",
+  "title": "Octon Run Contract v3",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "status",
+    "workflow_mode",
+    "objective_refs",
+    "objective_summary",
+    "scope_in",
+    "scope_out",
+    "done_when",
+    "acceptance_criteria",
+    "materiality",
+    "risk_class",
+    "reversibility_class",
+    "requested_capabilities",
+    "requested_capability_packs",
+    "protected_zone_scope",
+    "support_target_ref",
+    "support_target_tuple",
+    "mission_id",
+    "requires_mission",
+    "mission_mode",
+    "required_approvals",
+    "required_evidence",
+    "retry_class",
+    "rollback_posture_ref",
+    "stage_attempt_root",
+    "checkpoint_root",
+    "continuity_root_ref",
+    "authority_bundle_ref",
+    "run_manifest_ref",
+    "runtime_state_ref",
+    "run_card_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "run-contract-v3" }
+  }
+}

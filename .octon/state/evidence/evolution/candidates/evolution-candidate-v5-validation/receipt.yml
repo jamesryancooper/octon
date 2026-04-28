@@ -1,0 +1,8 @@
+schema_version: "evolution-candidate-evidence-receipt-v1"
+receipt_id: "evolution-candidate-v5-validation-receipt"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+source_evidence_refs:
+  - ".octon/state/evidence/evolution/profile-selection/v5-self-evolution-runtime/receipt.yml"
+  - ".octon/state/control/evolution/distillation/evolution-distillation-v5-validation.yml"
+non_authority_statement: "Candidate evidence supports review and proposal compilation; it does not authorize promotion."

@@ -1,0 +1,40 @@
+schema_version: "evolution-candidate-v1"
+candidate_id: "evolution-candidate-v5-validation"
+program_id: "octon-self-evolution"
+source_evidence_refs:
+  - ".octon/state/evidence/evolution/profile-selection/v5-self-evolution-runtime/receipt.yml"
+  - ".octon/state/control/evolution/distillation/evolution-distillation-v5-validation.yml"
+source_type: "retained_evidence"
+affected_surfaces:
+  - ".octon/framework/engine/runtime/spec/**"
+  - ".octon/framework/orchestration/practices/**"
+  - ".octon/instance/governance/evolution/**"
+  - ".octon/state/control/evolution/**"
+  - ".octon/state/evidence/evolution/**"
+  - ".octon/generated/cognition/projections/materialized/evolution/**"
+proposed_improvement_summary: >-
+  Promote a self-evolution proposal-to-promotion runtime that keeps evidence,
+  model output, simulations, labs, and proposal packets non-authoritative while
+  providing governed candidates, simulations, lab gates, amendment requests,
+  promotion receipts, recertification results, rollback posture, and an
+  Evolution Ledger.
+risk_materiality: "constitutional"
+authority_impact: "constitutional"
+constitutional_impact: "direct"
+runtime_impact: "control_plane"
+support_target_impact: "none"
+generated_effective_impact: "refresh_only"
+evidence_obligation_impact: "adds_obligation"
+rollback_retirement_posture: ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml"
+required_proof_classes:
+  - "governance impact simulation"
+  - "assurance lab promotion gate"
+  - "negative-control test"
+  - "proposal non-authority test"
+  - "post-promotion recertification"
+current_disposition: "open_proposal"
+proposal_ref: "octon-self-evolution-proposal-to-promotion-runtime-v5"
+simulation_ref: ".octon/state/control/evolution/simulations/evolution-simulation-v5-validation.yml"
+lab_gate_ref: ".octon/state/control/evolution/lab-gates/evolution-lab-gate-v5-validation.yml"
+constitutional_amendment_request_ref: ".octon/state/control/evolution/amendment-requests/evolution-amendment-v5-validation.yml"
+candidate_authorizes_change: false

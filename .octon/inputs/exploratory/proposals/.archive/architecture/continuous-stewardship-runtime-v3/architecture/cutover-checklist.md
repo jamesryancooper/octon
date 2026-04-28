@@ -1,0 +1,23 @@
+# Cutover Checklist
+
+- [x] Reconfirm v1/v2 baseline or document missing dependencies.
+- [x] Add framework stewardship schemas/specs.
+- [x] Add stewardship lifecycle practice standard.
+- [x] Add instance stewardship scaffold.
+- [x] Add state/control stewardship roots.
+- [x] Add state/evidence stewardship roots.
+- [x] Add state/continuity stewardship roots.
+- [x] Add generated read-model publisher for stewardship status.
+- [x] Add `octon steward` CLI group.
+- [x] Implement scheduled-review trigger normalization.
+- [x] Implement human-objective trigger normalization.
+- [x] Implement admission decisions.
+- [x] Implement Idle Decisions.
+- [x] Implement Renewal Decisions.
+- [x] Implement Stewardship Ledger updates.
+- [x] Implement campaign gate checks.
+- [x] Implement handoff to v2 Mission Runner.
+- [x] Add validators/tests.
+- [x] Run two consecutive validation passes.
+- [x] Retain promotion evidence.
+- [x] Confirm proposal-path independence of promoted surfaces.

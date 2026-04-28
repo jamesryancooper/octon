@@ -1,0 +1,13 @@
+schema_version: connector-quarantine-v1
+connector_id: mcp
+operation_id: observe-context
+status: not_quarantined
+active: false
+reason: no current connector drift detected
+live_effects_authorized: false
+reset_requires_evidence: true
+reset_requires_human_approval: true
+reset_evidence_refs: []
+reset_approval_refs: []
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

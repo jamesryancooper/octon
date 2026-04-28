@@ -1,0 +1,12 @@
+schema_version: connector-disclosure-v1
+connector_id: mcp
+operation_id: observe-context
+disclosure_class: stage_only_non_live
+status: retained
+admission_ref: .octon/instance/governance/connector-admissions/mcp/observe-context/admission.yml
+trust_dossier_ref: .octon/instance/governance/connectors/mcp/trust-dossiers/observe-context/dossier.yml
+live_effects_authorized: false
+connector_operation_executed: false
+generated_projection_is_authority: false
+notes:
+  - Stage-only connector posture is disclosed as non-live, non-effectful preparation evidence.

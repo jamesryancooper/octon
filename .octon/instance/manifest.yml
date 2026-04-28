@@ -8,7 +8,12 @@ enabled_overlay_points:
   - "instance-governance-adoption"
   - "instance-governance-retirement"
   - "instance-governance-capability-packs"
+  - "instance-governance-engagements"
+  - "instance-governance-connectors"
+  - "instance-governance-connector-admissions"
+  - "instance-governance-evolution"
   - "instance-governance-decisions"
+  - "instance-stewardship-programs"
   - "instance-execution-roles-runtime"
   - "instance-assurance-runtime"
 locality:

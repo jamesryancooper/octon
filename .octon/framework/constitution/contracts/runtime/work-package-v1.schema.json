@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/work-package-v1.schema.json",
+  "title": "Octon Constitutional Work Package v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "work_package_id",
+    "engagement_ref",
+    "project_profile_ref",
+    "objective_brief_schema_ref",
+    "objective_control_root",
+    "objective_brief_ref",
+    "objective_brief_evidence_refs",
+    "objective_brief_authority_boundary",
+    "authority_binding",
+    "implementation_plan_summary",
+    "impact_map",
+    "risk_materiality",
+    "validation",
+    "rollback",
+    "support_posture",
+    "capability_posture",
+    "connector_posture",
+    "evidence_profile",
+    "context_pack",
+    "decision_requests",
+    "run_contract_candidate",
+    "run_contract_readiness_evidence_refs",
+    "autonomy_envelope",
+    "outcome",
+    "created_at",
+    "updated_at"
+  ],
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/work-package-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "work-package-v1"
+    },
+    "work_package_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "ready",
+            "ready_for_authorization",
+            "stage_only",
+            "blocked",
+            "denied",
+            "requires_decision",
+            "escalate"
+          ]
+        },
+        {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "ready",
+                "ready_for_authorization",
+                "stage_only",
+                "blocked",
+                "denied",
+                "requires_decision",
+                "escalate"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}

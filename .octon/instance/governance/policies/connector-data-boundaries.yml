@@ -1,0 +1,22 @@
+schema_version: connector-data-boundary-policy-v1
+policy_id: connector-data-boundaries
+owner: Octon governance
+status: active
+default_route: deny
+data_boundary_policy_authorizes_execution: false
+material_execution_still_requires_run_authorization: true
+retention_policy_ref: .octon/framework/engine/runtime/spec/evidence-store-v1.md
+redaction_record_schema_ref: .octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json
+data_classes:
+  repository-context:
+    retention: evidence_only_when_admitted
+    redaction_required: false
+    disclosure_required: true
+  sensitive-external-data:
+    retention: deny_without_explicit_policy
+    redaction_required: true
+    disclosure_required: true
+egress_policy_ref: .octon/instance/governance/policies/network-egress.yml
+execution_budget_policy_ref: .octon/instance/governance/policies/execution-budgets.yml
+missing_data_boundary_route: deny
+generated_disclosure_is_authority: false

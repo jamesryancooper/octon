@@ -1,0 +1,37 @@
+schema_version: "octon-preflight-evidence-lane-policy-v1"
+owner: "Octon governance"
+status: "active"
+contract_ref: ".octon/framework/engine/runtime/spec/preflight-evidence-lane-v1.md"
+default_route: "DENY"
+allowed_actions:
+  - action: "adoption-classification"
+    route: "ALLOW"
+    allowed_roots:
+      - ".octon/state/evidence/engagements/<engagement-id>/adoption-preflight/**"
+  - action: "compiler-control-preparation"
+    route: "ALLOW"
+    allowed_roots:
+      - ".octon/state/control/engagements/<engagement-id>/**"
+  - action: "generated-operator-read-model"
+    route: "STAGE_ONLY"
+    allowed_roots:
+      - ".octon/generated/cognition/projections/materialized/engagements/**"
+forbidden_actions:
+  - "project-code-mutation"
+  - "generated-effective-publication"
+  - "service-invocation"
+  - "tool-invocation"
+  - "mcp-effectful-invocation"
+  - "api-egress"
+  - "browser-ui-execution"
+  - "credential-use"
+  - "support-target-widening"
+  - "capability-pack-activation"
+  - "run-execution"
+fail_closed_routes:
+  missing_authority_binding: "BLOCKED"
+  missing_orientation_evidence: "BLOCKED"
+  unsupported_connector: "STAGE_ONLY"
+  attempted_material_effect: "DENY"
+  generated_projection_as_authority: "DENY"
+  proposal_local_runtime_dependency: "DENY"

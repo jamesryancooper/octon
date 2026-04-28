@@ -80,3 +80,18 @@ retained_run_extensions:
     - "measurements/**"
     - "interventions/**"
   canonical_disclosure_root: ".octon/state/evidence/disclosure/runs"
+connector_assurance:
+  support_proof_map_schema_ref: ".octon/framework/constitution/contracts/assurance/connector-support-proof-map-v1.schema.json"
+  drift_record_schema_ref: ".octon/framework/constitution/contracts/assurance/connector-drift-record-v1.schema.json"
+  validation_receipt_schema_ref: ".octon/framework/constitution/contracts/assurance/connector-validation-receipt-v1.schema.json"
+  trust_dossier_proof_bundle_schema_ref: ".octon/framework/constitution/contracts/assurance/connector-trust-dossier-proof-bundle-v1.schema.json"
+  evidence_root: ".octon/state/evidence/connectors/**"
+  validation_root: ".octon/state/evidence/connectors/<connector-id>/validation/**"
+  rule: "Connector assurance evidence can prove admission posture but cannot replace run evidence or authorize execution."
+self_evolution_assurance:
+  distillation_record_schema_ref: ".octon/framework/constitution/contracts/assurance/evidence-to-candidate-distillation-record-v1.schema.json"
+  governance_impact_simulation_schema_ref: ".octon/framework/constitution/contracts/assurance/governance-impact-simulation-v1.schema.json"
+  assurance_lab_gate_schema_ref: ".octon/framework/constitution/contracts/assurance/assurance-lab-promotion-gate-v1.schema.json"
+  recertification_result_schema_ref: ".octon/framework/constitution/contracts/assurance/recertification-result-v1.schema.json"
+  evidence_root: ".octon/state/evidence/evolution/**"
+  rule: "Distillation, simulations, lab gates, and recertification evidence prove or block self-evolution gates but never approve change by themselves."

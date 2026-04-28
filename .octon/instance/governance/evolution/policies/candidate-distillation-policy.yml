@@ -1,0 +1,22 @@
+schema_version: "evolution-candidate-distillation-policy-v1"
+policy_id: "octon-self-evolution-candidate-distillation-policy"
+owner: "Octon governance"
+status: "active"
+allowed_sources:
+  - ".octon/state/evidence/**"
+  - "validation failure evidence"
+  - "operator feedback materialized into retained evidence"
+  - "lab failure evidence"
+  - "support-target failure evidence"
+  - "connector drift evidence"
+  - "proposal failure evidence"
+required_fields:
+  - "evidence_source_roots"
+  - "evidence_refs"
+  - "issue_pattern"
+  - "excluded_evidence"
+  - "confidence"
+  - "risk_posture"
+  - "candidate_refs"
+distillation_authorizes_promotion: false
+blocking_rule: "Evidence distillation may create candidates but may not approve, promote, or amend authority."

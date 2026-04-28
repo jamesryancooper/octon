@@ -131,7 +131,7 @@ type:chore|C5DEF5|Maintenance and chores
 type:ci|5319E7|CI or automation
 type:revert|BFD4F2|Revert change
 type:unknown|D4C5F9|Unclassified branch type
-area:agency|0E8A16|Octon agency domain
+area:execution-roles|0E8A16|Octon execution-role domain
 area:capabilities|0E8A16|Octon capabilities domain
 area:cognition|0E8A16|Octon cognition domain
 area:orchestration|0E8A16|Octon orchestration domain

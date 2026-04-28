@@ -1,0 +1,4 @@
+risks:
+- infinite-loop-prevented-by-epoch-admission-idle-renewal-gates
+schema_version: stewardship-recurring-risks-v1
+updated_at: 2026-04-28T17:01:20.453981Z

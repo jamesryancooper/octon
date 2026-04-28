@@ -1,0 +1,58 @@
+schema_version: "run-contract-v3"
+candidate_kind: "run_contract_candidate"
+compiler_can_execute: false
+direct_execution_allowed: false
+handoff:
+  entrypoint: "octon run start --contract"
+  command: "octon run start --contract .octon/state/control/engagements/eng-001/run-contract-candidate.yml"
+  bypass_run_start: false
+run_id: "run-eng-001-candidate"
+status: "candidate"
+workflow_mode: "run-first"
+objective_refs:
+  workspace_machine_charter_ref: ".octon/instance/charter/workspace.yml"
+  workspace_objective_ref: ".octon/instance/charter/workspace.md"
+  engagement_objective_brief_ref: ".octon/state/control/engagements/eng-001/objective-brief.yml"
+objective_summary: "Execute the compiled Work Package only after octon run start binds this candidate."
+scope_in:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh"
+scope_out:
+  - "external side effects"
+done_when:
+  - "Compiler validation passes."
+acceptance_criteria:
+  - "Run-contract candidate remains prepare-only until run start."
+materiality: "medium"
+risk_class: "low"
+reversibility_class: "reversible"
+requested_capabilities:
+  - "workflow.execute"
+  - "evidence.write"
+requested_capability_packs:
+  - "repo"
+  - "telemetry"
+protected_zone_scope:
+  - ".octon/framework/constitution/**"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+support_target_tuple:
+  host_adapter: "repo-shell"
+  model_adapter: "repo-local-governed"
+  workload_tier: "repo-consequential"
+mission_id: null
+requires_mission: false
+mission_mode: "run-only"
+required_approvals:
+  - ".octon/state/control/execution/approvals/approval-001.yml"
+required_evidence:
+  - "context-pack-receipt"
+  - "rollback-plan"
+  - "support-target-reconciliation"
+retry_class: "manual-review"
+rollback_posture_ref: ".octon/state/control/engagements/eng-001/rollback-posture.yml"
+stage_attempt_root: ".octon/state/control/execution/runs/run-eng-001-candidate/stage-attempts"
+checkpoint_root: ".octon/state/control/execution/runs/run-eng-001-candidate/checkpoints"
+continuity_root_ref: ".octon/state/continuity/runs/run-eng-001-candidate"
+authority_bundle_ref: ".octon/state/evidence/control/execution/authority-grant-bundle-run-eng-001-candidate.yml"
+run_manifest_ref: ".octon/state/control/execution/runs/run-eng-001-candidate/run-manifest.yml"
+runtime_state_ref: ".octon/state/control/execution/runs/run-eng-001-candidate/runtime-state.yml"
+run_card_ref: ".octon/state/evidence/disclosure/runs/run-eng-001-candidate/run-card.yml"

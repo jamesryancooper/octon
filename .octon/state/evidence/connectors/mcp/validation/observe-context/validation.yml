@@ -1,0 +1,9 @@
+schema_version: connector-validation-receipt-v1
+connector_id: mcp
+operation_id: observe-context
+operation_contract_ref: .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+capability_pack_registry_ref: .octon/instance/governance/capability-packs/registry.yml
+material_effect_inventory_ref: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+support_target_ref: .octon/instance/governance/support-targets.yml
+live_effectful_execution_authorized: false
+validated_at: "2026-04-28T00:00:00Z"

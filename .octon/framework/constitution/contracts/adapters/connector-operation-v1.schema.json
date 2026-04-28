@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-operation-v1.schema.json",
+  "title": "Connector Operation v1",
+  "description": "Operation-level connector contract for v4 connector admission. MCP, API, browser, service, and tool availability is never execution authority.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "operation_id",
+    "operation_version",
+    "input_schema_ref",
+    "output_schema_ref",
+    "side_effect_class",
+    "material_effect_class",
+    "capability_packs_consumed",
+    "credential_class",
+    "egress_requirements",
+    "replayability",
+    "rollback_compensation_posture",
+    "evidence_obligations",
+    "allowed_modes",
+    "timeout_budget_class",
+    "support_posture",
+    "privacy_data_handling",
+    "failure_taxonomy",
+    "connector_availability_is_authority",
+    "operation_authorizes_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "connector-operation-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "operation_version": { "type": "string", "minLength": 1 },
+    "input_schema_ref": { "type": "string", "minLength": 1 },
+    "output_schema_ref": { "type": "string", "minLength": 1 },
+    "side_effect_class": {
+      "type": "string",
+      "enum": ["none", "observe_read", "repo_local", "external_effect", "destructive"]
+    },
+    "material_effect_class": { "type": "string", "minLength": 1 },
+    "capability_packs_consumed": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "credential_class": { "type": "string", "minLength": 1 },
+    "egress_requirements": { "type": "array" },
+    "replayability": { "type": "string", "minLength": 1 },
+    "rollback_compensation_posture": { "type": "string", "minLength": 1 },
+    "evidence_obligations": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "allowed_modes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "timeout_budget_class": { "type": "string", "minLength": 1 },
+    "support_posture": { "type": "string", "minLength": 1 },
+    "privacy_data_handling": { "type": "object" },
+    "failure_taxonomy": { "type": "object" },
+    "connector_availability_is_authority": { "const": false },
+    "operation_authorizes_execution": { "const": false }
+  }
+}

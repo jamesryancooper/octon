@@ -1,0 +1,26 @@
+schema_version: "constitutional-amendment-request-v1"
+request_id: "evolution-amendment-v5-validation"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+affected_authority_refs:
+  - ".octon/framework/constitution/CHARTER.md"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+invariant_impact: >-
+  Codifies that evidence, simulations, lab success, proposals, generated
+  summaries, and models cannot authorize Octon's own evolution.
+compatibility_impact: "Additive v5 contracts and CLI surfaces; no v1-v4 runtime compatibility weakening."
+runtime_impact: "Adds file-backed self-evolution control inspection and fail-closed promotion/recertification gates."
+support_target_impact: "No support-target widening."
+rollback_or_retirement_plan: ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml"
+lab_evidence_refs:
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/receipt.yml"
+simulation_evidence_refs:
+  - ".octon/state/evidence/evolution/simulations/evolution-simulation-v5-validation/receipt.yml"
+migration_cutover_plan_ref: "proposal-id:octon-self-evolution-proposal-to-promotion-runtime-v5#migration-cutover-plan"
+human_or_quorum_approval_required: true
+approval_refs:
+  - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+promotion_receipt_ref: ".octon/state/evidence/evolution/promotions/evolution-promotion-v5-validation/receipt.yml"
+post_promotion_recertification_required: true
+amendment_request_authorizes_change: false

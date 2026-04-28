@@ -1,0 +1,78 @@
+adoption_classification_ref: .octon/state/evidence/engagements/engagement-compiler-v1-validation/preflight/adoption-classification.yml
+authority_binding:
+  compiler_policy_ref: .octon/instance/governance/policies/engagement-work-package-compiler.yml
+  connector_posture_ref: .octon/instance/governance/connectors/posture.yml
+  evidence_profiles_policy_ref: .octon/instance/governance/policies/evidence-profiles.yml
+  governance_exclusions_ref: .octon/instance/governance/exclusions/action-classes.yml
+  preflight_evidence_lane_policy_ref: .octon/instance/governance/policies/preflight-evidence-lane.yml
+  support_target_ref: .octon/instance/governance/support-targets.yml
+  workspace_charter_ref: .octon/instance/charter/workspace.md
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
+canonical_run_contract_ref: null
+charter_reconciliation_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/charter-reconciliation.yml
+closeout_state: open
+connector_posture_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/connectors/posture.yml
+context_pack_request_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/context/context-pack-request.yml
+continuity_ref: .octon/state/continuity/engagements/engagement-compiler-v1-validation/handoff.yml
+created_at: 2026-04-28T14:00:48.500852Z
+decision_request_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/engagement-compiler-v1-validation-authorize-run.yml
+decision_request_refs:
+- .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/engagement-compiler-v1-validation-authorize-run.yml
+decision_request_set_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/index.yml
+engagement_id: engagement-compiler-v1-validation
+evidence_profile_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/evidence-profile.yml
+evidence_roots:
+  decisions: .octon/state/evidence/decisions
+  engagement: .octon/state/evidence/engagements/engagement-compiler-v1-validation
+  objective: .octon/state/evidence/engagements/engagement-compiler-v1-validation/objective
+  orientation: .octon/state/evidence/orientation/engagement-compiler-v1-validation-orientation
+  preflight: .octon/state/evidence/engagements/engagement-compiler-v1-validation/preflight
+  project_profile_source_facts: .octon/state/evidence/project-profiles/engagement-compiler-v1-validation-project-profile/source-facts
+  run_contract_readiness: .octon/state/evidence/engagements/engagement-compiler-v1-validation/run-contract-readiness
+  work_package_compilation: .octon/state/evidence/engagements/engagement-compiler-v1-validation/work-packages
+generated_projection_policy:
+  authority_status: non_authoritative
+  projections_optional: true
+next_action: octon decide --engagement-id engagement-compiler-v1-validation --decision-id engagement-compiler-v1-validation-authorize-run --response approve
+objective_brief_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/objective-brief.yml
+objective_brief_schema_ref: .octon/framework/engine/runtime/spec/engagement-objective-brief-v1.schema.json
+objective_control_root: null
+orientation_evidence_ref: .octon/state/evidence/orientation/engagement-compiler-v1-validation-orientation/repo-scan.yml
+outcome: requires_decision
+prepare_only: true
+project_profile_ref: .octon/instance/locality/project-profile.yml
+project_profile_source_evidence_ref: .octon/state/evidence/project-profiles/engagement-compiler-v1-validation-project-profile/source-facts/source-facts.yml
+refs:
+  charter_reconciliation_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/charter-reconciliation.yml
+  connector_posture_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/connectors/posture.yml
+  context_pack_request_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/context/context-pack-request.yml
+  continuity_ref: .octon/state/continuity/engagements/engagement-compiler-v1-validation/handoff.yml
+  decision_request_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/engagement-compiler-v1-validation-authorize-run.yml
+  decision_request_set_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/index.yml
+  evidence_profile_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/evidence-profile.yml
+  objective_brief_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/objective-brief.yml
+  operator_projection_ref: .octon/generated/cognition/projections/materialized/engagements/engagement-compiler-v1-validation.yml
+  orientation_evidence_ref: .octon/state/evidence/orientation/engagement-compiler-v1-validation-orientation/repo-scan.yml
+  preflight_evidence_ref: .octon/state/evidence/engagements/engagement-compiler-v1-validation/preflight/adoption-classification.yml
+  project_profile_ref: .octon/instance/locality/project-profile.yml
+  project_profile_source_evidence_ref: .octon/state/evidence/project-profiles/engagement-compiler-v1-validation-project-profile/source-facts/source-facts.yml
+  risk_materiality_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/risk-materiality.yml
+  rollback_plan_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/rollback-plan.yml
+  run_contract_candidate_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/run-candidates/engagement-compiler-v1-validation-run-1/run-contract.candidate.yml
+  seed_intent_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/seed-intent.yml
+  support_capability_posture_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/support-capability-posture.yml
+  validation_plan_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/validation-plan.yml
+  work_package_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml
+repo_root: /Users/jamesryancooper/Projects/octon
+risk_materiality_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/risk-materiality.yml
+rollback_plan_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/rollback-plan.yml
+run_contract_candidate_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/run-candidates/engagement-compiler-v1-validation-run-1/run-contract.candidate.yml
+schema_version: engagement-v1
+seed_intent: Validate Engagement Work Package Compiler v1 promotion
+seed_intent_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/seed-intent.yml
+stage: requires_decision
+status: requires_decision
+support_capability_posture_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/support-capability-posture.yml
+updated_at: 2026-04-28T14:01:13.233377Z
+validation_plan_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/plan/validation-plan.yml
+work_package_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml

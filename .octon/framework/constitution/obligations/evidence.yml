@@ -14,6 +14,8 @@ retained_evidence_roots:
   - ".octon/state/evidence/disclosure/**"
   - ".octon/state/evidence/lab/**"
   - ".octon/state/evidence/control/execution/**"
+  - ".octon/state/evidence/connectors/**"
+  - ".octon/state/evidence/evolution/**"
   - ".octon/state/evidence/external-index/**"
   - ".octon/state/evidence/validation/publication/**"
 obligations:
@@ -187,4 +189,19 @@ obligations:
       Operator read-model publication retains explicit non-authority notice,
       canonical refs, receipt refs, freshness metadata, and forbidden
       consumer classification.
+    adoption_status: "active"
+  - id: "EVI-031"
+    requirement: >-
+      Connector admission, trust, drift, quarantine, operation receipt, and
+      validation proof retain evidence under state/evidence/connectors/** and
+      never substitute for run-level evidence when a material run occurs.
+    adoption_status: "active"
+  - id: "EVI-032"
+    requirement: >-
+      Self-evolution candidates, evidence distillation, governance impact
+      simulations, assurance lab gates, proposal compilation, amendment
+      requests, promotions, recertifications, rollbacks, retirements, and
+      ledger updates retain evidence under state/evidence/evolution/** and
+      never substitute for human/quorum approval, proposal manifests, ADRs, run
+      evidence, or promotion receipts.
     adoption_status: "active"

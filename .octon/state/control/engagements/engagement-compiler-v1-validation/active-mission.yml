@@ -1,0 +1,8 @@
+engagement_id: engagement-compiler-v1-validation
+mission_authority_ref: .octon/instance/orchestration/missions/mission-autonomy-v2-validation/mission.yml
+mission_control_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/mission.yml
+mission_id: mission-autonomy-v2-validation
+one_active_mission_per_engagement: true
+schema_version: engagement-active-mission-v1
+status: active
+updated_at: 2026-04-28T15:52:02.632863Z

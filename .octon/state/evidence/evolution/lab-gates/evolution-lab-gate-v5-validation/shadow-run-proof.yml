@@ -1,0 +1,12 @@
+schema_version: "self-evolution-shadow-run-proof-v1"
+lab_gate_ref: ".octon/state/control/evolution/lab-gates/evolution-lab-gate-v5-validation.yml"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+result: "passed"
+shadowed_runtime_commands:
+  - "octon evolve inspect evolution-candidate-v5-validation"
+  - "octon evolve simulate evolution-candidate-v5-validation"
+  - "octon evolve lab evolution-candidate-v5-validation"
+  - "octon promote inspect --promotion-id evolution-promotion-v5-validation"
+  - "octon recertify status"
+material_execution_performed: false
+non_authority_statement: "Shadow-run proof demonstrates control-plane behavior only; it does not authorize material execution."

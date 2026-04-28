@@ -1,0 +1,83 @@
+schema_version: proposal-v1
+proposal_id: continuous-stewardship-runtime-v3
+title: Continuous Stewardship Runtime v3 for Long-Running Drop-In Governed Autonomy
+summary: >-
+  Defines the v3 stewardship layer that lets Octon remain available over time
+  without creating an infinite agent loop. The proposal introduces Stewardship
+  Programs, finite Stewardship Epochs, event-driven triggers, admission and idle
+  decisions, renewal decisions, a stewardship ledger, stewardship-level evidence,
+  stewardship-aware Decision Requests, and optional campaign coordination hooks.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/engine/runtime/spec/continuous-stewardship-runtime-v3.md
+  - .octon/framework/engine/runtime/spec/stewardship-program-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-epoch-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-trigger-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-admission-decision-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-idle-decision-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-renewal-decision-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-epoch-closeout-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-ledger-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-evidence-profile-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-aware-decision-request-v1.schema.json
+  - .octon/framework/engine/runtime/spec/stewardship-campaign-coordination-hook-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-program-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-epoch-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-trigger-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-admission-decision-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-idle-decision-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-renewal-decision-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-epoch-closeout-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-ledger-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-evidence-profile-v1.schema.json
+  - .octon/framework/constitution/contracts/runtime/stewardship-campaign-coordination-hook-v1.schema.json
+  - .octon/framework/constitution/contracts/authority/stewardship-aware-decision-request-v1.schema.json
+  - .octon/framework/constitution/contracts/registry.yml
+  - .octon/framework/constitution/contracts/runtime/family.yml
+  - .octon/framework/constitution/contracts/authority/family.yml
+  - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+  - .octon/framework/cognition/_meta/architecture/specification.md
+  - .octon/framework/orchestration/practices/stewardship-lifecycle-standards.md
+  - .octon/framework/orchestration/practices/README.md
+  - .octon/framework/overlay-points/registry.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-continuous-stewardship-runtime-v3.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-continuous-stewardship-runtime-v3.sh
+  - .octon/framework/engine/runtime/README.md
+  - .octon/framework/engine/runtime/run
+  - .octon/framework/engine/runtime/run.cmd
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+  - .octon/instance/stewardship/programs/
+  - .octon/instance/manifest.yml
+  - .octon/state/control/stewardship/
+  - .octon/state/evidence/stewardship/
+  - .octon/state/continuity/stewardship/
+  - .octon/generated/cognition/projections/materialized/stewardship/
+status: archived
+archive:
+  archived_at: "2026-04-28"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/continuous-stewardship-runtime-v3
+  promotion_evidence:
+    - .octon/framework/engine/runtime/spec/continuous-stewardship-runtime-v3.md
+    - .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-continuous-stewardship-runtime-v3.sh
+    - .octon/state/control/stewardship/programs/octon-continuous-stewardship/ledger.yml
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote durable framework contracts, instance stewardship authority surfaces,
+    control/evidence/continuity roots, runtime/CLI handlers, validators, and
+    generated read-model publishers outside this proposal workspace; then archive
+    or reject the proposal according to Octon's proposal lifecycle.
+related_proposals:
+  upstream_assumed:
+    - engagement-project-profile-work-package-compiler-v1
+    - mission-autonomy-runtime-v2-drop-in-governed-autonomy
+  related_optional:
+    - campaign-promotion-criteria

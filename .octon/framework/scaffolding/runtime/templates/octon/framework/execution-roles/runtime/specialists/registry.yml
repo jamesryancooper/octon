@@ -1,0 +1,12 @@
+schema_version: "execution-role-specialist-registry-v1"
+default: null
+
+specialists: []
+# Example:
+#   - specialist_id: reviewer
+#     path: reviewer/
+#     aliases: ["@reviewer", "@review", "@rev"]
+#     description: "Code review specialist for quality, style, and correctness."
+#     delegation_value: "separation-of-duties and focused review context"
+#     escalates_to: orchestrator
+#     allowed_skills: []

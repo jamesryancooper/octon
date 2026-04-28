@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-replay-rollback-posture-v1.schema.json",
+  "title": "Connector Replay Rollback Posture v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "replayability", "rollback_compensation_posture", "irreversible_external_effect_route"],
+  "properties": {
+    "schema_version": { "const": "connector-replay-rollback-posture-v1" },
+    "replayability": { "type": "string", "minLength": 1 },
+    "replay_manifest_refs": { "type": "array", "items": { "type": "string" } },
+    "rollback_compensation_posture": { "type": "string", "minLength": 1 },
+    "compensation_plan_refs": { "type": "array", "items": { "type": "string" } },
+    "irreversible_external_effect_route": { "type": "string", "enum": ["deny", "break_glass_only", "deferred"] }
+  }
+}

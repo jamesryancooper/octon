@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/promotion-request-v1.schema.json",
+  "title": "Octon Promotion Request v1",
+  "description": "A governed request to promote accepted proposal outputs into declared durable targets.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "promotion_id",
+    "proposal_ref",
+    "proposal_status",
+    "accepted_decision_refs",
+    "declared_promotion_targets",
+    "target_root_legality",
+    "proposal_path_dependency_scan",
+    "rollback_or_retirement_posture_ref",
+    "promotion_evidence_root",
+    "recertification_required",
+    "promotion_runtime_self_approves"
+  ],
+  "properties": {
+    "schema_version": { "const": "promotion-request-v1" },
+    "promotion_id": { "type": "string", "minLength": 1 },
+    "proposal_ref": { "type": "string", "minLength": 1 },
+    "proposal_status": { "type": "string", "minLength": 1 },
+    "accepted_decision_refs": { "type": "array", "items": { "type": "string" } },
+    "declared_promotion_targets": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "target_root_legality": { "type": "string", "enum": ["valid", "invalid", "unknown"] },
+    "proposal_path_dependency_scan": { "type": "string", "enum": ["pass", "fail", "not_run"] },
+    "rollback_or_retirement_posture_ref": { "type": "string", "minLength": 1 },
+    "promotion_evidence_root": { "type": "string", "minLength": 1 },
+    "recertification_required": { "const": true },
+    "promotion_runtime_self_approves": { "const": false }
+  }
+}

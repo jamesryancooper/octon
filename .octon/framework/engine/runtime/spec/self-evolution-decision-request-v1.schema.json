@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/self-evolution-decision-request-v1.schema.json",
+  "title": "Octon Self-Evolution Decision Request v1",
+  "description": "Decision Request extension for self-evolution candidates, simulations, lab gates, proposals, promotions, recertifications, rollbacks, retirements, and closure.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_request_id",
+    "decision_type",
+    "question",
+    "subject_refs",
+    "canonical_resolution_targets",
+    "evidence_root",
+    "allowed_resolutions",
+    "decision_request_authorizes_promotion",
+    "decision_request_authorizes_material_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "self-evolution-decision-request-v1" },
+    "decision_request_id": { "type": "string", "minLength": 1 },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "evolution_candidate_review",
+        "simulation_required",
+        "lab_gate_required",
+        "proposal_compilation_approval",
+        "promotion_approval",
+        "constitutional_amendment_required",
+        "recertification_required",
+        "rollback_required",
+        "retirement_required",
+        "closure_acceptance"
+      ]
+    },
+    "question": { "type": "string", "minLength": 1 },
+    "subject_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "canonical_resolution_targets": { "type": "array", "items": { "type": "string" } },
+    "evidence_root": { "type": "string", "minLength": 1 },
+    "allowed_resolutions": { "type": "array", "items": { "type": "string" } },
+    "decision_request_authorizes_promotion": { "const": false },
+    "decision_request_authorizes_material_execution": { "const": false }
+  }
+}

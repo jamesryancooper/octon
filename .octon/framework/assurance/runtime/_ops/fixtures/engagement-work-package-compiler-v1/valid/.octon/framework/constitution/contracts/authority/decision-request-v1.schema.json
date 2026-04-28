@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/decision-request-v1.schema.json",
+  "title": "Constitutional Decision Request v1",
+  "type": "object",
+  "required": ["schema_version", "decision_request_id", "lifecycle", "evidence_root", "target_low_level_artifact_family"],
+  "properties": {
+    "schema_version": { "const": "decision-request-v1" },
+    "decision_request_id": { "type": "string", "minLength": 1 },
+    "lifecycle": { "type": "object" },
+    "evidence_root": { "type": "string", "minLength": 1 },
+    "target_low_level_artifact_family": { "type": "string", "minLength": 1 }
+  }
+}

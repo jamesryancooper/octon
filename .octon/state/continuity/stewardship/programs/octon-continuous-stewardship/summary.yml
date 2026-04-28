@@ -1,0 +1,6 @@
+active_epoch_id: octon-continuous-stewardship-epoch-1
+non_authority_notice: Continuity is resumable context only and cannot mint stewardship authority.
+program_id: octon-continuous-stewardship
+schema_version: stewardship-continuity-summary-v1
+status: active
+updated_at: 2026-04-28T17:01:20.453981Z

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/promotion-request-v1.schema.json",
+  "title": "Constitutional Mirror: Promotion Request v1",
+  "allOf": [
+    { "$ref": "../../../engine/runtime/spec/promotion-request-v1.schema.json" }
+  ]
+}

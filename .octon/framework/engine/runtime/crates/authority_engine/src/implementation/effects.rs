@@ -398,7 +398,8 @@ pub fn verify_authorized_effect<T: EffectKind>(
     }
 
     if let Some(tuple_ref) = effect.support_target_tuple_ref() {
-        if let Some(active_tuple_ref) = grant.support_target_tuple_ref.as_deref() {
+        let active_support_tuple_ref = support_target_tuple_ref_for_grant(grant);
+        if let Some(active_tuple_ref) = active_support_tuple_ref.as_deref() {
             if tuple_ref != active_tuple_ref {
                 return reject_with_record(
                     effect,
@@ -881,12 +882,7 @@ fn issue_authorized_effect<T: EffectKind>(
         runtime_effective_non_authority_classification: grant
             .runtime_effective_non_authority_classification
             .clone(),
-        support_target_tuple_ref: grant.support_target_tuple_ref.clone().or_else(|| {
-            grant
-                .support_posture
-                .as_ref()
-                .and_then(|posture| posture.declaration_ref.clone())
-        }),
+        support_target_tuple_ref: support_target_tuple_ref_for_grant(grant),
         support_claim_effect: grant.runtime_effective_claim_effect.clone(),
         support_route: grant
             .support_posture
@@ -1090,6 +1086,59 @@ fn granted_capability_packs(grant: &GrantBundle) -> Vec<String> {
         .unwrap_or_default()
 }
 
+fn support_target_tuple_ref_for_grant(grant: &GrantBundle) -> Option<String> {
+    grant
+        .support_target_tuple_ref
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())
+        .map(ToString::to_string)
+        .or_else(|| {
+            grant
+                .support_posture
+                .as_ref()
+                .and_then(support_target_tuple_ref_from_posture)
+        })
+}
+
+fn support_target_tuple_ref_from_posture(posture: &SupportTierPosture) -> Option<String> {
+    let model_tier = posture
+        .model_tier_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+    let workload_tier = posture
+        .workload_tier_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())
+        .or_else(|| {
+            (!posture.support_tier.trim().is_empty()).then_some(posture.support_tier.as_str())
+        })?;
+    let language_resource_tier = posture
+        .language_resource_tier_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+    let locale_tier = posture
+        .locale_tier_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+    let host_adapter = posture
+        .host_adapter_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+    let model_adapter = posture
+        .model_adapter_id
+        .as_deref()
+        .filter(|value| !value.trim().is_empty())?;
+
+    Some(support_target_tuple_id(&SupportTargetTuple {
+        model_tier: model_tier.to_string(),
+        workload_tier: workload_tier.to_string(),
+        language_resource_tier: language_resource_tier.to_string(),
+        locale_tier: locale_tier.to_string(),
+        host_adapter: host_adapter.to_string(),
+        model_adapter: model_adapter.to_string(),
+    }))
+}
+
 fn compute_token_digest(payload: &AuthorizedEffectPayload) -> CoreResult<String> {
     let mut canonical = payload.clone();
     canonical.token_digest.clear();
@@ -1269,7 +1318,7 @@ fn token_write_error(error: anyhow::Error) -> KernelError {
 }
 
 fn support_tuple_is_live(repo_root: &Path, tuple_ref: &str) -> CoreResult<bool> {
-    let path = repo_root.join(".octon/instance/governance/support-targets.yml");
+    let path = resolve_repo_ref(repo_root, ".octon/instance/governance/support-targets.yml");
     let raw = fs::read_to_string(&path).map_err(|error| {
         KernelError::new(
             ErrorCode::Internal,
@@ -1384,10 +1433,7 @@ fn route_id_for_grant(grant: &GrantBundle) -> Option<String> {
         .runtime_effective_route_generation_id
         .as_deref()
         .filter(|value| !value.trim().is_empty())?;
-    let tuple_ref = grant
-        .support_target_tuple_ref
-        .as_deref()
-        .filter(|value| !value.trim().is_empty())?;
+    let tuple_ref = support_target_tuple_ref_for_grant(grant)?;
     Some(format!("runtime-route:{generation_id}:{tuple_ref}"))
 }
 
@@ -1637,12 +1683,7 @@ fn repo_ref_exists(repo_root: &Path, reference: &str) -> bool {
         return false;
     }
     let path_ref = trimmed.split('#').next().unwrap_or(trimmed);
-    let path = if path_ref.starts_with('/') {
-        PathBuf::from(path_ref)
-    } else {
-        repo_root.join(path_ref)
-    };
-    path.exists()
+    resolve_repo_ref(repo_root, path_ref).exists()
 }
 
 fn active_yaml_ref(repo_root: &Path, reference: &str) -> bool {
@@ -1651,11 +1692,7 @@ fn active_yaml_ref(repo_root: &Path, reference: &str) -> bool {
         return false;
     }
     let path_ref = trimmed.split('#').next().unwrap_or(trimmed);
-    let path = if path_ref.starts_with('/') {
-        PathBuf::from(path_ref)
-    } else {
-        repo_root.join(path_ref)
-    };
+    let path = resolve_repo_ref(repo_root, path_ref);
     let raw = match fs::read_to_string(path) {
         Ok(raw) => raw,
         Err(_) => return false,
@@ -1668,6 +1705,46 @@ fn active_yaml_ref(repo_root: &Path, reference: &str) -> bool {
         Some("active") => true,
         Some(_) => false,
         None => true,
+    }
+}
+
+fn resolve_repo_ref(repo_root: &Path, reference: &str) -> PathBuf {
+    let path = PathBuf::from(reference);
+    if path.is_absolute() {
+        path
+    } else if repo_root.file_name().and_then(|value| value.to_str()) == Some(".octon") {
+        if reference == ".octon" {
+            repo_root.to_path_buf()
+        } else if let Some(stripped) = reference.strip_prefix(".octon/") {
+            repo_root.join(stripped)
+        } else {
+            repo_root.join(path)
+        }
+    } else {
+        repo_root.join(path)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::resolve_repo_ref;
+    use std::path::PathBuf;
+
+    #[test]
+    fn resolves_dot_octon_authority_refs_from_octon_root() {
+        let octon_root = PathBuf::from("/tmp/octon-authority-ref/.octon");
+        let resolved = resolve_repo_ref(&octon_root, ".octon/state/evidence/example.yml");
+        assert_eq!(resolved, octon_root.join("state/evidence/example.yml"));
+    }
+
+    #[test]
+    fn resolves_dot_octon_authority_refs_from_workspace_root() {
+        let workspace_root = PathBuf::from("/tmp/octon-authority-ref");
+        let resolved = resolve_repo_ref(&workspace_root, ".octon/state/evidence/example.yml");
+        assert_eq!(
+            resolved,
+            workspace_root.join(".octon/state/evidence/example.yml")
+        );
     }
 }
 
@@ -1764,7 +1841,7 @@ fn load_active_revocation_refs_from_repo_root(
     request_id: &str,
     grant_id: &str,
 ) -> CoreResult<Vec<String>> {
-    let canonical_dir = repo_root.join(".octon/state/control/execution/revocations");
+    let canonical_dir = resolve_repo_ref(repo_root, ".octon/state/control/execution/revocations");
     if !canonical_dir.is_dir() {
         return Ok(Vec::new());
     }

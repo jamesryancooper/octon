@@ -4,7 +4,11 @@ scan_roots:
   - .octon/instance/governance/policies
 scan_patterns:
   - .octon/generated/cognition/
-allowed_reference_files: []
+allowed_reference_files:
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/stewardship.rs
+  - .octon/instance/governance/policies/preflight-evidence-lane.yml
 required_rule_refs:
   - doc_ref: .octon/framework/constitution/obligations/fail-closed.yml
     required_text:

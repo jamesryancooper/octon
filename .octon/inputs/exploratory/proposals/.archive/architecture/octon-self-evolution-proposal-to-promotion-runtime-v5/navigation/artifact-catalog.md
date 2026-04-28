@@ -1,0 +1,44 @@
+# Artifact Catalog
+
+This catalog is generated for packet navigation and is not semantic authority.
+
+- `proposal.yml` — proposal lifecycle manifest
+- `README.md` — packet overview
+- `architecture-proposal.yml` — architecture subtype manifest
+- `architecture-proposal.md` — architecture proposal narrative
+- `navigation/artifact-catalog.md` — this packet inventory
+- `navigation/source-of-truth-map.md` — packet source-of-truth map
+- `architecture/target-architecture.md` — target end state
+- `architecture/current-state-gap-map.md` — current gap map
+- `architecture/concept-coverage-matrix.md` — selected concept coverage
+- `architecture/file-change-map.md` — target file map
+- `architecture/implementation-plan.md` — implementation workstreams
+- `architecture/migration-cutover-plan.md` — migration/cutover
+- `architecture/validation-plan.md` — validation design
+- `architecture/acceptance-criteria.md` — acceptance criteria
+- `architecture/cutover-checklist.md` — cutover checklist
+- `architecture/rollback-plan.md` — rollback plan
+- `architecture/promotion-readiness-checklist.md` — promotion readiness
+- `architecture/closure-certification-plan.md` — closure certification
+- `architecture/execution-constitution-conformance-card.md` — constitutional conformance
+- `PACKET_MANIFEST.md` — packet-level artifact manifest
+- `SHA256SUMS.txt` — packet checksums
+- `resources/assumptions-and-blockers.md` — assumptions and blockers
+- `resources/constitutional-amendment-boundary-analysis.md` — amendment boundary analysis
+- `resources/coverage-traceability-matrix.md` — coverage traceability
+- `resources/current-state-gap-analysis.md` — current-state gap analysis
+- `resources/deferred-scope-ledger.md` — deferred scope ledger
+- `resources/evidence-to-evolution-analysis.md` — evidence-to-candidate analysis
+- `resources/governance-impact-simulation-analysis.md` — simulation analysis
+- `resources/implementation-gap-map.md` — implementation gap map
+- `resources/implementation-report.md` — implementation closure report
+- `resources/lab-and-assurance-gate-analysis.md` — lab and assurance gate analysis
+- `resources/proposal-and-promotion-analysis.md` — proposal and promotion analysis
+- `resources/recertification-and-regression-analysis.md` — recertification analysis
+- `resources/repository-baseline-audit.md` — repository baseline audit
+- `resources/risk-register.md` — risk register
+- `resources/v5-architecture-evaluation.md` — architecture evaluation
+- `support/executable-implementation-prompt.md` — executable implementation prompt
+- `support/repository-evidence-index.md` — repository evidence index
+- `support/source-artifact.md` — source artifact summary
+- `support/**` — implementation support files

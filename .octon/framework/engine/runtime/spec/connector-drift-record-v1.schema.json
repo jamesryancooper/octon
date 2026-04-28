@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-drift-record-v1.schema.json",
+  "title": "Connector Drift Record v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "connector_id", "operation_id", "checked_at", "drift_detected", "route", "drift_dimensions"],
+  "properties": {
+    "schema_version": { "const": "connector-drift-record-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "checked_at": { "type": "string", "minLength": 1 },
+    "current_digest": { "type": "string" },
+    "previous_digest": { "type": ["string", "null"] },
+    "drift_detected": { "type": "boolean" },
+    "route": { "type": "string", "enum": ["current", "stage", "quarantine", "retire", "deny", "decision_request"] },
+    "quarantine_required": { "type": "boolean" },
+    "drift_dimensions": { "type": "array", "items": { "type": "string" } },
+    "connector_availability_is_authority": { "const": false },
+    "admission_decision_authorizes_execution": { "const": false }
+  }
+}

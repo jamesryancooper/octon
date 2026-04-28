@@ -1,0 +1,10 @@
+active_epoch_id: octon-continuous-stewardship-epoch-1
+one_active_epoch_per_program: true
+one_active_program_per_workspace: true
+program_authority_ref: .octon/instance/stewardship/programs/octon-continuous-stewardship/program.yml
+program_id: octon-continuous-stewardship
+schema_version: stewardship-program-status-v1
+service_may_be_indefinite: true
+status: idle
+updated_at: 2026-04-28T17:01:43.65806Z
+work_may_be_unbounded: false

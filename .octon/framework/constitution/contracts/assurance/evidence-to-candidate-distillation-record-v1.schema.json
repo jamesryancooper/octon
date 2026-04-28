@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/evidence-to-candidate-distillation-record-v1.schema.json",
+  "title": "Constitutional Mirror: Evidence-to-Candidate Distillation Record v1",
+  "allOf": [
+    { "$ref": "../../../engine/runtime/spec/evidence-to-candidate-distillation-record-v1.schema.json" }
+  ]
+}

@@ -1,0 +1,19 @@
+schema_version: connector-identity-v1
+connector_id: mcp
+connector_kind: mcp
+owner: Octon governance
+description: Stage-only MCP connector family. MCP is a transport/source of operations, not a trust class or capability pack.
+supported_operation_refs:
+  - .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+credential_posture_ref: .octon/instance/governance/policies/connector-credentials.yml
+egress_posture_ref: .octon/instance/governance/policies/connector-data-boundaries.yml
+default_admission_mode: stage_only
+support_posture: non_live_stage_only
+trust_dossier_refs:
+  - .octon/instance/governance/connectors/mcp/trust-dossiers/observe-context/dossier.yml
+retirement_quarantine_posture:
+  quarantine_on_drift: true
+  reset_requires_evidence: true
+  reset_requires_human_approval: true
+connector_availability_is_authority: false
+connector_identity_authorizes_execution: false

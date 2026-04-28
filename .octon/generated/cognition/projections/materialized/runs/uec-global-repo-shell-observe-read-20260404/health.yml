@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: uec-global-repo-shell-observe-read-20260404
-generated_at: '2026-04-24T18:40:00Z'
+generated_at: '2026-04-28T23:45:40Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:d9afa50e62485903987cb6deefd18d079e324cb09fdd3e2f7751c3afdea48bd1
-  checked_at: '2026-04-24T18:40:00Z'
+  combined_source_digest: sha256:7514667180c92fc930dbacba79009f247797d2c19996db0759f9f6521bbc649e
+  checked_at: '2026-04-28T23:45:40Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/uec-global-repo-shell-observe-read-20260404/events.manifest.yml
@@ -125,11 +125,11 @@ source_digests:
     status: present
   support_targets:
     ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:4ac5c45f0d45f2f14138b454b86988a04e102e9a254d7960a24773a2b67b5008
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:8775ca1dbbe5973890f906b018dbe980f5c2d397860b5c4cef0fb7739e64db10
+    digest: sha256:eefce0c9cbad53c6700765ad638eaab3cff8c9aab1dd2790ed3727c131033b2e
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/uec-global-repo-shell-observe-read-20260404/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:c6de6e0afd0230309df8d353cbd5299464b9e32f2de7b546ea198027560ea0ff
+    digest: sha256:c92ec0d3ef359e480dc54eb2dec82bcd8e76932bb5af1027afee779caa9b7cf6
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:4a216cf92a3099f03eca24384adc05ae44f96ec730eb9b5a4426438c8cc4f105
+    digest: sha256:acd97cfb7badc089625b8ab675d7111c9763e6fafa62e8e4508923e6b57f0ea8
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json

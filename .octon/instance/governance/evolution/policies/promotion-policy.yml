@@ -1,0 +1,28 @@
+schema_version: "evolution-promotion-policy-v1"
+policy_id: "octon-self-evolution-promotion-policy"
+owner: "Octon governance"
+status: "active"
+promotion_requires:
+  - "proposal_status_permits_promotion"
+  - "accepted_decision_or_quorum_approval"
+  - "declared_promotion_targets"
+  - "target_root_legality"
+  - "retained_promotion_evidence"
+  - "proposal_path_dependency_removal"
+  - "rollback_or_retirement_posture"
+  - "post_promotion_recertification"
+allowed_target_roots:
+  - ".octon/framework/"
+  - ".octon/instance/"
+  - ".octon/state/control/"
+  - ".octon/state/evidence/"
+  - ".octon/state/continuity/"
+  - ".octon/generated/cognition/projections/materialized/evolution/"
+runtime_effective_generated_targets_require:
+  - "publication receipt"
+  - "resolver-verified runtime-effective handle"
+  - "freshness lock"
+  - "generated/effective non-authority proof"
+promotion_runtime_self_approves: false
+generated_projections_remain_non_authoritative: true
+blocking_rule: "Reject promotion when approval, durable target declaration, evidence, rollback posture, or recertification is missing."

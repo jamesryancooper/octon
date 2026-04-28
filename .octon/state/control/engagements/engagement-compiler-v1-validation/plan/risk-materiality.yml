@@ -1,0 +1,7 @@
+engagement_id: engagement-compiler-v1-validation
+materiality: bounded-consequential
+policy_ref: .octon/instance/governance/policies/risk-materiality.yml
+recorded_at: 2026-04-28T14:01:04.104204Z
+reversibility_class: reversible
+risk_class: low
+schema_version: risk-materiality-classification-v1

@@ -1,0 +1,38 @@
+schema_version: "evolution-ledger-v1"
+ledger_id: "octon-self-evolution-ledger"
+role: "index-and-rollup-not-source-truth"
+program_refs:
+  - ".octon/instance/governance/evolution/programs/octon-self-evolution/program.yml"
+candidate_refs:
+  - ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+distillation_refs:
+  - ".octon/state/control/evolution/distillation/evolution-distillation-v5-validation.yml"
+simulation_refs:
+  - ".octon/state/control/evolution/simulations/evolution-simulation-v5-validation.yml"
+lab_gate_refs:
+  - ".octon/state/control/evolution/lab-gates/evolution-lab-gate-v5-validation.yml"
+proposal_refs:
+  - "proposal-id:octon-self-evolution-proposal-to-promotion-runtime-v5"
+decision_request_refs:
+  - ".octon/state/control/evolution/decisions/evolution-decision-v5-validation.yml"
+constitutional_amendment_request_refs:
+  - ".octon/state/control/evolution/amendment-requests/evolution-amendment-v5-validation.yml"
+promotion_refs:
+  - ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+rollback_refs:
+  - ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml"
+retirement_refs:
+  - ".octon/state/control/evolution/retirements/evolution-retirement-v5-validation.yml"
+recertification_refs:
+  - ".octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+durable_learning_refs:
+  - ".octon/framework/orchestration/practices/evolution-lifecycle-standards.md"
+  - ".octon/instance/cognition/decisions/102-self-evolution-proposal-to-promotion-runtime.md"
+ledger_replaces_source_truth: false
+source_truth_boundaries:
+  proposal_manifests_remain_source_for_proposal_lifecycle: true
+  adrs_remain_source_for_durable_decisions: true
+  retained_evidence_remains_source_for_proof: true
+  promotion_receipts_remain_source_for_promotion: true
+  recertification_results_remain_source_for_recertification: true
+  ledger_replaces_source_truth: false

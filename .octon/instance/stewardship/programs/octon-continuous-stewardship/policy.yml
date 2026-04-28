@@ -1,0 +1,29 @@
+schema_version: stewardship-policy-v1
+program_id: octon-continuous-stewardship
+program_authority_ref: .octon/instance/stewardship/programs/octon-continuous-stewardship/program.yml
+idle_rules:
+  idle_is_successful_governed_state: true
+  emit_idle_when_no_admissible_work: true
+  work_must_stop_until_next_review_or_trigger: true
+admission_rules:
+  trigger_required: true
+  admission_decision_required_before_work: true
+  v2_mission_gate_required_for_bounded_work: true
+  material_execution_from_stewardship_forbidden: true
+renewal_rules:
+  operator_command_required: true
+  prior_epoch_closeout_required: true
+  silent_authority_widening_forbidden: true
+  unlimited_self_renewal_forbidden: true
+progress_gate:
+  repeated_trigger_without_resolution:
+    threshold: 2
+    action: idle_or_escalate
+  repeated_renewal_without_progress:
+    threshold: 1
+    action: pause_or_decision_request
+  scope_expansion_to_continue:
+    threshold: 0
+    action: deny
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

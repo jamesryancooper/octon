@@ -1,0 +1,25 @@
+schema_version: stewardship-trigger-rules-v1
+program_id: octon-continuous-stewardship
+recognized_trigger_types:
+  - scheduled_review
+  - human_objective
+  - prior_mission_followup
+  - validation_evidence_ageout
+  - repo_change
+  - ci_failure
+  - dependency_drift
+  - support_posture_drift
+  - context_staleness
+  - project_profile_staleness
+  - work_package_assumption_expiry
+  - decision_request_resolved
+  - connector_posture_drift
+  - generated_effective_handle_staleness
+mvp_live_trigger_types:
+  - scheduled_review
+  - human_objective
+  - prior_mission_followup
+unsupported_trigger_route: deferred_or_decision_request
+trigger_authorizes_work: false
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

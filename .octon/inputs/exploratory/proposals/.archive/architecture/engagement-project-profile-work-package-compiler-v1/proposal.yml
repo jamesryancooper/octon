@@ -1,0 +1,77 @@
+schema_version: "proposal-v1"
+proposal_id: "engagement-project-profile-work-package-compiler-v1"
+title: "Engagement / Project Profile / Work Package Compiler v1"
+summary: >-
+  Architecture proposal packet for the product-level lifecycle layer that lets Octon move from
+  drop-in repository adoption and orientation to a first safe governed run-contract candidate
+  without weakening Octon's constitutional authority, execution authorization, evidence,
+  rollback, or support-target boundaries.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/engagement-work-package-compiler-v1.md"
+  - ".octon/framework/engine/runtime/spec/connector-posture-policy-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/connector-posture-registry-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/engagement-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/work-package-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/decision-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/evidence-profile-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/preflight-evidence-lane-v1.md"
+  - ".octon/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/connector-posture-policy-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/connector-posture-registry-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/tool-connector-posture-v1.schema.json"
+  - ".octon/framework/constitution/contracts/adapters/family.yml"
+  - ".octon/framework/constitution/contracts/authority/decision-request-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/family.yml"
+  - ".octon/framework/constitution/contracts/objective/engagement-objective-brief-v1.schema.json"
+  - ".octon/framework/constitution/contracts/objective/family.yml"
+  - ".octon/framework/constitution/contracts/runtime/engagement-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/engagement-objective-brief-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/work-package-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/evidence-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/tool-connector-posture-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/family.yml"
+  - ".octon/framework/constitution/contracts/registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/engine/runtime/README.md"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs"
+  - ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh"
+  - ".octon/instance/governance/policies/README.md"
+  - ".octon/instance/governance/policies/engagement-work-package-compiler.yml"
+  - ".octon/instance/governance/policies/evidence-profiles.yml"
+  - ".octon/instance/governance/policies/preflight-evidence-lane.yml"
+  - ".octon/instance/governance/connectors/README.md"
+  - ".octon/instance/governance/connectors/registry.yml"
+  - ".octon/instance/governance/connectors/posture.yml"
+  - ".octon/instance/governance/engagements/path-families.yml"
+  - ".octon/instance/locality/project-profile.yml"
+status: "archived"
+archive:
+  archived_at: "2026-04-28"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/engagement-project-profile-work-package-compiler-v1"
+  promotion_evidence:
+    - ".octon/framework/engine/runtime/spec/engagement-work-package-compiler-v1.md"
+    - ".octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs"
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh"
+    - ".octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Archive this proposal after review. The compiler contracts, runtime commands, validators,
+    Project Profile authority, and minimal instance policy surfaces have been promoted into durable
+    .octon authority/control/evidence paths, and the v1 compiler has created one Engagement, one
+    Project Profile, one per-engagement Objective Brief candidate/control record, one Work Package,
+    one Decision Request set, and one first run-contract candidate without depending on
+    proposal-local files.
+related_proposals: []

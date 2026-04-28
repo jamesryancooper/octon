@@ -1,0 +1,36 @@
+# Packet Manifest
+
+- `README.md`
+- `proposal.yml`
+- `architecture-proposal.yml`
+- `architecture-proposal.md`
+- `PACKET_MANIFEST.md`
+- `SHA256SUMS.txt`
+- `navigation/source-of-truth-map.md`
+- `navigation/artifact-catalog.md`
+- `architecture/target-architecture.md`
+- `architecture/current-state-gap-map.md`
+- `architecture/concept-coverage-matrix.md`
+- `architecture/file-change-map.md`
+- `architecture/implementation-plan.md`
+- `architecture/migration-cutover-plan.md`
+- `architecture/runtime-cli-shape.md`
+- `architecture/governance-safety-gates.md`
+- `architecture/validation-plan.md`
+- `architecture/acceptance-criteria.md`
+- `architecture/cutover-checklist.md`
+- `architecture/closure-certification-plan.md`
+- `architecture/rollback-plan.md`
+- `architecture/promotion-readiness-checklist.md`
+- `resources/repository-baseline-audit.md`
+- `resources/architecture-evaluation.md`
+- `resources/octon-workflow-improvement-conversation.md`
+- `resources/conversation-alignment.md`
+- `resources/primitive-decision-record.md`
+- `resources/mvp-boundary.md`
+- `resources/safety-gate-matrix.md`
+- `resources/deferred-scope-ledger.md`
+- `resources/risk-register.md`
+- `resources/assumptions-and-open-questions.md`
+- `resources/implementation-traceability.md`
+- `resources/implementation-report.md`

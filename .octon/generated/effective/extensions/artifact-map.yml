@@ -1,7 +1,7 @@
 schema_version: "octon-extension-artifact-map-v4"
 generator_version: "extension-publication-v5"
 generation_id: "extensions-090beb843d30"
-published_at: "2026-04-26T14:51:06Z"
+published_at: "2026-04-28T22:38:45Z"
 artifacts:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
@@ -530,7 +530,7 @@ artifacts:
     bucket: "prompts"
     relative_path: "prompts/source-to-architecture-packet/stages/03-build-architecture-packet.md"
     source_path: ".octon/inputs/additive/extensions/octon-concept-integration/prompts/source-to-architecture-packet/stages/03-build-architecture-packet.md"
-    sha256: "074387b4930658073987d883cf1a8a1f9e788e8a92a5b565793d7b3add0ce6be"
+    sha256: "b638d5b329ac047300ec7582bad243b6f32fe2c7017174fd40440437ba61c35b"
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
     bucket: "prompts"

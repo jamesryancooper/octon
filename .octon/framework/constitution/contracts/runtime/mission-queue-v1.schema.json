@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/mission-queue-v1.schema.json",
+  "title": "Octon Constitutional Mission Queue v1",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/mission-queue-v1.schema.json"
+    }
+  ]
+}

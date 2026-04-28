@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-quarantine-v1.schema.json",
+  "title": "Connector Quarantine v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "connector_id", "operation_id", "status", "active", "reason", "reset_requires_evidence", "reset_requires_human_approval"],
+  "properties": {
+    "schema_version": { "const": "connector-quarantine-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["not_quarantined", "quarantined"] },
+    "active": { "type": "boolean" },
+    "reason": { "type": "string", "minLength": 1 },
+    "live_effects_authorized": { "const": false },
+    "reset_requires_evidence": { "const": true },
+    "reset_requires_human_approval": { "const": true },
+    "reset_evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "reset_approval_refs": { "type": "array", "items": { "type": "string" } },
+    "created_at": { "type": "string" },
+    "updated_at": { "type": "string" }
+  }
+}

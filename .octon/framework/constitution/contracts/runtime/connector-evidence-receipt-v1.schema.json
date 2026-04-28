@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-evidence-receipt-v1.schema.json",
+  "title": "Connector Evidence Receipt v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "operation_id",
+    "family",
+    "outcome",
+    "subject_ref",
+    "retained_evidence",
+    "generated_projection_substitute",
+    "connector_evidence_replaces_run_evidence",
+    "run_evidence_link_required_for_material_operations",
+    "captured_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "connector-evidence-receipt-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "family": { "type": "string", "minLength": 1 },
+    "outcome": { "type": "string", "minLength": 1 },
+    "subject_ref": { "type": "string", "minLength": 1 },
+    "retained_evidence": { "const": true },
+    "generated_projection_substitute": { "const": false },
+    "connector_evidence_replaces_run_evidence": { "const": false },
+    "run_evidence_link_required_for_material_operations": { "const": true },
+    "captured_at": { "type": "string", "minLength": 1 }
+  }
+}

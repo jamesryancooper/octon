@@ -1,0 +1,11 @@
+mission_id: mission-autonomy-v2-validation
+policy_ref: .octon/instance/governance/policies/context-packing.yml
+receipt_required_before_material_effects: true
+recorded_at: 2026-04-28T15:52:37.85106Z
+run_id: mission-autonomy-v2-validation-run-2
+schema_version: context-pack-request-v1
+source_refs:
+- .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+- .octon/state/control/execution/missions/mission-autonomy-v2-validation/autonomy-window.yml
+- .octon/state/control/execution/missions/mission-autonomy-v2-validation/runs.yml
+status: request_prepared

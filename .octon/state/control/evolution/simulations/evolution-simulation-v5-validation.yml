@@ -1,0 +1,22 @@
+schema_version: "governance-impact-simulation-v1"
+simulation_id: "evolution-simulation-v5-validation"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+change_class: "constitutional-self-evolution-runtime"
+past_runs_now_denied: []
+past_denied_runs_now_allowed: []
+support_claim_changes:
+  - "No support-target widening is introduced by v5."
+generated_effective_staleness:
+  - "Generated evolution projections are derived read models only."
+connector_quarantine_effects:
+  - "No connector live admission or quarantine reset is introduced by v5."
+validator_impacts:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh"
+proposal_or_authority_invalidations:
+  - "Proposal packets remain non-authoritative; no existing packet becomes runtime authority."
+operator_workflow_changes:
+  - "Operators may inspect candidates, simulations, lab gates, promotions, recertifications, and ledger through v5 CLI commands."
+risk_delta: "decreases"
+evidence_refs:
+  - ".octon/state/evidence/evolution/simulations/evolution-simulation-v5-validation/receipt.yml"
+simulation_success_approves_change: false

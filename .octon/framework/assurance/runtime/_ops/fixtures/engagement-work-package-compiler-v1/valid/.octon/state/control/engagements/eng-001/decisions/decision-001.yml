@@ -1,0 +1,16 @@
+schema_version: "decision-request-v1"
+decision_request_id: "decision-001"
+engagement_id: "eng-001"
+work_package_id: "wp-001"
+request_type: "approval"
+summary: "Fixture approval already resolved into canonical low-level approval posture."
+target_low_level_artifact_family: "approval"
+target_low_level_artifact_ref: ".octon/state/control/execution/approvals/approval-001.yml"
+evidence_root: ".octon/state/evidence/decisions/decision-001"
+lifecycle:
+  status: "resolved"
+  requested_at: "2026-04-28T00:00:00Z"
+  resolved_at: "2026-04-28T00:01:00Z"
+resolution:
+  decision: "allow"
+  artifact_ref: ".octon/state/control/execution/approvals/approval-001.yml"

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/evolution-rollback-retirement-posture-v1.schema.json",
+  "title": "Octon Evolution Rollback / Retirement Posture v1",
+  "description": "Rollback, retirement, compatibility cutover, or compensation posture required for promoted evolution.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "posture_id",
+    "subject_ref",
+    "posture_type",
+    "rollback_available",
+    "retirement_available",
+    "compatibility_cutover_available",
+    "compensation_available",
+    "evidence_refs",
+    "owner_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "evolution-rollback-retirement-posture-v1" },
+    "posture_id": { "type": "string", "minLength": 1 },
+    "subject_ref": { "type": "string", "minLength": 1 },
+    "posture_type": { "type": "string", "enum": ["rollback", "retirement", "compatibility_cutover", "compensation", "mixed"] },
+    "rollback_available": { "type": "boolean" },
+    "retirement_available": { "type": "boolean" },
+    "compatibility_cutover_available": { "type": "boolean" },
+    "compensation_available": { "type": "boolean" },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "owner_ref": { "type": "string", "minLength": 1 }
+  }
+}

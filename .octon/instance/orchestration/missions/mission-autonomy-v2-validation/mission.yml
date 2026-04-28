@@ -1,0 +1,32 @@
+allowed_action_classes:
+- repo-maintenance
+- validation
+- documentation
+created_at: 2026-04-28T15:52:02.632863Z
+default_overlap_policy: skip
+default_safing_subset:
+- observe_only
+- stage_only
+default_schedule_hint: interruptible_scheduled
+failure_conditions:
+- A required mission gate cannot be satisfied without operator decision.
+mission_class: maintenance
+mission_id: mission-autonomy-v2-validation
+notes_ref: mission.md
+objective_binding:
+  execution_unit: run-contract
+  mission_required_for:
+  - multi-run-continuation
+  mission_role: continuity-container
+  run_control_root: .octon/state/control/execution/runs
+  workspace_charter_ref: .octon/instance/charter/workspace.yml
+owner_ref: operator://octon-maintainers
+risk_ceiling: ACP-1
+schema_version: octon-mission-v2
+scope_ids:
+- octon-harness
+status: active
+success_criteria:
+- Mission queue reaches a resolved terminal disposition.
+summary: Prepare a first governed run-contract candidate from the Project Profile and Objective Brief without executing material effects.
+title: 'Mission: mission-autonomy-v2-validation'

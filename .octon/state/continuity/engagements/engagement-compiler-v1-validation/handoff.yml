@@ -1,0 +1,6 @@
+authority_status: resumption-context-not-runtime-authority
+engagement_id: engagement-compiler-v1-validation
+recorded_at: 2026-04-28T14:00:48.500852Z
+resume_command: octon profile --engagement-id engagement-compiler-v1-validation
+schema_version: engagement-continuity-v1
+stage: start-engagement

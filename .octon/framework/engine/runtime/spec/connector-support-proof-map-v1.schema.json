@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-support-proof-map-v1.schema.json",
+  "title": "Connector Support Proof Map v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "connector_id", "operation_id", "support_target_refs", "support_admission_refs", "support_dossier_refs", "proof_bundle_refs", "generated_support_views_are_authority"],
+  "properties": {
+    "schema_version": { "const": "connector-support-proof-map-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "support_target_refs": { "type": "array", "items": { "type": "string" } },
+    "support_admission_refs": { "type": "array", "items": { "type": "string" } },
+    "support_dossier_refs": { "type": "array", "items": { "type": "string" } },
+    "proof_bundle_refs": { "type": "array", "items": { "type": "string" } },
+    "support_card_projection_refs": { "type": "array", "items": { "type": "string" } },
+    "generated_support_views_are_authority": { "const": false },
+    "generated_support_matrix_can_widen_support": { "const": false }
+  }
+}

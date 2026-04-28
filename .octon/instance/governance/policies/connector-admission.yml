@@ -1,0 +1,107 @@
+schema_version: connector-admission-policy-v1
+policy_id: connector-admission-runtime-v4
+owner: Octon governance
+status: active
+default_route: deny
+v4_mvp_live_effectful_connector_admission: blocked
+model: connector -> operation -> capability packs -> material-effect classes -> support posture -> policy -> authorization -> evidence
+
+admission_modes:
+  observe_only:
+    live_effects_authorized: false
+    route: allow_without_material_effect
+  read_only:
+    live_effects_authorized: false
+    route: requires_operation_contract_and_read_dossier
+  stage_only:
+    live_effects_authorized: false
+    route: allow_as_non_live_stage_record
+  live_effectful:
+    live_effects_authorized: conditional
+    route: requires_full_support_proof_decision_authorization_effect_token_and_receipts
+  quarantined:
+    live_effects_authorized: false
+    route: deny_until_reset_evidence_and_required_approval
+  retired:
+    live_effects_authorized: false
+    route: deny
+  denied:
+    live_effects_authorized: false
+    route: deny
+
+required_for_any_connector_operation:
+  - connector-identity
+  - connector-operation-contract
+  - capability-pack-mapping
+  - material-effect-classification
+  - support-posture
+  - policy-evaluation
+  - retained-evidence
+
+required_for_any_live_operation:
+  - support-target-admission
+  - support-dossier
+  - connector-trust-dossier
+  - support-proof-map
+  - proof-bundle
+  - capability-pack-admission
+  - egress-policy
+  - credential-class
+  - data-boundary-posture
+  - rollback-or-compensation-posture
+  - evidence-obligations
+  - context-pack-inclusion
+  - Decision Request resolution
+  - authorization-grant
+  - effect-token-verification-for-material-operations
+  - retained-connector-and-run-receipts
+
+blocked_without_explicit_admission:
+  - mcp-live-effect
+  - api-live-effect
+  - browser-driving
+  - service-invocation-without-connector-operation
+  - connector-operation-with-missing-operation-contract
+  - connector-operation-with-missing-trust-dossier
+  - connector-operation-with-missing-support-proof
+
+drift_policy:
+  drift_detected_route: quarantine
+  drift_dimensions:
+    - connector manifest
+    - operation schema
+    - support posture
+    - egress destination
+    - credential class
+    - capability mapping
+    - evidence obligations
+    - rollback posture
+    - allowed mode
+    - failure taxonomy
+    - rate/budget class
+
+human_decision_required_for:
+  - support-target widening
+  - live-effectful connector admission
+  - credentialed external writes
+  - production-impacting connector operation
+  - destructive external action
+  - irreversible operation
+  - shared risk acceptance
+  - quarantine reset when policy requires it
+
+non_authority_boundaries:
+  connector_availability_is_authority: false
+  connector_admission_authorizes_execution: false
+  connector_trust_dossier_authorizes_execution: false
+  generated_connector_projection_is_authority: false
+  generated_support_matrix_can_widen_support: false
+
+deferred_scope:
+  - broad effectful MCP support
+  - arbitrary external API autonomy
+  - browser-driving autonomy
+  - deployment automation
+  - credential provisioning
+  - destructive external operations
+  - autonomous support-target widening

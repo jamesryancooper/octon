@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/engagement-objective-brief-v1.schema.json",
+  "title": "Octon Engagement Objective Brief v1",
+  "description": "Per-engagement objective candidate/control state backed by retained objective evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "objective_brief_id",
+    "engagement_id",
+    "status",
+    "objective_layer",
+    "authority_status",
+    "workspace_charter_substitution_allowed",
+    "control_binding",
+    "objective_summary",
+    "scope_in",
+    "scope_out",
+    "done_when",
+    "acceptance_criteria",
+    "workspace_charter_refs",
+    "backing_evidence_refs",
+    "authority_boundary",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "engagement-objective-brief-v1" },
+    "objective_brief_id": { "$ref": "#/$defs/non_empty_string" },
+    "engagement_id": { "$ref": "#/$defs/non_empty_string" },
+    "status": { "type": "string", "enum": ["draft", "candidate", "reconciled", "requires_decision", "blocked", "superseded"] },
+    "objective_layer": { "const": "engagement-control-candidate" },
+    "authority_status": { "const": "candidate-control-not-workspace-authority" },
+    "workspace_charter_substitution_allowed": { "const": false },
+    "control_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["objective_control_root", "objective_control_ref", "engagement_control_ref"],
+      "properties": {
+        "objective_control_root": {
+          "type": "string",
+          "pattern": "^\\.octon/state/control/engagements/[^/]+/objective$"
+        },
+        "objective_control_ref": {
+          "type": "string",
+          "pattern": "^\\.octon/state/control/engagements/[^/]+/objective/[^/]+\\.(yml|yaml|json)$"
+        },
+        "engagement_control_ref": {
+          "type": "string",
+          "pattern": "^\\.octon/state/control/engagements/[^/]+/engagement\\.(yml|yaml|json)$"
+        }
+      }
+    },
+    "objective_summary": { "$ref": "#/$defs/non_empty_string" },
+    "scope_in": { "$ref": "#/$defs/string_array" },
+    "scope_out": { "$ref": "#/$defs/string_array" },
+    "done_when": { "$ref": "#/$defs/string_array" },
+    "acceptance_criteria": { "$ref": "#/$defs/string_array" },
+    "workspace_charter_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workspace_charter_ref", "workspace_machine_charter_ref"],
+      "properties": {
+        "workspace_charter_ref": { "type": "string", "const": ".octon/instance/charter/workspace.md" },
+        "workspace_machine_charter_ref": { "type": "string", "const": ".octon/instance/charter/workspace.yml" }
+      }
+    },
+    "backing_evidence_refs": { "$ref": "#/$defs/ref_array" },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "objective_brief_is_workspace_charter_authority",
+        "may_rewrite_workspace_charter",
+        "material_execution_authorized_by_objective_brief"
+      ],
+      "properties": {
+        "objective_brief_is_workspace_charter_authority": { "const": false },
+        "may_rewrite_workspace_charter": { "const": false },
+        "material_execution_authorized_by_objective_brief": { "const": false },
+        "control_candidate_root": {
+          "const": ".octon/state/control/engagements/<engagement-id>/objective/"
+        }
+      }
+    },
+    "created_at": { "$ref": "#/$defs/non_empty_string" },
+    "updated_at": { "$ref": "#/$defs/non_empty_string" }
+  },
+  "$defs": {
+    "non_empty_string": { "type": "string", "minLength": 1 },
+    "repo_ref": { "type": "string", "minLength": 1, "pattern": "^(\\.octon|/\\.octon)" },
+    "string_array": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/non_empty_string" },
+      "uniqueItems": true
+    },
+    "ref_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/repo_ref" },
+      "uniqueItems": true
+    }
+  }
+}

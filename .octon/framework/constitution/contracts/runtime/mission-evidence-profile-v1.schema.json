@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/mission-evidence-profile-v1.schema.json",
+  "title": "Octon Constitutional Mission Evidence Profile v1",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/mission-evidence-profile-v1.schema.json"
+    }
+  ]
+}

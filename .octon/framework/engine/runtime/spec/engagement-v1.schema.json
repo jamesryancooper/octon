@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/engagement-v1.schema.json",
+  "title": "Octon Engagement v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "engagement_id",
+    "repo_root",
+    "status",
+    "stage",
+    "seed_intent_ref",
+    "adoption_classification_ref",
+    "authority_binding",
+    "evidence_roots",
+    "continuity_ref",
+    "generated_projection_policy",
+    "decision_request_refs",
+    "closeout_state",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "engagement-v1"
+    },
+    "engagement_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repo_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "preflight_complete",
+        "profiled",
+        "planned",
+        "armed",
+        "requires_decision",
+        "stage_only",
+        "blocked",
+        "denied",
+        "closed"
+      ]
+    },
+    "stage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "seed_intent_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adoption_classification_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objective_brief_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\.octon/state/control/engagements/[^/]+/objective/[^/]+\\.(yml|yaml|json)$"
+    },
+    "objective_brief_schema_ref": {
+      "const": ".octon/framework/engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+    },
+    "objective_control_root": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^\\.octon/state/control/engagements/[^/]+/objective$"
+    },
+    "project_profile_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "work_package_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "run_contract_candidate_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "canonical_run_contract_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "decision_request_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "authority_binding": {
+      "type": "object",
+      "required": [
+        "workspace_charter_ref",
+        "workspace_machine_charter_ref",
+        "support_targets_ref",
+        "governance_exclusions_ref"
+      ]
+    },
+    "evidence_roots": {
+      "type": "object",
+      "required": [
+        "engagement",
+        "preflight",
+        "orientation",
+        "project_profile_source_facts",
+        "work_package_compilation",
+        "decisions",
+        "run_contract_readiness"
+      ],
+      "properties": {
+        "objective": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "continuity_ref": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "generated_projection_policy": {
+      "type": "object",
+      "required": [
+        "projections_optional",
+        "authority_status"
+      ],
+      "properties": {
+        "projections_optional": {
+          "const": true
+        },
+        "authority_status": {
+          "const": "non_authoritative"
+        }
+      }
+    },
+    "closeout_state": {
+      "type": "string",
+      "enum": [
+        "open",
+        "ready_for_closeout",
+        "closed",
+        "denied"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

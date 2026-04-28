@@ -1,0 +1,35 @@
+schema_version: "autonomy-window-policy-v1"
+policy_id: "autonomy-window"
+owner: "Octon governance"
+status: "active"
+rule: >-
+  An Autonomy Window summarizes and enforces lower-level controls; it never
+  grants execution authority by itself.
+required_lower_level_controls:
+  mission_charter: ".octon/instance/orchestration/missions/<mission-id>/mission.yml"
+  mission_control_lease: ".octon/state/control/execution/missions/<mission-id>/lease.yml"
+  autonomy_budget: ".octon/state/control/execution/missions/<mission-id>/autonomy-budget.yml"
+  circuit_breakers: ".octon/state/control/execution/missions/<mission-id>/circuit-breakers.yml"
+  mission_queue: ".octon/state/control/execution/missions/<mission-id>/queue.yml"
+  mission_run_ledger: ".octon/state/control/execution/missions/<mission-id>/runs.yml"
+required_authority_boundary:
+  autonomy_window_authorizes_execution: false
+  run_contract_required: true
+  execution_authorization_required: true
+allowed_execution_postures:
+  - "interruptible_scheduled"
+  - "stage_only"
+allowed_action_classes:
+  - "repo-maintenance"
+  - "validation"
+  - "documentation"
+max_concurrent_runs: 1
+context_freshness:
+  project_profile_required: true
+  work_package_required: true
+  context_pack_required_per_run: true
+  stale_route: "pause_or_decision_request"
+review_cadence:
+  lease_review_max_age_days: 7
+  budget_recompute_max_age_days: 1
+  breaker_recompute_max_age_days: 1

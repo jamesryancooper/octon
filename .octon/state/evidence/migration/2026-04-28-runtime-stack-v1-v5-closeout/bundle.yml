@@ -1,0 +1,6 @@
+kind: migration-evidence-bundle
+id: 2026-04-28-runtime-stack-v1-v5-closeout
+evidence: evidence.md
+commands: commands.md
+validation: validation.md
+inventory: inventory.md

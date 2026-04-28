@@ -87,16 +87,16 @@ Each entry should be specific enough to avoid false positives.
 
 ## Banned Paths
 
-- `/.octon/framework/agency/agents/` - replaced by `/.octon/framework/agency/actors/agents/` - removed by migration `2026-02-20-agency-bounded-surfaces`
-- `/.octon/framework/agency/assistants/` - replaced by `/.octon/framework/agency/actors/assistants/` - removed by migration `2026-02-20-agency-bounded-surfaces`
-- `/.octon/framework/agency/teams/` - replaced by `/.octon/framework/agency/actors/teams/` - removed by migration `2026-02-20-agency-bounded-surfaces`
+- `/.octon/framework/execution-roles/runtime/orchestrator/` - replaced by `/.octon/framework/execution-roles/runtime/orchestrator/` - removed by migration `2026-02-20-agency-bounded-surfaces`
+- `/.octon/framework/execution-roles/runtime/specialists/` - replaced by `/.octon/framework/execution-roles/runtime/specialists/` - removed by migration `2026-02-20-agency-bounded-surfaces`
+- `/.octon/framework/execution-roles/runtime/composition-profiles/` - replaced by `/.octon/framework/execution-roles/runtime/composition-profiles/` - removed by migration `2026-02-20-agency-bounded-surfaces`
 - `/.octon/framework/agency/CONSTITUTION.md` - moved to governance surface - removed by migration `2026-02-20-agency-bounded-surfaces`
 - `/.octon/framework/agency/DELEGATION.md` - moved to governance surface - removed by migration `2026-02-20-agency-bounded-surfaces`
 - `/.octon/framework/agency/MEMORY.md` - moved to governance surface - removed by migration `2026-02-20-agency-bounded-surfaces`
 - `/.octon/framework/agency/actors/` - replaced by `/.octon/framework/agency/runtime/` - removed by migration `2026-02-21-agency-actors-to-runtime`
-- `/.octon/framework/agency/actors/agents/` - replaced by `/.octon/framework/agency/runtime/agents/` - removed by migration `2026-02-21-agency-actors-to-runtime`
-- `/.octon/framework/agency/actors/assistants/` - replaced by `/.octon/framework/agency/runtime/assistants/` - removed by migration `2026-02-21-agency-actors-to-runtime`
-- `/.octon/framework/agency/actors/teams/` - replaced by `/.octon/framework/agency/runtime/teams/` - removed by migration `2026-02-21-agency-actors-to-runtime`
+- `/.octon/framework/execution-roles/runtime/orchestrator/` - replaced by `/.octon/framework/execution-roles/runtime/orchestrator/` - removed by migration `2026-02-21-agency-actors-to-runtime`
+- `/.octon/framework/execution-roles/runtime/specialists/` - replaced by `/.octon/framework/execution-roles/runtime/specialists/` - removed by migration `2026-02-21-agency-actors-to-runtime`
+- `/.octon/framework/execution-roles/runtime/composition-profiles/` - replaced by `/.octon/framework/execution-roles/runtime/composition-profiles/` - removed by migration `2026-02-21-agency-actors-to-runtime`
 - `/.octon/framework/orchestration/workflows/` - replaced by `/.octon/framework/orchestration/runtime/workflows/` - removed by migration `2026-02-20-orchestration-bounded-surfaces`
 - `/.octon/framework/orchestration/missions/` - replaced by `/.octon/instance/orchestration/missions/` - removed by migration `2026-02-20-orchestration-bounded-surfaces`
 - `/.octon/framework/orchestration/incidents.md` - moved to governance surface - removed by migration `2026-02-20-orchestration-bounded-surfaces`

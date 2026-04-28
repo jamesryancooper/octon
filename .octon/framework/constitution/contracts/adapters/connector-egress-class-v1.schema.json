@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-egress-class-v1.schema.json",
+  "title": "Connector Egress Class v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "egress_class", "policy_ref", "allowed_hosts", "allowed_methods", "default_route"],
+  "properties": {
+    "schema_version": { "const": "connector-egress-class-v1" },
+    "egress_class": { "type": "string", "minLength": 1 },
+    "policy_ref": { "type": "string", "minLength": 1 },
+    "allowed_hosts": { "type": "array", "items": { "type": "string" } },
+    "allowed_methods": { "type": "array", "items": { "type": "string" } },
+    "default_route": { "type": "string", "enum": ["deny", "stage_only", "requires_decision", "allow"] },
+    "egress_policy_authorizes_execution": { "const": false }
+  }
+}

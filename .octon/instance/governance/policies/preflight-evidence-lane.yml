@@ -1,0 +1,133 @@
+schema_version: "preflight-evidence-lane-policy-v1"
+policy_id: "engagement-preflight-evidence-lane"
+owner: "Octon governance"
+status: "active"
+contract_ref: ".octon/framework/engine/runtime/spec/preflight-evidence-lane-v1.md"
+default_route: "deny"
+
+lane_posture:
+  material_effects_allowed: false
+  live_connector_invocation_allowed: false
+  capability_activation_allowed: false
+  support_target_widening_allowed: false
+  generated_effective_publication_allowed: false
+  credential_use_allowed: false
+  governance_amendment_allowed_without_approval: false
+
+allowed_actions:
+  - action_id: "adoption-classification"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/evidence/engagements/<engagement-id>/preflight/**"
+      - ".octon/state/evidence/engagements/<engagement-id>/classification/**"
+    required_evidence:
+      - "classification receipt"
+      - "forbidden-action check"
+  - action_id: "orientation-scan"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/evidence/orientation/<orientation-id>/**"
+    required_evidence:
+      - "source manifest"
+      - "toolchain discovery facts"
+  - action_id: "project-profile-source-fact-capture"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/evidence/project-profiles/<profile-id>/source-facts/**"
+    required_evidence:
+      - "source digest manifest"
+      - "profile fact provenance"
+  - action_id: "project-profile-source-evidence"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/evidence/project-profiles/<profile-id>/source-facts/**"
+    required_evidence:
+      - "source digest manifest"
+      - "profile fact provenance"
+  - action_id: "compiler-control-preparation"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/control/engagements/<engagement-id>/**"
+      - ".octon/state/continuity/engagements/<engagement-id>/handoff.yml"
+    required_evidence:
+      - "compiler policy ref"
+      - "path family registry ref"
+  - action_id: "context-pack-request-preparation"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/control/engagements/<engagement-id>/context-pack-request.yml"
+      - ".octon/state/evidence/engagements/<engagement-id>/work-packages/**"
+    required_evidence:
+      - "request source refs"
+      - "context policy ref"
+  - action_id: "operator-visible-diagnostics"
+    route: "allow"
+    allowed_roots:
+      - ".octon/state/evidence/engagements/<engagement-id>/preflight/**"
+      - ".octon/generated/cognition/projections/materialized/engagements/**"
+    required_evidence:
+      - "non-authority notice for generated projection"
+      - "control/evidence source refs"
+  - action_id: "generated-operator-read-model"
+    route: "stage_only"
+    allowed_roots:
+      - ".octon/generated/cognition/projections/materialized/engagements/**"
+      - ".octon/generated/cognition/projections/materialized/work-packages/**"
+    required_evidence:
+      - "non-authority notice for generated projection"
+      - "source control/evidence refs"
+
+forbidden_actions:
+  - action_id: "project-code-mutation"
+    route: "deny"
+  - action_id: "generated-effective-publication"
+    route: "deny"
+  - action_id: "service-tool-mcp-effectful-invocation"
+    route: "deny"
+  - action_id: "service-invocation"
+    route: "deny"
+  - action_id: "tool-invocation"
+    route: "deny"
+  - action_id: "mcp-effectful-invocation"
+    route: "deny"
+  - action_id: "api-egress"
+    route: "deny"
+  - action_id: "browser-ui-execution"
+    route: "deny"
+  - action_id: "credential-or-secret-use"
+    route: "deny"
+  - action_id: "credential-use"
+    route: "deny"
+  - action_id: "support-target-widening"
+    route: "deny"
+  - action_id: "capability-pack-activation"
+    route: "deny"
+  - action_id: "external-network-egress"
+    route: "deny"
+  - action_id: "runtime-executor-launch"
+    route: "deny"
+  - action_id: "run-execution"
+    route: "deny"
+  - action_id: "governance-amendment-without-approval"
+    route: "deny"
+  - action_id: "destructive-operation"
+    route: "deny"
+
+exit_gates:
+  - gate_id: "preflight-profile-source-facts"
+    requirement: "Project Profile durable facts must cite retained source evidence."
+    missing_or_stale_route: "blocked"
+  - gate_id: "preflight-context-request"
+    requirement: "Context-pack request may be prepared, but missing receipt keeps Work Package stage_only before material effects."
+    missing_or_stale_route: "stage_only"
+  - gate_id: "preflight-run-contract-handoff"
+    requirement: "Run-contract candidate handoff must enter through octon run start --contract and runtime authorization."
+    missing_or_stale_route: "stage_only"
+
+fail_closed_routes:
+  missing_authority_binding: "blocked"
+  missing_orientation_evidence: "blocked"
+  unsupported_connector: "stage_only"
+  attempted_material_effect: "denied"
+  generated_projection_as_authority: "denied"
+  proposal_local_runtime_dependency: "denied"

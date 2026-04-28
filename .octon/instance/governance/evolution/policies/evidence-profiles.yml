@@ -1,0 +1,57 @@
+schema_version: "evolution-evidence-profile-policy-v1"
+policy_id: "octon-self-evolution-evidence-profiles"
+owner: "Octon governance"
+status: "active"
+profiles:
+  - schema_version: "evolution-evidence-profile-v1"
+    profile_id: "evolution_observe"
+    required_candidate_evidence:
+      - "source evidence refs"
+    required_simulation_evidence: []
+    required_lab_evidence: []
+    required_decision_evidence: []
+    required_promotion_evidence: []
+    required_recertification_evidence: []
+    required_rollback_evidence: []
+    disclosure_requirements:
+      - "non-authority statement"
+  - schema_version: "evolution-evidence-profile-v1"
+    profile_id: "evolution_authority_change"
+    required_candidate_evidence:
+      - "source evidence refs"
+      - "classification"
+    required_simulation_evidence:
+      - "governance impact simulation"
+    required_lab_evidence:
+      - "negative controls"
+      - "rollback posture proof"
+    required_decision_evidence:
+      - "human or quorum approval"
+    required_promotion_evidence:
+      - "promotion receipt"
+    required_recertification_evidence:
+      - "recertification result"
+    required_rollback_evidence:
+      - "rollback or retirement posture"
+    disclosure_requirements:
+      - "self-authorization denial"
+      - "proposal non-authority"
+  - schema_version: "evolution-evidence-profile-v1"
+    profile_id: "evolution_promotion_closeout"
+    required_candidate_evidence:
+      - "candidate lineage"
+    required_simulation_evidence:
+      - "simulation receipt"
+    required_lab_evidence:
+      - "lab gate receipt"
+    required_decision_evidence:
+      - "approval grant refs"
+    required_promotion_evidence:
+      - "promotion receipt"
+    required_recertification_evidence:
+      - "passed recertification result"
+    required_rollback_evidence:
+      - "rollback-retirement receipt"
+    disclosure_requirements:
+      - "generated projections remain non-authoritative"
+blocking_rule: "Use the stricter profile whenever authority, constitutional, support, connector, runtime authorization, evidence obligation, or generated/effective trust impact is possible."

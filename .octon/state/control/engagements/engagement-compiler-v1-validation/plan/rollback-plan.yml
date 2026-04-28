@@ -1,0 +1,6 @@
+do_not_revert_unrelated_changes: true
+engagement_id: engagement-compiler-v1-validation
+recorded_at: 2026-04-28T14:01:04.104204Z
+reversibility_class: reversible
+schema_version: rollback-plan-v1
+strategy: remove prepared engagement artifacts before run start, or use canonical run rollback after handoff

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/stewardship-admission-decision-v1.schema.json",
+  "title": "Stewardship Admission Decision v1",
+  "description": "Canonical decision that converts one trigger into no-op, idle, decision request, mission candidate, campaign candidate, denied, or deferred.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "epoch_id",
+    "trigger_id",
+    "decision_id",
+    "admission_outcome",
+    "trigger_evidence_ref",
+    "governance_constraints",
+    "required_decision_requests"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-admission-decision-v1" },
+    "admission_outcome": { "enum": ["no_op", "idle", "decision_request", "mission_candidate", "campaign_candidate", "denied", "deferred"] },
+    "governance_constraints": {
+      "type": "object",
+      "properties": {
+        "stewardship_trigger_authorizes_work": { "const": false },
+        "admission_decision_authorizes_material_execution": { "const": false },
+        "run_gate_required": { "const": true },
+        "v2_mission_gate_required": { "const": true }
+      }
+    }
+  }
+}

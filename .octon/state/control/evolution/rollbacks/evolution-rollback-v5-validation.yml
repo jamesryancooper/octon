@@ -1,0 +1,16 @@
+schema_version: "evolution-rollback-retirement-posture-v1"
+posture_id: "evolution-rollback-v5-validation"
+subject_ref: ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+posture_type: "mixed"
+rollback_available: true
+retirement_available: true
+compatibility_cutover_available: true
+compensation_available: false
+rollback_plan: >-
+  Revert the v5 additive contracts, policies, CLI commands, validators,
+  generated projections, and control/evidence roots in one reviewed migration if
+  recertification fails and remediation is rejected.
+retirement_trigger: "Retire the v5 rollback posture when a stricter successor self-evolution runtime supersedes v5."
+evidence_refs:
+  - ".octon/state/evidence/evolution/rollbacks/evolution-rollback-v5-validation/receipt.yml"
+owner_ref: "operator://octon-maintainers"

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/adapters/tool-connector-posture-v1.schema.json",
+  "title": "Octon Constitutional Tool/MCP Connector Posture v1",
+  "description": "Constitutional adapter-family mirror for stage-only tool and MCP connector posture.",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/tool-connector-posture-v1.schema.json"
+    }
+  ]
+}

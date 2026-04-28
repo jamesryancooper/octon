@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-evidence-profile-v1.schema.json",
+  "title": "Connector Evidence Profile v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "profiles"],
+  "properties": {
+    "schema_version": { "const": "connector-evidence-profile-v1" },
+    "profiles": {
+      "type": "object",
+      "required": [
+        "connector_observe",
+        "connector_read_only",
+        "connector_stage_only",
+        "connector_live_reversible",
+        "connector_live_effectful",
+        "connector_external_irreversible_blocked"
+      ]
+    }
+  }
+}

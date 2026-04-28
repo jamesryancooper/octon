@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/autonomy-window-v1.schema.json",
+  "title": "Octon Constitutional Autonomy Window v1",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/autonomy-window-v1.schema.json"
+    }
+  ]
+}

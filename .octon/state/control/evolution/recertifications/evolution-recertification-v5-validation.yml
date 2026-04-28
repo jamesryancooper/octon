@@ -1,0 +1,23 @@
+authority_placement: passed
+capability_pack_routes: passed
+connector_admissions: passed
+context_pack_behavior: passed
+documentation_runtime_consistency: passed
+evidence_completeness: passed
+evidence_refs:
+- .octon/state/evidence/evolution/recertifications/evolution-recertification-v5-validation/receipt.yml
+failure_blocks_closure: true
+generated_effective_handles: passed
+operator_read_model_non_authority: passed
+promotion_ref: .octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml
+proof_plane_completeness: passed
+recertification_id: evolution-recertification-v5-validation
+rollback_posture: passed
+root_boundaries: passed
+run_lifecycle: passed
+runtime_authorization_coverage: passed
+schema_version: recertification-result-v1
+status: passed
+support_target_claims: passed
+updated_at: 2026-04-28T19:50:20.74163Z
+validator_health: passed-by-cli-dry-run

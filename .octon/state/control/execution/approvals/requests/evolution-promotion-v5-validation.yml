@@ -1,0 +1,21 @@
+schema_version: "authority-approval-request-v1"
+request_id: "evolution-promotion-v5-validation"
+run_id: "evolution-promotion-v5-validation"
+status: "granted"
+target_id: "governance:self-evolution-runtime-v5-promotion"
+action_type: "promote_self_evolution_outputs"
+workflow_mode: "role-mediated"
+support_tier: "repo-consequential"
+quorum_policy_ref: ".octon/instance/governance/contracts/quorum-policies/default.yml"
+ownership_refs:
+  - "operator://octon-maintainers"
+reversibility_class: "reversible_with_retirement"
+reason_codes:
+  - "SELF_EVOLUTION_RUNTIME_V5_PROMOTION"
+required_evidence:
+  - "promotion-receipt"
+  - "recertification-result"
+  - "rollback-retirement-posture"
+projection_sources: []
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/objective/engagement-objective-brief-v1.schema.json",
+  "title": "Octon Constitutional Engagement Objective Brief v1",
+  "description": "Constitutional mirror for per-engagement Objective Brief candidate control state.",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+    }
+  ]
+}

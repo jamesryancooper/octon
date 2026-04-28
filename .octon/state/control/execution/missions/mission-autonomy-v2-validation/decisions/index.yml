@@ -1,0 +1,13 @@
+canonical_low_level_roots:
+  approvals: .octon/state/control/execution/approvals/**
+  exceptions: .octon/state/control/execution/exceptions/**
+  revocations: .octon/state/control/execution/revocations/**
+decision_requests:
+- decision_request_id: mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+  decision_request_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/decisions/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1.yml
+  required_before: mission-continuation
+  status: resolved
+  updated_at: 2026-04-28T16:11:20.033676Z
+mission_id: mission-autonomy-v2-validation
+schema_version: mission-decision-request-set-v1
+updated_at: 2026-04-28T16:11:20.033676Z

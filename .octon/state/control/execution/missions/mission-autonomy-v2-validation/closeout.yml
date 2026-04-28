@@ -1,0 +1,15 @@
+all_relevant_runs_terminal: false
+blockers: []
+continuity_updated: false
+mission_evidence_bundle_complete: false
+mission_id: mission-autonomy-v2-validation
+mission_queue_resolved: false
+mission_success_or_failure_criteria_satisfied_or_accepted: false
+no_unresolved_blocking_decision_requests: false
+policy_ref: .octon/instance/governance/policies/mission-closeout.yml
+replay_disclosure_status_known: false
+rollback_compensation_disposition_known: false
+run_level_closeout_complete: false
+schema_version: mission-closeout-v1
+status: open
+updated_at: 2026-04-28T15:52:02.632863Z

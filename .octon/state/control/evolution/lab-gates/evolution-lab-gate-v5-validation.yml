@@ -1,0 +1,33 @@
+schema_version: "assurance-lab-promotion-gate-v1"
+lab_gate_id: "evolution-lab-gate-v5-validation"
+candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+proof_classes:
+  - "negative-control test"
+  - "proposal non-authority test"
+  - "promotion dry-run"
+  - "recertification dry-run"
+scenario_refs:
+  - ".octon/framework/assurance/runtime/_ops/tests/test-self-evolution-runtime-v5.sh"
+replay_refs:
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/replay-proof.yml"
+shadow_run_refs:
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/shadow-run-proof.yml"
+negative_control_refs:
+  - "candidate-without-evidence"
+  - "constitutional-impact-without-amendment-request"
+  - "proposal-path-dependency-in-durable-output"
+  - "lab-success-as-approval"
+  - "simulation-success-as-approval"
+rollback_simulation_refs:
+  - ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml"
+generated_effective_freshness_refs:
+  - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+evidence_completeness_refs:
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/receipt.yml"
+result: "passed"
+evidence_refs:
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/receipt.yml"
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/negative-control-results.yml"
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/replay-proof.yml"
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/shadow-run-proof.yml"
+lab_success_approves_change: false

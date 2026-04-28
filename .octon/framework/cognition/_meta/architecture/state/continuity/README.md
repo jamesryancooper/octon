@@ -38,6 +38,7 @@ is a sibling `state/evidence/**` surface, not a child of continuity:
 | `.octon/state/continuity/repo/entities.json` | Mutable | Keep tracked entities current; preserve stable IDs and ownership semantics. |
 | `.octon/state/continuity/repo/next.md` | Mutable | Keep focused and short; must be executable without extra context. |
 | `.octon/state/continuity/scopes/<scope-id>/{log.md,tasks.json,entities.json,next.md}` | Mixed append-first and mutable | Use only when one declared scope is the primary home for the work. |
+| `.octon/state/continuity/engagements/<engagement-id>/handoff.yml` | Mutable | Keep compiler resumability aligned with engagement control and retained preparation evidence; not runtime authority. |
 | `.octon/state/continuity/runs/<run-id>/handoff.yml` | Mutable | Keep resumability and handoff state aligned with the canonical run root and last retained receipt/checkpoint. |
 | `.octon/state/evidence/decisions/repo/` | Append-oriented lineage | Govern by retention classes in `decisions/retention.json`; historical lineage and capability logs only, not canonical per-run authority. |
 | `.octon/state/evidence/runs/` | Append-oriented evidence | Govern by retention classes in `runs/retention.json`; do not use for active task state. |

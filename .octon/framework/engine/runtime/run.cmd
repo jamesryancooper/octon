@@ -35,12 +35,26 @@ if defined TARGET_BINARY set TARGET_DECLARED=1
 if defined LOCAL_LAUNCHABLE set TARGET_DECLARED=1
 if defined SHIPPABLE_RELEASE set TARGET_DECLARED=1
 
-if /I "%~1"=="studio" set FORCE_SOURCE_ONLY=1
-if /I "%~1"=="workflow" set FORCE_SOURCE_ONLY=1
 if "%~1"=="" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="-h" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="--help" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="help" set FORCE_SOURCE_ONLY=1
+if "%STRICT_PACKAGING%"=="1" goto after_source_command_routing
+if /I "%~1"=="studio" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="workflow" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="start" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="profile" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="plan" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="arm" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="continue" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="mission" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="decide" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="connector" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="support" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="capability" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="steward" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="run" set FORCE_SOURCE_ONLY=1
+:after_source_command_routing
 
 if "%FORCE_SOURCE_ONLY%"=="0" if /I "%LOCAL_LAUNCHABLE%"=="true" if defined TARGET_BINARY set BIN=%RUNTIME_OPS_DIR%\bin\%TARGET_BINARY%
 

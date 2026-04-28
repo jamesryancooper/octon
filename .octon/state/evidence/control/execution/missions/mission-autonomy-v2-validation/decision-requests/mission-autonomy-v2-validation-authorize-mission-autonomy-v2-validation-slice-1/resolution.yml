@@ -1,0 +1,11 @@
+canonical_refs:
+  approval_request_ref: .octon/state/control/execution/approvals/requests/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1.yml
+  mission_control_approval_ref: .octon/state/control/execution/mission-decisions/mission-autonomy-v2-validation/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1/approval.yml
+continuation_decision_authorized: false
+decision_request_id: mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+material_execution_authorized: false
+mission_id: mission-autonomy-v2-validation
+notes: Resolution unblocks mission control state only; run execution remains under run start and execution authorization.
+recorded_at: 2026-04-28T15:52:31.898449Z
+response: approval
+schema_version: mission-decision-request-resolution-v1

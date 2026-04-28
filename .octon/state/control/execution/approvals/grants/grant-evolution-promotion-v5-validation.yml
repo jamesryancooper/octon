@@ -1,0 +1,16 @@
+schema_version: "authority-approval-grant-v1"
+grant_id: "grant-evolution-promotion-v5-validation"
+request_id: "evolution-promotion-v5-validation"
+run_id: "evolution-promotion-v5-validation"
+state: "active"
+issued_by: "operator://octon-governance"
+issued_at: "2026-04-28T00:00:00Z"
+expires_at: null
+quorum_policy_ref: ".octon/instance/governance/contracts/quorum-policies/default.yml"
+projection_sources: []
+review_metadata:
+  basis: "explicit operator request to implement v5 proposal packet"
+required_evidence:
+  - "promotion-receipt"
+  - "recertification-result"
+  - "rollback-retirement-posture"

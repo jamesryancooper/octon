@@ -1,0 +1,8 @@
+schema_version: "evidence-distillation-evidence-receipt-v1"
+receipt_id: "evolution-distillation-v5-validation-receipt"
+distillation_ref: ".octon/state/control/evolution/distillation/evolution-distillation-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+source_evidence_refs:
+  - ".octon/state/evidence/evolution/profile-selection/v5-self-evolution-runtime/receipt.yml"
+distillation_authorizes_promotion: false
+non_authority_statement: "Evidence distillation is proposal-gated and cannot auto-promote."

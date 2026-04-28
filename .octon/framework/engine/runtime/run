@@ -107,8 +107,13 @@ if [ -f "$TARGETS_FILE" ]; then
 fi
 
 case "${1:-}" in
-  ""|studio|workflow|-h|--help|help)
+  ""|-h|--help|help)
     FORCE_SOURCE_ONLY=1
+    ;;
+  studio|workflow|start|profile|plan|arm|continue|mission|decide|connector|support|capability|steward|run)
+    if [ "$STRICT_PACKAGING" != "1" ]; then
+      FORCE_SOURCE_ONLY=1
+    fi
     ;;
 esac
 

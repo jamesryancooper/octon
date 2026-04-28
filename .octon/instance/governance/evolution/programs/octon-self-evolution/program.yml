@@ -1,0 +1,48 @@
+schema_version: "evolution-program-v1"
+program_id: "octon-self-evolution"
+owner_ref: "operator://octon-maintainers"
+status: "active"
+improvement_objective: >-
+  Improve Octon's Constitutional Engineering Harness through evidence-backed,
+  proposal-gated, human/quorum-approved, promotion-receipted, recertified
+  self-evolution.
+affected_authority_surfaces:
+  - ".octon/framework/**"
+  - ".octon/instance/**"
+  - ".octon/state/control/**"
+  - ".octon/state/evidence/**"
+  - ".octon/generated/**"
+allowed_change_classes:
+  - "documentation_alignment"
+  - "validator_hardening"
+  - "proposal_standard_refinement"
+  - "runtime_gate_hardening"
+  - "evidence_obligation_addition"
+  - "generated_projection_refresh"
+prohibited_change_classes:
+  - "autonomous_constitutional_amendment"
+  - "autonomous_support_target_widening"
+  - "autonomous_connector_live_admission"
+  - "ai_only_quorum"
+  - "self_modifying_runtime"
+required_lab_proof:
+  - "negative-control test"
+  - "proposal non-authority test"
+  - "recertification dry-run"
+required_simulation_proof:
+  - "governance impact simulation for authority-impacting changes"
+  - "support no-widening check for support-impacting changes"
+required_approval_posture: "human_or_quorum_required"
+rollback_or_retirement_posture: "Every promotion requires rollback, retirement, compatibility cutover, or compensation posture."
+recertification_requirements:
+  - "authority placement"
+  - "root boundaries"
+  - "runtime authorization coverage"
+  - "support no-widening"
+  - "generated/effective freshness"
+  - "evidence completeness"
+promotion_path: ".octon/framework/engine/runtime/spec/promotion-runtime-v1.md"
+post_promotion_monitoring_requirements:
+  - "recertification result retained under state/evidence/evolution/recertifications"
+  - "Evolution Ledger updated after promotion and recertification"
+program_mutates_authority_directly: false

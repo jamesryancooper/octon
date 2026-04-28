@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/evolution-program-v1.schema.json",
+  "title": "Octon Evolution Program v1",
+  "description": "A long-lived governance track for improving Octon itself. It cannot mutate authority directly.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "improvement_objective",
+    "affected_authority_surfaces",
+    "allowed_change_classes",
+    "prohibited_change_classes",
+    "required_lab_proof",
+    "required_simulation_proof",
+    "required_approval_posture",
+    "rollback_or_retirement_posture",
+    "recertification_requirements",
+    "promotion_path",
+    "post_promotion_monitoring_requirements",
+    "program_mutates_authority_directly"
+  ],
+  "properties": {
+    "schema_version": { "const": "evolution-program-v1" },
+    "program_id": { "type": "string", "minLength": 1 },
+    "improvement_objective": { "type": "string", "minLength": 1 },
+    "affected_authority_surfaces": { "type": "array", "items": { "type": "string" } },
+    "allowed_change_classes": { "type": "array", "items": { "type": "string" } },
+    "prohibited_change_classes": { "type": "array", "items": { "type": "string" } },
+    "required_lab_proof": { "type": "array", "items": { "type": "string" } },
+    "required_simulation_proof": { "type": "array", "items": { "type": "string" } },
+    "required_approval_posture": { "type": "string", "enum": ["human_required", "quorum_required", "human_or_quorum_required"] },
+    "rollback_or_retirement_posture": { "type": "string", "minLength": 1 },
+    "recertification_requirements": { "type": "array", "items": { "type": "string" } },
+    "promotion_path": { "type": "string", "minLength": 1 },
+    "post_promotion_monitoring_requirements": { "type": "array", "items": { "type": "string" } },
+    "program_mutates_authority_directly": { "const": false }
+  }
+}

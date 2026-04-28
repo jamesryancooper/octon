@@ -78,6 +78,26 @@
       "type": "string",
       "minLength": 1
     },
+    "connector_admission_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_trust_dossier_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_support_proof_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_evidence_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_support_card_projection_root": {
+      "type": "string",
+      "minLength": 1
+    },
     "claim_state_partitions": {
       "type": "object",
       "additionalProperties": false,

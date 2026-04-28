@@ -1,0 +1,55 @@
+schema_version: connector-evidence-profile-policy-v1
+profiles:
+  connector_observe:
+    required_evidence:
+      - operation-contract
+      - non-authority-notice
+    receipts_required: false
+    disclosure_required: false
+    rollback_required: false
+  connector_read_only:
+    required_evidence:
+      - operation-contract
+      - trust-dossier
+      - egress-and-credential-posture
+    receipts_required: true
+    disclosure_required: true
+    rollback_required: false
+  connector_stage_only:
+    required_evidence:
+      - operation-contract
+      - admission-record
+      - trust-dossier
+      - drift-record
+    receipts_required: true
+    disclosure_required: true
+    rollback_required: false
+  connector_live_reversible:
+    required_evidence:
+      - support-admission
+      - proof-bundle
+      - trust-dossier
+      - decision-request-resolution
+      - run-authorization
+      - authorized-effect-token
+      - connector-and-run-receipts
+    receipts_required: true
+    disclosure_required: true
+    rollback_required: true
+  connector_live_effectful:
+    required_evidence:
+      - all-live-reversible-evidence
+      - rollback-or-compensation-plan
+      - replay-or-shadow-evidence
+      - security-review
+      - retained-disclosure
+    receipts_required: true
+    disclosure_required: true
+    rollback_required: true
+  connector_external_irreversible_blocked:
+    required_evidence:
+      - denial-record
+      - risk-register-entry
+    receipts_required: true
+    disclosure_required: true
+    rollback_required: not_applicable

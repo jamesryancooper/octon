@@ -1,0 +1,35 @@
+# Commands
+
+- `git status --short --untracked-files=all`
+- `.octon/framework/engine/runtime/run workflow run archive-proposal ...`
+  - failed closed because workflow run is retired.
+- `git mv` for each implemented v1-v5 proposal packet into
+  `.octon/inputs/exploratory/proposals/.archive/architecture/`
+- `shasum -a 256` over each archived packet to refresh `SHA256SUMS.txt`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check`
+- `cargo fmt --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --all`
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <archived-v1-v5-packet> --skip-registry-check`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package <archived-v1-v5-packet>`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-engagement-work-package-compiler.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-continuous-stewardship-runtime-v3.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-continuous-stewardship-runtime-v3.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh --root /Users/jamesryancooper/Projects/octon`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-self-evolution-runtime-v5.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-quorum-policy-bindings.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-pack-admission-alignment.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-validate-support-pack-admission-alignment.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-support-pack-no-widening.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-coverage.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-validate-raw-input-dependency-ban.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-operator-read-models.sh`
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-claim-surface-generated-only.sh`

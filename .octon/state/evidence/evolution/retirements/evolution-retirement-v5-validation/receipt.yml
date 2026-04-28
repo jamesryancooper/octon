@@ -1,0 +1,5 @@
+schema_version: "evolution-retirement-evidence-receipt-v1"
+receipt_id: "evolution-retirement-v5-validation-receipt"
+retirement_ref: ".octon/state/control/evolution/retirements/evolution-retirement-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+retirement_status: "not_required"

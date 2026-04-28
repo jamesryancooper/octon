@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/mission-continuation-decision-v1.schema.json",
+  "title": "Mission Continuation Decision v1",
+  "description": "Post-run or checkpoint mission decision. It records continuation posture and never authorizes execution.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "continuation_decision_id",
+    "mission_id",
+    "engagement_id",
+    "decision",
+    "run_outcome",
+    "validation_result",
+    "budget_state_ref",
+    "breaker_state_ref",
+    "lease_state_ref",
+    "context_freshness",
+    "support_posture_ref",
+    "capability_posture_ref",
+    "connector_posture_ref",
+    "queue_state_ref",
+    "rollback_posture",
+    "evidence_completeness",
+    "authorization_boundary",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "mission-continuation-decision-v1" },
+    "continuation_decision_id": { "type": "string", "minLength": 1 },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "engagement_id": { "type": "string", "minLength": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["continue", "pause", "stage", "escalate", "revoke", "close", "fail"]
+    },
+    "action_slice_id": { "type": ["string", "null"] },
+    "run_contract_candidate_ref": { "type": ["string", "null"] },
+    "run_outcome": { "type": "string", "minLength": 1 },
+    "validation_result": { "type": "string", "minLength": 1 },
+    "budget_state_ref": { "type": "string", "minLength": 1 },
+    "breaker_state_ref": { "type": "string", "minLength": 1 },
+    "lease_state_ref": { "type": "string", "minLength": 1 },
+    "context_freshness": { "type": "string", "minLength": 1 },
+    "support_posture_ref": { "type": "string", "minLength": 1 },
+    "capability_posture_ref": { "type": "string", "minLength": 1 },
+    "connector_posture_ref": { "type": "string", "minLength": 1 },
+    "unresolved_decision_request_id": { "type": ["string", "null"] },
+    "mission_success_failure_criteria_ref": { "type": "string", "minLength": 1 },
+    "queue_state_ref": { "type": "string", "minLength": 1 },
+    "rollback_posture": { "type": "string", "minLength": 1 },
+    "evidence_completeness": { "type": "string", "minLength": 1 },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "authorization_boundary": {
+      "type": "object",
+      "required": [
+        "continuation_decision_authorizes_execution",
+        "run_contract_required",
+        "execution_authorization_required"
+      ],
+      "properties": {
+        "continuation_decision_authorizes_execution": { "const": false },
+        "run_contract_required": { "const": true },
+        "execution_authorization_required": { "const": true }
+      }
+    },
+    "created_at": { "type": "string", "minLength": 1 }
+  }
+}

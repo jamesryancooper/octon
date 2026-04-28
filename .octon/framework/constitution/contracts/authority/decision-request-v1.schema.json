@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/decision-request-v1.schema.json",
+  "title": "Octon Authority Decision Request v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_request_id",
+    "engagement_id",
+    "status",
+    "decision_type",
+    "question",
+    "allowed_resolutions",
+    "subject_refs",
+    "canonical_resolution_targets",
+    "evidence_root",
+    "created_at"
+  ],
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/decision-request-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "decision-request-v1"
+    },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "approval",
+        "denial",
+        "exception_lease",
+        "risk_acceptance",
+        "revocation",
+        "policy_clarification",
+        "support_scope_decision",
+        "capability_admission_decision",
+        "mission_scope_decision",
+        "closure_acceptance"
+      ]
+    }
+  }
+}

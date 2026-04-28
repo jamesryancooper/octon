@@ -37,8 +37,8 @@ Read these before planning or implementation:
 9. `/.octon/framework/constitution/contracts/registry.yml`
 10. `/.octon/instance/charter/workspace.md`
 11. `/.octon/instance/charter/workspace.yml`
-12. `/.octon/framework/agency/practices/commits.md`
-13. `/.octon/framework/agency/practices/pull-request-standards.md`
+12. `/.octon/framework/execution-roles/practices/commits.md`
+13. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 14. `/.octon/inputs/exploratory/proposals/architecture/octon-uec-proposal-packet-2026-04-08/README.md`
 15. Follow the packet's declared reading order in `README.md` exactly:
     `proposal.yml`, `architecture-proposal.yml`, all required files under

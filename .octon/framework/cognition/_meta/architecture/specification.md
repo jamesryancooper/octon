@@ -96,6 +96,10 @@ Use these sections of
   `/.octon/framework/constitution/contracts/runtime/**`
 - canonical execution control root:
   `/.octon/state/control/execution/**`
+- canonical engagement compiler control root:
+  `/.octon/state/control/engagements/**`
+- per-engagement Objective Brief candidates:
+  `/.octon/state/control/engagements/<engagement-id>/objective/**`
 - canonical execution scratch root:
   `/.octon/generated/.tmp/execution/**`
 - repo-owned network egress policy:
@@ -188,6 +192,8 @@ family groups:
 | `structural_architecture` | `framework/cognition/_meta/architecture/**` | Structural registry plus narrative companion |
 | `compatibility_retirement` | `instance/governance/retirement-register.yml` + retirement contracts | Retained compatibility inventory, review cadence, and retirement posture |
 | `runtime_authorization_coverage` | `framework/engine/runtime/spec/{execution-authorization-v1.md,authorization-boundary-coverage.yml,material-side-effect-inventory.yml}` | Authorization-boundary and material-side-effect coverage contract |
+| `engagement_work_package_compiler` | `framework/engine/runtime/spec/engagement-work-package-compiler-v1.md` + Engagement/Profile/Objective/Work Package schemas | Preparation layer that creates engagement-scoped candidate control and evidence without replacing run contracts |
+| `continuous_stewardship_runtime_v3` | `framework/engine/runtime/spec/continuous-stewardship-runtime-v3.md` + stewardship schemas | Long-running availability layer that opens finite epochs, admits triggers, idles, renews, and hands bounded work to missions without replacing run contracts |
 | `runtime_resolution` | `framework/engine/runtime/spec/runtime-resolution-v1.md` + `instance/governance/runtime-resolution.yml` | Delegated runtime-resolution selector and route-bundle contract |
 | `runtime_effective_handle_contract` | `framework/engine/runtime/spec/{runtime-effective-artifact-handle-v2.md,runtime-effective-artifact-handle-v2.schema.json,runtime-effective-route-bundle-lock-v3.schema.json}` | Recursive resolver-verified generated/effective handle contract |
 | `runtime_publication_freshness` | `framework/engine/runtime/spec/publication-freshness-gates-v4.md` + publication receipts | Freshness-mode, digest, receipt, and legacy-timestamp deauthorization gate |
@@ -217,6 +223,24 @@ family groups:
 
 Full canonical paths, allowed consumers, forbidden consumers, validators, and
 doc bindings are maintained in the registry rather than in this document.
+
+The Engagement / Project Profile / Work Package Compiler path family is a
+preparation layer above the run lifecycle. Its per-engagement Objective Brief
+lives under `state/control/engagements/<engagement-id>/objective/**` as
+candidate control state and must not become a workspace-charter substitute.
+Connector posture for this compiler requires machine-readable connector policy
+and registry surfaces; README-only connector authority is invalid.
+
+Continuous Stewardship Runtime v3 is the repo-local availability layer above
+Engagement and Mission runtime surfaces. Stewardship Programs may remain
+available over time, but work occurs only inside finite Stewardship Epochs and
+only after recognized triggers receive Admission Decisions. Triggers,
+Admission Decisions, Idle Decisions, Renewal Decisions, Stewardship Ledgers,
+campaign hooks, and generated stewardship projections do not authorize material
+execution. Bounded work must hand off to v1/v2 mission surfaces and then
+through run-contract binding, context packing, policy evaluation, execution
+authorization, retained evidence, replay/disclosure, rollback posture, and
+closeout gates.
 
 ## Publication Model
 

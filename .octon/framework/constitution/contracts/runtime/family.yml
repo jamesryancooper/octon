@@ -80,6 +80,130 @@ run_lifecycle:
       - "trace-pointers.yml"
       - "evidence-classification.yml"
       - "retained-run-evidence.yml"
+engagement_work_package_compiler:
+  engagement:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/engagement-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/engagement-v1.schema.json"
+    control_root: ".octon/state/control/engagements"
+    evidence_root: ".octon/state/evidence/engagements"
+  project_profile:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+    durable_instance_ref: ".octon/instance/locality/project-profile.yml"
+    evidence_root: ".octon/state/evidence/project-profiles"
+    source_fact_evidence_root: ".octon/state/evidence/project-profiles/<profile-id>/source-facts"
+  objective_brief:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/engagement-objective-brief-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+    control_file: ".octon/state/control/engagements/<engagement-id>/objective/objective-brief.yml"
+    evidence_root: ".octon/state/evidence/engagements/<engagement-id>/objective"
+    authority_status: "candidate-control-not-workspace-authority"
+  work_package:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/work-package-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/work-package-v1.schema.json"
+    control_file: ".octon/state/control/engagements/<engagement-id>/work-package.yml"
+    evidence_root: ".octon/state/evidence/engagements/<engagement-id>/work-packages"
+  evidence_profile:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/evidence-profile-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/evidence-profile-v1.schema.json"
+  preflight_evidence_lane:
+    spec_ref: ".octon/framework/engine/runtime/spec/preflight-evidence-lane-v1.md"
+    allowed_root: ".octon/state/evidence/orientation"
+  rule: >-
+    The compiler prepares candidate control and evidence only; material
+    execution remains bound to run-contract-v3, run lifecycle, context-pack,
+    support, rollback, and execution authorization contracts.
+mission_autonomy_runtime:
+  autonomy_window:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/autonomy-window-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/autonomy-window-v1.schema.json"
+    control_file: ".octon/state/control/execution/missions/<mission-id>/autonomy-window.yml"
+  mission_queue:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/mission-queue-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/mission-queue-v1.schema.json"
+    control_file: ".octon/state/control/execution/missions/<mission-id>/queue.yml"
+  continuation_decision:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/mission-continuation-decision-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/mission-continuation-decision-v1.schema.json"
+    control_root: ".octon/state/control/execution/missions/<mission-id>/continuation-decisions"
+    evidence_root: ".octon/state/evidence/control/execution/missions/<mission-id>/continuation-decisions"
+  mission_run_ledger:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/mission-run-ledger-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/mission-run-ledger-v1.schema.json"
+    control_file: ".octon/state/control/execution/missions/<mission-id>/runs.yml"
+    rule: "Mission Run Ledger indexes governed runs and does not replace per-run journals."
+  mission_closeout:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/mission-closeout-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/mission-closeout-v1.schema.json"
+    control_file: ".octon/state/control/execution/missions/<mission-id>/closeout.yml"
+  mission_evidence_profile:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/mission-evidence-profile-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/mission-evidence-profile-v1.schema.json"
+    control_file: ".octon/state/control/execution/missions/<mission-id>/evidence-profile.yml"
+  required_existing_controls:
+    mission_control_lease_schema_ref: ".octon/framework/engine/runtime/spec/mission-control-lease-v1.schema.json"
+    autonomy_budget_schema_ref: ".octon/framework/engine/runtime/spec/autonomy-budget-v1.schema.json"
+    circuit_breaker_schema_ref: ".octon/framework/engine/runtime/spec/circuit-breaker-v1.schema.json"
+    action_slice_schema_ref: ".octon/framework/engine/runtime/spec/action-slice-v1.schema.json"
+  authority_boundary_rule: >-
+    Mission Queue, Continuation Decisions, Autonomy Window, and Mission Run
+    Ledger do not authorize execution. Governed runs still require
+    run-contract-v3, context pack, support posture, policy, and execution
+    authorization.
+continuous_stewardship_runtime:
+  runtime_spec_ref: ".octon/framework/engine/runtime/spec/continuous-stewardship-runtime-v3.md"
+  stewardship_program:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-program-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-program-v1.schema.json"
+    instance_root: ".octon/instance/stewardship/programs/<program-id>"
+  stewardship_epoch:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-epoch-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-epoch-v1.schema.json"
+    control_file: ".octon/state/control/stewardship/programs/<program-id>/epochs/<epoch-id>/epoch.yml"
+  stewardship_trigger:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-trigger-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-trigger-v1.schema.json"
+    control_root: ".octon/state/control/stewardship/programs/<program-id>/triggers"
+    evidence_root: ".octon/state/evidence/stewardship/programs/<program-id>/triggers"
+  admission_decision:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-admission-decision-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-admission-decision-v1.schema.json"
+    control_root: ".octon/state/control/stewardship/programs/<program-id>/admission-decisions"
+  idle_decision:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-idle-decision-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-idle-decision-v1.schema.json"
+    control_root: ".octon/state/control/stewardship/programs/<program-id>/idle-decisions"
+  renewal_decision:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-renewal-decision-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-renewal-decision-v1.schema.json"
+    control_root: ".octon/state/control/stewardship/programs/<program-id>/renewal-decisions"
+  epoch_closeout:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-epoch-closeout-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-epoch-closeout-v1.schema.json"
+    control_file: ".octon/state/control/stewardship/programs/<program-id>/epochs/<epoch-id>/closeout.yml"
+  stewardship_ledger:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-ledger-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-ledger-v1.schema.json"
+    control_file: ".octon/state/control/stewardship/programs/<program-id>/ledger.yml"
+    rule: "Stewardship Ledger indexes stewardship events and does not replace mission/run evidence."
+  evidence_profile:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-evidence-profile-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-evidence-profile-v1.schema.json"
+  campaign_coordination_hook:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/stewardship-campaign-coordination-hook-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-campaign-coordination-hook-v1.schema.json"
+    rule: "Campaign hooks remain coordination-only and cannot launch workflows or own runs."
+  stewardship_aware_decision_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/stewardship-aware-decision-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-aware-decision-request-v1.schema.json"
+    control_root: ".octon/state/control/stewardship/programs/<program-id>/decisions"
+    evidence_root: ".octon/state/evidence/stewardship/programs/<program-id>/decision-requests"
+    rule: "Stewardship-aware Decision Requests block stewardship control gates only; they do not authorize material execution."
+  authority_boundary_rule: >-
+    Stewardship Programs, Epochs, Triggers, Admission Decisions, Idle
+    Decisions, Renewal Decisions, Ledgers, and campaign hooks do not authorize
+    material execution. Bounded work must hand off to v1/v2 mission and run
+    lifecycle surfaces.
 bridges:
   runtime_services:
     replay_store: ".octon/framework/engine/runtime/crates/replay_store"
@@ -198,3 +322,46 @@ migration:
         canonical_event_types:
           - "run-closed"
         mapping_rule: "Preserve closure evidence and final state refs."
+connector_runtime:
+  execution_receipt_schema_ref: ".octon/framework/constitution/contracts/runtime/connector-execution-receipt-v1.schema.json"
+  evidence_receipt_schema_ref: ".octon/framework/constitution/contracts/runtime/connector-evidence-receipt-v1.schema.json"
+  evidence_profile_schema_ref: ".octon/framework/constitution/contracts/runtime/connector-evidence-profile-v1.schema.json"
+  operation_posture_schema_ref: ".octon/framework/constitution/contracts/runtime/connector-operation-posture-v1.schema.json"
+  quarantine_schema_ref: ".octon/framework/constitution/contracts/runtime/connector-quarantine-v1.schema.json"
+  replay_rollback_posture_schema_ref: ".octon/framework/constitution/contracts/runtime/connector-replay-rollback-posture-v1.schema.json"
+  rule: "Connector runtime state is subordinate to run contracts and execution authorization."
+self_evolution_runtime:
+  evolution_program:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/evolution-program-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/evolution-program-v1.schema.json"
+    instance_root: ".octon/instance/governance/evolution/programs/<program-id>"
+  evolution_candidate:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/evolution-candidate-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/evolution-candidate-v1.schema.json"
+    control_root: ".octon/state/control/evolution/candidates"
+    evidence_root: ".octon/state/evidence/evolution/candidates"
+  promotion_request:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/promotion-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/promotion-request-v1.schema.json"
+    control_root: ".octon/state/control/evolution/promotions"
+  recertification_request:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/recertification-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/recertification-request-v1.schema.json"
+    control_root: ".octon/state/control/evolution/recertifications"
+  evolution_ledger:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/evolution-ledger-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/evolution-ledger-v1.schema.json"
+    control_file: ".octon/state/control/evolution/ledger.yml"
+    rule: "Evolution Ledger indexes lineage and does not replace proposal manifests, ADRs, evidence, promotion receipts, or recertification evidence."
+  rollback_retirement_posture:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/evolution-rollback-retirement-posture-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/evolution-rollback-retirement-posture-v1.schema.json"
+    control_root: ".octon/state/control/evolution/rollbacks"
+  evidence_profile:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/evolution-evidence-profile-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/evolution-evidence-profile-v1.schema.json"
+  authority_boundary_rule: >-
+    Evolution candidates, proposal compilation, promotion requests,
+    recertification requests, rollback posture, and ledgers do not approve or
+    execute changes. Durable authority changes require accepted human/quorum
+    decisions, legal target roots, promotion receipts, and recertification.

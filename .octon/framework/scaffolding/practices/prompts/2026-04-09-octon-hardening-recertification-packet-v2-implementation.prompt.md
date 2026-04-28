@@ -39,8 +39,8 @@ Read these before planning or implementation:
 9. `/.octon/framework/constitution/contracts/registry.yml`
 10. `/.octon/instance/charter/workspace.md`
 11. `/.octon/instance/charter/workspace.yml`
-12. `/.octon/framework/agency/practices/commits.md`
-13. `/.octon/framework/agency/practices/pull-request-standards.md`
+12. `/.octon/framework/execution-roles/practices/commits.md`
+13. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 14. `/.octon/inputs/exploratory/proposals/architecture/octon_hardening_recertification_packet_v2/README.md`
 15. `/.octon/inputs/exploratory/proposals/architecture/octon_hardening_recertification_packet_v2/00-main-packet.md`
 16. `/.octon/inputs/exploratory/proposals/architecture/octon_hardening_recertification_packet_v2/AUDIT.md`

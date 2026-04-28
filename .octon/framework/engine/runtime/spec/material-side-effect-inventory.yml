@@ -36,6 +36,20 @@ classes:
     owner: "Octon runtime"
     risk_tier: "high"
     material: true
+  - id: control-plane-preparation
+    token_type: "NoAuthorizedEffectToken<ControlPlanePreparation>"
+    roots:
+      - ".octon/state/control/connectors/**"
+      - ".octon/state/evidence/connectors/**"
+      - ".octon/generated/cognition/projections/materialized/connectors/**"
+    examples:
+      - "connector admission posture preparation"
+      - "connector quarantine status preparation"
+      - "connector trust evidence indexing without external operation execution"
+    required_boundary: ".octon/framework/orchestration/practices/connector-admission-standards.md"
+    owner: "Octon runtime"
+    risk_tier: "medium"
+    material: false
   - id: generated-effective-publication
     token_type: "AuthorizedEffect<GeneratedEffectivePublication>"
     roots:
@@ -273,3 +287,21 @@ paths:
     journal_event_required: true
     token_required: true
     coverage_state: live
+  - path_id: connector-admission-runtime-admin
+    class_id: control-plane-preparation
+    owner_ref: ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs"
+    consumer_api_ref: ".octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs::cmd_connector"
+    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh"
+    consumption_receipt_required: false
+    journal_event_required: false
+    token_required: false
+    coverage_state: stage_only
+  - path_id: connector-operation-live-effect
+    class_id: service-invocation
+    owner_ref: ".octon/framework/engine/runtime/spec/connector-admission-v1.schema.json"
+    consumer_api_ref: ".octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json"
+    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh"
+    consumption_receipt_required: true
+    journal_event_required: true
+    token_required: true
+    coverage_state: denied_until_connector_admission_runtime_authorization

@@ -1,0 +1,13 @@
+canonical_low_level_roots:
+  approvals: .octon/state/control/execution/approvals/**
+  exceptions: .octon/state/control/execution/exceptions/**
+  revocations: .octon/state/control/execution/revocations/**
+decision_requests:
+- decision_request_id: engagement-compiler-v1-validation-authorize-run
+  decision_request_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/decisions/engagement-compiler-v1-validation-authorize-run.yml
+  decision_type: approval
+  required_before: run-contract-candidate-submission
+  status: open
+engagement_id: engagement-compiler-v1-validation
+recorded_at: 2026-04-28T14:01:13.233377Z
+schema_version: decision-request-set-v1

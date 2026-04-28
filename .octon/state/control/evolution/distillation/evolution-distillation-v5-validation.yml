@@ -1,0 +1,27 @@
+schema_version: "evidence-to-candidate-distillation-record-v1"
+distillation_id: "evolution-distillation-v5-validation"
+evidence_source_roots:
+  - ".octon/state/evidence/evolution/profile-selection/v5-self-evolution-runtime"
+  - ".octon/state/evidence/validation/architecture/10of10-target-transition"
+evidence_refs:
+  - ".octon/state/evidence/evolution/profile-selection/v5-self-evolution-runtime/receipt.yml"
+issue_pattern: >-
+  Existing proposal and promotion surfaces lacked a first-class, runtime-visible
+  control bridge from retained evidence and recurring friction into an
+  evidence-backed Evolution Candidate, proposal packet, approval, promotion
+  receipt, recertification, and append-only ledger.
+excluded_evidence:
+  - "Chat history is excluded as authority."
+  - "Generated summaries are excluded as authority."
+  - "Proposal packet prose is treated as non-authoritative source material until promoted."
+confidence: "high"
+risk_posture: "constitutional-self-evolution-boundary"
+origin: "human"
+candidate_refs:
+  - ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+source_material_refs:
+  - "proposal-id:octon-self-evolution-proposal-to-promotion-runtime-v5"
+distillation_authorizes_promotion: false
+non_authority_statement: >-
+  This distillation record may create or support an Evolution Candidate. It does
+  not approve, promote, amend, or authorize authority changes.

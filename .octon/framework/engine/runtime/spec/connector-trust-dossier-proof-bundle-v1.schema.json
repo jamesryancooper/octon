@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-trust-dossier-proof-bundle-v1.schema.json",
+  "title": "Connector Trust Dossier Proof Bundle v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "operation_id",
+    "trust_dossier_ref",
+    "result",
+    "live_effectful_sufficient",
+    "captured_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "connector-trust-dossier-proof-bundle-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "trust_dossier_ref": { "type": "string", "minLength": 1 },
+    "result": { "type": "string", "minLength": 1 },
+    "live_effectful_sufficient": { "const": false },
+    "captured_at": { "type": "string", "minLength": 1 }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/assurance-lab-promotion-gate-v1.schema.json",
+  "title": "Octon Assurance Lab Promotion Gate v1",
+  "description": "A risk-scaled proof gate for self-evolution. Lab success never approves change.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "lab_gate_id",
+    "candidate_ref",
+    "proof_classes",
+    "scenario_refs",
+    "replay_refs",
+    "shadow_run_refs",
+    "negative_control_refs",
+    "rollback_simulation_refs",
+    "generated_effective_freshness_refs",
+    "evidence_completeness_refs",
+    "result",
+    "evidence_refs",
+    "lab_success_approves_change"
+  ],
+  "properties": {
+    "schema_version": { "const": "assurance-lab-promotion-gate-v1" },
+    "lab_gate_id": { "type": "string", "minLength": 1 },
+    "candidate_ref": { "type": "string", "minLength": 1 },
+    "proof_classes": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "scenario_refs": { "type": "array", "items": { "type": "string" } },
+    "replay_refs": { "type": "array", "items": { "type": "string" } },
+    "shadow_run_refs": { "type": "array", "items": { "type": "string" } },
+    "negative_control_refs": { "type": "array", "items": { "type": "string" } },
+    "rollback_simulation_refs": { "type": "array", "items": { "type": "string" } },
+    "generated_effective_freshness_refs": { "type": "array", "items": { "type": "string" } },
+    "evidence_completeness_refs": { "type": "array", "items": { "type": "string" } },
+    "result": { "type": "string", "enum": ["passed", "failed", "blocked", "stage_only"] },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "lab_success_approves_change": { "const": false }
+  }
+}

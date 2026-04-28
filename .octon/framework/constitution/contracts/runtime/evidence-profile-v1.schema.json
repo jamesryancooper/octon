@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/evidence-profile-v1.schema.json",
+  "title": "Octon Constitutional Evidence Profile v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "material_effects_allowed",
+    "live_connector_invocation_allowed",
+    "run_contract_handoff_allowed",
+    "required_evidence",
+    "state_evidence_roots",
+    "allowed_outcomes"
+  ],
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/evidence-profile-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "evidence-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "enum": [
+        "orientation-only",
+        "orientation_only",
+        "stage-only",
+        "stage_only",
+        "repo-consequential",
+        "repo_consequential"
+      ]
+    }
+  }
+}

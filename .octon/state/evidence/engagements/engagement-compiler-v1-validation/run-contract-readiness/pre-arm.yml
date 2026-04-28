@@ -1,0 +1,6 @@
+candidate_status: not_prepared
+engagement_id: engagement-compiler-v1-validation
+material_execution_entrypoint: octon run start --contract
+recorded_at: 2026-04-28T14:01:04.104204Z
+schema_version: run-contract-readiness-evidence-v1
+work_package_id: engagement-compiler-v1-validation-work-package

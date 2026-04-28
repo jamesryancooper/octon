@@ -41,6 +41,47 @@ authority_routing:
   grant_bundle:
     schema_ref: ".octon/framework/constitution/contracts/authority/grant-bundle-v2.schema.json"
     evidence_root: ".octon/state/evidence/control/execution"
+  decision_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/decision-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/decision-request-v1.schema.json"
+    control_root: ".octon/state/control/engagements/<engagement-id>/decisions"
+    evidence_root: ".octon/state/evidence/decisions"
+    rule: "Decision Requests are operator-facing wrappers and must resolve into canonical approval, exception, revocation, decision, grant, risk, or clarification artifacts before affecting execution."
+  mission_aware_decision_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/mission-aware-decision-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/mission-aware-decision-request-v1.schema.json"
+    control_root: ".octon/state/control/execution/missions/<mission-id>/decisions"
+    evidence_root: ".octon/state/evidence/control/execution/missions/<mission-id>/decision-requests"
+    rule: "Blocks mission continuation only; must resolve into canonical authority artifacts before affecting execution."
+  stewardship_aware_decision_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/stewardship-aware-decision-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/stewardship-aware-decision-request-v1.schema.json"
+    control_root: ".octon/state/control/stewardship/programs/<program-id>/decisions"
+    evidence_root: ".octon/state/evidence/stewardship/programs/<program-id>/decision-requests"
+    rule: "Blocks stewardship admission, epoch, renewal, campaign, idle, or closure behavior only; it never authorizes material execution."
+  connector_aware_decision_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/connector-aware-decision-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/connector-aware-decision-request-v1.schema.json"
+    control_root: ".octon/state/control/connectors/<connector-id>/decisions"
+    evidence_root: ".octon/state/evidence/connectors/<connector-id>/decisions"
+    rule: "Blocks connector admission, quarantine reset, support widening, credential use, or risk acceptance only; it never authorizes material execution."
+  self_evolution_decision_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/self-evolution-decision-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/self-evolution-decision-request-v1.schema.json"
+    control_root: ".octon/state/control/evolution/decisions"
+    evidence_root: ".octon/state/evidence/evolution/decisions"
+    rule: "Blocks or resolves self-evolution review, proposal, promotion, recertification, rollback, retirement, and closure gates; it never authorizes promotion or material execution by itself."
+  constitutional_amendment_request:
+    schema_ref: ".octon/framework/constitution/contracts/authority/constitutional-amendment-request-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/constitutional-amendment-request-v1.schema.json"
+    control_root: ".octon/state/control/evolution/amendment-requests"
+    evidence_root: ".octon/state/evidence/evolution/amendment-requests"
+    rule: "Required for constitutional self-evolution and always requires human/quorum approval plus promotion and recertification evidence."
+  self_evolution_promotion_receipt:
+    schema_ref: ".octon/framework/constitution/contracts/authority/self-evolution-promotion-receipt-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/promotion-receipt-v1.schema.json"
+    evidence_root: ".octon/state/evidence/evolution/promotions"
+    rule: "Records promotion outcome and cannot authorize future change."
 projection_rules:
   host_affordances:
     status: "non-authoritative"

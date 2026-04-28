@@ -1,0 +1,6 @@
+schema_version: "evolution-rollback-evidence-receipt-v1"
+receipt_id: "evolution-rollback-v5-validation-receipt"
+rollback_ref: ".octon/state/control/evolution/rollbacks/evolution-rollback-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+rollback_or_retirement_posture_present: true
+owner_ref: "operator://octon-maintainers"

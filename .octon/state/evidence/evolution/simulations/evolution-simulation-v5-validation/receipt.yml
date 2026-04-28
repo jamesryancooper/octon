@@ -1,0 +1,15 @@
+schema_version: "governance-impact-simulation-evidence-receipt-v1"
+receipt_id: "evolution-simulation-v5-validation-receipt"
+simulation_ref: ".octon/state/control/evolution/simulations/evolution-simulation-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+questions_answered:
+  past_runs_now_denied: []
+  past_denied_runs_now_allowed: []
+  support_claim_changes:
+    - "No widening introduced."
+  generated_effective_staleness:
+    - "Generated projections remain derived."
+  connector_quarantine_effects:
+    - "No connector live admission introduced."
+simulation_success_approves_change: false
+non_authority_statement: "Simulation evidence informs decisions but cannot approve self-evolution."

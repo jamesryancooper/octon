@@ -12,6 +12,12 @@ Retained evidence lives under these roots:
 - control evidence: `/.octon/state/evidence/control/execution/**`
 - run disclosure: `/.octon/state/evidence/disclosure/runs/<run-id>/**`
 - release disclosure: `/.octon/state/evidence/disclosure/releases/<release-id>/**`
+- engagement preparation evidence:
+  `/.octon/state/evidence/engagements/<engagement-id>/**`
+- orientation evidence: `/.octon/state/evidence/orientation/<orientation-id>/**`
+- Project Profile source-fact evidence:
+  `/.octon/state/evidence/project-profiles/<profile-id>/source-facts/**`
+- Decision Request evidence: `/.octon/state/evidence/decisions/<decision-id>/**`
 - immutable external index: `/.octon/state/evidence/external-index/**`
 - lab evidence: `/.octon/state/evidence/lab/**`
 
@@ -93,6 +99,29 @@ System-level support or closure claims must additionally retain:
 - support-universe coverage and proof-plane coverage for the active release
 - release-lineage selection of the active release
 - support-target proof bundles or equivalent per-tuple proof refs
+
+## Minimum Engagement Preparation Bundle
+
+Engagement preparation is not run execution evidence. The compiler must retain
+enough evidence to explain why a Work Package is ready, staged, blocked,
+denied, or waiting on a Decision Request:
+
+- adoption preflight and classification evidence under
+  `/.octon/state/evidence/engagements/<engagement-id>/{preflight/**,adoption-preflight/**,classification/**}`
+- per-engagement Objective Brief evidence under
+  `/.octon/state/evidence/engagements/<engagement-id>/objective/**`
+- orientation evidence under `/.octon/state/evidence/orientation/<orientation-id>/**`
+- Project Profile source facts under
+  `/.octon/state/evidence/project-profiles/<profile-id>/source-facts/**`
+- Work Package compilation evidence under
+  `/.octon/state/evidence/engagements/<engagement-id>/work-packages/<work-package-id>/**`
+- Decision Request evidence under
+  `/.octon/state/evidence/decisions/<decision-id>/**`
+- run-contract readiness evidence under
+  `/.octon/state/evidence/engagements/<engagement-id>/run-contract-readiness/**`
+
+Generated engagement or Work Package read models may summarize those roots, but
+they never satisfy evidence requirements by themselves.
 
 ## Completeness Rules
 

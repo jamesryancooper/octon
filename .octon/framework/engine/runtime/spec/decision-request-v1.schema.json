@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/decision-request-v1.schema.json",
+  "title": "Octon Decision Request v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_request_id",
+    "engagement_id",
+    "status",
+    "decision_type",
+    "question",
+    "allowed_resolutions",
+    "subject_refs",
+    "canonical_resolution_targets",
+    "evidence_root",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "decision-request-v1"
+    },
+    "decision_request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "engagement_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "resolved",
+        "denied",
+        "revoked",
+        "superseded"
+      ]
+    },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "approval",
+        "denial",
+        "exception_lease",
+        "risk_acceptance",
+        "revocation",
+        "policy_clarification",
+        "support_scope_decision",
+        "capability_admission_decision",
+        "mission_scope_decision",
+        "closure_acceptance"
+      ]
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "allowed_resolutions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "approval",
+          "denial",
+          "exception_lease",
+          "risk_acceptance",
+          "revocation",
+          "policy_clarification",
+          "support_scope_decision",
+          "capability_admission_decision",
+          "mission_scope_decision",
+          "closure_acceptance"
+        ]
+      }
+    },
+    "subject_refs": {
+      "type": "object"
+    },
+    "canonical_resolution_targets": {
+      "type": "object"
+    },
+    "resolution": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "evidence_root": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

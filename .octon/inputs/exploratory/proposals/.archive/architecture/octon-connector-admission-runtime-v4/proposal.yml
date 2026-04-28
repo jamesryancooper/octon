@@ -1,0 +1,62 @@
+schema_version: proposal-v1
+proposal_id: octon-connector-admission-runtime-v4
+title: Connector Admission Runtime and Trust Dossier v4
+summary: 'Defines the highest-leverage v4 step toward Federated Stewardship and Capability
+  Runtime: a proof-backed connector operation admission layer that maps external tools,
+  MCPs, APIs, browser/service operations, and future release integrations into Octon
+  capability packs, support-target posture, policy evaluation, authorization, evidence,
+  rollback, and disclosure.'
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/spec/connector-operation-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-admission-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-trust-dossier-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-identity-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-evidence-profile-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-drift-record-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-quarantine-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-capability-mapping-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-support-proof-map-v1.schema.json
+- .octon/framework/engine/runtime/spec/connector-aware-decision-request-v1.schema.json
+- .octon/framework/orchestration/practices/connector-admission-standards.md
+- .octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh
+- .octon/instance/governance/connectors/
+- .octon/instance/governance/connector-admissions/
+- .octon/instance/governance/policies/connector-admission.yml
+- .octon/instance/governance/policies/connector-credentials.yml
+- .octon/instance/governance/policies/connector-data-boundaries.yml
+- .octon/instance/governance/policies/connector-evidence-profiles.yml
+- .octon/instance/governance/support-targets.yml
+- .octon/state/control/connectors/
+- .octon/state/evidence/connectors/
+- .octon/generated/cognition/projections/materialized/connectors/
+status: archived
+archive:
+  archived_at: "2026-04-28"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/octon-connector-admission-runtime-v4
+  promotion_evidence:
+  - .octon/framework/engine/runtime/spec/connector-trust-dossier-v1.schema.json
+  - .octon/framework/orchestration/practices/connector-admission-standards.md
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh
+  - .octon/state/control/connectors/mcp/status.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Promote connector operation/admission/dossier contracts, governance
+    placements, runtime/CLI support, validators, and evidence roots into durable Octon
+    surfaces; retain this packet as non-authoritative implementation lineage until a
+    separate archival action moves it to the proposal archive.
+implementation:
+  implemented_at: "2026-04-28"
+  implementation_report_ref: resources/implementation-report.md
+  validation_refs:
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh
+related_proposals:
+- engagement-project-profile-work-package-compiler-v1
+- mission-autonomy-runtime-v2
+- continuous-stewardship-runtime-v3

@@ -1,0 +1,73 @@
+connector_classes:
+- capability_pack_ref: null
+  connector_class_id: mcp
+  decision_request_required_for:
+  - first live use
+  - credential enablement
+  - support admission
+  label: MCP connector
+  live_effect_route: denied
+  material_effect_class: non-admitted-external-effect-channel
+  observe_route: stage_only
+  prepare_route: stage_only
+  required_before_live:
+  - support-target-admission
+  - capability-pack-admission
+  - connector contract
+  - egress and credential posture
+  - rollback or compensation posture
+  - replay and evidence coverage
+  - runtime authorization
+  support_status: non_admitted
+- capability_pack_ref: api
+  connector_class_id: api
+  decision_request_required_for:
+  - first live use
+  - credential enablement
+  - external service enablement
+  label: External API connector
+  live_effect_route: denied
+  material_effect_class: api_egress
+  observe_route: stage_only
+  prepare_route: stage_only
+  required_before_live:
+  - support-target-admission
+  - capability-pack-admission
+  - egress lease
+  - credential posture
+  - redaction metadata
+  - replay manifest
+  - rollback or compensation posture
+  - scenario or shadow proof
+  - runtime authorization
+  support_status: unadmitted
+- capability_pack_ref: browser
+  connector_class_id: browser
+  decision_request_required_for:
+  - first live use
+  - credential enablement
+  - external service enablement
+  label: Browser connector
+  live_effect_route: denied
+  material_effect_class: browser_action
+  observe_route: stage_only
+  prepare_route: stage_only
+  required_before_live:
+  - support-target-admission
+  - capability-pack-admission
+  - browser session contract
+  - browser replay
+  - egress lease
+  - credential posture
+  - redaction metadata
+  - rollback or compensation posture
+  - scenario or shadow proof
+  - runtime authorization
+  support_status: unadmitted
+engagement_id: engagement-compiler-v1-validation
+live_connector_invocation_allowed: false
+policy_id: engagement-connector-posture
+recorded_at: 2026-04-28T14:01:13.233377Z
+schema_version: engagement-connector-posture-selection-v1
+selected_posture: stage_only
+source_policy_ref: .octon/instance/governance/connectors/posture.yml

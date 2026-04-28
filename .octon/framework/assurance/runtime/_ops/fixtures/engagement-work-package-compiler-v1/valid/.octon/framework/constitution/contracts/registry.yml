@@ -1,0 +1,24 @@
+schema_version: "octon-constitution-contract-registry-fixture-v1"
+families:
+  - family_id: "runtime"
+    path: ".octon/framework/constitution/contracts/runtime/**"
+    status: "active"
+  - family_id: "authority"
+    path: ".octon/framework/constitution/contracts/authority/**"
+    status: "active"
+integration_surfaces:
+  engagement_contract:
+    path: ".octon/framework/constitution/contracts/runtime/engagement-v1.schema.json"
+    status: "active"
+  project_profile_contract:
+    path: ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+    status: "active"
+  work_package_contract:
+    path: ".octon/framework/constitution/contracts/runtime/work-package-v1.schema.json"
+    status: "active"
+  evidence_profile_contract:
+    path: ".octon/framework/constitution/contracts/runtime/evidence-profile-v1.schema.json"
+    status: "active"
+  decision_request_contract:
+    path: ".octon/framework/constitution/contracts/authority/decision-request-v1.schema.json"
+    status: "active"

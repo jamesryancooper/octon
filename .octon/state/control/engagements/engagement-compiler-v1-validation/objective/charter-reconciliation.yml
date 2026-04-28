@@ -1,0 +1,10 @@
+change_profile: atomic
+engagement_id: engagement-compiler-v1-validation
+notes:
+- Engagement compiler remains subordinate to workspace charter and run-contract execution.
+recorded_at: 2026-04-28T14:01:04.104204Z
+release_state: pre-1.0
+result: aligned
+schema_version: workspace-charter-reconciliation-v1
+workspace_charter_ref: .octon/instance/charter/workspace.md
+workspace_machine_charter_ref: .octon/instance/charter/workspace.yml

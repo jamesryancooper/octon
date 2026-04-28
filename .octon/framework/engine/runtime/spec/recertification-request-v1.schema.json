@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/recertification-request-v1.schema.json",
+  "title": "Octon Recertification Request v1",
+  "description": "A post-promotion request to validate that Octon remains coherent after a self-evolution change.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "recertification_id",
+    "promotion_ref",
+    "required_checks",
+    "evidence_root",
+    "blocks_closure_until_terminal"
+  ],
+  "properties": {
+    "schema_version": { "const": "recertification-request-v1" },
+    "recertification_id": { "type": "string", "minLength": 1 },
+    "promotion_ref": { "type": "string", "minLength": 1 },
+    "required_checks": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "evidence_root": { "type": "string", "minLength": 1 },
+    "blocks_closure_until_terminal": { "const": true }
+  }
+}

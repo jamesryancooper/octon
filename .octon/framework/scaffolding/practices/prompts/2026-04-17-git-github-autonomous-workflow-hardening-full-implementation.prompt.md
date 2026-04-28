@@ -67,14 +67,14 @@ Read these before planning or implementation:
 10. `/.octon/framework/constitution/contracts/registry.yml`
 11. `/.octon/instance/charter/workspace.md`
 12. `/.octon/instance/charter/workspace.yml`
-13. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+13. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 14. `/.octon/instance/cognition/context/shared/constraints.md`
 15. `/.octon/framework/assurance/practices/complete.md`
 16. `/.octon/instance/ingress/manifest.yml`
-17. `/.octon/framework/agency/practices/git-autonomy-playbook.md`
-18. `/.octon/framework/agency/practices/git-github-autonomy-workflow-v1.md`
-19. `/.octon/framework/agency/practices/pull-request-standards.md`
-20. `/.octon/framework/agency/practices/commits.md`
+17. `/.octon/framework/execution-roles/practices/git-autonomy-playbook.md`
+18. `/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md`
+19. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
+20. `/.octon/framework/execution-roles/practices/commits.md`
 21. `/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`
 22. `/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md`
 23. `/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references/safety.md`
@@ -138,7 +138,7 @@ explicit, validator-backed, environment-neutral, and cross-surface coherent.
 Completion means all of the following are true in substance, not only in prose:
 
 1. A canonical workflow contract exists under
-   `/.octon/framework/agency/practices/standards/`.
+   `/.octon/framework/execution-roles/practices/standards/`.
 2. `ready_pr` is explicitly handled in ingress and no longer falls through as
    an under-specified state.
 3. Ready PRs report status instead of triggering redundant closeout prompts.
@@ -161,7 +161,7 @@ Completion means all of the following are true in substance, not only in prose:
 Implement the proposal by creating or updating at minimum:
 
 1. Canonical workflow contract:
-   - add `/.octon/framework/agency/practices/standards/git-worktree-autonomy-contract.yml`
+   - add `/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml`
    - define operating model, closeout contexts and suppressions, remediation
      policy, helper semantics, and validation scenarios
 2. Ingress hardening:
@@ -169,9 +169,9 @@ Implement the proposal by creating or updating at minimum:
    - edit `/.octon/instance/ingress/AGENTS.md`
    - make `ready_pr` explicit and keep ingress parity
 3. Practice-doc alignment:
-   - edit `/.octon/framework/agency/practices/git-autonomy-playbook.md`
-   - edit `/.octon/framework/agency/practices/git-github-autonomy-workflow-v1.md`
-   - edit `/.octon/framework/agency/practices/pull-request-standards.md`
+   - edit `/.octon/framework/execution-roles/practices/git-autonomy-playbook.md`
+   - edit `/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md`
+   - edit `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 4. Helper hardening:
    - edit `/.octon/framework/agency/_ops/scripts/git/git-pr-ship.sh`
 5. Remediation capability alignment:

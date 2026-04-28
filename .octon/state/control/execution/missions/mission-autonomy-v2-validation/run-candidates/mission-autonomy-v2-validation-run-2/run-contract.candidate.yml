@@ -1,0 +1,62 @@
+acceptance_criteria:
+- Run starts only via octon run start --contract and authorization gates.
+action_slice_id: mission-autonomy-v2-validation-slice-1
+checkpoint_root: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/checkpoints
+connector_posture_ref: .octon/instance/governance/connectors/posture.yml
+context_pack_request_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/context/context-pack-request.yml
+continuity_root_ref: .octon/state/continuity/runs/mission-autonomy-v2-validation-run-2/handoff.yml
+created_at: 2026-04-28T15:52:37.85106Z
+decision_request_set_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/decisions/index.yml
+direct_execution_allowed: false
+done_when:
+- Run lifecycle reaches a terminal state and mission ledger is updated.
+evidence_profile_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/evidence-profile.yml
+handoff:
+  bypass_run_start: false
+  entrypoint: octon run start --contract
+  prepare_only_required_for_candidate_submission: true
+materiality: bounded-consequential
+mission_id: mission-autonomy-v2-validation
+mission_mode: mission-continuation
+objective_refs:
+  action_slice_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml#action_slices/mission-autonomy-v2-validation-slice-1
+  engagement_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/engagement.yml
+  mission_queue_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+  mission_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/mission.yml
+  project_profile_ref: .octon/instance/locality/project-profile.yml
+  work_package_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml
+objective_summary: Execute one bounded Mission Queue Action Slice through the governed run lifecycle.
+requested_capabilities:
+- workflow.execute
+- evidence.write
+requested_capability_packs:
+- repo
+- telemetry
+required_evidence:
+- mission-autonomy-window-snapshot
+- mission-queue-snapshot
+- mission-continuation-decision
+- execution-receipt-after-run-start
+requires_mission: true
+reversibility_class: reversible
+risk_class: low
+rollback_posture_ref: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/rollback-posture.yml
+run_card_ref: .octon/state/evidence/disclosure/runs/mission-autonomy-v2-validation-run-2/run-card.yml
+run_id: mission-autonomy-v2-validation-run-2
+run_manifest_ref: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/run-manifest.yml
+runtime_state_ref: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/runtime-state.yml
+schema_version: run-contract-v3
+scope_in:
+- .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml
+- .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+- .octon/state/control/execution/missions/mission-autonomy-v2-validation/autonomy-window.yml
+scope_out:
+- .octon/state/evidence/runs/mission-autonomy-v2-validation-run-2
+- .octon/state/evidence/control/execution/missions/mission-autonomy-v2-validation/continuation-decisions
+stage_attempt_root: .octon/state/control/execution/runs/mission-autonomy-v2-validation-run-2/stage-attempts
+status: candidate
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_tier: repo-consequential
+updated_at: 2026-04-28T15:52:37.85106Z
+workflow_id: agent-led-happy-path
+workflow_mode: role-mediated

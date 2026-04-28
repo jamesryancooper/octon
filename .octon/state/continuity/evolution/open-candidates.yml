@@ -1,0 +1,6 @@
+schema_version: "evolution-open-candidates-continuity-v1"
+non_authority_notice: "This is resumable context only."
+open_candidates:
+  - candidate_id: "evolution-candidate-v5-validation"
+    candidate_ref: ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+    disposition: "open_proposal"

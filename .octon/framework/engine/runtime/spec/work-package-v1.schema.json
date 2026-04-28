@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/work-package-v1.schema.json",
+  "title": "Octon Work Package v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "work_package_id",
+    "engagement_ref",
+    "project_profile_ref",
+    "objective_brief_schema_ref",
+    "objective_control_root",
+    "objective_brief_ref",
+    "objective_brief_evidence_refs",
+    "objective_brief_authority_boundary",
+    "authority_binding",
+    "implementation_plan_summary",
+    "impact_map",
+    "risk_materiality",
+    "validation",
+    "rollback",
+    "support_posture",
+    "capability_posture",
+    "connector_posture",
+    "evidence_profile",
+    "context_pack",
+    "decision_requests",
+    "run_contract_candidate",
+    "run_contract_readiness_evidence_refs",
+    "autonomy_envelope",
+    "outcome",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "work-package-v1"
+    },
+    "work_package_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "engagement_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project_profile_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objective_brief_ref": {
+      "type": "string",
+      "pattern": "^\\.octon/state/control/engagements/[^/]+/objective/[^/]+\\.(yml|yaml|json)$"
+    },
+    "objective_brief_schema_ref": {
+      "const": ".octon/framework/engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+    },
+    "objective_control_root": {
+      "type": "string",
+      "pattern": "^\\.octon/state/control/engagements/[^/]+/objective$"
+    },
+    "objective_brief_evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^\\.octon/state/evidence/engagements/[^/]+/objective/"
+      }
+    },
+    "objective_brief_authority_boundary": {
+      "type": "object",
+      "required": [
+        "objective_brief_is_workspace_charter_authority",
+        "material_execution_authorized_by_objective_brief"
+      ],
+      "properties": {
+        "objective_brief_is_workspace_charter_authority": {
+          "const": false
+        },
+        "material_execution_authorized_by_objective_brief": {
+          "const": false
+        }
+      }
+    },
+    "outcome": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "ready",
+            "ready_for_authorization",
+            "stage_only",
+            "blocked",
+            "denied",
+            "requires_decision",
+            "escalate"
+          ]
+        },
+        {
+          "type": "object",
+          "required": ["status"],
+          "properties": {
+            "status": {
+              "type": "string",
+              "enum": [
+                "ready",
+                "ready_for_authorization",
+                "stage_only",
+                "blocked",
+                "denied",
+                "requires_decision",
+                "escalate"
+              ]
+            },
+            "blockers": { "type": "array" },
+            "reason_refs": { "type": "array" }
+          }
+        }
+      ]
+    },
+    "authority_binding": {
+      "type": "object"
+    },
+    "implementation_plan_summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "impact_map": {
+      "type": "object"
+    },
+    "risk_materiality": {
+      "type": "object",
+      "required": [
+        "materiality",
+        "risk_class",
+        "reversibility_class"
+      ]
+    },
+    "validation": {
+      "type": "object"
+    },
+    "rollback": {
+      "type": "object"
+    },
+    "support_posture": {
+      "type": "object"
+    },
+    "capability_posture": {
+      "type": "object"
+    },
+    "connector_posture": {
+      "type": "object",
+      "required": [
+        "connector_posture_schema_ref",
+        "connector_policy_schema_ref",
+        "connector_registry_schema_ref",
+        "connector_policy_ref",
+        "connector_registry_ref",
+        "readme_authority_allowed"
+      ],
+      "properties": {
+        "connector_posture_schema_ref": {
+          "const": ".octon/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json"
+        },
+        "connector_policy_schema_ref": {
+          "const": ".octon/framework/engine/runtime/spec/connector-posture-policy-v1.schema.json"
+        },
+        "connector_registry_schema_ref": {
+          "const": ".octon/framework/engine/runtime/spec/connector-posture-registry-v1.schema.json"
+        },
+        "connector_policy_ref": {
+          "const": ".octon/instance/governance/connectors/posture.yml"
+        },
+        "connector_registry_ref": {
+          "const": ".octon/instance/governance/connectors/registry.yml"
+        },
+        "readme_authority_allowed": {
+          "const": false
+        }
+      }
+    },
+    "evidence_profile": {
+      "type": "object",
+      "required": [
+        "profile_id",
+        "policy_ref",
+        "required_evidence"
+      ]
+    },
+    "context_pack": {
+      "type": "object"
+    },
+    "decision_requests": {
+      "type": "array"
+    },
+    "run_contract_candidate": {
+      "type": "object"
+    },
+    "run_contract_readiness_evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^\\.octon/state/evidence/engagements/[^/]+/run-contract-readiness/"
+      }
+    },
+    "autonomy_envelope": {
+      "type": "object",
+      "required": [
+        "mission_required",
+        "mode"
+      ]
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

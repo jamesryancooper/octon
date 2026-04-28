@@ -1,0 +1,71 @@
+schema_version: connector-registry-v4
+registry_id: connector-admission-runtime-v4
+owner: Octon governance
+status: active
+default_route: deny
+posture_policy_ref: .octon/instance/governance/connectors/posture.yml
+support_target_ref: .octon/instance/governance/support-targets.yml
+capability_pack_registry_ref: .octon/instance/governance/capability-packs/registry.yml
+governance_exclusions_ref: .octon/instance/governance/exclusions/action-classes.yml
+connector_admission_policy_ref: .octon/instance/governance/policies/connector-admission.yml
+validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh
+
+registry_doctrine:
+  - Connector entries may narrow, stage, block, quarantine, retire, or deny operation readiness.
+  - Connector availability never authorizes support, capability use, egress, credential use, or material effects.
+  - MCP is a transport/source of tools, not a capability pack or trust class.
+  - Browser, API, and MCP operations remain stage_only, read_only, blocked, or denied unless support, capability, egress, credential, evidence, rollback, Decision Request, authorization, and effect-token gates pass.
+
+connector_identities:
+  - connector_id: mcp
+    connector_ref: .octon/instance/governance/connectors/mcp/connector.yml
+    connector_kind: mcp
+    support_status: non_live_stage_only
+    default_admission_mode: stage_only
+    live_effect_posture: denied_without_full_v4_proof
+    operation_refs:
+      - .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+
+connector_entries:
+  - connector_class_id: mcp
+    connector_ref: .octon/instance/governance/connectors/mcp/connector.yml
+    posture_policy_path: '.connector_classes[] | select(.connector_class_id == "mcp")'
+    support_status: non_admitted
+    runtime_live_effect_posture: denied
+    prepare_only_posture: stage_only
+    unknown_or_unmapped_posture: blocked
+    capability_pack_ref: null
+  - connector_class_id: api
+    posture_policy_path: '.connector_classes[] | select(.connector_class_id == "api")'
+    support_status: unadmitted
+    runtime_live_effect_posture: denied
+    prepare_only_posture: stage_only
+    unknown_or_unmapped_posture: blocked
+    capability_pack_ref: api
+  - connector_class_id: browser
+    posture_policy_path: '.connector_classes[] | select(.connector_class_id == "browser")'
+    support_status: unadmitted
+    runtime_live_effect_posture: denied
+    prepare_only_posture: stage_only
+    unknown_or_unmapped_posture: blocked
+    capability_pack_ref: browser
+
+operation_index_refs:
+  - .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+
+required_before_any_live_connector_effect:
+  - support-target-admission
+  - connector-trust-dossier
+  - support-proof-map
+  - capability-pack-admission
+  - connector-capability-map
+  - material-effect-classification
+  - network-egress-policy-and-lease
+  - credential-posture
+  - data-boundary-posture
+  - evidence-profile-selection
+  - rollback-or-compensation-posture
+  - Decision Request resolution
+  - runtime authorization
+  - authorized-effect token readiness
+  - retained connector and run receipts

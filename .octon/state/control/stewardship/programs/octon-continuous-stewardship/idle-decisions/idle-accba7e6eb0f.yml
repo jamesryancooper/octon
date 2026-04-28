@@ -1,0 +1,14 @@
+created_at: 2026-04-28T17:01:34.259606Z
+decision_id: idle-accba7e6eb0f
+epoch_id: octon-continuous-stewardship-epoch-1
+evidence_ref: .octon/state/evidence/stewardship/programs/octon-continuous-stewardship/idle-decisions/idle-accba7e6eb0f/idle.yml
+idle_is_successful_governed_state: true
+next_review_time_or_trigger_condition: next scheduled review or human objective trigger
+no_work_executed: true
+program_id: octon-continuous-stewardship
+reason: scheduled-review-found-no-admissible-work
+schema_version: stewardship-idle-decision-v1
+trigger_id: scheduled-review-d981d98470cb
+trigger_or_review_source: scheduled-review-d981d98470cb
+unresolved_blockers: []
+updated_at: 2026-04-28T17:01:34.259606Z

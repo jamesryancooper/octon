@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/evidence-profile-v1.schema.json",
+  "title": "Constitutional Evidence Profile v1",
+  "type": "object",
+  "required": ["schema_version", "profile_id", "required_evidence"],
+  "properties": {
+    "schema_version": { "const": "evidence-profile-v1" },
+    "profile_id": { "type": "string", "minLength": 1 },
+    "required_evidence": { "type": "array" }
+  }
+}

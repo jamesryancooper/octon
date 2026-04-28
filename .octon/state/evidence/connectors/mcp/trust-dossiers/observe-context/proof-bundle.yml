@@ -1,0 +1,19 @@
+schema_version: connector-trust-dossier-proof-bundle-v1
+connector_id: mcp
+operation_id: observe-context
+claim_effect: stage-only-non-live
+connector_identity_ref: .octon/instance/governance/connectors/mcp/connector.yml
+operation_contract_ref: .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+admission_ref: .octon/instance/governance/connector-admissions/mcp/observe-context/admission.yml
+trust_dossier_ref: .octon/instance/governance/connectors/mcp/trust-dossiers/observe-context/dossier.yml
+dossier_ref: .octon/instance/governance/connectors/mcp/trust-dossiers/observe-context/dossier.yml
+capability_map_ref: .octon/instance/governance/connectors/mcp/capability-maps/observe-context.yml
+support_proof_map_ref: .octon/instance/governance/connectors/mcp/support-proof-maps/observe-context.yml
+live_effectful_sufficient: false
+result: stage_only_non_live_sufficient
+negative_controls:
+  - live_effect_without_authorization_denied
+  - connector_availability_not_authority
+  - generated_projection_not_authority
+retained_evidence: true
+captured_at: "2026-04-28T00:00:00Z"

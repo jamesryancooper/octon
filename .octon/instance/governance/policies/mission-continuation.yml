@@ -1,0 +1,45 @@
+schema_version: "mission-continuation-policy-v1"
+policy_id: "mission-continuation"
+owner: "Octon governance"
+status: "active"
+scope: "repo-local mission continuation"
+control_root: ".octon/state/control/execution/missions"
+run_lifecycle_ref: ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+execution_authorization_ref: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+work_package_dependency: "required"
+mission_runner_rule: >-
+  Mission continuation may select one Action Slice and compile one run-contract
+  candidate at a time. Material execution must enter through `octon run start
+  --contract` and the execution authorization boundary.
+mvp_boundary:
+  active_engagements: 1
+  active_missions_per_engagement: 1
+  active_work_packages: 1
+  active_autonomy_windows: 1
+  max_concurrent_runs: 1
+  repo_local_support_only: true
+  broad_effectful_connectors: "deferred"
+required_gates:
+  - "autonomy-window"
+  - "mission-control-lease"
+  - "autonomy-budget"
+  - "circuit-breaker"
+  - "context-freshness"
+  - "support-posture"
+  - "capability-posture"
+  - "connector-posture"
+  - "decision-request"
+  - "progress"
+fail_closed_outcomes:
+  - "pause"
+  - "stage"
+  - "escalate"
+  - "revoke"
+  - "fail"
+non_authority_sources:
+  - "chat"
+  - "host-comments"
+  - "host-labels"
+  - "dashboards"
+  - "generated-projections"
+  - "inputs"

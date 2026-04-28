@@ -1,0 +1,6 @@
+schema_version: connector-continuity-summary-v1
+connector_id: mcp
+summary: MCP connector family is stage-only. Operation-level admission exists for observe-context and does not authorize execution.
+authority_notice: continuity is resumable context only
+continuity_is_authority: false
+updated_at: "2026-04-28T00:00:00Z"

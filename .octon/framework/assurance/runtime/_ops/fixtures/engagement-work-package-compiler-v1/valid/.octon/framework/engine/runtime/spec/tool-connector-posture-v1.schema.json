@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json",
+  "title": "Tool Connector Posture v1",
+  "type": "object",
+  "required": ["schema_version", "connector_classes"],
+  "properties": {
+    "schema_version": { "const": "engagement-connector-posture-v1" },
+    "connector_classes": { "type": "array" }
+  }
+}

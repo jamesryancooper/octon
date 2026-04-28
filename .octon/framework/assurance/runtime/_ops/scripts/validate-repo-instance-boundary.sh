@@ -110,8 +110,16 @@ check_overlay_domain_shape() {
       ! -path "$INSTANCE_DIR/governance/retirement/*" \
       ! -path "$INSTANCE_DIR/governance/capability-packs" \
       ! -path "$INSTANCE_DIR/governance/capability-packs/*" \
+      ! -path "$INSTANCE_DIR/governance/connector-admissions" \
+      ! -path "$INSTANCE_DIR/governance/connector-admissions/*" \
+      ! -path "$INSTANCE_DIR/governance/connectors" \
+      ! -path "$INSTANCE_DIR/governance/connectors/*" \
       ! -path "$INSTANCE_DIR/governance/decisions" \
       ! -path "$INSTANCE_DIR/governance/decisions/*" \
+      ! -path "$INSTANCE_DIR/governance/engagements" \
+      ! -path "$INSTANCE_DIR/governance/engagements/*" \
+      ! -path "$INSTANCE_DIR/governance/evolution" \
+      ! -path "$INSTANCE_DIR/governance/evolution/*" \
       ! -path "$INSTANCE_DIR/governance/ownership" \
       ! -path "$INSTANCE_DIR/governance/ownership/*" \
       ! -path "$INSTANCE_DIR/governance/retirement-register.yml" \
@@ -132,16 +140,10 @@ check_overlay_domain_shape() {
   fi
 
   if [[ -d "$INSTANCE_DIR/agency" ]]; then
-    stray_paths="$(find "$INSTANCE_DIR/agency" -mindepth 1 \
-      ! -path "$INSTANCE_DIR/agency/runtime" \
-      ! -path "$INSTANCE_DIR/agency/runtime/*" \
-      -print | sort || true)"
-    if [[ -n "$stray_paths" ]]; then
-      fail "ad hoc agency overlay content exists outside ratified roots"
-      printf '%s\n' "$stray_paths" | sed "s|$ROOT_DIR/||"
-    else
-      pass "agency overlay content stays inside ratified roots"
-    fi
+    fail "legacy instance agency root remains after execution-role cutover"
+    find "$INSTANCE_DIR/agency" -mindepth 1 -print | sort | sed "s|$ROOT_DIR/||"
+  else
+    pass "legacy instance agency root absent"
   fi
 
   if [[ -d "$INSTANCE_DIR/assurance" ]]; then

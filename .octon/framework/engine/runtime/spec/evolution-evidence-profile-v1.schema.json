@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/evolution-evidence-profile-v1.schema.json",
+  "title": "Octon Evolution Evidence Profile v1",
+  "description": "Risk-scaled evidence-depth selector for self-evolution work.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "required_candidate_evidence",
+    "required_simulation_evidence",
+    "required_lab_evidence",
+    "required_decision_evidence",
+    "required_promotion_evidence",
+    "required_recertification_evidence",
+    "required_rollback_evidence",
+    "disclosure_requirements"
+  ],
+  "properties": {
+    "schema_version": { "const": "evolution-evidence-profile-v1" },
+    "profile_id": {
+      "type": "string",
+      "enum": [
+        "evolution_observe",
+        "evolution_proposal",
+        "evolution_authority_change",
+        "evolution_constitutional_change",
+        "evolution_promotion_closeout"
+      ]
+    },
+    "required_candidate_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_simulation_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_lab_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_decision_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_promotion_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_recertification_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_rollback_evidence": { "type": "array", "items": { "type": "string" } },
+    "disclosure_requirements": { "type": "array", "items": { "type": "string" } }
+  }
+}

@@ -1,0 +1,20 @@
+actor: octon-runtime
+captured_at: 2026-04-28T17:01:20.453981Z
+command_provenance: octon steward
+control_snapshot_ref: .octon/state/control/stewardship/programs/octon-continuous-stewardship/epochs/octon-continuous-stewardship-epoch-1/closeout.yml
+control_snapshot_sha256: 2a2d01b5eb2b34f64c9112454d8ee903d66ea1db5ba4d62823e485e98cb55615
+disclosure_status: stewardship-level-disclosure-required-before-program-closure
+family: closeout-evidence
+generated_projection_substitute: false
+outcome: recorded
+program_id: octon-continuous-stewardship
+replay_readiness: control-snapshot-digest-recorded-when-source-exists
+retained_evidence: true
+rollback_compensation_posture: not-material-execution
+schema_version: stewardship-evidence-receipt-v1
+source_refs:
+  evidence_root: .octon/state/evidence/stewardship/programs/octon-continuous-stewardship
+  ledger_ref: .octon/state/control/stewardship/programs/octon-continuous-stewardship/ledger.yml
+  program_authority_ref: .octon/instance/stewardship/programs/octon-continuous-stewardship/program.yml
+  program_status_ref: .octon/state/control/stewardship/programs/octon-continuous-stewardship/status.yml
+subject_id: octon-continuous-stewardship-epoch-1

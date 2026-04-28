@@ -1,0 +1,11 @@
+engagement_id: engagement-compiler-v1-validation
+policy_ref: .octon/instance/governance/policies/context-packing.yml
+receipt_required_before_material_effects: true
+recorded_at: 2026-04-28T14:01:13.233377Z
+run_id: engagement-compiler-v1-validation-run-1
+schema_version: context-pack-request-v1
+source_refs:
+- .octon/instance/locality/project-profile.yml
+- .octon/state/control/engagements/engagement-compiler-v1-validation/objective/objective-brief.yml
+- .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml
+status: request_prepared

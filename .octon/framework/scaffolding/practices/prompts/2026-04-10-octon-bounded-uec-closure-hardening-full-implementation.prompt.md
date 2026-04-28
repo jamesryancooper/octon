@@ -56,9 +56,9 @@ Read these before planning or implementation:
 10. `/.octon/framework/constitution/claim-truth-conditions.yml`
 11. `/.octon/instance/charter/workspace.md`
 12. `/.octon/instance/charter/workspace.yml`
-13. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
-14. `/.octon/framework/agency/practices/commits.md`
-15. `/.octon/framework/agency/practices/pull-request-standards.md`
+13. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
+14. `/.octon/framework/execution-roles/practices/commits.md`
+15. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 16. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_packet/README.md`
 17. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_packet/00-master-proposal-packet.md`
 18. `/.octon/inputs/exploratory/proposals/architecture/octon_bounded_uec_packet/specs/01-target-state-specification.md`

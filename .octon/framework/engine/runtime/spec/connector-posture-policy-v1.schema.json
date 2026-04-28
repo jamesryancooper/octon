@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/connector-posture-policy-v1.schema.json",
+  "title": "Octon Connector Posture Policy v1",
+  "description": "Machine-readable repo policy for Engagement compiler connector posture. README-only connector authority is insufficient.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "policy_id",
+    "owner",
+    "status",
+    "default_route",
+    "support_target_ref",
+    "capability_pack_registry_ref",
+    "governance_exclusions_ref",
+    "v1_doctrine",
+    "allowed_v1_operations",
+    "forbidden_v1_operations",
+    "connector_classes",
+    "outcome_mapping"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "engagement-connector-posture-v1"
+    },
+    "policy_id": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "owner": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "stale",
+        "superseded"
+      ]
+    },
+    "default_route": {
+      "type": "string",
+      "enum": [
+        "deny",
+        "blocked",
+        "stage_only"
+      ]
+    },
+    "support_target_ref": {
+      "const": ".octon/instance/governance/support-targets.yml"
+    },
+    "capability_pack_registry_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "governance_exclusions_ref": {
+      "const": ".octon/instance/governance/exclusions/action-classes.yml"
+    },
+    "network_egress_policy_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "v1_doctrine": {
+      "$ref": "#/$defs/non_empty_string_array"
+    },
+    "allowed_v1_operations": {
+      "$ref": "#/$defs/non_empty_string_array"
+    },
+    "forbidden_v1_operations": {
+      "$ref": "#/$defs/non_empty_string_array"
+    },
+    "connector_classes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/connector_class"
+      }
+    },
+    "outcome_mapping": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "non_empty_string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "connector_class": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "connector_class_id",
+        "support_status",
+        "material_effect_class",
+        "prepare_route",
+        "observe_route",
+        "live_effect_route",
+        "required_before_live"
+      ],
+      "properties": {
+        "connector_class_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "label": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "support_status": {
+          "type": "string",
+          "enum": [
+            "admitted",
+            "admitted_live",
+            "stage_only",
+            "unadmitted",
+            "non_admitted",
+            "unsupported",
+            "excluded",
+            "unknown"
+          ]
+        },
+        "capability_pack_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "material_effect_class": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "prepare_route": {
+          "type": "string",
+          "enum": [
+            "observe_only",
+            "dry_run",
+            "stage_only",
+            "blocked",
+            "denied"
+          ]
+        },
+        "observe_route": {
+          "type": "string",
+          "enum": [
+            "observe_only",
+            "dry_run",
+            "stage_only",
+            "blocked",
+            "denied"
+          ]
+        },
+        "live_effect_route": {
+          "type": "string",
+          "enum": [
+            "stage_only",
+            "blocked",
+            "denied"
+          ]
+        },
+        "decision_request_required_for": {
+          "$ref": "#/$defs/non_empty_string_array"
+        },
+        "required_before_live": {
+          "$ref": "#/$defs/non_empty_string_array"
+        }
+      }
+    }
+  }
+}

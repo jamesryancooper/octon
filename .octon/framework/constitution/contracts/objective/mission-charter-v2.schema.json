@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/objective/mission-charter-v2.schema.json",
+  "title": "Octon Constitutional Mission Charter v2",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/mission-charter-v2.schema.json"
+    }
+  ]
+}

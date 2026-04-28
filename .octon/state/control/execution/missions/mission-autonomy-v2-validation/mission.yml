@@ -1,0 +1,13 @@
+autonomy_window_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/autonomy-window.yml
+closeout_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/closeout.yml
+created_at: 2026-04-28T15:52:02.632863Z
+engagement_id: engagement-compiler-v1-validation
+engagement_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/engagement.yml
+mission_authority_ref: .octon/instance/orchestration/missions/mission-autonomy-v2-validation/mission.yml
+mission_id: mission-autonomy-v2-validation
+queue_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+runs_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/runs.yml
+schema_version: mission-runtime-state-v1
+status: active
+updated_at: 2026-04-28T15:52:02.632863Z
+work_package_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml

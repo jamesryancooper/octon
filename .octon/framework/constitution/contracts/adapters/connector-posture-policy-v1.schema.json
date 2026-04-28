@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/adapters/connector-posture-policy-v1.schema.json",
+  "title": "Octon Constitutional Connector Posture Policy v1",
+  "description": "Constitutional adapter-family mirror for machine-readable connector posture policy.",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/connector-posture-policy-v1.schema.json"
+    }
+  ]
+}

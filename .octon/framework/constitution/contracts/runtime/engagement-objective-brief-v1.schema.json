@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/engagement-objective-brief-v1.schema.json",
+  "title": "Octon Constitutional Engagement Objective Brief v1",
+  "description": "Constitutional runtime wrapper for per-engagement objective candidate/control state. It is not workspace-charter authority.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "objective_brief_id",
+    "engagement_id",
+    "status",
+    "objective_summary",
+    "scope_in",
+    "scope_out",
+    "done_when",
+    "acceptance_criteria",
+    "workspace_charter_refs",
+    "backing_evidence_refs",
+    "authority_boundary",
+    "created_at",
+    "updated_at"
+  ],
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/engagement-objective-brief-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "engagement-objective-brief-v1"
+    },
+    "authority_boundary": {
+      "type": "object",
+      "required": [
+        "objective_brief_is_workspace_charter_authority",
+        "material_execution_authorized_by_objective_brief"
+      ],
+      "properties": {
+        "objective_brief_is_workspace_charter_authority": {
+          "const": false
+        },
+        "material_execution_authorized_by_objective_brief": {
+          "const": false
+        }
+      }
+    }
+  }
+}

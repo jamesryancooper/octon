@@ -1,0 +1,44 @@
+build_test_lint_typecheck_discovery:
+  runtime_cli: cargo test -p octon_kernel
+  runtime_workspace: cargo test -p octon_kernel -p octon_authority_engine
+ci_release_posture:
+  change_profile: atomic
+  release_state: pre-1.0
+current_adoption_state: octon-managed-repository
+dependencies: []
+evidence_refs:
+  orientation_evidence_ref: .octon/state/evidence/orientation/engagement-compiler-v1-validation-orientation/repo-scan.yml
+  source_fact_evidence_ref: .octon/state/evidence/project-profiles/engagement-compiler-v1-validation-project-profile/source-facts/source-facts.yml
+governance_relevant_paths:
+- .octon/framework/engine/runtime/**
+- .octon/instance/governance/**
+- .octon/state/control/**
+- .octon/state/evidence/**
+known_risks: []
+language_toolchain_discovery:
+- rust
+ownership_hints:
+- Octon governance
+- runtime
+profile_id: engagement-compiler-v1-validation-project-profile
+profile_scope: repo-local
+protected_zones:
+- .octon/framework/constitution/**
+- .octon/instance/governance/**
+- .octon/state/control/execution/**
+repo_root: /Users/jamesryancooper/Projects/octon
+repo_structure:
+  primary_octon_root: .octon
+  project_type: octon-harness
+rollback_constraints:
+- Do not revert unrelated user or parallel-agent edits.
+- Run-contract handoff remains under octon run start --contract.
+schema_version: project-profile-v1
+source_fact_evidence_root: .octon/state/evidence/project-profiles/engagement-compiler-v1-validation-project-profile/source-facts
+status: active
+updated_at: 2026-04-28T14:00:56.364733Z
+validation_strategy:
+- cargo test -p octon_kernel
+- bash .octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh
+workspace_charter_ref: .octon/instance/charter/workspace.md
+workspace_machine_charter_ref: .octon/instance/charter/workspace.yml

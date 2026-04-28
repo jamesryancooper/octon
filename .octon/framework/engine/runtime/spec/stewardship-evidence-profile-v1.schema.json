@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/stewardship-evidence-profile-v1.schema.json",
+  "title": "Stewardship Evidence Profile v1",
+  "description": "Stewardship-level evidence depth selection for triggers, admission, idle, renewal, ledger, continuity, disclosure, and closeout.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["schema_version", "program_id", "selected_profile", "allowed_profiles", "required_evidence", "updated_at"],
+  "properties": {
+    "schema_version": { "const": "stewardship-evidence-profile-v1" },
+    "selected_profile": {
+      "enum": [
+        "stewardship_observe",
+        "stewardship_maintenance",
+        "stewardship_repo_consequential",
+        "stewardship_campaign_coordination",
+        "stewardship_closeout_required"
+      ]
+    }
+  }
+}

@@ -1,5 +1,6 @@
 schema_version: "mission-view-v1"
 mission_id: "mission-autonomy-live-validation"
+non_authority_notice: "Generated mission projection only; canonical mission control lives under .octon/state/control/execution/missions."
 mission:
   title: "Mission: mission-autonomy-live-validation"
   status: "active"

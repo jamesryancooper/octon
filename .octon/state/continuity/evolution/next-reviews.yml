@@ -1,0 +1,6 @@
+schema_version: "evolution-next-reviews-continuity-v1"
+non_authority_notice: "This is resumable context only."
+next_reviews:
+  - review_id: "v5-recertification-review"
+    subject_ref: ".octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+    due_when: "after validator run"

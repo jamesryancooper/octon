@@ -1,0 +1,42 @@
+allowed_resolutions:
+- approval
+- denial
+- policy_clarification
+- revocation
+blocking_reasons:
+- mission-run-contract-candidate-requires-operator-resolution
+canonical_resolution_targets:
+  approval_grant_root: .octon/state/control/execution/approvals/grants
+  approval_request_root: .octon/state/control/execution/approvals/requests
+  connector_admission_root: .octon/instance/governance/connector-admissions
+  exception_lease_root: .octon/state/control/execution/exceptions/leases
+  revocation_root: .octon/state/control/execution/revocations
+created_at: 2026-04-28T15:52:08.131467Z
+decision_request_id: mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+decision_type: approval
+engagement_id: engagement-compiler-v1-validation
+evidence_root: .octon/state/evidence/control/execution/missions/mission-autonomy-v2-validation/decision-requests/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+mission_aware_scope:
+- action_slice
+- run
+- capability
+- connector_operation
+- mission_continuation
+- mission_lease_extension
+- mission_closeout
+mission_decision_type: approval_required
+mission_id: mission-autonomy-v2-validation
+question: Resolve mission continuation gate before the Mission Runner may proceed.
+resolution:
+  canonical_refs:
+    approval_request_ref: .octon/state/control/execution/approvals/requests/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1.yml
+    mission_control_approval_ref: .octon/state/control/execution/mission-decisions/mission-autonomy-v2-validation/mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1/approval.yml
+  recorded_at: 2026-04-28T15:52:31.898449Z
+  response: approval
+schema_version: decision-request-v1
+status: resolved
+subject_refs:
+  autonomy_window_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/autonomy-window.yml
+  mission_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/mission.yml
+  queue_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+updated_at: 2026-04-28T15:52:31.898449Z

@@ -1,0 +1,20 @@
+octon start
+  Creates a draft Engagement and does not execute material effects.
+
+octon profile
+  Builds a Project Profile from retained orientation evidence and does not execute material effects.
+
+octon plan
+  Compiles Objective Brief and Work Package candidate state and does not execute material effects.
+
+octon arm --prepare-only
+  Emits Decision Requests and a run-contract candidate and does not execute material effects.
+
+octon decide
+  Resolves Decision Requests into canonical low-level artifacts when authorized.
+
+octon status
+  Shows Engagement, Work Package, Decision Request, and run-candidate status.
+
+Handoff:
+  octon run start --contract .octon/state/control/engagements/eng-001/run-contract-candidate.yml

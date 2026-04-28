@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/tool-connector-posture-v1.schema.json",
+  "title": "Octon Constitutional Tool/MCP Connector Posture v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "connector_id",
+    "connector_class",
+    "operation_id",
+    "posture",
+    "side_effect_class",
+    "capability_packs",
+    "credential_class",
+    "egress_requirements",
+    "replayability",
+    "rollback_posture",
+    "evidence_obligations",
+    "allowed_modes",
+    "timeout_budget_class",
+    "support_posture"
+  ],
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/tool-connector-posture-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "tool-connector-posture-v1"
+    },
+    "posture": {
+      "type": "string",
+      "enum": [
+        "observe_only",
+        "dry_run",
+        "stage_only",
+        "blocked",
+        "denied"
+      ]
+    }
+  }
+}

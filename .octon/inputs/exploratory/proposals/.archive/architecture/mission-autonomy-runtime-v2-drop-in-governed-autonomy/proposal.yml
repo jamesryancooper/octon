@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: mission-autonomy-runtime-v2-drop-in-governed-autonomy
+title: Mission Autonomy Runtime v2 for Full Drop-In Governed Autonomy
+summary: >-
+  Defines the v2 mission-scoped continuation runtime that consumes a v1
+  Engagement / Project Profile / Work Package compiler output and safely
+  continues work across bounded governed runs under an Autonomy Window,
+  mission-control lease, budget, circuit breakers, support posture, capability
+  posture, context freshness, rollback posture, evidence requirements, and
+  Decision Request gates.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/engine/runtime/spec/autonomy-window-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-queue-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-continuation-decision-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-run-ledger-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-closeout-v1.schema.json
+  - .octon/framework/engine/runtime/spec/connector-operation-v1.schema.json
+  - .octon/framework/engine/runtime/spec/connector-admission-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-evidence-profile-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-aware-decision-request-v1.schema.json
+  - .octon/framework/engine/runtime/spec/mission-autonomy-runtime-v2.md
+  - .octon/framework/engine/runtime/spec/mission-runner-v1.md
+  - .octon/framework/engine/runtime/spec/mission-continuation-v1.md
+  - .octon/instance/governance/policies/mission-continuation.yml
+  - .octon/instance/governance/policies/autonomy-window.yml
+  - .octon/instance/governance/policies/connector-admission.yml
+  - .octon/instance/governance/policies/mission-closeout.yml
+  - .octon/instance/governance/connectors/README.md
+  - .octon/instance/governance/connector-admissions/README.md
+  - .octon/framework/engine/runtime/crates/kernel/src/main.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+  - .octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh
+status: archived
+archive:
+  archived_at: "2026-04-28"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/mission-autonomy-runtime-v2-drop-in-governed-autonomy
+  promotion_evidence:
+    - .octon/framework/engine/runtime/spec/mission-autonomy-runtime-v2.md
+    - .octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh
+    - .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the approved v2 architecture into durable framework/runtime/
+    governance surfaces, retain validation evidence under state/evidence/**,
+    then archive this packet with promotion evidence.
+related_proposals:
+  - proposal_id: engagement-project-profile-work-package-compiler-v1
+    relationship: prerequisite-assumed
+    note: >-
+      v2 depends on v1 Engagement, Project Profile, Work Package, Decision
+      Request, Evidence Profile, Preflight Evidence Lane, and stage-only
+      connector posture. If those are absent, v2 must use only fail-closed
+      compatibility shims and must not silently reimplement v1.

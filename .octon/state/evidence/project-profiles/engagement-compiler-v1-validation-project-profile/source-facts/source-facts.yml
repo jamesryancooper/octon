@@ -1,0 +1,15 @@
+engagement_id: engagement-compiler-v1-validation
+fact_classes:
+- repo-structure
+- language-toolchain-discovery
+- build-test-lint-typecheck-discovery
+- governance-relevant-paths
+orientation_evidence_ref: .octon/state/evidence/orientation/engagement-compiler-v1-validation-orientation/repo-scan.yml
+profile_id: engagement-compiler-v1-validation-project-profile
+recorded_at: 2026-04-28T14:00:56.364733Z
+schema_version: project-profile-source-facts-evidence-v1
+source_digests:
+  .octon/framework/engine/runtime/crates/Cargo.toml: 4f345478f5e6caab98558f7cb7c3665b73ff3d03c0ff62265d0d67157654fb18
+  .octon/framework/engine/runtime/crates/kernel/src/main.rs: 0d96ca9453fea64b6b9a351816a9e567a380525a1ee647d86d3ff0a0364674ed
+  .octon/instance/charter/workspace.md: 5d6bdfd41614f4bf9cd877f83c45893125c5a4f79ad0695d5a81ae191af0f774
+  .octon/instance/charter/workspace.yml: 8a74550311cd288d51191ee4d77a44f13212279da16b3d5f01e24e4ca5a40116

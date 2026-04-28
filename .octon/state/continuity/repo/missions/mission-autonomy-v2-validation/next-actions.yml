@@ -1,0 +1,6 @@
+actions:
+- octon mission continue --mission-id mission-autonomy-v2-validation
+authority_status: resumable-context-not-authority
+mission_id: mission-autonomy-v2-validation
+schema_version: mission-continuity-next-actions-v1
+updated_at: 2026-04-28T15:52:02.632863Z

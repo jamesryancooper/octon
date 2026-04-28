@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-capability-mapping-v1.schema.json",
+  "title": "Connector Capability Mapping v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "connector_id", "operation_id", "capability_packs_consumed", "material_effect_class", "capability_pack_registry_ref", "connectors_do_not_replace_capability_packs"],
+  "properties": {
+    "schema_version": { "const": "connector-capability-mapping-v1" },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "capability_packs_consumed": { "type": "array", "items": { "type": "string" } },
+    "material_effect_class": { "type": "string", "minLength": 1 },
+    "capability_pack_registry_ref": { "type": "string", "minLength": 1 },
+    "material_side_effect_inventory_ref": { "type": "string", "minLength": 1 },
+    "connectors_do_not_replace_capability_packs": { "const": true }
+  }
+}

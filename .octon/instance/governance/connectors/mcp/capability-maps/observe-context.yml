@@ -1,0 +1,13 @@
+schema_version: connector-capability-mapping-v1
+connector_id: mcp
+operation_id: observe-context
+capability_packs_consumed:
+  - telemetry
+material_effect_class: service-invocation
+capability_pack_registry_ref: .octon/instance/governance/capability-packs/registry.yml
+material_side_effect_inventory_ref: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+support_target_tuple_refs: []
+admission_posture: stage_only
+connectors_do_not_replace_capability_packs: true
+connector_replaces_capability_packs: false
+capability_mapping_authorizes_execution: false

@@ -1,0 +1,42 @@
+schema_version: connector-admission-v1
+connector_id: mcp
+operation_id: observe-context
+admission_state: stage_only
+admission_mode: stage_only
+live_effects_authorized: false
+connector_availability_is_authority: false
+admission_authorizes_execution: false
+allowed_modes:
+  - stage_only
+operation_contract_ref: .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+connector_dossier_ref: .octon/instance/governance/connectors/mcp/trust-dossiers/observe-context/dossier.yml
+support_proof_map_ref: .octon/instance/governance/connectors/mcp/support-proof-maps/observe-context.yml
+capability_map_ref: .octon/instance/governance/connectors/mcp/capability-maps/observe-context.yml
+input_schema_ref: schema://octon/connector/mcp/observe-context/input-v1
+output_schema_ref: schema://octon/connector/mcp/observe-context/output-v1
+side_effect_class: observe_read
+material_effect_class: service-invocation
+capability_packs_consumed:
+  - telemetry
+credential_class: none
+egress_requirements: []
+replayability: stage-only-record
+rollback_compensation_posture: not-required-for-stage-only-no-effect
+evidence_obligations:
+  - connector-admission-record
+  - connector-trust-dossier
+  - connector-drift-record
+timeout_budget_class: none
+support_posture: non_live_stage_only
+policy_ref: .octon/instance/governance/policies/connector-admission.yml
+connector_registry_ref: .octon/instance/governance/connectors/registry.yml
+support_target_ref: .octon/instance/governance/support-targets.yml
+capability_pack_registry_ref: .octon/instance/governance/capability-packs/registry.yml
+context_pack_inclusion_required: true
+authorization_grant_required_for_material_effects: true
+effect_token_verification_required_for_material_operations: true
+retained_receipts_required: true
+broad_effectful_connector_autonomy: deferred
+material_execution_entrypoint: octon run start --contract <run-contract>
+created_at: "2026-04-28T00:00:00Z"
+updated_at: "2026-04-28T00:00:00Z"

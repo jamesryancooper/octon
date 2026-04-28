@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/mission-evidence-profile-v1.schema.json",
+  "title": "Mission Evidence Profile v1",
+  "description": "Mission-level extension of v1 Evidence Profile for continuation, ledger, closeout, and connector posture trails.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "selected_profile",
+    "allowed_profiles",
+    "required_evidence",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "mission-evidence-profile-v1" },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "selected_profile": {
+      "type": "string",
+      "enum": [
+        "mission_observe",
+        "mission_repo_consequential",
+        "mission_boundary_sensitive_stage_only",
+        "mission_connector_limited",
+        "mission_closeout_required"
+      ]
+    },
+    "allowed_profiles": {
+      "type": "array",
+      "contains": { "const": "mission_closeout_required" },
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "required_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "updated_at": { "type": "string", "minLength": 1 }
+  }
+}

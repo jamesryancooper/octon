@@ -32,8 +32,8 @@ Read these before planning or implementation:
 8. `/.octon/framework/constitution/contracts/registry.yml`
 9. `/.octon/instance/charter/workspace.md`
 10. `/.octon/instance/charter/workspace.yml`
-11. `/.octon/framework/agency/practices/commits.md`
-12. `/.octon/framework/agency/practices/pull-request-standards.md`
+11. `/.octon/framework/execution-roles/practices/commits.md`
+12. `/.octon/framework/execution-roles/practices/pull-request-standards.md`
 13. `/.octon/inputs/exploratory/proposals/.archive/architecture/target-state-closure/README.md`
 14. `/.octon/inputs/exploratory/proposals/.archive/architecture/target-state-closure/packet/00-executive-closure-thesis.md`
 15. `/.octon/inputs/exploratory/proposals/.archive/architecture/target-state-closure/packet/01-current-state-closure-delta.md`

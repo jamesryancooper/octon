@@ -1,0 +1,27 @@
+schema_version: "proposal-v1"
+proposal_id: "engagement-project-profile-work-package-compiler-v1"
+title: "Engagement / Project Profile / Work Package Compiler v1"
+summary: "Fixture proposal packet for compiler validation."
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/engagement-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/work-package-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/decision-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/evidence-profile-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/preflight-evidence-lane-v1.md"
+  - ".octon/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/engagement-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/project-profile-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/work-package-v1.schema.json"
+  - ".octon/framework/constitution/contracts/authority/decision-request-v1.schema.json"
+  - ".octon/framework/constitution/contracts/runtime/evidence-profile-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-engagement-work-package-compiler.sh"
+  - ".octon/instance/governance/connectors/README.md"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: "Promote compiler v1 contracts, policy, validation, and runtime command surfaces."
+related_proposals: []

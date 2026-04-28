@@ -1,0 +1,8 @@
+schema_version: "engagement-v1"
+engagement_id: "eng-001"
+status: "work-package-compiled"
+seed_intent: "Validate compiler v1 migration posture."
+project_profile_ref: ".octon/instance/locality/project-profile.yml"
+objective_brief_ref: ".octon/state/control/engagements/eng-001/objective-brief.yml"
+work_package_ref: ".octon/state/control/engagements/eng-001/work-package.yml"
+evidence_root: ".octon/state/evidence/engagements/eng-001"

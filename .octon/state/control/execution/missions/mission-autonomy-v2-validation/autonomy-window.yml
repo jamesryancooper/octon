@@ -1,0 +1,45 @@
+allowed_action_classes:
+- repo-maintenance
+- validation
+- documentation
+allowed_execution_postures:
+- interruptible_scheduled
+- stage_only
+authority_boundary:
+  autonomy_window_authorizes_execution: false
+  execution_authorization_required: true
+  run_contract_required: true
+autonomy_budget_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/autonomy-budget.yml
+circuit_breakers_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/circuit-breakers.yml
+closeout_rules_ref: .octon/instance/governance/policies/mission-closeout.yml
+connector_posture:
+  connector_admission_policy_ref: .octon/instance/governance/policies/connector-admission.yml
+  connector_posture_ref: .octon/instance/governance/connectors/posture.yml
+  live_effectful_broad_connectors: deferred
+context_freshness_policy:
+  context_pack_required_per_run: true
+  project_profile_required: true
+  stale_posture_route: pause_or_decision_request
+  work_package_required: true
+created_at: 2026-04-28T15:52:02.632863Z
+engagement_id: engagement-compiler-v1-validation
+max_concurrent_runs: 1
+mission_charter_ref: .octon/instance/orchestration/missions/mission-autonomy-v2-validation/mission.yml
+mission_control_lease_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/lease.yml
+mission_id: mission-autonomy-v2-validation
+review_cadence:
+  last_reviewed_at: 2026-04-28T15:52:02.632863Z
+  review_required: true
+schema_version: autonomy-window-v1
+state: active
+stop_conditions:
+- expired-or-paused-lease
+- exhausted-budget
+- tripped-or-latched-breaker
+- stale-context
+- support-or-capability-drift
+- connector-drift
+- unresolved-blocking-decision-request
+- progress-stall
+- closeout-gate-blocked
+updated_at: 2026-04-28T15:52:02.632863Z

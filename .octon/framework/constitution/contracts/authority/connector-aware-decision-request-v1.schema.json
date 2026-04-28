@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/connector-aware-decision-request-v1.schema.json",
+  "title": "Connector-Aware Decision Request v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_request_id",
+    "engagement_id",
+    "status",
+    "decision_type",
+    "connector_decision_type",
+    "question",
+    "allowed_resolutions",
+    "connector_id",
+    "operation_id",
+    "subject_refs",
+    "canonical_resolution_targets",
+    "evidence_root",
+    "decision_request_authorizes_material_execution",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "decision-request-v1" },
+    "decision_request_id": { "type": "string", "minLength": 1 },
+    "engagement_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["open", "resolved", "denied", "revoked", "superseded"] },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "approval",
+        "denial",
+        "exception_lease",
+        "risk_acceptance",
+        "revocation",
+        "policy_clarification",
+        "support_scope_decision",
+        "capability_admission_decision",
+        "closure_acceptance"
+      ]
+    },
+    "connector_decision_type": {
+      "type": "string",
+      "enum": [
+        "connector_admission_requested",
+        "connector_operation_live_effectful_admission",
+        "connector_quarantine_reset_required",
+        "support_target_widening_requested",
+        "capability_admission_requested",
+        "credentialed_external_write",
+        "destructive_external_action",
+        "irreversible_connector_operation",
+        "risk_acceptance_required",
+        "connector_retirement"
+      ]
+    },
+    "connector_id": { "type": "string", "minLength": 1 },
+    "operation_id": { "type": "string", "minLength": 1 },
+    "question": { "type": "string", "minLength": 1 },
+    "allowed_resolutions": { "type": "array", "minItems": 1 },
+    "subject_refs": { "type": "object" },
+    "canonical_resolution_targets": { "type": "object" },
+    "evidence_root": { "type": "string", "minLength": 1 },
+    "decision_request_authorizes_material_execution": { "const": false },
+    "created_at": { "type": "string", "minLength": 1 }
+  }
+}

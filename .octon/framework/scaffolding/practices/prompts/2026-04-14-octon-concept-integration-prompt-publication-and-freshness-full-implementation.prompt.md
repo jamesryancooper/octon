@@ -60,7 +60,7 @@ Read these before planning or implementation:
 11. `/.octon/framework/constitution/contracts/registry.yml`
 12. `/.octon/instance/charter/workspace.md`
 13. `/.octon/instance/charter/workspace.yml`
-14. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+14. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 15. `/.octon/framework/cognition/_meta/architecture/specification.md`
 16. `/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/README.md`
 17. `/.octon/framework/cognition/_meta/architecture/generated/effective/extensions/README.md`

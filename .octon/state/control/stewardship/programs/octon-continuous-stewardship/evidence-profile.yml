@@ -1,0 +1,23 @@
+allowed_profiles:
+- stewardship_observe
+- stewardship_maintenance
+- stewardship_repo_consequential
+- stewardship_campaign_coordination
+- stewardship_closeout_required
+program_id: octon-continuous-stewardship
+required_evidence:
+- program-snapshots
+- epoch-snapshots
+- trigger-evidence
+- admission-decisions
+- idle-decisions
+- mission-handoff
+- campaign-coordination-if-used
+- renewal-decisions
+- stewardship-ledger
+- continuity-update
+- disclosure-status
+- closeout-evidence
+schema_version: stewardship-evidence-profile-v1
+selected_profile: stewardship_maintenance
+updated_at: 2026-04-28T17:01:20.453981Z

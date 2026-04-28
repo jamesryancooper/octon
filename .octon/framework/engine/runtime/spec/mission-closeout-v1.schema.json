@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/mission-closeout-v1.schema.json",
+  "title": "Mission Closeout v1",
+  "description": "Mission-level closeout gate. Mission closure cannot substitute for run closeout.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "mission_id",
+    "status",
+    "policy_ref",
+    "all_relevant_runs_terminal",
+    "run_level_closeout_complete",
+    "mission_success_or_failure_criteria_satisfied_or_accepted",
+    "mission_queue_resolved",
+    "mission_evidence_bundle_complete",
+    "replay_disclosure_status_known",
+    "rollback_compensation_disposition_known",
+    "continuity_updated",
+    "no_unresolved_blocking_decision_requests",
+    "blockers",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "mission-closeout-v1" },
+    "mission_id": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["open", "blocked", "closed"]
+    },
+    "policy_ref": { "type": "string", "minLength": 1 },
+    "all_relevant_runs_terminal": { "type": "boolean" },
+    "run_level_closeout_complete": { "type": "boolean" },
+    "mission_success_or_failure_criteria_satisfied_or_accepted": { "type": "boolean" },
+    "mission_queue_resolved": { "type": "boolean" },
+    "mission_evidence_bundle_complete": { "type": "boolean" },
+    "replay_disclosure_status_known": { "type": "boolean" },
+    "rollback_compensation_disposition_known": { "type": "boolean" },
+    "continuity_updated": { "type": "boolean" },
+    "no_unresolved_blocking_decision_requests": { "type": "boolean" },
+    "blockers": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "updated_at": { "type": "string", "minLength": 1 }
+  }
+}

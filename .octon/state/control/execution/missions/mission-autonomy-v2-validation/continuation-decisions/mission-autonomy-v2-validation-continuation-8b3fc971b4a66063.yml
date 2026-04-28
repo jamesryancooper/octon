@@ -1,0 +1,27 @@
+action_slice_id: mission-autonomy-v2-validation-slice-1
+authorization_boundary:
+  continuation_decision_authorizes_execution: false
+  execution_authorization_required: true
+  run_contract_required: true
+blockers: []
+breaker_state_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/circuit-breakers.yml
+budget_state_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/autonomy-budget.yml
+capability_posture_ref: .octon/instance/governance/capability-packs/registry.yml
+connector_posture_ref: .octon/instance/governance/connectors/posture.yml
+context_freshness: context-pack-request-prepared
+continuation_decision_id: mission-autonomy-v2-validation-continuation-8b3fc971b4a66063
+created_at: 2026-04-28T16:11:20.033676Z
+decision: continue
+engagement_id: engagement-compiler-v1-validation
+evidence_completeness: mission-decision-retained
+lease_state_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/lease.yml
+mission_id: mission-autonomy-v2-validation
+mission_success_failure_criteria_ref: .octon/instance/orchestration/missions/mission-autonomy-v2-validation/mission.yml
+queue_state_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/queue.yml
+rollback_posture: run-level-rollback-required-after-start
+run_contract_candidate_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/run-candidates/mission-autonomy-v2-validation-run-2/run-contract.candidate.yml
+run_outcome: not_started
+schema_version: mission-continuation-decision-v1
+support_posture_ref: .octon/instance/governance/support-targets.yml
+unresolved_decision_request_id: null
+validation_result: not_run

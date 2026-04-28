@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/governance-impact-simulation-v1.schema.json",
+  "title": "Octon Governance Impact Simulation v1",
+  "description": "A retained simulation result for proposed governance, runtime, support, capability, connector, evidence, generated/effective, proposal-standard, or constitutional changes.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "simulation_id",
+    "candidate_ref",
+    "change_class",
+    "past_runs_now_denied",
+    "past_denied_runs_now_allowed",
+    "support_claim_changes",
+    "generated_effective_staleness",
+    "connector_quarantine_effects",
+    "validator_impacts",
+    "proposal_or_authority_invalidations",
+    "operator_workflow_changes",
+    "risk_delta",
+    "evidence_refs",
+    "simulation_success_approves_change"
+  ],
+  "properties": {
+    "schema_version": { "const": "governance-impact-simulation-v1" },
+    "simulation_id": { "type": "string", "minLength": 1 },
+    "candidate_ref": { "type": "string", "minLength": 1 },
+    "change_class": { "type": "string", "minLength": 1 },
+    "past_runs_now_denied": { "type": "array", "items": { "type": "string" } },
+    "past_denied_runs_now_allowed": { "type": "array", "items": { "type": "string" } },
+    "support_claim_changes": { "type": "array", "items": { "type": "string" } },
+    "generated_effective_staleness": { "type": "array", "items": { "type": "string" } },
+    "connector_quarantine_effects": { "type": "array", "items": { "type": "string" } },
+    "validator_impacts": { "type": "array", "items": { "type": "string" } },
+    "proposal_or_authority_invalidations": { "type": "array", "items": { "type": "string" } },
+    "operator_workflow_changes": { "type": "array", "items": { "type": "string" } },
+    "risk_delta": { "type": "string", "enum": ["decreases", "neutral", "increases", "unknown"] },
+    "evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "simulation_success_approves_change": { "const": false }
+  }
+}

@@ -57,7 +57,7 @@ Read these before planning or implementation:
 10. `/.octon/framework/constitution/contracts/registry.yml`
 11. `/.octon/instance/charter/workspace.md`
 12. `/.octon/instance/charter/workspace.yml`
-13. `/.octon/framework/agency/runtime/agents/orchestrator/AGENT.md`
+13. `/.octon/framework/execution-roles/runtime/orchestrator/ROLE.md`
 14. `/.octon/instance/bootstrap/START.md`
 15. `/.octon/instance/bootstrap/catalog.md`
 16. `/.octon/instance/extensions.yml`

@@ -1,0 +1,65 @@
+schema_version: connector-trust-dossier-v1
+connector_id: mcp
+operation_id: observe-context
+status: stage_only
+claim_effect: stage-only-non-live
+connector_admission_ref: .octon/instance/governance/connector-admissions/mcp/observe-context/admission.yml
+connector_registry_ref: .octon/instance/governance/connectors/registry.yml
+connector_posture_policy_ref: .octon/instance/governance/connectors/posture.yml
+operation_contract_ref: .octon/instance/governance/connectors/mcp/operations/observe-context.yml
+support_target_tuple: stage-only/non-live/mcp/observe-context
+support_target_refs: []
+capability_pack_refs:
+  - telemetry
+side_effect_class: observe_read
+material_effect_class: service-invocation
+credential_class: none
+egress_requirements: []
+redaction_metadata_ref: null
+replayability: stage-only-record
+rollback_compensation_posture: not-required-for-stage-only-no-effect
+context_pack_inclusion_required: true
+authorization_grant_required_for_material_effects: true
+effect_token_verification_required_for_material_operations: true
+retained_receipts_required: true
+required_evidence:
+  proof_planes:
+    - structural
+    - governance
+  scenario_classes:
+    - negative-control
+  representative_run_refs: []
+  negative_control_refs:
+    - .octon/instance/governance/connectors/posture.yml
+    - .octon/instance/governance/policies/connector-admission.yml
+  disclosure_refs:
+    - .octon/state/evidence/disclosure/connectors/mcp-observe-context.yml
+retained_admission_evidence:
+  - .octon/state/evidence/connectors/mcp/admissions/observe-context/receipt.yml
+failure_mode_tests:
+  - live_effect_without_authorization_denied
+  - connector_availability_not_authority
+  - generated_projection_not_authority
+security_review:
+  status: stage_only_reviewed
+  reviewed_by: Octon governance
+  reviewed_at: "2026-04-28T00:00:00Z"
+drift_quarantine_state:
+  drift_ref: .octon/state/control/connectors/mcp/operations/observe-context/drift.yml
+  quarantine_ref: .octon/state/control/connectors/mcp/operations/observe-context/quarantine.yml
+  quarantine_on_drift: true
+freshness:
+  reviewed_at: "2026-04-28T00:00:00Z"
+  review_due_at: "2026-06-30T00:00:00Z"
+  status: current
+sufficiency:
+  status: stage_only
+  live_effectful_sufficient: false
+known_exclusions:
+  - live connector effects denied until all v4 admission gates pass
+notes:
+  - MCP is not a capability pack; each MCP-exposed function must be admitted as a connector operation.
+trust_dossier_authorizes_execution: false
+dossier_authorizes_execution: false
+live_effectful_requires_human_approval: true
+current_admission_status: stage_only

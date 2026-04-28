@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/stewardship-renewal-decision-v1.schema.json",
+  "title": "Stewardship Renewal Decision v1",
+  "description": "Canonical end-of-epoch renewal, close, pause, escalation, revocation, or idle decision.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "epoch_id",
+    "decision_id",
+    "outcome",
+    "epoch_closeout_evidence_ref",
+    "budget_status",
+    "breaker_status",
+    "support_posture_ref",
+    "silent_authority_widening",
+    "renewal_decision_authorizes_material_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-renewal-decision-v1" },
+    "outcome": { "enum": ["renew", "close", "pause", "escalate", "revoke", "idle_until_next_trigger"] },
+    "silent_authority_widening": { "const": false },
+    "renewal_decision_authorizes_material_execution": { "const": false }
+  }
+}

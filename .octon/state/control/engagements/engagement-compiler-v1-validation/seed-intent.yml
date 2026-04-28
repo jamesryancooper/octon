@@ -1,0 +1,6 @@
+authority_class: operator-supplied-seed
+created_at: 2026-04-28T14:00:48.500852Z
+engagement_id: engagement-compiler-v1-validation
+intent: Validate Engagement Work Package Compiler v1 promotion
+schema_version: engagement-seed-intent-v1
+source: octon start

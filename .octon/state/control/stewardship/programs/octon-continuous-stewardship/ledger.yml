@@ -1,0 +1,35 @@
+admission_decision_refs: []
+campaign_refs: []
+created_at: 2026-04-28T17:01:20.453981Z
+epoch_refs: []
+events:
+- epoch_id: octon-continuous-stewardship-epoch-1
+  event_type: trigger_observed
+  evidence_ref: .octon/state/evidence/stewardship/programs/octon-continuous-stewardship/triggers/scheduled-review-d981d98470cb/observed.yml
+  trigger_id: scheduled-review-d981d98470cb
+- event_type: idle_decision_emitted
+  idle_decision_id: idle-accba7e6eb0f
+  no_work_executed: true
+  trigger_id: scheduled-review-d981d98470cb
+- admission_decision_authorizes_material_execution: false
+  admission_decision_id: scheduled-review-d981d98470cb-admission-d1dc877bb847
+  event_type: admission_decision_emitted
+  outcome: idle
+  trigger_id: scheduled-review-d981d98470cb
+- epoch_id: octon-continuous-stewardship-epoch-1
+  event_type: renewal_decision_emitted
+  outcome: idle_until_next_trigger
+  silent_authority_widening: false
+idle_decision_refs: []
+mission_refs: []
+mission_run_ledger_authority_ref: .octon/state/control/execution/missions/<mission-id>/runs.yml
+program_id: octon-continuous-stewardship
+program_refs:
+- .octon/instance/stewardship/programs/octon-continuous-stewardship/program.yml
+renewal_decision_refs: []
+role: stewardship-level-index-not-mission-or-run-evidence
+run_journal_authority_ref: .octon/state/control/execution/runs/<run-id>/events.ndjson
+schema_version: stewardship-ledger-v1
+trigger_refs: []
+unresolved_risks: []
+updated_at: 2026-04-28T17:01:43.65806Z

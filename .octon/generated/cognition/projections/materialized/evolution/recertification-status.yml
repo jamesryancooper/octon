@@ -1,0 +1,15 @@
+schema_version: "generated-evolution-recertification-status-v1"
+generated_projection: true
+authority: "derived-non-authority"
+source_ref: ".octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+request_ref: ".octon/state/control/evolution/recertification-requests/evolution-recertification-v5-validation.yml"
+evidence_ref: ".octon/state/evidence/evolution/recertifications/evolution-recertification-v5-validation/receipt.yml"
+status: "passed"
+closure_blocked_until_terminal: false
+validator_health: "passed-by-cli-dry-run"
+dimensions:
+  total: 15
+  passed: 15
+source_truth_boundaries:
+  generated_projection_is_authority: false
+  recertification_result_replaces_evidence: false

@@ -1,0 +1,9 @@
+authority_boundary:
+  material_execution_authorized_by_objective_brief: false
+  may_rewrite_workspace_charter: false
+  objective_brief_is_workspace_charter_authority: false
+engagement_id: engagement-compiler-v1-validation
+objective_brief_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/objective-brief.yml
+recorded_at: 2026-04-28T14:01:04.104204Z
+schema_version: objective-brief-source-evidence-v1
+seed_intent_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/seed-intent.yml

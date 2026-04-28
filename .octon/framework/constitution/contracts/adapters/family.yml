@@ -20,3 +20,33 @@ adapter_boundaries:
   runtime_capability_pack_root: ".octon/instance/governance/capability-packs"
   runtime_capability_pack_projection_root: ".octon/instance/capabilities/runtime/packs"
   conformance_rule: "Adapters are replaceable and may narrow execution but may not widen authority."
+connector_posture:
+  posture_schema_ref: ".octon/framework/constitution/contracts/adapters/tool-connector-posture-v1.schema.json"
+  policy_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-posture-policy-v1.schema.json"
+  registry_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-posture-registry-v1.schema.json"
+  runtime_posture_spec_ref: ".octon/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json"
+  runtime_policy_spec_ref: ".octon/framework/engine/runtime/spec/connector-posture-policy-v1.schema.json"
+  runtime_registry_spec_ref: ".octon/framework/engine/runtime/spec/connector-posture-registry-v1.schema.json"
+  repo_policy_ref: ".octon/instance/governance/connectors/posture.yml"
+  repo_registry_ref: ".octon/instance/governance/connectors/registry.yml"
+  v1_rule: "Connector posture may narrow, stage, block, or deny Work Package readiness; it may not authorize live connector effects."
+connector_admission:
+  identity_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-identity-v1.schema.json"
+  operation_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-operation-v1.schema.json"
+  admission_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-admission-v1.schema.json"
+  trust_dossier_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-trust-dossier-v1.schema.json"
+  capability_mapping_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-capability-mapping-v1.schema.json"
+  credential_class_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-credential-class-v1.schema.json"
+  egress_class_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-egress-class-v1.schema.json"
+  failure_taxonomy_schema_ref: ".octon/framework/constitution/contracts/adapters/connector-failure-taxonomy-v1.schema.json"
+  runtime_operation_spec_ref: ".octon/framework/engine/runtime/spec/connector-operation-v1.schema.json"
+  runtime_admission_spec_ref: ".octon/framework/engine/runtime/spec/connector-admission-v1.schema.json"
+  runtime_trust_dossier_spec_ref: ".octon/framework/engine/runtime/spec/connector-trust-dossier-v1.schema.json"
+  repo_admission_root: ".octon/instance/governance/connector-admissions"
+  repo_connector_root: ".octon/instance/governance/connectors"
+  policy_ref: ".octon/instance/governance/policies/connector-admission.yml"
+  v4_rule: >-
+    Connector admissions map connector operation to capability packs, material
+    effect class, support posture, policy, evidence, rollback, and authorization.
+    Connector admissions and trust dossiers do not authorize execution by
+    themselves; material effects remain run-contract and authorization bound.

@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/project-profile-v1.schema.json",
+  "title": "Octon Constitutional Project Profile v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "status",
+    "repo_root",
+    "profile_scope",
+    "evidence_refs",
+    "source_fact_evidence_root",
+    "repo_structure",
+    "language_toolchain_discovery",
+    "build_test_lint_typecheck_discovery",
+    "ci_release_posture",
+    "dependencies",
+    "ownership_hints",
+    "protected_zones",
+    "governance_relevant_paths",
+    "validation_strategy",
+    "rollback_constraints",
+    "known_risks",
+    "current_adoption_state",
+    "updated_at"
+  ],
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/project-profile-v1.schema.json"
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "project-profile-v1"
+    },
+    "profile_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "superseded",
+        "blocked"
+      ]
+    }
+  }
+}

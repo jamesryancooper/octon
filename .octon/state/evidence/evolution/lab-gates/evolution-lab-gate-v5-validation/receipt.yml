@@ -1,0 +1,18 @@
+schema_version: "assurance-lab-gate-evidence-receipt-v1"
+receipt_id: "evolution-lab-gate-v5-validation-receipt"
+lab_gate_ref: ".octon/state/control/evolution/lab-gates/evolution-lab-gate-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+proof_classes:
+  - "negative-control test"
+  - "proposal non-authority test"
+  - "promotion dry-run"
+  - "recertification dry-run"
+expected_validation_ref: ".octon/framework/assurance/runtime/_ops/tests/test-self-evolution-runtime-v5.sh"
+result: "passed"
+retained_result_refs:
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/negative-control-results.yml"
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/replay-proof.yml"
+  - ".octon/state/evidence/evolution/lab-gates/evolution-lab-gate-v5-validation/shadow-run-proof.yml"
+  - ".octon/generated/effective/runtime/route-bundle.lock.yml"
+lab_success_approves_change: false
+non_authority_statement: "Lab evidence can satisfy proof requirements but cannot approve or promote change."

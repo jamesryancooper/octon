@@ -1,0 +1,23 @@
+schema_version: "self-evolution-decision-request-v1"
+decision_request_id: "evolution-decision-v5-validation"
+decision_type: "promotion_approval"
+question: "Should the v5 self-evolution proposal outputs be promoted into declared durable targets after validation?"
+subject_refs:
+  - ".octon/state/control/evolution/candidates/evolution-candidate-v5-validation.yml"
+  - ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+canonical_resolution_targets:
+  - ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+  - ".octon/state/control/evolution/recertifications/evolution-recertification-v5-validation.yml"
+evidence_root: ".octon/state/evidence/evolution/decisions/evolution-decision-v5-validation"
+allowed_resolutions:
+  - "approval"
+  - "denial"
+  - "risk_acceptance"
+  - "revocation"
+  - "closure_acceptance"
+status: "resolved_approved"
+resolution: "approval"
+approval_refs:
+  - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+decision_request_authorizes_promotion: false
+decision_request_authorizes_material_execution: false

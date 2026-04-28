@@ -1,0 +1,9 @@
+approval_grant_emitted: false
+engagement_id: engagement-compiler-v1-validation
+material_execution_authorized: false
+mission_id: mission-autonomy-v2-validation
+notes: Mission-control approval records do not create active execution approval grants.
+recorded_at: 2026-04-28T15:52:31.898449Z
+request_id: mission-autonomy-v2-validation-authorize-mission-autonomy-v2-validation-slice-1
+schema_version: mission-control-approval-record-v1
+state: recorded

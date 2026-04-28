@@ -1,0 +1,9 @@
+schema_version: "evolution-open-risks-continuity-v1"
+non_authority_notice: "This is resumable context only."
+open_risks:
+  - risk_id: "v5-self-authorization-boundary"
+    summary: "Self-evolution must not authorize its own promotion."
+    mitigation_ref: ".octon/framework/orchestration/practices/evolution-lifecycle-standards.md"
+  - risk_id: "v5-generated-proposal-authority"
+    summary: "Generated summaries and proposal packets must not become authority."
+    mitigation_ref: ".octon/instance/governance/evolution/policies/evolution-policy.yml"

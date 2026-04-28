@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/work-package-v1.schema.json",
+  "title": "Constitutional Work Package v1",
+  "type": "object",
+  "required": ["schema_version", "work_package_id", "engagement_ref", "project_profile_ref", "objective_brief_ref", "outcome"],
+  "properties": {
+    "schema_version": { "const": "work-package-v1" },
+    "work_package_id": { "type": "string", "minLength": 1 },
+    "engagement_ref": { "type": "string", "minLength": 1 },
+    "project_profile_ref": { "type": "string", "minLength": 1 },
+    "objective_brief_ref": { "type": "string", "minLength": 1 },
+    "outcome": { "type": "object" }
+  }
+}

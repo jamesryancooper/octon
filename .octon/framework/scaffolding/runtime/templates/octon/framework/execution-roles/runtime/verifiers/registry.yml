@@ -1,0 +1,9 @@
+schema_version: "execution-role-verifier-registry-v1"
+default: null
+
+verifiers: []
+# Example:
+#   - verifier_id: independent-verifier
+#     path: independent-verifier/
+#     description: "Independent verification role for high-risk closeout."
+#     authority_posture: "scoped-non-authorizing"

@@ -205,3 +205,5 @@ records:
     path: 100-architecture-10of10-remediation-closure-certification.md
   - id: 101-target-state-architecture-transition
     path: 101-target-state-architecture-transition.md
+  - id: 102-self-evolution-proposal-to-promotion-runtime
+    path: 102-self-evolution-proposal-to-promotion-runtime.md

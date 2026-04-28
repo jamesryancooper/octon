@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/connector-posture-registry-v1.schema.json",
+  "title": "Octon Connector Posture Registry v1",
+  "description": "Machine-readable connector posture discovery registry for the Engagement compiler.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "registry_id",
+    "owner",
+    "status",
+    "default_route",
+    "posture_policy_ref",
+    "support_target_ref",
+    "capability_pack_registry_ref",
+    "governance_exclusions_ref",
+    "connector_entries",
+    "required_before_any_live_connector_effect"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "engagement-connector-posture-registry-v1"
+    },
+    "registry_id": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "owner": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "stale",
+        "superseded"
+      ]
+    },
+    "default_route": {
+      "type": "string",
+      "enum": [
+        "deny",
+        "blocked",
+        "stage_only"
+      ]
+    },
+    "posture_policy_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "support_target_ref": {
+      "const": ".octon/instance/governance/support-targets.yml"
+    },
+    "capability_pack_registry_ref": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "governance_exclusions_ref": {
+      "const": ".octon/instance/governance/exclusions/action-classes.yml"
+    },
+    "connector_entries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/connector_entry"
+      }
+    },
+    "required_before_any_live_connector_effect": {
+      "$ref": "#/$defs/non_empty_string_array"
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "non_empty_string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    },
+    "connector_entry": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "connector_class_id",
+        "support_status",
+        "runtime_live_effect_posture",
+        "prepare_only_posture",
+        "unknown_or_unmapped_posture"
+      ],
+      "properties": {
+        "connector_class_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "support_status": {
+          "type": "string",
+          "enum": [
+            "admitted",
+            "admitted_live",
+            "stage_only",
+            "unadmitted",
+            "non_admitted",
+            "unsupported",
+            "excluded",
+            "unknown"
+          ]
+        },
+        "runtime_live_effect_posture": {
+          "type": "string",
+          "enum": [
+            "stage_only",
+            "blocked",
+            "denied"
+          ]
+        },
+        "prepare_only_posture": {
+          "type": "string",
+          "enum": [
+            "observe_only",
+            "dry_run",
+            "stage_only",
+            "blocked",
+            "denied"
+          ]
+        },
+        "unknown_or_unmapped_posture": {
+          "type": "string",
+          "enum": [
+            "stage_only",
+            "blocked",
+            "denied"
+          ]
+        },
+        "capability_pack_ref": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

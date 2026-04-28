@@ -1,0 +1,10 @@
+schema_version: "self-evolution-decision-evidence-receipt-v1"
+receipt_id: "evolution-decision-v5-validation-receipt"
+decision_request_ref: ".octon/state/control/evolution/decisions/evolution-decision-v5-validation.yml"
+retained_at: "2026-04-28T00:00:00Z"
+resolution: "approval"
+approval_refs:
+  - ".octon/state/control/execution/approvals/grants/grant-evolution-promotion-v5-validation.yml"
+decision_request_authorizes_promotion: false
+decision_request_authorizes_material_execution: false
+non_authority_statement: "The self-evolution Decision Request records operator approval posture; promotion still requires promotion and recertification gates."

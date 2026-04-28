@@ -34,6 +34,16 @@
   for watcher, automation, queue, run, and incident failure handling.
 - `campaign-promotion-criteria.md` - standing criteria for when optional
   `campaigns` should remain deferred or be promoted into live runtime.
+- `stewardship-lifecycle-standards.md` - operating discipline for continuous
+  stewardship programs, finite epochs, trigger admission, idle, renewal, and
+  v2 handoff without unbounded execution.
+- `connector-admission-standards.md` - operating discipline for operation-level
+  connector admission, trust dossiers, support proof hooks, drift/quarantine,
+  and fail-closed non-execution boundaries.
+- `evolution-lifecycle-standards.md` - operating discipline for
+  evidence-backed self-evolution candidates, proposal compilation, promotion
+  receipts, recertification, rollback/retirement, and anti-self-authorization
+  gates.
 - `orchestration-domain-implementation-agreement.md` - Phase 0 working
   agreement for promoting temporary design material into standalone live
   orchestration authority without inventing architecture.

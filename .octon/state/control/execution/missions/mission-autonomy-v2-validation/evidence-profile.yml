@@ -1,0 +1,24 @@
+allowed_profiles:
+- mission_observe
+- mission_repo_consequential
+- mission_boundary_sensitive_stage_only
+- mission_connector_limited
+- mission_closeout_required
+mission_id: mission-autonomy-v2-validation
+required_evidence:
+- autonomy-window-snapshots
+- lease-snapshots
+- budget-snapshots
+- breaker-snapshots
+- mission-queue-snapshots
+- continuation-decisions
+- decision-request-trail
+- connector-posture-trail
+- mission-run-ledger
+- rollback-aggregation
+- mission-level-disclosure
+- continuity-update
+- closeout-evidence
+schema_version: mission-evidence-profile-v1
+selected_profile: mission_repo_consequential
+updated_at: 2026-04-28T15:52:02.632863Z

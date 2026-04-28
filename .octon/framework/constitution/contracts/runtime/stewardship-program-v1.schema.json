@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/constitution/contracts/runtime/stewardship-program-v1.schema.json",
+  "title": "Stewardship Program v1",
+  "description": "Long-lived repo-scoped care agreement. It may open finite epochs and bounded mission candidates, but it never executes work directly.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "stewardship_objective",
+    "cared_for_scope",
+    "allowed_stewardship_domains",
+    "prohibited_domains",
+    "renewal_cadence",
+    "observation_cadence",
+    "max_autonomy_ceiling",
+    "allowed_mission_classes",
+    "default_safing_subset",
+    "default_evidence_profile",
+    "event_triggers_ref",
+    "idle_rules_ref",
+    "renewal_rules_ref",
+    "human_review_requirements",
+    "closure_rules",
+    "authority_boundary"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-program-v1" },
+    "program_id": { "type": "string", "minLength": 1 },
+    "stewardship_objective": { "type": "string", "minLength": 1 },
+    "cared_for_scope": { "type": "object" },
+    "allowed_stewardship_domains": { "type": "array" },
+    "prohibited_domains": { "type": "array" },
+    "renewal_cadence": { "type": "string", "minLength": 1 },
+    "observation_cadence": { "type": "string", "minLength": 1 },
+    "max_autonomy_ceiling": { "type": "string", "minLength": 1 },
+    "allowed_mission_classes": { "type": "array" },
+    "default_safing_subset": { "type": "array" },
+    "default_evidence_profile": { "type": "string", "minLength": 1 },
+    "event_triggers_ref": { "type": "string", "minLength": 1 },
+    "idle_rules_ref": { "type": "string", "minLength": 1 },
+    "renewal_rules_ref": { "type": "string", "minLength": 1 },
+    "human_review_requirements": { "type": "array" },
+    "closure_rules": { "type": "array" },
+    "authority_boundary": {
+      "type": "object",
+      "required": [
+        "program_executes_work_directly",
+        "epoch_replaces_mission_control_lease",
+        "triggers_authorize_work",
+        "admission_authorizes_material_execution",
+        "run_lifecycle_required"
+      ],
+      "properties": {
+        "program_executes_work_directly": { "const": false },
+        "epoch_replaces_mission_control_lease": { "const": false },
+        "triggers_authorize_work": { "const": false },
+        "admission_authorizes_material_execution": { "const": false },
+        "run_lifecycle_required": { "const": true }
+      }
+    }
+  }
+}

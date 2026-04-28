@@ -1,0 +1,29 @@
+schema_version: "octon-architecture-contract-registry-fixture-v1"
+integration_surfaces:
+  engagement_contract:
+    path: ".octon/framework/engine/runtime/spec/engagement-v1.schema.json"
+    control_root: ".octon/state/control/engagements/**"
+    evidence_root: ".octon/state/evidence/engagements/**"
+    status: "active"
+  project_profile_contract:
+    path: ".octon/framework/engine/runtime/spec/project-profile-v1.schema.json"
+    authority_path: ".octon/instance/locality/project-profile.yml"
+    evidence_root: ".octon/state/evidence/project-profiles/**"
+    status: "active"
+  work_package_contract:
+    path: ".octon/framework/engine/runtime/spec/work-package-v1.schema.json"
+    control_root: ".octon/state/control/engagements/**"
+    status: "active"
+  decision_request_contract:
+    path: ".octon/framework/engine/runtime/spec/decision-request-v1.schema.json"
+    control_root: ".octon/state/control/engagements/**"
+    evidence_root: ".octon/state/evidence/decisions/**"
+    status: "active"
+  evidence_profile_contract:
+    path: ".octon/framework/engine/runtime/spec/evidence-profile-v1.schema.json"
+    policy_path: ".octon/instance/governance/policies/evidence-profiles.yml"
+    status: "active"
+  connector_posture_contract:
+    path: ".octon/framework/engine/runtime/spec/tool-connector-posture-v1.schema.json"
+    policy_path: ".octon/instance/governance/connectors/posture.yml"
+    status: "active"

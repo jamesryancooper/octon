@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/authority/mission-aware-decision-request-v1.schema.json",
+  "title": "Octon Constitutional Mission-Aware Decision Request v1",
+  "allOf": [
+    {
+      "$ref": "../../../engine/runtime/spec/mission-aware-decision-request-v1.schema.json"
+    }
+  ]
+}

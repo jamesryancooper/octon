@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/constitution/contracts/runtime/stewardship-ledger-v1.schema.json",
+  "title": "Stewardship Ledger v1",
+  "description": "Stewardship-level index and rollup. It does not replace Mission Run Ledger, Mission Queue, run journals, retained run evidence, run contracts, or disclosure artifacts.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "role",
+    "mission_run_ledger_authority_ref",
+    "run_journal_authority_ref",
+    "events",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-ledger-v1" },
+    "role": { "const": "stewardship-level-index-not-mission-or-run-evidence" },
+    "events": { "type": "array" }
+  }
+}

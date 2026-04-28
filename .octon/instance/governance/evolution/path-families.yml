@@ -1,0 +1,22 @@
+schema_version: "evolution-path-families-v1"
+owner: "Octon governance"
+status: "active"
+authority_roots:
+  - ".octon/framework/engine/runtime/spec/evolution-*.json"
+  - ".octon/framework/engine/runtime/spec/*evolution*.md"
+  - ".octon/framework/orchestration/practices/evolution-lifecycle-standards.md"
+  - ".octon/instance/governance/evolution/**"
+control_roots:
+  - ".octon/state/control/evolution/**"
+evidence_roots:
+  - ".octon/state/evidence/evolution/**"
+continuity_roots:
+  - ".octon/state/continuity/evolution/**"
+generated_roots:
+  - ".octon/generated/cognition/projections/materialized/evolution/**"
+input_roots:
+  - ".octon/inputs/exploratory/proposals/**"
+input_root_runtime_or_policy_dependency_allowed: false
+generated_projection_authority_allowed: false
+proposal_packet_authority_allowed: false
+self_authorization_allowed: false

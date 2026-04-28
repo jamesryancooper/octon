@@ -1,0 +1,20 @@
+schema_version: "mission-closeout-policy-v1"
+policy_id: "mission-closeout"
+owner: "Octon governance"
+status: "active"
+rule: >-
+  Mission closeout is a mission-level gate. It cannot substitute for run-level
+  closeout, run journals, retained run evidence, replay, rollback, or execution
+  authorization records.
+required_conditions:
+  - "all relevant runs terminal"
+  - "run-level closeout complete"
+  - "mission success or failure criteria satisfied or accepted"
+  - "Mission Queue resolved"
+  - "mission-level evidence bundle complete"
+  - "replay/disclosure status known"
+  - "rollback/compensation disposition known"
+  - "continuity updated"
+  - "no unresolved blocking Decision Requests"
+decision_request_type: "mission_closeout_acceptance"
+fail_closed_outcome: "blocked"

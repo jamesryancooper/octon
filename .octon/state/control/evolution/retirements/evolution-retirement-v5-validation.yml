@@ -1,0 +1,12 @@
+schema_version: "evolution-rollback-retirement-posture-v1"
+posture_id: "evolution-retirement-v5-validation"
+subject_ref: ".octon/state/control/evolution/promotions/evolution-promotion-v5-validation.yml"
+posture_type: "retirement"
+rollback_available: false
+retirement_available: true
+compatibility_cutover_available: true
+compensation_available: false
+retirement_trigger: "A stricter successor self-evolution runtime replaces v5 without weakening anti-self-authorization controls."
+evidence_refs:
+  - ".octon/state/evidence/evolution/retirements/evolution-retirement-v5-validation/receipt.yml"
+owner_ref: "operator://octon-maintainers"

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/engagement-v1.schema.json",
+  "title": "Engagement v1",
+  "type": "object",
+  "required": ["schema_version", "engagement_id", "status"],
+  "properties": {
+    "schema_version": { "const": "engagement-v1" },
+    "engagement_id": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "minLength": 1 }
+  }
+}

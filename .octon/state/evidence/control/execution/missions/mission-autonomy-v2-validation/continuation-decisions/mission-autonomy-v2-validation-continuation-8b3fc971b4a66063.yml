@@ -1,0 +1,6 @@
+blockers: []
+continuation_decision_ref: .octon/state/control/execution/missions/mission-autonomy-v2-validation/continuation-decisions/mission-autonomy-v2-validation-continuation-8b3fc971b4a66063.yml
+decision: continue
+mission_id: mission-autonomy-v2-validation
+recorded_at: 2026-04-28T16:11:20.033676Z
+schema_version: mission-continuation-decision-evidence-v1

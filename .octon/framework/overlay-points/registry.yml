@@ -48,20 +48,71 @@ overlay_points:
     precedence: 28
     artifact_kinds:
       - "contract"
+  - overlay_point_id: "instance-governance-engagements"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/engagements/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh"
+    precedence: 28
+    artifact_kinds:
+      - "engagement-path-family-registry"
+  - overlay_point_id: "instance-governance-connectors"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/connectors/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh"
+    precedence: 28
+    artifact_kinds:
+      - "connector-identity"
+      - "connector-operation"
+      - "connector-admission"
+      - "connector-trust-dossier"
+      - "connector-proof-map"
+  - overlay_point_id: "instance-governance-connector-admissions"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/connector-admissions/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh"
+    precedence: 29
+    artifact_kinds:
+      - "connector-admission"
+  - overlay_point_id: "instance-governance-evolution"
+    owning_domain: "governance"
+    instance_glob: ".octon/instance/governance/evolution/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh"
+    precedence: 29
+    artifact_kinds:
+      - "evolution-program"
+      - "evolution-policy"
+      - "promotion-policy"
+      - "recertification-policy"
+      - "constitutional-amendment-policy"
   - overlay_point_id: "instance-governance-decisions"
     owning_domain: "governance"
     instance_glob: ".octon/instance/governance/decisions/**"
     merge_mode: "append_only"
     validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
-    precedence: 29
+    precedence: 30
     artifact_kinds:
       - "decision"
+  - overlay_point_id: "instance-stewardship-programs"
+    owning_domain: "stewardship"
+    instance_glob: ".octon/instance/stewardship/programs/**"
+    merge_mode: "replace_by_path"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-continuous-stewardship-runtime-v3.sh"
+    precedence: 31
+    artifact_kinds:
+      - "program"
+      - "policy"
+      - "trigger-rule"
+      - "review-cadence"
   - overlay_point_id: "instance-execution-roles-runtime"
     owning_domain: "execution-roles"
     instance_glob: ".octon/instance/execution-roles/runtime/**"
     merge_mode: "merge_by_id"
     validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-overlay-points.sh"
-    precedence: 30
+    precedence: 32
     artifact_kinds:
       - "runtime"
   - overlay_point_id: "instance-assurance-runtime"

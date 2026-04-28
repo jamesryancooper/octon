@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/stewardship-epoch-closeout-v1.schema.json",
+  "title": "Stewardship Epoch Closeout v1",
+  "description": "Stewardship-level closeout gate for finite epochs. It never replaces mission or run closeout.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "program_id",
+    "epoch_id",
+    "status",
+    "all_admitted_triggers_dispositioned",
+    "spawned_missions_closed_or_carried_forward",
+    "evidence_complete",
+    "rollback_compensation_posture_known",
+    "replay_disclosure_status_known",
+    "continuity_updated",
+    "renewal_decision_emitted",
+    "no_unresolved_blocking_decision_requests"
+  ],
+  "properties": {
+    "schema_version": { "const": "stewardship-epoch-closeout-v1" },
+    "status": { "enum": ["open", "blocked", "closed"] }
+  }
+}

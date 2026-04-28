@@ -1,0 +1,34 @@
+acceptance_criteria:
+- Objective Brief remains per-engagement candidate control state.
+- Material execution is only reachable through octon run start --contract.
+authority_boundary:
+  material_execution_authorized_by_objective_brief: false
+  may_rewrite_workspace_charter: false
+  objective_brief_is_workspace_charter_authority: false
+authority_status: candidate-control-not-workspace-authority
+backing_evidence_refs:
+- .octon/state/evidence/engagements/engagement-compiler-v1-validation/objective/objective-brief-source.yml
+control_binding:
+  engagement_control_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/engagement.yml
+  objective_control_ref: .octon/state/control/engagements/engagement-compiler-v1-validation/objective/objective-brief.yml
+  objective_control_root: .octon/state/control/engagements/engagement-compiler-v1-validation/objective
+created_at: 2026-04-28T14:01:04.104204Z
+done_when:
+- Work Package is compiled with support, capability, connector, evidence, context, rollback, validation, and placement posture.
+engagement_id: engagement-compiler-v1-validation
+objective_brief_id: engagement-compiler-v1-validation-objective-brief
+objective_layer: engagement-control-candidate
+objective_summary: Validate Engagement Work Package Compiler v1 promotion
+schema_version: engagement-objective-brief-v1
+scope_in:
+- .octon/instance/locality/project-profile.yml
+- .octon/state/control/engagements/engagement-compiler-v1-validation/seed-intent.yml
+scope_out:
+- .octon/state/control/engagements/engagement-compiler-v1-validation/work-package.yml
+- .octon/state/evidence/engagements/engagement-compiler-v1-validation/work-packages/**
+status: candidate
+updated_at: 2026-04-28T14:01:04.104204Z
+workspace_charter_refs:
+  workspace_charter_ref: .octon/instance/charter/workspace.md
+  workspace_machine_charter_ref: .octon/instance/charter/workspace.yml
+workspace_charter_substitution_allowed: false
