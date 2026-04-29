@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: uec-safe-stage-lease-revocation-exercise-20260402
-generated_at: '2026-04-28T23:45:40Z'
+generated_at: "2026-04-29T00:43:54Z"
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -10,24 +10,24 @@ authority:
   may_authorize: false
   may_widen_support: false
   allowed_consumers:
-  - operators
-  - validators
+    - operators
+    - validators
   forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
+    - runtime
+    - policy
+    - authority
+    - support-claim-evaluation
+    - state-reconstruction
+    - direct-runtime-reads
 freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:6741ecbc039a4c9059b601f559639c1d2024bb52ea437bd03cb7b45b683bf1a7
-  checked_at: '2026-04-28T23:45:40Z'
+  combined_source_digest: sha256:4445203b00e20a867d6155f7c2a7cee4a78918a51338316e3793444047b4ff61
+  checked_at: "2026-04-29T00:43:54Z"
   expires_at: null
   freshness_refs:
-  - .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/events.manifest.yml
+    - .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/events.manifest.yml
 canonical_refs:
   run_contract: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-contract.yml
   run_manifest: .octon/state/control/execution/runs/uec-safe-stage-lease-revocation-exercise-20260402/run-manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:eefce0c9cbad53c6700765ad638eaab3cff8c9aab1dd2790ed3727c131033b2e
+    digest: sha256:ab7847ebed75971f87cc5f4fba178ff927f494ac42fef48abb499e8833da32d8
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/uec-safe-stage-lease-revocation-exercise-20260402/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:c92ec0d3ef359e480dc54eb2dec82bcd8e76932bb5af1027afee779caa9b7cf6
+    digest: sha256:7f86702aa183b939bda5a0785fc4874ab0c522fd34c9747e9a875370d0198078
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:acd97cfb7badc089625b8ab675d7111c9763e6fafa62e8e4508923e6b57f0ea8
+    digest: sha256:e0bc5275ac7e49f237db8e395868f10e47ef1606d69df8985fd3b542d70cf1f6
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
@@ -167,23 +167,23 @@ support:
   pack_status: stage-only
   support_status: stage-only
   requested_capability_packs:
-  - repo
-  - telemetry
+    - repo
+    - telemetry
 authorization:
   status: revoked
   active_grants:
-  - .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
-  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-lease-revocation-exercise-20260402.yml
+    - .octon/state/control/execution/approvals/grants/grant-uec-safe-stage-lease-revocation-exercise-20260402.yml
+    - .octon/state/evidence/control/execution/authority-grant-bundle-uec-safe-stage-lease-revocation-exercise-20260402.yml
   open_approvals: []
   active_exceptions:
-  - .octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml
+    - .octon/state/control/execution/exceptions/leases/lease-uec-safe-stage-lease-revocation-exercise-20260402.yml
   active_revocations:
-  - .octon/state/control/execution/revocations/revoke-uec-safe-stage-lease-revocation-exercise-20260402.yml
+    - .octon/state/control/execution/revocations/revoke-uec-safe-stage-lease-revocation-exercise-20260402.yml
 evidence:
   completeness: incomplete
   missing_required:
-  - journal_snapshot
-  - journal_manifest_snapshot
+    - journal_snapshot
+    - journal_manifest_snapshot
 rollback:
   status: ready
   hard_reset_required: false

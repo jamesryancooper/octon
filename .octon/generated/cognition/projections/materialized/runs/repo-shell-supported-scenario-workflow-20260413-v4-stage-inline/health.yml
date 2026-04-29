@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: repo-shell-supported-scenario-workflow-20260413-v4-stage-inline
-generated_at: '2026-04-28T23:45:40Z'
+generated_at: "2026-04-29T00:43:54Z"
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -10,24 +10,24 @@ authority:
   may_authorize: false
   may_widen_support: false
   allowed_consumers:
-  - operators
-  - validators
+    - operators
+    - validators
   forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
+    - runtime
+    - policy
+    - authority
+    - support-claim-evaluation
+    - state-reconstruction
+    - direct-runtime-reads
 freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:429451d916de4bc15932d40a4b6c8e4fb10a347f037faec8d2d3f62791e8a32b
-  checked_at: '2026-04-28T23:45:40Z'
+  combined_source_digest: sha256:086fc808daff1d22154d6f84a41315071fb380f34f13d9593bedc75d6157890a
+  checked_at: "2026-04-29T00:43:54Z"
   expires_at: null
   freshness_refs:
-  - .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/events.manifest.yml
+    - .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/events.manifest.yml
 canonical_refs:
   run_contract: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/run-contract.yml
   run_manifest: .octon/state/control/execution/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/run-manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:eefce0c9cbad53c6700765ad638eaab3cff8c9aab1dd2790ed3727c131033b2e
+    digest: sha256:ab7847ebed75971f87cc5f4fba178ff927f494ac42fef48abb499e8833da32d8
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:c92ec0d3ef359e480dc54eb2dec82bcd8e76932bb5af1027afee779caa9b7cf6
+    digest: sha256:7f86702aa183b939bda5a0785fc4874ab0c522fd34c9747e9a875370d0198078
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:acd97cfb7badc089625b8ab675d7111c9763e6fafa62e8e4508923e6b57f0ea8
+    digest: sha256:e0bc5275ac7e49f237db8e395868f10e47ef1606d69df8985fd3b542d70cf1f6
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
@@ -153,8 +153,7 @@ source_digests:
     status: present
 health:
   status: evidence-incomplete
-  summary: Required retained run evidence is incomplete for the current lifecycle
-    posture.
+  summary: Required retained run evidence is incomplete for the current lifecycle posture.
   next_required_action: complete missing retained evidence refs
 lifecycle:
   state: succeeded
@@ -168,25 +167,25 @@ support:
   pack_status: allow
   support_status: supported
   requested_capability_packs:
-  - repo
-  - telemetry
+    - repo
+    - telemetry
 authorization:
   status: authorized
   active_grants:
-  - .octon/state/evidence/control/execution/authority-grant-bundle-repo-shell-supported-scenario-workflow-20260413-v4-stage-inline.yml
+    - .octon/state/evidence/control/execution/authority-grant-bundle-repo-shell-supported-scenario-workflow-20260413-v4-stage-inline.yml
   open_approvals: []
   active_exceptions: []
   active_revocations: []
 evidence:
   completeness: incomplete
   missing_required:
-  - evidence_classification
-  - retained_evidence
-  - replay_pointers
-  - events_journal
-  - events_manifest
-  - journal_snapshot
-  - journal_manifest_snapshot
+    - evidence_classification
+    - retained_evidence
+    - replay_pointers
+    - events_journal
+    - events_manifest
+    - journal_snapshot
+    - journal_manifest_snapshot
 rollback:
   status: ready
   hard_reset_required: false
