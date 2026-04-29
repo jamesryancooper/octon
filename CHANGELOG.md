@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.49](https://github.com/jamesryancooper/octon/compare/octon-v0.6.48...octon-v0.6.49) (2026-04-29)
+
+
+### Bug Fixes
+
+* **octon:** harden governed autonomy closure ([6207c0f](https://github.com/jamesryancooper/octon/commit/6207c0f6f46c0a2a57a1ac80bf88b053a6954650))
+
 ## [0.6.48](https://github.com/jamesryancooper/octon/compare/octon-v0.6.47...octon-v0.6.48) (2026-04-29)
 
 
