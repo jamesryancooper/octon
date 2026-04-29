@@ -1,0 +1,155 @@
+schema_version: "octon-compatibility-profile-set-v1"
+owner: "Octon governance"
+contract_ref: ".octon/framework/engine/runtime/spec/octon-compatibility-profile-v1.schema.json"
+default_route: "deny"
+classification_order:
+  - "octon_federation_peer"
+  - "octon_enabled_repo"
+  - "octon_mediated_connector"
+  - "octon_compatible_emitter"
+  - "external_evidence_source"
+profiles:
+  - profile_id: "external-evidence-source"
+    schema_version: "octon-compatibility-profile-v1"
+    participation_tier: "external_evidence_source"
+    required_artifacts:
+      - "normalized external evidence receipt"
+    accepted_proof_formats:
+      - "connector-evidence-receipt-v1"
+      - "external-index-record"
+    local_verification_rules:
+      - "normalize through a governed connector or retained evidence path"
+      - "retain source, digest, freshness, and redaction posture"
+    allowed_trust_operations:
+      - "evidence_retention"
+    forbidden_trust_operations:
+      - "federation_compact_membership"
+      - "delegated_authority_lease"
+      - "local_execution_authorization"
+    revocation_behavior: "revoke local acceptance and fail closed on future use"
+    support_posture: "evidence-only"
+    local_authority_constraints:
+      - "external evidence never mints authority"
+      - "support claims still require local support-target admission"
+    external_artifacts_authorize_execution: false
+    non_octon_system_can_be_federation_peer: false
+  - profile_id: "octon-compatible-emitter"
+    schema_version: "octon-compatibility-profile-v1"
+    participation_tier: "octon_compatible_emitter"
+    required_artifacts:
+      - "attestation-envelope-v1"
+      - "portable-proof-bundle-v1"
+    accepted_proof_formats:
+      - "attestation-envelope-v1"
+      - "portable-proof-bundle-v1"
+    local_verification_rules:
+      - "verify schema, issuer, digest, scope, freshness, revocation, and redaction"
+      - "accept locally before satisfying evidence requirements"
+    allowed_trust_operations:
+      - "proof_import"
+      - "attestation_verify"
+      - "attestation_accept"
+      - "attestation_reject"
+    forbidden_trust_operations:
+      - "direct_repo_mutation"
+      - "local_execution_authorization"
+      - "support_claim_widening"
+    revocation_behavior: "revoked or expired emitters fail closed"
+    support_posture: "accepted-proof-only"
+    local_authority_constraints:
+      - "imported proof is retained evidence only"
+      - "local authorization remains required"
+    external_artifacts_authorize_execution: false
+    non_octon_system_can_be_federation_peer: false
+  - profile_id: "octon-mediated-connector"
+    schema_version: "octon-compatibility-profile-v1"
+    participation_tier: "octon_mediated_connector"
+    required_artifacts:
+      - "connector identity"
+      - "connector operation contract"
+      - "connector trust dossier"
+    accepted_proof_formats:
+      - "connector-validation-receipt-v1"
+      - "connector-trust-dossier-proof-bundle-v1"
+    local_verification_rules:
+      - "route through connector admission runtime v4"
+      - "preserve Connector -> Operation -> Capability Packs -> Material-Effect Classes -> Support Posture -> Policy -> Authorization -> Evidence"
+    allowed_trust_operations:
+      - "connector_admission"
+      - "connector_certification"
+    forbidden_trust_operations:
+      - "federation_peer_classification_without_octon_enabled_repo"
+      - "direct_external_execution_authority"
+    revocation_behavior: "connector quarantine or revocation blocks trust operations"
+    support_posture: "connector-governed"
+    local_authority_constraints:
+      - "connector availability is not authority"
+      - "connector proof does not replace run evidence"
+    external_artifacts_authorize_execution: false
+    non_octon_system_can_be_federation_peer: false
+  - profile_id: "octon-enabled-repo"
+    schema_version: "octon-compatibility-profile-v1"
+    participation_tier: "octon_enabled_repo"
+    required_artifacts:
+      - ".octon/octon.yml"
+      - ".octon/framework/**"
+      - ".octon/instance/manifest.yml"
+      - ".octon/instance/charter/workspace.yml"
+      - ".octon/state/control/**"
+      - ".octon/state/evidence/**"
+      - ".octon/state/continuity/**"
+    accepted_proof_formats:
+      - "portable-proof-bundle-v1"
+      - "attestation-envelope-v1"
+      - "run-card-v2"
+      - "harness-card-v2"
+    local_verification_rules:
+      - "validate local super-root topology and repo-specific instance authority"
+      - "reject blind copied state or generated authority"
+    allowed_trust_operations:
+      - "proof_exchange"
+      - "compact_candidate"
+      - "cross_domain_decision_request"
+    forbidden_trust_operations:
+      - "partner_direct_repo_mutation"
+      - "external_authority_override"
+    revocation_behavior: "domain, compact, attestation, proof, and lease revocation fail closed"
+    support_posture: "eligible-for-local-compact-review"
+    local_authority_constraints:
+      - "federation requires local compact approval"
+      - "material execution still enters local run lifecycle"
+    external_artifacts_authorize_execution: false
+    non_octon_system_can_be_federation_peer: false
+  - profile_id: "octon-federation-peer"
+    schema_version: "octon-compatibility-profile-v1"
+    participation_tier: "octon_federation_peer"
+    required_artifacts:
+      - "octon-enabled repo classification"
+      - "registered trust domain"
+      - "locally approved federation compact"
+      - "recertification posture"
+    accepted_proof_formats:
+      - "portable-proof-bundle-v1"
+      - "attestation-envelope-v1"
+      - "federation-ledger-v1"
+    local_verification_rules:
+      - "validate domain registration, compact approval, freshness, revocation, and local acceptance"
+      - "block all material work without local run contract and authorization"
+    allowed_trust_operations:
+      - "compact_participation"
+      - "delegated_authority_lease_request"
+      - "cross_domain_decision_request"
+      - "proof_exchange"
+      - "certification_workflow"
+    forbidden_trust_operations:
+      - "external_execution_authority"
+      - "local_authority_override"
+      - "support_claim_widening_without_support_target_admission"
+    revocation_behavior: "any revoked domain, compact, issuer, lease, proof, or attestation blocks federation behavior"
+    support_posture: "federation-eligible-after-local-approval"
+    local_authority_constraints:
+      - "compact coordinates trust only"
+      - "delegated lease is a local authorization input only"
+      - "external proof remains evidence only"
+    external_artifacts_authorize_execution: false
+    non_octon_system_can_be_federation_peer: false

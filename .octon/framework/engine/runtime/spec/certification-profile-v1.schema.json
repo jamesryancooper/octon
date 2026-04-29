@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/certification-profile-v1.schema.json",
+  "title": "Certification Profile v1",
+  "description": "Proof requirements for a class of trusted behavior. Certification cannot widen support claims unless support-target admission and proofing also pass.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "certification_class",
+    "required_evidence",
+    "required_labs",
+    "required_simulations",
+    "required_negative_controls",
+    "required_replay_proof",
+    "required_rollback_proof",
+    "required_freshness_proof",
+    "required_approval_or_quorum",
+    "recertification_cadence",
+    "certification_authorizes_execution",
+    "certification_widens_support_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "certification-profile-v1" },
+    "profile_id": { "type": "string", "minLength": 1 },
+    "certification_class": {
+      "type": "string",
+      "enum": [
+        "connector-read-only",
+        "connector-live-effectful",
+        "release-staging",
+        "release-production",
+        "cross-repo-migration",
+        "auditor-verifiable-run",
+        "support-target-live-claim"
+      ]
+    },
+    "required_evidence": { "type": "array", "items": { "type": "string" } },
+    "required_labs": { "type": "array", "items": { "type": "string" } },
+    "required_simulations": { "type": "array", "items": { "type": "string" } },
+    "required_negative_controls": { "type": "array", "items": { "type": "string" } },
+    "required_replay_proof": { "type": "array", "items": { "type": "string" } },
+    "required_rollback_proof": { "type": "array", "items": { "type": "string" } },
+    "required_freshness_proof": { "type": "array", "items": { "type": "string" } },
+    "required_approval_or_quorum": { "type": "string", "minLength": 1 },
+    "recertification_cadence": { "type": "string", "minLength": 1 },
+    "certification_authorizes_execution": { "const": false },
+    "certification_widens_support_claims": { "const": false }
+  }
+}

@@ -1,0 +1,20 @@
+schema_version: "attestation-verification-receipt-v1"
+attestation_id: "attestation-octon-v6-mvp"
+attestation_ref: ".octon/state/control/trust/attestations/attestation-octon-v6-mvp.yml"
+registry_ref: ".octon/instance/governance/trust/registry.yml"
+policy_ref: ".octon/instance/governance/trust/policies/attestation-acceptance.yml"
+checks:
+  schema_valid: true
+  issuer_registered: true
+  trust_domain_registered: true
+  scoped: true
+  verification_status_verified: true
+  freshness_valid: true
+  unrevoked: true
+  consumer_verification_requirements_present: true
+  locally_accepted: true
+attestation_authorizes_execution: false
+attestation_replaces_local_authority: false
+attestation_widens_support_claims: false
+result: "accepted_as_evidence_only"
+recorded_at: "2026-04-29T00:00:00Z"

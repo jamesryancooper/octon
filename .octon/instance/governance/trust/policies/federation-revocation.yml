@@ -1,0 +1,18 @@
+schema_version: "federation-revocation-policy-v1"
+owner: "Octon governance"
+registry_ref: ".octon/instance/governance/trust/registry.yml"
+default_route: "deny"
+revocable_artifacts:
+  - "trust-domain"
+  - "issuer"
+  - "federation-compact"
+  - "attestation-envelope"
+  - "portable-proof-bundle"
+  - "delegated-authority-lease"
+  - "cross-domain-decision-request"
+  - "certification"
+fail_closed_behavior:
+  - "revoked domains block proof and delegation acceptance"
+  - "revoked compacts block federation behavior"
+  - "revoked attestations and proof bundles cannot satisfy evidence requirements"
+  - "revoked leases cannot influence local authorization"

@@ -1,0 +1,8 @@
+schema_version: "external-project-compatibility-inspection-evidence-v1"
+inspection_ref: ".octon/state/control/trust/external-projects/octon-local/inspection.yml"
+classification: "octon_enabled_repo"
+evidence_role: "retained compatibility inspection proof"
+inspection_authorizes_adoption: false
+inspection_authorizes_federation: false
+material_execution_authorized: false
+recorded_at: "2026-04-29T00:00:00Z"

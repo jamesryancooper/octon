@@ -1,0 +1,10 @@
+schema_version: "trust-compatibility-inspection-evidence-v1"
+inspection_id: "octon-v6-compatibility"
+subject_ref: ".octon"
+classification: "octon_enabled_repo"
+profile_ref: ".octon/instance/governance/trust/compatibility-profile.yml"
+safe_adoption_policy_ref: ".octon/instance/governance/trust/policies/external-project-adoption.yml"
+blind_copy_full_octon_allowed: false
+generated_rebuild_required: true
+material_execution_authorized: false
+recorded_at: "2026-04-29T00:00:00Z"

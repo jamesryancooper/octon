@@ -1,0 +1,51 @@
+schema_version: "federation-ledger-v1"
+ledger_id: "octon-local-federation-ledger"
+source_truth_boundaries:
+  - "Trust registry owns local trust-domain and issuer admission intent."
+  - "State/control trust files own mutable trust status."
+  - "State/evidence trust files own retained proof."
+  - "State/continuity trust files are resumable context only."
+  - "Generated trust projections are derived and non-authoritative."
+trust_domains:
+  - domain_id: "octon-local"
+    ref: ".octon/instance/governance/trust/domains/octon-local.yml"
+    status: "active"
+  - domain_id: "octon-reference-peer"
+    ref: ".octon/instance/governance/trust/domains/octon-reference-peer.yml"
+    status: "stage_only"
+compacts:
+  - compact_id: "octon-local-reference-stage-only"
+    authority_ref: ".octon/instance/governance/trust/federation-compacts/octon-local-reference-stage-only.yml"
+    status_ref: ".octon/state/control/trust/federation-compacts/octon-local-reference-stage-only/status.yml"
+attestations:
+  - attestation_id: "attestation-octon-v6-mvp"
+    control_ref: ".octon/state/control/trust/attestations/attestation-octon-v6-mvp.yml"
+    evidence_ref: ".octon/state/evidence/trust/attestations/attestation-octon-v6-mvp/verification.yml"
+proof_bundles:
+  - bundle_id: "proof-octon-v6-mvp"
+    control_ref: ".octon/state/control/trust/proof-bundles/proof-octon-v6-mvp.yml"
+    evidence_ref: ".octon/state/evidence/trust/proof-bundles/proof-octon-v6-mvp/acceptance.yml"
+delegated_leases:
+  - lease_id: "lease-octon-v6-stage-only"
+    control_ref: ".octon/state/control/trust/delegated-leases/lease-octon-v6-stage-only.yml"
+    evidence_ref: ".octon/state/evidence/trust/delegated-leases/lease-octon-v6-stage-only/receipt.yml"
+cross_domain_decisions:
+  - decision_id: "decision-octon-v6-proof-acceptance"
+    control_ref: ".octon/state/control/trust/cross-domain-decisions/decision-octon-v6-proof-acceptance.yml"
+    evidence_ref: ".octon/state/evidence/trust/cross-domain-decisions/decision-octon-v6-proof-acceptance/receipt.yml"
+certifications:
+  - certification_id: "cert-octon-v6-auditor-verifiable-run"
+    control_ref: ".octon/state/control/trust/certifications/cert-octon-v6-auditor-verifiable-run.yml"
+    evidence_ref: ".octon/state/evidence/trust/certifications/cert-octon-v6-auditor-verifiable-run/receipt.yml"
+revocations:
+  - revocation_id: "revocation-octon-v6-expiry-policy"
+    control_ref: ".octon/state/control/trust/revocations/revocation-octon-v6-expiry-policy.yml"
+    evidence_ref: ".octon/state/evidence/trust/revocations/revocation-octon-v6-expiry-policy/receipt.yml"
+disputes: []
+recertifications:
+  - recertification_id: "recertification-octon-v6-2026q3"
+    due_at: "2026-07-28T00:00:00Z"
+    evidence_ref: ".octon/state/evidence/trust/recertifications/recertification-octon-v6-2026q3/plan.yml"
+ledger_replaces_source_evidence: false
+ledger_authorizes_execution: false
+updated_at: "2026-04-29T00:00:00Z"

@@ -1,0 +1,6 @@
+schema_version: "proof-revocation-evidence-v1"
+revocation_ref: ".octon/state/control/trust/revocations/revocation-proof-octon-v6-interop.yml"
+route_on_match: "deny"
+fail_closed: true
+revocation_authorizes_execution: false
+recorded_at: "2026-04-29T00:00:00Z"

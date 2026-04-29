@@ -1,0 +1,30 @@
+schema_version: "trust-domain-v1"
+domain_id: "octon-local"
+domain_kind: "repo"
+owner: "Octon governance"
+scope: "This repository's Octon super-root and local Governed Agent Runtime."
+compatibility_profile: "octon_enabled_repo"
+accepted_evidence_types:
+  - "run evidence"
+  - "support-target proof bundle"
+  - "attestation envelope"
+  - "portable proof bundle"
+trusted_issuers:
+  - "octon-governance"
+revocation_policy: "local governance revocation under .octon/state/control/trust/revocations/**"
+data_boundary: "repo-local retained evidence and redacted exports only"
+credential_boundary: "no cross-domain credential delegation in v6 MVP"
+support_posture: "bounded-admitted-finite"
+permitted_delegation_classes:
+  - "stage_only_coordination"
+  - "proof_acceptance_review"
+forbidden_delegation_classes:
+  - "external_execution_authority"
+  - "direct_repo_mutation"
+  - "support_claim_widening"
+local_approval_required: true
+domain_authorizes_execution: false
+external_registry_is_authority: false
+status: "active"
+created_at: "2026-04-29T00:00:00Z"
+updated_at: "2026-04-29T00:00:00Z"

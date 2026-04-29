@@ -1,0 +1,27 @@
+schema_version: "trust-domain-v1"
+domain_id: "octon-reference-peer"
+domain_kind: "repo"
+owner: "Octon governance"
+scope: "Stage-only reference peer used to validate v6 compact, proof, lease, decision, certification, and ledger behavior."
+compatibility_profile: "octon_federation_peer"
+accepted_evidence_types:
+  - "attestation envelope"
+  - "portable proof bundle"
+trusted_issuers:
+  - "octon-reference-peer"
+revocation_policy: "revoked, expired, or unregistered reference-peer artifacts fail closed"
+data_boundary: "redacted proof exchange only"
+credential_boundary: "no credential sharing"
+support_posture: "stage-only reference domain; no live support claim"
+permitted_delegation_classes:
+  - "stage_only_coordination"
+forbidden_delegation_classes:
+  - "external_execution_authority"
+  - "direct_repo_mutation"
+  - "permanent_authority"
+local_approval_required: true
+domain_authorizes_execution: false
+external_registry_is_authority: false
+status: "stage_only"
+created_at: "2026-04-29T00:00:00Z"
+updated_at: "2026-04-29T00:00:00Z"

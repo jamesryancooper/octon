@@ -1,0 +1,33 @@
+schema_version: "attestation-envelope-v1"
+attestation_id: "attestation-octon-v6-mvp"
+issuer: "octon-governance"
+subject: "octon-compatibility-and-federated-trust-runtime-v6"
+claim_type: "support-proof-summary"
+scope: "v6 MVP local trust runtime surfaces"
+valid_from: "2026-04-29T00:00:00Z"
+expires_at: "2026-07-28T00:00:00Z"
+evidence_refs:
+  - ".octon/state/evidence/trust/attestations/attestation-octon-v6-mvp/verification.yml"
+revocation_refs:
+  - ".octon/state/control/trust/revocations/revocation-octon-v6-expiry-policy.yml"
+verification_method: "local-schema-and-policy-validation"
+signature: null
+trust_domain_id: "octon-local"
+verification_status: "verified"
+freshness_status: "fresh"
+revocation_status: "unrevoked"
+checked_at: "2026-04-29T00:00:00Z"
+local_acceptance_evidence_refs:
+  - ".octon/state/evidence/trust/attestations/attestation-octon-v6-mvp/verification.yml"
+unsigned_acceptance_constraints:
+  unsigned_allowed: true
+  route_when_unsigned: "local-evidence-only"
+consumer_verification_requirements:
+  - "resolve trust domain in local registry"
+  - "check issuer and revocation refs before reuse"
+  - "confirm local acceptance remains current"
+local_acceptance: "accepted"
+attestation_authorizes_execution: false
+attestation_replaces_local_authority: false
+attestation_widens_support_claims: false
+updated_at: "2026-04-29T00:00:00Z"

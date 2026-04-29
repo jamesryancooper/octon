@@ -16,6 +16,7 @@ retained_evidence_roots:
   - ".octon/state/evidence/control/execution/**"
   - ".octon/state/evidence/connectors/**"
   - ".octon/state/evidence/evolution/**"
+  - ".octon/state/evidence/trust/**"
   - ".octon/state/evidence/external-index/**"
   - ".octon/state/evidence/validation/publication/**"
 obligations:
@@ -204,4 +205,15 @@ obligations:
       ledger updates retain evidence under state/evidence/evolution/** and
       never substitute for human/quorum approval, proposal manifests, ADRs, run
       evidence, or promotion receipts.
+    adoption_status: "active"
+  - id: "EVI-033"
+    requirement: >-
+      Compatibility inspections, external project adoption preflights, Trust
+      Domain registrations, Federation Compact approvals, Attestation Envelope
+      verification and acceptance decisions, Portable Proof Bundle import/export
+      decisions, delegated lease lifecycle changes, cross-domain decisions,
+      certifications, revocations, expiries, disputes, and recertifications
+      retain evidence under state/evidence/trust/** and never substitute for
+      local registry authority, control state, run contracts, execution
+      authorization, support-target admission, rollback posture, or run evidence.
     adoption_status: "active"

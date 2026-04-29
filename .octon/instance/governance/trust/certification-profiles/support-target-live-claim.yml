@@ -1,0 +1,25 @@
+schema_version: "certification-profile-v1"
+profile_id: "support-target-live-claim"
+certification_class: "support-target-live-claim"
+required_evidence:
+  - "support target admission"
+  - "support dossier"
+  - "support proof bundle"
+  - "representative retained run disclosure"
+required_labs:
+  - "support tuple proof sufficiency"
+required_simulations:
+  - "support widening denial"
+required_negative_controls:
+  - "third-party certification cannot widen support"
+  - "generated support card cannot satisfy live claim"
+required_replay_proof:
+  - "run journal conformance for repo-consequential tuples"
+required_rollback_proof:
+  - "rollback or compensation posture"
+required_freshness_proof:
+  - "support proof bundle freshness"
+required_approval_or_quorum: "Octon governance approval"
+recertification_cadence: "quarterly or before support claim widening"
+certification_authorizes_execution: false
+certification_widens_support_claims: false

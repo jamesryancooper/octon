@@ -1,0 +1,38 @@
+schema_version: "external-project-adoption-policy-v1"
+owner: "Octon governance"
+default_route: "deny"
+safe_adoption_sequence:
+  - "detect existing .octon topology"
+  - "classify compatibility profile"
+  - "install or verify portable framework only"
+  - "initialize repo-specific instance authority"
+  - "create or reconcile workspace charter"
+  - "initialize ingress and bootstrap"
+  - "initialize governance and support-target posture"
+  - "initialize local state/control, state/evidence, and state/continuity roots"
+  - "rebuild generated projections locally"
+  - "run bootstrap and doctor checks"
+  - "assign compatibility profile"
+  - "consider federation compact only after local trust admission"
+forbidden_adoption_shortcuts:
+  - "blind full .octon copy from another project"
+  - "copying instance/** as authority"
+  - "copying state/** as current operational truth"
+  - "copying generated/** as source truth"
+  - "treating a partial .octon as Octon-enabled"
+blind_copy_full_octon_allowed: false
+generated_rebuild_required: true
+repo_specific_instance_authority_required: true
+support_target_admission_required: true
+bootstrap_doctor_required: true
+failure_states:
+  - "partial_octon"
+  - "stale_octon"
+  - "conflicting_octon"
+  - "missing_instance_authority"
+  - "missing_support_posture"
+  - "missing_state_roots"
+  - "generated_not_rebuilt"
+  - "bootstrap_doctor_failed"
+  - "blind_copy_detected"
+federation_membership_before_compatibility_gates: false

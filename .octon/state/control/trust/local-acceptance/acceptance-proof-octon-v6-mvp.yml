@@ -1,0 +1,24 @@
+schema_version: "local-proof-acceptance-v1"
+acceptance_id: "acceptance-proof-octon-v6-mvp"
+subject_kind: "portable_proof_bundle"
+subject_ref: ".octon/state/control/trust/proof-bundles/proof-octon-v6-mvp.yml"
+acceptance_state: "accepted_as_evidence"
+scope: "v6 compatibility conformance and portable proof interop evidence"
+evidence_requirements_satisfied:
+  - "schema-valid portable-proof-bundle-v1"
+  - "digest-bound evidence refs"
+  - "fresh and unrevoked local proof posture"
+limitations:
+  - "does not authorize execution"
+  - "does not replace run evidence"
+  - "does not widen support claims"
+freshness_status: "fresh"
+revocation_status: "unrevoked"
+responsible_local_authority: ".octon/instance/governance/trust/policies/proof-bundle-acceptance.yml"
+decision_request_ref: null
+accepted_at: "2026-04-29T00:00:00Z"
+expires_at: "2026-07-28T00:00:00Z"
+revocable: true
+local_acceptance_authorizes_execution: false
+local_acceptance_replaces_local_authority: false
+local_acceptance_widens_support_claims: false

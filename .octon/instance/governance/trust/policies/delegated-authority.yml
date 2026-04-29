@@ -1,0 +1,21 @@
+schema_version: "delegated-authority-policy-v1"
+owner: "Octon governance"
+registry_ref: ".octon/instance/governance/trust/registry.yml"
+default_route: "deny"
+requirements:
+  - "registered grantor and grantee domains"
+  - "scope, action classes, support tuple, capability packs, evidence obligations, and approval refs present"
+  - "support target ref and capability pack registry ref resolve before activation"
+  - "expiration, revocation authority refs, and revocation conditions present"
+  - "current time must be before expires_at; expired leases deny"
+  - "matching revocation evidence denies"
+  - "lease_consumption_route is local-authorization-input-only"
+  - "local authorization still required before material execution"
+non_authority_rules:
+  delegated_lease_authorizes_execution: false
+  delegated_lease_is_permanent_authority: false
+  run_contract_bypass_allowed: false
+  execution_authorization_bypass_allowed: false
+  support_claim_widening_allowed: false
+  capability_widening_allowed: false
+  external_domain_can_mutate_repo_directly: false

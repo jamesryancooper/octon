@@ -1,0 +1,25 @@
+schema_version: "certification-profile-v1"
+profile_id: "auditor-verifiable-run"
+certification_class: "auditor-verifiable-run"
+required_evidence:
+  - "run contract"
+  - "run evidence classification"
+  - "run-card disclosure"
+  - "replay or trace pointer"
+required_labs:
+  - "proof-plane coverage"
+required_simulations:
+  - "negative-control denial"
+required_negative_controls:
+  - "external auditor cannot approve local execution"
+  - "imported proof cannot replace retained run evidence"
+required_replay_proof:
+  - "replay manifest or external replay index"
+required_rollback_proof:
+  - "rollback posture"
+required_freshness_proof:
+  - "validation receipt freshness"
+required_approval_or_quorum: "local approval or quorum only"
+recertification_cadence: "quarterly or on trust policy change"
+certification_authorizes_execution: false
+certification_widens_support_claims: false

@@ -1,0 +1,7 @@
+schema_version: "trust-open-reviews-v1"
+authority_status: "continuity-not-authority"
+reviews:
+  - review_id: "recertification-octon-v6-2026q3"
+    subject: "v6 trust registry, compact, issuers, proof classes, and delegated leases"
+    due_at: "2026-07-28T00:00:00Z"
+continuity_is_authority: false

@@ -1,0 +1,15 @@
+schema_version: "federation-compact-evidence-v1"
+compact_id: "octon-local-reference-stage-only"
+compact_ref: ".octon/instance/governance/trust/federation-compacts/octon-local-reference-stage-only.yml"
+status_ref: ".octon/state/control/trust/federation-compacts/octon-local-reference-stage-only/status.yml"
+local_approval_basis:
+  - ".octon/instance/governance/trust/registry.yml"
+  - ".octon/instance/governance/trust/policies/federation-revocation.yml"
+  - ".octon/state/control/trust/cross-domain-decisions/decision-octon-v6-proof-acceptance.yml"
+  - ".octon/state/evidence/trust/federation-compacts/octon-local-reference-stage-only/approval.yml"
+compact_authorizes_execution: false
+compact_overrides_local_authority: false
+compact_widens_support_claims: false
+compact_mutates_local_authority: false
+result: "stage_only_coordination"
+recorded_at: "2026-04-29T00:00:00Z"

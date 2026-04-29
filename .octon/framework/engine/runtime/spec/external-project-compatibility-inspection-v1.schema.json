@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/external-project-compatibility-inspection-v1.schema.json",
+  "title": "External Project Compatibility Inspection v1",
+  "description": "Governed inspection result for assigning an Octon Compatibility Profile to an external project or system. Inspection is evidence only and never authorizes adoption, federation, or execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "inspection_id",
+    "project_ref",
+    "inspected_at",
+    "detected_state",
+    "classification",
+    "topology_checks",
+    "adoption_gate",
+    "federation_gate",
+    "evidence_refs",
+    "material_execution_authorized",
+    "inspection_authorizes_adoption",
+    "inspection_authorizes_federation"
+  ],
+  "properties": {
+    "schema_version": { "const": "external-project-compatibility-inspection-v1" },
+    "inspection_id": { "type": "string", "minLength": 1 },
+    "project_ref": { "type": "string", "minLength": 1 },
+    "inspected_at": { "type": "string", "format": "date-time" },
+    "detected_state": {
+      "type": "string",
+      "enum": [
+        "no_octon",
+        "partial_octon",
+        "stale_octon",
+        "conflicting_octon",
+        "octon_shaped_emitter",
+        "connector_only_external_system",
+        "octon_enabled_repo",
+        "federation_ready_peer"
+      ]
+    },
+    "classification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "participation_tier",
+        "profile_ref",
+        "reason",
+        "deep_federation_allowed"
+      ],
+      "properties": {
+        "participation_tier": {
+          "type": "string",
+          "enum": [
+            "external_evidence_source",
+            "octon_compatible_emitter",
+            "octon_mediated_connector",
+            "octon_enabled_repo",
+            "octon_federation_peer"
+          ]
+        },
+        "profile_ref": { "type": "string", "minLength": 1 },
+        "reason": { "type": "string", "minLength": 1 },
+        "deep_federation_allowed": { "type": "boolean" }
+      }
+    },
+    "topology_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "octon_root_present",
+        "portable_framework_present",
+        "repo_specific_instance_present",
+        "workspace_charter_present",
+        "state_control_root_present",
+        "state_evidence_root_present",
+        "state_continuity_root_present",
+        "generated_projection_present",
+        "generated_projection_requires_rebuild",
+        "bootstrap_doctor_ready"
+      ],
+      "properties": {
+        "octon_root_present": { "type": "boolean" },
+        "portable_framework_present": { "type": "boolean" },
+        "repo_specific_instance_present": { "type": "boolean" },
+        "workspace_charter_present": { "type": "boolean" },
+        "state_control_root_present": { "type": "boolean" },
+        "state_evidence_root_present": { "type": "boolean" },
+        "state_continuity_root_present": { "type": "boolean" },
+        "generated_projection_present": { "type": "boolean" },
+        "generated_projection_requires_rebuild": { "type": "boolean" },
+        "bootstrap_doctor_ready": { "type": "boolean" }
+      }
+    },
+    "adoption_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "blockers", "blind_copy_full_octon_allowed"],
+      "properties": {
+        "status": { "type": "string", "enum": ["not_requested", "ready", "blocked"] },
+        "blockers": { "type": "array", "items": { "type": "string" } },
+        "blind_copy_full_octon_allowed": { "const": false }
+      }
+    },
+    "federation_gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "deferred_scope", "requires_future_trust_runtime"],
+      "properties": {
+        "status": { "type": "string", "enum": ["not_eligible", "classification_only", "deferred"] },
+        "deferred_scope": { "type": "array", "items": { "type": "string" } },
+        "requires_future_trust_runtime": { "type": "boolean" }
+      }
+    },
+    "evidence_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "material_execution_authorized": { "const": false },
+    "inspection_authorizes_adoption": { "const": false },
+    "inspection_authorizes_federation": { "const": false }
+  }
+}

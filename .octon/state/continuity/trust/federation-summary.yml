@@ -1,0 +1,10 @@
+schema_version: "trust-continuity-summary-v1"
+authority_status: "continuity-not-authority"
+ledger_ref: ".octon/state/control/trust/ledger.yml"
+open_compacts:
+  - "octon-local-reference-stage-only"
+open_leases:
+  - "lease-octon-v6-stage-only"
+next_review_due_at: "2026-07-28T00:00:00Z"
+continuity_is_authority: false
+updated_at: "2026-04-29T00:00:00Z"

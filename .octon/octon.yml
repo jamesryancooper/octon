@@ -128,6 +128,12 @@ resolution:
     mission_control_root: .octon/state/control/execution/missions
     ownership_registry: .octon/instance/governance/ownership/registry.yml
     mission_autonomy_policy: .octon/instance/governance/policies/mission-autonomy.yml
+    trust_registry: .octon/instance/governance/trust/registry.yml
+    trust_authority_root: .octon/instance/governance/trust
+    trust_control_root: .octon/state/control/trust
+    trust_evidence_root: .octon/state/evidence/trust
+    trust_continuity_root: .octon/state/continuity/trust
+    trust_generated_projection_root: .octon/generated/cognition/projections/materialized/trust
 execution_governance:
   policy_mode:
     default: hard-enforce

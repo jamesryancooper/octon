@@ -1,0 +1,9 @@
+schema_version: "cross-domain-decision-receipt-v1"
+decision_id: "decision-octon-v6-proof-acceptance"
+decision_ref: ".octon/state/control/trust/cross-domain-decisions/decision-octon-v6-proof-acceptance.yml"
+canonical_authority_root: ".octon/state/control/trust/cross-domain-decisions"
+host_state_is_authority: false
+external_approval_is_local_authority: false
+decision_authorizes_execution: false
+result: "stage_only_decision_record"
+recorded_at: "2026-04-29T00:00:00Z"

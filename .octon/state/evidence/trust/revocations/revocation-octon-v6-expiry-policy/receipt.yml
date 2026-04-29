@@ -1,0 +1,7 @@
+schema_version: "trust-revocation-receipt-v1"
+revocation_id: "revocation-octon-v6-expiry-policy"
+revocation_ref: ".octon/state/control/trust/revocations/revocation-octon-v6-expiry-policy.yml"
+fail_closed: true
+route_on_match: "deny"
+revocation_authorizes_execution: false
+recorded_at: "2026-04-29T00:00:00Z"

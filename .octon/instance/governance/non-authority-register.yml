@@ -141,3 +141,18 @@ entries:
     validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh
     retained_forever: true
     rationale: The effective support-target matrix remains a generated handle for route-bundle publication only and must not widen support beyond the authored declaration and admissions.
+  - surface_id: trust-operator-read-models
+    surface_class: generated-operator-read-model
+    paths:
+      - .octon/generated/cognition/projections/materialized/trust/federation-status.yml
+      - .octon/generated/cognition/projections/materialized/trust/certification-dashboard.yml
+      - .octon/generated/cognition/projections/materialized/trust/open-decisions.yml
+      - .octon/generated/cognition/projections/materialized/trust/attestation-map.yml
+      - .octon/generated/cognition/projections/materialized/trust/compatibility-map.yml
+    canonical_source_ref: .octon/state/control/trust/ledger.yml
+    authority_mode: derived-non-authority
+    generation_or_projection_mechanism: generated-from local trust registry, trust control records, and retained trust evidence
+    claim_adjacent: true
+    validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-federated-trust-runtime-v6.sh
+    retained_forever: true
+    rationale: Trust read models aid federation review but cannot approve compacts, accept proof, authorize execution, widen support, or override local authority.

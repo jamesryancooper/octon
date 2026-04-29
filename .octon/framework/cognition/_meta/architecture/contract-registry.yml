@@ -638,6 +638,76 @@ path_families:
     doc_target_refs:
       - "architecture_specification"
       - "bootstrap_start"
+  octon_compatibility_and_federated_trust_runtime_v6:
+    class_root: "framework"
+    related_class_roots:
+      - "instance"
+      - "state"
+      - "generated"
+      - "inputs"
+    canonical_paths:
+      - ".octon/framework/engine/runtime/spec/octon-compatibility-profile-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/external-project-compatibility-inspection-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/external-project-adoption-posture-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/external-project-adoption-v1.md"
+      - ".octon/framework/engine/runtime/spec/trust-domain-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/trust-domain-hook-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/trust-registry-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/federation-compact-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/attestation-envelope-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/portable-proof-bundle-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/local-proof-acceptance-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/proof-acceptance-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/proof-revocation-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/delegated-authority-lease-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/cross-domain-decision-request-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/certification-profile-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/federation-ledger-v1.schema.json"
+      - ".octon/framework/orchestration/practices/octon-adoption-standards.md"
+      - ".octon/framework/orchestration/practices/portable-proof-interop-standards.md"
+      - ".octon/framework/orchestration/practices/federated-proof-interop-standards.md"
+      - ".octon/framework/orchestration/practices/federation-lifecycle-standards.md"
+      - ".octon/instance/governance/trust/**"
+      - ".octon/state/control/trust/**"
+      - ".octon/state/evidence/trust/**"
+      - ".octon/state/continuity/trust/**"
+      - ".octon/generated/cognition/projections/materialized/trust/**"
+    authority_class: "local-compatibility-and-federated-trust-runtime-contract"
+    role: >-
+      Local compatibility, adoption, trust-domain, compact, proof, attestation,
+      delegated lease, cross-domain decision, certification, ledger, revocation,
+      and expiry layer for exchanging proof without creating a rival authority
+      or external execution plane.
+    selected_v6_prerequisite:
+      name: "Octon Compatibility Conformance + Portable Proof Interop"
+      status: "active"
+      deferred_scope:
+        - "full Trust Registry runtime"
+        - "full Federation Compact runtime"
+        - "full Delegated Authority Lease runtime"
+        - "Cross-Domain Decision Request runtime"
+        - "Certification runtime"
+        - "Federation Ledger runtime"
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+      - "docs"
+    forbidden_consumers:
+      - "external proof as local authority"
+      - "external attestations as execution authorization"
+      - "federation compacts as constitutional override"
+      - "delegated leases as permanent authority"
+      - "external dashboards or auditors as control planes"
+      - "generated trust projections as authority"
+      - "runtime dependencies on inputs/**"
+      - "partner Octon instances mutating local repos directly"
+      - "non-Octon systems as federation peers"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-federated-trust-runtime-v6.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
   runtime_resolution:
     class_root: "framework"
     related_class_roots:

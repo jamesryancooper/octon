@@ -1,0 +1,15 @@
+schema_version: "proof-revocation-policy-v1"
+owner: "Octon governance"
+contract_ref: ".octon/framework/engine/runtime/spec/proof-revocation-v1.schema.json"
+default_route: "deny"
+revocable_subjects:
+  - "portable_proof_bundle"
+  - "attestation_envelope"
+  - "issuer_hook"
+  - "compatibility_status"
+  - "local_acceptance"
+expiry_route: "deny"
+revocation_route: "deny"
+stale_route: "deny"
+revocation_fails_closed: true
+revocation_authorizes_execution: false

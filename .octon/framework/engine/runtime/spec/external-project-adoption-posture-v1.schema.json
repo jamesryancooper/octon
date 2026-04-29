@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/external-project-adoption-posture-v1.schema.json",
+  "title": "External Project Adoption Posture v1",
+  "description": "Safe posture for initializing Octon in an external repository by installing portable framework material and initializing repo-local authority, not by copying another repository's full .octon state.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adoption_id",
+    "project_ref",
+    "status",
+    "classification_ref",
+    "safe_adoption_sequence",
+    "forbidden_shortcuts",
+    "required_local_roots",
+    "failure_states",
+    "blind_copy_full_octon_allowed",
+    "generated_rebuild_required",
+    "repo_specific_instance_authority_required",
+    "support_target_admission_required",
+    "bootstrap_doctor_required",
+    "material_execution_authorized"
+  ],
+  "properties": {
+    "schema_version": { "const": "external-project-adoption-posture-v1" },
+    "adoption_id": { "type": "string", "minLength": 1 },
+    "project_ref": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["preflight_only", "blocked", "ready_for_local_initialization", "initialized"]
+    },
+    "classification_ref": { "type": "string", "minLength": 1 },
+    "safe_adoption_sequence": { "type": "array", "minItems": 10, "items": { "type": "string", "minLength": 1 } },
+    "forbidden_shortcuts": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "required_local_roots": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "enum": [
+          "framework",
+          "instance",
+          "state/control",
+          "state/evidence",
+          "state/continuity",
+          "generated"
+        ]
+      }
+    },
+    "failure_states": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "partial_octon",
+          "stale_octon",
+          "conflicting_octon",
+          "missing_instance_authority",
+          "missing_support_posture",
+          "missing_state_roots",
+          "generated_not_rebuilt",
+          "bootstrap_doctor_failed",
+          "blind_copy_detected"
+        ]
+      }
+    },
+    "blind_copy_full_octon_allowed": { "const": false },
+    "generated_rebuild_required": { "const": true },
+    "repo_specific_instance_authority_required": { "const": true },
+    "support_target_admission_required": { "const": true },
+    "bootstrap_doctor_required": { "const": true },
+    "material_execution_authorized": { "const": false }
+  }
+}

@@ -1,0 +1,3 @@
+# Closure Certification Plan
+
+Closure requires evidence that all MVP v6 primitives have durable contracts or accepted targets; external project compatibility inspection can classify all participation tiers; safe adoption prevents blind `.octon/` full-state copy; proof import/export is schema-valid and evidence-bound; attestation verification cannot mint authority; revocation and expiry fail closed; generated trust projections are non-authoritative; existing run lifecycle and authorization boundary remain unchanged; support-target claims remain bounded; validation and negative-control checks pass twice consecutively.

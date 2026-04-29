@@ -13,3 +13,16 @@ V4 MVP admits only observe, read, and stage-only connector operations by default
 Quarantine is fail-closed. Active quarantine blocks admission posture changes until reset evidence and required operator/quorum approval exist. Drift in connector manifest, operation schema, support posture, egress, credential class, capability mapping, evidence obligations, rollback posture, allowed mode, failure taxonomy, or budget/rate class routes to quarantine or Decision Request.
 
 Administrative connector CLI commands prepare or inspect connector control state. They must not execute connector operations. Any material connector operation must enter through a governed run contract and the runtime authorization boundary.
+
+## v6 Trust Boundary
+
+Federated-trust runtime v6 may classify a non-Octon system as an
+`octon_mediated_connector`, but that classification does not make the external
+system a federation peer. Connector participation remains operation-level:
+
+`Connector -> Operation -> Capability Packs -> Material-Effect Classes -> Support Posture -> Policy -> Authorization -> Evidence`
+
+Attestations, proof bundles, certifications, compacts, dashboards, or external
+auditor statements may support connector evidence only after local verification
+and acceptance. They do not admit live effects, widen support claims, or bypass
+run contracts and execution authorization.

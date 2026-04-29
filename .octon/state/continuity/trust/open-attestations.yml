@@ -1,0 +1,5 @@
+schema_version: "trust-attestation-continuity-v1"
+authority: "non-authoritative-continuity"
+open_attestations: []
+continuity_authorizes_execution: false
+updated_at: "2026-04-29T00:00:00Z"

@@ -74,6 +74,51 @@ enum Command {
         cmd: ConnectorCmd,
     },
 
+    /// Safe external project adoption preflight.
+    Adopt(AdoptCmd),
+
+    /// Octon compatibility inspection and profile classification.
+    Compatibility {
+        #[command(subcommand)]
+        cmd: CompatibilityCmd,
+    },
+
+    /// Trust-domain registry and federation compact commands.
+    Trust {
+        #[command(subcommand)]
+        cmd: TrustCmd,
+    },
+
+    /// Portable proof bundle import/export commands.
+    Proof {
+        #[command(subcommand)]
+        cmd: TrustProofCmd,
+    },
+
+    /// Attestation verify, accept, and reject commands.
+    Attest {
+        #[command(subcommand)]
+        cmd: AttestCmd,
+    },
+
+    /// Delegated authority lease commands.
+    Delegate {
+        #[command(subcommand)]
+        cmd: DelegateCmd,
+    },
+
+    /// Certification profile inspection commands.
+    Certify {
+        #[command(subcommand)]
+        cmd: CertifyCmd,
+    },
+
+    /// Federation ledger and status inspection commands.
+    Federation {
+        #[command(subcommand)]
+        cmd: FederationCmd,
+    },
+
     /// Support-target proof helpers.
     Support {
         #[command(subcommand)]
@@ -452,6 +497,257 @@ pub(crate) struct ConnectorDecisionCmd {
     /// Decision type.
     #[arg(long = "type", default_value = "connector_admission_requested")]
     decision_type: String,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct AdoptCmd {
+    /// External repository path to inspect for safe Octon adoption.
+    repo: PathBuf,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum CompatibilityCmd {
+    /// Inspect a project or system path and classify its v6 compatibility posture.
+    Inspect(CompatibilityInspectCmd),
+    /// Print the local compatibility profile that would apply to a path.
+    Profile(CompatibilityInspectCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct CompatibilityInspectCmd {
+    /// External repository or artifact path.
+    repo: PathBuf,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum TrustCmd {
+    /// Show selected v6 trust hook status without activating full federation runtime.
+    Status,
+    /// Trust Domain commands.
+    Domain {
+        #[command(subcommand)]
+        cmd: TrustDomainCmd,
+    },
+    /// Trust Registry commands.
+    Registry {
+        #[command(subcommand)]
+        cmd: TrustRegistryCmd,
+    },
+    /// Federation Compact commands.
+    Compact {
+        #[command(subcommand)]
+        cmd: TrustCompactCmd,
+    },
+}
+
+#[derive(Subcommand)]
+pub(crate) enum TrustDomainCmd {
+    /// Stage or add a Trust Domain. Without --approval-ref this writes a stage-only registration request.
+    Add(TrustDomainAddCmd),
+    /// Inspect one registered Trust Domain.
+    Inspect(TrustDomainInspectCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustDomainAddCmd {
+    #[arg(long = "domain-id")]
+    domain_id: String,
+    #[arg(long = "owner")]
+    owner: String,
+    #[arg(long = "scope")]
+    scope: String,
+    #[arg(long = "profile", default_value = "external_evidence_source")]
+    profile: String,
+    #[arg(long = "approval-ref")]
+    approval_ref: Option<String>,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustDomainInspectCmd {
+    #[arg(long = "domain-id")]
+    domain_id: String,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum TrustRegistryCmd {
+    /// Validate local Trust Registry posture.
+    Validate,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum TrustCompactCmd {
+    /// Propose a stage-only federation compact status record.
+    Propose(TrustCompactProposeCmd),
+    /// Approve a compact only with a local approval reference.
+    Approve(TrustCompactDecisionCmd),
+    /// Revoke a compact and fail closed.
+    Revoke(TrustCompactDecisionCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustCompactProposeCmd {
+    #[arg(long = "compact-id")]
+    compact_id: String,
+    #[arg(long = "domain")]
+    domains: Vec<String>,
+    #[arg(long = "purpose")]
+    purpose: Option<String>,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustCompactDecisionCmd {
+    #[arg(long = "compact-id")]
+    compact_id: String,
+    #[arg(long = "approval-ref")]
+    approval_ref: Option<String>,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum TrustProofCmd {
+    /// Export a portable proof bundle shell from retained local evidence refs.
+    Export(TrustProofExportCmd),
+    /// Import and optionally locally accept a Portable Proof Bundle.
+    Import(TrustProofImportCmd),
+    /// Verify a Portable Proof Bundle without accepting it.
+    Verify(TrustProofPathCmd),
+    /// Accept a Portable Proof Bundle as evidence only.
+    Accept(TrustProofPathCmd),
+    /// Reject a Portable Proof Bundle and retain a local acceptance record.
+    Reject(TrustProofPathCmd),
+    /// Show local proof bundle status by bundle id.
+    Status(TrustProofStatusCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustProofExportCmd {
+    #[arg(long = "bundle-id", default_value = "proof-export")]
+    bundle_id: String,
+    #[arg(long = "scope", default_value = "local-evidence-export")]
+    scope: String,
+    #[arg(long = "expires-at")]
+    expires_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustProofImportCmd {
+    /// Path to a portable-proof-bundle-v1 YAML file.
+    path: PathBuf,
+    /// Locally accept the bundle as evidence only after verification.
+    #[arg(long = "accept", default_value_t = false)]
+    accept: bool,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustProofPathCmd {
+    /// Path to a portable-proof-bundle-v1 YAML file.
+    path: PathBuf,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct TrustProofStatusCmd {
+    /// Portable Proof Bundle id.
+    #[arg(long = "bundle-id")]
+    bundle_id: String,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum AttestCmd {
+    /// Verify an Attestation Envelope.
+    Verify(AttestationPathCmd),
+    /// Accept an Attestation Envelope as retained evidence only.
+    Accept(AttestationPathCmd),
+    /// Reject an Attestation Envelope and retain rejection evidence.
+    Reject(AttestationPathCmd),
+    /// Show local attestation status by attestation id.
+    Status(AttestationStatusCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct AttestationPathCmd {
+    /// Path to an attestation-envelope-v1 YAML file.
+    path: PathBuf,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct AttestationStatusCmd {
+    /// Attestation id.
+    #[arg(long = "attestation-id")]
+    attestation_id: String,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum DelegateCmd {
+    /// Delegated Authority Lease commands.
+    Lease {
+        #[command(subcommand)]
+        cmd: DelegateLeaseCmd,
+    },
+}
+
+#[derive(Subcommand)]
+pub(crate) enum DelegateLeaseCmd {
+    /// Create a stage-only delegated lease candidate.
+    Create(DelegateLeaseCreateCmd),
+    /// Revoke a delegated lease.
+    Revoke(DelegateLeaseRevokeCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct DelegateLeaseCreateCmd {
+    #[arg(long = "lease-id")]
+    lease_id: String,
+    #[arg(long = "grantor")]
+    grantor: String,
+    #[arg(long = "grantee")]
+    grantee: String,
+    #[arg(long = "scope")]
+    scope: String,
+    #[arg(long = "approval-ref")]
+    approval_ref: Option<String>,
+    #[arg(long = "expires-at")]
+    expires_at: Option<String>,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct DelegateLeaseRevokeCmd {
+    #[arg(long = "lease-id")]
+    lease_id: String,
+    #[arg(long = "reason", default_value = "operator-requested")]
+    reason: String,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum CertifyCmd {
+    /// Inspect run certification requirements.
+    Run(CertifyRunCmd),
+    /// Inspect connector certification requirements.
+    Connector(CertifyConnectorCmd),
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct CertifyRunCmd {
+    #[arg(long = "run-id")]
+    run_id: String,
+    #[arg(long = "profile", default_value = "auditor-verifiable-run")]
+    profile: String,
+}
+
+#[derive(Debug, Clone, Args)]
+pub(crate) struct CertifyConnectorCmd {
+    #[arg(long = "connector")]
+    connector_id: String,
+    #[arg(long = "operation")]
+    operation_id: String,
+    #[arg(long = "profile", default_value = "connector-read-only")]
+    profile: String,
+}
+
+#[derive(Subcommand)]
+pub(crate) enum FederationCmd {
+    /// Print non-authoritative federation status from canonical control roots.
+    Status,
+    /// Print the canonical Federation Ledger control record.
+    Ledger,
 }
 
 #[derive(Subcommand)]
@@ -1072,11 +1368,13 @@ fn main() -> anyhow::Result<()> {
 #[cfg(test)]
 mod tests {
     use super::{
-        AmendCmd, ArmCmd, CapabilityCmd, Cli, Command, ConnectorCmd, DecideCmd,
-        DecisionResponseArg, EvolveCmd, MissionCmd, OrchestrationCmd, OrchestrationIncidentCmd,
-        OrchestrationSurfaceArg, PlanCmd, ProfileCmd, PromoteCmd, RecertifyCmd, RunCmd, StartCmd,
-        StatusCmd, StewardCmd, StewardRenewalOutcomeArg, StewardTriggerArg, SupportCmd,
-        SupportProofSubject, WorkflowCmd,
+        AdoptCmd, AmendCmd, ArmCmd, AttestCmd, CapabilityCmd, CertifyCmd, Cli, Command,
+        CompatibilityCmd, ConnectorCmd, DecideCmd, DecisionResponseArg, DelegateCmd,
+        DelegateLeaseCmd, EvolveCmd, FederationCmd, MissionCmd, OrchestrationCmd,
+        OrchestrationIncidentCmd, OrchestrationSurfaceArg, PlanCmd, ProfileCmd, PromoteCmd,
+        RecertifyCmd, RunCmd, StartCmd, StatusCmd, StewardCmd, StewardRenewalOutcomeArg,
+        StewardTriggerArg, SupportCmd, SupportProofSubject, TrustCmd, TrustCompactCmd,
+        TrustDomainCmd, TrustProofCmd, TrustRegistryCmd, WorkflowCmd,
     };
     use crate::workflow::ExecutorKind;
     use clap::{CommandFactory, Parser};
@@ -1388,6 +1686,165 @@ mod tests {
         for args in cases {
             Cli::try_parse_from(args).expect("connector v4 command should parse");
         }
+    }
+
+    #[test]
+    fn cli_parses_federated_trust_runtime_v6_commands() {
+        let adopt =
+            Cli::try_parse_from(["octon", "adopt", "."]).expect("adopt command should parse");
+        match adopt.cmd {
+            Command::Adopt(AdoptCmd { repo }) => assert_eq!(repo, PathBuf::from(".")),
+            _ => panic!("parsed command should be adopt"),
+        }
+
+        let compatibility = Cli::try_parse_from(["octon", "compatibility", "inspect", "."])
+            .expect("compatibility inspect should parse");
+        assert!(matches!(
+            compatibility.cmd,
+            Command::Compatibility {
+                cmd: CompatibilityCmd::Inspect(_)
+            }
+        ));
+
+        let registry = Cli::try_parse_from(["octon", "trust", "registry", "validate"])
+            .expect("trust registry validate should parse");
+        assert!(matches!(
+            registry.cmd,
+            Command::Trust {
+                cmd: TrustCmd::Registry {
+                    cmd: TrustRegistryCmd::Validate
+                }
+            }
+        ));
+
+        let domain = Cli::try_parse_from([
+            "octon",
+            "trust",
+            "domain",
+            "add",
+            "--domain-id",
+            "partner",
+            "--owner",
+            "Partner",
+            "--scope",
+            "stage-only",
+            "--profile",
+            "octon_enabled_repo",
+            "--approval-ref",
+            ".octon/state/control/trust/cross-domain-decisions/decision.yml",
+        ])
+        .expect("trust domain add should parse");
+        assert!(matches!(
+            domain.cmd,
+            Command::Trust {
+                cmd: TrustCmd::Domain {
+                    cmd: TrustDomainCmd::Add(_)
+                }
+            }
+        ));
+
+        let compact = Cli::try_parse_from([
+            "octon",
+            "trust",
+            "compact",
+            "approve",
+            "--compact-id",
+            "compact-001",
+            "--approval-ref",
+            ".octon/state/control/trust/cross-domain-decisions/decision.yml",
+        ])
+        .expect("trust compact approve should parse");
+        assert!(matches!(
+            compact.cmd,
+            Command::Trust {
+                cmd: TrustCmd::Compact {
+                    cmd: TrustCompactCmd::Approve(_)
+                }
+            }
+        ));
+
+        let proof = Cli::try_parse_from([
+            "octon",
+            "proof",
+            "export",
+            "--bundle-id",
+            "proof-001",
+            "--scope",
+            "local-proof",
+        ])
+        .expect("proof export should parse");
+        assert!(matches!(
+            proof.cmd,
+            Command::Proof {
+                cmd: TrustProofCmd::Export(_)
+            }
+        ));
+
+        let attestation = Cli::try_parse_from([
+            "octon",
+            "attest",
+            "verify",
+            ".octon/state/control/trust/attestations/attestation-octon-v6-mvp.yml",
+        ])
+        .expect("attest verify should parse");
+        assert!(matches!(
+            attestation.cmd,
+            Command::Attest {
+                cmd: AttestCmd::Verify(_)
+            }
+        ));
+
+        let lease = Cli::try_parse_from([
+            "octon",
+            "delegate",
+            "lease",
+            "create",
+            "--lease-id",
+            "lease-001",
+            "--grantor",
+            "octon-local",
+            "--grantee",
+            "octon-reference-peer",
+            "--scope",
+            "stage-only",
+            "--approval-ref",
+            ".octon/state/control/trust/cross-domain-decisions/decision.yml",
+        ])
+        .expect("delegated lease create should parse");
+        assert!(matches!(
+            lease.cmd,
+            Command::Delegate {
+                cmd: DelegateCmd::Lease {
+                    cmd: DelegateLeaseCmd::Create(_)
+                }
+            }
+        ));
+
+        let certify = Cli::try_parse_from([
+            "octon",
+            "certify",
+            "run",
+            "--run-id",
+            "run-001",
+            "--profile",
+            "auditor-verifiable-run",
+        ])
+        .expect("certify run should parse");
+        assert!(matches!(
+            certify.cmd,
+            Command::Certify {
+                cmd: CertifyCmd::Run(_)
+            }
+        ));
+
+        let federation = Cli::try_parse_from(["octon", "federation", "ledger"])
+            .expect("federation ledger should parse");
+        assert!(matches!(
+            federation.cmd,
+            Command::Federation {
+                cmd: FederationCmd::Ledger
+            }
+        ));
     }
 
     #[test]

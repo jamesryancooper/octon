@@ -1,0 +1,12 @@
+schema_version: "federation-compact-status-v1"
+compact_id: "octon-local-reference-stage-only"
+compact_ref: ".octon/instance/governance/trust/federation-compacts/octon-local-reference-stage-only.yml"
+status: "stage_only"
+active_for_execution: false
+compact_authorizes_execution: false
+compact_overrides_local_authority: false
+compact_widens_support_claims: false
+compact_mutates_local_authority: false
+expires_at: "2026-07-28T00:00:00Z"
+revocation_ref: ".octon/state/control/trust/revocations/revocation-octon-v6-expiry-policy.yml"
+updated_at: "2026-04-29T00:00:00Z"
