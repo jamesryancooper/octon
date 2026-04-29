@@ -200,14 +200,23 @@ pub(super) fn cmd_federation(cmd: FederationCmd) -> Result<()> {
     let octon_dir = octon_core::root::RootResolver::resolve()?;
     match cmd {
         FederationCmd::Status => {
-            let status_path = repo_root(&octon_dir).join(
-                ".octon/generated/cognition/projections/materialized/trust/federation-status.yml",
-            );
-            let status = read_yaml(&status_path)?;
+            let root = repo_root(&octon_dir);
+            let registry = read_yaml(&root.join(TRUST_REGISTRY_REF))?;
+            let ledger = read_yaml(&root.join(LEDGER_REF))?;
             print_json(&json!({
                 "schema_version": "trust-federation-status-command-result-v1",
-                "authority_notice": "Generated trust views are non-authoritative; canonical truth is the local trust registry and state/control/trust ledger.",
-                "status": status
+                "authority_notice": "Trust status is derived from local registry authority and state/control trust ledger; generated trust views remain non-authoritative.",
+                "status": {
+                    "trust_domains": ledger.get("trust_domains").and_then(Value::as_array).map(|items| items.len()).unwrap_or(0),
+                    "compacts": ledger.get("compacts").and_then(Value::as_array).map(|items| items.len()).unwrap_or(0),
+                    "delegated_leases": ledger.get("delegated_leases").and_then(Value::as_array).map(|items| items.len()).unwrap_or(0),
+                    "accepted_domains": registry.get("accepted_domains").and_then(Value::as_array).map(|items| items.len()).unwrap_or(0),
+                    "unregistered_domain_route": registry.get("unregistered_domain_route").and_then(Value::as_str).unwrap_or("deny"),
+                    "external_registry_is_authority": registry.get("external_registry_is_authority").and_then(Value::as_bool).unwrap_or(false),
+                    "ledger_ref": LEDGER_REF,
+                    "registry_ref": TRUST_REGISTRY_REF,
+                    "status": "stage_only"
+                }
             }))
         }
         FederationCmd::Ledger => {
