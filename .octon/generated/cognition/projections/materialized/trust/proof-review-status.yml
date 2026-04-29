@@ -1,0 +1,12 @@
+schema_version: "generated-trust-proof-review-status-v1"
+authority: "non-authoritative"
+source_refs:
+  - ".octon/state/control/trust/proof-bundles/proof-octon-v6-mvp.yml"
+  - ".octon/state/control/trust/local-acceptance/acceptance-proof-octon-v6-mvp.yml"
+summary:
+  open_reviews: 0
+  accepted_as_evidence: 1
+  rejected_or_revoked: 0
+generated_projection_authorizes_execution: false
+generated_projection_replaces_control_state: false
+updated_at: "2026-04-29T00:00:00Z"

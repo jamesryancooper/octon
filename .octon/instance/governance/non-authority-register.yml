@@ -149,6 +149,7 @@ entries:
       - .octon/generated/cognition/projections/materialized/trust/open-decisions.yml
       - .octon/generated/cognition/projections/materialized/trust/attestation-map.yml
       - .octon/generated/cognition/projections/materialized/trust/compatibility-map.yml
+      - .octon/generated/cognition/projections/materialized/trust/proof-review-status.yml
     canonical_source_ref: .octon/state/control/trust/ledger.yml
     authority_mode: derived-non-authority
     generation_or_projection_mechanism: generated-from local trust registry, trust control records, and retained trust evidence

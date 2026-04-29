@@ -1,0 +1,16 @@
+schema_version: "trust-compatibility-map-projection-v1"
+authority: "non-authoritative"
+generated_from:
+  - ".octon/state/control/trust/compatibility/status.yml"
+  - ".octon/instance/governance/trust/compatibility-profile.yml"
+forbidden_consumers:
+  - "compatibility authority"
+  - "runtime policy"
+  - "execution authorization"
+profiles:
+  - "external_evidence_source"
+  - "octon_compatible_emitter"
+  - "octon_mediated_connector"
+  - "octon_enabled_repo"
+  - "octon_federation_peer"
+generated_projection_authorizes_execution: false

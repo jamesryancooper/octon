@@ -1,0 +1,11 @@
+schema_version: "trust-open-decisions-projection-v1"
+authority: "non-authoritative"
+generated_from:
+  - ".octon/state/control/trust/cross-domain-decisions/decision-octon-v6-proof-acceptance.yml"
+forbidden_consumers:
+  - "decision authority"
+  - "execution authorization"
+decisions:
+  - decision_id: "decision-octon-v6-proof-acceptance"
+    status: "stage_only"
+generated_projection_authorizes_execution: false

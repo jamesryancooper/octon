@@ -1,0 +1,12 @@
+schema_version: "trust-attestation-map-projection-v1"
+authority: "non-authoritative"
+generated_from:
+  - ".octon/state/control/trust/attestations/attestation-octon-v6-mvp.yml"
+  - ".octon/state/evidence/trust/attestations/attestation-octon-v6-mvp/verification.yml"
+forbidden_consumers:
+  - "attestation acceptance authority"
+  - "execution authorization"
+attestations:
+  - attestation_id: "attestation-octon-v6-mvp"
+    local_acceptance: "accepted"
+generated_projection_authorizes_execution: false
