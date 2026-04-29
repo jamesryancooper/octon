@@ -12,6 +12,7 @@ enabled_overlay_points:
   - "instance-governance-connectors"
   - "instance-governance-connector-admissions"
   - "instance-governance-evolution"
+  - "instance-governance-trust"
   - "instance-governance-decisions"
   - "instance-stewardship-programs"
   - "instance-execution-roles-runtime"
