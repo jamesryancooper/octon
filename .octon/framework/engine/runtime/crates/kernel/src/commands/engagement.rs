@@ -453,7 +453,8 @@ fn profile_engagement(octon_dir: &Path, engagement_id: &str) -> Result<CommandRe
         ],
         &now,
     );
-    write_yaml(&engagement_path, &Value::Object(engagement))?;
+    write_yaml(&engagement_path, &Value::Object(engagement.clone()))?;
+    refresh_projection_from_engagement(octon_dir, engagement_id, &engagement)?;
 
     Ok(report(
         "profile",
@@ -793,7 +794,8 @@ fn plan_engagement(octon_dir: &Path, engagement_id: &str) -> Result<CommandRepor
         ],
         &now,
     );
-    write_yaml(&engagement_path, &Value::Object(engagement))?;
+    write_yaml(&engagement_path, &Value::Object(engagement.clone()))?;
+    refresh_projection_from_engagement(octon_dir, engagement_id, &engagement)?;
 
     Ok(report(
         "plan",
@@ -1176,7 +1178,8 @@ fn arm_engagement(
             "octon decide resolve {decision_id} --engagement-id {engagement_id} --response approve"
         )),
     );
-    write_yaml(&engagement_path, &Value::Object(engagement))?;
+    write_yaml(&engagement_path, &Value::Object(engagement.clone()))?;
+    refresh_projection_from_engagement(octon_dir, engagement_id, &engagement)?;
 
     Ok(report(
         "arm",
@@ -1204,6 +1207,7 @@ fn status_engagement(octon_dir: &Path, engagement_id: &str) -> Result<CommandRep
     validate_id(engagement_id, "engagement_id")?;
     let engagement_path = engagement_control_root(octon_dir, engagement_id).join("engagement.yml");
     let engagement = read_yaml_object(&engagement_path)?;
+    refresh_projection_from_engagement(octon_dir, engagement_id, &engagement)?;
     let status = engagement
         .get("status")
         .and_then(Value::as_str)
@@ -1496,7 +1500,8 @@ fn update_engagement_after_decision(
             json!(format!("octon status --engagement-id {engagement_id}")),
         );
     }
-    write_yaml(&engagement_path, &Value::Object(engagement))
+    write_yaml(&engagement_path, &Value::Object(engagement.clone()))?;
+    refresh_projection_from_engagement(octon_dir, engagement_id, &engagement)
 }
 
 fn update_work_package_after_decision(
@@ -1964,6 +1969,33 @@ fn new_id(prefix: &str) -> String {
         .map(|duration| duration.as_millis())
         .unwrap_or(0);
     format!("{prefix}-{millis}-{}", std::process::id())
+}
+
+fn refresh_projection_from_engagement(
+    octon_dir: &Path,
+    engagement_id: &str,
+    engagement: &Map<String, Value>,
+) -> Result<()> {
+    let projection_path = repo_root(octon_dir)
+        .join(".octon/generated/cognition/projections/materialized/engagements")
+        .join(format!("{engagement_id}.yml"));
+    let engagement_path = engagement_control_root(octon_dir, engagement_id).join("engagement.yml");
+    let mut refs = BTreeMap::from([(
+        "engagement_ref".to_string(),
+        repo_ref(octon_dir, &engagement_path)?,
+    )]);
+    if let Some(object) = engagement.get("refs").and_then(Value::as_object) {
+        for (key, value) in object {
+            if let Some(reference) = value.as_str() {
+                refs.insert(key.clone(), reference.to_string());
+            }
+        }
+    }
+    let status = engagement
+        .get("status")
+        .and_then(Value::as_str)
+        .unwrap_or("unknown");
+    write_projection(&projection_path, engagement_id, status, &refs)
 }
 
 fn write_projection(

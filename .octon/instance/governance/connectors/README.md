@@ -1,8 +1,7 @@
 # Connector Governance Posture
 
 Tool, MCP, API, browser, shell, service, and host connector posture for the
-Engagement / Project Profile / Work Package Compiler v1 surface is
-machine-readable under this directory.
+Safe Start surface is machine-readable under this directory.
 
 Repo-local connector posture declarations live in:
 
@@ -13,7 +12,7 @@ Those files are machine-readable stage/block/deny policy for Work Package
 readiness. They are not support admission, capability admission, egress
 authorization, credential authorization, or live execution authority.
 
-## v1 Rules
+## Safe Start Rules
 
 - Connector posture may be recorded for planning and Decision Requests.
 - Connector posture may map future operations to support tuples, capability

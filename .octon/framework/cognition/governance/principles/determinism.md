@@ -41,6 +41,16 @@ For `material_side_effect` runs and ACP promotion decisions, provenance fields d
 Shared terms for apply/promote/finalize and approval/attestation/quorum are
 defined in [RA/ACP Glossary](../controls/ra-acp-glossary.md).
 
+## Governed Autonomy Lifecycle Determinism
+
+Safe Start, Safe Continuation, Continuous Stewardship, Connector Admission
+Runtime, Constitutional Self-Evolution, and Federated Trust must record enough
+canonical control state and retained evidence to replay decisions without
+consulting proposal packets, generated projections, chat, labels, host UI
+state, imported proof, or external attestations as authority. Portable Proof
+Bundle and Attestation Envelope verification must be deterministic over local
+digest, freshness, scope, revocation, and Local Acceptance Record checks.
+
 ## Why It Matters
 
 ### Pillar Alignment: Trust through Governed Determinism

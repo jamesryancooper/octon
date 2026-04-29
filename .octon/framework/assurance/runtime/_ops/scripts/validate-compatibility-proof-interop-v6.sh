@@ -103,9 +103,92 @@ require_grep() {
   grep -q -- "$pattern" "$file" && pass "$label" || fail "$label"
 }
 
+require_proof_digest_refs_verified() {
+  local proof="$1"
+  local label="$2"
+  if python3 - "$ROOT_DIR" "$proof" <<'PY' >/dev/null 2>&1
+import hashlib
+import os
+import sys
+
+import yaml
+
+root, proof_path = sys.argv[1], sys.argv[2]
+with open(proof_path, "r", encoding="utf-8") as fh:
+    proof = yaml.safe_load(fh)
+
+if proof.get("freshness_status") != "fresh":
+    raise SystemExit("proof freshness_status is not fresh")
+if proof.get("revocation_status") != "unrevoked":
+    raise SystemExit("proof revocation_status is not unrevoked")
+if proof.get("digest_verification") != "verified":
+    raise SystemExit("proof digest_verification is not verified")
+
+root_real = os.path.realpath(root)
+
+def resolve_repo_file(rel, kind):
+    if not isinstance(rel, str) or not rel:
+        raise SystemExit(f"{kind} path is required")
+    normalized = rel.replace("\\", "/")
+    if os.path.isabs(rel) or ".." in normalized.split("/"):
+        raise SystemExit(f"{kind} escapes repo scope: {rel}")
+    if not normalized.startswith(".octon/"):
+        raise SystemExit(f"{kind} is outside .octon: {rel}")
+    if normalized.startswith(".octon/inputs/") or normalized.startswith(".octon/generated/"):
+        raise SystemExit(f"{kind} is outside proof-verifiable authority/control/evidence scope: {rel}")
+    path = os.path.realpath(os.path.join(root, rel))
+    if not path.startswith(root_real + os.sep):
+        raise SystemExit(f"{kind} resolves outside repo: {rel}")
+    if not os.path.isfile(path):
+        raise SystemExit(f"{kind} is missing or unreadable: {rel}")
+    return path
+
+digests = proof.get("evidence_digests")
+if not isinstance(digests, list) or not digests:
+    raise SystemExit("evidence_digests must be a non-empty list")
+for item in digests:
+    if item.get("digest_algorithm") != "sha256":
+        raise SystemExit("evidence digest algorithm must be sha256")
+    path = resolve_repo_file(item.get("path"), "evidence digest")
+    with open(path, "rb") as fh:
+        actual = hashlib.sha256(fh.read()).hexdigest()
+    if actual != item.get("digest"):
+        raise SystemExit(f"digest mismatch for {item.get('path')}")
+
+refs = proof.get("revocation_refs")
+if not isinstance(refs, list) or not refs:
+    raise SystemExit("revocation_refs must be a non-empty list")
+for ref in refs:
+    path = resolve_repo_file(ref, "revocation ref")
+    with open(path, "r", encoding="utf-8") as fh:
+        revocation = yaml.safe_load(fh)
+    schema = revocation.get("schema_version")
+    if schema not in {"proof-revocation-v1", "trust-revocation-v1"}:
+        raise SystemExit(f"unknown revocation schema for {ref}")
+    if revocation.get("route_on_match") != "deny" or revocation.get("fail_closed") is not True:
+        raise SystemExit(f"revocation ref does not fail closed: {ref}")
+    if schema == "proof-revocation-v1" and revocation.get("status") in {"revoked", "expired", "stale"}:
+        subject_ref = revocation.get("subject_ref")
+        subject_kind = revocation.get("subject_kind")
+        candidates = {
+            proof.get("bundle_id"),
+            f".octon/state/control/trust/proof-bundles/{proof.get('bundle_id')}.yml",
+            f".octon/state/control/trust/local-acceptance/acceptance-{proof.get('bundle_id')}.yml",
+        }
+        if subject_kind in {"portable_proof_bundle", "local_acceptance"} and subject_ref in candidates:
+            raise SystemExit(f"proof revocation matches bundle: {ref}")
+PY
+  then
+    pass "$label digest and revocation refs verify fail-closed"
+  else
+    fail "$label digest and revocation refs must verify fail-closed"
+  fi
+}
+
 check_tools() {
   command -v yq >/dev/null 2>&1 || fail "yq is required"
   command -v jq >/dev/null 2>&1 || fail "jq is required"
+  command -v python3 >/dev/null 2>&1 || fail "python3 is required"
 }
 
 check_contracts() {
@@ -153,6 +236,7 @@ check_authority_and_state() {
   require_schema_valid "$OCTON_DIR/state/control/trust/revocations/revocation-proof-octon-v6-interop.yml" "$OCTON_DIR/framework/engine/runtime/spec/proof-revocation-v1.schema.json" "proof revocation hook"
   require_schema_valid "$OCTON_DIR/state/control/trust/proof-bundles/proof-octon-v6-mvp.yml" "$OCTON_DIR/framework/engine/runtime/spec/portable-proof-bundle-v1.schema.json" "portable proof bundle"
   require_schema_valid "$OCTON_DIR/state/control/trust/attestations/attestation-octon-v6-mvp.yml" "$OCTON_DIR/framework/engine/runtime/spec/attestation-envelope-v1.schema.json" "attestation envelope"
+  require_proof_digest_refs_verified "$OCTON_DIR/state/control/trust/proof-bundles/proof-octon-v6-mvp.yml" "portable proof bundle"
 
   require_yq "$OCTON_DIR/state/control/trust/local-acceptance/acceptance-proof-octon-v6-mvp.yml" '.acceptance_state == "accepted_as_evidence" and .local_acceptance_authorizes_execution == false and .local_acceptance_replaces_local_authority == false and .local_acceptance_widens_support_claims == false' "proof local acceptance remains evidence-only"
   require_yq "$OCTON_DIR/state/control/trust/revocations/revocation-proof-octon-v6-interop.yml" '.route_on_match == "deny" and .fail_closed == true and .revocation_authorizes_execution == false' "proof revocation fails closed"

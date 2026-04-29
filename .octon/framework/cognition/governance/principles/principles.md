@@ -7,7 +7,7 @@ agent_editable: false
 risk_tier: critical
 change_policy: human-override-only
 owner: "octon-maintainers"
-last_reviewed: 2026-03-13
+last_reviewed: 2026-04-29
 applies_to:
   - Architecture
   - Code
@@ -41,6 +41,14 @@ applies_to:
 - override_scope: Direct charter framing rename for the active product and runtime identity, plus aligned terminology in canonical governance text.
 - review_and_agreement_evidence: Explicit human instruction in Codex on 2026-03-13 to rename Octon to Octon and implement the clean-break cutover.
 - intentional_exception_log_link: `../exceptions/principles-charter-overrides.md#ovr-2026-03-13-001`
+
+- override_ledger_id: `OVR-2026-04-29-001`
+- rationale: Align the protected principles charter to the live Octon Governed Autonomy Stack closure surfaces without widening support or authority.
+- responsible_owner: `octon-maintainers`
+- review_date: `2026-07-31`
+- override_scope: Add lifecycle framing for Safe Start, Safe Continuation, Continuous Stewardship, Connector Admission Runtime, Constitutional Self-Evolution, and Federated Trust.
+- review_and_agreement_evidence: Explicit human instruction in Codex on 2026-04-29 to harden and close the Octon Governed Autonomy Stack in the live repository.
+- intentional_exception_log_link: `../exceptions/principles-charter-overrides.md#ovr-2026-04-29-001`
 
 ---
 
@@ -101,6 +109,17 @@ applies_to:
 - Convivial constraints are binding for non-trivial change and must be explicit in planning and review artifacts.
 - Canonical minimum requirements are defined in `../controls/convivial-impact-minimums.md` and `../controls/convivial-impact-minimums.yml`.
 - Governance enforcement must validate these constraints across Tier 2/3 planning templates and governed review checklist surfaces by default.
+
+### 0B.6 Governed Autonomy Lifecycle Surfaces (Normative)
+
+- Safe Start standardizes drop-in governed start through Engagement, Project Profile, Work Package, Decision Request, Evidence Profile, Preflight Evidence Lane, Tool/MCP Connector Posture, and Run Contract Candidate surfaces.
+- Safe Continuation standardizes mission-scoped continuation through Autonomy Window, Mission Runner, Mission Queue, Action Slice, Continuation Decision, Mission Run Ledger, and Mission Evidence Profile surfaces.
+- Continuous Stewardship standardizes finite, non-executing care through Stewardship Program, Stewardship Epoch, Stewardship Trigger, Stewardship Admission Decision, Idle Decision, Renewal Decision, and Stewardship Ledger surfaces; it must not become an infinite agent loop.
+- Connector Admission Runtime standardizes operation-level connector and capability admission through Connector Operation, Connector Trust Dossier, Connector Evidence Profile, Connector Drift Record, Connector Quarantine, support-target proof hooks, and operation-level capability mapping.
+- Constitutional Self-Evolution standardizes evidence-to-evolution through Evolution Program, Evolution Candidate, Evidence-to-Candidate Distillation Record, Governance Impact Simulation, Assurance Lab Promotion Gate, Evolution Proposal Compiler, Constitutional Amendment Request, Promotion Runtime, Recertification Runtime, and Evolution Ledger surfaces; it must not self-authorize durable governance change.
+- Federated Trust standardizes compatibility and proof interchange through Octon Compatibility Profile, external project compatibility inspection, safe external adoption posture, Portable Proof Bundle, Attestation Envelope, Local Acceptance Record, Trust-Domain hook, proof import/export, attestation verify/accept/reject, revocation, and expiry behavior.
+- Imported proof, external attestations, generated projections, proposal packets, chat, host UI state, labels, and comments are not authority. They may become evidence only through local verification, retained receipts, and a valid Local Acceptance Record where applicable.
+- Material execution remains bound to run contracts, context packs, execution authorization, authorized-effect tokens, retained evidence, rollback posture, and support-target gates.
 
 ---
 

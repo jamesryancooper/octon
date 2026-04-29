@@ -688,6 +688,7 @@ fn renew_epoch(octon_dir: &Path, args: StewardRenewCmd) -> Result<StewardReport>
         json!({
             "event_type": "renewal_decision_emitted",
             "epoch_id": epoch_id,
+            "renewal_decision_ref": renewal_ref,
             "outcome": outcome,
             "silent_authority_widening": false
         }),
@@ -1184,10 +1185,75 @@ fn append_ledger_event(octon_dir: &Path, program_id: &str, now: &str, event: Val
         .remove("events")
         .and_then(|v| v.as_array().cloned())
         .unwrap_or_default();
+    index_ledger_event(program_id, &mut ledger, &event);
     events.push(event);
     upsert(&mut ledger, "events", json!(events));
     upsert(&mut ledger, "updated_at", json!(now));
     write_yaml(&ledger_path, &Value::Object(ledger))
+}
+
+fn index_ledger_event(program_id: &str, ledger: &mut Map<String, Value>, event: &Value) {
+    if let Some(epoch_id) = event.get("epoch_id").and_then(Value::as_str) {
+        push_unique_ref(
+            ledger,
+            "epoch_refs",
+            format!(
+                ".octon/state/control/stewardship/programs/{program_id}/epochs/{epoch_id}/epoch.yml"
+            ),
+        );
+    }
+    if let Some(trigger_id) = event.get("trigger_id").and_then(Value::as_str) {
+        push_unique_ref(
+            ledger,
+            "trigger_refs",
+            format!(
+                ".octon/state/control/stewardship/programs/{program_id}/triggers/{trigger_id}.yml"
+            ),
+        );
+    }
+    if let Some(decision_id) = event.get("admission_decision_id").and_then(Value::as_str) {
+        push_unique_ref(
+            ledger,
+            "admission_decision_refs",
+            format!(
+                ".octon/state/control/stewardship/programs/{program_id}/admission-decisions/{decision_id}.yml"
+            ),
+        );
+    }
+    if let Some(decision_id) = event.get("idle_decision_id").and_then(Value::as_str) {
+        push_unique_ref(
+            ledger,
+            "idle_decision_refs",
+            format!(
+                ".octon/state/control/stewardship/programs/{program_id}/idle-decisions/{decision_id}.yml"
+            ),
+        );
+    }
+    if let Some(decision_ref) = event.get("renewal_decision_ref").and_then(Value::as_str) {
+        push_unique_ref(ledger, "renewal_decision_refs", decision_ref.to_string());
+    } else if let Some(decision_id) = event.get("renewal_decision_id").and_then(Value::as_str) {
+        push_unique_ref(
+            ledger,
+            "renewal_decision_refs",
+            format!(
+                ".octon/state/control/stewardship/programs/{program_id}/renewal-decisions/{decision_id}.yml"
+            ),
+        );
+    }
+}
+
+fn push_unique_ref(ledger: &mut Map<String, Value>, key: &str, reference: String) {
+    let mut refs = ledger
+        .remove(key)
+        .and_then(|v| v.as_array().cloned())
+        .unwrap_or_default();
+    if !refs
+        .iter()
+        .any(|value| value.as_str() == Some(reference.as_str()))
+    {
+        refs.push(json!(reference));
+    }
+    upsert(ledger, key, json!(refs));
 }
 
 fn write_idle_decision(

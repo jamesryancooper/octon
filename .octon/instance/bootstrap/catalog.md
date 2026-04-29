@@ -114,7 +114,27 @@ Reusable additive packs in `inputs/additive/extensions/`:
 
 ## Commands
 
-Atomic operations in `capabilities/runtime/commands/`:
+The live runtime CLI exposes governed lifecycle commands in addition to older
+human-facing command wrappers. Use lifecycle surface names as the operator
+identity; schema suffixes and historical labels are lineage, not the primary
+claim.
+
+| Surface | CLI entry | Live posture |
+|---------|-----------|--------------|
+| Safe Start | `octon start`, `octon profile`, `octon plan`, `octon arm --prepare-only`, `octon decide` | Prepares Engagement, Project Profile, Work Package, Decision Request, Evidence Profile, Preflight Evidence Lane, Tool/MCP Connector Posture, and Run Contract Candidate surfaces. |
+| Run Lifecycle | `octon run start --contract`, `octon run inspect`, `octon run resume`, `octon run checkpoint`, `octon run close`, `octon run replay`, `octon run disclose` | Atomic material execution path; requires run contract, context, authorization, evidence, and rollback posture. |
+| Safe Continuation | `octon mission`, `octon continue` | Evaluates Autonomy Window, Mission Queue, Action Slice, Continuation Decision, Mission Run Ledger, and Mission Evidence Profile before staging bounded continuation. |
+| Continuous Stewardship | `octon steward` | Maintains Stewardship Program, Stewardship Epoch, Stewardship Trigger, Stewardship Admission Decision, Idle Decision, Renewal Decision, and Stewardship Ledger surfaces without direct execution. |
+| Connector Admission Runtime | `octon connector` | Governs Connector Operation, Connector Trust Dossier, Connector Evidence Profile, Connector Drift Record, Connector Quarantine, support-target proof hooks, and operation-level capability mapping. |
+| Constitutional Self-Evolution | `octon evolve`, `octon amend`, `octon promote`, `octon recertify` | Prepares Evolution Candidate, distillation, simulation, lab gate, proposal, amendment, promotion, recertification, and ledger evidence without self-authorization. |
+| Federated Trust | `octon compatibility`, `octon adopt`, `octon proof`, `octon attest`, `octon trust`, `octon federation` | Handles compatibility inspection, safe adoption posture, Portable Proof Bundle, Attestation Envelope, Local Acceptance Record, Trust-Domain hooks, revocation, and expiry as evidence-only trust surfaces. |
+
+Browser-driving autonomy, arbitrary API autonomy, broad MCP execution,
+effectful connectors, external execution authority, automatic support-target
+widening, autonomous governance amendments, and external proof as authority are
+not live by catalog entry.
+
+Human-facing command wrappers still live in `capabilities/runtime/commands/`:
 
 | Command | Access | Description |
 |---------|--------|-------------|

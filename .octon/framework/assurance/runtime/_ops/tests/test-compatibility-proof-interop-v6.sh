@@ -75,10 +75,64 @@ cp "$proof" "$bad_proof"
 yq -i '.proof_bundle_authorizes_execution = true' "$bad_proof"
 expect_fail "proof-authorizes-execution" "${OCTON[@]}" proof verify "$bad_proof"
 
+bad_import_proof="$tmp/bad-import-proof.yml"
+cp "$proof" "$bad_import_proof"
+yq -i '.proof_bundle_authorizes_execution = true' "$bad_import_proof"
+expect_fail "imported-proof-authorizes-execution" "${OCTON[@]}" proof import "$bad_import_proof" --accept
+
+missing_digest_proof="$tmp/missing-digest-proof.yml"
+cp "$proof" "$missing_digest_proof"
+yq -i '.evidence_digests[0].path = ".octon/state/evidence/trust/missing-digest.yml"' "$missing_digest_proof"
+expect_fail "proof-missing-digest-path" "${OCTON[@]}" proof verify "$missing_digest_proof"
+
+digest_mismatch_proof="$tmp/digest-mismatch-proof.yml"
+cp "$proof" "$digest_mismatch_proof"
+yq -i '.evidence_digests[0].digest = "0000000000000000000000000000000000000000000000000000000000000000"' "$digest_mismatch_proof"
+expect_fail "proof-digest-mismatch" "${OCTON[@]}" proof verify "$digest_mismatch_proof"
+
+out_of_scope_digest_proof="$tmp/out-of-scope-digest-proof.yml"
+cp "$proof" "$out_of_scope_digest_proof"
+yq -i '.evidence_digests[0].path = ".octon/generated/cognition/projections/materialized/trust/proof-review-status.yml"' "$out_of_scope_digest_proof"
+expect_fail "proof-digest-out-of-scope" "${OCTON[@]}" proof verify "$out_of_scope_digest_proof"
+
+stale_proof="$tmp/stale-proof.yml"
+cp "$proof" "$stale_proof"
+yq -i '.freshness_status = "stale"' "$stale_proof"
+expect_fail "stale-proof" "${OCTON[@]}" proof verify "$stale_proof"
+
 expired_proof="$tmp/expired-proof.yml"
 cp "$proof" "$expired_proof"
 yq -i '.expires_at = "2000-01-01T00:00:00Z"' "$expired_proof"
 expect_fail "expired-proof" "${OCTON[@]}" proof verify "$expired_proof"
+
+revoked_proof="$tmp/revoked-proof.yml"
+cp "$proof" "$revoked_proof"
+yq -i '.revocation_status = "revoked"' "$revoked_proof"
+expect_fail "revoked-proof-status" "${OCTON[@]}" proof verify "$revoked_proof"
+
+matching_revoked_proof="$tmp/matching-revoked-proof.yml"
+matching_revocation="$test_root/.octon/state/control/trust/revocations/revocation-proof-test-match.yml"
+cp "$proof" "$matching_revoked_proof"
+cat >"$matching_revocation" <<'YAML'
+schema_version: "proof-revocation-v1"
+revocation_id: "revocation-proof-test-match"
+subject_kind: "portable_proof_bundle"
+subject_ref: "proof-octon-v6-mvp"
+reason: "negative control"
+status: "revoked"
+route_on_match: "deny"
+fail_closed: true
+recorded_at: "2026-04-29T00:00:00Z"
+evidence_refs: []
+revocation_authorizes_execution: false
+YAML
+yq -i '.revocation_refs += [".octon/state/control/trust/revocations/revocation-proof-test-match.yml"]' "$matching_revoked_proof"
+expect_fail "revoked-proof-matching-ref" "${OCTON[@]}" proof verify "$matching_revoked_proof"
+
+missing_revocation_ref="$tmp/missing-revocation-ref-proof.yml"
+cp "$proof" "$missing_revocation_ref"
+yq -i '.revocation_refs += [".octon/state/control/trust/revocations/missing-revocation.yml"]' "$missing_revocation_ref"
+expect_fail "proof-missing-revocation-ref" "${OCTON[@]}" proof verify "$missing_revocation_ref"
 
 bad_redaction="$tmp/bad-redaction.yml"
 cp "$proof" "$bad_redaction"

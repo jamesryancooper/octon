@@ -27,3 +27,8 @@ files:
     path: scripts/test-docs-promotion-fail-closed.sh
     summary: Contract tests for docs evidence promotion fail-closed policy behavior.
     when: When policy gate behavior or docs-evidence requirements change.
+
+  - id: governed-autonomy-framing-alignment
+    path: ../../assurance/runtime/_ops/scripts/validate-framing-alignment.sh
+    summary: Validates canonical goal text and governed autonomy lifecycle framing across principles and bootstrap orientation.
+    when: When Safe Start, Safe Continuation, Continuous Stewardship, Connector Admission Runtime, Constitutional Self-Evolution, or Federated Trust framing changes.

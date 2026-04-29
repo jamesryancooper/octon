@@ -1,0 +1,254 @@
+schema_version: governed-autonomy-stack-closure-receipt-v1
+receipt_id: governed-autonomy-stack-closure-2026-04-29-closure-hardening
+recorded_at: "2026-04-29T12:42:59Z"
+repository_root: /Users/jamesryancooper/Projects/octon
+release_state: pre-1.0
+change_profile: atomic
+evidence_classification: retained-validation-evidence
+authority_boundary:
+  receipt_authorizes_execution: false
+  receipt_widens_support: false
+  imported_proof_authorizes_execution: false
+  generated_projection_authority: false
+  proposal_packet_authority: false
+  material_execution_requires_run_contract_and_execution_authorization: true
+scope:
+  stack_name: Octon Governed Autonomy Stack
+  surfaces:
+    - Safe Start
+    - Safe Continuation
+    - Continuous Stewardship
+    - Connector Admission Runtime
+    - Constitutional Self-Evolution
+    - Federated Trust
+implemented_changes:
+  Safe Start:
+    - Refreshed Engagement projection publication from control truth during status, profile, plan, arm, and Decision Request transitions.
+    - Added stale Engagement projection validation and negative control coverage.
+  Safe Continuation:
+    - Revalidated mission-scoped continuation boundaries and non-authority generated mission projections.
+  Continuous Stewardship:
+    - Indexed Stewardship Ledger event, epoch, trigger, admission, idle, and renewal references from control truth.
+    - Added Stewardship Ledger index validation and incomplete-index negative control coverage.
+  Connector Admission Runtime:
+    - Reconciled connector documentation with bounded support targets and non-effectful Connector Admission Runtime posture.
+    - Revalidated connector operation posture, capability mapping, trust dossier, drift, quarantine, and generated support-card non-authority behavior.
+  Constitutional Self-Evolution:
+    - Revalidated evidence-to-candidate, simulation, lab gate, promotion, recertification, rollback, and proposal non-authority boundaries.
+  Federated Trust:
+    - Hardened Portable Proof Bundle validation to fail closed for missing, unreadable, out-of-scope, stale, revoked, or digest-mismatched evidence digest paths.
+    - Hardened revocation reference handling so missing revocation references and matching revocations fail closed.
+    - Preserved imported proof and external attestations as evidence only until locally accepted.
+  Operator Orientation:
+    - Updated bootstrap and catalog framing with canonical lifecycle surface names and current non-live exclusions.
+  Principles:
+    - Added governed autonomy lifecycle framing while preserving charter supremacy, fail-closed posture, and evidence-only proof boundaries.
+validation_results:
+  - category: formatting
+    command: cargo fmt --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --all
+    result: pass
+  - category: schema_and_yaml_parse
+    command: yq -e on modified registry, map, index, ledger, and receipt files
+    result: pass
+  - category: shell_syntax
+    command: bash -n on modified runtime assurance scripts and tests
+    result: pass
+  - category: runtime_unit_tests
+    command: cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel
+    result: pass
+    summary: 67 passed, 0 failed
+  - category: patch_hygiene
+    command: git diff --check
+    result: pass
+  - category: principles_and_framing
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-framing-alignment.sh
+    result: pass
+    notes:
+      - two historical warnings remain allowlisted by the validator output
+  - category: root_placement
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-instance-boundary.sh
+    result: pass
+  - category: proposal_standard
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --all-standard-proposals
+    result: pass_with_warnings
+    warnings: 16
+    notes:
+      - warnings are existing proposal inventory warnings; validator reported errors=0
+  - category: generated_effective_handles
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh
+    result: pass
+  - category: generated_effective_freshness
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh
+    result: pass
+  - category: support_targets
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-live-claims.sh
+    result: pass
+  - category: support_target_proofing
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh
+    result: pass
+  - category: safe_start
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-engagement-work-package-compiler.sh --root /Users/jamesryancooper/Projects/octon
+    result: pass
+  - category: safe_start_projection_refresh
+    command: .octon/framework/engine/runtime/run status --engagement-id engagement-compiler-v1-validation
+    result: pass
+    notes:
+      - runtime status command refreshed the Engagement generated projection from control truth
+  - category: safe_start_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-engagement-work-package-compiler.sh
+    result: pass
+    negative_controls:
+      - stale Engagement projection rejected
+      - generated projection authority rejected
+  - category: safe_continuation
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-mission-autonomy-runtime-v2.sh
+    result: pass
+  - category: safe_continuation_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-runtime-v2.sh
+    result: pass
+    negative_controls:
+      - negative placement control rejected
+  - category: continuous_stewardship
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-continuous-stewardship-runtime-v3.sh --root /Users/jamesryancooper/Projects/octon --program-id octon-continuous-stewardship
+    result: pass
+  - category: continuous_stewardship_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-continuous-stewardship-runtime-v3.sh
+    result: pass
+    negative_controls:
+      - stale generated Stewardship projection rejected
+      - incomplete Stewardship Ledger index rejected
+  - category: connector_admission_runtime
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh
+    result: pass
+  - category: connector_admission_runtime_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-connector-admission-runtime-v4.sh
+    result: pass
+    negative_controls:
+      - missing material effect rejected
+      - disallowed admission mode rejected
+      - live effectful operation without proof rejected
+      - generated support widening rejected
+      - placeholder drift digest rejected
+      - active quarantine mismatch rejected
+  - category: constitutional_self_evolution
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh
+    result: pass
+  - category: constitutional_self_evolution_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-self-evolution-runtime-v5.sh
+    result: pass
+    negative_controls:
+      - candidate without evidence rejected
+      - candidate self-authorization rejected
+      - simulation success as approval rejected
+      - lab success as approval rejected
+      - missing amendment approval rejected
+      - inactive approval grant rejected
+      - support widening rejected
+      - promotion receipt as authority rejected
+      - incomplete recertification dimensions rejected
+      - missing recertification dimension evidence rejected
+      - generated effective target rejected
+      - durable proposal path dependency rejected
+  - category: context_pack_behavior
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-context-pack-builder.sh
+    result: pass
+    negative_controls:
+      - duplicate inputs rejected
+      - generated read model as authority rejected
+      - raw input as authority rejected
+      - model-visible hash mismatch rejected
+      - stale pack rejected
+      - invalidated pack rejected
+      - missing receipt rejected
+      - missing source manifest rejected
+      - replay mismatch rejected
+  - category: context_pack_behavior_invocation_correction
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh
+    result: failed_invocation_corrected
+    notes:
+      - initial bare invocation failed because --pack and --receipt are required
+      - fixture-backed test-context-pack-builder.sh passed and is the retained validation result
+  - category: run_lifecycle
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh
+    result: pass
+    negative_controls:
+      - unauthorized lifecycle transitions rejected
+      - closeout missing evidence rejected
+      - fake evidence reference rejected
+      - generated read model authority rejected
+      - effect token outside running rejected
+  - category: authorized_effect_tokens
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh
+    result: pass
+  - category: compatibility_proof_interop
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh --root /Users/jamesryancooper/Projects/octon
+    result: pass
+  - category: compatibility_proof_interop_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-compatibility-proof-interop-v6.sh
+    result: pass
+    negative_controls:
+      - proof authorizes execution rejected
+      - imported proof authorizes execution rejected
+      - missing digest path rejected
+      - digest mismatch rejected
+      - out-of-scope digest path rejected
+      - stale proof rejected
+      - expired proof rejected
+      - revoked proof status rejected
+      - matching revocation rejected
+      - missing revocation reference rejected
+      - secret export proof rejected
+      - attestation authorizes execution rejected
+      - expired attestation rejected
+      - generated proof view authority rejected
+  - category: federated_trust
+    command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-federated-trust-runtime-v6.sh --root /Users/jamesryancooper/Projects/octon
+    result: pass
+  - category: federated_trust_negative_controls
+    command: bash .octon/framework/assurance/runtime/_ops/tests/test-federated-trust-runtime-v6.sh
+    result: pass
+    negative_controls:
+      - generated trust view authority rejected
+      - proof authorizes execution rejected
+      - accepted proof pending validation rejected
+      - proof replaces run evidence rejected
+      - missing digest path rejected
+      - digest mismatch rejected
+      - out-of-scope digest path rejected
+      - stale proof rejected
+      - attestation authorizes execution rejected
+      - revoked accepted attestation rejected
+      - compact overrides local authority rejected
+      - permanent delegated lease rejected
+      - lease bypassing execution authorization rejected
+      - certification widens support rejected
+      - trust ledger authorizes execution rejected
+      - blind adoption rejected
+      - durable proposal path dependency rejected
+support_claim_boundary:
+  live_support_source: .octon/instance/governance/support-targets.yml
+  capability_pack_source: .octon/instance/governance/capability-packs/registry.yml
+  connector_source_root: .octon/instance/governance/connectors
+  non_live_surfaces:
+    - browser-driving autonomy
+    - arbitrary API autonomy
+    - broad MCP execution
+    - effectful connectors without admission and proof
+    - external execution authority
+    - production deployment automation
+    - autonomous governance amendment
+    - automatic support-target widening
+    - automatic evidence-distillation promotion
+    - external proof as authority
+    - non-Octon systems as federation peers
+rollback_posture:
+  code_changes: git diff can revert this atomic change set before merge
+  generated_projection_refresh: rebuildable from Engagement control truth
+  state_evidence_receipt: append-only retained evidence; supersede with a later receipt if invalidated
+closure_assessment:
+  p0_closure_blockers: 0
+  p1_high_risk_hardening_items: 0
+  residual_risks:
+    - severity: P3
+      description: External CI was not run in this local closure pass; local runtime, shell, and lifecycle validators passed.
+final_verdict: closure-ready

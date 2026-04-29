@@ -1,0 +1,39 @@
+allowed_capabilities:
+- generated.effective.publish
+- runtime.route.publish
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/publish-1777471448764-89339
+- .octon/state/evidence/runs/publish-1777471448764-89339
+attempt_kind: initial
+completion_status: criteria-pending
+created_at: 2026-04-29T14:04:08.765294Z
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the bounded consequential envelope.
+evidence_refs:
+- .octon/state/evidence/runs/publish-1777471448764-89339/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/publish-1777471448764-89339/receipts/grant-bundle.json
+- .octon/state/evidence/runs/publish-1777471448764-89339/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status reaches a terminal state that agrees with the decision artifact.
+issued_by: octon-kernel
+objective_ref: .octon/state/control/execution/runs/publish-1777471448764-89339/run-contract.yml
+objective_slice: Stage publication:runtime-route-bundle for target publication:runtime-route-bundle
+predecessor_refs: []
+requested_capabilities:
+- generated.effective.publish
+- runtime.route.publish
+- evidence.write
+retry_class: manual_review_required
+rollback_candidate: true
+rollback_notes: Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.
+run_id: publish-1777471448764-89339
+schema_version: stage-attempt-v1
+stage_attempt_id: initial
+stage_ref: publication:runtime-route-bundle
+status: succeeded
+successor_refs: []
+updated_at: 2026-04-29T14:04:11.99377Z
+validated_by: octon-kernel

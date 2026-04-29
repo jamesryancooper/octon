@@ -563,6 +563,7 @@ path_families:
       - "generated projections as connector authority"
       - "runtime dependencies on inputs/**"
       - "MCP or tool availability as permission"
+      - "browser, API, broad MCP, arbitrary external system, or effectful connector use as live support without support-target admission and retained proof"
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh"
     doc_target_refs:
@@ -1098,6 +1099,7 @@ path_families:
       - "docs"
     forbidden_consumers:
       - "flat compatibility shims as canonical support state"
+      - "documentation-only widening of browser, API, broad MCP, arbitrary external systems, or effectful connector support"
     validator_refs:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-path-normalization.sh"
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-support-target-proofing.sh"

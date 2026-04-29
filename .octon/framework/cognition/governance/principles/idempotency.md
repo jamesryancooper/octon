@@ -15,6 +15,14 @@ Externally retriable mutating interfaces (APIs, jobs, webhooks, and kit calls) m
 
 Replay-key semantics must remain reproducible and auditable per [Determinism and Provenance](./determinism-and-provenance.md).
 
+For governed autonomy lifecycle surfaces, idempotency applies to control and
+evidence updates across Engagement, Mission Queue, Stewardship Ledger,
+Connector Quarantine, Promotion Runtime, Recertification Runtime, Portable
+Proof Bundle, Attestation Envelope, and Local Acceptance Record operations.
+Retries must not duplicate material effects, widen support claims, re-admit a
+revoked trust artifact, or bypass the run contract and execution authorization
+boundary.
+
 ## Why It Matters
 
 ### Pillar Alignment: Trust through Governed Determinism

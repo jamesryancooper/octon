@@ -5,6 +5,84 @@
 schema_version: "1.0"
 charter_source: principles.md
 status: active
+constitutional_alignment:
+  charter_ref: ".octon/framework/constitution/CHARTER.md"
+  supremacy_rule: "principles project the charter but do not override it"
+  fail_closed_ref: ".octon/framework/constitution/obligations/fail-closed.yml"
+  evidence_ref: ".octon/framework/constitution/obligations/evidence.yml"
+governed_autonomy_lifecycle_surfaces:
+  - surface: Safe Start
+    charter_principles: [P1, P2, P7, P8, P9, P10]
+    canonical_artifacts:
+      - Engagement
+      - Project Profile
+      - Work Package
+      - Decision Request
+      - Evidence Profile
+      - Preflight Evidence Lane
+      - Tool/MCP Connector Posture
+      - Run Contract Candidate
+    authority_boundary: "prepares governed work; material execution still requires run contract and execution authorization"
+  - surface: Safe Continuation
+    charter_principles: [P2, P7, P8, P9, P10]
+    canonical_artifacts:
+      - Autonomy Window
+      - Mission Runner
+      - Mission Queue
+      - Action Slice
+      - Continuation Decision
+      - Mission Run Ledger
+      - Mission Evidence Profile
+    authority_boundary: "mission-scoped continuation stages bounded runs but does not replace the run lifecycle"
+  - surface: Continuous Stewardship
+    charter_principles: [P2, P3, P7, P8, P9]
+    canonical_artifacts:
+      - Stewardship Program
+      - Stewardship Epoch
+      - Stewardship Trigger
+      - Stewardship Admission Decision
+      - Idle Decision
+      - Renewal Decision
+      - Stewardship Ledger
+    authority_boundary: "finite care loop only; no infinite loop or direct material execution"
+  - surface: Connector Admission Runtime
+    charter_principles: [P2, P7, P8, P9, P10]
+    canonical_artifacts:
+      - Connector Operation
+      - Connector Trust Dossier
+      - Connector Evidence Profile
+      - Connector Drift Record
+      - Connector Quarantine
+      - support-target proof hooks
+      - operation-level capability mapping
+    authority_boundary: "connector availability is not execution authority and cannot widen support claims"
+  - surface: Constitutional Self-Evolution
+    charter_principles: [P1, P2, P7, P8, P9, P10]
+    canonical_artifacts:
+      - Evolution Candidate
+      - Evidence-to-Candidate Distillation Record
+      - Governance Impact Simulation
+      - Assurance Lab Promotion Gate
+      - Evolution Proposal Compiler
+      - Constitutional Amendment Request
+      - Promotion Runtime
+      - Recertification Runtime
+      - Evolution Ledger
+    authority_boundary: "evidence may propose change but cannot self-authorize durable governance change"
+  - surface: Federated Trust
+    charter_principles: [P2, P7, P8, P9, P10]
+    canonical_artifacts:
+      - Octon Compatibility Profile
+      - external project compatibility inspection
+      - safe external adoption posture
+      - Portable Proof Bundle
+      - Attestation Envelope
+      - Local Acceptance Record
+      - Trust-Domain hook
+      - proof import/export
+      - attestation verify/accept/reject
+      - revocation and expiry behavior
+    authority_boundary: "imported proof and external attestations are evidence only until locally accepted and never authorize execution"
 
 charter_principles:
   - id: P1

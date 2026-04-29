@@ -239,6 +239,7 @@ check_live_program() {
   require_yq "$continuity_root/summary.yml" '.non_authority_notice != null' "stewardship continuity declares non-authority"
   require_yq "$root/status.yml" '.service_may_be_indefinite == true and .work_may_be_unbounded == false and .one_active_program_per_workspace == true' "program status preserves indefinite-service bounded-work rule"
   require_yq "$root/ledger.yml" '.role == "stewardship-level-index-not-mission-or-run-evidence" and .run_journal_authority_ref == ".octon/state/control/execution/runs/<run-id>/events.ndjson"' "Stewardship Ledger does not replace mission/run evidence"
+  validate_ledger_indexes "$root/ledger.yml" "$root"
 
   local active_programs
   active_programs="$(find "$OCTON_DIR/state/control/stewardship/programs" -name status.yml -print 2>/dev/null | while IFS= read -r file; do yq -r '.status // ""' "$file"; done | grep -Ec '^(active|idle|paused)$' || true)"
@@ -262,6 +263,57 @@ check_live_program() {
   validate_decision_records "$root" "$evidence_root"
   validate_evidence_profile "$root/evidence-profile.yml" "$evidence_root"
   validate_generated_projection "$root/status.yml" "$generated_root"
+}
+
+validate_ledger_ref_index() {
+  local ledger="$1"
+  local key="$2"
+  local label="$3"
+  shift 3
+  local expected missing=0
+  if [[ "$#" -eq 0 ]]; then
+    require_yq "$ledger" "(.${key} // []) | length == 0" "Stewardship Ledger has intentionally empty $label index"
+    return 0
+  fi
+  for expected in "$@"; do
+    if yq -e ".${key}[]? | select(. == \"$expected\")" "$ledger" >/dev/null 2>&1; then
+      pass "Stewardship Ledger indexes $label: $expected"
+    else
+      fail "Stewardship Ledger missing $label index: $expected"
+      missing=1
+    fi
+  done
+  [[ "$missing" == "0" ]] || true
+}
+
+validate_ledger_indexes() {
+  local ledger="$1"
+  local root="$2"
+  local rels=()
+  local file
+
+  require_yq "$ledger" '((.events // []) | length > 0) or (.events_intentionally_empty == true)' "Stewardship Ledger event list is present or explicitly empty"
+  require_yq "$ledger" '[(.events // [])[] | select(.event_type == null)] | length == 0' "Stewardship Ledger events carry event types"
+
+  rels=()
+  while IFS= read -r file; do rels+=("$(rel "$file")"); done < <(find "$root/epochs" -name epoch.yml -print 2>/dev/null | sort)
+  validate_ledger_ref_index "$ledger" "epoch_refs" "epoch" "${rels[@]}"
+
+  rels=()
+  while IFS= read -r file; do rels+=("$(rel "$file")"); done < <(find "$root/triggers" -type f -name '*.yml' -print 2>/dev/null | sort)
+  validate_ledger_ref_index "$ledger" "trigger_refs" "trigger" "${rels[@]}"
+
+  rels=()
+  while IFS= read -r file; do rels+=("$(rel "$file")"); done < <(find "$root/admission-decisions" -type f -name '*.yml' -print 2>/dev/null | sort)
+  validate_ledger_ref_index "$ledger" "admission_decision_refs" "Admission Decision" "${rels[@]}"
+
+  rels=()
+  while IFS= read -r file; do rels+=("$(rel "$file")"); done < <(find "$root/idle-decisions" -type f -name '*.yml' -print 2>/dev/null | sort)
+  validate_ledger_ref_index "$ledger" "idle_decision_refs" "Idle Decision" "${rels[@]}"
+
+  rels=()
+  while IFS= read -r file; do rels+=("$(rel "$file")"); done < <(find "$root/renewal-decisions" -type f -name '*.yml' -print 2>/dev/null | sort)
+  validate_ledger_ref_index "$ledger" "renewal_decision_refs" "Renewal Decision" "${rels[@]}"
 }
 
 validate_trigger_records() {

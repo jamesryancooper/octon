@@ -198,11 +198,43 @@ validate_active_wording_drift() {
   fi
 }
 
+validate_governed_autonomy_lifecycle_framing() {
+  local principles="$OCTON_DIR/framework/cognition/governance/principles/principles.md"
+  local charter_map="$OCTON_DIR/framework/cognition/governance/principles/charter-map.yml"
+  local bootstrap="$OCTON_DIR/instance/bootstrap/START.md"
+  local catalog="$OCTON_DIR/instance/bootstrap/catalog.md"
+  local scope="$OCTON_DIR/instance/bootstrap/scope.md"
+  local required_terms=(
+    "Safe Start"
+    "Safe Continuation"
+    "Continuous Stewardship"
+    "Connector Admission Runtime"
+    "Constitutional Self-Evolution"
+    "Federated Trust"
+    "Local Acceptance Record"
+    "run contracts"
+    "execution authorization"
+  )
+  local term
+
+  for term in "${required_terms[@]}"; do
+    require_contains_literal "$principles" "$term" "principles charter contains governed autonomy term: $term"
+    require_contains_literal "$bootstrap" "$term" "bootstrap START contains governed autonomy term: $term"
+  done
+
+  require_contains_literal "$catalog" "Safe Start" "bootstrap catalog lists Safe Start commands"
+  require_contains_literal "$scope" "Connector Admission Runtime" "bootstrap scope lists Connector Admission Runtime boundary"
+  require_contains_literal "$principles" "Imported proof, external attestations, generated projections, proposal packets, chat, host UI state, labels, and comments are not authority." "principles preserve imported-proof and projection non-authority"
+  require_contains_literal "$bootstrap" "Imported proof and external attestations remain evidence only" "bootstrap preserves imported proof as evidence only"
+  require_contains "$charter_map" 'governed_autonomy_lifecycle_surfaces:' "charter-map carries governed autonomy lifecycle mapping"
+}
+
 main() {
   echo "== Framing Alignment Validation =="
   validate_canonical_markers
   validate_goal_explicitness_control_points
   validate_active_wording_drift
+  validate_governed_autonomy_lifecycle_framing
   validate_deprecated_tokens
   echo "Validation summary: errors=$errors warnings=$warnings"
   if [[ $errors -gt 0 ]]; then

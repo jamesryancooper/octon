@@ -110,7 +110,7 @@ case "${1:-}" in
   ""|-h|--help|help)
     FORCE_SOURCE_ONLY=1
     ;;
-  studio|workflow|start|profile|plan|arm|continue|mission|decide|connector|adopt|compatibility|trust|proof|attest|delegate|certify|federation|support|capability|steward|run)
+  studio|workflow|start|profile|plan|arm|status|continue|mission|decide|connector|adopt|compatibility|trust|proof|attest|delegate|certify|federation|support|capability|steward|evolve|amend|promote|recertify|doctor|info|services|tool|validate|serve-stdio|service|publish|protected-ci|orchestration|run)
     if [ "$STRICT_PACKAGING" != "1" ]; then
       FORCE_SOURCE_ONLY=1
     fi

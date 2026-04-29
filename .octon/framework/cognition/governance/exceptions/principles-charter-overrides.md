@@ -70,3 +70,17 @@ Every record must include:
 - authorization_source: explicit human override request in active session
 - break_glass: false
 - status: active
+
+### OVR-2026-04-29-001
+
+- date: 2026-04-29
+- rationale: Align the protected principles charter to the live Octon Governed Autonomy Stack closure surfaces without widening support or authority.
+- responsible_owner: "octon-maintainers"
+- review_date: 2026-07-31
+- override_scope: Direct charter clarification for Safe Start, Safe Continuation, Continuous Stewardship, Connector Admission Runtime, Constitutional Self-Evolution, and Federated Trust framing.
+- review_and_agreement_evidence: Explicit human instruction in Codex session on 2026-04-29 to harden and close the Octon Governed Autonomy Stack in the live repository.
+- exception_log_ref: OVR-2026-04-29-001 (this append-only record), authorized under ADR-042 (`/.octon/instance/cognition/decisions/042-principles-charter-human-override-direct-edit-policy.md`)
+- authorized_by: repository policy author
+- authorization_source: explicit human override request in active session
+- break_glass: false
+- status: active

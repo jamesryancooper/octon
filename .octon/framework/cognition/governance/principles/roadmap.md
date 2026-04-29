@@ -3,6 +3,7 @@
 Roadmap for maturing Octon’s Principles layer as the operational bridge between pillars and methodology.
 
 Last updated: 2026-02-11
+Lifecycle framing updated: 2026-04-29
 
 ## Progress Checklist
 
@@ -24,6 +25,20 @@ Last updated: 2026-02-11
 - [ ] Add principle-to-kit matrix with executable checks in CI
 - [ ] Add principle compliance checks to PR template and review bot prompts
 - [ ] Publish a compact onboarding quick-reference for principles
+
+### Governed Autonomy Closure Alignment
+
+- [x] Acknowledge Safe Start as governed drop-in start, not direct execution.
+- [x] Acknowledge Safe Continuation as mission-scoped continuation, not run
+      lifecycle replacement.
+- [x] Acknowledge Continuous Stewardship as finite care, not an infinite agent
+      loop.
+- [x] Acknowledge Connector Admission Runtime as connector/capability
+      admission, not support widening.
+- [x] Acknowledge Constitutional Self-Evolution as evidence-to-evolution
+      without self-authorization.
+- [x] Acknowledge Federated Trust as imported proof and attestation evidence
+      only after local verification and Local Acceptance Record gates.
 
 ## Completed in This Cycle
 

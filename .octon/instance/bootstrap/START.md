@@ -5,6 +5,8 @@ description: Boot sequence and orientation for the root .octon Constitutional En
 
 # .octon: Start Here
 
+Canonical goal: Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+
 Use this document for the steady-state boot sequence. Canonical topology,
 authority families, publication metadata, and doc roles live in
 `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`.
@@ -70,6 +72,76 @@ Instance-native repo authority lives at:
 
 Consequential execution binds mission, run, control, and evidence surfaces
 without treating generated summaries or raw inputs as authority.
+Material execution remains bound to run contracts and execution authorization.
+
+## Live Operator Flow
+
+Use these surfaces by name when orienting or resuming governed work. Numeric
+maturity labels are lineage only; they are not the primary artifact identity.
+
+### Safe Start
+
+Safe Start enters through `octon start`, `octon profile`, `octon plan`, and
+`octon arm --prepare-only`. The flow creates or updates Engagement, Project
+Profile, Work Package, Decision Request, Evidence Profile, Preflight Evidence
+Lane, Tool/MCP Connector Posture, and Run Contract Candidate surfaces. It does
+not execute material work. The Run Contract Candidate becomes executable only
+through `octon run start --contract <path>` after required decisions, context,
+support, rollback, evidence, and execution authorization gates pass.
+
+### Safe Continuation
+
+Safe Continuation enters through `octon mission` and `octon continue`. The
+Mission Runner evaluates the Autonomy Window, Mission Queue, Action Slice,
+Continuation Decision, Mission Run Ledger, and Mission Evidence Profile before
+preparing a bounded continuation. Mission continuation may stage a new
+run-contract candidate, but the mission surface does not replace the run
+lifecycle or authorize material execution by itself.
+
+### Continuous Stewardship
+
+Continuous Stewardship enters through `octon steward`. A Stewardship Program
+may open a finite Stewardship Epoch, observe a Stewardship Trigger, emit a
+Stewardship Admission Decision, Idle Decision, or Renewal Decision, and update
+the Stewardship Ledger. Stewardship is a bounded care loop, not an infinite
+agent loop; it may hand off mission candidates, but it never executes work
+directly.
+
+### Connector Admission Runtime
+
+Connector Admission Runtime enters through `octon connector`. Connector
+Operation, Connector Trust Dossier, Connector Evidence Profile, Connector Drift
+Record, Connector Quarantine, support-target proof hooks, and operation-level
+capability mapping govern external tool posture. Browser, API, broad MCP,
+arbitrary external systems, and effectful connectors remain stage-only,
+unadmitted, unsupported, or non-live unless support-target admission,
+capability-pack admission, connector dossier sufficiency, rollback posture,
+Decision Request resolution, run contract, context pack, execution
+authorization, authorized-effect token verification, retained evidence, and
+disclosure all pass.
+
+### Constitutional Self-Evolution
+
+Constitutional Self-Evolution enters through `octon evolve`, `octon promote`,
+`octon amend`, and `octon recertify`. Evolution Program, Evolution Candidate,
+Evidence-to-Candidate Distillation Record, Governance Impact Simulation,
+Assurance Lab Promotion Gate, Evolution Proposal Compiler, Constitutional
+Amendment Request, Promotion Runtime, Recertification Runtime, and Evolution
+Ledger surfaces may prepare and evidence change. They do not self-authorize
+constitutional, governance, runtime, support, connector, release, or evidence
+changes.
+
+### Federated Trust
+
+Federated Trust enters through `octon compatibility`, `octon adopt`,
+`octon proof`, `octon attest`, `octon trust`, and `octon federation`. Octon
+Compatibility Profile, external project compatibility inspection, safe external
+adoption posture, Portable Proof Bundle, Attestation Envelope, Local Acceptance
+Record, Trust-Domain hook, proof import/export, attestation verify/accept/reject,
+revocation, and expiry behavior are evidence and classification surfaces.
+Imported proof and external attestations remain evidence only until a valid
+Local Acceptance Record admits them locally; they never authorize execution,
+widen support, or turn non-Octon systems into federation peers.
 
 ## Publication Model
 
@@ -114,7 +186,15 @@ boot document. Use:
 2. Read the structural registry if the task affects topology, docs, bootstrap,
    publication, or placement.
 3. Run `/bootstrap-doctor` when freshness or local harness health is in doubt.
-4. Use `octon run start --contract <path>` for the first consequential run, then
-   inspect, disclose, close, and replay it through the `octon run` lifecycle
-   commands.
-5. Resume continuity, then execute the highest-priority unblocked task.
+4. Use Safe Start to prepare Engagement, Project Profile, Work Package,
+   Decision Request, Evidence Profile, connector posture, and Run Contract
+   Candidate surfaces when the task is new.
+5. Use Safe Continuation or Continuous Stewardship only when the work is
+   mission-backed or recurring.
+6. Use Connector Admission Runtime, Constitutional Self-Evolution, or Federated
+   Trust only for their named governance surfaces; none of them replaces run
+   contracts or execution authorization.
+7. Use `octon run start --contract <path>` for the first consequential run,
+   then inspect, disclose, close, and replay it through the `octon run`
+   lifecycle commands.
+8. Resume continuity, then execute the highest-priority unblocked task.

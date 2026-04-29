@@ -10,7 +10,7 @@ use octon_authority_engine::now_rfc3339;
 use serde_json::{json, Map, Value};
 use sha2::{Digest, Sha256};
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 use time::{format_description::well_known::Rfc3339, Duration, OffsetDateTime};
 
 const TRUST_REGISTRY_REF: &str = ".octon/instance/governance/trust/registry.yml";
@@ -1073,7 +1073,9 @@ fn verify_proof_bundle(value: &Value, require_acceptable: bool) -> Result<()> {
     require_bool(value, "proof_bundle_authorizes_execution", false)?;
     require_bool(value, "proof_bundle_replaces_run_evidence", false)?;
     require_bool(value, "proof_bundle_widens_support_claims", false)?;
+    ensure_valid_from_active(value, "valid_from")?;
     ensure_not_expired(value, "expires_at")?;
+    ensure_proof_status_not_denied(value)?;
     ensure_registry_accepts(
         value_string(value, "trust_domain_id")?.as_str(),
         value_string(value, "issuer")?.as_str(),
@@ -1161,6 +1163,40 @@ fn ensure_not_expired(value: &Value, field: &str) -> Result<()> {
     Ok(())
 }
 
+fn ensure_valid_from_active(value: &Value, field: &str) -> Result<()> {
+    let valid_from = value_string(value, field)?;
+    let valid_from = OffsetDateTime::parse(&valid_from, &Rfc3339)
+        .with_context(|| format!("{field} must be RFC3339"))?;
+    if valid_from > OffsetDateTime::now_utc() {
+        bail!("{field} is in the future; route is deny")
+    }
+    Ok(())
+}
+
+fn ensure_proof_status_not_denied(value: &Value) -> Result<()> {
+    match value.get("freshness_status").and_then(Value::as_str) {
+        Some("stale" | "expired") => bail!("freshness_status routes to deny"),
+        Some(_) => {}
+        None => bail!("freshness_status is required"),
+    }
+    match value.get("revocation_status").and_then(Value::as_str) {
+        Some("revoked") => bail!("revocation_status routes to deny"),
+        Some(_) => {}
+        None => bail!("revocation_status is required"),
+    }
+    match value.get("digest_verification").and_then(Value::as_str) {
+        Some("failed") => bail!("digest_verification routes to deny"),
+        Some(_) => {}
+        None => bail!("digest_verification is required"),
+    }
+    match value.get("local_acceptance").and_then(Value::as_str) {
+        Some("revoked" | "expired") => bail!("local_acceptance routes to deny"),
+        Some(_) => {}
+        None => bail!("local_acceptance is required"),
+    }
+    Ok(())
+}
+
 fn ensure_registry_accepts(domain_id: &str, issuer_id: &str) -> Result<()> {
     let octon_dir = octon_core::root::RootResolver::resolve()?;
     let root = repo_root(&octon_dir);
@@ -1206,15 +1242,23 @@ fn ensure_no_matching_revocation(value: &Value, subject_kind: &str, id_key: &str
         format!(".octon/state/control/trust/local-acceptance/acceptance-{id}.yml"),
     ];
     let Some(refs) = value.get("revocation_refs").and_then(Value::as_array) else {
-        return Ok(());
+        bail!("revocation_refs must be an array");
     };
     for rev_ref in refs.iter().filter_map(Value::as_str) {
-        let path = root.join(rev_ref);
-        if !path.is_file() {
-            continue;
-        }
+        let path = ensure_repo_scoped_artifact(&root, rev_ref, "revocation ref")?;
         let revocation = read_yaml(&path)?;
-        if revocation.get("schema_version").and_then(Value::as_str) != Some("proof-revocation-v1") {
+        let schema_version = revocation.get("schema_version").and_then(Value::as_str);
+        if schema_version != Some("proof-revocation-v1")
+            && schema_version != Some("trust-revocation-v1")
+        {
+            bail!("revocation ref {rev_ref} must be a recognized revocation artifact");
+        }
+        if schema_version == Some("trust-revocation-v1") {
+            if revocation.get("route_on_match").and_then(Value::as_str) != Some("deny")
+                || revocation.get("fail_closed").and_then(Value::as_bool) != Some(true)
+            {
+                bail!("trust revocation ref {rev_ref} must fail closed");
+            }
             continue;
         }
         let kind_matches = revocation.get("subject_kind").and_then(Value::as_str)
@@ -1267,22 +1311,71 @@ fn ensure_digest_refs(value: &Value) -> Result<()> {
     let Some(digests) = value.get("evidence_digests").and_then(Value::as_array) else {
         bail!("evidence_digests must be an array");
     };
+    if digests.is_empty() {
+        bail!("evidence_digests must not be empty");
+    }
     for digest in digests {
         let Some(rel_path) = digest.get("path").and_then(Value::as_str) else {
             bail!("evidence digest path is required");
         };
+        if digest.get("digest_algorithm").and_then(Value::as_str) != Some("sha256") {
+            bail!("evidence digest algorithm must be sha256 for {rel_path}");
+        }
         let Some(expected) = digest.get("digest").and_then(Value::as_str) else {
             bail!("evidence digest value is required");
         };
-        let path = root.join(rel_path);
-        if path.is_file() {
-            let actual = sha256_file(&path)?;
-            if actual != expected {
-                bail!("digest mismatch for {rel_path}");
-            }
+        let path = ensure_repo_scoped_artifact(&root, rel_path, "evidence digest path")?;
+        let actual = sha256_file(&path)?;
+        if actual != expected {
+            bail!("digest mismatch for {rel_path}");
         }
     }
     Ok(())
+}
+
+fn ensure_repo_scoped_artifact(root: &Path, rel_path: &str, label: &str) -> Result<PathBuf> {
+    let rel = Path::new(rel_path);
+    if rel_path.trim().is_empty() {
+        bail!("{label} is empty");
+    }
+    if rel.is_absolute() {
+        bail!("{label} must be repo-relative: {rel_path}");
+    }
+    if rel.components().any(|component| {
+        matches!(
+            component,
+            Component::ParentDir | Component::RootDir | Component::Prefix(_)
+        )
+    }) {
+        bail!("{label} must not escape the repository: {rel_path}");
+    }
+
+    let normalized = rel_path.replace('\\', "/");
+    if !normalized.starts_with(".octon/") {
+        bail!("{label} must remain under .octon/: {rel_path}");
+    }
+    if normalized.starts_with(".octon/inputs/") || normalized.starts_with(".octon/generated/") {
+        bail!(
+            "{label} is outside the proof-verifiable authority/control/evidence scope: {rel_path}"
+        );
+    }
+
+    let root_canonical = root
+        .canonicalize()
+        .with_context(|| format!("canonicalize repository root {}", root.display()))?;
+    let path = root.join(rel);
+    let path_canonical = path
+        .canonicalize()
+        .with_context(|| format!("{label} is missing or unreadable: {rel_path}"))?;
+    if !path_canonical.starts_with(&root_canonical) {
+        bail!("{label} must resolve inside the repository: {rel_path}");
+    }
+    let metadata = fs::metadata(&path_canonical)
+        .with_context(|| format!("{label} is unreadable: {rel_path}"))?;
+    if !metadata.is_file() {
+        bail!("{label} must resolve to a file: {rel_path}");
+    }
+    Ok(path_canonical)
 }
 
 fn retain_command_receipt(octon_dir: &Path, family: &str, value: &Value) -> Result<()> {

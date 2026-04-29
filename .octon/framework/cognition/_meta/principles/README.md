@@ -38,3 +38,11 @@ Do not place canonical principle contracts in this directory.
 Canonical principles remain under:
 
 - `.octon/framework/cognition/governance/principles/*.md`
+
+## Lifecycle Framing Support
+
+The principles support layer now indexes the live governed autonomy lifecycle
+framing by canonical surface name: Safe Start, Safe Continuation, Continuous
+Stewardship, Connector Admission Runtime, Constitutional Self-Evolution, and
+Federated Trust. This directory remains support-only; it does not authorize
+execution, widen support, promote proposals, or accept imported proof.

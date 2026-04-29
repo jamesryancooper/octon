@@ -1,7 +1,10 @@
-admission_decision_refs: []
+admission_decision_refs:
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/admission-decisions/scheduled-review-ad0f9840c4f1-admission-616a6adbb840.yml
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/admission-decisions/scheduled-review-d981d98470cb-admission-d1dc877bb847.yml
 campaign_refs: []
 created_at: 2026-04-28T17:01:20.453981Z
-epoch_refs: []
+epoch_refs:
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/epochs/octon-continuous-stewardship-epoch-1/epoch.yml
 events:
 - epoch_id: octon-continuous-stewardship-epoch-1
   event_type: trigger_observed
@@ -19,17 +22,23 @@ events:
 - epoch_id: octon-continuous-stewardship-epoch-1
   event_type: renewal_decision_emitted
   outcome: idle_until_next_trigger
+  renewal_decision_ref: .octon/state/control/stewardship/programs/octon-continuous-stewardship/renewal-decisions/renewal-46e79585bfd6.yml
   silent_authority_widening: false
-idle_decision_refs: []
+idle_decision_refs:
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/idle-decisions/idle-45885917e024.yml
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/idle-decisions/idle-accba7e6eb0f.yml
 mission_refs: []
 mission_run_ledger_authority_ref: .octon/state/control/execution/missions/<mission-id>/runs.yml
 program_id: octon-continuous-stewardship
 program_refs:
 - .octon/instance/stewardship/programs/octon-continuous-stewardship/program.yml
-renewal_decision_refs: []
+renewal_decision_refs:
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/renewal-decisions/renewal-46e79585bfd6.yml
 role: stewardship-level-index-not-mission-or-run-evidence
 run_journal_authority_ref: .octon/state/control/execution/runs/<run-id>/events.ndjson
 schema_version: stewardship-ledger-v1
-trigger_refs: []
+trigger_refs:
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/triggers/scheduled-review-ad0f9840c4f1.yml
+- .octon/state/control/stewardship/programs/octon-continuous-stewardship/triggers/scheduled-review-d981d98470cb.yml
 unresolved_risks: []
 updated_at: 2026-04-28T17:01:43.65806Z

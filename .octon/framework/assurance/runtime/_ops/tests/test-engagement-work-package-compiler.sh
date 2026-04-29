@@ -327,6 +327,31 @@ case_generated_authority_ref_fails() {
   ! run_validator "$case_root"
 }
 
+case_stale_engagement_projection_fails() {
+  local case_root engagement projection
+  case_root="$(new_case)"
+  mkdir -p "$case_root/.octon/generated/cognition/projections/materialized/engagements"
+  engagement="$case_root/.octon/state/control/engagements/eng-001/engagement.yml"
+  projection="$case_root/.octon/generated/cognition/projections/materialized/engagements/eng-001.yml"
+  cat >"$engagement" <<'YAML'
+schema_version: "engagement-v1"
+engagement_id: "eng-001"
+status: "requires_decision"
+refs:
+  operator_projection_ref: ".octon/generated/cognition/projections/materialized/engagements/eng-001.yml"
+YAML
+  cat >"$projection" <<'YAML'
+schema_version: "engagement-operator-read-model-v1"
+non_authority_notice: "Generated operator projection only; control truth lives under state/control/engagements."
+engagement_id: "eng-001"
+status: "draft"
+refs:
+  engagement_ref: ".octon/state/control/engagements/eng-001/engagement.yml"
+updated_at: "2026-04-28T00:00:00Z"
+YAML
+  ! run_validator "$case_root"
+}
+
 case_ready_with_unresolved_decision_fails() {
   local case_root decision
   case_root="$(new_case)"
@@ -391,6 +416,7 @@ main() {
   assert_success "missing run-contract readiness evidence fails" case_missing_run_readiness_evidence_fails
   assert_success "proposal-local candidate dependency fails" case_raw_input_candidate_dependency_fails
   assert_success "generated authority dependency fails" case_generated_authority_ref_fails
+  assert_success "stale Engagement generated projection fails" case_stale_engagement_projection_fails
   assert_success "ready outcome with unresolved Decision Request fails" case_ready_with_unresolved_decision_fails
   assert_success "ready outcome with stage-only evidence profile fails" case_ready_with_stage_only_profile_fails
   assert_success "ready outcome with non-admitted connector fails" case_non_admitted_connector_ready_fails

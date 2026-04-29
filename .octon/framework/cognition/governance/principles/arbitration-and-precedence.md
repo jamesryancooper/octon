@@ -29,6 +29,23 @@ status: Active
 2. Apply the single authority source for that class.
 3. If unresolved, fail closed and emit a reason-coded receipt.
 
+## Governed Autonomy Lifecycle Arbitration
+
+- Safe Start artifacts prepare Engagement, Project Profile, Work Package,
+  Decision Request, Evidence Profile, Preflight Evidence Lane, Tool/MCP
+  Connector Posture, and Run Contract Candidate surfaces; they do not authorize
+  material execution.
+- Safe Continuation and Continuous Stewardship may stage mission or stewardship
+  decisions, but the run contract remains the atomic execution authority.
+- Connector Admission Runtime can narrow connector and capability posture; it
+  cannot widen support claims or convert tool availability into permission.
+- Constitutional Self-Evolution may distill evidence into candidates,
+  simulations, lab gates, proposals, amendments, promotions, recertifications,
+  and ledger entries, but it cannot self-authorize durable governance change.
+- Federated Trust may verify Portable Proof Bundles, Attestation Envelopes, and
+  Local Acceptance Records as evidence. Imported proof and external
+  attestations never override local authority or execution authorization.
+
 ## Related Documentation
 
 - [Autonomous Control Points](./autonomous-control-points.md)

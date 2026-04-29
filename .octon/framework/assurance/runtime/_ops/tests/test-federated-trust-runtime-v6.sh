@@ -63,6 +63,26 @@ yq -i '.proof_bundle_replaces_run_evidence = true' "$proof"
 expect_fail "proof-replaces-run-evidence"
 cp "$tmp/proof-replaces.bak" "$proof"
 
+cp "$proof" "$tmp/proof-missing-digest.bak"
+yq -i '.evidence_digests[0].path = ".octon/state/evidence/trust/missing-digest.yml"' "$proof"
+expect_fail "proof-missing-digest-path"
+cp "$tmp/proof-missing-digest.bak" "$proof"
+
+cp "$proof" "$tmp/proof-digest-mismatch.bak"
+yq -i '.evidence_digests[0].digest = "0000000000000000000000000000000000000000000000000000000000000000"' "$proof"
+expect_fail "proof-digest-mismatch"
+cp "$tmp/proof-digest-mismatch.bak" "$proof"
+
+cp "$proof" "$tmp/proof-digest-out-of-scope.bak"
+yq -i '.evidence_digests[0].path = ".octon/generated/cognition/projections/materialized/trust/proof-review-status.yml"' "$proof"
+expect_fail "proof-digest-out-of-scope"
+cp "$tmp/proof-digest-out-of-scope.bak" "$proof"
+
+cp "$proof" "$tmp/proof-stale.bak"
+yq -i '.freshness_status = "stale"' "$proof"
+expect_fail "proof-stale"
+cp "$tmp/proof-stale.bak" "$proof"
+
 cp "$attestation" "$tmp/attestation-authorizes.bak"
 yq -i '.attestation_authorizes_execution = true' "$attestation"
 expect_fail "attestation-authorizes-execution"

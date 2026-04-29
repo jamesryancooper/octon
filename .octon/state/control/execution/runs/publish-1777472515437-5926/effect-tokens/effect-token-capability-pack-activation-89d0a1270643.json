@@ -1,0 +1,72 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-capability-pack-activation-89d0a1270643",
+    "token_type": "AuthorizedEffect<CapabilityPackActivation>",
+    "effect_kind": "capability-pack-activation",
+    "run_id": "publish-1777472515437-5926",
+    "request_id": "publish-1777472515437-5926",
+    "grant_id": "grant-publish-1777472515437-5926",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-publish-1777472515437-5926.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1777472515437-5926.yml",
+    "run_control_root": ".octon/state/control/execution/runs/publish-1777472515437-5926",
+    "run_evidence_root": ".octon/state/evidence/runs/publish-1777472515437-5926",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/publish-1777472515437-5926/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-publication-bypass:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_freshness_mode": "publication-bypass",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/<pending>",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "publication-bypass",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "git",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/capabilities",
+    "scope_envelope": {
+      "read": [
+        "/Users/jamesryancooper/Projects/octon"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/capabilities",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/validation/publication/capabilities"
+      ],
+      "executor_profile": "scoped_repo_mutation",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/publish-1777472515437-5926/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-04-29T14:21:55.942337Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/publish-1777472515437-5926/effect-tokens/effect-token-capability-pack-activation-89d0a1270643.json",
+    "journal_ref": ".octon/state/control/execution/runs/publish-1777472515437-5926/events.ndjson#evt-effect-token-minted-effect-token-capability-pack-activation-89d0a1270643",
+    "token_digest": "sha256:fe391f34d35118e906914dce083fda86b6cd1eced0345af230c0891eb3c99c55"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 1,
+  "issued_event_ref": ".octon/state/control/execution/runs/publish-1777472515437-5926/events.ndjson#evt-effect-token-minted-effect-token-capability-pack-activation-89d0a1270643",
+  "last_event_ref": ".octon/state/control/execution/runs/publish-1777472515437-5926/events.ndjson#evt-effect-token-consumed-effect-token-capability-pack-activation-89d0a1270643",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/publish-1777472515437-5926/receipts/effect-tokens/effect-token-capability-pack-activation-89d0a1270643/consumption-7d65dd171c17.json",
+  "last_consumed_at": "2026-04-29T14:21:57.672299Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs::publication_internal_verify:capability-routing",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/generated/effective/capabilities",
+  "rejection_reason_codes": []
+}

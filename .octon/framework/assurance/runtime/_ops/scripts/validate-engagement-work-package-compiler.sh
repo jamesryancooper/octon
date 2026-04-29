@@ -447,6 +447,48 @@ check_path_family_registry() {
   done < <(yq -r '.path_families[]?.family_id // ""' "$PATH_FAMILIES")
 }
 
+check_generated_engagement_projections() {
+  local engagement_root="$OCTON_DIR/state/control/engagements"
+  local projection_root="$OCTON_DIR/generated/cognition/projections/materialized/engagements"
+  local engagement_file engagement_id projection_ref projection_path control_status projection_status
+
+  [[ -d "$engagement_root" ]] || return 0
+  while IFS= read -r engagement_file; do
+    [[ -n "$engagement_file" ]] || continue
+    engagement_id="$(yq -r '.engagement_id // ""' "$engagement_file")"
+    [[ -n "$engagement_id" ]] || {
+      fail "Engagement control file is missing engagement_id: ${engagement_file#$ROOT_DIR/}"
+      continue
+    }
+    projection_ref="$(yq -r '.refs.operator_projection_ref // ""' "$engagement_file")"
+    if [[ -z "$projection_ref" || "$projection_ref" == "null" ]]; then
+      pass "Engagement generated projection is optional and not referenced: $engagement_id"
+      continue
+    fi
+    projection_path="$(resolve_root_path "$projection_ref")"
+    if [[ ! -f "$projection_path" ]]; then
+      fail "referenced Engagement generated projection is missing: $projection_ref"
+      continue
+    fi
+    case "$projection_path" in
+      "$projection_root"/*) ;;
+      *)
+        fail "Engagement generated projection must live under generated engagement read models: $projection_ref"
+        continue
+        ;;
+    esac
+    require_yq "$projection_path" '.schema_version == "engagement-operator-read-model-v1" and .non_authority_notice != null' "Engagement generated projection declares non-authority: $engagement_id"
+    require_yq "$projection_path" ".refs.engagement_ref == \".octon/state/control/engagements/$engagement_id/engagement.yml\"" "Engagement generated projection points to control truth: $engagement_id"
+    control_status="$(yq -r '.status // ""' "$engagement_file")"
+    projection_status="$(yq -r '.status // ""' "$projection_path")"
+    if [[ "$projection_status" == "$control_status" ]]; then
+      pass "Engagement generated projection status mirrors control truth: $engagement_id"
+    else
+      fail "Engagement generated projection status is stale for $engagement_id: projection=$projection_status control=$control_status"
+    fi
+  done < <(find "$engagement_root" -mindepth 2 -maxdepth 2 -name engagement.yml -print | sort)
+}
+
 work_package_paths() {
   if [[ -n "$WORK_PACKAGE_ARG" ]]; then
     resolve_root_path "$WORK_PACKAGE_ARG"
@@ -789,6 +831,7 @@ check_evidence_profiles
 check_preflight_lane
 check_connector_posture
 check_path_family_registry
+check_generated_engagement_projections
 check_work_packages
 check_cli_handoff
 
