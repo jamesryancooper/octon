@@ -1,0 +1,36 @@
+schema_version: "federation-compact-v1"
+compact_id: "octon-local-reference-stage-only"
+participating_domains:
+  - "octon-local"
+  - "octon-reference-peer"
+purpose: "Stage-only v6 MVP compact for proof exchange, attestation verification, cross-domain decision requests, and lease validation without external execution authority."
+accepted_proof_types:
+  - "portable-proof-bundle-v1"
+accepted_attestation_types:
+  - "attestation-envelope-v1"
+cross_domain_decision_rules:
+  - "local authority owner remains final for local execution"
+  - "host comments, external dashboards, generated views, and chat are not authority"
+data_sharing_rules:
+  - "redaction manifest required before proof export"
+  - "retention and disclosure refs required before local acceptance"
+delegated_authority_limits:
+  - "stage-only coordination only"
+  - "must be scoped, expiring, revocable, evidenced, support-bound, capability-bound, and locally authorized"
+valid_from: "2026-04-29T00:00:00Z"
+expires_at: "2026-07-28T00:00:00Z"
+renewal: "requires local recertification and compact approval"
+revocation: "any participant, issuer, proof, lease, or compact revocation fails closed"
+local_approval_refs:
+  - ".octon/state/control/trust/cross-domain-decisions/decision-octon-v6-proof-acceptance.yml"
+  - ".octon/state/evidence/trust/federation-compacts/octon-local-reference-stage-only/approval.yml"
+approval_authority_ref: ".octon/instance/governance/trust/registry.yml"
+approved_at: "2026-04-29T00:00:00Z"
+recertification_due_at: "2026-07-28T00:00:00Z"
+revoked_at: null
+revocation_ref: null
+status: "stage_only"
+compact_authorizes_execution: false
+compact_overrides_local_authority: false
+compact_widens_support_claims: false
+compact_mutates_local_authority: false

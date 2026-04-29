@@ -50,6 +50,14 @@ if /I "%~1"=="continue" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="mission" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="decide" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="connector" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="adopt" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="compatibility" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="trust" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="proof" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="attest" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="delegate" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="certify" set FORCE_SOURCE_ONLY=1
+if /I "%~1"=="federation" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="support" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="capability" set FORCE_SOURCE_ONLY=1
 if /I "%~1"=="steward" set FORCE_SOURCE_ONLY=1

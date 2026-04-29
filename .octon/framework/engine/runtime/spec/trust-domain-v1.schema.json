@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/trust-domain-v1.schema.json",
+  "title": "Trust Domain v1",
+  "description": "A bounded repo, organization, team, vendor, auditor, connector, or external-system authority boundary used for local trust admission.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "domain_id",
+    "domain_kind",
+    "owner",
+    "scope",
+    "compatibility_profile",
+    "accepted_evidence_types",
+    "trusted_issuers",
+    "revocation_policy",
+    "data_boundary",
+    "credential_boundary",
+    "support_posture",
+    "permitted_delegation_classes",
+    "forbidden_delegation_classes",
+    "local_approval_required",
+    "domain_authorizes_execution",
+    "external_registry_is_authority"
+  ],
+  "properties": {
+    "schema_version": { "const": "trust-domain-v1" },
+    "domain_id": { "type": "string", "minLength": 1 },
+    "domain_kind": {
+      "type": "string",
+      "enum": ["repo", "organization", "team", "tenant", "vendor", "auditor", "connector", "external_system"]
+    },
+    "owner": { "type": "string", "minLength": 1 },
+    "scope": { "type": "string", "minLength": 1 },
+    "compatibility_profile": { "type": "string", "minLength": 1 },
+    "accepted_evidence_types": { "type": "array", "items": { "type": "string" } },
+    "trusted_issuers": { "type": "array", "items": { "type": "string" } },
+    "revocation_policy": { "type": "string", "minLength": 1 },
+    "data_boundary": { "type": "string", "minLength": 1 },
+    "credential_boundary": { "type": "string", "minLength": 1 },
+    "support_posture": { "type": "string", "minLength": 1 },
+    "permitted_delegation_classes": { "type": "array", "items": { "type": "string" } },
+    "forbidden_delegation_classes": { "type": "array", "items": { "type": "string" } },
+    "local_approval_required": { "type": "boolean" },
+    "domain_authorizes_execution": { "const": false },
+    "external_registry_is_authority": { "const": false },
+    "status": { "type": "string", "enum": ["active", "stage_only", "revoked", "expired", "blocked"] }
+  }
+}

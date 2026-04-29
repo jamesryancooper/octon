@@ -45,10 +45,13 @@ dependency.
 - Constitutional authority lives under `framework/constitution/**`.
 - The kernel anchor remains `/.octon/framework/constitution/CHARTER.md`.
 - Repo-owned objective, governance, locality, ingress, bootstrap, decisions,
-  and mission authority live under `instance/**`.
+  mission, and trust authority live under `instance/**`.
 - Mutable execution and publication truth lives under `state/control/**`.
 - Retained evidence, disclosure, and validation receipts live under
   `state/evidence/**`.
+- Compatibility, adoption, trust-domain, compact, attestation, proof-bundle,
+  delegated-lease, certification, revocation, recertification, and federation
+  ledger evidence live under `state/evidence/trust/**`.
 - Handoff and resumption state lives under `state/continuity/**`.
 - Runtime-facing effective outputs live under `generated/effective/**` and
   require publication receipts plus freshness artifacts.
@@ -56,6 +59,8 @@ dependency.
   `generated/cognition/**` and remain non-authoritative.
 - Proposal discovery lives under `generated/proposals/registry.yml` and remains
   discovery-only.
+- Generated trust projections under `generated/cognition/projections/materialized/trust/**`
+  are operator read models only.
 
 ## Bootstrap Entry Points
 

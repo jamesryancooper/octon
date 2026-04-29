@@ -1,0 +1,6 @@
+schema_version: "local-proof-acceptance-evidence-v1"
+acceptance_ref: ".octon/state/control/trust/local-acceptance/acceptance-attestation-octon-v6-mvp.yml"
+subject_ref: ".octon/state/control/trust/attestations/attestation-octon-v6-mvp.yml"
+accepted_as: "evidence-only"
+local_acceptance_authorizes_execution: false
+recorded_at: "2026-04-29T00:00:00Z"

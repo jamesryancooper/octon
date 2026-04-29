@@ -1,0 +1,37 @@
+schema_version: "external-project-compatibility-inspection-v1"
+inspection_id: "inspection-octon-local-v6-interop"
+project_ref: "."
+inspected_at: "2026-04-29T00:00:00Z"
+detected_state: "octon_enabled_repo"
+classification:
+  participation_tier: "octon_enabled_repo"
+  profile_ref: ".octon/instance/governance/trust/compatibility-profile.yml"
+  reason: "Local repo has Octon super-root, portable framework, instance authority, and control/evidence/continuity roots."
+  deep_federation_allowed: false
+topology_checks:
+  octon_root_present: true
+  portable_framework_present: true
+  repo_specific_instance_present: true
+  workspace_charter_present: true
+  state_control_root_present: true
+  state_evidence_root_present: true
+  state_continuity_root_present: true
+  generated_projection_present: true
+  generated_projection_requires_rebuild: true
+  bootstrap_doctor_ready: true
+adoption_gate:
+  status: "not_requested"
+  blockers: []
+  blind_copy_full_octon_allowed: false
+federation_gate:
+  status: "deferred"
+  deferred_scope:
+    - "full Trust Registry runtime"
+    - "full Federation Compact runtime"
+    - "delegated authority runtime"
+  requires_future_trust_runtime: true
+evidence_refs:
+  - ".octon/state/evidence/trust/external-projects/octon-local/inspection/receipt.yml"
+material_execution_authorized: false
+inspection_authorizes_adoption: false
+inspection_authorizes_federation: false

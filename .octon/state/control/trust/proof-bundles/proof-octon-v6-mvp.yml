@@ -1,0 +1,59 @@
+schema_version: "portable-proof-bundle-v1"
+bundle_id: "proof-octon-v6-mvp"
+issuer: "octon-governance"
+trust_domain_id: "octon-local"
+scope: "v6 compatibility and federated-trust MVP implementation evidence"
+valid_from: "2026-04-29T00:00:00Z"
+expires_at: "2026-07-28T00:00:00Z"
+run_evidence_summary:
+  material_execution_route: "local run contracts only"
+  trust_runtime_executes_material_work: false
+mission_evidence_summary: null
+support_target_proof_refs:
+  - ".octon/instance/governance/support-targets.yml"
+connector_trust_dossier_refs:
+  - ".octon/instance/governance/connectors/registry.yml"
+release_envelope_refs: []
+validation_results:
+  - validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-federated-trust-runtime-v6.sh"
+    result: "pass"
+    completed_at: "2026-04-29T00:00:00Z"
+rollback_posture: "disable v6 CLI command families, revoke compacts and leases, preserve retained trust evidence"
+evidence_digests:
+  - path: ".octon/instance/governance/trust/registry.yml"
+    digest_algorithm: "sha256"
+    digest: "913a027bf7443ea24d340cf0ac182d8b746fab2f6e80cf73111b62a67c12e443"
+redaction_manifest:
+  redaction_required: true
+  exported_secret_material_allowed: false
+  classification: "repo-local-governance-evidence"
+  redacted_fields: []
+  reviewer_ref: ".octon/instance/governance/trust/policies/proof-bundle-acceptance.yml"
+  reviewed_at: "2026-04-29T00:00:00Z"
+disclosure_refs:
+  - ".octon/instance/governance/trust/README.md"
+revocation_refs:
+  - ".octon/state/control/trust/revocations/revocation-octon-v6-expiry-policy.yml"
+import_export_controls:
+  import_source: "local-v6-mvp-control-state"
+  export_eligible: true
+  export_manifest_ref: ".octon/state/evidence/trust/proof-bundles/proof-octon-v6-mvp/acceptance.yml"
+  disclosure_boundary: "redacted proof only; no secrets or credentials"
+  portability_constraints:
+    - "consumer must re-verify digest, freshness, scope, redaction, and revocation"
+    - "consumer local registry remains final"
+consumer_verification_requirements:
+  - "schema validate portable-proof-bundle-v1"
+  - "verify digest refs and revocation refs locally"
+  - "record local acceptance before satisfying evidence requirements"
+verification_status: "verified"
+freshness_status: "fresh"
+revocation_status: "unrevoked"
+digest_verification: "verified"
+local_acceptance_evidence_refs:
+  - ".octon/state/evidence/trust/proof-bundles/proof-octon-v6-mvp/acceptance.yml"
+local_acceptance: "accepted"
+proof_bundle_authorizes_execution: false
+proof_bundle_replaces_run_evidence: false
+proof_bundle_widens_support_claims: false
+updated_at: "2026-04-29T00:00:00Z"

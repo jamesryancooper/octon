@@ -1,0 +1,10 @@
+schema_version: "compatibility-conformance-validation-evidence-v1"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh"
+proposal_id: "octon-compatibility-conformance-and-portable-proof-interop-v6"
+proposal_packet_authority: false
+result: "pass"
+material_execution_authorized: false
+recorded_at: "2026-04-29T00:00:00Z"
+validation_commands:
+  - "bash .octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh --root /Users/jamesryancooper/Projects/octon"
+  - "bash .octon/framework/assurance/runtime/_ops/tests/test-compatibility-proof-interop-v6.sh"

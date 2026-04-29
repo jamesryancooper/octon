@@ -1,0 +1,10 @@
+schema_version: "external-project-adoption-preflight-v1"
+adoption_id: "adoption-octon-v6-policy"
+policy_ref: ".octon/instance/governance/trust/policies/external-project-adoption.yml"
+safe_adoption_sequence_verified: true
+blind_copy_full_octon_allowed: false
+repo_specific_instance_required: true
+generated_rebuild_required: true
+state_copy_as_authority_allowed: false
+result: "policy-ready; external adoption remains explicit and fail-closed"
+recorded_at: "2026-04-29T00:00:00Z"

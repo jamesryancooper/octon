@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/octon-compatibility-profile-v1.schema.json",
+  "title": "Octon Compatibility Profile v1",
+  "description": "Classifies how an external project or system may participate in Octon compatibility and federated-trust flows. The profile never grants authority by itself.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "participation_tier",
+    "required_artifacts",
+    "accepted_proof_formats",
+    "local_verification_rules",
+    "allowed_trust_operations",
+    "forbidden_trust_operations",
+    "revocation_behavior",
+    "support_posture",
+    "local_authority_constraints",
+    "external_artifacts_authorize_execution",
+    "non_octon_system_can_be_federation_peer"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-compatibility-profile-v1" },
+    "profile_id": { "type": "string", "minLength": 1 },
+    "participation_tier": {
+      "type": "string",
+      "enum": [
+        "external_evidence_source",
+        "octon_compatible_emitter",
+        "octon_mediated_connector",
+        "octon_enabled_repo",
+        "octon_federation_peer"
+      ]
+    },
+    "required_artifacts": { "type": "array", "items": { "type": "string" } },
+    "accepted_proof_formats": { "type": "array", "items": { "type": "string" } },
+    "local_verification_rules": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "allowed_trust_operations": { "type": "array", "items": { "type": "string" } },
+    "forbidden_trust_operations": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "revocation_behavior": { "type": "string", "minLength": 1 },
+    "support_posture": { "type": "string", "minLength": 1 },
+    "local_authority_constraints": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "external_artifacts_authorize_execution": { "const": false },
+    "non_octon_system_can_be_federation_peer": { "const": false }
+  }
+}

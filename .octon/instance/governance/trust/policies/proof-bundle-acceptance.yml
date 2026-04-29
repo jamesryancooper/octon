@@ -1,0 +1,38 @@
+schema_version: "proof-bundle-acceptance-policy-v1"
+owner: "Octon governance"
+registry_ref: ".octon/instance/governance/trust/registry.yml"
+default_route: "deny"
+requirements:
+  - "schema-valid portable-proof-bundle-v1"
+  - "digest-bound evidence refs"
+  - "scope and validity window present"
+  - "redaction manifest present"
+  - "verification_status is verified"
+  - "freshness_status is fresh"
+  - "revocation_status is unrevoked"
+  - "digest_verification is verified"
+  - "import source, export eligibility, disclosure boundary, and portability constraints recorded"
+  - "not revoked or expired"
+  - "locally accepted before satisfying evidence requirements"
+  - "local acceptance record exists under state/control/trust/local-acceptance/** before satisfying evidence requirements"
+accepted_states:
+  - "accepted_as_evidence"
+  - "accepted_with_limitations"
+rejection_states:
+  - "rejected"
+  - "expired"
+  - "revoked"
+  - "stale"
+  - "untrusted"
+  - "scope_mismatch"
+  - "schema_invalid"
+  - "decision_gated"
+revocation_and_expiry:
+  route_on_revoked: "deny"
+  route_on_expired: "deny"
+  stale_proof_satisfies_current_evidence_requirement: false
+non_authority_rules:
+  proof_bundle_authorizes_execution: false
+  proof_bundle_replaces_run_evidence: false
+  proof_bundle_widens_support_claims: false
+  consumer_registry_replaces_local_registry: false

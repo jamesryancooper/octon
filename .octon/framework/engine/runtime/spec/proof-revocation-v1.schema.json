@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/proof-revocation-v1.schema.json",
+  "title": "Proof Revocation v1",
+  "description": "Fail-closed revocation or expiry record for imported proof, attestations, issuer hooks, compatibility classifications, and local acceptance states.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "revocation_id",
+    "subject_kind",
+    "subject_ref",
+    "reason",
+    "status",
+    "route_on_match",
+    "fail_closed",
+    "recorded_at",
+    "revocation_authorizes_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "proof-revocation-v1" },
+    "revocation_id": { "type": "string", "minLength": 1 },
+    "subject_kind": {
+      "type": "string",
+      "enum": [
+        "portable_proof_bundle",
+        "attestation_envelope",
+        "issuer_hook",
+        "compatibility_status",
+        "local_acceptance"
+      ]
+    },
+    "subject_ref": { "type": "string", "minLength": 1 },
+    "reason": { "type": "string", "minLength": 1 },
+    "status": { "type": "string", "enum": ["revoked", "expired", "stale"] },
+    "route_on_match": { "const": "deny" },
+    "fail_closed": { "const": true },
+    "recorded_at": { "type": "string", "format": "date-time" },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "revocation_authorizes_execution": { "const": false }
+  }
+}

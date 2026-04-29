@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/trust-registry-v1.schema.json",
+  "title": "Trust Registry v1",
+  "description": "Local authored registry of accepted trust domains, issuers, proof formats, certification profiles, revocations, freshness rules, and accepted trust operations.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "registry_id",
+    "owner",
+    "local_registry_is_authority",
+    "external_registry_is_authority",
+    "accepted_domains",
+    "trusted_issuers",
+    "accepted_proof_formats",
+    "accepted_attestation_classes",
+    "certification_profiles",
+    "revocations",
+    "freshness_rules",
+    "accepted_trust_operations",
+    "forbidden_trust_operations",
+    "unregistered_domain_route"
+  ],
+  "properties": {
+    "schema_version": { "const": "trust-registry-v1" },
+    "registry_id": { "type": "string", "minLength": 1 },
+    "owner": { "type": "string", "minLength": 1 },
+    "local_registry_is_authority": { "const": true },
+    "external_registry_is_authority": { "const": false },
+    "accepted_domains": { "type": "array", "items": { "type": "object" } },
+    "trusted_issuers": { "type": "array", "items": { "type": "object" } },
+    "accepted_proof_formats": { "type": "array", "items": { "type": "string" } },
+    "accepted_attestation_classes": { "type": "array", "items": { "type": "string" } },
+    "certification_profiles": { "type": "array", "items": { "type": "string" } },
+    "revocations": { "type": "array", "items": { "type": "string" } },
+    "freshness_rules": { "type": "array", "items": { "type": "object" } },
+    "accepted_trust_operations": { "type": "array", "items": { "type": "string" } },
+    "forbidden_trust_operations": { "type": "array", "items": { "type": "string" } },
+    "unregistered_domain_route": { "enum": ["deny"] }
+  }
+}

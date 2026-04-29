@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/portable-proof-bundle-v1.schema.json",
+  "title": "Portable Proof Bundle v1",
+  "description": "Transferable evidence package. A proof bundle may satisfy evidence requirements only after local verification and acceptance.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_id",
+    "issuer",
+    "trust_domain_id",
+    "scope",
+    "valid_from",
+    "expires_at",
+    "evidence_digests",
+    "redaction_manifest",
+    "revocation_refs",
+    "import_export_controls",
+    "consumer_verification_requirements",
+    "verification_status",
+    "freshness_status",
+    "revocation_status",
+    "digest_verification",
+    "local_acceptance_evidence_refs",
+    "local_acceptance",
+    "proof_bundle_authorizes_execution",
+    "proof_bundle_replaces_run_evidence",
+    "proof_bundle_widens_support_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "portable-proof-bundle-v1" },
+    "bundle_id": { "type": "string", "minLength": 1 },
+    "issuer": { "type": "string", "minLength": 1 },
+    "trust_domain_id": { "type": "string", "minLength": 1 },
+    "scope": { "type": "string", "minLength": 1 },
+    "valid_from": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "run_evidence_summary": { "type": ["object", "null"] },
+    "mission_evidence_summary": { "type": ["object", "null"] },
+    "support_target_proof_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "connector_trust_dossier_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "release_envelope_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "validation_results": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["validator_ref", "result", "completed_at"],
+        "properties": {
+          "validator_ref": { "type": "string", "minLength": 1 },
+          "result": { "type": "string", "enum": ["pass", "fail", "blocked", "not_applicable"] },
+          "completed_at": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "rollback_posture": { "type": "string", "minLength": 1 },
+    "evidence_digests": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "digest_algorithm", "digest"],
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "digest_algorithm": { "const": "sha256" },
+          "digest": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "redaction_manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "redaction_required",
+        "exported_secret_material_allowed",
+        "classification",
+        "redacted_fields",
+        "reviewer_ref",
+        "reviewed_at"
+      ],
+      "properties": {
+        "redaction_required": { "type": "boolean" },
+        "exported_secret_material_allowed": { "const": false },
+        "classification": { "type": "string", "minLength": 1 },
+        "redacted_fields": { "type": "array", "items": { "type": "string" } },
+        "reviewer_ref": { "type": "string", "minLength": 1 },
+        "reviewed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "disclosure_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "revocation_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "import_export_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "import_source",
+        "export_eligible",
+        "export_manifest_ref",
+        "disclosure_boundary",
+        "portability_constraints"
+      ],
+      "properties": {
+        "import_source": { "type": "string", "minLength": 1 },
+        "export_eligible": { "type": "boolean" },
+        "export_manifest_ref": { "type": "string", "minLength": 1 },
+        "disclosure_boundary": { "type": "string", "minLength": 1 },
+        "portability_constraints": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "consumer_verification_requirements": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "verification_status": { "type": "string", "enum": ["unverified", "verified", "failed"] },
+    "freshness_status": { "type": "string", "enum": ["fresh", "stale", "expired"] },
+    "revocation_status": { "type": "string", "enum": ["not_checked", "unrevoked", "revoked", "unknown"] },
+    "digest_verification": { "type": "string", "enum": ["not_checked", "verified", "failed"] },
+    "local_acceptance_evidence_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "local_acceptance": { "type": "string", "enum": ["unreviewed", "verified", "accepted", "rejected", "revoked", "expired"] },
+    "proof_bundle_authorizes_execution": { "const": false },
+    "proof_bundle_replaces_run_evidence": { "const": false },
+    "proof_bundle_widens_support_claims": { "const": false },
+    "updated_at": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "local_acceptance": { "const": "accepted" } },
+        "required": ["local_acceptance"]
+      },
+      "then": {
+        "properties": {
+          "verification_status": { "const": "verified" },
+          "freshness_status": { "const": "fresh" },
+          "revocation_status": { "const": "unrevoked" },
+          "digest_verification": { "const": "verified" }
+        }
+      }
+    }
+  ]
+}

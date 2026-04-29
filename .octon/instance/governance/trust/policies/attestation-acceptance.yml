@@ -1,0 +1,36 @@
+schema_version: "attestation-acceptance-policy-v1"
+owner: "Octon governance"
+registry_ref: ".octon/instance/governance/trust/registry.yml"
+default_route: "deny"
+requirements:
+  - "trust domain registered and unrevoked"
+  - "issuer trusted by local registry"
+  - "schema-valid attestation-envelope-v1"
+  - "scope, freshness, evidence refs, revocation refs, and verification method present"
+  - "verification_status is verified before local_acceptance may be accepted"
+  - "freshness_status is fresh before local_acceptance may be accepted"
+  - "revocation_status is unrevoked before local_acceptance may be accepted"
+  - "unsigned attestations are local-evidence-only unless a future signature method is locally approved"
+  - "local acceptance recorded under state/control/trust/attestations/**"
+  - "local acceptance record exists under state/control/trust/local-acceptance/** before satisfying evidence requirements"
+acceptance_states:
+  - "accepted_as_evidence"
+  - "accepted_with_limitations"
+  - "rejected"
+  - "expired"
+  - "revoked"
+  - "stale"
+  - "untrusted_issuer"
+  - "scope_mismatch"
+  - "schema_invalid"
+  - "requires_decision"
+revocation_and_expiry:
+  route_on_revoked: "deny"
+  route_on_expired: "deny"
+  stale_attestation_influences_decision: false
+non_authority_rules:
+  attestation_authorizes_execution: false
+  attestation_replaces_local_authority: false
+  attestation_widens_support_claims: false
+  external_approval_is_local_authority: false
+  generated_dashboard_is_authority: false

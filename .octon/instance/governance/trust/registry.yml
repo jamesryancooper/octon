@@ -1,0 +1,67 @@
+schema_version: "trust-registry-v1"
+registry_id: "octon-local-trust-registry"
+owner: "Octon governance"
+local_registry_is_authority: true
+external_registry_is_authority: false
+accepted_domains:
+  - domain_id: "octon-local"
+    domain_ref: ".octon/instance/governance/trust/domains/octon-local.yml"
+    status: "active"
+  - domain_id: "octon-reference-peer"
+    domain_ref: ".octon/instance/governance/trust/domains/octon-reference-peer.yml"
+    status: "stage_only"
+trusted_issuers:
+  - issuer_id: "octon-governance"
+    domain_id: "octon-local"
+    status: "active"
+  - issuer_id: "octon-reference-peer"
+    domain_id: "octon-reference-peer"
+    status: "stage_only"
+accepted_proof_formats:
+  - "portable-proof-bundle-v1"
+  - "attestation-envelope-v1"
+trust_domain_hooks_ref: ".octon/instance/governance/trust/trust-domain-hooks.yml"
+accepted_attestation_classes:
+  - "support-proof-summary"
+  - "auditor-verifiable-run"
+  - "connector-certification"
+certification_profiles:
+  - ".octon/instance/governance/trust/certification-profiles/auditor-verifiable-run.yml"
+  - ".octon/instance/governance/trust/certification-profiles/support-target-live-claim.yml"
+revocations:
+  - ".octon/state/control/trust/revocations/revocation-octon-v6-expiry-policy.yml"
+freshness_rules:
+  - rule_id: "attestation-default"
+    artifact_kind: "attestation-envelope-v1"
+    max_age_days: 90
+    stale_route: "deny"
+  - rule_id: "portable-proof-default"
+    artifact_kind: "portable-proof-bundle-v1"
+    max_age_days: 90
+    stale_route: "deny"
+accepted_trust_operations:
+  - "compatibility_inspect"
+  - "proof_export"
+  - "proof_verify"
+  - "proof_import_verify"
+  - "proof_accept"
+  - "proof_reject"
+  - "proof_status"
+  - "attestation_verify"
+  - "attestation_accept"
+  - "attestation_reject"
+  - "attestation_status"
+  - "trust_status"
+  - "compact_propose"
+  - "compact_approve_stage_only"
+  - "delegated_lease_stage_only"
+  - "cross_domain_decision_request"
+  - "certification_evaluate"
+forbidden_trust_operations:
+  - "external_execution_authority"
+  - "external_registry_override"
+  - "partner_direct_repo_mutation"
+  - "support_claim_widening_without_local_admission"
+  - "generated_projection_authority"
+unregistered_domain_route: "deny"
+updated_at: "2026-04-29T00:00:00Z"

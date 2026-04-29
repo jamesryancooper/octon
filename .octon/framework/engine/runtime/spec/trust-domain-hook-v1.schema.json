@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/trust-domain-hook-v1.schema.json",
+  "title": "Trust Domain Hook v1",
+  "description": "Minimal local hook for binding imported proof and attestations to a future Trust Domain runtime. It is not a full registry or federation control plane.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "hook_id",
+    "domain_id",
+    "domain_kind",
+    "accepted_subjects",
+    "issuer_refs",
+    "local_policy_refs",
+    "registry_runtime_deferred",
+    "federation_runtime_deferred",
+    "external_registry_is_authority",
+    "hook_authorizes_execution",
+    "hook_replaces_local_authority",
+    "route_when_unregistered"
+  ],
+  "properties": {
+    "schema_version": { "const": "trust-domain-hook-v1" },
+    "hook_id": { "type": "string", "minLength": 1 },
+    "domain_id": { "type": "string", "minLength": 1 },
+    "domain_kind": {
+      "type": "string",
+      "enum": ["repo", "organization", "team", "tenant", "vendor", "auditor", "connector", "external_system"]
+    },
+    "accepted_subjects": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "issuer_refs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "local_policy_refs": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "registry_runtime_deferred": { "const": true },
+    "federation_runtime_deferred": { "const": true },
+    "external_registry_is_authority": { "const": false },
+    "hook_authorizes_execution": { "const": false },
+    "hook_replaces_local_authority": { "const": false },
+    "route_when_unregistered": { "const": "deny" }
+  }
+}

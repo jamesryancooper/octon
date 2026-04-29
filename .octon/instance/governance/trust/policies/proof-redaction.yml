@@ -1,0 +1,17 @@
+schema_version: "proof-redaction-policy-v1"
+owner: "Octon governance"
+default_route: "deny"
+redaction_required_for_export: true
+exported_secret_material_allowed: false
+required_manifest_fields:
+  - "redaction_required"
+  - "exported_secret_material_allowed"
+  - "classification"
+  - "redacted_fields"
+  - "reviewer_ref"
+  - "reviewed_at"
+data_boundary:
+  retention_root: ".octon/state/evidence/trust/**"
+  egress_boundary: "redacted proof and disclosed digests only"
+  disclosure_required: true
+  unsafe_raw_content_retained_as_authority: false

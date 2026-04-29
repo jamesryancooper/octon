@@ -1,0 +1,4 @@
+schema_version: "trust-open-disputes-v1"
+authority_status: "continuity-not-authority"
+disputes: []
+continuity_is_authority: false

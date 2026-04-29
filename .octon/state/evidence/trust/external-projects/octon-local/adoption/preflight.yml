@@ -1,0 +1,9 @@
+schema_version: "external-project-adoption-preflight-v1"
+adoption_ref: ".octon/state/control/trust/external-projects/octon-local/adoption-status.yml"
+policy_ref: ".octon/instance/governance/trust/policies/external-project-adoption.yml"
+blind_copy_full_octon_allowed: false
+state_copy_as_authority_allowed: false
+generated_rebuild_required: true
+material_execution_authorized: false
+outcome: "preflight-recorded-local-evidence-only"
+recorded_at: "2026-04-29T00:00:00Z"

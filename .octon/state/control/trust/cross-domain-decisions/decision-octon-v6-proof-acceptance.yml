@@ -1,0 +1,16 @@
+schema_version: "cross-domain-decision-request-v1"
+decision_id: "decision-octon-v6-proof-acceptance"
+decision_type: "proof_acceptance"
+participating_domains:
+  - "octon-local"
+  - "octon-reference-peer"
+compact_ref: ".octon/instance/governance/trust/federation-compacts/octon-local-reference-stage-only.yml"
+requested_outcome: "accept stage-only proof bundle as retained evidence only"
+local_authority_owner: "Octon governance"
+required_local_approval_refs:
+  - ".octon/instance/governance/trust/policies/proof-bundle-acceptance.yml"
+status: "stage_only"
+host_state_is_authority: false
+external_approval_is_local_authority: false
+decision_authorizes_execution: false
+created_at: "2026-04-29T00:00:00Z"

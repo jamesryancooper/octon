@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: uec-validate-proposal-20260331-success-3
-generated_at: "2026-04-29T01:10:26Z"
+generated_at: '2026-04-29T11:30:12Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -10,24 +10,24 @@ authority:
   may_authorize: false
   may_widen_support: false
   allowed_consumers:
-    - operators
-    - validators
+  - operators
+  - validators
   forbidden_consumers:
-    - runtime
-    - policy
-    - authority
-    - support-claim-evaluation
-    - state-reconstruction
-    - direct-runtime-reads
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
 freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:c584824085e1eb61f1a91f0fae92586ad55e5d2afeb4ae21e7a3c1069202ee92
-  checked_at: "2026-04-29T01:10:26Z"
+  combined_source_digest: sha256:fcc2b12bfd55b7f061940c4b9b546ec6d9f33c9c6a4f2af31785e9eceb488beb
+  checked_at: '2026-04-29T11:30:12Z'
   expires_at: null
   freshness_refs:
-    - .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/events.manifest.yml
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/events.manifest.yml
 canonical_refs:
   run_contract: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-contract.yml
   run_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/run-manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:f0e744ea1f2f25b5567ec56c566b940329c8a513bad9d89388f1544658ee27ca
+    digest: sha256:793cf730c807a5bc0670b6c01f8a41f435ddf6d7f84509f8882948cfbc93bd95
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/uec-validate-proposal-20260331-success-3/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:cf3aec19ea5eb4a2caf805e526970d19f4cc300b9d9d5942cafbb22fcd00858a
+    digest: sha256:ad20574d820a3371b83a8e5cf1a64f46d3431889530ef5f5581544e7495a49c9
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:0d93a08f144123b4e34bd63774784ea1c7ad5d5233fe071e3cb4068c8b3edd8b
+    digest: sha256:f21f398b7a84e5acc7e668e1b6f15ec9ee3415d007b2b599d84aa88697696bc8
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
@@ -153,7 +153,8 @@ source_digests:
     status: present
 health:
   status: evidence-incomplete
-  summary: Required retained run evidence is incomplete for the current lifecycle posture.
+  summary: Required retained run evidence is incomplete for the current lifecycle
+    posture.
   next_required_action: complete missing retained evidence refs
 lifecycle:
   state: succeeded
@@ -176,10 +177,10 @@ authorization:
 evidence:
   completeness: incomplete
   missing_required:
-    - events_journal
-    - events_manifest
-    - journal_snapshot
-    - journal_manifest_snapshot
+  - events_journal
+  - events_manifest
+  - journal_snapshot
+  - journal_manifest_snapshot
 rollback:
   status: ready
   hard_reset_required: false
@@ -192,9 +193,9 @@ disclosure:
 closure:
   status: not-ready
 diagnostics:
-  - severity: warning
-    code: authorization-unknown
-    message: Authorization posture could not be resolved from decision or grant artifacts.
-    refs:
-      - .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/authority/decision.yml
-      - .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/authority/grant-bundle.yml
+- severity: warning
+  code: authorization-unknown
+  message: Authorization posture could not be resolved from decision or grant artifacts.
+  refs:
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/authority/decision.yml
+  - .octon/state/control/execution/runs/uec-validate-proposal-20260331-success-3/authority/grant-bundle.yml

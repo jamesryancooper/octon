@@ -1,0 +1,15 @@
+schema_version: "trust-certification-receipt-v1"
+certification_id: "cert-octon-v6-auditor-verifiable-run"
+certification_ref: ".octon/state/control/trust/certifications/cert-octon-v6-auditor-verifiable-run.yml"
+profile_ref: ".octon/instance/governance/trust/certification-profiles/auditor-verifiable-run.yml"
+proof_plane_coverage:
+  structural: "required"
+  functional: "required"
+  behavioral: "required"
+  maintainability: "required"
+  governance: "required"
+  recovery: "required"
+certification_authorizes_execution: false
+certification_widens_support_claims: false
+result: "stage_only_pending_validation_run"
+recorded_at: "2026-04-29T00:00:00Z"

@@ -1,0 +1,27 @@
+schema_version: "trust-domain-hook-set-v1"
+owner: "Octon governance"
+contract_ref: ".octon/framework/engine/runtime/spec/trust-domain-hook-v1.schema.json"
+registry_runtime_deferred: true
+federation_runtime_deferred: true
+default_route_when_unregistered: "deny"
+external_registry_is_authority: false
+hooks:
+  - schema_version: "trust-domain-hook-v1"
+    hook_id: "octon-local-proof-hook"
+    domain_id: "octon-local"
+    domain_kind: "repo"
+    accepted_subjects:
+      - "portable-proof-bundle-v1"
+      - "attestation-envelope-v1"
+    issuer_refs:
+      - ".octon/instance/governance/trust/domains/octon-local.yml"
+    local_policy_refs:
+      - ".octon/instance/governance/trust/policies/proof-bundle-acceptance.yml"
+      - ".octon/instance/governance/trust/policies/attestation-acceptance.yml"
+      - ".octon/instance/governance/trust/policies/proof-revocation.yml"
+    registry_runtime_deferred: true
+    federation_runtime_deferred: true
+    external_registry_is_authority: false
+    hook_authorizes_execution: false
+    hook_replaces_local_authority: false
+    route_when_unregistered: "deny"

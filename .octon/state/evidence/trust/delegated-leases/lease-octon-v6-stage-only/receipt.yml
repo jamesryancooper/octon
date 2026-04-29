@@ -1,0 +1,17 @@
+schema_version: "delegated-authority-lease-receipt-v1"
+lease_id: "lease-octon-v6-stage-only"
+lease_ref: ".octon/state/control/trust/delegated-leases/lease-octon-v6-stage-only.yml"
+policy_ref: ".octon/instance/governance/trust/policies/delegated-authority.yml"
+checks:
+  scoped: true
+  expiring: true
+  revocable: true
+  evidence_bound: true
+  support_bound: true
+  capability_bound: true
+  approval_refs_present: true
+  local_authorization_required: true
+lease_authorizes_execution: false
+permanent_authority: false
+result: "stage_only_authorization_input"
+recorded_at: "2026-04-29T00:00:00Z"

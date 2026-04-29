@@ -1,0 +1,12 @@
+schema_version: "trust-certification-dashboard-projection-v1"
+authority: "non-authoritative"
+generated_from:
+  - ".octon/state/control/trust/certifications/cert-octon-v6-auditor-verifiable-run.yml"
+forbidden_consumers:
+  - "certification authority"
+  - "support claim widening"
+  - "execution authorization"
+certifications:
+  - certification_id: "cert-octon-v6-auditor-verifiable-run"
+    status: "stage_only"
+generated_projection_authorizes_execution: false

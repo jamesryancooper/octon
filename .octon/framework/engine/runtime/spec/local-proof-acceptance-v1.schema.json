@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/local-proof-acceptance-v1.schema.json",
+  "title": "Local Proof Acceptance v1",
+  "description": "Local control-state record for imported proof bundles and attestation envelopes. Acceptance is evidence acceptance only and never authorizes execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "acceptance_id",
+    "subject_kind",
+    "subject_ref",
+    "acceptance_state",
+    "scope",
+    "evidence_requirements_satisfied",
+    "limitations",
+    "freshness_status",
+    "revocation_status",
+    "responsible_local_authority",
+    "decision_request_ref",
+    "accepted_at",
+    "expires_at",
+    "revocable",
+    "local_acceptance_authorizes_execution",
+    "local_acceptance_replaces_local_authority",
+    "local_acceptance_widens_support_claims"
+  ],
+  "properties": {
+    "schema_version": { "const": "local-proof-acceptance-v1" },
+    "acceptance_id": { "type": "string", "minLength": 1 },
+    "subject_kind": { "type": "string", "enum": ["portable_proof_bundle", "attestation_envelope"] },
+    "subject_ref": { "type": "string", "minLength": 1 },
+    "acceptance_state": {
+      "type": "string",
+      "enum": [
+        "accepted_as_evidence",
+        "accepted_with_limitations",
+        "rejected",
+        "expired",
+        "revoked",
+        "stale",
+        "untrusted",
+        "scope_mismatch",
+        "schema_invalid",
+        "decision_gated"
+      ]
+    },
+    "scope": { "type": "string", "minLength": 1 },
+    "evidence_requirements_satisfied": { "type": "array", "items": { "type": "string" } },
+    "limitations": { "type": "array", "items": { "type": "string" } },
+    "freshness_status": { "type": "string", "enum": ["fresh", "stale", "expired"] },
+    "revocation_status": { "type": "string", "enum": ["unrevoked", "revoked", "unknown"] },
+    "responsible_local_authority": { "type": "string", "minLength": 1 },
+    "decision_request_ref": { "type": ["string", "null"] },
+    "accepted_at": { "type": "string", "format": "date-time" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "revocable": { "const": true },
+    "local_acceptance_authorizes_execution": { "const": false },
+    "local_acceptance_replaces_local_authority": { "const": false },
+    "local_acceptance_widens_support_claims": { "const": false }
+  }
+}

@@ -1,0 +1,53 @@
+schema_version: "delegated-authority-lease-v1"
+lease_id: "lease-octon-v6-stage-only"
+grantor: "octon-local"
+grantee: "octon-reference-peer"
+scope: "stage-only proof acceptance review and cross-domain decision rehearsal"
+action_classes:
+  - "proof_acceptance_review"
+support_tuple: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
+support_target_ref: ".octon/instance/governance/support-targets.yml"
+capability_packs:
+  - "repo"
+capability_pack_registry_ref: ".octon/framework/capabilities/registry.yml"
+valid_from: "2026-04-29T00:00:00Z"
+expires_at: "2026-05-29T00:00:00Z"
+revoked_at: null
+revocation_ref: null
+revocation_conditions:
+  - "domain revoked"
+  - "compact revoked or expired"
+  - "issuer revoked"
+  - "support tuple changed"
+revocation_authority_refs:
+  - ".octon/instance/governance/trust/policies/federation-revocation.yml"
+evidence_obligations:
+  - "lease receipt"
+  - "local authorization check before material work"
+approval_refs:
+  - ".octon/instance/governance/trust/registry.yml"
+rollback_or_compensation_posture: "revoke lease and retain evidence"
+local_authorization_requirements:
+  - "run contract required for material execution"
+  - "execution authorization required for material effects"
+  - "authorized effect token required where applicable"
+status: "stage_only"
+lifecycle_state: "stage_only"
+lifecycle_transitions:
+  - "proposed -> stage_only only with local approval refs"
+  - "stage_only -> revoked when any revocation condition matches"
+  - "stage_only -> expired at expires_at"
+activation_requirements:
+  - "trust registry domain and issuer checks pass"
+  - "compact remains stage_only or approved and unexpired"
+  - "local run contract and execution authorization remain required"
+renewal_policy: "requires new local approval refs and recertification before expires_at"
+lease_consumption_route: "local-authorization-input-only"
+governance_exclusions_ref: ".octon/instance/governance/trust/policies/delegated-authority.yml"
+lease_authorizes_execution: false
+permanent_authority: false
+run_contract_bypass_allowed: false
+execution_authorization_bypass_allowed: false
+support_claim_widening_allowed: false
+capability_widening_allowed: false
+updated_at: "2026-04-29T00:00:00Z"

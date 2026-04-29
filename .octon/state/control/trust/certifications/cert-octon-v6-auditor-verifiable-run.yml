@@ -1,0 +1,12 @@
+schema_version: "trust-certification-status-v1"
+certification_id: "cert-octon-v6-auditor-verifiable-run"
+profile_ref: ".octon/instance/governance/trust/certification-profiles/auditor-verifiable-run.yml"
+subject: "octon-v6-mvp"
+status: "stage_only"
+result: "blocked_until_validation_run"
+required_evidence_refs:
+  - ".octon/state/evidence/trust/certifications/cert-octon-v6-auditor-verifiable-run/receipt.yml"
+certification_authorizes_execution: false
+certification_widens_support_claims: false
+recertification_due_at: "2026-07-28T00:00:00Z"
+updated_at: "2026-04-29T00:00:00Z"

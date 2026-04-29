@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/cross-domain-decision-request-v1.schema.json",
+  "title": "Cross-Domain Decision Request v1",
+  "description": "A Decision Request involving more than one trust domain. Local authority remains final for local execution.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "decision_type",
+    "participating_domains",
+    "compact_ref",
+    "requested_outcome",
+    "local_authority_owner",
+    "required_local_approval_refs",
+    "host_state_is_authority",
+    "external_approval_is_local_authority",
+    "decision_authorizes_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "cross-domain-decision-request-v1" },
+    "decision_id": { "type": "string", "minLength": 1 },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "cross_repo_work",
+        "release_approval",
+        "shared_risk_acceptance",
+        "connector_certification",
+        "auditor_signoff",
+        "delegated_lease_approval",
+        "federation_compact_renewal",
+        "proof_acceptance"
+      ]
+    },
+    "participating_domains": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "compact_ref": { "type": "string", "minLength": 1 },
+    "requested_outcome": { "type": "string", "minLength": 1 },
+    "local_authority_owner": { "type": "string", "minLength": 1 },
+    "required_local_approval_refs": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string", "enum": ["open", "approved", "denied", "revoked", "expired", "stage_only"] },
+    "host_state_is_authority": { "const": false },
+    "external_approval_is_local_authority": { "const": false },
+    "decision_authorizes_execution": { "const": false }
+  }
+}

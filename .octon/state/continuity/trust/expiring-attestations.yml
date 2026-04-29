@@ -1,0 +1,6 @@
+schema_version: "trust-expiring-attestations-v1"
+authority_status: "continuity-not-authority"
+attestations:
+  - attestation_id: "attestation-octon-v6-mvp"
+    expires_at: "2026-07-28T00:00:00Z"
+continuity_is_authority: false

@@ -1,0 +1,17 @@
+schema_version: "trust-recertification-plan-v1"
+recertification_id: "recertification-octon-v6-2026q3"
+subject_refs:
+  - ".octon/instance/governance/trust/registry.yml"
+  - ".octon/instance/governance/trust/federation-compacts/octon-local-reference-stage-only.yml"
+  - ".octon/state/control/trust/delegated-leases/lease-octon-v6-stage-only.yml"
+due_at: "2026-07-28T00:00:00Z"
+required_checks:
+  - "trust-domain status"
+  - "issuer status"
+  - "compact expiry"
+  - "attestation freshness"
+  - "proof bundle freshness"
+  - "lease expiry and revocation"
+  - "certification freshness"
+recertification_authorizes_execution: false
+recorded_at: "2026-04-29T00:00:00Z"

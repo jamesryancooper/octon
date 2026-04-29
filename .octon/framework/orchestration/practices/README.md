@@ -44,6 +44,18 @@
   evidence-backed self-evolution candidates, proposal compilation, promotion
   receipts, recertification, rollback/retirement, and anti-self-authorization
   gates.
+- `octon-adoption-standards.md` - operating discipline for compatibility
+  classification and safe external project adoption without blind `.octon/`
+  state copying.
+- `portable-proof-interop-standards.md` - operating discipline for Portable
+  Proof Bundle and Attestation Envelope import/export, verification, local
+  acceptance, redaction, revocation, and evidence-only boundaries.
+- `federated-proof-interop-standards.md` - proposal-lineage compatibility
+  standard that points the selected v6 interop layer to portable proof
+  standards while full federation remains deferred.
+- `federation-lifecycle-standards.md` - operating discipline for Trust Domains,
+  Trust Registry, Federation Compacts, attestations, proof bundles, delegated
+  leases, certifications, revocation, and local-authority preservation.
 - `orchestration-domain-implementation-agreement.md` - Phase 0 working
   agreement for promoting temporary design material into standalone live
   orchestration authority without inventing architecture.

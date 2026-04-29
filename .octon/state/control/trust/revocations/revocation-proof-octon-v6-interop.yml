@@ -1,0 +1,12 @@
+schema_version: "proof-revocation-v1"
+revocation_id: "revocation-proof-octon-v6-interop"
+subject_kind: "local_acceptance"
+subject_ref: ".octon/state/control/trust/local-acceptance/acceptance-proof-octon-v6-mvp.yml"
+reason: "standing expiry and revocation hook for selected v6 proof interop acceptance"
+status: "stale"
+route_on_match: "deny"
+fail_closed: true
+recorded_at: "2026-04-29T00:00:00Z"
+evidence_refs:
+  - ".octon/state/evidence/trust/revocations/revocation-proof-octon-v6-interop/receipt.yml"
+revocation_authorizes_execution: false

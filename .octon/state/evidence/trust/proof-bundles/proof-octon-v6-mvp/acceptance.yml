@@ -1,0 +1,21 @@
+schema_version: "proof-bundle-acceptance-receipt-v1"
+bundle_id: "proof-octon-v6-mvp"
+bundle_ref: ".octon/state/control/trust/proof-bundles/proof-octon-v6-mvp.yml"
+registry_ref: ".octon/instance/governance/trust/registry.yml"
+policy_ref: ".octon/instance/governance/trust/policies/proof-bundle-acceptance.yml"
+checks:
+  schema_valid: true
+  digest_bound: true
+  digest_verified: true
+  scoped: true
+  freshness_valid: true
+  redaction_manifest_present: true
+  import_export_controls_present: true
+  consumer_verification_requirements_present: true
+  unrevoked: true
+  locally_accepted: true
+proof_bundle_authorizes_execution: false
+proof_bundle_replaces_run_evidence: false
+proof_bundle_widens_support_claims: false
+result: "accepted_as_evidence_only"
+recorded_at: "2026-04-29T00:00:00Z"

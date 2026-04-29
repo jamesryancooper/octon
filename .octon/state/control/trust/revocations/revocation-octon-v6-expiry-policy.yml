@@ -1,0 +1,14 @@
+schema_version: "trust-revocation-v1"
+revocation_id: "revocation-octon-v6-expiry-policy"
+applies_to:
+  - "trust-domain"
+  - "issuer"
+  - "federation-compact"
+  - "attestation-envelope"
+  - "portable-proof-bundle"
+  - "delegated-authority-lease"
+  - "certification"
+route_on_match: "deny"
+fail_closed: true
+revocation_authorizes_execution: false
+created_at: "2026-04-29T00:00:00Z"

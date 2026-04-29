@@ -1,0 +1,5 @@
+schema_version: "trust-external-projects-continuity-v1"
+authority_status: "continuity-not-authority"
+tracked_external_projects: []
+safe_adoption_policy_ref: ".octon/instance/governance/trust/policies/external-project-adoption.yml"
+continuity_is_authority: false

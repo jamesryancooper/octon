@@ -39,6 +39,7 @@ mod engagement;
 mod evolution;
 mod mission;
 mod stewardship;
+mod trust;
 
 use super::{
     ArmCmd, CapabilityCmd, Command, ConnectorAdmitCmd, ConnectorCmd, ConnectorDecisionCmd,
@@ -114,6 +115,14 @@ pub(crate) fn dispatch(cmd: Command) -> Result<()> {
         Command::Mission { cmd } => mission::cmd_mission(cmd),
         Command::Decide { cmd } => cmd_decide(cmd),
         Command::Connector { cmd } => mission::cmd_connector(cmd),
+        Command::Adopt(args) => trust::cmd_adopt(args),
+        Command::Compatibility { cmd } => trust::cmd_compatibility(cmd),
+        Command::Trust { cmd } => trust::cmd_trust(cmd),
+        Command::Proof { cmd } => trust::cmd_proof(cmd),
+        Command::Attest { cmd } => trust::cmd_attest(cmd),
+        Command::Delegate { cmd } => trust::cmd_delegate(cmd),
+        Command::Certify { cmd } => trust::cmd_certify(cmd),
+        Command::Federation { cmd } => trust::cmd_federation(cmd),
         Command::Support { cmd } => mission::cmd_support(cmd),
         Command::Capability { cmd } => mission::cmd_capability(cmd),
         Command::Steward { cmd } => stewardship::cmd_steward(cmd),

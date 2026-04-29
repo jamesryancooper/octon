@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/federation-ledger-v1.schema.json",
+  "title": "Federation Ledger v1",
+  "description": "Operational index for trust domains, compacts, attestations, proof bundles, leases, decisions, certifications, revocations, disputes, and recertifications. It does not replace canonical evidence or control state.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "ledger_id",
+    "source_truth_boundaries",
+    "trust_domains",
+    "compacts",
+    "attestations",
+    "proof_bundles",
+    "delegated_leases",
+    "cross_domain_decisions",
+    "certifications",
+    "revocations",
+    "disputes",
+    "recertifications",
+    "ledger_replaces_source_evidence",
+    "ledger_authorizes_execution"
+  ],
+  "properties": {
+    "schema_version": { "const": "federation-ledger-v1" },
+    "ledger_id": { "type": "string", "minLength": 1 },
+    "source_truth_boundaries": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "trust_domains": { "type": "array", "items": { "type": "object" } },
+    "compacts": { "type": "array", "items": { "type": "object" } },
+    "attestations": { "type": "array", "items": { "type": "object" } },
+    "proof_bundles": { "type": "array", "items": { "type": "object" } },
+    "delegated_leases": { "type": "array", "items": { "type": "object" } },
+    "cross_domain_decisions": { "type": "array", "items": { "type": "object" } },
+    "certifications": { "type": "array", "items": { "type": "object" } },
+    "revocations": { "type": "array", "items": { "type": "object" } },
+    "disputes": { "type": "array", "items": { "type": "object" } },
+    "recertifications": { "type": "array", "items": { "type": "object" } },
+    "ledger_replaces_source_evidence": { "const": false },
+    "ledger_authorizes_execution": { "const": false }
+  }
+}

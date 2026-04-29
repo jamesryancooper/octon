@@ -1,0 +1,100 @@
+schema_version: proposal-v1
+proposal_id: octon-compatibility-conformance-and-portable-proof-interop-v6
+title: Octon Compatibility Conformance and Portable Proof Interop v6
+summary: Defines the v6 MVP implementation path for classifying external projects
+  and systems, safely adopting Octon into external repos, and exchanging portable
+  proof and attestation evidence without importing authority or bypassing local authorization.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/spec/octon-compatibility-profile-v1.schema.json
+- .octon/framework/engine/runtime/spec/external-project-adoption-v1.md
+- .octon/framework/engine/runtime/spec/external-project-compatibility-inspection-v1.schema.json
+- .octon/framework/engine/runtime/spec/external-project-adoption-posture-v1.schema.json
+- .octon/framework/engine/runtime/spec/portable-proof-bundle-v1.schema.json
+- .octon/framework/engine/runtime/spec/attestation-envelope-v1.schema.json
+- .octon/framework/engine/runtime/spec/proof-acceptance-v1.schema.json
+- .octon/framework/engine/runtime/spec/local-proof-acceptance-v1.schema.json
+- .octon/framework/engine/runtime/spec/proof-revocation-v1.schema.json
+- .octon/framework/engine/runtime/spec/trust-domain-hook-v1.schema.json
+- .octon/framework/engine/runtime/spec/trust-domain-v1.schema.json
+- .octon/framework/orchestration/practices/octon-adoption-standards.md
+- .octon/framework/orchestration/practices/portable-proof-interop-standards.md
+- .octon/framework/orchestration/practices/federated-proof-interop-standards.md
+- .octon/instance/governance/trust/compatibility-profile.yml
+- .octon/instance/governance/trust/policies/proof-bundle-acceptance.yml
+- .octon/instance/governance/trust/policies/attestation-acceptance.yml
+- .octon/instance/governance/trust/policies/external-project-adoption.yml
+- .octon/instance/governance/trust/policies/proof-redaction.yml
+- .octon/instance/governance/trust/policies/proof-revocation.yml
+- .octon/instance/governance/trust/trust-domain-hooks.yml
+- .octon/state/control/trust/external-projects/octon-local/inspection.yml
+- .octon/state/control/trust/external-projects/octon-local/adoption-status.yml
+- .octon/state/control/trust/local-acceptance/acceptance-proof-octon-v6-mvp.yml
+- .octon/state/control/trust/local-acceptance/acceptance-attestation-octon-v6-mvp.yml
+- .octon/state/control/trust/revocations/revocation-proof-octon-v6-interop.yml
+- .octon/state/evidence/trust/external-projects/octon-local/inspection/receipt.yml
+- .octon/state/evidence/trust/external-projects/octon-local/adoption/preflight.yml
+- .octon/state/evidence/trust/local-acceptance/acceptance-proof-octon-v6-mvp/receipt.yml
+- .octon/state/evidence/trust/local-acceptance/acceptance-attestation-octon-v6-mvp/receipt.yml
+- .octon/state/evidence/trust/revocations/revocation-proof-octon-v6-interop/receipt.yml
+- .octon/state/evidence/trust/validation/compatibility-conformance-v6/receipt.yml
+- .octon/state/continuity/trust/open-proof-reviews.yml
+- .octon/state/continuity/trust/open-attestations.yml
+- .octon/generated/cognition/projections/materialized/trust/proof-review-status.yml
+- .octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-compatibility-proof-interop-v6.sh
+status: archived
+archive:
+  archived_at: "2026-04-29"
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/octon-compatibility-conformance-and-portable-proof-interop-v6
+  promotion_evidence:
+    - .octon/framework/engine/runtime/spec/octon-compatibility-profile-v1.schema.json
+    - .octon/framework/engine/runtime/spec/external-project-compatibility-inspection-v1.schema.json
+    - .octon/framework/engine/runtime/spec/external-project-adoption-posture-v1.schema.json
+    - .octon/framework/engine/runtime/spec/portable-proof-bundle-v1.schema.json
+    - .octon/framework/engine/runtime/spec/attestation-envelope-v1.schema.json
+    - .octon/framework/engine/runtime/spec/local-proof-acceptance-v1.schema.json
+    - .octon/framework/engine/runtime/spec/proof-revocation-v1.schema.json
+    - .octon/framework/engine/runtime/spec/trust-domain-hook-v1.schema.json
+    - .octon/framework/engine/runtime/crates/kernel/src/commands/trust.rs
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-compatibility-proof-interop-v6.sh
+    - .octon/state/evidence/trust/validation/compatibility-conformance-v6/receipt.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Promote accepted durable contracts, policies, validators, runtime/CLI
+    surfaces, and retained proof roots outside inputs/exploratory/proposals/**; then
+    archive this proposal with promotion evidence or reject it with rationale.
+implementation:
+  implemented_at: "2026-04-29T00:00:00Z"
+  implemented_by: "codex"
+  change_profile: "atomic"
+  release_state: "pre-1.0"
+  runtime_entrypoints:
+    - "octon compatibility inspect <repo>"
+    - "octon compatibility profile <repo>"
+    - "octon adopt <repo>"
+    - "octon proof export"
+    - "octon proof import"
+    - "octon proof verify"
+    - "octon proof accept"
+    - "octon proof reject"
+    - "octon proof status"
+    - "octon attest verify"
+    - "octon attest accept"
+    - "octon attest reject"
+    - "octon attest status"
+    - "octon trust status"
+    - "octon trust registry validate"
+  validation_refs:
+    - ".octon/framework/assurance/runtime/_ops/scripts/validate-compatibility-proof-interop-v6.sh"
+    - ".octon/framework/assurance/runtime/_ops/tests/test-compatibility-proof-interop-v6.sh"
+  authority_boundary: "Imported proof and attestations are accepted as evidence only; they do not authorize execution, replace local authority, widen support claims, or bypass run contracts."
+related_proposals:
+- mission-autonomy-runtime-v2
+- continuous-stewardship-runtime-v3
+- connector-admission-runtime-v4
+- self-evolution-proposal-to-promotion-runtime-v5

@@ -1,0 +1,16 @@
+schema_version: "trust-federation-status-projection-v1"
+authority: "non-authoritative"
+generated_from:
+  - ".octon/state/control/trust/ledger.yml"
+  - ".octon/instance/governance/trust/registry.yml"
+forbidden_consumers:
+  - "runtime authority"
+  - "policy authority"
+  - "support claim evaluation"
+  - "execution authorization"
+summary:
+  trust_domains: 2
+  compacts: 1
+  delegated_leases: 1
+  status: "stage_only"
+generated_projection_authorizes_execution: false
