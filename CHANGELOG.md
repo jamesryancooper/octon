@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.48](https://github.com/jamesryancooper/octon/compare/octon-v0.6.47...octon-v0.6.48) (2026-04-29)
+
+
+### Features
+
+* **trust:** add compatibility proof interop v6 ([2d76542](https://github.com/jamesryancooper/octon/commit/2d7654230a38766810aaac2c417e1eed058041d0))
+
 ## [0.6.47](https://github.com/jamesryancooper/octon/compare/octon-v0.6.46...octon-v0.6.47) (2026-04-29)
 
 
