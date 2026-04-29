@@ -72,7 +72,7 @@ done
   for pair in \
     "CS-01:open:Evidence depth should be refreshed per admitted tuple before any support widening." \
     "CS-02:open:Evaluator diversity and hidden-check breadth should continue to deepen." \
-    "SR-01:open:Agency and ingress simplification can still reduce interpretive ambiguity." \
+    "SR-01:open:Execution-role and ingress simplification can still reduce interpretive ambiguity." \
     "SR-02:open:Public retirement-register depth should continue to mature." \
     "SR-03:open:Residual shim and mirror rationale should remain explicit in disclosure." \
     "SR-04:open:Generated and effective operator clarity should remain explicitly non-authoritative."; do
@@ -122,4 +122,3 @@ done
   echo "  support_scope_change: none"
   echo "  residual_ledger_ref: .octon/state/evidence/disclosure/releases/$release_id/closure/residual-ledger.yml"
 } >"$report_path"
-
