@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.47](https://github.com/jamesryancooper/octon/compare/octon-v0.6.46...octon-v0.6.47) (2026-04-29)
+
+
+### Bug Fixes
+
+* **release:** refresh architecture projections ([#368](https://github.com/jamesryancooper/octon/issues/368)) ([6b85ecd](https://github.com/jamesryancooper/octon/commit/6b85ecdb0cec239fde571f8ac28172996be2446d))
+
 ## [0.6.46](https://github.com/jamesryancooper/octon/compare/octon-v0.6.45...octon-v0.6.46) (2026-04-28)
 
 
