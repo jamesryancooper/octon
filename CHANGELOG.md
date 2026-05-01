@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.53](https://github.com/jamesryancooper/octon/compare/octon-v0.6.52...octon-v0.6.53) (2026-05-01)
+
+
+### Features
+
+* **closeout:** add hybrid solo-first landing policy ([d486802](https://github.com/jamesryancooper/octon/commit/d4868022d1b07b4b4aea11b2f1b7075bf89acb5f))
+
 ## [0.6.52](https://github.com/jamesryancooper/octon/compare/octon-v0.6.51...octon-v0.6.52) (2026-05-01)
 
 
