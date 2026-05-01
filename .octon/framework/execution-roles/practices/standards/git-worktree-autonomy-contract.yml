@@ -42,8 +42,9 @@ closeout:
   ready_pr_status_contexts:
     branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge:
       message: >-
-        This PR is already ready and is waiting on required checks or GitHub
-        auto-merge. No new closeout action is needed.
+        This PR is already ready and has only queued or running required
+        checks, or is waiting on GitHub auto-merge. No new closeout mutation is
+        needed while checks are still pending.
     branch_worktree_ready_pr_waiting_on_reviewer_or_maintainer_confirmation:
       message: >-
         This PR is already ready and is waiting on reviewer or maintainer
@@ -117,14 +118,25 @@ autonomous_closeout_loop:
       - "tracked_changes"
       - "unstaged_changes"
       - "untracked_changes"
+      - "ignored_or_generated_output_candidates"
+      - "local_skill_logs"
+      - "prompt_scaffolding"
     stage_rule: "include only files that belong to the intended task"
+    final_hygiene_gate:
+      no_unintended_tracked_changes: true
+      no_unintended_untracked_artifacts: true
+      no_unwanted_prompt_scaffolding: true
+      no_unwanted_local_skill_logs: true
+      generated_outputs_preserved_when_required: true
+      retained_evidence_preserved_when_required: true
   draft_pr_flow:
     commit_push_and_pr: true
     same_branch_same_pr_for_life_of_task: true
   polling_loop:
     checks_running: "wait and poll again"
-    check_failure: "inspect run, apply smallest credible fix, validate locally, commit, push, recheck"
+    check_failure: "inspect every failing check, job, and script; identify the failing contract; apply the smallest target-architecture-correct fix; validate locally when reproducible; commit; push; recheck"
     unresolved_conversations: "treat as merge blocker and continue remediation loop"
+    red_required_checks: "not a waiting state and not a completed closeout; enter check_failure remediation or report an explicit external blocker"
   conversation_policy:
     author_path:
       - "fix"
@@ -136,10 +148,16 @@ autonomous_closeout_loop:
     required_checks_green: true
     unresolved_conversations_cleared: true
     author_action_items_cleared: true
+    final_hygiene_gate_satisfied: true
     correct_merge_lane: true
   merge_lane_policy:
     autonomous_lane: "request squash auto-merge or merge when GitHub allows"
     manual_lane: "leave ready for authorized human review and keep observing until merged"
+  post_merge_cleanup:
+    close_local_branch_when_safe: true
+    close_remote_branch_when_safe: true
+    confirm_local_main_synced: true
+    confirm_origin_synced: true
   end_states:
     - "merged"
     - "explicit_external_blocker"
