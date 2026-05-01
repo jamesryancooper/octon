@@ -17,5 +17,8 @@
    conversations, unresolved author action items, missing rollback handles,
    missing Change receipts, and failed final hygiene as blockers, not as
    waiting states.
-5. Record the selected Change route, lifecycle outcome, and every blocking
+5. For hosted `branch-no-pr` landing, evaluate whether provider rules allow
+   route-neutral fast-forward updates; a PR-required ruleset is a blocker, not
+   permission to open a PR.
+6. Record the selected Change route, lifecycle outcome, and every blocking
    condition.

@@ -54,6 +54,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] Lifecycle outcome resolves separately from the selected route
 - [ ] direct-main, branch-no-pr, branch-pr, and stage-only-escalate contexts are distinguished
 - [ ] branch-no-pr preservation, branch-local completion, branch publication, no-PR landing, and cleanup outcomes are distinguished
+- [ ] hosted branch-no-pr landing requires provider route-neutral rules, pushed source branch, exact source SHA checks, fast-forward update, origin/main equality, rollback evidence, and cleanup disposition
 - [ ] branch-pr published, ready, landed, and cleaned outcomes are distinguished
 - [ ] PR-specific mechanics are selected only after branch-pr routing
 - [ ] landed and cleaned claims require route-appropriate evidence

@@ -64,8 +64,7 @@ Or, when a PR already exists:
 9. **Cleanup** — After merge, record local branch, remote branch, and worktree
    cleanup evidence or explicit deferred-cleanup evidence
 10. **Stop condition** — Continue until merged or until a precise external
-   blocker is reached and reported. Continue until merged or until a precise
-   external blocker is reached and reported.
+   blocker is reached and reported.
 
 ## Parameters
 
@@ -103,7 +102,10 @@ Outputs are written to:
   the final merge gate for PR-backed Changes only
 - Draft/open PR state is `published`, not full closeout
 - Ready PR state is `ready`, not landed
-- Full PR-backed closeout requires merge evidence or a precise external blocker
+- Full PR-backed closeout requires merge evidence: `publication_status:
+  pr-merged`, landed ref or merge ref, rollback handle, and cleanup disposition;
+  without merge evidence, report a precise external blocker instead of
+  completion
 - Continue until merged or until a precise external blocker is reached and reported
 - If progress cannot continue, report the exact blocker instead of claiming
   success

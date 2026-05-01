@@ -11,7 +11,7 @@ usage() {
 Usage:
   git-branch-land.sh [--target <branch>] [--method fast-forward|merge-commit|squash|cherry-pick] [--confirm] [--dry-run]
 
-No-PR branch landing helper.
+Local no-PR branch landing helper.
 Route guard: call only after Change routing selects branch-no-pr and PR-required predicates are false.
 
 Behavior:
@@ -20,6 +20,7 @@ Behavior:
   - records pre/post refs in output
   - requires --confirm for mutating runs
   - does not create or update a PR
+  - does not update hosted main; use git-branch-land-hosted-no-pr.sh for hosted fast-forward no-PR landing
 USAGE
 }
 
@@ -131,3 +132,4 @@ echo "[OK] Target branch: $TARGET_BRANCH"
 echo "[OK] Target pre-ref: $TARGET_PRE_REF"
 echo "[OK] Target post-ref: $TARGET_POST_REF"
 echo "[OK] Integration method: $METHOD"
+echo "[OK] Hosted main updated: false"

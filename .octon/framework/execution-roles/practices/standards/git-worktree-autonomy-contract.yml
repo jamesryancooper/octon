@@ -54,10 +54,14 @@ operating_model:
         - "cleanup status"
         - "Change receipt or continuation receipt"
         - "rollback or discard plan"
+        - "provider route-neutral ruleset evidence when claiming hosted landing"
+        - "pushed source branch, exact source SHA checks, and origin/main equality when claiming hosted landing"
       forbidden:
         - "opening a PR only because a branch exists"
-        - "claiming publication"
+        - "claiming PR-backed publication"
         - "claiming landed from patch, checkpoint, or branch-local commit evidence alone"
+        - "claiming hosted landing from a pushed-only branch"
+        - "claiming hosted landing while provider ruleset requires PR"
         - "PR URL, PR number, or PR metadata"
     branch-pr:
       required:
@@ -123,9 +127,18 @@ helpers:
   git_branch_push:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch publication or backup helper without opening a PR"
+  git_required_checks_at_ref:
+    route_guard: "branch-no-pr or branch-pr"
+    posture: "exact-SHA hosted check evidence helper"
+  git_branch_hosted_preflight:
+    route_guard: "branch-no-pr only"
+    posture: "hosted no-PR landing preflight helper"
   git_branch_land:
     route_guard: "branch-no-pr only"
-    posture: "no-PR branch landing helper"
+    posture: "local no-PR branch landing helper"
+  git_branch_land_hosted_no_pr:
+    route_guard: "branch-no-pr only"
+    posture: "fast-forward-only hosted no-PR landing helper"
   git_branch_cleanup:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch and worktree cleanup helper without requiring PR metadata"
@@ -139,6 +152,9 @@ validation:
     - "direct-main route lacking validation or rollback evidence"
     - "checkpoint, patch, or branch-local commit reported as landed"
     - "branch-no-pr receipt containing PR metadata"
+    - "branch-no-pr hosted landing claim without provider route-neutral ruleset evidence"
+    - "branch-no-pr hosted landing claim without exact source SHA checks"
+    - "branch-no-pr hosted landing claim without origin/main equality"
     - "branch-pr draft/open/ready state reported as full closeout"
     - "cleanup claim lacking local, remote, or worktree cleanup evidence or deferred-cleanup record"
   scenario_lanes:

@@ -19,6 +19,11 @@ BRANCH_COMMIT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-
 BRANCH_PUSH_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-push.sh"
 BRANCH_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-land.sh"
 BRANCH_CLEANUP_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+REQUIRED_CHECKS_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh"
+HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+HOSTED_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
+HOSTED_NO_PR_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
+GITHUB_RULESET_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
 GITHUB_ADAPTER="$OCTON_DIR/framework/engine/runtime/adapters/host/github-control-plane.yml"
 REPO_ADAPTER="$OCTON_DIR/framework/engine/runtime/adapters/host/repo-shell.yml"
 
@@ -64,7 +69,7 @@ main() {
   echo "== Git/GitHub Workflow Alignment Validation =="
   command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
 
-  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$GITHUB_ADAPTER" "$REPO_ADAPTER"; do
+  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_ADAPTER" "$REPO_ADAPTER"; do
     require_file "$file"
   done
 
@@ -79,7 +84,12 @@ main() {
   require_yq "$CONTRACT" '.helpers.git_wt_new.route_guard == "branch-no-pr or branch-pr only"' "worktree helper is route-gated to branch routes" "worktree helper must be branch-route gated"
   require_yq "$CONTRACT" '.helpers.git_pr_open.route_guard == "branch-pr only"' "PR open helper is branch-pr gated" "PR open helper must be branch-pr gated"
   require_yq "$CONTRACT" '.helpers.git_branch_land.route_guard == "branch-no-pr only"' "no-PR branch landing helper is branch-no-pr gated" "branch landing helper must be branch-no-pr gated"
+  require_yq "$CONTRACT" '.helpers.git_branch_land_hosted_no_pr.route_guard == "branch-no-pr only"' "hosted no-PR branch landing helper is branch-no-pr gated" "hosted branch landing helper must be branch-no-pr gated"
+  require_yq "$CONTRACT" '.helpers.git_required_checks_at_ref.posture == "exact-SHA hosted check evidence helper"' "exact-SHA check helper is registered" "exact-SHA check helper must be registered"
   require_yq "$CONTRACT" '.helpers.git_branch_cleanup.route_guard == "branch-no-pr or branch-pr only"' "branch cleanup helper is branch-route gated" "branch cleanup helper must be branch-route gated"
+  require_yq "$POLICY" '.hosted_provider_ruleset.target_model == "route-neutral protected main"' "policy defines route-neutral protected main target" "policy must define route-neutral protected main target"
+  require_yq "$POLICY" '.hosted_provider_ruleset.forbidden_universal_rules[]? | select(. == "pull_request_required_for_all_main_updates")' "policy forbids universal PR rule in target ruleset" "policy must forbid universal PR rule in target ruleset"
+  require_yq "$POLICY" '.hosted_provider_ruleset.pr_specific_checks[]? | select(. == "PR Quality Standards")' "policy keeps PR quality behind PR route" "policy must keep PR quality behind PR route"
   require_yq "$CONTRACT" '.closeout.owner_surface == "/closeout-change"' "closeout owner is closeout-change" "closeout owner must be closeout-change"
   require_yq "$CONTRACT" '.closeout.pr_backed_subflow == "/closeout-pr"' "closeout-pr is PR-backed subflow" "closeout-pr must be PR-backed subflow"
   require_yq "$WORKFLOW" '.policy_refs.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "workflow references default work unit policy" "workflow missing default work unit policy"
@@ -96,6 +106,12 @@ main() {
   require_literal "$BRANCH_LAND_SCRIPT" 'rev-list --reverse "$TARGET_PRE_REF..$SOURCE_REF"' "git-branch-land cherry-picks full branch range" "git-branch-land must cherry-pick the full target-to-source range"
   forbid_literal "$BRANCH_LAND_SCRIPT" 'cherry-pick "$SOURCE_BRANCH"' "git-branch-land avoids tip-only cherry-pick" "git-branch-land must not cherry-pick only the branch tip"
   require_literal "$BRANCH_CLEANUP_SCRIPT" "without requiring PR metadata" "git-branch-cleanup avoids PR metadata dependency" "git-branch-cleanup must avoid PR metadata dependency"
+  require_literal "$REQUIRED_CHECKS_SCRIPT" "exact commit SHA" "required checks helper validates exact SHA" "required checks helper must validate exact SHA"
+  require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "hosted preflight blocks PR-required ruleset" "hosted preflight must block PR-required ruleset"
+  require_literal "$HOSTED_LAND_SCRIPT" 'push "$REMOTE" "$SOURCE_REF:refs/heads/$TARGET_BRANCH"' "hosted no-PR landing uses non-force target push" "hosted no-PR landing must use non-force target push"
+  forbid_literal "$HOSTED_LAND_SCRIPT" "gh pr" "hosted no-PR landing helper does not mutate PRs" "hosted no-PR landing helper must not mutate PRs"
+  require_literal "$HOSTED_NO_PR_VALIDATOR" "branch-no-pr landed/cleaned requires hosted landing evidence" "hosted no-PR validator enforces hosted landing evidence" "hosted no-PR validator must enforce hosted landing evidence"
+  require_literal "$GITHUB_RULESET_VALIDATOR" "PR-required ruleset blocks hosted branch-no-pr landing" "GitHub ruleset validator detects PR-required blocker" "GitHub ruleset validator must detect PR-required blocker"
   require_literal "$GITHUB_ADAPTER" "PR-backed Changes" "GitHub adapter scoped to PR-backed Changes" "GitHub adapter must scope GitHub to PR-backed Changes"
   require_literal "$REPO_ADAPTER" "direct-main" "repo shell adapter covers direct-main route" "repo shell adapter must cover direct-main route"
 

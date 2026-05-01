@@ -22,6 +22,7 @@ Behavior:
   - removes clean linked worktrees for the branch when safe
   - deletes local branch with git branch -d
   - deletes remote branch only with --delete-remote --confirm
+  - emits cleanup evidence without requiring PR metadata
 USAGE
 }
 
@@ -139,3 +140,4 @@ fi
 echo "[OK] Route guard: branch-no-pr or branch-pr."
 echo "[OK] Cleanup target: $TARGET_BRANCH"
 echo "[OK] Remote deletion requested: $DELETE_REMOTE"
+echo "[OK] Cleanup evidence: local branch/worktree handled or explicitly skipped by flags."

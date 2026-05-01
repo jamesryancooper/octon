@@ -11,11 +11,12 @@ deprecated_terms:
     compatibility_alias_allowed: false
 routes:
   - route_id: "branch-pr"
-    description: "PR-backed Change for hosted review, remote checks, branch protection, publication, release automation, collaboration, or explicit operator request."
+    description: "PR-backed Change for hosted review, external signoff, unresolved review discussion, PR-required provider rules, release automation, collaboration, protected/high-impact governance handling, or explicit operator request."
     precedence: 10
     selected_when_any:
-      - "operator requests PR, hosted review, remote CI, preview publication, or external signoff"
-      - "repository protection or release automation requires PR"
+      - "operator requests PR, hosted review, preview publication, or external signoff"
+      - "provider ruleset requires PR for the requested hosted landing"
+      - "release automation requires PR"
       - "work starts from an existing PR, PR review thread, release PR, Dependabot PR, or GitHub merge lane"
       - "declared risk or protected surface requires hosted review or remote validation"
     required_evidence:
@@ -43,18 +44,20 @@ routes:
       - "rollback_handle"
       - "closeout_outcome"
   - route_id: "branch-no-pr"
-    description: "Branch-isolated Change without PR-backed review or publication. The route may preserve state, complete on the branch, push the branch for backup or handoff, land on main without a PR, and clean up only when lifecycle evidence supports that outcome."
+    description: "Branch-isolated Change without PR-backed review or publication. The route may preserve state, complete on the branch, push the branch for backup or handoff, fast-forward land on hosted main without a PR when provider rules allow route-neutral updates, and clean up only when lifecycle evidence supports that outcome."
     precedence: 20
     selected_when_any:
       - "change needs isolation, pause/resume, multiple commits, uncertain scope, or handoff"
       - "change needs branch identity but not hosted review or publication"
       - "operator wants branch-isolated work landed without PR and no PR-required predicate applies"
+      - "provider rules allow route-neutral fast-forward update for hosted no-PR landing"
     required_evidence:
       - "change_receipt_or_continuation_receipt"
       - "branch_or_worktree_identity"
       - "reason_no_pr_required"
       - "local_validation_or_recorded_blocker"
       - "durable_commit_patch_or_checkpoint"
+      - "hosted_landing_evidence_when_landed"
       - "lifecycle_outcome"
       - "integration_status"
       - "publication_status"
@@ -62,10 +65,12 @@ routes:
       - "rollback_or_discard_plan"
     required_validation:
       - "local_validation_at_selected_floor_or_blocker"
+      - "exact_sha_route_neutral_validation_when_hosted_landing"
     forbidden_evidence:
       - "pr_url_or_number"
       - "pr_metadata"
       - "host_projection_claims_authority"
+      - "hosted_landed_claim_without_origin_main_equality"
   - route_id: "direct-main"
     description: "Low-risk solo Change landed directly on current clean main."
     precedence: 30
@@ -145,9 +150,15 @@ route_lifecycle_outcomes:
     landed_requires:
       - "intended_scope_committed_on_branch"
       - "local_validation_evidence"
+      - "provider_ruleset_allows_route_neutral_fast_forward_update"
+      - "source_branch_pushed_to_remote"
+      - "source_ref_current_with_origin_main"
+      - "exact_source_sha_required_checks_passed"
       - "integration_method"
       - "target_branch_ref"
       - "landed_ref"
+      - "hosted_landing_evidence"
+      - "origin_main_equals_landed_ref_after_push"
       - "rollback_handle"
       - "cleanup_status"
     cleaned_requires:
@@ -192,10 +203,9 @@ route_lifecycle_outcomes:
 pr_required_predicates:
   - "explicit_operator_pr_request"
   - "hosted_review_required"
-  - "remote_ci_required"
   - "preview_publication_required"
   - "external_signoff_required"
-  - "repository_protection_requires_pr"
+  - "provider_ruleset_requires_pr"
   - "release_automation_requires_pr"
   - "existing_pr_or_review_thread_context"
 branch_required_predicates:
@@ -218,6 +228,10 @@ fail_closed_conditions:
   - "missing_required_validation"
   - "missing_rollback_handle"
   - "missing_change_receipt"
+  - "provider_ruleset_blocks_requested_hosted_no_pr_landing"
+  - "hosted_no_pr_landing_missing_exact_sha_checks"
+  - "hosted_no_pr_landing_from_stale_branch"
+  - "hosted_no_pr_landing_without_origin_main_equality"
   - "lifecycle_outcome_missing_or_unsupported"
   - "checkpoint_claims_landed"
   - "branch_local_commit_claims_landed_without_main_integration"
@@ -228,3 +242,25 @@ fail_closed_conditions:
   - "proposal_local_runtime_dependency"
   - "host_projection_claims_authority"
 receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+hosted_provider_ruleset:
+  target_model: "route-neutral protected main"
+  required_main_rules:
+    - "required_status_checks"
+    - "required_linear_history"
+    - "non_fast_forward"
+    - "deletion_protection"
+  forbidden_universal_rules:
+    - "pull_request_required_for_all_main_updates"
+  universal_required_checks:
+    - "route_neutral_closeout_validation"
+    - "branch_naming_validation"
+    - "route_aware_autonomy_validation"
+  pr_specific_checks:
+    - "CI Efficiency Guard / enforce-ci-efficiency-policy"
+    - "AI Review Gate / decision"
+    - "PR Quality Standards"
+  branch_no_pr_hosted_landing:
+    mechanism: "fast-forward-only protected update"
+    no_pr_mutation: true
+    requires_exact_sha_check_evidence: true
+    post_push_verification: "origin/main equals landed_ref"

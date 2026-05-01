@@ -57,6 +57,14 @@ selected `branch-pr`, or when the task starts from an existing PR context.
   evidence, Change receipt, and rollback handle.
 - Do not claim `branch-no-pr` as `landed` without branch commit evidence, main
   integration evidence, landed ref, rollback handle, and cleanup disposition.
+- For hosted `branch-no-pr` landing, run hosted no-PR landing preflight before
+  mutation and require provider ruleset evidence, a pushed source branch, exact
+  source SHA required checks, fast-forward-only update evidence, and proof that
+  `origin/main` equals `landed_ref` after the push.
+- If the provider ruleset requires PR for `main`, report a blocker for
+  `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
+  `branch-pr`; PR mutation requires selected route `branch-pr` or explicit
+  operator reroute.
 - Do not claim `branch-pr` as full closeout when the PR is only draft, open, or
   ready; full PR-backed closeout requires merge evidence or a precise external
   blocker.

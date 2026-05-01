@@ -83,6 +83,39 @@
       "type": "string",
       "minLength": 1
     },
+    "hosted_landing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remote",
+        "target_branch",
+        "source_branch",
+        "source_ref",
+        "target_pre_ref",
+        "target_post_ref",
+        "validated_ref",
+        "required_check_refs",
+        "provider_ruleset_ref",
+        "fast_forward_only"
+      ],
+      "properties": {
+        "remote": { "type": "string", "minLength": 1 },
+        "target_branch": { "type": "string", "minLength": 1 },
+        "source_branch": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "target_pre_ref": { "type": "string", "minLength": 1 },
+        "target_post_ref": { "type": "string", "minLength": 1 },
+        "validated_ref": { "type": "string", "minLength": 1 },
+        "required_check_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "provider_ruleset_ref": { "type": "string", "minLength": 1 },
+        "push_refspec": { "type": "string", "minLength": 1 },
+        "fast_forward_only": { "const": true }
+      }
+    },
     "landed_ref": {
       "type": "string",
       "minLength": 1
@@ -113,6 +146,7 @@
       "enum": [
         "none",
         "pushed-branch",
+        "hosted-main-updated",
         "pr-opened",
         "pr-ready",
         "pr-merged",
@@ -217,7 +251,7 @@
             "enum": ["preserved", "branch-local-complete", "published-branch", "landed", "cleaned", "blocked", "escalated", "denied"]
           },
           "publication_status": {
-            "enum": ["none", "pushed-branch"]
+            "enum": ["none", "pushed-branch", "hosted-main-updated"]
           },
           "durable_history": {
             "properties": {
@@ -289,6 +323,47 @@
           },
           "publication_status": {
             "const": "pushed-branch"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selected_route": { "const": "branch-no-pr" },
+          "lifecycle_outcome": {
+            "enum": ["landed", "cleaned"]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "hosted_landing",
+          "landed_ref",
+          "target_branch_ref",
+          "integration_method"
+        ],
+        "properties": {
+          "integration_status": {
+            "const": "landed"
+          },
+          "publication_status": {
+            "const": "hosted-main-updated"
+          },
+          "integration_method": {
+            "const": "fast-forward"
+          },
+          "durable_history": {
+            "properties": {
+              "kind": {
+                "enum": ["commit", "branch"]
+              }
+            }
+          },
+          "hosted_landing": {
+            "properties": {
+              "fast_forward_only": { "const": true }
+            }
           }
         }
       }
@@ -411,7 +486,7 @@
             "const": "landed"
           },
           "publication_status": {
-            "enum": ["none", "not_applicable"]
+            "enum": ["none", "hosted-main-updated", "not_applicable"]
           },
           "integration_method": {
             "const": "direct-commit"

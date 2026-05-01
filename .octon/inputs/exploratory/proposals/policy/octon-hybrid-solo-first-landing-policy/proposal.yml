@@ -1,0 +1,54 @@
+schema_version: "proposal-v1"
+proposal_id: octon-hybrid-solo-first-landing-policy
+title: Hybrid Solo-First Landing Policy
+summary: Enables validated branch-no-pr Changes to fast-forward land on hosted main without PR ceremony while preserving route-specific safety, rollback, receipts, and hosted enforcement.
+proposal_kind: policy
+promotion_scope: octon-internal
+promotion_targets:
+  - .octon/framework/product/contracts/default-work-unit.yml
+  - .octon/framework/product/contracts/default-work-unit.md
+  - .octon/framework/product/contracts/change-receipt-v1.schema.json
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/phases.md
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/decisions.md
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/validation.md
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/safety.md
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/README.md
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/01-evaluate-context.md
+  - .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md
+  - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh
+  - .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh
+  - .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-default-work-unit-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-git-github-workflow-alignment.sh
+  - .octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh
+status: in-review
+lifecycle:
+  temporary: true
+  exit_expectation: Promote Octon-internal hybrid landing policy, helpers, and validators; then execute a linked repo-local GitHub projection packet before changing the live main ruleset.
+related_proposals:
+  - octon-change-first-work-unit-policy
+  - octon-change-first-github-projection-policy
+linked_projection_targets:
+  - github-ruleset:Main Branch Guardrails (PR + CI + Codex)
+  - .github/workflows/main-pr-first-guard.yml
+  - .github/workflows/main-push-safety.yml
+  - .github/workflows/commit-and-branch-standards.yml
+  - .github/workflows/pr-quality.yml
+  - .github/workflows/ai-review-gate.yml
+  - .github/workflows/pr-autonomy-policy.yml
+  - .github/workflows/ci-efficiency-guard.yml
+  - .github/workflows/octon-route-gate.yml
+  - .github/workflows/octon-required-validation.yml

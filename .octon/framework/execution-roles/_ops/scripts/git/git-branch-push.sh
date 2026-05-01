@@ -15,6 +15,7 @@ Route guard: call only after Change routing selects branch-no-pr or branch-pr.
 Behavior:
   - refuses to push main
   - pushes the current branch and sets upstream when needed
+  - emits remote branch evidence for Change receipts
   - does not create or update a PR
 USAGE
 }
@@ -65,6 +66,7 @@ REPO_ROOT="$(repo_root)"
 CURRENT_BRANCH="$(git -C "$REPO_ROOT" rev-parse --abbrev-ref HEAD)"
 [[ "$CURRENT_BRANCH" != "HEAD" ]] || error "Detached HEAD is not supported."
 [[ "$CURRENT_BRANCH" != "main" ]] || error "Refusing branch push helper from main."
+SOURCE_REF="$(git -C "$REPO_ROOT" rev-parse "$CURRENT_BRANCH")"
 
 if git -C "$REPO_ROOT" rev-parse --abbrev-ref --symbolic-full-name "@{u}" >/dev/null 2>&1; then
   run_cmd git -C "$REPO_ROOT" push
@@ -73,3 +75,5 @@ else
 fi
 
 echo "[OK] Branch pushed without PR mutation. Route guard: branch-no-pr or branch-pr."
+echo "[OK] Remote branch ref: ${REMOTE}/${CURRENT_BRANCH}"
+echo "[OK] Source ref: $SOURCE_REF"

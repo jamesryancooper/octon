@@ -77,6 +77,12 @@ create_fixture() {
     "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh"
   cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh" \
     "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh" \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh" \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh" \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
   cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh" \
     "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh" \
@@ -95,14 +101,24 @@ create_fixture() {
     "$fixture_root/.github/workflows/pr-quality.yml"
   cp "$REPO_ROOT/.github/workflows/pr-autonomy-policy.yml" \
     "$fixture_root/.github/workflows/pr-autonomy-policy.yml"
+  cp "$REPO_ROOT/.github/workflows/commit-and-branch-standards.yml" \
+    "$fixture_root/.github/workflows/commit-and-branch-standards.yml"
   cp "$REPO_ROOT/.github/workflows/pr-auto-merge.yml" \
     "$fixture_root/.github/workflows/pr-auto-merge.yml"
+  cp "$REPO_ROOT/.github/workflows/main-pr-first-guard.yml" \
+    "$fixture_root/.github/workflows/main-pr-first-guard.yml"
+  cp "$REPO_ROOT/.github/workflows/ci-efficiency-guard.yml" \
+    "$fixture_root/.github/workflows/ci-efficiency-guard.yml"
   cp "$REPO_ROOT/.octon/framework/engine/runtime/adapters/host/github-control-plane.yml" \
     "$fixture_root/.octon/framework/engine/runtime/adapters/host/github-control-plane.yml"
   cp "$REPO_ROOT/.octon/framework/engine/runtime/adapters/host/repo-shell.yml" \
     "$fixture_root/.octon/framework/engine/runtime/adapters/host/repo-shell.yml"
   cp "$VALIDATOR" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
 
   printf '%s\n' "$fixture_root"
 }
@@ -167,6 +183,21 @@ case_closeout_change_allows_pr_without_route_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_hosted_no_pr_helper_allows_pr_mutation_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  printf '\n# gh pr create\n' >>"$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
+  ! run_validator "$fixture_root"
+}
+
+case_hosted_preflight_loses_pr_required_blocker_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/Provider ruleset requires PR; hosted branch-no-pr landing unavailable\./Provider ruleset warning only./g' \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "workflow alignment validator passes on live repo" case_live_repo_passes
   assert_success "workflow alignment validator fails when policy loses direct-main route" case_policy_missing_direct_main_route_fails
@@ -175,6 +206,8 @@ main() {
   assert_success "workflow alignment validator fails when PR helper loses branch-pr guard" case_pr_open_missing_branch_pr_guard_fails
   assert_success "workflow alignment validator fails when branch landing cherry-picks only branch tip" case_branch_land_tip_only_cherry_pick_fails
   assert_success "workflow alignment validator fails when closeout-change allows PR before routing" case_closeout_change_allows_pr_without_route_fails
+  assert_success "workflow alignment validator fails when hosted no-PR helper mutates PRs" case_hosted_no_pr_helper_allows_pr_mutation_fails
+  assert_success "workflow alignment validator fails when hosted preflight loses PR-required blocker" case_hosted_preflight_loses_pr_required_blocker_fails
 
   echo
   echo "Passed: $pass_count"

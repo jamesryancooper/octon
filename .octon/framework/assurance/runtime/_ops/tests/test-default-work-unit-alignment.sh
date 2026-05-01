@@ -48,15 +48,34 @@ case_receipt_schema_has_lifecycle_outcomes() {
   ' "$schema" >/dev/null
 }
 
+case_receipt_schema_has_hosted_landing_evidence() {
+  local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
+  jq -e '
+    (.properties.publication_status.enum | index("hosted-main-updated")) and
+    (.properties.hosted_landing.required | index("provider_ruleset_ref")) and
+    (.properties.hosted_landing.required | index("required_check_refs")) and
+    (.properties.hosted_landing.required | index("target_post_ref"))
+  ' "$schema" >/dev/null
+}
+
 case_policy_has_fail_closed_conditions() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
-  yq -e '.fail_closed_conditions[] | select(. == "missing_change_receipt")' "$policy" >/dev/null
+  yq -e '.fail_closed_conditions[] | select(. == "missing_change_receipt")' "$policy" >/dev/null &&
+    yq -e '.fail_closed_conditions[] | select(. == "provider_ruleset_blocks_requested_hosted_no_pr_landing")' "$policy" >/dev/null
 }
 
 case_policy_keeps_no_pr_landing_as_outcome() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
   yq -e '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[] | select(. == "landed")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "origin_main_equals_landed_ref_after_push")' "$policy" >/dev/null &&
     ! yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$policy" >/dev/null 2>&1
+}
+
+case_policy_defines_route_neutral_ruleset_target() {
+  local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
+  yq -e '.hosted_provider_ruleset.target_model == "route-neutral protected main"' "$policy" >/dev/null &&
+    yq -e '.hosted_provider_ruleset.universal_required_checks[] | select(. == "route_neutral_closeout_validation")' "$policy" >/dev/null &&
+    yq -e '.hosted_provider_ruleset.pr_specific_checks[] | select(. == "AI Review Gate / decision")' "$policy" >/dev/null
 }
 
 main() {
@@ -64,8 +83,10 @@ main() {
   assert_success "receipt schema includes all route ids" case_receipt_schema_has_routes
   assert_success "receipt schema requires lifecycle status fields" case_receipt_schema_requires_lifecycle_fields
   assert_success "receipt schema includes lifecycle outcomes" case_receipt_schema_has_lifecycle_outcomes
+  assert_success "receipt schema includes hosted no-PR landing evidence" case_receipt_schema_has_hosted_landing_evidence
   assert_success "machine policy includes fail-closed receipt condition" case_policy_has_fail_closed_conditions
   assert_success "machine policy keeps no-PR landing as branch-no-pr outcome" case_policy_keeps_no_pr_landing_as_outcome
+  assert_success "machine policy defines route-neutral ruleset target" case_policy_defines_route_neutral_ruleset_target
   echo
   echo "Passed: $pass_count"
   echo "Failed: $fail_count"
