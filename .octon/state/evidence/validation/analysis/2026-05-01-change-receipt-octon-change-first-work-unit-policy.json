@@ -1,7 +1,7 @@
 {
   "schema_version": "change-receipt-v1",
   "change_id": "octon-change-first-work-unit-policy",
-  "selected_route": "branch-no-pr",
+  "selected_route": "branch-pr",
   "lifecycle_outcome": "cleaned",
   "intent": "Implement and close out the Change-first default work unit policy from the proposal packet.",
   "scope": {
@@ -22,22 +22,25 @@
       "branch chore/change-first-default-work-unit-policy",
       "base HEAD 1336f1467",
       "commit ba5511b0f06b7d0323969893f89dcfb7d5e53f24: 596 files changed, 20694 insertions, 2118 deletions",
-      "commit 8949cf3e1d89a6b156614ce25a8b457d73ac9d77: final branch tip landed on main by fast-forward",
+      "commit 30ffcad4b3547bed2dae3039b614b8eaa50ae4bd: final branch tip before hosted landing",
+      "PR #382: https://github.com/jamesryancooper/octon/pull/382",
+      "squash merge commit 2058198e7b1c362f34219d9b4bea2eb9d358b086 landed on origin/main",
       ".octon/state/evidence/validation/analysis/2026-05-01-implementation-conformance.md",
       ".octon/state/evidence/validation/analysis/2026-05-01-change-closeout-octon-change-first-work-unit-policy.md"
     ]
   },
-  "source_branch_ref": "chore/change-first-default-work-unit-policy@8949cf3e1d89a6b156614ce25a8b457d73ac9d77",
-  "target_branch_ref": "main@8949cf3e1d89a6b156614ce25a8b457d73ac9d77",
-  "landed_ref": "8949cf3e1d89a6b156614ce25a8b457d73ac9d77",
-  "integration_method": "fast-forward",
+  "source_branch_ref": "chore/change-first-default-work-unit-policy@30ffcad4b3547bed2dae3039b614b8eaa50ae4bd",
+  "target_branch_ref": "main@2058198e7b1c362f34219d9b4bea2eb9d358b086",
+  "landed_ref": "2058198e7b1c362f34219d9b4bea2eb9d358b086",
+  "integration_method": "squash",
   "integration_status": "landed",
-  "publication_status": "none",
+  "publication_status": "pr-merged",
   "cleanup_status": "completed",
   "cleanup_evidence_refs": [
-    "git-branch-land.sh --target main --method fast-forward --confirm: target pre-ref 1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3, target post-ref 8949cf3e1d89a6b156614ce25a8b457d73ac9d77",
-    "git-branch-cleanup.sh --branch chore/change-first-default-work-unit-policy --base main --confirm: deleted local branch chore/change-first-default-work-unit-policy",
-    "git ls-remote --heads origin chore/change-first-default-work-unit-policy: no remote branch found"
+    "gh pr view 382: state MERGED, mergedAt 2026-05-01T20:39:20Z, mergeCommit 2058198e7b1c362f34219d9b4bea2eb9d358b086",
+    "git ls-remote --heads origin chore/change-first-default-work-unit-policy: no remote branch found after merge",
+    "git branch -D chore/change-first-default-work-unit-policy: deleted local branch at 30ffcad4b3547bed2dae3039b614b8eaa50ae4bd",
+    "git branch -f main origin/main: local main aligned to protected origin/main at 2058198e7b1c362f34219d9b4bea2eb9d358b086"
   ],
   "validation_evidence_refs": [
     ".octon/inputs/exploratory/proposals/policy/octon-change-first-work-unit-policy/support/implementation-conformance-review.md",
@@ -47,28 +50,34 @@
     "alignment-check.sh --profile default-work-unit: pass, errors=0",
     "test-change-closeout-lifecycle-alignment.sh: pass, 10 passed, 0 failed",
     "test-default-work-unit-alignment.sh: pass, 6 passed, 0 failed",
-    "test-git-github-workflow-alignment.sh: pass, 6 passed, 0 failed",
+    "test-git-github-workflow-alignment.sh: pass, 7 passed, 0 failed",
     "git diff --cached --check before commit: pass",
     "test-pack-shape.sh: pass, 142 passed, 0 failed",
     "git diff --check before landing: pass",
     "git fetch origin main: origin/main at 1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3 before landing",
-    "no-PR branch landing: fast-forward main from 1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3 to 8949cf3e1d89a6b156614ce25a8b457d73ac9d77"
+    "direct push to protected main rejected by GitHub rule GH013, requiring PR-backed hosted landing",
+    "PR #382 checks: all required and visible checks passed before merge",
+    "PR #382 review thread PRRT_kwDOQLHg5s5_Cryf: fixed, pushed, and resolved",
+    "PR #382 squash merge: origin/main advanced to 2058198e7b1c362f34219d9b4bea2eb9d358b086"
   ],
-  "review_waiver_refs": [
-    "branch-no-pr route selected: no operator PR request, no existing PR context, local implementation conformance passed, and hosted review was not required for this closeout"
+  "review_evidence_refs": [
+    "PR #382: https://github.com/jamesryancooper/octon/pull/382",
+    "AI Review Gate / decision: pass",
+    "Codex review thread on git-branch-land.sh cherry-pick range fixed by commit 30ffcad4b3547bed2dae3039b614b8eaa50ae4bd"
   ],
   "durable_history": {
-    "kind": "commit",
-    "ref": "8949cf3e1d89a6b156614ce25a8b457d73ac9d77",
-    "branch": "main"
+    "kind": "pr",
+    "ref": "382",
+    "pr_url": "https://github.com/jamesryancooper/octon/pull/382",
+    "branch": "chore/change-first-default-work-unit-policy"
   },
   "rollback_handle": {
-    "kind": "manual-instructions",
-    "ref": "1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3..8949cf3e1d89a6b156614ce25a8b457d73ac9d77",
-    "instructions": "The no-PR branch landing fast-forwarded main from 1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3 to 8949cf3e1d89a6b156614ce25a8b457d73ac9d77. To roll back, revert the landed commit range on main, preserving this receipt as evidence. Do not reset published main without explicit operator approval."
+    "kind": "revert-commit",
+    "ref": "2058198e7b1c362f34219d9b4bea2eb9d358b086",
+    "instructions": "The protected hosted landing path squash-merged PR #382 into main at 2058198e7b1c362f34219d9b4bea2eb9d358b086. To roll back, revert that squash merge commit on main, preserving this receipt and PR #382 as evidence. Do not reset published main without explicit operator approval."
   },
   "closeout_outcome": "completed",
   "remaining_blockers": [],
   "created_at": "2026-05-01T14:58:27Z",
-  "updated_at": "2026-05-01T19:50:19Z"
+  "updated_at": "2026-05-01T20:51:03Z"
 }
