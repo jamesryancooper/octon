@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.51](https://github.com/jamesryancooper/octon/compare/octon-v0.6.50...octon-v0.6.51) (2026-05-01)
+
+
+### Bug Fixes
+
+* **proposals:** harden packet lifecycle routing ([#378](https://github.com/jamesryancooper/octon/issues/378)) ([ea56b65](https://github.com/jamesryancooper/octon/commit/ea56b6563f7f288dfbb68a7d687a2a0a28417637))
+
 ## [0.6.50](https://github.com/jamesryancooper/octon/compare/octon-v0.6.49...octon-v0.6.50) (2026-05-01)
 
 
