@@ -105,6 +105,37 @@ main() {
     fail "implementation prompt delegation boundary is missing"
   fi
 
+  if rg -n 'support/implementation-conformance-review\.md' "$PACK_ROOT/prompts/generate-implementation-prompt" >/dev/null \
+    && rg -n 'support/post-implementation-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-implementation-prompt" >/dev/null \
+    && rg -n 'validate-proposal-implementation-conformance\.sh --package <proposal_path>' "$PACK_ROOT/prompts/generate-implementation-prompt" >/dev/null \
+    && rg -n 'validate-proposal-post-implementation-drift\.sh --package <proposal_path>' "$PACK_ROOT/prompts/generate-implementation-prompt" >/dev/null \
+    && rg -n 'refuse implemented, closeout, or archive-ready claims' "$PACK_ROOT/prompts/generate-implementation-prompt" >/dev/null; then
+    pass "implementation prompt bundle requires post-implementation gate receipts"
+  else
+    fail "implementation prompt bundle is missing post-implementation gate receipt requirements"
+  fi
+
+  if rg -n 'support/implementation-conformance-review\.md' "$PACK_ROOT/prompts/generate-closeout-prompt" >/dev/null \
+    && rg -n 'support/post-implementation-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-closeout-prompt" >/dev/null \
+    && rg -n 'refuse implemented, closeout, or archive-ready claims' "$PACK_ROOT/prompts/generate-closeout-prompt" >/dev/null; then
+    pass "closeout prompt bundle requires post-implementation receipts"
+  else
+    fail "closeout prompt bundle is missing post-implementation receipt requirements"
+  fi
+
+  if rg -n 'route-required|selected implementation route uses a PR or branch lane' "$PACK_ROOT/prompts/generate-closeout-prompt" "$PACK_ROOT/prompts/closeout-proposal-packet" "$PACK_ROOT/commands/octon-proposal-packet-closeout.md" >/dev/null \
+    && ! rg -n 'final closeout is not complete until PR|the PR is unmerged' "$PACK_ROOT/prompts/generate-closeout-prompt" "$PACK_ROOT/prompts/closeout-proposal-packet" "$PACK_ROOT/commands/octon-proposal-packet-closeout.md" >/dev/null; then
+    pass "closeout wording keeps PR and branch gates route-conditional"
+  else
+    fail "closeout wording still makes PR or branch gates unconditional"
+  fi
+
+  if ! rg -n 'Fail-closed or pause states|blocked.*status|deferred.*status' "$PACK_ROOT/context" "$PACK_ROOT/prompts" >/dev/null; then
+    pass "blocked and deferred are not modeled as proposal statuses"
+  else
+    fail "blocked or deferred wording still reads as proposal status"
+  fi
+
   printf '\nPassed: %s\nFailed: %s\n' "$pass_count" "$fail_count"
   [[ "$fail_count" -eq 0 ]]
 }
