@@ -151,6 +151,14 @@ case_pr_open_missing_branch_pr_guard_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_branch_land_tip_only_cherry_pick_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/CHERRY_PICK_COMMITS="\$\(git -C "\$REPO_ROOT" rev-list --reverse "\$TARGET_PRE_REF\.\.\$SOURCE_REF"\)"\n    \[\[ -n "\$CHERRY_PICK_COMMITS" \]\] \|\| error "No source commits to cherry-pick from \$SOURCE_BRANCH onto \$TARGET_BRANCH\."\n    while IFS= read -r commit; do\n      \[\[ -n "\$commit" \]\] \|\| continue\n      run_cmd git -C "\$REPO_ROOT" cherry-pick "\$commit"\n    done <<<"\$CHERRY_PICK_COMMITS"/run_cmd git -C "\$REPO_ROOT" cherry-pick "\$SOURCE_BRANCH"/' \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh"
+  ! run_validator "$fixture_root"
+}
+
 case_closeout_change_allows_pr_without_route_fails() {
   local fixture_root
   fixture_root="$(create_fixture)"
@@ -165,6 +173,7 @@ main() {
   assert_success "workflow alignment validator fails when worktree guard loses branch-route scope" case_worktree_guard_missing_branch_routes_fails
   assert_success "workflow alignment validator fails on branch-land-no-pr route proliferation" case_no_pr_landing_route_proliferation_fails
   assert_success "workflow alignment validator fails when PR helper loses branch-pr guard" case_pr_open_missing_branch_pr_guard_fails
+  assert_success "workflow alignment validator fails when branch landing cherry-picks only branch tip" case_branch_land_tip_only_cherry_pick_fails
   assert_success "workflow alignment validator fails when closeout-change allows PR before routing" case_closeout_change_allows_pr_without_route_fails
 
   echo

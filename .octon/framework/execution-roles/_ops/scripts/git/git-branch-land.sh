@@ -109,7 +109,12 @@ case "$METHOD" in
     run_cmd git -C "$REPO_ROOT" commit -m "merge(${SOURCE_BRANCH}): land branch without PR"
     ;;
   cherry-pick)
-    run_cmd git -C "$REPO_ROOT" cherry-pick "$SOURCE_BRANCH"
+    CHERRY_PICK_COMMITS="$(git -C "$REPO_ROOT" rev-list --reverse "$TARGET_PRE_REF..$SOURCE_REF")"
+    [[ -n "$CHERRY_PICK_COMMITS" ]] || error "No source commits to cherry-pick from $SOURCE_BRANCH onto $TARGET_BRANCH."
+    while IFS= read -r commit; do
+      [[ -n "$commit" ]] || continue
+      run_cmd git -C "$REPO_ROOT" cherry-pick "$commit"
+    done <<<"$CHERRY_PICK_COMMITS"
     ;;
 esac
 
