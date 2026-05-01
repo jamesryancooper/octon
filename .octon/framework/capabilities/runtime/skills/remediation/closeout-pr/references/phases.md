@@ -45,7 +45,8 @@ description: Phase-by-phase execution for the closeout-pr skill.
 ## Phase 6: Remediate Review Feedback
 
 1. Address reviewer feedback with `fix + commit + push + reply`.
-2. Leave reviewer-owned thread resolution to the reviewer or maintainer.
+2. Leave reviewer-owned thread resolution to the reviewer or maintainer unless
+   the documented solo-maintainer exception applies.
 3. Continue polling until no unresolved conversations remain.
 
 ## Phase 7: Ready And Merge Gate

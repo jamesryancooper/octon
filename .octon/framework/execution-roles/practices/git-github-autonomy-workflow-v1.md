@@ -53,7 +53,8 @@ This workflow covers:
 6. Ready PRs that are already in the correct state report status instead of
    triggering another closeout question.
 7. GitHub rulesets, required checks, and reviewer-owned thread resolution
-   remain the final merge gate.
+   remain the final merge gate, with the documented solo-maintainer exception
+   available only for conversation cleanup.
 
 Shared invariants:
 
@@ -143,12 +144,14 @@ Suppress closeout prompting when:
 - an open PR has red required checks
 - unresolved author action items remain
 - a ready PR is waiting on reviewer or maintainer confirmation of
-  reviewer-owned threads
+  reviewer-owned threads, or on the documented solo-maintainer exception
+  evidence needed to resolve them
 
 Ready PR status responses:
 
 - already ready and waiting on required checks or GitHub auto-merge
-- already ready and waiting on reviewer or maintainer confirmation
+- already ready and waiting on reviewer or maintainer confirmation, or on
+  solo-maintainer exception evidence
 - already ready in the manual lane and waiting on human review or merge
 
 ### Helper semantics

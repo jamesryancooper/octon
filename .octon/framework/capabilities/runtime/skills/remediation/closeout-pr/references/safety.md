@@ -21,7 +21,11 @@ description: Safety policies and constraints for the closeout-pr skill.
 ## Review Safety
 
 - Unresolved conversations block merge
-- The author must not resolve reviewer-owned threads programmatically
+- The author must not resolve reviewer-owned threads programmatically unless
+  the documented solo-maintainer exception applies: repository owner or
+  maintainer actor, fix committed and pushed, evidence reply posted, required
+  checks green, and resolution recorded as conversation cleanup rather than
+  approval
 - The author path is `fix + commit + push + reply`
 
 ## Blocker Handling

@@ -94,6 +94,11 @@ check_contract() {
     "workflow contract missing final merge authority"
   require_yq_value \
     "$CONTRACT_FILE" \
+    '.operating_model.final_merge_authority.requirements[] | select(. == "reviewer_or_maintainer_confirmation_or_documented_solo_maintainer_exception")' \
+    "workflow contract binds solo-maintainer exception into final merge authority" \
+    "workflow contract final merge authority missing solo-maintainer exception binding"
+  require_yq_value \
+    "$CONTRACT_FILE" \
     '.closeout.ready_pr_status_contexts.branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge.message' \
     "workflow contract defines ready-pr check or auto-merge status" \
     "workflow contract missing ready-pr waiting-on-checks or auto-merge status"
@@ -117,6 +122,26 @@ check_contract() {
     '.autonomous_closeout_loop.owner_surface' \
     "workflow contract defines an owner surface for the autonomous closeout loop" \
     "workflow contract missing autonomous closeout loop owner surface"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.operating_model.reviewer_owned_thread_resolution.solo_maintainer_exception.status | select(. == "allowed")' \
+    "workflow contract defines solo-maintainer review-thread exception" \
+    "workflow contract missing solo-maintainer review-thread exception"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.operating_model.reviewer_owned_thread_resolution.solo_maintainer_exception.forbidden_uses[] | select(. == "substitute for required review approval")' \
+    "workflow contract forbids using solo-maintainer thread resolution as review approval" \
+    "workflow contract must forbid solo-maintainer thread resolution as review approval"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.remediation.forbidden_operations[] | select(. == "unauthorized programmatic review-thread resolution")' \
+    "workflow contract forbids unauthorized programmatic review-thread resolution" \
+    "workflow contract missing unauthorized programmatic review-thread resolution guard"
+  require_yq_value \
+    "$CONTRACT_FILE" \
+    '.autonomous_closeout_loop.conversation_policy.solo_maintainer_exception' \
+    "workflow contract binds solo-maintainer exception into closeout conversation policy" \
+    "workflow contract missing solo-maintainer closeout conversation policy"
   require_yq_value \
     "$CONTRACT_FILE" \
     '.validation.drift_classes[] | select(. == "git-pr-open widening initial PR creation beyond draft-first")' \
@@ -183,6 +208,11 @@ check_docs() {
     "fix + commit + push + reply" \
     "pull-request standards use fix + commit + push + reply remediation" \
     "pull-request standards missing fix + commit + push + reply remediation"
+  require_literal \
+    "$PR_DOC_FILE" \
+    "solo-maintainer exception" \
+    "pull-request standards document solo-maintainer thread resolution exception" \
+    "pull-request standards missing solo-maintainer thread resolution exception"
   require_absent_literal \
     "$PR_DOC_FILE" \
     "Rebase and force-push cleanup." \
@@ -270,6 +300,11 @@ check_helper_and_skill() {
     "closeout-pr skill missing fix + commit + push + reply remediation rule"
   require_literal \
     "$CLOSEOUT_SKILL_FILE" \
+    "solo-maintainer exception" \
+    "closeout-pr skill documents solo-maintainer thread resolution exception" \
+    "closeout-pr skill missing solo-maintainer thread resolution exception"
+  require_literal \
+    "$CLOSEOUT_SKILL_FILE" \
     "Continue until merged or until a precise external blocker is reached and reported" \
     "closeout-pr skill defines the merged-or-blocker stop condition" \
     "closeout-pr skill missing merged-or-blocker stop condition"
@@ -278,6 +313,11 @@ check_helper_and_skill() {
     "Push the updated branch before replying that the fix landed" \
     "resolve-pr-comments safety requires push before reply" \
     "resolve-pr-comments safety missing push-before-reply rule"
+  require_literal \
+    "$SAFETY_FILE" \
+    "solo-maintainer exception" \
+    "resolve-pr-comments safety documents solo-maintainer thread resolution exception" \
+    "resolve-pr-comments safety missing solo-maintainer thread resolution exception"
   require_absent_literal \
     "$SAFETY_FILE" \
     '`git push` access (user must push manually)' \
@@ -291,6 +331,11 @@ check_github_companions() {
     "fix, commit, push, reply" \
     "PR template reflects hardened remediation wording" \
     "PR template missing hardened remediation wording"
+  require_literal \
+    "$TEMPLATE_FILE" \
+    "solo-maintainer exception" \
+    "PR template references solo-maintainer thread resolution exception" \
+    "PR template missing solo-maintainer thread resolution exception"
   require_literal \
     "$PR_QUALITY_FILE" \
     "const templatePath = \".github/PULL_REQUEST_TEMPLATE.md\";" \

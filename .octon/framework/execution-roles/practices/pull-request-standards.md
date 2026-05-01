@@ -42,7 +42,8 @@ Default PR execution in Octon is draft-first and autonomy-first:
 Ready-for-review is a state criterion, not a helper-script side effect or a
 synonym for "probably done." Helper scripts may request ready or auto-merge
 transitions, but canonical mergeability still comes from required checks,
-policy, and reviewer or maintainer confirmation.
+policy, and reviewer or maintainer confirmation, including the documented
+solo-maintainer exception when its evidence requirements are met.
 Ordinary review remediation remains `fix + commit + push + reply`; history
 rewrite is not the default review path.
 
@@ -74,6 +75,12 @@ control provider and CI system.
 - Unresolved review conversations block merge.
 - Authors address reviewer-owned threads by pushing fixes and replying; the
   reviewer or a maintainer confirms and resolves those threads.
+- In solo-maintainer repositories, an author who is also repository owner or
+  maintainer may resolve reviewer-owned threads programmatically only after
+  fix, commit, push, reply, green required checks, and explicit maintainer
+  override evidence. This is conversation cleanup only and never substitutes
+  for required review approval, required checks, rulesets, or GitHub
+  mergeability.
 - AI review gate (provider-agnostic required control):
   `.github/workflows/ai-review-gate.yml` (required status check:
   `AI Review Gate / decision`; shadow mode with `AI_GATE_ENFORCE=false`,
@@ -155,7 +162,8 @@ one-line summary is acceptable.
 - When you disagree with feedback, explain your reasoning. Don't just
   re-request review without addressing the comment.
 - Review work is complete only when no unresolved author action items remain.
-- Do not resolve other people's comments. Let the reviewer or a maintainer
+- Do not resolve other people's comments unless acting under the documented
+  solo-maintainer exception. By default, let the reviewer or a maintainer
   confirm and resolve reviewer-owned threads when they are satisfied.
 - Re-request review once author-side action items are closed and another pass
   is needed.

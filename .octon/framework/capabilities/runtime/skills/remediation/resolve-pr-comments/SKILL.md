@@ -6,7 +6,7 @@ description: >
   a deterministic order, verifies each change, then completes the author
   remediation loop with commit, push, reply, and a structured completion
   report. Designed to close review ping-pong loops quickly without taking
-  reviewer-owned thread resolution away from reviewers.
+  default reviewer-owned thread resolution away from reviewers.
 license: MIT
 compatibility: Designed for Claude Code and similar AI coding assistants.
 metadata:
@@ -101,8 +101,9 @@ Outputs are written to:
 ## Boundaries
 
 - Never force-push, amend, or rebase during ordinary remediation
-- Never dismiss or resolve PR comments programmatically — let the reviewer or
-  a maintainer confirm
+- Never dismiss or resolve PR comments programmatically unless the documented
+  solo-maintainer exception applies; by default, let the reviewer or a
+  maintainer confirm
 - Apply fixes via new commits, then push before replying so reviewer comments
   point at real artifacts
 - Always leave a reply for each addressed review thread, or explain grouped

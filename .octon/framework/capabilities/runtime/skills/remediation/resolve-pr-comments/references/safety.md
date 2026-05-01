@@ -59,7 +59,8 @@ This skill explicitly does **NOT** have:
 
 ### Review Respect
 
-- Never programmatically resolve or dismiss review comments
+- Never programmatically resolve or dismiss review comments unless the
+  documented solo-maintainer exception applies
 - Never mark a review as approved
 - Let the reviewer verify that their concern was addressed
 - If a resolution is partial, say so explicitly

@@ -38,6 +38,8 @@ create_fixture() {
     "$fixture_root/.octon/framework/execution-roles/practices/standards" \
     "$fixture_root/.octon/framework/execution-roles/practices" \
     "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git" \
+    "$fixture_root/.octon/framework/assurance/governance/_ops/scripts" \
+    "$fixture_root/.octon/framework/capabilities/runtime/skills/remediation/closeout-pr" \
     "$fixture_root/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/instance/ingress" \
@@ -55,8 +57,14 @@ create_fixture() {
     "$fixture_root/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
   cp "$REPO_ROOT/.octon/framework/execution-roles/practices/pull-request-standards.md" \
     "$fixture_root/.octon/framework/execution-roles/practices/pull-request-standards.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh" \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh"
   cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh" \
     "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh" \
+    "$fixture_root/.octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh"
+  cp "$REPO_ROOT/.octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md" \
+    "$fixture_root/.octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
   cp "$REPO_ROOT/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md" \
     "$fixture_root/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md"
   cp "$REPO_ROOT/.octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/references/safety.md" \
@@ -87,11 +95,11 @@ case_live_repo_passes() {
   bash "$VALIDATOR" >/dev/null
 }
 
-case_manifest_missing_ready_status_fails() {
+case_contract_missing_ready_status_fails() {
   local fixture_root
   fixture_root="$(create_fixture)"
   perl -0pi -e 's/branch_worktree_ready_pr_waiting_on_required_checks_or_auto_merge:/missing_ready_context:/g' \
-    "$fixture_root/.octon/instance/ingress/manifest.yml"
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   ! run_validator "$fixture_root"
 }
 
@@ -111,11 +119,20 @@ case_helper_missing_explicit_flags_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_solo_maintainer_exception_missing_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/solo_maintainer_exception:/missing_solo_maintainer_exception:/g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "workflow alignment validator passes on live repo" case_live_repo_passes
-  assert_success "workflow alignment validator fails when manifest loses ready-pr status handling" case_manifest_missing_ready_status_fails
+  assert_success "workflow alignment validator fails when contract loses ready-pr status handling" case_contract_missing_ready_status_fails
   assert_success "workflow alignment validator fails on stale remediation wording" case_stale_remediation_wording_fails
   assert_success "workflow alignment validator fails when helper loses explicit request flags" case_helper_missing_explicit_flags_fails
+  assert_success "workflow alignment validator fails when solo-maintainer exception is missing" case_solo_maintainer_exception_missing_fails
 
   echo
   echo "Passed: $pass_count"

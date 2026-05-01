@@ -90,7 +90,9 @@ state to the correct next Git/PR action. Depending on state, closeout may mean:
 transition. It reports status by default and uses explicit request flags for
 ready or auto-merge transitions. It does not prove readiness. GitHub required
 checks, review policy, and reviewer or maintainer confirmation remain the
-final merge gate.
+final merge gate. In solo-maintainer repositories, reviewer-thread cleanup may
+use the documented solo-maintainer exception after fix, commit, push, reply,
+green required checks, and maintainer override evidence.
 
 ---
 
@@ -258,7 +260,8 @@ file-changing turn.
 - an open PR has red required checks
 - unresolved author action items remain
 - a ready PR is waiting on reviewer or maintainer confirmation of
-  reviewer-owned threads
+  reviewer-owned threads, or on the documented solo-maintainer exception
+  evidence needed to resolve them
 
 ### Standard prompt set
 
@@ -284,7 +287,8 @@ If the PR is already ready, report status instead of asking another closeout
 question:
 
 - already ready and waiting on required checks or GitHub auto-merge
-- already ready and waiting on reviewer or maintainer confirmation
+- already ready and waiting on reviewer or maintainer confirmation, or on
+  solo-maintainer exception evidence
 - already ready in the manual lane and waiting on human review or merge
 
 ---
@@ -442,7 +446,8 @@ Manual-lane flow:
    ready-state transition. It does not substitute for human review or prove
    readiness.
 4. Address review with new commits and replies, leaving reviewer-owned threads
-   for reviewer or maintainer confirmation.
+   for reviewer or maintainer confirmation unless the documented
+   solo-maintainer exception applies.
 5. After merge or closure, converge `main`, allow cleanup to prune safe linked
    worktrees, and complete any printed manual follow-up step if needed.
 

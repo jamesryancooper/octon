@@ -27,8 +27,28 @@ operating_model:
     requirements:
       - "rulesets"
       - "required_checks"
-      - "reviewer_or_maintainer_confirmation"
-  reviewer_owned_thread_resolution: "reviewer-or-maintainer"
+      - "reviewer_or_maintainer_confirmation_or_documented_solo_maintainer_exception"
+  reviewer_owned_thread_resolution:
+    default: "reviewer-or-maintainer"
+    solo_maintainer_exception:
+      status: "allowed"
+      actor_requirement: "author is also repository owner or maintainer"
+      scope: "review-thread resolution only"
+      required_sequence:
+        - "fix"
+        - "commit"
+        - "push"
+        - "reply"
+        - "required_checks_green"
+        - "maintainer_override_evidence"
+      eligible_threads:
+        - "automated reviewer thread directly remediated by pushed diff"
+        - "outdated reviewer thread addressed by pushed diff"
+        - "human reviewer thread only with explicit maintainer override"
+      forbidden_uses:
+        - "substitute for required review approval"
+        - "resolve unresolved human objection without explicit maintainer override"
+        - "bypass required checks, rulesets, or GitHub mergeability"
 closeout:
   trigger_terms:
     - "finish"
@@ -48,7 +68,8 @@ closeout:
     branch_worktree_ready_pr_waiting_on_reviewer_or_maintainer_confirmation:
       message: >-
         This PR is already ready and is waiting on reviewer or maintainer
-        confirmation. No new closeout action is needed.
+        confirmation, or on documented solo-maintainer exception evidence. No
+        new closeout action is needed.
     branch_worktree_ready_pr_manual_lane_waiting_on_human_review_or_merge:
       message: >-
         This PR is already ready in the manual lane and is waiting on human
@@ -59,6 +80,7 @@ closeout:
     - "blocked_by_red_required_checks"
     - "blocked_by_unaddressed_author_action_items"
     - "blocked_waiting_on_reviewer_confirmation"
+    - "blocked_waiting_on_solo_maintainer_exception_evidence"
 remediation:
   author_sequence:
     - "fix"
@@ -76,7 +98,7 @@ remediation:
     - "git rebase"
     - "git push --force"
     - "git push --force-with-lease"
-    - "programmatic review-thread resolution"
+    - "unauthorized programmatic review-thread resolution"
     - "merge main into branch as remediation shortcut"
 helpers:
   git_pr_open:
@@ -91,7 +113,8 @@ helpers:
     request_only: true
     final_merge_gate: >-
       GitHub required checks, review policy, and reviewer or maintainer
-      confirmation remain the final merge gate.
+      confirmation remain the final merge gate, with documented
+      solo-maintainer exception evidence allowed only for conversation cleanup.
 validation:
   drift_classes:
     - "ready_pr declared without explicit handling"
@@ -143,7 +166,13 @@ autonomous_closeout_loop:
       - "commit"
       - "push"
       - "reply"
-    reviewer_owned_thread_resolution: "never programmatic by author"
+    reviewer_owned_thread_resolution: "reviewer-or-maintainer by default"
+    solo_maintainer_exception: >-
+      Author-side programmatic resolution is allowed only when the author is
+      also repository owner or maintainer, the thread has been remediated by a
+      pushed diff, the author replied with evidence, required checks are green,
+      and the action is recorded as conversation cleanup rather than review
+      approval.
   ready_gate:
     required_checks_green: true
     unresolved_conversations_cleared: true

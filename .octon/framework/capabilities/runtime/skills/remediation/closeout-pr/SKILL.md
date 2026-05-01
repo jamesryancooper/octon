@@ -88,7 +88,11 @@ Outputs are written to:
 - Include only the files that belong to the intended task scope
 - Never force-push, amend, or rebase during ordinary remediation
 - Never treat helper output as proof of readiness or mergeability
-- Never resolve reviewer-owned threads programmatically as the author
+- Never resolve reviewer-owned threads programmatically as the author unless
+  the documented solo-maintainer exception applies: the actor is repository
+  owner or maintainer, the fix has been committed and pushed, the thread has
+  an evidence reply, required checks are green, and the resolution is recorded
+  as conversation cleanup rather than approval
 - GitHub required checks, branch policy, and unresolved conversations remain
   the final merge gate
 - Continue until merged or until a precise external blocker is reached and reported

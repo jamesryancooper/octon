@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: publish-1777632076001-91565
+checkpoint_id: bound
+stage_attempt_id: initial
+checkpoint_kind: binding
+status: materialized
+control_ref: .octon/state/control/execution/runs/publish-1777632076001-91565/checkpoints/bound.yml
+evidence_ref: .octon/state/evidence/runs/publish-1777632076001-91565/checkpoints/bound.yml
+notes: Canonical run root bound before consequential side effects.
+created_at: 2026-05-01T10:41:16.001706Z
+updated_at: 2026-05-01T10:41:16.001706Z
