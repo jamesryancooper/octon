@@ -1,14 +1,14 @@
 # Change Closeout
 
 change_id: octon-change-first-work-unit-policy
-selected_route: branch-no-pr
+selected_route: branch-pr
 lifecycle_outcome: cleaned
 integration_status: landed
-publication_status: none
+publication_status: pr-merged
 cleanup_status: completed
 closeout_outcome: completed
 created_at: 2026-05-01T14:58:27Z
-updated_at: 2026-05-01T19:50:19Z
+updated_at: 2026-05-01T20:51:03Z
 
 ## Route Selection
 
@@ -16,21 +16,23 @@ updated_at: 2026-05-01T19:50:19Z
 `chore/change-first-default-work-unit-policy` with a broad implementation
 change set.
 
-`branch-pr` is not selected because there is no existing PR context and the
-operator did not request hosted review, remote checks, external signoff,
-preview publication, or PR-backed release behavior.
+`branch-pr` is selected for final hosted landing because repository protection
+rejected direct publication to `main` and required PR-backed integration.
 
-`branch-no-pr` is selected because the Change already has branch isolation,
-local validation evidence, a no-PR rationale, and no PR-required predicate.
-Its lifecycle outcome is `cleaned`: the branch was fast-forward landed on
-`main`, the local branch was deleted after merge, and no remote branch existed.
+The initial `branch-no-pr` landing was valid as local branch evidence but was
+not publishable to protected remote `main`. Final closeout therefore uses
+`branch-pr` with lifecycle outcome `cleaned`: the branch was pushed, PR #382
+was reviewed and merged, the remote source branch was deleted, and the local
+source branch was removed after verifying the squash merge tree.
 
 ## Evidence
 
 - Branch: `chore/change-first-default-work-unit-policy`
 - Base HEAD: `1336f1467`
 - Landed main ref:
-  `8949cf3e1d89a6b156614ce25a8b457d73ac9d77`
+  `2058198e7b1c362f34219d9b4bea2eb9d358b086`
+- PR:
+  `https://github.com/jamesryancooper/octon/pull/382`
 - Pre-landing main ref:
   `1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3`
 - Change receipt:
@@ -55,51 +57,56 @@ Additional closeout validation:
 - `alignment-check.sh --profile default-work-unit`: `errors=0`
 - `test-change-closeout-lifecycle-alignment.sh`: `10` passed, `0` failed
 - `test-default-work-unit-alignment.sh`: `6` passed, `0` failed
-- `test-git-github-workflow-alignment.sh`: `6` passed, `0` failed
+- `test-git-github-workflow-alignment.sh`: `7` passed, `0` failed
 - `test-pack-shape.sh`: `142` passed, `0` failed
 - `git diff --cached --check`: pass before the implementation commit
 - `git diff --check`: pass before landing
+- PR #382 hosted checks: all required and visible checks passed
+- PR #382 review thread: fixed, pushed, and resolved
 
-## No-PR Rationale
+## Route Correction
 
-The new policy makes PRs optional outputs. This closeout did not require a PR
-because the Change was locally validated, there was no existing PR context, and
-the operator explicitly asked to finish and land the Change without requiring
-PR-backed publication.
+The new policy makes PRs optional outputs, not forbidden outputs. This Change
+attempted local no-PR landing first, but GitHub branch protection rejected
+direct push to `main` with GH013. Under the policy predicate that repository
+protection can require PR-backed landing, the final closeout route is
+`branch-pr`.
 
 ## Durable History
 
-Durable history is the landed main commit plus the closeout evidence bundle:
+Durable history is PR #382, the landed squash merge commit, and the closeout
+evidence bundle:
 
-- `8949cf3e1d89a6b156614ce25a8b457d73ac9d77`
+- `https://github.com/jamesryancooper/octon/pull/382`
+- `2058198e7b1c362f34219d9b4bea2eb9d358b086`
 
 - `.octon/state/evidence/runs/skills/closeout-change/2026-05-01-octon-change-first-work-unit-policy.md`
 - `.octon/state/evidence/validation/analysis/2026-05-01-change-closeout-octon-change-first-work-unit-policy.md`
 - `.octon/state/evidence/validation/analysis/2026-05-01-change-receipt-octon-change-first-work-unit-policy.json`
 
-No PR was opened and no feature branch was pushed. `main` was fast-forwarded
-from `1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3` to
-`8949cf3e1d89a6b156614ce25a8b457d73ac9d77`.
+The source branch was pushed for PR #382 and squash-merged into protected
+`main` from `1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3` to
+`2058198e7b1c362f34219d9b4bea2eb9d358b086`.
 
 ## Lifecycle Outcome
 
-This closeout records `cleaned` under the broad `branch-no-pr` route. The
-intended implementation scope is landed on `main`, no PR metadata exists, the
-local source branch was deleted after merge, and no remote source branch was
-found.
+This closeout records `cleaned` under the `branch-pr` route. The intended
+implementation scope is landed on `main`, PR metadata exists and points to the
+hosted merge, the local source branch was deleted after merge, and no remote
+source branch remains.
 
 ## Rollback
 
-Rollback is manual and main-scoped: revert the landed commit range
-`1336f14674a80fca0c58ab02bb3a01c4bbfcf0a3..8949cf3e1d89a6b156614ce25a8b457d73ac9d77`
-on `main`. Do not reset published main without explicit operator approval.
+Rollback is main-scoped: revert the landed squash merge commit
+`2058198e7b1c362f34219d9b4bea2eb9d358b086` on `main`. Do not reset published
+main without explicit operator approval.
 
 ## Residual Notes
 
-Cleanup completed for the local source branch:
-`git-branch-cleanup.sh --branch chore/change-first-default-work-unit-policy --base main --confirm`.
-No remote branch was found by `git ls-remote --heads origin
-chore/change-first-default-work-unit-policy`.
+Cleanup completed for the source branch. The remote source branch was absent
+after PR merge, and the local branch
+`chore/change-first-default-work-unit-policy` was deleted after confirming the
+branch tree matched `origin/main`.
 
 The publication wrapper run-journal closeout defect observed during
 implementation remains outside this Change closeout verdict. Generated outputs
