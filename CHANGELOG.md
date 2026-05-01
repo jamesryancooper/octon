@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.50](https://github.com/jamesryancooper/octon/compare/octon-v0.6.49...octon-v0.6.50) (2026-05-01)
+
+
+### Features
+
+* **proposals:** add proposal packet lifecycle extension ([#376](https://github.com/jamesryancooper/octon/issues/376)) ([a063f22](https://github.com/jamesryancooper/octon/commit/a063f224ba577c8851cd107e4056e98afbae2c04))
+
 ## [0.6.49](https://github.com/jamesryancooper/octon/compare/octon-v0.6.48...octon-v0.6.49) (2026-04-29)
 
 
