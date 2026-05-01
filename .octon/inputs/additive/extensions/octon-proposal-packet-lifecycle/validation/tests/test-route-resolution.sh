@@ -134,6 +134,9 @@ main() {
   json="$(resolve_route_success '{"source_kind":"audit"}')"
   assert_json "source-driven default creates packet" "$json" '.status == "resolved" and .selected_route_id == "create-proposal-packet"'
 
+  json="$(resolve_route_success '{"source_kind":"audit","packet_path":".octon/inputs/exploratory/proposals/architecture/example"}')"
+  assert_json "source-driven packet path still creates packet" "$json" '.status == "resolved" and .selected_route_id == "create-proposal-packet"'
+
   json="$(resolve_route_success '{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}')"
   assert_json "packet-path-only default explains packet" "$json" '.status == "resolved" and .selected_route_id == "explain-proposal-packet" and (.reason_codes | index("packet-path-read-only-default")) != null'
 
@@ -145,6 +148,7 @@ main() {
 
   assert_route_failure "unsupported bundle denies" '{"bundle":"not-a-route"}' "unsupported-route-id" "unsupported-route-id"
   assert_route_failure "missing inputs escalate" '{}' "missing-routeable-inputs" "missing-routeable-inputs"
+  assert_route_failure "finding-only inputs escalate" '{"finding_id":"FINDING-001"}' "missing-routeable-inputs" "missing-routeable-inputs"
   assert_route_failure "missing packet path escalates" '{"lifecycle_action":"closeout-proposal-packet"}' "missing-required-inputs" "missing-packet-path"
   assert_route_failure "missing correction finding escalates" '{"lifecycle_action":"generate-correction-prompt","packet_path":".octon/inputs/exploratory/proposals/architecture/example"}' "missing-required-inputs" "missing-finding-id"
   assert_route_failure "missing program path escalates" '{"lifecycle_action":"closeout-proposal-program"}' "missing-required-inputs" "missing-program-packet-path"

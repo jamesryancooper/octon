@@ -419,8 +419,6 @@ dispatchers:
             all_of:
               - input_name: "source_kind"
                 predicate: "present"
-              - input_name: "packet_path"
-                predicate: "absent"
       - route_id: "explain-proposal-packet"
         status: "resolved"
         execution_binding_id: "explain-proposal-packet"
@@ -447,6 +445,8 @@ dispatchers:
               - input_name: "lifecycle_action"
                 predicate: "absent"
               - input_name: "program_packet_path"
+                predicate: "absent"
+              - input_name: "source_kind"
                 predicate: "absent"
               - input_name: "verification_finding_id"
                 predicate: "absent"
@@ -710,8 +710,6 @@ dispatchers:
               - input_name: "program_packet_path"
                 predicate: "absent"
               - input_name: "child_packet_paths"
-                predicate: "absent"
-              - input_name: "finding_id"
                 predicate: "absent"
     execution_bindings:
       - binding_id: "create-proposal-packet"

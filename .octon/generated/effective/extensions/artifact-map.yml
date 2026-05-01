@@ -1,7 +1,7 @@
 schema_version: "octon-extension-artifact-map-v4"
 generator_version: "extension-publication-v5"
 generation_id: "extensions-c2d4f2cbf257"
-published_at: "2026-05-01T03:34:31Z"
+published_at: "2026-05-01T04:15:13Z"
 artifacts:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
@@ -2102,7 +2102,7 @@ artifacts:
     bucket: "context"
     relative_path: "context/routing.contract.yml"
     source_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/routing.contract.yml"
-    sha256: "3609f144f2438ec81541ffcbdac0bf5b3f70a88780c272fcd50f38180a7b38fa"
+    sha256: "6f2187cfef26f97d4eed3023b8997595ca788615c96fe7d5ad4a55ba637aa26a"
   - pack_id: "octon-proposal-packet-lifecycle"
     source_id: "bundled-first-party"
     bucket: "context"
@@ -2846,4 +2846,4 @@ artifacts:
     bucket: "validation"
     relative_path: "validation/tests/test-route-resolution.sh"
     source_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/validation/tests/test-route-resolution.sh"
-    sha256: "b89c787961b2f6a39989bd5b446275d33ba3096fd9c4f38f570e5c65387b240b"
+    sha256: "d9178e4a38cc6567cec755fadd7750f7155fe629235441c472b5cb6f1b8adf1c"
