@@ -8,6 +8,12 @@ steps:
   - id: "proposal-audit"
     file: "stages/02-proposal-audit.md"
     description: "proposal-audit"
+  - id: "implementation-simulation"
+    file: "stages/07-implementation-simulation.md"
+    description: "implementation-simulation"
+  - id: "specification-closure"
+    file: "stages/08-specification-closure.md"
+    description: "specification-closure"
   - id: "report"
     file: "stages/11-report.md"
     description: "report"
@@ -58,14 +64,19 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 1. [configure](./stages/01-configure.md)
 2. [proposal-audit](./stages/02-proposal-audit.md)
-3. [report](./stages/11-report.md)
-4. [verify](./stages/12-verify.md)
+3. [implementation-simulation](./stages/07-implementation-simulation.md)
+4. [specification-closure](./stages/08-specification-closure.md)
+5. [report](./stages/11-report.md)
+6. [verify](./stages/12-verify.md)
 
 ## Verification Gate
 
 - [ ] `summary.md`, `commands.md`, `inventory.md`, `bundle.yml`, and `validation.md` exist
 - [ ] `stage-inputs/` and `stage-logs/` exist for the workflow bundle
 - [ ] validate-proposal-standard.sh and validate-architecture-proposal.sh pass for the target proposal
+- [ ] implementation simulation and specification closure reports exist
+- [ ] support/implementation-grade-completeness-review.md exists in the packet
+- [ ] validate-proposal-implementation-readiness.sh records a structural-only, blocked, or implementation-grade gate outcome
 - [ ] Final validation verdict is explicit
 
 ## References

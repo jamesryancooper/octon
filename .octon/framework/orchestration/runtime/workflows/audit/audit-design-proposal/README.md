@@ -120,6 +120,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] Top-level summary exists at `.octon/state/evidence/validation/analysis/YYYY-MM-DD-audit-design-proposal.md`
 - [ ] If the target proposal contains `proposal.yml`, `validate-proposal-standard.sh --package <target>` passes
 - [ ] If the target proposal contains `design-proposal.yml`, `validate-design-proposal.sh --package <target>` passes
+- [ ] support/implementation-grade-completeness-review.md exists in the packet
+- [ ] validate-proposal-implementation-readiness.sh records a structural-only, blocked, or implementation-grade gate outcome
 - [ ] Final readiness verdict is explicit
 
 ## References

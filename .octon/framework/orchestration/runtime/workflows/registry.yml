@@ -1334,6 +1334,26 @@ workflows:
         description: "Comma-separated pack ids. Required only for pack_bundle."
     access: human
     depends_on: []
+  closeout:
+    version: "2.0.0"
+    execution_profile: core
+    commands: ["/closeout"]
+    parameters: []
+    access: human
+    depends_on:
+      - skill: closeout-change
+        condition: "active in skill manifest"
+      - skill: closeout-pr
+        condition: "active in skill manifest when selected route is branch-pr"
+    io:
+      inputs: []
+      outputs:
+        - name: closeout_workflow_summary
+          path: "/.octon/state/evidence/validation/analysis/{{date}}-change-closeout-workflow.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Change closeout context resolution summary."
   update-harness:
     version: "1.3.0"
     commands: ["/update-harness"]

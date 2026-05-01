@@ -79,6 +79,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] `reports/`, `stage-inputs/`, and `stage-logs/` exist
 - [ ] standard-validator.log exists
 - [ ] validate-proposal-standard.sh and validate-policy-proposal.sh pass for the scaffolded proposal
+- [ ] validate-proposal-implementation-readiness.sh ran and recorded a structural-only or implementation-grade gate outcome
 - [ ] top-level summary exists
 - [ ] final verdict is explicit
 
