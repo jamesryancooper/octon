@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-9960a0ecbe78
-published_at: 2026-04-29T14:22:07Z
+generation_id: capabilities-a11a22473186
+published_at: 2026-05-01T00:03:04Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-04-29T14-22-07Z-capabilities-9960a0ecbe78.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-01T00-03-04Z-capabilities-a11a22473186.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -34,14 +34,14 @@ source:
   locality_generation_lock_sha256: e62418eb25400dfc808bc292b62f8e482221188ad17beac81b08e2d913fdc472
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 53829b311248b63177979b30ffe51a457b9c5c2bf233be2f45a086fd194c4418
+  extensions_catalog_sha256: 1779e1beb838b4383cb4777621d889ea0111369961c2fed456e052dc7a9d42f7
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 9e54931d28bd7b807f0cad305aa21987e2f0f96c19aa0e08ae2493d09299060d
-  extensions_generation_id: extensions-090beb843d30
+  extensions_generation_lock_sha256: d2dae2c9bfa68b205e1731988ae47cb86d2cda6c1198cc2d7b8df9c71cdee07a
+  extensions_generation_id: extensions-c2d4f2cbf257
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
   locality_generation_id: locality-e08a88ec3dda
-  extension_generation_id: extensions-090beb843d30
+  extension_generation_id: extensions-c2d4f2cbf257
   host_projection_mode: materialized-copy-v1
   locality_publication_status: published
   extension_publication_status: published
@@ -3919,6 +3919,502 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
     projection_name: octon-impact-map-and-validation-selector-touched-paths
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet
+    display_name: Octon Proposal Packet
+    summary: Resolve the appropriate proposal packet route and dispatch to the matching leaf bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet
+    projection_name: octon-proposal-packet
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-closeout
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-closeout
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-closeout
+    display_name: Proposal Packet Closeout
+    summary: Execute gated closeout for one proposal packet.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-closeout
+    projection_name: octon-proposal-packet-closeout
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-closeout-program
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-closeout-program
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-closeout-program
+    display_name: Proposal Packet Closeout Program
+    summary: Execute gated closeout for a proposal program.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-closeout-program
+    projection_name: octon-proposal-packet-closeout-program
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-create
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-create
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-create
+    display_name: Proposal Packet Create
+    summary: Create a manifest-governed proposal packet from source context.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-create
+    projection_name: octon-proposal-packet-create
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-create-program
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-create-program
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-create-program
+    display_name: Proposal Packet Create Program
+    summary: Create a parent proposal program coordinating canonical child packets.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-create-program
+    projection_name: octon-proposal-packet-create-program
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-explain
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-explain
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-explain
+    display_name: Proposal Packet Explain
+    summary: Explain a proposal packet without widening its scope or authority.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-explain
+    projection_name: octon-proposal-packet-explain
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-closeout-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-closeout-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-closeout-prompt
+    display_name: Proposal Packet Generate Closeout Prompt
+    summary: Generate a packet-specific closeout prompt.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-closeout-prompt
+    projection_name: octon-proposal-packet-generate-closeout-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-correction-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-correction-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-correction-prompt
+    display_name: Proposal Packet Generate Correction Prompt
+    summary: Generate a targeted correction prompt from one unresolved finding.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-correction-prompt
+    projection_name: octon-proposal-packet-generate-correction-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-implementation-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-implementation-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-implementation-prompt
+    display_name: Proposal Packet Generate Implementation Prompt
+    summary: Generate a packet-specific executable implementation prompt.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-implementation-prompt
+    projection_name: octon-proposal-packet-generate-implementation-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-closeout-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-program-closeout-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-program-closeout-prompt
+    display_name: Proposal Packet Generate Program Closeout Prompt
+    summary: Generate closeout prompt for a coherent proposal program.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-closeout-prompt
+    projection_name: octon-proposal-packet-generate-program-closeout-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-correction-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-program-correction-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-program-correction-prompt
+    display_name: Proposal Packet Generate Program Correction Prompt
+    summary: Generate targeted correction prompt for a program-level or child finding.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-correction-prompt
+    projection_name: octon-proposal-packet-generate-program-correction-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-implementation-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-program-implementation-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-program-implementation-prompt
+    display_name: Proposal Packet Generate Program Implementation Prompt
+    summary: Generate aggregate implementation prompt for a proposal program.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-implementation-prompt
+    projection_name: octon-proposal-packet-generate-program-implementation-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-verification-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-program-verification-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-program-verification-prompt
+    display_name: Proposal Packet Generate Program Verification Prompt
+    summary: Generate aggregate verification prompt for a proposal program.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-verification-prompt
+    projection_name: octon-proposal-packet-generate-program-verification-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-verification-prompt
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-generate-verification-prompt
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-generate-verification-prompt
+    display_name: Proposal Packet Generate Verification Prompt
+    summary: Generate a packet-specific follow-up verification prompt.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-verification-prompt
+    projection_name: octon-proposal-packet-generate-verification-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-program-verification-and-correction-loop
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-run-program-verification-and-correction-loop
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-run-program-verification-and-correction-loop
+    display_name: Proposal Packet Run Program Verification And Correction Loop
+    summary: Run program verification and correction to a declared terminal state.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-program-verification-and-correction-loop
+    projection_name: octon-proposal-packet-run-program-verification-and-correction-loop
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-verification-and-correction-loop
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-run-verification-and-correction-loop
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-run-verification-and-correction-loop
+    display_name: Proposal Packet Run Verification And Correction Loop
+    summary: Run packet verification and correction to a declared terminal state.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-verification-and-correction-loop
+    projection_name: octon-proposal-packet-run-verification-and-correction-loop
   - effective_id: extension.skill.octon-concept-integration.octon-concept-integration
     artifact_map_id: extension-skill-octon-concept-integration-octon-concept-integration
     origin_class: extension
@@ -4601,6 +5097,502 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
     projection_name: octon-impact-map-and-validation-selector-touched-paths
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle
+    display_name: Octon Proposal Packet Lifecycle
+    summary: Resolve the appropriate proposal packet lifecycle route and dispatch to the matching leaf bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle
+    projection_name: octon-proposal-packet-lifecycle
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-closeout
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-closeout
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-closeout
+    display_name: Proposal Packet Lifecycle Closeout
+    summary: Run the closeout-proposal-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-closeout
+    projection_name: octon-proposal-packet-lifecycle-closeout
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-closeout-program
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-closeout-program
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-closeout-program
+    display_name: Proposal Packet Lifecycle Closeout Program
+    summary: Run the closeout-proposal-program bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-closeout-program
+    projection_name: octon-proposal-packet-lifecycle-closeout-program
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-create
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-create
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-create
+    display_name: Proposal Packet Lifecycle Create
+    summary: Run the create-proposal-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-create
+    projection_name: octon-proposal-packet-lifecycle-create
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-create-program
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-create-program
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-create-program
+    display_name: Proposal Packet Lifecycle Create Program
+    summary: Run the create-proposal-program bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-create-program
+    projection_name: octon-proposal-packet-lifecycle-create-program
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-explain
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-explain
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-explain
+    display_name: Proposal Packet Lifecycle Explain
+    summary: Run the explain-proposal-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-explain
+    projection_name: octon-proposal-packet-lifecycle-explain
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-closeout-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-closeout-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-closeout-prompt
+    display_name: Proposal Packet Lifecycle Generate Closeout Prompt
+    summary: Run the generate-closeout-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-closeout-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-closeout-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-correction-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-correction-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-correction-prompt
+    display_name: Proposal Packet Lifecycle Generate Correction Prompt
+    summary: Run the generate-correction-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-correction-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-correction-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-implementation-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-implementation-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-implementation-prompt
+    display_name: Proposal Packet Lifecycle Generate Implementation Prompt
+    summary: Run the generate-implementation-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-implementation-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-implementation-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Closeout Prompt
+    summary: Run the generate-program-closeout-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-correction-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-correction-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-program-correction-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Correction Prompt
+    summary: Run the generate-program-correction-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-correction-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-program-correction-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Implementation Prompt
+    summary: Run the generate-program-implementation-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-verification-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-verification-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-program-verification-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Verification Prompt
+    summary: Run the generate-program-verification-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-verification-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-program-verification-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-verification-prompt
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-verification-prompt
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-generate-verification-prompt
+    display_name: Proposal Packet Lifecycle Generate Verification Prompt
+    summary: Run the generate-verification-prompt bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-verification-prompt
+    projection_name: octon-proposal-packet-lifecycle-generate-verification-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+    display_name: Proposal Packet Lifecycle Run Program Verification And Correction Loop
+    summary: Run the program verification-and-correction convergence bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+    projection_name: octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-verification-and-correction-loop
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-verification-and-correction-loop
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-run-verification-and-correction-loop
+    display_name: Proposal Packet Lifecycle Run Verification And Correction Loop
+    summary: Run the verification-and-correction convergence bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-verification-and-correction-loop
+    projection_name: octon-proposal-packet-lifecycle-run-verification-and-correction-loop
 resolution_order:
   - instance.command.repo-hygiene
   - framework.command.alignment-check
@@ -4733,6 +5725,22 @@ resolution_order:
   - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
   - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
   - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-closeout
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-closeout-program
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-create
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-create-program
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-explain
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-closeout-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-correction-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-implementation-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-closeout-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-correction-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-implementation-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-verification-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-verification-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-program-verification-and-correction-loop
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-verification-and-correction-loop
   - extension.skill.octon-concept-integration.octon-concept-integration
   - extension.skill.octon-concept-integration.octon-concept-integration-architecture-revision-packet
   - extension.skill.octon-concept-integration.octon-concept-integration-constitutional-challenge-packet
@@ -4755,3 +5763,19 @@ resolution_order:
   - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-proposal-packet
   - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
   - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-closeout
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-closeout-program
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-create
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-create-program
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-explain
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-closeout-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-correction-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-implementation-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-correction-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-verification-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-verification-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-verification-and-correction-loop

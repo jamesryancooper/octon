@@ -1,0 +1,481 @@
+schema_version: "octon-extension-routing-contract-v1"
+dispatchers:
+  - dispatcher_id: "octon-proposal-packet-lifecycle"
+    default_route_id: "create-proposal-packet"
+    accepted_inputs:
+      - "bundle"
+      - "source_kind"
+      - "proposal_kind"
+      - "lifecycle_action"
+      - "packet_path"
+      - "proposal_id"
+      - "current_lifecycle_state"
+      - "verification_finding_id"
+      - "program_packet_path"
+      - "child_packet_paths"
+      - "execution_mode"
+      - "closeout_scope"
+      - "user_constraints"
+      - "dry_run_route"
+    disambiguators:
+      - input_name: "bundle"
+        kind: "route-id"
+        allowed_values:
+          - "create-proposal-packet"
+          - "explain-proposal-packet"
+          - "generate-implementation-prompt"
+          - "generate-verification-prompt"
+          - "generate-correction-prompt"
+          - "run-verification-and-correction-loop"
+          - "generate-closeout-prompt"
+          - "closeout-proposal-packet"
+          - "create-proposal-program"
+          - "generate-program-implementation-prompt"
+          - "generate-program-verification-prompt"
+          - "generate-program-correction-prompt"
+          - "run-program-verification-and-correction-loop"
+          - "generate-program-closeout-prompt"
+          - "closeout-proposal-program"
+      - input_name: "lifecycle_action"
+        kind: "enum"
+        allowed_values:
+          - "create-proposal-packet"
+          - "explain-proposal-packet"
+          - "generate-implementation-prompt"
+          - "generate-verification-prompt"
+          - "generate-correction-prompt"
+          - "run-verification-and-correction-loop"
+          - "generate-closeout-prompt"
+          - "closeout-proposal-packet"
+          - "create-proposal-program"
+          - "generate-program-implementation-prompt"
+          - "generate-program-verification-prompt"
+          - "generate-program-correction-prompt"
+          - "run-program-verification-and-correction-loop"
+          - "generate-program-closeout-prompt"
+          - "closeout-proposal-program"
+      - input_name: "proposal_kind"
+        kind: "enum"
+        allowed_values:
+          - "architecture"
+          - "policy"
+          - "migration"
+          - "design"
+      - input_name: "execution_mode"
+        kind: "enum"
+        allowed_values:
+          - "sequential"
+          - "parallel-independent"
+          - "gated-parallel"
+          - "program-atomic"
+          - "manual-gated"
+    precedence:
+      - "explicit-bundle-create-proposal-packet"
+      - "explicit-bundle-explain-proposal-packet"
+      - "explicit-bundle-generate-implementation-prompt"
+      - "explicit-bundle-generate-verification-prompt"
+      - "explicit-bundle-generate-correction-prompt"
+      - "explicit-bundle-run-verification-and-correction-loop"
+      - "explicit-bundle-generate-closeout-prompt"
+      - "explicit-bundle-closeout-proposal-packet"
+      - "explicit-bundle-create-proposal-program"
+      - "explicit-bundle-generate-program-implementation-prompt"
+      - "explicit-bundle-generate-program-verification-prompt"
+      - "explicit-bundle-generate-program-correction-prompt"
+      - "explicit-bundle-run-program-verification-and-correction-loop"
+      - "explicit-bundle-generate-program-closeout-prompt"
+      - "explicit-bundle-closeout-proposal-program"
+      - "explicit-unsupported-bundle"
+      - "action-create-proposal-packet"
+      - "action-explain-proposal-packet"
+      - "action-generate-implementation-prompt"
+      - "action-generate-verification-prompt"
+      - "action-generate-correction-prompt"
+      - "action-run-verification-and-correction-loop"
+      - "action-generate-closeout-prompt"
+      - "action-closeout-proposal-packet"
+      - "action-create-proposal-program"
+      - "action-generate-program-implementation-prompt"
+      - "action-generate-program-verification-prompt"
+      - "action-generate-program-correction-prompt"
+      - "action-run-program-verification-and-correction-loop"
+      - "action-generate-program-closeout-prompt"
+      - "action-closeout-proposal-program"
+      - "source-driven-packet-creation"
+      - "program-input-create"
+      - "missing-routeable-inputs"
+    routes:
+      - route_id: "create-proposal-packet"
+        status: "resolved"
+        execution_binding_id: "create-proposal-packet"
+        matchers:
+          - matcher_id: "explicit-bundle-create-proposal-packet"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "create-proposal-packet"
+          - matcher_id: "action-create-proposal-packet"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "create-proposal-packet"
+          - matcher_id: "source-driven-packet-creation"
+            reason_codes: ["source-driven-default"]
+            all_of:
+              - input_name: "source_kind"
+                predicate: "present"
+              - input_name: "packet_path"
+                predicate: "absent"
+      - route_id: "explain-proposal-packet"
+        status: "resolved"
+        execution_binding_id: "explain-proposal-packet"
+        matchers:
+          - matcher_id: "explicit-bundle-explain-proposal-packet"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "explain-proposal-packet"
+          - matcher_id: "action-explain-proposal-packet"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "explain-proposal-packet"
+      - route_id: "generate-implementation-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-implementation-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-implementation-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-implementation-prompt"
+          - matcher_id: "action-generate-implementation-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-implementation-prompt"
+      - route_id: "generate-verification-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-verification-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-verification-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-verification-prompt"
+          - matcher_id: "action-generate-verification-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-verification-prompt"
+      - route_id: "generate-correction-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-correction-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-correction-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-correction-prompt"
+          - matcher_id: "action-generate-correction-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-correction-prompt"
+      - route_id: "run-verification-and-correction-loop"
+        status: "resolved"
+        execution_binding_id: "run-verification-and-correction-loop"
+        matchers:
+          - matcher_id: "explicit-bundle-run-verification-and-correction-loop"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "run-verification-and-correction-loop"
+          - matcher_id: "action-run-verification-and-correction-loop"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "run-verification-and-correction-loop"
+      - route_id: "generate-closeout-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-closeout-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-closeout-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-closeout-prompt"
+          - matcher_id: "action-generate-closeout-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-closeout-prompt"
+      - route_id: "closeout-proposal-packet"
+        status: "resolved"
+        execution_binding_id: "closeout-proposal-packet"
+        matchers:
+          - matcher_id: "explicit-bundle-closeout-proposal-packet"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "closeout-proposal-packet"
+          - matcher_id: "action-closeout-proposal-packet"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "closeout-proposal-packet"
+      - route_id: "create-proposal-program"
+        status: "resolved"
+        execution_binding_id: "create-proposal-program"
+        matchers:
+          - matcher_id: "explicit-bundle-create-proposal-program"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "create-proposal-program"
+          - matcher_id: "action-create-proposal-program"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "create-proposal-program"
+          - matcher_id: "program-input-create"
+            reason_codes: ["program-input"]
+            all_of:
+              - input_name: "child_packet_paths"
+                predicate: "present"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+      - route_id: "generate-program-implementation-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-program-implementation-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-program-implementation-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-implementation-prompt"
+          - matcher_id: "action-generate-program-implementation-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-implementation-prompt"
+      - route_id: "generate-program-verification-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-program-verification-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-program-verification-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-verification-prompt"
+          - matcher_id: "action-generate-program-verification-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-verification-prompt"
+      - route_id: "generate-program-correction-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-program-correction-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-program-correction-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-correction-prompt"
+          - matcher_id: "action-generate-program-correction-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-correction-prompt"
+      - route_id: "run-program-verification-and-correction-loop"
+        status: "resolved"
+        execution_binding_id: "run-program-verification-and-correction-loop"
+        matchers:
+          - matcher_id: "explicit-bundle-run-program-verification-and-correction-loop"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "run-program-verification-and-correction-loop"
+          - matcher_id: "action-run-program-verification-and-correction-loop"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "run-program-verification-and-correction-loop"
+      - route_id: "generate-program-closeout-prompt"
+        status: "resolved"
+        execution_binding_id: "generate-program-closeout-prompt"
+        matchers:
+          - matcher_id: "explicit-bundle-generate-program-closeout-prompt"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-closeout-prompt"
+          - matcher_id: "action-generate-program-closeout-prompt"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-closeout-prompt"
+      - route_id: "closeout-proposal-program"
+        status: "resolved"
+        execution_binding_id: "closeout-proposal-program"
+        matchers:
+          - matcher_id: "explicit-bundle-closeout-proposal-program"
+            reason_codes: ["explicit-bundle"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "closeout-proposal-program"
+          - matcher_id: "action-closeout-proposal-program"
+            reason_codes: ["lifecycle-action"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "closeout-proposal-program"
+      - route_id: "unsupported-route-id"
+        status: "deny"
+        matchers:
+          - matcher_id: "explicit-unsupported-bundle"
+            reason_codes: ["unsupported-route-id"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "present"
+              - input_name: "bundle"
+                predicate: "not_one_of"
+                values:
+                  - "create-proposal-packet"
+                  - "explain-proposal-packet"
+                  - "generate-implementation-prompt"
+                  - "generate-verification-prompt"
+                  - "generate-correction-prompt"
+                  - "run-verification-and-correction-loop"
+                  - "generate-closeout-prompt"
+                  - "closeout-proposal-packet"
+                  - "create-proposal-program"
+                  - "generate-program-implementation-prompt"
+                  - "generate-program-verification-prompt"
+                  - "generate-program-correction-prompt"
+                  - "run-program-verification-and-correction-loop"
+                  - "generate-program-closeout-prompt"
+                  - "closeout-proposal-program"
+      - route_id: "missing-routeable-inputs"
+        status: "escalate"
+        matchers:
+          - matcher_id: "missing-routeable-inputs"
+            reason_codes: ["missing-routeable-inputs"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "absent"
+              - input_name: "lifecycle_action"
+                predicate: "absent"
+              - input_name: "source_kind"
+                predicate: "absent"
+              - input_name: "packet_path"
+                predicate: "absent"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+              - input_name: "child_packet_paths"
+                predicate: "absent"
+    execution_bindings:
+      - binding_id: "create-proposal-packet"
+        route_id: "create-proposal-packet"
+        command_capability_id: "octon-proposal-packet-create"
+        skill_capability_id: "octon-proposal-packet-lifecycle-create"
+        prompt_set_id: "octon-proposal-packet-lifecycle-create-proposal-packet"
+      - binding_id: "explain-proposal-packet"
+        route_id: "explain-proposal-packet"
+        command_capability_id: "octon-proposal-packet-explain"
+        skill_capability_id: "octon-proposal-packet-lifecycle-explain"
+        prompt_set_id: "octon-proposal-packet-lifecycle-explain-proposal-packet"
+      - binding_id: "generate-implementation-prompt"
+        route_id: "generate-implementation-prompt"
+        command_capability_id: "octon-proposal-packet-generate-implementation-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
+      - binding_id: "generate-verification-prompt"
+        route_id: "generate-verification-prompt"
+        command_capability_id: "octon-proposal-packet-generate-verification-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-verification-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-verification-prompt"
+      - binding_id: "generate-correction-prompt"
+        route_id: "generate-correction-prompt"
+        command_capability_id: "octon-proposal-packet-generate-correction-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-correction-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-correction-prompt"
+      - binding_id: "run-verification-and-correction-loop"
+        route_id: "run-verification-and-correction-loop"
+        command_capability_id: "octon-proposal-packet-run-verification-and-correction-loop"
+        skill_capability_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop"
+        prompt_set_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop"
+      - binding_id: "generate-closeout-prompt"
+        route_id: "generate-closeout-prompt"
+        command_capability_id: "octon-proposal-packet-generate-closeout-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-closeout-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-closeout-prompt"
+      - binding_id: "closeout-proposal-packet"
+        route_id: "closeout-proposal-packet"
+        command_capability_id: "octon-proposal-packet-closeout"
+        skill_capability_id: "octon-proposal-packet-lifecycle-closeout"
+        prompt_set_id: "octon-proposal-packet-lifecycle-closeout-proposal-packet"
+      - binding_id: "create-proposal-program"
+        route_id: "create-proposal-program"
+        command_capability_id: "octon-proposal-packet-create-program"
+        skill_capability_id: "octon-proposal-packet-lifecycle-create-program"
+        prompt_set_id: "octon-proposal-packet-lifecycle-create-proposal-program"
+      - binding_id: "generate-program-implementation-prompt"
+        route_id: "generate-program-implementation-prompt"
+        command_capability_id: "octon-proposal-packet-generate-program-implementation-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt"
+      - binding_id: "generate-program-verification-prompt"
+        route_id: "generate-program-verification-prompt"
+        command_capability_id: "octon-proposal-packet-generate-program-verification-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-program-verification-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-verification-prompt"
+      - binding_id: "generate-program-correction-prompt"
+        route_id: "generate-program-correction-prompt"
+        command_capability_id: "octon-proposal-packet-generate-program-correction-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-program-correction-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-correction-prompt"
+      - binding_id: "run-program-verification-and-correction-loop"
+        route_id: "run-program-verification-and-correction-loop"
+        command_capability_id: "octon-proposal-packet-run-program-verification-and-correction-loop"
+        skill_capability_id: "octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop"
+        prompt_set_id: "octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop"
+      - binding_id: "generate-program-closeout-prompt"
+        route_id: "generate-program-closeout-prompt"
+        command_capability_id: "octon-proposal-packet-generate-program-closeout-prompt"
+        skill_capability_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt"
+        prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt"
+      - binding_id: "closeout-proposal-program"
+        route_id: "closeout-proposal-program"
+        command_capability_id: "octon-proposal-packet-closeout-program"
+        skill_capability_id: "octon-proposal-packet-lifecycle-closeout-program"
+        prompt_set_id: "octon-proposal-packet-lifecycle-closeout-proposal-program"

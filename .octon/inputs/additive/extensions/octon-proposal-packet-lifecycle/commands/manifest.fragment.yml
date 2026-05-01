@@ -1,0 +1,98 @@
+schema_version: "extensions-commands-fragment-v1"
+commands:
+  - id: octon-proposal-packet
+    display_name: Octon Proposal Packet
+    path: octon-proposal-packet.md
+    summary: "Resolve the appropriate proposal packet route and dispatch to the matching leaf bundle."
+    access: agent
+    argument_hint: "[--bundle <route-id>] [--lifecycle-action <route-id>] [--packet-path <path>] [--source-kind <kind>] [--dry-run-route true|false]"
+  - id: octon-proposal-packet-create
+    display_name: Proposal Packet Create
+    path: octon-proposal-packet-create.md
+    summary: "Create a manifest-governed proposal packet from source context."
+    access: agent
+    argument_hint: "<source> [--proposal-kind architecture|policy|migration|design] [--proposal-id <id>]"
+  - id: octon-proposal-packet-explain
+    display_name: Proposal Packet Explain
+    path: octon-proposal-packet-explain.md
+    summary: "Explain a proposal packet without widening its scope or authority."
+    access: agent
+    argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-generate-implementation-prompt
+    display_name: Proposal Packet Generate Implementation Prompt
+    path: octon-proposal-packet-generate-implementation-prompt.md
+    summary: "Generate a packet-specific executable implementation prompt."
+    access: agent
+    argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-generate-verification-prompt
+    display_name: Proposal Packet Generate Verification Prompt
+    path: octon-proposal-packet-generate-verification-prompt.md
+    summary: "Generate a packet-specific follow-up verification prompt."
+    access: agent
+    argument_hint: "<packet-path> [--implemented-state <summary>]"
+  - id: octon-proposal-packet-generate-correction-prompt
+    display_name: Proposal Packet Generate Correction Prompt
+    path: octon-proposal-packet-generate-correction-prompt.md
+    summary: "Generate a targeted correction prompt from one unresolved finding."
+    access: agent
+    argument_hint: "<packet-path> --finding-id <id>"
+  - id: octon-proposal-packet-run-verification-and-correction-loop
+    display_name: Proposal Packet Run Verification And Correction Loop
+    path: octon-proposal-packet-run-verification-and-correction-loop.md
+    summary: "Run packet verification and correction to a declared terminal state."
+    access: agent
+    argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-generate-closeout-prompt
+    display_name: Proposal Packet Generate Closeout Prompt
+    path: octon-proposal-packet-generate-closeout-prompt.md
+    summary: "Generate a packet-specific closeout prompt."
+    access: agent
+    argument_hint: "<packet-path> [--closeout-scope local|pr|merge]"
+  - id: octon-proposal-packet-closeout
+    display_name: Proposal Packet Closeout
+    path: octon-proposal-packet-closeout.md
+    summary: "Execute gated closeout for one proposal packet."
+    access: agent
+    argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-create-program
+    display_name: Proposal Packet Create Program
+    path: octon-proposal-packet-create-program.md
+    summary: "Create a parent proposal program coordinating canonical child packets."
+    access: agent
+    argument_hint: "<source> [--child-packet-paths <paths>] [--execution-mode <mode>]"
+  - id: octon-proposal-packet-generate-program-implementation-prompt
+    display_name: Proposal Packet Generate Program Implementation Prompt
+    path: octon-proposal-packet-generate-program-implementation-prompt.md
+    summary: "Generate aggregate implementation prompt for a proposal program."
+    access: agent
+    argument_hint: "<program-packet-path>"
+  - id: octon-proposal-packet-generate-program-verification-prompt
+    display_name: Proposal Packet Generate Program Verification Prompt
+    path: octon-proposal-packet-generate-program-verification-prompt.md
+    summary: "Generate aggregate verification prompt for a proposal program."
+    access: agent
+    argument_hint: "<program-packet-path>"
+  - id: octon-proposal-packet-generate-program-correction-prompt
+    display_name: Proposal Packet Generate Program Correction Prompt
+    path: octon-proposal-packet-generate-program-correction-prompt.md
+    summary: "Generate targeted correction prompt for a program-level or child finding."
+    access: agent
+    argument_hint: "<program-packet-path> --finding-id <id>"
+  - id: octon-proposal-packet-run-program-verification-and-correction-loop
+    display_name: Proposal Packet Run Program Verification And Correction Loop
+    path: octon-proposal-packet-run-program-verification-and-correction-loop.md
+    summary: "Run program verification and correction to a declared terminal state."
+    access: agent
+    argument_hint: "<program-packet-path>"
+  - id: octon-proposal-packet-generate-program-closeout-prompt
+    display_name: Proposal Packet Generate Program Closeout Prompt
+    path: octon-proposal-packet-generate-program-closeout-prompt.md
+    summary: "Generate closeout prompt for a coherent proposal program."
+    access: agent
+    argument_hint: "<program-packet-path>"
+  - id: octon-proposal-packet-closeout-program
+    display_name: Proposal Packet Closeout Program
+    path: octon-proposal-packet-closeout-program.md
+    summary: "Execute gated closeout for a proposal program."
+    access: agent
+    argument_hint: "<program-packet-path>"

@@ -1,0 +1,50 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-proposal-packet-lifecycle-automation"
+title: "Octon Proposal Packet Lifecycle Automation"
+summary: >-
+  Full-scope architecture proposal for a first-party additive extension pack
+  that automates proposal packet creation, explanation, implementation prompt
+  generation, verification prompt generation, correction prompt generation,
+  closeout prompt generation, and end-to-end lifecycle routing.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/"
+  - ".octon/instance/extensions.yml"
+  - ".octon/state/control/extensions/active.yml"
+  - ".octon/generated/effective/extensions/"
+  - ".octon/generated/effective/capabilities/"
+status: "archived"
+archive:
+  archived_at: "2026-04-30"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/octon-proposal-packet-lifecycle-automation"
+  promotion_evidence:
+    - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/pack.yml"
+    - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/routing.contract.yml"
+    - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/validation/tests/test-pack-shape.sh"
+    - ".octon/instance/extensions.yml"
+    - ".octon/state/control/extensions/active.yml"
+    - ".octon/generated/effective/extensions/catalog.effective.yml"
+    - ".octon/generated/effective/capabilities/routing.effective.yml"
+    - ".claude/commands/octon-proposal-packet.md"
+    - ".codex/commands/octon-proposal-packet.md"
+    - ".cursor/commands/octon-proposal-packet.md"
+    - ".octon/state/evidence/validation/publication/extensions/2026-04-30T23-53-45Z-extensions-c2d4f2cbf257.yml"
+    - ".octon/state/evidence/validation/compatibility/extensions/2026-04-30T23-53-45Z-extensions-c2d4f2cbf257.yml"
+    - ".octon/state/evidence/validation/publication/capabilities/2026-05-01T00-03-04Z-capabilities-a11a22473186.yml"
+    - ".octon/state/evidence/runs/skills/octon-proposal-packet-lifecycle-closeout/2026-04-30-octon-proposal-packet-lifecycle-automation-closeout.md"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the full proposal packet lifecycle automation into a published
+    first-party additive extension pack, regenerate extension and capability
+    projections, validate host projections, then archive this proposal after
+    durable extension, projection, validation, and evidence surfaces stand
+    without proposal-path dependency.
+related_proposals:
+  - "octon-concept-integration"
+  - "octon-impact-map-and-validation-selector"
+  - "octon-drift-triage"
+  - "octon-retirement-and-hygiene-packetizer"

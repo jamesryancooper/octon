@@ -1,0 +1,148 @@
+schema_version: "extensions-skills-fragment-v1"
+skills:
+  - id: octon-proposal-packet-lifecycle
+    display_name: Octon Proposal Packet Lifecycle
+    group: extensions
+    path: octon-proposal-packet-lifecycle/
+    skill_class: invocable
+    summary: "Resolve the appropriate proposal packet lifecycle route and dispatch to the matching leaf bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, extension-pack, composite-skill]
+    triggers:
+      - "proposal packet lifecycle"
+      - "automate proposal packet lifecycle"
+  - id: octon-proposal-packet-lifecycle-create
+    display_name: Proposal Packet Lifecycle Create
+    group: extensions
+    path: octon-proposal-packet-lifecycle-create/
+    skill_class: invocable
+    summary: "Run the create-proposal-packet bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, create]
+    triggers: ["create proposal packet"]
+  - id: octon-proposal-packet-lifecycle-explain
+    display_name: Proposal Packet Lifecycle Explain
+    group: extensions
+    path: octon-proposal-packet-lifecycle-explain/
+    skill_class: invocable
+    summary: "Run the explain-proposal-packet bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, explain]
+    triggers: ["explain proposal packet"]
+  - id: octon-proposal-packet-lifecycle-generate-implementation-prompt
+    display_name: Proposal Packet Lifecycle Generate Implementation Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-implementation-prompt/
+    skill_class: invocable
+    summary: "Run the generate-implementation-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, implementation]
+    triggers: ["generate implementation prompt"]
+  - id: octon-proposal-packet-lifecycle-generate-verification-prompt
+    display_name: Proposal Packet Lifecycle Generate Verification Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-verification-prompt/
+    skill_class: invocable
+    summary: "Run the generate-verification-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, verification]
+    triggers: ["generate verification prompt"]
+  - id: octon-proposal-packet-lifecycle-generate-correction-prompt
+    display_name: Proposal Packet Lifecycle Generate Correction Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-correction-prompt/
+    skill_class: invocable
+    summary: "Run the generate-correction-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, correction]
+    triggers: ["generate correction prompt"]
+  - id: octon-proposal-packet-lifecycle-run-verification-and-correction-loop
+    display_name: Proposal Packet Lifecycle Run Verification And Correction Loop
+    group: extensions
+    path: octon-proposal-packet-lifecycle-run-verification-and-correction-loop/
+    skill_class: invocable
+    summary: "Run the verification-and-correction convergence bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, convergence]
+    triggers: ["run verification correction loop"]
+  - id: octon-proposal-packet-lifecycle-generate-closeout-prompt
+    display_name: Proposal Packet Lifecycle Generate Closeout Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-closeout-prompt/
+    skill_class: invocable
+    summary: "Run the generate-closeout-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, closeout]
+    triggers: ["generate closeout prompt"]
+  - id: octon-proposal-packet-lifecycle-closeout
+    display_name: Proposal Packet Lifecycle Closeout
+    group: extensions
+    path: octon-proposal-packet-lifecycle-closeout/
+    skill_class: invocable
+    summary: "Run the closeout-proposal-packet bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, closeout]
+    triggers: ["closeout proposal packet"]
+  - id: octon-proposal-packet-lifecycle-create-program
+    display_name: Proposal Packet Lifecycle Create Program
+    group: extensions
+    path: octon-proposal-packet-lifecycle-create-program/
+    skill_class: invocable
+    summary: "Run the create-proposal-program bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["create proposal program"]
+  - id: octon-proposal-packet-lifecycle-generate-program-implementation-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Implementation Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-program-implementation-prompt/
+    skill_class: invocable
+    summary: "Run the generate-program-implementation-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["generate program implementation prompt"]
+  - id: octon-proposal-packet-lifecycle-generate-program-verification-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Verification Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-program-verification-prompt/
+    skill_class: invocable
+    summary: "Run the generate-program-verification-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["generate program verification prompt"]
+  - id: octon-proposal-packet-lifecycle-generate-program-correction-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Correction Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-program-correction-prompt/
+    skill_class: invocable
+    summary: "Run the generate-program-correction-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["generate program correction prompt"]
+  - id: octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
+    display_name: Proposal Packet Lifecycle Run Program Verification And Correction Loop
+    group: extensions
+    path: octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop/
+    skill_class: invocable
+    summary: "Run the program verification-and-correction convergence bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["run program verification correction loop"]
+  - id: octon-proposal-packet-lifecycle-generate-program-closeout-prompt
+    display_name: Proposal Packet Lifecycle Generate Program Closeout Prompt
+    group: extensions
+    path: octon-proposal-packet-lifecycle-generate-program-closeout-prompt/
+    skill_class: invocable
+    summary: "Run the generate-program-closeout-prompt bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["generate program closeout prompt"]
+  - id: octon-proposal-packet-lifecycle-closeout-program
+    display_name: Proposal Packet Lifecycle Closeout Program
+    group: extensions
+    path: octon-proposal-packet-lifecycle-closeout-program/
+    skill_class: invocable
+    summary: "Run the closeout-proposal-program bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program]
+    triggers: ["closeout proposal program"]

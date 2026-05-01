@@ -9,6 +9,8 @@ selection:
       source_id: "bundled-first-party"
     - pack_id: "octon-drift-triage"
       source_id: "bundled-first-party"
+    - pack_id: "octon-proposal-packet-lifecycle"
+      source_id: "bundled-first-party"
   disabled:
     - pack_id: "docs"
       source_id: "bundled-first-party"
