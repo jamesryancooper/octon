@@ -1,10 +1,10 @@
 schema_version: octon-capability-routing-generation-lock-v3
 generator_version: capability-routing-publication-v3
 generation_id: capabilities-2aad9153cca2
-published_at: 2026-05-01T04:21:37Z
+published_at: 2026-05-01T10:41:09Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-01T04-21-37Z-capabilities-2aad9153cca2.yml
-publication_receipt_sha256: adcadba8f383781f1d2b690b7be6b9d759b4edbc5fb1fd46d726c75dc5c29941
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-01T10-41-09Z-capabilities-2aad9153cca2.yml
+publication_receipt_sha256: 8ebb96bd92e5d1507a5ad7f98bfbbc85635259a140d7250c0ece4e4316588bc8
 root_manifest_sha256: bce5205a317cf1d8d015b0c311719fbdd5db86aea91ab487ac3ae62fd31895fb
 framework_commands_manifest_sha256: a1c9eaef16d18992e509ff142c040bf374382be4f706f5e88ff0b1efaad89685
 framework_skills_manifest_sha256: 1de2b7cfbbc6961262fa493a8453b834ca80eddd2f82cfdc7f41d22a09b73b09
