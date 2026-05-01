@@ -228,8 +228,8 @@ done_gate:
   - standard-validator.log exists
   - validate-proposal-standard.sh and validate-policy-proposal.sh pass for the scaffolded
     proposal
-  - validate-proposal-implementation-readiness.sh ran and recorded structural-only
-    or implementation-grade status
+  - validate-proposal-implementation-readiness.sh ran and recorded a structural-only
+    or implementation-grade gate outcome
   - top-level summary exists
   - final verdict is explicit
 constraints:

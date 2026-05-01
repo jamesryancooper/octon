@@ -18,7 +18,7 @@ Explain a packet's problem, target state, durable promoted outcome, affected
 surfaces, and follow-on work without widening scope or promoting proposal-local
 analysis as authority.
 
-Always disclose the packet's implementation-grade status, implementation
-conformance status, post-implementation drift/churn status, receipt paths when
-present, unresolved counts, known exclusions, and the next canonical lifecycle
-route.
+Always disclose the packet's implementation-grade gate outcome, implementation
+conformance gate outcome, post-implementation drift/churn gate outcome, receipt
+paths when present, unresolved counts, known exclusions, and the next canonical
+lifecycle route.

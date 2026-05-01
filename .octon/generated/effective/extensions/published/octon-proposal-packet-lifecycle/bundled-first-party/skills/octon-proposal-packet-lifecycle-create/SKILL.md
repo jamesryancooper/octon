@@ -19,3 +19,14 @@ packet at the canonical active path, and validate it. Store source lineage in
 `resources/**` and creation prompts in `support/**`. Preserve audit,
 evaluation, and target-thesis traceability; create archive-ready structured
 Markdown artifacts; and keep proposal-local material non-authoritative.
+
+New packets should include scaffold receipts for implementation-grade
+completeness, implementation conformance, and post-implementation drift/churn.
+Only the completeness receipt is required to pass before implementation; the
+post-implementation receipts become closeout gates after durable changes land.
+
+Before reporting a packet as final or implementation-ready, produce or update
+`support/implementation-grade-completeness-review.md` and run the
+implementation-readiness validator. If source material is insufficient, record
+clarification blockers in that receipt and ask only the questions that affect
+product semantics, promotion scope, irreversible churn, or authority ownership.

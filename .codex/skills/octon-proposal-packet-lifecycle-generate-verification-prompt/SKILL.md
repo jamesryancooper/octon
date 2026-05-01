@@ -19,8 +19,8 @@ identity, evidence requirements, correction scope, acceptance criteria,
 generated/runtime publication checks, and declared closure-certification pass
 depth.
 
-Verification prompts must include implementation-grade completeness status and
-must verify the packet against
+Verification prompts must include the implementation-grade completeness gate
+outcome and must verify the packet against
 `validate-proposal-implementation-readiness.sh` in addition to structural and
 subtype validators.
 

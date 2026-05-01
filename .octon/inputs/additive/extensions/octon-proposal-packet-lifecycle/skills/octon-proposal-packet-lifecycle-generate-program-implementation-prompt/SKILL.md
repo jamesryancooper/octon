@@ -14,6 +14,15 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 
 # Proposal Packet Lifecycle Generate Program Implementation Prompt
 
+Generate a program implementation prompt only after the relevant
+implementation-grade completeness receipt passes. Refuse prompt generation when
+clarification, blockers, or unresolved questions remain.
+
 Generate aggregate implementation guidance that respects each child packet's
 own manifests, validators, acceptance criteria, and promotion targets while
 keeping parent coordination distinct from child authority.
+
+The program prompt must require each implemented child packet to produce and
+pass `support/implementation-conformance-review.md` and
+`support/post-implementation-drift-churn-review.md` before child closeout or
+implemented archival.

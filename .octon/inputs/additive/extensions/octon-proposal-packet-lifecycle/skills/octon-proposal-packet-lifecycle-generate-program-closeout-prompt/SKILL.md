@@ -15,3 +15,6 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 # Proposal Packet Lifecycle Generate Program Closeout Prompt
 
 Generate closeout guidance for coherent child closeout and parent archival.
+
+For implemented child packets, require child-level implementation conformance
+and post-implementation drift/churn receipts before parent closeout claims.

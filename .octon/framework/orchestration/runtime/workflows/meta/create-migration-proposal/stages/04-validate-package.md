@@ -21,13 +21,13 @@ Ensure the scaffolded proposal is standard-compliant before reporting success.
    implementation-readiness warning as authoring guidance, not scaffold failure.
 5. Persist the validator transcript into the workflow bundle as
    `standard-validator.log`.
-6. Record the validator outcome, implementation-grade status, and any follow-up
+6. Record the validator outcome, implementation-grade gate outcome, and any follow-up
    work needed before the package is filled in.
 
 ## Proceed When
 
 - [ ] Standard validator passes
-- [ ] Implementation-readiness validator ran and recorded structural-only or implementation-grade status
+- [ ] Implementation-readiness validator ran and recorded a structural-only or implementation-grade gate outcome
 - [ ] `standard-validator.log` exists in the workflow bundle
 - [ ] Manifest-bearing module requirements are satisfied
 - [ ] Registry entry is valid and synchronized

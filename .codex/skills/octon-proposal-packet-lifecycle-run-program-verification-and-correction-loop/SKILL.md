@@ -14,11 +14,11 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Writ
 
 # Proposal Packet Lifecycle Program Verification And Correction Loop
 
-The loop must include implementation-grade completeness status and cannot close
+The loop must include the implementation-grade completeness gate outcome and cannot close
 clean while any program packet lacks a passing completeness receipt.
 
 When a child packet is implemented, the loop must also include packet-level
-implementation conformance and post-implementation drift/churn status. Missing
+implementation conformance and post-implementation drift/churn gate outcomes. Missing
 or failing post-implementation receipts keep the program open unless the child
 records an explicit blocked/deferred report outcome or rejected, superseded, or
 historical archive disposition.

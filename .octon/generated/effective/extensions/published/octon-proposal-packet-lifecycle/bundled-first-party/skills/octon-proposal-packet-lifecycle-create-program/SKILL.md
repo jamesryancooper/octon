@@ -14,5 +14,12 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 
 # Proposal Packet Lifecycle Create Program
 
+Program packets inherit the implementation-grade completeness gate. Do not
+present a program as final or implementation-ready until its packet-level or
+program-level completeness receipt passes with no unresolved questions.
+
+Implemented child packets also inherit the post-implementation conformance and
+drift/churn gates before closeout or implemented archival.
+
 Create a parent proposal program packet that references canonical child
 packets. Reject nested child proposal package directories.
