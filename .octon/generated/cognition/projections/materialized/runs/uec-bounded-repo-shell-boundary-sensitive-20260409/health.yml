@@ -1,247 +1,198 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "uec-bounded-repo-shell-boundary-sensitive-20260409",
-  "generated_at": "2026-05-01T01:09:36Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.0.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "fresh",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:6826e0096a14eae829dfc7d52427c10e43af14f4a7f6c4e173c269d54e391c5e",
-    "checked_at": "2026-05-01T01:09:36Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409",
-    "evidence_classification": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml",
-      "digest": "sha256:29b30a4a36e0f0d148d0fd3bf827a2c6a1b21db7ab5a4b69134a5b9a7e2fe193",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-manifest.yml",
-      "digest": "sha256:2ccd17f91b36dbd3cbba41a7912801635cb7f996fd0dc70206bf3e78f56b918b",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.ndjson",
-      "digest": "sha256:d90800b87f3b827b02b6b52c4d0c89ade6fb86cd78513b7601066856e7dc4c4f",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml",
-      "digest": "sha256:a5193ad863655802c2156b102df7ccb246a1529591821a4b442ff771f4c2d224",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/runtime-state.yml",
-      "digest": "sha256:dde44f6401df28fa0b679728d23d603dcf26b6d5b2917e75939feb0a50e0b9aa",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
-      "digest": "sha256:127e0edcaaf3e4d1264da74aa88d416e6722772e8751c3badb3638338a4c736d",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
-      "digest": "sha256:b2cd7d8519cd15cf04c8dd7121e3a0267be09e784da3e012b98035c0d6e11967",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/rollback-posture.yml",
-      "digest": "sha256:27806791acddae01232c969cd82aa6c1e215bca91f9aee502448e699a8020738",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409",
-      "digest": "sha256:0e2ddf642bc7bac1eef9a118b3182b2686d12a6a955180f234f75be77ddf2d9b",
-      "status": "present"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/evidence-classification.yml",
-      "digest": "sha256:4bc97e10fb44548c8b298b475267d34230408ffa9d1b1d4e2fa0123abf10ba7b",
-      "status": "present"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/retained-run-evidence.yml",
-      "digest": "sha256:651e6a51e556767707ec9d5451df02007150456b1cbf6d8ca9d8cb910e30d99c",
-      "status": "present"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay-pointers.yml",
-      "digest": "sha256:901e8000981a12cbbc13a0d888a8518e00828244823cea119fbc790ded20c6e3",
-      "status": "present"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/interventions/log.yml",
-      "digest": "sha256:4def126b95e93c1801336213bd4a927ba964daa45304653bf037ebc289a6d9a2",
-      "status": "present"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml",
-      "digest": "sha256:a1ece9fbcdc4ae50e0d6741d87407a5640cdbf97cd0df2e8d2a9f1751afa9beb",
-      "status": "present"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:c5896109ac07c56b6630b89cdcaab022971d7d7cf5d9d5bc0f515d1537d10502",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/handoff.yml",
-      "digest": "sha256:739f97e7827c3c03f4f80addee6c4c8659b03401081ab672a03b3f6ff5c5cbd7",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:b4999f3f5e229cdcd9639b72faa19430eb9e025af7e0ccfb1b6d162426f80fff",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:d5ac9dcd949b5b386137d56bc1547c99d94171d56d6ab90dc2c3b8d8304c3838",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "revoked",
-    "summary": "A revocation or revoked lifecycle state applies to this run.",
-    "next_required_action": "stop execution and follow rollback or closeout posture"
-  },
-  "lifecycle": {
-    "state": "succeeded",
-    "decision_state": "resolved",
-    "drift_status": null,
-    "latest_event_hash": null,
-    "latest_sequence": null
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell",
-    "route_status": "stage-only",
-    "pack_status": "stage-only",
-    "support_status": "stage-only",
-    "requested_capability_packs": [
-      "repo",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "revoked",
-    "active_grants": [
-      ".octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml",
-      ".octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [
-      ".octon/state/control/execution/exceptions/leases/lease-uec-bounded-repo-shell-boundary-sensitive-20260409.yml"
-    ],
-    "active_revocations": [
-      ".octon/state/control/execution/revocations/revoke-uec-bounded-repo-shell-boundary-sensitive-20260409.yml"
-    ]
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "none",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "complete"
-  },
-  "closure": {
-    "status": "blocked"
-  },
-  "diagnostics": []
-}
+schema_version: run-health-read-model-v1
+run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
+generated_at: '2026-05-01T04:23:14Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:fecef27b1d52777cfa4c8ec0de89189e79ed7fcdda21a74998791d9011ec3719
+  checked_at: '2026-05-01T04:23:14Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409
+  evidence_classification: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-contract.yml
+    digest: sha256:29b30a4a36e0f0d148d0fd3bf827a2c6a1b21db7ab5a4b69134a5b9a7e2fe193
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-manifest.yml
+    digest: sha256:2ccd17f91b36dbd3cbba41a7912801635cb7f996fd0dc70206bf3e78f56b918b
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.ndjson
+    digest: sha256:d90800b87f3b827b02b6b52c4d0c89ade6fb86cd78513b7601066856e7dc4c4f
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/events.manifest.yml
+    digest: sha256:a5193ad863655802c2156b102df7ccb246a1529591821a4b442ff771f4c2d224
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/runtime-state.yml
+    digest: sha256:dde44f6401df28fa0b679728d23d603dcf26b6d5b2917e75939feb0a50e0b9aa
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+    digest: sha256:127e0edcaaf3e4d1264da74aa88d416e6722772e8751c3badb3638338a4c736d
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+    digest: sha256:b2cd7d8519cd15cf04c8dd7121e3a0267be09e784da3e012b98035c0d6e11967
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/rollback-posture.yml
+    digest: sha256:27806791acddae01232c969cd82aa6c1e215bca91f9aee502448e699a8020738
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409
+    digest: sha256:0e2ddf642bc7bac1eef9a118b3182b2686d12a6a955180f234f75be77ddf2d9b
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/evidence-classification.yml
+    digest: sha256:4bc97e10fb44548c8b298b475267d34230408ffa9d1b1d4e2fa0123abf10ba7b
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/retained-run-evidence.yml
+    digest: sha256:651e6a51e556767707ec9d5451df02007150456b1cbf6d8ca9d8cb910e30d99c
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/replay-pointers.yml
+    digest: sha256:901e8000981a12cbbc13a0d888a8518e00828244823cea119fbc790ded20c6e3
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/interventions/log.yml
+    digest: sha256:4def126b95e93c1801336213bd4a927ba964daa45304653bf037ebc289a6d9a2
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/run-card.yml
+    digest: sha256:a1ece9fbcdc4ae50e0d6741d87407a5640cdbf97cd0df2e8d2a9f1751afa9beb
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:23345ed8e4d5c33d9773b5935ec624745b15187c74f9bef063f5e77091f1adbe
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/handoff.yml
+    digest: sha256:739f97e7827c3c03f4f80addee6c4c8659b03401081ab672a03b3f6ff5c5cbd7
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:392b16119de75fe5da274473960d0c2d83dd9643f6048ce72228090b3d0aaccc
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:6122f9804416bbad8cfb45bba99a48510833132f7b51b53656fa737dd84ef4df
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: revoked
+  summary: A revocation or revoked lifecycle state applies to this run.
+  next_required_action: stop execution and follow rollback or closeout posture
+lifecycle:
+  state: succeeded
+  decision_state: resolved
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: tuple://repo-local-governed/boundary-sensitive/reference-owned/english-primary/repo-shell
+  route_status: stage-only
+  pack_status: stage-only
+  support_status: stage-only
+  requested_capability_packs:
+  - repo
+  - telemetry
+authorization:
+  status: revoked
+  active_grants:
+  - .octon/state/control/execution/approvals/grants/grant-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  - .octon/state/evidence/control/execution/authority-grant-bundle-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  open_approvals: []
+  active_exceptions:
+  - .octon/state/control/execution/exceptions/leases/lease-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+  active_revocations:
+  - .octon/state/control/execution/revocations/revoke-uec-bounded-repo-shell-boundary-sensitive-20260409.yml
+evidence:
+  completeness: incomplete
+  missing_required:
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: blocked
+diagnostics: []

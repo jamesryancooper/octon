@@ -11,7 +11,8 @@
   criteria.
 - `highest-leverage-next-step-packet`: source is a target thesis and a request
   for the single next packet. Inspect the live repo and choose one bounded
-  prerequisite or implementation step.
+  prerequisite or implementation step; explicitly reject broad target-state
+  redesign unless required for that step.
 - `source-to-packet`: source is compact user requirements, notes, specs, or
   not-yet-classified material. Classify proposal kind and dispatch to existing
   concept-integration routes where possible.

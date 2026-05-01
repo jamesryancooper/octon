@@ -16,10 +16,18 @@ skills:
         type: text
         required: false
         description: "Proposal packet path or id."
+      - name: program_packet_path
+        type: text
+        required: false
+        description: "Parent proposal program packet path."
       - name: source_kind
         type: text
         required: false
         description: "Source kind for packet creation."
+      - name: finding_id
+        type: text
+        required: false
+        description: "Stable verification or program finding id."
       - name: dry_run_route
         type: boolean
         required: false

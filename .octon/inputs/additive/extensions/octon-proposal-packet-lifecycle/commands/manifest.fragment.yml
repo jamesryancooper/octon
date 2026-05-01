@@ -5,7 +5,7 @@ commands:
     path: octon-proposal-packet.md
     summary: "Resolve the appropriate proposal packet route and dispatch to the matching leaf bundle."
     access: agent
-    argument_hint: "[--bundle <route-id>] [--lifecycle-action <route-id>] [--packet-path <path>] [--source-kind <kind>] [--dry-run-route true|false]"
+    argument_hint: "[--bundle <route-id>] [--lifecycle-action <route-id>] [--packet-path <path>] [--program-packet-path <path>] [--source-kind <kind>] [--finding-id <id>] [--dry-run-route true|false]"
   - id: octon-proposal-packet-create
     display_name: Proposal Packet Create
     path: octon-proposal-packet-create.md

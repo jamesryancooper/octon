@@ -248,6 +248,23 @@ jobs:
             fi
           }
 
+          checkout_pr_head() {
+            local payload="$1"
+            local head_ref head_sha
+
+            head_ref="$(jq -r '.head.ref // ""' <<<"${payload}")"
+            head_sha="$(jq -r '.head.sha // ""' <<<"${payload}")"
+
+            if [[ -z "${head_ref}" || "${head_ref}" == "null" || -z "${head_sha}" || "${head_sha}" == "null" ]]; then
+              echo "Unable to resolve PR head ref/sha for PR #${PR_NUMBER}."
+              exit 1
+            fi
+
+            git fetch --no-tags --depth=1 origin "${head_sha}"
+            git checkout --detach "${head_sha}"
+            echo "Checked out PR #${PR_NUMBER} head ${head_sha} (${head_ref}) for runtime-protected merge boundary."
+          }
+
           pr_json=""
           if [[ "${GITHUB_EVENT_NAME}" == "pull_request_target" ]]; then
           # Triage and auto-merge start from the same PR event; wait briefly for state to settle.
@@ -279,6 +296,8 @@ jobs:
             echo "Auto-merge is already enabled for PR #${PR_NUMBER}."
             exit 0
           fi
+
+          checkout_pr_head "${pr_json}"
 
           chmod +x .octon/framework/assurance/runtime/_ops/scripts/protected-ci-auto-merge.sh
           .octon/framework/assurance/runtime/_ops/scripts/protected-ci-auto-merge.sh \

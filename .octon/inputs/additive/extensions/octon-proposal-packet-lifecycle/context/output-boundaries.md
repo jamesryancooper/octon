@@ -27,6 +27,11 @@ support/
 `resources/**` preserves source lineage. `support/**` preserves operational
 aids. Neither location becomes authority.
 
+Packet directories should be directly usable as structured Markdown proposal
+packages. Do not create zip files, downloadable build products, or other
+incidental output artifacts unless the operator explicitly asks for an export
+format and the artifact is excluded from authority claims.
+
 ## Durable Outputs
 
 Durable behavior lands only in extension source, selected extension state,

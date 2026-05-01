@@ -7,4 +7,6 @@
 ## Expected Behavior
 
 The route repeats verification and correction until `clean`, `blocked`,
-`needs-packet-revision`, `superseded`, or explicitly deferred.
+`needs-packet-revision`, `superseded`, or explicitly deferred. Closure-grade
+packets must honor no-new-finding and two-consecutive-clean-pass requirements
+when declared by the packet or source material.

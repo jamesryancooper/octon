@@ -16,4 +16,6 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 
 Generate `support/executable-implementation-prompt.md` from the packet's
 manifests, promotion targets, acceptance criteria, validation plan, evidence
-plan, and live repository state.
+plan, and live repository state. Include executable workstreams, validation,
+evidence, rollback posture, terminal criteria, and any explicitly authorized
+delegation boundaries.

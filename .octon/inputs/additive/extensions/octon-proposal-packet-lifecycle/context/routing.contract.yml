@@ -11,6 +11,7 @@ dispatchers:
       - "proposal_id"
       - "current_lifecycle_state"
       - "verification_finding_id"
+      - "finding_id"
       - "program_packet_path"
       - "child_packet_paths"
       - "execution_mode"
@@ -70,6 +71,37 @@ dispatchers:
           - "program-atomic"
           - "approval-gated"
     precedence:
+      - "missing-packet-path-for-explicit-explain-proposal-packet"
+      - "missing-packet-path-for-explicit-generate-implementation-prompt"
+      - "missing-packet-path-for-explicit-generate-verification-prompt"
+      - "missing-packet-path-for-explicit-generate-correction-prompt"
+      - "missing-finding-id-for-explicit-generate-correction-prompt"
+      - "missing-packet-path-for-explicit-run-verification-and-correction-loop"
+      - "missing-packet-path-for-explicit-generate-closeout-prompt"
+      - "missing-packet-path-for-explicit-closeout-proposal-packet"
+      - "missing-program-path-for-explicit-generate-program-implementation-prompt"
+      - "missing-program-path-for-explicit-generate-program-verification-prompt"
+      - "missing-program-path-for-explicit-generate-program-correction-prompt"
+      - "missing-program-finding-id-for-explicit-generate-program-correction-prompt"
+      - "missing-program-path-for-explicit-run-program-verification-and-correction-loop"
+      - "missing-program-path-for-explicit-generate-program-closeout-prompt"
+      - "missing-program-path-for-explicit-closeout-proposal-program"
+      - "missing-packet-path-for-action-explain-proposal-packet"
+      - "missing-packet-path-for-action-generate-implementation-prompt"
+      - "missing-packet-path-for-action-generate-verification-prompt"
+      - "missing-packet-path-for-action-generate-correction-prompt"
+      - "missing-finding-id-for-action-generate-correction-prompt"
+      - "missing-packet-path-for-action-run-verification-and-correction-loop"
+      - "missing-packet-path-for-action-generate-closeout-prompt"
+      - "missing-packet-path-for-action-closeout-proposal-packet"
+      - "missing-program-path-for-action-generate-program-implementation-prompt"
+      - "missing-program-path-for-action-generate-program-verification-prompt"
+      - "missing-program-path-for-action-generate-program-correction-prompt"
+      - "missing-program-finding-id-for-action-generate-program-correction-prompt"
+      - "missing-program-path-for-action-run-program-verification-and-correction-loop"
+      - "missing-program-path-for-action-generate-program-closeout-prompt"
+      - "missing-program-path-for-action-closeout-proposal-program"
+      - "ambiguous-program-packet-route"
       - "explicit-bundle-create-proposal-packet"
       - "explicit-bundle-explain-proposal-packet"
       - "explicit-bundle-generate-implementation-prompt"
@@ -101,10 +133,271 @@ dispatchers:
       - "action-run-program-verification-and-correction-loop"
       - "action-generate-program-closeout-prompt"
       - "action-closeout-proposal-program"
+      - "packet-path-default-explain"
       - "source-driven-packet-creation"
       - "program-input-create"
       - "missing-routeable-inputs"
     routes:
+      - route_id: "missing-required-inputs"
+        status: "escalate"
+        matchers:
+          - matcher_id: "missing-packet-path-for-explicit-explain-proposal-packet"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "explain-proposal-packet"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-explicit-generate-implementation-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-implementation-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-explicit-generate-verification-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-verification-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-explicit-generate-correction-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-correction-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-finding-id-for-explicit-generate-correction-prompt"
+            reason_codes: ["missing-finding-id"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-correction-prompt"
+              - input_name: "verification_finding_id"
+                predicate: "absent"
+              - input_name: "finding_id"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-explicit-run-verification-and-correction-loop"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "run-verification-and-correction-loop"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-explicit-generate-closeout-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-closeout-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-explicit-closeout-proposal-packet"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "closeout-proposal-packet"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-explicit-generate-program-implementation-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-implementation-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-explicit-generate-program-verification-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-verification-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-explicit-generate-program-correction-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-correction-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-finding-id-for-explicit-generate-program-correction-prompt"
+            reason_codes: ["missing-finding-id"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-correction-prompt"
+              - input_name: "verification_finding_id"
+                predicate: "absent"
+              - input_name: "finding_id"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-explicit-run-program-verification-and-correction-loop"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "run-program-verification-and-correction-loop"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-explicit-generate-program-closeout-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "generate-program-closeout-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-explicit-closeout-proposal-program"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "closeout-proposal-program"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-explain-proposal-packet"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "explain-proposal-packet"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-generate-implementation-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-implementation-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-generate-verification-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-verification-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-generate-correction-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-correction-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-finding-id-for-action-generate-correction-prompt"
+            reason_codes: ["missing-finding-id"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-correction-prompt"
+              - input_name: "verification_finding_id"
+                predicate: "absent"
+              - input_name: "finding_id"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-run-verification-and-correction-loop"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "run-verification-and-correction-loop"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-generate-closeout-prompt"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-closeout-prompt"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-packet-path-for-action-closeout-proposal-packet"
+            reason_codes: ["missing-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "closeout-proposal-packet"
+              - input_name: "packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-action-generate-program-implementation-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-implementation-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-action-generate-program-verification-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-verification-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-action-generate-program-correction-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-correction-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-finding-id-for-action-generate-program-correction-prompt"
+            reason_codes: ["missing-finding-id"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-correction-prompt"
+              - input_name: "verification_finding_id"
+                predicate: "absent"
+              - input_name: "finding_id"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-action-run-program-verification-and-correction-loop"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "run-program-verification-and-correction-loop"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-action-generate-program-closeout-prompt"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "generate-program-closeout-prompt"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "missing-program-path-for-action-closeout-proposal-program"
+            reason_codes: ["missing-program-packet-path"]
+            all_of:
+              - input_name: "lifecycle_action"
+                predicate: "equals"
+                value: "closeout-proposal-program"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+          - matcher_id: "ambiguous-program-packet-route"
+            reason_codes: ["ambiguous-program-packet-route"]
+            all_of:
+              - input_name: "program_packet_path"
+                predicate: "present"
+              - input_name: "bundle"
+                predicate: "absent"
+              - input_name: "lifecycle_action"
+                predicate: "absent"
       - route_id: "create-proposal-packet"
         status: "resolved"
         execution_binding_id: "create-proposal-packet"
@@ -126,8 +419,6 @@ dispatchers:
             all_of:
               - input_name: "source_kind"
                 predicate: "present"
-              - input_name: "packet_path"
-                predicate: "absent"
       - route_id: "explain-proposal-packet"
         status: "resolved"
         execution_binding_id: "explain-proposal-packet"
@@ -144,6 +435,23 @@ dispatchers:
               - input_name: "lifecycle_action"
                 predicate: "equals"
                 value: "explain-proposal-packet"
+          - matcher_id: "packet-path-default-explain"
+            reason_codes: ["packet-path-read-only-default"]
+            all_of:
+              - input_name: "packet_path"
+                predicate: "present"
+              - input_name: "bundle"
+                predicate: "absent"
+              - input_name: "lifecycle_action"
+                predicate: "absent"
+              - input_name: "program_packet_path"
+                predicate: "absent"
+              - input_name: "source_kind"
+                predicate: "absent"
+              - input_name: "verification_finding_id"
+                predicate: "absent"
+              - input_name: "finding_id"
+                predicate: "absent"
       - route_id: "generate-implementation-prompt"
         status: "resolved"
         execution_binding_id: "generate-implementation-prompt"

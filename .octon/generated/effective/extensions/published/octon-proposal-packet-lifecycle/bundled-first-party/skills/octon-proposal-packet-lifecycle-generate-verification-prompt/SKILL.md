@@ -15,4 +15,6 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 # Proposal Packet Lifecycle Generate Verification Prompt
 
 Generate `support/follow-up-verification-prompt.md` with stable finding
-identity, evidence requirements, correction scope, and acceptance criteria.
+identity, evidence requirements, correction scope, acceptance criteria,
+generated/runtime publication checks, and declared closure-certification pass
+depth.

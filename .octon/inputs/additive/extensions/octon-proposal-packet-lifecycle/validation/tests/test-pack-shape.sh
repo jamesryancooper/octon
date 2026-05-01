@@ -87,6 +87,24 @@ main() {
     fail "program nesting rejection is missing"
   fi
 
+  if rg -n 'current-state-gap-map|file-change-map|rollback-plan|operator-disclosure|traceability map' "$PACK_ROOT/prompts/shared/lifecycle-artifact-contract.md" "$PACK_ROOT/prompts/create-proposal-packet" >/dev/null; then
+    pass "creation artifact floor covers manual packet outputs"
+  else
+    fail "creation artifact floor is missing manual packet outputs"
+  fi
+
+  if rg -n 'two-consecutive-clean|two consecutive clean|two-consecutive-clean-pass' "$PACK_ROOT/prompts" "$PACK_ROOT/validation/scenarios" >/dev/null; then
+    pass "closure certification pass depth is documented"
+  else
+    fail "closure certification pass depth is missing"
+  fi
+
+  if rg -n 'subagents|delegated implementation|disjoint write scopes|integration owner' "$PACK_ROOT/prompts/generate-implementation-prompt" >/dev/null; then
+    pass "implementation prompt delegation boundary is documented"
+  else
+    fail "implementation prompt delegation boundary is missing"
+  fi
+
   printf '\nPassed: %s\nFailed: %s\n' "$pass_count" "$fail_count"
   [[ "$fail_count" -eq 0 ]]
 }

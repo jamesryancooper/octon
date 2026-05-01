@@ -306,6 +306,21 @@ check_github_companions() {
     "evaluate-pr-autonomy-policy.sh" \
     "pr-auto-merge derives merge authority from canonical policy evaluator" \
     "pr-auto-merge missing canonical autonomy policy evaluator"
+  require_literal \
+    "$PR_AUTO_MERGE_FILE" \
+    "checkout_pr_head" \
+    "pr-auto-merge checks out the same-repo PR head before protected runtime merge" \
+    "pr-auto-merge missing PR-head checkout before protected runtime merge"
+  require_literal \
+    "$PR_AUTO_MERGE_FILE" \
+    'git fetch --no-tags --depth=1 origin "${head_sha}"' \
+    "pr-auto-merge fetches the exact PR head SHA before detached checkout" \
+    "pr-auto-merge fetches branch ref instead of exact PR head SHA"
+  require_literal \
+    "$OCTON_DIR/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh" \
+    "PR_AUTONOMY_MANUAL_LANE_REQUESTED" \
+    "pr autonomy policy honors manual-lane PR body requests" \
+    "pr autonomy policy missing manual-lane PR body request handling"
 }
 
 main() {

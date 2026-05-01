@@ -251,6 +251,23 @@ main() {
     notices+=("Medium-impact runtime change detected. PR remains eligible only if canonical checks stay green.")
   fi
 
+  local manual_lane_requested=false
+  local explicit_auto_merge_requested=false
+  if printf '%s\n' "$body" | grep -Eiq '\[[xX]\][[:space:]]*autonomy:no-automerge'; then
+    manual_lane_requested=true
+  fi
+  if printf '%s\n' "$body" | grep -Eiq '\[[xX]\][[:space:]]*autonomy:auto-merge'; then
+    explicit_auto_merge_requested=true
+  fi
+
+  if [[ "$manual_lane_requested" == true && "$explicit_auto_merge_requested" == true ]]; then
+    errors+=("PR body selects both autonomy:auto-merge and autonomy:no-automerge.")
+  elif [[ "$manual_lane_requested" == true ]]; then
+    requires_human_review=true
+    reason_code="PR_AUTONOMY_MANUAL_LANE_REQUESTED"
+    notices+=("PR body requests autonomy:no-automerge. PR remains manual-lane only; autonomous merge is intentionally disabled.")
+  fi
+
   local status="granted"
   if [[ "${#errors[@]}" -gt 0 ]]; then
     status="denied"
@@ -309,6 +326,8 @@ main() {
       --argjson is_high_impact "$( [[ "$is_high_impact" == true ]] && printf 'true' || printf 'false' )" \
       --argjson is_medium_impact "$( [[ "$is_medium_impact" == true ]] && printf 'true' || printf 'false' )" \
       --argjson requires_human_review "$( [[ "$requires_human_review" == true ]] && printf 'true' || printf 'false' )" \
+      --argjson manual_lane_requested "$( [[ "$manual_lane_requested" == true ]] && printf 'true' || printf 'false' )" \
+      --argjson explicit_auto_merge_requested "$( [[ "$explicit_auto_merge_requested" == true ]] && printf 'true' || printf 'false' )" \
       --argjson materialized "$materialize_json" \
       '{
         status: $status,
@@ -320,7 +339,9 @@ main() {
         notices: $notices,
         is_high_impact: $is_high_impact,
         is_medium_impact: $is_medium_impact,
-        requires_human_review: $requires_human_review
+        requires_human_review: $requires_human_review,
+        manual_lane_requested: $manual_lane_requested,
+        explicit_auto_merge_requested: $explicit_auto_merge_requested
       } + $materialized'
   )"
 

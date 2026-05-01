@@ -16,4 +16,5 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Writ
 
 Run verification, generate targeted corrections, re-verify, and stop only at
 `clean`, `blocked`, `needs-packet-revision`, `superseded`, or explicitly
-deferred.
+deferred. Retain every verification and correction pass, and honor declared
+no-new-finding or consecutive-clean-pass closure thresholds.

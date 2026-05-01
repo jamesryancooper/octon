@@ -18,6 +18,9 @@ chmod +x "$FAKE_KERNEL"
 
 rg -Fq 'protected-ci-auto-merge.sh' "$WORKFLOW"
 rg -Fq -- '--control-json' "$WORKFLOW"
+rg -Fq 'checkout_pr_head' "$WORKFLOW"
+rg -Fq 'git fetch --no-tags --depth=1 origin "${head_sha}"' "$WORKFLOW"
+rg -Fq 'git checkout --detach "${head_sha}"' "$WORKFLOW"
 ! rg -Fq 'repos/${GH_REPO}/pulls/${PR_NUMBER}/merge' "$WORKFLOW"
 ! rg -Fq 'repos/${GH_REPO}/git/refs/heads/' "$WORKFLOW"
 

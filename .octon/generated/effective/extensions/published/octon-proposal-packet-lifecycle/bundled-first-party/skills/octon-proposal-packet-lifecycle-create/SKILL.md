@@ -16,4 +16,6 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Writ
 
 Normalize source context, classify the scenario, create a standard proposal
 packet at the canonical active path, and validate it. Store source lineage in
-`resources/**` and creation prompts in `support/**`.
+`resources/**` and creation prompts in `support/**`. Preserve audit,
+evaluation, and target-thesis traceability; create archive-ready structured
+Markdown artifacts; and keep proposal-local material non-authoritative.

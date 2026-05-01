@@ -1,247 +1,199 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "run-wave4-benchmark-evaluator-20260327",
-  "generated_at": "2026-05-01T01:09:36Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.0.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "fresh",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:7804fafe10f934ea6fcb8a5e9088f40a5453b797d0b25e4c957d16db2c7aa4c3",
-    "checked_at": "2026-05-01T01:09:36Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/runtime-state.yml",
-    "authority_decision": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/decision.yml",
-    "authority_bundle": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/grant-bundle.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327",
-    "evidence_classification": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/run-wave4-benchmark-evaluator-20260327/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml",
-      "digest": "sha256:6be78d956a53e4910197222644db20794f6a3cdee08960e6775ea36217940fcd",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-manifest.yml",
-      "digest": "sha256:5abb0037f759d46f9db0c3c97fbce11ab455221f25e585c2234ac2b516def5dc",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.ndjson",
-      "digest": "sha256:9c7de51ab4c77e214a77079ef10164c95758d50565fe0620177b35a08bd3b8e0",
-      "status": "present"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml",
-      "digest": "sha256:1a6fcb3c230f25d53e72c3b6ee0d75d18b0643506988840ae9246cbc397d4703",
-      "status": "present"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/runtime-state.yml",
-      "digest": "sha256:0a8c9b5aed098597658cf03f06d178f9bcba383aa1d30f153316092779483d5d",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/decision.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/grant-bundle.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/rollback-posture.yml",
-      "digest": "sha256:e49d7bfecb3123ec088290e875fcebd35d853cef69a6aa1843c2ec116cb3e187",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327",
-      "digest": "sha256:c9c71ef1dca371ee78f371adfd8d9117390362ac9f3412c6ff0a0a546efde970",
-      "status": "present"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/evidence-classification.yml",
-      "digest": "sha256:2805f5c69bf9ebcc8866749b39ad850d2ff0f453b0ee354c5549103a0ac31f5b",
-      "status": "present"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/retained-run-evidence.yml",
-      "digest": "sha256:7eba00248bf30f594aa15c225ea918e8a7533a148b232ebe454185b41ebef1f7",
-      "status": "present"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml",
-      "digest": "sha256:4940acf30b159b6a6fb1a3423b8a93ce90ff6b0774c6393aa800d050a9129906",
-      "status": "present"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml",
-      "digest": "sha256:67ca8f93d7ac5c60bad5b54545b0e89be1c51f3acef2a720c22bc54e7f335806",
-      "status": "present"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml",
-      "digest": "sha256:7f55de49e01ab7b32d4893c096ba276892d60dcaa3f1b8f38674eee1d00d399b",
-      "status": "present"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:c5896109ac07c56b6630b89cdcaab022971d7d7cf5d9d5bc0f515d1537d10502",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/run-wave4-benchmark-evaluator-20260327/handoff.yml",
-      "digest": "sha256:80914ba84ac51e00d59344354db1fdf36cf668c3b06b5f62e29a9e9c1c9a1ae8",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:b4999f3f5e229cdcd9639b72faa19430eb9e025af7e0ccfb1b6d162426f80fff",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:d5ac9dcd949b5b386137d56bc1547c99d94171d56d6ab90dc2c3b8d8304c3838",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "evidence-incomplete",
-    "summary": "Required retained run evidence is incomplete for the current lifecycle posture.",
-    "next_required_action": "complete missing retained evidence refs"
-  },
-  "lifecycle": {
-    "state": "succeeded",
-    "decision_state": "allow",
-    "drift_status": null,
-    "latest_event_hash": null,
-    "latest_sequence": null
-  },
-  "support": {
-    "tuple": null,
-    "route_status": "unknown",
-    "pack_status": "unknown",
-    "support_status": "unknown",
-    "requested_capability_packs": []
-  },
-  "authorization": {
-    "status": "unknown",
-    "active_grants": [],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "none",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "complete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": [
-    {
-      "severity": "warning",
-      "code": "authorization-unknown",
-      "message": "Authorization posture could not be resolved from decision or grant artifacts.",
-      "refs": [
-        ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/decision.yml",
-        ".octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/grant-bundle.yml"
-      ]
-    }
-  ]
-}
+schema_version: run-health-read-model-v1
+run_id: run-wave4-benchmark-evaluator-20260327
+generated_at: '2026-05-01T04:23:14Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:4f20a8c3f16e468983198dc57e7a2a647cabdcdc6967abaef89005b836c842ab
+  checked_at: '2026-05-01T04:23:14Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/runtime-state.yml
+  authority_decision: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/decision.yml
+  authority_bundle: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/grant-bundle.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327
+  evidence_classification: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/run-wave4-benchmark-evaluator-20260327/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-contract.yml
+    digest: sha256:6be78d956a53e4910197222644db20794f6a3cdee08960e6775ea36217940fcd
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/run-manifest.yml
+    digest: sha256:5abb0037f759d46f9db0c3c97fbce11ab455221f25e585c2234ac2b516def5dc
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.ndjson
+    digest: sha256:9c7de51ab4c77e214a77079ef10164c95758d50565fe0620177b35a08bd3b8e0
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/events.manifest.yml
+    digest: sha256:1a6fcb3c230f25d53e72c3b6ee0d75d18b0643506988840ae9246cbc397d4703
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/runtime-state.yml
+    digest: sha256:0a8c9b5aed098597658cf03f06d178f9bcba383aa1d30f153316092779483d5d
+    status: present
+  authority_decision:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/decision.yml
+    digest: missing
+    status: missing
+  authority_bundle:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/grant-bundle.yml
+    digest: missing
+    status: missing
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/rollback-posture.yml
+    digest: sha256:e49d7bfecb3123ec088290e875fcebd35d853cef69a6aa1843c2ec116cb3e187
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327
+    digest: sha256:c9c71ef1dca371ee78f371adfd8d9117390362ac9f3412c6ff0a0a546efde970
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/evidence-classification.yml
+    digest: sha256:2805f5c69bf9ebcc8866749b39ad850d2ff0f453b0ee354c5549103a0ac31f5b
+    status: present
+  retained_evidence:
+    ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/retained-run-evidence.yml
+    digest: sha256:7eba00248bf30f594aa15c225ea918e8a7533a148b232ebe454185b41ebef1f7
+    status: present
+  replay_pointers:
+    ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/replay-pointers.yml
+    digest: sha256:4940acf30b159b6a6fb1a3423b8a93ce90ff6b0774c6393aa800d050a9129906
+    status: present
+  intervention_log:
+    ref: .octon/state/evidence/runs/run-wave4-benchmark-evaluator-20260327/interventions/log.yml
+    digest: sha256:67ca8f93d7ac5c60bad5b54545b0e89be1c51f3acef2a720c22bc54e7f335806
+    status: present
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/run-wave4-benchmark-evaluator-20260327/run-card.yml
+    digest: sha256:7f55de49e01ab7b32d4893c096ba276892d60dcaa3f1b8f38674eee1d00d399b
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:23345ed8e4d5c33d9773b5935ec624745b15187c74f9bef063f5e77091f1adbe
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/run-wave4-benchmark-evaluator-20260327/handoff.yml
+    digest: sha256:80914ba84ac51e00d59344354db1fdf36cf668c3b06b5f62e29a9e9c1c9a1ae8
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:392b16119de75fe5da274473960d0c2d83dd9643f6048ce72228090b3d0aaccc
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:6122f9804416bbad8cfb45bba99a48510833132f7b51b53656fa737dd84ef4df
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: evidence-incomplete
+  summary: Required retained run evidence is incomplete for the current lifecycle
+    posture.
+  next_required_action: complete missing retained evidence refs
+lifecycle:
+  state: succeeded
+  decision_state: allow
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: null
+  route_status: unknown
+  pack_status: unknown
+  support_status: unknown
+  requested_capability_packs: []
+authorization:
+  status: unknown
+  active_grants: []
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: none
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics:
+- severity: warning
+  code: authorization-unknown
+  message: Authorization posture could not be resolved from decision or grant artifacts.
+  refs:
+  - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/decision.yml
+  - .octon/state/control/execution/runs/run-wave4-benchmark-evaluator-20260327/authority/grant-bundle.yml

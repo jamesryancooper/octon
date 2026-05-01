@@ -1,247 +1,201 @@
-{
-  "schema_version": "run-health-read-model-v1",
-  "run_id": "bootstrap-doctor-workflow-20260413-v4-stage-inline",
-  "generated_at": "2026-05-01T01:09:36Z",
-  "generator": {
-    "id": "generate-run-health-read-model.sh",
-    "version": "1.0.0",
-    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-  },
-  "authority": {
-    "classification": "generated_read_model_non_authoritative",
-    "may_authorize": false,
-    "may_widen_support": false,
-    "allowed_consumers": [
-      "operators",
-      "validators"
-    ],
-    "forbidden_consumers": [
-      "runtime",
-      "policy",
-      "authority",
-      "support-claim-evaluation",
-      "state-reconstruction",
-      "direct-runtime-reads"
-    ]
-  },
-  "freshness": {
-    "mode": "digest-bound",
-    "status": "fresh",
-    "source_digest_algorithm": "sha256",
-    "combined_source_digest": "sha256:d06c7a7e046e36758edd6a60d9d84c8fd1ce1ce3d810ebfa8c591aac3421de90",
-    "checked_at": "2026-05-01T01:09:36Z",
-    "expires_at": null,
-    "freshness_refs": [
-      ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml"
-    ]
-  },
-  "canonical_refs": {
-    "run_contract": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml",
-    "run_manifest": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-manifest.yml",
-    "events_journal": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.ndjson",
-    "events_manifest": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml",
-    "runtime_state": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/runtime-state.yml",
-    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml",
-    "authority_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml",
-    "approval_request": null,
-    "approval_grants": [],
-    "exception_leases": [],
-    "revocations": [],
-    "rollback_posture": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/rollback-posture.yml",
-    "evidence_root": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline",
-    "evidence_classification": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/evidence-classification.yml",
-    "retained_evidence": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml",
-    "replay_pointers": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay-pointers.yml",
-    "intervention_log": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/interventions/log.yml",
-    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-card.yml",
-    "support_targets": ".octon/instance/governance/support-targets.yml",
-    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-    "run_continuity": ".octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/handoff.yml"
-  },
-  "source_digests": {
-    "run_contract": {
-      "ref": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml",
-      "digest": "sha256:5f97808b4637afa887832f615fe2ee7d1a59d66914d7cd728e3bf1b52fd31ff8",
-      "status": "present"
-    },
-    "run_manifest": {
-      "ref": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-manifest.yml",
-      "digest": "sha256:c7ef0b5ceb78a9e52244c9699c1a19457e4cf8258b4235c4907be8ba25c55119",
-      "status": "present"
-    },
-    "events_journal": {
-      "ref": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.ndjson",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "events_manifest": {
-      "ref": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "runtime_state": {
-      "ref": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/runtime-state.yml",
-      "digest": "sha256:7a65369f19f9101e27d6a2da9c17c34ed91e7dcc54cb592793dd7c1505e15d43",
-      "status": "present"
-    },
-    "authority_decision": {
-      "ref": ".octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml",
-      "digest": "sha256:1704bd40a5da7a008f54a0d7d4d2828eeefd7368a1258e28772a7fa634ac684d",
-      "status": "present"
-    },
-    "authority_bundle": {
-      "ref": ".octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml",
-      "digest": "sha256:1953396044aeaecf6317640a8c9f16af904f8e52306c54985477b8844127b8a8",
-      "status": "present"
-    },
-    "approval_request": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "approval_grants": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "exception_leases": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "revocations": {
-      "ref": null,
-      "digest": "not-applicable",
-      "status": "not-applicable"
-    },
-    "rollback_posture": {
-      "ref": ".octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/rollback-posture.yml",
-      "digest": "sha256:5f2bf2336986d1763a52fd7100c35e09412a83369bee03e9b604aa8d07129d17",
-      "status": "present"
-    },
-    "evidence_root": {
-      "ref": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline",
-      "digest": "sha256:8f04e3de43abac6ef73da47b64732cb6b00fc158c2b213b7b933350443cd6902",
-      "status": "present"
-    },
-    "evidence_classification": {
-      "ref": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/evidence-classification.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "retained_evidence": {
-      "ref": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "replay_pointers": {
-      "ref": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay-pointers.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "intervention_log": {
-      "ref": ".octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/interventions/log.yml",
-      "digest": "missing",
-      "status": "missing"
-    },
-    "disclosure_run_card": {
-      "ref": ".octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-card.yml",
-      "digest": "sha256:0b545589c2b81ddc376a07ed048f1d4cac5c99c376bb580c52edfc03e72d98db",
-      "status": "present"
-    },
-    "support_targets": {
-      "ref": ".octon/instance/governance/support-targets.yml",
-      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
-      "status": "present"
-    },
-    "support_reconciliation": {
-      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
-      "digest": "sha256:c5896109ac07c56b6630b89cdcaab022971d7d7cf5d9d5bc0f515d1537d10502",
-      "status": "present"
-    },
-    "run_continuity": {
-      "ref": ".octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/handoff.yml",
-      "digest": "sha256:73a4950fe703a2dcd48217b7b105f7197e4bba1df5f8c93fc0194631e7c9bf23",
-      "status": "present"
-    },
-    "runtime_route_bundle": {
-      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
-      "digest": "sha256:b4999f3f5e229cdcd9639b72faa19430eb9e025af7e0ccfb1b6d162426f80fff",
-      "status": "present"
-    },
-    "pack_routes": {
-      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
-      "digest": "sha256:d5ac9dcd949b5b386137d56bc1547c99d94171d56d6ab90dc2c3b8d8304c3838",
-      "status": "present"
-    },
-    "schema": {
-      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
-      "digest": "sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8",
-      "status": "present"
-    },
-    "operator_read_model_contract": {
-      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
-      "digest": "sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b",
-      "status": "present"
-    }
-  },
-  "health": {
-    "status": "evidence-incomplete",
-    "summary": "Required retained run evidence is incomplete for the current lifecycle posture.",
-    "next_required_action": "complete missing retained evidence refs"
-  },
-  "lifecycle": {
-    "state": "succeeded",
-    "decision_state": "allow",
-    "drift_status": null,
-    "latest_event_hash": null,
-    "latest_sequence": null
-  },
-  "support": {
-    "tuple": "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell",
-    "route_status": "allow",
-    "pack_status": "allow",
-    "support_status": "supported",
-    "requested_capability_packs": [
-      "repo",
-      "telemetry"
-    ]
-  },
-  "authorization": {
-    "status": "authorized",
-    "active_grants": [
-      ".octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml"
-    ],
-    "open_approvals": [],
-    "active_exceptions": [],
-    "active_revocations": []
-  },
-  "evidence": {
-    "completeness": "incomplete",
-    "missing_required": [
-      "evidence_classification",
-      "retained_evidence",
-      "replay_pointers",
-      "events_journal",
-      "events_manifest",
-      "journal_snapshot",
-      "journal_manifest_snapshot"
-    ]
-  },
-  "rollback": {
-    "status": "ready",
-    "hard_reset_required": false
-  },
-  "intervention": {
-    "status": "unknown",
-    "undisclosed_count": 0,
-    "records": []
-  },
-  "disclosure": {
-    "status": "complete"
-  },
-  "closure": {
-    "status": "not-ready"
-  },
-  "diagnostics": []
-}
+schema_version: run-health-read-model-v1
+run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
+generated_at: '2026-05-01T04:23:14Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: fresh
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:60667239079af91833da4014ced102bd7065e767a3f5eb15d71df4f1be09ad24
+  checked_at: '2026-05-01T04:23:14Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline
+  evidence_classification: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-contract.yml
+    digest: sha256:5f97808b4637afa887832f615fe2ee7d1a59d66914d7cd728e3bf1b52fd31ff8
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-manifest.yml
+    digest: sha256:c7ef0b5ceb78a9e52244c9699c1a19457e4cf8258b4235c4907be8ba25c55119
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.ndjson
+    digest: missing
+    status: missing
+  events_manifest:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/events.manifest.yml
+    digest: missing
+    status: missing
+  runtime_state:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/runtime-state.yml
+    digest: sha256:7a65369f19f9101e27d6a2da9c17c34ed91e7dcc54cb592793dd7c1505e15d43
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+    digest: sha256:1704bd40a5da7a008f54a0d7d4d2828eeefd7368a1258e28772a7fa634ac684d
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+    digest: sha256:1953396044aeaecf6317640a8c9f16af904f8e52306c54985477b8844127b8a8
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/rollback-posture.yml
+    digest: sha256:5f2bf2336986d1763a52fd7100c35e09412a83369bee03e9b604aa8d07129d17
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline
+    digest: sha256:8f04e3de43abac6ef73da47b64732cb6b00fc158c2b213b7b933350443cd6902
+    status: present
+  evidence_classification:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/run-card.yml
+    digest: sha256:0b545589c2b81ddc376a07ed048f1d4cac5c99c376bb580c52edfc03e72d98db
+    status: present
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:23345ed8e4d5c33d9773b5935ec624745b15187c74f9bef063f5e77091f1adbe
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/handoff.yml
+    digest: sha256:73a4950fe703a2dcd48217b7b105f7197e4bba1df5f8c93fc0194631e7c9bf23
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:392b16119de75fe5da274473960d0c2d83dd9643f6048ce72228090b3d0aaccc
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:6122f9804416bbad8cfb45bba99a48510833132f7b51b53656fa737dd84ef4df
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
+    status: present
+health:
+  status: evidence-incomplete
+  summary: Required retained run evidence is incomplete for the current lifecycle
+    posture.
+  next_required_action: complete missing retained evidence refs
+lifecycle:
+  state: succeeded
+  decision_state: allow
+  drift_status: null
+  latest_event_hash: null
+  latest_sequence: null
+support:
+  tuple: tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-bootstrap-doctor-workflow-20260413-v4-stage-inline.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - events_journal
+  - events_manifest
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: complete
+closure:
+  status: not-ready
+diagnostics: []

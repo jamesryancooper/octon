@@ -15,4 +15,5 @@ allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 # Proposal Packet Lifecycle Generate Program Implementation Prompt
 
 Generate aggregate implementation guidance that respects each child packet's
-own manifests, validators, acceptance criteria, and promotion targets.
+own manifests, validators, acceptance criteria, and promotion targets while
+keeping parent coordination distinct from child authority.

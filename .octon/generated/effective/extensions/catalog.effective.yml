@@ -1,12 +1,12 @@
 schema_version: "octon-extension-effective-catalog-v6"
 generator_version: "extension-publication-v5"
 generation_id: "extensions-c2d4f2cbf257"
-published_at: "2026-05-01T01:06:54Z"
+published_at: "2026-05-01T04:15:13Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-05-01T01-06-54Z-extensions-c2d4f2cbf257.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-05-01T04-15-13Z-extensions-c2d4f2cbf257.yml"
 compatibility_status: "compatible"
-compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-05-01T01-06-54Z-extensions-c2d4f2cbf257.yml"
-compatibility_receipt_sha256: "1cedf05c9b451a364418bb6a3f606d9e4728256fef75167b6427aa8fe95e82a5"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-05-01T04-15-13Z-extensions-c2d4f2cbf257.yml"
+compatibility_receipt_sha256: "d79925dc26429be65235b864945fa8aadec028086d3491695280a71d87840d4a"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -1091,7 +1091,7 @@ packs:
         bundle_sha256: "52df226ca836374cf0a458e604bdb0b5ecb902bba61456ee07958149e97d2004"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1201,7 +1201,7 @@ packs:
         bundle_sha256: "bd8735cdb7a85ec764a40e51532af85521805b1e9db0643c7d99909dc3390b4b"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1296,7 +1296,7 @@ packs:
         bundle_sha256: "75663d6455191ad09753090dff25f6a0226284c7870c62f93c14597fcd821092"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1397,7 +1397,7 @@ packs:
         bundle_sha256: "7f572e5f7f4eea199cfcf4b0b9967bbd23b0835b9831d2f9e117879c31d9a256"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1500,7 +1500,7 @@ packs:
         bundle_sha256: "b9495963e9e3c313df094a55691aea2f138175e7027fee106f8fc83670ad9eb7"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1591,7 +1591,7 @@ packs:
         bundle_sha256: "ab69d3c9581a2ae74a48f9230e7c3f166d17166f66ffc53a54495f607acacdbc"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1686,7 +1686,7 @@ packs:
         bundle_sha256: "1ff69d1fbcff526ba4fcb2b5668d34c681eb23d678729d29841e7e9855cb83be"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1786,7 +1786,7 @@ packs:
         bundle_sha256: "31bd05ac5831d49fb0c4080c8e2ce9a9e47cfc215d31bcffbf7c739b6abb12eb"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1881,7 +1881,7 @@ packs:
         bundle_sha256: "2ca17b838478933322cc83148ae2151c7d9fc15b48921c6aa1942a56485e541f"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1976,7 +1976,7 @@ packs:
         bundle_sha256: "b0ce80b7f44e6ea17f9bfcfc5cd4b2f85344fe986aa6edd3adea85ae436de3dc"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2798,7 +2798,7 @@ packs:
         bundle_sha256: "3aeb9aa73a7671180365a68ee7fe5c7b6426ec03278fd499b210e612a0f89253"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2899,7 +2899,7 @@ packs:
         bundle_sha256: "845bbb1cf4b40d37abfd1ad4cee72dded4d08d6e4dc4066def7e20f0dc881656"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3004,7 +3004,7 @@ packs:
         bundle_sha256: "6814387f946656ee95a368e6a1127af697c9c805450c29016777c965faa99868"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3105,7 +3105,7 @@ packs:
         bundle_sha256: "bd8dfa97691e8d88ca6b6d491e6facef3fffee236b053d3af0065a6172557b2e"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3263,7 +3263,7 @@ packs:
         bundle_sha256: "68395a4c394ef19a3ba9b16af8bd56ca2b2a9ddd04344b217cac69b9b6965ab2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3810,7 +3810,7 @@ packs:
         bundle_sha256: "36bed0a8ee1b14a9e7456c38773f95b65e6592867b92a3e9a6ec9ece63fef548"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3879,7 +3879,7 @@ packs:
         bundle_sha256: "44e88c7c40a2b45d8d1240ff24d45a01d3a31a614f4d69a807dd77531b58a5bb"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3952,7 +3952,7 @@ packs:
         bundle_sha256: "cd0c1e5cc922cea4fc2efe34c33013d83cd7afad8770acd78f97b271115c5c7b"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -4021,7 +4021,7 @@ packs:
         bundle_sha256: "5de9a055474dcd2542a80776520d75f44800c2ab84c51f3812e139f3e5265de1"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -4114,6 +4114,7 @@ packs:
           - proposal_id
           - current_lifecycle_state
           - verification_finding_id
+          - finding_id
           - program_packet_path
           - child_packet_paths
           - execution_mode
@@ -4173,6 +4174,37 @@ packs:
               - program-atomic
               - approval-gated
         precedence:
+          - missing-packet-path-for-explicit-explain-proposal-packet
+          - missing-packet-path-for-explicit-generate-implementation-prompt
+          - missing-packet-path-for-explicit-generate-verification-prompt
+          - missing-packet-path-for-explicit-generate-correction-prompt
+          - missing-finding-id-for-explicit-generate-correction-prompt
+          - missing-packet-path-for-explicit-run-verification-and-correction-loop
+          - missing-packet-path-for-explicit-generate-closeout-prompt
+          - missing-packet-path-for-explicit-closeout-proposal-packet
+          - missing-program-path-for-explicit-generate-program-implementation-prompt
+          - missing-program-path-for-explicit-generate-program-verification-prompt
+          - missing-program-path-for-explicit-generate-program-correction-prompt
+          - missing-program-finding-id-for-explicit-generate-program-correction-prompt
+          - missing-program-path-for-explicit-run-program-verification-and-correction-loop
+          - missing-program-path-for-explicit-generate-program-closeout-prompt
+          - missing-program-path-for-explicit-closeout-proposal-program
+          - missing-packet-path-for-action-explain-proposal-packet
+          - missing-packet-path-for-action-generate-implementation-prompt
+          - missing-packet-path-for-action-generate-verification-prompt
+          - missing-packet-path-for-action-generate-correction-prompt
+          - missing-finding-id-for-action-generate-correction-prompt
+          - missing-packet-path-for-action-run-verification-and-correction-loop
+          - missing-packet-path-for-action-generate-closeout-prompt
+          - missing-packet-path-for-action-closeout-proposal-packet
+          - missing-program-path-for-action-generate-program-implementation-prompt
+          - missing-program-path-for-action-generate-program-verification-prompt
+          - missing-program-path-for-action-generate-program-correction-prompt
+          - missing-program-finding-id-for-action-generate-program-correction-prompt
+          - missing-program-path-for-action-run-program-verification-and-correction-loop
+          - missing-program-path-for-action-generate-program-closeout-prompt
+          - missing-program-path-for-action-closeout-proposal-program
+          - ambiguous-program-packet-route
           - explicit-bundle-create-proposal-packet
           - explicit-bundle-explain-proposal-packet
           - explicit-bundle-generate-implementation-prompt
@@ -4204,10 +4236,302 @@ packs:
           - action-run-program-verification-and-correction-loop
           - action-generate-program-closeout-prompt
           - action-closeout-proposal-program
+          - packet-path-default-explain
           - source-driven-packet-creation
           - program-input-create
           - missing-routeable-inputs
         routes:
+          - route_id: missing-required-inputs
+            status: escalate
+            matchers:
+              - matcher_id: missing-packet-path-for-explicit-explain-proposal-packet
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: explain-proposal-packet
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-explicit-generate-implementation-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-implementation-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-explicit-generate-verification-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-verification-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-explicit-generate-correction-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-correction-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-finding-id-for-explicit-generate-correction-prompt
+                reason_codes:
+                  - missing-finding-id
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-correction-prompt
+                  - input_name: verification_finding_id
+                    predicate: absent
+                  - input_name: finding_id
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-explicit-run-verification-and-correction-loop
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: run-verification-and-correction-loop
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-explicit-generate-closeout-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-closeout-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-explicit-closeout-proposal-packet
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: closeout-proposal-packet
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-explicit-generate-program-implementation-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-program-implementation-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-explicit-generate-program-verification-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-program-verification-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-explicit-generate-program-correction-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-program-correction-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-finding-id-for-explicit-generate-program-correction-prompt
+                reason_codes:
+                  - missing-finding-id
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-program-correction-prompt
+                  - input_name: verification_finding_id
+                    predicate: absent
+                  - input_name: finding_id
+                    predicate: absent
+              - matcher_id: missing-program-path-for-explicit-run-program-verification-and-correction-loop
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: run-program-verification-and-correction-loop
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-explicit-generate-program-closeout-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: generate-program-closeout-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-explicit-closeout-proposal-program
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: bundle
+                    predicate: equals
+                    value: closeout-proposal-program
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-explain-proposal-packet
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: explain-proposal-packet
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-generate-implementation-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-implementation-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-generate-verification-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-verification-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-generate-correction-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-correction-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-finding-id-for-action-generate-correction-prompt
+                reason_codes:
+                  - missing-finding-id
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-correction-prompt
+                  - input_name: verification_finding_id
+                    predicate: absent
+                  - input_name: finding_id
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-run-verification-and-correction-loop
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: run-verification-and-correction-loop
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-generate-closeout-prompt
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-closeout-prompt
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-packet-path-for-action-closeout-proposal-packet
+                reason_codes:
+                  - missing-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: closeout-proposal-packet
+                  - input_name: packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-action-generate-program-implementation-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-program-implementation-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-action-generate-program-verification-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-program-verification-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-action-generate-program-correction-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-program-correction-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-finding-id-for-action-generate-program-correction-prompt
+                reason_codes:
+                  - missing-finding-id
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-program-correction-prompt
+                  - input_name: verification_finding_id
+                    predicate: absent
+                  - input_name: finding_id
+                    predicate: absent
+              - matcher_id: missing-program-path-for-action-run-program-verification-and-correction-loop
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: run-program-verification-and-correction-loop
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-action-generate-program-closeout-prompt
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: generate-program-closeout-prompt
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: missing-program-path-for-action-closeout-proposal-program
+                reason_codes:
+                  - missing-program-packet-path
+                all_of:
+                  - input_name: lifecycle_action
+                    predicate: equals
+                    value: closeout-proposal-program
+                  - input_name: program_packet_path
+                    predicate: absent
+              - matcher_id: ambiguous-program-packet-route
+                reason_codes:
+                  - ambiguous-program-packet-route
+                all_of:
+                  - input_name: program_packet_path
+                    predicate: present
+                  - input_name: bundle
+                    predicate: absent
+                  - input_name: lifecycle_action
+                    predicate: absent
           - route_id: create-proposal-packet
             status: resolved
             execution_binding_id: create-proposal-packet
@@ -4232,8 +4556,6 @@ packs:
                 all_of:
                   - input_name: source_kind
                     predicate: present
-                  - input_name: packet_path
-                    predicate: absent
           - route_id: explain-proposal-packet
             status: resolved
             execution_binding_id: explain-proposal-packet
@@ -4252,6 +4574,24 @@ packs:
                   - input_name: lifecycle_action
                     predicate: equals
                     value: explain-proposal-packet
+              - matcher_id: packet-path-default-explain
+                reason_codes:
+                  - packet-path-read-only-default
+                all_of:
+                  - input_name: packet_path
+                    predicate: present
+                  - input_name: bundle
+                    predicate: absent
+                  - input_name: lifecycle_action
+                    predicate: absent
+                  - input_name: program_packet_path
+                    predicate: absent
+                  - input_name: source_kind
+                    predicate: absent
+                  - input_name: verification_finding_id
+                    predicate: absent
+                  - input_name: finding_id
+                    predicate: absent
           - route_id: generate-implementation-prompt
             status: resolved
             execution_binding_id: generate-implementation-prompt
@@ -5312,10 +5652,10 @@ packs:
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/closeout-proposal-packet/manifest.yml"
         manifest_sha256: "87cc99a92a8cde847458c0afff4a4449bc62e340fe2ca63445d57dcb80c85196"
-        bundle_sha256: "6112777530ce59681b838f9b4b2f548b3eb8d6c8b09d0564467011c7409d60c7"
+        bundle_sha256: "f92124e773902f95e9579015d8ecb14ff9f33cb754663f20ef1126b232314b26"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-closeout-proposal-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-closeout-proposal-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5353,7 +5693,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5365,11 +5705,11 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
           - ref_id: "github-closeout-boundary"
             path: "shared/github-closeout-boundary.md"
@@ -5379,10 +5719,10 @@ packs:
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/closeout-proposal-program/manifest.yml"
         manifest_sha256: "57664750c5c2793c3a79c18456efdf5a66a3d8da4c08ee36e51b0e433df74b97"
-        bundle_sha256: "4dee6bb008277047c325e7fd60ed9f2938dfd3055fc5fe0ccd40e796634ecdc8"
+        bundle_sha256: "e1012b104210a3c4a9b25f9c7295c3a27646f523995e553522680285f6fe3f9d"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-closeout-proposal-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-closeout-proposal-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5404,7 +5744,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-closeout-proposal-program-closeout"
             role_class: "stage"
             path: "stages/01-closeout-proposal-program.md"
-            sha256: "c9811da8b61a2afb4a5f77d6b112ccc6ebe60ae8ba1ad941832bd61908a7b455"
+            sha256: "77b4b8f3cda73b04c28eb077e8c9ec49812ee14f0b0e9113c9f257ce3398a826"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/closeout-proposal-program/stages/01-closeout-proposal-program.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-closeout-proposal-program-align-bundle"
@@ -5420,7 +5760,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5432,11 +5772,11 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
           - ref_id: "github-closeout-boundary"
             path: "shared/github-closeout-boundary.md"
@@ -5446,10 +5786,10 @@ packs:
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/create-proposal-packet/manifest.yml"
         manifest_sha256: "fdb057eea5547b208cd63c1bf0b37d893d70c6b96b3cccfcc36921803d037036"
-        bundle_sha256: "dd473c3df78aad90e300a85c99b70c45e8c4027301e7e550775d1ca3db494a7b"
+        bundle_sha256: "b21a52b84067309d33a15b1c54c01234351276569ffca0eb0436a6d47852cf2a"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-create-proposal-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-create-proposal-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5473,13 +5813,13 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-create-proposal-packet-normalize-source-context"
             role_class: "stage"
             path: "stages/01-normalize-source-context.md"
-            sha256: "a72fe0bd3cbbc73d6eeb7b9a8936b34ff55d62a868e4af0ac727fa48b058ed71"
+            sha256: "fd024447e76b4e22cb07f104bf3e1cfaae52b70bfa392e1bbce8211fda04babd"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/create-proposal-packet/stages/01-normalize-source-context.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-create-proposal-packet-classify-proposal-scenario"
             role_class: "stage"
             path: "stages/02-classify-proposal-scenario.md"
-            sha256: "3a7fc08d1075f8e7220c35f4da5876a8d1d694f91b22227de455ef6872b743c2"
+            sha256: "9a14a429c87f2f1c64a438e58baf93b4cf1a10913a7bea61a91e90de406471b3"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/create-proposal-packet/stages/02-classify-proposal-scenario.md"
             stage_order: 2
           - prompt_id: "octon-proposal-packet-lifecycle-create-proposal-packet-select-creation-route"
@@ -5491,13 +5831,13 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-create-proposal-packet-generate-or-create-packet"
             role_class: "stage"
             path: "stages/04-generate-or-create-packet.md"
-            sha256: "41530ca3b41611abfc294cd42cb445b29109ab6e181e534f681316d93a815290"
+            sha256: "c78ebb3de0b57b5250fac9b6e077b99a6602397c928a2c63e4f7aff60faccdbb"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/create-proposal-packet/stages/04-generate-or-create-packet.md"
             stage_order: 4
           - prompt_id: "octon-proposal-packet-lifecycle-create-proposal-packet-validate-packet"
             role_class: "stage"
             path: "stages/05-validate-packet.md"
-            sha256: "1ab0a0bfcdb3aed15438412b11f1080358e0b8b1798a30bc7092f2f388753216"
+            sha256: "6b7e367004426fffeacfe8c1d395c006e000ac22063d30ccb2ea07307f9ad235"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/create-proposal-packet/stages/05-validate-packet.md"
             stage_order: 5
           - prompt_id: "octon-proposal-packet-lifecycle-create-proposal-packet-generate-custom-creation-prompt"
@@ -5518,7 +5858,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5530,20 +5870,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-create-proposal-program"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/create-proposal-program/manifest.yml"
         manifest_sha256: "bbdf9383f1326aa57816aa7a94902e3cad2089f603a9fb2f97da1d79dd5c1942"
-        bundle_sha256: "641cf9351e9fc35b68fe785bc75540f230ebd9b2aeafe92004f8c2f905100f70"
+        bundle_sha256: "eeebbe40e33d6975dc216cb25e7d30f0db728021acf1ee1a826033fb4a772f50"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-create-proposal-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-create-proposal-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5581,7 +5921,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5593,20 +5933,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-explain-proposal-packet"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/explain-proposal-packet/manifest.yml"
         manifest_sha256: "460b61b2c7d31052858cd2d0707fb718373858f14b20235912f04a222373fc29"
-        bundle_sha256: "6d2ab2e345d9cfaa573f2f641e005713c2ee6d90f8a7e3b5b2800f19a28f4fc2"
+        bundle_sha256: "a42a93488ac6cf32f03e488ad1f285fa3da244669deeaf697ca019e35daf9d31"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-explain-proposal-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-explain-proposal-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5628,7 +5968,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-explain-proposal-packet-explain"
             role_class: "stage"
             path: "stages/01-explain-packet.md"
-            sha256: "ad451ca1aa708a935ebf4a43d4dcb3fa906c00e1748599e50ca1a2a879de6154"
+            sha256: "d68a23394f859ca9f13639af30394f13e46c533a9c9993c7d380a63749110f19"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/explain-proposal-packet/stages/01-explain-packet.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-explain-proposal-packet-align-bundle"
@@ -5644,7 +5984,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5656,20 +5996,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-generate-closeout-prompt"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-closeout-prompt/manifest.yml"
         manifest_sha256: "80151f5ada8d3280986d44b317f799306df0303952cde2989968790b22dae43e"
-        bundle_sha256: "1ee54405081e2d71addabc42d600f51d927bbb536f51182b9fef9dc30459c810"
+        bundle_sha256: "8fb67ddfddd0ff0ad6f99ed3912bbbc1fd24071d77a09bd2016cfe3bd4b50cd5"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-closeout-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-closeout-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5707,7 +6047,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5719,11 +6059,11 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
           - ref_id: "github-closeout-boundary"
             path: "shared/github-closeout-boundary.md"
@@ -5733,10 +6073,10 @@ packs:
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-correction-prompt/manifest.yml"
         manifest_sha256: "b617a49361f0792738c766201a8ae1b3f07eea11c8ee31e1ccd3d78534e237b8"
-        bundle_sha256: "c4e8b2cf9453d503e7aaac7de14fd68476eeae7f7d92e1656ab2032afed178fb"
+        bundle_sha256: "b9b6cf14a9acb33db119e55369f5a4173aa069bed6c030bcd681f611dfd71a4f"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-correction-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-correction-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5758,7 +6098,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-generate-correction-prompt-generate"
             role_class: "stage"
             path: "stages/01-generate-correction-prompt.md"
-            sha256: "84ce912d7b1b9ca7dd845f5439e65dbde8f7e08d98cff0a19af26c6093b7003c"
+            sha256: "ff9a287b48334dffa311a727bf2db456834634362a65e3c66f2c74451055fcc3"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/generate-correction-prompt/stages/01-generate-correction-prompt.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-generate-correction-prompt-align-bundle"
@@ -5774,7 +6114,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5786,20 +6126,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-implementation-prompt/manifest.yml"
         manifest_sha256: "6012e63460e2e02d1716fe184343eeba9c549b65aa34b81ae8d755f1607ca97c"
-        bundle_sha256: "34f5973cf2006d326fa23f3f7f5e04efb2b199d1eb0f1359bd044db417fad1be"
+        bundle_sha256: "849593d06c9d105e27e5c8f209fe5711297e045c3eb2476b95302bb60ae68308"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-implementation-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-implementation-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5821,7 +6161,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt-generate"
             role_class: "stage"
             path: "stages/01-generate-implementation-prompt.md"
-            sha256: "7724820fd66e72562a4eb58f4fd0ea776776c7ad2b19d889beba7f66caea2283"
+            sha256: "06c44e7234d4a8e1660c8b3f3c44c1af711a88669322994052c0629b066e0c1a"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/generate-implementation-prompt/stages/01-generate-implementation-prompt.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt-align-bundle"
@@ -5837,7 +6177,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5849,20 +6189,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-program-closeout-prompt/manifest.yml"
         manifest_sha256: "8e2a87c6e59461f5b6ccf55f7d361ec3b135f498423ba477e96fc1fde37256df"
-        bundle_sha256: "0772ca3c63c0df60b5b818a7fb1222228b7576dd93149fc65a0f4bb7142686e6"
+        bundle_sha256: "9e01b1b12e0b3c60d32673b8d6e2edaf92657f421d600b1634ec73241ab90060"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-closeout-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-closeout-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5884,7 +6224,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt-generate"
             role_class: "stage"
             path: "stages/01-generate-program-closeout-prompt.md"
-            sha256: "6696fee2fea852a71210a00797c078f55c5b9ed905005f87d05db037a0a60a37"
+            sha256: "abf80636d7f930d719cb9f6238aebd6063cbc9b5e9d855953b2b806eb2a02a94"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/generate-program-closeout-prompt/stages/01-generate-program-closeout-prompt.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt-align-bundle"
@@ -5900,7 +6240,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5912,11 +6252,11 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
           - ref_id: "github-closeout-boundary"
             path: "shared/github-closeout-boundary.md"
@@ -5926,10 +6266,10 @@ packs:
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-program-correction-prompt/manifest.yml"
         manifest_sha256: "bacd56fcd864dd9660af483e220733bd8890c8272c176579488c983af64fb2e3"
-        bundle_sha256: "5420cea80f3aa6fdf22eb5bca050b3117fb7c01a7761ce7a041a43d900707002"
+        bundle_sha256: "ab41263eb4e41ddc2a88fe52e84b58d67deaf0999cc419db67c521db027cb39d"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-correction-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-correction-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -5967,7 +6307,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -5979,20 +6319,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-program-implementation-prompt/manifest.yml"
         manifest_sha256: "eddba0ac553e7781ca63295fc190e0a31b2c17bc849d2bbd3d6ad29bff68f951"
-        bundle_sha256: "8e66c581aeca2a1f8678ac2592fa1399d7aecbdac5834e089011d0713cf82744"
+        bundle_sha256: "84c057b5c034b3e829da7f786a6b1b62210c2899b5c45f842da76b8faedd73d3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-implementation-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-implementation-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6014,7 +6354,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt-generate"
             role_class: "stage"
             path: "stages/01-generate-program-implementation-prompt.md"
-            sha256: "602adc1f6bdc68dffa96af86c01ad97ace7f8bb249c5e95c1de20f5d7542888b"
+            sha256: "dd714cb1acf3055a062f87268e43a26ca0f52c572e1b406790173d56f6e5d43e"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/generate-program-implementation-prompt/stages/01-generate-program-implementation-prompt.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt-align-bundle"
@@ -6030,7 +6370,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -6042,20 +6382,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-verification-prompt"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-program-verification-prompt/manifest.yml"
         manifest_sha256: "35f58fa4a78199c39dac9d1c39496bdb222ed70d8f5fc8692adba71a77f1aeb9"
-        bundle_sha256: "8e98cbacbc4cd5ea272e245e5961b9a18ece762db5f400702e8f73d0e72f72c1"
+        bundle_sha256: "e3ddd4583bb406eee0d350c6a8f12bc6362af25efbbe7eb6568f001d6f7790bc"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-verification-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-program-verification-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6093,7 +6433,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -6105,20 +6445,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-generate-verification-prompt"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/generate-verification-prompt/manifest.yml"
         manifest_sha256: "bf0a95013be0df87ad66338c31f4aad315c344b7b144921e1f9ce59e72712969"
-        bundle_sha256: "3d67abbf0c0cf9bedfb610d6c66a10fbaaa27276312670294b707d15d971ca1b"
+        bundle_sha256: "1e074807149f5db315b140d808b9c738b500d35d2698f8b537fcd0677d43be10"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-verification-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-generate-verification-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6140,7 +6480,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-generate-verification-prompt-generate"
             role_class: "stage"
             path: "stages/01-generate-verification-prompt.md"
-            sha256: "da62ec18824bdc905345f2fa0ba5b03b0beac97fcd1c5f121bb2588c05f1dadf"
+            sha256: "d9849a1e07df022798a8cd3d308d01a7a45a1d3c4ec3cc9e9938d7831cac9019"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/generate-verification-prompt/stages/01-generate-verification-prompt.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-generate-verification-prompt-align-bundle"
@@ -6156,7 +6496,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -6168,20 +6508,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/run-program-verification-and-correction-loop/manifest.yml"
         manifest_sha256: "df61e3bddba9b0370bb3986e19c08a6cf1c89a8946bf8d1f7ad8a0c4734fe703"
-        bundle_sha256: "ac250931dc35ffdf65c0616c60149683cbc17647c70d7c1659d86ce2990c8d55"
+        bundle_sha256: "cd53580503cc0ea51d5863921ba045882db2b3919a30cb9233574ccf681e9d83"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6219,7 +6559,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -6231,20 +6571,20 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
       - prompt_set_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop"
         schema_version: "octon-extension-prompt-set-v1"
         manifest_path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/prompts/run-verification-and-correction-loop/manifest.yml"
         manifest_sha256: "be136f76ef3458776a46d0a1314b7d1c7b09757ac01e48c38f7c63c78a8ef291"
-        bundle_sha256: "8ccd4b0d4e1d0e3558711655ecad9a7361db1dd550ae0a27a5e19b0c9a474cc9"
+        bundle_sha256: "666d73ac9fcdf45d0ad3218862ab779ec04578dc03a149490e3bf7b15020a291"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T01-06-54Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-verification-and-correction-loop.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-01T04-15-13Z-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-verification-and-correction-loop.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6266,7 +6606,7 @@ packs:
           - prompt_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop-run"
             role_class: "stage"
             path: "stages/01-run-verification-and-correction-loop.md"
-            sha256: "8973449f1b3dddecb1a5373db4aa2710a56544f3931cc4e8d1a714356781b8bc"
+            sha256: "58b4aadd91e8ed0b2967f5c27846edccaa8c86a266639fe68d0a50a5781ef876"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/run-verification-and-correction-loop/stages/01-run-verification-and-correction-loop.md"
             stage_order: 1
           - prompt_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop-align-bundle"
@@ -6282,7 +6622,7 @@ packs:
         shared_reference_assets:
           - ref_id: "repository-grounding"
             path: "shared/repository-grounding.md"
-            sha256: "65b2225be87aefacb640b34be57e45066ef882dd7913971280afa04e91758011"
+            sha256: "f82811f8d255d65c8f1533b0c9ff865c171a7f51f226834ca4493285e749f469"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/repository-grounding.md"
           - ref_id: "proposal-contract"
             path: "shared/proposal-contract.md"
@@ -6294,14 +6634,14 @@ packs:
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/proposal-authority-boundaries.md"
           - ref_id: "lifecycle-artifact-contract"
             path: "shared/lifecycle-artifact-contract.md"
-            sha256: "beb735f52d0e9153c270fcbe6eca633eb34fe225a650a4f87095415f3098dd68"
+            sha256: "0ca716b5199bead31e3bd5daef516adb7a59ecf491cb49f6aed3932f9f41af3b"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/lifecycle-artifact-contract.md"
           - ref_id: "validation-and-evidence-contract"
             path: "shared/validation-and-evidence-contract.md"
-            sha256: "c764f5148f40dc384b7059329eca369cb806d577bb3c3d77d7776b57e85bbb52"
+            sha256: "93da414316d0e96d3a1195e47af6df16101598b4f4c28d6a9d8ff8a3af289fbc"
             projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/prompts/shared/validation-and-evidence-contract.md"
 source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "c2d4f2cbf257a00af2b18cfd41d3727586ff9cfe02145b1594cfec90d464f716"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "0656615ec4567c7f32c9ea37a28f3415ec284f00e9d9ed2a43ff9bbec914a084"
+  root_manifest_sha256: "bce5205a317cf1d8d015b0c311719fbdd5db86aea91ab487ac3ae62fd31895fb"
