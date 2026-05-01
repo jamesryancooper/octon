@@ -2355,6 +2355,16 @@ stages:
         .expect("write scenario resolution");
         let runtime_receipt_rel =
             ".octon/state/evidence/validation/publication/runtime/fixture-runtime-route-bundle.yml";
+        let extensions_generation_id = fixture_yaml_string(
+            &octon_dir.join("generated/effective/extensions/generation.lock.yml"),
+            ".generation_id",
+        )
+        .expect("read fixture extension generation id");
+        let extensions_publication_status = fixture_yaml_string(
+            &octon_dir.join("generated/effective/extensions/catalog.effective.yml"),
+            ".publication_status",
+        )
+        .expect("read fixture extension publication status");
         fs::write(
             octon_dir.join("instance/governance/runtime-resolution.yml"),
             "schema_version: \"octon-runtime-resolution-v1\"\nowner: \"test\"\nroot_manifest_ref: \".octon/octon.yml\"\nruntime_effective_route_bundle_ref: \".octon/generated/effective/runtime/route-bundle.yml\"\nruntime_effective_route_bundle_lock_ref: \".octon/generated/effective/runtime/route-bundle.lock.yml\"\npack_routes_effective_ref: \".octon/generated/effective/capabilities/pack-routes.effective.yml\"\npack_routes_lock_ref: \".octon/generated/effective/capabilities/pack-routes.lock.yml\"\nsupport_target_matrix_ref: \".octon/generated/effective/governance/support-target-matrix.yml\"\nextensions_catalog_ref: \".octon/generated/effective/extensions/catalog.effective.yml\"\nextensions_generation_lock_ref: \".octon/generated/effective/extensions/generation.lock.yml\"\nmission_effective_route_root: \".octon/generated/effective/orchestration/missions\"\nruntime_inputs: {}\n",
@@ -2362,7 +2372,7 @@ stages:
         .expect("write fixture runtime-resolution selector");
         fs::write(
             octon_dir.join("generated/effective/runtime/route-bundle.yml"),
-            "schema_version: \"octon-runtime-effective-route-bundle-v1\"\ngeneration_id: \"fixture-runtime-route-bundle\"\ngenerated_at: \"2026-03-23T00:00:00Z\"\npublication_status: \"published\"\npublication_receipt_path: \".octon/state/evidence/validation/publication/runtime/fixture-runtime-route-bundle.yml\"\nroutes:\n  - tuple_id: \"tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell\"\n    tuple:\n      model_tier: \"repo-local-governed\"\n      workload_tier: \"repo-consequential\"\n      language_resource_tier: \"reference-owned\"\n      locale_tier: \"english-primary\"\n      host_adapter: \"repo-shell\"\n      model_adapter: \"repo-local-governed\"\n    claim_effect: \"admitted-live-claim\"\n    route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"git\"\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\n  - tuple_id: \"tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell\"\n    tuple:\n      model_tier: \"repo-local-governed\"\n      workload_tier: \"observe-and-read\"\n      language_resource_tier: \"reference-owned\"\n      locale_tier: \"english-primary\"\n      host_adapter: \"repo-shell\"\n      model_adapter: \"repo-local-governed\"\n    claim_effect: \"admitted-live-claim\"\n    route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\nextensions:\n  generation_id: \"extensions-090beb843d30\"\n  status: \"published\"\n  quarantine_count: 0\n",
+            format!("schema_version: \"octon-runtime-effective-route-bundle-v1\"\ngeneration_id: \"fixture-runtime-route-bundle\"\ngenerated_at: \"2026-03-23T00:00:00Z\"\npublication_status: \"published\"\npublication_receipt_path: \".octon/state/evidence/validation/publication/runtime/fixture-runtime-route-bundle.yml\"\nroutes:\n  - tuple_id: \"tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell\"\n    tuple:\n      model_tier: \"repo-local-governed\"\n      workload_tier: \"repo-consequential\"\n      language_resource_tier: \"reference-owned\"\n      locale_tier: \"english-primary\"\n      host_adapter: \"repo-shell\"\n      model_adapter: \"repo-local-governed\"\n    claim_effect: \"admitted-live-claim\"\n    route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"git\"\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\n  - tuple_id: \"tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell\"\n    tuple:\n      model_tier: \"repo-local-governed\"\n      workload_tier: \"observe-and-read\"\n      language_resource_tier: \"reference-owned\"\n      locale_tier: \"english-primary\"\n      host_adapter: \"repo-shell\"\n      model_adapter: \"repo-local-governed\"\n    claim_effect: \"admitted-live-claim\"\n    route: \"allow\"\n    requires_mission: false\n    allowed_capability_packs:\n      - \"repo\"\n      - \"shell\"\n      - \"telemetry\"\nextensions:\n  generation_id: \"{extensions_generation_id}\"\n  status: \"{extensions_publication_status}\"\n  quarantine_count: 0\n"),
         )
         .expect("write fixture runtime route bundle");
         let bundle_sha =

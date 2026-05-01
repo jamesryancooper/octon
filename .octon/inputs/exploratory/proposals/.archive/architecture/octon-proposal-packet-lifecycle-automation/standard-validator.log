@@ -1,0 +1,35 @@
+closeout validation transcript
+
+proposal: octon-proposal-packet-lifecycle-automation
+archived_at: 2026-04-30
+
+command:
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-proposal-packet-lifecycle-automation --skip-registry-check
+
+result:
+Validation summary: errors=0 warnings=0
+
+command:
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/octon-proposal-packet-lifecycle-automation
+
+result:
+Validation summary: errors=0
+
+command:
+bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write
+
+result:
+Registry generation summary: errors=0
+
+command:
+bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check
+
+result:
+Registry generation summary: errors=0
+
+archive note:
+The unrelated untracked proposal packet at
+.octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/
+was removed before registry regeneration because it failed the proposal
+standard gate, was not part of this lifecycle automation closeout, and was
+removed after explicit user authorization.

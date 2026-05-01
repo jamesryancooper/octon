@@ -1,201 +1,249 @@
-schema_version: run-health-read-model-v1
-run_id: uec-validate-proposal-20260331-b
-generated_at: '2026-04-29T14:22:33Z'
-generator:
-  id: generate-run-health-read-model.sh
-  version: 1.0.0
-  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-  allowed_consumers:
-  - operators
-  - validators
-  forbidden_consumers:
-  - runtime
-  - policy
-  - authority
-  - support-claim-evaluation
-  - state-reconstruction
-  - direct-runtime-reads
-freshness:
-  mode: digest-bound
-  status: fresh
-  source_digest_algorithm: sha256
-  combined_source_digest: sha256:1be866fb8a1cd6a98bc2d0fc06569c97b62cfb5c02142e0a981c8bc55f18b68f
-  checked_at: '2026-04-29T14:22:33Z'
-  expires_at: null
-  freshness_refs:
-  - .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml
-canonical_refs:
-  run_contract: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml
-  run_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml
-  events_journal: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.ndjson
-  events_manifest: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml
-  runtime_state: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/runtime-state.yml
-  authority_decision: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/decision.yml
-  authority_bundle: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/grant-bundle.yml
-  approval_request: null
-  approval_grants: []
-  exception_leases: []
-  revocations: []
-  rollback_posture: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/rollback-posture.yml
-  evidence_root: .octon/state/evidence/runs/uec-validate-proposal-20260331-b
-  evidence_classification: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/evidence-classification.yml
-  retained_evidence: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml
-  replay_pointers: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml
-  intervention_log: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/interventions/log.yml
-  disclosure_run_card: .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml
-  support_targets: .octon/instance/governance/support-targets.yml
-  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-  run_continuity: .octon/state/continuity/runs/uec-validate-proposal-20260331-b/handoff.yml
-source_digests:
-  run_contract:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml
-    digest: sha256:55374bbfad21882ce7700a7e69e7468aabe7886d27e33561e2bb2beb86e340f9
-    status: present
-  run_manifest:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml
-    digest: sha256:ef590459c9fd7d68c047202a219fc8add7881704ce6816525b7a06d5ef924731
-    status: present
-  events_journal:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.ndjson
-    digest: missing
-    status: missing
-  events_manifest:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml
-    digest: missing
-    status: missing
-  runtime_state:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/runtime-state.yml
-    digest: sha256:1a2d7c23cb76b57084fa2bfad204d67d7bc9d5d0908e28f10dcac3761982d13c
-    status: present
-  authority_decision:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/decision.yml
-    digest: missing
-    status: missing
-  authority_bundle:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/grant-bundle.yml
-    digest: missing
-    status: missing
-  approval_request:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  approval_grants:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  exception_leases:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  revocations:
-    ref: null
-    digest: not-applicable
-    status: not-applicable
-  rollback_posture:
-    ref: .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/rollback-posture.yml
-    digest: sha256:fda2ffc7d78274b04fc2593ef803f8f749740f101e0be11443ba03332f3598e8
-    status: present
-  evidence_root:
-    ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b
-    digest: sha256:1d7a028e881c56c580298263b6551cdcac7aab48b89748bf8c7c3821341dd9f3
-    status: present
-  evidence_classification:
-    ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/evidence-classification.yml
-    digest: sha256:b7ea3ad691fa0f2c7680e266d55e643912e7a8e38da32c9aa65e14e6b6a8f8e4
-    status: present
-  retained_evidence:
-    ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml
-    digest: sha256:06892c5ac7f95b8ea6783299e174bb43d04d76232518429dfa767e7550f28185
-    status: present
-  replay_pointers:
-    ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml
-    digest: sha256:ef24626455f5e567d632eb7f60be7e516f2e2a7b3626f0f5c3253395b9380023
-    status: present
-  intervention_log:
-    ref: .octon/state/evidence/runs/uec-validate-proposal-20260331-b/interventions/log.yml
-    digest: sha256:55564f5fa7ee294eb3a2b3ec80b758358fa5b192a43f1bcd89a382491f2efbc4
-    status: present
-  disclosure_run_card:
-    ref: .octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml
-    digest: sha256:7a8f63fa48ef3f932560308cba7b941f7c7cb0f0b104edfdf4abf6460f0f87e9
-    status: present
-  support_targets:
-    ref: .octon/instance/governance/support-targets.yml
-    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
-    status: present
-  support_reconciliation:
-    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:9bee8b216f658105ee9fc27af5847c80de1ac75913807a5868b6e988295c14bb
-    status: present
-  run_continuity:
-    ref: .octon/state/continuity/runs/uec-validate-proposal-20260331-b/handoff.yml
-    digest: sha256:aabcd03d5e0663ae980b38f70eb928b03e8310071624b4f8449677f497cce1be
-    status: present
-  runtime_route_bundle:
-    ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:cf764ee6ec2229e1c78accd2e27b6ae4c04e41d434027800e7a4cd95ccda40d2
-    status: present
-  pack_routes:
-    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:db50c9988b43969042cc3b9e31256e2d4d45f8e30f1bcd93592409789abe6ee6
-    status: present
-  schema:
-    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
-    digest: sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8
-    status: present
-  operator_read_model_contract:
-    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
-    digest: sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b
-    status: present
-health:
-  status: blocked
-  summary: Run cannot continue until the blocking lifecycle or authorization condition
-    is resolved.
-  next_required_action: inspect canonical lifecycle and authority refs
-lifecycle:
-  state: failed
-  decision_state: allow
-  drift_status: null
-  latest_event_hash: null
-  latest_sequence: null
-support:
-  tuple: null
-  route_status: unknown
-  pack_status: unknown
-  support_status: unknown
-  requested_capability_packs: []
-authorization:
-  status: unknown
-  active_grants: []
-  open_approvals: []
-  active_exceptions: []
-  active_revocations: []
-evidence:
-  completeness: incomplete
-  missing_required:
-  - events_journal
-  - events_manifest
-  - journal_snapshot
-  - journal_manifest_snapshot
-rollback:
-  status: ready
-  hard_reset_required: false
-intervention:
-  status: none
-  undisclosed_count: 0
-  records: []
-disclosure:
-  status: complete
-closure:
-  status: blocked
-diagnostics:
-- severity: warning
-  code: authorization-unknown
-  message: Authorization posture could not be resolved from decision or grant artifacts.
-  refs:
-  - .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/decision.yml
-  - .octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/grant-bundle.yml
+{
+  "schema_version": "run-health-read-model-v1",
+  "run_id": "uec-validate-proposal-20260331-b",
+  "generated_at": "2026-05-01T01:09:36Z",
+  "generator": {
+    "id": "generate-run-health-read-model.sh",
+    "version": "1.0.0",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+  },
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false,
+    "allowed_consumers": [
+      "operators",
+      "validators"
+    ],
+    "forbidden_consumers": [
+      "runtime",
+      "policy",
+      "authority",
+      "support-claim-evaluation",
+      "state-reconstruction",
+      "direct-runtime-reads"
+    ]
+  },
+  "freshness": {
+    "mode": "digest-bound",
+    "status": "fresh",
+    "source_digest_algorithm": "sha256",
+    "combined_source_digest": "sha256:d6b5db8cedd0be7c8b291db409c6e85a91a71c8a6701e30c6a821c2d160c1747",
+    "checked_at": "2026-05-01T01:09:36Z",
+    "expires_at": null,
+    "freshness_refs": [
+      ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml"
+    ]
+  },
+  "canonical_refs": {
+    "run_contract": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml",
+    "run_manifest": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml",
+    "events_journal": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.ndjson",
+    "events_manifest": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml",
+    "runtime_state": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/runtime-state.yml",
+    "authority_decision": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/decision.yml",
+    "authority_bundle": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/grant-bundle.yml",
+    "approval_request": null,
+    "approval_grants": [],
+    "exception_leases": [],
+    "revocations": [],
+    "rollback_posture": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/rollback-posture.yml",
+    "evidence_root": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b",
+    "evidence_classification": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/evidence-classification.yml",
+    "retained_evidence": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml",
+    "replay_pointers": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml",
+    "intervention_log": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/interventions/log.yml",
+    "disclosure_run_card": ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml",
+    "support_targets": ".octon/instance/governance/support-targets.yml",
+    "support_reconciliation": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+    "run_continuity": ".octon/state/continuity/runs/uec-validate-proposal-20260331-b/handoff.yml"
+  },
+  "source_digests": {
+    "run_contract": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-contract.yml",
+      "digest": "sha256:55374bbfad21882ce7700a7e69e7468aabe7886d27e33561e2bb2beb86e340f9",
+      "status": "present"
+    },
+    "run_manifest": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/run-manifest.yml",
+      "digest": "sha256:ef590459c9fd7d68c047202a219fc8add7881704ce6816525b7a06d5ef924731",
+      "status": "present"
+    },
+    "events_journal": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.ndjson",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "events_manifest": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/events.manifest.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "runtime_state": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/runtime-state.yml",
+      "digest": "sha256:1a2d7c23cb76b57084fa2bfad204d67d7bc9d5d0908e28f10dcac3761982d13c",
+      "status": "present"
+    },
+    "authority_decision": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/decision.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "authority_bundle": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/grant-bundle.yml",
+      "digest": "missing",
+      "status": "missing"
+    },
+    "approval_request": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "approval_grants": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "exception_leases": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "revocations": {
+      "ref": null,
+      "digest": "not-applicable",
+      "status": "not-applicable"
+    },
+    "rollback_posture": {
+      "ref": ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/rollback-posture.yml",
+      "digest": "sha256:fda2ffc7d78274b04fc2593ef803f8f749740f101e0be11443ba03332f3598e8",
+      "status": "present"
+    },
+    "evidence_root": {
+      "ref": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b",
+      "digest": "sha256:1d7a028e881c56c580298263b6551cdcac7aab48b89748bf8c7c3821341dd9f3",
+      "status": "present"
+    },
+    "evidence_classification": {
+      "ref": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/evidence-classification.yml",
+      "digest": "sha256:b7ea3ad691fa0f2c7680e266d55e643912e7a8e38da32c9aa65e14e6b6a8f8e4",
+      "status": "present"
+    },
+    "retained_evidence": {
+      "ref": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/retained-run-evidence.yml",
+      "digest": "sha256:06892c5ac7f95b8ea6783299e174bb43d04d76232518429dfa767e7550f28185",
+      "status": "present"
+    },
+    "replay_pointers": {
+      "ref": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/replay-pointers.yml",
+      "digest": "sha256:ef24626455f5e567d632eb7f60be7e516f2e2a7b3626f0f5c3253395b9380023",
+      "status": "present"
+    },
+    "intervention_log": {
+      "ref": ".octon/state/evidence/runs/uec-validate-proposal-20260331-b/interventions/log.yml",
+      "digest": "sha256:55564f5fa7ee294eb3a2b3ec80b758358fa5b192a43f1bcd89a382491f2efbc4",
+      "status": "present"
+    },
+    "disclosure_run_card": {
+      "ref": ".octon/state/evidence/disclosure/runs/uec-validate-proposal-20260331-b/run-card.yml",
+      "digest": "sha256:7a8f63fa48ef3f932560308cba7b941f7c7cb0f0b104edfdf4abf6460f0f87e9",
+      "status": "present"
+    },
+    "support_targets": {
+      "ref": ".octon/instance/governance/support-targets.yml",
+      "digest": "sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9",
+      "status": "present"
+    },
+    "support_reconciliation": {
+      "ref": ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      "digest": "sha256:c5896109ac07c56b6630b89cdcaab022971d7d7cf5d9d5bc0f515d1537d10502",
+      "status": "present"
+    },
+    "run_continuity": {
+      "ref": ".octon/state/continuity/runs/uec-validate-proposal-20260331-b/handoff.yml",
+      "digest": "sha256:aabcd03d5e0663ae980b38f70eb928b03e8310071624b4f8449677f497cce1be",
+      "status": "present"
+    },
+    "runtime_route_bundle": {
+      "ref": ".octon/generated/effective/runtime/route-bundle.yml",
+      "digest": "sha256:b4999f3f5e229cdcd9639b72faa19430eb9e025af7e0ccfb1b6d162426f80fff",
+      "status": "present"
+    },
+    "pack_routes": {
+      "ref": ".octon/generated/effective/capabilities/pack-routes.effective.yml",
+      "digest": "sha256:d5ac9dcd949b5b386137d56bc1547c99d94171d56d6ab90dc2c3b8d8304c3838",
+      "status": "present"
+    },
+    "schema": {
+      "ref": ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json",
+      "digest": "sha256:05a894fb371a6f4bbca59f02157e262fac3ae2f5b5efe5cc05ccba317c7155a8",
+      "status": "present"
+    },
+    "operator_read_model_contract": {
+      "ref": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      "digest": "sha256:e9bebcb34c8966440e131110f738a01d17e629a1dcb63c03edb63866f2b0a88b",
+      "status": "present"
+    }
+  },
+  "health": {
+    "status": "blocked",
+    "summary": "Run cannot continue until the blocking lifecycle or authorization condition is resolved.",
+    "next_required_action": "inspect canonical lifecycle and authority refs"
+  },
+  "lifecycle": {
+    "state": "failed",
+    "decision_state": "allow",
+    "drift_status": null,
+    "latest_event_hash": null,
+    "latest_sequence": null
+  },
+  "support": {
+    "tuple": null,
+    "route_status": "unknown",
+    "pack_status": "unknown",
+    "support_status": "unknown",
+    "requested_capability_packs": []
+  },
+  "authorization": {
+    "status": "unknown",
+    "active_grants": [],
+    "open_approvals": [],
+    "active_exceptions": [],
+    "active_revocations": []
+  },
+  "evidence": {
+    "completeness": "incomplete",
+    "missing_required": [
+      "events_journal",
+      "events_manifest",
+      "journal_snapshot",
+      "journal_manifest_snapshot"
+    ]
+  },
+  "rollback": {
+    "status": "ready",
+    "hard_reset_required": false
+  },
+  "intervention": {
+    "status": "none",
+    "undisclosed_count": 0,
+    "records": []
+  },
+  "disclosure": {
+    "status": "complete"
+  },
+  "closure": {
+    "status": "blocked"
+  },
+  "diagnostics": [
+    {
+      "severity": "warning",
+      "code": "authorization-unknown",
+      "message": "Authorization posture could not be resolved from decision or grant artifacts.",
+      "refs": [
+        ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/decision.yml",
+        ".octon/state/control/execution/runs/uec-validate-proposal-20260331-b/authority/grant-bundle.yml"
+      ]
+    }
+  ]
+}

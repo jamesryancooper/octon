@@ -1,0 +1,199 @@
+schema_version: "extensions-skills-registry-fragment-v1"
+skills:
+  octon-proposal-packet-lifecycle:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet"]
+    parameters:
+      - name: bundle
+        type: text
+        required: false
+        description: "Optional explicit route id."
+      - name: lifecycle_action
+        type: text
+        required: false
+        description: "Lifecycle action used by the composite dispatcher."
+      - name: packet_path
+        type: text
+        required: false
+        description: "Proposal packet path or id."
+      - name: source_kind
+        type: text
+        required: false
+        description: "Source kind for packet creation."
+      - name: dry_run_route
+        type: boolean
+        required: false
+        default: false
+        description: "Return the route resolution receipt without dispatching."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-create:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-create"]
+    parameters:
+      - name: source
+        type: text
+        required: true
+        description: "Source context to convert into a proposal packet."
+      - name: proposal_kind
+        type: text
+        required: false
+        description: "Optional target proposal kind."
+      - name: proposal_id
+        type: text
+        required: false
+        description: "Optional proposal id override."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-explain:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-explain"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-implementation-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-implementation-prompt"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-verification-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-verification-prompt"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-correction-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-correction-prompt"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+      - name: finding_id
+        type: text
+        required: true
+        description: "Stable verification finding id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-run-verification-and-correction-loop:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-run-verification-and-correction-loop"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-closeout-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-closeout-prompt"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-closeout:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-closeout"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-create-program:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-create-program"]
+    parameters:
+      - name: source
+        type: text
+        required: true
+        description: "Program source context."
+      - name: child_packet_paths
+        type: text
+        required: false
+        description: "Canonical child proposal packet paths."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-program-implementation-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-program-implementation-prompt"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-program-verification-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-program-verification-prompt"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-program-correction-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-program-correction-prompt"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+      - name: finding_id
+        type: text
+        required: true
+        description: "Stable program finding id."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-run-program-verification-and-correction-loop"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-generate-program-closeout-prompt:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-generate-program-closeout-prompt"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+    requires:
+      context: []
+  octon-proposal-packet-lifecycle-closeout-program:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-closeout-program"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+    requires:
+      context: []
