@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-e7c1b8d5b242
-published_at: 2026-05-01T23:16:54Z
+generation_id: capabilities-8c0ff052a918
+published_at: 2026-05-02T23:44:22Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-01T23-16-54Z-capabilities-e7c1b8d5b242.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-02T23-44-22Z-capabilities-8c0ff052a918.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -13,7 +13,7 @@ invalidation_conditions:
   - extensions-lock-sha-changed
 source:
   root_manifest_path: .octon/octon.yml
-  root_manifest_sha256: 77d213b46f67dec1981a4ec04b39da2db1851c67933e7752759651c1f83a356f
+  root_manifest_sha256: d0d7db983b549df402e7821e17c9d462a28e43cbfa293e85482547ac9b03f33d
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: 13e67cbfac06e5ac7e930a0f92c82ae76886213651c446bc78203603c5ddfdb0
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 2113fbe36a15503ed9c26aa6d71f5692fbd124d8c5170a98a33b30258e01d91e
+  extensions_catalog_sha256: 04c911cc6f926eb3dd1373cf85a52c18c0d31fa28522bb80fe04c8cdfdc2a427
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 9842370498233abc9de7cd150b5d0228d54a01539e3af6882f6e91e898e5a1eb
+  extensions_generation_lock_sha256: daf94c0958382540c07456050004df30884179e1d0cd33aa21aee4252b08544d
   extensions_generation_id: extensions-c2d4f2cbf257
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
