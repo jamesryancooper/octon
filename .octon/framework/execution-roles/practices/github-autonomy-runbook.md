@@ -99,7 +99,7 @@ a fine-grained PAT.
 Provider-agnostic AI gate workflow:
 
 - Workflow: `.github/workflows/ai-review-gate.yml`
-- Required check target (strict mode): `AI Review Gate / decision`
+- Branch-pr check target (strict mode): `AI Review Gate / decision`
 - Policy contract:
   `.octon/framework/execution-roles/practices/standards/ai-gate-policy.json`
 - Normalized findings schema:
@@ -126,11 +126,12 @@ Waiver contract:
 Before expecting autonomous merges:
 
 1. `AUTONOMY_AUTO_MERGE_ENABLED=true` is set as a repository variable.
-2. Main branch ruleset is active with required checks and route-aware Change
-   merge or push policy.
+2. Current live `main` ruleset is active with required checks. The accepted
+   repo-local target is route-neutral Change projection; live migration remains
+   a separate operator action.
 3. Actions workflow setting has `can_approve_pull_request_reviews=true`.
 4. `AUTONOMY_PAT` is set as a repository Actions secret.
-5. Main control-plane matches
+5. Main control-plane matches the `current_live_main` posture in
    `.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json`.
 6. (Optional) `AUTONOMY_AUTO_CLOSE_ENABLED=true` if stale draft auto-close is desired.
 7. (Optional) `AUTONOMY_ATTENTION_AFTER_HOURS=<n>` to tune attention indicator threshold.
@@ -153,12 +154,13 @@ gh api repos/<owner>/<repo>/actions/permissions/workflow
 gh api repos/<owner>/<repo>/rulesets
 ```
 
-Before strict AI gate cutover:
+Before strict branch-pr AI gate cutover:
 
 1. `OPENAI_API_KEY` and `ANTHROPIC_API_KEY` are configured as repository
    Actions secrets.
 2. `AI_GATE_ENFORCE=true` is set as a repository variable.
-3. `AI Review Gate / decision` is in the required checks list for `main`.
+3. `AI Review Gate / decision` is enforced only for branch-pr projections. It
+   is not part of the target universal route-neutral `main` check set.
 
 Control-plane baseline capture command:
 
@@ -446,8 +448,10 @@ It checks for control-plane drift:
 - `AUTONOMY_PAT` is present.
 - `AUTONOMY_AUTO_MERGE_ENABLED=true`.
 - `AUTONOMY_POLICY_ENFORCE` is effectively `true`.
-- `main` ruleset required checks exactly match
+- Live `main` ruleset required checks match the `current_live_main` section of
   `.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json`.
+  The `target_route_neutral_main` section is repo-local projection state until
+  the live ruleset migration is accepted.
 - Pull-request rules require review-thread resolution.
 - Repository merge settings remain squash-only and auto-merge compatible.
 - Repository settings preserve `delete_branch_on_merge=true`.
@@ -494,49 +498,27 @@ gh workflow run ai-review-gate.yml
 gh run list --workflow "AI Review Gate" --limit 10
 ```
 
-Strict-mode cutover:
+Strict branch-pr mode cutover:
 
 ```bash
 gh variable set AI_GATE_ENFORCE --body true
 ```
 
-Main ruleset required-check cutover command template:
+Route-neutral main ruleset migration remains separate follow-up work. The target
+universal check set is:
+
+- `route_neutral_closeout_validation`
+- `branch_naming_validation`
+- `route_aware_autonomy_validation`
+- `exact_source_sha_validation`
+
+Keep `AI Review Gate / decision` and `PR Quality Standards` behind branch-pr;
+do not add them as universal target `main` checks.
+
+Post-cutover verification after an accepted live migration:
 
 ```bash
-RULESET_ID="<main-ruleset-id>"
-gh api \
-  --method PATCH \
-  "repos/<owner>/<repo>/rulesets/${RULESET_ID}" \
-  --input - <<'JSON'
-{
-  "conditions": {
-    "ref_name": {
-      "include": ["~DEFAULT_BRANCH"],
-      "exclude": []
-    }
-  },
-  "rules": [
-    {
-      "type": "required_status_checks",
-      "parameters": {
-        "strict_required_status_checks_policy": true,
-        "required_status_checks": [
-          {"context": "AI Review Gate / decision"},
-          {"context": "enforce-ci-efficiency-policy"},
-          {"context": "PR Quality Standards"},
-          {"context": "Validate branch naming"},
-          {"context": "Validate autonomy policy"}
-        ]
-      }
-    }
-  ]
-}
-JSON
-```
-
-Post-cutover verification:
-
-```bash
+.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --expect target-route-neutral --strict-live
 gh workflow run autonomy-release-health.yml
 gh run list --workflow "Autonomy Release Health" --limit 5
 ```
@@ -592,9 +574,9 @@ Phase 2 (drift health expansion):
 Phase 5 (provider-agnostic AI gate):
 
 - Shadow-mode rollback (non-blocking): set `AI_GATE_ENFORCE=false`.
-- Strict-mode rollback (merge-blocking disable): remove
-  `AI Review Gate / decision` from required checks in the main ruleset, then
-  set `AI_GATE_ENFORCE=false`.
+- Strict-mode rollback (branch-pr blocking disable): remove
+  `AI Review Gate / decision` from branch-pr enforcement, then set
+  `AI_GATE_ENFORCE=false`.
 - Keep `.github/workflows/codex-pr-review.yml` advisory during rollback.
 
 ## Troubleshooting

@@ -1,0 +1,308 @@
+name: Main Change Route Guard
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  classify-main-change-route:
+    name: Classify main Change route
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - id: route_guard
+        name: Classify accepted Change route or break-glass
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
+        with:
+          script: |
+            const fs = require("fs");
+            const cp = require("child_process");
+            const { owner, repo } = context.repo;
+            const sha = context.sha;
+            const message = context.payload.head_commit?.message || "";
+            const fullShaPattern = /^[0-9a-f]{40}$/i;
+            const prNumberPatterns = [
+              /(?:^|\n)Merge pull request #(\d+)\b/m,
+              /\(#(\d+)\)(?:\s*$|\n)/m
+            ];
+
+            function setAccepted(mode, details, extra = {}) {
+              core.info(`Accepted main update mode: ${mode}. ${details}`);
+              core.setOutput("mode", mode);
+              core.setOutput("details", details);
+              for (const [key, value] of Object.entries(extra)) {
+                core.setOutput(key, String(value));
+              }
+            }
+
+            function git(args) {
+              return cp.execFileSync("git", args, { encoding: "utf8" }).trim();
+            }
+
+            function isNonEmptyString(value) {
+              return typeof value === "string" && value.length > 0;
+            }
+
+            function isNonEmptyArray(value) {
+              return Array.isArray(value) && value.length > 0;
+            }
+
+            function cleanupStatusIsExplicit(receipt) {
+              return ["completed", "deferred", "pending"].includes(receipt.cleanup_status);
+            }
+
+            function validateDirectMain(receipt) {
+              const problems = [];
+              if (receipt.selected_route !== "direct-main") problems.push("selected_route is not direct-main");
+              if (!["landed", "cleaned"].includes(receipt.lifecycle_outcome)) problems.push("lifecycle_outcome is not landed/cleaned");
+              if (receipt.integration_status !== "landed") problems.push("integration_status is not landed");
+              if (receipt.integration_method !== "direct-commit") problems.push("integration_method is not direct-commit");
+              if (receipt.landed_ref !== sha) problems.push("landed_ref does not match github.sha");
+              if (!isNonEmptyArray(receipt.validation_evidence_refs)) problems.push("validation_evidence_refs is empty");
+              if (!isNonEmptyString(receipt.rollback_handle?.ref)) problems.push("rollback_handle.ref is missing");
+              if (!cleanupStatusIsExplicit(receipt)) problems.push("cleanup_status is not explicit");
+              return problems;
+            }
+
+            function validateBranchNoPr(receipt) {
+              const hosted = receipt.hosted_landing || {};
+              const problems = [];
+              if (receipt.selected_route !== "branch-no-pr") problems.push("selected_route is not branch-no-pr");
+              if (!["landed", "cleaned"].includes(receipt.lifecycle_outcome)) problems.push("lifecycle_outcome is not landed/cleaned");
+              if (receipt.integration_status !== "landed") problems.push("integration_status is not landed");
+              if (receipt.integration_method !== "fast-forward") problems.push("integration_method is not fast-forward");
+              if (receipt.publication_status !== "hosted-main-updated") problems.push("publication_status is not hosted-main-updated");
+              if (receipt.durable_history?.kind === "pr" || isNonEmptyString(receipt.durable_history?.pr_url) || receipt.pr_url || receipt.pr_number) problems.push("receipt contains PR metadata");
+              if (!isNonEmptyString(receipt.source_branch_ref)) problems.push("source_branch_ref is missing");
+              if (!isNonEmptyString(receipt.remote_branch_ref)) problems.push("remote_branch_ref is missing");
+              if (!isNonEmptyString(hosted.source_branch)) problems.push("hosted_landing.source_branch is missing");
+              if (!isNonEmptyString(hosted.provider_ruleset_ref)) problems.push("hosted_landing.provider_ruleset_ref is missing");
+              if (!isNonEmptyArray(hosted.required_check_refs)) problems.push("hosted_landing.required_check_refs is empty");
+              if (hosted.fast_forward_only !== true) problems.push("hosted_landing.fast_forward_only is not true");
+              if (!fullShaPattern.test(hosted.source_ref || "")) problems.push("hosted_landing.source_ref is not an exact commit SHA");
+              if (hosted.source_ref !== hosted.validated_ref) problems.push("hosted_landing.validated_ref does not equal source_ref");
+              if (hosted.source_ref !== sha) problems.push("hosted_landing.source_ref does not match github.sha");
+              if (hosted.target_post_ref !== sha) problems.push("hosted_landing.target_post_ref does not match github.sha");
+              if (receipt.landed_ref !== sha) problems.push("landed_ref does not match github.sha");
+              if (hosted.target_post_ref !== receipt.landed_ref) problems.push("target_post_ref does not equal landed_ref");
+              if (!isNonEmptyString(receipt.rollback_handle?.ref)) problems.push("rollback_handle.ref is missing");
+              if (!cleanupStatusIsExplicit(receipt)) problems.push("cleanup_status is not explicit");
+              return problems;
+            }
+
+            function changedReceiptCandidates() {
+              let before = context.payload.before || "";
+              if (!before || /^0+$/.test(before)) {
+                before = git(["rev-list", "--max-parents=0", "HEAD"]).split("\n").pop();
+              } else {
+                try {
+                  git(["cat-file", "-e", `${before}^{commit}`]);
+                } catch {
+                  git(["fetch", "--no-tags", "--depth=1", "origin", before]);
+                }
+              }
+
+              const diffOutput = git(["diff", "--name-only", before, sha]);
+              if (!diffOutput) return [];
+              return diffOutput
+                .split("\n")
+                .filter((file) => file.startsWith(".octon/") && file.endsWith(".json"))
+                .filter((file) => fs.existsSync(file));
+            }
+
+            const result = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner,
+              repo,
+              commit_sha: sha
+            });
+
+            const merged = result.data.filter((pr) => Boolean(pr.merged_at) && pr.base?.ref === "main");
+            if (merged.length > 0) {
+              setAccepted("branch-pr", `Associated with merged PR #${merged[0].number} targeting main.`, {
+                pr_number: merged[0].number
+              });
+              return;
+            }
+
+            for (const pattern of prNumberPatterns) {
+              const match = message.match(pattern);
+              if (!match) {
+                continue;
+              }
+
+              const pull_number = Number.parseInt(match[1], 10);
+              if (!Number.isInteger(pull_number)) {
+                continue;
+              }
+
+              try {
+                const { data: pr } = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number
+                });
+
+                if (pr.merged_at && pr.base?.ref === 'main' && pr.merge_commit_sha === sha) {
+                  setAccepted("branch-pr", `Associated with merged PR #${pr.number} via commit message fallback.`, {
+                    pr_number: pr.number
+                  });
+                  return;
+                }
+
+                core.warning(
+                  `Commit message referenced PR #${pull_number}, but the merged PR ` +
+                  `did not validate for ${sha}.`
+                );
+              } catch (error) {
+                core.warning(
+                  `Commit message referenced PR #${pull_number}, but PR validation ` +
+                  `failed: ${error.message}`
+                );
+              }
+            }
+
+            const match = message.match(/BREAK-GLASS:\s*(OVR-\d{4}-\d{2}-\d{2}-\d{3})/i);
+            if (match) {
+              const overrideId = match[1].toUpperCase();
+              core.warning(`Break-glass main update detected (${overrideId}).`);
+              setAccepted("break-glass", `Authorized break-glass footer ${overrideId}.`, {
+                override_id: overrideId
+              });
+              return;
+            }
+
+            const candidates = changedReceiptCandidates();
+            const valid = [];
+            const inspected = [];
+
+            for (const file of candidates) {
+              let receipt;
+              try {
+                receipt = JSON.parse(fs.readFileSync(file, "utf8"));
+              } catch {
+                continue;
+              }
+              if (receipt.schema_version !== "change-receipt-v1") continue;
+
+              if (receipt.selected_route === "direct-main") {
+                const problems = validateDirectMain(receipt);
+                inspected.push(`${file}: direct-main ${problems.length ? `rejected (${problems.join("; ")})` : "accepted"}`);
+                if (!problems.length) valid.push({ mode: "direct-main", file });
+              } else if (receipt.selected_route === "branch-no-pr") {
+                const problems = validateBranchNoPr(receipt);
+                inspected.push(`${file}: branch-no-pr ${problems.length ? `rejected (${problems.join("; ")})` : "accepted"}`);
+                if (!problems.length) valid.push({ mode: "branch-no-pr", file });
+              }
+            }
+
+            const acceptedModes = [...new Set(valid.map((item) => item.mode))];
+            if (acceptedModes.length === 1) {
+              const evidencePaths = valid
+                .filter((item) => item.mode === acceptedModes[0])
+                .map((item) => item.file)
+                .join(", ");
+              setAccepted(acceptedModes[0], `Validated durable Change receipt evidence: ${evidencePaths}.`, {
+                evidence_paths: evidencePaths
+              });
+              return;
+            }
+
+            if (acceptedModes.length > 1) {
+              core.setFailed(`Main update matched multiple accepted Change routes (${acceptedModes.join(", ")}); exactly one route is allowed.`);
+              return;
+            }
+
+            const details = inspected.length ? `\nReceipt inspection:\n- ${inspected.join("\n- ")}` : "";
+            core.setFailed(
+              [
+                "Main update did not match any accepted Change route.",
+                "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr Change receipt, or authorized break-glass.",
+                "PRs are optional route outputs only for branch-pr; direct-main and branch-no-pr require route-neutral closeout, validation, rollback, cleanup, and landed-ref evidence.",
+                details
+              ].filter(Boolean).join("\n")
+            );
+
+      - id: changed
+        name: Detect charter and ledger file changes
+        run: |
+          set -euo pipefail
+
+          before="${{ github.event.before }}"
+          if [[ "$before" == "0000000000000000000000000000000000000000" ]]; then
+            before="$(git rev-list --max-parents=0 HEAD | tail -n1)"
+          fi
+
+          charter_path=".octon/framework/cognition/governance/principles/principles.md"
+          ledger_path=".octon/framework/cognition/governance/exceptions/principles-charter-overrides.md"
+
+          charter_changed=false
+          ledger_changed=false
+
+          if git diff --name-only "$before" "${{ github.sha }}" -- "$charter_path" | grep -q .; then
+            charter_changed=true
+          fi
+
+          if git diff --name-only "$before" "${{ github.sha }}" -- "$ledger_path" | grep -q .; then
+            ledger_changed=true
+          fi
+
+          echo "charter_changed=${charter_changed}" >> "$GITHUB_OUTPUT"
+          echo "ledger_changed=${ledger_changed}" >> "$GITHUB_OUTPUT"
+
+      - name: Enforce break-glass ledger linkage for charter edits
+        if: steps.route_guard.outputs.mode == 'break-glass' && steps.changed.outputs.charter_changed == 'true'
+        run: |
+          set -euo pipefail
+
+          ledger=".octon/framework/cognition/governance/exceptions/principles-charter-overrides.md"
+          override_id="${{ steps.route_guard.outputs.override_id }}"
+
+          if [[ "${{ steps.changed.outputs.ledger_changed }}" != "true" ]]; then
+            echo "[main-change-route] charter changed in break-glass push without ledger update."
+            exit 1
+          fi
+
+          start="$(grep -nE "^### ${override_id}$" "$ledger" | tail -n1 | cut -d: -f1 || true)"
+          if [[ -z "$start" ]]; then
+            echo "[main-change-route] override id ${override_id} not found in ledger."
+            exit 1
+          fi
+
+          end="$(awk -v start="$start" '
+            NR > start && /^### OVR-[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]{3}$/ {
+              print NR - 1
+              found = 1
+              exit
+            }
+            END {
+              if (!found) {
+                print NR
+              }
+            }
+          ' "$ledger")"
+
+          block="$(sed -n "${start},${end}p" "$ledger")"
+          if ! printf '%s\n' "$block" | grep -Eq '^- break_glass:[[:space:]]*true$'; then
+            echo "[main-change-route] override record ${override_id} must declare break_glass: true."
+            exit 1
+          fi
+
+      - name: Run governance lint and override audit for charter break-glass edits
+        if: steps.route_guard.outputs.mode == 'break-glass' && steps.changed.outputs.charter_changed == 'true'
+        env:
+          LINT_BASE_REF: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          bash .octon/framework/cognition/_ops/principles/scripts/lint-principles-governance.sh
+          bash .octon/framework/cognition/_ops/principles/scripts/audit-principles-charter-overrides.sh

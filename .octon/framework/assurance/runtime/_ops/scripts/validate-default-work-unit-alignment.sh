@@ -20,6 +20,7 @@ CLOSEOUT_PR="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeo
 LIFECYCLE_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
 HOSTED_NO_PR_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
 GITHUB_RULESET_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
+GITHUB_PROJECTION_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh"
 CHANGE_PACKAGE_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/change-package-v1.schema.json"
 CHANGE_PACKAGE_CONSTITUTIONAL_SCHEMA="$OCTON_DIR/framework/constitution/contracts/runtime/change-package-v1.schema.json"
 CHANGE_PACKAGE_COMPILER="$OCTON_DIR/framework/engine/runtime/spec/engagement-change-package-compiler-v1.md"
@@ -101,6 +102,7 @@ check_core_contracts() {
   require_file "$AI_GATE_POLICY"
   require_file "$HOSTED_NO_PR_VALIDATOR"
   require_file "$GITHUB_RULESET_VALIDATOR"
+  require_file "$GITHUB_PROJECTION_VALIDATOR"
 
   require_yq "$POLICY_YML" '.default_work_unit == "change"' "machine policy declares Change as default work unit" "machine policy must declare Change as default work unit"
   require_yq "$POLICY_YML" '.internal_execution_bundle == "change-package"' "machine policy declares Change Package as internal bundle" "machine policy must declare Change Package as internal bundle"
@@ -121,6 +123,7 @@ check_core_contracts() {
   require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "machine policy requires origin/main equality for no-PR landing" "machine policy must require origin/main equality for no-PR landing"
   require_yq "$POLICY_YML" '.fail_closed_conditions[]? | select(. == "provider_ruleset_blocks_requested_hosted_no_pr_landing")' "machine policy fails closed when ruleset blocks no-PR landing" "machine policy must fail closed when ruleset blocks no-PR landing"
   require_yq "$POLICY_YML" '.hosted_provider_ruleset.target_model == "route-neutral protected main"' "machine policy defines route-neutral hosted ruleset target" "machine policy must define route-neutral hosted ruleset target"
+  require_yq "$POLICY_YML" '.hosted_provider_ruleset.universal_required_checks[]? | select(. == "exact_source_sha_validation")' "machine policy includes exact source SHA route-neutral check" "machine policy must include exact source SHA route-neutral check"
   require_yq "$POLICY_YML" '.hosted_provider_ruleset.pr_specific_checks[]? | select(. == "AI Review Gate / decision")' "machine policy keeps AI review gate PR-specific" "machine policy must keep AI review gate PR-specific"
   require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "machine policy distinguishes PR ready outcome" "machine policy must distinguish PR ready outcome"
   if yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$POLICY_YML" >/dev/null 2>&1; then
@@ -130,7 +133,9 @@ check_core_contracts() {
   fi
   require_jq "$CHANGE_PACKAGE_SCHEMA" '.properties.schema_version.const == "change-package-v1"' "runtime Change Package schema has target schema version" "runtime Change Package schema must use change-package-v1"
   require_jq "$COMMIT_PR_STANDARDS" '.change.default_work_unit == "change" and (.change.pr_required_routes[]? == "branch-pr")' "commit/PR standards bind to Change routes" "commit/PR standards must bind to Change routes"
-  require_jq "$GITHUB_CONTROL_CONTRACT" '.scope.projection_host_for == "PR-backed Changes" and .direct_main_projection.github_pr_metadata_required == false' "GitHub control contract is projection-only for PR-backed Changes" "GitHub control contract must stay projection-only"
+  require_jq "$GITHUB_CONTROL_CONTRACT" '.scope.projection_host_for == "route-aware Change lifecycle GitHub projection" and .direct_main_projection.github_pr_metadata_required == false' "GitHub control contract is route-aware and projection-only" "GitHub control contract must be route-aware and projection-only"
+  require_jq "$GITHUB_CONTROL_CONTRACT" '(.rulesets.target_route_neutral_main.universal_required_checks | index("AI Review Gate / decision") | not) and (.rulesets.target_route_neutral_main.pr_specific_checks | index("AI Review Gate / decision") != null)' "GitHub control contract keeps AI gate out of universal target checks" "GitHub control contract must keep AI gate out of universal target checks"
+  require_jq "$GITHUB_CONTROL_CONTRACT" '.rulesets.target_route_neutral_main.live_mutation_performed_by_this_projection == false' "GitHub control contract does not claim live ruleset mutation" "GitHub control contract must not claim live ruleset mutation"
   require_jq "$AI_GATE_POLICY" '.route_scope.hosted_gate_route == "branch-pr" and .route_scope.no_pr_change_gate_required == false' "AI gate policy is scoped to hosted PR route" "AI gate policy must be scoped to hosted PR route"
   require_yq "$REVIEW_ROUTING" '.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "review routing references default work unit policy" "review routing must reference default work unit policy"
 }
@@ -185,6 +190,8 @@ check_no_active_legacy_or_default_drift() {
     rg -n "PR-first|main remains PR-first|default execution unit is one branch|one branch worktree per task or PR|Stage, commit, push, and open a draft PR" framework instance \
       -g '!framework/scaffolding/practices/prompts/**' \
       -g '!framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh' \
+      -g '!framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh' \
+      -g '!framework/assurance/runtime/_ops/tests/test-github-projection-alignment.sh' \
       -g '!instance/cognition/decisions/**' 2>/dev/null || true
   )"
   if [[ -n "$default_drift" ]]; then

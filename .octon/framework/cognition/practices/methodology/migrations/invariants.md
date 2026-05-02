@@ -35,7 +35,8 @@ These invariants are enforced through repository contracts and CI policy surface
 - `/.octon/framework/cognition/practices/methodology/migrations/ci-gates.md`
 - `/.octon/framework/cognition/practices/methodology/migrations/legacy-banlist.md`
 - `/.octon/framework/cognition/practices/methodology/migrations/index.yml`
-- `/.github/workflows/main-pr-first-guard.yml`
+- `/.github/workflows/main-change-route-guard.yml`
+- `/.github/workflows/change-route-projection.yml`
 - `/.github/workflows/pr-quality.yml`
 - `/.github/workflows/alignment-check.yml`
 

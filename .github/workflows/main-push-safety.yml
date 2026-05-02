@@ -185,6 +185,19 @@ jobs:
           chmod +x .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh
           .octon/framework/execution-roles/_ops/scripts/validate/validate-execution-roles.sh
 
+      - name: Validate Change route projection alignment
+        run: |
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh --skip-live-remote
+          .octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh
+
   docs-only-skip:
     name: Narrative Markdown Skip
     needs:

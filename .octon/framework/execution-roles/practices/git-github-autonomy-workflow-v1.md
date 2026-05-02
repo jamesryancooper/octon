@@ -29,7 +29,8 @@ This workflow covers:
 
 - Primary `main` worktree or clone posture plus branch worktree execution
 - Local branch, PR, and cleanup helper scripts
-- GitHub PR triage, policy checks, and autonomous merge behavior
+- GitHub route-aware main projection, PR triage, policy checks, and autonomous
+  merge behavior
 - Provider-agnostic AI review gating
 - Release PR automation (`release-please`)
 - Daily control-plane drift detection and auto-healing issue handling
@@ -62,9 +63,9 @@ Shared invariants:
 - Do not stack unrelated work in one worktree.
 - Keep the same branch and same PR for the life of the task.
 
-### Merge lanes
+### Route Projection Lanes
 
-Default lane (autonomous):
+Branch-PR lane (autonomous):
 
 1. Create branch worktree.
 2. Commit and open draft PR.
@@ -74,6 +75,21 @@ Default lane (autonomous):
 5. Request squash auto-merge.
 6. Let GitHub perform the final merge once required checks and review policy
    are satisfied.
+
+Direct-main lane:
+
+- Land only after Change routing selects `direct-main`.
+- Record durable Change receipt evidence with validation, rollback, cleanup,
+  and landed-ref proof.
+- Do not require PR metadata.
+
+Branch-no-PR lane:
+
+- Push the source branch and validate the exact source SHA.
+- Land through fast-forward-only hosted update only when the provider ruleset
+  is route-neutral and permits no-PR protected-main update.
+- Record provider ruleset ref, pushed source branch, exact source SHA checks,
+  rollback, cleanup, and proof that `origin/main` equals the landed ref.
 
 Guarded lane (manual):
 
@@ -107,11 +123,11 @@ AI review lane:
 
 - `AI Review Gate` runs provider adapters (OpenAI and Anthropic), normalizes
   findings, and computes `AI Review Gate / decision`.
-- The gate dual-writes projection state into canonical approval artifacts and
-  required checks without relying on AI-gate labels.
+- The gate dual-writes branch-pr projection state into canonical approval
+  artifacts and PR checks without relying on AI-gate labels.
 - Shadow mode: `AI_GATE_ENFORCE=false` (decision check passes with telemetry).
-- Strict mode: `AI_GATE_ENFORCE=true` with `AI Review Gate / decision`
-  required in the `main` branch ruleset.
+- Strict mode: `AI_GATE_ENFORCE=true`; `AI Review Gate / decision` remains a
+  branch-pr check and is not a universal route-neutral `main` requirement.
 - Codex-specific review remains advisory and non-blocking.
 
 ### Contextual closeout gate
@@ -182,7 +198,8 @@ Use this table to find canonical detail by concern.
 | Machine-readable Git/worktree/PR contract | `.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml` |
 | Commit contract and branch naming | `.octon/framework/execution-roles/practices/commits.md` |
 | PR quality policy and autonomy flow | `.octon/framework/execution-roles/practices/pull-request-standards.md` |
-| Route-neutral Change closeout loop | `.octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md` |
+| Route-neutral Change closeout loop | `.octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md` |
+| PR-backed closeout subflow | `.octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md` |
 | Machine-enforced commit/PR contract | `.octon/framework/execution-roles/practices/standards/commit-pr-standards.json` |
 | Merge-critical control-plane contract | `.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json` |
 | AI gate policy contract | `.octon/framework/execution-roles/practices/standards/ai-gate-policy.json` |
@@ -208,7 +225,8 @@ Primary autonomy workflows:
 
 Core guardrails that stay active with this model:
 
-- `.github/workflows/main-pr-first-guard.yml`
+- `.github/workflows/main-change-route-guard.yml`
+- `.github/workflows/change-route-projection.yml`
 - `.github/workflows/main-push-safety.yml`
 - `.github/workflows/commit-and-branch-standards.yml`
 - `.github/workflows/pr-quality.yml`
@@ -221,15 +239,19 @@ Core guardrails that stay active with this model:
 Minimum control-plane expectations:
 
 - `main` remains Change-first and serves as the clean integration anchor.
-- One branch worktree or equivalent branch workspace is the default unit of
-  execution for one task or PR.
+- Change routing selects `direct-main`, `branch-no-pr`, `branch-pr`, or
+  `stage-only-escalate`; branch worktrees are route outputs, not the default
+  work unit.
 - Repository variable `AUTONOMY_AUTO_MERGE_ENABLED=true`.
 - Repository secret `AUTONOMY_PAT` is configured with minimum needed
   fine-grained permissions documented in
   `.octon/framework/execution-roles/practices/github-autonomy-runbook.md`.
-- Branch protection and rulesets enforce required checks on `main`.
-- Required AI check is `AI Review Gate / decision` (provider-agnostic).
-- Reviewer-owned thread confirmation still participates in merge gating.
+- Current live branch protection may remain PR-required until the accepted live
+  migration. The repo-local target is route-neutral protected `main` with
+  universal route-neutral checks only.
+- `AI Review Gate / decision` and `PR Quality Standards` remain branch-pr
+  checks, not universal direct-main or branch-no-pr requirements.
+- Reviewer-owned thread confirmation participates in branch-pr merge gating.
 - Codex review is advisory and not part of required checks.
 - Squash merge is the canonical merge strategy.
 

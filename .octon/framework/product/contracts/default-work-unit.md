@@ -141,6 +141,10 @@ landing. PR-specific checks such as PR template quality and AI review gate
 decisions remain behind `branch-pr` and must not be required for no-PR hosted
 landing.
 
+The route-neutral hosted check set is `route_neutral_closeout_validation`,
+`branch_naming_validation`, `route_aware_autonomy_validation`, and
+`exact_source_sha_validation`.
+
 ## Boundary Rules
 
 - Do not treat a PR, branch, GitHub workflow, or Change Package as the product

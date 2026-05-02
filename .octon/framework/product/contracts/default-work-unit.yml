@@ -255,6 +255,7 @@ hosted_provider_ruleset:
     - "route_neutral_closeout_validation"
     - "branch_naming_validation"
     - "route_aware_autonomy_validation"
+    - "exact_source_sha_validation"
   pr_specific_checks:
     - "CI Efficiency Guard / enforce-ci-efficiency-policy"
     - "AI Review Gate / decision"

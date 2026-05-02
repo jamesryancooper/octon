@@ -71,7 +71,8 @@ description: Atomic clean-break migration plan for promoting topology-correct se
     (`ai-review-gate.yml`, `harness-self-containment.yml`,
     `main-push-safety.yml`, `release-please.yml`,
     `runtime-binaries.yml`, `pr-autonomy-policy.yml`,
-    `main-pr-first-guard.yml`) to full commit SHAs
+    `main-change-route-guard.yml`, `change-route-projection.yml`) to full
+    commit SHAs
   - add `validate-github-action-pins.sh` and focused workflow-pin regressions
   - add `validate-runtime-target-parity.sh`, update `run`, `run.cmd`, and
     `runtime-binaries.yml` to the declared target matrix, and add strict

@@ -105,8 +105,10 @@ create_fixture() {
     "$fixture_root/.github/workflows/commit-and-branch-standards.yml"
   cp "$REPO_ROOT/.github/workflows/pr-auto-merge.yml" \
     "$fixture_root/.github/workflows/pr-auto-merge.yml"
-  cp "$REPO_ROOT/.github/workflows/main-pr-first-guard.yml" \
-    "$fixture_root/.github/workflows/main-pr-first-guard.yml"
+  cp "$REPO_ROOT/.github/workflows/main-change-route-guard.yml" \
+    "$fixture_root/.github/workflows/main-change-route-guard.yml"
+  cp "$REPO_ROOT/.github/workflows/change-route-projection.yml" \
+    "$fixture_root/.github/workflows/change-route-projection.yml"
   cp "$REPO_ROOT/.github/workflows/ci-efficiency-guard.yml" \
     "$fixture_root/.github/workflows/ci-efficiency-guard.yml"
   cp "$REPO_ROOT/.octon/framework/engine/runtime/adapters/host/github-control-plane.yml" \
@@ -119,6 +121,8 @@ create_fixture() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh"
 
   printf '%s\n' "$fixture_root"
 }

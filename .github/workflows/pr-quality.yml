@@ -14,7 +14,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: required-pr-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: branch-pr-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:

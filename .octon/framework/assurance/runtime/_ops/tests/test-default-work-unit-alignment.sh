@@ -75,6 +75,7 @@ case_policy_defines_route_neutral_ruleset_target() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
   yq -e '.hosted_provider_ruleset.target_model == "route-neutral protected main"' "$policy" >/dev/null &&
     yq -e '.hosted_provider_ruleset.universal_required_checks[] | select(. == "route_neutral_closeout_validation")' "$policy" >/dev/null &&
+    yq -e '.hosted_provider_ruleset.universal_required_checks[] | select(. == "exact_source_sha_validation")' "$policy" >/dev/null &&
     yq -e '.hosted_provider_ruleset.pr_specific_checks[] | select(. == "AI Review Gate / decision")' "$policy" >/dev/null
 }
 

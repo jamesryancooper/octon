@@ -70,8 +70,9 @@ jobs:
           fi
 
           default_branch="$(jq -r '.default_branch // "main"' <<<"${contract_json}" 2>/dev/null || echo "main")"
-          expected_required_checks="$(jq -c '.rulesets.main.required_checks // [] | unique | sort' <<<"${contract_json}" 2>/dev/null || echo '[]')"
-          expected_thread_resolution="$(jq -r '.rulesets.main.require_review_thread_resolution // true' <<<"${contract_json}" 2>/dev/null || echo "true")"
+          live_main_ruleset_contract="$(jq -c '.rulesets.current_live_main // .rulesets.main // {}' <<<"${contract_json}" 2>/dev/null || echo '{}')"
+          expected_required_checks="$(jq -c '.required_checks // [] | unique | sort' <<<"${live_main_ruleset_contract}" 2>/dev/null || echo '[]')"
+          expected_thread_resolution="$(jq -r '.require_review_thread_resolution // true' <<<"${live_main_ruleset_contract}" 2>/dev/null || echo "true")"
 
           if [[ -n "${AUTONOMY_PAT_VALUE}" ]]; then
             pass "AUTONOMY_PAT is configured."
@@ -196,9 +197,9 @@ jobs:
               actual_required_checks_flat="$(jq -r '.[]' <<<"${actual_required_checks}" | paste -sd ',' -)"
 
               if [[ "${expected_required_checks_flat}" == "${actual_required_checks_flat}" ]]; then
-                pass "Main ruleset required checks match contract."
+                pass "Live main ruleset required checks match current-live contract."
               else
-                fail "Main ruleset required checks drift: expected ${expected_required_checks}, got ${actual_required_checks}."
+                fail "Live main ruleset required checks drift: expected ${expected_required_checks}, got ${actual_required_checks}."
               fi
 
               actual_thread_resolution="$(jq -r '
