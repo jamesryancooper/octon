@@ -237,7 +237,17 @@ case_route_neutral_ruleset_passes_target_expectation() {
   local rules
   rules="$(write_file <<'JSON'
 [
-  {"type": "required_status_checks"},
+  {
+    "type": "required_status_checks",
+    "parameters": {
+      "required_status_checks": [
+        {"context": "route_neutral_closeout_validation"},
+        {"context": "branch_naming_validation"},
+        {"context": "route_aware_autonomy_validation"},
+        {"context": "exact_source_sha_validation"}
+      ]
+    }
+  },
   {"type": "non_fast_forward"},
   {"type": "deletion"}
 ]

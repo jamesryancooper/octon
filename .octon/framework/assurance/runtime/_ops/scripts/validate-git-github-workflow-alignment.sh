@@ -24,8 +24,11 @@ HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/g
 HOSTED_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
 HOSTED_NO_PR_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
 GITHUB_RULESET_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
+GITHUB_PROJECTION_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh"
 GITHUB_ADAPTER="$OCTON_DIR/framework/engine/runtime/adapters/host/github-control-plane.yml"
 REPO_ADAPTER="$OCTON_DIR/framework/engine/runtime/adapters/host/repo-shell.yml"
+MAIN_CHANGE_ROUTE_GUARD="$ROOT_DIR/.github/workflows/main-change-route-guard.yml"
+CHANGE_ROUTE_PROJECTION="$ROOT_DIR/.github/workflows/change-route-projection.yml"
 
 errors=0
 
@@ -69,7 +72,7 @@ main() {
   echo "== Git/GitHub Workflow Alignment Validation =="
   command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
 
-  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_ADAPTER" "$REPO_ADAPTER"; do
+  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_PROJECTION_VALIDATOR" "$GITHUB_ADAPTER" "$REPO_ADAPTER" "$MAIN_CHANGE_ROUTE_GUARD" "$CHANGE_ROUTE_PROJECTION"; do
     require_file "$file"
   done
 
@@ -112,6 +115,9 @@ main() {
   forbid_literal "$HOSTED_LAND_SCRIPT" "gh pr" "hosted no-PR landing helper does not mutate PRs" "hosted no-PR landing helper must not mutate PRs"
   require_literal "$HOSTED_NO_PR_VALIDATOR" "branch-no-pr landed/cleaned requires hosted landing evidence" "hosted no-PR validator enforces hosted landing evidence" "hosted no-PR validator must enforce hosted landing evidence"
   require_literal "$GITHUB_RULESET_VALIDATOR" "PR-required ruleset blocks hosted branch-no-pr landing" "GitHub ruleset validator detects PR-required blocker" "GitHub ruleset validator must detect PR-required blocker"
+  require_literal "$GITHUB_PROJECTION_VALIDATOR" "Main Change Route Guard" "GitHub projection validator protects route-aware guard" "GitHub projection validator must protect route-aware guard"
+  require_literal "$MAIN_CHANGE_ROUTE_GUARD" "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr Change receipt, or authorized break-glass." "main guard fails closed by Change route" "main guard must fail closed by Change route"
+  require_literal "$CHANGE_ROUTE_PROJECTION" "exact_source_sha_validation" "route projection exposes exact source SHA check" "route projection must expose exact source SHA check"
   require_literal "$GITHUB_ADAPTER" "PR-backed Changes" "GitHub adapter scoped to PR-backed Changes" "GitHub adapter must scope GitHub to PR-backed Changes"
   require_literal "$REPO_ADAPTER" "direct-main" "repo shell adapter covers direct-main route" "repo shell adapter must cover direct-main route"
 

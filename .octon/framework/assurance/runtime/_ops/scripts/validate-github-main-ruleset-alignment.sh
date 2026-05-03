@@ -8,6 +8,7 @@ ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 POLICY="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 CLOSEOUT_CHANGE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
 HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+GITHUB_CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
 
 EXPECTATION="current-pr-required"
 RULESET_JSON=""
@@ -84,14 +85,44 @@ rules_require_checks() {
   jq -e '.. | objects | select(.type? == "required_status_checks")' "$file" >/dev/null 2>&1
 }
 
+rules_required_check_contexts() {
+  local file="$1"
+  jq -r '
+    [
+      .. | objects
+      | select(.type? == "required_status_checks")
+      | .parameters.required_status_checks[]?.context
+    ]
+    | unique
+    | .[]
+  ' "$file" 2>/dev/null || true
+}
+
 validate_static_policy() {
   require_file "$POLICY"
   require_file "$CLOSEOUT_CHANGE"
   require_file "$HOSTED_PREFLIGHT_SCRIPT"
+  require_file "$GITHUB_CONTROL_CONTRACT"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "provider_ruleset_blocks_requested_hosted_no_pr_landing")' "policy fails closed when provider blocks hosted no-PR landing" "policy must fail closed when provider blocks hosted no-PR landing"
   require_yq "$POLICY" '.pr_required_predicates[]? | select(. == "provider_ruleset_requires_pr")' "policy treats provider PR rule as PR-required predicate" "policy must treat provider PR rule as PR-required predicate"
   require_literal "$CLOSEOUT_CHANGE" 'If the provider ruleset requires PR for `main`, report a blocker' "closeout-change reports PR-required no-PR blocker" "closeout-change must report PR-required no-PR blocker"
   require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "preflight produces clear PR-required blocker" "preflight must produce clear PR-required blocker"
+  jq -e '.rulesets.current_live_main.expectation == "current-pr-required"' "$GITHUB_CONTROL_CONTRACT" >/dev/null 2>&1 \
+    && pass "control contract records current live PR-required posture" \
+    || fail "control contract must record current live PR-required posture"
+  jq -e '.rulesets.target_route_neutral_main.live_mutation_performed_by_this_projection == false' "$GITHUB_CONTROL_CONTRACT" >/dev/null 2>&1 \
+    && pass "control contract states repo-local projection does not mutate live rulesets" \
+    || fail "control contract must state live ruleset mutation was not performed"
+
+  local mutating_methods mutation_hits
+  mutating_methods="PATCH|POST|PUT|DELETE"
+  mutation_hits="$(rg -n -- "--method[[:space:]]+(${mutating_methods})|-X[[:space:]]+(${mutating_methods})" "$0" 2>/dev/null || true)"
+  if [[ -n "$mutation_hits" ]]; then
+    printf '%s\n' "$mutation_hits"
+    fail "validator must not contain live GitHub mutation calls"
+  else
+    pass "validator contains no live GitHub mutation calls"
+  fi
 }
 
 validate_rules_file() {
@@ -118,6 +149,17 @@ validate_rules_file() {
       else
         fail "target route-neutral ruleset must retain required checks"
       fi
+      local expected_check actual_contexts missing_check
+      mapfile -t actual_contexts < <(rules_required_check_contexts "$file")
+      while IFS= read -r expected_check; do
+        [[ -n "$expected_check" ]] || continue
+        if printf '%s\n' "${actual_contexts[@]}" | grep -Fxq -- "$expected_check"; then
+          pass "target route-neutral ruleset includes required check ${expected_check}"
+        else
+          missing_check=1
+          fail "target route-neutral ruleset missing required check ${expected_check}"
+        fi
+      done < <(jq -r '.rulesets.target_route_neutral_main.universal_required_checks[]?' "$GITHUB_CONTROL_CONTRACT")
       ;;
     *)
       fail "unknown expectation: $EXPECTATION"

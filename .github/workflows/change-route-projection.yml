@@ -1,0 +1,168 @@
+name: Change Route Projection
+
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch:
+    inputs:
+      source_sha:
+        description: Exact source SHA intended for hosted branch-no-pr landing.
+        required: false
+        type: string
+      receipt_path:
+        description: Optional Change receipt path to validate against source_sha.
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: change-route-projection-${{ github.event.pull_request.number || github.ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  route-neutral-closeout-validation:
+    name: route_neutral_closeout_validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate route-neutral closeout contracts
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh --skip-live-remote
+
+      - name: Validate supplied Change receipt
+        if: github.event_name == 'workflow_dispatch' && github.event.inputs.receipt_path != ''
+        env:
+          RECEIPT_PATH: ${{ github.event.inputs.receipt_path }}
+        run: |
+          set -euo pipefail
+          .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt "${RECEIPT_PATH}"
+          .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh --receipt "${RECEIPT_PATH}" --skip-live-remote
+
+  branch-naming-validation:
+    name: branch_naming_validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Validate branch naming from route-neutral standards
+        env:
+          BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+        run: |
+          set -euo pipefail
+
+          branch_name="${BRANCH_NAME}"
+          default_branch="${{ github.event.repository.default_branch || 'main' }}"
+
+          if [[ "${branch_name}" == "${default_branch}" ]]; then
+            echo "Skipping branch-name validation for canonical branch '${branch_name}'."
+            exit 0
+          fi
+
+          if [[ "${branch_name}" == dependabot/* || "${branch_name}" == release-please--* ]]; then
+            echo "Skipping branch-name validation for bot-managed branch '${branch_name}'."
+            exit 0
+          fi
+
+          if [[ -z "${branch_name}" ]]; then
+            echo "No branch name available for this event; exact source SHA validation covers hosted no-PR dispatches."
+            exit 0
+          fi
+
+          standards=".octon/framework/execution-roles/practices/standards/commit-pr-standards.json"
+          type_pattern="$(jq -r '.branch.allowed_types | map(gsub("([][(){}.*+?^$|\\\\])"; "\\\\\\1")) | join("|")' "${standards}")"
+          ticket_pattern="$(jq -r '.branch.ticket_pattern' "${standards}")"
+          slug_pattern="$(jq -r '.branch.slug_pattern | gsub("\\(\\?:"; "(")' "${standards}")"
+          expected="$(jq -r '.branch.default_format' "${standards}")"
+
+          if [[ ! "${branch_name}" =~ ^(${type_pattern})/(${ticket_pattern}-)?${slug_pattern}$ ]]; then
+            {
+              echo "Invalid branch name: ${branch_name}"
+              echo "Expected: ${expected}"
+              echo "Short description must be lowercase and hyphen-separated."
+            } >&2
+            exit 1
+          fi
+
+          echo "Branch name passes route-neutral standards: ${branch_name}"
+
+  route-aware-autonomy-validation:
+    name: route_aware_autonomy_validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Validate route-aware Git/GitHub projection
+        run: |
+          set -euo pipefail
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh
+          chmod +x .octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh
+          .octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh
+
+  exact-source-sha-validation:
+    name: exact_source_sha_validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate exact source SHA for hosted no-PR landing
+        env:
+          DISPATCH_SOURCE_SHA: ${{ github.event.inputs.source_sha || '' }}
+          RECEIPT_PATH: ${{ github.event.inputs.receipt_path || '' }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha || '' }}
+        run: |
+          set -euo pipefail
+
+          target_sha="${DISPATCH_SOURCE_SHA:-${PR_HEAD_SHA:-${GITHUB_SHA}}}"
+          if [[ ! "${target_sha}" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Hosted no-PR source must be an exact 40-character commit SHA; got '${target_sha}'." >&2
+            exit 1
+          fi
+
+          if ! git cat-file -e "${target_sha}^{commit}" 2>/dev/null; then
+            git fetch --no-tags origin "${target_sha}"
+          fi
+          git cat-file -e "${target_sha}^{commit}" >/dev/null
+
+          if [[ -n "${RECEIPT_PATH}" ]]; then
+            .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh \
+              --receipt "${RECEIPT_PATH}" \
+              --skip-live-remote
+            jq -e --arg sha "${target_sha}" '
+              .selected_route == "branch-no-pr"
+              and .integration_method == "fast-forward"
+              and .hosted_landing.source_ref == $sha
+              and .hosted_landing.validated_ref == $sha
+              and .hosted_landing.target_post_ref == $sha
+              and .landed_ref == $sha
+            ' "${RECEIPT_PATH}" >/dev/null
+            echo "Hosted no-PR receipt validates exact source SHA ${target_sha}."
+          else
+            echo "Exact source SHA is valid for shadow/report-only route projection: ${target_sha}."
+          fi

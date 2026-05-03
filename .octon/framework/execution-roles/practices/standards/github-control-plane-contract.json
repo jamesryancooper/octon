@@ -1,14 +1,16 @@
 {
-  "version": "2026-03-05",
+  "version": "2026-05-02",
   "default_work_unit_policy_ref": ".octon/framework/product/contracts/default-work-unit.yml",
   "change_receipt_schema_ref": ".octon/framework/product/contracts/change-receipt-v1.schema.json",
   "scope": {
-    "projection_host_for": "PR-backed Changes",
+    "projection_host_for": "route-aware Change lifecycle GitHub projection",
     "not_authority_for": [
       "default work unit",
       "Change route selection",
+      "lifecycle outcome authority",
       "direct-main eligibility",
-      "branch-only completion"
+      "branch-only completion",
+      "live GitHub ruleset mutation"
     ]
   },
   "change_routes": {
@@ -17,11 +19,18 @@
       "direct-main",
       "branch-no-pr",
       "stage-only-escalate"
+    ],
+    "landing_routes": [
+      "direct-main",
+      "branch-no-pr",
+      "branch-pr"
     ]
   },
   "default_branch": "main",
   "rulesets": {
-    "main": {
+    "current_live_main": {
+      "expectation": "current-pr-required",
+      "migration_status": "pre-route-neutral-live-cutover",
       "applies_to_routes": [
         "branch-pr"
       ],
@@ -32,7 +41,50 @@
         "Validate branch naming",
         "Validate autonomy policy"
       ],
-      "require_review_thread_resolution": true
+      "require_review_thread_resolution": true,
+      "note": "Documents the live pre-migration posture only; it is not the route-neutral target projection."
+    },
+    "target_route_neutral_main": {
+      "expectation": "target-route-neutral",
+      "migration_status": "repo-local-projection-only",
+      "applies_to_routes": [
+        "direct-main",
+        "branch-no-pr",
+        "branch-pr"
+      ],
+      "required_main_rules": [
+        "required_status_checks",
+        "required_linear_history",
+        "non_fast_forward",
+        "deletion_protection"
+      ],
+      "forbidden_universal_rules": [
+        "pull_request_required_for_all_main_updates"
+      ],
+      "universal_required_checks": [
+        "route_neutral_closeout_validation",
+        "branch_naming_validation",
+        "route_aware_autonomy_validation",
+        "exact_source_sha_validation"
+      ],
+      "pr_specific_checks": [
+        "AI Review Gate / decision",
+        "PR Quality Standards",
+        "Validate autonomy policy",
+        "PR Auto Merge",
+        "PR Clean State Enforcer",
+        "Codex PR Review"
+      ],
+      "hosted_no_pr_evidence_required": [
+        "provider_ruleset_ref",
+        "pushed_source_branch",
+        "source_ref_equals_validated_ref",
+        "integration_method_fast_forward",
+        "rollback_handle",
+        "cleanup_status",
+        "target_post_ref_equals_landed_ref_equals_github_sha"
+      ],
+      "live_mutation_performed_by_this_projection": false
     }
   },
   "repository_settings": {
@@ -54,6 +106,18 @@
       "local_validation",
       "rollback_handle",
       "landed_commit"
+    ]
+  },
+  "hosted_branch_no_pr_projection": {
+    "github_pr_metadata_required": false,
+    "required_hosted_evidence": [
+      "route-neutral provider ruleset compatibility",
+      "pushed source branch",
+      "exact source SHA required checks",
+      "fast-forward-only protected update",
+      "rollback handle",
+      "cleanup disposition",
+      "origin/main equals landed ref"
     ]
   }
 }

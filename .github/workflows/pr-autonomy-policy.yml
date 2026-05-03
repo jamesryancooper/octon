@@ -2,6 +2,8 @@ name: PR Autonomy Policy
 
 on:
   push:
+    branches-ignore:
+      - main
   pull_request:
     types:
       - opened
@@ -17,7 +19,7 @@ permissions:
   pull-requests: read
 
 concurrency:
-  group: required-pr-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: branch-pr-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -67,7 +69,7 @@ jobs:
             }
 
             if (!pr) {
-              core.notice(`No open PR found for branch '${branchRef}'. Skipping autonomy evaluation on this push.`);
+              core.notice(`No open PR found for branch '${branchRef}'. Skipping branch-pr autonomy evaluation on this push.`);
               core.setOutput("skip", "true");
               return;
             }

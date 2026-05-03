@@ -40,7 +40,8 @@ active:
     title: "Change-First GitHub Projection Policy"
     status: "draft"
     promotion_targets:
-      - ".github/workflows/main-pr-first-guard.yml"
+      - ".github/workflows/main-change-route-guard.yml"
+      - ".github/workflows/change-route-projection.yml"
       - ".github/workflows/main-push-safety.yml"
       - ".github/workflows/commit-and-branch-standards.yml"
       - ".github/workflows/pr-quality.yml"

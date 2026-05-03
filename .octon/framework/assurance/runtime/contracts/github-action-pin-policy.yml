@@ -13,4 +13,5 @@ workflow_globs:
   - ".github/workflows/release-please.yml"
   - ".github/workflows/runtime-binaries.yml"
   - ".github/workflows/pr-autonomy-policy.yml"
-  - ".github/workflows/main-pr-first-guard.yml"
+  - ".github/workflows/main-change-route-guard.yml"
+  - ".github/workflows/change-route-projection.yml"
