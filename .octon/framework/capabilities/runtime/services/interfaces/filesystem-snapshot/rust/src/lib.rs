@@ -16,6 +16,7 @@ const SNAPSHOT_MIN_SUPPORTED_FORMAT_VERSION: u64 = 1;
 const SNAPSHOT_MAX_SUPPORTED_FORMAT_VERSION: u64 = SNAPSHOT_FORMAT_VERSION;
 const DEFAULT_STATE_DIR: &str = ".octon/generated/effective/capabilities/filesystem-snapshots";
 const RUNTIME_STATE_ROOT: &str = ".octon/state/control/engine";
+const RUNTIME_TRACE_EVIDENCE_ROOT: &str = ".octon/state/evidence/runs/engine/traces";
 const SERVICES_BUILD_STATE_ROOT: &str = ".octon/generated/.tmp/capabilities/services/build";
 const HASH_CACHE_FILE: &str = "hash-cache.jsonl";
 const SEARCH_INDEX_FILE: &str = "search-index.jsonl";
@@ -2462,6 +2463,8 @@ fn should_skip(path: &str, state_dir: &str) -> bool {
     }
 
     if normalized == RUNTIME_STATE_ROOT || normalized.starts_with(&format!("{RUNTIME_STATE_ROOT}/"))
+        || normalized == RUNTIME_TRACE_EVIDENCE_ROOT
+        || normalized.starts_with(&format!("{RUNTIME_TRACE_EVIDENCE_ROOT}/"))
     {
         return true;
     }

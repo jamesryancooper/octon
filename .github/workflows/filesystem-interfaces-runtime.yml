@@ -96,11 +96,8 @@ jobs:
     needs: changes
     if: >-
       ${{
-        (matrix.os == 'ubuntu-latest' && (
-          needs.changes.outputs.runtime_required == 'true' ||
-          needs.changes.outputs.perf_required == 'true'
-        )) ||
-        (matrix.os == 'macos-latest' && needs.changes.outputs.runtime_required == 'true')
+        needs.changes.outputs.runtime_required == 'true' ||
+        needs.changes.outputs.perf_required == 'true'
       }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
@@ -132,11 +129,29 @@ jobs:
             cargo install --locked cargo-component
           fi
 
-      - name: Build split filesystem wasm services from source
+      - name: Prefetch runtime and filesystem service crates
         run: |
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-snapshot
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-discovery
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-watch
+          cargo fetch --locked --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml
+          for crate_dir in \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-watch/rust
+          do
+            (cd "$crate_dir" && cargo fetch --locked --target wasm32-wasip1)
+          done
+
+      - name: Compile split filesystem wasm services from source
+        env:
+          CARGO_NET_OFFLINE: "true"
+        run: |
+          for service in filesystem-snapshot filesystem-discovery filesystem-watch
+          do
+            (
+              cd ".octon/framework/capabilities/runtime/services/interfaces/${service}/rust"
+              CARGO_TARGET_DIR="${GITHUB_WORKSPACE}/.octon/generated/.tmp/engine/filesystem-service-build/${service}" \
+                cargo component build --release --offline
+            )
+          done
 
       - name: Unit tests (filesystem-snapshot Rust crate)
         if: needs.changes.outputs.runtime_required == 'true'
@@ -177,9 +192,13 @@ jobs:
         if: needs.changes.outputs.runtime_required == 'true'
         run: |
           chmod +x .octon/framework/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh
-          FIXTURE_ROOT=".octon/generated/.tmp/filesystem-interfaces-bench/cross-os-fixture"
-          STATE_DIR=".octon/generated/.tmp/engine/filesystem-snapshots-cross-os"
-          rm -rf "$FIXTURE_ROOT"
+          FIXTURE_ROOT=".octon/generated/effective/capabilities/filesystem-cross-os-fixture"
+          STATE_DIR=".octon/generated/effective/capabilities/filesystem-snapshots-cross-os"
+          for cleanup_path in "$FIXTURE_ROOT" "$STATE_DIR"; do
+            if [[ -e "$cleanup_path" ]]; then
+              rm -r "$cleanup_path"
+            fi
+          done
           .octon/framework/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh \
             --profile ci \
             --fixture-root "$FIXTURE_ROOT" >/dev/null
@@ -214,7 +233,7 @@ jobs:
             --summary-out "$RUNNER_TEMP/filesystem-interfaces-slo/filesystem-interfaces-slo.summary.tsv"
 
       - name: Upload SLO summary artifact
-        if: ${{ needs.changes.outputs.runtime_required == 'true' && matrix.publish_slo_artifacts }}
+        if: ${{ always() && needs.changes.outputs.runtime_required == 'true' && matrix.publish_slo_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: filesystem-interfaces-slo-summary
@@ -222,7 +241,7 @@ jobs:
           retention-days: 7
 
       - name: Upload SLO raw metrics artifact
-        if: ${{ needs.changes.outputs.runtime_required == 'true' && matrix.publish_slo_artifacts }}
+        if: ${{ always() && needs.changes.outputs.runtime_required == 'true' && matrix.publish_slo_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: filesystem-interfaces-slo-raw
@@ -241,7 +260,7 @@ jobs:
             --summary-out "$RUNNER_TEMP/filesystem-interfaces-perf/filesystem-interfaces-perf.summary.tsv"
 
       - name: Upload perf summary artifact
-        if: ${{ matrix.run_perf_regression && needs.changes.outputs.perf_required == 'true' }}
+        if: ${{ always() && matrix.run_perf_regression && needs.changes.outputs.perf_required == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: filesystem-interfaces-perf-summary
@@ -249,7 +268,7 @@ jobs:
           retention-days: 7
 
       - name: Upload perf raw artifact
-        if: ${{ matrix.run_perf_regression && needs.changes.outputs.perf_required == 'true' }}
+        if: ${{ always() && matrix.run_perf_regression && needs.changes.outputs.perf_required == 'true' }}
         uses: actions/upload-artifact@v4
         with:
           name: filesystem-interfaces-perf-raw
@@ -299,6 +318,8 @@ jobs:
     permissions:
       contents: read
       issues: write
+    env:
+      ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
     steps:
       - name: Upsert GitHub issue alert
         if: ${{ github.event_name != 'pull_request' }}
@@ -341,10 +362,8 @@ jobs:
             }
 
       - name: Send Slack alert (optional)
-        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        if: ${{ env.ALERT_WEBHOOK != '' }}
         uses: actions/github-script@v7
-        env:
-          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
@@ -386,6 +405,8 @@ jobs:
     permissions:
       contents: read
       issues: write
+    env:
+      ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
     steps:
       - name: Close open GitHub issue alert on recovery
         uses: actions/github-script@v7
@@ -422,10 +443,8 @@ jobs:
             });
 
       - name: Send Slack recovery notification (optional)
-        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        if: ${{ env.ALERT_WEBHOOK != '' }}
         uses: actions/github-script@v7
-        env:
-          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;

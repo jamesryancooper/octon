@@ -106,6 +106,35 @@ for f in "${required_files[@]}"; do
   check_file "$f"
 done
 
+fixture_probe_root=".octon/generated/.tmp/filesystem-interfaces-bench/validate-root-probe"
+fixture_probe_expected="$REPO_ROOT/$fixture_probe_root"
+fixture_probe_wrong="$OCTON_DIR/$fixture_probe_root"
+for cleanup_path in "$fixture_probe_expected" "$fixture_probe_wrong"; do
+  if [[ -e "$cleanup_path" ]]; then
+    rm -r "$cleanup_path"
+  fi
+done
+if bash "$SERVICES_DIR/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh" \
+    --profile ci \
+    --fixture-root "$fixture_probe_root" >/dev/null; then
+  if [[ ! -f "$fixture_probe_expected/module-00/docs/doc-000.md" ]]; then
+    echo "ERROR: benchmark fixture builder did not write under repository root"
+    errors=$((errors + 1))
+  fi
+  if [[ -e "$fixture_probe_wrong" ]]; then
+    echo "ERROR: benchmark fixture builder wrote under .octon/.octon"
+    errors=$((errors + 1))
+  fi
+else
+  echo "ERROR: benchmark fixture builder failed"
+  errors=$((errors + 1))
+fi
+for cleanup_path in "$fixture_probe_expected" "$fixture_probe_wrong"; do
+  if [[ -e "$cleanup_path" ]]; then
+    rm -r "$cleanup_path"
+  fi
+done
+
 for service_id in filesystem-snapshot filesystem-discovery filesystem-watch; do
   if ! has_file_match "id: ${service_id}" "$SERVICES_MANIFEST"; then
     echo "ERROR: services manifest missing ${service_id} entry"

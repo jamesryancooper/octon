@@ -1,0 +1,24 @@
+schema_version: budget-ledger-v1
+run_id: publish-1777778510053-37929
+budget_dimensions:
+- token
+- time
+- tool_count
+- cost
+- external_calls
+current_usage:
+  cost: 0
+  external_calls: 0
+  time: 0
+  token: 0
+  tool_count: 0
+thresholds:
+  cost: soft
+  external_calls: soft
+  time: soft
+  token: soft
+  tool_count: soft
+escalation_point: threshold-crossing
+block_point: hard-policy-deny
+overrun_behavior: escalate
+updated_at: 2026-04-04T00:00:00Z

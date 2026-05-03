@@ -35,11 +35,29 @@ jobs:
             cargo install --locked cargo-component
           fi
 
-      - name: Build split filesystem wasm services from source
+      - name: Prefetch runtime and filesystem service crates
         run: |
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-snapshot
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-discovery
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-watch
+          cargo fetch --locked --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml
+          for crate_dir in \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-watch/rust
+          do
+            (cd "$crate_dir" && cargo fetch --locked --target wasm32-wasip1)
+          done
+
+      - name: Compile split filesystem wasm services from source
+        env:
+          CARGO_NET_OFFLINE: "true"
+        run: |
+          for service in filesystem-snapshot filesystem-discovery filesystem-watch
+          do
+            (
+              cd ".octon/framework/capabilities/runtime/services/interfaces/${service}/rust"
+              CARGO_TARGET_DIR="${GITHUB_WORKSPACE}/.octon/generated/.tmp/engine/filesystem-service-build/${service}" \
+                cargo component build --release --offline
+            )
+          done
 
       - name: Run cold/warm perf regression gate
         run: |

@@ -95,6 +95,21 @@ fn scaffold_service_build_with_verified_effect(
     scaffold::service_build(octon_dir, category, name)
 }
 
+fn env_flag_enabled(name: &str) -> bool {
+    std::env::var(name)
+        .map(|value| {
+            matches!(
+                value.trim().to_ascii_lowercase().as_str(),
+                "1" | "true" | "yes" | "on"
+            )
+        })
+        .unwrap_or(false)
+}
+
+fn service_build_offline_only() -> bool {
+    env_flag_enabled("OCTON_SERVICE_BUILD_OFFLINE_ONLY") || env_flag_enabled("CARGO_NET_OFFLINE")
+}
+
 fn ensure_dir_with_verified_executor_effect(
     path: &Path,
     _grant: &GrantBundle,
@@ -880,6 +895,7 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
         }
         ServiceCmd::Build { target, name } => {
             let (category, name) = parse_category_name(&target, name.as_deref())?;
+            let offline_only = service_build_offline_only();
             let service_root = octon_dir
                 .join("capabilities")
                 .join("runtime")
@@ -894,8 +910,15 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
                 .join("state")
                 .join("build")
                 .join(format!("{category}-{name}-target"));
+            let mut metadata_input = BTreeMap::new();
+            if offline_only {
+                metadata_input.insert(
+                    "support_capability_packs".to_string(),
+                    "repo,git,shell,telemetry".to_string(),
+                );
+            }
             let (intent_ref, execution_role_ref, metadata) =
-                request::bind_repo_local_request(&ctx.cfg, BTreeMap::new())?;
+                request::bind_repo_local_request(&ctx.cfg, metadata_input)?;
             let request = ExecutionRequest {
                 request_id: new_request_id("service-build"),
                 caller_path: "kernel".to_string(),
@@ -910,7 +933,7 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
                     write_repo: true,
                     write_evidence: true,
                     shell: true,
-                    network: true,
+                    network: !offline_only,
                     state_mutation: true,
                     ..SideEffectFlags::default()
                 },
@@ -970,6 +993,11 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
                 &grant,
                 &verified_repo_effect,
             )?;
+            let mut shell_commands = Vec::new();
+            if !offline_only {
+                shell_commands.push("cargo fetch --locked --target wasm32-wasip1".to_string());
+            }
+            shell_commands.push("cargo component build --release --offline".to_string());
             finalize_execution(
                 &artifacts,
                 &request,
@@ -987,10 +1015,7 @@ fn cmd_service(cmd: ServiceCmd) -> Result<()> {
                         service_root.display().to_string(),
                         build_root.display().to_string(),
                     ],
-                    shell_commands: vec![
-                        "cargo fetch --locked --target wasm32-wasip1".to_string(),
-                        "cargo component build --release --offline".to_string(),
-                    ],
+                    shell_commands,
                     executor_profile: Some("scoped_repo_mutation".to_string()),
                     authorized_effects: vec![authorized_effect_reference(&verified_repo_effect)],
                     ..SideEffectSummary::default()

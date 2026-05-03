@@ -4,7 +4,7 @@
 set -o pipefail
 
 OCTON_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
-REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/../.." && pwd)"
 PROFILE_FILE="$OCTON_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/fixtures/benchmark-profile.tsv"
 
 profile="ci"

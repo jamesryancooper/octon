@@ -1,9 +1,9 @@
 schema_version: "octon-validation-publication-receipt-v1"
-receipt_id: "capabilities-2026-05-03T19-06-18Z-capabilities-ed423195233e"
+receipt_id: "capabilities-2026-05-03T19-17-20Z-capabilities-dcbe25940d8d"
 publication_family: "capabilities"
-generation_id: "capabilities-ed423195233e"
+generation_id: "capabilities-dcbe25940d8d"
 result: "published"
-validated_at: "2026-05-03T19:06:18Z"
+validated_at: "2026-05-03T19:17:20Z"
 validator_version: "capability-routing-publication-v3"
 contract_refs:
   - ".octon/framework/cognition/_meta/architecture/generated/effective/capabilities/schemas/capability-routing-effective.schema.json"
@@ -19,8 +19,8 @@ source_digests:
   instance_skills_manifest_sha256: "e5b6c935f1c2d451eb5c59cdb0c3e99a508204d17c7e4ae03ca9f4c7d1305c7c"
   locality_scopes_sha256: "29c29f59aa6e9f7baee0488b171c33ddf918392b4f874d9a55b8cf11f4d70f65"
   locality_generation_lock_sha256: "ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba"
-  extensions_catalog_sha256: "e26ce3646672327acebd98494fa4d28aa6c636c7262f52c0e763098da79e13d5"
-  extensions_generation_lock_sha256: "b593e95c4ce23d0f1e0de124ed89f978fc8d49dae743c788e600409fb32e6fd7"
+  extensions_catalog_sha256: "0c29b4e869127e16d5a14e1e2f23ea20ea9b8285e1c8e97943b7e2779e912492"
+  extensions_generation_lock_sha256: "c557a9ecc1070a976477fa98a9d06e7b450a934cadd062cdab280b8360802786"
 blocked_reasons: []
 quarantined_subjects: []
 published_paths:

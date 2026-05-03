@@ -650,6 +650,16 @@ write_summary_markdown() {
       if [[ -n "$notes" && "$notes" != "null" ]]; then
         echo "  notes: $notes"
       fi
+      local log_path
+      if [[ "$log_ref" = /* ]]; then
+        log_path="$log_ref"
+      else
+        log_path="$ROOT_DIR/$log_ref"
+      fi
+      if [[ "$required" == "true" && "$status" == "failed" && -f "$log_path" ]]; then
+        echo "  failed detector log tail:"
+        tail -n 40 "$log_path" | sed 's/^/    /'
+      fi
     done < <(yq -r '.detectors[] | [.id, .status, .required_for_mode, .log_ref, .notes] | @tsv' "$AUDIT_SUMMARY_FILE")
     echo
     echo "## Findings"
@@ -666,7 +676,7 @@ write_summary_markdown() {
 
 run_scan_or_audit() {
   run_command_detector git-ls-files git -C "$ROOT_DIR" ls-files
-  run_command_detector find bash -lc "find '$ROOT_DIR/.octon/generated/cognition/graph' '$ROOT_DIR/.octon/generated/cognition/projections/materialized' -maxdepth 6 -type f 2>/dev/null"
+  run_command_detector find bash -lc "set -euo pipefail; for path in '$ROOT_DIR/.octon/generated/cognition/graph' '$ROOT_DIR/.octon/generated/cognition/projections/materialized'; do if [[ -d \"\$path\" ]]; then find \"\$path\" -maxdepth 6 -type f; fi; done"
   run_command_detector reference-scan rg -n "shim|mirror|projection|compatibility|legacy|superseded|historical" \
     "$ROOT_DIR/.octon/instance" \
     "$ROOT_DIR/.octon/state/evidence/disclosure/releases" \
@@ -677,7 +687,34 @@ run_scan_or_audit() {
   collect_shell_files
 
   if [[ "$MODE" != "scan" ]]; then
+    local workspace_path="${PATH:-}"
+    local workspace_cargo_home="${CARGO_HOME:-}"
+    local workspace_rustup_home="${RUSTUP_HOME:-}"
+    local workspace_rustup_toolchain="${RUSTUP_TOOLCHAIN:-}"
     resolve_host_tools_for_mode
+    local -a workspace_cargo_env
+    workspace_cargo_env=(env)
+    if [[ -z "$workspace_cargo_home" ]]; then
+      workspace_cargo_env+=("-u" "CARGO_HOME")
+    fi
+    if [[ -z "$workspace_rustup_home" ]]; then
+      workspace_cargo_env+=("-u" "RUSTUP_HOME")
+    fi
+    if [[ -z "$workspace_rustup_toolchain" ]]; then
+      workspace_cargo_env+=("-u" "RUSTUP_TOOLCHAIN")
+    fi
+    if [[ -n "$workspace_path" ]]; then
+      workspace_cargo_env+=("PATH=$workspace_path")
+    fi
+    if [[ -n "$workspace_cargo_home" ]]; then
+      workspace_cargo_env+=("CARGO_HOME=$workspace_cargo_home")
+    fi
+    if [[ -n "$workspace_rustup_home" ]]; then
+      workspace_cargo_env+=("RUSTUP_HOME=$workspace_rustup_home")
+    fi
+    if [[ -n "$workspace_rustup_toolchain" ]]; then
+      workspace_cargo_env+=("RUSTUP_TOOLCHAIN=$workspace_rustup_toolchain")
+    fi
     local cargo_env_prefix=""
     local cargo_machete_cmd=""
     local cargo_udeps_cmd=""
@@ -701,8 +738,8 @@ run_scan_or_audit() {
       cargo_udeps_cmd="${cargo_env_prefix}cargo +nightly udeps --workspace --all-targets --all-features"
     fi
 
-    run_command_detector cargo-check cargo +stable check --manifest-path "$RUNTIME_WORKSPACE_MANIFEST" --workspace --all-targets --all-features
-    run_command_detector cargo-clippy cargo +stable clippy --manifest-path "$RUNTIME_WORKSPACE_MANIFEST" --workspace --all-targets --all-features --message-format short -- -W dead_code -W unused_imports -W unused_variables
+    run_command_detector cargo-check "${workspace_cargo_env[@]}" cargo +stable check --manifest-path "$RUNTIME_WORKSPACE_MANIFEST" --workspace --all-targets --all-features
+    run_command_detector cargo-clippy "${workspace_cargo_env[@]}" cargo +stable clippy --manifest-path "$RUNTIME_WORKSPACE_MANIFEST" --workspace --all-targets --all-features --message-format short -- -W dead_code -W unused_imports -W unused_variables
     run_command_detector cargo-machete bash -lc "cd '$ROOT_DIR/.octon/framework/engine/runtime/crates' && ${cargo_machete_cmd}"
     if [[ "$MODE" == "audit" ]]; then
       run_command_detector cargo-udeps bash -lc "cd '$ROOT_DIR/.octon/framework/engine/runtime/crates' && ${cargo_udeps_cmd}"

@@ -5,7 +5,7 @@ set -o pipefail
 
 OCTON_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
 RUNTIME_RUN="$OCTON_DIR/engine/runtime/run"
-RUNTIME_BIN_CANDIDATE="$OCTON_DIR/generated/.tmp/engine/build/runtime-crates-target/debug/octon"
+RUNTIME_BIN_CANDIDATE="$OCTON_DIR/../generated/.tmp/engine/build/runtime-crates-target/debug/octon"
 export OCTON_RUNTIME_PREFER_SOURCE="${OCTON_RUNTIME_PREFER_SOURCE:-1}"
 FIXTURE_BUILDER="$OCTON_DIR/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh"
 DEFAULT_BASELINE_FILE="$OCTON_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv"

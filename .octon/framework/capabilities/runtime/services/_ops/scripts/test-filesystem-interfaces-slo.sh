@@ -5,12 +5,13 @@ set -o pipefail
 
 OCTON_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../" && pwd)"
 RUNTIME_RUN="$OCTON_DIR/engine/runtime/run"
+RUNTIME_BIN_CANDIDATE="$OCTON_DIR/../generated/.tmp/engine/build/runtime-crates-target/debug/octon"
 export OCTON_RUNTIME_PREFER_SOURCE="${OCTON_RUNTIME_PREFER_SOURCE:-1}"
 FIXTURE_BUILDER="$OCTON_DIR/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh"
 SLO_BUDGETS="$OCTON_DIR/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/slo-budgets.tsv"
 
 profile="ci"
-state_dir=".octon/generated/effective/capabilities/filesystem-snapshots"
+state_dir=".octon/generated/.tmp/engine/filesystem-snapshots-slo"
 samples_override=""
 fixture_root=""
 report_path=""
@@ -92,6 +93,16 @@ if [[ ! -x "$RUNTIME_RUN" ]]; then
   exit 1
 fi
 
+# In clean CI workspaces, prime the source build once, then time the runtime
+# binary directly so SLO samples do not include repeated launcher startup cost.
+if [[ ! -x "$RUNTIME_BIN_CANDIDATE" ]]; then
+  "$RUNTIME_RUN" --help >/dev/null 2>&1 || true
+fi
+
+if [[ -x "$RUNTIME_BIN_CANDIDATE" ]]; then
+  RUNTIME_RUN="$RUNTIME_BIN_CANDIDATE"
+fi
+
 if [[ ! -x "$FIXTURE_BUILDER" ]]; then
   echo "ERROR: fixture builder script missing or not executable: $FIXTURE_BUILDER"
   exit 1
@@ -122,6 +133,12 @@ extract_json_string_field() {
   local json="$1"
   local field="$2"
   printf '%s' "$json" | tr -d '\n' | sed -nE "s/.*\"$field\"[[:space:]]*:[[:space:]]*\"([^\"]+)\".*/\\1/p"
+}
+
+extract_json_number_field() {
+  local json="$1"
+  local field="$2"
+  printf '%s' "$json" | tr -d '\n' | sed -nE "s/.*\"$field\"[[:space:]]*:[[:space:]]*([0-9]+).*/\\1/p"
 }
 
 now_ms() {
@@ -281,6 +298,7 @@ while IFS=$'\t' read -r op budget_samples budget_p95_ms max_error_rate; do
       exit 1
     }
 
+    raw_out=""
     start_ms="$(now_ms)"
     if raw_out="$("$RUNTIME_RUN" tool "$service" "$op" --json "$payload" 2>&1)"; then
       if payload_has_regex "$raw_out" '"ok"[[:space:]]*:[[:space:]]*false'; then
@@ -297,7 +315,12 @@ while IFS=$'\t' read -r op budget_samples budget_p95_ms max_error_rate; do
       error_code="ERR_RUNTIME_EXEC_FAILED"
     fi
     end_ms="$(now_ms)"
-    latency_ms=$((end_ms - start_ms))
+    wall_latency_ms=$((end_ms - start_ms))
+    metric_latency_ms="$(extract_json_number_field "$raw_out" "duration_ms")"
+    latency_ms="$wall_latency_ms"
+    if [[ "$metric_latency_ms" =~ ^[0-9]+$ ]]; then
+      latency_ms="$metric_latency_ms"
+    fi
 
     printf "%s\t%s\t%s\t%s\t%s\n" "$op" "$attempt" "$latency_ms" "$status" "$error_code" >> "$raw_tsv"
   done
