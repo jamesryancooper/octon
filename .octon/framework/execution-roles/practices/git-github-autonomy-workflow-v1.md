@@ -70,11 +70,16 @@ Branch-PR lane (autonomous):
 1. Create branch worktree.
 2. Commit and open draft PR.
 3. Let triage, policy, and required checks run.
-4. Move to ready only when the work is complete and the PR is eligible for the
-   autonomous lane.
-5. Request squash auto-merge.
-6. Let GitHub perform the final merge once required checks and review policy
-   are satisfied.
+4. A draft PR in the autonomous branch-pr lane may be marked ready only when
+   it is still open and draft, all required checks are green, `AI Review Gate /
+   decision` is green when required, PR quality, branch naming, clean-state,
+   and autonomy checks are green, no unresolved author-action review threads,
+   blocking labels, requested changes, merge conflicts, or stale head state
+   remain, and the PR carries required Change receipt or PR closeout evidence.
+5. Request squash auto-merge or merge only through the currently valid
+   protected-main route.
+6. Let GitHub perform or accept the final merge once live rulesets, required
+   checks, mergeability, and review policy are satisfied.
 
 Direct-main lane:
 
@@ -147,8 +152,9 @@ Prompt set:
     commit, validate, record a Change receipt, and open a draft PR only if
     branch-pr is selected?"
 - **Branch worktree, existing draft PR, autonomous lane**
-  - "This draft PR looks ready for Octon's autonomous merge lane. Should I
-    mark it ready and request squash auto-merge?"
+  - "This draft PR meets Octon's autonomous branch-pr completion policy. Should
+    I mark it ready and request squash auto-merge through the protected-main
+    route?"
 - **Branch worktree, existing draft PR, manual lane**
   - "This draft PR looks ready for the manual lane. Should I mark it ready for
     human review and keep auto-merge off?"
@@ -179,7 +185,8 @@ Ready PR status responses:
   Later PR updates happen by pushing follow-up commits to the same branch.
 - `git-pr-ship.sh` reports status by default and uses explicit flags to
   request ready-state and merge-lane transitions plus optional cleanup
-  handling. It does not prove the PR is ready.
+  handling. It does not prove the PR is ready; autonomous draft completion
+  eligibility must be verified before requesting ready or auto-merge.
 - `git-pr-cleanup.sh` converges refs and `main` after closure, prunes safe
   linked worktrees when possible, and prints manual follow-up steps when the
   current or another in-use worktree cannot be removed automatically.
@@ -254,6 +261,13 @@ Minimum control-plane expectations:
 - Reviewer-owned thread confirmation participates in branch-pr merge gating.
 - Codex review is advisory and not part of required checks.
 - Squash merge is the canonical merge strategy.
+- Autonomous draft completion is allowed only for open draft PRs in the
+  autonomous `branch-pr` lane after required checks, AI gate when required, PR
+  quality, branch naming, clean-state, autonomy policy, review-thread,
+  requested-change, conflict, stale-head, Change receipt, and live-ruleset
+  criteria are satisfied.
+- Agents may mark eligible drafts ready and request the protected-main merge
+  path, but they must not bypass protected-main controls.
 
 ---
 

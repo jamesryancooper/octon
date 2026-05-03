@@ -56,7 +56,28 @@
       "branch-pr"
     ],
     "requires_change_identity": true,
-    "requires_change_receipt_projection": true
+    "requires_change_receipt_projection": true,
+    "autonomous_draft_completion": {
+      "status": "allowed",
+      "route": "branch-pr",
+      "requires_open_draft": true,
+      "requires_autonomous_lane": true,
+      "requires_change_receipt_or_closeout_evidence": true,
+      "required_checks": [
+        "AI Review Gate / decision when required",
+        "PR Quality Standards",
+        "Validate branch naming",
+        "PR Clean State Enforcer",
+        "Validate autonomy policy"
+      ],
+      "requires_no_unresolved_author_action_threads": true,
+      "requires_no_blocking_labels": true,
+      "requires_no_requested_changes": true,
+      "requires_no_merge_conflicts": true,
+      "requires_no_stale_head_state": true,
+      "merge_path": "current live protected-main ruleset",
+      "protected_main_bypass_allowed": false
+    }
   },
   "branch": {
     "default_format": "<type>/<ticket-id>-<short-description>",

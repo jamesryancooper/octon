@@ -16,9 +16,16 @@ description: Safety policies and constraints for the closeout-pr skill.
 
 - Reuse the same branch and same PR for the life of the task
 - Keep the PR in draft until the ready gate is satisfied
+- Autonomous ready and merge are allowed only for open draft PRs in the
+  autonomous `branch-pr` lane after required checks, AI gate when required, PR
+  quality, branch naming, clean-state, autonomy policy, review-thread,
+  requested-change, conflict, stale-head, Change receipt, and live-ruleset
+  criteria are satisfied
 - Do not treat helper output as proof of readiness or mergeability
 - Do not report draft/open PR state as full closeout
 - Do not report ready PR state as landed
+- Do not bypass protected-main controls when requesting or performing the
+  merge
 
 ## Review Safety
 

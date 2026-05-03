@@ -94,6 +94,27 @@
     "allow_rebase_merge": false,
     "delete_branch_on_merge": true
   },
+  "branch_pr_autonomous_completion": {
+    "route": "branch-pr",
+    "allowed_for_open_draft_prs": true,
+    "requires_autonomous_lane": true,
+    "required_checks": [
+      "AI Review Gate / decision when required",
+      "PR Quality Standards",
+      "Validate branch naming",
+      "PR Clean State Enforcer",
+      "Validate autonomy policy"
+    ],
+    "requires_no_unresolved_author_action_threads": true,
+    "requires_no_blocking_labels": true,
+    "requires_no_requested_changes": true,
+    "requires_no_merge_conflicts": true,
+    "requires_no_stale_head_state": true,
+    "requires_change_receipt_or_closeout_evidence": true,
+    "merge_path": "current live protected-main ruleset",
+    "protected_main_bypass_allowed": false,
+    "live_ruleset_mutation_allowed": false
+  },
   "actions_permissions": {
     "workflow": {
       "can_approve_pull_request_reviews": true

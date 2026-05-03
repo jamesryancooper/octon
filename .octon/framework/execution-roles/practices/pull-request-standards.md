@@ -44,6 +44,37 @@ PR bodies for PR-backed Changes must carry the Change receipt fields: Change
 intent, selected route, scope, validation evidence, review evidence or waiver,
 durable history, rollback handle, outcome, and remaining blockers.
 
+### Autonomous Draft Completion Policy
+
+An agent may move a draft PR forward only when all of these conditions are
+true:
+
+- The PR is still open and draft.
+- Change routing selected `branch-pr`, and the PR is in the autonomous
+  `branch-pr` lane.
+- All required GitHub checks are passing.
+- `AI Review Gate / decision` is passing when it is required for the lane.
+- `PR Quality Standards`, `Validate branch naming`, `PR Clean State Enforcer`,
+  and `Validate autonomy policy` are passing.
+- No unresolved author-action review threads remain.
+- No blocking labels, requested changes, merge conflicts, or stale head state
+  remain.
+- The PR carries the required Change receipt or PR closeout evidence: intent,
+  selected route, scope, validation evidence, review evidence or waiver,
+  durable history, rollback handle, lifecycle outcome, and remaining blockers.
+- The merge path respects the current live GitHub rulesets.
+
+When those criteria are met, the allowed autonomous actions are:
+
+- mark the PR ready for review
+- request or perform the currently valid protected-main merge path, normally
+  squash auto-merge through GitHub for `branch-pr`
+
+The agent must not bypass protected-main controls. Labels, comments, helper
+output, local confidence, or PR metadata alone do not authorize readiness or
+merge. GitHub required checks, rulesets, mergeability, and review policy remain
+authoritative at the time of merge.
+
 Ready-for-review is a state criterion, not a helper-script side effect or a
 synonym for "probably done." Helper scripts may request ready or auto-merge
 transitions, but canonical mergeability still comes from required checks,

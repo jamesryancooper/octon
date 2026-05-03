@@ -219,7 +219,7 @@ jobs:
             fi
 
             if [[ "$(jq -r '.draft' <<<"${payload}")" == "true" ]]; then
-              echo "Skipping: PR is draft${suffix}."
+              echo "Skipping: PR is draft${suffix}. Autonomous draft completion must mark the PR ready only after the branch-pr ready preflight passes."
               exit 0
             fi
 

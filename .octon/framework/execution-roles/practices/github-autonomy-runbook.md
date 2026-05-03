@@ -143,6 +143,30 @@ Human-review exceptions (default policy):
 3. Dependabot update is `major` or `unknown` semver transition (manual lane only).
 4. Canonical approval artifacts and required checks are the authority source.
 
+## Autonomous Draft Completion Preflight
+
+Agents may complete a draft PR autonomously only in the `branch-pr` route and
+only after this preflight passes:
+
+1. The PR is open and still draft.
+2. The PR belongs to the autonomous `branch-pr` lane.
+3. All required GitHub checks are passing.
+4. `AI Review Gate / decision` is passing when it is required.
+5. `PR Quality Standards`, `Validate branch naming`, `PR Clean State
+   Enforcer`, and `Validate autonomy policy` are passing.
+6. No unresolved author-action review threads remain.
+7. No blocking labels, requested changes, merge conflicts, or stale head state
+   remain.
+8. The PR has the required Change receipt or PR closeout evidence.
+9. The current live GitHub ruleset allows the protected-main merge path.
+
+After the preflight passes, an agent may mark the PR ready for review and
+request or perform the currently valid protected-main merge path. In the
+current PR-required live posture, that path is GitHub squash auto-merge or a
+GitHub-accepted squash merge for the PR. The agent must not push directly to
+protected `main`, bypass required checks, bypass review policy, bypass
+rulesets, or treat labels/comments/helper output as authority.
+
 Useful verification commands:
 
 ```bash

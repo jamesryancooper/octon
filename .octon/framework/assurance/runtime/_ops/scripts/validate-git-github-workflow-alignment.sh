@@ -12,6 +12,9 @@ INGRESS="$OCTON_DIR/instance/ingress/AGENTS.md"
 MANIFEST="$OCTON_DIR/instance/ingress/manifest.yml"
 CLOSEOUT_CHANGE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
 CLOSEOUT_PR="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
+PR_DOC="$OCTON_DIR/framework/execution-roles/practices/pull-request-standards.md"
+WORKFLOW_DOC="$OCTON_DIR/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+GITHUB_RUNBOOK="$OCTON_DIR/framework/execution-roles/practices/github-autonomy-runbook.md"
 OPEN_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-pr-open.sh"
 SHIP_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh"
 WT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-wt-new.sh"
@@ -25,10 +28,13 @@ HOSTED_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-br
 HOSTED_NO_PR_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
 GITHUB_RULESET_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
 GITHUB_PROJECTION_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh"
+COMMIT_PR_STANDARDS="$OCTON_DIR/framework/execution-roles/practices/standards/commit-pr-standards.json"
 GITHUB_ADAPTER="$OCTON_DIR/framework/engine/runtime/adapters/host/github-control-plane.yml"
 REPO_ADAPTER="$OCTON_DIR/framework/engine/runtime/adapters/host/repo-shell.yml"
+GITHUB_CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
 MAIN_CHANGE_ROUTE_GUARD="$ROOT_DIR/.github/workflows/main-change-route-guard.yml"
 CHANGE_ROUTE_PROJECTION="$ROOT_DIR/.github/workflows/change-route-projection.yml"
+PR_AUTO_MERGE_WORKFLOW="$ROOT_DIR/.github/workflows/pr-auto-merge.yml"
 
 errors=0
 
@@ -68,11 +74,20 @@ require_yq() {
   yq -e "$expr" "$file" >/dev/null 2>&1 && pass "$ok_msg" || fail "$fail_msg"
 }
 
+require_jq() {
+  local file="$1"
+  local expr="$2"
+  local ok_msg="$3"
+  local fail_msg="$4"
+  jq -e "$expr" "$file" >/dev/null 2>&1 && pass "$ok_msg" || fail "$fail_msg"
+}
+
 main() {
   echo "== Git/GitHub Workflow Alignment Validation =="
+  command -v jq >/dev/null 2>&1 || { echo "[ERROR] jq is required" >&2; exit 1; }
   command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
 
-  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_PROJECTION_VALIDATOR" "$GITHUB_ADAPTER" "$REPO_ADAPTER" "$MAIN_CHANGE_ROUTE_GUARD" "$CHANGE_ROUTE_PROJECTION"; do
+  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$PR_DOC" "$WORKFLOW_DOC" "$GITHUB_RUNBOOK" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_PROJECTION_VALIDATOR" "$COMMIT_PR_STANDARDS" "$GITHUB_ADAPTER" "$REPO_ADAPTER" "$GITHUB_CONTROL_CONTRACT" "$MAIN_CHANGE_ROUTE_GUARD" "$CHANGE_ROUTE_PROJECTION" "$PR_AUTO_MERGE_WORKFLOW"; do
     require_file "$file"
   done
 
@@ -93,16 +108,33 @@ main() {
   require_yq "$POLICY" '.hosted_provider_ruleset.target_model == "route-neutral protected main"' "policy defines route-neutral protected main target" "policy must define route-neutral protected main target"
   require_yq "$POLICY" '.hosted_provider_ruleset.forbidden_universal_rules[]? | select(. == "pull_request_required_for_all_main_updates")' "policy forbids universal PR rule in target ruleset" "policy must forbid universal PR rule in target ruleset"
   require_yq "$POLICY" '.hosted_provider_ruleset.pr_specific_checks[]? | select(. == "PR Quality Standards")' "policy keeps PR quality behind PR route" "policy must keep PR quality behind PR route"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "AI Review Gate / decision passing when required")' "policy includes AI gate in branch-pr ready evidence" "policy must include AI gate in branch-pr ready evidence"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "no_merge_conflicts")' "policy includes merge-conflict absence in branch-pr ready evidence" "policy must include merge-conflict absence in branch-pr ready evidence"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "Change receipt or PR closeout evidence")' "policy includes Change receipt or PR closeout evidence in branch-pr ready evidence" "policy must include Change receipt or PR closeout evidence in branch-pr ready evidence"
   require_yq "$CONTRACT" '.closeout.owner_surface == "/closeout-change"' "closeout owner is closeout-change" "closeout owner must be closeout-change"
   require_yq "$CONTRACT" '.closeout.pr_backed_subflow == "/closeout-pr"' "closeout-pr is PR-backed subflow" "closeout-pr must be PR-backed subflow"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.status == "allowed"' "contract allows autonomous draft completion explicitly" "contract must explicitly allow autonomous draft completion"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.route_guard == "branch-pr only"' "contract route-gates autonomous draft completion to branch-pr" "contract must route-gate autonomous draft completion to branch-pr"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.eligibility[]? | select(. == "PR is open and draft")' "contract requires open draft PR for autonomous completion" "contract must require open draft PR for autonomous completion"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.eligibility[]? | select(. == "AI Review Gate / decision is passing when required")' "contract requires AI gate when required" "contract must require AI gate when required"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.eligibility[]? | select(. == "no merge conflicts remain")' "contract requires no merge conflicts for autonomous completion" "contract must require no merge conflicts"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.eligibility[]? | select(. == "Change receipt or PR closeout evidence is present")' "contract requires Change receipt or PR closeout evidence" "contract must require Change receipt or PR closeout evidence"
+  require_yq "$CONTRACT" '.pr_backed_review_policy.autonomous_draft_completion.protected_main_bypass_allowed == false' "contract forbids protected-main bypass for autonomous draft completion" "contract must forbid protected-main bypass"
+  require_jq "$COMMIT_PR_STANDARDS" '.pr.autonomous_draft_completion.protected_main_bypass_allowed == false and .pr.autonomous_draft_completion.requires_open_draft == true' "commit/PR standards encode autonomous draft completion guard" "commit/PR standards must encode autonomous draft completion guard"
+  require_jq "$GITHUB_CONTROL_CONTRACT" '.branch_pr_autonomous_completion.protected_main_bypass_allowed == false and .branch_pr_autonomous_completion.live_ruleset_mutation_allowed == false' "GitHub control contract forbids bypass and live mutation for draft completion" "GitHub control contract must forbid bypass and live mutation for draft completion"
   require_yq "$WORKFLOW" '.policy_refs.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "workflow references default work unit policy" "workflow missing default work unit policy"
   require_yq "$MANIFEST" '.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "ingress manifest references default work unit policy" "ingress manifest missing default work unit policy"
   require_literal "$INGRESS" "Ingress does not own Change closeout policy." "ingress delegates Change closeout policy" "ingress must delegate Change closeout policy"
   require_literal "$CLOSEOUT_CHANGE" 'Do not open a PR unless route selection returns `branch-pr`.' "closeout-change route-gates PR creation" "closeout-change must route-gate PR creation"
   require_literal "$CLOSEOUT_PR" 'selected route `branch-pr`' "closeout-pr requires branch-pr route" "closeout-pr must require branch-pr route"
+  require_literal "$CLOSEOUT_PR" 'Autonomous draft completion is allowed only for' "closeout-pr carries autonomous draft completion policy" "closeout-pr must carry autonomous draft completion policy"
+  require_literal "$PR_DOC" "Autonomous Draft Completion Policy" "PR standards define autonomous draft completion policy" "PR standards must define autonomous draft completion policy"
+  require_literal "$WORKFLOW_DOC" "A draft PR in the autonomous branch-pr lane may be marked ready only when" "workflow overview defines draft-to-ready eligibility" "workflow overview must define draft-to-ready eligibility"
+  require_literal "$GITHUB_RUNBOOK" "Autonomous Draft Completion Preflight" "GitHub runbook documents autonomous draft preflight" "GitHub runbook must document autonomous draft preflight"
   require_literal "$OPEN_SCRIPT" "branch-pr" "git-pr-open documents branch-pr route guard" "git-pr-open must document branch-pr route guard"
   require_literal "$WT_SCRIPT" "branch-no-pr or branch-pr" "git-wt-new documents branch route guard" "git-wt-new must document branch route guard"
   require_literal "$SHIP_SCRIPT" "branch-pr" "git-pr-ship documents branch-pr route guard" "git-pr-ship must document branch-pr route guard"
+  require_literal "$SHIP_SCRIPT" "Autonomous draft completion eligibility must be verified before --request-ready or --request-automerge." "git-pr-ship documents request preflight" "git-pr-ship must document request preflight"
   require_literal "$BRANCH_COMMIT_SCRIPT" "branch-no-pr or branch-pr" "git-branch-commit documents branch route guard" "git-branch-commit must document branch route guard"
   require_literal "$BRANCH_PUSH_SCRIPT" "without opening a PR" "git-branch-push avoids PR mutation" "git-branch-push must avoid PR mutation"
   require_literal "$BRANCH_LAND_SCRIPT" "branch-no-pr" "git-branch-land documents branch-no-pr route guard" "git-branch-land must document branch-no-pr route guard"
@@ -118,6 +150,7 @@ main() {
   require_literal "$GITHUB_PROJECTION_VALIDATOR" "Main Change Route Guard" "GitHub projection validator protects route-aware guard" "GitHub projection validator must protect route-aware guard"
   require_literal "$MAIN_CHANGE_ROUTE_GUARD" "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr Change receipt, or authorized break-glass." "main guard fails closed by Change route" "main guard must fail closed by Change route"
   require_literal "$CHANGE_ROUTE_PROJECTION" "exact_source_sha_validation" "route projection exposes exact source SHA check" "route projection must expose exact source SHA check"
+  require_literal "$PR_AUTO_MERGE_WORKFLOW" "Autonomous draft completion must mark the PR ready only after the branch-pr ready preflight passes." "PR auto-merge preserves draft readiness boundary" "PR auto-merge must preserve draft readiness boundary"
   require_literal "$GITHUB_ADAPTER" "PR-backed Changes" "GitHub adapter scoped to PR-backed Changes" "GitHub adapter must scope GitHub to PR-backed Changes"
   require_literal "$REPO_ADAPTER" "direct-main" "repo shell adapter covers direct-main route" "repo shell adapter must cover direct-main route"
 

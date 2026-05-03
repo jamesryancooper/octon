@@ -30,6 +30,12 @@ Default behavior:
   Use explicit request flags to ask GitHub for ready or auto-merge transitions.
   GitHub required checks and review rules remain the final merge gate.
   Route guard: call only for PR-backed Changes after branch-pr route selection.
+  Autonomous draft completion eligibility must be verified before --request-ready or --request-automerge.
+  Required preflight: open draft PR, autonomous branch-pr lane, required checks green,
+  AI Review Gate / decision green when required, PR quality/branch naming/clean-state/
+  autonomy checks green, no unresolved author-action threads, no blocking labels,
+  requested changes, merge conflicts, or stale head, required Change receipt or PR
+  closeout evidence present, and current live rulesets allow the merge path.
 USAGE
 }
 

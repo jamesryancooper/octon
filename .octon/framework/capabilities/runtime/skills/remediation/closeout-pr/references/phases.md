@@ -53,12 +53,20 @@ description: Phase-by-phase execution for the closeout-pr skill.
 ## Phase 7: Ready And Merge Gate
 
 1. Move out of draft only when:
-   - required checks are green
-   - unresolved conversations are gone
-   - no author action items remain
-   - the PR is in the correct lane
+   - the PR is open and still draft
+   - the PR belongs to the autonomous `branch-pr` lane, or manual ready is
+     explicitly selected without auto-merge
+   - required GitHub checks are green
+   - `AI Review Gate / decision` is green when required
+   - `PR Quality Standards`, `Validate branch naming`,
+     `PR Clean State Enforcer`, and `Validate autonomy policy` are green
+   - unresolved author-action review threads are gone
+   - no blocking labels, requested changes, merge conflicts, or stale head
+     state remain
+   - Change receipt or PR closeout evidence is present
+   - the current live GitHub ruleset allows the merge path
 2. If the PR is in the autonomous lane, request squash auto-merge or merge it
-   once GitHub allows it.
+   only through the currently valid protected-main route once GitHub allows it.
 3. If the PR is in the manual lane, leave it ready for authorized human merge
    and continue monitoring until merged.
 4. Record lifecycle outcome `ready`; do not claim landed until merge evidence

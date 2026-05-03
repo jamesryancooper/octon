@@ -12,11 +12,17 @@ description: Acceptance criteria and verification for the closeout-pr skill.
 - [ ] One draft PR exists for the branch, or the existing PR was reused
 - [ ] The PR body satisfies required template sections and checklist items
 - [ ] Required checks are green
+- [ ] `AI Review Gate / decision` is green when required
+- [ ] PR quality, branch naming, clean-state, and autonomy checks are green
 - [ ] No unresolved review conversations remain
+- [ ] No blocking labels, requested changes, merge conflicts, or stale head
+      state remain
+- [ ] Change receipt or PR closeout evidence is present
 - [ ] The PR is moved out of draft only after the ready gate is satisfied
 - [ ] Draft/open PR state is recorded as `published`, not full closeout
 - [ ] Ready but unmerged PR state is recorded as `ready`, not landed
-- [ ] The PR is merged, or a precise external blocker is reported
+- [ ] The PR is merged through the currently valid protected-main route, or a
+      precise external blocker is reported
 - [ ] Cleanup is recorded as completed or deferred with evidence
 
 ## Verification Checklist

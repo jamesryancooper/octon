@@ -183,8 +183,18 @@ route_lifecycle_outcomes:
     ready_requires:
       - "pr_url_or_number"
       - "hosted_required_checks_green_or_blocker"
+      - "AI Review Gate / decision passing when required"
+      - "PR Quality Standards passing"
+      - "Validate branch naming passing"
+      - "PR Clean State Enforcer passing"
+      - "Validate autonomy policy passing"
       - "review_evidence_or_solo_maintainer_exception_when_required"
       - "no_unresolved_author_action_items"
+      - "no_blocking_labels"
+      - "no_requested_changes"
+      - "no_merge_conflicts"
+      - "no_stale_head_state"
+      - "Change receipt or PR closeout evidence"
     landed_requires:
       - "pr_merged"
       - "merge_ref_or_landed_ref"

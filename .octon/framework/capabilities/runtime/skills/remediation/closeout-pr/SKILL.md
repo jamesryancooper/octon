@@ -58,9 +58,16 @@ Or, when a PR already exists:
    blocker; address them with `fix + commit + push + reply`
 7. **Ready gate** — Move out of draft only when checks are green, no
    unresolved conversations remain, no author action items remain, and the
-   merge lane is correct
-8. **Merge** — Request squash auto-merge for the autonomous lane, or keep the
-   PR ready in the manual lane until an authorized human merges it
+   merge lane is correct. Autonomous draft completion is allowed only for
+   branch-pr PRs that are open, still draft, in the autonomous lane, green on
+   required checks including `AI Review Gate / decision` when required, PR
+   quality, branch naming, clean-state, and autonomy checks, free of blocking
+   labels, requested changes, merge conflicts, stale head state, and
+   unresolved author-action review threads, and backed by Change receipt or PR
+   closeout evidence.
+8. **Merge** — Request squash auto-merge or merge through the current
+   protected-main route for the autonomous lane, or keep the PR ready in the
+   manual lane until an authorized human merges it
 9. **Cleanup** — After merge, record local branch, remote branch, and worktree
    cleanup evidence or explicit deferred-cleanup evidence
 10. **Stop condition** — Continue until merged or until a precise external
@@ -106,6 +113,12 @@ Outputs are written to:
   pr-merged`, landed ref or merge ref, rollback handle, and cleanup disposition;
   without merge evidence, report a precise external blocker instead of
   completion
+- Do not mark a draft PR ready, request auto-merge, or merge autonomously
+  unless the autonomous draft completion policy in
+  `.octon/framework/execution-roles/practices/pull-request-standards.md` is
+  satisfied
+- Do not bypass protected-main controls; GitHub required checks, rulesets,
+  mergeability, and review policy remain authoritative at merge time
 - Continue until merged or until a precise external blocker is reached and reported
 - If progress cannot continue, report the exact blocker instead of claiming
   success

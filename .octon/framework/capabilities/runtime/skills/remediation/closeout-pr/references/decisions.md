@@ -24,7 +24,9 @@ description: Decision boundaries for the closeout-pr skill.
 
 ## Merge Lane
 
-- Autonomous lane: request squash auto-merge or merge once GitHub permits it.
+- Autonomous lane: after the autonomous draft completion preflight passes,
+  mark the draft ready and request squash auto-merge or merge through the
+  currently valid protected-main route once GitHub permits it.
 - Manual lane: do not bypass policy; remain ready and continue observing until
   merged by an authorized human.
 

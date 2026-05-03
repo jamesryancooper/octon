@@ -63,8 +63,14 @@ create_fixture() {
     "$fixture_root/.octon/framework/execution-roles/practices/git-autonomy-playbook.md"
   cp "$REPO_ROOT/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md" \
     "$fixture_root/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/github-autonomy-runbook.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/github-autonomy-runbook.md"
   cp "$REPO_ROOT/.octon/framework/execution-roles/practices/pull-request-standards.md" \
     "$fixture_root/.octon/framework/execution-roles/practices/pull-request-standards.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/standards/commit-pr-standards.json" \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/commit-pr-standards.json"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json" \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
   cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh" \
     "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh"
   cp "$REPO_ROOT/.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh" \
@@ -202,6 +208,38 @@ case_hosted_preflight_loses_pr_required_blocker_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_autonomous_draft_completion_policy_missing_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/Autonomous Draft Completion Policy/Autonomous PR Notes/g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/pull-request-standards.md"
+  ! run_validator "$fixture_root"
+}
+
+case_autonomous_draft_completion_contract_missing_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/autonomous_draft_completion/autonomous_completion_disabled/g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  ! run_validator "$fixture_root"
+}
+
+case_autonomous_draft_completion_bypass_allowed_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/"protected_main_bypass_allowed": false/"protected_main_bypass_allowed": true/g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
+  ! run_validator "$fixture_root"
+}
+
+case_autonomous_draft_completion_loses_receipt_evidence_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/Change receipt or PR closeout evidence/Optional PR notes/g' \
+    "$fixture_root/.octon/framework/product/contracts/default-work-unit.yml"
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "workflow alignment validator passes on live repo" case_live_repo_passes
   assert_success "workflow alignment validator fails when policy loses direct-main route" case_policy_missing_direct_main_route_fails
@@ -212,6 +250,10 @@ main() {
   assert_success "workflow alignment validator fails when closeout-change allows PR before routing" case_closeout_change_allows_pr_without_route_fails
   assert_success "workflow alignment validator fails when hosted no-PR helper mutates PRs" case_hosted_no_pr_helper_allows_pr_mutation_fails
   assert_success "workflow alignment validator fails when hosted preflight loses PR-required blocker" case_hosted_preflight_loses_pr_required_blocker_fails
+  assert_success "workflow alignment validator fails when autonomous draft completion policy is missing" case_autonomous_draft_completion_policy_missing_fails
+  assert_success "workflow alignment validator fails when autonomous draft completion contract is missing" case_autonomous_draft_completion_contract_missing_fails
+  assert_success "workflow alignment validator fails when draft completion allows protected-main bypass" case_autonomous_draft_completion_bypass_allowed_fails
+  assert_success "workflow alignment validator fails when draft completion loses receipt evidence" case_autonomous_draft_completion_loses_receipt_evidence_fails
 
   echo
   echo "Passed: $pass_count"

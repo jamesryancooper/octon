@@ -126,6 +126,12 @@ check_core_contracts() {
   require_yq "$POLICY_YML" '.hosted_provider_ruleset.universal_required_checks[]? | select(. == "exact_source_sha_validation")' "machine policy includes exact source SHA route-neutral check" "machine policy must include exact source SHA route-neutral check"
   require_yq "$POLICY_YML" '.hosted_provider_ruleset.pr_specific_checks[]? | select(. == "AI Review Gate / decision")' "machine policy keeps AI review gate PR-specific" "machine policy must keep AI review gate PR-specific"
   require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "machine policy distinguishes PR ready outcome" "machine policy must distinguish PR ready outcome"
+  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "AI Review Gate / decision passing when required")' "machine policy requires AI gate when required before PR ready" "machine policy must require AI gate when required before PR ready"
+  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "PR Quality Standards passing")' "machine policy requires PR quality before PR ready" "machine policy must require PR quality before PR ready"
+  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "PR Clean State Enforcer passing")' "machine policy requires clean-state check before PR ready" "machine policy must require clean-state check before PR ready"
+  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "no_requested_changes")' "machine policy requires no requested changes before PR ready" "machine policy must require no requested changes before PR ready"
+  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "no_merge_conflicts")' "machine policy requires no merge conflicts before PR ready" "machine policy must require no merge conflicts before PR ready"
+  require_yq "$POLICY_YML" '.route_lifecycle_outcomes."branch-pr".ready_requires[]? | select(. == "Change receipt or PR closeout evidence")' "machine policy requires receipt or closeout evidence before PR ready" "machine policy must require receipt or closeout evidence before PR ready"
   if yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$POLICY_YML" >/dev/null 2>&1; then
     fail "machine policy must not add branch-land-no-pr top-level route"
   else

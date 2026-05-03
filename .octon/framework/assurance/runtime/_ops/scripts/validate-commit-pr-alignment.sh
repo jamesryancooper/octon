@@ -51,6 +51,11 @@ main() {
   require_literal "$COMMITS_DOC" "Change receipt" "commits doc requires Change receipt evidence" "commits doc must require Change receipt evidence"
   require_literal "$PR_DOC" "PR-backed Changes" "PR standards are scoped to PR-backed Changes" "PR standards must be scoped to PR-backed Changes"
   require_literal "$PR_DOC" "Change receipt" "PR standards require Change receipt fields" "PR standards must require Change receipt fields"
+  require_literal "$PR_DOC" "Autonomous Draft Completion Policy" "PR standards define autonomous draft completion" "PR standards must define autonomous draft completion"
+  require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.status == "allowed" and .pr.autonomous_draft_completion.route == "branch-pr"' "standards route autonomous draft completion to branch-pr" "standards must route autonomous draft completion to branch-pr"
+  require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.requires_open_draft == true and .pr.autonomous_draft_completion.requires_autonomous_lane == true' "standards require open autonomous draft PR before completion" "standards must require open autonomous draft PR before completion"
+  require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.requires_change_receipt_or_closeout_evidence == true' "standards require receipt or closeout evidence before draft completion" "standards must require receipt or closeout evidence before draft completion"
+  require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.protected_main_bypass_allowed == false' "standards forbid protected-main bypass for draft completion" "standards must forbid protected-main bypass for draft completion"
 
   echo
   echo "Validation summary: errors=$errors"
