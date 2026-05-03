@@ -1,0 +1,30 @@
+schema_version: authority-grant-bundle-v2
+run_id: publish-1777823457586-1227
+request_id: publish-1777823457586-1227
+route_outcome: allow
+granted_capabilities:
+- capability.routing.publish
+- capability.pack.activation
+- generated.effective.publish
+- evidence.write
+requested_capability_packs:
+- telemetry
+support_target:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+approval_request_ref: null
+approval_grant_refs: []
+exception_lease_refs: []
+revocation_refs: []
+budget_ledger_ref: .octon/state/control/execution/runs/publish-1777823457586-1227/authority/budget-ledger.yml
+decision_artifact_ref: .octon/state/evidence/control/execution/authority-decision-publish-1777823457586-1227.yml
+quorum_policy_ref: .octon/instance/governance/policies/mission-autonomy.yml#quorum
+effective_scope:
+  action_type: publish_capability_pack_activation
+  target_id: publication:capability-routing
+  workflow_mode: role-mediated
+generated_at: 2026-04-04T00:00:00Z

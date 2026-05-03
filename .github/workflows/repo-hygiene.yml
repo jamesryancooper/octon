@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      OCTON_HOME: ${{ runner.temp }}/octon-home
+      OCTON_HOME: /tmp/octon-home
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -38,7 +38,7 @@ jobs:
       - name: Install system tooling
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq shellcheck
+          sudo apt-get install -y jq libfontconfig1-dev pkg-config ripgrep shellcheck
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
 
@@ -50,6 +50,15 @@ jobs:
       - name: Install cargo machete
         run: cargo install --locked --version 0.9.1 cargo-machete
 
+      - name: Repair repo-hygiene host tools
+        run: |
+          bash .octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh repair \
+            --repo-root "$GITHUB_WORKSPACE" \
+            --consumer repo-hygiene \
+            --mode enforce \
+            --octon-home "$OCTON_HOME" \
+            --quiet
+
       - name: Validate repo-hygiene governance and enforce hygiene gate
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
@@ -60,7 +69,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      OCTON_HOME: ${{ runner.temp }}/octon-home
+      OCTON_HOME: /tmp/octon-home
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -68,7 +77,7 @@ jobs:
       - name: Install system tooling
         run: |
           sudo apt-get update
-          sudo apt-get install -y jq shellcheck
+          sudo apt-get install -y jq libfontconfig1-dev pkg-config ripgrep shellcheck
           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/download/v4.50.1/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
 
@@ -83,6 +92,15 @@ jobs:
           rustup toolchain install nightly --profile minimal
           cargo install --locked --version 0.9.1 cargo-machete
           cargo +nightly install --locked --version 0.1.60 cargo-udeps
+
+      - name: Repair repo-hygiene host tools
+        run: |
+          bash .octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh repair \
+            --repo-root "$GITHUB_WORKSPACE" \
+            --consumer repo-hygiene \
+            --mode audit \
+            --octon-home "$OCTON_HOME" \
+            --quiet
 
       - name: Run full repo-hygiene audit
         env:

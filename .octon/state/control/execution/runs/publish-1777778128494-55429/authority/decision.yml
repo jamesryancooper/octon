@@ -1,0 +1,27 @@
+schema_version: authority-decision-artifact-v2
+decision_id: decision-publish-1777778128494-55429
+request_id: publish-1777778128494-55429
+run_id: publish-1777778128494-55429
+route_outcome: allow
+reason_codes:
+- ACP_EVIDENCE_INVALID
+policy_refs:
+- .octon/framework/constitution/obligations/fail-closed.yml
+- .octon/instance/governance/support-targets.yml
+- .octon/instance/governance/exclusions/action-classes.yml
+authority_refs:
+  approval_request_ref: null
+  approval_grant_refs: []
+  exception_lease_refs: []
+  revocation_refs: []
+  grant_bundle_ref: .octon/state/control/execution/runs/publish-1777778128494-55429/authority/grant-bundle.yml
+support_target_tuple:
+  model_tier: repo-local-governed
+  workload_tier: repo-consequential
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  host_adapter: repo-shell
+  model_adapter: repo-local-governed
+issuing_engine: octon-kernel-run-binding
+issuing_version: 1.0.0
+generated_at: 2026-04-04T00:00:00Z

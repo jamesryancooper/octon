@@ -1,0 +1,72 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-extension-activation-0ce44759fd34",
+    "token_type": "AuthorizedEffect<ExtensionActivation>",
+    "effect_kind": "extension-activation",
+    "run_id": "publish-1777778287559-93662",
+    "request_id": "publish-1777778287559-93662",
+    "grant_id": "grant-publish-1777778287559-93662",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-publish-1777778287559-93662.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-publish-1777778287559-93662.yml",
+    "run_control_root": ".octon/state/control/execution/runs/publish-1777778287559-93662",
+    "run_evidence_root": ".octon/state/evidence/runs/publish-1777778287559-93662",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/publish-1777778287559-93662/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-publication-bypass:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-publication-bypass",
+    "runtime_effective_freshness_mode": "publication-bypass",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/<pending>",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "publication-bypass",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "git"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.claude",
+    "scope_envelope": {
+      "read": [
+        "/Users/jamesryancooper/Projects/octon"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.claude",
+        "/Users/jamesryancooper/Projects/octon/.codex",
+        "/Users/jamesryancooper/Projects/octon/.cursor"
+      ],
+      "executor_profile": "scoped_repo_mutation",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/publish-1777778287559-93662/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-05-03T03:18:08.086962Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/publish-1777778287559-93662/effect-tokens/effect-token-extension-activation-0ce44759fd34.json",
+    "journal_ref": ".octon/state/control/execution/runs/publish-1777778287559-93662/events.ndjson#evt-effect-token-minted-effect-token-extension-activation-0ce44759fd34",
+    "token_digest": "sha256:51071b2564ca22112810bc14547b95c1559a9b1f75891c93d00380499f6c1a24"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 1,
+  "issued_event_ref": ".octon/state/control/execution/runs/publish-1777778287559-93662/events.ndjson#evt-effect-token-minted-effect-token-extension-activation-0ce44759fd34",
+  "last_event_ref": ".octon/state/control/execution/runs/publish-1777778287559-93662/events.ndjson#evt-effect-token-consumed-effect-token-extension-activation-0ce44759fd34",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/publish-1777778287559-93662/receipts/effect-tokens/effect-token-extension-activation-0ce44759fd34/consumption-28211aa127ed.json",
+  "last_consumed_at": "2026-05-03T03:18:09.901688Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs::publication_internal_verify:host-projections-claude",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.claude",
+  "rejection_reason_codes": []
+}

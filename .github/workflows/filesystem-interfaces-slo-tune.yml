@@ -46,6 +46,17 @@ jobs:
         run: |
           cargo install --locked cargo-component
 
+      - name: Prefetch runtime and filesystem service crates
+        run: |
+          cargo fetch --locked --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml
+          for crate_dir in \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-watch/rust
+          do
+            (cd "$crate_dir" && cargo fetch --locked --target wasm32-wasip1)
+          done
+
       - name: Download SLO history artifacts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -71,11 +82,21 @@ jobs:
             --headroom-percent "$HEADROOM_PERCENT" \
             --max-tighten-percent "$MAX_TIGHTEN_PERCENT"
 
+      - name: Compile split filesystem wasm services from source
+        env:
+          CARGO_NET_OFFLINE: "true"
+        run: |
+          for service in filesystem-snapshot filesystem-discovery filesystem-watch
+          do
+            (
+              cd ".octon/framework/capabilities/runtime/services/interfaces/${service}/rust"
+              CARGO_TARGET_DIR="${GITHUB_WORKSPACE}/.octon/generated/.tmp/engine/filesystem-service-build/${service}" \
+                cargo component build --release --offline
+            )
+          done
+
       - name: Validate tuned budgets
         run: |
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-snapshot
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-discovery
-          .octon/framework/engine/runtime/run service build interfaces/filesystem-watch
           FILESYSTEM_INTERFACES_VALIDATE_SLO=1 bash .octon/framework/capabilities/runtime/services/_ops/scripts/validate-filesystem-interfaces.sh
 
       - name: Create pull request
@@ -104,6 +125,8 @@ jobs:
     permissions:
       contents: read
       issues: write
+    env:
+      ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
     steps:
       - name: Upsert GitHub issue alert
         uses: actions/github-script@v7
@@ -145,10 +168,8 @@ jobs:
             }
 
       - name: Send Slack alert (optional)
-        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        if: ${{ env.ALERT_WEBHOOK != '' }}
         uses: actions/github-script@v7
-        env:
-          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
@@ -180,6 +201,8 @@ jobs:
     permissions:
       contents: read
       issues: write
+    env:
+      ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
     steps:
       - name: Close open GitHub issue alert on recovery
         uses: actions/github-script@v7
@@ -216,10 +239,8 @@ jobs:
             });
 
       - name: Send Slack recovery notification (optional)
-        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        if: ${{ env.ALERT_WEBHOOK != '' }}
         uses: actions/github-script@v7
-        env:
-          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
