@@ -104,6 +104,8 @@ jobs:
     permissions:
       contents: read
       issues: write
+    env:
+      ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
     steps:
       - name: Upsert GitHub issue alert
         uses: actions/github-script@v7
@@ -145,10 +147,8 @@ jobs:
             }
 
       - name: Send Slack alert (optional)
-        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        if: ${{ env.ALERT_WEBHOOK != '' }}
         uses: actions/github-script@v7
-        env:
-          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
@@ -180,6 +180,8 @@ jobs:
     permissions:
       contents: read
       issues: write
+    env:
+      ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
     steps:
       - name: Close open GitHub issue alert on recovery
         uses: actions/github-script@v7
@@ -216,10 +218,8 @@ jobs:
             });
 
       - name: Send Slack recovery notification (optional)
-        if: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK != '' }}
+        if: ${{ env.ALERT_WEBHOOK != '' }}
         uses: actions/github-script@v7
-        env:
-          ALERT_WEBHOOK: ${{ secrets.FILESYSTEM_INTERFACES_SLO_ALERT_WEBHOOK }}
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;

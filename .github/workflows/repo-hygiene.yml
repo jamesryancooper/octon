@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      OCTON_HOME: ${{ runner.temp }}/octon-home
+      OCTON_HOME: /tmp/octon-home
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
-      OCTON_HOME: ${{ runner.temp }}/octon-home
+      OCTON_HOME: /tmp/octon-home
     steps:
       - name: Checkout
         uses: actions/checkout@v4
