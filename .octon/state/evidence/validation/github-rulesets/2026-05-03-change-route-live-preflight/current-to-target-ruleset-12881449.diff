@@ -1,0 +1,50 @@
+--- .octon/state/evidence/validation/github-rulesets/2026-05-03-change-route-live-preflight/current-live-main-ruleset-12881449.json	2026-05-02 20:28:24
++++ .octon/state/evidence/validation/github-rulesets/2026-05-03-change-route-live-preflight/target-route-neutral-main-ruleset-12881449.json	2026-05-02 20:27:59
+@@ -24,43 +24,25 @@
+         "do_not_enforce_on_create": false,
+         "required_status_checks": [
+           {
+-            "context": "AI Review Gate / decision",
++            "context": "route_neutral_closeout_validation",
+             "integration_id": 15368
+           },
+           {
+-            "context": "enforce-ci-efficiency-policy",
++            "context": "branch_naming_validation",
+             "integration_id": 15368
+           },
+           {
+-            "context": "PR Quality Standards",
++            "context": "route_aware_autonomy_validation",
+             "integration_id": 15368
+           },
+           {
+-            "context": "Validate autonomy policy",
++            "context": "exact_source_sha_validation",
+             "integration_id": 15368
+-          },
+-          {
+-            "context": "Validate branch naming",
+-            "integration_id": 15368
+           }
+         ]
+       }
+     },
+     {
+-      "type": "pull_request",
+-      "parameters": {
+-        "required_approving_review_count": 0,
+-        "dismiss_stale_reviews_on_push": false,
+-        "required_reviewers": [],
+-        "require_code_owner_review": false,
+-        "require_last_push_approval": false,
+-        "required_review_thread_resolution": true,
+-        "allowed_merge_methods": [
+-          "squash"
+-        ]
+-      }
+-    },
+-    {
+       "type": "non_fast_forward"
+     },
+     {

@@ -1,0 +1,48 @@
+[
+  {
+    "type": "deletion",
+    "ruleset_source_type": "Repository",
+    "ruleset_source": "jamesryancooper/octon",
+    "ruleset_id": 12881449
+  },
+  {
+    "type": "required_status_checks",
+    "parameters": {
+      "strict_required_status_checks_policy": true,
+      "do_not_enforce_on_create": false,
+      "required_status_checks": [
+        {
+          "context": "route_neutral_closeout_validation",
+          "integration_id": 15368
+        },
+        {
+          "context": "branch_naming_validation",
+          "integration_id": 15368
+        },
+        {
+          "context": "route_aware_autonomy_validation",
+          "integration_id": 15368
+        },
+        {
+          "context": "exact_source_sha_validation",
+          "integration_id": 15368
+        }
+      ]
+    },
+    "ruleset_source_type": "Repository",
+    "ruleset_source": "jamesryancooper/octon",
+    "ruleset_id": 12881449
+  },
+  {
+    "type": "non_fast_forward",
+    "ruleset_source_type": "Repository",
+    "ruleset_source": "jamesryancooper/octon",
+    "ruleset_id": 12881449
+  },
+  {
+    "type": "required_linear_history",
+    "ruleset_source_type": "Repository",
+    "ruleset_source": "jamesryancooper/octon",
+    "ruleset_id": 12881449
+  }
+]
