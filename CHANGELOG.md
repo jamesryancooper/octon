@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.55](https://github.com/jamesryancooper/octon/compare/octon-v0.6.54...octon-v0.6.55) (2026-05-03)
+
+
+### Bug Fixes
+
+* **pr:** allow high-impact elevated autonomy ([#395](https://github.com/jamesryancooper/octon/issues/395)) ([21ab17e](https://github.com/jamesryancooper/octon/commit/21ab17eb9ff4f970476e3d7b9184dc628c8f5fb8))
+
 ## [0.6.54](https://github.com/jamesryancooper/octon/compare/octon-v0.6.53...octon-v0.6.54) (2026-05-03)
 
 
