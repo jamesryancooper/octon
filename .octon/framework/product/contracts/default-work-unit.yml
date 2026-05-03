@@ -182,6 +182,7 @@ route_lifecycle_outcomes:
       - "change_receipt"
     ready_requires:
       - "pr_url_or_number"
+      - "high_impact_diff_policy_evidence_rollback_self_review_when_applicable"
       - "hosted_required_checks_green_or_blocker"
       - "AI Review Gate / decision passing when required"
       - "PR Quality Standards passing"
@@ -198,6 +199,7 @@ route_lifecycle_outcomes:
     landed_requires:
       - "pr_merged"
       - "merge_ref_or_landed_ref"
+      - "origin_main_contains_merged_result"
       - "rollback_handle"
     cleaned_requires:
       - "pr_merged_or_external_blocker"

@@ -76,10 +76,14 @@ Branch-PR lane (autonomous):
    and autonomy checks are green, no unresolved author-action review threads,
    blocking labels, requested changes, merge conflicts, or stale head state
    remain, and the PR carries required Change receipt or PR closeout evidence.
+   For high-impact PRs, explicit self-review of the diff, policy impact,
+   evidence, and rollback path is also required.
 5. Request squash auto-merge or merge only through the currently valid
    protected-main route.
 6. Let GitHub perform or accept the final merge once live rulesets, required
-   checks, mergeability, and review policy are satisfied.
+   checks, mergeability, and review policy are satisfied, then fetch and verify
+   `origin/main` contains the merged result before recording final closeout
+   evidence.
 
 Direct-main lane:
 
@@ -99,9 +103,24 @@ Branch-no-PR lane:
 Guarded lane (manual):
 
 - `exp/*` branches stay in the manual lane.
-- High-impact governance or control-plane changes stay in the manual lane.
-- Dependabot major or unknown version jumps stay in the manual lane.
-- Human review and merge remain explicit, with auto-merge off.
+- Manual handling is required only for a concrete unresolved blocker, not for
+  high-impact classification alone.
+- Dependabot major or unknown version jumps require human compatibility
+  judgment only when safe autonomous validation and rollback cannot be proven.
+- When escalation is required, report the exact blocker, evidence gathered,
+  attempted remediation, and smallest human decision needed.
+- Human review and merge remain explicit for escalated PRs, with auto-merge
+  off.
+
+High-impact elevated-autonomy lane:
+
+- High-impact governance or control-plane changes stay eligible for autonomous
+  `branch-pr` closeout when required evidence and checks are satisfied.
+- Before ready or merge request, perform explicit self-review of the diff,
+  policy impact, evidence, and rollback path.
+- Continue the closeout loop through ready, squash auto-merge request, merge
+  watch, `origin/main` verification, and final closeout evidence unless a
+  concrete blocker requires escalation.
 
 Release lane:
 
@@ -117,7 +136,8 @@ Dependency lane (Dependabot):
 - Dependabot-authored PRs skip provider-backed AI review when Actions secrets
   are unavailable; the required AI gate remains active through the
   non-provider path.
-- Major or unclassified version jumps stay in the manual lane.
+- Major or unclassified version jumps require escalation only when the agent
+  cannot prove compatibility, validation coverage, and rollback safety.
 
 Steady-state health lane:
 
@@ -266,6 +286,8 @@ Minimum control-plane expectations:
   quality, branch naming, clean-state, autonomy policy, review-thread,
   requested-change, conflict, stale-head, Change receipt, and live-ruleset
   criteria are satisfied.
+- High-impact PRs require elevated self-review and evidence discipline, but
+  high-impact classification alone is not a manual-lane blocker.
 - Agents may mark eligible drafts ready and request the protected-main merge
   path, but they must not bypass protected-main controls.
 

@@ -186,7 +186,8 @@ Core loop:
 8. move out of draft only when checks are green, conversations are cleared,
    author action items are closed, and the lane is correct
 9. request squash auto-merge for the autonomous lane, or keep the PR ready in
-   the manual lane until merged by an authorized human
+   the manual lane only when a concrete blocker requires authorized human
+   action
 
 ### 4. Enforce local cleanup state on demand
 
@@ -428,15 +429,32 @@ predictable.
 8. Let cleanup enforcement converge local branch state and prune safe linked
    worktree directories, then handle any printed manual follow-up step.
 
+For high-impact work, autonomous handling becomes elevated autonomy rather
+than a manual default. Before requesting ready or auto-merge, explicitly
+self-review the diff, policy impact, evidence, and rollback path. After the
+merge request, watch until GitHub merges, fetch `origin/main`, prove the merged
+result is present, and record final closeout evidence.
+
 ### Manual lane
 
-Keep the PR in the manual lane when the branch or change requires human merge
-judgment, including:
+Keep the PR in the manual lane only when the branch or change has a concrete
+unresolved blocker that requires human judgment, credentials, authority, or
+policy acceptance, including:
 
 - `exp/*` branches
-- high-impact governance or control-plane changes
-- major or unknown Dependabot transitions
-- any other task with unresolved design or operational escalation
+- live rulesets require a human approval the agent cannot provide
+- required checks fail for a reason the agent cannot safely fix
+- review threads require product, security, legal, or architectural judgment
+- live rulesets, secrets, permissions, credentials, or external service
+  configuration would change outside approved scope
+- rollback is unclear or unsafe
+- required evidence, mergeability, or post-merge `origin/main` state cannot be
+  proven
+- policies conflict or authority is ambiguous
+
+Do not escalate merely because the PR is high-impact. Escalation reports must
+state the exact blocker, evidence gathered, attempted remediation, and smallest
+human decision needed.
 
 Manual-lane flow:
 

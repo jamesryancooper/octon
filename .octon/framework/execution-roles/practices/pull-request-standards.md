@@ -52,6 +52,8 @@ true:
 - The PR is still open and draft.
 - Change routing selected `branch-pr`, and the PR is in the autonomous
   `branch-pr` lane.
+- For high-impact PRs, the agent has completed and recorded explicit
+  self-review of the diff, policy impact, required evidence, and rollback path.
 - All required GitHub checks are passing.
 - `AI Review Gate / decision` is passing when it is required for the lane.
 - `PR Quality Standards`, `Validate branch naming`, `PR Clean State Enforcer`,
@@ -83,13 +85,28 @@ solo-maintainer exception when its evidence requirements are met.
 Ordinary review remediation remains `fix + commit + push + reply`; history
 rewrite is not the default review path.
 
-Human check-ins are exception-based and intentionally narrow:
+High-impact is a risk classification, not a manual-lane default. High-impact
+`branch-pr` work uses elevated autonomy: the agent keeps progressing while it
+can prove scope, evidence, checks, rollback, and protected-main compatibility.
+The agent must perform an explicit self-review of the diff, policy impact,
+evidence, and rollback path before moving a high-impact draft PR to ready or
+requesting merge.
+
+Human escalation is exception-based and intentionally narrow:
 
 - PRs from `exp/*` branches stay in the manual lane.
-- High-impact path changes are triaged out of the autonomous merge lane and
-  require ordinary human review and merge.
-- Dependabot major or unknown version jumps are triaged out of the autonomous
-  merge lane and require ordinary human review and merge.
+- High-impact alone must not be used as the reason for manual intervention.
+- Dependabot major or unknown version jumps require compatibility judgment
+  until the agent can prove a safe autonomous path.
+- Escalate only for a concrete unresolved blocker: live rulesets require a
+  human approval the agent cannot provide, required checks fail for reasons the
+  agent cannot safely fix, review threads require product/security/legal/
+  architectural judgment, the PR changes live rulesets, secrets, permissions,
+  credentials, or external service configuration outside approved scope, the
+  rollback path is unclear or unsafe, required evidence, mergeability, or
+  post-merge `origin/main` state cannot be proven, or authority is ambiguous.
+- Escalation reports must include the exact blocker, evidence gathered,
+  remediation attempted, and the smallest human decision needed.
 - No label, comment, or check may act as repo-local approval authority.
 - AI-gate waivers are not supported in the autonomy lane; blocking findings
   must be fixed or handled outside the lane.

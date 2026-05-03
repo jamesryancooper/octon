@@ -27,8 +27,11 @@ description: Decision boundaries for the closeout-pr skill.
 - Autonomous lane: after the autonomous draft completion preflight passes,
   mark the draft ready and request squash auto-merge or merge through the
   currently valid protected-main route once GitHub permits it.
-- Manual lane: do not bypass policy; remain ready and continue observing until
-  merged by an authorized human.
+- High-impact lane: remain autonomous with elevated evidence and self-review
+  requirements. Do not route to manual solely because the PR is high-impact.
+- Manual lane: use only for concrete unresolved blockers that require human
+  judgment, credentials, authority, or policy acceptance. Do not bypass policy;
+  remain ready and continue observing until merged by an authorized human.
 
 ## Stop Conditions
 
@@ -36,4 +39,6 @@ description: Decision boundaries for the closeout-pr skill.
 - PR ready but unmerged -> `ready`, not landed
 - PR merged -> `landed`
 - PR merged plus cleanup evidence or deferred cleanup record -> `cleaned`
+- Required evidence, rollback safety, mergeability, or post-merge
+  `origin/main` state cannot be proven -> report exact blocker and stop
 - Real external blocker -> report and stop

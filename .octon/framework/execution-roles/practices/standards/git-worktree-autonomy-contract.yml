@@ -184,9 +184,20 @@ pr_backed_review_policy:
     allowed_transitions:
       - "mark_draft_pr_ready_for_review"
       - "request_or_execute_protected_main_merge"
+    high_impact_posture:
+      classification: "risk:high"
+      autonomy_model: "elevated-autonomy"
+      manual_default: false
+      required_extra_evidence:
+        - "explicit_diff_self_review"
+        - "policy_impact_self_review"
+        - "rollback_path_self_review"
+        - "post_merge_origin_main_verification"
+      escalation_rule: "escalate only for concrete unresolved blockers; high-impact alone is not a blocker"
     eligibility:
       - "PR is open and draft"
       - "PR belongs to the autonomous branch-pr lane"
+      - "high-impact PRs include explicit self-review of diff, policy impact, evidence, and rollback path"
       - "all required GitHub checks are passing"
       - "AI Review Gate / decision is passing when required"
       - "PR Quality Standards is passing"
@@ -212,6 +223,11 @@ pr_backed_review_policy:
       - "merge by pushing directly to protected main"
       - "treat labels, comments, or helper output as authority"
       - "bypass required checks, rulesets, review policy, or GitHub mergeability"
+    escalation_requires:
+      - "exact blocker"
+      - "evidence gathered"
+      - "remediation attempted"
+      - "smallest human decision needed"
   reviewer_owned_thread_resolution:
     default: "reviewer-or-maintainer"
     solo_maintainer_exception:

@@ -140,6 +140,18 @@ main() {
     fail "GitHub autonomy workflows must bind the canonical PR-autonomy classifier"
   fi
 
+  if has_pattern_in_files 'PR_AUTONOMY_HIGH_IMPACT_ELEVATED' "$OCTON_DIR/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh"; then
+    pass "PR autonomy classifier treats high-impact as elevated autonomy"
+  else
+    fail "PR autonomy classifier must treat high-impact as elevated autonomy"
+  fi
+
+  if has_pattern_in_files 'PR_AUTONOMY_HIGH_IMPACT_REVIEW_REQUIRED|High-impact change detected\. PR remains manual-lane only|highImpactHumanRequired' "$OCTON_DIR/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh" "$ROOT_DIR/.github/workflows/pr-triage.yml"; then
+    fail "PR autonomy classifier and triage must not make high-impact a manual default"
+  else
+    pass "PR autonomy classifier and triage avoid high-impact manual default"
+  fi
+
   if has_pattern_in_files 'project-github-control-approval\.sh' "$ROOT_DIR/.github/workflows/pr-autonomy-policy.yml" "$ROOT_DIR/.github/workflows/ai-review-gate.yml" "$ROOT_DIR/.github/workflows/pr-auto-merge.yml"; then
     pass "GitHub control-plane workflows dual-write into canonical approval artifacts"
   else

@@ -233,16 +233,17 @@ main() {
   fi
 
   local requires_human_review=false
+  local high_impact_elevated=false
   local reason_code="PR_AUTONOMY_ELIGIBLE"
   if [[ "$is_high_impact" == true && "$is_dependabot_safe_update" != true ]]; then
-    requires_human_review=true
-    reason_code="PR_AUTONOMY_HIGH_IMPACT_REVIEW_REQUIRED"
-    notices+=("High-impact change detected. PR remains manual-lane only; autonomous merge is intentionally disabled.")
+    high_impact_elevated=true
+    reason_code="PR_AUTONOMY_HIGH_IMPACT_ELEVATED"
+    notices+=("High-impact change detected. Elevated-autonomy evidence applies; high impact alone does not require human review.")
   fi
   if [[ "$dependabot_human_review_required" == true ]]; then
     requires_human_review=true
     reason_code="PR_AUTONOMY_DEPENDABOT_REVIEW_REQUIRED"
-    notices+=("Dependabot major/unknown update detected. PR remains manual-lane only; autonomous merge is intentionally disabled.")
+    notices+=("Dependabot major/unknown update detected. Human compatibility judgment is required until safe autonomous remediation can be proven.")
   fi
   if [[ "$is_dependabot_github_actions" == true ]]; then
     notices+=("Dependabot github-actions update classified as '${dependabot_update_type}'.")
@@ -265,7 +266,7 @@ main() {
   elif [[ "$manual_lane_requested" == true ]]; then
     requires_human_review=true
     reason_code="PR_AUTONOMY_MANUAL_LANE_REQUESTED"
-    notices+=("PR body requests autonomy:no-automerge. PR remains manual-lane only; autonomous merge is intentionally disabled.")
+    notices+=("PR body requests autonomy:no-automerge. Autonomous merge is disabled by explicit PR evidence, not by risk label alone.")
   fi
 
   local status="granted"
@@ -276,6 +277,8 @@ main() {
   elif [[ "$requires_human_review" == true ]]; then
     status="staged"
     reason_codes+=("$reason_code")
+  elif [[ "$high_impact_elevated" == true ]]; then
+    reason_codes+=("PR_AUTONOMY_HIGH_IMPACT_ELEVATED")
   else
     reason_codes+=("PR_AUTONOMY_ELIGIBLE")
   fi
@@ -326,6 +329,7 @@ main() {
       --argjson is_high_impact "$( [[ "$is_high_impact" == true ]] && printf 'true' || printf 'false' )" \
       --argjson is_medium_impact "$( [[ "$is_medium_impact" == true ]] && printf 'true' || printf 'false' )" \
       --argjson requires_human_review "$( [[ "$requires_human_review" == true ]] && printf 'true' || printf 'false' )" \
+      --argjson high_impact_elevated "$( [[ "$high_impact_elevated" == true ]] && printf 'true' || printf 'false' )" \
       --argjson manual_lane_requested "$( [[ "$manual_lane_requested" == true ]] && printf 'true' || printf 'false' )" \
       --argjson explicit_auto_merge_requested "$( [[ "$explicit_auto_merge_requested" == true ]] && printf 'true' || printf 'false' )" \
       --argjson materialized "$materialize_json" \
@@ -340,6 +344,7 @@ main() {
         is_high_impact: $is_high_impact,
         is_medium_impact: $is_medium_impact,
         requires_human_review: $requires_human_review,
+        high_impact_elevated: $high_impact_elevated,
         manual_lane_requested: $manual_lane_requested,
         explicit_auto_merge_requested: $explicit_auto_merge_requested
       } + $materialized'

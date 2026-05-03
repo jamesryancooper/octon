@@ -63,6 +63,14 @@
       "requires_open_draft": true,
       "requires_autonomous_lane": true,
       "requires_change_receipt_or_closeout_evidence": true,
+      "high_impact_posture": {
+        "classification": "risk:high",
+        "autonomy_model": "elevated-autonomy",
+        "manual_default": false,
+        "requires_explicit_self_review": true,
+        "requires_post_merge_origin_main_verification": true,
+        "escalate_only_for_concrete_blockers": true
+      },
       "required_checks": [
         "AI Review Gate / decision when required",
         "PR Quality Standards",

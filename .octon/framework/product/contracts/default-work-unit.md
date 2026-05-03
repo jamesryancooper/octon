@@ -92,8 +92,11 @@ PR-backed outcomes:
   required, PR quality, branch naming, clean-state, and autonomy checks are
   green, no unresolved author-action review threads, blocking labels,
   requested changes, merge conflicts, or stale head state remain, and required
-  Change receipt or PR closeout evidence is present.
-- `landed`: the PR is merged into `main`.
+  Change receipt or PR closeout evidence is present. High-impact PRs also
+  require explicit self-review of diff, policy impact, evidence, and rollback
+  path, but high-impact classification alone is not a manual-lane outcome.
+- `landed`: the PR is merged into `main` and `origin/main` is fetched and
+  verified to contain the merged result.
 - `cleaned`: local branch, remote branch, and worktree cleanup are complete or
   explicitly deferred with evidence.
 

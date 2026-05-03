@@ -36,6 +36,8 @@ Default behavior:
   autonomy checks green, no unresolved author-action threads, no blocking labels,
   requested changes, merge conflicts, or stale head, required Change receipt or PR
   closeout evidence present, and current live rulesets allow the merge path.
+  High-impact PRs remain eligible under elevated autonomy when explicit self-review,
+  rollback evidence, and post-merge origin/main verification can be proven.
 USAGE
 }
 

@@ -111,6 +111,8 @@ create_fixture() {
     "$fixture_root/.github/workflows/commit-and-branch-standards.yml"
   cp "$REPO_ROOT/.github/workflows/pr-auto-merge.yml" \
     "$fixture_root/.github/workflows/pr-auto-merge.yml"
+  cp "$REPO_ROOT/.github/workflows/pr-triage.yml" \
+    "$fixture_root/.github/workflows/pr-triage.yml"
   cp "$REPO_ROOT/.github/workflows/main-change-route-guard.yml" \
     "$fixture_root/.github/workflows/main-change-route-guard.yml"
   cp "$REPO_ROOT/.github/workflows/change-route-projection.yml" \
@@ -240,6 +242,38 @@ case_autonomous_draft_completion_loses_receipt_evidence_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_high_impact_elevated_policy_missing_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/High-impact is a risk classification, not a manual-lane default\./High-impact changes require manual review./g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/pull-request-standards.md"
+  ! run_validator "$fixture_root"
+}
+
+case_high_impact_evaluator_manual_default_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/PR_AUTONOMY_HIGH_IMPACT_ELEVATED/PR_AUTONOMY_HIGH_IMPACT_REVIEW_REQUIRED/g' \
+    "$fixture_root/.octon/framework/assurance/governance/_ops/scripts/evaluate-pr-autonomy-policy.sh"
+  ! run_validator "$fixture_root"
+}
+
+case_high_impact_triage_manual_default_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/Elevated-autonomy path remains eligible/PR stays in the manual lane/g' \
+    "$fixture_root/.github/workflows/pr-triage.yml"
+  ! run_validator "$fixture_root"
+}
+
+case_high_impact_contract_manual_default_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/manual_default: false/manual_default: true/g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "workflow alignment validator passes on live repo" case_live_repo_passes
   assert_success "workflow alignment validator fails when policy loses direct-main route" case_policy_missing_direct_main_route_fails
@@ -254,6 +288,10 @@ main() {
   assert_success "workflow alignment validator fails when autonomous draft completion contract is missing" case_autonomous_draft_completion_contract_missing_fails
   assert_success "workflow alignment validator fails when draft completion allows protected-main bypass" case_autonomous_draft_completion_bypass_allowed_fails
   assert_success "workflow alignment validator fails when draft completion loses receipt evidence" case_autonomous_draft_completion_loses_receipt_evidence_fails
+  assert_success "workflow alignment validator fails when high-impact elevated policy is missing" case_high_impact_elevated_policy_missing_fails
+  assert_success "workflow alignment validator fails when high-impact evaluator returns manual default" case_high_impact_evaluator_manual_default_fails
+  assert_success "workflow alignment validator fails when high-impact triage returns manual default" case_high_impact_triage_manual_default_fails
+  assert_success "workflow alignment validator fails when high-impact contract returns manual default" case_high_impact_contract_manual_default_fails
 
   echo
   echo "Passed: $pass_count"

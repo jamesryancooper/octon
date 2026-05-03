@@ -55,6 +55,7 @@ main() {
   require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.status == "allowed" and .pr.autonomous_draft_completion.route == "branch-pr"' "standards route autonomous draft completion to branch-pr" "standards must route autonomous draft completion to branch-pr"
   require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.requires_open_draft == true and .pr.autonomous_draft_completion.requires_autonomous_lane == true' "standards require open autonomous draft PR before completion" "standards must require open autonomous draft PR before completion"
   require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.requires_change_receipt_or_closeout_evidence == true' "standards require receipt or closeout evidence before draft completion" "standards must require receipt or closeout evidence before draft completion"
+  require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.high_impact_posture.autonomy_model == "elevated-autonomy" and .pr.autonomous_draft_completion.high_impact_posture.manual_default == false' "standards treat high-impact as elevated autonomy" "standards must treat high-impact as elevated autonomy"
   require_jq "$STANDARDS_JSON" '.pr.autonomous_draft_completion.protected_main_bypass_allowed == false' "standards forbid protected-main bypass for draft completion" "standards must forbid protected-main bypass for draft completion"
 
   echo

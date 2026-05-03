@@ -239,7 +239,7 @@ jobs:
                 ...attentionRows.map((row) => `| [#${row.number}](${row.url}) | ${row.ageHours} | ${row.reasons.join("; ")} |`),
                 "",
                 "Action expectations:",
-                "- Resolve manual-lane/blocking conditions promptly (policy labels, review threads/checks).",
+                "- Resolve concrete blocking conditions promptly (review threads, checks, merge state, authority, or evidence blockers).",
                 "- After merge/close, run local cleanup: `.octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh`.",
                 "- Preferred shipping path: `.octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh` (includes cleanup watcher)."
               ];

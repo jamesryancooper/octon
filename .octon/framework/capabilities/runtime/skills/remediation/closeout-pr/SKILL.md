@@ -64,10 +64,12 @@ Or, when a PR already exists:
    quality, branch naming, clean-state, and autonomy checks, free of blocking
    labels, requested changes, merge conflicts, stale head state, and
    unresolved author-action review threads, and backed by Change receipt or PR
-   closeout evidence.
+   closeout evidence. High-impact PRs require explicit self-review of the diff,
+   policy impact, evidence, and rollback path, but high impact alone is not a
+   manual-lane blocker.
 8. **Merge** — Request squash auto-merge or merge through the current
    protected-main route for the autonomous lane, or keep the PR ready in the
-   manual lane until an authorized human merges it
+   manual lane only when a concrete blocker requires authorized human action
 9. **Cleanup** — After merge, record local branch, remote branch, and worktree
    cleanup evidence or explicit deferred-cleanup evidence
 10. **Stop condition** — Continue until merged or until a precise external
@@ -129,8 +131,17 @@ Outputs are written to:
   credibly
 - A failing check is clearly infrastructure-only rather than code-related
 - Review feedback is ambiguous or conflicting and cannot be resolved safely
-- The PR is in the manual lane and requires human merge authority
+- A concrete blocker requires human merge authority, credentials, policy
+  acceptance, or product/security/legal/architectural judgment
+- Required checks fail for a reason that cannot be safely remediated
+  autonomously
+- Required evidence, mergeability, rollback safety, or post-merge
+  `origin/main` state cannot be proven
+- Policies conflict or authority is ambiguous
 - GitHub transport/auth problems prevent the next step from completing
+
+Do not escalate merely because a PR is high-impact. Report the exact blocker,
+evidence gathered, attempted remediation, and smallest human decision needed.
 
 ## References
 

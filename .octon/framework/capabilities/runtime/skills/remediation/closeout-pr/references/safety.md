@@ -21,11 +21,16 @@ description: Safety policies and constraints for the closeout-pr skill.
   quality, branch naming, clean-state, autonomy policy, review-thread,
   requested-change, conflict, stale-head, Change receipt, and live-ruleset
   criteria are satisfied
+- High-impact PRs require elevated caution, explicit self-review, stronger
+  evidence discipline, and post-merge verification, but high-impact
+  classification alone must not force manual handling
 - Do not treat helper output as proof of readiness or mergeability
 - Do not report draft/open PR state as full closeout
 - Do not report ready PR state as landed
 - Do not bypass protected-main controls when requesting or performing the
   merge
+- Escalate only for concrete unresolved blockers and report the exact blocker,
+  evidence gathered, attempted remediation, and smallest human decision needed
 
 ## Review Safety
 

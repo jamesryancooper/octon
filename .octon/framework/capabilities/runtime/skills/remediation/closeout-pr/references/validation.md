@@ -11,6 +11,8 @@ description: Acceptance criteria and verification for the closeout-pr skill.
 - [ ] The branch is pushed
 - [ ] One draft PR exists for the branch, or the existing PR was reused
 - [ ] The PR body satisfies required template sections and checklist items
+- [ ] High-impact PRs include explicit self-review of diff, policy impact,
+      required evidence, and rollback path
 - [ ] Required checks are green
 - [ ] `AI Review Gate / decision` is green when required
 - [ ] PR quality, branch naming, clean-state, and autonomy checks are green
@@ -23,6 +25,12 @@ description: Acceptance criteria and verification for the closeout-pr skill.
 - [ ] Ready but unmerged PR state is recorded as `ready`, not landed
 - [ ] The PR is merged through the currently valid protected-main route, or a
       precise external blocker is reported
+- [ ] After merge, `origin/main` is fetched and verified to contain the merged
+      result
+- [ ] Final closeout evidence includes merged ref, validation evidence,
+      rollback handle, and cleanup disposition
+- [ ] Escalation, if any, cites a concrete blocker rather than high-impact
+      classification alone
 - [ ] Cleanup is recorded as completed or deferred with evidence
 
 ## Verification Checklist

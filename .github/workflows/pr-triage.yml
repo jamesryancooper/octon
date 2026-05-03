@@ -107,7 +107,7 @@ jobs:
 
               "risk:low": { color: "D4C5F9", description: "Low risk routine change" },
               "risk:med": { color: "FBCA04", description: "Medium risk change" },
-              "risk:high": { color: "B60205", description: "High impact governance/control-plane change" },
+              "risk:high": { color: "B60205", description: "High-impact elevated-autonomy governance/control-plane change" },
 
               "bot:dependabot": { color: "0366D6", description: "Dependabot pull request" }
             };
@@ -232,8 +232,8 @@ jobs:
               desiredLabels.add("bot:dependabot");
             }
 
-            const highImpactHumanRequired = isHighImpact && !isDependabotSafeUpdate;
-            const requiresHumanReview = highImpactHumanRequired || dependabotHumanReviewRequired;
+            const highImpactElevated = isHighImpact && !isDependabotSafeUpdate;
+            const requiresHumanReview = dependabotHumanReviewRequired;
             const autoMergeCandidate =
               !pr.draft &&
               !headRef.startsWith("exp/") &&
@@ -302,12 +302,12 @@ jobs:
               core.info(`Dependabot github-actions update classified as '${dependabotUpdateType}'.`);
             }
 
-            if (highImpactHumanRequired) {
-              core.notice("High-impact change detected. PR stays in the manual lane and will not be auto-merged.");
+            if (highImpactElevated) {
+              core.notice("High-impact change detected. Elevated-autonomy path remains eligible when required checks, evidence, and blocker criteria are satisfied.");
             }
 
             if (dependabotHumanReviewRequired) {
-              core.notice("Dependabot major/unknown update detected. PR stays in the manual lane and will not be auto-merged.");
+              core.notice("Dependabot major/unknown update detected. Human compatibility judgment is required until safe autonomous validation and rollback can be proven.");
             }
 
             if (autoMergeCandidate) {
