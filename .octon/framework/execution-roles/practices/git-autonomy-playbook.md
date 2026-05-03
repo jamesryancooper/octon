@@ -442,7 +442,7 @@ unresolved blocker that requires human judgment, credentials, authority, or
 policy acceptance, including:
 
 - `exp/*` branches
-- live rulesets require a human approval the agent cannot provide
+- live rulesets require an approval authority the agent cannot provide
 - required checks fail for a reason the agent cannot safely fix
 - review threads require product, security, legal, or architectural judgment
 - live rulesets, secrets, permissions, credentials, or external service
