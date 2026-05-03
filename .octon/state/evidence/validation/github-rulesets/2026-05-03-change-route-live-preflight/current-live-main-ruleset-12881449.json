@@ -1,0 +1,83 @@
+{
+  "id": 12881449,
+  "name": "Main Branch Guardrails (PR + CI + Codex)",
+  "target": "branch",
+  "source_type": "Repository",
+  "source": "jamesryancooper/octon",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "exclude": [],
+      "include": [
+        "~DEFAULT_BRANCH"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "do_not_enforce_on_create": false,
+        "required_status_checks": [
+          {
+            "context": "AI Review Gate / decision",
+            "integration_id": 15368
+          },
+          {
+            "context": "enforce-ci-efficiency-policy",
+            "integration_id": 15368
+          },
+          {
+            "context": "PR Quality Standards",
+            "integration_id": 15368
+          },
+          {
+            "context": "Validate autonomy policy",
+            "integration_id": 15368
+          },
+          {
+            "context": "Validate branch naming",
+            "integration_id": 15368
+          }
+        ]
+      }
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 0,
+        "dismiss_stale_reviews_on_push": false,
+        "required_reviewers": [],
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "required_review_thread_resolution": true,
+        "allowed_merge_methods": [
+          "squash"
+        ]
+      }
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "required_linear_history"
+    }
+  ],
+  "node_id": "RRS_lACqUmVwb3NpdG9yec5AseDmzgDEjik",
+  "created_at": "2026-02-16T14:48:14.375-06:00",
+  "updated_at": "2026-03-13T17:17:15.965-05:00",
+  "bypass_actors": [],
+  "current_user_can_bypass": "never",
+  "_links": {
+    "self": {
+      "href": "https://api.github.com/repos/jamesryancooper/octon/rulesets/12881449"
+    },
+    "html": {
+      "href": "https://github.com/jamesryancooper/octon/rules/12881449"
+    }
+  }
+}
