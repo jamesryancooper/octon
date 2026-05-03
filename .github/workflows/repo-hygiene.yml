@@ -50,6 +50,15 @@ jobs:
       - name: Install cargo machete
         run: cargo install --locked --version 0.9.1 cargo-machete
 
+      - name: Repair repo-hygiene host tools
+        run: |
+          bash .octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh repair \
+            --repo-root "$GITHUB_WORKSPACE" \
+            --consumer repo-hygiene \
+            --mode enforce \
+            --octon-home "$OCTON_HOME" \
+            --quiet
+
       - name: Validate repo-hygiene governance and enforce hygiene gate
         run: |
           bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
@@ -83,6 +92,15 @@ jobs:
           rustup toolchain install nightly --profile minimal
           cargo install --locked --version 0.9.1 cargo-machete
           cargo +nightly install --locked --version 0.1.60 cargo-udeps
+
+      - name: Repair repo-hygiene host tools
+        run: |
+          bash .octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh repair \
+            --repo-root "$GITHUB_WORKSPACE" \
+            --consumer repo-hygiene \
+            --mode audit \
+            --octon-home "$OCTON_HOME" \
+            --quiet
 
       - name: Run full repo-hygiene audit
         env:

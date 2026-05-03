@@ -3,6 +3,21 @@ use sha2::{Digest, Sha256};
 use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
+fn env_flag_enabled(name: &str) -> bool {
+    std::env::var(name)
+        .map(|value| {
+            matches!(
+                value.trim().to_ascii_lowercase().as_str(),
+                "1" | "true" | "yes" | "on"
+            )
+        })
+        .unwrap_or(false)
+}
+
+fn service_build_offline_only() -> bool {
+    env_flag_enabled("OCTON_SERVICE_BUILD_OFFLINE_ONLY") || env_flag_enabled("CARGO_NET_OFFLINE")
+}
+
 pub fn service_new(octon_dir: &Path, category: &str, name: &str) -> anyhow::Result<()> {
     validate_ident(category)?;
     validate_ident(name)?;
@@ -175,21 +190,25 @@ pub fn service_build(octon_dir: &Path, category: &str, name: &str) -> anyhow::Re
         .join("build")
         .join(format!("{category}-{name}-target"));
 
-    // Best-effort prefetch for target-specific crates so offline builds work on cold CI runners.
-    // If the fetch fails (for example, in a fully offline environment), we still proceed with
-    // the offline build and rely on prewarmed caches.
-    let fetch_status = std::process::Command::new("cargo")
-        .arg("fetch")
-        .arg("--locked")
-        .arg("--target")
-        .arg("wasm32-wasip1")
-        .current_dir(&rust_dir)
-        .status();
-    if let Ok(status) = fetch_status {
-        if !status.success() {
-            eprintln!(
-                "warning: cargo fetch --target wasm32-wasip1 failed; continuing with offline build"
-            );
+    if service_build_offline_only() {
+        eprintln!("service build offline-only mode: skipping cargo fetch preflight");
+    } else {
+        // Best-effort prefetch for target-specific crates so offline builds work on cold CI runners.
+        // If the fetch fails (for example, in a fully offline environment), we still proceed with
+        // the offline build and rely on prewarmed caches.
+        let fetch_status = std::process::Command::new("cargo")
+            .arg("fetch")
+            .arg("--locked")
+            .arg("--target")
+            .arg("wasm32-wasip1")
+            .current_dir(&rust_dir)
+            .status();
+        if let Ok(status) = fetch_status {
+            if !status.success() {
+                eprintln!(
+                    "warning: cargo fetch --target wasm32-wasip1 failed; continuing with offline build"
+                );
+            }
         }
     }
 

@@ -46,6 +46,16 @@ jobs:
         run: |
           cargo install --locked cargo-component
 
+      - name: Prefetch filesystem service crates
+        run: |
+          for crate_dir in \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/rust \
+            .octon/framework/capabilities/runtime/services/interfaces/filesystem-watch/rust
+          do
+            (cd "$crate_dir" && cargo fetch --locked --target wasm32-wasip1)
+          done
+
       - name: Download SLO history artifacts
         env:
           GH_TOKEN: ${{ github.token }}
@@ -72,6 +82,9 @@ jobs:
             --max-tighten-percent "$MAX_TIGHTEN_PERCENT"
 
       - name: Validate tuned budgets
+        env:
+          OCTON_SERVICE_BUILD_OFFLINE_ONLY: "1"
+          CARGO_NET_OFFLINE: "true"
         run: |
           .octon/framework/engine/runtime/run service build interfaces/filesystem-snapshot
           .octon/framework/engine/runtime/run service build interfaces/filesystem-discovery
