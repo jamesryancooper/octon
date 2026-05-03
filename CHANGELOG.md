@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.54](https://github.com/jamesryancooper/octon/compare/octon-v0.6.53...octon-v0.6.54) (2026-05-03)
+
+
+### Bug Fixes
+
+* **assurance:** stabilize uec closure validation ([f8fa2c9](https://github.com/jamesryancooper/octon/commit/f8fa2c958464bf32dff59ce984bce73fd97c2599))
+
 ## [0.6.53](https://github.com/jamesryancooper/octon/compare/octon-v0.6.52...octon-v0.6.53) (2026-05-01)
 
 
