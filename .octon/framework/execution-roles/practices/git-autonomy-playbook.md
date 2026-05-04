@@ -87,13 +87,17 @@ closeout may mean:
 
 - validate, commit on clean current `main`, record a Change receipt, retain
   rollback evidence, push `main` to origin, and verify `origin/main` contains
-  the landed ref for eligible `direct-main`
+  the landed ref for eligible `direct-main`, then fetch and sync local `main`
+  to `origin/main` before declaring closeout complete
 - branch the work off `main` into a branch worktree when the selected route
   needs branch isolation
 - stage, commit, validate, receipt, and push the source branch for
   branch-no-pr closeout or open a draft PR only for branch-pr
 - mark a draft PR ready and request squash auto-merge
 - mark a draft PR ready for human review with auto-merge off
+- after landed `branch-no-pr` or `branch-pr` work, verify containment in
+  `origin/main`, clean up obsolete safe local and remote source branches or
+  record deferred cleanup evidence, and sync local `main` to `origin/main`
 - report blockers and continue implementation with no closeout mutation
 
 `git-pr-ship.sh` is a helper for requesting the ready or merge-lane
@@ -216,6 +220,26 @@ Behavior:
 - If the current worktree or a dirty or in-use linked worktree cannot be
   removed automatically, prints the exact manual `git worktree remove <path>`
   follow-up step.
+
+### 4A. Clean up a landed branch-no-pr source branch
+
+```bash
+.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh \
+  --branch chore/example-no-pr \
+  --landed-ref <sha> \
+  --retained-rollback-ref <receipt-or-rollback-ref> \
+  --delete-remote \
+  --confirm
+```
+
+Behavior:
+
+- Fetches and prunes origin before safety checks.
+- Refuses protected branch names, active or dirty work branches, unmerged refs,
+  open-PR branches, and cleanup without retained rollback posture.
+- Deletes only refs proven contained in `origin/main`.
+- Syncs local `main` to `origin/main` after cleanup unless `--no-sync-main` is
+  used for an explicit deferred-sync blocker.
 
 ### 5. Install non-blocking local cleanup hooks
 

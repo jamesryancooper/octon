@@ -30,9 +30,14 @@ requires branch-based handling.
 
 When the operator asks for closeout, `direct-main` and `branch-no-pr` closeout
 include an origin push by default. For `direct-main`, push `main` and verify
-`origin/main` contains the recorded landed ref. For `branch-no-pr`, push the
-source branch for branch-publication closeout or complete the hosted no-PR
-landing path when `landed` is claimed. Skipping the push is allowed only for an
+`origin/main` contains the recorded landed ref, then fetch and sync local
+`main` to `origin/main` before declaring closeout complete. For `branch-no-pr`,
+push the source branch for branch-publication closeout or complete the hosted
+no-PR landing path when `landed` is claimed. After any `branch-no-pr` or
+`branch-pr` work lands in `origin/main`, closeout also includes safe branch
+cleanup or an explicit deferred-cleanup blocker, followed by a fetch, local
+`main` sync, and proof that local `main`, `origin/main`, and the recorded
+landed ref are aligned. Skipping the push or cleanup is allowed only for an
 explicit local-only operator instruction or a concrete blocker, and the receipt
 must not claim full hosted closeout.
 
@@ -103,7 +108,9 @@ Branch-no-PR outcomes:
 - `landed`: the branch Change is fast-forward integrated into hosted `main`
   without a PR, with provider ruleset evidence, exact source SHA validation,
   source branch push evidence, rollback handle, and post-push proof that
-  `origin/main` equals the recorded landed ref.
+  `origin/main` equals the recorded landed ref. Full closeout after landing
+  requires cleanup completion or an explicit deferred-cleanup blocker plus
+  local `main` synchronized to `origin/main`.
 - `cleaned`: local branch, remote branch when present, and worktree cleanup are
   complete or explicitly deferred with evidence.
 
@@ -122,7 +129,9 @@ PR-backed outcomes:
   require explicit self-review of diff, policy impact, evidence, and rollback
   path, but high-impact classification alone is not a manual-lane outcome.
 - `landed`: the PR is merged into `main` and `origin/main` is fetched and
-  verified to contain the merged result.
+  verified to contain the merged result. Full closeout after landing requires
+  cleanup completion or an explicit deferred-cleanup blocker plus local `main`
+  synchronized to `origin/main`.
 - `cleaned`: local branch, remote branch, and worktree cleanup are complete or
   explicitly deferred with evidence.
 
@@ -133,8 +142,34 @@ rollback handle, and cleanup disposition.
 
 For no-PR closeout, local landing alone is not enough when the operator asks to
 close out the Change. `direct-main` closeout must push to `origin/main` and
-verify the hosted branch contains the landed ref. `branch-no-pr` closeout must push the source branch to origin or complete hosted no-PR landing; otherwise it
-is a local checkpoint or blocker, not full closeout.
+verify the hosted branch contains the landed ref, then fetch and sync local
+`main` to `origin/main`. `branch-no-pr` closeout must push the source branch to
+origin or complete hosted no-PR landing; otherwise it is a local checkpoint or
+blocker, not full closeout.
+
+## Post-Landing Cleanup And Sync
+
+When `branch-no-pr` or `branch-pr` work has landed in `origin/main`, branch
+cleanup is part of Change closeout. After the source branch, PR branch, or
+merge ref is verified as contained in `origin/main`:
+
+1. Verify `origin/main` contains the landed commit or merge ref.
+2. Verify required post-landing checks and closeout evidence are complete.
+3. Delete only obsolete local and remote source branches that are safe to
+   delete.
+4. Do not delete protected branches, active work branches, unmerged branches,
+   open-PR branches, or branches whose evidence and rollback posture are not
+   retained.
+5. If cleanup cannot be completed safely, record the precise blocker and
+   cleanup disposition in the Change receipt.
+6. After cleanup is complete or explicitly deferred, fetch from origin and sync
+   local `main` to `origin/main`.
+7. Verify local `main`, `origin/main`, and the recorded landed ref are aligned
+   before declaring closeout complete.
+
+For `direct-main`, there is no source-branch cleanup requirement, but closeout
+still performs the post-push fetch and verifies local `main`, `origin/main`,
+and the recorded landed ref are aligned after post-push checks complete.
 
 ## Durable History
 
@@ -201,6 +236,14 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
 - Do not claim a stage-only Change as landed or complete.
 - Do not claim `branch-no-pr` as hosted landed unless `origin/main` equals the
   recorded landed ref after the fast-forward push.
+- Do not claim full `branch-no-pr` or `branch-pr` closeout after landing while
+  branch cleanup is still pending; cleanup must be completed or explicitly
+  deferred with blocker evidence.
+- Do not delete protected branches, active work branches, unmerged branches,
+  open-PR branches, or branches whose evidence and rollback posture are not
+  retained.
+- Do not declare closeout complete until local `main`, `origin/main`, and the
+  recorded landed ref are aligned after the final fetch/sync step.
 - Do not open a PR unless `branch-pr` is selected.
 - Do not choose `branch-no-pr` solely because the provider can support
   route-neutral hosted landing; direct-main remains the faster safe route for

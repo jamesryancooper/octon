@@ -14,7 +14,7 @@ metadata:
   updated: "2026-05-01"
 skill_sets: [executor, collaborator, guardian, integrator]
 capabilities: [external-dependent, stateful, safety-bounded, self-validating]
-allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git rev-parse *) Bash(git branch *) Bash(git ls-files *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git rev-parse *) Bash(git branch *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Closeout Change
@@ -47,7 +47,13 @@ selected `branch-pr`, or when the task starts from an existing PR context.
    and report blockers.
 6. **Record Receipt** — Produce or update a Change receipt shaped by
    `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
-7. **Delegate PR** — Invoke `closeout-pr` only when the selected route is
+7. **Post-Landing Cleanup And Sync** — When `branch-no-pr` or `branch-pr` work
+   has landed in `origin/main`, verify containment, complete safe branch
+   cleanup or record a deferred-cleanup blocker, fetch origin, sync local
+   `main` to `origin/main`, and verify local `main`, `origin/main`, and the
+   recorded landed ref are aligned. For `direct-main`, fetch and sync local
+   `main` after the push and post-push checks.
+8. **Delegate PR** — Invoke `closeout-pr` only when the selected route is
    `branch-pr`.
 
 ## Boundaries
@@ -59,8 +65,10 @@ selected `branch-pr`, or when the task starts from an existing PR context.
   precondition, not a route-selection reason by itself.
 - Do not claim direct-main completion without a commit, local validation
   evidence, Change receipt, rollback handle, push to `origin/main`, and proof
-  that `origin/main` contains the landed ref, unless the operator explicitly
-  asks for local-only closeout or a concrete push blocker is reported.
+  that `origin/main` contains the landed ref plus post-push fetch/sync proof
+  that local `main`, `origin/main`, and the landed ref align, unless the
+  operator explicitly asks for local-only closeout or a concrete push blocker
+  is reported.
 - Do not claim `branch-no-pr` as `landed` without branch commit evidence, main
   integration evidence, landed ref, rollback handle, and cleanup disposition.
 - When the operator asks for closeout and the selected route is `branch-no-pr`,
@@ -71,6 +79,17 @@ selected `branch-pr`, or when the task starts from an existing PR context.
   mutation and require provider ruleset evidence, a pushed source branch, exact
   source SHA required checks, fast-forward-only update evidence, and proof that
   `origin/main` equals `landed_ref` after the push.
+- After landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
+  otherwise verified as contained in `origin/main`, clean up obsolete local and
+  remote source branches that are safe to delete. Never delete protected
+  branches, active work branches, unmerged branches, open-PR branches, or
+  branches whose evidence and rollback posture are not retained.
+- If branch cleanup cannot be completed safely, keep the branch, record the
+  exact blocker, and set cleanup disposition to deferred or blocked instead of
+  claiming cleaned/full closeout.
+- After cleanup is completed or explicitly deferred, fetch from origin, sync
+  local `main` to `origin/main`, and verify local `main`, `origin/main`, and
+  the recorded `landed_ref` are aligned before declaring closeout complete.
 - If the provider ruleset requires PR for `main`, report a blocker for
   `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
   `branch-pr`; PR mutation requires selected route `branch-pr` or explicit

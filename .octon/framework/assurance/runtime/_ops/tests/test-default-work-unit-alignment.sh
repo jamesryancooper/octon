@@ -45,6 +45,12 @@ case_quickstart_has_fastest_safe_solo_route() {
     grep -Fq 'Provider route-neutral capability is a hosted `branch-no-pr` landing' "$quickstart"
 }
 
+case_quickstart_has_post_landing_cleanup_sync() {
+  local quickstart="$ROOT_DIR/.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
+  grep -Fq 'full closeout while branch cleanup is pending' "$quickstart" &&
+    grep -Fq 'local `main`, `origin/main`, and the recorded `landed_ref` are aligned' "$quickstart"
+}
+
 case_receipt_schema_has_routes() {
   local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
   jq -e '.properties.selected_route.enum | index("direct-main") and index("branch-no-pr") and index("branch-pr") and index("stage-only-escalate")' "$schema" >/dev/null
@@ -97,6 +103,23 @@ case_receipt_schema_blocks_cleaned_pending_cleanup() {
   ' "$schema" >/dev/null
 }
 
+case_receipt_schema_blocks_completed_landed_branch_pending_cleanup() {
+  local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
+  jq -e '
+    [
+      .allOf[]?
+      | select(.if.properties.closeout_outcome.const == "completed")
+      | select(.if.properties.integration_status.const == "landed")
+      | select((.if.properties.selected_route.enum | index("branch-no-pr")) != null)
+      | select((.if.properties.selected_route.enum | index("branch-pr")) != null)
+      | select((.then.properties.cleanup_status.enum | index("completed")) != null)
+      | select((.then.properties.cleanup_status.enum | index("deferred")) != null)
+      | select((.then.properties.cleanup_status.enum | index("pending")) == null)
+    ]
+    | length == 1
+  ' "$schema" >/dev/null
+}
+
 case_policy_has_fail_closed_conditions() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
   yq -e '.fail_closed_conditions[] | select(. == "missing_change_receipt")' "$policy" >/dev/null &&
@@ -107,6 +130,9 @@ case_policy_keeps_no_pr_landing_as_outcome() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
   yq -e '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[] | select(. == "landed")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "origin_main_equals_landed_ref_after_push")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-pr".landed_requires[] | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."direct-main".full_closeout_requires[] | select(. == "local_main_equals_origin_main_after_fetch")' "$policy" >/dev/null &&
     ! yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$policy" >/dev/null 2>&1
 }
 
@@ -136,11 +162,13 @@ main() {
   assert_success "quickstart has route matrix for all routes" case_quickstart_has_route_matrix
   assert_success "quickstart has live-vs-target ruleset table" case_quickstart_has_ruleset_table
   assert_success "quickstart has fastest safe solo route rule" case_quickstart_has_fastest_safe_solo_route
+  assert_success "quickstart has post-landing cleanup and sync rules" case_quickstart_has_post_landing_cleanup_sync
   assert_success "receipt schema includes all route ids" case_receipt_schema_has_routes
   assert_success "receipt schema requires lifecycle status fields" case_receipt_schema_requires_lifecycle_fields
   assert_success "receipt schema includes lifecycle outcomes" case_receipt_schema_has_lifecycle_outcomes
   assert_success "receipt schema includes hosted no-PR landing evidence" case_receipt_schema_has_hosted_landing_evidence
   assert_success "receipt schema blocks cleaned with pending cleanup" case_receipt_schema_blocks_cleaned_pending_cleanup
+  assert_success "receipt schema blocks completed landed branch closeout with pending cleanup" case_receipt_schema_blocks_completed_landed_branch_pending_cleanup
   assert_success "machine policy includes fail-closed receipt condition" case_policy_has_fail_closed_conditions
   assert_success "machine policy keeps no-PR landing as branch-no-pr outcome" case_policy_keeps_no_pr_landing_as_outcome
   assert_success "machine policy defines route-neutral ruleset target" case_policy_defines_route_neutral_ruleset_target

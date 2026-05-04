@@ -38,6 +38,8 @@ operating_model:
         - "landed commit on main"
         - "Change receipt"
         - "rollback handle"
+        - "push to origin/main"
+        - "post-push fetch and local main sync"
       forbidden:
         - "protected-branch mutation without admitted safety route"
         - "claiming completion with only an unstaged patch"
@@ -56,12 +58,15 @@ operating_model:
         - "rollback or discard plan"
         - "provider route-neutral ruleset evidence when claiming hosted landing"
         - "pushed source branch, exact source SHA checks, and origin/main equality when claiming hosted landing"
+        - "safe branch cleanup completed or deferred after hosted landing"
+        - "post-cleanup fetch and local main sync after hosted landing"
       forbidden:
         - "opening a PR only because a branch exists"
         - "claiming PR-backed publication"
         - "claiming landed from patch, checkpoint, or branch-local commit evidence alone"
         - "claiming hosted landing from a pushed-only branch"
         - "claiming hosted landing while provider ruleset requires PR"
+        - "claiming full closeout while branch cleanup is pending"
         - "PR URL, PR number, or PR metadata"
     branch-pr:
       required:
@@ -72,6 +77,8 @@ operating_model:
         - "review or solo-maintainer exception evidence when policy requires it"
         - "Change receipt that treats PR metadata as output"
         - "lifecycle outcome distinguishing published, ready, landed, and cleaned"
+        - "safe branch cleanup completed or deferred after merge"
+        - "post-cleanup fetch and local main sync after merge"
       final_merge_authority:
         system: "GitHub"
         requirements:
@@ -103,6 +110,19 @@ closeout:
     - "blocked_by_unaddressed_author_action_items"
     - "blocked_waiting_on_reviewer_confirmation"
     - "blocked_waiting_on_solo_maintainer_exception_evidence"
+  post_landing_cleanup:
+    applies_to_routes:
+      - "branch-no-pr"
+      - "branch-pr"
+    required_before_completed_closeout:
+      - "origin/main contains landed commit or merge ref"
+      - "required post-landing checks and closeout evidence are complete"
+      - "obsolete local and remote source branches are safely deleted or cleanup is explicitly deferred"
+      - "protected, active, unmerged, open-PR, and unretained-rollback branches are not deleted"
+      - "origin is fetched after cleanup"
+      - "local main is fast-forwarded to origin/main"
+      - "local main, origin/main, and landed_ref are aligned"
+    direct_main_requirement: "fetch origin after push and post-push checks, sync local main to origin/main, and verify local main, origin/main, and landed_ref are aligned"
 helpers:
   git_wt_new:
     route_guard: "branch-no-pr or branch-pr only"
@@ -142,6 +162,12 @@ helpers:
   git_branch_cleanup:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch and worktree cleanup helper without requiring PR metadata"
+    safety:
+      - "refuses protected branch names"
+      - "requires retained rollback posture for mutating cleanup"
+      - "requires origin/main containment before deleting local or remote refs"
+      - "blocks cleanup when no-open-PR proof cannot be completed or an open PR exists"
+      - "syncs local main to origin/main after cleanup unless explicitly skipped"
 validation:
   drift_classes:
     - "PR, branch, GitHub, or Change Package described as product default work unit"
@@ -157,6 +183,9 @@ validation:
     - "branch-no-pr hosted landing claim without origin/main equality"
     - "branch-pr draft/open/ready state reported as full closeout"
     - "cleanup claim lacking local, remote, or worktree cleanup evidence or deferred-cleanup record"
+    - "landed branch closeout reported complete while branch cleanup is pending"
+    - "post-landing closeout reported complete without local main synced to origin/main"
+    - "branch cleanup deletes protected, active, unmerged, open-PR, or unretained-rollback branches"
   scenario_lanes:
     - "direct-main"
     - "branch-no-pr"

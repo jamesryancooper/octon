@@ -598,6 +598,24 @@
       }
     },
     {
+      "if": {
+        "properties": {
+          "selected_route": {
+            "enum": ["branch-no-pr", "branch-pr"]
+          },
+          "integration_status": { "const": "landed" },
+          "closeout_outcome": { "const": "completed" }
+        }
+      },
+      "then": {
+        "properties": {
+          "cleanup_status": {
+            "enum": ["completed", "deferred"]
+          }
+        }
+      }
+    },
+    {
       "if": { "properties": { "lifecycle_outcome": { "const": "preserved" } } },
       "then": {
         "properties": {

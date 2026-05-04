@@ -274,6 +274,30 @@ case_high_impact_contract_manual_default_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_post_landing_cleanup_contract_missing_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/post_landing_cleanup:/post_landing_cleanup_disabled:/g' \
+    "$fixture_root/.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  ! run_validator "$fixture_root"
+}
+
+case_branch_cleanup_helper_loses_origin_main_containment_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/origin\/main containment/origin main note/g' \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+  ! run_validator "$fixture_root"
+}
+
+case_branch_cleanup_helper_loses_local_main_sync_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/Local \$BASE_BRANCH is synced to origin\/main/Local branch updated/g' \
+    "$fixture_root/.octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "workflow alignment validator passes on live repo" case_live_repo_passes
   assert_success "workflow alignment validator fails when policy loses direct-main route" case_policy_missing_direct_main_route_fails
@@ -292,6 +316,9 @@ main() {
   assert_success "workflow alignment validator fails when high-impact evaluator returns manual default" case_high_impact_evaluator_manual_default_fails
   assert_success "workflow alignment validator fails when high-impact triage returns manual default" case_high_impact_triage_manual_default_fails
   assert_success "workflow alignment validator fails when high-impact contract returns manual default" case_high_impact_contract_manual_default_fails
+  assert_success "workflow alignment validator fails when post-landing cleanup contract is missing" case_post_landing_cleanup_contract_missing_fails
+  assert_success "workflow alignment validator fails when branch cleanup loses origin/main containment" case_branch_cleanup_helper_loses_origin_main_containment_fails
+  assert_success "workflow alignment validator fails when branch cleanup loses local main sync" case_branch_cleanup_helper_loses_local_main_sync_fails
 
   echo
   echo "Passed: $pass_count"

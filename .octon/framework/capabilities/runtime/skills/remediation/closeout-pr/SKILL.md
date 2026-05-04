@@ -14,7 +14,7 @@ metadata:
   updated: "2026-04-17"
 skill_sets: [executor, collaborator, guardian, integrator]
 capabilities: [external-dependent, long-running, stateful]
-allowed-tools: Read Glob Grep Edit Bash(gh *) Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git rev-parse *) Bash(git branch *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Edit Bash(gh *) Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git rev-parse *) Bash(git branch *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Closeout PR
@@ -70,8 +70,12 @@ Or, when a PR already exists:
 8. **Merge** — Request squash auto-merge or merge through the current
    protected-main route for the autonomous lane, or keep the PR ready in the
    manual lane only when a concrete blocker requires authorized human action
-9. **Cleanup** — After merge, record local branch, remote branch, and worktree
-   cleanup evidence or explicit deferred-cleanup evidence
+9. **Cleanup And Sync** — After merge, verify `origin/main` contains the merge
+   ref or landed ref, verify post-landing checks and closeout evidence, clean
+   up obsolete safe local and remote source branches, or record explicit
+   deferred-cleanup evidence, then fetch and sync local `main` to
+   `origin/main` and verify local `main`, `origin/main`, and the landed ref are
+   aligned
 10. **Stop condition** — Continue until merged or until a precise external
    blocker is reached and reported.
 
@@ -115,6 +119,12 @@ Outputs are written to:
   pr-merged`, landed ref or merge ref, rollback handle, and cleanup disposition;
   without merge evidence, report a precise external blocker instead of
   completion
+- Full PR-backed closeout after merge requires branch cleanup to be completed
+  or explicitly deferred with evidence, followed by fetch/sync proof that local
+  `main`, `origin/main`, and the recorded landed ref are aligned
+- Never delete protected branches, active work branches, unmerged branches,
+  open-PR branches, or branches whose evidence and rollback posture are not
+  retained; record the blocker and deferred cleanup disposition instead
 - Do not mark a draft PR ready, request auto-merge, or merge autonomously
   unless the autonomous draft completion policy in
   `.octon/framework/execution-roles/practices/pull-request-standards.md` is
@@ -137,6 +147,7 @@ Outputs are written to:
   autonomously
 - Required evidence, mergeability, rollback safety, or post-merge
   `origin/main` state cannot be proven
+- Required branch cleanup or post-cleanup local `main` sync cannot be proven
 - Policies conflict or authority is ambiguous
 - GitHub transport/auth problems prevent the next step from completing
 

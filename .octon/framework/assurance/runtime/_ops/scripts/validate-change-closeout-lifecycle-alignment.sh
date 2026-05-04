@@ -110,23 +110,50 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.properties.publication_status.enum[] | select(. == "hosted-main-updated")' "receipt schema models hosted main update publication status" "receipt schema missing hosted-main-updated publication status"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "provider_ruleset_ref")' "receipt schema requires provider ruleset evidence for hosted landing" "receipt schema must require provider ruleset evidence for hosted landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "required_check_refs")' "receipt schema requires exact-SHA check refs for hosted landing" "receipt schema must require exact-SHA check refs for hosted landing"
+  require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.closeout_outcome.const == "completed") | select(.if.properties.integration_status.const == "landed") | select((.if.properties.selected_route.enum | index("branch-no-pr")) != null) | select((.if.properties.selected_route.enum | index("branch-pr")) != null) | select((.then.properties.cleanup_status.enum | index("completed")) != null) | select((.then.properties.cleanup_status.enum | index("deferred")) != null) | select((.then.properties.cleanup_status.enum | index("pending")) == null)] | length == 1' "receipt schema blocks completed landed branch closeout with pending cleanup" "receipt schema must block completed landed branch closeout with pending cleanup"
 
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[]? | select(. == "landed")' "branch-no-pr supports landed lifecycle outcome" "branch-no-pr must support landed lifecycle outcome"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "provider_ruleset_allows_route_neutral_fast_forward_update")' "branch-no-pr landed requires route-neutral provider rules" "branch-no-pr landed must require route-neutral provider rules"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "branch-no-pr landed requires origin/main equality" "branch-no-pr landed must require origin/main equality"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "branch-no-pr landed requires branch cleanup or deferred cleanup record" "branch-no-pr landed must require branch cleanup or deferred cleanup record"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-no-pr landed requires local/main/origin alignment proof" "branch-no-pr landed must require local/main/origin alignment proof"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "branch-pr supports ready lifecycle outcome" "branch-pr must support ready lifecycle outcome"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "branch-pr landed requires branch cleanup or deferred cleanup record" "branch-pr landed must require branch cleanup or deferred cleanup record"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-pr landed requires local/main/origin alignment proof" "branch-pr landed must require local/main/origin alignment proof"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."direct-main".full_closeout_requires[]? | select(. == "local_main_equals_origin_main_after_fetch")' "direct-main closeout requires local main sync after fetch" "direct-main closeout must require local main sync after fetch"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_safe_branch_cleanup_or_deferred_cleanup_record")' "policy fails closed on landed branch closeout without cleanup disposition" "policy must fail closed on landed branch closeout without cleanup disposition"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "post_landing_local_main_not_synced_to_origin_main")' "policy fails closed on missing post-landing local main sync" "policy must fail closed on missing post-landing local main sync"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_attempts_protected_active_unmerged_open_pr_or_unretained_rollback_ref")' "policy fails closed on unsafe branch cleanup" "policy must fail closed on unsafe branch cleanup"
   require_literal "$POLICY_MD" "Routes do not by themselves prove landing, publication, or cleanup." "policy docs separate route from outcome" "policy docs must separate route from outcome"
   require_literal "$POLICY_MD" 'direct-main` closeout must push to `origin/main`' "policy docs require direct-main origin push for closeout" "policy docs must require direct-main origin push for closeout"
-  require_literal "$POLICY_MD" 'branch-no-pr` closeout must push the source branch to origin' "policy docs require branch-no-pr origin push for closeout" "policy docs must require branch-no-pr origin push for closeout"
+  require_literal "$POLICY_MD" "push the source branch to" "policy docs require branch-no-pr origin push for closeout" "policy docs must require branch-no-pr origin push for closeout"
+  require_literal "$POLICY_MD" "## Post-Landing Cleanup And Sync" "policy docs define post-landing cleanup and sync" "policy docs must define post-landing cleanup and sync"
+  require_literal "$POLICY_MD" "Do not delete protected branches, active work branches, unmerged branches" "policy docs protect unsafe branches from cleanup" "policy docs must protect unsafe branches from cleanup"
+  require_literal "$POLICY_MD" 'local `main`, `origin/main`, and the recorded landed ref are aligned' "policy docs require final local main alignment" "policy docs must require final local main alignment"
   require_literal "$POLICY_MD" 'If a provider ruleset currently requires a pull request for `main`, hosted' "policy docs fail closed when provider requires PR" "policy docs must fail closed when provider ruleset requires PR"
   require_literal "$CLOSEOUT_CHANGE" 'Do not claim `branch-no-pr` as `landed`' "closeout-change blocks false no-PR landing claims" "closeout-change must block false no-PR landing claims"
   require_literal "$CLOSEOUT_CHANGE" 'push to `origin/main`' "closeout-change requires direct-main origin push" "closeout-change must require direct-main origin push"
   require_literal "$CLOSEOUT_CHANGE" "push the source branch to origin" "closeout-change requires branch-no-pr origin push" "closeout-change must require branch-no-pr origin push"
   require_literal "$CLOSEOUT_CHANGE" "hosted no-PR landing preflight" "closeout-change requires hosted no-PR preflight" "closeout-change must require hosted no-PR preflight"
+  require_literal "$CLOSEOUT_CHANGE" "Post-Landing Cleanup And Sync" "closeout-change requires post-landing cleanup and sync" "closeout-change must require post-landing cleanup and sync"
+  require_literal "$CLOSEOUT_CHANGE" "Never delete protected" "closeout-change forbids unsafe branch cleanup" "closeout-change must forbid unsafe branch cleanup"
   require_literal "$CLOSEOUT_PR" 'Draft/open PR state is `published`, not full closeout' "closeout-pr blocks draft/open full closeout claims" "closeout-pr must block draft/open full closeout claims"
+  require_literal "$CLOSEOUT_PR" 'Full PR-backed closeout after merge requires branch cleanup' "closeout-pr requires post-merge branch cleanup" "closeout-pr must require post-merge branch cleanup"
+  require_literal "$CLOSEOUT_PR" 'Required branch cleanup or post-cleanup local `main` sync cannot be proven' "closeout-pr escalates unprovable cleanup or sync" "closeout-pr must escalate unprovable cleanup or sync"
   require_literal "$WORKFLOW_STAGE" "Never report a patch, checkpoint, branch-local commit, or pushed-only branch" "workflow blocks false landed claims" "workflow must block false landed claims"
+  require_literal "$WORKFLOW_STAGE" "clean up obsolete safe local and remote source branches" "workflow requires landed branch cleanup" "workflow must require landed branch cleanup"
+  require_literal "$WORKFLOW_STAGE" 'local `main`, `origin/main`, and' "workflow requires post-cleanup local main alignment" "workflow must require post-cleanup local main alignment"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land.route_guard == "branch-no-pr only"' "branch landing helper is route guarded" "branch landing helper must be route guarded"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.route_guard == "branch-no-pr only"' "hosted no-PR landing helper is route guarded" "hosted no-PR landing helper must be route guarded"
+  require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-no-pr")' "worktree contract applies post-landing cleanup to branch-no-pr" "worktree contract must apply post-landing cleanup to branch-no-pr"
+  require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-pr")' "worktree contract applies post-landing cleanup to branch-pr" "worktree contract must apply post-landing cleanup to branch-pr"
+  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "requires origin/main containment before deleting local or remote refs")' "worktree contract requires origin/main containment before cleanup" "worktree contract must require origin/main containment before cleanup"
+  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "requires retained rollback posture for mutating cleanup")' "worktree contract requires retained rollback posture before cleanup" "worktree contract must require retained rollback posture before cleanup"
+  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "blocks cleanup when no-open-PR proof cannot be completed or an open PR exists")' "worktree contract blocks open-PR or unprovable no-PR cleanup" "worktree contract must block open-PR or unprovable no-PR cleanup"
+  require_literal "$BRANCH_CLEANUP_SCRIPT" "Refusing to clean up protected branch" "branch cleanup helper refuses protected branches" "branch cleanup helper must refuse protected branches"
+  require_literal "$BRANCH_CLEANUP_SCRIPT" "origin/main containment" "branch cleanup helper emits origin/main containment evidence" "branch cleanup helper must emit origin/main containment evidence"
+  require_literal "$BRANCH_CLEANUP_SCRIPT" "retained rollback" "branch cleanup helper requires retained rollback posture" "branch cleanup helper must require retained rollback posture"
+  require_literal "$BRANCH_CLEANUP_SCRIPT" "open PR exists" "branch cleanup helper refuses open-PR branches" "branch cleanup helper must refuse open-PR branches"
   require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "hosted preflight blocks PR-required provider rules" "hosted preflight must block PR-required provider rules"
   require_literal "$HOSTED_LAND_SCRIPT" 'origin/main equals landed_ref after push' "hosted land helper emits origin/main equality evidence" "hosted land helper must emit origin/main equality evidence"
   require_jq "$VALID_DIRECT_MAIN_LANDED" '.selected_route == "direct-main" and .lifecycle_outcome == "landed" and .integration_method == "direct-commit" and .integration_status == "landed" and .publication_status == "none" and .durable_history.kind == "commit"' "receipt example covers direct-main landed closeout" "receipt example must cover direct-main landed closeout"
@@ -298,6 +325,13 @@ validate_receipt() {
     else
       fail "deferred cleanup requires cleanup evidence or external blocker refs"
     fi
+  fi
+
+  if [[ ( "$route" == "branch-no-pr" || "$route" == "branch-pr" ) && "$integration" == "landed" && "$closeout_outcome" == "completed" ]]; then
+    case "$cleanup" in
+      completed|deferred) pass "completed landed branch closeout has cleanup completed or deferred" ;;
+      *) fail "completed landed branch closeout must not leave cleanup pending" ;;
+    esac
   fi
 
   if [[ "$outcome" == "cleaned" ]]; then

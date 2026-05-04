@@ -87,8 +87,10 @@ Branch-PR lane (autonomous):
    protected-main route.
 6. Let GitHub perform or accept the final merge once live rulesets, required
    checks, mergeability, and review policy are satisfied, then fetch and verify
-   `origin/main` contains the merged result before recording final closeout
-   evidence.
+   `origin/main` contains the merged result. Before recording final closeout
+   evidence, clean up obsolete safe local and remote source branches, or record
+   explicit deferred-cleanup evidence, then sync local `main` to `origin/main`
+   and verify local `main`, `origin/main`, and the landed ref align.
 
 Direct-main lane:
 
@@ -96,6 +98,9 @@ Direct-main lane:
 - Record durable Change receipt evidence with validation, rollback, cleanup,
   landed-ref proof, push to `origin/main`, and verification that `origin/main`
   contains the landed ref.
+- After post-push checks, fetch origin, sync local `main` to `origin/main`, and
+  verify local `main`, `origin/main`, and the landed ref align before declaring
+  closeout complete.
 - Do not require PR metadata.
 
 Branch-no-PR lane:
@@ -107,6 +112,10 @@ Branch-no-PR lane:
   is route-neutral and permits no-PR protected-main update.
 - Record provider ruleset ref, pushed source branch, exact source SHA checks,
   rollback, cleanup, and proof that `origin/main` equals the landed ref.
+- After hosted landing, verify required post-landing checks and closeout
+  evidence, clean up obsolete safe local and remote source branches or record
+  explicit deferred-cleanup evidence, then sync local `main` to `origin/main`
+  and verify local `main`, `origin/main`, and the landed ref align.
 
 Guarded lane (manual):
 
@@ -218,6 +227,10 @@ Ready PR status responses:
 - `git-pr-cleanup.sh` converges refs and `main` after closure, prunes safe
   linked worktrees when possible, and prints manual follow-up steps when the
   current or another in-use worktree cannot be removed automatically.
+- `git-branch-cleanup.sh` performs branch-route cleanup without PR metadata
+  only after containment in `origin/main`, retained rollback posture, and
+  no-open-PR safety can be proven. It refuses protected, active, unmerged, or
+  unsafe refs and syncs local `main` after cleanup unless explicitly skipped.
 - `/closeout-pr` owns the full agent-driven closeout loop from current branch
   worktree through checks, conversations, ready state, and merge or explicit
   blocker.

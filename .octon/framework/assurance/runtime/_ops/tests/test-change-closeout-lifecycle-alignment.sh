@@ -354,11 +354,46 @@ case_cleaned_pending_cleanup_fails() {
   ! run_validator "$receipt"
 }
 
-case_landed_pending_cleanup_passes() {
+case_landed_completed_pending_cleanup_fails() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
-  rewrite_json_file "$receipt" '.lifecycle_outcome = "landed" | .cleanup_status = "pending" | del(.cleanup_evidence_refs)'
+  rewrite_json_file "$receipt" '.lifecycle_outcome = "landed" | .cleanup_status = "pending" | .closeout_outcome = "completed" | del(.cleanup_evidence_refs)'
+  ! run_validator "$receipt"
+}
+
+case_landed_pending_cleanup_continued_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.lifecycle_outcome = "landed" | .cleanup_status = "pending" | .closeout_outcome = "continued" | del(.cleanup_evidence_refs)'
   run_validator "$receipt"
+}
+
+case_branch_pr_landed_completed_pending_cleanup_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-pr-landed-cleanup-pending",
+  "selected_route": "branch-pr",
+  "lifecycle_outcome": "landed",
+  "intent": "bad pr landed cleanup",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/pr",
+  "target_branch_ref": "origin/main@def0000000000000000000000000000000000000",
+  "landed_ref": "def0000000000000000000000000000000000000",
+  "integration_method": "github-merge",
+  "integration_status": "landed",
+  "publication_status": "pr-merged",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "pr", "ref": "1", "pr_url": "https://example.invalid/pr/1", "branch": "feature/pr"},
+  "rollback_handle": {"kind": "revert-commit", "ref": "def0000000000000000000000000000000000000"},
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
 }
 
 main() {
@@ -378,7 +413,9 @@ main() {
   assert_success "branch-pr draft/open cannot claim full closeout" case_branch_pr_draft_not_full_closeout
   assert_success "cleanup claim requires evidence" case_cleanup_claim_requires_evidence
   assert_success "cleaned with pending cleanup fails" case_cleaned_pending_cleanup_fails
-  assert_success "landed with pending cleanup remains valid" case_landed_pending_cleanup_passes
+  assert_success "completed landed branch closeout with pending cleanup fails" case_landed_completed_pending_cleanup_fails
+  assert_success "landed with pending cleanup remains valid before full closeout" case_landed_pending_cleanup_continued_passes
+  assert_success "branch-pr landed completed closeout with pending cleanup fails" case_branch_pr_landed_completed_pending_cleanup_fails
 
   echo
   echo "Passed: $pass_count"
