@@ -1,0 +1,63 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "generated-publication-refresh-after-no-pr-closeout",
+  "selected_route": "direct-main",
+  "lifecycle_outcome": "landed",
+  "intent": "Refresh generated effective publication state after the no-PR closeout safeguard changed root-manifest digests and main CI detected stale publication artifacts.",
+  "scope": {
+    "summary": "Republished extension, capability, pack-route, and runtime route-bundle effective state and retained the referenced publication, compatibility, and prompt-alignment receipts.",
+    "touched_paths": [
+      ".octon/generated/effective/capabilities/",
+      ".octon/generated/effective/extensions/",
+      ".octon/generated/effective/runtime/",
+      ".octon/state/control/extensions/active.yml",
+      ".octon/state/control/extensions/quarantine.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/compatibility/extensions/",
+      ".octon/state/evidence/validation/extensions/prompt-alignment/",
+      ".octon/state/evidence/validation/publication/"
+    ],
+    "diff_refs": [
+      "base origin/main@b1e2fd8d60f0a2b0da01aeb2bfa5e9ac11267213",
+      "direct-main generated publication refresh commit e7afe54226fb38ec447965710b28a0c47ba2a272"
+    ]
+  },
+  "target_branch_ref": "main@e7afe54226fb38ec447965710b28a0c47ba2a272",
+  "landed_ref": "e7afe54226fb38ec447965710b28a0c47ba2a272",
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "published",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Untracked .octon/state/** run/control/evidence artifacts remain retained-evidence candidates requiring separate maintainer disposition.",
+    "The source branch used for exact-SHA route-neutral checks may be retained until post-push evidence review is complete."
+  ],
+  "validation_evidence_refs": [
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh after generated refresh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh after generated refresh: pass, errors=0.",
+    "git diff --check after generated refresh: pass.",
+    "git diff --cached --check before generated refresh commit: pass."
+  ],
+  "review_waiver_refs": [
+    "No PR metadata was created or used for this direct-main generated publication refresh.",
+    "The refresh is generated-state hygiene required to clear route-neutral main CI after the no-PR closeout safeguard."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "e7afe54226fb38ec447965710b28a0c47ba2a272"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "e7afe54226fb38ec447965710b28a0c47ba2a272",
+    "instructions": "Revert commit e7afe54226fb38ec447965710b28a0c47ba2a272 on main if the generated publication refresh must be rolled back. Do not reset published main without explicit operator approval."
+  },
+  "closeout_outcome": "completed",
+  "remaining_blockers": [],
+  "created_at": "2026-05-04T18:25:11Z"
+}
