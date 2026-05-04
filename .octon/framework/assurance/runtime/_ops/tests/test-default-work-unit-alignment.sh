@@ -133,6 +133,7 @@ case_policy_keeps_no_pr_landing_as_outcome() {
     yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."branch-pr".landed_requires[] | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."direct-main".full_closeout_requires[] | select(. == "local_main_equals_origin_main_after_fetch")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."direct-main".full_closeout_requires[] | select(. == "local_main_contains_landed_ref_after_fetch")' "$policy" >/dev/null &&
     ! yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$policy" >/dev/null 2>&1
 }
 
