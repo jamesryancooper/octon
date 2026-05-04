@@ -1,0 +1,62 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "generated-run-health-refresh-after-no-pr-closeout",
+  "selected_route": "direct-main",
+  "lifecycle_outcome": "landed",
+  "intent": "Refresh generated support-envelope and run-health read models after the no-PR closeout safeguard and publication refresh so architecture conformance remains green on main.",
+  "scope": {
+    "summary": "Regenerated the support-envelope reconciliation artifact and tracked run-health read models, with generation evidence limited to tracked run-health roots so local untracked run evidence is not overclaimed.",
+    "touched_paths": [
+      ".octon/generated/cognition/projections/materialized/runs/",
+      ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
+    ],
+    "diff_refs": [
+      "base origin/main@b27ec26b022b66aca04d278d43cfa453bce09678",
+      "direct-main generated run-health refresh commit 84de832418575f9bda941e091719935681c6365e"
+    ]
+  },
+  "target_branch_ref": "main@84de832418575f9bda941e091719935681c6365e",
+  "landed_ref": "84de832418575f9bda941e091719935681c6365e",
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Untracked .octon/state/** run/control/evidence artifacts remain retained-evidence candidates requiring separate maintainer disposition.",
+    "Generated run-health index and generation evidence were regenerated from tracked run-health roots only and do not reference the local untracked run IDs."
+  ],
+  "validation_evidence_refs": [
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/test-mission-autonomy-scenarios.sh after tracked-only generation: pass.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-version-parity.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-contract-registry.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-promotion-receipts.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-docs-consistency.sh after tracked-only generation: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-host-tool-governance.sh after tracked-only generation: pass, errors=0.",
+    "git diff --check after tracked-only generation: pass."
+  ],
+  "review_waiver_refs": [
+    "No PR metadata was created or used for this direct-main generated run-health refresh.",
+    "The refresh only updates generated derived artifacts and validation evidence required to clear architecture conformance."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "84de832418575f9bda941e091719935681c6365e"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "84de832418575f9bda941e091719935681c6365e",
+    "instructions": "Revert commit 84de832418575f9bda941e091719935681c6365e on main if the generated run-health refresh needs rollback. Do not reset published main without explicit operator approval."
+  },
+  "closeout_outcome": "completed",
+  "remaining_blockers": [],
+  "created_at": "2026-05-04T18:38:18Z"
+}
