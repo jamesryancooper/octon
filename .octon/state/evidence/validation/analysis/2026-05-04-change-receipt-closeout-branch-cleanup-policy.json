@@ -5,7 +5,7 @@
   "lifecycle_outcome": "landed",
   "intent": "Ensure Change closeout includes safe branch cleanup after branch-pr or branch-no-pr work lands in origin/main, and always syncs local main after landed direct-main closeout.",
   "scope": {
-    "summary": "Codified post-landing branch cleanup and local-main sync requirements across the default work unit contract, closeout skills, workflow stage, Git/GitHub operator docs, branch cleanup helper, validators, and focused shell tests.",
+    "summary": "Codified post-landing branch cleanup and local-main sync requirements across the default work unit contract, closeout skills, workflow stage, Git/GitHub operator docs, branch cleanup helper, validators, focused shell tests, and refreshed generated capability publication state after closeout skill changes.",
     "touched_paths": [
       ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh",
       ".octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh",
@@ -23,16 +23,23 @@
       ".octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md",
       ".octon/framework/product/contracts/change-receipt-v1.schema.json",
       ".octon/framework/product/contracts/default-work-unit.md",
-      ".octon/framework/product/contracts/default-work-unit.yml"
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/generated/effective/capabilities/artifact-map.yml",
+      ".octon/generated/effective/capabilities/generation.lock.yml",
+      ".octon/generated/effective/capabilities/routing.effective.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/publication/capabilities/2026-05-04T19-33-55Z-capabilities-2d1712be53b2.yml"
     ],
     "diff_refs": [
       "base origin/main@3ed924ab16a4b6a281857a22f8dd05135cf690ec",
       "implementation commit 15a14655e0ee8a9ab03239a43b9497288c3d8e0d",
-      "alignment follow-up commit dfde0898bfdd8951d43322310ec05a4555a14169"
+      "alignment follow-up commit dfde0898bfdd8951d43322310ec05a4555a14169",
+      "receipt commit 069decf31b15a2a423fc267d6bafddc18b04f288",
+      "capability publication follow-up commit 2a233047fb1d33af87279761a6b3c4a8c350a4f3"
     ]
   },
-  "target_branch_ref": "main@dfde0898bfdd8951d43322310ec05a4555a14169",
-  "landed_ref": "dfde0898bfdd8951d43322310ec05a4555a14169",
+  "target_branch_ref": "main@2a233047fb1d33af87279761a6b3c4a8c350a4f3",
+  "landed_ref": "2a233047fb1d33af87279761a6b3c4a8c350a4f3",
   "integration_method": "direct-commit",
   "integration_status": "landed",
   "publication_status": "none",
@@ -47,6 +54,8 @@
     ".octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh: pass, errors=0.",
     ".octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh: pass, errors=0.",
     ".octon/framework/assurance/runtime/_ops/scripts/validate-github-projection-alignment.sh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh: pass, errors=0.",
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh: pass, errors=0.",
     ".octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --expect target-route-neutral --ruleset-json .octon/state/evidence/control/execution/github-rulesets/2026-05-04-route-neutral-main-migration/post-migration-main-effective-branch-rules.json: pass, errors=0.",
     ".octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --strict-live: pass, errors=0.",
     ".octon/framework/assurance/runtime/_ops/tests/test-default-work-unit-alignment.sh: pass, 16 passed, 0 failed.",
@@ -56,7 +65,8 @@
     ".octon/framework/assurance/runtime/_ops/tests/test-github-projection-alignment.sh: pass, 7 passed, 0 failed.",
     "git diff --check: pass.",
     "git diff --cached --check before implementation commit: pass.",
-    "git diff --cached --check before alignment follow-up commit: pass."
+    "git diff --cached --check before alignment follow-up commit: pass.",
+    "git diff --cached --check before capability publication follow-up commit: pass."
   ],
   "review_waiver_refs": [
     "Operator explicitly instructed that closeout must include safe branch cleanup after branch-pr or branch-no-pr work lands in origin/main and local main sync for direct-main.",
@@ -64,12 +74,12 @@
   ],
   "durable_history": {
     "kind": "commit",
-    "ref": "dfde0898bfdd8951d43322310ec05a4555a14169"
+    "ref": "2a233047fb1d33af87279761a6b3c4a8c350a4f3"
   },
   "rollback_handle": {
     "kind": "revert-commit",
-    "ref": "dfde0898bfdd8951d43322310ec05a4555a14169",
-    "instructions": "Revert dfde0898bfdd8951d43322310ec05a4555a14169 and 15a14655e0ee8a9ab03239a43b9497288c3d8e0d on main if the closeout branch-cleanup policy needs rollback. Do not reset published main without explicit operator approval."
+    "ref": "2a233047fb1d33af87279761a6b3c4a8c350a4f3",
+    "instructions": "For behavioral rollback, revert 2a233047fb1d33af87279761a6b3c4a8c350a4f3, dfde0898bfdd8951d43322310ec05a4555a14169, and 15a14655e0ee8a9ab03239a43b9497288c3d8e0d on main. Receipt-only evidence commits may remain for audit continuity unless an operator explicitly requests full evidence rollback. Do not reset published main without explicit operator approval."
   },
   "closeout_outcome": "completed",
   "remaining_blockers": [],
