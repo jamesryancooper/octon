@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.56](https://github.com/jamesryancooper/octon/compare/octon-v0.6.55...octon-v0.6.56) (2026-05-04)
+
+
+### Bug Fixes
+
+* **change-routing:** accept hosted no-pr provider evidence ([80860de](https://github.com/jamesryancooper/octon/commit/80860deb9985d239449aa201d713cadd2088ebef))
+
 ## [0.6.55](https://github.com/jamesryancooper/octon/compare/octon-v0.6.54...octon-v0.6.55) (2026-05-03)
 
 
