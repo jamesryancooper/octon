@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.57](https://github.com/jamesryancooper/octon/compare/octon-v0.6.56...octon-v0.6.57) (2026-05-04)
+
+
+### Bug Fixes
+
+* **routing:** allow receipt commits after landed refs ([dfde089](https://github.com/jamesryancooper/octon/commit/dfde0898bf321408c431284b1115eb5473c5603a))
+
 ## [0.6.56](https://github.com/jamesryancooper/octon/compare/octon-v0.6.55...octon-v0.6.56) (2026-05-04)
 
 
