@@ -20,6 +20,24 @@ case_live_repo_passes() {
   bash "$VALIDATOR" >/dev/null
 }
 
+case_quickstart_has_route_matrix() {
+  local quickstart="$ROOT_DIR/.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
+  grep -Fq '## Route Matrix' "$quickstart" &&
+    grep -Fq '| route | select when | allowed outcomes | required evidence | forbidden claims | handoff or escalation point |' "$quickstart" &&
+    grep -Fq '`direct-main`' "$quickstart" &&
+    grep -Fq '`branch-no-pr`' "$quickstart" &&
+    grep -Fq '`branch-pr`' "$quickstart" &&
+    grep -Fq '`stage-only-escalate`' "$quickstart"
+}
+
+case_quickstart_has_ruleset_table() {
+  local quickstart="$ROOT_DIR/.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
+  grep -Fq '## Ruleset State' "$quickstart" &&
+    grep -Fq 'current live state' "$quickstart" &&
+    grep -Fq 'repo-local target' "$quickstart" &&
+    grep -Fq 'Do not claim live route-neutral migration from repo-local projection alone.' "$quickstart"
+}
+
 case_receipt_schema_has_routes() {
   local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
   jq -e '.properties.selected_route.enum | index("direct-main") and index("branch-no-pr") and index("branch-pr") and index("stage-only-escalate")' "$schema" >/dev/null
@@ -81,6 +99,8 @@ case_policy_defines_route_neutral_ruleset_target() {
 
 main() {
   assert_success "default work unit validator passes live repo" case_live_repo_passes
+  assert_success "quickstart has route matrix for all routes" case_quickstart_has_route_matrix
+  assert_success "quickstart has live-vs-target ruleset table" case_quickstart_has_ruleset_table
   assert_success "receipt schema includes all route ids" case_receipt_schema_has_routes
   assert_success "receipt schema requires lifecycle status fields" case_receipt_schema_requires_lifecycle_fields
   assert_success "receipt schema includes lifecycle outcomes" case_receipt_schema_has_lifecycle_outcomes

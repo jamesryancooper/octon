@@ -18,6 +18,9 @@ The machine-readable workflow contract lives at
 Use that contract as the durable source of truth for worktree, closeout,
 remediation, helper, and scenario semantics.
 
+For the maintainer-facing route matrix and operator path, start with
+`.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md`.
+
 Detailed rules stay in the linked canonical docs. If anything conflicts,
 follow the repository contract precedence in `AGENTS.md`.
 
@@ -222,6 +225,7 @@ Use this table to find canonical detail by concern.
 
 | Concern | Canonical source |
 |---|---|
+| Maintainer quickstart and route matrix | `.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md` |
 | Machine-readable Git/worktree/PR contract | `.octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml` |
 | Commit contract and branch naming | `.octon/framework/execution-roles/practices/commits.md` |
 | PR quality policy and autonomy flow | `.octon/framework/execution-roles/practices/pull-request-standards.md` |
@@ -233,6 +237,7 @@ Use this table to find canonical detail by concern.
 | Worktree-native operator playbook | `.octon/framework/execution-roles/practices/git-autonomy-playbook.md` |
 | GitHub token model and autonomy runbook | `.octon/framework/execution-roles/practices/github-autonomy-runbook.md` |
 | PR body structure contract | `.github/PULL_REQUEST_TEMPLATE.md` |
+| Change receipt examples | `.octon/framework/product/contracts/examples/change-receipts/README.md` |
 
 ---
 

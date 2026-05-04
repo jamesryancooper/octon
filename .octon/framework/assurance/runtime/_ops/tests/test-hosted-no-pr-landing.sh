@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
 RULESET_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
+EXAMPLE_DIR="$ROOT_DIR/.octon/framework/product/contracts/examples/change-receipts"
 
 pass_count=0
 fail_count=0
@@ -40,6 +41,14 @@ run_hosted_validator() {
 
 case_static_alignment_passes() {
   bash "$VALIDATOR" >/dev/null
+}
+
+case_valid_hosted_no_pr_example_passes() {
+  run_hosted_validator "$EXAMPLE_DIR/valid-hosted-branch-no-pr-landed.json"
+}
+
+case_invalid_pushed_only_example_fails() {
+  ! run_hosted_validator "$EXAMPLE_DIR/invalid-pushed-only-branch-claimed-landed.json"
 }
 
 case_valid_hosted_no_pr_receipt_passes() {
@@ -270,6 +279,8 @@ JSON
 
 main() {
   assert_success "hosted no-PR static alignment passes" case_static_alignment_passes
+  assert_success "valid hosted no-PR example passes" case_valid_hosted_no_pr_example_passes
+  assert_success "invalid pushed-only example fails" case_invalid_pushed_only_example_fails
   assert_success "valid hosted no-PR receipt passes" case_valid_hosted_no_pr_receipt_passes
   assert_success "pushed-only branch cannot claim hosted landing" case_pushed_only_branch_cannot_claim_hosted_landing
   assert_success "missing hosted landing evidence fails" case_missing_hosted_landing_fails

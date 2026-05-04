@@ -1,0 +1,32 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "example-invalid-pushed-only-branch-claimed-landed",
+  "selected_route": "branch-no-pr",
+  "lifecycle_outcome": "landed",
+  "intent": "Intentionally invalid: a pushed branch alone is not hosted landing.",
+  "scope": {
+    "summary": "Invalid pushed-only branch landing claim."
+  },
+  "source_branch_ref": "chore/example-pushed-only",
+  "target_branch_ref": "origin/main@cccccccccccccccccccccccccccccccccccccccc",
+  "remote_branch_ref": "origin/chore/example-pushed-only",
+  "landed_ref": "cccccccccccccccccccccccccccccccccccccccc",
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "local-validation@example"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "origin/chore/example-pushed-only",
+    "branch": "chore/example-pushed-only"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/example-pushed-only"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-03T00:00:00Z"
+}

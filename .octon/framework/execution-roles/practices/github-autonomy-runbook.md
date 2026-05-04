@@ -136,6 +136,18 @@ Before expecting autonomous merges:
 6. (Optional) `AUTONOMY_AUTO_CLOSE_ENABLED=true` if stale draft auto-close is desired.
 7. (Optional) `AUTONOMY_ATTENTION_AFTER_HOURS=<n>` to tune attention indicator threshold.
 
+## Main Ruleset State
+
+Start with the route matrix and operator path in
+`.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md`.
+
+| concern | current live state | repo-local target | operator rule |
+|---|---|---|---|
+| `main` protection posture | PR-required protected `main`; hosted `branch-no-pr` landing remains blocked. | Route-neutral protected `main` with required status checks, linear history, non-fast-forward protection, and deletion protection. | Do not claim live route-neutral migration from repo-local projection alone. |
+| Universal route-neutral checks | Current live required checks are represented by `current_live_main` in `.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json`. | `route_neutral_closeout_validation`, `branch_naming_validation`, `route_aware_autonomy_validation`, `exact_source_sha_validation`. | Checks must be runnable against the exact source SHA intended for hosted no-PR landing. |
+| PR-only checks | Required only by the current PR-backed live lane when configured by live rulesets. | `AI Review Gate / decision`, `PR Quality Standards`, PR auto-merge, clean-state, PR template quality, and PR review projections stay behind `branch-pr`. | Do not add PR-only checks as universal `main` requirements for `direct-main` or hosted `branch-no-pr`. |
+| Post-migration contract update | `current_live_main` remains PR-required until live evidence proves otherwise. | After accepted live migration, `current_live_main` must be updated to match the proven target posture. | Update `current_live_main` only after `.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --expect target-route-neutral --strict-live` passes and durable evidence is retained. |
+
 Human escalation exceptions (default policy):
 
 1. PR head branch matches `exp/*`.

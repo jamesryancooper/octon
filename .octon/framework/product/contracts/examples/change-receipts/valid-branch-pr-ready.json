@@ -1,0 +1,46 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "example-branch-pr-ready",
+  "selected_route": "branch-pr",
+  "lifecycle_outcome": "ready",
+  "intent": "Demonstrate a PR-backed Change that is ready but not landed.",
+  "scope": {
+    "summary": "Example branch-pr ready receipt.",
+    "touched_paths": [
+      ".octon/framework/execution-roles/practices/example.md"
+    ],
+    "diff_refs": [
+      "pr-123@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    ]
+  },
+  "source_branch_ref": "chore/example-branch-pr-ready",
+  "validation_evidence_refs": [
+    "github-check:PR Quality Standards@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "github-check:Validate branch naming@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "github-check:PR Clean State Enforcer@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "github-check:Validate autonomy policy@bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  ],
+  "review_evidence_refs": [
+    "github-pr:https://github.com/example/octon/pull/123#ready-preflight"
+  ],
+  "durable_history": {
+    "kind": "pr",
+    "ref": "https://github.com/example/octon/pull/123",
+    "pr_url": "https://github.com/example/octon/pull/123",
+    "branch": "chore/example-branch-pr-ready"
+  },
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pr-ready",
+  "cleanup_status": "pending",
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/example-branch-pr-ready",
+    "instructions": "Close the PR and delete the branch if the Change is denied before merge."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Await GitHub protected-main merge."
+  ],
+  "created_at": "2026-05-03T00:00:00Z"
+}

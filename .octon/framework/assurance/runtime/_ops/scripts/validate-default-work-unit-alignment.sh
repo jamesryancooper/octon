@@ -8,6 +8,13 @@ ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 POLICY_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
 POLICY_YML="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
+QUICKSTART="$OCTON_DIR/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
+RECEIPT_EXAMPLES_DIR="$OCTON_DIR/framework/product/contracts/examples/change-receipts"
+RECEIPT_EXAMPLES_README="$RECEIPT_EXAMPLES_DIR/README.md"
+VALID_BRANCH_PR_READY="$RECEIPT_EXAMPLES_DIR/valid-branch-pr-ready.json"
+VALID_HOSTED_BRANCH_NO_PR_LANDED="$RECEIPT_EXAMPLES_DIR/valid-hosted-branch-no-pr-landed.json"
+INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED="$RECEIPT_EXAMPLES_DIR/invalid-pushed-only-branch-claimed-landed.json"
+INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT="$RECEIPT_EXAMPLES_DIR/invalid-draft-pr-claimed-full-closeout.json"
 CONTRACT_REGISTRY="$OCTON_DIR/framework/constitution/contracts/registry.yml"
 ARCH_REGISTRY="$OCTON_DIR/framework/cognition/_meta/architecture/contract-registry.yml"
 NORMATIVE="$OCTON_DIR/framework/constitution/precedence/normative.yml"
@@ -93,6 +100,12 @@ check_core_contracts() {
   require_file "$POLICY_MD"
   require_file "$POLICY_YML"
   require_file "$RECEIPT_SCHEMA"
+  require_file "$QUICKSTART"
+  require_file "$RECEIPT_EXAMPLES_README"
+  require_file "$VALID_BRANCH_PR_READY"
+  require_file "$VALID_HOSTED_BRANCH_NO_PR_LANDED"
+  require_file "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED"
+  require_file "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT"
   require_file "$CHANGE_PACKAGE_SCHEMA"
   require_file "$CHANGE_PACKAGE_CONSTITUTIONAL_SCHEMA"
   require_file "$CHANGE_PACKAGE_COMPILER"
@@ -146,6 +159,33 @@ check_core_contracts() {
   require_jq "$GITHUB_CONTROL_CONTRACT" '.rulesets.target_route_neutral_main.live_mutation_performed_by_this_projection == false' "GitHub control contract does not claim live ruleset mutation" "GitHub control contract must not claim live ruleset mutation"
   require_jq "$AI_GATE_POLICY" '.route_scope.hosted_gate_route == "branch-pr" and .route_scope.no_pr_change_gate_required == false' "AI gate policy is scoped to hosted PR route" "AI gate policy must be scoped to hosted PR route"
   require_yq "$REVIEW_ROUTING" '.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "review routing references default work unit policy" "review routing must reference default work unit policy"
+}
+
+check_quickstart_and_examples() {
+  require_literal "$POLICY_MD" "change-lifecycle-routing-quickstart.md" "policy docs link Change Lifecycle Routing quickstart" "policy docs must link Change Lifecycle Routing quickstart"
+  require_literal "$QUICKSTART" "Route selection and lifecycle outcome are separate decisions." "quickstart separates route selection from lifecycle outcome" "quickstart must separate route selection from lifecycle outcome"
+  require_literal "$QUICKSTART" "## Route Matrix" "quickstart includes route matrix" "quickstart must include route matrix"
+  require_literal "$QUICKSTART" "| route | select when | allowed outcomes | required evidence | forbidden claims | handoff or escalation point |" "quickstart route matrix has required columns" "quickstart route matrix must have required columns"
+  for route in direct-main branch-no-pr branch-pr stage-only-escalate; do
+    require_literal "$QUICKSTART" "\`$route\`" "quickstart documents route $route" "quickstart must document route $route"
+  done
+  require_literal "$QUICKSTART" "branch-local commit claiming \`landed\`" "quickstart forbids branch-local landed overclaim" "quickstart must forbid branch-local landed overclaim"
+  require_literal "$QUICKSTART" "Draft/open/ready PR reported as landed or full closeout" "quickstart forbids ready PR full closeout overclaim" "quickstart must forbid ready PR full closeout overclaim"
+  require_literal "$QUICKSTART" "## Ruleset State" "quickstart includes live-vs-target ruleset table" "quickstart must include live-vs-target ruleset table"
+  require_literal "$QUICKSTART" "current live state" "quickstart labels current live ruleset state" "quickstart must label current live ruleset state"
+  require_literal "$QUICKSTART" "repo-local target" "quickstart labels repo-local target ruleset state" "quickstart must label repo-local target ruleset state"
+  require_literal "$QUICKSTART" "Do not claim live route-neutral migration from repo-local projection alone." "quickstart blocks live migration overclaim" "quickstart must block live migration overclaim"
+  require_literal "$QUICKSTART" "Update \`current_live_main\` only after" "quickstart defines post-migration current_live_main update rule" "quickstart must define current_live_main post-migration rule"
+  require_literal "$QUICKSTART" "AI Review Gate / decision" "quickstart keeps AI gate visible as PR-only check" "quickstart must mention PR-only AI gate"
+  require_literal "$QUICKSTART" "PR Quality Standards" "quickstart keeps PR quality visible as PR-only check" "quickstart must mention PR-only PR quality"
+  require_literal "$RECEIPT_EXAMPLES_README" "valid-branch-pr-ready.json" "receipt examples README lists valid branch-pr ready example" "receipt examples README must list valid branch-pr ready example"
+  require_literal "$RECEIPT_EXAMPLES_README" "valid-hosted-branch-no-pr-landed.json" "receipt examples README lists valid hosted no-PR landing example" "receipt examples README must list valid hosted no-PR landing example"
+  require_literal "$RECEIPT_EXAMPLES_README" "invalid-pushed-only-branch-claimed-landed.json" "receipt examples README lists pushed-only invalid example" "receipt examples README must list pushed-only invalid example"
+  require_literal "$RECEIPT_EXAMPLES_README" "invalid-draft-pr-claimed-full-closeout.json" "receipt examples README lists draft PR invalid example" "receipt examples README must list draft PR invalid example"
+  require_jq "$VALID_BRANCH_PR_READY" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .publication_status == "pr-ready" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "valid branch-pr ready example has ready-not-landed semantics" "valid branch-pr ready example must be ready, not landed"
+  require_jq "$VALID_HOSTED_BRANCH_NO_PR_LANDED" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "landed" and .integration_method == "fast-forward" and .publication_status == "hosted-main-updated" and .hosted_landing.source_ref == .hosted_landing.validated_ref and .hosted_landing.target_post_ref == .landed_ref' "valid hosted no-PR example has exact-SHA landing semantics" "valid hosted no-PR example must have exact-SHA landing semantics"
+  require_jq "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "landed" and .publication_status == "pushed-branch"' "invalid pushed-only example encodes landed overclaim" "invalid pushed-only example must encode landed overclaim"
+  require_jq "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .publication_status == "pr-ready" and .closeout_outcome == "completed"' "invalid draft PR example encodes full-closeout overclaim" "invalid draft PR example must encode full-closeout overclaim"
 }
 
 check_discovery_and_routing() {
@@ -216,6 +256,7 @@ main() {
   command -v jq >/dev/null 2>&1 || { echo "[ERROR] jq is required" >&2; exit 1; }
 
   check_core_contracts
+  check_quickstart_and_examples
   check_discovery_and_routing
   check_no_active_legacy_or_default_drift
 

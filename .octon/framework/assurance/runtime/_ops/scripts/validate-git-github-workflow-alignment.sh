@@ -37,6 +37,7 @@ MAIN_CHANGE_ROUTE_GUARD="$ROOT_DIR/.github/workflows/main-change-route-guard.yml
 CHANGE_ROUTE_PROJECTION="$ROOT_DIR/.github/workflows/change-route-projection.yml"
 PR_AUTO_MERGE_WORKFLOW="$ROOT_DIR/.github/workflows/pr-auto-merge.yml"
 PR_TRIAGE_WORKFLOW="$ROOT_DIR/.github/workflows/pr-triage.yml"
+PR_AUTONOMY_POLICY_TEST="$OCTON_DIR/framework/assurance/runtime/_ops/tests/test-pr-autonomy-policy.sh"
 
 errors=0
 
@@ -89,9 +90,10 @@ main() {
   command -v jq >/dev/null 2>&1 || { echo "[ERROR] jq is required" >&2; exit 1; }
   command -v yq >/dev/null 2>&1 || { echo "[ERROR] yq is required" >&2; exit 1; }
 
-  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$PR_DOC" "$WORKFLOW_DOC" "$GITHUB_RUNBOOK" "$PR_AUTONOMY_EVALUATOR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_PROJECTION_VALIDATOR" "$COMMIT_PR_STANDARDS" "$GITHUB_ADAPTER" "$REPO_ADAPTER" "$GITHUB_CONTROL_CONTRACT" "$MAIN_CHANGE_ROUTE_GUARD" "$CHANGE_ROUTE_PROJECTION" "$PR_AUTO_MERGE_WORKFLOW" "$PR_TRIAGE_WORKFLOW"; do
+  for file in "$POLICY" "$CONTRACT" "$WORKFLOW" "$INGRESS" "$MANIFEST" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$PR_DOC" "$WORKFLOW_DOC" "$GITHUB_RUNBOOK" "$PR_AUTONOMY_EVALUATOR" "$OPEN_SCRIPT" "$SHIP_SCRIPT" "$WT_SCRIPT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$HOSTED_NO_PR_VALIDATOR" "$GITHUB_RULESET_VALIDATOR" "$GITHUB_PROJECTION_VALIDATOR" "$COMMIT_PR_STANDARDS" "$GITHUB_ADAPTER" "$REPO_ADAPTER" "$GITHUB_CONTROL_CONTRACT" "$MAIN_CHANGE_ROUTE_GUARD" "$CHANGE_ROUTE_PROJECTION" "$PR_AUTO_MERGE_WORKFLOW" "$PR_TRIAGE_WORKFLOW" "$PR_AUTONOMY_POLICY_TEST"; do
     require_file "$file"
   done
+  [[ -x "$PR_AUTONOMY_POLICY_TEST" ]] && pass "PR autonomy policy test is directly executable" || fail "PR autonomy policy test must be directly executable"
 
   require_yq "$POLICY" '.routes[]? | select(.route_id == "direct-main")' "policy exposes direct-main route" "policy missing direct-main route"
   require_yq "$POLICY" '.routes[]? | select(.route_id == "branch-no-pr")' "policy exposes branch-no-pr route" "policy missing branch-no-pr route"

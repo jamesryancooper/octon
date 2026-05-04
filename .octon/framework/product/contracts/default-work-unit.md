@@ -38,6 +38,13 @@ schema, or duplicate compiler path is part of the target state.
 
 ## Routes
 
+Maintainer quickstart:
+`.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md`
+provides the operator route matrix, live-vs-target ruleset table, and receipt
+examples that make this contract executable for day-to-day closeout. This file
+and `.octon/framework/product/contracts/default-work-unit.yml` remain the
+authoritative policy.
+
 Route selection starts from Change identity and chooses the execution or review
 channel the Change needs. Lifecycle outcome is recorded separately and answers
 how far through closeout the Change actually progressed.

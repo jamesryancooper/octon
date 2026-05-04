@@ -1,0 +1,33 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "example-invalid-draft-pr-claimed-full-closeout",
+  "selected_route": "branch-pr",
+  "lifecycle_outcome": "ready",
+  "intent": "Intentionally invalid: a ready PR is not full closeout.",
+  "scope": {
+    "summary": "Invalid ready PR completion claim."
+  },
+  "source_branch_ref": "chore/example-draft-pr",
+  "validation_evidence_refs": [
+    "github-check:PR Quality Standards@dddddddddddddddddddddddddddddddddddddddd"
+  ],
+  "review_evidence_refs": [
+    "github-pr:https://github.com/example/octon/pull/124#ready-preflight"
+  ],
+  "durable_history": {
+    "kind": "pr",
+    "ref": "https://github.com/example/octon/pull/124",
+    "pr_url": "https://github.com/example/octon/pull/124",
+    "branch": "chore/example-draft-pr"
+  },
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pr-ready",
+  "cleanup_status": "pending",
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/example-draft-pr"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-03T00:00:00Z"
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "example-hosted-branch-no-pr-landed",
+  "selected_route": "branch-no-pr",
+  "lifecycle_outcome": "landed",
+  "intent": "Demonstrate hosted no-PR landing evidence for a branch-isolated Change.",
+  "scope": {
+    "summary": "Example hosted branch-no-pr landed receipt.",
+    "touched_paths": [
+      ".octon/framework/execution-roles/practices/example.md"
+    ],
+    "diff_refs": [
+      "origin/chore/example-no-pr@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+  },
+  "source_branch_ref": "chore/example-no-pr",
+  "target_branch_ref": "origin/main@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "remote_branch_ref": "origin/chore/example-no-pr",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/example-no-pr",
+    "source_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "target_pre_ref": "9999999999999999999999999999999999999999",
+    "target_post_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "validated_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "branch_naming_validation@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "route_aware_autonomy_validation@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "exact_source_sha_validation@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ],
+    "provider_ruleset_ref": "github-ruleset:target-route-neutral-main@example",
+    "push_refspec": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "remote branch cleanup deferred until maintainer verifies hosted landing evidence."
+  ],
+  "validation_evidence_refs": [
+    "route-neutral-checks@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer no-PR route waiver@example"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "branch": "chore/example-no-pr"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "instructions": "Revert the landed commit from main if post-landing verification fails."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-03T00:00:00Z"
+}

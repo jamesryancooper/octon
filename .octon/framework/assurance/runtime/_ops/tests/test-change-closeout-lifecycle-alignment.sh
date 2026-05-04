@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
+EXAMPLE_DIR="$ROOT_DIR/.octon/framework/product/contracts/examples/change-receipts"
 
 pass_count=0
 fail_count=0
@@ -39,6 +40,18 @@ run_validator() {
 
 case_live_repo_passes() {
   bash "$VALIDATOR" >/dev/null
+}
+
+case_valid_branch_pr_ready_example_passes() {
+  run_validator "$EXAMPLE_DIR/valid-branch-pr-ready.json"
+}
+
+case_invalid_draft_pr_full_closeout_example_fails() {
+  ! run_validator "$EXAMPLE_DIR/invalid-draft-pr-claimed-full-closeout.json"
+}
+
+case_invalid_pushed_only_landed_example_fails() {
+  ! run_validator "$EXAMPLE_DIR/invalid-pushed-only-branch-claimed-landed.json"
 }
 
 case_no_pr_landed_receipt_passes() {
@@ -310,6 +323,9 @@ JSON
 
 main() {
   assert_success "lifecycle validator passes live repo" case_live_repo_passes
+  assert_success "valid branch-pr ready example passes" case_valid_branch_pr_ready_example_passes
+  assert_success "invalid draft PR full closeout example fails" case_invalid_draft_pr_full_closeout_example_fails
+  assert_success "invalid pushed-only landed example fails" case_invalid_pushed_only_landed_example_fails
   assert_success "valid no-PR landed receipt passes" case_no_pr_landed_receipt_passes
   assert_success "branch-pr preserved receipt passes without PR metadata" case_branch_pr_preserved_receipt_passes_without_pr_metadata
   assert_success "checkpoint cannot claim landed" case_checkpoint_cannot_claim_landed

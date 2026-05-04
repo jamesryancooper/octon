@@ -52,6 +52,9 @@ PR_CLEAN_STATE_WORKFLOW="$GITHUB_DIR/workflows/pr-clean-state-enforcer.yml"
 CODEX_PR_REVIEW_WORKFLOW="$GITHUB_DIR/workflows/codex-pr-review.yml"
 CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
 AI_GATE_POLICY="$OCTON_DIR/framework/execution-roles/practices/standards/ai-gate-policy.json"
+QUICKSTART="$OCTON_DIR/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
+WORKFLOW_OVERVIEW="$OCTON_DIR/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+GITHUB_RUNBOOK="$OCTON_DIR/framework/execution-roles/practices/github-autonomy-runbook.md"
 HOSTED_NO_PR_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh"
 RULESET_VALIDATOR="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh"
 
@@ -165,6 +168,9 @@ check_pr_specific_scope() {
 check_control_contracts() {
   require_file "$CONTROL_CONTRACT"
   require_file "$AI_GATE_POLICY"
+  require_file "$QUICKSTART"
+  require_file "$WORKFLOW_OVERVIEW"
+  require_file "$GITHUB_RUNBOOK"
   require_jq "$CONTROL_CONTRACT" '.scope.projection_host_for == "route-aware Change lifecycle GitHub projection"' "control contract is route-aware projection" "control contract must be route-aware projection"
   require_jq "$CONTROL_CONTRACT" '.rulesets.current_live_main.expectation == "current-pr-required"' "control contract distinguishes current live ruleset" "control contract must distinguish current live ruleset"
   require_jq "$CONTROL_CONTRACT" '.rulesets.target_route_neutral_main.expectation == "target-route-neutral"' "control contract defines target route-neutral ruleset" "control contract must define target route-neutral ruleset"
@@ -177,6 +183,17 @@ check_control_contracts() {
   require_jq "$CONTROL_CONTRACT" '.rulesets.target_route_neutral_main.pr_specific_checks[]? | select(. == "PR Quality Standards")' "PR quality remains PR-specific" "PR quality must remain PR-specific"
   require_jq "$CONTROL_CONTRACT" '.rulesets.target_route_neutral_main.live_mutation_performed_by_this_projection == false' "control contract says live mutation not performed" "control contract must not claim live mutation"
   require_jq "$AI_GATE_POLICY" '.route_scope.hosted_gate_route == "branch-pr" and .route_scope.no_pr_change_gate_required == false' "AI gate policy remains branch-pr scoped" "AI gate policy must remain branch-pr scoped"
+  require_literal "$WORKFLOW_OVERVIEW" "change-lifecycle-routing-quickstart.md" "workflow overview links Change Lifecycle Routing quickstart" "workflow overview must link Change Lifecycle Routing quickstart"
+  require_literal "$GITHUB_RUNBOOK" "## Main Ruleset State" "GitHub runbook includes prominent ruleset state table" "GitHub runbook must include prominent ruleset state table"
+  require_literal "$GITHUB_RUNBOOK" "current live state" "GitHub runbook table labels current live state" "GitHub runbook table must label current live state"
+  require_literal "$GITHUB_RUNBOOK" "repo-local target" "GitHub runbook table labels repo-local target state" "GitHub runbook table must label repo-local target state"
+  require_literal "$GITHUB_RUNBOOK" "Do not claim live route-neutral migration from repo-local projection alone." "GitHub runbook blocks live migration overclaim" "GitHub runbook must block live migration overclaim"
+  require_literal "$GITHUB_RUNBOOK" "Update \`current_live_main\` only after" "GitHub runbook defines post-migration current_live_main update rule" "GitHub runbook must define current_live_main post-migration update rule"
+  require_literal "$QUICKSTART" "route_neutral_closeout_validation" "quickstart documents route-neutral closeout check" "quickstart must document route-neutral closeout check"
+  require_literal "$QUICKSTART" "branch_naming_validation" "quickstart documents branch naming check" "quickstart must document branch naming check"
+  require_literal "$QUICKSTART" "route_aware_autonomy_validation" "quickstart documents route-aware autonomy check" "quickstart must document route-aware autonomy check"
+  require_literal "$QUICKSTART" "exact_source_sha_validation" "quickstart documents exact source SHA check" "quickstart must document exact source SHA check"
+  require_literal "$QUICKSTART" "PR-only checks" "quickstart distinguishes PR-only checks" "quickstart must distinguish PR-only checks"
 }
 
 check_validators() {

@@ -32,10 +32,17 @@ create_fixture() {
 
   mkdir -p \
     "$fixture_root/.github" \
+    "$fixture_root/.octon/framework/execution-roles/practices" \
     "$fixture_root/.octon/framework/execution-roles/practices/standards" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
 
   cp -R "$REPO_ROOT/.github/workflows" "$fixture_root/.github/workflows"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/git-github-autonomy-workflow-v1.md"
+  cp "$REPO_ROOT/.octon/framework/execution-roles/practices/github-autonomy-runbook.md" \
+    "$fixture_root/.octon/framework/execution-roles/practices/github-autonomy-runbook.md"
   cp "$REPO_ROOT/.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json" \
     "$fixture_root/.octon/framework/execution-roles/practices/standards/github-control-plane-contract.json"
   cp "$REPO_ROOT/.octon/framework/execution-roles/practices/standards/ai-gate-policy.json" \
