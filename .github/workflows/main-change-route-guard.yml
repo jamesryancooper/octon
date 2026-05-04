@@ -95,13 +95,38 @@ jobs:
               return problems;
             }
 
+            function commitIsAncestor(ancestor, descendant) {
+              if (!fullShaPattern.test(ancestor || "") || !fullShaPattern.test(descendant || "")) {
+                return false;
+              }
+              try {
+                git(["merge-base", "--is-ancestor", ancestor, descendant]);
+                return true;
+              } catch {
+                return false;
+              }
+            }
+
+            function landedRefIsInPushedRange(landedRef) {
+              const before = context.payload.before || "";
+              if (!fullShaPattern.test(landedRef || "")) {
+                return false;
+              }
+              if (!fullShaPattern.test(before) || /^0+$/.test(before)) {
+                return true;
+              }
+              return landedRef !== before && commitIsAncestor(before, landedRef);
+            }
+
             function validateDirectMain(receipt) {
               const problems = [];
               if (receipt.selected_route !== "direct-main") problems.push("selected_route is not direct-main");
               if (!["landed", "cleaned"].includes(receipt.lifecycle_outcome)) problems.push("lifecycle_outcome is not landed/cleaned");
               if (receipt.integration_status !== "landed") problems.push("integration_status is not landed");
               if (receipt.integration_method !== "direct-commit") problems.push("integration_method is not direct-commit");
-              if (receipt.landed_ref !== sha) problems.push("landed_ref does not match github.sha");
+              if (!fullShaPattern.test(receipt.landed_ref || "")) problems.push("landed_ref is not an exact commit SHA");
+              if (fullShaPattern.test(receipt.landed_ref || "") && !commitIsAncestor(receipt.landed_ref, sha)) problems.push("landed_ref is not contained in pushed main head");
+              if (fullShaPattern.test(receipt.landed_ref || "") && !landedRefIsInPushedRange(receipt.landed_ref)) problems.push("landed_ref is not included in pushed range");
               if (!isNonEmptyArray(receipt.validation_evidence_refs)) problems.push("validation_evidence_refs is empty");
               if (!isNonEmptyString(receipt.rollback_handle?.ref)) problems.push("rollback_handle.ref is missing");
               if (!cleanupStatusIsExplicit(receipt)) problems.push("cleanup_status is not explicit");

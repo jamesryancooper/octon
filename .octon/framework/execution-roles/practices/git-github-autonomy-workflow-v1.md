@@ -94,12 +94,15 @@ Direct-main lane:
 
 - Land only after Change routing selects `direct-main`.
 - Record durable Change receipt evidence with validation, rollback, cleanup,
-  and landed-ref proof.
+  landed-ref proof, push to `origin/main`, and verification that `origin/main`
+  contains the landed ref.
 - Do not require PR metadata.
 
 Branch-no-PR lane:
 
 - Push the source branch and validate the exact source SHA.
+- If closeout stops at branch publication instead of hosted main landing,
+  record the pushed source branch as the closeout publication evidence.
 - Land through fast-forward-only hosted update only when the provider ruleset
   is route-neutral and permits no-PR protected-main update.
 - Record provider ruleset ref, pushed source branch, exact source SHA checks,

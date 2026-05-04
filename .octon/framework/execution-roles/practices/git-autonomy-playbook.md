@@ -85,11 +85,13 @@ Octon's default work unit is a Change; branch worktrees are selected only for br
 state to the correct next Git, branch, or PR action. Depending on state,
 closeout may mean:
 
-- validate, commit on clean current `main`, record a Change receipt, and
-  retain rollback evidence for eligible `direct-main`
+- validate, commit on clean current `main`, record a Change receipt, retain
+  rollback evidence, push `main` to origin, and verify `origin/main` contains
+  the landed ref for eligible `direct-main`
 - branch the work off `main` into a branch worktree when the selected route
   needs branch isolation
-- stage, commit, validate, receipt, and open a draft PR only for branch-pr
+- stage, commit, validate, receipt, and push the source branch for
+  branch-no-pr closeout or open a draft PR only for branch-pr
 - mark a draft PR ready and request squash auto-merge
 - mark a draft PR ready for human review with auto-merge off
 - report blockers and continue implementation with no closeout mutation

@@ -28,6 +28,14 @@ isolation from `main`, pause/resume safety, multiple commits, handoff,
 elevated-risk validation, protected-surface review, or when repository policy
 requires branch-based handling.
 
+When the operator asks for closeout, `direct-main` and `branch-no-pr` closeout
+include an origin push by default. For `direct-main`, push `main` and verify
+`origin/main` contains the recorded landed ref. For `branch-no-pr`, push the
+source branch for branch-publication closeout or complete the hosted no-PR
+landing path when `landed` is claimed. Skipping the push is allowed only for an
+explicit local-only operator instruction or a concrete blocker, and the receipt
+must not claim full hosted closeout.
+
 For solo work, select the fastest safe route. Consider `direct-main` first
 when the Change is low-risk, the operator is on clean current `main`, local
 validation is sufficient, rollback is straightforward from the resulting
@@ -57,7 +65,10 @@ channel the Change needs. Lifecycle outcome is recorded separately and answers
 how far through closeout the Change actually progressed.
 
 - `direct-main`: low-risk solo Change, locally validated, landed directly on
-  current clean `main`, with a Change receipt and rollback handle.
+  current clean `main`, pushed to `origin`, with a Change receipt and rollback
+  handle. If the push is blocked or the operator explicitly requests local-only
+  handling, report closeout as incomplete or local-only; do not present it as
+  full closeout.
 - `branch-no-pr`: isolated Change that needs a branch or worktree but does not
   need PR-backed review or publication. This route can preserve state, complete
   locally on the branch, push the branch for backup or handoff, fast-forward
@@ -119,6 +130,11 @@ A checkpoint, patch, or branch-local commit must never be reported as landed.
 A draft or open PR must never be reported as full closeout. Landing requires a
 target branch reference, landed ref, integration method, validation evidence,
 rollback handle, and cleanup disposition.
+
+For no-PR closeout, local landing alone is not enough when the operator asks to
+close out the Change. `direct-main` closeout must push to `origin/main` and
+verify the hosted branch contains the landed ref. `branch-no-pr` closeout must push the source branch to origin or complete hosted no-PR landing; otherwise it
+is a local checkpoint or blocker, not full closeout.
 
 ## Durable History
 

@@ -134,6 +134,8 @@ check_guard_projection() {
   require_literal "$MAIN_GUARD" 'evidence.cleanup_status = "pending"' "main guard records cleanup-pending source branch disposition" "main guard must record cleanup-pending source branch disposition"
   require_literal "$MAIN_GUARD" "hosted_landing.source_ref is not an exact commit SHA" "main guard validates exact source SHA" "main guard must validate exact source SHA"
   require_literal "$MAIN_GUARD" "target_post_ref does not equal landed_ref" "main guard requires target post-ref equals landed ref" "main guard must require target post-ref equals landed ref"
+  require_literal "$MAIN_GUARD" "landed_ref is not contained in pushed main head" "main guard accepts direct-main receipt evidence contained in pushed head" "main guard must validate direct-main landed ref is contained in pushed head"
+  require_literal "$MAIN_GUARD" "landed_ref is not included in pushed range" "main guard rejects stale direct-main landed refs" "main guard must reject direct-main landed refs outside the pushed range"
   require_literal "$MAIN_GUARD" "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr provider evidence or Change receipt, or authorized break-glass." "main guard fails closed with route-aware message" "main guard must fail closed with route-aware message"
   forbid_literal "$MAIN_GUARD" "Enforce PR-first" "main guard does not use PR-first job copy" "main guard must not use PR-first job copy"
 }

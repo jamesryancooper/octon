@@ -44,7 +44,7 @@ routes:
       - "rollback_handle"
       - "closeout_outcome"
   - route_id: "branch-no-pr"
-    description: "Branch-isolated Change without PR-backed review or publication. The route may preserve state, complete on the branch, push the branch for backup or handoff, fast-forward land on hosted main without a PR when branch isolation was selected and provider rules allow route-neutral updates, and clean up only when lifecycle evidence supports that outcome."
+    description: "Branch-isolated Change without PR-backed review or publication. The route may preserve state, complete on the branch, push the branch to origin for backup or handoff, fast-forward land on hosted main without a PR when branch isolation was selected and provider rules allow route-neutral updates, and clean up only when lifecycle evidence supports that outcome."
     precedence: 30
     selected_when_any:
       - "change needs isolation, pause/resume, multiple commits, uncertain scope, or handoff, and no PR-required predicate applies"
@@ -57,6 +57,7 @@ routes:
       - "reason_no_pr_required"
       - "local_validation_or_recorded_blocker"
       - "durable_commit_patch_or_checkpoint"
+      - "origin_push_evidence_for_closeout"
       - "hosted_landing_evidence_when_landed"
       - "lifecycle_outcome"
       - "integration_status"
@@ -72,7 +73,7 @@ routes:
       - "host_projection_claims_authority"
       - "hosted_landed_claim_without_origin_main_equality"
   - route_id: "direct-main"
-    description: "Low-risk solo Change landed directly on current clean main."
+    description: "Low-risk solo Change landed directly on current clean main and pushed to origin during closeout unless explicitly blocked or explicitly local-only."
     precedence: 20
     selected_when_all:
       - "current branch is main"
@@ -86,9 +87,11 @@ routes:
       - "change_receipt"
       - "landed_commit"
       - "local_validation_evidence"
+      - "origin_push_evidence"
       - "rollback_handle"
     required_validation:
       - "local_validation_at_selected_floor"
+      - "origin_main_contains_landed_ref_after_push"
       - "exact_sha_route_neutral_validation_when_hosted_publication_claimed"
   - route_id: "stage-only-escalate"
     description: "Blocked or ambiguous Change that preserves state without claiming completion."
@@ -137,6 +140,7 @@ route_lifecycle_outcomes:
       - "landed_commit_on_main"
       - "local_validation_evidence"
       - "route_neutral_exact_sha_check_evidence_when_hosted_publication_claimed"
+      - "origin_main_contains_landed_ref_after_push"
       - "change_receipt"
       - "rollback_handle"
       - "cleanup_status"
@@ -158,6 +162,7 @@ route_lifecycle_outcomes:
       - "intended_scope_committed_on_branch"
       - "local_validation_evidence"
       - "change_receipt"
+      - "origin_branch_contains_change_ref_or_explicit_local_only_blocker"
       - "rollback_or_discard_plan"
     published_branch_requires:
       - "branch_commit_or_checkpoint"
@@ -263,6 +268,8 @@ fail_closed_conditions:
   - "direct_main_hosted_publication_missing_exact_sha_checks"
   - "hosted_no_pr_landing_from_stale_branch"
   - "hosted_no_pr_landing_without_origin_main_equality"
+  - "direct_main_closeout_without_origin_push"
+  - "branch_no_pr_closeout_without_origin_push"
   - "lifecycle_outcome_missing_or_unsupported"
   - "checkpoint_claims_landed"
   - "branch_local_commit_claims_landed_without_main_integration"

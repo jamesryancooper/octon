@@ -2,7 +2,8 @@
 
 1. Use the resolved Change route to determine whether to:
    - complete direct-main with local validation, commit, Change receipt, and
-     rollback handle
+     rollback handle, then push `main` to origin and verify `origin/main`
+     contains the landed ref
    - preserve, commit, push, land, or clean up branch-only work without opening
      a PR, but only when lifecycle evidence supports the claimed outcome
    - invoke PR-backed publication and review mechanics, and report draft/open,
@@ -17,16 +18,19 @@
    exact source SHA required checks, a pushed source branch current with
    `origin/main`, fast-forward-only update evidence, and post-push proof that
    `origin/main` equals the recorded `landed_ref`.
-5. When blockers include PR-required provider rules for requested no-PR hosted
+5. For `branch-no-pr` closeout that does not land on hosted `main`, push the
+   source branch to origin and record `remote_branch_ref`; otherwise report
+   branch-local state as local-only or incomplete.
+6. When blockers include PR-required provider rules for requested no-PR hosted
    landing, red required checks, failing jobs, failing scripts,
    unresolved review conversations, missing validation evidence, missing
    receipt, or missing rollback handle, report closeout as incomplete and
    continue the route-appropriate remediation loop unless the blocker is
    explicitly external.
-6. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
+7. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
    as landed.
-7. Never report a draft/open PR or ready but unmerged PR as full closeout.
-8. Never restate the prompt matrix inline in ingress.
-9. If a compatibility fallback prompt is still needed for legacy adapters, cite
+8. Never report a draft/open PR or ready but unmerged PR as full closeout.
+9. Never restate the prompt matrix inline in ingress.
+10. If a compatibility fallback prompt is still needed for legacy adapters, cite
    the workflow contract and retirement register rather than treating the
    prompt as canonical policy.

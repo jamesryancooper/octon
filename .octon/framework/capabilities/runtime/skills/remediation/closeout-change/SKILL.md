@@ -58,9 +58,15 @@ selected `branch-pr`, or when the task starts from an existing PR context.
   route-neutral hosted landing; provider support is a hosted landing
   precondition, not a route-selection reason by itself.
 - Do not claim direct-main completion without a commit, local validation
-  evidence, Change receipt, and rollback handle.
+  evidence, Change receipt, rollback handle, push to `origin/main`, and proof
+  that `origin/main` contains the landed ref, unless the operator explicitly
+  asks for local-only closeout or a concrete push blocker is reported.
 - Do not claim `branch-no-pr` as `landed` without branch commit evidence, main
   integration evidence, landed ref, rollback handle, and cleanup disposition.
+- When the operator asks for closeout and the selected route is `branch-no-pr`,
+  push the source branch to origin for branch-publication closeout or complete
+  hosted no-PR landing for `landed`. Without an origin push, report a local
+  checkpoint, local-only result, or blocker instead of full closeout.
 - For hosted `branch-no-pr` landing, run hosted no-PR landing preflight before
   mutation and require provider ruleset evidence, a pushed source branch, exact
   source SHA required checks, fast-forward-only update evidence, and proof that
