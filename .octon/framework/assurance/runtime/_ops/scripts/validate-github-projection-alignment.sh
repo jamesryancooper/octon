@@ -128,9 +128,13 @@ check_guard_projection() {
   require_literal "$MAIN_GUARD" "branch-no-pr" "main guard accepts branch-no-pr mode" "main guard must classify branch-no-pr mode"
   require_literal "$MAIN_GUARD" "break-glass" "main guard preserves break-glass mode" "main guard must preserve break-glass mode"
   require_literal "$MAIN_GUARD" "hosted_landing.provider_ruleset_ref" "main guard requires provider ruleset evidence for hosted no-PR" "main guard must require provider ruleset evidence"
+  require_literal "$MAIN_GUARD" "branches-where-head" "main guard verifies pushed source branch head" "main guard must verify pushed source branch head"
+  require_literal "$MAIN_GUARD" "successfulCheckRefs" "main guard verifies exact-SHA check refs from provider evidence" "main guard must verify exact-SHA check refs from provider evidence"
+  require_literal "$MAIN_GUARD" "provider_ruleset_ref" "main guard records provider ruleset ref for hosted no-PR" "main guard must record provider ruleset ref"
+  require_literal "$MAIN_GUARD" 'evidence.cleanup_status = "pending"' "main guard records cleanup-pending source branch disposition" "main guard must record cleanup-pending source branch disposition"
   require_literal "$MAIN_GUARD" "hosted_landing.source_ref is not an exact commit SHA" "main guard validates exact source SHA" "main guard must validate exact source SHA"
   require_literal "$MAIN_GUARD" "target_post_ref does not equal landed_ref" "main guard requires target post-ref equals landed ref" "main guard must require target post-ref equals landed ref"
-  require_literal "$MAIN_GUARD" "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr Change receipt, or authorized break-glass." "main guard fails closed with route-aware message" "main guard must fail closed with route-aware message"
+  require_literal "$MAIN_GUARD" "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr provider evidence or Change receipt, or authorized break-glass." "main guard fails closed with route-aware message" "main guard must fail closed with route-aware message"
   forbid_literal "$MAIN_GUARD" "Enforce PR-first" "main guard does not use PR-first job copy" "main guard must not use PR-first job copy"
 }
 

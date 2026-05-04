@@ -84,6 +84,13 @@ route.
 | PR-only checks | Remain scoped to `branch-pr`: `AI Review Gate / decision`, `PR Quality Standards`, PR auto-merge, clean-state, PR template quality, and PR review projections. | Same PR-specific scope. | Do not add PR-only checks as universal `main` requirements for `direct-main` or hosted `branch-no-pr`. |
 | Live migration evidence | Proven by accepted live ruleset migration, durable provider export, and `.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --expect target-route-neutral --strict-live`. | `current_live_main` must stay aligned with strict-live provider evidence. | Update `current_live_main` only after strict-live target validation passes and durable evidence is retained. |
 
+For hosted `branch-no-pr` pushes, `Main Change Route Guard` classifies the
+main update from provider-hosted evidence at the landed SHA: a pushed non-main
+source branch, route-neutral live rules, exact-SHA check refs, fast-forward
+ancestry from the previous `main`, rollback ref, and cleanup-pending source
+branch disposition. Durable closeout evidence still has to be retained after
+landing.
+
 ## Receipt Examples
 
 Example receipts live in

@@ -107,6 +107,14 @@ case_exact_source_sha_projection_missing_fails() {
   ! run_validator "$fixture_root"
 }
 
+case_main_guard_provider_evidence_missing_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture)"
+  perl -0pi -e 's/branches-where-head/branches-missing-head/g' \
+    "$fixture_root/.github/workflows/main-change-route-guard.yml"
+  ! run_validator "$fixture_root"
+}
+
 main() {
   assert_success "GitHub projection validator passes on live repo" case_live_repo_passes
   assert_success "GitHub projection validator fails when old main guard file returns" case_old_main_guard_file_fails
@@ -114,6 +122,7 @@ main() {
   assert_success "GitHub projection validator fails when AI gate becomes universal target check" case_universal_ai_gate_target_fails
   assert_success "GitHub projection validator fails when PR autonomy includes main push scope" case_pr_autonomy_main_push_scope_fails
   assert_success "GitHub projection validator fails when exact source SHA projection is missing" case_exact_source_sha_projection_missing_fails
+  assert_success "GitHub projection validator fails when main guard loses provider evidence" case_main_guard_provider_evidence_missing_fails
 
   echo
   echo "Passed: $pass_count"

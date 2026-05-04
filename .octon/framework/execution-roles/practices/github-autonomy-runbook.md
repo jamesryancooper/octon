@@ -148,6 +148,13 @@ Start with the route matrix and operator path in
 | PR-only checks | `AI Review Gate / decision`, `PR Quality Standards`, PR auto-merge, clean-state, PR template quality, and PR review projections stay behind `branch-pr`. | Same PR-specific scope. | Do not add PR-only checks as universal `main` requirements for `direct-main` or hosted `branch-no-pr`. |
 | Post-migration contract update | `current_live_main` records the proven route-neutral live posture. | Future live ruleset changes must update `current_live_main` to match strict-live provider evidence. | Update `current_live_main` only after `.octon/framework/assurance/runtime/_ops/scripts/validate-github-main-ruleset-alignment.sh --expect target-route-neutral --strict-live` passes and durable evidence is retained. |
 
+For hosted `branch-no-pr` updates, `Main Change Route Guard` accepts the main
+push from provider-hosted evidence at the landed SHA: a pushed non-main source
+branch, no live PR rule, exact route-neutral check refs, fast-forward ancestry,
+rollback ref, and cleanup-pending source branch disposition. Retain durable
+closeout evidence after landing and finish source branch cleanup only after the
+guard has observed the source branch head.
+
 ## Route-Neutral Main Ruleset Migration Plan
 
 This is a reviewed operator procedure, not an instruction to mutate live

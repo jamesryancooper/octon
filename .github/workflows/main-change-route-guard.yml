@@ -101,6 +101,114 @@ jobs:
               return problems;
             }
 
+            function routeNeutralRequiredChecks() {
+              const contractPath = ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json";
+              const contract = JSON.parse(fs.readFileSync(contractPath, "utf8"));
+              const currentChecks = contract.rulesets?.current_live_main?.required_checks || [];
+              const targetChecks = contract.rulesets?.target_route_neutral_main?.universal_required_checks || [];
+              return currentChecks.length ? currentChecks : targetChecks;
+            }
+
+            async function liveRulesAllowHostedNoPr() {
+              const response = await github.request("GET /repos/{owner}/{repo}/rules/branches/{branch}", {
+                owner,
+                repo,
+                branch: "main"
+              });
+              const hasPullRequestRule = response.data.some((rule) => rule.type === "pull_request");
+              return {
+                allowed: !hasPullRequestRule,
+                providerRef: `repos/${owner}/${repo}/rules/branches/main`
+              };
+            }
+
+            async function sourceBranchesAtHead() {
+              const response = await github.request("GET /repos/{owner}/{repo}/commits/{commit_sha}/branches-where-head", {
+                owner,
+                repo,
+                commit_sha: sha
+              });
+              return response.data
+                .map((branch) => branch.name)
+                .filter((branch) => branch !== "main");
+            }
+
+            async function successfulCheckRefs(requiredChecks) {
+              const response = await github.rest.checks.listForRef({
+                owner,
+                repo,
+                ref: sha,
+                per_page: 100
+              });
+              const successful = new Map();
+              for (const run of response.data.check_runs || []) {
+                if (run.status === "completed" && run.conclusion === "success") {
+                  successful.set(run.name, run.html_url || run.details_url || run.name);
+                }
+              }
+              const refs = [];
+              const missing = [];
+              for (const check of requiredChecks) {
+                if (successful.has(check)) {
+                  refs.push(`${check}: ${successful.get(check)}`);
+                } else {
+                  missing.push(check);
+                }
+              }
+              return { refs, missing };
+            }
+
+            async function validateHostedNoPrProviderEvidence() {
+              const problems = [];
+              const evidence = {};
+              const before = context.payload.before || "";
+
+              if (!fullShaPattern.test(before) || /^0+$/.test(before)) {
+                problems.push("rollback handle from push before-ref is missing");
+              } else {
+                evidence.rollback_ref = before;
+                try {
+                  git(["merge-base", "--is-ancestor", before, sha]);
+                  evidence.integration_method = "fast-forward";
+                } catch {
+                  problems.push("push before-ref is not an ancestor of github.sha");
+                }
+              }
+
+              const provider = await liveRulesAllowHostedNoPr();
+              evidence.provider_ruleset_ref = provider.providerRef;
+              if (!provider.allowed) {
+                problems.push("live provider ruleset still requires PR");
+              }
+
+              const branches = await sourceBranchesAtHead();
+              if (branches.length) {
+                evidence.source_branch = branches[0];
+                evidence.source_branches = branches.join(", ");
+              } else {
+                problems.push("no pushed non-main source branch has github.sha as head");
+              }
+
+              const requiredChecks = routeNeutralRequiredChecks();
+              evidence.required_checks = requiredChecks.join(", ");
+              if (!requiredChecks.length) {
+                problems.push("route-neutral required check set is empty");
+              } else {
+                const checkEvidence = await successfulCheckRefs(requiredChecks);
+                evidence.required_check_refs = checkEvidence.refs.join(" | ");
+                for (const missing of checkEvidence.missing) {
+                  problems.push(`missing successful exact-SHA check ${missing}`);
+                }
+              }
+
+              evidence.source_ref = sha;
+              evidence.validated_ref = sha;
+              evidence.target_post_ref = sha;
+              evidence.landed_ref = sha;
+              evidence.cleanup_status = "pending";
+              return { problems, evidence };
+            }
+
             function changedReceiptCandidates() {
               let before = context.payload.before || "";
               if (!before || /^0+$/.test(before)) {
@@ -182,6 +290,17 @@ jobs:
               return;
             }
 
+            const hostedNoPr = await validateHostedNoPrProviderEvidence();
+            if (!hostedNoPr.problems.length) {
+              setAccepted(
+                "branch-no-pr",
+                "Validated hosted no-PR provider evidence for a fast-forward main update.",
+                hostedNoPr.evidence
+              );
+              return;
+            }
+            core.info(`Hosted no-PR provider evidence did not validate: ${hostedNoPr.problems.join("; ")}`);
+
             const candidates = changedReceiptCandidates();
             const valid = [];
             const inspected = [];
@@ -227,7 +346,7 @@ jobs:
             core.setFailed(
               [
                 "Main update did not match any accepted Change route.",
-                "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr Change receipt, or authorized break-glass.",
+                "Accepted modes are branch-pr merged PR, direct-main Change receipt, hosted branch-no-pr provider evidence or Change receipt, or authorized break-glass.",
                 "PRs are optional route outputs only for branch-pr; direct-main and branch-no-pr require route-neutral closeout, validation, rollback, cleanup, and landed-ref evidence.",
                 details
               ].filter(Boolean).join("\n")
