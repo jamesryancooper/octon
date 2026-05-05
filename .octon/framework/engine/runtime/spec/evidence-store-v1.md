@@ -48,6 +48,38 @@ artifacts are not canonical evidence unless they are reindexed into the
 retained roots above. A transport artifact may support debugging, but it does
 not satisfy disclosure, replay, or closure requirements on its own.
 
+## Local Run Residue
+
+Publication, validation, service-build, closeout, and agent-quorum runs may
+leave untracked local files under `/.octon/state/**` after the claim-bearing
+receipts, generated locks, or active state have already been retained. Those
+files are not automatically durable evidence merely because they are under a
+canonical evidence root.
+
+Agents must classify local residue before retention or cleanup:
+
+- retained evidence: tracked evidence, or untracked evidence referenced by
+  tracked locks, active control state, closeout receipts, or governance
+  receipts;
+- active control state: tracked control or continuity state, or untracked
+  control state referenced by tracked state or receipts;
+- generated scratch output: rebuildable `/.octon/generated/.tmp/**` material;
+- stale unreferenced publication attempt: an untracked superseded publication
+  receipt that no tracked file references;
+- local run residue: untracked `publish-*`, `service-build-*`, or
+  `runtime-agent-quorum-*` artifacts that no tracked file references; and
+- manual-review artifact: any untracked `/.octon/state/**` file outside known
+  local-residue patterns, including build-to-delete or other claim-adjacent
+  evidence roots.
+
+The classifier for this local hygiene pass is
+`/.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh`.
+It is dry-run by default and may remove only untracked, unreferenced cleanup
+candidates after explicit confirmation. Referenced or manual-review artifacts
+must be retained, promoted, or escalated; they must not be deleted as local
+residue and must not satisfy closeout evidence unless a durable retained
+evidence reference points to them.
+
 ## Minimum Consequential Run Bundle
 
 Each consequential run must retain enough material to regenerate its RunCard

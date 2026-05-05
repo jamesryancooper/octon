@@ -44,17 +44,26 @@
 9. After branch cleanup is complete or explicitly deferred, fetch origin, sync
    local `main` to `origin/main`, and verify local `main`, `origin/main`, and
    the recorded `landed_ref` are aligned before declaring closeout complete.
-10. When blockers include PR-required provider rules for requested no-PR hosted
+10. Before claiming `cleaned`, classify any untracked local `.octon/state/**`
+   artifacts left by publication, validation, service-build, closeout, or
+   agent-quorum runs with
+   `.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh`.
+   Retain or escalate referenced evidence, active control state,
+   build-to-delete evidence, and manual-review artifacts. Delete only
+   untracked, unreferenced cleanup candidates after explicit confirmation, and
+   report any remaining local residue separately from durable closeout
+   evidence.
+11. When blockers include PR-required provider rules for requested no-PR hosted
    landing, red required checks, failing jobs, failing scripts,
    unresolved review conversations, missing validation evidence, missing
    receipt, or missing rollback handle, report closeout as incomplete and
    continue the route-appropriate remediation loop unless the blocker is
    explicitly external.
-11. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
+12. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
    as landed.
-12. Never report `published-branch`, `branch-local-complete`, `published`, or
+13. Never report `published-branch`, `branch-local-complete`, `published`, or
     `ready` as completed closeout.
-13. Never restate the prompt matrix inline in ingress.
-14. If a compatibility fallback prompt is still needed for legacy adapters, cite
+14. Never restate the prompt matrix inline in ingress.
+15. If a compatibility fallback prompt is still needed for legacy adapters, cite
    the workflow contract and retirement register rather than treating the
    prompt as canonical policy.

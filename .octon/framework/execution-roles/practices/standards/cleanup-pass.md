@@ -23,6 +23,15 @@ Deletion must obey `.octon/instance/governance/policies/repo-hygiene.yml`.
 Detection never authorizes deletion by itself. Ambiguous findings route to
 non-destructive retention, registration, or escalation.
 
+For local run/control/evidence artifacts left by publication, validation,
+service-build, closeout, or agent-quorum runs, use
+`.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh`
+before treating untracked `.octon/state/**` files as either retained evidence
+or cleanup candidates. The helper is dry-run by default. Deletion requires
+explicit confirmation and is allowed only for untracked, unreferenced cleanup
+candidates; referenced evidence, active control state, build-to-delete evidence,
+and manual-review artifacts must be retained or escalated.
+
 ## Receipt
 
 Record:
@@ -30,6 +39,7 @@ Record:
 - cleanup scope reviewed;
 - simplifications made;
 - deletion candidates and routing;
+- local run/control/evidence residue classification, when relevant;
 - retained surfaces with rationale;
 - ablation or retirement-register requirements;
 - remaining cleanup risk or `none`.

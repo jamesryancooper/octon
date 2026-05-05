@@ -184,6 +184,7 @@ validate_contracts() {
   require_literal "$WORKFLOW_STAGE" "published-branch" "workflow distinguishes pushed-branch handoff from completed closeout" "workflow must distinguish pushed-branch handoff from completed closeout"
   require_literal "$WORKFLOW_STAGE" "clean up obsolete safe local and remote source branches" "workflow requires landed branch cleanup" "workflow must require landed branch cleanup"
   require_literal "$WORKFLOW_STAGE" 'local `main`, `origin/main`, and' "workflow requires post-cleanup local main alignment" "workflow must require post-cleanup local main alignment"
+  require_literal "$WORKFLOW_STAGE" "cleanup-local-run-artifacts.sh" "workflow classifies local run/control/evidence residue before cleaned closeout" "workflow must classify local residue before cleaned closeout"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land.route_guard == "branch-no-pr only"' "branch landing helper is route guarded" "branch landing helper must be route guarded"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.route_guard == "branch-no-pr only"' "hosted no-PR landing helper is route guarded" "hosted no-PR landing helper must be route guarded"
   require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-no-pr")' "worktree contract applies post-landing cleanup to branch-no-pr" "worktree contract must apply post-landing cleanup to branch-no-pr"

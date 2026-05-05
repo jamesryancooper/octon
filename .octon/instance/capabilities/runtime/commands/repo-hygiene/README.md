@@ -44,6 +44,24 @@ bash .octon/instance/capabilities/runtime/commands/repo-hygiene/repo-hygiene.sh 
   build-to-delete review packet derived from
   `/.octon/instance/governance/contracts/closeout-reviews.yml`.
 
+## Local Run Artifact Hygiene
+
+Publication, validation, service-build, closeout, and agent-quorum runs can
+leave untracked local `.octon/state/**` files after the durable receipts or
+active state have already been retained. Do not broadly ignore or delete those
+paths. Classify them with the dry-run-first helper:
+
+```bash
+bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --confirm
+```
+
+The helper removes nothing unless `--confirm` is provided. It protects tracked
+files and untracked files referenced by tracked locks, receipts, governance, or
+workflow surfaces. Unknown `.octon/state/**` artifacts, build-to-delete
+evidence, referenced evidence, and active control state route to retention or
+manual review rather than cleanup.
+
 ## Detector Stack
 
 - `cargo check`

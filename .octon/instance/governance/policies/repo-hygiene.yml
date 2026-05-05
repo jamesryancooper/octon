@@ -30,6 +30,7 @@ ai_assisted_cleanup_refs:
   development_discipline_policy_ref: ".octon/instance/governance/policies/ai-assisted-development-discipline.yml"
   cleanup_pass_standard_ref: ".octon/framework/execution-roles/practices/standards/cleanup-pass.md"
   validation_evidence_quality_ref: ".octon/framework/execution-roles/practices/standards/validation-evidence-quality.md"
+  local_run_artifact_cleanup_helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
   rule: "AI-assisted cleanup pass receipts may identify candidates, but destructive outcomes still require this policy's routing, confidence rules, and ablation or retention evidence."
 scope:
   included_roots:
@@ -83,6 +84,16 @@ finding_classes:
     allowed_actions:
       - "safe-to-delete"
       - "needs-ablation-before-delete"
+      - "retain-with-rationale"
+      - "never-delete"
+  - id: "local-run-control-evidence-residue"
+    description: "Untracked local run/control/evidence artifacts left by publication, validation, service-build, closeout, or agent-quorum runs after canonical receipts or active state have already been retained."
+    detector_ids:
+      - "git-ls-files"
+      - "reference-scan"
+      - "local-run-artifact-classifier"
+    allowed_actions:
+      - "safe-to-delete"
       - "retain-with-rationale"
       - "never-delete"
   - id: "transitional-residue"
@@ -161,6 +172,47 @@ protected_surfaces:
       source_ref: ".octon/instance/governance/retirement/claim-gate.yml"
       description: "The current governance review receipt is claim-adjacent evidence and must stay protected."
       forced_action: "never-delete"
+local_artifact_hygiene:
+  scope: "Untracked local artifacts under .octon/state/** and rebuildable scratch output under .octon/generated/.tmp/**."
+  classifier_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+  default_mode: "dry-run"
+  deletion_requires:
+    - "explicit --confirm operator action"
+    - "path matches a known local residue or stale publication-attempt pattern"
+    - "path is not tracked by git"
+    - "path is not referenced by any tracked control, evidence, generated, governance, workflow, or documentation file"
+  classifications:
+    retained_evidence:
+      criteria:
+        - "tracked evidence file"
+        - "untracked evidence file referenced by tracked generated locks, active control state, closeout receipts, or governance receipts"
+      action: "protect or retain-with-rationale; never delete as local residue"
+    active_control_state:
+      criteria:
+        - "tracked control or continuity file"
+        - "untracked control or continuity file referenced by tracked state, receipts, or generated locks"
+      action: "protect or retain-with-rationale; require operator review when unreferenced"
+    generated_scratch_output:
+      criteria:
+        - ".octon/generated/.tmp/**"
+      action: "rebuildable cleanup candidate when untracked and unreferenced"
+    stale_unreferenced_publication_attempt:
+      criteria:
+        - "untracked superseded publication receipt under publication, compatibility, or prompt-alignment validation roots"
+        - "no tracked file references the exact receipt path"
+      action: "safe-to-delete through the dry-run-first local artifact helper"
+    local_run_residue:
+      criteria:
+        - "untracked publish-* or service-build-* run/control/continuity/external-index artifacts"
+        - "untracked runtime-agent-quorum checkpoint or evidence artifacts"
+        - "no tracked file references the exact artifact path"
+      action: "safe-to-delete through the dry-run-first local artifact helper"
+    manual_review:
+      criteria:
+        - "untracked .octon/state/** file outside known local residue patterns"
+        - "build-to-delete or claim-adjacent evidence path"
+        - "artifact classification depends on operator intent or missing refs"
+      action: "retain until explicitly classified; do not use as closeout evidence unless promoted or referenced"
 same_change_requirements:
   - id: "RH-001"
     condition: "A high-confidence transitional-residue finding lacks retirement-registry coverage."
@@ -198,6 +250,15 @@ same_change_requirements:
     blocks:
       - "safe-to-delete-routing"
       - "ai-assisted-development-closeout"
+  - id: "RH-005"
+    condition: "Untracked local .octon/state/** run/control/evidence artifacts remain after publication, validation, service-build, or closeout."
+    required_outcome:
+      - "classify-with-local-run-artifact-helper"
+      - "delete-only-cleanup-candidates-with-explicit-confirmation"
+      - "retain-or-escalate-referenced-or-manual-review-artifacts"
+    blocks:
+      - "cleaned-closeout-claim-when-unclassified-residue-is-used-as-evidence"
+      - "safe-to-delete-routing-for-referenced-evidence"
 mode_boundaries:
   scan:
     side_effects: "none"
@@ -259,6 +320,9 @@ detectors:
       - "scan"
       - "enforce"
       - "audit"
+  - id: "local-run-artifact-classifier"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only"
+    required_in_modes: []
   - id: "shellcheck"
     command: "shellcheck -x"
     required_in_modes:
