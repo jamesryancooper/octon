@@ -9,6 +9,8 @@ OCTON_DIR="$(cd "$CAPABILITIES_DIR/../.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 SERVICES_ROOT="$CAPABILITIES_DIR/runtime/services"
 SERVICES_MANIFEST="$SERVICES_ROOT/manifest.yml"
+SERVICES_POLICY_COMPILER="$SERVICES_ROOT/_ops/scripts/compile-deny-by-default-policy.sh"
+SKILLS_POLICY_COMPILER="$CAPABILITIES_DIR/runtime/skills/_ops/scripts/compile-deny-by-default-policy.sh"
 POLICY_V2_FILE="$CAPABILITIES_DIR/governance/policy/deny-by-default.v2.yml"
 ENFORCER_SCRIPT="$SERVICES_ROOT/_ops/scripts/enforce-deny-by-default.sh"
 AGENT_ENTRYPOINT="$SERVICES_ROOT/execution/agent/impl/agent.sh"
@@ -98,6 +100,43 @@ run_split_parser_regression_test() {
       [[ \${#tokens[@]} -eq 2 ]]
       [[ \"\${tokens[1]}\" == 'Bash(bash .octon/framework/capabilities/runtime/services/governance/guard/impl/guard.sh *)' ]]
     "
+}
+
+run_policy_catalog_path_regression_test() {
+  local service_output skill_output
+  local expected_service_catalog expected_skill_catalog
+  expected_service_catalog="$REPO_ROOT/.octon/generated/.tmp/capabilities/policy/deny-by-default-policy.catalog.yml"
+  expected_skill_catalog="$REPO_ROOT/.octon/generated/.tmp/capabilities/policy/skills-deny-by-default-policy.catalog.yml"
+
+  if service_output="$("$SERVICES_POLICY_COMPILER" 2>&1)" &&
+      [[ "$service_output" == "$expected_service_catalog" ]] &&
+      [[ -f "$expected_service_catalog" ]]; then
+    test_pass "service policy catalog compiler writes under canonical generated temp root"
+  else
+    test_fail "service policy catalog compiler writes under canonical generated temp root" "$service_output"
+  fi
+
+  if skill_output="$("$SKILLS_POLICY_COMPILER" 2>&1)" &&
+      [[ "$skill_output" == "$expected_skill_catalog" ]] &&
+      [[ -f "$expected_skill_catalog" ]]; then
+    test_pass "skill policy catalog compiler writes under canonical generated temp root"
+  else
+    test_fail "skill policy catalog compiler writes under canonical generated temp root" "$skill_output"
+  fi
+
+  if [[ ! -e "$REPO_ROOT/.octon/.octon" ]]; then
+    test_pass "policy catalog compilers do not create nested .octon root"
+  else
+    test_fail "policy catalog compilers do not create nested .octon root" ".octon/.octon exists"
+  fi
+}
+
+run_generated_temp_root_regression_test() {
+  if [[ ! -e "$REPO_ROOT/.octon/.octon" ]]; then
+    test_pass "deny-by-default runtime policy paths do not create nested .octon root"
+  else
+    test_fail "deny-by-default runtime policy paths do not create nested .octon root" ".octon/.octon exists"
+  fi
 }
 
 active_shell_rows() {
@@ -815,6 +854,7 @@ run_agent_quorum_independence_tests() {
 
 main() {
   run_split_parser_regression_test
+  run_policy_catalog_path_regression_test
   run_active_shell_enforcement_smoke_test
   run_agent_only_required_deny_tests
   run_acp_gate_tests
@@ -824,6 +864,7 @@ main() {
   run_acp_breaker_action_tests
   run_breaker_action_runner_token_tests
   run_agent_quorum_independence_tests
+  run_generated_temp_root_regression_test
 
   echo ""
   echo "Runtime deny-by-default tests complete: $pass_count passed, $fail_count failed"

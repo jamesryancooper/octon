@@ -23,8 +23,6 @@ temp/
 *.pid.lock
 .octon/generated/.tmp/
 .octon/generated/.tmp/capabilities/policy/
-.octon/.octon/generated/.tmp/
-.octon/.octon/generated/.tmp/**
 .octon/generated/cognition/graph/
 .octon/generated/cognition/graph/**
 .octon/generated/cognition/projections/materialized/

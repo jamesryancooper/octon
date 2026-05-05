@@ -5,9 +5,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILLS_DIR="$(cd "$SCRIPT_DIR/../.." && pwd)"
-REPO_ROOT="$(cd "$SKILLS_DIR/../../../.." && pwd)"
+OCTON_DIR="$(cd "$SKILLS_DIR/../../../.." && pwd)"
+REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 MANIFEST="$SKILLS_DIR/manifest.yml"
-DEFAULT_OUT="$REPO_ROOT/.octon/generated/.tmp/capabilities/policy/skills-deny-by-default-policy.catalog.yml"
+DEFAULT_OUT="$OCTON_DIR/generated/.tmp/capabilities/policy/skills-deny-by-default-policy.catalog.yml"
 OUT_PATH="${1:-$DEFAULT_OUT}"
 
 split_allowed_tools() {

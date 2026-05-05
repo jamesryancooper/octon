@@ -453,7 +453,7 @@ octon_acp_gate_enforce() {
     return 13
   fi
 
-  tmp_dir="$repo_root/.octon/generated/.tmp/capabilities/policy/acp"
+  tmp_dir="$repo_root/generated/.tmp/capabilities/policy/acp"
   mkdir -p "$tmp_dir"
   request_file="$tmp_dir/${run_id}-${service_id}-request.json"
   decision_file="$tmp_dir/${run_id}-${service_id}-decision.json"
