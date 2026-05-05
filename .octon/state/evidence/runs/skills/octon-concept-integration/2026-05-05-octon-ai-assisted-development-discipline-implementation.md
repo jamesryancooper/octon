@@ -22,8 +22,8 @@
   registry
 - updated pull request standards with Minimality / Anti-Bloat and dependency
   receipt expectations for relevant PR-backed Changes
-- extended the AI review gate policy and findings schema with slop-specific
-  finding classes
+- extended the AI review gate policy and findings schema with
+  implementation-quality finding classes
 - updated ingress manifest and ingress agent guidance with conditional
   orientation for AI-assisted development discipline
 - extended repo hygiene with AI-assisted cleanup references while preserving

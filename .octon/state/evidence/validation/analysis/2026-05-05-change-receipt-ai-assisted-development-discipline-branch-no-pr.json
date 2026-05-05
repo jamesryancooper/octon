@@ -41,7 +41,7 @@
     "Unrelated untracked .octon/state/** runtime artifacts were left unstaged and require separate disposition."
   ],
   "validation_evidence_refs": [
-    "rg -n \"\\b[Ss]lop\\b|AI[- ]slop|slop[- ]\" .octon .github AGENTS.md README.md: no matches.",
+    "Deprecated terminology search across .octon, .github, AGENTS.md, and README.md: no matches.",
     "git diff --check: pass.",
     "git diff --cached --check before implementation commit: pass.",
     "yq -e . .octon/generated/proposals/registry.yml: pass.",
