@@ -136,8 +136,9 @@ validate_receipt() {
   [[ -f "$RECEIPT_PATH" ]] || { fail "receipt exists: $RECEIPT_PATH"; return; }
   jq -e '.' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt parses as JSON" || { fail "receipt parses as JSON"; return; }
 
-  local route outcome publication integration integration_method durable_kind cleanup landed_ref target_post_ref source_ref validated_ref source_branch_ref hosted_source_branch remote_branch_ref
+  local route target outcome publication integration integration_method durable_kind cleanup landed_ref target_post_ref source_ref validated_ref source_branch_ref hosted_source_branch remote_branch_ref
   route="$(json_value '.selected_route')"
+  target="$(json_value '.target_lifecycle_outcome')"
   outcome="$(json_value '.lifecycle_outcome')"
   publication="$(json_value '.publication_status')"
   integration="$(json_value '.integration_status')"
@@ -153,6 +154,10 @@ validate_receipt() {
   remote_branch_ref="$(json_value '.remote_branch_ref')"
 
   [[ "$route" == "branch-no-pr" ]] && pass "receipt route is branch-no-pr" || fail "hosted no-PR landing receipt must use branch-no-pr route"
+  case "$target" in
+    landed|cleaned) pass "receipt target outcome is hosted landing scoped" ;;
+    *) fail "hosted no-PR landing receipt target must be landed or cleaned" ;;
+  esac
   case "$outcome" in
     landed|cleaned) pass "receipt outcome is hosted landing scoped" ;;
     *) fail "branch-no-pr landed/cleaned requires hosted landing evidence; outcome was '$outcome'" ;;
@@ -173,6 +178,8 @@ validate_receipt() {
   esac
 
   jq -e '.hosted_landing | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has hosted_landing evidence" || fail "branch-no-pr landed/cleaned requires hosted landing evidence"
+  jq -e '.landing_evaluation | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has landing evaluation evidence" || fail "branch-no-pr landed/cleaned requires landing_evaluation"
+  jq -e '.main_alignment.aligned == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has final main alignment evidence" || fail "branch-no-pr landed/cleaned requires main_alignment.aligned true"
   json_has_nonempty '.hosted_landing.provider_ruleset_ref' && pass "hosted landing has provider ruleset ref" || fail "hosted landing requires provider_ruleset_ref"
   json_array_nonempty '.hosted_landing.required_check_refs' && pass "hosted landing has required check refs" || fail "hosted landing requires required_check_refs"
   [[ -n "$hosted_source_branch" ]] && pass "hosted landing has source branch evidence" || fail "hosted landing requires source_branch"
@@ -182,6 +189,9 @@ validate_receipt() {
   jq -e '.hosted_landing.fast_forward_only == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing is fast-forward-only" || fail "hosted landing requires fast_forward_only true"
   [[ -n "$source_ref" && "$source_ref" == "$validated_ref" ]] && pass "validated ref equals source ref" || fail "hosted landing validated_ref must equal source_ref"
   [[ -n "$landed_ref" && "$landed_ref" == "$target_post_ref" ]] && pass "target post-ref equals landed ref" || fail "hosted landing target_post_ref must equal landed_ref"
+  if json_has_nonempty '.main_alignment.local_main_ref' && json_has_nonempty '.main_alignment.origin_main_ref'; then
+    [[ "$(json_value '.main_alignment.local_main_ref')" == "$landed_ref" && "$(json_value '.main_alignment.origin_main_ref')" == "$landed_ref" ]] && pass "local main, origin/main, and landed ref align" || fail "main_alignment refs must equal landed_ref"
+  fi
   [[ "$cleanup" == "completed" || "$cleanup" == "deferred" || "$cleanup" == "pending" ]] && pass "cleanup status is explicit" || fail "cleanup status must be explicit"
   validate_required_check_refs "$source_ref"
 
@@ -200,6 +210,10 @@ validate_receipt() {
     else
       fail "deferred cleanup requires cleanup evidence or external blocker refs"
     fi
+  fi
+
+  if [[ "$cleanup" == "completed" || "$cleanup" == "deferred" ]]; then
+    jq -e '.source_branch_cleanup | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has source branch cleanup disposition" || fail "completed or deferred cleanup requires source_branch_cleanup"
   fi
 
   if [[ "$SKIP_LIVE_REMOTE" -eq 0 ]]; then

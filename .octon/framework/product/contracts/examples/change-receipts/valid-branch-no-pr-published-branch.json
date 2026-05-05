@@ -1,0 +1,49 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "example-branch-no-pr-published-branch",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "published-branch",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "handoff-only",
+  "intent": "Demonstrate pushed-branch handoff without hosted landing or PR-backed publication.",
+  "scope": {
+    "summary": "Example branch-no-pr published-branch receipt.",
+    "touched_paths": [
+      ".octon/framework/execution-roles/practices/example.md"
+    ],
+    "diff_refs": [
+      "origin/chore/example-published-branch@dddddddddddddddddddddddddddddddddddddddd"
+    ]
+  },
+  "source_branch_ref": "chore/example-published-branch",
+  "remote_branch_ref": "origin/chore/example-published-branch@dddddddddddddddddddddddddddddddddddddddd",
+  "landing_evaluation": {
+    "status": "not_applicable",
+    "blocker_reason": "Target outcome was handoff-only; hosted landing was not requested."
+  },
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "local-validator:validate-change-closeout-lifecycle-alignment@dddddddddddddddddddddddddddddddddddddddd"
+  ],
+  "review_waiver_refs": [
+    "solo-maintainer no-PR handoff route waiver@example"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "dddddddddddddddddddddddddddddddddddddddd",
+    "branch": "chore/example-published-branch"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/example-published-branch",
+    "instructions": "Delete or reset the branch if the handoff is abandoned before hosted landing."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Published-branch handoff is not landed on main."
+  ],
+  "created_at": "2026-05-05T00:00:00Z"
+}

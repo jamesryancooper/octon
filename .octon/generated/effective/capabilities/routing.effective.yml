@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-2d1712be53b2
-published_at: 2026-05-04T19:33:55Z
+generation_id: capabilities-9192c624591c
+published_at: 2026-05-05T19:51:16Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-04T19-33-55Z-capabilities-2d1712be53b2.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-05T19-51-16Z-capabilities-9192c624591c.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -17,9 +17,9 @@ source:
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: 13e67cbfac06e5ac7e930a0f92c82ae76886213651c446bc78203603c5ddfdb0
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 4e260ff0dc8860de33b5210b9879fd6805254fa71257c4e5b949bb7c631d7d0c
+  framework_skills_manifest_sha256: e866c2d05140f6c5adc70e0fd1faad3f90c1a67cce8065ed09f62e4ec641eecc
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: b9c9c466eb1b840bd75fe088b2cee6922722c92621827841432cd4851d5567b1
+  framework_skills_registry_sha256: c266648c9aeea46df5d5d543f59212fe890e344df75f7f1bd23f592f77b2530c
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -53,11 +53,12 @@ routing_candidates:
     capability_kind: skill
     capability_id: closeout-change
     display_name: Closeout Change
-    summary: Route-neutral Change closeout for direct-main, branch-only, PR-backed, and stage-only outcomes.
+    summary: Route-neutral Change closeout that separates route, target outcome, actual outcome, and evidence.
     status: active
     source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
     capability_domain: remediation
-    host_adapters: []
+    host_adapters:
+      - codex
     selectors:
       include:
         - '**'
@@ -1990,7 +1991,8 @@ routing_candidates:
     status: active
     source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
     capability_domain: remediation
-    host_adapters: []
+    host_adapters:
+      - codex
     selectors:
       include:
         - '**'

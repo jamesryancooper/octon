@@ -72,12 +72,24 @@ case_valid_branch_no_pr_branch_local_example_passes() {
   run_validator "$EXAMPLE_DIR/valid-branch-no-pr-branch-local-complete.json"
 }
 
+case_valid_branch_no_pr_published_branch_example_passes() {
+  run_validator "$EXAMPLE_DIR/valid-branch-no-pr-published-branch.json"
+}
+
 case_invalid_draft_pr_full_closeout_example_fails() {
   ! run_validator "$EXAMPLE_DIR/invalid-draft-pr-claimed-full-closeout.json"
 }
 
 case_invalid_pushed_only_landed_example_fails() {
   ! run_validator "$EXAMPLE_DIR/invalid-pushed-only-branch-claimed-landed.json"
+}
+
+case_invalid_published_branch_completed_closeout_example_fails() {
+  ! run_validator "$EXAMPLE_DIR/invalid-published-branch-completed-closeout.json"
+}
+
+case_invalid_stale_remote_branch_ref_example_fails() {
+  ! run_validator "$EXAMPLE_DIR/invalid-stale-remote-branch-ref.json"
 }
 
 case_no_pr_landed_receipt_passes() {
@@ -87,7 +99,9 @@ case_no_pr_landed_receipt_passes() {
   "schema_version": "change-receipt-v1",
   "change_id": "change-1",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-landing",
   "intent": "land branch without PR",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/no-pr",
@@ -107,11 +121,30 @@ case_no_pr_landed_receipt_passes() {
     "push_refspec": "def0000000000000000000000000000000000000:refs/heads/main",
     "fast_forward_only": true
   },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "route-neutral-main",
+    "source_ref": "def0000000000000000000000000000000000000",
+    "target_ref": "origin/main@def0000000000000000000000000000000000000",
+    "evidence_refs": ["validator passed"]
+  },
+  "main_alignment": {
+    "local_main_ref": "def0000000000000000000000000000000000000",
+    "origin_main_ref": "def0000000000000000000000000000000000000",
+    "landed_ref": "def0000000000000000000000000000000000000",
+    "aligned": true
+  },
   "integration_method": "fast-forward",
   "integration_status": "landed",
   "publication_status": "hosted-main-updated",
   "cleanup_status": "deferred",
   "cleanup_evidence_refs": ["cleanup deferred until operator leaves worktree"],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "feature/no-pr",
+    "remote_branch": "origin/feature/no-pr",
+    "blocker_reason": "cleanup deferred until operator leaves worktree"
+  },
   "validation_evidence_refs": ["validator passed"],
   "review_waiver_refs": ["solo maintainer no-PR route"],
   "durable_history": {"kind": "commit", "ref": "abc", "branch": "feature/no-pr"},
@@ -131,7 +164,9 @@ case_branch_pr_preserved_receipt_passes_without_pr_metadata() {
   "schema_version": "change-receipt-v1",
   "change_id": "change-pr-preserved",
   "selected_route": "branch-pr",
+  "target_lifecycle_outcome": "preserved",
   "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
   "intent": "preserve branch-pr state before PR creation",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/pr",
@@ -157,7 +192,9 @@ case_checkpoint_cannot_claim_landed() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-checkpoint",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-landing",
   "intent": "bad landing",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/checkpoint",
@@ -185,7 +222,9 @@ case_branch_local_commit_needs_landed_ref() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-branch-local",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-landing",
   "intent": "bad branch local",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/local",
@@ -211,7 +250,9 @@ case_branch_no_pr_rejects_pr_metadata() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-metadata",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "published-branch",
   "lifecycle_outcome": "published-branch",
+  "outcome_intent": "handoff-only",
   "intent": "bad pr metadata",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/no-pr",
@@ -236,7 +277,9 @@ case_branch_no_pr_rejects_pr_lifecycle_outcome() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-no-pr-ready",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "ready",
   "lifecycle_outcome": "ready",
+  "outcome_intent": "pr-ready",
   "intent": "bad no-pr lifecycle",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/no-pr",
@@ -261,7 +304,9 @@ case_branch_pr_rejects_branch_only_lifecycle_outcome() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-published-branch",
   "selected_route": "branch-pr",
+  "target_lifecycle_outcome": "published-branch",
   "lifecycle_outcome": "published-branch",
+  "outcome_intent": "handoff-only",
   "intent": "bad pr lifecycle",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/pr",
@@ -287,7 +332,9 @@ case_branch_pr_draft_not_full_closeout() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-draft",
   "selected_route": "branch-pr",
+  "target_lifecycle_outcome": "published",
   "lifecycle_outcome": "published",
+  "outcome_intent": "pr-publication",
   "intent": "bad pr closeout",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/pr",
@@ -312,7 +359,9 @@ case_cleanup_claim_requires_evidence() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-cleanup",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
   "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
   "intent": "bad cleanup",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/no-pr",
@@ -368,6 +417,27 @@ case_landed_pending_cleanup_continued_passes() {
   run_validator "$receipt"
 }
 
+case_target_landed_downgraded_requires_not_landed_reason() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | del(.not_landed_reason)'
+  ! run_validator "$receipt"
+}
+
+case_target_landed_downgraded_with_blocker_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | .not_landed_reason = "Provider ruleset blocks hosted no-PR landing." | .landing_evaluation = {"status":"blocked","blocker_reason":"Provider ruleset blocks hosted no-PR landing."}'
+  run_validator "$receipt"
+}
+
+case_target_cleaned_downgraded_requires_not_cleaned_reason() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .lifecycle_outcome = "landed" | .closeout_outcome = "continued" | del(.not_cleaned_reason)'
+  ! run_validator "$receipt"
+}
+
 case_branch_pr_landed_completed_pending_cleanup_fails() {
   local receipt
   receipt="$(write_receipt <<'JSON'
@@ -375,12 +445,20 @@ case_branch_pr_landed_completed_pending_cleanup_fails() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-landed-cleanup-pending",
   "selected_route": "branch-pr",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "pr-landing",
   "intent": "bad pr landed cleanup",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/pr",
   "target_branch_ref": "origin/main@def0000000000000000000000000000000000000",
   "landed_ref": "def0000000000000000000000000000000000000",
+  "main_alignment": {
+    "local_main_ref": "def0000000000000000000000000000000000000",
+    "origin_main_ref": "def0000000000000000000000000000000000000",
+    "landed_ref": "def0000000000000000000000000000000000000",
+    "aligned": true
+  },
   "integration_method": "github-merge",
   "integration_status": "landed",
   "publication_status": "pr-merged",
@@ -401,8 +479,11 @@ main() {
   assert_success "valid direct-main landed example passes" case_valid_direct_main_landed_example_passes
   assert_success "valid branch-pr ready example passes" case_valid_branch_pr_ready_example_passes
   assert_success "valid branch-no-pr branch-local example passes" case_valid_branch_no_pr_branch_local_example_passes
+  assert_success "valid branch-no-pr published-branch example passes" case_valid_branch_no_pr_published_branch_example_passes
   assert_success "invalid draft PR full closeout example fails" case_invalid_draft_pr_full_closeout_example_fails
   assert_success "invalid pushed-only landed example fails" case_invalid_pushed_only_landed_example_fails
+  assert_success "invalid published-branch completed closeout example fails" case_invalid_published_branch_completed_closeout_example_fails
+  assert_success "invalid stale remote branch ref example fails" case_invalid_stale_remote_branch_ref_example_fails
   assert_success "valid no-PR landed receipt passes" case_no_pr_landed_receipt_passes
   assert_success "branch-pr preserved receipt passes without PR metadata" case_branch_pr_preserved_receipt_passes_without_pr_metadata
   assert_success "checkpoint cannot claim landed" case_checkpoint_cannot_claim_landed
@@ -415,6 +496,9 @@ main() {
   assert_success "cleaned with pending cleanup fails" case_cleaned_pending_cleanup_fails
   assert_success "completed landed branch closeout with pending cleanup fails" case_landed_completed_pending_cleanup_fails
   assert_success "landed with pending cleanup remains valid before full closeout" case_landed_pending_cleanup_continued_passes
+  assert_success "target landed downgrade requires not_landed_reason" case_target_landed_downgraded_requires_not_landed_reason
+  assert_success "target landed downgrade with blocker passes" case_target_landed_downgraded_with_blocker_passes
+  assert_success "target cleaned downgrade requires not_cleaned_reason" case_target_cleaned_downgraded_requires_not_cleaned_reason
   assert_success "branch-pr landed completed closeout with pending cleanup fails" case_branch_pr_landed_completed_pending_cleanup_fails
 
   echo

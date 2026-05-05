@@ -158,6 +158,26 @@ case_receipt_examples_cover_solo_routes() {
     jq -e '.selected_route == "branch-no-pr" and .lifecycle_outcome == "branch-local-complete" and .integration_status == "not_landed"' "$examples/valid-branch-no-pr-branch-local-complete.json" >/dev/null
 }
 
+case_closeout_skills_project_to_codex() {
+  local registry="$ROOT_DIR/.octon/framework/capabilities/runtime/skills/registry.yml"
+  local routing="$ROOT_DIR/.octon/generated/effective/capabilities/routing.effective.yml"
+  yq -e '.skills."closeout-change".host_adapters[] | select(. == "codex")' "$registry" >/dev/null &&
+    yq -e '.skills."closeout-pr".host_adapters[] | select(. == "codex")' "$registry" >/dev/null &&
+    yq -e '.routing_candidates[] | select(.effective_id == "framework.skill.closeout-change") | .host_adapters[] | select(. == "codex")' "$routing" >/dev/null &&
+    yq -e '.routing_candidates[] | select(.effective_id == "framework.skill.closeout-pr") | .host_adapters[] | select(. == "codex")' "$routing" >/dev/null &&
+    [[ -f "$ROOT_DIR/.codex/skills/closeout-change/SKILL.md" ]] &&
+    [[ -f "$ROOT_DIR/.codex/skills/closeout-pr/SKILL.md" ]]
+}
+
+case_closeout_tool_surface_supports_route_actions() {
+  local closeout_change="$ROOT_DIR/.octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+  grep -Fq 'Bash(git push *)' "$closeout_change" &&
+    grep -Fq 'git-branch-push.sh' "$closeout_change" &&
+    grep -Fq 'git-required-checks-at-ref.sh' "$closeout_change" &&
+    grep -Fq 'git-branch-hosted-preflight.sh' "$closeout_change" &&
+    grep -Fq 'git-branch-land-hosted-no-pr.sh' "$closeout_change"
+}
+
 main() {
   assert_success "default work unit validator passes live repo" case_live_repo_passes
   assert_success "quickstart has route matrix for all routes" case_quickstart_has_route_matrix
@@ -175,6 +195,8 @@ main() {
   assert_success "machine policy defines route-neutral ruleset target" case_policy_defines_route_neutral_ruleset_target
   assert_success "machine policy defines solo route selection semantics" case_policy_defines_solo_route_selection
   assert_success "receipt examples cover solo direct-main and branch-local routes" case_receipt_examples_cover_solo_routes
+  assert_success "closeout skills project to Codex" case_closeout_skills_project_to_codex
+  assert_success "closeout-change tool surface supports route actions" case_closeout_tool_surface_supports_route_actions
   echo
   echo "Passed: $pass_count"
   echo "Failed: $fail_count"

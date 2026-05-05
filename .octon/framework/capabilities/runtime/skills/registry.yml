@@ -3279,7 +3279,7 @@ skills:
         tech_tags: []
         language_tags: []
   closeout-pr:
-    version: 1.0.0
+    version: 1.0.1
     commands:
     - /closeout-pr
     parameters:
@@ -3287,6 +3287,10 @@ skills:
       type: text
       required: false
       description: Existing PR number or URL
+    - name: target_lifecycle_outcome
+      type: text
+      required: false
+      description: Optional requested PR-backed lifecycle target; must be one of published, ready, landed, cleaned, blocked, escalated, or denied
     - name: title
       type: text
       required: false
@@ -3345,7 +3349,8 @@ skills:
         format: yaml
         determinism: variable
         description: Top-level log index (cross-skill)
-    host_adapters: []
+    host_adapters:
+    - codex
     routing:
       selectors:
         include:
@@ -3355,7 +3360,7 @@ skills:
         tech_tags: []
         language_tags: []
   closeout-change:
-    version: 1.0.1
+    version: 1.0.2
     commands:
     - /closeout-change
     parameters:
@@ -3367,6 +3372,10 @@ skills:
       type: text
       required: false
       description: Optional preselected route; must be one of direct-main, branch-no-pr, branch-pr, stage-only-escalate
+    - name: target_lifecycle_outcome
+      type: text
+      required: false
+      description: Optional requested lifecycle target; must be resolved separately from actual lifecycle outcome
     - name: receipt_ref
       type: text
       required: false
@@ -3414,7 +3423,8 @@ skills:
         format: yaml
         determinism: variable
         description: Top-level log index (cross-skill)
-    host_adapters: []
+    host_adapters:
+    - codex
     routing:
       selectors:
         include:

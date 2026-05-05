@@ -48,6 +48,7 @@ operating_model:
       required:
         - "branch or worktree identity"
         - "explicit reason no PR is required"
+        - "target lifecycle outcome"
         - "local validation or recorded blocker"
         - "commit, patch, or checkpoint durable enough to resume"
         - "lifecycle outcome"
@@ -66,6 +67,8 @@ operating_model:
         - "claiming landed from patch, checkpoint, or branch-local commit evidence alone"
         - "claiming hosted landing from a pushed-only branch"
         - "claiming hosted landing while provider ruleset requires PR"
+        - "claiming pushed-branch handoff as completed closeout"
+        - "downgrading landed or cleaned target without landing evaluation and blocker reason"
         - "claiming full closeout while branch cleanup is pending"
         - "PR URL, PR number, or PR metadata"
     branch-pr:
@@ -181,6 +184,9 @@ validation:
     - "branch-no-pr hosted landing claim without provider route-neutral ruleset evidence"
     - "branch-no-pr hosted landing claim without exact source SHA checks"
     - "branch-no-pr hosted landing claim without origin/main equality"
+    - "published-branch reported as completed closeout"
+    - "target landed or cleaned outcome missing landing evaluation or blocker reason"
+    - "stale remote branch ref recorded as current branch publication evidence"
     - "branch-pr draft/open/ready state reported as full closeout"
     - "cleanup claim lacking local, remote, or worktree cleanup evidence or deferred-cleanup record"
     - "landed branch closeout reported complete while branch cleanup is pending"

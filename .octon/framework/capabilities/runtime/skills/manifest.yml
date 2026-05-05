@@ -1157,7 +1157,7 @@ skills:
     group: remediation
     path: remediation/closeout-change/
     skill_class: invocable
-    summary: "Route-neutral Change closeout for direct-main, branch-only, PR-backed, and stage-only outcomes."
+    summary: "Route-neutral Change closeout that separates route, target outcome, actual outcome, and evidence."
     status: active
     tags:
       - change

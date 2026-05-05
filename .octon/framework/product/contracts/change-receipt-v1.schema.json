@@ -8,7 +8,9 @@
     "schema_version",
     "change_id",
     "selected_route",
+    "target_lifecycle_outcome",
     "lifecycle_outcome",
+    "outcome_intent",
     "intent",
     "scope",
     "validation_evidence_refs",
@@ -37,6 +39,30 @@
         "stage-only-escalate"
       ]
     },
+    "operator_requested_route": {
+      "type": "string",
+      "enum": [
+        "direct-main",
+        "branch-no-pr",
+        "branch-pr",
+        "stage-only-escalate"
+      ]
+    },
+    "target_lifecycle_outcome": {
+      "type": "string",
+      "enum": [
+        "preserved",
+        "branch-local-complete",
+        "published-branch",
+        "published",
+        "ready",
+        "landed",
+        "cleaned",
+        "blocked",
+        "escalated",
+        "denied"
+      ]
+    },
     "lifecycle_outcome": {
       "type": "string",
       "enum": [
@@ -50,6 +76,21 @@
         "blocked",
         "escalated",
         "denied"
+      ]
+    },
+    "outcome_intent": {
+      "type": "string",
+      "enum": [
+        "preserve-only",
+        "local-only",
+        "handoff-only",
+        "attempt-landing",
+        "attempt-cleaned-closeout",
+        "record-blocker-only",
+        "pr-publication",
+        "pr-ready",
+        "pr-landing",
+        "direct-main-landing"
       ]
     },
     "intent": {
@@ -82,6 +123,33 @@
     "remote_branch_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "landing_evaluation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "not_applicable",
+            "not_attempted",
+            "eligible",
+            "attempted",
+            "blocked",
+            "succeeded",
+            "failed"
+          ]
+        },
+        "provider_ruleset_ref": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": "string", "minLength": 1 },
+        "target_ref": { "type": "string", "minLength": 1 },
+        "blocker_reason": { "type": "string", "minLength": 1 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
     },
     "hosted_landing": {
       "type": "object",
@@ -119,6 +187,31 @@
     "landed_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "not_landed_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "not_cleaned_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "main_alignment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_main_ref",
+        "origin_main_ref",
+        "landed_ref",
+        "aligned"
+      ],
+      "properties": {
+        "local_main_ref": { "type": "string", "minLength": 1 },
+        "origin_main_ref": { "type": "string", "minLength": 1 },
+        "landed_ref": { "type": "string", "minLength": 1 },
+        "aligned": { "const": true },
+        "verification_ref": { "type": "string", "minLength": 1 }
+      }
     },
     "integration_method": {
       "type": "string",
@@ -165,6 +258,25 @@
     "cleanup_evidence_refs": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
+    },
+    "source_branch_cleanup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["not_applicable", "pending", "completed", "deferred", "skipped", "blocked"]
+        },
+        "local_branch": { "type": "string", "minLength": 1 },
+        "remote_branch": { "type": "string", "minLength": 1 },
+        "worktree": { "type": "string", "minLength": 1 },
+        "blocker_reason": { "type": "string", "minLength": 1 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
     },
     "external_blocker_refs": {
       "type": "array",
@@ -233,6 +345,9 @@
       "then": {
         "required": ["source_branch_ref"],
         "properties": {
+          "target_lifecycle_outcome": {
+            "enum": ["preserved", "published", "ready", "landed", "cleaned", "blocked", "escalated", "denied"]
+          },
           "lifecycle_outcome": {
             "enum": ["preserved", "published", "ready", "landed", "cleaned", "blocked", "escalated", "denied"]
           },
@@ -247,6 +362,9 @@
       "then": {
         "required": ["source_branch_ref"],
         "properties": {
+          "target_lifecycle_outcome": {
+            "enum": ["preserved", "branch-local-complete", "published-branch", "landed", "cleaned", "blocked", "escalated", "denied"]
+          },
           "lifecycle_outcome": {
             "enum": ["preserved", "branch-local-complete", "published-branch", "landed", "cleaned", "blocked", "escalated", "denied"]
           },
@@ -304,6 +422,9 @@
             "properties": {
               "kind": { "const": "commit" }
             }
+          },
+          "closeout_outcome": {
+            "enum": ["continued", "blocked", "escalated", "denied"]
           }
         }
       }
@@ -323,6 +444,9 @@
           },
           "publication_status": {
             "const": "pushed-branch"
+          },
+          "closeout_outcome": {
+            "enum": ["continued", "blocked", "escalated", "denied"]
           }
         }
       }
@@ -339,9 +463,11 @@
       "then": {
         "required": [
           "hosted_landing",
+          "landing_evaluation",
           "landed_ref",
           "target_branch_ref",
-          "integration_method"
+          "integration_method",
+          "main_alignment"
         ],
         "properties": {
           "integration_status": {
@@ -363,6 +489,18 @@
           "hosted_landing": {
             "properties": {
               "fast_forward_only": { "const": true }
+            }
+          },
+          "landing_evaluation": {
+            "properties": {
+              "status": {
+                "enum": ["attempted", "succeeded"]
+              }
+            }
+          },
+          "main_alignment": {
+            "properties": {
+              "aligned": { "const": true }
             }
           }
         }
@@ -414,6 +552,9 @@
               "pr_url": { "type": "string", "minLength": 1 }
             },
             "required": ["kind", "ref", "pr_url"]
+          },
+          "closeout_outcome": {
+            "enum": ["continued", "blocked", "escalated", "denied"]
           }
         }
       }
@@ -470,6 +611,11 @@
               "pr_url": { "type": "string", "minLength": 1 }
             },
             "required": ["kind", "ref", "pr_url"]
+          },
+          "main_alignment": {
+            "properties": {
+              "aligned": { "const": true }
+            }
           }
         }
       }
@@ -477,8 +623,11 @@
     {
       "if": { "properties": { "selected_route": { "const": "direct-main" } } },
       "then": {
-        "required": ["landed_ref", "target_branch_ref"],
+        "required": ["landed_ref", "target_branch_ref", "main_alignment"],
         "properties": {
+          "target_lifecycle_outcome": {
+            "enum": ["landed", "cleaned"]
+          },
           "lifecycle_outcome": {
             "enum": ["landed", "cleaned"]
           },
@@ -495,6 +644,11 @@
             "properties": {
               "kind": { "const": "commit" }
             }
+          },
+          "main_alignment": {
+            "properties": {
+              "aligned": { "const": true }
+            }
           }
         }
       }
@@ -506,7 +660,7 @@
         }
       },
       "then": {
-        "required": ["landed_ref", "target_branch_ref", "integration_method"],
+        "required": ["landed_ref", "target_branch_ref", "integration_method", "main_alignment"],
         "properties": {
           "lifecycle_outcome": {
             "enum": ["landed", "cleaned"]
@@ -516,6 +670,11 @@
               "kind": {
                 "enum": ["commit", "branch", "pr"]
               }
+            }
+          },
+          "main_alignment": {
+            "properties": {
+              "aligned": { "const": true }
             }
           }
         }
@@ -530,7 +689,7 @@
         }
       },
       "then": {
-        "required": ["landed_ref", "target_branch_ref", "integration_method"],
+        "required": ["landed_ref", "target_branch_ref", "integration_method", "main_alignment"],
         "properties": {
           "integration_status": {
             "const": "landed"
@@ -541,6 +700,51 @@
                 "enum": ["commit", "branch", "pr"]
               }
             }
+          },
+          "main_alignment": {
+            "properties": {
+              "aligned": { "const": true }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target_lifecycle_outcome": {
+            "enum": ["landed", "cleaned"]
+          },
+          "integration_status": {
+            "enum": ["not_landed", "not_applicable"]
+          }
+        },
+        "required": ["target_lifecycle_outcome", "integration_status"]
+      },
+      "then": {
+        "required": ["landing_evaluation", "not_landed_reason"],
+        "properties": {
+          "closeout_outcome": {
+            "enum": ["continued", "stage_only", "blocked", "escalated", "denied"]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target_lifecycle_outcome": { "const": "cleaned" },
+          "lifecycle_outcome": {
+            "enum": ["preserved", "branch-local-complete", "published-branch", "published", "ready", "landed", "blocked", "escalated", "denied"]
+          }
+        },
+        "required": ["target_lifecycle_outcome", "lifecycle_outcome"]
+      },
+      "then": {
+        "required": ["not_cleaned_reason"],
+        "properties": {
+          "closeout_outcome": {
+            "enum": ["continued", "stage_only", "blocked", "escalated", "denied"]
           }
         }
       }
@@ -608,6 +812,7 @@
         }
       },
       "then": {
+        "required": ["source_branch_cleanup"],
         "properties": {
           "cleanup_status": {
             "enum": ["completed", "deferred"]
@@ -630,6 +835,9 @@
       "then": {
         "properties": {
           "lifecycle_outcome": {
+            "enum": ["preserved", "blocked", "escalated", "denied"]
+          },
+          "target_lifecycle_outcome": {
             "enum": ["preserved", "blocked", "escalated", "denied"]
           },
           "integration_status": {

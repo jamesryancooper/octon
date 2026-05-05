@@ -66,8 +66,18 @@ and `.octon/framework/product/contracts/default-work-unit.yml` remain the
 authoritative policy.
 
 Route selection starts from Change identity and chooses the execution or review
-channel the Change needs. Lifecycle outcome is recorded separately and answers
-how far through closeout the Change actually progressed.
+channel the Change needs. Target lifecycle outcome records what the operator or
+agent is trying to achieve. Lifecycle outcome is recorded separately and
+answers how far through closeout the Change actually progressed.
+
+When the operator asks for `branch-no-pr` closeout and does not name a target
+outcome, the agent must clarify whether the request is for pushed-branch
+handoff, hosted no-PR landing, or cleaned closeout. If the target is `landed`
+or `cleaned` but the actual result is only `published-branch`, the receipt must
+record landing evaluation evidence, `closeout_outcome: continued`, and a
+precise `not_landed_reason`. If the target is `cleaned` but cleanup cannot be
+completed or explicitly deferred, the receipt must also record
+`not_cleaned_reason`.
 
 - `direct-main`: low-risk solo Change, locally validated, landed directly on
   current clean `main`, pushed to `origin`, with a Change receipt and rollback
@@ -105,6 +115,9 @@ Branch-no-PR outcomes:
 - `branch-local-complete`: intended scope is committed on the branch; it is not
   landed on `main`.
 - `published-branch`: the branch is pushed for backup or handoff; no PR exists.
+  This is a continued handoff outcome, not completed closeout. It can satisfy a
+  handoff-only target, but it cannot satisfy a target outcome of `landed` or
+  `cleaned` without a recorded blocker.
 - `landed`: the branch Change is fast-forward integrated into hosted `main`
   without a PR, with provider ruleset evidence, exact source SHA validation,
   source branch push evidence, rollback handle, and post-push proof that
@@ -176,6 +189,7 @@ and the recorded landed ref are aligned after post-push checks complete.
 Every completed Change requires durable history:
 
 - Change identity and selected route.
+- Target lifecycle outcome and final lifecycle outcome.
 - Intent and scope.
 - Touched paths or diff reference.
 - Validation evidence at the selected floor.
@@ -184,6 +198,12 @@ Every completed Change requires durable history:
 - Lifecycle outcome, integration status, publication status, and cleanup status.
 - Rollback handle.
 - Closeout outcome and remaining blockers.
+
+When a receipt targets `landed` or `cleaned` but records a lower actual
+outcome, durable history must include landing evaluation evidence plus
+`not_landed_reason` or `not_cleaned_reason` as appropriate. A receipt that only
+records a pushed source branch is a handoff receipt and must not be reported as
+completed closeout.
 
 PR-backed Changes may project this information into PR bodies and checks, but
 the PR is not the authority source. No-PR Changes must retain equivalent local
@@ -234,6 +254,10 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
 - Do not bypass required validation, evidence, review, approval, or rollback
   obligations by selecting a no-PR route.
 - Do not claim a stage-only Change as landed or complete.
+- Do not claim `published-branch`, `branch-local-complete`, `published`, or
+  `ready` as completed closeout.
+- Do not downgrade a target outcome of `landed` or `cleaned` without recording
+  landing evaluation evidence and a precise blocker.
 - Do not claim `branch-no-pr` as hosted landed unless `origin/main` equals the
   recorded landed ref after the fast-forward push.
 - Do not claim full `branch-no-pr` or `branch-pr` closeout after landing while

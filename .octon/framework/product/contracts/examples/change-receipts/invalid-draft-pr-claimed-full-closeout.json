@@ -2,7 +2,9 @@
   "schema_version": "change-receipt-v1",
   "change_id": "example-invalid-draft-pr-claimed-full-closeout",
   "selected_route": "branch-pr",
+  "target_lifecycle_outcome": "ready",
   "lifecycle_outcome": "ready",
+  "outcome_intent": "pr-ready",
   "intent": "Intentionally invalid: a ready PR is not full closeout.",
   "scope": {
     "summary": "Invalid ready PR completion claim."

@@ -2,7 +2,9 @@
   "schema_version": "change-receipt-v1",
   "change_id": "example-direct-main-landed",
   "selected_route": "direct-main",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "direct-main-landing",
   "intent": "Demonstrate a low-risk solo Change landed directly on clean current main.",
   "scope": {
     "summary": "Example direct-main landed receipt.",
@@ -15,6 +17,13 @@
   },
   "target_branch_ref": "main@eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
   "landed_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "main_alignment": {
+    "local_main_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "origin_main_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "landed_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "aligned": true,
+    "verification_ref": "git rev-parse main origin/main@eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
   "integration_method": "direct-commit",
   "integration_status": "landed",
   "publication_status": "none",

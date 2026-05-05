@@ -2,7 +2,9 @@
   "schema_version": "change-receipt-v1",
   "change_id": "example-invalid-pushed-only-branch-claimed-landed",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-landing",
   "intent": "Intentionally invalid: a pushed branch alone is not hosted landing.",
   "scope": {
     "summary": "Invalid pushed-only branch landing claim."

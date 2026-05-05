@@ -2,7 +2,9 @@
   "schema_version": "change-receipt-v1",
   "change_id": "example-branch-no-pr-branch-local-complete",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "branch-local-complete",
   "lifecycle_outcome": "branch-local-complete",
+  "outcome_intent": "local-only",
   "intent": "Demonstrate branch-local completion without PR-backed review or hosted landing.",
   "scope": {
     "summary": "Example branch-no-pr branch-local-complete receipt.",

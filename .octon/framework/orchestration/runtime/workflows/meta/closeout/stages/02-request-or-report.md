@@ -12,35 +12,49 @@
    - report stage-only or escalation blockers
    - report ready-status without another prompt
 2. Mention PR mutation only when the selected route is `branch-pr`.
-3. For solo Changes on clean current `main`, consider direct-main before
+3. Choose the report posture from evidence:
+   - completed closeout only when the selected route, target outcome, actual
+     outcome, receipt, rollback, cleanup, and alignment evidence all agree
+   - continued handoff for `published-branch`, `branch-local-complete`,
+     `published`, or `ready`
+   - blocker receipt when required validation, landing, cleanup, sync, review,
+     or authority evidence is missing
+   - denial when policy or authority forbids the requested closeout action
+4. For solo Changes on clean current `main`, consider direct-main before
    branch-no-pr when all direct-main predicates are satisfied and no branch or
    PR predicate applies.
-4. For hosted `branch-no-pr` landing, require hosted no-PR landing preflight,
+5. For hosted `branch-no-pr` landing, require hosted no-PR landing preflight,
    exact source SHA required checks, a pushed source branch current with
    `origin/main`, fast-forward-only update evidence, and post-push proof that
    `origin/main` equals the recorded `landed_ref`.
-5. For `branch-no-pr` closeout that does not land on hosted `main`, push the
+6. For ambiguous `branch-no-pr` closeout intent, ask whether the target is
+   pushed-branch handoff, hosted no-PR landing, or cleaned closeout. Do not
+   infer `published-branch` as full closeout from a route-only instruction.
+7. For `branch-no-pr` closeout that does not land on hosted `main`, push the
    source branch to origin and record `remote_branch_ref`; otherwise report
-   branch-local state as local-only or incomplete.
-6. For landed `branch-no-pr` or `branch-pr` work, verify `origin/main`
+   branch-local state as local-only or incomplete. If the target was `landed`
+   or `cleaned`, also record landing evaluation evidence and
+   `not_landed_reason`.
+8. For landed `branch-no-pr` or `branch-pr` work, verify `origin/main`
    contains the landed commit or merge ref, verify post-landing checks and
    closeout evidence, clean up obsolete safe local and remote source branches,
    or record the precise deferred-cleanup blocker. Never delete protected
    branches, active work branches, unmerged branches, open-PR branches, or refs
    without retained evidence and rollback posture.
-7. After branch cleanup is complete or explicitly deferred, fetch origin, sync
+9. After branch cleanup is complete or explicitly deferred, fetch origin, sync
    local `main` to `origin/main`, and verify local `main`, `origin/main`, and
    the recorded `landed_ref` are aligned before declaring closeout complete.
-8. When blockers include PR-required provider rules for requested no-PR hosted
+10. When blockers include PR-required provider rules for requested no-PR hosted
    landing, red required checks, failing jobs, failing scripts,
    unresolved review conversations, missing validation evidence, missing
    receipt, or missing rollback handle, report closeout as incomplete and
    continue the route-appropriate remediation loop unless the blocker is
    explicitly external.
-9. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
+11. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
    as landed.
-10. Never report a draft/open PR or ready but unmerged PR as full closeout.
-11. Never restate the prompt matrix inline in ingress.
-12. If a compatibility fallback prompt is still needed for legacy adapters, cite
+12. Never report `published-branch`, `branch-local-complete`, `published`, or
+    `ready` as completed closeout.
+13. Never restate the prompt matrix inline in ingress.
+14. If a compatibility fallback prompt is still needed for legacy adapters, cite
    the workflow contract and retirement register rather than treating the
    prompt as canonical policy.

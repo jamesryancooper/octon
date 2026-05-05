@@ -75,7 +75,9 @@ case_valid_hosted_no_pr_receipt_passes() {
   "schema_version": "change-receipt-v1",
   "change_id": "valid-hosted-no-pr",
   "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-landing",
   "intent": "land branch without PR",
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/no-pr",
@@ -100,11 +102,30 @@ case_valid_hosted_no_pr_receipt_passes() {
     "push_refspec": "def0000000000000000000000000000000000000:refs/heads/main",
     "fast_forward_only": true
   },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "main-route-neutral-ruleset",
+    "source_ref": "def0000000000000000000000000000000000000",
+    "target_ref": "origin/main@def0000000000000000000000000000000000000",
+    "evidence_refs": ["route-neutral checks passed at def0000000000000000000000000000000000000"]
+  },
+  "main_alignment": {
+    "local_main_ref": "def0000000000000000000000000000000000000",
+    "origin_main_ref": "def0000000000000000000000000000000000000",
+    "landed_ref": "def0000000000000000000000000000000000000",
+    "aligned": true
+  },
   "integration_method": "fast-forward",
   "integration_status": "landed",
   "publication_status": "hosted-main-updated",
   "cleanup_status": "deferred",
   "cleanup_evidence_refs": ["cleanup deferred while operator remains on branch"],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "feature/no-pr",
+    "remote_branch": "origin/feature/no-pr",
+    "blocker_reason": "cleanup deferred while operator remains on branch"
+  },
   "validation_evidence_refs": ["route-neutral checks passed at def0000000000000000000000000000000000000"],
   "review_waiver_refs": ["solo maintainer no-PR route"],
   "durable_history": {"kind": "commit", "ref": "def0000000000000000000000000000000000000", "branch": "feature/no-pr"},

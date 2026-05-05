@@ -51,6 +51,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Verification Gate
 
 - [ ] Change route resolves from the default work unit policy
+- [ ] Target lifecycle outcome resolves before mutating hosted refs or deleting branches
 - [ ] Lifecycle outcome resolves separately from the selected route
 - [ ] direct-main, branch-no-pr, branch-pr, and stage-only-escalate contexts are distinguished
 - [ ] branch-no-pr preservation, branch-local completion, branch publication, no-PR landing, and cleanup outcomes are distinguished
@@ -58,6 +59,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] branch-pr published, ready, landed, and cleaned outcomes are distinguished
 - [ ] PR-specific mechanics are selected only after branch-pr routing
 - [ ] landed and cleaned claims require route-appropriate evidence
+- [ ] published-branch handoff cannot be reported as completed closeout
 - [ ] ingress remains a pointer to this workflow rather than an inline closeout policy surface
 
 ## References
