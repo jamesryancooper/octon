@@ -2326,6 +2326,62 @@ fn failed_run_measurement_artifacts_remain_workflow_agnostic() {
 }
 
 #[test]
+fn succeeded_run_finalize_reaches_closed_with_closeout_refs() {
+    let cfg = temp_runtime_config();
+    let policy = PolicyEngine::new(cfg.clone());
+    let mut request = minimal_request();
+    request.request_id = "successful-finalize-fixture".to_string();
+    request.action_type = "publish_capability_routing".to_string();
+    request.target_id = "capability-routing".to_string();
+
+    let grant = authorize_execution(&cfg, &policy, &request, None)
+        .expect("publication request should authorize");
+    let artifacts_root = cfg.execution_tmp_root.join(&request.request_id);
+    let artifact_effects = issue_execution_artifact_effects(
+        &artifacts_root,
+        &grant,
+        artifacts_root.display().to_string(),
+    )
+    .expect("artifact effects should issue");
+    let paths = write_execution_start(&artifacts_root, &request, &grant, &artifact_effects)
+        .expect("execution start should materialize");
+    let outcome = ExecutionOutcome {
+        status: "succeeded".to_string(),
+        started_at: "2026-05-05T00:00:00Z".to_string(),
+        completed_at: "2026-05-05T00:01:00Z".to_string(),
+        error: None,
+    };
+
+    finalize_execution(
+        &paths,
+        &request,
+        &grant,
+        &artifact_effects,
+        &outcome.started_at,
+        &outcome,
+        &SideEffectSummary::default(),
+    )
+    .expect("successful finalize should close the run");
+
+    let close_report = validate_run_lifecycle_operation(
+        &cfg.repo_root,
+        &request.request_id,
+        RunLifecycleOperation::Close,
+    )
+    .expect("closed successful run should satisfy closeout completeness");
+    assert_eq!(close_report.reconstructed_state, "closed");
+
+    let events = fs::read_to_string(
+        cfg.execution_control_root
+            .join("runs")
+            .join(&request.request_id)
+            .join("events.ndjson"),
+    )
+    .expect("read run journal");
+    assert!(events.contains(&format!("evt-run-closed-{}", request.request_id)));
+}
+
+#[test]
 fn missing_scenario_action_class_returns_stage_only() {
     let cfg = temp_runtime_config();
     seed_mission_autonomy_fixture(&cfg, "mission-f", "healthy");

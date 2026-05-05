@@ -965,12 +965,26 @@ fn validate_lifecycle_required_refs(
 }
 
 fn discover_repo_root(path: &Path) -> Option<PathBuf> {
-    for ancestor in path.ancestors() {
-        if ancestor.join(".octon").is_dir() {
-            return Some(ancestor.to_path_buf());
+    let mut current = if path.is_dir() {
+        path.to_path_buf()
+    } else {
+        path.parent()?.to_path_buf()
+    };
+    loop {
+        if current.file_name().and_then(|value| value.to_str()) == Some(".octon") {
+            let mut root = current.clone();
+            while root.file_name().and_then(|value| value.to_str()) == Some(".octon") {
+                root = root.parent()?.to_path_buf();
+            }
+            return Some(root);
+        }
+        if current.join(".octon").is_dir() {
+            return Some(current);
+        }
+        if !current.pop() {
+            return None;
         }
     }
-    None
 }
 
 fn normalize_lifecycle_ref(
@@ -2281,6 +2295,94 @@ mod tests {
             err,
             RuntimeBusError::IllegalLifecycleTransition { .. }
         ));
+    }
+
+    #[test]
+    fn append_event_allows_succeeded_run_closed_with_closeout_refs() {
+        let run_id = "run-closed-from-succeeded";
+        let (repo_root, root, control_root_ref) = unique_repo_run_control_root(run_id);
+        fs::create_dir_all(repo_root.join(".octon/.octon/generated"))
+            .expect("nested .octon marker fixture should be creatable");
+        assert_eq!(
+            discover_repo_root(&root).as_deref(),
+            Some(repo_root.as_path())
+        );
+        append_event(&root, sample_request(run_id, &control_root_ref, "evt-001"))
+            .expect("bound append should succeed");
+
+        let mut authorized = sample_request(run_id, &control_root_ref, "evt-002");
+        authorized.event_type = "authority-resolved".to_string();
+        authorized.lifecycle.state_before = Some("bound".to_string());
+        authorized.lifecycle.state_after = Some("authorized".to_string());
+        authorized.governing_refs.authority_route_receipt_ref =
+            Some(format!("{control_root_ref}/authority/decision.yml"));
+        authorized.governing_refs.grant_bundle_ref =
+            Some(format!("{control_root_ref}/authority/grant-bundle.yml"));
+        authorized.governing_refs.context_pack_ref = Some(format!(
+            ".octon/state/evidence/runs/{run_id}/context/context-pack.json"
+        ));
+        append_event(&root, authorized).expect("authorized append should succeed");
+
+        let mut running = sample_request(run_id, &control_root_ref, "evt-003");
+        running.event_type = "capability-invoked".to_string();
+        running.lifecycle.state_before = Some("authorized".to_string());
+        running.lifecycle.state_after = Some("running".to_string());
+        running.governing_refs.grant_bundle_ref =
+            Some(format!("{control_root_ref}/authority/grant-bundle.yml"));
+        running.governing_refs.stage_attempt_ref =
+            Some(format!("{control_root_ref}/stage-attempts/initial.yml"));
+        append_event(&root, running).expect("running append should succeed");
+
+        let mut succeeded = sample_request(run_id, &control_root_ref, "evt-004");
+        succeeded.event_type = "capability-completed".to_string();
+        succeeded.lifecycle.state_before = Some("running".to_string());
+        succeeded.lifecycle.state_after = Some("succeeded".to_string());
+        succeeded.subject_ref = Some(format!(
+            ".octon/state/evidence/runs/{run_id}/receipts/execution-receipt.json"
+        ));
+        append_event(&root, succeeded).expect("succeeded append should succeed");
+
+        let mut checkpoint = sample_request(run_id, &control_root_ref, "evt-005");
+        checkpoint.event_type = "checkpoint-created".to_string();
+        checkpoint.lifecycle.state_before = Some("succeeded".to_string());
+        checkpoint.lifecycle.state_after = Some("succeeded".to_string());
+        checkpoint.governing_refs.checkpoint_ref =
+            Some(format!("{control_root_ref}/checkpoints/execution-complete.yml"));
+        append_event(&root, checkpoint).expect("checkpoint append should succeed");
+
+        let (review_ref, completeness_ref, evidence_snapshot_ref, disclosure_ref) =
+            prepare_closeout_artifacts(&repo_root, run_id, &root, &control_root_ref, 0, "resolved");
+
+        let mut disclosure = sample_request(run_id, &control_root_ref, "evt-006");
+        disclosure.event_type = "run-card-published".to_string();
+        disclosure.lifecycle.state_before = Some("succeeded".to_string());
+        disclosure.lifecycle.state_after = Some("succeeded".to_string());
+        disclosure.subject_ref = Some(disclosure_ref.clone());
+        disclosure.governing_refs.disclosure_ref = Some(disclosure_ref.clone());
+        append_event(&root, disclosure).expect("run-card append should succeed");
+
+        refresh_journal_snapshot(&repo_root, run_id, &root);
+
+        let mut snapshot = sample_request(run_id, &control_root_ref, "evt-007");
+        snapshot.event_type = "evidence-snapshot-created".to_string();
+        snapshot.lifecycle.state_before = Some("succeeded".to_string());
+        snapshot.lifecycle.state_after = Some("succeeded".to_string());
+        snapshot.subject_ref = Some(evidence_snapshot_ref.clone());
+        snapshot.governing_refs.evidence_snapshot_ref = Some(evidence_snapshot_ref.clone());
+        snapshot.governing_refs.disclosure_ref = Some(disclosure_ref.clone());
+        append_event(&root, snapshot).expect("snapshot append should succeed");
+
+        refresh_journal_snapshot(&repo_root, run_id, &root);
+
+        let mut close = sample_request(run_id, &control_root_ref, "evt-008");
+        close.event_type = "run-closed".to_string();
+        close.lifecycle.state_before = Some("succeeded".to_string());
+        close.lifecycle.state_after = Some("closed".to_string());
+        close.subject_ref = Some(format!("{control_root_ref}/runtime-state.yml"));
+        close.governing_refs.evidence_snapshot_ref = Some(evidence_snapshot_ref);
+        close.governing_refs.disclosure_ref = Some(disclosure_ref);
+        close.governing_refs.additional_refs = vec![review_ref, completeness_ref];
+        append_event(&root, close).expect("run-closed append should succeed");
     }
 
     #[test]
