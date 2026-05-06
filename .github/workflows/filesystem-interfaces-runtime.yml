@@ -1,6 +1,7 @@
 name: filesystem-interfaces-runtime
 
 on:
+  workflow_dispatch: {}
   push:
     branches:
       - main
@@ -50,16 +51,24 @@ jobs:
     name: detect-filesystem-validation-scope
     runs-on: ubuntu-latest
     outputs:
-      runtime_required: ${{ steps.scope.outputs.runtime_required }}
-      perf_required: ${{ steps.scope.outputs.perf_required }}
+      runtime_required: ${{ steps.manual_scope.outputs.runtime_required || steps.scope.outputs.runtime_required }}
+      perf_required: ${{ steps.manual_scope.outputs.perf_required || steps.scope.outputs.perf_required }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
+      - id: manual_scope
+        name: Select manual validation scope
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "runtime_required=true" >> "$GITHUB_OUTPUT"
+          echo "perf_required=true" >> "$GITHUB_OUTPUT"
+
       - id: scope
         name: Detect runtime and perf scope
+        if: github.event_name != 'workflow_dispatch'
         uses: dorny/paths-filter@v3
         with:
           filters: |
