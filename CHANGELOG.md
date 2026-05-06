@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.61](https://github.com/jamesryancooper/octon/compare/octon-v0.6.60...octon-v0.6.61) (2026-05-06)
+
+
+### Bug Fixes
+
+* **architecture:** refresh run health projections ([15d0245](https://github.com/jamesryancooper/octon/commit/15d0245848d79d65319de26a253ea1f278aaab96))
+* **release:** refresh generated state on release prs ([3578045](https://github.com/jamesryancooper/octon/commit/3578045a33ea8658ffc229bdb8e4abc8cabc69d5))
+
 ## [0.6.60](https://github.com/jamesryancooper/octon/compare/octon-v0.6.59...octon-v0.6.60) (2026-05-06)
 
 
