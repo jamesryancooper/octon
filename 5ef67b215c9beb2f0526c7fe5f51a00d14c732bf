@@ -1,0 +1,91 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "mission-plan-compiler-layer-branch-no-pr",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "published-branch",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "handoff-only",
+  "intent": "Close out the Mission Plan Compiler Layer Change on a branch without opening a PR.",
+  "scope": {
+    "summary": "Promoted the Mission Plan Compiler Layer architecture into runtime specs, schemas, workflow stages, validation scripts, governance policy, generated proposal registry state, archived proposal packet evidence, and closeout evidence.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-plan-compiler.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-mission-plan-compiler.sh",
+      ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+      ".octon/framework/constitution/contracts/registry.yml",
+      ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+      ".octon/framework/engine/runtime/spec/evidence-store-v1.md",
+      ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+      ".octon/framework/engine/runtime/spec/mission-plan-v1.md",
+      ".octon/framework/engine/runtime/spec/mission-plan-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/plan-compile-receipt-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/plan-dependency-edge-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/plan-drift-record-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/plan-node-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/plan-revision-record-v1.schema.json",
+      ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md",
+      ".octon/framework/orchestration/runtime/missions/README.md",
+      ".octon/framework/orchestration/runtime/runs/README.md",
+      ".octon/framework/orchestration/runtime/workflows/missions/derive-mission-plan/",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/mission-plan-compiler-layer/",
+      ".octon/instance/governance/policies/hierarchical-planning.yml",
+      ".octon/state/evidence/runs/skills/octon-proposal-packet-lifecycle-closeout/2026-05-06-mission-plan-compiler-layer-closeout.md",
+      ".octon/state/evidence/validation/assurance/results/contract-coverage-latest.md"
+    ],
+    "diff_refs": [
+      "origin/chore/mission-plan-compiler-layer-closeout@5ef67b215c9beb2f0526c7fe5f51a00d14c732bf"
+    ]
+  },
+  "source_branch_ref": "chore/mission-plan-compiler-layer-closeout",
+  "remote_branch_ref": "origin/chore/mission-plan-compiler-layer-closeout@5ef67b215c9beb2f0526c7fe5f51a00d14c732bf",
+  "landing_evaluation": {
+    "status": "not_applicable",
+    "blocker_reason": "Target outcome was pushed branch handoff; hosted no-PR landing was not requested for this closeout."
+  },
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Source branch retained because branch-no-pr selected pushed branch handoff rather than hosted main landing.",
+    "No PR exists for source branch chore/mission-plan-compiler-layer-closeout as verified by gh pr list."
+  ],
+  "validation_evidence_refs": [
+    "generate-proposal-registry.sh --write: pass, errors=0.",
+    "validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/mission-plan-compiler-layer --skip-registry-check: pass, errors=0 warnings=0.",
+    "validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/mission-plan-compiler-layer: pass, errors=0.",
+    "validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/mission-plan-compiler-layer: pass, errors=0 warnings=0.",
+    "validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/mission-plan-compiler-layer: pass, errors=0 warnings=0.",
+    "validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/mission-plan-compiler-layer: pass, errors=0 warnings=0.",
+    "validate-mission-plan-compiler.sh: pass, errors=0.",
+    "test-mission-plan-compiler.sh: pass.",
+    "validate-architecture-contract-registry.sh: pass, errors=0.",
+    "validate-runtime-docs-consistency.sh: pass, errors=0.",
+    "shasum -a 256 -c archived packet support/SHA256SUMS.txt: pass.",
+    "git diff --check: pass before commit.",
+    "git diff --cached --check: pass before commit.",
+    "validate-contract-governance.sh: known external blocker, errors=12 for pre-existing _ops fixture boundary violations plus script line 551 _ops command issue."
+  ],
+  "review_waiver_refs": [
+    "Operator explicitly selected branch without PR.",
+    "No PR was opened or used for this closeout route."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "5ef67b215c9beb2f0526c7fe5f51a00d14c732bf",
+    "branch": "chore/mission-plan-compiler-layer-closeout"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/mission-plan-compiler-layer-closeout",
+    "instructions": "Delete or reset local and remote branch chore/mission-plan-compiler-layer-closeout if this branch-no-pr Change is abandoned before hosted landing."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Published branch handoff is not landed on main.",
+    "Source branch is intentionally retained for no-PR branch handoff."
+  ],
+  "created_at": "2026-05-06T00:00:00Z"
+}
