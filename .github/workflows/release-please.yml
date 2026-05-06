@@ -19,6 +19,8 @@ jobs:
   release-please:
     name: release-please
     runs-on: ubuntu-latest
+    env:
+      RELEASE_BRANCH: release-please--branches--main--components--octon
     steps:
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -83,6 +85,57 @@ jobs:
           echo "attempt=${{ steps.release.outputs.attempt }}"
           echo "prs_created=${{ steps.release.outputs.prs_created }}"
           echo "releases_created=${{ steps.release.outputs.releases_created }}"
+
+      - name: Refresh generated effective state on release PR
+        env:
+          GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          publication_paths=(
+            .octon/generated/effective/capabilities
+            .octon/generated/effective/extensions
+            .octon/generated/effective/runtime
+            .octon/state/control/extensions
+            .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+            .octon/state/evidence/validation/compatibility/extensions
+            .octon/state/evidence/validation/extensions/prompt-alignment
+            .octon/state/evidence/validation/publication/capabilities
+            .octon/state/evidence/validation/publication/extensions
+            .octon/state/evidence/validation/publication/runtime
+          )
+
+          release_pr_count="$(
+            gh pr list \
+              --state open \
+              --head "${RELEASE_BRANCH}" \
+              --json number \
+              --jq 'length'
+          )"
+          if [[ "${release_pr_count}" -eq 0 ]]; then
+            echo "No open release PR found for ${RELEASE_BRANCH}; skipping runtime-effective refresh."
+            exit 0
+          fi
+
+          git fetch --depth=1 origin "${RELEASE_BRANCH}"
+          git checkout -B "${RELEASE_BRANCH}" FETCH_HEAD
+
+          bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
+          bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/publish-pack-routes.sh
+          bash .octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh
+          .octon/framework/engine/runtime/run validate
+
+          if [[ -z "$(git status --porcelain -- "${publication_paths[@]}")" ]]; then
+            echo "Generated effective state is already current for ${RELEASE_BRANCH}."
+            exit 0
+          fi
+
+          git status --short -- "${publication_paths[@]}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "${publication_paths[@]}"
+          git commit -m "chore(release): refresh generated effective state"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" "HEAD:${RELEASE_BRANCH}"
 
       - name: Upload protected execution receipt
         if: always()

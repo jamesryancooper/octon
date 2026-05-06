@@ -20,6 +20,9 @@ on:
       - '.octon/framework/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
       - '.octon/framework/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
       - '.octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
+      - '.octon/generated/effective/capabilities/**'
+      - '.octon/generated/effective/extensions/**'
+      - '.octon/generated/effective/runtime/**'
       - '.github/workflows/filesystem-interfaces-runtime.yml'
   pull_request:
     paths:
@@ -37,6 +40,9 @@ on:
       - '.octon/framework/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
       - '.octon/framework/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
       - '.octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/contracts/perf-regression-baseline.tsv'
+      - '.octon/generated/effective/capabilities/**'
+      - '.octon/generated/effective/extensions/**'
+      - '.octon/generated/effective/runtime/**'
       - '.github/workflows/filesystem-interfaces-runtime.yml'
 
 permissions:
@@ -85,6 +91,9 @@ jobs:
               - '.octon/framework/capabilities/runtime/services/_ops/scripts/build-filesystem-interfaces-benchmark-fixture.sh'
               - '.octon/framework/capabilities/runtime/services/_ops/scripts/test-filesystem-interfaces-slo.sh'
               - '.octon/framework/capabilities/runtime/services/_ops/scripts/tune-filesystem-interfaces-slo-budgets.sh'
+              - '.octon/generated/effective/capabilities/**'
+              - '.octon/generated/effective/extensions/**'
+              - '.octon/generated/effective/runtime/**'
               - '.github/workflows/filesystem-interfaces-runtime.yml'
               - '!.octon/framework/capabilities/runtime/services/interfaces/**/SERVICE.md'
               - '!.octon/framework/capabilities/runtime/services/interfaces/**/contract.md'
