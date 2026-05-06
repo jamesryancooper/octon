@@ -1,0 +1,120 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-packet-run-implementation-2026-05-06",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Add the proposal packet lifecycle run-implementation bundle and publish the generated extension and capability surfaces.",
+  "scope": {
+    "summary": "Introduced the proposal packet lifecycle run-implementation command, skill, prompt bundle, routing metadata, generated host projections, publication state, and retained validation evidence.",
+    "touched_paths": [
+      ".octon/framework/orchestration/extensions/octon-proposal-packet-lifecycle/**",
+      ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/**",
+      ".octon/generated/effective/extensions/**",
+      ".octon/generated/effective/capabilities/**",
+      ".octon/state/control/extensions/**",
+      ".octon/state/control/capabilities/**",
+      ".octon/state/evidence/validation/**",
+      ".claude/**",
+      ".codex/**",
+      ".cursor/**"
+    ],
+    "diff_refs": [
+      "origin/main@4c9a5327bdfb9e10f5ad39def49a3c9b0b225d57..cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-packet-run-implementation-closeout",
+  "target_branch_ref": "origin/main@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+  "remote_branch_ref": "origin/chore/proposal-packet-run-implementation-closeout@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/proposal-packet-run-implementation-closeout",
+    "source_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "target_pre_ref": "4c9a5327bdfb9e10f5ad39def49a3c9b0b225d57",
+    "target_post_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "validated_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+      "branch_naming_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+      "route_aware_autonomy_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+      "exact_source_sha_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4"
+    ],
+    "provider_ruleset_ref": "github:repos/jamesryancooper/octon/rules/branches/main@2026-05-06T11:30:56Z",
+    "push_refspec": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "github:repos/jamesryancooper/octon/rules/branches/main@2026-05-06T11:30:56Z",
+    "source_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "target_ref": "origin/main@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+      "git-branch-land-hosted-no-pr.sh@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+      "github:required-checks@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4"
+    ]
+  },
+  "landed_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+  "main_alignment": {
+    "local_main_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "origin_main_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "landed_ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "aligned": true,
+    "verification_ref": "git rev-parse main origin/main HEAD == cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-cleanup.sh --branch chore/proposal-packet-run-implementation-closeout --landed-ref cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4 --delete-remote --confirm",
+    "no-open-pr@chore/proposal-packet-run-implementation-closeout",
+    "deleted-local-branch@chore/proposal-packet-run-implementation-closeout",
+    "deleted-remote-branch@origin/chore/proposal-packet-run-implementation-closeout",
+    "local-main-synced@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/proposal-packet-run-implementation-closeout",
+    "remote_branch": "origin/chore/proposal-packet-run-implementation-closeout",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      "local branch contained in origin/main before deletion",
+      "remote branch contained in origin/main before deletion",
+      "gh pr list --head chore/proposal-packet-run-implementation-closeout --state open == 0"
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --check@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "validate-extension-pack-contract.sh:errors=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "test-pack-shape.sh:passed=142,failed=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "test-authority-boundaries.sh:passed=4,failed=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "test-route-resolution.sh:passed=190,failed=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "validate-extension-publication-state.sh:errors=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "validate-capability-publication-state.sh:errors=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "validate-host-projections.sh:errors=0@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "route_neutral_closeout_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "branch_naming_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "route_aware_autonomy_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "exact_source_sha_validation@cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4"
+  ],
+  "review_waiver_refs": [
+    "operator-selected branch-no-pr route with no PR requested",
+    "live provider rules allowed route-neutral fast-forward update"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "branch": "chore/proposal-packet-run-implementation-closeout"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4",
+    "instructions": "Run git revert cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4 on main, validate, and push origin main under the same route policy if rollback is needed."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-06T11:30:56Z"
+}
