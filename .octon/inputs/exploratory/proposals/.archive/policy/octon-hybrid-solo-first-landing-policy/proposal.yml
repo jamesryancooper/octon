@@ -34,7 +34,20 @@ promotion_targets:
   - .octon/framework/assurance/runtime/_ops/tests/test-default-work-unit-alignment.sh
   - .octon/framework/assurance/runtime/_ops/tests/test-git-github-workflow-alignment.sh
   - .octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh
-status: in-review
+status: archived
+archive:
+  archived_at: "2026-05-06"
+  archived_from_status: in-review
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/policy/octon-hybrid-solo-first-landing-policy
+  promotion_evidence:
+    - .octon/inputs/exploratory/proposals/.archive/policy/octon-hybrid-solo-first-landing-policy/support/implementation-grade-completeness-review.md
+    - .octon/inputs/exploratory/proposals/.archive/policy/octon-hybrid-solo-first-landing-policy/support/implementation-conformance-review.md
+    - .octon/inputs/exploratory/proposals/.archive/policy/octon-hybrid-solo-first-landing-policy/support/post-implementation-drift-churn-review.md
+    - .octon/state/evidence/control/execution/github-rulesets/2026-05-04-route-neutral-main-migration/post-migration-result.md
+    - .octon/state/evidence/control/execution/github-rulesets/2026-05-04-route-neutral-main-migration/post-migration-main-ruleset.json
+    - .octon/framework/product/contracts/default-work-unit.yml
+    - .octon/framework/product/contracts/change-receipt-v1.schema.json
 lifecycle:
   temporary: true
   exit_expectation: Promote Octon-internal hybrid landing policy, helpers, and validators; then execute a linked repo-local GitHub projection packet before changing the live main ruleset.

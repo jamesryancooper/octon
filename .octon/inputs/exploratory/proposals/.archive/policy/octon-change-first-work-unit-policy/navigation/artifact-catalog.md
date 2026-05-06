@@ -30,4 +30,6 @@
 
 - `support/creation-prompt.md`
 - `support/executable-implementation-prompt.md`
+- `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/post-implementation-drift-churn-review.md`

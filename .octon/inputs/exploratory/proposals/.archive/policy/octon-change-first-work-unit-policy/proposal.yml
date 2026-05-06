@@ -114,7 +114,26 @@ promotion_targets:
   - .octon/instance/bootstrap/conventions.md
   - .octon/framework/capabilities/runtime/commands/alignment-check.md
   - .octon/framework/capabilities/runtime/commands/manifest.yml
-status: in-review
+status: archived
+archive:
+  archived_at: "2026-05-06"
+  archived_from_status: in-review
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/policy/octon-change-first-work-unit-policy
+  promotion_evidence:
+    - .octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-work-unit-policy/support/implementation-grade-completeness-review.md
+    - .octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-work-unit-policy/support/implementation-conformance-review.md
+    - .octon/inputs/exploratory/proposals/.archive/policy/octon-change-first-work-unit-policy/support/post-implementation-drift-churn-review.md
+    - .octon/framework/product/contracts/default-work-unit.md
+    - .octon/framework/product/contracts/default-work-unit.yml
+    - .octon/framework/product/contracts/change-receipt-v1.schema.json
+    - .octon/framework/constitution/contracts/runtime/change-package-v1.schema.json
+    - .octon/framework/engine/runtime/spec/change-package-v1.schema.json
+    - .octon/framework/engine/runtime/spec/engagement-change-package-compiler-v1.md
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh
+    - .octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh
+    - .octon/framework/assurance/runtime/_ops/tests/test-engagement-change-package-compiler.sh
+    - .octon/instance/bootstrap/START.md
 lifecycle:
   temporary: true
   exit_expectation: Promote the Change-first policy into durable product and execution contracts, complete the Work Package to Change Package cutover without aliases or shims, update downstream workflow references, validate adapter alignment, then archive this proposal packet.

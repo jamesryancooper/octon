@@ -21,6 +21,8 @@ The packet is exploratory proposal material. It does not modify runtime policy u
 11. `support/creation-prompt.md`
 12. `support/implementation-grade-completeness-review.md`
 13. `support/executable-implementation-prompt.md`
+14. `support/implementation-conformance-review.md`
+15. `support/post-implementation-drift-churn-review.md`
 
 ## Scope
 

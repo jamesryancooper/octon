@@ -73,6 +73,11 @@ unresolved_items_count: 0
 
 - Live GitHub ruleset mutation remains outside this packet.
 - Repo-local `.github/**` workflow changes remain outside this packet.
+- `.octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh`
+  intentionally contains the legacy `Work Package` phrase only inside its own
+  negative-control detector pattern. That detector-string occurrence is
+  excluded from naming drift because the validator uses it to reject active
+  legacy terminology elsewhere.
 
 ## Final Closeout Recommendation
 

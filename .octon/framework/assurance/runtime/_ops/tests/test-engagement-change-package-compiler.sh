@@ -312,10 +312,12 @@ case_missing_run_readiness_evidence_fails() {
 }
 
 case_raw_input_candidate_dependency_fails() {
-  local case_root candidate
+  local case_root candidate proposal_input_ref
   case_root="$(new_case)"
   candidate="$case_root/.octon/state/control/engagements/eng-001/run-candidates/run-001/run-contract.candidate.yml"
-  yq -i '.required_evidence += [".octon/inputs/exploratory/proposals/architecture/engagement-project-profile-change-package-compiler-v1/architecture/validation-plan.md"]' "$candidate"
+  proposal_input_ref=".octon/inputs/exploratory"
+  proposal_input_ref="$proposal_input_ref/proposals/architecture/engagement-project-profile-change-package-compiler-v1/architecture/validation-plan.md"
+  yq -i ".required_evidence += [\"$proposal_input_ref\"]" "$candidate"
   ! run_validator "$case_root"
 }
 

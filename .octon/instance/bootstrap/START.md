@@ -158,9 +158,9 @@ widen support, or turn non-Octon systems into federation peers.
 `/.octon/inputs/exploratory/ideation/**` remains human-led. Autonomous access
 is blocked unless a human explicitly scopes the request.
 
-Proposal packets under `/.octon/inputs/exploratory/proposals/**` may inform
-review or promotion work, but they remain non-authoritative lineage until their
-content is promoted outside `inputs/**`.
+Exploratory proposal packets may inform review or promotion work, but they
+remain non-authoritative lineage until their content is promoted outside
+`inputs/**`.
 
 ## Additive Inputs
 
