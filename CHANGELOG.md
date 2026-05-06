@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.59](https://github.com/jamesryancooper/octon/compare/octon-v0.6.58...octon-v0.6.59) (2026-05-06)
+
+
+### Features
+
+* **octon:** add mission plan compiler layer ([d24f9d5](https://github.com/jamesryancooper/octon/commit/d24f9d5a3fc37163f627f0dfcfb40d2901336b85))
+* **octon:** add proposal packet implementation runner ([cecea1f](https://github.com/jamesryancooper/octon/commit/cecea1fcf77abe3e0f0fdc57b1040259c1c7c5b4))
+
+
+### Bug Fixes
+
+* **octon:** align mission plan compiler gates ([c937d72](https://github.com/jamesryancooper/octon/commit/c937d72496c4d814d76217d9cb40cafd36838b91))
+
 ## [0.6.58](https://github.com/jamesryancooper/octon/compare/octon-v0.6.57...octon-v0.6.58) (2026-05-05)
 
 
