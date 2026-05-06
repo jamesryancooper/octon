@@ -18,6 +18,14 @@ It is not a context-pack receipt and cannot satisfy authorization until the
 Context Pack Builder emits retained run context evidence and a valid
 `context-pack-receipt-v1`.
 
+Mission plan compilation may prepare context-pack requests for ready PlanNode
+leaves; planning refs may enter a context pack only with source-class
+preservation: mission authority remains authority, planning control remains
+control, planning evidence remains evidence, generated planning views remain
+derived, and proposal-local or raw-input planning material remains
+non-authoritative. A planning context-pack request is not a receipt and cannot
+satisfy authorization until the builder emits retained run context evidence.
+
 ## Required Boundary
 
 For any consequential or boundary-sensitive Run, authorization must fail closed

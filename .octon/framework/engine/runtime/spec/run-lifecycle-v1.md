@@ -110,6 +110,11 @@ doing so does not advance lifecycle state or create a material side effect.
 - Control refs and retained evidence refs must remain distinct: control journal
   refs decide live lifecycle state; retained evidence refs prove, replay, and
   disclose what happened.
+- Mission planning refs may be recorded as lineage for why a run was drafted,
+  but MissionPlan, PlanNode, and PlanCompileReceipt artifacts do not create,
+  advance, repair, or close run lifecycle state. Planned leaves must still bind
+  a run contract, build context, pass authorization, emit retained run evidence,
+  and append canonical journal events before material execution.
 
 ## Notes
 

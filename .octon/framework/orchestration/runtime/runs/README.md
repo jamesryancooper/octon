@@ -53,3 +53,8 @@ runs/
   `/.octon/state/evidence/runs/`.
 - Do not let `index.yml`, `<run-id>.yml`, or `by-surface/` outrank the
   canonical run-control root.
+- Mission planning linkage may explain why a run was drafted, but MissionPlan,
+  PlanNode, and compile-receipt refs are never run authority. A planned leaf
+  must still bind a run contract, build a context pack, pass
+  `authorize_execution`, emit retained run evidence, and journal canonical run
+  transitions before any material execution occurs.

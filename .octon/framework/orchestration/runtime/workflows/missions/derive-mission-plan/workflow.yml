@@ -1,0 +1,192 @@
+---
+schema_version: workflow-contract-v2
+name: derive-mission-plan
+description: Derive a mission-bound planning tree and compile ready leaves to governed execution candidates without authorizing execution.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+    - mission_id
+  format: workflow:{workflow_group}/{workflow_id}:{mission_id}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: mission_id
+    type: text
+    required: true
+    description: Existing mission id or approved mission candidate id.
+  - name: plan_id
+    type: text
+    required: true
+    description: Kebab-case plan id under the mission-local plan control root.
+stages:
+  - id: bind-mission
+    asset: stages/01-bind-mission.md
+    kind: analysis
+    consumes: []
+    produces:
+      - stage:bind-mission
+    mutation_scope: []
+    authorization: &analysis_authorization
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: draft-plan
+    asset: stages/02-draft-plan.md
+    kind: mutation
+    consumes:
+      - stage:bind-mission
+    produces:
+      - stage:draft-plan
+    mutation_scope: &planning_scope
+      - mission-plan-control
+      - planning-evidence
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: true
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+          - mission-authority
+        write: *planning_scope
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+  - id: critic-and-readiness
+    asset: stages/03-critic-and-readiness.md
+    kind: analysis
+    consumes:
+      - stage:draft-plan
+    produces:
+      - stage:critic-and-readiness
+    mutation_scope: []
+    authorization: *analysis_authorization
+  - id: compile-leaves
+    asset: stages/04-compile-leaves.md
+    kind: mutation
+    consumes:
+      - stage:critic-and-readiness
+    produces:
+      - stage:compile-leaves
+    mutation_scope: *planning_scope
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: true
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+          - mission-authority
+          - mission-plan-control
+        write: *planning_scope
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+  - id: update-from-evidence
+    asset: stages/05-update-from-evidence.md
+    kind: mutation
+    consumes:
+      - stage:compile-leaves
+    produces:
+      - stage:update-from-evidence
+    mutation_scope: *planning_scope
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: true
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+          - mission-authority
+          - mission-plan-control
+          - run-evidence
+        write: *planning_scope
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+artifacts: []
+done_gate:
+  checks:
+    - mission binding cites durable mission authority and digest
+    - critic and readiness checks pass or block compile
+    - compiled leaves produce only action-slice candidates, run-contract drafts, context-pack requests, authorization requests, rollback refs, and evidence requirements
+    - plan updates cite retained run journal, authorization, effect, evidence-store, rollback, intervention, or validation records
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true
+  planning_authorizes_execution: false

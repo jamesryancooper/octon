@@ -155,6 +155,29 @@ denied, or waiting on a Decision Request:
 Generated engagement or Change Package read models may summarize those roots, but
 they never satisfy evidence requirements by themselves.
 
+## Minimum Mission Planning Evidence Bundle
+
+Mission planning evidence is preparation evidence, not run execution evidence.
+The Mission Plan Compiler retains enough evidence to prove why a plan revision,
+readiness result, compile result, drift finding, or planning closeout is valid:
+
+- plan revision evidence under
+  `/.octon/state/evidence/control/execution/planning/<plan-id>/revisions/**`
+- compile receipts under
+  `/.octon/state/evidence/control/execution/planning/<plan-id>/compile/**`
+- drift records under
+  `/.octon/state/evidence/control/execution/planning/<plan-id>/drift/**`
+- readiness, duplicate, dependency, policy, and authority-boundary checks under
+  `/.octon/state/evidence/control/execution/planning/<plan-id>/checks/**`
+- planning closeout evidence under
+  `/.octon/state/evidence/control/execution/planning/<plan-id>/closeout.yml`
+
+Planning evidence may link to run evidence, but it never substitutes for
+`/.octon/state/evidence/runs/<run-id>/**`, run disclosure, Run Journal
+snapshots, authorization receipts, effect-token receipts, or rollback evidence.
+Generated planning views may summarize these roots only as derived operator read
+models.
+
 ## Completeness Rules
 
 Run or release closeout is valid only when:

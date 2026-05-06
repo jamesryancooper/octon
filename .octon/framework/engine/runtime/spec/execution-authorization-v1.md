@@ -59,6 +59,11 @@ artifacts, and grant bundles under `state/control/execution/**` and
 - Labels, comments, checks, and similar host affordances are projections only;
   policy evaluation ignores them whenever they disagree with canonical
   approval artifacts.
+- Plan leaves may prepare authorization requests, but they never become grants.
+  MissionPlan, PlanNode, and PlanCompileReceipt artifacts are compiler evidence
+  or control lineage only. Material effects still require a valid
+  `GrantBundle`, typed `AuthorizedEffect<T>`, verified `VerifiedEffect<T>`,
+  retained receipt, and Run Journal coverage.
 
 ## Related Contracts
 

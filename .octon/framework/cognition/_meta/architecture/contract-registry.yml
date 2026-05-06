@@ -128,7 +128,7 @@ steady_state_surface_classes:
     role: "Historical proof and disclosure records retained for lineage, replay, and audit."
   proposal-input:
     canonical_roots:
-      - ".octon/inputs/exploratory/proposals/**"
+      - ".octon/inputs/exploratory/**"
     authority_posture: "lineage-only-input"
     role: "Exploratory proposal packets that may guide promotion work but never become live authority."
   raw-additive-input:
@@ -473,6 +473,52 @@ path_families:
     doc_target_refs:
       - "architecture_specification"
       - "bootstrap_start"
+  mission_plan_compiler_layer:
+    class_root: "framework"
+    related_class_roots:
+      - "instance"
+      - "state"
+      - "generated"
+    canonical_paths:
+      - ".octon/framework/engine/runtime/spec/mission-plan-v1.md"
+      - ".octon/framework/engine/runtime/spec/mission-plan-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/plan-node-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/plan-dependency-edge-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/plan-revision-record-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/plan-compile-receipt-v1.schema.json"
+      - ".octon/framework/engine/runtime/spec/plan-drift-record-v1.schema.json"
+      - ".octon/framework/orchestration/runtime/workflows/missions/derive-mission-plan/**"
+      - ".octon/instance/governance/policies/hierarchical-planning.yml"
+      - ".octon/state/control/execution/missions/<mission-id>/plans/**"
+      - ".octon/state/evidence/control/execution/planning/**"
+      - ".octon/generated/cognition/projections/materialized/planning/**"
+    authority_class: "mission-bound-planning-preparation-contract"
+    role: >-
+      Optional Mission Plan Compiler layer that binds to mission authority,
+      records bounded planning control state, checks readiness and drift, and
+      compiles ready leaves to action-slice candidates, run-contract drafts,
+      context-pack requests, authorization requests, rollback refs, and
+      evidence requirements without authorizing execution.
+    allowed_consumers:
+      - "runtime"
+      - "validators"
+      - "operators"
+      - "docs"
+    forbidden_consumers:
+      - "mission authority replacement"
+      - "run lifecycle replacement"
+      - "execution authorization replacement"
+      - "per-run journal replacement"
+      - "support-target widening"
+      - "capability admission"
+      - "generated cognition projections as control"
+      - "runtime dependencies on inputs/**"
+      - "proposal-local paths as authority"
+    validator_refs:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-mission-plan-compiler.sh"
+    doc_target_refs:
+      - "architecture_specification"
+      - "bootstrap_start"
   continuous_stewardship_runtime_v3:
     class_root: "framework"
     related_class_roots:
@@ -646,7 +692,6 @@ path_families:
       - ".octon/state/evidence/evolution/**"
       - ".octon/state/continuity/evolution/**"
       - ".octon/generated/cognition/projections/materialized/evolution/**"
-      - ".octon/inputs/exploratory/proposals/**"
     authority_class: "self-evolution-proposal-to-promotion-runtime-contract"
     role: >-
       Constitutional self-evolution layer that turns retained evidence into
@@ -1374,8 +1419,7 @@ path_families:
   inputs_exploratory:
     class_root: "inputs"
     canonical_paths:
-      - ".octon/inputs/exploratory/ideation/**"
-      - ".octon/inputs/exploratory/proposals/**"
+      - ".octon/inputs/exploratory/**"
     authority_class: "non-authoritative-exploratory-input"
     role: "Human-led ideation and proposal packets retained as exploratory lineage."
     allowed_consumers:

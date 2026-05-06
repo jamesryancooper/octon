@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/plan-dependency-edge-v1.schema.json",
+  "title": "Plan Dependency Edge v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "edge_id",
+    "plan_id",
+    "source_node_id",
+    "target_node_id",
+    "edge_type",
+    "rationale",
+    "status",
+    "evidence_ref"
+  ],
+  "properties": {
+    "schema_version": { "const": "plan-dependency-edge-v1" },
+    "edge_id": { "type": "string", "minLength": 1 },
+    "plan_id": { "type": "string", "minLength": 1 },
+    "source_node_id": { "type": "string", "minLength": 1 },
+    "target_node_id": { "type": "string", "minLength": 1 },
+    "edge_type": {
+      "type": "string",
+      "enum": ["blocks", "depends_on", "duplicates", "orders_before", "requires_decision", "requires_evidence"]
+    },
+    "rationale": { "type": "string", "minLength": 1 },
+    "status": {
+      "type": "string",
+      "enum": ["open", "resolved", "blocked", "cycle_detected", "staged", "deferred"]
+    },
+    "evidence_ref": { "type": "string", "minLength": 1 }
+  }
+}

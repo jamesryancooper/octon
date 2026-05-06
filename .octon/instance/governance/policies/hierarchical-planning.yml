@@ -1,0 +1,76 @@
+schema_version: "hierarchical-planning-policy-v1"
+policy_id: "hierarchical-planning"
+owner: "Octon governance"
+status: "active"
+enablement_mode: "stage-only"
+default_route: "STAGE_ONLY"
+mission_plan_spec_ref: ".octon/framework/engine/runtime/spec/mission-plan-v1.md"
+control_root: ".octon/state/control/execution/missions/<mission-id>/plans/<plan-id>"
+evidence_root: ".octon/state/evidence/control/execution/planning/<plan-id>"
+generated_projection_root: ".octon/generated/cognition/projections/materialized/planning"
+authority_boundary:
+  mission_plan_authorizes_execution: false
+  plan_node_direct_execution_allowed: false
+  run_contract_required: true
+  context_pack_required_before_authorization: true
+  execution_authorization_required: true
+  generated_views_authoritative: false
+budgets:
+  max_children_per_node: 7
+  max_open_decompositions_per_branch: 3
+  max_initial_executable_leaves: 20
+  max_revisions_without_execution_evidence: 2
+  default_semantic_depth: 4
+  max_semantic_depth: 5
+rolling_wave:
+  near_term_only: true
+  future_work_stops_at: "milestone-or-deliverable"
+  deeper_decomposition_allowed_for:
+    - "risk"
+    - "approval"
+    - "rollback"
+    - "dependency"
+    - "support-target"
+    - "compile-readiness"
+acp_thresholds:
+  ACP-0:
+    agent_may_decompose: true
+    material_effects_require_authorization: true
+  ACP-1:
+    agent_may_decompose: true
+    material_effects_require_authorization: true
+  ACP-2:
+    agent_may_decompose: true
+    human_approval_before_activation_when_scope_risk_or_support_changes: true
+  ACP-3:
+    human_approval_before_compile_to_run: true
+  ACP-4:
+    stage_only_until_human_approval_and_authorization_gates_exist: true
+human_approval_required_for:
+  - "mission scope changes"
+  - "strategic goal changes"
+  - "risk ceiling changes"
+  - "protected-zone mutation"
+  - "support-target widening"
+  - "capability admission"
+  - "external effects"
+  - "destructive effects"
+  - "irreversible effects"
+  - "high-risk workstream activation"
+  - "plan mutation that changes mission scope after execution begins"
+  - "consequential completion declaration"
+fail_closed_conditions:
+  - "missing mission authority"
+  - "stale mission digest"
+  - "missing ownership"
+  - "missing approval evidence"
+  - "duplicate leaf candidates"
+  - "dependency cycles"
+  - "unresolved assumptions before compile"
+  - "support-target widening"
+  - "capability admission"
+  - "PlanNode direct execution"
+  - "run-contract bypass"
+  - "Context Pack Builder bypass"
+  - "authorize_execution bypass"
+  - "generated/input/proposal authority misuse"

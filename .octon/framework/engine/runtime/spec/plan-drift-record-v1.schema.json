@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/plan-drift-record-v1.schema.json",
+  "title": "Plan Drift Record v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "drift_id",
+    "plan_id",
+    "detected_at",
+    "source_ref",
+    "drift_type",
+    "impact",
+    "disposition",
+    "evidence_refs"
+  ],
+  "properties": {
+    "schema_version": { "const": "plan-drift-record-v1" },
+    "drift_id": { "type": "string", "minLength": 1 },
+    "plan_id": { "type": "string", "minLength": 1 },
+    "detected_at": { "type": "string", "minLength": 1 },
+    "source_ref": { "type": "string", "minLength": 1 },
+    "drift_type": {
+      "type": "string",
+      "enum": [
+        "mission_digest",
+        "risk_ceiling",
+        "allowed_action_class",
+        "support_target",
+        "evidence",
+        "dependency",
+        "compiled_run",
+        "required_evidence",
+        "other"
+      ]
+    },
+    "previous_digest": { "$ref": "#/$defs/sha256" },
+    "current_digest": { "$ref": "#/$defs/sha256" },
+    "impact": { "type": "string", "minLength": 1 },
+    "disposition": {
+      "type": "string",
+      "enum": ["blocks_compile", "stage_only", "escalate", "closed"]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "resolved_at": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^(sha256:)?[a-f0-9]{64}$"
+    }
+  }
+}

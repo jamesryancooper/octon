@@ -87,3 +87,28 @@ It may also carry optional linkage fields:
 Use these fields to link mission intent to strategic context, canonical
 workflow references, and material run lineage. Do not move this linkage into
 `registry.yml`; the registry remains the discovery and lifecycle index.
+
+## Mission Plan Compiler Boundary
+
+The optional Mission Plan Compiler is a mission-bound preparation layer. It may
+record a `MissionPlan` and `PlanNode` decomposition under mission-local control
+state, but it cannot create or widen mission authority.
+
+Planning state belongs under:
+
+```text
+/.octon/state/control/execution/missions/<mission-id>/plans/<plan-id>/
+```
+
+Planning evidence belongs under:
+
+```text
+/.octon/state/evidence/control/execution/planning/<plan-id>/
+```
+
+Compiled leaves may produce action-slice candidates, run-contract drafts,
+context-pack requests, authorization requests, rollback refs, and evidence
+requirements. They do not execute. Mission authority, run contracts, Context
+Pack Builder, execution authorization, retained run evidence, Run Journal
+coverage, replay, rollback, and support-target governance remain the controlling
+surfaces.

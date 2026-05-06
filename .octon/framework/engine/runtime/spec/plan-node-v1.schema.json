@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/plan-node-v1.schema.json",
+  "title": "Plan Node v1",
+  "description": "Typed planning node. A PlanNode can compile to candidates or requests but cannot execute directly.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "node_id",
+    "plan_id",
+    "node_type",
+    "title",
+    "purpose",
+    "scope",
+    "non_scope",
+    "expected_output",
+    "acceptance_criteria",
+    "evidence_requirements",
+    "dependencies",
+    "risks",
+    "assumptions",
+    "decision_points",
+    "predicted_acp",
+    "reversibility",
+    "approval_requirement",
+    "support_target_tuple_refs",
+    "readiness_state",
+    "decomposition_status",
+    "compiled_artifact_refs",
+    "execution_boundary"
+  ],
+  "properties": {
+    "schema_version": { "const": "plan-node-v1" },
+    "node_id": { "type": "string", "minLength": 1 },
+    "plan_id": { "type": "string", "minLength": 1 },
+    "parent_node_id": {
+      "oneOf": [
+        { "type": "string", "minLength": 1 },
+        { "type": "null" }
+      ]
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "strategic_goal",
+        "workstream",
+        "milestone",
+        "deliverable",
+        "task",
+        "action_slice_candidate",
+        "validation_gate",
+        "decision_point",
+        "risk_record",
+        "assumption_record"
+      ]
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "purpose": { "type": "string", "minLength": 1 },
+    "scope": { "$ref": "#/$defs/string_list" },
+    "non_scope": { "$ref": "#/$defs/string_list" },
+    "expected_output": { "type": "string", "minLength": 1 },
+    "acceptance_criteria": { "$ref": "#/$defs/string_list" },
+    "validation_method": { "type": "string", "minLength": 1 },
+    "evidence_requirements": { "$ref": "#/$defs/ref_list" },
+    "dependencies": { "$ref": "#/$defs/ref_list" },
+    "risks": { "$ref": "#/$defs/string_list" },
+    "assumptions": { "$ref": "#/$defs/ref_list" },
+    "decision_points": { "$ref": "#/$defs/ref_list" },
+    "predicted_acp": { "type": "string", "pattern": "^ACP-[0-4]$" },
+    "reversibility": {
+      "type": "string",
+      "enum": ["reversible", "compensable", "irreversible"]
+    },
+    "approval_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "approval_ref", "blocking_before_compile"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "approval_ref": {
+          "oneOf": [
+            { "type": "string", "minLength": 1 },
+            { "type": "null" }
+          ]
+        },
+        "blocking_before_compile": { "type": "boolean" }
+      }
+    },
+    "support_target_tuple_refs": { "$ref": "#/$defs/ref_list" },
+    "readiness_state": {
+      "type": "string",
+      "enum": ["draft", "ready", "blocked", "stale", "deferred", "escalated"]
+    },
+    "decomposition_status": {
+      "type": "string",
+      "enum": ["not_decomposed", "partially_decomposed", "decomposed", "stopped", "blocked"]
+    },
+    "stop_reason": { "type": "string", "minLength": 1 },
+    "compiled_artifact_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "action_slice_candidate_ref": { "type": "string", "minLength": 1 },
+        "run_contract_draft_ref": { "type": "string", "minLength": 1 },
+        "context_pack_request_ref": { "type": "string", "minLength": 1 },
+        "authorization_request_ref": { "type": "string", "minLength": 1 },
+        "rollback_or_compensation_ref": { "type": "string", "minLength": 1 },
+        "compile_receipt_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "execution_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "direct_execution_allowed",
+        "compiles_to_action_slice_candidate_only",
+        "run_contract_required",
+        "context_pack_required",
+        "execution_authorization_required"
+      ],
+      "properties": {
+        "direct_execution_allowed": { "const": false },
+        "compiles_to_action_slice_candidate_only": { "const": true },
+        "run_contract_required": { "const": true },
+        "context_pack_required": { "const": true },
+        "execution_authorization_required": { "const": true }
+      }
+    }
+  },
+  "$defs": {
+    "string_list": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "ref_list": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}
