@@ -24,6 +24,12 @@ commands:
     summary: "Generate a packet-specific executable implementation prompt."
     access: agent
     argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-run-implementation
+    display_name: Proposal Packet Run Implementation
+    path: octon-proposal-packet-run-implementation.md
+    summary: "Run implementation for one proposal packet from its executable implementation prompt."
+    access: agent
+    argument_hint: "<packet-path>"
   - id: octon-proposal-packet-generate-verification-prompt
     display_name: Proposal Packet Generate Verification Prompt
     path: octon-proposal-packet-generate-verification-prompt.md

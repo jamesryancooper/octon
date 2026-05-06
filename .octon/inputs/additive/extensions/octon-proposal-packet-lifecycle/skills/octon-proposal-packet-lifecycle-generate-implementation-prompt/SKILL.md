@@ -31,3 +31,6 @@ The generated implementation prompt must instruct the implementer to produce
 `validate-proposal-implementation-conformance.sh --package <proposal_path>` and
 `validate-proposal-post-implementation-drift.sh --package <proposal_path>`, and
 refuse closeout/archive claims until both receipts pass.
+
+After a prompt is generated and the packet is accepted or explicitly approved
+for implementation, the next lifecycle route is `run-implementation`.

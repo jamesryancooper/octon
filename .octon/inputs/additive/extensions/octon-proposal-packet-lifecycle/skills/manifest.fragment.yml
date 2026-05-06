@@ -38,6 +38,15 @@ skills:
     status: active
     tags: [octon, proposal, lifecycle, implementation]
     triggers: ["generate implementation prompt"]
+  - id: octon-proposal-packet-lifecycle-run-implementation
+    display_name: Proposal Packet Lifecycle Run Implementation
+    group: extensions
+    path: octon-proposal-packet-lifecycle-run-implementation/
+    skill_class: invocable
+    summary: "Run the proposal packet implementation bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, implementation]
+    triggers: ["run proposal packet implementation", "implement proposal packet"]
   - id: octon-proposal-packet-lifecycle-generate-verification-prompt
     display_name: Proposal Packet Lifecycle Generate Verification Prompt
     group: extensions

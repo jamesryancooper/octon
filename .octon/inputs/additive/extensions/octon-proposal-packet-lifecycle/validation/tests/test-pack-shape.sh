@@ -70,7 +70,7 @@ main() {
   done
 
   manifest_count="$(find "$PACK_ROOT/prompts" -mindepth 2 -maxdepth 2 -name manifest.yml -type f | wc -l | tr -d ' ')"
-  [[ "$manifest_count" == "15" ]] && pass "15 prompt bundle manifests present" || fail "expected 15 prompt manifests, found $manifest_count"
+  [[ "$manifest_count" == "16" ]] && pass "16 prompt bundle manifests present" || fail "expected 16 prompt manifests, found $manifest_count"
 
   scenario_count="$(find "$PACK_ROOT/validation/scenarios" -name '*.md' -type f | wc -l | tr -d ' ')"
   [[ "$scenario_count" -ge 12 ]] && pass "manual and program scenario fixtures present" || fail "expected at least 12 scenarios, found $scenario_count"

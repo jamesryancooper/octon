@@ -38,6 +38,12 @@ Resolve `bundle` or `lifecycle_action` through
   implementation, closeout must also prove `support/implementation-conformance-review.md`
   and `support/post-implementation-drift-churn-review.md` pass with
   `verdict: pass` and `unresolved_items_count: 0`.
+- Use `run-implementation` as the lifecycle bridge after
+  `generate-implementation-prompt` and before verification or closeout. It may
+  promote durable targets only from an accepted packet or from an explicit
+  operator invocation recorded as implementation acceptance for that packet.
+  It must not archive the packet or treat proposal-local material as runtime,
+  policy, support, or closure authority.
 - Ask clarifying questions only when the missing answer changes product
   semantics, promotion scope, irreversible churn, or authority ownership.
   Proceed with recorded assumptions when missing details are discoverable or

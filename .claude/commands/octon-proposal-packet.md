@@ -12,6 +12,7 @@ Leaf commands:
 - `/octon-proposal-packet-create`
 - `/octon-proposal-packet-explain`
 - `/octon-proposal-packet-generate-implementation-prompt`
+- `/octon-proposal-packet-run-implementation`
 - `/octon-proposal-packet-generate-verification-prompt`
 - `/octon-proposal-packet-generate-correction-prompt`
 - `/octon-proposal-packet-run-verification-and-correction-loop`

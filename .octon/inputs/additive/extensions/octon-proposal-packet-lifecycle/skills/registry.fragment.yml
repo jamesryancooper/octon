@@ -73,6 +73,16 @@ skills:
         description: "Proposal packet path or id."
     requires:
       context: []
+  octon-proposal-packet-lifecycle-run-implementation:
+    version: "1.0.0"
+    commands: ["/octon-proposal-packet-run-implementation"]
+    parameters:
+      - name: packet_path
+        type: text
+        required: true
+        description: "Proposal packet path or id."
+    requires:
+      context: []
   octon-proposal-packet-lifecycle-generate-verification-prompt:
     version: "1.0.0"
     commands: ["/octon-proposal-packet-generate-verification-prompt"]

@@ -5,6 +5,7 @@
 | `create-proposal-packet` | `octon-proposal-packet-lifecycle-create-proposal-packet` | `octon-proposal-packet-create` | `octon-proposal-packet-lifecycle-create` |
 | `explain-proposal-packet` | `octon-proposal-packet-lifecycle-explain-proposal-packet` | `octon-proposal-packet-explain` | `octon-proposal-packet-lifecycle-explain` |
 | `generate-implementation-prompt` | `octon-proposal-packet-lifecycle-generate-implementation-prompt` | `octon-proposal-packet-generate-implementation-prompt` | `octon-proposal-packet-lifecycle-generate-implementation-prompt` |
+| `run-implementation` | `octon-proposal-packet-lifecycle-run-implementation` | `octon-proposal-packet-run-implementation` | `octon-proposal-packet-lifecycle-run-implementation` |
 | `generate-verification-prompt` | `octon-proposal-packet-lifecycle-generate-verification-prompt` | `octon-proposal-packet-generate-verification-prompt` | `octon-proposal-packet-lifecycle-generate-verification-prompt` |
 | `generate-correction-prompt` | `octon-proposal-packet-lifecycle-generate-correction-prompt` | `octon-proposal-packet-generate-correction-prompt` | `octon-proposal-packet-lifecycle-generate-correction-prompt` |
 | `run-verification-and-correction-loop` | `octon-proposal-packet-lifecycle-run-verification-and-correction-loop` | `octon-proposal-packet-run-verification-and-correction-loop` | `octon-proposal-packet-lifecycle-run-verification-and-correction-loop` |
