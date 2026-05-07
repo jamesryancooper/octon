@@ -112,6 +112,12 @@ run_default_work_unit() {
     bash "$SCRIPT_DIR/validate-change-closeout-lifecycle-alignment.sh"
 }
 
+run_product_features() {
+  run_step \
+    "Validate product feature catalog" \
+    bash "$SCRIPT_DIR/validate-product-feature-catalog.sh"
+}
+
 run_harness() {
   run_step \
     "Validate harness structure contract" \

@@ -35,6 +35,7 @@ dependency.
 | `/.octon/octon.yml` | Super-root manifest, profiles, runtime resolution inputs, generated commit defaults |
 | `/.octon/framework/cognition/_meta/architecture/contract-registry.yml` | Machine-readable topology, authority, publication, and doc-target registry |
 | `/.octon/framework/constitution/contracts/registry.yml` | Constitutional family and integration registry |
+| `/.octon/framework/product/features/catalog.yml` | Navigation-only catalog for cross-surface product features |
 | `/.octon/framework/overlay-points/registry.yml` | Legal overlay-point declaration |
 | `/.octon/instance/manifest.yml` | Repo-side overlay enablement |
 | `/.octon/instance/ingress/manifest.yml` | Mandatory ingress read order and closeout gate |

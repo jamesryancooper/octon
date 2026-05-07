@@ -21,6 +21,21 @@ profiles:
     consumers:
       - "local"
       - "ci"
+  - id: "product-features"
+    label: "Product feature catalog navigation checks"
+    entrypoint: "run_product_features"
+    required_paths:
+      - ".octon/framework/product/README.md"
+      - ".octon/framework/product/features/README.md"
+      - ".octon/framework/product/features/catalog.yml"
+      - ".octon/framework/product/features/lifecycle-autopilot.md"
+      - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-product-feature-catalog.sh"
+    dry_run_safe: true
+    consumers:
+      - "local"
+      - "ci"
   - id: "harness"
     label: ".octon architecture and drift guardrail checks"
     entrypoint: "run_harness"
