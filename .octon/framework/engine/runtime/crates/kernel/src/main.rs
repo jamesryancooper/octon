@@ -2,6 +2,8 @@
 
 mod commands;
 mod context;
+mod lifecycle;
+mod lifecycle_driver;
 mod orchestration;
 mod pipeline;
 mod request;
@@ -153,6 +155,12 @@ enum Command {
     Promote {
         #[command(subcommand)]
         cmd: PromoteCmd,
+    },
+
+    /// Extension-declared lifecycle planning, execution, and resume.
+    Lifecycle {
+        #[command(subcommand)]
+        cmd: LifecycleCmd,
     },
 
     /// Post-promotion recertification commands.
@@ -1194,6 +1202,61 @@ enum WorkflowCmd {
 }
 
 #[derive(Subcommand)]
+pub(crate) enum LifecycleCmd {
+    /// Plan the next route for an extension-declared lifecycle target.
+    Plan {
+        /// Lifecycle id declared by an effective extension lifecycle contract.
+        #[arg(long = "lifecycle")]
+        lifecycle_id: String,
+        /// Target artifact path for this lifecycle run.
+        #[arg(long = "target")]
+        target: PathBuf,
+    },
+    /// Run one bounded lifecycle orchestration step and write workflow evidence.
+    Run {
+        /// Lifecycle id declared by an effective extension lifecycle contract.
+        #[arg(long = "lifecycle")]
+        lifecycle_id: String,
+        /// Target artifact path for this lifecycle run.
+        #[arg(long = "target")]
+        target: PathBuf,
+        /// Optional explicit run id.
+        #[arg(long = "run-id")]
+        run_id: Option<String>,
+        /// Executor mode. Without --execute-routes, non-mock emits a gated route-ready handoff.
+        #[arg(long, value_enum, default_value_t = ExecutorKind::Auto)]
+        executor: ExecutorKind,
+        /// Optional override for bounded lifecycle loop iterations.
+        #[arg(long = "max-iterations")]
+        max_iterations: Option<u32>,
+        /// Execute selected lifecycle routes through the lifecycle executor adapter.
+        #[arg(long = "execute-routes", default_value_t = false)]
+        execute_routes: bool,
+        /// Maximum plan-execute-replan steps for execute-routes mode.
+        #[arg(long = "max-steps")]
+        max_steps: Option<u32>,
+        /// Per-route executor timeout in seconds for execute-routes mode.
+        #[arg(long = "timeout-seconds")]
+        timeout_seconds: Option<u64>,
+        /// Approval policy for execute-routes mode: minimize or unattended operator override.
+        #[arg(long = "approval-policy", default_value = "minimize")]
+        approval_policy: String,
+        /// Generic lifecycle run input as key=value. May be repeated.
+        #[arg(long = "set", value_name = "KEY=VALUE")]
+        set: Vec<String>,
+        /// Generic lifecycle run input loaded from a file as key=path. May be repeated.
+        #[arg(long = "set-file", value_name = "KEY=PATH")]
+        set_file: Vec<String>,
+    },
+    /// Resume lifecycle planning from a retained lifecycle checkpoint.
+    Resume {
+        /// Lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+}
+
+#[derive(Subcommand)]
 enum PublishCmd {
     /// Publish the effective support-target matrix through the runtime boundary.
     SupportTargetMatrix,
@@ -1370,7 +1433,7 @@ mod tests {
     use super::{
         AdoptCmd, AmendCmd, ArmCmd, AttestCmd, CapabilityCmd, CertifyCmd, Cli, Command,
         CompatibilityCmd, ConnectorCmd, DecideCmd, DecisionResponseArg, DelegateCmd,
-        DelegateLeaseCmd, EvolveCmd, FederationCmd, MissionCmd, OrchestrationCmd,
+        DelegateLeaseCmd, EvolveCmd, FederationCmd, LifecycleCmd, MissionCmd, OrchestrationCmd,
         OrchestrationIncidentCmd, OrchestrationSurfaceArg, PlanCmd, ProfileCmd, PromoteCmd,
         RecertifyCmd, RunCmd, StartCmd, StatusCmd, StewardCmd, StewardRenewalOutcomeArg,
         StewardTriggerArg, SupportCmd, SupportProofSubject, TrustCmd, TrustCompactCmd,
@@ -2150,6 +2213,89 @@ mod tests {
             }
             _ => panic!("parsed command should be workflow run"),
         }
+    }
+
+    #[test]
+    fn cli_parses_lifecycle_commands() {
+        let plan = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "plan",
+            "--lifecycle",
+            "proposal-packet",
+            "--target",
+            ".octon/inputs/exploratory/proposals/architecture/example",
+        ])
+        .expect("lifecycle plan should parse successfully");
+        match plan.cmd {
+            Command::Lifecycle {
+                cmd:
+                    LifecycleCmd::Plan {
+                        lifecycle_id,
+                        target,
+                    },
+            } => {
+                assert_eq!(lifecycle_id, "proposal-packet");
+                assert_eq!(
+                    target,
+                    PathBuf::from(".octon/inputs/exploratory/proposals/architecture/example")
+                );
+            }
+            _ => panic!("parsed command should be lifecycle plan"),
+        }
+
+        let run = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "run",
+            "--lifecycle",
+            "proposal-packet",
+            "--target",
+            ".octon/inputs/exploratory/proposals/architecture/example",
+            "--run-id",
+            "lifecycle-test",
+            "--executor",
+            "mock",
+            "--max-iterations",
+            "3",
+            "--set",
+            "source_kind=requirements",
+            "--set-file",
+            "source=source.md",
+        ])
+        .expect("lifecycle run should parse successfully");
+        match run.cmd {
+            Command::Lifecycle {
+                cmd:
+                    LifecycleCmd::Run {
+                        lifecycle_id,
+                        run_id,
+                        executor,
+                        max_iterations,
+                        set,
+                        set_file,
+                        ..
+                    },
+            } => {
+                assert_eq!(lifecycle_id, "proposal-packet");
+                assert_eq!(run_id.as_deref(), Some("lifecycle-test"));
+                assert_eq!(executor, ExecutorKind::Mock);
+                assert_eq!(max_iterations, Some(3));
+                assert_eq!(set, vec!["source_kind=requirements"]);
+                assert_eq!(set_file, vec!["source=source.md"]);
+            }
+            _ => panic!("parsed command should be lifecycle run"),
+        }
+
+        let resume =
+            Cli::try_parse_from(["octon", "lifecycle", "resume", "--run-id", "lifecycle-test"])
+                .expect("lifecycle resume should parse successfully");
+        assert!(matches!(
+            resume.cmd,
+            Command::Lifecycle {
+                cmd: LifecycleCmd::Resume { .. }
+            }
+        ));
     }
 
     #[test]

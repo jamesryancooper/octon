@@ -58,6 +58,8 @@ route_fixtures() {
   cat <<'EOF'
 create-proposal-packet	octon-proposal-packet-create	octon-proposal-packet-lifecycle-create	octon-proposal-packet-lifecycle-create-proposal-packet	{"source_kind":"requirements"}
 explain-proposal-packet	octon-proposal-packet-explain	octon-proposal-packet-lifecycle-explain	octon-proposal-packet-lifecycle-explain-proposal-packet	{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}
+review-proposal-packet	octon-proposal-packet-review	octon-proposal-packet-lifecycle-review	octon-proposal-packet-lifecycle-review-proposal-packet	{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}
+revise-proposal-packet	octon-proposal-packet-revise	octon-proposal-packet-lifecycle-revise	octon-proposal-packet-lifecycle-revise-proposal-packet	{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}
 generate-implementation-prompt	octon-proposal-packet-generate-implementation-prompt	octon-proposal-packet-lifecycle-generate-implementation-prompt	octon-proposal-packet-lifecycle-generate-implementation-prompt	{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}
 run-implementation	octon-proposal-packet-run-implementation	octon-proposal-packet-lifecycle-run-implementation	octon-proposal-packet-lifecycle-run-implementation	{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}
 generate-verification-prompt	octon-proposal-packet-generate-verification-prompt	octon-proposal-packet-lifecycle-generate-verification-prompt	octon-proposal-packet-lifecycle-generate-verification-prompt	{"packet_path":".octon/inputs/exploratory/proposals/architecture/example"}

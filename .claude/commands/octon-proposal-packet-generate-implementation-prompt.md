@@ -3,5 +3,6 @@
 Run the `generate-implementation-prompt` bundle and retain the result under
 the target packet's `support/executable-implementation-prompt.md`.
 
-After the packet is accepted or explicitly approved for implementation, route
-to `/octon-proposal-packet-run-implementation`.
+After the packet has a fresh accepted `support/proposal-review.md` with
+`implementation_prompt_authorized: yes`, route to
+`/octon-proposal-packet-run-implementation`.

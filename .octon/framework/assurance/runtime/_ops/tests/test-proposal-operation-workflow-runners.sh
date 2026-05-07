@@ -36,22 +36,47 @@ new_fixture_repo() {
 
   mkdir -p \
     "$fixture_root/.octon/framework/assurance/runtime/_ops" \
+    "$fixture_root/.octon/framework/constitution" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas" \
     "$fixture_root/.octon/framework/engine/runtime" \
     "$fixture_root/.octon/framework/capabilities/governance" \
     "$fixture_root/.octon/framework/capabilities/_ops" \
     "$fixture_root/.octon/generated/.tmp/engine/build/runtime-crates-target/debug" \
     "$fixture_root/.octon/generated" \
-    "$fixture_root/.octon/instance/cognition/context/shared"
+    "$fixture_root/.octon/inputs/additive" \
+    "$fixture_root/.octon/instance/capabilities/runtime" \
+    "$fixture_root/.octon/instance/charter" \
+    "$fixture_root/.octon/instance/cognition/context/shared" \
+    "$fixture_root/.octon/instance/governance" \
+    "$fixture_root/.octon/state/control" \
+    "$fixture_root/.octon/state/evidence/validation"
   cp -R "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/"
   rsync -a --exclude 'crates/target' \
     "$REPO_ROOT/.octon/framework/engine/runtime/" \
     "$fixture_root/.octon/framework/engine/runtime/"
-  cp -R "$REPO_ROOT/.octon/framework/capabilities/governance/policy" "$fixture_root/.octon/framework/capabilities/governance/"
-  cp -R "$REPO_ROOT/.octon/framework/capabilities/_ops/scripts" "$fixture_root/.octon/framework/capabilities/_ops/"
+  cp -R "$REPO_ROOT/.octon/framework/constitution/"* "$fixture_root/.octon/framework/constitution/"
+  rsync -a "$REPO_ROOT/.octon/framework/capabilities/" "$fixture_root/.octon/framework/capabilities/"
   cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json"
+  rsync -a "$REPO_ROOT/.octon/instance/governance/" \
+    "$fixture_root/.octon/instance/governance/"
+  cp -R "$REPO_ROOT/.octon/instance/capabilities/runtime/packs" \
+    "$fixture_root/.octon/instance/capabilities/runtime/"
+  cp "$REPO_ROOT/.octon/instance/charter/workspace.yml" \
+    "$fixture_root/.octon/instance/charter/workspace.yml"
+  cp "$REPO_ROOT/.octon/instance/charter/workspace.md" \
+    "$fixture_root/.octon/instance/charter/workspace.md"
+  cp "$REPO_ROOT/.octon/instance/extensions.yml" \
+    "$fixture_root/.octon/instance/extensions.yml"
+  cp -R "$REPO_ROOT/.octon/inputs/additive/extensions" \
+    "$fixture_root/.octon/inputs/additive/"
+  cp -R "$REPO_ROOT/.octon/generated/effective" \
+    "$fixture_root/.octon/generated/"
+  rsync -a "$REPO_ROOT/.octon/state/evidence/validation/" \
+    "$fixture_root/.octon/state/evidence/validation/"
+  cp -R "$REPO_ROOT/.octon/state/control/extensions" \
+    "$fixture_root/.octon/state/control/"
   cp "$REPO_ROOT/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy" \
     "$fixture_root/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon-policy"
   cp "$REPO_ROOT/.octon/octon.yml" "$fixture_root/.octon/octon.yml"
@@ -74,7 +99,7 @@ write_active_architecture_proposal() {
   local root="$1"
   local status="$2"
   local proposal_dir="$root/.octon/inputs/exploratory/proposals/architecture/fixture-proposal"
-  mkdir -p "$proposal_dir/navigation" "$proposal_dir/architecture"
+  mkdir -p "$proposal_dir/navigation" "$proposal_dir/architecture" "$proposal_dir/support"
 
   write_file "$proposal_dir/proposal.yml" <<EOF
 schema_version: "proposal-v1"
@@ -135,6 +160,48 @@ EOF
 | `architecture/acceptance-criteria.md` | Generated inventory entry |
 | `architecture/implementation-plan.md` | Generated inventory entry |
 EOF
+
+  if [[ "$status" != "draft" ]]; then
+    write_file "$proposal_dir/support/implementation-grade-completeness-review.md" <<'EOF'
+# Implementation-Grade Completeness Review
+
+verdict: pass
+unresolved_questions_count: 0
+clarification_required: no
+
+## Blockers
+
+None.
+
+## Assumptions
+
+None.
+
+## Promotion Target Coverage
+
+- .octon/README.md
+
+## Affected Artifact Coverage
+
+- .octon/README.md
+
+## Validator Coverage
+
+- validate-proposal-standard.sh
+
+## Implementation Prompt Readiness
+
+Ready.
+
+## Exclusions
+
+None.
+
+## Final Route Recommendation
+
+Proceed according to lifecycle state.
+EOF
+  fi
 }
 
 write_registry_for_active_status() {
@@ -156,12 +223,55 @@ archived: []
 EOF
 }
 
+write_accepted_proposal_review() {
+  local root="$1"
+  local proposal_rel=".octon/inputs/exploratory/proposals/architecture/fixture-proposal"
+  local proposal_dir="$root/$proposal_rel"
+  local digest
+  digest="$(
+    cd "$root"
+    bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh \
+      --package "$proposal_rel" \
+      --print-digest
+  )"
+
+  write_file "$proposal_dir/support/proposal-review.md" <<EOF
+review_id: "review-fixture"
+reviewed_at: "2026-05-06T00:00:00Z"
+reviewer: "workflow-fixture"
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: $digest
+open_blocking_findings_count: 0
+
+## Approved Promotion Targets
+
+- .octon/README.md
+
+## Exclusions
+
+- none
+
+## Blocking Findings
+
+- none
+
+## Nonblocking Findings
+
+- none
+
+## Final Route Recommendation
+
+- generate-implementation-prompt
+EOF
+}
+
 run_workflow() {
   local fixture_root="$1"
   shift
   (
     cd "$fixture_root"
-    "$fixture_root/$RUNNER_REL" workflow run "$@"
+    OCTON_WORKFLOW_RUN_COMPAT=1 "$fixture_root/$RUNNER_REL" workflow run "$@"
   )
 }
 
@@ -182,6 +292,7 @@ case_promote_passes() {
   fixture_root="$(new_fixture_repo)"
   write_active_architecture_proposal "$fixture_root" "accepted"
   write_registry_for_active_status "$fixture_root" "accepted"
+  write_accepted_proposal_review "$fixture_root"
   output="$(run_workflow "$fixture_root" promote-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "promotion_evidence=.octon/README.md")"
   bundle_root="$(printf '%s\n' "$output" | sed -n 's/^bundle_root: //p' | tail -n 1)"
   manifest="$fixture_root/.octon/inputs/exploratory/proposals/architecture/fixture-proposal/proposal.yml"
@@ -189,6 +300,14 @@ case_promote_passes() {
   assert_file_exists "$bundle_root/summary.md" || return 1
   [[ "$(yq -r '.status' "$manifest")" == "implemented" ]] || return 1
   grep -Fq 'status: "implemented"' "$registry" || return 1
+}
+
+case_promote_rejects_accepted_without_review() {
+  local fixture_root
+  fixture_root="$(new_fixture_repo)"
+  write_active_architecture_proposal "$fixture_root" "accepted"
+  write_registry_for_active_status "$fixture_root" "accepted"
+  run_workflow "$fixture_root" promote-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "promotion_evidence=.octon/README.md"
 }
 
 case_promote_rejects_non_accepted_status() {
@@ -229,6 +348,11 @@ main() {
     pass "promote-proposal rejects proposals that are not accepted"
   else
     fail "promote-proposal rejects proposals that are not accepted"
+  fi
+  if ! case_promote_rejects_accepted_without_review >/dev/null 2>&1; then
+    pass "promote-proposal rejects accepted proposals without fresh accepted review"
+  else
+    fail "promote-proposal rejects accepted proposals without fresh accepted review"
   fi
   case_archive_passes && pass "archive-proposal workflow archives an implemented proposal and regenerates registry" || fail "archive-proposal workflow archives an implemented proposal and regenerates registry"
   if ! case_archive_rejects_non_implemented_disposition >/dev/null 2>&1; then

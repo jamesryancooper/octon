@@ -11,5 +11,10 @@ claims, implementation actions, validation, acceptance, and closure; durable
 promotion targets stand outside the proposal path; and no generated, prompt,
 GitHub, external-tool, or proposal-local surface is promoted as authority.
 
+Confirm `resources/source-context.md` preserves the bound source input and
+`support/proposal-creation.md` contains complete creation evidence fields:
+`creation_id`, `created_at`, `creator`, `source_context_bound`, `packet_path`,
+and `verdict`.
+
 Return `packet-created`, `needs-packet-revision`, or `blocked` with retained
 finding ids and correction recommendations.

@@ -232,6 +232,12 @@
                 "$ref": "#/$defs/promptBundle"
               }
             },
+            "lifecycle_contracts": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/lifecycleContract"
+              }
+            },
             "routing_exports": {
               "type": "object",
               "additionalProperties": false,
@@ -302,6 +308,150 @@
           "items": {
             "type": "string",
             "minLength": 1
+          }
+        }
+      }
+    },
+    "lifecycleContract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_id",
+        "schema_version",
+        "version",
+        "owner_extension",
+        "contract_path",
+        "projection_source_path",
+        "contract_sha256",
+        "target_input",
+        "target_manifest_path",
+        "target_status_field",
+        "states",
+        "terminal_outcomes",
+        "counts",
+        "routes"
+      ],
+      "properties": {
+        "lifecycle_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "schema_version": {
+          "const": "octon-extension-lifecycle-contract-v1"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+        },
+        "owner_extension": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "contract_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "projection_source_path": {
+          "type": "string",
+          "pattern": "^\\.octon/generated/effective/extensions/published/.+/context/lifecycle\\.contract\\.yml$"
+        },
+        "contract_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "target_input": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_manifest_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_status_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "terminal_outcomes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "routes",
+            "validators",
+            "gates",
+            "receipts",
+            "loops"
+          ],
+          "properties": {
+            "routes": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "validators": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "gates": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "receipts": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "loops": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        },
+        "routes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "route_id",
+              "route_type",
+              "command_id",
+              "skill_id",
+              "prompt_set_id"
+            ],
+            "properties": {
+              "route_id": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9-]*$"
+              },
+              "route_type": {
+                "type": "string",
+                "enum": [
+                  "extension",
+                  "workflow"
+                ]
+              },
+              "command_id": {
+                "type": "string"
+              },
+              "skill_id": {
+                "type": "string"
+              },
+              "prompt_set_id": {
+                "type": "string"
+              }
+            }
           }
         }
       }

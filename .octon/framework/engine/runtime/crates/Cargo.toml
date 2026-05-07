@@ -5,6 +5,7 @@ members = [
   "runtime_resolver",
   "authorized_effects",
   "authority_engine",
+  "lifecycle_executor",
   "wasm_host",
   "kernel",
   "studio",

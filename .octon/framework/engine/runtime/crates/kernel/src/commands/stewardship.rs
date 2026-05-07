@@ -401,15 +401,17 @@ fn admit_trigger(octon_dir: &Path, args: StewardAdmitCmd) -> Result<StewardRepor
                     )?;
                     ("mission_candidate", Some(handoff_ref), None)
                 } else {
-                    let decision_id = ensure_stewardship_decision(
-                        octon_dir,
-                        &args.program_id,
-                        &epoch_id,
-                        &trigger_id,
-                        "mission_creation",
-                        &["human-objective-requires-engagement-change-package-handoff".to_string()],
-                        &now,
-                    )?;
+                    let decision_id =
+                        ensure_stewardship_decision(
+                            octon_dir,
+                            &args.program_id,
+                            &epoch_id,
+                            &trigger_id,
+                            "mission_creation",
+                            &["human-objective-requires-engagement-change-package-handoff"
+                                .to_string()],
+                            &now,
+                        )?;
                     ("decision_request", None, Some(decision_id))
                 }
             }

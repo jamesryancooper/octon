@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/lifecycle-route-execution-request-v1.schema.json",
+  "title": "Lifecycle Route Execution Request",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "run_id",
+    "lifecycle_id",
+    "owner_extension",
+    "target",
+    "executor",
+    "route",
+    "effective_extension_catalog",
+    "runtime_route_bundle",
+    "evidence_root",
+    "checkpoint_path",
+    "policy"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-lifecycle-route-execution-request-v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "lifecycle_id": { "type": "string", "minLength": 1 },
+    "owner_extension": { "type": "string", "minLength": 1 },
+    "target": { "type": "string", "minLength": 1 },
+    "executor": { "enum": ["auto", "codex", "claude", "mock"] },
+    "route": {
+      "type": "object",
+      "required": ["route_id", "route_type"],
+      "properties": {
+        "route_id": { "type": "string", "minLength": 1 },
+        "route_type": { "enum": ["extension", "workflow"] },
+        "command_id": { "type": ["string", "null"] },
+        "skill_id": { "type": ["string", "null"] },
+        "prompt_set_id": { "type": ["string", "null"] },
+        "required_inputs": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "completion_replan_required": { "type": "boolean" },
+        "approval_required_by_default": { "type": "boolean" },
+        "approval_reason": { "type": ["string", "null"] }
+      }
+    },
+    "bound_inputs": { "type": "object", "additionalProperties": { "type": "string" } },
+    "receipts": { "type": "array" },
+    "expected_receipts": { "type": "array", "items": { "type": "string" } },
+    "expected_paths": { "type": "array", "items": { "type": "string" } },
+    "expected_manifest_status": { "type": ["string", "null"] },
+    "expected_target_change": { "type": "boolean" },
+    "policy": {
+      "type": "object",
+      "required": ["timeout_seconds", "retry_attempt", "approval_policy"],
+      "properties": {
+        "timeout_seconds": { "type": "integer", "minimum": 1 },
+        "cancellation_token": { "type": ["string", "null"] },
+        "retry_attempt": { "type": "integer", "minimum": 0 },
+        "approval_policy": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

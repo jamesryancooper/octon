@@ -58,6 +58,7 @@ fi
 MANIFEST="$PROPOSAL_DIR/proposal.yml"
 REVIEW="$PROPOSAL_DIR/support/implementation-grade-completeness-review.md"
 EXECUTABLE_PROMPT="$PROPOSAL_DIR/support/executable-implementation-prompt.md"
+REVIEW_GATE_SCRIPT="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
 legacy_archive=0
 
 if [[ ! -d "$PROPOSAL_DIR" ]]; then
@@ -143,6 +144,32 @@ require_prompt_pattern() {
     pass "$label"
   else
     fail "$label"
+  fi
+}
+
+validate_proposal_review_gate() {
+  if [[ ! -f "$REVIEW_GATE_SCRIPT" ]]; then
+    fail "proposal review gate validator exists"
+    return 0
+  fi
+
+  if bash "$REVIEW_GATE_SCRIPT" --package "$PROPOSAL_DIR"; then
+    pass "proposal review gate passes"
+  else
+    fail "proposal review gate passes"
+  fi
+
+  if [[ -f "$EXECUTABLE_PROMPT" ]]; then
+    if [[ "$legacy_archive" -eq 1 && "$status" == "archived" ]]; then
+      warn "legacy archived executable prompt is not re-authorized by proposal review gate"
+      return 0
+    fi
+
+    if bash "$REVIEW_GATE_SCRIPT" --package "$PROPOSAL_DIR" --require-implementation-authorization; then
+      pass "proposal review authorizes executable implementation prompt"
+    else
+      fail "proposal review authorizes executable implementation prompt"
+    fi
   fi
 }
 
@@ -249,6 +276,7 @@ else
 fi
 
 validate_executable_prompt
+validate_proposal_review_gate
 
 if yq -e '.promotion_targets | type == "!!seq" and length > 0' "$MANIFEST" >/dev/null 2>&1; then
   pass "promotion targets are present"

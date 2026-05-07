@@ -790,6 +790,49 @@ ext_routing_contract_rel_for_pack() {
   printf '.octon/inputs/additive/extensions/%s/%s/routing.contract.yml\n' "$pack_id" "${context_root_rel%/}"
 }
 
+ext_lifecycle_contract_abs_for_pack() {
+  local manifest="$1" pack_root="$2"
+  local context_root_rel contract_abs
+
+  context_root_rel="$(yq -r '.content_entrypoints.context // ""' "$manifest" 2>/dev/null || true)"
+  if [[ -z "$context_root_rel" || "$context_root_rel" == "null" ]]; then
+    return 1
+  fi
+
+  contract_abs="$pack_root/${context_root_rel%/}/lifecycle.contract.yml"
+  [[ -f "$contract_abs" ]] || return 1
+  printf '%s\n' "$contract_abs"
+}
+
+ext_lifecycle_contract_rel_for_pack() {
+  local pack_id="$1" manifest="$2" pack_root="$3"
+  local context_root_rel contract_abs
+
+  contract_abs="$(ext_lifecycle_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
+  [[ -n "$contract_abs" ]] || return 1
+  context_root_rel="$(yq -r '.content_entrypoints.context // ""' "$manifest" 2>/dev/null || true)"
+  printf '.octon/inputs/additive/extensions/%s/%s/lifecycle.contract.yml\n' "$pack_id" "${context_root_rel%/}"
+}
+
+ext_validate_lifecycle_contract_if_present() {
+  local pack_id="$1" manifest="$2" pack_root="$3"
+  local contract_abs validator_script
+
+  contract_abs="$(ext_lifecycle_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
+  [[ -n "$contract_abs" ]] || return 0
+
+  validator_script="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+  [[ -x "$validator_script" ]] || {
+    EXT_LAST_ERROR_REASON="missing-lifecycle-contract-validator"
+    return 1
+  }
+
+  if ! "$validator_script" --contract "${contract_abs#$ROOT_DIR/}" >/dev/null 2>&1; then
+    EXT_LAST_ERROR_REASON="invalid-lifecycle-contract:$pack_id"
+    return 1
+  fi
+}
+
 ext_validate_routing_contract_if_present() {
   local pack_id="$1" manifest="$2" pack_root="$3"
   local contract_abs dispatcher_count dispatcher_id default_route_id route_count
@@ -1228,6 +1271,7 @@ ext_validate_pack_core_contract() {
   ext_validate_content_entrypoints "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_prompt_set_manifest_if_present "$manifest" "$pack_root" || return 1
   ext_validate_routing_contract_if_present "$pack_id" "$manifest" "$pack_root" || return 1
+  ext_validate_lifecycle_contract_if_present "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_compatibility_profile_contract "$manifest" "$pack_root" || return 1
 
   EXT_VALIDATED_VERSION="$version"

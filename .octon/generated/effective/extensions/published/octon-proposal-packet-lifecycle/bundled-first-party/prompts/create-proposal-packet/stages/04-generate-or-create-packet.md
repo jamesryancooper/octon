@@ -11,6 +11,12 @@ The packet must include `proposal.yml`, exactly one subtype manifest,
 support artifacts when generated, validation plan, acceptance criteria, and a
 clear exit expectation.
 
+When this bundle is invoked by the lifecycle runner, treat the rendered
+`Bound Inputs` section as the creation input envelope. Preserve the supplied
+`source` content verbatim under `resources/source-context.md`, use `proposal_id`
+when provided, and default `proposal_kind` to the selected packet kind when it
+is absent.
+
 For architecture packets, include the artifact floor from the shared lifecycle
 artifact contract unless the selected scope makes an item irrelevant and the
 omission is recorded. Preserve complete audit, evaluation, or target-thesis
@@ -34,3 +40,8 @@ atomic proposal implementation plan with explicit preconditions, cutover steps,
 rollback posture, post-migration validation, and closure certification. Do not
 create intermediate live states, generated/input authority, connector/tool
 authority, external-dashboard authority, or any rival control plane.
+
+Write `support/proposal-creation.md` as packet-local evidence with:
+`creation_id`, `created_at`, `creator`, `source_context_bound`, `packet_path`,
+and `verdict`. This receipt is evidence only; it does not become runtime,
+policy, or durable authority.

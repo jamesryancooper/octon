@@ -1,0 +1,366 @@
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "octon-proposal-packet-lifecycle"
+version: "1.0.0"
+
+target:
+  input: "packet_path"
+  manifest_path: "proposal.yml"
+  status_field: "status"
+  allowed_statuses:
+    - "draft"
+    - "in-review"
+    - "accepted"
+    - "rejected"
+    - "implemented"
+    - "archived"
+
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  proposal_path:
+    source: "lifecycle.target"
+  source:
+    source: "run.input.source"
+  source_kind:
+    source: "run.input.source_kind"
+  proposal_kind:
+    source: "run.input.proposal_kind"
+  proposal_id:
+    source: "run.input.proposal_id"
+
+states:
+  - state_id: "create"
+  - state_id: "validate"
+  - state_id: "review"
+  - state_id: "revise"
+  - state_id: "implementation-authorized"
+  - state_id: "generate-implementation-prompt"
+  - state_id: "run-implementation"
+  - state_id: "promote"
+  - state_id: "verify"
+  - state_id: "closeout"
+  - state_id: "archive"
+
+terminal_outcomes:
+  - outcome_id: "archived"
+    when:
+      all:
+        - manifest_status: "archived"
+  - outcome_id: "rejected"
+    when:
+      all:
+        - manifest_status: "rejected"
+        - receipt_verdict:
+            receipt_id: "proposal-review"
+            value: "rejected"
+        - receipt_fresh: "proposal-review"
+        - receipt_complete: "proposal-review"
+
+validators:
+  - validator_id: "proposal-standard"
+    argv:
+      - "bash"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+      - "--package"
+      - "{{target}}"
+  - validator_id: "proposal-readiness"
+    argv:
+      - "bash"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+      - "--package"
+      - "{{target}}"
+  - validator_id: "proposal-review-baseline"
+    argv:
+      - "bash"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+      - "--package"
+      - "{{target}}"
+  - validator_id: "proposal-review-strict"
+    argv:
+      - "bash"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+      - "--package"
+      - "{{target}}"
+      - "--require-implementation-authorization"
+
+gates:
+  - gate_id: "implementation-authorization"
+    validator_id: "proposal-review-strict"
+    required_before_routes:
+      - "generate-implementation-prompt"
+      - "run-implementation"
+      - "promote-proposal"
+    on_fail_route_id: "review-proposal-packet"
+
+receipts:
+  - receipt_id: "proposal-creation"
+    path: "support/proposal-creation.md"
+    required_fields:
+      - "creation_id"
+      - "created_at"
+      - "creator"
+      - "source_context_bound"
+      - "packet_path"
+      - "verdict"
+    verdict_field: "verdict"
+  - receipt_id: "proposal-review"
+    path: "support/proposal-review.md"
+    required_fields:
+      - "review_id"
+      - "reviewed_at"
+      - "reviewer"
+      - "verdict"
+      - "implementation_prompt_authorized"
+      - "reviewed_packet_digest"
+      - "open_blocking_findings_count"
+    verdict_field: "verdict"
+    freshness:
+      digest_command:
+        - "bash"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
+        - "--package"
+        - "{{target}}"
+        - "--print-digest"
+      digest_field: "reviewed_packet_digest"
+  - receipt_id: "implementation-grade-completeness"
+    path: "support/implementation-grade-completeness-review.md"
+    required_fields:
+      - "verdict"
+      - "unresolved_questions_count"
+      - "clarification_required"
+    verdict_field: "verdict"
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields:
+      - "verdict"
+      - "implemented_at"
+      - "promotion_evidence_count"
+    verdict_field: "verdict"
+  - receipt_id: "implementation-conformance"
+    path: "support/implementation-conformance-review.md"
+    required_fields:
+      - "verdict"
+      - "unresolved_items_count"
+    verdict_field: "verdict"
+  - receipt_id: "post-implementation-drift"
+    path: "support/post-implementation-drift-churn-review.md"
+    required_fields:
+      - "verdict"
+      - "unresolved_items_count"
+    verdict_field: "verdict"
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields:
+      - "verdict"
+      - "closed_at"
+      - "archive_authorized"
+    verdict_field: "verdict"
+
+loops:
+  - loop_id: "proposal-review-revision"
+    receipt_id: "proposal-review"
+    verdict_field: "verdict"
+    repeat_values:
+      - "revision-required"
+    repeat_route_id: "revise-proposal-packet"
+    terminal_values:
+      - "accepted"
+      - "rejected"
+    max_iterations: 5
+
+routes:
+  - route_id: "create-proposal-packet"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-create"
+    skill_id: "octon-proposal-packet-lifecycle-create"
+    prompt_set_id: "octon-proposal-packet-lifecycle-create-proposal-packet"
+    required_inputs:
+      - "source"
+    completion:
+      expected_receipts:
+        - "proposal-creation"
+      expected_paths:
+        - "proposal.yml"
+        - "README.md"
+        - "navigation/artifact-catalog.md"
+        - "navigation/source-of-truth-map.md"
+        - "resources/source-context.md"
+        - "support/implementation-grade-completeness-review.md"
+      expected_manifest_status: "draft"
+      expected_target_change: true
+      replan_required: true
+    enter_when:
+      any:
+        - target_missing: true
+        - all:
+            - target_missing: false
+            - file_absent: "proposal.yml"
+  - route_id: "review-proposal-packet"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-review"
+    skill_id: "octon-proposal-packet-lifecycle-review"
+    prompt_set_id: "octon-proposal-packet-lifecycle-review-proposal-packet"
+    completion:
+      expected_receipts:
+        - "proposal-review"
+      replan_required: true
+    enter_when:
+      any:
+        - manifest_status: "draft"
+        - all:
+            - manifest_status: "in-review"
+            - receipt_absent: "proposal-review"
+        - all:
+            - any:
+                - manifest_status: "draft"
+                - manifest_status: "in-review"
+                - manifest_status: "accepted"
+                - manifest_status: "rejected"
+            - receipt_stale: "proposal-review"
+  - route_id: "revise-proposal-packet"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-revise"
+    skill_id: "octon-proposal-packet-lifecycle-revise"
+    prompt_set_id: "octon-proposal-packet-lifecycle-revise-proposal-packet"
+    completion:
+      expected_paths:
+        - "support/revisions"
+      expected_target_change: true
+      replan_required: true
+    enter_when:
+      all:
+        - receipt_complete: "proposal-review"
+        - receipt_verdict:
+            receipt_id: "proposal-review"
+            value: "revision-required"
+  - route_id: "generate-implementation-prompt"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-generate-implementation-prompt"
+    skill_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
+    prompt_set_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
+    completion:
+      expected_paths:
+        - "support/executable-implementation-prompt.md"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_complete: "proposal-review"
+        - receipt_verdict:
+            receipt_id: "proposal-review"
+            value: "accepted"
+        - file_absent: "support/executable-implementation-prompt.md"
+  - route_id: "run-implementation"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-run-implementation"
+    skill_id: "octon-proposal-packet-lifecycle-run-implementation"
+    prompt_set_id: "octon-proposal-packet-lifecycle-run-implementation"
+    approval:
+      required_by_default: true
+      reason: "durable repository implementation requires explicit approval"
+    completion:
+      expected_receipts:
+        - "implementation-run"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_complete: "proposal-review"
+        - receipt_verdict:
+            receipt_id: "proposal-review"
+            value: "accepted"
+        - file_present: "support/executable-implementation-prompt.md"
+        - receipt_absent: "implementation-run"
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    approval:
+      required_by_default: true
+      reason: "durable proposal promotion requires explicit approval"
+    completion:
+      expected_manifest_status: "implemented"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_complete: "proposal-review"
+        - receipt_verdict:
+            receipt_id: "proposal-review"
+            value: "accepted"
+        - file_present: "support/executable-implementation-prompt.md"
+        - receipt_complete: "implementation-run"
+        - receipt_field_equals:
+            receipt_id: "implementation-run"
+            field: "verdict"
+            value: "pass"
+  - route_id: "run-verification-and-correction-loop"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-run-verification-and-correction-loop"
+    skill_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop"
+    prompt_set_id: "octon-proposal-packet-lifecycle-run-verification-and-correction-loop"
+    completion:
+      expected_receipts:
+        - "implementation-conformance"
+        - "post-implementation-drift"
+      replan_required: true
+    enter_when:
+      any:
+        - all:
+            - manifest_status: "implemented"
+            - receipt_absent: "implementation-conformance"
+        - all:
+            - manifest_status: "implemented"
+            - receipt_absent: "post-implementation-drift"
+  - route_id: "closeout-proposal-packet"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-closeout"
+    skill_id: "octon-proposal-packet-lifecycle-closeout"
+    prompt_set_id: "octon-proposal-packet-lifecycle-closeout-proposal-packet"
+    completion:
+      expected_receipts:
+        - "proposal-closeout"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "implementation-conformance"
+        - receipt_field_equals:
+            receipt_id: "implementation-conformance"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "post-implementation-drift"
+        - receipt_field_equals:
+            receipt_id: "post-implementation-drift"
+            field: "verdict"
+            value: "pass"
+        - receipt_absent: "proposal-closeout"
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+    approval:
+      required_by_default: true
+      reason: "proposal archival requires explicit approval"
+    completion:
+      expected_manifest_status: "archived"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "implementation-conformance"
+        - receipt_field_equals:
+            receipt_id: "implementation-conformance"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "post-implementation-drift"
+        - receipt_field_equals:
+            receipt_id: "post-implementation-drift"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "proposal-closeout"
+        - receipt_field_equals:
+            receipt_id: "proposal-closeout"
+            field: "verdict"
+            value: "pass"
+        - receipt_field_equals:
+            receipt_id: "proposal-closeout"
+            field: "archive_authorized"
+            value: "yes"

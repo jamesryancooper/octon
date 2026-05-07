@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-d5acca5288da
-published_at: 2026-05-06T16:59:46Z
+generation_id: capabilities-312bb15472a9
+published_at: 2026-05-07T23:22:01Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-06T16-59-46Z-capabilities-d5acca5288da.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-07T23-22-01Z-capabilities-312bb15472a9.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: aee28ce5823f4a03fa36ddf0e9c5dfa4ad82fec7af042d527fb6cb747c9952b6
+  extensions_catalog_sha256: 17745dd041bb216464aa05a1bf390e711a36a5c3206248b8d1f0aa7bfbb20958
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: e2d80591706bfc4214c6574d7ed0c7d3c81677a1b81d02265b8f0062dece5ee2
+  extensions_generation_lock_sha256: 8c9e9228b444e1f2968e5144f9aeb156baa882cc35a866e44323790a4892078c
   extensions_generation_id: extensions-c2d4f2cbf257
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -4388,6 +4388,68 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-verification-prompt
     projection_name: octon-proposal-packet-generate-verification-prompt
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-review
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-review
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-review
+    display_name: Proposal Packet Review
+    summary: Review a proposal packet and record the review verdict receipt.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-review
+    projection_name: octon-proposal-packet-review
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-revise
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-revise
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-revise
+    display_name: Proposal Packet Revise
+    summary: Apply packet-local revisions for review findings and record the revision receipt.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-revise
+    projection_name: octon-proposal-packet-revise
   - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-implementation
     artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-run-implementation
     origin_class: extension
@@ -4419,6 +4481,37 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-implementation
     projection_name: octon-proposal-packet-run-implementation
+  - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-lifecycle
+    artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-run-lifecycle
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-packet-run-lifecycle
+    display_name: Proposal Packet Run Lifecycle
+    summary: Run generic lifecycle orchestration for one proposal packet and emit route handoff evidence.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-lifecycle
+    projection_name: octon-proposal-packet-run-lifecycle
   - effective_id: extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-program-verification-and-correction-loop
     artifact_map_id: extension-command-octon-proposal-packet-lifecycle-octon-proposal-packet-run-program-verification-and-correction-loop
     origin_class: extension
@@ -5597,6 +5690,68 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-verification-prompt
     projection_name: octon-proposal-packet-lifecycle-generate-verification-prompt
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-review
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-review
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-review
+    display_name: Proposal Packet Lifecycle Review
+    summary: Run the review-proposal-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-review
+    projection_name: octon-proposal-packet-lifecycle-review
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-revise
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-revise
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-revise
+    display_name: Proposal Packet Lifecycle Revise
+    summary: Run the revise-proposal-packet bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-revise
+    projection_name: octon-proposal-packet-lifecycle-revise
   - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-implementation
     artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-implementation
     origin_class: extension
@@ -5628,6 +5783,37 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-implementation
     projection_name: octon-proposal-packet-lifecycle-run-implementation
+  - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-lifecycle
+    artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-lifecycle
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-packet-lifecycle-run-lifecycle
+    display_name: Proposal Packet Lifecycle Runner
+    summary: Run the generic lifecycle runner against one proposal packet target.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-lifecycle
+    projection_name: octon-proposal-packet-lifecycle-run-lifecycle
   - effective_id: extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
     artifact_map_id: extension-skill-octon-proposal-packet-lifecycle-octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
     origin_class: extension
@@ -5837,7 +6023,10 @@ resolution_order:
   - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-implementation-prompt
   - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-program-verification-prompt
   - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-generate-verification-prompt
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-review
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-revise
   - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-implementation
+  - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-lifecycle
   - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-program-verification-and-correction-loop
   - extension.command.octon-proposal-packet-lifecycle.octon-proposal-packet-run-verification-and-correction-loop
   - extension.skill.octon-concept-integration.octon-concept-integration
@@ -5876,6 +6065,9 @@ resolution_order:
   - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-implementation-prompt
   - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-program-verification-prompt
   - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-generate-verification-prompt
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-review
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-revise
   - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-implementation
+  - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-lifecycle
   - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop
   - extension.skill.octon-proposal-packet-lifecycle.octon-proposal-packet-lifecycle-run-verification-and-correction-loop

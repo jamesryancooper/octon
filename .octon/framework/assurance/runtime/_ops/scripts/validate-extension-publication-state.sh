@@ -44,9 +44,20 @@ sorted_published_files() {
 }
 
 sorted_projection_source_paths() {
-  yq -r '.packs[]? | .routing_exports.commands[]?.projection_source_path, .routing_exports.skills[]?.projection_source_path, .prompt_bundles[]?.prompt_assets[]?.projection_source_path, .prompt_bundles[]?.reference_assets[]?.projection_source_path, .prompt_bundles[]?.shared_reference_assets[]?.projection_source_path // ""' "$CATALOG_FILE" 2>/dev/null \
+  yq -r '.packs[]? | .routing_exports.commands[]?.projection_source_path, .routing_exports.skills[]?.projection_source_path, .lifecycle_contracts[]?.projection_source_path, .prompt_bundles[]?.prompt_assets[]?.projection_source_path, .prompt_bundles[]?.reference_assets[]?.projection_source_path, .prompt_bundles[]?.shared_reference_assets[]?.projection_source_path // ""' "$CATALOG_FILE" 2>/dev/null \
     | awk 'NF' \
     | LC_ALL=C sort
+}
+
+valid_lifecycle_projection_path() {
+  local value="$1"
+  [[ -n "$value" \
+    && "$value" != /* \
+    && "$value" != *"../"* \
+    && "$value" != ../* \
+    && "$value" != *"/.." \
+    && "$value" != ".." \
+    && "$value" == "$PUBLISHED_EXTENSION_PREFIX"*"/context/lifecycle.contract.yml" ]]
 }
 
 main() {
@@ -199,6 +210,9 @@ main() {
     yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .route_dispatchers | type == \"!!seq\"" "$CATALOG_FILE" >/dev/null 2>&1 \
       && pass "route_dispatchers valid for $pack_id" \
       || fail "route_dispatchers invalid for $pack_id"
+    yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .lifecycle_contracts | type == \"!!seq\"" "$CATALOG_FILE" >/dev/null 2>&1 \
+      && pass "lifecycle_contracts valid for $pack_id" \
+      || fail "lifecycle_contracts invalid for $pack_id"
 
     local routing_contract_abs routing_contract_rel authored_route_dispatchers published_route_dispatchers
     routing_contract_abs="$(ext_routing_contract_abs_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"
@@ -219,6 +233,38 @@ main() {
       [[ "$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | (.route_dispatchers // []) | length" "$CATALOG_FILE" 2>/dev/null || echo 0)" == "0" ]] \
         && pass "route_dispatchers empty when no authored routing contract for $pack_id" \
         || fail "route_dispatchers must be empty when no authored routing contract exists for $pack_id"
+    fi
+
+    local lifecycle_contract_abs lifecycle_contract_rel lifecycle_id lifecycle_contract_sha published_lifecycle_sha published_lifecycle_path
+    lifecycle_contract_abs="$(ext_lifecycle_contract_abs_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"
+    lifecycle_contract_rel="$(ext_lifecycle_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"
+    if [[ -n "$lifecycle_contract_abs" ]]; then
+      lifecycle_id="$(yq -r '.lifecycle_id // ""' "$lifecycle_contract_abs")"
+      lifecycle_contract_sha="$(ext_hash_file "$lifecycle_contract_abs")"
+      yq -e ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .lifecycle_contracts[]? | select(.lifecycle_id == \"$lifecycle_id\")" "$CATALOG_FILE" >/dev/null 2>&1 \
+        && pass "lifecycle contract published for $pack_id/$lifecycle_id" \
+        || fail "lifecycle contract missing for $pack_id/$lifecycle_id"
+      published_lifecycle_sha="$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .lifecycle_contracts[]? | select(.lifecycle_id == \"$lifecycle_id\") | .contract_sha256 // \"\"" "$CATALOG_FILE" 2>/dev/null | head -n 1)"
+      [[ "$published_lifecycle_sha" == "$lifecycle_contract_sha" ]] \
+        && pass "lifecycle contract digest current for $pack_id/$lifecycle_id" \
+        || fail "lifecycle contract digest stale for $pack_id/$lifecycle_id"
+      published_lifecycle_path="$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .lifecycle_contracts[]? | select(.lifecycle_id == \"$lifecycle_id\") | .projection_source_path // \"\"" "$CATALOG_FILE" 2>/dev/null | head -n 1)"
+      valid_lifecycle_projection_path "$published_lifecycle_path" \
+        && pass "lifecycle contract projection path is generated-only for $pack_id/$lifecycle_id" \
+        || fail "lifecycle contract projection path must be generated-only for $pack_id/$lifecycle_id"
+      [[ -f "$ROOT_DIR/$published_lifecycle_path" ]] \
+        && pass "lifecycle contract projection exists for $pack_id/$lifecycle_id" \
+        || fail "lifecycle contract projection missing for $pack_id/$lifecycle_id"
+      yq -e ".required_inputs[]? | select(. == \"$lifecycle_contract_rel\")" "$GENERATION_LOCK_FILE" >/dev/null 2>&1 \
+        && pass "generation lock includes lifecycle contract input for $pack_id" \
+        || fail "generation lock missing lifecycle contract input for $pack_id"
+      yq -e ".required_inputs[]? | select(. == \"$lifecycle_contract_rel\")" "$receipt_abs" >/dev/null 2>&1 \
+        && pass "publication receipt includes lifecycle contract input for $pack_id" \
+        || fail "publication receipt missing lifecycle contract input for $pack_id"
+    else
+      [[ "$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | (.lifecycle_contracts // []) | length" "$CATALOG_FILE" 2>/dev/null || echo 0)" == "0" ]] \
+        && pass "lifecycle_contracts empty when no authored lifecycle contract for $pack_id" \
+        || fail "lifecycle_contracts must be empty when no authored lifecycle contract exists for $pack_id"
     fi
 
     local prompt_manifest_count catalog_prompt_bundle_count prompt_manifest prompt_set_id bundle_manifest_path bundle_manifest_sha alignment_receipt_rel

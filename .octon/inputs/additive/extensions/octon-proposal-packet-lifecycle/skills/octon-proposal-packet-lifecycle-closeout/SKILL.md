@@ -28,3 +28,9 @@ closeout or implemented archival, also refuse unless
 no unresolved items, or the packet records an explicit blocked/deferred report
 outcome or a rejected/superseded/historical archive disposition instead of a
 successful closeout.
+
+Successful closeout writes or refreshes `support/proposal-closeout.md` with at
+least `verdict`, `closed_at`, and `archive_authorized`. Use `verdict: pass` and
+`archive_authorized: yes` only when the packet is ready for the separate
+`archive-proposal` lifecycle route. Closeout must not archive the packet
+directly.

@@ -1,0 +1,175 @@
+schema_version: "octon-drift-triage-routing-v1"
+defaults:
+  mode: "select"
+  alignment_mode: "auto"
+  diff_head_default: "HEAD"
+  fallback_bundle_id: "alignment-check-harness"
+direct_checks:
+  validate-extension-pack-contract:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh"
+    read_only: true
+  validate-extension-publication-state:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh"
+    read_only: true
+  validate-runtime-effective-state:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh"
+    read_only: true
+  validate-capability-publication-state:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
+    read_only: true
+  validate-host-projections:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+    read_only: true
+  octon-drift-triage-test-routing-matrix:
+    kind: "extension-local-test"
+    command: "bash .octon/inputs/additive/extensions/octon-drift-triage/validation/tests/test-routing-matrix.sh"
+    read_only: true
+  octon-drift-triage-test-packet-contract:
+    kind: "extension-local-test"
+    command: "bash .octon/inputs/additive/extensions/octon-drift-triage/validation/tests/test-packet-contract.sh"
+    read_only: true
+  validate-bootstrap-ingress:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-ingress.sh"
+    read_only: true
+  validate-bootstrap-projections:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-bootstrap-projections.sh"
+    read_only: true
+  validate-ssot-precedence-drift:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-ssot-precedence-drift.sh"
+    read_only: true
+  validate-non-authority-register:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-non-authority-register.sh"
+    read_only: true
+  validate-repo-hygiene-governance:
+    kind: "script"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+    read_only: true
+recommended_bundles:
+  alignment-check-harness:
+    kind: "bundle"
+    command: "bash .octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh --profile harness"
+    auto_run: false
+routing_families:
+  - family_id: "extension-publication"
+    remediation_family_id: "extension-publication-remediation"
+    ranking_surface: "publication-effective"
+    review_trigger_ids: []
+    repo_hygiene: "exclude"
+    path_patterns:
+      - ".octon/inputs/additive/extensions/**"
+      - ".octon/instance/extensions.yml"
+      - ".octon/state/control/extensions/**"
+      - ".octon/generated/effective/extensions/**"
+    direct_check_ids:
+      - "validate-extension-pack-contract"
+      - "validate-extension-publication-state"
+      - "validate-runtime-effective-state"
+    recommended_bundle_ids:
+      - "alignment-check-harness"
+  - family_id: "extension-export"
+    remediation_family_id: "extension-export-remediation"
+    ranking_surface: "extension-export"
+    review_trigger_ids: []
+    repo_hygiene: "exclude"
+    path_patterns:
+      - ".octon/inputs/additive/extensions/**/commands/**"
+      - ".octon/inputs/additive/extensions/**/skills/**"
+      - ".octon/inputs/additive/extensions/**/commands/manifest.fragment.yml"
+      - ".octon/inputs/additive/extensions/**/skills/manifest.fragment.yml"
+      - ".octon/inputs/additive/extensions/**/skills/registry.fragment.yml"
+      - ".octon/generated/effective/capabilities/**"
+      - ".claude/commands/**"
+      - ".cursor/commands/**"
+      - ".codex/commands/**"
+      - ".claude/skills/**"
+      - ".cursor/skills/**"
+      - ".codex/skills/**"
+    direct_check_ids:
+      - "validate-capability-publication-state"
+      - "validate-host-projections"
+    recommended_bundle_ids: []
+  - family_id: "prompt-publication"
+    remediation_family_id: "prompt-publication-remediation"
+    ranking_surface: "publication-effective"
+    review_trigger_ids: []
+    repo_hygiene: "exclude"
+    path_patterns:
+      - ".octon/inputs/additive/extensions/**/prompts/**"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-prompt-bundle.sh"
+      - ".octon/generated/effective/extensions/published/**/prompts/**"
+    direct_check_ids:
+      - "validate-extension-publication-state"
+      - "octon-drift-triage-test-routing-matrix"
+      - "octon-drift-triage-test-packet-contract"
+    recommended_bundle_ids: []
+  - family_id: "ingress-bootstrap"
+    remediation_family_id: "ingress-bootstrap-remediation"
+    ranking_surface: "constitutional-ingress"
+    review_trigger_ids: []
+    repo_hygiene: "exclude"
+    path_patterns:
+      - ".octon/instance/ingress/**"
+      - ".octon/AGENTS.md"
+      - "AGENTS.md"
+      - "CLAUDE.md"
+      - ".octon/instance/charter/**"
+      - ".octon/instance/bootstrap/**"
+    direct_check_ids:
+      - "validate-bootstrap-ingress"
+      - "validate-bootstrap-projections"
+    recommended_bundle_ids: []
+  - family_id: "constitutional-ssot"
+    remediation_family_id: "constitutional-ssot-remediation"
+    ranking_surface: "constitutional-ingress"
+    review_trigger_ids: []
+    repo_hygiene: "exclude"
+    path_patterns:
+      - ".octon/framework/constitution/**"
+      - ".octon/framework/cognition/_meta/architecture/**"
+      - ".octon/framework/engine/governance/extensions/**"
+      - ".octon/framework/assurance/governance/precedence.md"
+      - ".octon/framework/engine/governance/README.md"
+    direct_check_ids:
+      - "validate-ssot-precedence-drift"
+    recommended_bundle_ids: []
+  - family_id: "non-authority-register"
+    remediation_family_id: "non-authority-register-remediation"
+    ranking_surface: "repo-governance"
+    review_trigger_ids: []
+    repo_hygiene: "exclude"
+    path_patterns:
+      - ".octon/instance/governance/non-authority-register.yml"
+    direct_check_ids:
+      - "validate-non-authority-register"
+    recommended_bundle_ids: []
+  - family_id: "repo-hygiene-governance"
+    remediation_family_id: "repo-hygiene-governance-remediation"
+    ranking_surface: "repo-governance"
+    review_trigger_ids:
+      - "drift-review"
+      - "retirement-review"
+    repo_hygiene: "conditional-scan"
+    path_patterns:
+      - ".github/workflows/repo-hygiene.yml"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-phase7-build-to-delete-institutionalization.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-global-retirement-closure.sh"
+      - ".octon/instance/governance/policies/repo-hygiene.yml"
+      - ".octon/instance/governance/contracts/drift-review.yml"
+      - ".octon/instance/governance/contracts/retirement-review.yml"
+      - ".octon/instance/governance/contracts/ablation-deletion-workflow.yml"
+      - ".octon/instance/governance/contracts/retirement-policy.yml"
+      - ".octon/instance/capabilities/runtime/commands/repo-hygiene/**"
+      - ".octon/instance/capabilities/runtime/host-tools/requirements.yml"
+    direct_check_ids:
+      - "validate-repo-hygiene-governance"
+    recommended_bundle_ids: []

@@ -36,3 +36,9 @@ checks are red, route-required review conversations are unresolved, final
 hygiene is incomplete, or route-required PR/merge/branch cleanup/origin sync
 gates remain unfinished unless the verdict is explicitly reported as a blocked
 or deferred outcome.
+
+When closeout succeeds, write or refresh `support/proposal-closeout.md` with at
+least `verdict`, `closed_at`, and `archive_authorized`. Use `verdict: pass` and
+`archive_authorized: yes` only when the packet is ready for the separate
+`archive-proposal` lifecycle route. Do not archive the packet directly from
+this route.

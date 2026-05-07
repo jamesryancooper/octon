@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/lifecycle-route-completion-observation-v1.schema.json",
+  "title": "Lifecycle Route Completion Observation",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "route_id",
+    "receipts_observed",
+    "completion_observed",
+    "completion_message"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-lifecycle-route-completion-observation-v1" },
+    "route_id": { "type": "string", "minLength": 1 },
+    "expected_manifest_status": { "type": ["string", "null"] },
+    "receipts_observed": { "type": "array" },
+    "expected_receipts": { "type": "array", "items": { "type": "string" } },
+    "expected_paths": { "type": "array", "items": { "type": "string" } },
+    "missing_expected_paths": { "type": "array", "items": { "type": "string" } },
+    "expected_target_change": { "type": "boolean" },
+    "target_digest_before": { "type": ["string", "null"] },
+    "target_digest_after": { "type": ["string", "null"] },
+    "completion_observed": { "type": "boolean" },
+    "completion_message": { "type": "string" }
+  }
+}

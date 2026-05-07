@@ -59,6 +59,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] `stage-inputs/` and `stage-logs/` exist for the workflow bundle
 - [ ] validate-proposal-standard.sh and the subtype validator pass for the target proposal
 - [ ] validate-proposal-implementation-readiness.sh runs and records a structural-only, blocked, or implementation-grade gate outcome
+- [ ] validate-proposal-review-gate.sh runs and records an awaiting-review, revision-required, accepted, rejected, or grandfathered structural gate outcome
 - [ ] validate-proposal-implementation-conformance.sh runs and records a not-yet-required, blocked, or passing conformance gate outcome
 - [ ] validate-proposal-post-implementation-drift.sh runs and records a not-yet-required, blocked, or passing drift/churn gate outcome
 - [ ] generated/proposals/registry.yml matches the deterministic manifest projection

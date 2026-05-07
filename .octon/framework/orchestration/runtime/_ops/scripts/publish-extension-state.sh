@@ -189,6 +189,9 @@ write_extension_publication_receipt() {
     if routing_contract_rel="$(ext_routing_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"; then
       [[ -n "$routing_contract_rel" ]] && required_inputs+=("$routing_contract_rel")
     fi
+    if lifecycle_contract_rel="$(ext_lifecycle_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"; then
+      [[ -n "$lifecycle_contract_rel" ]] && required_inputs+=("$lifecycle_contract_rel")
+    fi
     while IFS= read -r manifest_path; do
       [[ -n "$manifest_path" ]] || continue
       required_inputs+=("${manifest_path#$ROOT_DIR/}")
@@ -541,11 +544,27 @@ stage_pack_prompt_projections() {
   copy_projection_dir "$source_abs" "$dest_abs"
 }
 
+stage_pack_context_projection() {
+  local pack_id="$1" manifest_abs="$2" published_root_abs="$3"
+  local context_root_rel source_abs dest_abs
+
+  context_root_rel="$(yq -r '.content_entrypoints.context // ""' "$manifest_abs")"
+  if [[ -z "$context_root_rel" || "$context_root_rel" == "null" ]]; then
+    return 0
+  fi
+
+  source_abs="$(ext_pack_root_abs "$pack_id")/${context_root_rel%/}"
+  dest_abs="$published_root_abs/context"
+  [[ -d "$source_abs" ]] || return 0
+  copy_projection_dir "$source_abs" "$dest_abs"
+}
+
 stage_pack_projection_exports() {
   local pack_id="$1" source_id="$2" manifest_abs="$3" published_root_abs="$4"
   stage_pack_command_projections "$pack_id" "$source_id" "$manifest_abs" "$published_root_abs"
   stage_pack_skill_projections "$pack_id" "$source_id" "$manifest_abs" "$published_root_abs"
   stage_pack_prompt_projections "$pack_id" "$source_id" "$manifest_abs" "$published_root_abs"
+  stage_pack_context_projection "$pack_id" "$manifest_abs" "$published_root_abs"
 }
 
 write_pack_command_routing_exports() {
@@ -894,6 +913,74 @@ write_pack_prompt_bundles() {
   done
 }
 
+write_pack_lifecycle_contracts() {
+  local pack_id="$1" source_id="$2" manifest_abs="$3"
+  local contract_abs contract_rel contract_sha projection_rel state_count route_count validator_count gate_count receipt_count loop_count terminal_count
+  contract_abs="$(ext_lifecycle_contract_abs_for_pack "$manifest_abs" "$(ext_pack_root_abs "$pack_id")" 2>/dev/null || true)"
+  if [[ -z "$contract_abs" ]]; then
+    printf '    lifecycle_contracts: []\n'
+    return
+  fi
+
+  contract_rel="$(ext_lifecycle_contract_rel_for_pack "$pack_id" "$manifest_abs" "$(ext_pack_root_abs "$pack_id")")"
+  contract_sha="$(ext_hash_file "$contract_abs")"
+  projection_rel="$(ext_published_projection_root_rel "$pack_id" "$source_id")/context/lifecycle.contract.yml"
+  state_count="$(yq -r '(.states // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+  route_count="$(yq -r '(.routes // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+  validator_count="$(yq -r '(.validators // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+  gate_count="$(yq -r '(.gates // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+  receipt_count="$(yq -r '(.receipts // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+  loop_count="$(yq -r '(.loops // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+  terminal_count="$(yq -r '(.terminal_outcomes // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+
+  printf '    lifecycle_contracts:\n'
+  printf '      - lifecycle_id: "%s"\n' "$(yq -r '.lifecycle_id // ""' "$contract_abs")"
+  printf '        schema_version: "%s"\n' "$(yq -r '.schema_version // ""' "$contract_abs")"
+  printf '        version: "%s"\n' "$(yq -r '.version // ""' "$contract_abs")"
+  printf '        owner_extension: "%s"\n' "$(yq -r '.owner_extension // ""' "$contract_abs")"
+  printf '        contract_path: "%s"\n' "$contract_rel"
+  printf '        projection_source_path: "%s"\n' "$projection_rel"
+  printf '        contract_sha256: "%s"\n' "$contract_sha"
+  printf '        target_input: "%s"\n' "$(yq -r '.target.input // ""' "$contract_abs")"
+  printf '        target_manifest_path: "%s"\n' "$(yq -r '.target.manifest_path // ""' "$contract_abs")"
+  printf '        target_status_field: "%s"\n' "$(yq -r '.target.status_field // ""' "$contract_abs")"
+  printf '        states:\n'
+  if [[ "$state_count" -eq 0 ]]; then
+    printf '          []\n'
+  else
+    yq -r '.states[]?.state_id // ""' "$contract_abs" | awk 'NF' | while IFS= read -r state_id; do
+      printf '          - "%s"\n' "$state_id"
+    done
+  fi
+  printf '        terminal_outcomes:\n'
+  if [[ "$terminal_count" -eq 0 ]]; then
+    printf '          []\n'
+  else
+    yq -r '.terminal_outcomes[]?.outcome_id // ""' "$contract_abs" | awk 'NF' | while IFS= read -r outcome_id; do
+      printf '          - "%s"\n' "$outcome_id"
+    done
+  fi
+  printf '        counts:\n'
+  printf '          routes: %s\n' "$route_count"
+  printf '          validators: %s\n' "$validator_count"
+  printf '          gates: %s\n' "$gate_count"
+  printf '          receipts: %s\n' "$receipt_count"
+  printf '          loops: %s\n' "$loop_count"
+  printf '        routes:\n'
+  if [[ "$route_count" -eq 0 ]]; then
+    printf '          []\n'
+  else
+    local index
+    for ((index=0; index<route_count; index++)); do
+      printf '          - route_id: "%s"\n' "$(yq -r ".routes[$index].route_id // \"\"" "$contract_abs")"
+      printf '            route_type: "%s"\n' "$(yq -r ".routes[$index].route_type // \"\"" "$contract_abs")"
+      printf '            command_id: "%s"\n' "$(yq -r ".routes[$index].command_id // \"\"" "$contract_abs")"
+      printf '            skill_id: "%s"\n' "$(yq -r ".routes[$index].skill_id // \"\"" "$contract_abs")"
+      printf '            prompt_set_id: "%s"\n' "$(yq -r ".routes[$index].prompt_set_id // \"\"" "$contract_abs")"
+    done
+  fi
+}
+
 write_effective_files() {
   local desired_sha="$1" root_sha="$2" tmpdir="$3" status="$4"
   local active_tmp quarantine_tmp family_tmp catalog_tmp artifact_map_tmp lock_tmp published_tmp receipt_tmp previous_family_tmp retained_tmp_root
@@ -906,6 +993,7 @@ write_effective_files() {
     "root-manifest-sha-changed"
     "pack-manifest-or-payload-changed"
     "routing-contract-sha-changed"
+    "lifecycle-contract-sha-changed"
     "prompt-manifest-sha-changed"
     "prompt-asset-sha-changed"
     "required-anchor-sha-changed"
@@ -1010,6 +1098,7 @@ write_effective_files() {
         printf '    publication_status: "%s"\n' "$status"
         printf '    compatibility_status: "%s"\n' "${EXT_COMPAT_RESULT_STATUS["$key"]:-compatible}"
         printf '    compatibility_profile_path: "%s"\n' "${EXT_COMPAT_PROFILE_REL["$key"]:-.octon/inputs/additive/extensions/$pack_id/validation/compatibility.yml}"
+        write_pack_lifecycle_contracts "$pack_id" "$source_id" "$manifest_abs"
         write_pack_route_dispatchers "$pack_id" "$manifest_abs"
         write_routing_exports "$pack_id" "$source_id" "$manifest_abs"
         write_pack_prompt_bundles "$pack_id" "$source_id" "$manifest_abs" "$published_tmp/$pack_id/$source_id" "$retained_tmp_root"
@@ -1080,6 +1169,9 @@ write_effective_files() {
       printf '  - ".octon/inputs/additive/extensions/%s/validation/compatibility.yml"\n' "$(ext_key_pack_id "$key")"
       if routing_contract_rel="$(ext_routing_contract_rel_for_pack "$(ext_key_pack_id "$key")" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")" 2>/dev/null || true)"; then
         [[ -n "$routing_contract_rel" ]] && printf '  - "%s"\n' "$routing_contract_rel"
+      fi
+      if lifecycle_contract_rel="$(ext_lifecycle_contract_rel_for_pack "$(ext_key_pack_id "$key")" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")" 2>/dev/null || true)"; then
+        [[ -n "$lifecycle_contract_rel" ]] && printf '  - "%s"\n' "$lifecycle_contract_rel"
       fi
       while IFS= read -r prompt_manifest; do
         [[ -n "$prompt_manifest" ]] || continue

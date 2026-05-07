@@ -17,6 +17,7 @@ EXT_LOCK="$OCTON_DIR/generated/effective/extensions/generation.lock.yml"
 CAP_ROUTING="$OCTON_DIR/generated/effective/capabilities/routing.effective.yml"
 CAP_ROUTING_LOCK="$OCTON_DIR/generated/effective/capabilities/generation.lock.yml"
 ACTIVE_STATE="$OCTON_DIR/state/control/extensions/active.yml"
+WORKFLOW_MANIFEST="$OCTON_DIR/framework/orchestration/runtime/workflows/manifest.yml"
 OUT_DIR="$OCTON_DIR/generated/effective/runtime"
 OUT_FILE="$OUT_DIR/route-bundle.yml"
 LOCK_FILE="$OUT_DIR/route-bundle.lock.yml"
@@ -41,6 +42,7 @@ pack_sha="$(hash_file "$PACK_ROUTES")"
 pack_lock_sha="$(hash_file "$PACK_LOCK")"
 ext_catalog_sha="$(hash_file "$EXT_CATALOG")"
 ext_lock_sha="$(hash_file "$EXT_LOCK")"
+workflow_manifest_sha="$(hash_file "$WORKFLOW_MANIFEST")"
 cap_routing_sha=""
 cap_routing_lock_sha=""
 if [[ -f "$CAP_ROUTING" ]]; then
@@ -82,6 +84,7 @@ quarantine_count="$(yq -r '.records | length' "$OCTON_DIR/state/control/extensio
   echo '  pack_routes_lock_ref: ".octon/generated/effective/capabilities/pack-routes.lock.yml"'
   echo '  extensions_catalog_ref: ".octon/generated/effective/extensions/catalog.effective.yml"'
   echo '  extensions_generation_lock_ref: ".octon/generated/effective/extensions/generation.lock.yml"'
+  echo '  workflow_manifest_ref: ".octon/framework/orchestration/runtime/workflows/manifest.yml"'
   echo 'routes:'
   while IFS= read -r tuple_id; do
     [[ -n "$tuple_id" ]] || continue
@@ -130,6 +133,7 @@ out_sha="$(hash_file "$tmp_out")"
   echo "  pack_routes_lock_sha256: \"$pack_lock_sha\""
   echo "  extensions_catalog_sha256: \"$ext_catalog_sha\""
   echo "  extensions_generation_lock_sha256: \"$ext_lock_sha\""
+  echo "  workflow_manifest_sha256: \"$workflow_manifest_sha\""
   if [[ -n "$cap_routing_sha" ]]; then
     echo "  capability_routing_sha256: \"$cap_routing_sha\""
   fi
@@ -162,6 +166,7 @@ out_sha="$(hash_file "$tmp_out")"
   echo '  - ".octon/generated/effective/capabilities/pack-routes.lock.yml"'
   echo '  - ".octon/generated/effective/extensions/catalog.effective.yml"'
   echo '  - ".octon/generated/effective/extensions/generation.lock.yml"'
+  echo '  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"'
   echo '  - ".octon/state/control/extensions/active.yml"'
   echo '  - ".octon/state/control/extensions/quarantine.yml"'
   if [[ -n "$cap_routing_sha" ]]; then
@@ -229,6 +234,7 @@ cp "$tmp_lock" "$LOCK_FILE"
   echo "  pack_routes_lock_sha256: \"$pack_lock_sha\""
   echo "  extensions_catalog_sha256: \"$ext_catalog_sha\""
   echo "  extensions_generation_lock_sha256: \"$ext_lock_sha\""
+  echo "  workflow_manifest_sha256: \"$workflow_manifest_sha\""
   echo 'blocked_reasons: []'
   echo 'published_paths:'
   echo '  - ".octon/generated/effective/runtime/route-bundle.yml"'
@@ -241,6 +247,7 @@ cp "$tmp_lock" "$LOCK_FILE"
   echo '  - ".octon/generated/effective/capabilities/pack-routes.lock.yml"'
   echo '  - ".octon/generated/effective/extensions/catalog.effective.yml"'
   echo '  - ".octon/generated/effective/extensions/generation.lock.yml"'
+  echo '  - ".octon/framework/orchestration/runtime/workflows/manifest.yml"'
   echo '  - ".octon/state/control/extensions/active.yml"'
   echo '  - ".octon/state/control/extensions/quarantine.yml"'
 } >"$receipt_abs"

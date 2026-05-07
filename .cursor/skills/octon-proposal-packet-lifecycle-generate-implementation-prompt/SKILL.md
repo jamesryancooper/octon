@@ -20,10 +20,12 @@ plan, and live repository state. Include executable workstreams, validation,
 evidence, rollback posture, terminal criteria, and any explicitly authorized
 delegation boundaries.
 
-Prerequisite: `support/implementation-grade-completeness-review.md` must exist
-and pass before this skill writes or refreshes an executable implementation
-prompt. Refuse prompt generation when the receipt is missing, failing, or still
-requires clarification.
+Prerequisites: `support/implementation-grade-completeness-review.md` must exist
+and pass, and `validate-proposal-review-gate.sh --package <proposal_path>
+--require-implementation-authorization` must pass with a fresh accepted
+`support/proposal-review.md`, before this skill writes or refreshes an
+executable implementation prompt. Refuse prompt generation when either gate is
+missing, failing, stale, or still requires clarification.
 
 The generated implementation prompt must instruct the implementer to produce
 `support/implementation-conformance-review.md` and
@@ -32,5 +34,6 @@ The generated implementation prompt must instruct the implementer to produce
 `validate-proposal-post-implementation-drift.sh --package <proposal_path>`, and
 refuse closeout/archive claims until both receipts pass.
 
-After a prompt is generated and the packet is accepted or explicitly approved
-for implementation, the next lifecycle route is `run-implementation`.
+After a prompt is generated and the packet has a fresh accepted proposal review
+receipt authorizing implementation, the next lifecycle route is
+`run-implementation`.

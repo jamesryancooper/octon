@@ -4191,9 +4191,24 @@ dependencies = [
  "hex",
  "octon_authority_engine",
  "octon_core",
+ "octon_lifecycle_executor",
  "octon_wasm_host",
  "serde",
  "serde_json",
+ "serde_yaml",
+ "sha2",
+ "thiserror 1.0.69",
+ "time",
+ "walkdir",
+]
+
+[[package]]
+name = "octon_lifecycle_executor"
+version = "1.0.0"
+dependencies = [
+ "anyhow",
+ "hex",
+ "serde",
  "serde_yaml",
  "sha2",
  "thiserror 1.0.69",

@@ -9,6 +9,7 @@ FRAMEWORK_DIR="$(cd "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 VALIDATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+REVIEW_GATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
 
 pass_count=0
 fail_count=0
@@ -52,6 +53,7 @@ create_fixture_repo() {
   CLEANUP_DIRS+=("$fixture_root")
   mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
   cp "$REPO_ROOT/$VALIDATE_SCRIPT" "$fixture_root/$VALIDATE_SCRIPT"
+  cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
   printf '%s\n' "$fixture_root"
 }
 
@@ -174,6 +176,50 @@ Generate implementation prompt.
 EOF
 }
 
+packet_digest() {
+  local root="$1"
+  (
+    cd "$root"
+    bash "$REVIEW_GATE_SCRIPT" --package ".octon/inputs/exploratory/proposals/policy/readiness-policy" --print-digest
+  )
+}
+
+write_passing_proposal_review() {
+  local root="$1" digest
+  digest="$(packet_digest "$root")"
+  cat >"$root/.octon/inputs/exploratory/proposals/policy/readiness-policy/support/proposal-review.md" <<EOF
+# Proposal Review
+
+review_id: readiness-review-001
+reviewed_at: 2026-05-06
+reviewer: fixture-reviewer
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: $digest
+open_blocking_findings_count: 0
+
+## Approved Promotion Targets
+
+- .octon/framework/example.md
+
+## Exclusions
+
+None.
+
+## Blocking Findings
+
+None.
+
+## Nonblocking Findings
+
+None.
+
+## Final Route Recommendation
+
+Generate implementation prompt.
+EOF
+}
+
 run_validator() {
   local root="$1"
   (
@@ -224,8 +270,9 @@ case_executable_prompt_requires_passing_review() {
 case_executable_prompt_requires_prompt_contract() {
   local root prompt
   root="$(create_fixture_repo)"
-  write_policy_packet "$root" draft
+  write_policy_packet "$root" accepted
   write_passing_review "$root"
+  write_passing_proposal_review "$root"
   prompt="$root/.octon/inputs/exploratory/proposals/policy/readiness-policy/support/executable-implementation-prompt.md"
   cat >"$prompt" <<'EOF'
 # Executable Implementation Prompt
@@ -238,7 +285,32 @@ EOF
 case_valid_executable_prompt_passes() {
   local root prompt
   root="$(create_fixture_repo)"
-  write_policy_packet "$root" draft
+  write_policy_packet "$root" accepted
+  write_passing_review "$root"
+  write_passing_proposal_review "$root"
+  prompt="$root/.octon/inputs/exploratory/proposals/policy/readiness-policy/support/executable-implementation-prompt.md"
+  cat >"$prompt" <<'EOF'
+# Executable Implementation Prompt
+
+Implement the promotion target `.octon/framework/example.md`.
+
+Run validation with validate-proposal-implementation-readiness.sh and
+validate-proposal-implementation-conformance.sh.
+
+Retain evidence for the implemented result and record rollback instructions.
+
+After implementation, produce `support/implementation-conformance-review.md`
+and `support/post-implementation-drift-churn-review.md`.
+
+Refuse closeout/archive claims until both post-implementation receipts pass.
+EOF
+  run_validator "$root"
+}
+
+case_executable_prompt_requires_accepted_review() {
+  local root prompt
+  root="$(create_fixture_repo)"
+  write_policy_packet "$root" accepted
   write_passing_review "$root"
   prompt="$root/.octon/inputs/exploratory/proposals/policy/readiness-policy/support/executable-implementation-prompt.md"
   cat >"$prompt" <<'EOF'
@@ -352,6 +424,10 @@ main() {
   assert_success \
     "valid executable implementation prompt passes prompt lint" \
     case_valid_executable_prompt_passes
+  assert_failure_contains \
+    "implementation prompt requires accepted proposal review" \
+    "proposal review authorizes executable implementation prompt" \
+    case_executable_prompt_requires_accepted_review
   assert_success \
     "legacy implemented archives without receipts remain inventory-compatible" \
     case_legacy_archived_implemented_without_review_warns_but_passes

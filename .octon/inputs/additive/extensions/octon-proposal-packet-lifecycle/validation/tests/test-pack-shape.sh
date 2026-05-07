@@ -30,6 +30,8 @@ main() {
   local routes=(
     create-proposal-packet
     explain-proposal-packet
+    review-proposal-packet
+    revise-proposal-packet
     generate-implementation-prompt
     generate-verification-prompt
     generate-correction-prompt
@@ -70,7 +72,7 @@ main() {
   done
 
   manifest_count="$(find "$PACK_ROOT/prompts" -mindepth 2 -maxdepth 2 -name manifest.yml -type f | wc -l | tr -d ' ')"
-  [[ "$manifest_count" == "16" ]] && pass "16 prompt bundle manifests present" || fail "expected 16 prompt manifests, found $manifest_count"
+  [[ "$manifest_count" == "18" ]] && pass "18 prompt bundle manifests present" || fail "expected 18 prompt manifests, found $manifest_count"
 
   scenario_count="$(find "$PACK_ROOT/validation/scenarios" -name '*.md' -type f | wc -l | tr -d ' ')"
   [[ "$scenario_count" -ge 12 ]] && pass "manual and program scenario fixtures present" || fail "expected at least 12 scenarios, found $scenario_count"

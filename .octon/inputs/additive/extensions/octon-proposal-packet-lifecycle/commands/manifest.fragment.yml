@@ -18,6 +18,18 @@ commands:
     summary: "Explain a proposal packet without widening its scope or authority."
     access: agent
     argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-review
+    display_name: Proposal Packet Review
+    path: octon-proposal-packet-review.md
+    summary: "Review a proposal packet and record the review verdict receipt."
+    access: agent
+    argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-revise
+    display_name: Proposal Packet Revise
+    path: octon-proposal-packet-revise.md
+    summary: "Apply packet-local revisions for review findings and record the revision receipt."
+    access: agent
+    argument_hint: "<packet-path> [--review-id <id>] [--finding-id <id>]"
   - id: octon-proposal-packet-generate-implementation-prompt
     display_name: Proposal Packet Generate Implementation Prompt
     path: octon-proposal-packet-generate-implementation-prompt.md
@@ -60,6 +72,12 @@ commands:
     summary: "Execute gated closeout for one proposal packet."
     access: agent
     argument_hint: "<packet-path>"
+  - id: octon-proposal-packet-run-lifecycle
+    display_name: Proposal Packet Run Lifecycle
+    path: octon-proposal-packet-run-lifecycle.md
+    summary: "Run generic lifecycle orchestration for one proposal packet and emit route handoff evidence."
+    access: agent
+    argument_hint: "<packet-path> [--run-id <id>] [--executor auto|codex|claude|mock] [--max-iterations <n>]"
   - id: octon-proposal-packet-create-program
     display_name: Proposal Packet Create Program
     path: octon-proposal-packet-create-program.md

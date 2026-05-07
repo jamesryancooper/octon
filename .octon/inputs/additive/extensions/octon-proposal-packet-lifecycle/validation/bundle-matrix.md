@@ -7,6 +7,8 @@
 | `highest-leverage-next-step-packet.md` | highest-leverage next-step packet creation |
 | `source-to-packet.md` | generic source-to-packet creation |
 | `packet-explanation.md` | packet explanation |
+| `packet-review.md` | proposal review receipt and verdict routing |
+| `packet-revision.md` | packet-local revision receipt and review loop return |
 | `implementation-prompt-generation.md` | executable implementation prompt generation |
 | `verification-prompt-generation.md` | follow-up verification prompt generation |
 | `correction-prompt-generation.md` | targeted correction prompt generation |

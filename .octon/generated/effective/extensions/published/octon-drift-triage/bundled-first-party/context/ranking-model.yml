@@ -1,0 +1,43 @@
+schema_version: "octon-drift-triage-ranking-v1"
+version: "1.0.0"
+formula: "score = evidence_weight + surface_weight + match_weight + review_weight"
+weights:
+  evidence:
+    failed: 60
+    blocked: 45
+    selected_not_run: 30
+    passed: 10
+  surface:
+    constitutional-ingress: 30
+    publication-effective: 25
+    repo-governance: 20
+    extension-export: 15
+    other: 10
+  match:
+    exact: 10
+    adjacent: 5
+    derived: 0
+  review:
+    drift_or_retirement_trigger: 10
+    repo_hygiene_selected: 5
+priority_buckets:
+  critical:
+    min: 95
+  high:
+    min: 75
+    max: 94
+  medium:
+    min: 55
+    max: 74
+  low:
+    max: 54
+tie_break_order:
+  - "evidence_weight"
+  - "surface_weight"
+  - "item_id"
+classification_rules:
+  exact: "At least one affected path directly matches the remediation family path_patterns."
+  adjacent: "The family is selected because an adjacent publication or projection surface in the same remediation area also requires review."
+  derived: "The family is emitted only from fallback logic or stored packet context without a direct path match."
+  drift_or_retirement_trigger: "Add 10 when the changed path set hits drift-review or retirement-review trigger surfaces."
+  repo_hygiene_selected: "Add 5 when repo-hygiene scan is selected for the packet."

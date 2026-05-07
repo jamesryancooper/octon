@@ -144,6 +144,7 @@ pub(crate) fn dispatch(cmd: Command) -> Result<()> {
         Command::Evolve { cmd } => evolution::cmd_evolve(cmd),
         Command::Amend { cmd } => evolution::cmd_amend(cmd),
         Command::Promote { cmd } => evolution::cmd_promote(cmd),
+        Command::Lifecycle { cmd } => crate::lifecycle::cmd_lifecycle(cmd),
         Command::Recertify { cmd } => evolution::cmd_recertify(cmd),
         Command::Doctor { architecture } => cmd_doctor(architecture),
         Command::Info => cmd_info(),
@@ -1719,17 +1720,27 @@ fn cmd_workflow(cmd: WorkflowCmd) -> Result<()> {
             model,
             prepare_only,
         } => {
-            let _ = (
-                workflow_id,
-                run_id,
-                mission_id,
-                set,
-                executor,
-                executor_bin,
-                output_slug,
-                model,
-                prepare_only,
-            );
+            if std::env::var("OCTON_WORKFLOW_RUN_COMPAT").as_deref() == Ok("1") {
+                let result = pipeline::run_pipeline_from_octon_dir(
+                    &octon_dir,
+                    pipeline::RunPipelineOptions {
+                        pipeline_id: workflow_id,
+                        run_id,
+                        mission_id,
+                        resume_existing: false,
+                        executor,
+                        executor_bin: executor_bin.map(Into::into),
+                        output_slug,
+                        model,
+                        prepare_only,
+                        input_overrides: parse_workflow_set_overrides(set)?,
+                    },
+                )?;
+                println!("bundle_root: {}", result.bundle_root.display());
+                println!("summary_report: {}", result.summary_report.display());
+                println!("final_verdict: {}", result.final_verdict);
+                return Ok(());
+            }
             anyhow::bail!(
                 "workflow run is retired; start consequential execution with `octon run start --contract ...`"
             );
@@ -1742,6 +1753,20 @@ fn cmd_workflow(cmd: WorkflowCmd) -> Result<()> {
         }
     }
     Ok(())
+}
+
+fn parse_workflow_set_overrides(set: Vec<String>) -> Result<HashMap<String, String>> {
+    let mut overrides = HashMap::new();
+    for entry in set {
+        let (key, value) = entry
+            .split_once('=')
+            .ok_or_else(|| anyhow::anyhow!("invalid --set value '{entry}', expected key=value"))?;
+        if key.trim().is_empty() {
+            anyhow::bail!("invalid --set value '{entry}', key cannot be empty");
+        }
+        overrides.insert(key.trim().to_string(), value.to_string());
+    }
+    Ok(overrides)
 }
 
 fn cmd_run(cmd: RunCmd) -> Result<()> {

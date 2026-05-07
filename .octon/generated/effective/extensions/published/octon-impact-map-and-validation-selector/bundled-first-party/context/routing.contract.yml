@@ -1,0 +1,213 @@
+schema_version: "octon-extension-routing-contract-v1"
+dispatchers:
+  - dispatcher_id: "octon-impact-map-and-validation-selector"
+    default_route_id: "touched-paths"
+    accepted_inputs:
+      - "bundle"
+      - "touched_paths"
+      - "proposal_packet"
+      - "refactor_target"
+      - "validation_depth"
+      - "strictness"
+      - "dry_run_route"
+      - "explanation_mode"
+    disambiguators:
+      - input_name: "bundle"
+        kind: "route-id"
+        allowed_values:
+          - "touched-paths"
+          - "proposal-packet"
+          - "refactor-target"
+          - "mixed-inputs"
+      - input_name: "validation_depth"
+        kind: "enum"
+        allowed_values:
+          - "minimal"
+          - "standard"
+          - "deep"
+      - input_name: "strictness"
+        kind: "enum"
+        allowed_values:
+          - "credible-minimum"
+          - "balanced"
+          - "release-gate"
+      - input_name: "explanation_mode"
+        kind: "enum"
+        allowed_values:
+          - "concise"
+          - "full-trace"
+    precedence:
+      - "explicit-bundle-touched-paths"
+      - "explicit-bundle-proposal-packet"
+      - "explicit-bundle-refactor-target"
+      - "explicit-bundle-mixed-inputs"
+      - "explicit-unsupported-bundle"
+      - "all-primary-inputs-present"
+      - "touched-paths-and-proposal-packet"
+      - "touched-paths-and-refactor-target"
+      - "proposal-packet-and-refactor-target"
+      - "single-touched-paths"
+      - "single-proposal-packet"
+      - "single-refactor-target"
+      - "missing-routeable-inputs"
+    routes:
+      - route_id: "touched-paths"
+        status: "resolved"
+        execution_binding_id: "touched-paths"
+        matchers:
+          - matcher_id: "explicit-bundle-touched-paths"
+            reason_codes:
+              - "explicit-bundle"
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "touched-paths"
+          - matcher_id: "single-touched-paths"
+            reason_codes:
+              - "touched-paths"
+            all_of:
+              - input_name: "touched_paths"
+                predicate: "present"
+              - input_name: "proposal_packet"
+                predicate: "absent"
+              - input_name: "refactor_target"
+                predicate: "absent"
+      - route_id: "proposal-packet"
+        status: "resolved"
+        execution_binding_id: "proposal-packet"
+        matchers:
+          - matcher_id: "explicit-bundle-proposal-packet"
+            reason_codes:
+              - "explicit-bundle"
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "proposal-packet"
+          - matcher_id: "single-proposal-packet"
+            reason_codes:
+              - "proposal-packet"
+            all_of:
+              - input_name: "proposal_packet"
+                predicate: "present"
+              - input_name: "touched_paths"
+                predicate: "absent"
+              - input_name: "refactor_target"
+                predicate: "absent"
+      - route_id: "refactor-target"
+        status: "resolved"
+        execution_binding_id: "refactor-target"
+        matchers:
+          - matcher_id: "explicit-bundle-refactor-target"
+            reason_codes:
+              - "explicit-bundle"
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "refactor-target"
+          - matcher_id: "single-refactor-target"
+            reason_codes:
+              - "refactor-target"
+            all_of:
+              - input_name: "refactor_target"
+                predicate: "present"
+              - input_name: "touched_paths"
+                predicate: "absent"
+              - input_name: "proposal_packet"
+                predicate: "absent"
+      - route_id: "mixed-inputs"
+        status: "resolved"
+        execution_binding_id: "mixed-inputs"
+        matchers:
+          - matcher_id: "explicit-bundle-mixed-inputs"
+            reason_codes:
+              - "explicit-bundle"
+            all_of:
+              - input_name: "bundle"
+                predicate: "equals"
+                value: "mixed-inputs"
+          - matcher_id: "all-primary-inputs-present"
+            reason_codes:
+              - "mixed-inputs"
+            all_of:
+              - input_name: "touched_paths"
+                predicate: "present"
+              - input_name: "proposal_packet"
+                predicate: "present"
+              - input_name: "refactor_target"
+                predicate: "present"
+          - matcher_id: "touched-paths-and-proposal-packet"
+            reason_codes:
+              - "mixed-inputs"
+            all_of:
+              - input_name: "touched_paths"
+                predicate: "present"
+              - input_name: "proposal_packet"
+                predicate: "present"
+          - matcher_id: "touched-paths-and-refactor-target"
+            reason_codes:
+              - "mixed-inputs"
+            all_of:
+              - input_name: "touched_paths"
+                predicate: "present"
+              - input_name: "refactor_target"
+                predicate: "present"
+          - matcher_id: "proposal-packet-and-refactor-target"
+            reason_codes:
+              - "mixed-inputs"
+            all_of:
+              - input_name: "proposal_packet"
+                predicate: "present"
+              - input_name: "refactor_target"
+                predicate: "present"
+      - route_id: "unsupported-route-id"
+        status: "deny"
+        matchers:
+          - matcher_id: "explicit-unsupported-bundle"
+            reason_codes:
+              - "unsupported-route-id"
+            all_of:
+              - input_name: "bundle"
+                predicate: "present"
+              - input_name: "bundle"
+                predicate: "not_one_of"
+                values:
+                  - "touched-paths"
+                  - "proposal-packet"
+                  - "refactor-target"
+                  - "mixed-inputs"
+      - route_id: "missing-routeable-inputs"
+        status: "escalate"
+        matchers:
+          - matcher_id: "missing-routeable-inputs"
+            reason_codes:
+              - "missing-routeable-inputs"
+            all_of:
+              - input_name: "bundle"
+                predicate: "absent"
+              - input_name: "touched_paths"
+                predicate: "absent"
+              - input_name: "proposal_packet"
+                predicate: "absent"
+              - input_name: "refactor_target"
+                predicate: "absent"
+    execution_bindings:
+      - binding_id: "touched-paths"
+        route_id: "touched-paths"
+        command_capability_id: "octon-impact-map-and-validation-selector-touched-paths"
+        skill_capability_id: "octon-impact-map-and-validation-selector-touched-paths"
+        prompt_set_id: "octon-impact-map-and-validation-selector-touched-paths-impact-map"
+      - binding_id: "proposal-packet"
+        route_id: "proposal-packet"
+        command_capability_id: "octon-impact-map-and-validation-selector-proposal-packet"
+        skill_capability_id: "octon-impact-map-and-validation-selector-proposal-packet"
+        prompt_set_id: "octon-impact-map-and-validation-selector-proposal-packet-impact-map"
+      - binding_id: "refactor-target"
+        route_id: "refactor-target"
+        command_capability_id: "octon-impact-map-and-validation-selector-refactor-target"
+        skill_capability_id: "octon-impact-map-and-validation-selector-refactor-target"
+        prompt_set_id: "octon-impact-map-and-validation-selector-refactor-target-impact-map"
+      - binding_id: "mixed-inputs"
+        route_id: "mixed-inputs"
+        command_capability_id: "octon-impact-map-and-validation-selector-mixed-inputs"
+        skill_capability_id: "octon-impact-map-and-validation-selector-mixed-inputs"
+        prompt_set_id: "octon-impact-map-and-validation-selector-mixed-input-reconciliation"

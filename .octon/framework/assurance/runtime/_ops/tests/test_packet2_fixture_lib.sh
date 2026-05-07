@@ -46,6 +46,11 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh"
+  cat >"$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+enter_publication_runtime_boundary() { :; }
+EOF
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh"
   cp "$REPO_ROOT/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
@@ -111,6 +116,7 @@ EOF
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/publication-wrapper-common.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/export-harness.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/extensions-common.sh" \
     "$fixture_root/.octon/framework/orchestration/runtime/_ops/scripts/resolve-extension-route.sh" \

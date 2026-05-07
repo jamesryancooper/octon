@@ -147,6 +147,7 @@ done_gate:
     - "`stage-inputs/` and `stage-logs/` exist for the workflow bundle"
     - "the source proposal validates before promotion"
     - "the source proposal has a passing implementation-grade completeness receipt"
+    - "the source proposal has a fresh accepted proposal-review receipt authorizing implementation"
     - "the source proposal starts from the active path with `status: accepted`"
     - "every promotion target exists and contains no proposal-path backreferences"
     - "`support/implementation-conformance-review.md` passes after durable promotion"

@@ -28,9 +28,11 @@ Resolve exactly one proposal packet path before taking implementation action.
 Refuse implementation when:
 
 - `proposal.yml` or the subtype manifest is missing or invalid;
-- `status` is not `accepted`, unless the operator explicitly invokes this
-  implementation command for the packet and the run records that invocation as
-  human acceptance for this implementation pass;
+- `status` is not `accepted`;
+- `support/proposal-review.md` is missing, stale, not accepted, has open
+  blocking findings, or does not authorize implementation;
+- `validate-proposal-review-gate.sh --package <proposal_path>
+  --require-implementation-authorization` fails;
 - `support/implementation-grade-completeness-review.md` is missing, failing,
   has `unresolved_questions_count` other than `0`, or has
   `clarification_required` other than `no`;
@@ -42,8 +44,9 @@ Refuse implementation when:
   proposal-local analysis as runtime, policy, support, or closure authority.
 
 If the proposal is still `in-review`, do not infer approval from packet
-existence. The operator must explicitly request this implementation command for
-the packet, or the run stops with the next lifecycle route.
+existence or operator intent. Route to `review-proposal-packet` or
+`revise-proposal-packet` until a fresh accepted review receipt authorizes
+implementation.
 
 ## Required Execution Flow
 
@@ -52,8 +55,8 @@ the packet, or the run stops with the next lifecycle route.
    when present, `architecture/acceptance-criteria.md` when present,
    `support/implementation-grade-completeness-review.md`, and
    `support/executable-implementation-prompt.md`.
-2. Run or confirm the structural, subtype, and implementation-readiness
-   validators required by the packet.
+2. Run or confirm the structural, subtype, implementation-readiness, and strict
+   proposal-review gate validators required by the packet.
 3. Execute only the durable promotion work described by the executable
    implementation prompt and declared promotion targets.
 4. Preserve Octon class boundaries:
@@ -66,14 +69,15 @@ the packet, or the run stops with the next lifecycle route.
    - proposal packet paths may remain only as provenance, not as runtime
      dependencies.
 5. Update post-implementation packet support material:
+   - `support/implementation-run.md`;
    - `support/implementation-conformance-review.md`;
    - `support/post-implementation-drift-churn-review.md`;
    - `support/validation.md`;
    - `support/SHA256SUMS.txt`, when the packet maintains checksums.
-6. Set `proposal.yml#status` to `implemented` only after durable promotion has
-   landed and both post-implementation receipts pass. Leave the status
-   unchanged and report `blocked` or `deferred` when implementation cannot be
-   completed cleanly.
+6. Leave `proposal.yml#status` as `accepted`; this bundle writes the
+   implementation evidence that enables the separate `promote-proposal`
+   lifecycle route to rewrite status to `implemented`. Report `blocked` or
+   `deferred` when implementation cannot be completed cleanly.
 7. Run the post-implementation conformance and drift/churn validators before
    any implemented, closeout, or archive-ready claim.
 
@@ -83,6 +87,7 @@ Run the packet's declared validators plus, at minimum:
 
 ```sh
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <proposal_path>
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package <proposal_path> --require-implementation-authorization
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package <proposal_path>
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package <proposal_path>
 bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package <proposal_path>
@@ -94,8 +99,8 @@ For architecture packets, also run the architecture proposal validator.
 
 This command may report implementation complete only when the durable
 repository state, conformance receipt, drift/churn receipt, and validators all
-support that claim. It must not archive the packet. After successful
-implementation, route to:
+support that claim. It must not promote or archive the packet. After successful
+implementation, route to the `promote-proposal` lifecycle route, then to:
 
 ```text
 octon-proposal-packet-lifecycle-generate-verification-prompt

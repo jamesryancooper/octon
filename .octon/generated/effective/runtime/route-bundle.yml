@@ -1,8 +1,8 @@
 schema_version: "octon-runtime-effective-route-bundle-v1"
 generation_id: "runtime-route-bundle-d832aab6f332"
-generated_at: "2026-05-06T16:59:51Z"
+generated_at: "2026-05-07T23:22:39Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-05-06T16-59-51Z-runtime-route-bundle-d832aab6f332.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-05-07T23-22-39Z-runtime-route-bundle-d832aab6f332.yml"
 source_refs:
   root_manifest_ref: ".octon/octon.yml"
   runtime_resolution_ref: ".octon/instance/governance/runtime-resolution.yml"
@@ -11,6 +11,7 @@ source_refs:
   pack_routes_lock_ref: ".octon/generated/effective/capabilities/pack-routes.lock.yml"
   extensions_catalog_ref: ".octon/generated/effective/extensions/catalog.effective.yml"
   extensions_generation_lock_ref: ".octon/generated/effective/extensions/generation.lock.yml"
+  workflow_manifest_ref: ".octon/framework/orchestration/runtime/workflows/manifest.yml"
 routes:
   - tuple_id: "tuple://repo-local-governed/observe-and-read/reference-owned/english-primary/repo-shell"
     tuple:

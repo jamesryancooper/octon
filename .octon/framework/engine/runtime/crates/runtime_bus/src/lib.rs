@@ -2346,8 +2346,9 @@ mod tests {
         checkpoint.event_type = "checkpoint-created".to_string();
         checkpoint.lifecycle.state_before = Some("succeeded".to_string());
         checkpoint.lifecycle.state_after = Some("succeeded".to_string());
-        checkpoint.governing_refs.checkpoint_ref =
-            Some(format!("{control_root_ref}/checkpoints/execution-complete.yml"));
+        checkpoint.governing_refs.checkpoint_ref = Some(format!(
+            "{control_root_ref}/checkpoints/execution-complete.yml"
+        ));
         append_event(&root, checkpoint).expect("checkpoint append should succeed");
 
         let (review_ref, completeness_ref, evidence_snapshot_ref, disclosure_ref) =

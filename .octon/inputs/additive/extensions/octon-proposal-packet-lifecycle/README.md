@@ -12,6 +12,8 @@ The pack owns reusable routes for:
 
 - creating proposal packets from source context,
 - explaining existing proposal packets,
+- reviewing proposal packets with receipt-only verdict state,
+- revising proposal packets through packet-local revision receipts,
 - generating implementation, verification, correction, and closeout prompts,
 - running verification and correction convergence loops,
 - closing out individual proposal packets,
@@ -40,6 +42,24 @@ The composite command and skill are:
 
 Leaf routes are listed in `context/bundle-matrix.md` and governed by
 `context/routing.contract.yml`.
+
+`/octon-proposal-packet-run-lifecycle` uses the shared lifecycle runner for
+orchestration, gate checks, stale-review detection, evidence, checkpoints, and
+resume. By default, non-mock executors stop at a gated `route-ready` handoff.
+With `--execute-routes`, selected routes run through the shared lifecycle
+executor adapter while prompt-bundle execution remains outside the lifecycle
+runner itself.
+For a missing proposal target, bind creation source context with
+`--set-file source=<path>` or `--set source=<text>`; normalized inputs are
+retained in the lifecycle checkpoint and evidence so creation can be retried
+without losing context.
+Durable implementation, promotion, and archival routes pause for explicit
+approval by default. `--approval-policy unattended` is an explicit operator
+override for one-run automation; the adapter records approval override evidence
+before executing each approval-gated durable route under that policy.
+Packet-local receipts such as `support/implementation-run.md` and
+`support/proposal-closeout.md` advance later lifecycle handoffs without adding
+new `proposal.yml` statuses.
 
 ## Publication
 

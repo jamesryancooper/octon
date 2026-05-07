@@ -6,6 +6,17 @@ prompt that implements only the declared durable targets, records evidence,
 runs validation, handles blockers fail-closed, and avoids broadening the packet
 beyond its promotion targets.
 
+Before writing or refreshing `support/executable-implementation-prompt.md`,
+run:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package <proposal_path> --require-implementation-authorization
+```
+
+Refuse prompt generation unless the packet has a fresh accepted
+`support/proposal-review.md` with zero open blocking findings and
+`implementation_prompt_authorized: yes`.
+
 The implementation prompt must be complete enough for direct execution: state
 the target end state, in-scope and out-of-scope surfaces, ordered workstreams,
 owned file families, required generated/runtime publications, validation
@@ -16,14 +27,18 @@ claiming success.
 
 The implementation prompt must also make the post-implementation gates
 executable. It must require the implementer to create or update
-`support/implementation-conformance-review.md` after durable changes land, run
+`support/implementation-run.md` after durable changes land, with at least
+`verdict`, `implemented_at`, and `promotion_evidence_count`, then create or
+update `support/implementation-conformance-review.md`, run
 `validate-proposal-implementation-conformance.sh --package <proposal_path>`,
-then create or update `support/post-implementation-drift-churn-review.md` and
-run `validate-proposal-post-implementation-drift.sh --package <proposal_path>`.
+create or update `support/post-implementation-drift-churn-review.md`, and run
+`validate-proposal-post-implementation-drift.sh --package <proposal_path>`.
 It must preserve promotion targets, declared validation, retained evidence,
 rollback notes, generated outputs, downstream references, and explicit
-exclusions. It must refuse implemented, closeout, or archive-ready claims while
-either post-implementation receipt is missing, failing, unresolved, or blocked.
+exclusions. It must leave `proposal.yml#status` as `accepted` so the
+`promote-proposal` lifecycle route can perform the implemented-status rewrite,
+and it must refuse implemented, closeout, or archive-ready claims while either
+post-implementation receipt is missing, failing, unresolved, or blocked.
 
 When the user or packet explicitly authorizes delegated implementation, the
 prompt may split work across bounded agents or workers with disjoint write

@@ -350,6 +350,10 @@ run_workflows() {
 
 run_proposal_lifecycle() {
   run_step \
+    "Test proposal review gate validator" \
+    bash "$SCRIPT_DIR/../tests/test-validate-proposal-review-gate.sh"
+
+  run_step \
     "Test proposal implementation-readiness validator" \
     bash "$SCRIPT_DIR/../tests/test-validate-proposal-implementation-readiness.sh"
 

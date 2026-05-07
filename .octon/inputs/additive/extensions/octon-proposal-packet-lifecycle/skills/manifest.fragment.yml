@@ -29,6 +29,24 @@ skills:
     status: active
     tags: [octon, proposal, lifecycle, explain]
     triggers: ["explain proposal packet"]
+  - id: octon-proposal-packet-lifecycle-review
+    display_name: Proposal Packet Lifecycle Review
+    group: extensions
+    path: octon-proposal-packet-lifecycle-review/
+    skill_class: invocable
+    summary: "Run the review-proposal-packet bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, review]
+    triggers: ["review proposal packet"]
+  - id: octon-proposal-packet-lifecycle-revise
+    display_name: Proposal Packet Lifecycle Revise
+    group: extensions
+    path: octon-proposal-packet-lifecycle-revise/
+    skill_class: invocable
+    summary: "Run the revise-proposal-packet bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, revision]
+    triggers: ["revise proposal packet"]
   - id: octon-proposal-packet-lifecycle-generate-implementation-prompt
     display_name: Proposal Packet Lifecycle Generate Implementation Prompt
     group: extensions
@@ -92,6 +110,15 @@ skills:
     status: active
     tags: [octon, proposal, lifecycle, closeout]
     triggers: ["closeout proposal packet"]
+  - id: octon-proposal-packet-lifecycle-run-lifecycle
+    display_name: Proposal Packet Lifecycle Runner
+    group: extensions
+    path: octon-proposal-packet-lifecycle-run-lifecycle/
+    skill_class: invocable
+    summary: "Run the generic lifecycle runner against one proposal packet target."
+    status: active
+    tags: [octon, proposal, lifecycle, runner, orchestration]
+    triggers: ["run proposal packet lifecycle", "automate proposal packet lifecycle"]
   - id: octon-proposal-packet-lifecycle-create-program
     display_name: Proposal Packet Lifecycle Create Program
     group: extensions

@@ -11,6 +11,8 @@ Leaf commands:
 
 - `/octon-proposal-packet-create`
 - `/octon-proposal-packet-explain`
+- `/octon-proposal-packet-review`
+- `/octon-proposal-packet-revise`
 - `/octon-proposal-packet-generate-implementation-prompt`
 - `/octon-proposal-packet-run-implementation`
 - `/octon-proposal-packet-generate-verification-prompt`
@@ -18,6 +20,7 @@ Leaf commands:
 - `/octon-proposal-packet-run-verification-and-correction-loop`
 - `/octon-proposal-packet-generate-closeout-prompt`
 - `/octon-proposal-packet-closeout`
+- `/octon-proposal-packet-run-lifecycle`
 - `/octon-proposal-packet-create-program`
 - `/octon-proposal-packet-generate-program-implementation-prompt`
 - `/octon-proposal-packet-generate-program-verification-prompt`

@@ -37,6 +37,8 @@ const PROPOSALS_ROOT_REL: &str = ".octon/inputs/exploratory/proposals";
 const DESIGN_PACKAGES_ROOT_REL: &str = ".octon/inputs/exploratory/proposals/design";
 const PROPOSAL_REGISTRY_GENERATOR_REL: &str =
     ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh";
+const PROPOSAL_REVIEW_GATE_VALIDATOR_REL: &str =
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum ProposalScope {
@@ -2332,7 +2334,11 @@ pub fn run_validate_proposal_from_octon_dir(
         &proposal_root,
         &bundle_root,
         &manifest.proposal_kind,
-    ) {
+    )
+    .and_then(|path| {
+        run_proposal_review_gate_validator(&repo_root, &proposal_root, &bundle_root, false)?;
+        Ok(path)
+    }) {
         Ok(path) => path,
         Err(error) => {
             let _ = finalize_workflow_stage(
@@ -2431,7 +2437,7 @@ pub fn run_validate_proposal_from_octon_dir(
                 {
                     "metric_id": "validator-count",
                     "label": "Proposal validators executed",
-                    "value": 2,
+                    "value": 3,
                     "unit": "count",
                 },
                 {
@@ -2731,7 +2737,11 @@ pub fn run_promote_proposal_from_octon_dir(
         &proposal_root,
         &bundle_root,
         &manifest.proposal_kind,
-    ) {
+    )
+    .and_then(|path| {
+        run_proposal_review_gate_validator(&repo_root, &proposal_root, &bundle_root, true)?;
+        Ok(path)
+    }) {
         Ok(path) => path,
         Err(error) => {
             let _ = finalize_workflow_stage(
@@ -5715,6 +5725,72 @@ fn run_proposal_validator_stack(
             proposal_validator_rel(proposal_kind)?,
         ],
     )
+}
+
+fn run_proposal_review_gate_validator(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    require_implementation_authorization: bool,
+) -> Result<PathBuf> {
+    let proposal_rel = rel_path(repo_root, proposal_root);
+    let log_path = bundle_root.join("standard-validator.log");
+    let script = repo_root.join(PROPOSAL_REVIEW_GATE_VALIDATOR_REL);
+    if !script.is_file() {
+        bail!("missing proposal validator: {}", script.display());
+    }
+
+    let mut command = Command::new("bash");
+    command
+        .arg(&script)
+        .arg("--package")
+        .arg(&proposal_rel)
+        .current_dir(repo_root);
+    if require_implementation_authorization {
+        command.arg("--require-implementation-authorization");
+    }
+    let output = command.output().with_context(|| {
+        format!(
+            "run validator {} for {}",
+            PROPOSAL_REVIEW_GATE_VALIDATOR_REL,
+            proposal_root.display()
+        )
+    })?;
+
+    let mut log = if log_path.is_file() {
+        fs::read_to_string(&log_path).unwrap_or_default()
+    } else {
+        String::from("# Proposal Validator Stack\n\n")
+    };
+    if !log.ends_with('\n') {
+        log.push('\n');
+    }
+    let suffix = if require_implementation_authorization {
+        " --require-implementation-authorization"
+    } else {
+        ""
+    };
+    log.push_str(&format!(
+        "## `{}`{}\n\n- proposal: `{}`\n- status: `{}`\n\n### stdout\n\n```\n{}\n```\n\n### stderr\n\n```\n{}\n```\n\n",
+        PROPOSAL_REVIEW_GATE_VALIDATOR_REL,
+        suffix,
+        proposal_rel,
+        output.status,
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr),
+    ));
+    fs::write(&log_path, &log)?;
+    if !output.status.success() {
+        bail!(
+            "proposal validator failed for {} via {}{} (see {})",
+            proposal_rel,
+            PROPOSAL_REVIEW_GATE_VALIDATOR_REL,
+            suffix,
+            log_path.display()
+        );
+    }
+
+    Ok(log_path)
 }
 
 fn run_validator_stack(

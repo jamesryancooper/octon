@@ -1,0 +1,387 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/extension-lifecycle-contract.schema.json",
+  "title": "Octon Extension Lifecycle Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "lifecycle_id",
+    "owner_extension",
+    "version",
+    "target",
+    "states",
+    "terminal_outcomes",
+    "routes",
+    "receipts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-extension-lifecycle-contract-v1"
+    },
+    "lifecycle_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "owner_extension": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input", "manifest_path", "status_field", "allowed_statuses"],
+      "properties": {
+        "input": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "manifest_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "allowed_statuses": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "states": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["state_id"],
+        "properties": {
+          "state_id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "summary": {
+            "type": "string"
+          }
+        }
+      },
+      "minItems": 1
+    },
+    "terminal_outcomes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/conditionedOutcome"
+      },
+      "minItems": 1
+    },
+    "validators": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/validator"
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    },
+    "receipts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/receipt"
+      },
+      "minItems": 1
+    },
+    "input_bindings": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/inputBinding"
+      }
+    },
+    "loops": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/loop"
+      }
+    },
+    "routes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/route"
+      },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "argv": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1
+    },
+    "inputBinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "pattern": "^(lifecycle\\.target|run\\.input\\.[A-Za-z0-9_-]+)$"
+        }
+      }
+    },
+    "conditionedOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["outcome_id"],
+      "properties": {
+        "outcome_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "when": {
+          "$ref": "#/$defs/conditionSet"
+        }
+      }
+    },
+    "conditionSet": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "validator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["validator_id", "argv"],
+      "properties": {
+        "validator_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "argv": {
+          "$ref": "#/$defs/argv"
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "validator_id", "required_before_routes"],
+      "properties": {
+        "gate_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "validator_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "required_before_routes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "minItems": 1
+        },
+        "on_fail_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "path"],
+      "properties": {
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "required_fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "verdict_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "freshness": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["digest_command", "digest_field"],
+          "properties": {
+            "digest_command": {
+              "$ref": "#/$defs/argv"
+            },
+            "digest_field": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "loop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "loop_id",
+        "receipt_id",
+        "verdict_field",
+        "repeat_values",
+        "repeat_route_id",
+        "terminal_values",
+        "max_iterations"
+      ],
+      "properties": {
+        "loop_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "receipt_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "verdict_field": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repeat_values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "repeat_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "terminal_values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "max_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50
+        }
+      }
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["route_id", "route_type"],
+      "properties": {
+        "route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "route_type": {
+          "type": "string",
+          "enum": ["extension", "workflow"]
+        },
+        "command_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "skill_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "prompt_set_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "required_inputs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]+$"
+          }
+        },
+        "enter_when": {
+          "$ref": "#/$defs/conditionSet"
+        },
+        "idempotency": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "approval": {
+          "$ref": "#/$defs/routeApproval"
+        },
+        "completion": {
+          "$ref": "#/$defs/routeCompletion"
+        }
+      }
+    },
+    "routeApproval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required_by_default": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "routeCompletion": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "expected_receipts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          }
+        },
+        "expected_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "expected_manifest_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_target_change": {
+          "type": "boolean"
+        },
+        "replan_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
