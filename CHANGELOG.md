@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.62](https://github.com/jamesryancooper/octon/compare/octon-v0.6.61...octon-v0.6.62) (2026-05-07)
+
+
+### Features
+
+* **lifecycle:** add lifecycle autopilot executor ([6f151d9](https://github.com/jamesryancooper/octon/commit/6f151d9fc1c1d2e290ef713b7d33f1172c8b0c1a))
+
 ## [0.6.61](https://github.com/jamesryancooper/octon/compare/octon-v0.6.60...octon-v0.6.61) (2026-05-06)
 
 
