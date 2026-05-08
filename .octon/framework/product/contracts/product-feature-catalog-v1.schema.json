@@ -1,0 +1,195 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/product/contracts/product-feature-catalog-v1.schema.json",
+  "title": "Octon Product Feature Catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "catalog_role",
+    "authority_note",
+    "features"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-product-feature-catalog-v1"
+    },
+    "catalog_role": {
+      "const": "navigation-only"
+    },
+    "authority_note": {
+      "type": "string",
+      "minLength": 1
+    },
+    "features": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "feature_id",
+          "name",
+          "implementation_status",
+          "summary",
+          "primary_audiences",
+          "owner_subsystems",
+          "entrypoints",
+          "authoritative_refs",
+          "runtime_surfaces",
+          "extension_surfaces",
+          "generated_effective_surfaces",
+          "evidence_surfaces",
+          "validation_refs",
+          "related_docs",
+          "authority_notes"
+        ],
+        "properties": {
+          "feature_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "implementation_status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "stage-only",
+              "implemented",
+              "retired"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "primary_audiences": {
+            "$ref": "#/$defs/non_empty_string_array"
+          },
+          "owner_subsystems": {
+            "$ref": "#/$defs/non_empty_string_array"
+          },
+          "entrypoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "value"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "cli",
+                    "command",
+                    "skill",
+                    "workflow",
+                    "path"
+                  ]
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "authoritative_refs": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "runtime_surfaces": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "extension_surfaces": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "generated_effective_surfaces": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "evidence_surfaces": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "validation_refs": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "related_docs": {
+            "$ref": "#/$defs/reference_array"
+          },
+          "authority_notes": {
+            "$ref": "#/$defs/non_empty_string_array"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "non_empty_string_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "reference_array": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "authority_class"
+        ],
+        "oneOf": [
+          {
+            "required": [
+              "path"
+            ]
+          },
+          {
+            "required": [
+              "path_pattern"
+            ]
+          }
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path_pattern": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority_class": {
+            "type": "string",
+            "enum": [
+              "authored-authority",
+              "product-contract",
+              "runtime-spec",
+              "runtime-implementation",
+              "runtime-command",
+              "publication-input-only",
+              "generated-effective-non-authority",
+              "retained-evidence",
+              "retained-evidence-pattern",
+              "validation",
+              "navigation-only"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

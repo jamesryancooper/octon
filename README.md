@@ -54,6 +54,11 @@ Runtime behavior, support status, evidence obligations, and generated artifact
 authority are owned by their canonical contracts and registries under
 [`.octon/`](.octon/), not by this overview.
 
+Cross-surface feature navigation lives in
+[`.octon/framework/product/features/catalog.yml`](.octon/framework/product/features/catalog.yml).
+That catalog helps agents find feature entrypoints, runtime surfaces, evidence,
+and validation without becoming a runtime, policy, support, or authority source.
+
 ## Capabilities
 
 | Capability | What it means | Why it matters | Current support boundary | Canonical detail |
@@ -95,3 +100,4 @@ derived outputs rather than authoritative control surfaces.
 - [`.octon/instance/bootstrap/START.md`](.octon/instance/bootstrap/START.md)
 - [`.octon/framework/cognition/_meta/architecture/specification.md`](.octon/framework/cognition/_meta/architecture/specification.md)
 - [`.octon/framework/cognition/_meta/terminology/glossary.md`](.octon/framework/cognition/_meta/terminology/glossary.md)
+- [`.octon/framework/product/features/catalog.yml`](.octon/framework/product/features/catalog.yml)
