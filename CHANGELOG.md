@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.63](https://github.com/jamesryancooper/octon/compare/octon-v0.6.62...octon-v0.6.63) (2026-05-08)
+
+
+### Features
+
+* **extensions:** add capability profiles ([f451c59](https://github.com/jamesryancooper/octon/commit/f451c59c00f40206ea116d5626759caee6c32395))
+
 ## [0.6.62](https://github.com/jamesryancooper/octon/compare/octon-v0.6.61...octon-v0.6.62) (2026-05-07)
 
 
