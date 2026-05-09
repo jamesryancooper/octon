@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/proposal-program-mutation.schema.json",
+  "title": "Octon Proposal Program Mutation",
+  "description": "Operator-reviewed mutation spec for controlled changes to a parent proposal-program child registry.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "expected_registry_digest",
+    "action",
+    "child_id",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "octon-proposal-program-mutation-v1"
+    },
+    "expected_registry_digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "add-child",
+        "defer-child",
+        "supersede-child",
+        "replace-child",
+        "rephase-child",
+        "update-dependencies"
+      ]
+    },
+    "child_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "replacement_child_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "path": {
+      "$ref": "#/$defs/relative_path"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/identifier"
+      },
+      "uniqueItems": true
+    },
+    "phase_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "group_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "deferred": {
+      "type": "boolean"
+    },
+    "supersession_evidence": {
+      "$ref": "#/$defs/relative_path"
+    },
+    "rollback_posture": {
+      "type": "string",
+      "enum": [
+        "none",
+        "manual",
+        "forward-only",
+        "superseded",
+        "replaced",
+        "rejected",
+        "compensating",
+        "staged-commit",
+        "rollback-route"
+      ]
+    },
+    "dependency_gate": {
+      "type": "string",
+      "enum": [
+        "terminal",
+        "verification",
+        "closeout"
+      ]
+    },
+    "recovery_profile": {
+      "$ref": "#/$defs/identifier"
+    },
+    "write_scopes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/relative_path"
+      },
+      "uniqueItems": true
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "enum": [
+              "add-child",
+              "replace-child"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "path"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "replace-child"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "replacement_child_id"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "supersede-child"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "supersession_evidence"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "replace-child"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "supersession_evidence"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "^/"
+          },
+          {
+            "pattern": "(^|/)\\.\\.(/|$)"
+          },
+          {
+            "pattern": "(^|/)\\.(/|$)"
+          }
+        ]
+      }
+    }
+  }
+}

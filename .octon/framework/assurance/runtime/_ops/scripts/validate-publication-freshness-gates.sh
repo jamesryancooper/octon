@@ -38,7 +38,7 @@ validator_result_add_evidence \
 validator_result_add_runtime_test \
   ".octon/framework/assurance/runtime/_ops/tests/test-runtime-effective-freshness-hard-gate.sh" \
   ".octon/framework/assurance/runtime/_ops/tests/test-stale-digest-bound-route-bundle-denial.sh"
-validator_result_add_negative_control \
+validator_result_add_recognized_negative_control \
   "missing-publication-receipt-denies" \
   "stale-runtime-route-bundle-denies" \
   "invalid-freshness-mode-denies"

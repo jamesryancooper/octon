@@ -70,6 +70,10 @@ pack_id_for_contract() {
       rel="${rel#.octon/inputs/additive/extensions/}"
       printf '%s\n' "${rel%%/*}"
       ;;
+    .octon/inputs/additive/extensions/*/context/lifecycles/*.contract.yml)
+      rel="${rel#.octon/inputs/additive/extensions/}"
+      printf '%s\n' "${rel%%/*}"
+      ;;
     *)
       printf '\n'
       ;;
@@ -94,7 +98,9 @@ contract_files() {
   if [[ -n "$CONTRACT_PATH" ]]; then
     repo_abs "$CONTRACT_PATH"
   else
-    find "$OCTON_DIR/inputs/additive/extensions" -path '*/context/lifecycle.contract.yml' -type f | sort
+    find "$OCTON_DIR/inputs/additive/extensions" \
+      \( -path '*/context/lifecycle.contract.yml' -o -path '*/context/lifecycles/*.contract.yml' \) \
+      -type f | sort
   fi
 }
 
@@ -109,10 +115,15 @@ load_ids() {
   yq -r "$query // \"\"" "$file" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u
 }
 
+load_values() {
+  local file="$1" query="$2"
+  yq -r "$query // \"\"" "$file" 2>/dev/null | awk 'NF'
+}
+
 validate_unique_ids() {
   local contract="$1" query="$2" label="$3"
   local ids duplicates
-  ids="$(load_ids "$contract" "$query")"
+  ids="$(load_values "$contract" "$query")"
   duplicates="$(printf '%s\n' "$ids" | sort | uniq -d | awk 'NF' || true)"
   [[ -z "$duplicates" ]] && pass "$label ids unique" || fail "$label ids duplicate: $duplicates"
 }
@@ -205,6 +216,349 @@ validate_condition_path_refs() {
   done
 }
 
+valid_program_execution_mode() {
+  case "$1" in
+    sequential|gated-parallel|approval-gated|parallel-independent|program-atomic)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_program_blocker_class() {
+  case "$1" in
+    approval-required|stale-receipt|target-drift|validation-failed|dependency-blocked|missing-evidence|executor-failed|write-scope-conflict|unsafe-resume|unsupported-mode|authority-boundary-ambiguous)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+program_blocker_non_recoverable() {
+  case "$1" in
+    unsafe-resume|authority-boundary-ambiguous)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_program_id() {
+  [[ "$1" =~ ^[a-z][a-z0-9-]*$ ]]
+}
+
+valid_program_recovery_idempotency_class() {
+  case "$1" in
+    inspect-only|idempotent|idempotent-rerun|bounded-retry|approval-gated-mutation|non-idempotent|unsafe|non-recoverable)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_program_recovery_dependent_handling() {
+  case "$1" in
+    continue-independent|block-dependents|pause-dependent|pause-phase|pause-barrier|fail-closed)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_program_recovery_post_attempt_validation() {
+  case "$1" in
+    replay-verify|replan-live-state|receipt-fresh|receipt-freshness|blocker-cleared|authority-boundary-check|aggregate-closeout-check)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_program_recovery_replan_behavior() {
+  case "$1" in
+    none|after-attempt|always)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+validate_recovery_object_keys() {
+  local contract="$1" expr="$2" label="$3"
+  local key
+  while IFS= read -r key; do
+    [[ -n "$key" ]] || continue
+    case "$key" in
+      blocker_class|recovery_route_id|preconditions|idempotency_class|approval_required|retry_budget|dependent_handling|post_attempt_validation|replan_behavior|max_attempts|replan_after_attempt)
+        pass "program recovery field allowed: $label -> $key"
+        ;;
+      *)
+        fail "program recovery field unsupported: $label -> $key"
+        ;;
+    esac
+  done < <(yq -r "$expr | keys[]?" "$contract" 2>/dev/null || true)
+}
+
+validate_program_recovery_handler() {
+  local contract="$1" lifecycle_id="$2" handler_key="$3"
+  local handler_attempts handler_replan handler_approval recovery_route_id
+
+  valid_program_blocker_class "$handler_key" \
+    && pass "program recovery handler blocker valid: $lifecycle_id -> $handler_key" \
+    || fail "program recovery handler blocker invalid: $lifecycle_id -> $handler_key"
+  if program_blocker_non_recoverable "$handler_key"; then
+    fail "program recovery handler cannot target non-recoverable blocker: $lifecycle_id -> $handler_key"
+  fi
+
+  validate_recovery_object_keys "$contract" ".program.recovery_policy.handlers.\"$handler_key\"" "$lifecycle_id handler $handler_key"
+
+  recovery_route_id="$(yq -r ".program.recovery_policy.handlers.\"$handler_key\".recovery_route_id // \"\"" "$contract" 2>/dev/null || true)"
+  if [[ -n "$recovery_route_id" && "$recovery_route_id" != "null" ]]; then
+    valid_program_id "$recovery_route_id" \
+      && pass "program recovery handler route id valid: $lifecycle_id $handler_key -> $recovery_route_id" \
+      || fail "program recovery handler route id invalid: $lifecycle_id $handler_key -> $recovery_route_id"
+  fi
+
+  handler_attempts="$(yq -r ".program.recovery_policy.handlers.\"$handler_key\".max_attempts // \"\"" "$contract" 2>/dev/null || true)"
+  if [[ -n "$handler_attempts" && "$handler_attempts" != "null" ]]; then
+    [[ "$handler_attempts" =~ ^[0-9]+$ && "$handler_attempts" -le 10 ]] \
+      && pass "program recovery handler attempts valid: $lifecycle_id -> $handler_key" \
+      || fail "program recovery handler attempts invalid: $lifecycle_id -> $handler_key"
+  fi
+
+  if yq -e ".program.recovery_policy.handlers.\"$handler_key\" | has(\"replan_after_attempt\")" "$contract" >/dev/null 2>&1; then
+    handler_replan="$(yq -r ".program.recovery_policy.handlers.\"$handler_key\".replan_after_attempt | tostring" "$contract" 2>/dev/null || true)"
+    [[ "$handler_replan" == "true" || "$handler_replan" == "false" ]] \
+      && pass "program recovery handler replan flag valid: $lifecycle_id -> $handler_key" \
+      || fail "program recovery handler replan flag invalid: $lifecycle_id -> $handler_key"
+  fi
+
+  if yq -e ".program.recovery_policy.handlers.\"$handler_key\" | has(\"approval_required\")" "$contract" >/dev/null 2>&1; then
+    handler_approval="$(yq -r ".program.recovery_policy.handlers.\"$handler_key\".approval_required | tostring" "$contract" 2>/dev/null || true)"
+    [[ "$handler_approval" == "true" || "$handler_approval" == "false" ]] \
+      && pass "program recovery handler approval flag valid: $lifecycle_id -> $handler_key" \
+      || fail "program recovery handler approval flag invalid: $lifecycle_id -> $handler_key"
+  fi
+}
+
+validate_program_recovery_recipe() {
+  local contract="$1" lifecycle_id="$2" recipe_index="$3"
+  local label blocker idempotency approval retry_budget dependent_handling replan_behavior recovery_route_id
+  local validation validation_count validation_index precondition_count unique_precondition_count unique_validation_count
+
+  label="$lifecycle_id recipe[$recipe_index]"
+  yq -e ".program.recovery_policy.recipes[$recipe_index] | tag == \"!!map\"" "$contract" >/dev/null 2>&1 \
+    && pass "program recovery recipe is map: $label" \
+    || fail "program recovery recipe must be a map: $label"
+  validate_recovery_object_keys "$contract" ".program.recovery_policy.recipes[$recipe_index]" "$label"
+
+  for field in blocker_class idempotency_class approval_required retry_budget dependent_handling post_attempt_validation replan_behavior; do
+    yq -e ".program.recovery_policy.recipes[$recipe_index] | has(\"$field\")" "$contract" >/dev/null 2>&1 \
+      && pass "program recovery recipe field declared: $label -> $field" \
+      || fail "program recovery recipe field missing: $label -> $field"
+  done
+
+  blocker="$(yq -r ".program.recovery_policy.recipes[$recipe_index].blocker_class // \"\"" "$contract" 2>/dev/null || true)"
+  valid_program_blocker_class "$blocker" \
+    && pass "program recovery recipe blocker valid: $label -> $blocker" \
+    || fail "program recovery recipe blocker invalid: $label -> $blocker"
+
+  recovery_route_id="$(yq -r ".program.recovery_policy.recipes[$recipe_index].recovery_route_id // \"\"" "$contract" 2>/dev/null || true)"
+  if [[ -n "$recovery_route_id" && "$recovery_route_id" != "null" ]]; then
+    valid_program_id "$recovery_route_id" \
+      && pass "program recovery recipe route id valid: $label -> $recovery_route_id" \
+      || fail "program recovery recipe route id invalid: $label -> $recovery_route_id"
+  fi
+
+  if yq -e ".program.recovery_policy.recipes[$recipe_index].preconditions" "$contract" >/dev/null 2>&1; then
+    yq -e ".program.recovery_policy.recipes[$recipe_index].preconditions | tag == \"!!seq\"" "$contract" >/dev/null 2>&1 \
+      && pass "program recovery recipe preconditions sequence valid: $label" \
+      || fail "program recovery recipe preconditions must be a sequence: $label"
+    precondition_count="$(yq -r "(.program.recovery_policy.recipes[$recipe_index].preconditions // []) | length" "$contract" 2>/dev/null || echo 0)"
+    unique_precondition_count="$(yq -r "(.program.recovery_policy.recipes[$recipe_index].preconditions // [] | unique) | length" "$contract" 2>/dev/null || echo 0)"
+    [[ "$precondition_count" == "$unique_precondition_count" ]] \
+      && pass "program recovery recipe preconditions unique: $label" \
+      || fail "program recovery recipe preconditions duplicate: $label"
+    while IFS= read -r validation; do
+      [[ -n "$validation" ]] \
+        && pass "program recovery recipe precondition declared: $label -> $validation" \
+        || fail "program recovery recipe precondition empty: $label"
+    done < <(yq -r ".program.recovery_policy.recipes[$recipe_index].preconditions[]? // \"\"" "$contract" 2>/dev/null || true)
+  fi
+
+  idempotency="$(yq -r ".program.recovery_policy.recipes[$recipe_index].idempotency_class // \"\"" "$contract" 2>/dev/null || true)"
+  valid_program_recovery_idempotency_class "$idempotency" \
+    && pass "program recovery recipe idempotency valid: $label -> $idempotency" \
+    || fail "program recovery recipe idempotency invalid: $label -> $idempotency"
+
+  approval="$(yq -r ".program.recovery_policy.recipes[$recipe_index].approval_required | tostring" "$contract" 2>/dev/null || true)"
+  [[ "$approval" == "true" || "$approval" == "false" ]] \
+    && pass "program recovery recipe approval flag valid: $label" \
+    || fail "program recovery recipe approval flag invalid: $label"
+
+  retry_budget="$(yq -r ".program.recovery_policy.recipes[$recipe_index].retry_budget // \"\"" "$contract" 2>/dev/null || true)"
+  [[ "$retry_budget" =~ ^[0-9]+$ && "$retry_budget" -le 10 ]] \
+    && pass "program recovery recipe retry budget valid: $label -> $retry_budget" \
+    || fail "program recovery recipe retry budget invalid: $label -> $retry_budget"
+
+  dependent_handling="$(yq -r ".program.recovery_policy.recipes[$recipe_index].dependent_handling // \"\"" "$contract" 2>/dev/null || true)"
+  valid_program_recovery_dependent_handling "$dependent_handling" \
+    && pass "program recovery recipe dependent handling valid: $label -> $dependent_handling" \
+    || fail "program recovery recipe dependent handling invalid: $label -> $dependent_handling"
+
+  yq -e ".program.recovery_policy.recipes[$recipe_index].post_attempt_validation | tag == \"!!seq\"" "$contract" >/dev/null 2>&1 \
+    && pass "program recovery recipe post-attempt validation sequence valid: $label" \
+    || fail "program recovery recipe post-attempt validation must be a sequence: $label"
+  validation_count="$(yq -r "(.program.recovery_policy.recipes[$recipe_index].post_attempt_validation // []) | length" "$contract" 2>/dev/null || echo 0)"
+  unique_validation_count="$(yq -r "(.program.recovery_policy.recipes[$recipe_index].post_attempt_validation // [] | unique) | length" "$contract" 2>/dev/null || echo 0)"
+  [[ "$validation_count" == "$unique_validation_count" ]] \
+    && pass "program recovery recipe post-attempt validations unique: $label" \
+    || fail "program recovery recipe post-attempt validations duplicate: $label"
+  for ((validation_index=0; validation_index<validation_count; validation_index++)); do
+    validation="$(yq -r ".program.recovery_policy.recipes[$recipe_index].post_attempt_validation[$validation_index] // \"\"" "$contract" 2>/dev/null || true)"
+    valid_program_recovery_post_attempt_validation "$validation" \
+      && pass "program recovery recipe post-attempt validation valid: $label -> $validation" \
+      || fail "program recovery recipe post-attempt validation invalid: $label -> $validation"
+  done
+
+  replan_behavior="$(yq -r ".program.recovery_policy.recipes[$recipe_index].replan_behavior // \"\"" "$contract" 2>/dev/null || true)"
+  valid_program_recovery_replan_behavior "$replan_behavior" \
+    && pass "program recovery recipe replan behavior valid: $label -> $replan_behavior" \
+    || fail "program recovery recipe replan behavior invalid: $label -> $replan_behavior"
+
+  if program_blocker_non_recoverable "$blocker"; then
+    [[ "$idempotency" == "non-recoverable" ]] \
+      && pass "non-recoverable recipe declares non-recoverable idempotency: $label" \
+      || fail "non-recoverable recipe must declare non-recoverable idempotency: $label"
+    [[ "$retry_budget" == "0" ]] \
+      && pass "non-recoverable recipe retry budget is zero: $label" \
+      || fail "non-recoverable recipe retry budget must be zero: $label"
+    [[ "$dependent_handling" == "fail-closed" ]] \
+      && pass "non-recoverable recipe dependent handling fail-closed: $label" \
+      || fail "non-recoverable recipe dependent handling must be fail-closed: $label"
+    [[ -z "$recovery_route_id" || "$recovery_route_id" == "null" ]] \
+      && pass "non-recoverable recipe has no recovery route: $label" \
+      || fail "non-recoverable recipe must not declare recovery_route_id: $label"
+  fi
+}
+
+validate_program_recovery_policy() {
+  local contract="$1" lifecycle_id="$2"
+  local handler_key recipe_count recipe_index
+
+  while IFS= read -r handler_key; do
+    [[ -n "$handler_key" ]] || continue
+    validate_program_recovery_handler "$contract" "$lifecycle_id" "$handler_key"
+  done < <(yq -r '.program.recovery_policy.handlers // {} | keys[]?' "$contract" 2>/dev/null || true)
+
+  recipe_count="$(yq -r '(.program.recovery_policy.recipes // []) | length' "$contract" 2>/dev/null || echo 0)"
+  if yq -e '.program.recovery_policy.recipes' "$contract" >/dev/null 2>&1; then
+    yq -e '.program.recovery_policy.recipes | tag == "!!seq"' "$contract" >/dev/null 2>&1 \
+      && pass "program recovery recipes sequence valid: $lifecycle_id" \
+      || fail "program recovery recipes must be a sequence: $lifecycle_id"
+  fi
+  for ((recipe_index=0; recipe_index<recipe_count; recipe_index++)); do
+    validate_program_recovery_recipe "$contract" "$lifecycle_id" "$recipe_index"
+  done
+}
+
+validate_program_section() {
+  local contract="$1" lifecycle_id="$2"
+  local registry_path child_default mode max_attempts serialize_conflicts boundary_value key mode_count index atomic_seen
+
+  if ! yq -e '.program' "$contract" >/dev/null 2>&1; then
+    return 0
+  fi
+
+  registry_path="$(yq -r '.program.child_registry_path // ""' "$contract" 2>/dev/null || true)"
+  valid_rel_path "$registry_path" \
+    && pass "program child registry path valid: $lifecycle_id" \
+    || fail "program child registry path invalid: $lifecycle_id"
+
+  child_default="$(yq -r '.program.child_lifecycle_id_default // ""' "$contract" 2>/dev/null || true)"
+  if [[ -n "$child_default" && "$child_default" != "null" ]]; then
+    [[ "$child_default" =~ ^[a-z][a-z0-9-]*$ ]] \
+      && pass "program child lifecycle default valid: $lifecycle_id -> $child_default" \
+      || fail "program child lifecycle default invalid: $lifecycle_id -> $child_default"
+  fi
+
+  yq -e '.program.supported_execution_modes | tag == "!!seq" and length > 0' "$contract" >/dev/null 2>&1 \
+    && pass "program supported execution modes declared: $lifecycle_id" \
+    || fail "program supported execution modes missing: $lifecycle_id"
+  mode_count="$(yq -r '(.program.supported_execution_modes // []) | length' "$contract" 2>/dev/null || echo 0)"
+  atomic_seen=0
+  for ((index=0; index<mode_count; index++)); do
+    mode="$(yq -r ".program.supported_execution_modes[$index] // \"\"" "$contract" 2>/dev/null || true)"
+    if valid_program_execution_mode "$mode"; then
+      pass "program supported execution mode valid: $lifecycle_id -> $mode"
+      [[ "$mode" == "program-atomic" ]] && atomic_seen=1
+    else
+      fail "program supported execution mode invalid: $lifecycle_id -> $mode"
+    fi
+  done
+  if [[ "$atomic_seen" -eq 1 ]]; then
+    [[ "$(yq -r '.program.atomic_policy.eligibility // ""' "$contract" 2>/dev/null || true)" == "explicit-route-opt-in" ]] \
+      && pass "program atomic policy explicit opt-in: $lifecycle_id" \
+      || fail "program-atomic requires atomic_policy.eligibility explicit-route-opt-in: $lifecycle_id"
+  fi
+
+  max_attempts="$(yq -r '.program.recovery_policy.max_recovery_attempts // ""' "$contract" 2>/dev/null || true)"
+  [[ "$max_attempts" =~ ^[0-9]+$ && "$max_attempts" -le 10 ]] \
+    && pass "program recovery attempt limit valid: $lifecycle_id" \
+    || fail "program recovery attempt limit invalid: $lifecycle_id"
+  serialize_conflicts="$(yq -r '.program.recovery_policy.serialize_write_scope_conflicts // ""' "$contract" 2>/dev/null || true)"
+  [[ "$serialize_conflicts" == "true" || "$serialize_conflicts" == "false" ]] \
+    && pass "program write-scope conflict policy valid: $lifecycle_id" \
+    || fail "program write-scope conflict policy invalid: $lifecycle_id"
+  validate_program_recovery_policy "$contract" "$lifecycle_id"
+
+  for key in parent_coordinates_only child_receipts_remain_child_owned child_promotion_targets_remain_child_owned; do
+    boundary_value="$(yq -r ".program.authority_boundaries.${key} // \"\"" "$contract" 2>/dev/null || true)"
+    [[ "$boundary_value" == "true" ]] \
+      && pass "program authority boundary declared: $lifecycle_id -> $key" \
+      || fail "program authority boundary must be true: $lifecycle_id -> $key"
+  done
+}
+
+validate_program_route_references() {
+  local contract="$1" lifecycle_id="$2" contract_route_ids="$3"
+  local handler_key recovery_route_id
+  while IFS= read -r handler_key; do
+    [[ -n "$handler_key" ]] || continue
+    recovery_route_id="$(yq -r ".program.recovery_policy.handlers.\"$handler_key\".recovery_route_id // \"\"" "$contract" 2>/dev/null || true)"
+    if [[ -n "$recovery_route_id" && "$recovery_route_id" != "null" ]]; then
+      id_list_contains "$recovery_route_id" "$contract_route_ids" \
+        && pass "program recovery handler route exists: $lifecycle_id $handler_key -> $recovery_route_id" \
+        || fail "program recovery handler route missing: $lifecycle_id $handler_key -> $recovery_route_id"
+    fi
+  done < <(yq -r '.program.recovery_policy.handlers // {} | keys[]?' "$contract" 2>/dev/null || true)
+  local recipe_index recipe_count recipe_blocker
+  recipe_count="$(yq -r '(.program.recovery_policy.recipes // []) | length' "$contract" 2>/dev/null || echo 0)"
+  for ((recipe_index=0; recipe_index<recipe_count; recipe_index++)); do
+    recipe_blocker="$(yq -r ".program.recovery_policy.recipes[$recipe_index].blocker_class // \"\"" "$contract" 2>/dev/null || true)"
+    recovery_route_id="$(yq -r ".program.recovery_policy.recipes[$recipe_index].recovery_route_id // \"\"" "$contract" 2>/dev/null || true)"
+    if [[ -n "$recovery_route_id" && "$recovery_route_id" != "null" ]]; then
+      id_list_contains "$recovery_route_id" "$contract_route_ids" \
+        && pass "program recovery recipe route exists: $lifecycle_id $recipe_blocker -> $recovery_route_id" \
+        || fail "program recovery recipe route missing: $lifecycle_id $recipe_blocker -> $recovery_route_id"
+    fi
+  done
+}
+
 validate_contract() {
   local contract="$1" rel pack_id owner lifecycle_id routing_contract command_manifest skill_manifest skill_registry workflows_manifest
   local route_ids contract_route_ids command_ids skill_ids prompt_set_ids workflow_ids validator_ids receipt_ids input_binding_ids
@@ -234,6 +588,7 @@ validate_contract() {
   [[ "$owner" == "$pack_id" ]] && pass "owner_extension matches pack id: $pack_id" || fail "owner_extension must match pack id: $pack_id"
   [[ "$lifecycle_id" =~ ^[a-z][a-z0-9-]*$ ]] && pass "lifecycle_id valid: $lifecycle_id" || fail "lifecycle_id invalid: $lifecycle_id"
   [[ "$(yq -r '.version // ""' "$contract")" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && pass "lifecycle version valid: $lifecycle_id" || fail "lifecycle version invalid: $lifecycle_id"
+  validate_program_section "$contract" "$lifecycle_id"
 
   target_manifest="$(yq -r '.target.manifest_path // ""' "$contract")"
   allowed_statuses="$(load_ids "$contract" '.target.allowed_statuses[]?')"
@@ -274,6 +629,7 @@ validate_contract() {
   receipt_ids="$(load_ids "$contract" '.receipts[]?.receipt_id')"
   contract_route_ids="$(load_ids "$contract" '.routes[]?.route_id')"
   input_binding_ids="$(load_ids "$contract" '.input_bindings // {} | keys[]?')"
+  validate_program_route_references "$contract" "$lifecycle_id" "$contract_route_ids"
 
   local terminal_count outcome_id
   terminal_count="$(yq -r '(.terminal_outcomes // []) | length' "$contract" 2>/dev/null || echo 0)"
@@ -347,6 +703,37 @@ validate_contract() {
       [[ -n "$approval_reason" && "$approval_reason" != "null" ]] \
         && pass "route approval reason declared: $route_id" \
         || fail "route approval reason missing: $route_id"
+    fi
+    if yq -e ".routes[$index].atomic" "$contract" >/dev/null 2>&1; then
+      local atomic_ref atomic_label rollback_ref compensation_ref
+      for atomic_label in stage_route_id commit_route_id; do
+        atomic_ref="$(yq -r ".routes[$index].atomic.${atomic_label} // \"\"" "$contract" 2>/dev/null || true)"
+        if [[ -z "$atomic_ref" || "$atomic_ref" == "null" ]]; then
+          fail "route atomic $atomic_label missing: $route_id"
+        elif [[ "$atomic_ref" == "$route_id" ]]; then
+          fail "route atomic $atomic_label self-reference invalid: $route_id"
+        elif id_list_contains "$atomic_ref" "$contract_route_ids"; then
+          pass "route atomic $atomic_label exists: $route_id -> $atomic_ref"
+        else
+          fail "route atomic $atomic_label missing route: $route_id -> $atomic_ref"
+        fi
+      done
+      rollback_ref="$(yq -r ".routes[$index].atomic.rollback_route_id // \"\"" "$contract" 2>/dev/null || true)"
+      compensation_ref="$(yq -r ".routes[$index].atomic.compensation_route_id // \"\"" "$contract" 2>/dev/null || true)"
+      if [[ -z "$rollback_ref" || "$rollback_ref" == "null" ]] && [[ -z "$compensation_ref" || "$compensation_ref" == "null" ]]; then
+        fail "route atomic rollback or compensation route missing: $route_id"
+      fi
+      for atomic_label in rollback_route_id compensation_route_id; do
+        atomic_ref="$(yq -r ".routes[$index].atomic.${atomic_label} // \"\"" "$contract" 2>/dev/null || true)"
+        [[ -n "$atomic_ref" && "$atomic_ref" != "null" ]] || continue
+        if [[ "$atomic_ref" == "$route_id" ]]; then
+          fail "route atomic $atomic_label self-reference invalid: $route_id"
+        elif id_list_contains "$atomic_ref" "$contract_route_ids"; then
+          pass "route atomic $atomic_label exists: $route_id -> $atomic_ref"
+        else
+          fail "route atomic $atomic_label missing route: $route_id -> $atomic_ref"
+        fi
+      done
     fi
   done
 

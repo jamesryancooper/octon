@@ -57,7 +57,7 @@ validator_result_add_evidence \
   ".octon/instance/governance/runtime-resolution.yml"
 validator_result_add_runtime_test \
   ".octon/framework/assurance/runtime/_ops/tests/test-stale-digest-bound-route-bundle-denial.sh"
-validator_result_add_negative_control \
+validator_result_add_recognized_negative_control \
   "root-manifest-digest-drift-denies" \
   "publication-receipt-digest-drift-denies" \
   "runtime-route-bundle-lock-missing-denies"

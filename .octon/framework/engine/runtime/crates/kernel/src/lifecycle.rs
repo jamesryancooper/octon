@@ -1,11 +1,14 @@
 use crate::workflow::ExecutorKind;
-use crate::LifecycleCmd;
+use crate::{LifecycleCmd, LifecycleProgramCmd};
 use anyhow::{bail, Context, Result};
 use octon_authority_engine::now_rfc3339;
 use octon_core::root::RootResolver;
 use octon_lifecycle_executor::{
     default_bound_inputs, LifecycleExecutionPolicy, LifecycleReceiptSpec,
     LifecycleRouteExecutionRequest, LifecycleRouteSpec,
+};
+use octon_runtime_resolver::{
+    generated_effective_extension_catalog_path, runtime_effective_route_bundle_path,
 };
 use serde::{Deserialize, Serialize};
 use serde_yaml::Value;
@@ -15,12 +18,12 @@ use std::fs;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command as ProcessCommand;
 
-const EFFECTIVE_EXTENSION_CATALOG_REL: &str =
-    "generated/effective/extensions/catalog.effective.yml";
+#[path = "lifecycle_program.rs"]
+mod lifecycle_program;
+
 const GENERATED_EXTENSION_PUBLISHED_PREFIX: &str =
     ".octon/generated/effective/extensions/published/";
 const FRAMEWORK_ASSURANCE_SCRIPT_PREFIX: &str = ".octon/framework/assurance/runtime/_ops/scripts/";
-const RUNTIME_ROUTE_BUNDLE_REL: &str = "generated/effective/runtime/route-bundle.yml";
 const WORKFLOW_EVIDENCE_ROOT_REL: &str = "state/evidence/runs/workflows";
 const RUN_CONTROL_ROOT_REL: &str = "state/control/execution/runs";
 
@@ -34,8 +37,10 @@ pub(crate) struct RunLifecycleOptions {
     pub execute_routes: bool,
     pub max_steps: Option<u32>,
     pub timeout_seconds: Option<u64>,
+    pub max_child_concurrency: Option<usize>,
     pub approval_policy: String,
     pub run_inputs: BTreeMap<String, String>,
+    pub program_child_filter: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -120,6 +125,102 @@ struct LifecycleContract {
     routes: Vec<RouteSpec>,
     #[serde(default)]
     input_bindings: BTreeMap<String, InputBindingSpec>,
+    #[serde(default)]
+    program: Option<ProgramSpec>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct ProgramSpec {
+    child_registry_path: String,
+    #[serde(default)]
+    child_lifecycle_id_default: Option<String>,
+    #[serde(default)]
+    supported_execution_modes: Vec<String>,
+    #[serde(default)]
+    atomic_policy: Option<ProgramAtomicPolicySpec>,
+    #[serde(default)]
+    recovery_policy: ProgramRecoveryPolicySpec,
+    #[serde(default)]
+    closeout_policy: Option<ProgramCloseoutPolicySpec>,
+    #[serde(default)]
+    authority_boundaries: ProgramAuthorityBoundarySpec,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ProgramAtomicPolicySpec {
+    eligibility: String,
+    #[serde(default = "default_true")]
+    require_declared_write_scopes: bool,
+}
+
+fn default_true() -> bool {
+    true
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ProgramRecoveryPolicySpec {
+    #[serde(default)]
+    max_recovery_attempts: Option<u32>,
+    #[serde(default)]
+    serialize_write_scope_conflicts: bool,
+    #[serde(default)]
+    handlers: BTreeMap<String, ProgramRecoveryHandlerSpec>,
+    #[serde(default)]
+    recipes: Vec<ProgramRecoveryRecipeSpec>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ProgramRecoveryHandlerSpec {
+    recovery_route_id: Option<String>,
+    #[serde(default)]
+    max_attempts: Option<u32>,
+    #[serde(default)]
+    replan_after_attempt: bool,
+    #[serde(default)]
+    approval_required: bool,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ProgramRecoveryRecipeSpec {
+    blocker_class: String,
+    #[serde(default)]
+    recovery_route_id: Option<String>,
+    #[serde(default)]
+    preconditions: Vec<String>,
+    #[serde(default)]
+    idempotency_class: Option<String>,
+    #[serde(default)]
+    approval_required: bool,
+    #[serde(default)]
+    retry_budget: Option<u32>,
+    #[serde(default)]
+    dependent_handling: Option<String>,
+    #[serde(default)]
+    post_attempt_validation: Vec<String>,
+    #[serde(default)]
+    replan_behavior: Option<String>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ProgramCloseoutPolicySpec {
+    #[serde(default)]
+    required_child_terminal_outcomes: Vec<String>,
+    #[serde(default)]
+    require_child_receipts_fresh: bool,
+    #[serde(default)]
+    require_aggregate_evidence: bool,
+    #[serde(default)]
+    enforce_authority_boundaries: bool,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+struct ProgramAuthorityBoundarySpec {
+    #[serde(default)]
+    parent_coordinates_only: bool,
+    #[serde(default)]
+    child_receipts_remain_child_owned: bool,
+    #[serde(default)]
+    child_promotion_targets_remain_child_owned: bool,
 }
 
 #[derive(Clone, Debug, Deserialize)]
@@ -190,6 +291,8 @@ struct RouteSpec {
     approval: Option<RouteApprovalSpec>,
     #[serde(default)]
     completion: Option<RouteCompletionSpec>,
+    #[serde(default)]
+    atomic: Option<RouteAtomicSpec>,
 }
 
 #[derive(Clone, Debug, Deserialize)]
@@ -215,6 +318,16 @@ struct RouteCompletionSpec {
     expected_target_change: bool,
     #[serde(default)]
     replan_required: bool,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct RouteAtomicSpec {
+    stage_route_id: String,
+    commit_route_id: String,
+    #[serde(default)]
+    rollback_route_id: Option<String>,
+    #[serde(default)]
+    compensation_route_id: Option<String>,
 }
 
 #[derive(Clone, Debug)]
@@ -278,8 +391,17 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
             lifecycle_id,
             target,
         } => {
-            let plan = plan_lifecycle_from_octon_dir(&octon_dir, &lifecycle_id, &target)?;
-            println!("{}", serde_yaml::to_string(&plan)?);
+            if is_program_lifecycle(&octon_dir, &lifecycle_id)? {
+                let plan = lifecycle_program::plan_program_lifecycle_from_octon_dir(
+                    &octon_dir,
+                    &lifecycle_id,
+                    &target,
+                )?;
+                println!("{}", serde_yaml::to_string(&plan)?);
+            } else {
+                let plan = plan_lifecycle_from_octon_dir(&octon_dir, &lifecycle_id, &target)?;
+                println!("{}", serde_yaml::to_string(&plan)?);
+            }
         }
         LifecycleCmd::Run {
             lifecycle_id,
@@ -290,6 +412,7 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
             execute_routes,
             max_steps,
             timeout_seconds,
+            max_child_concurrency,
             approval_policy,
             set,
             set_file,
@@ -304,20 +427,108 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
                 execute_routes,
                 max_steps,
                 timeout_seconds,
+                max_child_concurrency,
                 approval_policy,
                 run_inputs,
+                program_child_filter: None,
             };
-            let result = if options.execute_routes {
-                crate::lifecycle_driver::run_lifecycle_execute_from_octon_dir(&octon_dir, options)?
+            if is_program_lifecycle(&octon_dir, &options.lifecycle_id)? {
+                let result =
+                    lifecycle_program::run_program_lifecycle_from_octon_dir(&octon_dir, options)?;
+                println!("{}", serde_yaml::to_string(&result)?);
             } else {
-                run_lifecycle_from_octon_dir(&octon_dir, options)?
-            };
-            println!("{}", serde_yaml::to_string(&result)?);
+                let result = if options.execute_routes {
+                    crate::lifecycle_driver::run_lifecycle_execute_from_octon_dir(
+                        &octon_dir, options,
+                    )?
+                } else {
+                    run_lifecycle_from_octon_dir(&octon_dir, options)?
+                };
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
         }
         LifecycleCmd::Resume { run_id } => {
-            let result = resume_lifecycle_from_octon_dir(&octon_dir, &run_id)?;
-            println!("{}", serde_yaml::to_string(&result)?);
+            if lifecycle_program::program_checkpoint_exists(&octon_dir, &run_id)? {
+                let result = lifecycle_program::resume_program_lifecycle_from_octon_dir(
+                    &octon_dir, &run_id,
+                )?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            } else {
+                let result = resume_lifecycle_from_octon_dir(&octon_dir, &run_id)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
         }
+        LifecycleCmd::Program { cmd } => match cmd {
+            LifecycleProgramCmd::Inspect { run_id } => {
+                let result = lifecycle_program::inspect_program_lifecycle_run(&octon_dir, &run_id)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::Replay { run_id, verify } => {
+                let result =
+                    lifecycle_program::replay_program_lifecycle_run(&octon_dir, &run_id, verify)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::Status { run_id, format } => {
+                let result = lifecycle_program::status_program_lifecycle_run(&octon_dir, &run_id)?;
+                if format == "json" {
+                    println!("{}", serde_json::to_string_pretty(&result)?);
+                } else if format == "text" {
+                    println!("{}", serde_yaml::to_string(&result)?);
+                } else {
+                    bail!("unsupported lifecycle program status format: {format}");
+                }
+            }
+            LifecycleProgramCmd::ExplainBlockers { run_id } => {
+                let result =
+                    lifecycle_program::explain_program_lifecycle_blockers(&octon_dir, &run_id)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::Approve {
+                run_id,
+                child,
+                route,
+                reason,
+            } => {
+                let result = lifecycle_program::approve_program_lifecycle_child_route(
+                    &octon_dir, &run_id, &child, &route, &reason,
+                )?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::Retry { run_id, child } => {
+                let result =
+                    lifecycle_program::retry_program_lifecycle_run(&octon_dir, &run_id, child)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::Cancel { run_id, reason } => {
+                let result =
+                    lifecycle_program::cancel_program_lifecycle_run(&octon_dir, &run_id, &reason)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::ProposeMutation { run_id, spec } => {
+                let result =
+                    lifecycle_program::propose_program_mutation(&octon_dir, &run_id, &spec)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::ApplyMutation {
+                run_id,
+                spec,
+                reason,
+            } => {
+                let result =
+                    lifecycle_program::apply_program_mutation(&octon_dir, &run_id, &spec, &reason)?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+            LifecycleProgramCmd::Scaffold {
+                target,
+                spec,
+                dry_run,
+            } => {
+                let result = lifecycle_program::scaffold_program_from_seed(
+                    &octon_dir, &target, &spec, dry_run,
+                )?;
+                println!("{}", serde_yaml::to_string(&result)?);
+            }
+        },
     }
     Ok(())
 }
@@ -664,8 +875,15 @@ fn load_lifecycle_contract(octon_dir: &Path, lifecycle_id: &str) -> Result<Loade
     read_lifecycle_contract(&path)
 }
 
+fn is_program_lifecycle(octon_dir: &Path, lifecycle_id: &str) -> Result<bool> {
+    Ok(load_lifecycle_contract(octon_dir, lifecycle_id)?
+        .contract
+        .program
+        .is_some())
+}
+
 fn contract_path_from_effective_catalog(octon_dir: &Path, lifecycle_id: &str) -> Result<PathBuf> {
-    let catalog_path = octon_dir.join(EFFECTIVE_EXTENSION_CATALOG_REL);
+    let catalog_path = generated_effective_extension_catalog_path(octon_dir)?;
     if !catalog_path.is_file() {
         bail!(
             "effective extension catalog missing; publish extension state before running lifecycle {lifecycle_id}"
@@ -713,10 +931,10 @@ fn generated_lifecycle_contract_path(
 ) -> Result<PathBuf> {
     if !is_safe_repo_relative(raw)
         || !raw.starts_with(GENERATED_EXTENSION_PUBLISHED_PREFIX)
-        || !raw.ends_with("/context/lifecycle.contract.yml")
+        || !is_generated_lifecycle_contract_projection(raw)
     {
         bail!(
-            "published lifecycle contract projection path for {lifecycle_id} must be under {GENERATED_EXTENSION_PUBLISHED_PREFIX} and end with /context/lifecycle.contract.yml: {raw}"
+            "published lifecycle contract projection path for {lifecycle_id} must be under {GENERATED_EXTENSION_PUBLISHED_PREFIX} and end with /context/lifecycle.contract.yml or /context/lifecycles/<id>.contract.yml: {raw}"
         );
     }
     let path = resolve_repo_str(repo_root, raw);
@@ -739,6 +957,11 @@ fn generated_lifecycle_contract_path(
         }
     }
     Ok(path)
+}
+
+fn is_generated_lifecycle_contract_projection(raw: &str) -> bool {
+    raw.ends_with("/context/lifecycle.contract.yml")
+        || (raw.contains("/context/lifecycles/") && raw.ends_with(".contract.yml"))
 }
 
 fn read_lifecycle_contract(path: &Path) -> Result<LoadedContract> {
@@ -1137,14 +1360,47 @@ pub(crate) fn lifecycle_execution_request_from_run(
     let Some(route) = run.selected_route.as_ref() else {
         return Ok(None);
     };
-    let repo_root = repo_root_for_octon(octon_dir)?;
     let checkpoint = read_checkpoint_for_run(octon_dir, &run.run_id)?;
     let run_inputs = checkpoint
         .as_ref()
         .map(|checkpoint| checkpoint.run_inputs.clone())
         .unwrap_or_default();
-    let loaded = load_lifecycle_contract(octon_dir, &run.lifecycle_id)?;
-    let target = resolve_lifecycle_target_path(&repo_root, Path::new(&run.target))?;
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let evidence_root = resolve_repo_path(&repo_root, Path::new(&run.bundle_root));
+    let checkpoint_path = resolve_repo_path(&repo_root, Path::new(&run.checkpoint_path));
+    lifecycle_execution_request_for_route(
+        octon_dir,
+        &run.run_id,
+        &run.lifecycle_id,
+        &run.target,
+        route,
+        executor,
+        timeout_seconds,
+        approval_policy,
+        retry_attempt,
+        &run_inputs,
+        evidence_root,
+        checkpoint_path,
+    )
+}
+
+fn lifecycle_execution_request_for_route(
+    octon_dir: &Path,
+    run_id: &str,
+    lifecycle_id: &str,
+    target_rel: &str,
+    route: &RoutePlanState,
+    executor: ExecutorKind,
+    timeout_seconds: u64,
+    approval_policy: &str,
+    retry_attempt: u32,
+    run_inputs: &BTreeMap<String, String>,
+    evidence_root: PathBuf,
+    checkpoint_path: PathBuf,
+) -> Result<Option<LifecycleRouteExecutionRequest>> {
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let loaded = load_lifecycle_contract(octon_dir, lifecycle_id)?;
+    let target = resolve_lifecycle_target_path(&repo_root, Path::new(target_rel))?;
     let route_spec = route_by_id(&loaded.contract, &route.route_id)
         .with_context(|| format!("route missing from lifecycle contract: {}", route.route_id))?;
     let receipts = loaded
@@ -1158,10 +1414,10 @@ pub(crate) fn lifecycle_execution_request_from_run(
             verdict_field: receipt.verdict_field.clone(),
         })
         .collect::<Vec<_>>();
-    let mut bound_inputs = default_bound_inputs(Path::new(&run.target));
+    let mut bound_inputs = default_bound_inputs(Path::new(target_rel));
     for (name, binding) in &loaded.contract.input_bindings {
         if binding.source == "lifecycle.target" {
-            bound_inputs.insert(name.clone(), run.target.clone());
+            bound_inputs.insert(name.clone(), target_rel.to_string());
         } else if let Some(input_name) = binding.source.strip_prefix("run.input.") {
             if let Some(value) = run_inputs.get(input_name) {
                 bound_inputs.insert(name.clone(), value.clone());
@@ -1209,8 +1465,8 @@ pub(crate) fn lifecycle_execution_request_from_run(
         .and_then(|approval| approval.reason.clone());
     Ok(Some(LifecycleRouteExecutionRequest {
         schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
-        run_id: run.run_id.clone(),
-        lifecycle_id: run.lifecycle_id.clone(),
+        run_id: run_id.to_string(),
+        lifecycle_id: lifecycle_id.to_string(),
         owner_extension: loaded.contract.owner_extension.clone(),
         target,
         manifest_path: loaded.contract.target.manifest_path.clone(),
@@ -1227,16 +1483,16 @@ pub(crate) fn lifecycle_execution_request_from_run(
             approval_required_by_default,
             approval_reason,
         },
-        effective_extension_catalog: octon_dir.join(EFFECTIVE_EXTENSION_CATALOG_REL),
-        runtime_route_bundle: octon_dir.join(RUNTIME_ROUTE_BUNDLE_REL),
+        effective_extension_catalog: generated_effective_extension_catalog_path(octon_dir)?,
+        runtime_route_bundle: runtime_effective_route_bundle_path(octon_dir)?,
         bound_inputs,
         receipts,
         expected_receipts,
         expected_paths,
         expected_manifest_status,
         expected_target_change,
-        evidence_root: resolve_repo_path(&repo_root, Path::new(&run.bundle_root)),
-        checkpoint_path: resolve_repo_path(&repo_root, Path::new(&run.checkpoint_path)),
+        evidence_root,
+        checkpoint_path,
         policy: LifecycleExecutionPolicy {
             timeout_seconds,
             cancellation_token: None,
@@ -2156,8 +2412,10 @@ routes:
             execute_routes: true,
             max_steps: None,
             timeout_seconds: None,
+            max_child_concurrency: None,
             approval_policy: "minimize".to_string(),
             run_inputs: BTreeMap::new(),
+            program_child_filter: None,
         };
 
         let first = run_lifecycle_from_octon_dir(&fixture.octon_dir, options.clone()).unwrap();

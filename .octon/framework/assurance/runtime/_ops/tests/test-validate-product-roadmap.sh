@@ -188,14 +188,32 @@ main() {
   yq -i '.items[0].status = "completed"' "$root/.octon/framework/product/roadmap/catalog.yml"
   assert_failure "completed item without completion ref fails" "$root"
 
-  root="$(new_fixture_repo completed-with-completion)"
-  write_valid_roadmap "$root"
-  yq -i '.items[0].status = "completed" | .items[0].completion_refs = [{"path": ".octon/framework/product/roadmap/example-feature.md", "role": "completion note", "authority_class": "planning-only"}]' "$root/.octon/framework/product/roadmap/catalog.yml"
-  assert_success "completed item with completion ref passes" "$root"
+    root="$(new_fixture_repo completed-with-completion)"
+    write_valid_roadmap "$root"
+    yq -i '.items[0].status = "completed" | .items[0].completion_refs = [{"path": ".octon/framework/product/roadmap/example-feature.md", "role": "completion note", "authority_class": "planning-only"}]' "$root/.octon/framework/product/roadmap/catalog.yml"
+    assert_success "completed item with completion ref passes" "$root"
 
-  if OCTON_ROOT_DIR="$REPO_ROOT" bash "$VALIDATOR" >/tmp/product-roadmap-real.out 2>&1; then
-    pass "real product roadmap passes"
-  else
+    root="$(new_fixture_repo lifecycle-roadmap-overclaim)"
+    write_valid_roadmap "$root"
+    cat >"$root/.octon/framework/product/roadmap/lifecycle-autopilot.md" <<'MD'
+# Lifecycle Autopilot Roadmap
+
+The roadmap adds external workflow engines and Durable Objects support.
+MD
+    assert_failure "lifecycle-autopilot roadmap overstated support claim fails" "$root"
+
+    root="$(new_fixture_repo lifecycle-roadmap-remain-overclaim)"
+    write_valid_roadmap "$root"
+    cat >"$root/.octon/framework/product/roadmap/lifecycle-autopilot.md" <<'MD'
+# Lifecycle Autopilot Roadmap
+
+Lifecycle Autopilot remains fully transactional across all program operations.
+MD
+    assert_failure "lifecycle-autopilot roadmap remain overclaim fails" "$root"
+
+    if OCTON_ROOT_DIR="$REPO_ROOT" bash "$VALIDATOR" >/tmp/product-roadmap-real.out 2>&1; then
+      pass "real product roadmap passes"
+    else
     cat /tmp/product-roadmap-real.out >&2
     fail "real product roadmap passes"
   fi

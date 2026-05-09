@@ -4192,6 +4192,7 @@ dependencies = [
  "octon_authority_engine",
  "octon_core",
  "octon_lifecycle_executor",
+ "octon_runtime_resolver",
  "octon_wasm_host",
  "serde",
  "serde_json",
@@ -4208,6 +4209,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "hex",
+ "octon_runtime_resolver",
  "serde",
  "serde_yaml",
  "sha2",

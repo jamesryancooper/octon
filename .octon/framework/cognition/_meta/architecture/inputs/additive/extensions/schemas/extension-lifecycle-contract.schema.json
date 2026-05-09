@@ -114,6 +114,9 @@
         "$ref": "#/$defs/loop"
       }
     },
+    "program": {
+      "$ref": "#/$defs/program"
+    },
     "routes": {
       "type": "array",
       "items": {
@@ -159,6 +162,261 @@
     "conditionSet": {
       "type": "object",
       "additionalProperties": true
+    },
+    "program": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "child_registry_path",
+        "supported_execution_modes",
+        "recovery_policy",
+        "authority_boundaries"
+      ],
+      "properties": {
+        "child_registry_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "child_lifecycle_id_default": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "supported_execution_modes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "sequential",
+              "gated-parallel",
+              "approval-gated",
+              "parallel-independent",
+              "program-atomic"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "atomic_policy": {
+          "$ref": "#/$defs/programAtomicPolicy"
+        },
+        "dependency_graph": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "recovery_policy": {
+          "$ref": "#/$defs/programRecoveryPolicy"
+        },
+        "closeout_policy": {
+          "$ref": "#/$defs/programCloseoutPolicy"
+        },
+        "authority_boundaries": {
+          "$ref": "#/$defs/programAuthorityBoundaries"
+        }
+      }
+    },
+    "programAtomicPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["eligibility"],
+      "properties": {
+        "eligibility": {
+          "const": "explicit-route-opt-in"
+        },
+        "require_declared_write_scopes": {
+          "type": "boolean"
+        }
+      }
+    },
+    "programRecoveryPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_recovery_attempts", "serialize_write_scope_conflicts"],
+      "properties": {
+        "max_recovery_attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "serialize_write_scope_conflicts": {
+          "type": "boolean"
+        },
+        "handlers": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/programRecoveryHandler"
+          }
+        },
+        "recipes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/programRecoveryRecipe"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "programRecoveryHandler": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "recovery_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "max_attempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "replan_after_attempt": {
+          "type": "boolean"
+        },
+        "approval_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "programRecoveryRecipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blocker_class",
+        "idempotency_class",
+        "approval_required",
+        "retry_budget",
+        "dependent_handling",
+        "post_attempt_validation",
+        "replan_behavior"
+      ],
+      "properties": {
+        "blocker_class": {
+          "type": "string",
+          "enum": [
+            "approval-required",
+            "stale-receipt",
+            "target-drift",
+            "validation-failed",
+            "dependency-blocked",
+            "missing-evidence",
+            "executor-failed",
+            "write-scope-conflict",
+            "unsafe-resume",
+            "unsupported-mode",
+            "authority-boundary-ambiguous"
+          ]
+        },
+        "recovery_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "idempotency_class": {
+          "type": "string",
+          "enum": [
+            "inspect-only",
+            "idempotent",
+            "idempotent-rerun",
+            "bounded-retry",
+            "approval-gated-mutation",
+            "non-idempotent",
+            "unsafe",
+            "non-recoverable"
+          ]
+        },
+        "approval_required": {
+          "type": "boolean"
+        },
+        "retry_budget": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10
+        },
+        "dependent_handling": {
+          "type": "string",
+          "enum": [
+            "continue-independent",
+            "block-dependents",
+            "pause-dependent",
+            "pause-phase",
+            "pause-barrier",
+            "fail-closed"
+          ]
+        },
+        "post_attempt_validation": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "replay-verify",
+              "replan-live-state",
+              "receipt-fresh",
+              "receipt-freshness",
+              "blocker-cleared",
+              "authority-boundary-check",
+              "aggregate-closeout-check"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "replan_behavior": {
+          "type": "string",
+          "enum": [
+            "none",
+            "after-attempt",
+            "always"
+          ]
+        }
+      }
+    },
+    "programCloseoutPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required_child_terminal_outcomes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "require_child_receipts_fresh": {
+          "type": "boolean"
+        },
+        "require_aggregate_evidence": {
+          "type": "boolean"
+        },
+        "enforce_authority_boundaries": {
+          "type": "boolean"
+        }
+      }
+    },
+    "programAuthorityBoundaries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parent_coordinates_only",
+        "child_receipts_remain_child_owned",
+        "child_promotion_targets_remain_child_owned"
+      ],
+      "properties": {
+        "parent_coordinates_only": {
+          "const": true
+        },
+        "child_receipts_remain_child_owned": {
+          "const": true
+        },
+        "child_promotion_targets_remain_child_owned": {
+          "const": true
+        }
+      }
     },
     "validator": {
       "type": "object",
@@ -337,8 +595,38 @@
         },
         "completion": {
           "$ref": "#/$defs/routeCompletion"
+        },
+        "atomic": {
+          "$ref": "#/$defs/routeAtomic"
         }
       }
+    },
+    "routeAtomic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stage_route_id", "commit_route_id"],
+      "properties": {
+        "stage_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "commit_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "rollback_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "compensation_route_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        }
+      },
+      "anyOf": [
+        { "required": ["rollback_route_id"] },
+        { "required": ["compensation_route_id"] }
+      ]
     },
     "routeApproval": {
       "type": "object",

@@ -120,6 +120,65 @@ validate_authority_class_for_path() {
   esac
 }
 
+support_claim_line_is_qualified() {
+  local line="$1"
+  [[ "$line" == *"not "* \
+    || "$line" == *"does not"* \
+    || "$line" == *"do not"* \
+    || "$line" == *"no "* \
+    || "$line" == *"never "* \
+    || "$line" == *"without "* \
+    || "$line" == *"unsupported"* \
+    || "$line" == *"out of scope"* \
+    || "$line" == *"outside "* \
+    || "$line" == *"follow-on"* \
+    || "$line" == *"future"* ]]
+}
+
+validate_no_unqualified_support_claims() {
+  local doc="$1" label="$2" line lower
+  while IFS= read -r line; do
+    lower="$(printf '%s' "$line" | tr '[:upper:]' '[:lower:]')"
+    case "$lower" in
+      *"universal transactionality"*|*"fully transactional"*|*"external workflow engine"*|*"durable object"*|*"mcp integration"*|*"workflow runtime statechart"*|*"task-specific execution harness"*|*"agent-node contract"*|*"recovers all"*|*"guarantees recovery"*|*"self-healing"*|*"self-approve"*|*"governed workflow runtime transition program"*)
+        if support_claim_line_is_qualified "$lower"; then
+          pass "support claim qualified: $label"
+        else
+          fail "support claim overstates implemented scope: $label -> $line"
+        fi
+        ;;
+    esac
+  done <"$doc"
+}
+
+validate_required_support_phrase() {
+  local doc="$1" label="$2" phrase="$3"
+  if rg -i --fixed-strings "$phrase" "$doc" >/dev/null 2>&1; then
+    pass "support boundary phrase present: $label -> $phrase"
+  else
+    fail "support boundary phrase missing: $label -> $phrase"
+  fi
+}
+
+validate_lifecycle_autopilot_support_claims() {
+  local doc="$OCTON_DIR/framework/product/features/lifecycle-autopilot.md"
+  if ! yq -e '.features[]? | select(.feature_id == "lifecycle-autopilot")' "$CATALOG_PATH" >/dev/null 2>&1; then
+    return
+  fi
+
+  if [[ ! -f "$doc" ]]; then
+    fail "lifecycle-autopilot feature note missing for support-claim validation"
+    return
+  fi
+
+  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "not universal transactionality"
+  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "does not create the Governed Workflow Runtime transition"
+  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "generated effective projections"
+  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "proposal-local receipts remain evidence only"
+  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "never self-approve"
+  validate_no_unqualified_support_claims "$doc" "lifecycle-autopilot feature note"
+}
+
 require_yq() {
   if ! command -v yq >/dev/null 2>&1; then
     echo "[ERROR] yq is required for product feature catalog validation" >&2
@@ -315,6 +374,7 @@ main() {
   for ((index=0; index<feature_count; index++)); do
     validate_feature "$index"
   done
+  validate_lifecycle_autopilot_support_claims
 
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then

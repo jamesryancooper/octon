@@ -167,16 +167,36 @@ main() {
   yq -i '.features[0].validation_refs = []' "$root/.octon/framework/product/features/catalog.yml"
   assert_failure "missing validation refs fails" "$root"
 
-  root="$(new_fixture_repo support-authority)"
-  write_valid_catalog "$root"
-  mkdir -p "$root/proposals/example/support"
-  touch "$root/proposals/example/support/proposal-review.md"
-  yq -i '.features[0].related_docs += [{"path": "proposals/example/support/proposal-review.md", "role": "proposal-local receipt", "authority_class": "authored-authority"}]' "$root/.octon/framework/product/features/catalog.yml"
-  assert_failure "proposal-local support receipt marked as authority fails" "$root"
+    root="$(new_fixture_repo support-authority)"
+    write_valid_catalog "$root"
+    mkdir -p "$root/proposals/example/support"
+    touch "$root/proposals/example/support/proposal-review.md"
+    yq -i '.features[0].related_docs += [{"path": "proposals/example/support/proposal-review.md", "role": "proposal-local receipt", "authority_class": "authored-authority"}]' "$root/.octon/framework/product/features/catalog.yml"
+    assert_failure "proposal-local support receipt marked as authority fails" "$root"
 
-  if OCTON_ROOT_DIR="$REPO_ROOT" bash "$VALIDATOR" >/tmp/product-feature-catalog-real.out 2>&1; then
-    pass "real product feature catalog passes"
-  else
+    root="$(new_fixture_repo lifecycle-overclaim)"
+    write_valid_catalog "$root"
+    cat >"$root/.octon/framework/product/features/lifecycle-autopilot.md" <<'MD'
+# Lifecycle Autopilot
+
+Lifecycle Autopilot program-atomic support provides universal transactionality.
+MD
+    yq -i '.features[0].feature_id = "lifecycle-autopilot" | .features[0].related_docs[0].path = ".octon/framework/product/features/lifecycle-autopilot.md"' "$root/.octon/framework/product/features/catalog.yml"
+    assert_failure "lifecycle-autopilot overstated support claim fails" "$root"
+
+    root="$(new_fixture_repo lifecycle-remain-overclaim)"
+    write_valid_catalog "$root"
+    cat >"$root/.octon/framework/product/features/lifecycle-autopilot.md" <<'MD'
+# Lifecycle Autopilot
+
+Lifecycle Autopilot remains fully transactional for all program work.
+MD
+    yq -i '.features[0].feature_id = "lifecycle-autopilot" | .features[0].related_docs[0].path = ".octon/framework/product/features/lifecycle-autopilot.md"' "$root/.octon/framework/product/features/catalog.yml"
+    assert_failure "lifecycle-autopilot remain overclaim fails" "$root"
+
+    if OCTON_ROOT_DIR="$REPO_ROOT" bash "$VALIDATOR" >/tmp/product-feature-catalog-real.out 2>&1; then
+      pass "real product feature catalog passes"
+    else
     cat /tmp/product-feature-catalog-real.out >&2
     fail "real product feature catalog passes"
   fi

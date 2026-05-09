@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/program-lifecycle-event.schema.json",
+  "title": "Octon Program Lifecycle Event",
+  "description": "One NDJSON record in a proposal-program lifecycle event log. v2 records are hash chained; v1 records remain readable as legacy logs.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "event_index",
+    "event_type",
+    "recorded_at",
+    "message"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "octon-program-lifecycle-event-v1",
+        "octon-program-lifecycle-event-v2"
+      ]
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "event_index": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "previous_event_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "event_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "event_type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "event_category": {
+      "type": "string",
+      "enum": [
+        "lifecycle",
+        "lock",
+        "approval",
+        "recovery",
+        "atomic",
+        "mutation",
+        "closeout",
+        "operator-control"
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "checkpoint_digest": {
+      "$ref": "#/$defs/sha256"
+    },
+    "child_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "route_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "atomic_phase": {
+      "type": "string",
+      "enum": [
+        "preflight",
+        "lock",
+        "stage",
+        "barrier-verify",
+        "commit",
+        "rollback",
+        "compensate",
+        "closeout"
+      ]
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "octon-program-lifecycle-event-v2"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "event_sha256",
+          "event_category",
+          "actor"
+        ]
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    }
+  }
+}

@@ -39,8 +39,10 @@ pub(crate) fn run_lifecycle_execute_from_octon_dir(
                 execute_routes: true,
                 max_steps: options.max_steps,
                 timeout_seconds: options.timeout_seconds,
+                max_child_concurrency: options.max_child_concurrency,
                 approval_policy: options.approval_policy.clone(),
                 run_inputs: options.run_inputs.clone(),
+                program_child_filter: options.program_child_filter.clone(),
             },
         )?;
         current_run_id = Some(run.run_id.clone());

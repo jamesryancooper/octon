@@ -1238,6 +1238,9 @@ pub(crate) enum LifecycleCmd {
         /// Per-route executor timeout in seconds for execute-routes mode.
         #[arg(long = "timeout-seconds")]
         timeout_seconds: Option<u64>,
+        /// Maximum concurrent child route executors for program lifecycles.
+        #[arg(long = "max-child-concurrency")]
+        max_child_concurrency: Option<usize>,
         /// Approval policy for execute-routes mode: minimize or unattended operator override.
         #[arg(long = "approval-policy", default_value = "minimize")]
         approval_policy: String,
@@ -1253,6 +1256,111 @@ pub(crate) enum LifecycleCmd {
         /// Lifecycle run id.
         #[arg(long = "run-id")]
         run_id: String,
+    },
+    /// Inspect and control proposal-program lifecycle runs.
+    Program {
+        #[command(subcommand)]
+        cmd: LifecycleProgramCmd,
+    },
+}
+
+#[derive(Subcommand)]
+pub(crate) enum LifecycleProgramCmd {
+    /// Inspect retained program checkpoint and event-log state.
+    Inspect {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+    /// Replay the program event log and optionally verify checkpoint convergence.
+    Replay {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Verify event hash chain, checkpoint convergence, registry digest, and transitions.
+        #[arg(long = "verify")]
+        verify: bool,
+    },
+    /// Render the generated, non-authoritative program read model.
+    Status {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Output format.
+        #[arg(long = "format", default_value = "text")]
+        format: String,
+    },
+    /// Explain current program and child blockers from live state.
+    ExplainBlockers {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
+    /// Record operator approval evidence for a child route.
+    Approve {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Child id from the program registry.
+        #[arg(long = "child")]
+        child: String,
+        /// Child route id being approved.
+        #[arg(long = "route")]
+        route: String,
+        /// Approval reason recorded as evidence.
+        #[arg(long = "reason")]
+        reason: String,
+    },
+    /// Retry a blocked program run or one affected child.
+    Retry {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Optional child id to retry.
+        #[arg(long = "child")]
+        child: Option<String>,
+    },
+    /// Cancel a retained program run.
+    Cancel {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Cancellation reason recorded as evidence.
+        #[arg(long = "reason")]
+        reason: String,
+    },
+    /// Validate and record a proposed parent registry mutation without applying it.
+    ProposeMutation {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Mutation spec path.
+        #[arg(long = "spec")]
+        spec: PathBuf,
+    },
+    /// Apply a parent registry mutation after digest and authority checks.
+    ApplyMutation {
+        /// Program lifecycle run id.
+        #[arg(long = "run-id")]
+        run_id: String,
+        /// Mutation spec path.
+        #[arg(long = "spec")]
+        spec: PathBuf,
+        /// Operator reason recorded as evidence.
+        #[arg(long = "reason")]
+        reason: String,
+    },
+    /// Scaffold a parent proposal-program packet from a seed/reference spec.
+    Scaffold {
+        /// Parent program packet target path.
+        #[arg(long = "target")]
+        target: PathBuf,
+        /// Scaffold spec path.
+        #[arg(long = "spec")]
+        spec: PathBuf,
+        /// Validate and report generated paths without writing files.
+        #[arg(long = "dry-run")]
+        dry_run: bool,
     },
 }
 
@@ -1433,11 +1541,11 @@ mod tests {
     use super::{
         AdoptCmd, AmendCmd, ArmCmd, AttestCmd, CapabilityCmd, CertifyCmd, Cli, Command,
         CompatibilityCmd, ConnectorCmd, DecideCmd, DecisionResponseArg, DelegateCmd,
-        DelegateLeaseCmd, EvolveCmd, FederationCmd, LifecycleCmd, MissionCmd, OrchestrationCmd,
-        OrchestrationIncidentCmd, OrchestrationSurfaceArg, PlanCmd, ProfileCmd, PromoteCmd,
-        RecertifyCmd, RunCmd, StartCmd, StatusCmd, StewardCmd, StewardRenewalOutcomeArg,
-        StewardTriggerArg, SupportCmd, SupportProofSubject, TrustCmd, TrustCompactCmd,
-        TrustDomainCmd, TrustProofCmd, TrustRegistryCmd, WorkflowCmd,
+        DelegateLeaseCmd, EvolveCmd, FederationCmd, LifecycleCmd, LifecycleProgramCmd, MissionCmd,
+        OrchestrationCmd, OrchestrationIncidentCmd, OrchestrationSurfaceArg, PlanCmd, ProfileCmd,
+        PromoteCmd, RecertifyCmd, RunCmd, StartCmd, StatusCmd, StewardCmd,
+        StewardRenewalOutcomeArg, StewardTriggerArg, SupportCmd, SupportProofSubject, TrustCmd,
+        TrustCompactCmd, TrustDomainCmd, TrustProofCmd, TrustRegistryCmd, WorkflowCmd,
     };
     use crate::workflow::ExecutorKind;
     use clap::{CommandFactory, Parser};
@@ -2296,6 +2404,110 @@ mod tests {
                 cmd: LifecycleCmd::Resume { .. }
             }
         ));
+
+        let inspect = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "program",
+            "inspect",
+            "--run-id",
+            "program-test",
+        ])
+        .expect("lifecycle program inspect should parse successfully");
+        assert!(matches!(
+            inspect.cmd,
+            Command::Lifecycle {
+                cmd: LifecycleCmd::Program {
+                    cmd: LifecycleProgramCmd::Inspect { .. }
+                }
+            }
+        ));
+
+        let approve = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "program",
+            "approve",
+            "--run-id",
+            "program-test",
+            "--child",
+            "child-a",
+            "--route",
+            "run-implementation",
+            "--reason",
+            "operator approved",
+        ])
+        .expect("lifecycle program approve should parse successfully");
+        assert!(matches!(
+            approve.cmd,
+            Command::Lifecycle {
+                cmd: LifecycleCmd::Program {
+                    cmd: LifecycleProgramCmd::Approve { .. }
+                }
+            }
+        ));
+
+        for args in [
+            [
+                "octon",
+                "lifecycle",
+                "program",
+                "replay",
+                "--run-id",
+                "program-test",
+                "--verify",
+            ]
+            .as_slice(),
+            [
+                "octon",
+                "lifecycle",
+                "program",
+                "status",
+                "--run-id",
+                "program-test",
+                "--format",
+                "json",
+            ]
+            .as_slice(),
+            [
+                "octon",
+                "lifecycle",
+                "program",
+                "propose-mutation",
+                "--run-id",
+                "program-test",
+                "--spec",
+                "mutation.yml",
+            ]
+            .as_slice(),
+            [
+                "octon",
+                "lifecycle",
+                "program",
+                "apply-mutation",
+                "--run-id",
+                "program-test",
+                "--spec",
+                "mutation.yml",
+                "--reason",
+                "operator approved mutation",
+            ]
+            .as_slice(),
+            [
+                "octon",
+                "lifecycle",
+                "program",
+                "scaffold",
+                "--target",
+                "parent-program",
+                "--spec",
+                "scaffold.yml",
+                "--dry-run",
+            ]
+            .as_slice(),
+        ] {
+            Cli::try_parse_from(args).expect("lifecycle program v3 command should parse");
+        }
     }
 
     #[test]

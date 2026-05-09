@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/proposal-program-child-registry.schema.json",
+  "title": "Octon Proposal Program Child Registry",
+  "description": "Authored parent-program child registry for proposal-program lifecycle orchestration. The v2 schema is required for executable program-atomic runs.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "execution_mode",
+    "children"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": [
+        "octon-proposal-program-child-registry-v1",
+        "octon-proposal-program-child-registry-v2"
+      ]
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": [
+        "sequential",
+        "parallel-independent",
+        "gated-parallel",
+        "approval-gated",
+        "program-atomic"
+      ]
+    },
+    "default_child_lifecycle_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "children": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/child"
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "octon-proposal-program-child-registry-v1"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "execution_mode": {
+            "enum": [
+              "sequential",
+              "parallel-independent",
+              "gated-parallel",
+              "approval-gated"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "execution_mode": {
+            "const": "program-atomic"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "schema_version": {
+            "const": "octon-proposal-program-child-registry-v2"
+          },
+          "children": {
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/child"
+                },
+                {
+                  "$ref": "#/$defs/atomic_child"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "^/"
+          },
+          {
+            "pattern": "(^|/)\\.\\.(/|$)"
+          },
+          {
+            "pattern": "(^|/)\\.(/|$)"
+          }
+        ]
+      }
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "child": {
+      "type": "object",
+      "required": [
+        "child_id",
+        "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "path": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "deferred": {
+          "type": "boolean"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "dependency_gate": {
+          "type": "string",
+          "enum": [
+            "terminal",
+            "verification",
+            "closeout"
+          ]
+        },
+        "phase_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "group_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "rollback_posture": {
+          "type": "string",
+          "enum": [
+            "none",
+            "manual",
+            "forward-only",
+            "superseded",
+            "replaced",
+            "rejected",
+            "compensating",
+            "staged-commit",
+            "rollback-route"
+          ]
+        },
+        "supersession_evidence": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "replacement_child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "replacement_for": {
+          "$ref": "#/$defs/identifier"
+        },
+        "recovery_profile": {
+          "$ref": "#/$defs/identifier"
+        },
+        "phase_commit_barrier": {
+          "$ref": "#/$defs/identifier"
+        },
+        "write_scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relative_path"
+          },
+          "uniqueItems": true
+        },
+        "seed_role": {
+          "type": "string",
+          "enum": [
+            "seed",
+            "reference",
+            "seed-reference",
+            "first-child",
+            "follow-on"
+          ]
+        },
+        "child_lifecycle_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        }
+      }
+    },
+    "atomic_child": {
+      "required": [
+        "dependency_gate",
+        "recovery_profile",
+        "rollback_posture",
+        "write_scopes"
+      ],
+      "properties": {
+        "write_scopes": {
+          "minItems": 1
+        }
+      }
+    }
+  }
+}

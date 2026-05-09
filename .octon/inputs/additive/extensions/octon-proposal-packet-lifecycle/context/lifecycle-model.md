@@ -105,3 +105,21 @@ program-source-context
 Program routes coordinate child packets. They do not own child lifecycle truth,
 child subtype manifest truth, child promotion targets, child validation
 verdicts, or child archive metadata.
+
+Program controller runs also retain a parent-owned execution record: a
+hash-chained v2 event log, checkpoint, scheduler decision, recovery evidence,
+optional mutation evidence, optional scaffold evidence, and aggregate closeout
+receipt. These surfaces coordinate and explain the parent program only. They do
+not satisfy child receipts or rewrite child lifecycle authority.
+
+Program approval grants are parent-run control evidence. A grant only unblocks
+the named child route in that program run; route execution records
+`program-approved` approval evidence before proceeding, and child receipts
+remain child-owned. Recovery recipes are bounded by blocker class, retry budget,
+preconditions, post-attempt validation, and live replanning. `unsafe-resume` and
+`authority-boundary-ambiguous` remain fail-closed.
+
+`program-atomic` is explicit opt-in and means staged barrier coordination with
+declared stage, commit, rollback, or compensation routes. It is not universal
+transactionality. Interrupted barriers are resumed from the event log; ambiguous
+committed state or missing compensation fails closed as `blocked-unsafe`.

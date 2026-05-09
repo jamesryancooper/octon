@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/schemas/proposal-program-scaffold.schema.json",
+  "title": "Octon Proposal Program Scaffold",
+  "description": "Safe parent proposal-program scaffold spec built from a seed/reference packet and follow-on child candidates.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "title",
+    "execution_mode",
+    "seed_reference_child",
+    "rationale"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "octon-proposal-program-scaffold-v1"
+    },
+    "program_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "parent_kind": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_mode": {
+      "type": "string",
+      "enum": [
+        "sequential",
+        "parallel-independent",
+        "gated-parallel",
+        "approval-gated"
+      ]
+    },
+    "seed_reference_child": {
+      "$ref": "#/$defs/scaffold_child"
+    },
+    "follow_on_child_candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/scaffold_child"
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          {
+            "pattern": "^/"
+          },
+          {
+            "pattern": "(^|/)\\.\\.(/|$)"
+          },
+          {
+            "pattern": "(^|/)\\.(/|$)"
+          }
+        ]
+      }
+    },
+    "scaffold_child": {
+      "type": "object",
+      "required": [
+        "child_id",
+        "path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "path": {
+          "$ref": "#/$defs/relative_path"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "phase_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "group_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "deferred": {
+          "type": "boolean"
+        },
+        "rollback_posture": {
+          "type": "string",
+          "enum": [
+            "none",
+            "manual",
+            "forward-only",
+            "superseded",
+            "replaced",
+            "rejected",
+            "compensating",
+            "staged-commit",
+            "rollback-route"
+          ]
+        },
+        "write_scopes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relative_path"
+          },
+          "uniqueItems": true
+        },
+        "seed_role": {
+          "type": "string",
+          "enum": [
+            "seed",
+            "reference",
+            "seed-reference",
+            "first-child",
+            "follow-on"
+          ]
+        }
+      }
+    }
+  }
+}

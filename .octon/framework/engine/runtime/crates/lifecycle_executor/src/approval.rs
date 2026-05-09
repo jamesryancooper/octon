@@ -7,11 +7,19 @@ use std::fs;
 use time::OffsetDateTime;
 
 pub fn approval_required(request: &LifecycleRouteExecutionRequest) -> bool {
-    route_requires_approval(request) && request.policy.approval_policy != "unattended"
+    route_requires_approval(request)
+        && !matches!(
+            request.policy.approval_policy.as_str(),
+            "unattended" | "program-approved"
+        )
 }
 
 pub fn unattended_override_active(request: &LifecycleRouteExecutionRequest) -> bool {
-    route_requires_approval(request) && request.policy.approval_policy == "unattended"
+    route_requires_approval(request)
+        && matches!(
+            request.policy.approval_policy.as_str(),
+            "unattended" | "program-approved"
+        )
 }
 
 fn route_requires_approval(request: &LifecycleRouteExecutionRequest) -> bool {
@@ -30,12 +38,30 @@ pub fn write_unattended_override(
         .approval_reason
         .as_deref()
         .unwrap_or("durable lifecycle route requires explicit approval");
+    let (override_class, authorization_source, operator_responsibility) = if request
+        .policy
+        .approval_policy
+        == "program-approved"
+    {
+        (
+                "operator-program-approved-durable-route",
+                "program-operator-approval-grant",
+                "verify the program approval grant remains valid for this child route before resume or retry",
+            )
+    } else {
+        (
+            "operator-unattended-durable-route",
+            "cli-operator-override",
+            "verify durable mutation authorization before using unattended mode",
+        )
+    };
     let content = format!(
-        "schema_version: octon-lifecycle-approval-override-v1\nrun_id: {}\nlifecycle_id: {}\nroute_id: {}\nroute_type: {}\napproval_policy: unattended\noverride_class: operator-unattended-durable-route\nauthorization_source: cli-operator-override\napproval_required_by_default: {}\nworkflow_route: {}\nreason: {}\nrecorded_at: {}\noperator_responsibility: verify durable mutation authorization before using unattended mode\n",
+        "schema_version: octon-lifecycle-approval-override-v1\nrun_id: {}\nlifecycle_id: {}\nroute_id: {}\nroute_type: {}\napproval_policy: {}\noverride_class: {override_class}\nauthorization_source: {authorization_source}\napproval_required_by_default: {}\nworkflow_route: {}\nreason: {}\nrecorded_at: {}\noperator_responsibility: {operator_responsibility}\n",
         request.run_id,
         request.lifecycle_id,
         request.route.route_id,
         request.route.route_type,
+        request.policy.approval_policy,
         request.route.approval_required_by_default,
         request.route.route_type == "workflow",
         reason,

@@ -1,13 +1,13 @@
 use crate::errors::{LifecycleErrorClass, LifecycleExecutionError};
 use anyhow::{Context, Result};
+use octon_runtime_resolver::{
+    generated_effective_extension_catalog_path, runtime_effective_route_bundle_path,
+};
 use serde_yaml::Value;
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 
 const PUBLISHED_EXTENSION_PREFIX: &str = ".octon/generated/effective/extensions/published/";
-const EFFECTIVE_EXTENSION_CATALOG_REL: &str =
-    ".octon/generated/effective/extensions/catalog.effective.yml";
-const RUNTIME_ROUTE_BUNDLE_REL: &str = ".octon/generated/effective/runtime/route-bundle.yml";
 const WORKFLOW_RUNTIME_ROOT_REL: &str = ".octon/framework/orchestration/runtime/workflows/";
 
 #[derive(Clone, Debug)]
@@ -29,10 +29,13 @@ pub fn resolve_prompt_bundle(
     owner_extension: &str,
     prompt_set_id: &str,
 ) -> Result<PromptBundle, LifecycleExecutionError> {
+    let octon_dir = repo_root.join(".octon");
     ensure_exact_generated_file(
         repo_root,
         catalog_path,
-        EFFECTIVE_EXTENSION_CATALOG_REL,
+        &generated_effective_extension_catalog_path(&octon_dir).map_err(|error| {
+            LifecycleExecutionError::new(LifecycleErrorClass::Discovery, error.to_string())
+        })?,
         "effective extension catalog",
     )?;
     let catalog: Value = serde_yaml::from_slice(&fs::read(catalog_path).map_err(|error| {
@@ -102,10 +105,13 @@ pub fn resolve_workflow_manifest(
     runtime_route_bundle: &Path,
     route_id: &str,
 ) -> Result<PathBuf, LifecycleExecutionError> {
+    let octon_dir = repo_root.join(".octon");
     ensure_exact_generated_file(
         repo_root,
         runtime_route_bundle,
-        RUNTIME_ROUTE_BUNDLE_REL,
+        &runtime_effective_route_bundle_path(&octon_dir).map_err(|error| {
+            LifecycleExecutionError::new(LifecycleErrorClass::Discovery, error.to_string())
+        })?,
         "runtime route bundle",
     )?;
     if !runtime_route_bundle.is_file() {
@@ -226,16 +232,18 @@ fn collect_assets(
 }
 
 fn ensure_exact_generated_file(
-    repo_root: &Path,
+    _repo_root: &Path,
     path: &Path,
-    rel: &str,
+    expected_path: &Path,
     label: &str,
 ) -> Result<(), LifecycleExecutionError> {
-    let expected = repo_root.join(rel);
-    let expected = expected.canonicalize().map_err(|error| {
+    let expected = expected_path.canonicalize().map_err(|error| {
         LifecycleExecutionError::new(
             LifecycleErrorClass::Discovery,
-            format!("{label} missing at generated path {rel}: {error}"),
+            format!(
+                "{label} missing at generated effective projection {}: {error}",
+                expected_path.display()
+            ),
         )
     })?;
     let actual = path.canonicalize().map_err(|error| {
@@ -251,7 +259,8 @@ fn ensure_exact_generated_file(
         return Err(LifecycleExecutionError::new(
             LifecycleErrorClass::Discovery,
             format!(
-                "{label} must be resolved from generated effective projection {rel}: {}",
+                "{label} must be resolved from generated effective projection {}: {}",
+                expected_path.display(),
                 path.display()
             ),
         ));

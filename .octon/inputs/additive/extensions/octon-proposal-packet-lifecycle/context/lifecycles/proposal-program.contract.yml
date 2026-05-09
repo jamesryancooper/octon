@@ -1,0 +1,313 @@
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "octon-proposal-packet-lifecycle"
+version: "1.0.0"
+
+target:
+  input: "program_packet_path"
+  manifest_path: "proposal.yml"
+  status_field: "status"
+  allowed_statuses:
+    - "draft"
+    - "in-review"
+    - "accepted"
+    - "rejected"
+    - "implemented"
+    - "archived"
+
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes:
+    - "sequential"
+    - "parallel-independent"
+    - "gated-parallel"
+    - "approval-gated"
+    - "program-atomic"
+  atomic_policy:
+    eligibility: "explicit-route-opt-in"
+    require_declared_write_scopes: true
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+    handlers:
+      stale-receipt:
+        max_attempts: 2
+        replan_after_attempt: true
+      target-drift:
+        max_attempts: 1
+        replan_after_attempt: true
+      validation-failed:
+        recovery_route_id: "generate-program-correction-prompt"
+        max_attempts: 1
+        replan_after_attempt: true
+        approval_required: false
+      missing-evidence:
+        max_attempts: 2
+        replan_after_attempt: true
+      executor-failed:
+        max_attempts: 2
+        replan_after_attempt: true
+      write-scope-conflict:
+        max_attempts: 0
+        replan_after_attempt: true
+      approval-required:
+        max_attempts: 0
+        approval_required: true
+    recipes:
+      - blocker_class: "stale-receipt"
+        idempotency_class: "idempotent-rerun"
+        approval_required: false
+        retry_budget: 2
+        dependent_handling: "pause-dependent"
+        post_attempt_validation:
+          - "replan-live-state"
+          - "receipt-freshness"
+        replan_behavior: "after-attempt"
+      - blocker_class: "target-drift"
+        idempotency_class: "inspect-only"
+        approval_required: false
+        retry_budget: 1
+        dependent_handling: "pause-dependent"
+        post_attempt_validation:
+          - "replan-live-state"
+          - "authority-boundary-check"
+        replan_behavior: "always"
+      - blocker_class: "validation-failed"
+        recovery_route_id: "generate-program-correction-prompt"
+        idempotency_class: "approval-gated-mutation"
+        approval_required: false
+        retry_budget: 1
+        dependent_handling: "continue-independent"
+        post_attempt_validation:
+          - "replan-live-state"
+        replan_behavior: "after-attempt"
+      - blocker_class: "missing-evidence"
+        idempotency_class: "idempotent-rerun"
+        approval_required: false
+        retry_budget: 2
+        dependent_handling: "pause-dependent"
+        post_attempt_validation:
+          - "replan-live-state"
+        replan_behavior: "after-attempt"
+      - blocker_class: "executor-failed"
+        idempotency_class: "bounded-retry"
+        approval_required: false
+        retry_budget: 2
+        dependent_handling: "continue-independent"
+        post_attempt_validation:
+          - "replan-live-state"
+        replan_behavior: "after-attempt"
+      - blocker_class: "write-scope-conflict"
+        idempotency_class: "inspect-only"
+        approval_required: false
+        retry_budget: 0
+        dependent_handling: "pause-phase"
+        post_attempt_validation:
+          - "authority-boundary-check"
+        replan_behavior: "always"
+      - blocker_class: "approval-required"
+        idempotency_class: "approval-gated-mutation"
+        approval_required: true
+        retry_budget: 0
+        dependent_handling: "pause-phase"
+        post_attempt_validation:
+          - "replay-verify"
+        replan_behavior: "none"
+      - blocker_class: "unsafe-resume"
+        idempotency_class: "non-recoverable"
+        approval_required: true
+        retry_budget: 0
+        dependent_handling: "fail-closed"
+        post_attempt_validation:
+          - "replay-verify"
+        replan_behavior: "none"
+      - blocker_class: "authority-boundary-ambiguous"
+        idempotency_class: "non-recoverable"
+        approval_required: true
+        retry_budget: 0
+        dependent_handling: "fail-closed"
+        post_attempt_validation:
+          - "authority-boundary-check"
+        replan_behavior: "none"
+  closeout_policy:
+    required_child_terminal_outcomes:
+      - "archived"
+      - "rejected"
+    require_child_receipts_fresh: true
+    require_aggregate_evidence: true
+    enforce_authority_boundaries: true
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  program_packet_path:
+    source: "lifecycle.target"
+  child_packet_paths:
+    source: "run.input.child_packet_paths"
+  execution_mode:
+    source: "run.input.execution_mode"
+  closeout_scope:
+    source: "run.input.closeout_scope"
+  finding_id:
+    source: "run.input.finding_id"
+
+states:
+  - state_id: "create-program"
+  - state_id: "plan-children"
+  - state_id: "coordinate-children"
+  - state_id: "generate-program-implementation-prompt"
+  - state_id: "generate-program-verification-prompt"
+  - state_id: "run-program-verification"
+  - state_id: "generate-program-correction-prompt"
+  - state_id: "generate-program-closeout-prompt"
+  - state_id: "closeout"
+  - state_id: "archive"
+
+terminal_outcomes:
+  - outcome_id: "archived"
+    when:
+      all:
+        - manifest_status: "archived"
+  - outcome_id: "rejected"
+    when:
+      all:
+        - manifest_status: "rejected"
+
+validators:
+  - validator_id: "proposal-standard"
+    argv:
+      - "bash"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+      - "--package"
+      - "{{target}}"
+
+receipts:
+  - receipt_id: "program-implementation-prompt"
+    path: "support/executable-program-implementation-prompt.md"
+  - receipt_id: "program-verification-prompt"
+    path: "support/follow-up-program-verification-prompt.md"
+  - receipt_id: "program-correction-prompt"
+    path: "support/program-correction-prompts"
+  - receipt_id: "program-closeout-prompt"
+    path: "support/custom-program-closeout-prompt.md"
+
+routes:
+  - route_id: "create-proposal-program"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-create-program"
+    skill_id: "octon-proposal-packet-lifecycle-create-program"
+    prompt_set_id: "octon-proposal-packet-lifecycle-create-proposal-program"
+    required_inputs:
+      - "child_packet_paths"
+    completion:
+      expected_paths:
+        - "proposal.yml"
+        - "README.md"
+        - "resources/child-packet-index.yml"
+        - "resources/child-packet-index.md"
+        - "architecture/packet-sequence.md"
+      expected_manifest_status: "draft"
+      expected_target_change: true
+      replan_required: true
+    enter_when:
+      any:
+        - target_missing: true
+        - file_absent: "proposal.yml"
+        - file_absent: "resources/child-packet-index.yml"
+  - route_id: "generate-program-implementation-prompt"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-generate-program-implementation-prompt"
+    skill_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt"
+    prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-implementation-prompt"
+    completion:
+      expected_receipts:
+        - "program-implementation-prompt"
+      expected_paths:
+        - "support/executable-program-implementation-prompt.md"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - file_present: "resources/child-packet-index.yml"
+        - receipt_absent: "program-implementation-prompt"
+  - route_id: "generate-program-verification-prompt"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-generate-program-verification-prompt"
+    skill_id: "octon-proposal-packet-lifecycle-generate-program-verification-prompt"
+    prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-verification-prompt"
+    completion:
+      expected_receipts:
+        - "program-verification-prompt"
+      expected_paths:
+        - "support/follow-up-program-verification-prompt.md"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - file_present: "resources/child-packet-index.yml"
+        - receipt_absent: "program-verification-prompt"
+  - route_id: "run-program-verification-and-correction-loop"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-run-program-verification-and-correction-loop"
+    skill_id: "octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop"
+    prompt_set_id: "octon-proposal-packet-lifecycle-run-program-verification-and-correction-loop"
+    completion:
+      expected_paths:
+        - "support/program-correction-prompts"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "program-verification-prompt"
+  - route_id: "generate-program-correction-prompt"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-generate-program-correction-prompt"
+    skill_id: "octon-proposal-packet-lifecycle-generate-program-correction-prompt"
+    prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-correction-prompt"
+    required_inputs:
+      - "finding_id"
+    completion:
+      expected_paths:
+        - "support/program-correction-prompts"
+      expected_target_change: true
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "program-verification-prompt"
+  - route_id: "generate-program-closeout-prompt"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-generate-program-closeout-prompt"
+    skill_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt"
+    prompt_set_id: "octon-proposal-packet-lifecycle-generate-program-closeout-prompt"
+    completion:
+      expected_receipts:
+        - "program-closeout-prompt"
+      expected_paths:
+        - "support/custom-program-closeout-prompt.md"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - file_present: "resources/child-packet-index.yml"
+        - receipt_absent: "program-closeout-prompt"
+  - route_id: "closeout-proposal-program"
+    route_type: "extension"
+    command_id: "octon-proposal-packet-closeout-program"
+    skill_id: "octon-proposal-packet-lifecycle-closeout-program"
+    prompt_set_id: "octon-proposal-packet-lifecycle-closeout-proposal-program"
+    approval:
+      required_by_default: true
+      reason: "program closeout coordinates durable child outcomes and archive posture"
+    completion:
+      expected_manifest_status: "implemented"
+      replan_required: true
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "program-closeout-prompt"

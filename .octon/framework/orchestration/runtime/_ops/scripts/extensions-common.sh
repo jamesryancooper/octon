@@ -585,32 +585,35 @@ ext_validate_capability_profiles() {
   fi
 
   if ext_has_capability_profile "$manifest" "lifecycle-contract"; then
-    path="$(ext_lifecycle_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
-    [[ -n "$path" ]] || {
+    count="$(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root" | wc -l | tr -d ' ')"
+    [[ "$count" -gt 0 ]] || {
       EXT_LAST_ERROR_REASON="missing-lifecycle-contract:$pack_id"
       return 1
     }
-    if yq -e '.routes[]? | select(.route_type == "extension")' "$path" >/dev/null 2>&1 \
-      && ! ext_has_capability_profile "$manifest" "routing-contract"; then
-      EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:routing-contract"
-      return 1
-    fi
-    if yq -e '.routes[]? | has("command_id")' "$path" >/dev/null 2>&1 \
-      && ! ext_has_capability_profile "$manifest" "command-surface"; then
-      EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:command-surface"
-      return 1
-    fi
-    if yq -e '.routes[]? | has("skill_id")' "$path" >/dev/null 2>&1 \
-      && ! ext_has_capability_profile "$manifest" "skill-surface"; then
-      EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:skill-surface"
-      return 1
-    fi
-    if yq -e '.routes[]? | has("prompt_set_id")' "$path" >/dev/null 2>&1 \
-      && ! ext_has_capability_profile "$manifest" "prompt-bundle"; then
-      EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:prompt-bundle"
-      return 1
-    fi
-  elif [[ -n "$(ext_lifecycle_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)" ]]; then
+    while IFS= read -r path; do
+      [[ -n "$path" ]] || continue
+      if yq -e '.routes[]? | select(.route_type == "extension")' "$path" >/dev/null 2>&1 \
+        && ! ext_has_capability_profile "$manifest" "routing-contract"; then
+        EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:routing-contract"
+        return 1
+      fi
+      if yq -e '.routes[]? | has("command_id")' "$path" >/dev/null 2>&1 \
+        && ! ext_has_capability_profile "$manifest" "command-surface"; then
+        EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:command-surface"
+        return 1
+      fi
+      if yq -e '.routes[]? | has("skill_id")' "$path" >/dev/null 2>&1 \
+        && ! ext_has_capability_profile "$manifest" "skill-surface"; then
+        EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:skill-surface"
+        return 1
+      fi
+      if yq -e '.routes[]? | has("prompt_set_id")' "$path" >/dev/null 2>&1 \
+        && ! ext_has_capability_profile "$manifest" "prompt-bundle"; then
+        EXT_LAST_ERROR_REASON="lifecycle-contract-requires-profile:prompt-bundle"
+        return 1
+      fi
+    done < <(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root")
+  elif [[ -n "$(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root" 2>/dev/null || true)" ]]; then
     EXT_LAST_ERROR_REASON="undeclared-capability-profile:lifecycle-contract"
     return 1
   fi
@@ -989,6 +992,26 @@ ext_lifecycle_contract_abs_for_pack() {
   printf '%s\n' "$contract_abs"
 }
 
+ext_lifecycle_contract_abs_files_for_pack() {
+  local manifest="$1" pack_root="$2"
+  local context_root_rel context_root
+
+  context_root_rel="$(yq -r '.content_entrypoints.context // ""' "$manifest" 2>/dev/null || true)"
+  if [[ -z "$context_root_rel" || "$context_root_rel" == "null" ]]; then
+    return 0
+  fi
+
+  context_root="$pack_root/${context_root_rel%/}"
+  [[ -d "$context_root" ]] || return 0
+
+  {
+    [[ -f "$context_root/lifecycle.contract.yml" ]] && printf '%s\n' "$context_root/lifecycle.contract.yml"
+    if [[ -d "$context_root/lifecycles" ]]; then
+      find "$context_root/lifecycles" -maxdepth 1 -type f -name '*.contract.yml' -print
+    fi
+  } | LC_ALL=C sort -u
+}
+
 ext_lifecycle_contract_rel_for_pack() {
   local pack_id="$1" manifest="$2" pack_root="$3"
   local context_root_rel contract_abs
@@ -999,12 +1022,23 @@ ext_lifecycle_contract_rel_for_pack() {
   printf '.octon/inputs/additive/extensions/%s/%s/lifecycle.contract.yml\n' "$pack_id" "${context_root_rel%/}"
 }
 
+ext_lifecycle_contract_rel_files_for_pack() {
+  local pack_id="$1" manifest="$2" pack_root="$3"
+  local contract_abs rel_path
+
+  while IFS= read -r contract_abs; do
+    [[ -n "$contract_abs" ]] || continue
+    rel_path="${contract_abs#$pack_root/}"
+    printf '.octon/inputs/additive/extensions/%s/%s\n' "$pack_id" "$rel_path"
+  done < <(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root")
+}
+
 ext_validate_lifecycle_contract_if_present() {
   local pack_id="$1" manifest="$2" pack_root="$3"
-  local contract_abs validator_script
+  local contract_abs validator_script count
 
-  contract_abs="$(ext_lifecycle_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
-  [[ -n "$contract_abs" ]] || return 0
+  count="$(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root" | wc -l | tr -d ' ')"
+  [[ "$count" -gt 0 ]] || return 0
 
   validator_script="$OCTON_DIR/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
   [[ -x "$validator_script" ]] || {
@@ -1012,10 +1046,13 @@ ext_validate_lifecycle_contract_if_present() {
     return 1
   }
 
-  if ! "$validator_script" --contract "${contract_abs#$ROOT_DIR/}" >/dev/null 2>&1; then
-    EXT_LAST_ERROR_REASON="invalid-lifecycle-contract:$pack_id"
-    return 1
-  fi
+  while IFS= read -r contract_abs; do
+    [[ -n "$contract_abs" ]] || continue
+    if ! "$validator_script" --contract "${contract_abs#$ROOT_DIR/}" >/dev/null 2>&1; then
+      EXT_LAST_ERROR_REASON="invalid-lifecycle-contract:$pack_id"
+      return 1
+    fi
+  done < <(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root")
 }
 
 ext_validate_routing_contract_if_present() {

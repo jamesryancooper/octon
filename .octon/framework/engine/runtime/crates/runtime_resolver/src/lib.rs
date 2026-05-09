@@ -17,6 +17,7 @@ const RUNTIME_RESOLUTION_REF: &str = ".octon/instance/governance/runtime-resolut
 const RUNTIME_ROUTE_BUNDLE_REF: &str = ".octon/generated/effective/runtime/route-bundle.yml";
 const RUNTIME_ROUTE_BUNDLE_LOCK_REF: &str =
     ".octon/generated/effective/runtime/route-bundle.lock.yml";
+const EXTENSIONS_CATALOG_REF: &str = ".octon/generated/effective/extensions/catalog.effective.yml";
 const PACK_ROUTES_EFFECTIVE_REF: &str =
     ".octon/generated/effective/capabilities/pack-routes.effective.yml";
 const PACK_ROUTES_LOCK_REF: &str = ".octon/generated/effective/capabilities/pack-routes.lock.yml";
@@ -348,6 +349,22 @@ pub fn runtime_route_bundle_publication_bypass(
     })
 }
 
+pub fn runtime_effective_route_bundle_path(octon_dir: &Path) -> Result<PathBuf> {
+    resolve_runtime_effective_ref_path(
+        octon_dir,
+        |resolution| &resolution.runtime_effective_route_bundle_ref,
+        RUNTIME_ROUTE_BUNDLE_REF,
+    )
+}
+
+pub fn generated_effective_extension_catalog_path(octon_dir: &Path) -> Result<PathBuf> {
+    resolve_runtime_effective_ref_path(
+        octon_dir,
+        |resolution| &resolution.extensions_catalog_ref,
+        EXTENSIONS_CATALOG_REF,
+    )
+}
+
 pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRouteBundle> {
     let root_dir = octon_dir
         .parent()
@@ -598,6 +615,41 @@ pub fn verify_runtime_route_bundle(octon_dir: &Path) -> Result<VerifiedRuntimeRo
         bundle,
         lock,
     })
+}
+
+fn resolve_runtime_effective_ref_path(
+    octon_dir: &Path,
+    select: impl FnOnce(&RuntimeResolutionRecord) -> &str,
+    default_ref: &str,
+) -> Result<PathBuf> {
+    let root_dir = octon_dir
+        .parent()
+        .ok_or_else(|| anyhow!("INTERNAL: .octon has no parent directory"))?;
+    let resolution_path = resolve_repo_path(root_dir, RUNTIME_RESOLUTION_REF);
+    let raw_ref = match fs::read(&resolution_path) {
+        Ok(bytes) => {
+            let resolution: RuntimeResolutionRecord = serde_yaml::from_slice(&bytes)
+                .context("runtime-resolution selector is not valid YAML")?;
+            if resolution.schema_version != "octon-runtime-resolution-v1" {
+                return Err(anyhow!(
+                    "INVALID_INPUT: unsupported runtime-resolution schema '{}'",
+                    resolution.schema_version
+                ));
+            }
+            let selected = select(&resolution);
+            if selected.trim().is_empty() {
+                default_ref.to_string()
+            } else {
+                selected.to_string()
+            }
+        }
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => default_ref.to_string(),
+        Err(error) => {
+            return Err(error)
+                .with_context(|| format!("failed to read {}", resolution_path.display()));
+        }
+    };
+    Ok(resolve_repo_path(root_dir, &raw_ref))
 }
 
 pub fn verify_support_envelope_tuple(

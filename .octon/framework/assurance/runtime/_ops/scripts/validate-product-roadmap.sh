@@ -126,6 +126,57 @@ validate_authority_class_for_path() {
   esac
 }
 
+support_claim_line_is_qualified() {
+  local line="$1"
+  [[ "$line" == *"not "* \
+    || "$line" == *"does not"* \
+    || "$line" == *"do not"* \
+    || "$line" == *"no "* \
+    || "$line" == *"never "* \
+    || "$line" == *"without "* \
+    || "$line" == *"unsupported"* \
+    || "$line" == *"out of scope"* \
+    || "$line" == *"outside "* \
+    || "$line" == *"follow-on"* \
+    || "$line" == *"future"* ]]
+}
+
+validate_no_unqualified_support_claims() {
+  local doc="$1" label="$2" line lower
+  while IFS= read -r line; do
+    lower="$(printf '%s' "$line" | tr '[:upper:]' '[:lower:]')"
+    case "$lower" in
+      *"universal transactionality"*|*"fully transactional"*|*"external workflow engine"*|*"durable object"*|*"mcp integration"*|*"workflow runtime statechart"*|*"task-specific execution harness"*|*"agent-node contract"*|*"recovers all"*|*"guarantees recovery"*|*"self-healing"*|*"self-approve"*|*"governed workflow runtime transition program"*)
+        if support_claim_line_is_qualified "$lower"; then
+          pass "support claim qualified: $label"
+        else
+          fail "support claim overstates implemented scope: $label -> $line"
+        fi
+        ;;
+    esac
+  done <"$doc"
+}
+
+validate_required_support_phrase() {
+  local doc="$1" label="$2" phrase="$3"
+  if rg -i --fixed-strings "$phrase" "$doc" >/dev/null 2>&1; then
+    pass "support boundary phrase present: $label -> $phrase"
+  else
+    fail "support boundary phrase missing: $label -> $phrase"
+  fi
+}
+
+validate_lifecycle_autopilot_roadmap_claims() {
+  local doc="$OCTON_DIR/framework/product/roadmap/lifecycle-autopilot.md"
+  if [[ ! -f "$doc" ]]; then
+    return
+  fi
+
+  validate_required_support_phrase "$doc" "lifecycle-autopilot roadmap note" "planning-only"
+  validate_required_support_phrase "$doc" "lifecycle-autopilot roadmap note" "does not add runtime behavior"
+  validate_no_unqualified_support_claims "$doc" "lifecycle-autopilot roadmap note"
+}
+
 require_yq() {
   if ! command -v yq >/dev/null 2>&1; then
     echo "[ERROR] yq is required for product roadmap validation" >&2
@@ -348,6 +399,7 @@ main() {
   for ((index=0; index<item_count; index++)); do
     validate_item "$index"
   done
+  validate_lifecycle_autopilot_roadmap_claims
 
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then

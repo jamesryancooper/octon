@@ -196,9 +196,10 @@ write_extension_publication_receipt() {
     if routing_contract_rel="$(ext_routing_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"; then
       [[ -n "$routing_contract_rel" ]] && required_inputs+=("$routing_contract_rel")
     fi
-    if lifecycle_contract_rel="$(ext_lifecycle_contract_rel_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" 2>/dev/null || true)"; then
-      [[ -n "$lifecycle_contract_rel" ]] && required_inputs+=("$lifecycle_contract_rel")
-    fi
+    while IFS= read -r lifecycle_contract_rel; do
+      [[ -n "$lifecycle_contract_rel" ]] || continue
+      required_inputs+=("$lifecycle_contract_rel")
+    done < <(ext_lifecycle_contract_rel_files_for_pack "$pack_id" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}")
     while IFS= read -r manifest_path; do
       [[ -n "$manifest_path" ]] || continue
       required_inputs+=("${manifest_path#$ROOT_DIR/}")
@@ -936,70 +937,76 @@ write_pack_prompt_bundles() {
 
 write_pack_lifecycle_contracts() {
   local pack_id="$1" source_id="$2" manifest_abs="$3"
-  local contract_abs contract_rel contract_sha projection_rel state_count route_count validator_count gate_count receipt_count loop_count terminal_count
-  contract_abs="$(ext_lifecycle_contract_abs_for_pack "$manifest_abs" "$(ext_pack_root_abs "$pack_id")" 2>/dev/null || true)"
-  if [[ -z "$contract_abs" ]]; then
+  local contract_abs contract_rel contract_sha projection_rel source_rel state_count route_count validator_count gate_count receipt_count loop_count terminal_count
+  local pack_root
+  pack_root="$(ext_pack_root_abs "$pack_id")"
+
+  if [[ "$(ext_lifecycle_contract_abs_files_for_pack "$manifest_abs" "$pack_root" | wc -l | tr -d ' ')" -eq 0 ]]; then
     printf '    lifecycle_contracts: []\n'
     return
   fi
 
-  contract_rel="$(ext_lifecycle_contract_rel_for_pack "$pack_id" "$manifest_abs" "$(ext_pack_root_abs "$pack_id")")"
-  contract_sha="$(ext_hash_file "$contract_abs")"
-  projection_rel="$(ext_published_projection_root_rel "$pack_id" "$source_id")/context/lifecycle.contract.yml"
-  state_count="$(yq -r '(.states // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-  route_count="$(yq -r '(.routes // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-  validator_count="$(yq -r '(.validators // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-  gate_count="$(yq -r '(.gates // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-  receipt_count="$(yq -r '(.receipts // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-  loop_count="$(yq -r '(.loops // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-  terminal_count="$(yq -r '(.terminal_outcomes // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
-
   printf '    lifecycle_contracts:\n'
-  printf '      - lifecycle_id: "%s"\n' "$(yq -r '.lifecycle_id // ""' "$contract_abs")"
-  printf '        schema_version: "%s"\n' "$(yq -r '.schema_version // ""' "$contract_abs")"
-  printf '        version: "%s"\n' "$(yq -r '.version // ""' "$contract_abs")"
-  printf '        owner_extension: "%s"\n' "$(yq -r '.owner_extension // ""' "$contract_abs")"
-  printf '        contract_path: "%s"\n' "$contract_rel"
-  printf '        projection_source_path: "%s"\n' "$projection_rel"
-  printf '        contract_sha256: "%s"\n' "$contract_sha"
-  printf '        target_input: "%s"\n' "$(yq -r '.target.input // ""' "$contract_abs")"
-  printf '        target_manifest_path: "%s"\n' "$(yq -r '.target.manifest_path // ""' "$contract_abs")"
-  printf '        target_status_field: "%s"\n' "$(yq -r '.target.status_field // ""' "$contract_abs")"
-  printf '        states:\n'
-  if [[ "$state_count" -eq 0 ]]; then
-    printf '          []\n'
-  else
-    yq -r '.states[]?.state_id // ""' "$contract_abs" | awk 'NF' | while IFS= read -r state_id; do
-      printf '          - "%s"\n' "$state_id"
-    done
-  fi
-  printf '        terminal_outcomes:\n'
-  if [[ "$terminal_count" -eq 0 ]]; then
-    printf '          []\n'
-  else
-    yq -r '.terminal_outcomes[]?.outcome_id // ""' "$contract_abs" | awk 'NF' | while IFS= read -r outcome_id; do
-      printf '          - "%s"\n' "$outcome_id"
-    done
-  fi
-  printf '        counts:\n'
-  printf '          routes: %s\n' "$route_count"
-  printf '          validators: %s\n' "$validator_count"
-  printf '          gates: %s\n' "$gate_count"
-  printf '          receipts: %s\n' "$receipt_count"
-  printf '          loops: %s\n' "$loop_count"
-  printf '        routes:\n'
-  if [[ "$route_count" -eq 0 ]]; then
-    printf '          []\n'
-  else
-    local index
-    for ((index=0; index<route_count; index++)); do
-      printf '          - route_id: "%s"\n' "$(yq -r ".routes[$index].route_id // \"\"" "$contract_abs")"
-      printf '            route_type: "%s"\n' "$(yq -r ".routes[$index].route_type // \"\"" "$contract_abs")"
-      printf '            command_id: "%s"\n' "$(yq -r ".routes[$index].command_id // \"\"" "$contract_abs")"
-      printf '            skill_id: "%s"\n' "$(yq -r ".routes[$index].skill_id // \"\"" "$contract_abs")"
-      printf '            prompt_set_id: "%s"\n' "$(yq -r ".routes[$index].prompt_set_id // \"\"" "$contract_abs")"
-    done
-  fi
+  while IFS= read -r contract_abs; do
+    [[ -n "$contract_abs" ]] || continue
+    source_rel="${contract_abs#$pack_root/}"
+    contract_rel=".octon/inputs/additive/extensions/${pack_id}/${source_rel}"
+    contract_sha="$(ext_hash_file "$contract_abs")"
+    projection_rel="$(ext_published_projection_root_rel "$pack_id" "$source_id")/${source_rel}"
+    state_count="$(yq -r '(.states // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+    route_count="$(yq -r '(.routes // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+    validator_count="$(yq -r '(.validators // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+    gate_count="$(yq -r '(.gates // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+    receipt_count="$(yq -r '(.receipts // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+    loop_count="$(yq -r '(.loops // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+    terminal_count="$(yq -r '(.terminal_outcomes // []) | length' "$contract_abs" 2>/dev/null || echo 0)"
+
+    printf '      - lifecycle_id: "%s"\n' "$(yq -r '.lifecycle_id // ""' "$contract_abs")"
+    printf '        schema_version: "%s"\n' "$(yq -r '.schema_version // ""' "$contract_abs")"
+    printf '        version: "%s"\n' "$(yq -r '.version // ""' "$contract_abs")"
+    printf '        owner_extension: "%s"\n' "$(yq -r '.owner_extension // ""' "$contract_abs")"
+    printf '        contract_path: "%s"\n' "$contract_rel"
+    printf '        projection_source_path: "%s"\n' "$projection_rel"
+    printf '        contract_sha256: "%s"\n' "$contract_sha"
+    printf '        target_input: "%s"\n' "$(yq -r '.target.input // ""' "$contract_abs")"
+    printf '        target_manifest_path: "%s"\n' "$(yq -r '.target.manifest_path // ""' "$contract_abs")"
+    printf '        target_status_field: "%s"\n' "$(yq -r '.target.status_field // ""' "$contract_abs")"
+    printf '        states:\n'
+    if [[ "$state_count" -eq 0 ]]; then
+      printf '          []\n'
+    else
+      yq -r '.states[]?.state_id // ""' "$contract_abs" | awk 'NF' | while IFS= read -r state_id; do
+        printf '          - "%s"\n' "$state_id"
+      done
+    fi
+    printf '        terminal_outcomes:\n'
+    if [[ "$terminal_count" -eq 0 ]]; then
+      printf '          []\n'
+    else
+      yq -r '.terminal_outcomes[]?.outcome_id // ""' "$contract_abs" | awk 'NF' | while IFS= read -r outcome_id; do
+        printf '          - "%s"\n' "$outcome_id"
+      done
+    fi
+    printf '        counts:\n'
+    printf '          routes: %s\n' "$route_count"
+    printf '          validators: %s\n' "$validator_count"
+    printf '          gates: %s\n' "$gate_count"
+    printf '          receipts: %s\n' "$receipt_count"
+    printf '          loops: %s\n' "$loop_count"
+    printf '        routes:\n'
+    if [[ "$route_count" -eq 0 ]]; then
+      printf '          []\n'
+    else
+      local index
+      for ((index=0; index<route_count; index++)); do
+        printf '          - route_id: "%s"\n' "$(yq -r ".routes[$index].route_id // \"\"" "$contract_abs")"
+        printf '            route_type: "%s"\n' "$(yq -r ".routes[$index].route_type // \"\"" "$contract_abs")"
+        printf '            command_id: "%s"\n' "$(yq -r ".routes[$index].command_id // \"\"" "$contract_abs")"
+        printf '            skill_id: "%s"\n' "$(yq -r ".routes[$index].skill_id // \"\"" "$contract_abs")"
+        printf '            prompt_set_id: "%s"\n' "$(yq -r ".routes[$index].prompt_set_id // \"\"" "$contract_abs")"
+      done
+    fi
+  done < <(ext_lifecycle_contract_abs_files_for_pack "$manifest_abs" "$pack_root")
 }
 
 write_effective_files() {
@@ -1208,9 +1215,10 @@ write_effective_files() {
       if routing_contract_rel="$(ext_routing_contract_rel_for_pack "$(ext_key_pack_id "$key")" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")" 2>/dev/null || true)"; then
         [[ -n "$routing_contract_rel" ]] && printf '  - "%s"\n' "$routing_contract_rel"
       fi
-      if lifecycle_contract_rel="$(ext_lifecycle_contract_rel_for_pack "$(ext_key_pack_id "$key")" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")" 2>/dev/null || true)"; then
-        [[ -n "$lifecycle_contract_rel" ]] && printf '  - "%s"\n' "$lifecycle_contract_rel"
-      fi
+      while IFS= read -r lifecycle_contract_rel; do
+        [[ -n "$lifecycle_contract_rel" ]] || continue
+        printf '  - "%s"\n' "$lifecycle_contract_rel"
+      done < <(ext_lifecycle_contract_rel_files_for_pack "$(ext_key_pack_id "$key")" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/$(ext_key_pack_id "$key")")
       while IFS= read -r prompt_manifest; do
         [[ -n "$prompt_manifest" ]] || continue
         printf '  - "%s"\n' "${prompt_manifest#$ROOT_DIR/}"

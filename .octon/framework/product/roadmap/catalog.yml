@@ -146,25 +146,32 @@ items:
 
   - roadmap_item_id: "lifecycle-autopilot-program-multi-target-support"
     title: "Lifecycle Autopilot program and multi-target support"
-    status: "suggested"
+    status: "completed"
     feature_id: "lifecycle-autopilot"
     summary: >-
-      Extend lifecycle automation beyond one target per run when a concrete
-      program-level lifecycle requires coordinated multi-target execution.
+      Extend lifecycle automation beyond one target per run for proposal
+      programs that require coordinated multi-target planning, scheduling,
+      evidence, checkpoint, and resume behavior.
     why_deferred: >-
-      The initial implementation intentionally supports one target lifecycle per
-      run. Multi-target behavior adds scheduling, dependency, approval, and
-      rollback complexity that should be designed from a real use case.
+      Completed in the v1 bounded form: proposal-program runs coordinate child
+      packets, but program-atomic execution and external workflow/runtime
+      integrations remain follow-on work.
     owner_subsystems:
       - "engine/runtime"
       - "orchestration/workflows"
     source_refs:
       - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
-        role: "single-target lifecycle planning and resume implementation"
+        role: "single-target lifecycle planning and program dispatch integration"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "program lifecycle planning, scheduling, checkpoint, and resume implementation"
         authority_class: "runtime-implementation"
       - path: ".octon/framework/product/features/lifecycle-autopilot.md"
-        role: "feature note describing current lifecycle scope"
+        role: "feature note describing implemented lifecycle scope and limitations"
         authority_class: "navigation-only"
+      - path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
+        role: "authored proposal-program lifecycle contract input"
+        authority_class: "publication-input-only"
     acceptance_criteria:
       - "A program lifecycle contract can coordinate multiple targets without adding proposal manifest statuses."
       - "Checkpoint and resume semantics identify target-level progress, drift, and rollback posture."
@@ -173,9 +180,134 @@ items:
       - path: ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh"
         role: "current single-target lifecycle runner tests"
         authority_class: "validation"
-    completion_refs: []
+      - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+        role: "multi-contract and program lifecycle contract validator tests"
+        authority_class: "validation"
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "program scheduler and checkpoint unit tests"
+        authority_class: "validation"
+    completion_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "completed program lifecycle runtime implementation"
+        authority_class: "runtime-implementation"
+      - path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/context/lifecycles/proposal-program.contract.yml"
+        role: "published proposal-program lifecycle projection consumed at runtime"
+        authority_class: "generated-effective-non-authority"
     authority_notes:
       - "Multi-target support must not turn proposal-local receipts into durable runtime authority."
+      - "Program-atomic execution is supported only through explicit v2 registry and route opt-in contracts."
+
+  - roadmap_item_id: "lifecycle-autopilot-program-controller-v2"
+    title: "Lifecycle Autopilot program controller v2"
+    status: "completed"
+    feature_id: "lifecycle-autopilot"
+    summary: >-
+      Upgrade proposal-program automation with explicit-opt-in program-atomic
+      execution, durable event replay, contract-declared recovery handlers,
+      operator inspection/control commands, and stronger aggregate closeout
+      checks.
+    why_deferred: >-
+      Completed as a Lifecycle Autopilot controller upgrade. External workflow
+      engines, Durable Objects, MCP integration, workflow runtime statecharts,
+      task-specific execution harnesses, and agent-node contracts remain out of
+      scope.
+    owner_subsystems:
+      - "engine/runtime"
+      - "assurance/runtime"
+      - "product"
+    source_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "program controller v2 runtime implementation"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
+        role: "program controller and route atomic contract schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
+        role: "proposal-program lifecycle contract input"
+        authority_class: "publication-input-only"
+    acceptance_criteria:
+      - "Executable program-atomic requires v2 registries, declared write scopes, and explicit route atomic metadata."
+      - "Program runs retain event logs, checkpoints, approvals, recovery attempts, and aggregate closeout evidence."
+      - "Operators can inspect, explain blockers, approve, retry, or cancel a program run without adding proposal manifest statuses."
+    validation_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "program atomic, event log, recovery, and operator unit tests"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+        role: "lifecycle contract validator tests for program controller fields"
+        authority_class: "validation"
+    completion_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "completed program controller runtime implementation"
+        authority_class: "runtime-implementation"
+    authority_notes:
+      - "Parent program evidence summarizes child work only; it cannot satisfy child receipts."
+      - "Atomic eligibility is explicit opt-in only; inference-based atomic execution remains unsupported."
+
+  - roadmap_item_id: "lifecycle-autopilot-program-controller-v3"
+    title: "Lifecycle Autopilot program controller v3"
+    status: "completed"
+    feature_id: "lifecycle-autopilot"
+    summary: >-
+      Upgrade proposal-program automation with replay-verifiable v2 event logs,
+      non-authoritative status read models, complete aggregate closeout receipts,
+      digest-guarded parent registry mutations, seed/reference program
+      scaffolding, atomic barrier recovery, and recovery recipes.
+    why_deferred: >-
+      Completed as a controller hardening upgrade. The real Governed Workflow
+      Runtime transition program, external workflow engines, Durable Objects,
+      MCP integration, workflow runtime statecharts, task-specific execution
+      harnesses, and agent-node contracts remain out of scope.
+    owner_subsystems:
+      - "engine/runtime"
+      - "assurance/runtime"
+      - "product"
+    source_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "program controller v3 runtime implementation"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+        role: "program controller command dispatch and lifecycle contract model"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/program-lifecycle-event.schema.json"
+        role: "program event log record schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-mutation.schema.json"
+        role: "proposal-program mutation spec schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-scaffold.schema.json"
+        role: "proposal-program scaffold spec schema"
+        authority_class: "runtime-spec"
+      - path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
+        role: "proposal-program lifecycle contract input with recovery recipes"
+        authority_class: "publication-input-only"
+    acceptance_criteria:
+      - "Program replay verifies v2 event hash chains, checkpoint/event convergence, registry digest drift, and impossible transitions while keeping v1 logs inspectable as legacy."
+      - "Program status emits a non-authoritative read model for DAG, runnable batch, blockers, approvals, recovery attempts, atomic barrier state, evidence completeness, and rollback posture."
+      - "Program mutation apply requires a current registry digest and operator reason, writes evidence, appends an event, and does not collapse child-owned authority."
+      - "Program scaffold can create parent program surfaces from a seed/reference packet without creating the real Governed Workflow Runtime transition program."
+      - "Aggregate closeout writes `aggregate-closeout-receipt.yml` only after child terminal outcome, child receipt, aggregate evidence, and authority boundary checks pass."
+    validation_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "program replay, status, mutation, scaffold, closeout, atomic, and regression unit tests"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+        role: "lifecycle contract validator tests for program controller fields"
+        authority_class: "validation"
+      - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-extension-pack-contract.sh"
+        role: "extension schema validation coverage"
+        authority_class: "validation"
+    completion_refs:
+      - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        role: "completed program controller v3 runtime implementation"
+        authority_class: "runtime-implementation"
+      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+        role: "feature note updated with implemented v3 scope and limitations"
+        authority_class: "navigation-only"
+    authority_notes:
+      - "Status read models are operator-facing projections, not durable authority."
+      - "Mutation apply changes parent registry coordination only; child manifests, receipts, promotion targets, validation verdicts, and archive metadata remain child-owned."
+      - "Atomic depth is barrier recovery, not universal transactionality."
 
   - roadmap_item_id: "lifecycle-autopilot-state-evidence-hygiene"
     title: "Lifecycle Autopilot state and evidence hygiene"

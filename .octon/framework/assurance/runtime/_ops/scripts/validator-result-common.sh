@@ -3,6 +3,7 @@
 VALIDATOR_EVIDENCE_REFS=()
 VALIDATOR_RUNTIME_TESTS=()
 VALIDATOR_NEGATIVE_CONTROLS=()
+VALIDATOR_RECOGNIZED_NEGATIVE_CONTROLS=()
 VALIDATOR_LIMITATIONS=()
 VALIDATOR_RECOGNIZED_CONTRACTS=()
 VALIDATOR_RECOGNIZED_SCHEMA_VERSIONS=()
@@ -95,6 +96,7 @@ reset_validator_result_metadata() {
   VALIDATOR_EVIDENCE_REFS=()
   VALIDATOR_RUNTIME_TESTS=()
   VALIDATOR_NEGATIVE_CONTROLS=()
+  VALIDATOR_RECOGNIZED_NEGATIVE_CONTROLS=()
   VALIDATOR_LIMITATIONS=()
   VALIDATOR_RECOGNIZED_CONTRACTS=()
   VALIDATOR_RECOGNIZED_SCHEMA_VERSIONS=()
@@ -118,6 +120,13 @@ validator_result_add_negative_control() {
   local item
   for item in "$@"; do
     [[ -n "${item:-}" ]] && VALIDATOR_NEGATIVE_CONTROLS+=("$item")
+  done
+}
+
+validator_result_add_recognized_negative_control() {
+  local item
+  for item in "$@"; do
+    [[ -n "${item:-}" ]] && VALIDATOR_RECOGNIZED_NEGATIVE_CONTROLS+=("$item")
   done
 }
 
@@ -165,6 +174,9 @@ print_validator_result() {
 
   printf 'negative_controls_executed:\n'
   emit_yaml_list '  ' "${VALIDATOR_NEGATIVE_CONTROLS[@]-}"
+
+  printf 'negative_controls_recognized:\n'
+  emit_yaml_list '  ' "${VALIDATOR_RECOGNIZED_NEGATIVE_CONTROLS[@]-}"
 
   printf 'recognized_contracts:\n'
   emit_yaml_list '  ' "${VALIDATOR_RECOGNIZED_CONTRACTS[@]-}"
