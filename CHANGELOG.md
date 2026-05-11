@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.64](https://github.com/jamesryancooper/octon/compare/octon-v0.6.63...octon-v0.6.64) (2026-05-11)
+
+
+### Features
+
+* **lifecycle:** add proposal program controller ([34da3b2](https://github.com/jamesryancooper/octon/commit/34da3b294dc3dd3378257b4a7c8e0377091da74c))
+
 ## [0.6.63](https://github.com/jamesryancooper/octon/compare/octon-v0.6.62...octon-v0.6.63) (2026-05-08)
 
 
