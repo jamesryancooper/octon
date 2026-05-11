@@ -1,16 +1,34 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-05-11T14:10:46Z'
+generated_at: '2026-05-11T18:31:37Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
   may_widen_support: false
 runs:
+- run_id: archive-proposal-1778522826862-49940
+  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778522826862-49940/health.yml
+  status: stale
+- run_id: archive-proposal-archive-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-archive-proposal/health.yml
+  status: stale
+- run_id: archive-proposal-validate-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-validate-proposal/health.yml
+  status: stale
 - run_id: bootstrap-doctor-workflow-20260413-v4
   health_ref: .octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4/health.yml
   status: evidence-incomplete
 - run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
   health_ref: .octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/health.yml
   status: evidence-incomplete
+- run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
+  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/health.yml
+  status: stale
+- run_id: promote-proposal-promote-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-promote-proposal/health.yml
+  status: stale
+- run_id: promote-proposal-validate-proposal
+  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-validate-proposal/health.yml
+  status: stale
 - run_id: protected-ci-1776956405637-68212
   health_ref: .octon/generated/cognition/projections/materialized/runs/protected-ci-1776956405637-68212/health.yml
   status: stale
