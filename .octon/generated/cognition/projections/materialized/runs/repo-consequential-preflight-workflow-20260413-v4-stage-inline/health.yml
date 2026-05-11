@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: repo-consequential-preflight-workflow-20260413-v4-stage-inline
-generated_at: '2026-05-06T16:50:51Z'
+generated_at: '2026-05-11T14:10:46Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: fresh
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:9a54a791fa69f1fd8fe628ab05efbaa6be3b2df259c2d1ddb9de6cfd4b10f149
-  checked_at: '2026-05-06T16:50:51Z'
+  combined_source_digest: sha256:5abd0d9d8e456936bbd023cf9114827a53e69f9168226aee2ebedbd8d22b7689
+  checked_at: '2026-05-11T14:10:46Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:4e3531e98bd9e2ae90e5e90cf469ed2f5781bc1b1d2f7dfacd179660317f8ebf
+    digest: sha256:62f42dbb6fb3255d8359e10d3737e093bf4d01bdb92ece6093d126a50838ae69
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:06149209b762c951f9a7ccb76f3aeb0429c3d887b4cb692e061fbe132d321c26
+    digest: sha256:9d517804cb3b7bf46dc1f69472b1dbfb99b20aca7b8a30ff44b050990ff62024
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:18780c962130d381c7212bac8bc960683694a82d526661b0dcfbc48c81897f5b
+    digest: sha256:f0044694e67919fa7dde644c2faee1c940f6580195e08f208e5b17892c99f920
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
