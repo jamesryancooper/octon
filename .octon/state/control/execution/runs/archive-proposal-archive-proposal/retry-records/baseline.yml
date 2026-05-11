@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-05-11T18:11:36.058336Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: archive-proposal-archive-proposal-baseline
+route_taken: allow
+run_id: archive-proposal-archive-proposal
+schema_version: run-retry-record-v1
+stage_attempt_id: archive-proposal--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/archive-proposal-archive-proposal/stage-attempts/archive-proposal--initial.yml

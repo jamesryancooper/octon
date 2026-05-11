@@ -1,0 +1,31 @@
+schema_version: proposal-v1
+proposal_id: lifecycle-autopilot-effective-catalog-portability-correction
+title: Lifecycle Autopilot Effective Catalog And Validation Portability Correction
+summary: Correct Lifecycle Autopilot proposal-program route discovery and proposal validator portability so program creation can be executed and evidenced through the runtime path instead of relying on manually disclosed fallback packet creation.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh
+- .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh
+- .octon/framework/product/features/lifecycle-autopilot.md
+status: archived
+archive:
+  archived_at: 2026-05-11
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/lifecycle-autopilot-effective-catalog-portability-correction
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/2026-05-11-promote-proposal-octon-inputs-exploratory-proposals-architecture-lifecycle-autopilot-effective-catalog-portability-correction/workflow-execution/outcome.json
+  - .octon/state/evidence/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/receipt.latest.json
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after the lifecycle discovery bug, validator shell portability gap, fallback evidence contract, and support-claim documentation have implementation receipts, negative tests, registry synchronization evidence, and durable promotion evidence outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this packet.
+related_proposals:
+- governed-workflow-runtime-transition-program
+- foundational-entry-artifact-canonical-framing-update

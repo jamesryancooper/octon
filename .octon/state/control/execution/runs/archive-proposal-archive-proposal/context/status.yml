@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/archive-proposal-archive-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/archive-proposal-archive-proposal/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/archive-proposal-archive-proposal/context/model-visible-context.json
+run_id: archive-proposal-archive-proposal
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-05-11T18:11:36.075096Z
+validity_state: valid

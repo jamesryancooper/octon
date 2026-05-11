@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-05-11T18:07:09.228605Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: archive-proposal-validate-proposal-baseline
+route_taken: allow
+run_id: archive-proposal-validate-proposal
+schema_version: run-retry-record-v1
+stage_attempt_id: validate-proposal--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/archive-proposal-validate-proposal/stage-attempts/validate-proposal--initial.yml
