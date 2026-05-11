@@ -1,6 +1,6 @@
 # Source Of Truth Map
 
-_Status: Draft proposal navigation_
+_Status: Implemented proposal navigation_
 
 ## Proposal-Local Sources
 
@@ -10,6 +10,7 @@ _Status: Draft proposal navigation_
 - `architecture/implementation-plan.md` sequences a future implementation.
 - `architecture/acceptance-criteria.md` defines acceptance gates.
 - `validation-plan.md` defines validation commands and expected proof.
+- `support/proposal-closeout.md` records packet closeout and archive readiness.
 
 ## Non-Authority Source Lineage
 

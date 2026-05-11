@@ -1,6 +1,6 @@
 # Lifecycle Autopilot Effective Catalog And Validation Portability Correction
 
-_Status: Draft architecture proposal packet_
+_Status: Implemented architecture proposal packet_
 
 This packet proposes a narrow correction to Lifecycle Autopilot tooling surfaced
 while reviewing the Governed Workflow Runtime transition program.
@@ -28,8 +28,8 @@ not depend on an accidental shell version.
 ## Authority Boundary
 
 This packet lives under `inputs/**` and is non-authoritative proposal lineage
-unless promoted. Generated projections remain derived-only. No runtime behavior
-changes are live from this draft packet.
+unless promoted. Generated projections remain derived-only. The runtime behavior
+change is live only through the promoted durable targets and retained evidence.
 
 ## Non-Implementation Statement
 

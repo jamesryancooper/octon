@@ -1,6 +1,6 @@
 # Acceptance Criteria
 
-_Status: Draft acceptance criteria_
+_Status: Accepted acceptance criteria_
 
 The proposal is acceptable for implementation only when the correction scope and
 tests are explicit enough to prevent both false success and false failure.

@@ -898,6 +898,9 @@ fn contract_path_from_effective_catalog(octon_dir: &Path, lifecycle_id: &str) ->
         let Some(contracts) = pack.get("lifecycle_contracts").and_then(Value::as_sequence) else {
             continue;
         };
+        if contracts.is_empty() {
+            continue;
+        }
         if !value_sequence_contains(pack.get("capability_profiles"), "lifecycle-contract") {
             let pack_id = scalar_str(pack.get("pack_id")).unwrap_or("<unknown>");
             bail!(
@@ -2472,6 +2475,118 @@ routes: []
         .to_string();
 
         assert!(error.contains("must be under .octon/generated/effective/extensions/published/"));
+    }
+
+    #[test]
+    fn lifecycle_discovery_ignores_empty_contract_arrays_without_profile() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("empty-contract-array");
+        fixture.write(
+            ".octon/generated/effective/extensions/catalog.effective.yml",
+            r#"
+schema_version: "test"
+packs:
+  - pack_id: "empty-extension"
+    capability_profiles: ["validation-surface"]
+    lifecycle_contracts: []
+  - pack_id: "test-extension"
+    capability_profiles: ["validation-surface", "lifecycle-contract"]
+    lifecycle_contracts:
+      - lifecycle_id: "proposal-packet"
+        projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml"
+"#,
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["draft"] }
+states: [{ state_id: "review" }]
+terminal_outcomes: []
+receipts: []
+routes:
+  - route_id: "review-proposal-packet"
+    route_type: "extension"
+    enter_when:
+      manifest_status: "draft"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: draft\n");
+
+        let plan = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new("packet"),
+        )
+        .unwrap();
+
+        assert_eq!(
+            plan.next_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("review-proposal-packet")
+        );
+    }
+
+    #[test]
+    fn lifecycle_discovery_rejects_non_empty_contracts_without_profile() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("contracts-without-profile");
+        fixture.write(
+            ".octon/generated/effective/extensions/catalog.effective.yml",
+            r#"
+schema_version: "test"
+packs:
+  - pack_id: "test-extension"
+    capability_profiles: ["validation-surface"]
+    lifecycle_contracts:
+      - lifecycle_id: "proposal-packet"
+        projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml"
+"#,
+        );
+
+        let error = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new("packet"),
+        )
+        .unwrap_err()
+        .to_string();
+
+        assert!(error.contains(
+            "declares lifecycle contracts without lifecycle-contract capability profile"
+        ));
+    }
+
+    #[test]
+    fn lifecycle_discovery_rejects_missing_contract_projection() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("missing-contract-projection");
+        fixture.write(
+            ".octon/generated/effective/extensions/catalog.effective.yml",
+            r#"
+schema_version: "test"
+packs:
+  - pack_id: "test-extension"
+    capability_profiles: ["validation-surface", "lifecycle-contract"]
+    lifecycle_contracts:
+      - lifecycle_id: "proposal-packet"
+        projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml"
+"#,
+        );
+
+        let error = plan_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-packet",
+            Path::new("packet"),
+        )
+        .unwrap_err()
+        .to_string();
+
+        assert!(error.contains("published lifecycle contract projection missing"));
     }
 
     #[test]

@@ -1,6 +1,6 @@
 # Artifact Catalog
 
-_Status: Draft proposal catalog_
+_Status: Implemented proposal catalog_
 
 This catalog lists visible files in the
 `lifecycle-autopilot-effective-catalog-portability-correction` proposal packet.
@@ -33,7 +33,12 @@ This catalog lists visible files in the
 
 ## Support Artifacts
 
+- `support/executable-implementation-prompt.md`
+- `support/implementation-run.md`
 - `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/validation.md`

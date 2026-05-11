@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/context/context-pack.json
+context_pack_sha256: sha256:f548662ca85c21c022d51273114c1029387e69fbd02e4d9a17fe1fec244da636
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/context/model-visible-context.json
+model_visible_context_sha256: sha256:2e01c53a537605edb5e5cc4a1ac00e13cc1baefad69f5b23246fe3ced41d3c8e
+receipt_sha256: sha256:396889d11a4665e30c88000ba651f1c27fca8d9eae580e5a38dcfd72a3022d8d
+run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
+schema_version: active-context-pack-v1
+updated_at: 2026-05-11T16:50:44.199301Z
+validity_state: valid

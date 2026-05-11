@@ -170,8 +170,7 @@ render_registry() {
 }
 
 main() {
-  local tmp_dir generated_registry
-  declare -A seen=()
+  local tmp_dir generated_registry seen_file
 
   if [[ -f "$SCHEMA_PATH" ]]; then
     pass "proposal registry schema exists"
@@ -187,11 +186,13 @@ main() {
   tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/proposal-registry.XXXXXX")"
   trap '[[ -n "${tmp_dir:-}" && -d "${tmp_dir:-}" ]] && rm -r "$tmp_dir"' EXIT
   mkdir -p "$tmp_dir/active" "$tmp_dir/archived"
+  seen_file="$tmp_dir/seen.tsv"
+  : >"$seen_file"
 
   while IFS= read -r manifest; do
     [[ -n "$manifest" ]] || continue
 
-    local proposal_dir proposal_rel kind proposal_id scope title status key fragment archived_at archived_from_status disposition original_path
+    local proposal_dir proposal_rel kind proposal_id scope title status key fragment archived_at archived_from_status disposition original_path previous_seen
     proposal_dir="$(dirname "$manifest")"
     proposal_rel="$(rel_path "$proposal_dir")"
 
@@ -215,11 +216,12 @@ main() {
       continue
     fi
 
-    if [[ -n "${seen[$key]:-}" ]]; then
-      fail "duplicate proposal key '${key}' across ${seen[$key]} and $proposal_rel"
+    previous_seen="$(awk -F '\t' -v key="$key" '$1 == key {print $2; exit}' "$seen_file")"
+    if [[ -n "$previous_seen" ]]; then
+      fail "duplicate proposal key '${key}' across $previous_seen and $proposal_rel"
       continue
     fi
-    seen["$key"]="$proposal_rel"
+    printf '%s\t%s\n' "$key" "$proposal_rel" >>"$seen_file"
 
     if [[ "$status" == "archived" ]]; then
       fragment="$tmp_dir/archived/${kind}__${proposal_id}.yml"

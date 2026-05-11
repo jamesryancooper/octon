@@ -1,9 +1,9 @@
 # Implementation Plan
 
-_Status: Draft implementation plan_
+_Status: Accepted implementation plan_
 
-Implementation is not authorized by this draft packet. If accepted, use the
-following sequence.
+Implementation must run from an executable implementation prompt generated from
+the accepted proposal review. Use the following sequence.
 
 ## Phase 1: Reproduce And Pin The Failure
 

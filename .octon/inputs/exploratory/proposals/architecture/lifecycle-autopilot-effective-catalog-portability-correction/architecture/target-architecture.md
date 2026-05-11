@@ -1,6 +1,6 @@
 # Target Architecture
 
-_Status: Draft target architecture_
+_Status: Accepted target architecture_
 
 Lifecycle Autopilot should be able to plan a proposal-program lifecycle through
 the runtime path when the effective extension catalog is valid, while still

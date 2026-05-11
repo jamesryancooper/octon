@@ -1,6 +1,6 @@
 # Validation Plan
 
-_Status: Draft proposal validation plan_
+_Status: Implemented proposal validation plan_
 
 ## Packet Validation
 
@@ -15,8 +15,8 @@ bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.
 
 ## Implementation Validation
 
-Implementation is not authorized by this draft packet. If accepted and
-implemented later, the implementation route must add or run:
+Implementation must run from an executable implementation prompt generated from
+the accepted proposal review. The implementation route must add or run:
 
 - lifecycle plan smoke test for `proposal-program` against the Governed Workflow
   Runtime transition parent program;

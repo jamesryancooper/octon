@@ -95,7 +95,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-autopilot-effective-catalog-portability-correction"
     title: "Lifecycle Autopilot Effective Catalog And Validation Portability Correction"
-    status: "draft"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"

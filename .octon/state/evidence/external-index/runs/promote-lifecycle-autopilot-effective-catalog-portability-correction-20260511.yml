@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:0d3df289ae43bf4453b531f593fdcd6fcc51a342935493c46e97ac61dde601ec
+  entry_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/replay/manifest.yml
+  recorded_at: 2026-05-11T16:59:33.678779Z
+  run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:464ee0fc2cc20fdad42fe1ae681afd8358bcfcac5fb9d2fac03632ae4d9db9be
+  entry_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/replay/manifest.yml
+  recorded_at: 2026-05-11T16:59:33.678779Z
+  run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
+  storage_class: external-immutable
+index_id: external-replay-promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
+run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-11T16:59:33.678779Z

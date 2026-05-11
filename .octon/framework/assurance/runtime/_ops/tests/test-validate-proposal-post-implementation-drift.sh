@@ -11,6 +11,7 @@ REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 VALIDATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh"
 CONFORMANCE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
 READINESS_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+REVIEW_GATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
 
 pass_count=0
 fail_count=0
@@ -56,6 +57,7 @@ create_fixture_repo() {
   cp "$REPO_ROOT/$VALIDATE_SCRIPT" "$fixture_root/$VALIDATE_SCRIPT"
   cp "$REPO_ROOT/$CONFORMANCE_SCRIPT" "$fixture_root/$CONFORMANCE_SCRIPT"
   cp "$REPO_ROOT/$READINESS_SCRIPT" "$fixture_root/$READINESS_SCRIPT"
+  cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
   printf '%s\n' "$fixture_root"
 }
 
@@ -381,6 +383,18 @@ case_active_proposal_backreference_fails_drift() {
   run_validator "$root"
 }
 
+case_unrelated_proposal_path_literal_passes_drift() {
+  local root
+  root="$(create_fixture_repo)"
+  write_policy_packet "$root" implemented
+  write_target "$root" "Fixture validator pattern: .octon/inputs/exploratory/proposals/policy/other-policy."
+  write_registry "$root"
+  write_passing_completeness_review "$root"
+  write_passing_conformance_review "$root"
+  write_passing_review "$root"
+  run_validator "$root"
+}
+
 case_stale_work_package_conflict_fails_drift() {
   local root
   root="$(create_fixture_repo)"
@@ -432,6 +446,9 @@ main() {
     "active proposal backreferences fail drift/churn" \
     "promotion target has no active proposal backreferences" \
     case_active_proposal_backreference_fails_drift
+  assert_success \
+    "unrelated proposal path literals do not fail drift/churn" \
+    case_unrelated_proposal_path_literal_passes_drift
   assert_failure_contains \
     "stale Work Package naming conflicts fail drift/churn" \
     "no stale Work Package/Change naming conflict" \

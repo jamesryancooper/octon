@@ -229,9 +229,20 @@ assert_review_gate_success() {
   fi
 }
 
+assert_registry_generator_portable_surface() {
+  local generator="$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  if grep -Eq '(^|[[:space:]])(declare|typeset)[[:space:]]+-A([[:space:]]|$)' "$generator"; then
+    fail "proposal registry generator avoids Bash 4 associative arrays"
+  else
+    pass "proposal registry generator avoids Bash 4 associative arrays"
+  fi
+}
+
 main() {
   local root output
   root="$(new_fixture_repo)"
+
+  assert_registry_generator_portable_surface
 
   assert_plan_route "missing target routes to proposal creation" "$root" missing-packet create-proposal-packet
 

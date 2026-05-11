@@ -307,6 +307,33 @@ EOF
   run_validator "$root"
 }
 
+case_implemented_executable_prompt_preserves_authorization() {
+  local root prompt manifest
+  root="$(create_fixture_repo)"
+  write_policy_packet "$root" accepted
+  write_passing_review "$root"
+  write_passing_proposal_review "$root"
+  prompt="$root/.octon/inputs/exploratory/proposals/policy/readiness-policy/support/executable-implementation-prompt.md"
+  cat >"$prompt" <<'EOF'
+# Executable Implementation Prompt
+
+Implement the promotion target `.octon/framework/example.md`.
+
+Run validation with validate-proposal-implementation-readiness.sh and
+validate-proposal-implementation-conformance.sh.
+
+Retain evidence for the implemented result and record rollback instructions.
+
+After implementation, produce `support/implementation-conformance-review.md`
+and `support/post-implementation-drift-churn-review.md`.
+
+Refuse closeout/archive claims until both post-implementation receipts pass.
+EOF
+  manifest="$root/.octon/inputs/exploratory/proposals/policy/readiness-policy/proposal.yml"
+  perl -0pi -e 's/status: "accepted"/status: "implemented"/' "$manifest"
+  run_validator "$root"
+}
+
 case_executable_prompt_requires_accepted_review() {
   local root prompt
   root="$(create_fixture_repo)"
@@ -424,6 +451,9 @@ main() {
   assert_success \
     "valid executable implementation prompt passes prompt lint" \
     case_valid_executable_prompt_passes
+  assert_success \
+    "implemented executable prompt preserves prior implementation authorization" \
+    case_implemented_executable_prompt_preserves_authorization
   assert_failure_contains \
     "implementation prompt requires accepted proposal review" \
     "proposal review authorizes executable implementation prompt" \

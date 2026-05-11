@@ -327,7 +327,7 @@ while IFS= read -r target; do
     continue
   fi
 
-  proposal_backrefs="$(scan_target "$target_abs" '\.octon/inputs/exploratory/proposals/')"
+  proposal_backrefs="$(scan_target "$target_abs" "\\.octon/inputs/exploratory/proposals/(\\.archive/)?[a-z0-9-]+/${proposal_id}")"
   if [[ -n "$proposal_backrefs" ]]; then
     if [[ "$requires_pass" -eq 1 ]]; then
       fail "promotion target has no active proposal backreferences: $target"

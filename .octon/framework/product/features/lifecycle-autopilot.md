@@ -34,9 +34,23 @@ The lifecycle executor adapter owns route execution: prompt or workflow
 invocation, generic input binding, completion observation, approval pauses,
 timeouts, cancellation, retries, and structured execution results.
 
-Lifecycle Autopilot uses generated effective projections as runtime discovery
-authority. Raw additive extension inputs are authoring inputs only, and
+Lifecycle Autopilot uses generated effective projections as runtime-discovered
+handles. Raw additive extension inputs are authoring inputs only, and
 proposal-local receipts remain evidence only.
+
+Effective catalog lifecycle discovery treats an absent `lifecycle_contracts`
+field and an explicit empty `lifecycle_contracts: []` list as "no lifecycle
+contracts." A non-empty lifecycle contract declaration requires the
+`lifecycle-contract` capability profile and a valid generated lifecycle contract
+projection. Missing projections, malformed non-empty declarations, or non-empty
+declarations without the required capability profile fail closed.
+
+When a lifecycle route is unavailable and an operator uses a fallback/manual
+creation path, the fallback must be retained as run evidence under
+`.octon/state/evidence/runs/<run-id>/receipts/**` or another
+validator-checked receipt contract before closeout. A proposal-local receipt may
+disclose fallback use, but it is not proof that Lifecycle Autopilot executed the
+route.
 
 Proposal-program closeout readiness is governed by
 `.octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md`.

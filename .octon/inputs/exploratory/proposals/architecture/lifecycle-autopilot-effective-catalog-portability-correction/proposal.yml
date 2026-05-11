@@ -18,7 +18,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh"
   - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
   - ".octon/framework/product/features/lifecycle-autopilot.md"
-status: "draft"
+status: "implemented"
 lifecycle:
   temporary: true
   exit_expectation: >-
@@ -40,7 +40,7 @@ scope_statement: >-
 non_goals:
   - "No creation, approval, promotion, or implementation of Governed Workflow Runtime runtime capabilities."
   - "No change to proposal authority boundaries; inputs/** remain non-authoritative unless promoted through normal lifecycle."
-  - "No use of generated projections as source authority beyond runtime-discovered derived handles."
+  - "No use of generated projections as source authority beyond runtime-discovered handles."
   - "No program-atomic support widening."
   - "No Durable Object, MCP, external workflow-engine, agent-node, workflow replay, or harness-schema implementation."
 dependencies:

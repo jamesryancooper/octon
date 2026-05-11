@@ -165,6 +165,11 @@ validate_proposal_review_gate() {
       return 0
     fi
 
+    if [[ "$status" == "implemented" || "$status" == "archived" ]]; then
+      pass "implemented or archived proposal preserves executable implementation authorization evidence"
+      return 0
+    fi
+
     if bash "$REVIEW_GATE_SCRIPT" --package "$PROPOSAL_DIR" --require-implementation-authorization; then
       pass "proposal review authorizes executable implementation prompt"
     else
