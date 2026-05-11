@@ -1,0 +1,30 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Evidence Provenance Hardening"
+target_state: >-
+  Claims about workflow execution, agent-node participation, authorization, replay, and compensation are backed by durable evidence that is role-separated from live control truth and generated projections.
+boundary_change: >-
+  Evidence obligation deltas, provenance fields, retained evidence roots, disclosure contracts, receipt chaining, external index references, and validators. This draft does not itself change runtime control, evidence,
+  support, connector, or generated-output authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/constitution/contracts/retention/"
+  - ".octon/framework/constitution/contracts/disclosure/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"

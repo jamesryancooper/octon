@@ -1,0 +1,85 @@
+schema_version: "proposal-v1"
+proposal_id: "agent-node-model-call-contract"
+title: "Agent Node Model Call Contract"
+summary: >-
+  Define agents as bounded workflow activity nodes and define the model-call receipt, validation, budget, and authority limits needed to admit them safely.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/instance/governance/policies/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned review, implementation authorization where
+    required, validation receipts, implementation-conformance evidence,
+    post-implementation drift/churn review, and durable promotion evidence exist
+    outside proposal-local inputs. Otherwise revise, reject, supersede, or archive
+    this child packet.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "foundational-entry-artifact-canonical-framing-update"
+  - "workflow-statechart-task-specific-execution-harness"
+program_parent: "governed-workflow-runtime-transition-program"
+program_phase: "phase-3"
+program_group: "runtime-core"
+seed_reference_child: "foundational-entry-artifact-canonical-framing-update"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+selected_implementation_target: "Agent Node Model Call Contract"
+scope_statement: >-
+  Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, cost/budget posture, terminal states, and forbidden authority claims.
+non_goals:
+  - "No agent-owned queues, schedules, closeout, or workflow transition authority."
+  - "No connector/MCP permission model beyond references to later connector admission."
+  - "No universal replay guarantee for probabilistic outputs."
+  - "No runtime implementation claim before durable schemas and validators land."
+dependencies:
+  - "workflow-statechart-task-specific-execution-harness"
+authority_class_impact:
+  framework: "May propose durable framework changes only in listed promotion targets after validation and promotion."
+  instance: "May propose instance governance changes only where listed as promotion targets."
+  state_control: "No live control truth changes from this draft proposal packet."
+  state_evidence: "Evidence requirements are proposed only; retained evidence must live outside inputs/** when implemented."
+  generated: "Generated outputs remain derived-only and may not become authority."
+  inputs: "This child packet and its source lineage remain non-authoritative proposal inputs."
+runtime_behavior_impact: >-
+  None from this draft packet. Any runtime behavior change requires accepted child
+  review, implementation authorization, durable edits, validators, receipts, and
+  promotion evidence outside proposal paths.
+generated_input_authority_impact: >-
+  Reinforces that proposal-local material, generated projections, MCP/tool
+  availability, Durable Object state, external workflow engines, and agent output
+  are never authority by appearance or reference.
+evidence_requirements:
+  - "Agent-node and model-call schema fixtures."
+  - "Validator receipts for output validation and budget enforcement."
+  - "Review evidence tying agent nodes to harness/statechart contracts."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "checksum verification"
+  - "Agent-node schema positive and negative fixtures."
+  - "Model-call receipt completeness validation."
+  - "Context-pack digest binding validation."
+  - "Forbidden authority claim scan for agent outputs and prompts."
+acceptance_criteria_summary: >-
+  The child proposal is acceptable only when its declared contracts, schemas,
+  validators, receipts, promotion targets, non-goals, and authority boundaries
+  are complete enough to prevent premature Governed Workflow Runtime claims.
+rollback_summary: >-
+  Disable proposed agent-node/model-call contracts and retain denial evidence if they admit unbounded model activity or conflict with harness/statechart authority.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-11"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not make excluded future work live. Existing run
+  lifecycle, execution authorization, context-pack, effect-token, evidence-store,
+  support-target, and fail-closed contracts remain canonical until replaced
+  through validated promotion and cutover evidence.

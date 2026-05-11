@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Effect Token Enforcement Coverage"
+target_state: >-
+  Every supported material side effect path either requires a verified typed effect token before mutation or is explicitly unsupported and denied with retained evidence.
+boundary_change: >-
+  Material side-effect inventory, coverage matrix, bypass-negative tests, token verification receipts, runtime crate enforcement targets, and validator scripts. This draft does not itself change runtime control, evidence,
+  support, connector, or generated-output authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/engine/runtime/crates/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"

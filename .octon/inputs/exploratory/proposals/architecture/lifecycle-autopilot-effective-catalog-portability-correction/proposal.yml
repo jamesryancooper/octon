@@ -1,0 +1,108 @@
+schema_version: "proposal-v1"
+proposal_id: "lifecycle-autopilot-effective-catalog-portability-correction"
+title: "Lifecycle Autopilot Effective Catalog And Validation Portability Correction"
+summary: >-
+  Correct Lifecycle Autopilot proposal-program route discovery and proposal
+  validator portability so program creation can be executed and evidenced through
+  the runtime path instead of relying on manually disclosed fallback packet
+  creation.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+  - ".octon/framework/product/features/lifecycle-autopilot.md"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after the lifecycle discovery bug, validator shell portability
+    gap, fallback evidence contract, and support-claim documentation have
+    implementation receipts, negative tests, registry synchronization evidence,
+    and durable promotion evidence outside proposal-local inputs. Otherwise
+    revise, reject, supersede, or archive this packet.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "foundational-entry-artifact-canonical-framing-update"
+selected_implementation_target: "Lifecycle Autopilot proposal-program route discovery and validator portability"
+change_profile: "runtime-tooling-correction"
+scope_statement: >-
+  Narrow tooling correction for Lifecycle Autopilot proposal-program planning,
+  effective extension catalog lifecycle-contract discovery, proposal registry
+  validation portability, and retained evidence expectations for any fallback
+  proposal creation path.
+non_goals:
+  - "No creation, approval, promotion, or implementation of Governed Workflow Runtime runtime capabilities."
+  - "No change to proposal authority boundaries; inputs/** remain non-authoritative unless promoted through normal lifecycle."
+  - "No use of generated projections as source authority beyond runtime-discovered derived handles."
+  - "No program-atomic support widening."
+  - "No Durable Object, MCP, external workflow-engine, agent-node, workflow replay, or harness-schema implementation."
+dependencies:
+  - "governed-workflow-runtime-transition-program"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program/RISK-REGISTER.md"
+  - ".octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness/support/proposal-creation.md"
+  - ".octon/framework/product/features/lifecycle-autopilot.md"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/generated/effective/extensions/catalog.effective.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+authority_class_impact:
+  framework: "May propose runtime and assurance tooling fixes only in listed promotion targets."
+  instance: "No instance authority changes."
+  state_control: "No direct control truth changes from this draft proposal packet."
+  state_evidence: "May require retained lifecycle/fallback evidence conventions during implementation."
+  generated: "Generated effective catalogs and proposal registry remain derived-only and must be regenerated, not hand-authored as authority."
+  inputs: "This packet and source lineage remain non-authoritative proposal inputs."
+runtime_behavior_impact: >-
+  None from this draft packet. Any runtime behavior change requires accepted
+  review, implementation authorization, code changes, tests, receipts, and
+  promotion evidence.
+generated_input_authority_impact: >-
+  Reinforces that generated effective projections are runtime-discovered handles,
+  not authored authority, and that proposal-local fallback receipts are evidence
+  only unless retained under durable evidence surfaces.
+evidence_requirements:
+  - "Lifecycle plan failure reproduction for the current proposal-program route."
+  - "Negative test proving non-empty lifecycle contracts without lifecycle-contract profile still fail closed."
+  - "Positive test proving empty lifecycle_contracts arrays do not block unrelated lifecycle discovery."
+  - "Proposal standard validator portability evidence on supported shell environments."
+  - "Registry check evidence after generated proposal registry synchronization."
+  - "Retained state evidence for any fallback creation route, including the reason runtime execution was unavailable."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "checksum verification"
+  - "lifecycle plan proposal-program smoke test"
+  - "lifecycle contract discovery regression tests"
+  - "proposal registry generator shell portability tests"
+  - "proposal standard validator registry synchronization test"
+acceptance_criteria_summary: >-
+  Lifecycle Autopilot proposal-program planning can run against the effective
+  extension catalog without false failure on empty lifecycle contract arrays;
+  invalid non-empty lifecycle contract declarations still fail closed; proposal
+  registry validation is portable or explicitly fails with an actionable shell
+  requirement; and fallback/manual creation evidence requirements are durable and
+  validator-visible.
+rollback_summary: >-
+  Revert runtime loader, validator, and documentation changes if lifecycle
+  discovery accepts unsafe lifecycle contract declarations, if registry checks
+  stop failing closed on real drift, or if support claims become broader than
+  tested behavior.
+owner:
+  role: "Octon runtime tooling correction proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-11"
+explicit_runtime_non_implementation_statement: >-
+  This packet does not make Governed Workflow Runtime future-state capabilities
+  live. Existing run lifecycle, execution authorization, context-pack,
+  effect-token, evidence-store, support-target, and fail-closed contracts remain
+  canonical until separately replaced through validated promotion and cutover
+  evidence.

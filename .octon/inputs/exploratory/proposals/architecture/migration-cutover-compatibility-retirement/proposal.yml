@@ -1,0 +1,99 @@
+schema_version: "proposal-v1"
+proposal_id: "migration-cutover-compatibility-retirement"
+title: "Migration Cutover Compatibility Retirement"
+summary: >-
+  Perform the final compatibility, cutover, rollback, and retirement decision for canonical Governed Workflow Runtime framing after all prerequisite child packets have durable evidence.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
+  - ".octon/framework/cognition/_meta/terminology/glossary.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/README.md"
+  - ".octon/AGENTS.md"
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/instance/bootstrap/START.md"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned review, implementation authorization where
+    required, validation receipts, implementation-conformance evidence,
+    post-implementation drift/churn review, and durable promotion evidence exist
+    outside proposal-local inputs. Otherwise revise, reject, supersede, or archive
+    this child packet.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "foundational-entry-artifact-canonical-framing-update"
+  - "framing-boundary-and-terminology-guardrails"
+  - "workflow-statechart-task-specific-execution-harness"
+  - "agent-node-model-call-contract"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+  - "evidence-provenance-hardening"
+  - "connector-operation-admission"
+program_parent: "governed-workflow-runtime-transition-program"
+program_phase: "phase-7"
+program_group: "cutover"
+seed_reference_child: "foundational-entry-artifact-canonical-framing-update"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+selected_implementation_target: "Migration Cutover Compatibility Retirement"
+scope_statement: >-
+  Cutover criteria, compatibility language, retirement register entries, migration receipts, rollback posture, disclosure updates, and final claim boundaries.
+non_goals:
+  - "No implementation of missing workflow, agent-node, replay, token, evidence, or connector primitives inside this cutover packet."
+  - "No cutover while predecessor child receipts are missing, stale, failed, or child-owned only in proposal-local form."
+  - "No retirement of compatibility language without rollback and support evidence."
+dependencies:
+  - "framing-boundary-and-terminology-guardrails"
+  - "workflow-statechart-task-specific-execution-harness"
+  - "agent-node-model-call-contract"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+  - "evidence-provenance-hardening"
+  - "connector-operation-admission"
+authority_class_impact:
+  framework: "May propose durable framework changes only in listed promotion targets after validation and promotion."
+  instance: "May propose instance governance changes only where listed as promotion targets."
+  state_control: "No live control truth changes from this draft proposal packet."
+  state_evidence: "Evidence requirements are proposed only; retained evidence must live outside inputs/** when implemented."
+  generated: "Generated outputs remain derived-only and may not become authority."
+  inputs: "This child packet and its source lineage remain non-authoritative proposal inputs."
+runtime_behavior_impact: >-
+  None from this draft packet. Any runtime behavior change requires accepted child
+  review, implementation authorization, durable edits, validators, receipts, and
+  promotion evidence outside proposal paths.
+generated_input_authority_impact: >-
+  Reinforces that proposal-local material, generated projections, MCP/tool
+  availability, Durable Object state, external workflow engines, and agent output
+  are never authority by appearance or reference.
+evidence_requirements:
+  - "Child terminal receipt index and freshness report."
+  - "Cutover checklist and compatibility retirement receipt."
+  - "Post-cutover drift/churn review."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "checksum verification"
+  - "Child receipt freshness and terminal outcome validation."
+  - "Compatibility retirement readiness validation."
+  - "No unsupported future-state claim scan."
+  - "Rollback and cutover evidence completeness validation."
+acceptance_criteria_summary: >-
+  The child proposal is acceptable only when its declared contracts, schemas,
+  validators, receipts, promotion targets, non-goals, and authority boundaries
+  are complete enough to prevent premature Governed Workflow Runtime claims.
+rollback_summary: >-
+  Restore compatibility wording and retire the cutover attempt if predecessor evidence is stale, invalid, or contradicted by post-cutover drift review.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-11"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not make excluded future work live. Existing run
+  lifecycle, execution authorization, context-pack, effect-token, evidence-store,
+  support-target, and fail-closed contracts remain canonical until replaced
+  through validated promotion and cutover evidence.

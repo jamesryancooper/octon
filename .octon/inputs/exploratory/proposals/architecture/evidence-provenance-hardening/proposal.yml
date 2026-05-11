@@ -1,0 +1,89 @@
+schema_version: "proposal-v1"
+proposal_id: "evidence-provenance-hardening"
+title: "Evidence Provenance Hardening"
+summary: >-
+  Harden provenance, retention, disclosure, and receipt requirements for workflow transitions, agent nodes, model calls, effect-token checks, replay, retries, compensation, and closeout.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/constitution/contracts/retention/"
+  - ".octon/framework/constitution/contracts/disclosure/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned review, implementation authorization where
+    required, validation receipts, implementation-conformance evidence,
+    post-implementation drift/churn review, and durable promotion evidence exist
+    outside proposal-local inputs. Otherwise revise, reject, supersede, or archive
+    this child packet.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "foundational-entry-artifact-canonical-framing-update"
+  - "agent-node-model-call-contract"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+program_parent: "governed-workflow-runtime-transition-program"
+program_phase: "phase-5"
+program_group: "evidence"
+seed_reference_child: "foundational-entry-artifact-canonical-framing-update"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+selected_implementation_target: "Evidence Provenance Hardening"
+scope_statement: >-
+  Evidence obligation deltas, provenance fields, retained evidence roots, disclosure contracts, receipt chaining, external index references, and validators.
+non_goals:
+  - "No use of proposal-local artifacts as durable evidence."
+  - "No use of generated summaries as control or evidence truth."
+  - "No full cryptographic attestation requirement unless separately scoped."
+dependencies:
+  - "agent-node-model-call-contract"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+authority_class_impact:
+  framework: "May propose durable framework changes only in listed promotion targets after validation and promotion."
+  instance: "May propose instance governance changes only where listed as promotion targets."
+  state_control: "No live control truth changes from this draft proposal packet."
+  state_evidence: "Evidence requirements are proposed only; retained evidence must live outside inputs/** when implemented."
+  generated: "Generated outputs remain derived-only and may not become authority."
+  inputs: "This child packet and its source lineage remain non-authoritative proposal inputs."
+runtime_behavior_impact: >-
+  None from this draft packet. Any runtime behavior change requires accepted child
+  review, implementation authorization, durable edits, validators, receipts, and
+  promotion evidence outside proposal paths.
+generated_input_authority_impact: >-
+  Reinforces that proposal-local material, generated projections, MCP/tool
+  availability, Durable Object state, external workflow engines, and agent output
+  are never authority by appearance or reference.
+evidence_requirements:
+  - "Evidence obligation and retention contract diffs."
+  - "Provenance validator receipts."
+  - "Closeout bundle sample and negative fixtures."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "checksum verification"
+  - "Evidence obligation id validation."
+  - "Receipt provenance schema validation."
+  - "Generated/input non-authority dependency scan."
+  - "Disclosure completeness validation."
+acceptance_criteria_summary: >-
+  The child proposal is acceptable only when its declared contracts, schemas,
+  validators, receipts, promotion targets, non-goals, and authority boundaries
+  are complete enough to prevent premature Governed Workflow Runtime claims.
+rollback_summary: >-
+  Revert evidence contract changes or narrow required bundles if hardening blocks supported closeout without improving claim provenance.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-11"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not make excluded future work live. Existing run
+  lifecycle, execution authorization, context-pack, effect-token, evidence-store,
+  support-target, and fail-closed contracts remain canonical until replaced
+  through validated promotion and cutover evidence.

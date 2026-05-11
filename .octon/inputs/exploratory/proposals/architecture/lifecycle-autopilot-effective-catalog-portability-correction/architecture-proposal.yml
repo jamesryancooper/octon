@@ -1,0 +1,40 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Lifecycle Autopilot Effective Catalog And Validation Portability Correction"
+target_state: >-
+  Lifecycle Autopilot proposal-program planning resolves lifecycle contracts from
+  the generated effective extension catalog without false fail-closed behavior on
+  empty lifecycle contract arrays, while retaining fail-closed denial for real
+  undeclared lifecycle contracts and preserving portable proposal validation.
+boundary_change: >-
+  Runtime lifecycle discovery, proposal-program route planning tests, proposal
+  registry validation shell behavior, and fallback evidence requirements. This
+  draft does not change Octon authority roots, proposal statuses, child lifecycle
+  ownership, generated-output authority, or Governed Workflow Runtime capability
+  support.
+authoritative_targets_after_promotion:
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/framework/engine/runtime/crates/runtime_resolver/src/lib.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+  - ".octon/framework/product/features/lifecycle-autopilot.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"

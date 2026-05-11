@@ -1,0 +1,32 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Migration Cutover Compatibility Retirement"
+target_state: >-
+  Octon may claim Governed Workflow Runtime canonically only after required runtime contracts, validators, receipts, implementation conformance, post-implementation drift review, and promotion evidence exist outside proposal paths.
+boundary_change: >-
+  Cutover criteria, compatibility language, retirement register entries, migration receipts, rollback posture, disclosure updates, and final claim boundaries. This draft does not itself change runtime control, evidence,
+  support, connector, or generated-output authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
+  - ".octon/framework/cognition/_meta/terminology/glossary.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/README.md"
+  - ".octon/AGENTS.md"
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/instance/bootstrap/START.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"

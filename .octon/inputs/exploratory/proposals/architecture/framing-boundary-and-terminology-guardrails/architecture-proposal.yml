@@ -1,0 +1,31 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "surface-refactor"
+title: "Framing Boundary And Terminology Guardrails"
+target_state: >-
+  Octon can describe the intended workflow-first direction while preserving Governed Agent Runtime as a compatibility phrase until runtime contracts, evidence, validators, and cutover receipts prove the replacement.
+boundary_change: >-
+  Terminology rules, compatibility wording, forbidden overclaims, and validator expectations for canonical entry artifacts and meta-architecture surfaces. This draft does not itself change runtime control, evidence,
+  support, connector, or generated-output authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
+  - ".octon/framework/cognition/_meta/terminology/glossary.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/README.md"
+  - ".octon/AGENTS.md"
+  - ".octon/instance/ingress/AGENTS.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"

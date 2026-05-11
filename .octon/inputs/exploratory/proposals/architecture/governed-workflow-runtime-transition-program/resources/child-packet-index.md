@@ -1,0 +1,22 @@
+# Child Packet Index
+
+_Status: Draft parent-program registry companion_
+
+The YAML registry at `resources/child-packet-index.yml` is the structured proposal-program registry. This Markdown file is navigation only. Required child packets now exist as sibling draft proposal packets under `.octon/inputs/exploratory/proposals/architecture/`. Deferred/lab-only candidates are intentionally not created.
+
+| Child ID | Status | Required | Phase | Depends On | Purpose |
+| --- | --- | --- | --- | --- | --- |
+| `foundational-entry-artifact-canonical-framing-update` | existing seed/reference | yes | `phase-0` | none | Current entry-artifact framing packet; remains framing only. |
+| `framing-boundary-and-terminology-guardrails` | created draft child packet | yes | `phase-1` | `foundational-entry-artifact-canonical-framing-update` | Define the vocabulary boundary for Constitutional Engineering Harness, Governed Workflow Runtime, Governed Agent Runtime, execution harness, and bounded agent node so entry-artifact framing cannot outpace durable runtime proof. |
+| `workflow-statechart-task-specific-execution-harness` | created draft child packet | yes | `phase-2` | `framing-boundary-and-terminology-guardrails` | Define the minimum workflow statechart and task-specific execution harness contract needed before Octon can claim a workflow-first runtime shape. |
+| `agent-node-model-call-contract` | created draft child packet | yes | `phase-3` | `workflow-statechart-task-specific-execution-harness` | Define agents as bounded workflow activity nodes and define the model-call receipt, validation, budget, and authority limits needed to admit them safely. |
+| `workflow-history-replay-idempotency-compensation` | created draft child packet | yes | `phase-4` | `workflow-statechart-task-specific-execution-harness` | Define workflow history, replay reconstruction, idempotency, retry, and compensation semantics without claiming universal rollback or transactionality. |
+| `effect-token-enforcement-coverage` | created draft child packet | yes | `phase-4` | `workflow-statechart-task-specific-execution-harness` | Prove coverage of typed AuthorizedEffect token verification across material side-effect paths before workflow-runtime claims widen. |
+| `evidence-provenance-hardening` | created draft child packet | yes | `phase-5` | `agent-node-model-call-contract`, `workflow-history-replay-idempotency-compensation`, `effect-token-enforcement-coverage` | Harden provenance, retention, disclosure, and receipt requirements for workflow transitions, agent nodes, model calls, effect-token checks, replay, retries, compensation, and closeout. |
+| `connector-operation-admission` | created draft child packet | yes | `phase-6` | `effect-token-enforcement-coverage`, `evidence-provenance-hardening` | Define connector/tool operation admission so availability of a connector, MCP server, browser, API, or tool is never treated as permission. |
+| `migration-cutover-compatibility-retirement` | created draft child packet | yes | `phase-7` | `framing-boundary-and-terminology-guardrails`, `workflow-statechart-task-specific-execution-harness`, `agent-node-model-call-contract`, `workflow-history-replay-idempotency-compensation`, `effect-token-enforcement-coverage`, `evidence-provenance-hardening`, `connector-operation-admission` | Perform the final compatibility, cutover, rollback, and retirement decision for canonical Governed Workflow Runtime framing after all prerequisite child packets have durable evidence. |
+| `durable-coordination-adapter-evaluation` | deferred/lab-only candidate not created | no | `phase-8` | `workflow-history-replay-idempotency-compensation`, `effect-token-enforcement-coverage`, `connector-operation-admission` | Evaluate Durable Objects only as possible live coordination adapters. |
+| `mcp-integration-evaluation` | deferred/lab-only candidate not created | no | `phase-8` | `connector-operation-admission` | Evaluate MCP only as connector/protocol input, never permission. |
+| `external-workflow-engine-adapter-evaluation` | deferred/lab-only candidate not created | no | `phase-8` | `workflow-history-replay-idempotency-compensation`, `effect-token-enforcement-coverage`, `connector-operation-admission` | Evaluate external workflow engines only as adapters or lab targets. |
+
+No child packet directory may be nested under this parent. The parent coordinates sequence only and does not own child lifecycle truth.

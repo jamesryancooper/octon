@@ -1,0 +1,102 @@
+schema_version: "proposal-v1"
+proposal_id: "governed-workflow-runtime-transition-program"
+title: "Governed Workflow Runtime Transition Program"
+summary: >-
+  Parent proposal program coordinating the minimum child packet sequence needed
+  to move Octon from entry-artifact framing toward a safely claimable Governed
+  Workflow Runtime architecture, while preserving existing runtime authority,
+  evidence, support-target, and fail-closed contracts until validated cutover.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
+  - ".octon/framework/cognition/_meta/terminology/glossary.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/connector-admissions/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate, create, review, implement, validate, close out, defer, reject,
+    supersede, or archive child proposal packets; retain aggregate program
+    evidence; then archive or remove this parent packet after all required
+    children reach allowed terminal outcomes and durable promotion evidence
+    exists outside the proposal workspace.
+related_proposals:
+  - "foundational-entry-artifact-canonical-framing-update"
+  - "framing-boundary-and-terminology-guardrails"
+  - "workflow-statechart-task-specific-execution-harness"
+  - "agent-node-model-call-contract"
+  - "workflow-history-replay-idempotency-compensation"
+  - "effect-token-enforcement-coverage"
+  - "evidence-provenance-hardening"
+  - "connector-operation-admission"
+  - "migration-cutover-compatibility-retirement"
+  - "durable-coordination-adapter-evaluation"
+  - "mcp-integration-evaluation"
+  - "external-workflow-engine-adapter-evaluation"
+selected_implementation_target: "Governed Workflow Runtime Transition Program"
+scope_statement: >-
+  Proposal-program coordination only. The parent packet sequences and gates
+  child proposal packets for Governed Workflow Runtime transition work. It does
+  not implement runtime statecharts, task-specific execution harness schemas,
+  agent-node contracts, workflow replay, connector admission behavior, Durable
+  Object adapters, MCP integration, external workflow-engine integration, or
+  runtime crate behavior.
+program_execution_mode: "gated-parallel"
+seed_reference_child: "foundational-entry-artifact-canonical-framing-update"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+authority_class_impact:
+  framework: "May coordinate future child packets that propose durable framework runtime, terminology, schema, and validator changes."
+  instance: "May coordinate future child packets that propose instance governance, support-target, and connector-admission changes."
+  state_control: "No direct change from the parent packet."
+  state_evidence: "Aggregate program and child-packet lifecycle evidence required outside proposal paths before closeout."
+  generated: "No authority; generated projections remain derived-only."
+  inputs: "This parent and its referenced child candidates remain non-authoritative proposal lineage."
+runtime_behavior_impact: "None from the parent program packet."
+generated_input_authority_impact: >-
+  Reinforces that proposal-local materials, generated projections, MCP/tool
+  availability, Durable Object state, external workflow engines, and agent
+  output never become runtime authority merely by appearing in the program.
+evidence_requirements:
+  - "Parent program child registry"
+  - "Child-owned proposal receipts"
+  - "Aggregate program evidence"
+  - "Promotion receipts outside proposal paths"
+  - "Validator reports for every required child"
+  - "Explicit deferral, rejection, supersession, or replacement evidence for non-required or non-terminal children"
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal-program child registry validation"
+  - "implementation-readiness validation"
+  - "child receipt freshness validation"
+  - "authority-boundary validation"
+  - "generated/input non-authority validation"
+  - "future capability overclaim validation"
+acceptance_criteria_summary: >-
+  Parent program packet exists as a draft architecture proposal program with a
+  child registry, packet sequence, child contract, closeout plan, risk register,
+  aggregate validation plan, and explicit deferral/rejection register.
+rollback_summary: >-
+  Remove this parent program packet and retain any created program evidence as
+  proposal-local lineage if the program is rejected, superseded, or found to
+  create premature terminology churn or a second conceptual control plane.
+owner:
+  role: "Octon architecture proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-11"
+explicit_runtime_non_implementation_statement: >-
+  This parent program does not implement or approve runtime statecharts,
+  task-specific execution harness schemas, agent-node contracts, workflow
+  history/replay, idempotency, retry, compensation, connector operation
+  admission, Durable Object adapters, MCP integration, external workflow-engine
+  integration, or runtime crate behavior.

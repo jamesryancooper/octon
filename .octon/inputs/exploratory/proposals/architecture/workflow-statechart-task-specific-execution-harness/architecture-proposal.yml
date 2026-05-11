@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+title: "Workflow Statechart Task Specific Execution Harness"
+target_state: >-
+  A workflow-statechart contract overlays and then converges with Run Lifecycle v1 without creating a new control root; task-specific harness compilation records bind objective, authority, support, context, evidence, rollback, and cost posture.
+boundary_change: >-
+  Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts. This draft does not itself change runtime control, evidence,
+  support, connector, or generated-output authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/generated/cognition/projections/materialized/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"

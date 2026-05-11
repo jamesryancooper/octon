@@ -1,0 +1,85 @@
+schema_version: "proposal-v1"
+proposal_id: "workflow-statechart-task-specific-execution-harness"
+title: "Workflow Statechart Task Specific Execution Harness"
+summary: >-
+  Define the minimum workflow statechart and task-specific execution harness contract needed before Octon can claim a workflow-first runtime shape.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/generated/cognition/projections/materialized/"
+status: "draft"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned review, implementation authorization where
+    required, validation receipts, implementation-conformance evidence,
+    post-implementation drift/churn review, and durable promotion evidence exist
+    outside proposal-local inputs. Otherwise revise, reject, supersede, or archive
+    this child packet.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "foundational-entry-artifact-canonical-framing-update"
+  - "framing-boundary-and-terminology-guardrails"
+program_parent: "governed-workflow-runtime-transition-program"
+program_phase: "phase-2"
+program_group: "runtime-core"
+seed_reference_child: "foundational-entry-artifact-canonical-framing-update"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
+  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+selected_implementation_target: "Workflow Statechart Task Specific Execution Harness"
+scope_statement: >-
+  Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts.
+non_goals:
+  - "No external workflow engine adoption."
+  - "No Durable Object coordination adapter."
+  - "No agent-node/model-call contract beyond the harness slots needed by a later child."
+  - "No runtime cutover or compatibility retirement by itself."
+dependencies:
+  - "framing-boundary-and-terminology-guardrails"
+authority_class_impact:
+  framework: "May propose durable framework changes only in listed promotion targets after validation and promotion."
+  instance: "May propose instance governance changes only where listed as promotion targets."
+  state_control: "No live control truth changes from this draft proposal packet."
+  state_evidence: "Evidence requirements are proposed only; retained evidence must live outside inputs/** when implemented."
+  generated: "Generated outputs remain derived-only and may not become authority."
+  inputs: "This child packet and its source lineage remain non-authoritative proposal inputs."
+runtime_behavior_impact: >-
+  None from this draft packet. Any runtime behavior change requires accepted child
+  review, implementation authorization, durable edits, validators, receipts, and
+  promotion evidence outside proposal paths.
+generated_input_authority_impact: >-
+  Reinforces that proposal-local material, generated projections, MCP/tool
+  availability, Durable Object state, external workflow engines, and agent output
+  are never authority by appearance or reference.
+evidence_requirements:
+  - "Statechart schema fixtures and validator receipts."
+  - "Harness compilation examples and negative fixtures."
+  - "Run Lifecycle v1 parity review evidence."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "checksum verification"
+  - "Statechart schema validation with positive and negative fixtures."
+  - "Run Lifecycle v1 parity validation."
+  - "Control/evidence/generated/input placement validation."
+  - "Harness compilation receipt validation."
+acceptance_criteria_summary: >-
+  The child proposal is acceptable only when its declared contracts, schemas,
+  validators, receipts, promotion targets, non-goals, and authority boundaries
+  are complete enough to prevent premature Governed Workflow Runtime claims.
+rollback_summary: >-
+  Remove proposed statechart/harness surfaces and retain parity-failure evidence if they conflict with existing Run Lifecycle v1 authority.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-11"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not make excluded future work live. Existing run
+  lifecycle, execution authorization, context-pack, effect-token, evidence-store,
+  support-target, and fail-closed contracts remain canonical until replaced
+  through validated promotion and cutover evidence.

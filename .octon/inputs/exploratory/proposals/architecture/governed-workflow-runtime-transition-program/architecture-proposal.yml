@@ -1,0 +1,39 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+title: "Governed Workflow Runtime Transition Program"
+target_state: >-
+  A parent proposal program coordinates child packets that separately define,
+  validate, implement, defer, reject, or retire the architecture required before
+  Octon can safely claim Governed Workflow Runtime as a canonical runtime
+  framing.
+boundary_change: >-
+  Proposal-program coordination only. No runtime authority boundary changes,
+  support-target widening, generated-output authority, child lifecycle ownership,
+  or control/evidence root changes are introduced by this parent packet.
+authoritative_targets_after_promotion:
+  - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
+  - ".octon/framework/cognition/_meta/terminology/glossary.md"
+  - ".octon/framework/cognition/_meta/architecture/specification.md"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/constitution/obligations/fail-closed.yml"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/instance/governance/support-targets.yml"
+  - ".octon/instance/governance/connector-admissions/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "resources/child-packet-index.yml"
+  - "architecture/packet-sequence.md"
+  - "architecture/child-packet-contract.md"
+  - "architecture/program-closeout-plan.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/child-packet-index.md"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "deferred-and-rejected-scope.md"
+  - "support/**"

@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+title: "Workflow History Replay Idempotency Compensation"
+target_state: >-
+  Octon can reconstruct supported workflow histories from control journals and retained evidence, classify retry and compensation posture, and fail closed when replay or rollback evidence is insufficient.
+boundary_change: >-
+  Workflow history records, replay reconstruction reports, idempotency keys, retry classes, compensation plans, failure receipts, evidence mirrors, and validator coverage for supported workflows. This draft does not itself change runtime control, evidence,
+  support, connector, or generated-output authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/state/evidence/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "NON-GOALS.md"
+  - "PACKET_MANIFEST.md"
