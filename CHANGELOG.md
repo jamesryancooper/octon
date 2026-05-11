@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.65](https://github.com/jamesryancooper/octon/compare/octon-v0.6.64...octon-v0.6.65) (2026-05-11)
+
+
+### Bug Fixes
+
+* **lifecycle:** correct catalog portability ([7ca3501](https://github.com/jamesryancooper/octon/commit/7ca350114ecc8b62f146b0326cae7851e63f7074))
+
 ## [0.6.64](https://github.com/jamesryancooper/octon/compare/octon-v0.6.63...octon-v0.6.64) (2026-05-11)
 
 
