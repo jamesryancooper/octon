@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.66](https://github.com/jamesryancooper/octon/compare/octon-v0.6.65...octon-v0.6.66) (2026-05-12)
+
+
+### Features
+
+* **lifecycle:** enforce child readiness gates ([a2a10f4](https://github.com/jamesryancooper/octon/commit/a2a10f4db01c41e065799f86d20e1b79eaa562ef))
+
 ## [0.6.65](https://github.com/jamesryancooper/octon/compare/octon-v0.6.64...octon-v0.6.65) (2026-05-11)
 
 
