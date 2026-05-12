@@ -203,6 +203,143 @@
         "child_lifecycle_id": {
           "type": "string",
           "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "required_metadata": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "change_profile"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "source_lineage_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relative_path"
+          },
+          "uniqueItems": true
+        },
+        "parent_contract_refs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/relative_path"
+          },
+          "uniqueItems": true
+        },
+        "readiness_requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/readiness_requirement"
+          },
+          "uniqueItems": true
+        },
+        "predecessor_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/predecessor_constraint"
+          },
+          "uniqueItems": true
+        },
+        "successor_constraints": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/successor_constraint"
+          },
+          "uniqueItems": true
+        },
+        "cutover_constraints": {
+          "$ref": "#/$defs/cutover_constraints"
+        }
+      }
+    },
+    "readiness_requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "requirement_id",
+        "summary"
+      ],
+      "properties": {
+        "requirement_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "review_must_mention": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "predecessor_constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "predecessor_child_id",
+        "constraint"
+      ],
+      "properties": {
+        "predecessor_child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "constraint": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "successor_constraint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "successor_child_id",
+        "constraint"
+      ],
+      "properties": {
+        "successor_child_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "constraint": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "cutover_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "compatibility_retirement_requires_predecessor_evidence": {
+          "type": "boolean"
+        },
+        "canonical_runtime_support_requires_predecessor_evidence": {
+          "type": "boolean"
+        },
+        "required_predecessor_child_ids": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": true
+        },
+        "forbidden_claims_until_ready": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "compatibility-retired",
+              "canonical-runtime-support"
+            ]
+          },
+          "uniqueItems": true
         }
       }
     },

@@ -39,6 +39,8 @@ hold before proposal-program support can be treated as closeout-ready.
 | `LA-PC-020` | Aggregate closeout completeness: aggregate closeout cannot pass with stale or missing child receipts, unresolved blockers, invalid child terminal outcomes, missing or dangling deferral/supersession/rejection evidence, authority ambiguity, parent-owned child surfaces, or missing aggregate evidence. |
 | `LA-PC-021` | Documentation honesty: product docs, roadmap, lifecycle model, lifecycle contracts, schemas, generated projections, CLI help, and tests must describe the same supported behavior and limitations. |
 | `LA-PC-022` | Support boundary: no claim may imply external workflow engines, Durable Objects, MCP integration, workflow runtime statecharts, task-specific execution harnesses, agent-node contracts, or universal transactionality unless implemented and validated. |
+| `LA-PC-023` | Program implementation prompt readiness: `generate-program-implementation-prompt` must fail closed until every required, non-deferred child packet has required metadata including `change_profile`, a passing child-owned implementation-grade completeness review, an accepted child proposal-review gate, and a fresh packet digest matching that accepted review. |
+| `LA-PC-024` | Packet-specific and cutover readiness: declared child readiness requirements from source lineage or parent child-packet contracts, predecessor/successor constraints, and compatibility-retirement or canonical-runtime-support cutover constraints must be validated or must block program implementation prompt generation. This readiness is not implementation completion evidence. |
 
 ## Enforcement Contract
 

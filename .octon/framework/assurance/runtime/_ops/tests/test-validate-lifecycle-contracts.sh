@@ -574,6 +574,12 @@ main() {
     done
     assert_schema_query_equals "registry rollback posture enum matches runtime" "$registry_schema" '."$defs".child.properties.rollback_posture.enum[] | select(. == "rollback-route")' 'rollback-route'
     assert_schema_query_equals "registry seed role enum matches runtime" "$registry_schema" '."$defs".child.properties.seed_role.enum[] | select(. == "seed-reference")' 'seed-reference'
+    assert_schema_query_equals "registry required metadata supports change_profile" "$registry_schema" '."$defs".child.properties.required_metadata.items.enum[] | select(. == "change_profile")' 'change_profile'
+    assert_schema_query_equals "registry readiness requirement id uses canonical identifier" "$registry_schema" '."$defs".readiness_requirement.properties.requirement_id."$ref"' '#/$defs/identifier'
+    assert_schema_query_equals "registry predecessor constraint uses canonical identifier" "$registry_schema" '."$defs".predecessor_constraint.properties.predecessor_child_id."$ref"' '#/$defs/identifier'
+    assert_schema_query_equals "registry successor constraint uses canonical identifier" "$registry_schema" '."$defs".successor_constraint.properties.successor_child_id."$ref"' '#/$defs/identifier'
+    assert_schema_query_equals "registry cutover predecessor ids use canonical identifier" "$registry_schema" '."$defs".cutover_constraints.properties.required_predecessor_child_ids.items."$ref"' '#/$defs/identifier'
+    assert_schema_query_equals "registry cutover forbidden claims include compatibility retirement" "$registry_schema" '."$defs".cutover_constraints.properties.forbidden_claims_until_ready.items.enum[] | select(. == "compatibility-retired")' 'compatibility-retired'
 
     assert_schema_query_equals "mutation identifier definition matches runtime" "$mutation_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9-]*$'
     for query in \

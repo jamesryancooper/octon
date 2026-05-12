@@ -106,6 +106,14 @@ Program routes coordinate child packets. They do not own child lifecycle truth,
 child subtype manifest truth, child promotion targets, child validation
 verdicts, or child archive metadata.
 
+Program implementation prompt generation has its own child-readiness gate. For
+every required, non-deferred child, the gate requires required child metadata
+including `change_profile`, a passing implementation-grade completeness review,
+an accepted fresh proposal-review digest, declared packet-specific completeness
+coverage, coherent predecessor/successor constraints, and satisfied declared
+cutover constraints. The gate authorizes prompt generation only; it does not
+prove durable implementation has completed.
+
 Program controller runs also retain a parent-owned execution record: a
 hash-chained v2 event log, checkpoint, scheduler decision, recovery evidence,
 optional mutation evidence, optional scaffold evidence, and aggregate closeout

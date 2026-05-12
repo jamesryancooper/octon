@@ -185,6 +185,18 @@ validators:
       - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
       - "--package"
       - "{{target}}"
+  - validator_id: "program-child-proposal-readiness"
+    argv:
+      - "bash"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+      - "--package"
+      - "{{target}}"
+
+gates:
+  - gate_id: "program-child-proposal-readiness"
+    validator_id: "program-child-proposal-readiness"
+    required_before_routes:
+      - "generate-program-implementation-prompt"
 
 receipts:
   - receipt_id: "program-implementation-prompt"

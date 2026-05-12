@@ -85,6 +85,12 @@ validators:
       - "--require-implementation-authorization"
 
 gates:
+  - gate_id: "implementation-grade-readiness"
+    validator_id: "proposal-readiness"
+    required_before_routes:
+      - "generate-implementation-prompt"
+      - "run-implementation"
+      - "promote-proposal"
   - gate_id: "implementation-authorization"
     validator_id: "proposal-review-strict"
     required_before_routes:

@@ -74,10 +74,66 @@ struct ProgramChildSpec {
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     child_lifecycle_id: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    required_metadata: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    source_lineage_refs: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    parent_contract_refs: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    readiness_requirements: Vec<ProgramChildReadinessRequirement>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    predecessor_constraints: Vec<ProgramChildPredecessorConstraint>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    successor_constraints: Vec<ProgramChildSuccessorConstraint>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    cutover_constraints: Option<ProgramChildCutoverConstraints>,
 }
 
 fn default_required() -> bool {
     true
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramChildReadinessRequirement {
+    requirement_id: String,
+    summary: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    review_must_mention: Vec<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramChildPredecessorConstraint {
+    predecessor_child_id: String,
+    constraint: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramChildSuccessorConstraint {
+    successor_child_id: String,
+    constraint: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramChildCutoverConstraints {
+    #[serde(default)]
+    compatibility_retirement_requires_predecessor_evidence: bool,
+    #[serde(default)]
+    canonical_runtime_support_requires_predecessor_evidence: bool,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    required_predecessor_child_ids: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    forbidden_claims_until_ready: Vec<String>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -93,6 +149,12 @@ pub(crate) struct ProgramLifecyclePlanResult {
     pub child_registry_digest: String,
     pub execution_mode: String,
     pub aggregate_state: String,
+    #[serde(default)]
+    pub program_route: Option<RoutePlanState>,
+    #[serde(default)]
+    pub program_gate_results: Vec<GatePlanResult>,
+    #[serde(default)]
+    pub blocked_by_program_gate: Option<String>,
     #[serde(default)]
     pub program_blockers: Vec<ProgramBlocker>,
     #[serde(default)]
@@ -703,6 +765,8 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint(
     apply_checkpoint_child_drift(&mut child_states, checkpoint);
     apply_dependency_blockers(&mut child_states);
     let mut program_blockers = Vec::new();
+    let (program_route, program_gate_results, blocked_by_program_gate) =
+        plan_program_level_route(&repo_root, &context, &mut program_blockers)?;
     if !program
         .supported_execution_modes
         .iter()
@@ -781,6 +845,9 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint(
         child_registry_digest: context.registry_digest,
         execution_mode: context.registry.execution_mode,
         aggregate_state,
+        program_route,
+        program_gate_results,
+        blocked_by_program_gate,
         program_blockers,
         child_states,
         runnable_batch,
@@ -1894,6 +1961,13 @@ fn apply_mutation_to_registry(
                 write_scopes: spec.write_scopes.clone(),
                 seed_role: None,
                 child_lifecycle_id: None,
+                required_metadata: Vec::new(),
+                source_lineage_refs: Vec::new(),
+                parent_contract_refs: Vec::new(),
+                readiness_requirements: Vec::new(),
+                predecessor_constraints: Vec::new(),
+                successor_constraints: Vec::new(),
+                cutover_constraints: None,
             });
         }
         "defer-child" => {
@@ -1957,6 +2031,13 @@ fn apply_mutation_to_registry(
                 write_scopes: spec.write_scopes.clone(),
                 seed_role: None,
                 child_lifecycle_id: None,
+                required_metadata: Vec::new(),
+                source_lineage_refs: Vec::new(),
+                parent_contract_refs: Vec::new(),
+                readiness_requirements: Vec::new(),
+                predecessor_constraints: Vec::new(),
+                successor_constraints: Vec::new(),
+                cutover_constraints: None,
             });
         }
         "rephase-child" => {
@@ -2154,6 +2235,13 @@ fn scaffold_child_to_registry_child(
             .clone()
             .or_else(|| default_seed_role.map(str::to_string)),
         child_lifecycle_id: None,
+        required_metadata: Vec::new(),
+        source_lineage_refs: Vec::new(),
+        parent_contract_refs: Vec::new(),
+        readiness_requirements: Vec::new(),
+        predecessor_constraints: Vec::new(),
+        successor_constraints: Vec::new(),
+        cutover_constraints: None,
     }
 }
 
@@ -2335,6 +2423,94 @@ fn validate_program_registry(registry: &ProgramChildRegistry) -> Result<()> {
             child.child_lifecycle_id.as_ref(),
             "program registry child_lifecycle_id",
         )?;
+        for metadata in &child.required_metadata {
+            if metadata != "change_profile" {
+                bail!(
+                    "child {} required_metadata value is unsupported: {}",
+                    child.child_id,
+                    metadata
+                );
+            }
+        }
+        for source_ref in &child.source_lineage_refs {
+            if !is_safe_repo_relative(source_ref) {
+                bail!(
+                    "child {} source_lineage_ref must be repo-relative: {}",
+                    child.child_id,
+                    source_ref
+                );
+            }
+        }
+        for contract_ref in &child.parent_contract_refs {
+            if !is_safe_repo_relative(contract_ref) {
+                bail!(
+                    "child {} parent_contract_ref must be repo-relative: {}",
+                    child.child_id,
+                    contract_ref
+                );
+            }
+        }
+        for requirement in &child.readiness_requirements {
+            validate_program_id_field(
+                &requirement.requirement_id,
+                "program registry readiness requirement_id",
+            )?;
+            if requirement.summary.trim().is_empty() {
+                bail!(
+                    "child {} readiness requirement {} must have a summary",
+                    child.child_id,
+                    requirement.requirement_id
+                );
+            }
+            for phrase in &requirement.review_must_mention {
+                if phrase.trim().is_empty() {
+                    bail!(
+                        "child {} readiness requirement {} has an empty review_must_mention",
+                        child.child_id,
+                        requirement.requirement_id
+                    );
+                }
+            }
+        }
+        for constraint in &child.predecessor_constraints {
+            validate_program_id_field(
+                &constraint.predecessor_child_id,
+                "program registry predecessor_child_id",
+            )?;
+            if constraint.constraint.trim().is_empty() {
+                bail!(
+                    "child {} predecessor constraint must have text",
+                    child.child_id
+                );
+            }
+        }
+        for constraint in &child.successor_constraints {
+            validate_program_id_field(
+                &constraint.successor_child_id,
+                "program registry successor_child_id",
+            )?;
+            if constraint.constraint.trim().is_empty() {
+                bail!("child {} successor constraint must have text", child.child_id);
+            }
+        }
+        if let Some(cutover) = child.cutover_constraints.as_ref() {
+            for predecessor in &cutover.required_predecessor_child_ids {
+                validate_program_id_field(
+                    predecessor,
+                    "program registry cutover required_predecessor_child_id",
+                )?;
+            }
+            for claim in &cutover.forbidden_claims_until_ready {
+                if !matches!(claim.as_str(), "compatibility-retired" | "canonical-runtime-support")
+                {
+                    bail!(
+                        "child {} cutover forbidden claim is unsupported: {}",
+                        child.child_id,
+                        claim
+                    );
+                }
+            }
+        }
         if !is_safe_repo_relative(&child.path) {
             bail!("child path must be repo-relative: {}", child.path);
         }
@@ -2426,6 +2602,35 @@ fn validate_program_registry(registry: &ProgramChildRegistry) -> Result<()> {
                     child.child_id,
                     dependency
                 );
+            }
+        }
+        for constraint in &child.predecessor_constraints {
+            if !ids.contains(&constraint.predecessor_child_id) {
+                bail!(
+                    "child {} predecessor constraint references missing child {}",
+                    child.child_id,
+                    constraint.predecessor_child_id
+                );
+            }
+        }
+        for constraint in &child.successor_constraints {
+            if !ids.contains(&constraint.successor_child_id) {
+                bail!(
+                    "child {} successor constraint references missing child {}",
+                    child.child_id,
+                    constraint.successor_child_id
+                );
+            }
+        }
+        if let Some(cutover) = child.cutover_constraints.as_ref() {
+            for predecessor in &cutover.required_predecessor_child_ids {
+                if !ids.contains(predecessor) {
+                    bail!(
+                        "child {} cutover constraint references missing predecessor child {}",
+                        child.child_id,
+                        predecessor
+                    );
+                }
             }
         }
     }
@@ -2607,6 +2812,47 @@ fn apply_closeout_policy_blockers(
     }
     let _ = policy.require_child_receipts_fresh;
     let _ = policy.require_aggregate_evidence;
+}
+
+fn plan_program_level_route(
+    repo_root: &Path,
+    context: &ProgramContext,
+    program_blockers: &mut Vec<ProgramBlocker>,
+) -> Result<(
+    Option<RoutePlanState>,
+    Vec<GatePlanResult>,
+    Option<String>,
+)> {
+    let target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&context.target_rel))?;
+    let target_state = build_target_state(repo_root, &context.loaded.contract, &target_abs)?;
+    let Some(route) = select_route(&context.loaded.contract, &target_state)? else {
+        return Ok((None, Vec::new(), None));
+    };
+    let route_id = route.route_id.clone();
+    let gate_results =
+        run_required_gates(repo_root, &context.loaded.contract, &target_abs, &route_id)?;
+    if let Some(failed_gate_id) = gate_results
+        .iter()
+        .find(|result| !result.passed)
+        .map(|result| result.gate_id.clone())
+    {
+        let recovery_route = fallback_route_for_gate(&context.loaded.contract, &failed_gate_id);
+        program_blockers.push(ProgramBlocker {
+            blocker_class: "validation-failed".to_string(),
+            message: format!(
+                "program route {} failed required gate {}",
+                route_id, failed_gate_id
+            ),
+            recovery_route: recovery_route.clone(),
+        });
+        let fallback = recovery_route
+            .as_ref()
+            .and_then(|route_id| route_by_id(&context.loaded.contract, route_id))
+            .cloned()
+            .map(route_plan_state);
+        return Ok((fallback, gate_results, Some(failed_gate_id)));
+    }
+    Ok((Some(route_plan_state(route)), gate_results, None))
 }
 
 fn apply_dependency_blockers(child_states: &mut BTreeMap<String, ProgramChildPlanState>) {
@@ -5947,6 +6193,55 @@ routes:
             );
         }
 
+        fn write_program_contract_with_failing_program_gate(&self) {
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/fail-program-gate.sh",
+                "#!/usr/bin/env bash\nprintf 'program gate failed\\n'\nexit 1\n",
+            );
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+states: [{ state_id: "coordinate" }]
+terminal_outcomes:
+  - outcome_id: "implemented"
+    when: { manifest_status: "implemented" }
+validators:
+  - validator_id: "program-child-proposal-readiness"
+    argv: ["bash", ".octon/framework/assurance/runtime/_ops/scripts/fail-program-gate.sh", "--package", "{{target}}"]
+gates:
+  - gate_id: "program-child-proposal-readiness"
+    validator_id: "program-child-proposal-readiness"
+    required_before_routes: ["generate-program-implementation-prompt"]
+receipts:
+  - receipt_id: "program-implementation-prompt"
+    path: "support/executable-program-implementation-prompt.md"
+routes:
+  - route_id: "generate-program-implementation-prompt"
+    route_type: "extension"
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_absent: "program-implementation-prompt"
+"#,
+            );
+        }
+
         fn write_program_contract_with_canonical_closeout_policy(&self) {
             self.write(
                 ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
@@ -6230,6 +6525,42 @@ routes:
 
         assert_eq!(plan.runnable_batch, vec!["a".to_string(), "b".to_string()]);
         assert_eq!(plan.final_verdict, "planned");
+    }
+
+    #[test]
+    fn program_level_route_gate_blocks_program_implementation_prompt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("program-route-gate", true);
+        fixture.write_program_contract_with_failing_program_gate();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_eq!(
+            plan.blocked_by_program_gate.as_deref(),
+            Some("program-child-proposal-readiness")
+        );
+        assert!(plan.program_route.is_none());
+        assert!(plan.program_gate_results.iter().any(|result| {
+            result.gate_id == "program-child-proposal-readiness" && !result.passed
+        }));
+        assert!(plan.program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == "validation-failed"
+                && blocker
+                    .message
+                    .contains("generate-program-implementation-prompt")
+        }));
     }
 
     #[test]
@@ -8540,6 +8871,9 @@ routes:
             child_registry_digest: "sha256:test".to_string(),
             execution_mode: "parallel-independent".to_string(),
             aggregate_state: "planned".to_string(),
+            program_route: None,
+            program_gate_results: Vec::new(),
+            blocked_by_program_gate: None,
             program_blockers: Vec::new(),
             child_states,
             runnable_batch: vec!["a".to_string(), "b".to_string()],

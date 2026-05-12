@@ -61,6 +61,26 @@ freshness, event/checkpoint convergence, lock integrity, approval binding,
 recovery truthfulness, atomic barrier limits, mutation/scaffold controls,
 aggregate closeout completeness, and honest support claims.
 
+## Implementation Prompt Readiness
+
+Before `generate-program-implementation-prompt` may run, every required,
+non-deferred child packet must remain child-owned and pass the program
+child-readiness validator:
+
+```sh
+bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package <program-packet-path>
+```
+
+The validator checks child metadata including `change_profile`, child-owned
+implementation-grade completeness reviews, accepted fresh proposal-review
+digests, packet-specific readiness requirements declared in the child registry,
+predecessor/successor coherence, and declared cutover constraints. Parent
+evidence may summarize these checks but never replaces child receipts.
+
+This gate is proposal-readiness only. It does not require implementation
+receipts or durable promoted artifacts to exist, and it must not be used as
+evidence that implementation has completed.
+
 ## Execution Modes
 
 - `sequential`
@@ -89,6 +109,26 @@ children:
     dependency_gate: "terminal"
     recovery_profile: "default"
     rollback_posture: "compensating"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/example-parent/resources/source.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/example-parent/architecture/child-packet-contract.md"
+    readiness_requirements:
+      - requirement_id: "harness-envelope-completeness"
+        summary: "Child review must cover the task-specific harness envelope."
+        review_must_mention:
+          - "task-specific harness envelope"
+    predecessor_constraints:
+      - predecessor_child_id: "seed-child"
+        constraint: "Seed framing must be proposal-ready first."
+    cutover_constraints:
+      compatibility_retirement_requires_predecessor_evidence: true
+      required_predecessor_child_ids:
+        - "seed-child"
+      forbidden_claims_until_ready:
+        - "compatibility-retired"
     write_scopes:
       - ".octon/framework/example.md"
 ```

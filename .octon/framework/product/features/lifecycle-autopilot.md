@@ -75,6 +75,16 @@ support generates parent-program surfaces only, refuses to overwrite existing
 parent files, and does not create the Governed Workflow Runtime transition
 program.
 
+Program implementation prompt generation is fail-closed behind the program
+child-readiness gate. Required, non-deferred child packets must declare required
+metadata including `change_profile`, pass their child-owned
+implementation-grade completeness review, pass an accepted proposal-review gate
+with a fresh packet digest, satisfy declared packet-specific readiness
+requirements from source lineage or parent child-packet contracts, and satisfy
+declared predecessor/successor and cutover constraints. This is a proposal
+readiness gate only; it does not require implementation receipts or prove that
+durable implementation exists.
+
 ## Operator Entry Points
 
 - `octon lifecycle plan --lifecycle <id> --target <path>`
