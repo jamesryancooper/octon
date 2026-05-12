@@ -3,9 +3,9 @@ architecture_scope: "repo-architecture"
 decision_type: "new-surface"
 title: "Workflow Statechart Task Specific Execution Harness"
 target_state: >-
-  A workflow-statechart contract overlays and then converges with Run Lifecycle v1 without creating a new control root; task-specific harness compilation records bind objective, authority, support, context, evidence, rollback, and cost posture.
+  A workflow-statechart contract overlays and then converges with Run Lifecycle v1 without creating a new control root; task-specific harness compilation records bind objective, run contract, support target, capability envelope, context pack, authorization route, effect-token classes, evidence obligations, rollback or compensation posture, human-intervention posture, model/cost policy, and closeout criteria.
 boundary_change: >-
-  Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts. This draft does not itself change runtime control, evidence,
+  Statechart semantics, harness compilation records with complete required envelope bindings, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts. This draft does not itself change runtime control, evidence,
   support, connector, or generated-output authority.
 authoritative_targets_after_promotion:
   - ".octon/framework/engine/runtime/spec/"

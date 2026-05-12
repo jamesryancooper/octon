@@ -5,12 +5,13 @@ summary: >-
   Define workflow history, replay reconstruction, idempotency, retry, and compensation semantics without claiming universal rollback or transactionality.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
+change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/engine/runtime/spec/"
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/state/evidence/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

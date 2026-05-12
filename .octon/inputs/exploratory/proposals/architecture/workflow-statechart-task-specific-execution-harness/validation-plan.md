@@ -11,6 +11,6 @@ _Status: Draft child validation plan_
 | Child-specific validation | Statechart schema validation with positive and negative fixtures. | Proposed follow-on validator or receipt |
 | Child-specific validation | Run Lifecycle v1 parity validation. | Proposed follow-on validator or receipt |
 | Child-specific validation | Control/evidence/generated/input placement validation. | Proposed follow-on validator or receipt |
-| Child-specific validation | Harness compilation receipt validation. | Proposed follow-on validator or receipt |
+| Child-specific validation | Harness compilation receipt validation for objective, run-contract, support-target, capability-envelope, context-pack, authorization-route, effect-token, evidence, rollback/compensation, human-intervention, model/cost, and closeout bindings. | Proposed follow-on validator or receipt |
 
 No validation in this child may substitute for durable promotion receipts, implementation-conformance receipts, post-implementation drift/churn receipts, or the final migration/cutover child.

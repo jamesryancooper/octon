@@ -5,6 +5,7 @@ summary: >-
   Perform the final compatibility, cutover, rollback, and retirement decision for canonical Governed Workflow Runtime framing after all prerequisite child packets have durable evidence.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
+change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
   - ".octon/framework/cognition/_meta/terminology/glossary.md"
@@ -13,7 +14,7 @@ promotion_targets:
   - ".octon/AGENTS.md"
   - ".octon/instance/ingress/AGENTS.md"
   - ".octon/instance/bootstrap/START.md"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

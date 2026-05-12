@@ -10,7 +10,7 @@ Define the minimum workflow statechart and task-specific execution harness contr
 
 ## Scope
 
-Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts.
+Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts. Harness records must bind objective, run contract, support target, capability envelope, context pack, authorization route, effect-token classes, evidence obligations, rollback/compensation posture, human-intervention posture, model/cost policy, and closeout criteria.
 
 ## Dependencies
 
@@ -40,7 +40,7 @@ Statechart semantics, harness compilation records, binding to Run Lifecycle v1, 
 ## Required Evidence Before Canonical Claim
 
 - Statechart schema fixtures and validator receipts.
-- Harness compilation examples and negative fixtures.
+- Harness compilation examples and negative fixtures covering every required envelope binding.
 - Run Lifecycle v1 parity review evidence.
 
 ## Validation Requirements
@@ -48,7 +48,7 @@ Statechart semantics, harness compilation records, binding to Run Lifecycle v1, 
 - Statechart schema validation with positive and negative fixtures.
 - Run Lifecycle v1 parity validation.
 - Control/evidence/generated/input placement validation.
-- Harness compilation receipt validation.
+- Harness compilation receipt validation for every required envelope binding.
 
 ## Reading Order
 

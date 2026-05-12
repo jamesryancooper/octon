@@ -5,13 +5,14 @@ summary: >-
   Harden provenance, retention, disclosure, and receipt requirements for workflow transitions, agent nodes, model calls, effect-token checks, replay, retries, compensation, and closeout.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
+change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/engine/runtime/spec/"
   - ".octon/framework/constitution/obligations/evidence.yml"
   - ".octon/framework/constitution/contracts/retention/"
   - ".octon/framework/constitution/contracts/disclosure/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

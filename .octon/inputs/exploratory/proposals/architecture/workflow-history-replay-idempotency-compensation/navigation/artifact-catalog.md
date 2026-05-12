@@ -1,6 +1,6 @@
 # Artifact Catalog
 
-_Status: Draft child proposal catalog_
+_Status: Accepted child proposal catalog_
 
 This catalog lists visible files in the `workflow-history-replay-idempotency-compensation` proposal packet.
 
@@ -36,3 +36,6 @@ This catalog lists visible files in the `workflow-history-replay-idempotency-com
 - `support/implementation-grade-completeness-review.md`
 - `support/post-implementation-drift-churn-review.md`
 - `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/revisions/workflow-history-replay-idempotency-compensation-final-semantic-readiness-2026-05-12.md`
+- `support/revisions/workflow-history-replay-idempotency-compensation-implementation-readiness-2026-05-12.md`

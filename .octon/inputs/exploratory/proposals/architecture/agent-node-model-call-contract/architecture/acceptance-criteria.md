@@ -8,8 +8,9 @@ _Status: Draft child acceptance criteria_
 4. Existing run lifecycle, execution authorization, context-pack, effect-token, evidence-store, support-target, and fail-closed contracts remain canonical until valid replacement and cutover evidence exists.
 5. Parent-program references remain coordination-only and do not replace child-owned lifecycle truth.
 6. Agent-node schema positive and negative fixtures. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
-7. Model-call receipt completeness validation. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
+7. Model-call receipt completeness validation is defined with enough specificity for route, budget, fallback, cost/usage receipt, output validation, and replay-envelope fields.
 8. Context-pack digest binding validation. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
-9. Forbidden authority claim scan for agent outputs and prompts. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
-10. Required evidence is retained outside `inputs/**` before any canonical architecture claim is made.
-11. The packet can be revised, rejected, superseded, or archived without leaving durable authority in proposal-local material.
+9. Model-routing, fallback, retry-budget, and cost-receipt validation is defined with enough specificity for a follow-on implementation proposal or promotion gate.
+10. Forbidden authority claim scan for agent outputs and prompts. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
+11. Required evidence is retained outside `inputs/**` before any canonical architecture claim is made.
+12. The packet can be revised, rejected, superseded, or archived without leaving durable authority in proposal-local material.

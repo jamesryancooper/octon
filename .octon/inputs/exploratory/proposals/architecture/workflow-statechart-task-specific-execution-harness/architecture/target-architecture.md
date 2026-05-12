@@ -4,7 +4,7 @@ _Status: Draft child target architecture_
 
 ## Target State
 
-A workflow-statechart contract overlays and then converges with Run Lifecycle v1 without creating a new control root; task-specific harness compilation records bind objective, authority, support, context, evidence, rollback, and cost posture.
+A workflow-statechart contract overlays and then converges with Run Lifecycle v1 without creating a new control root; task-specific harness compilation records bind objective, run contract, support target, capability envelope, context pack, authorization route, effect-token classes, evidence obligations, rollback or compensation posture, human-intervention posture, model/cost policy, and closeout criteria.
 
 ## Current Canonical Baseline
 
@@ -16,7 +16,7 @@ The child must strengthen the existing authored-authority, state-control, retain
 
 ## In Scope
 
-Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts.
+Statechart semantics, harness compilation records with complete required envelope bindings, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts.
 
 ## Out Of Scope
 
@@ -35,5 +35,5 @@ Statechart semantics, harness compilation records, binding to Run Lifecycle v1, 
 ## Evidence Before Claim
 
 - Statechart schema fixtures and validator receipts.
-- Harness compilation examples and negative fixtures.
+- Harness compilation examples and negative fixtures covering every required envelope binding.
 - Run Lifecycle v1 parity review evidence.

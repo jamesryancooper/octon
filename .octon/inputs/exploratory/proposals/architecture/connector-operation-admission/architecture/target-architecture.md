@@ -16,7 +16,7 @@ The child must strengthen the existing authored-authority, state-control, retain
 
 ## In Scope
 
-Operation-level connector admission records, trust dossiers, support-target binding, effect-token binding, invocation receipts, denial reasons, and validators.
+Operation-level connector admission records, connector identity, operation contracts, capability mappings, material-effect class, credential class, egress class, trust dossiers, support-proof mapping, rollback/replay posture, failure taxonomy, quarantine/drift state, support-target binding, effect-token binding, invocation receipts, denial reasons, and validators.
 
 ## Out Of Scope
 
@@ -35,5 +35,5 @@ Operation-level connector admission records, trust dossiers, support-target bind
 ## Evidence Before Claim
 
 - Connector admission fixtures and validator reports.
-- Operation invocation receipts for accepted and denied cases.
-- Support-target binding and effect-token verification receipts.
+- Operation invocation receipts for accepted, denied, drifted, and quarantined cases.
+- Support-target, capability-mapping, credential/egress, trust-dossier, and effect-token verification receipts.

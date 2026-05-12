@@ -10,7 +10,7 @@ Define connector/tool operation admission so availability of a connector, MCP se
 
 ## Scope
 
-Operation-level connector admission records, trust dossiers, support-target binding, effect-token binding, invocation receipts, denial reasons, and validators.
+Operation-level connector admission records, connector identity, operation contracts, capability mappings, material-effect class, credential class, egress class, trust dossiers, support-proof mapping, rollback/replay posture, failure taxonomy, quarantine/drift state, support-target binding, effect-token binding, invocation receipts, denial reasons, and validators.
 
 ## Dependencies
 
@@ -41,14 +41,14 @@ Operation-level connector admission records, trust dossiers, support-target bind
 ## Required Evidence Before Canonical Claim
 
 - Connector admission fixtures and validator reports.
-- Operation invocation receipts for accepted and denied cases.
-- Support-target binding and effect-token verification receipts.
+- Operation invocation receipts for accepted, denied, drifted, and quarantined cases.
+- Support-target, capability-mapping, credential/egress, trust-dossier, and effect-token verification receipts.
 
 ## Validation Requirements
 
 - Connector admission schema validation.
 - Availability-is-not-permission negative tests.
-- Support-target and effect-token binding validation.
+- Support-target, capability-mapping, credential/egress, trust-dossier, rollback/replay, quarantine/drift, and effect-token binding validation.
 - Invocation receipt completeness validation.
 
 ## Reading Order

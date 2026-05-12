@@ -10,6 +10,6 @@ _Status: Draft child acceptance criteria_
 6. Statechart schema validation with positive and negative fixtures. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
 7. Run Lifecycle v1 parity validation. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
 8. Control/evidence/generated/input placement validation. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
-9. Harness compilation receipt validation. is defined with enough specificity for a follow-on implementation proposal or promotion gate.
+9. Harness compilation receipt validation covers objective, run-contract, support-target, capability-envelope, context-pack, authorization-route, effect-token, evidence, rollback/compensation, human-intervention, model/cost, and closeout bindings with enough specificity for a follow-on implementation proposal or promotion gate.
 10. Required evidence is retained outside `inputs/**` before any canonical architecture claim is made.
 11. The packet can be revised, rejected, superseded, or archived without leaving durable authority in proposal-local material.

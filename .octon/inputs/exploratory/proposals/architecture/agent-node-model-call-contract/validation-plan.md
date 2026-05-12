@@ -11,6 +11,7 @@ _Status: Draft child validation plan_
 | Child-specific validation | Agent-node schema positive and negative fixtures. | Proposed follow-on validator or receipt |
 | Child-specific validation | Model-call receipt completeness validation. | Proposed follow-on validator or receipt |
 | Child-specific validation | Context-pack digest binding validation. | Proposed follow-on validator or receipt |
+| Child-specific validation | Model-routing, fallback, retry-budget, and cost-receipt validation. | Proposed follow-on validator or receipt |
 | Child-specific validation | Forbidden authority claim scan for agent outputs and prompts. | Proposed follow-on validator or receipt |
 
 No validation in this child may substitute for durable promotion receipts, implementation-conformance receipts, post-implementation drift/churn receipts, or the final migration/cutover child.

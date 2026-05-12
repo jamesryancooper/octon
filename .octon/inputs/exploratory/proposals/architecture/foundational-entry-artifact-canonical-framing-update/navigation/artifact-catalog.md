@@ -68,6 +68,8 @@ _Generated inventory for the proposal packet. This catalog is descriptive; propo
 | `support/implementation-conformance-review.md` | Post-promotion implementation conformance scaffold receipt. |
 | `support/implementation-grade-completeness-review.md` | Implementation-grade completeness gate receipt. |
 | `support/post-implementation-drift-churn-review.md` | Post-promotion drift and churn scaffold receipt. |
+| `support/proposal-review.md` | Accepted proposal review and implementation authorization receipt. |
+| `support/revisions/foundational-entry-artifact-canonical-framing-update-final-semantic-readiness-2026-05-12.md` | Proposal-local final semantic readiness revision receipt. |
 | `target-architecture.md` | Proposal packet artifact / supporting analysis. |
 | `terminology-map.md` | Proposal packet artifact / supporting analysis. |
 | `validation-plan.md` | Proposal packet artifact / supporting analysis. |

@@ -5,12 +5,13 @@ summary: >-
   Define agents as bounded workflow activity nodes and define the model-call receipt, validation, budget, and authority limits needed to admit them safely.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
+change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/engine/runtime/spec/"
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/instance/governance/policies/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-
@@ -32,7 +33,7 @@ source_lineage:
   - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
 selected_implementation_target: "Agent Node Model Call Contract"
 scope_statement: >-
-  Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, cost/budget posture, terminal states, and forbidden authority claims.
+  Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, model-routing policy binding, context/token/cost/retry budgets, fallback policy, retained cost/usage receipts, terminal states, and forbidden authority claims.
 non_goals:
   - "No agent-owned queues, schedules, closeout, or workflow transition authority."
   - "No connector/MCP permission model beyond references to later connector admission."
@@ -57,7 +58,7 @@ generated_input_authority_impact: >-
   are never authority by appearance or reference.
 evidence_requirements:
   - "Agent-node and model-call schema fixtures."
-  - "Validator receipts for output validation and budget enforcement."
+  - "Validator receipts for output validation, model-routing, budget, fallback, and retained cost/usage receipt enforcement."
   - "Review evidence tying agent nodes to harness/statechart contracts."
 validation_gates:
   - "proposal standard validation"
@@ -67,13 +68,14 @@ validation_gates:
   - "Agent-node schema positive and negative fixtures."
   - "Model-call receipt completeness validation."
   - "Context-pack digest binding validation."
+  - "Model-routing, fallback, retry-budget, and cost-receipt validation."
   - "Forbidden authority claim scan for agent outputs and prompts."
 acceptance_criteria_summary: >-
   The child proposal is acceptable only when its declared contracts, schemas,
   validators, receipts, promotion targets, non-goals, and authority boundaries
   are complete enough to prevent premature Governed Workflow Runtime claims.
 rollback_summary: >-
-  Disable proposed agent-node/model-call contracts and retain denial evidence if they admit unbounded model activity or conflict with harness/statechart authority.
+  Disable proposed agent-node/model-call contracts and retain denial evidence if they admit unbounded model activity, omit routing or budget proof, or conflict with harness/statechart authority.
 owner:
   role: "Octon architecture child proposal author"
   accountable_role: "human operator / repository owner"

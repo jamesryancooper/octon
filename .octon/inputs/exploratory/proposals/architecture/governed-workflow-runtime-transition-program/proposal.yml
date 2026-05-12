@@ -19,7 +19,7 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/instance/governance/support-targets.yml"
   - ".octon/instance/governance/connector-admissions/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

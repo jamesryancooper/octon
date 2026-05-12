@@ -6,7 +6,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract"
     title: "Agent Node Model Call Contract"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/constitution/contracts/runtime/"
@@ -17,7 +17,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/connector-operation-admission"
     title: "Connector Operation Admission"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/instance/governance/connector-admissions/"
       - ".octon/instance/governance/connectors/"
@@ -28,7 +28,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage"
     title: "Effect Token Enforcement Coverage"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/engine/runtime/crates/"
@@ -39,7 +39,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening"
     title: "Evidence Provenance Hardening"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/constitution/obligations/evidence.yml"
@@ -51,7 +51,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update"
     title: "Foundational Entry-Artifact Canonical Framing Update"
-    status: "in-review"
+    status: "accepted"
     promotion_targets:
       - ".octon/README.md"
       - ".octon/AGENTS.md"
@@ -65,7 +65,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/framing-boundary-and-terminology-guardrails"
     title: "Framing Boundary And Terminology Guardrails"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
       - ".octon/framework/cognition/_meta/terminology/glossary.md"
@@ -78,7 +78,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program"
     title: "Governed Workflow Runtime Transition Program"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
       - ".octon/framework/cognition/_meta/terminology/glossary.md"
@@ -95,7 +95,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement"
     title: "Migration Cutover Compatibility Retirement"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/cognition/_meta/terminology/naming-constitution.md"
       - ".octon/framework/cognition/_meta/terminology/glossary.md"
@@ -130,7 +130,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation"
     title: "Workflow History Replay Idempotency Compensation"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/constitution/contracts/runtime/"
@@ -141,7 +141,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness"
     title: "Workflow Statechart Task Specific Execution Harness"
-    status: "draft"
+    status: "accepted"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/constitution/contracts/runtime/"

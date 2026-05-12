@@ -11,8 +11,8 @@ This plan is proposal-local. It does not authorize durable implementation.
 
 ## Steps
 
-1. Define connector-operation-admission schema and invocation receipt fields.
-2. Bind connector operations to support targets, trust dossiers, effect-token checks, rollback posture, and evidence roots.
+1. Define connector-operation-admission schema and invocation receipt fields for connector identity, operation contract, capability mapping, material-effect class, credential class, egress class, failure taxonomy, trust dossier, support proof, quarantine/drift state, denial reason, and effect-token verification.
+2. Bind connector operations to support targets, trust dossiers, credential/egress classes, rollback/replay posture, effect-token checks, and evidence roots.
 3. Add validators that reject availability-as-permission for MCP, browser, API, and external tool surfaces.
 4. Define explicit unsupported and lab-only admission outcomes.
 
@@ -27,14 +27,14 @@ This plan is proposal-local. It does not authorize durable implementation.
 
 - Connector admission schema validation.
 - Availability-is-not-permission negative tests.
-- Support-target and effect-token binding validation.
+- Support-target, capability-mapping, credential/egress, trust-dossier, rollback/replay, quarantine/drift, and effect-token binding validation.
 - Invocation receipt completeness validation.
 
 ## Evidence Required Before Canonical Claim
 
 - Connector admission fixtures and validator reports.
-- Operation invocation receipts for accepted and denied cases.
-- Support-target binding and effect-token verification receipts.
+- Operation invocation receipts for accepted, denied, drifted, and quarantined cases.
+- Support-target, capability-mapping, credential/egress, trust-dossier, and effect-token verification receipts.
 
 ## Cutover Boundary
 

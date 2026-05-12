@@ -18,6 +18,8 @@ surfaces.
 
 - `promotion_scope: octon-internal` means active promotion targets must stay
   under `.octon/**`.
+- `change_profile: atomic` records the required child packet change profile and
+  preserves clean-break proposal-local revision semantics.
 - The supplemental determinism conversation files are proposal-local background
   and lineage context only.
 - "Governed Workflow Runtime" is the preferred framing while "Governed Agent
@@ -40,8 +42,8 @@ not active promotion targets.
 
 Complete for implementation planning. The packet names each octon-internal
 entry artifact, expected framing change, authority impact, validation gate,
-rollback posture, and follow-on boundary. Root README and root AGENTS wording
-is preserved as candidate companion material.
+rollback posture, change profile, and follow-on boundary. Root README and root
+AGENTS wording is preserved as candidate companion material.
 
 ## Validator Coverage
 

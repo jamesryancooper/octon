@@ -11,7 +11,7 @@ This plan is proposal-local. It does not authorize durable implementation.
 ## Steps
 
 1. Define workflow-statechart-v1 states, transitions, invalid transitions, and relation to Run Lifecycle v1.
-2. Define task-specific execution harness schema and harness compilation receipt fields.
+2. Define task-specific execution harness schema and harness compilation receipt fields for objective, run contract, support target, capability envelope, context pack, authorization route, effect-token classes, evidence obligations, rollback/compensation posture, human-intervention posture, model/cost policy, and closeout criteria.
 3. Specify generated statechart diagram/read-model outputs as derived-only projections.
 4. Add validators for schema placement, control-root binding, generated non-authority, and parity with existing run lifecycle rules.
 
@@ -27,12 +27,12 @@ This plan is proposal-local. It does not authorize durable implementation.
 - Statechart schema validation with positive and negative fixtures.
 - Run Lifecycle v1 parity validation.
 - Control/evidence/generated/input placement validation.
-- Harness compilation receipt validation.
+- Harness compilation receipt validation for every required envelope binding.
 
 ## Evidence Required Before Canonical Claim
 
 - Statechart schema fixtures and validator receipts.
-- Harness compilation examples and negative fixtures.
+- Harness compilation examples and negative fixtures covering every required envelope binding.
 - Run Lifecycle v1 parity review evidence.
 
 ## Cutover Boundary

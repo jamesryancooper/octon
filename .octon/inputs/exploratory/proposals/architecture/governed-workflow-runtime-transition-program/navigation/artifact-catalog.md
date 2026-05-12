@@ -1,6 +1,6 @@
 # Artifact Catalog
 
-_Status: Draft parent-program catalog_
+_Status: Accepted parent-program catalog_
 
 ## Root Artifacts
 
@@ -34,3 +34,4 @@ _Status: Draft parent-program catalog_
 ## Support Artifacts
 
 - `support/implementation-grade-completeness-review.md`
+- `support/proposal-review.md`

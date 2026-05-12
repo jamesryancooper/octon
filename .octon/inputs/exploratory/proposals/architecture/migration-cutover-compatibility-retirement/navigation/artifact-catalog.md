@@ -1,6 +1,6 @@
 # Artifact Catalog
 
-_Status: Draft child proposal catalog_
+_Status: Accepted child proposal catalog_
 
 This catalog lists visible files in the `migration-cutover-compatibility-retirement` proposal packet.
 
@@ -36,3 +36,6 @@ This catalog lists visible files in the `migration-cutover-compatibility-retirem
 - `support/implementation-grade-completeness-review.md`
 - `support/post-implementation-drift-churn-review.md`
 - `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/revisions/migration-cutover-compatibility-retirement-final-semantic-readiness-2026-05-12.md`
+- `support/revisions/migration-cutover-compatibility-retirement-implementation-readiness-2026-05-12.md`

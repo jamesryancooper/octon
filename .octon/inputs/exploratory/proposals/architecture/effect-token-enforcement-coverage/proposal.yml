@@ -5,12 +5,13 @@ summary: >-
   Prove coverage of typed AuthorizedEffect token verification across material side-effect paths before workflow-runtime claims widen.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
+change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/engine/runtime/spec/"
   - ".octon/framework/engine/runtime/crates/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/framework/assurance/runtime/_ops/tests/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

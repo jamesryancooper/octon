@@ -10,7 +10,7 @@ Define agents as bounded workflow activity nodes and define the model-call recei
 
 ## Scope
 
-Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, cost/budget posture, terminal states, and forbidden authority claims.
+Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, model-routing policy binding, context/token/cost/retry budgets, fallback policy, retained cost/usage receipts, terminal states, and forbidden authority claims.
 
 ## Dependencies
 
@@ -40,7 +40,7 @@ Agent-node schema, model-call receipt contract, context digest binding, allowed 
 ## Required Evidence Before Canonical Claim
 
 - Agent-node and model-call schema fixtures.
-- Validator receipts for output validation and budget enforcement.
+- Validator receipts for output validation, model-routing, budget, fallback, and retained cost/usage receipt enforcement.
 - Review evidence tying agent nodes to harness/statechart contracts.
 
 ## Validation Requirements
@@ -48,6 +48,7 @@ Agent-node schema, model-call receipt contract, context digest binding, allowed 
 - Agent-node schema positive and negative fixtures.
 - Model-call receipt completeness validation.
 - Context-pack digest binding validation.
+- Model-routing, fallback, retry-budget, and cost-receipt validation.
 - Forbidden authority claim scan for agent outputs and prompts.
 
 ## Reading Order

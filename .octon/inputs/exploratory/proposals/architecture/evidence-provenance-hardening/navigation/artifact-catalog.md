@@ -1,6 +1,6 @@
 # Artifact Catalog
 
-_Status: Draft child proposal catalog_
+_Status: Accepted child proposal catalog_
 
 This catalog lists visible files in the `evidence-provenance-hardening` proposal packet.
 
@@ -36,3 +36,6 @@ This catalog lists visible files in the `evidence-provenance-hardening` proposal
 - `support/implementation-grade-completeness-review.md`
 - `support/post-implementation-drift-churn-review.md`
 - `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/revisions/evidence-provenance-hardening-final-semantic-readiness-2026-05-12.md`
+- `support/revisions/evidence-provenance-hardening-implementation-readiness-2026-05-12.md`

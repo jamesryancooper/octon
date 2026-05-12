@@ -5,12 +5,13 @@ summary: >-
   Define the minimum workflow statechart and task-specific execution harness contract needed before Octon can claim a workflow-first runtime shape.
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
+change_profile: "atomic"
 promotion_targets:
   - ".octon/framework/engine/runtime/spec/"
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/generated/cognition/projections/materialized/"
-status: "draft"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-
@@ -32,7 +33,7 @@ source_lineage:
   - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
 selected_implementation_target: "Workflow Statechart Task Specific Execution Harness"
 scope_statement: >-
-  Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts.
+  Statechart semantics, harness compilation records, binding to Run Lifecycle v1, generated diagram non-authority, validator shape, and migration-neutral compatibility with existing run contracts. The task-specific execution harness must bind objective, run contract, support target, capability envelope, context pack, authorization route, effect-token classes, evidence obligations, rollback or compensation posture, human-intervention posture, model/cost policy, and closeout criteria.
 non_goals:
   - "No external workflow engine adoption."
   - "No Durable Object coordination adapter."
@@ -57,7 +58,7 @@ generated_input_authority_impact: >-
   are never authority by appearance or reference.
 evidence_requirements:
   - "Statechart schema fixtures and validator receipts."
-  - "Harness compilation examples and negative fixtures."
+  - "Harness compilation examples and negative fixtures covering every required envelope binding."
   - "Run Lifecycle v1 parity review evidence."
 validation_gates:
   - "proposal standard validation"
@@ -67,13 +68,13 @@ validation_gates:
   - "Statechart schema validation with positive and negative fixtures."
   - "Run Lifecycle v1 parity validation."
   - "Control/evidence/generated/input placement validation."
-  - "Harness compilation receipt validation."
+  - "Harness compilation receipt validation for objective, run-contract, support-target, capability-envelope, context-pack, authorization-route, effect-token, evidence, rollback/compensation, human-intervention, model/cost, and closeout bindings."
 acceptance_criteria_summary: >-
   The child proposal is acceptable only when its declared contracts, schemas,
   validators, receipts, promotion targets, non-goals, and authority boundaries
   are complete enough to prevent premature Governed Workflow Runtime claims.
 rollback_summary: >-
-  Remove proposed statechart/harness surfaces and retain parity-failure evidence if they conflict with existing Run Lifecycle v1 authority.
+  Remove proposed statechart/harness surfaces and retain parity-failure evidence if they conflict with existing Run Lifecycle v1 authority or omit required envelope bindings.
 owner:
   role: "Octon architecture child proposal author"
   accountable_role: "human operator / repository owner"

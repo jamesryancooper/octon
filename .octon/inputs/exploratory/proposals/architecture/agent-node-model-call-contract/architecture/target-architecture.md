@@ -16,7 +16,7 @@ The child must strengthen the existing authored-authority, state-control, retain
 
 ## In Scope
 
-Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, cost/budget posture, terminal states, and forbidden authority claims.
+Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, model-routing policy binding, context/token/cost/retry budgets, fallback policy, retained cost/usage receipts, terminal states, and forbidden authority claims.
 
 ## Out Of Scope
 
@@ -35,5 +35,5 @@ Agent-node schema, model-call receipt contract, context digest binding, allowed 
 ## Evidence Before Claim
 
 - Agent-node and model-call schema fixtures.
-- Validator receipts for output validation and budget enforcement.
+- Validator receipts for output validation, model-routing, budget, fallback, and retained cost/usage receipt enforcement.
 - Review evidence tying agent nodes to harness/statechart contracts.

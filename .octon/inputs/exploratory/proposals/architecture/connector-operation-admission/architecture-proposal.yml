@@ -5,7 +5,7 @@ title: "Connector Operation Admission"
 target_state: >-
   Connector operations can execute only when support posture, operation admission, effect token verification, evidence retention, and trust posture agree; protocol/tool discovery remains input only.
 boundary_change: >-
-  Operation-level connector admission records, trust dossiers, support-target binding, effect-token binding, invocation receipts, denial reasons, and validators. This draft does not itself change runtime control, evidence,
+  Operation-level connector admission records, connector identity, operation contracts, capability mappings, material-effect class, credential class, egress class, trust dossiers, support-proof mapping, rollback/replay posture, failure taxonomy, quarantine/drift state, support-target binding, effect-token binding, invocation receipts, denial reasons, and validators. This draft does not itself change runtime control, evidence,
   support, connector, or generated-output authority.
 authoritative_targets_after_promotion:
   - ".octon/instance/governance/connector-admissions/"

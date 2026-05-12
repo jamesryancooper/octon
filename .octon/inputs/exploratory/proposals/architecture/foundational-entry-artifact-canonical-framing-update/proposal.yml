@@ -8,6 +8,7 @@ summary: Update foundational audience-facing and agent-facing entry artifacts so
   repo-local projection scope.
 proposal_kind: architecture
 promotion_scope: octon-internal
+change_profile: atomic
 promotion_targets:
 - .octon/README.md
 - .octon/AGENTS.md
@@ -16,7 +17,7 @@ promotion_targets:
 - .octon/framework/cognition/_meta/terminology/glossary.md
 - .octon/framework/cognition/_meta/architecture/specification.md
 - .octon/framework/cognition/_meta/architecture/contract-registry.yml
-status: in-review
+status: accepted
 lifecycle:
   temporary: true
   exit_expectation: Promote accepted octon-internal entry-artifact wording into

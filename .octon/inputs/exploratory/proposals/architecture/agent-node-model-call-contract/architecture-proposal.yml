@@ -5,7 +5,7 @@ title: "Agent Node Model Call Contract"
 target_state: >-
   Model calls can participate only as typed, finite, evidenced activity nodes inside a task-specific harness and workflow statechart; agents never own workflow state, policy, support claims, or closeout truth.
 boundary_change: >-
-  Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, cost/budget posture, terminal states, and forbidden authority claims. This draft does not itself change runtime control, evidence,
+  Agent-node schema, model-call receipt contract, context digest binding, allowed tools/connectors by reference, output schema validation, model-routing policy binding, context/token/cost/retry budgets, fallback policy, retained cost/usage receipts, terminal states, and forbidden authority claims. This draft does not itself change runtime control, evidence,
   support, connector, or generated-output authority.
 authoritative_targets_after_promotion:
   - ".octon/framework/engine/runtime/spec/"
