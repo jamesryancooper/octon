@@ -83,6 +83,12 @@ jobs:
             fail "AUTONOMY_PAT is missing."
           fi
 
+          if grep -q 'secrets\.AUTONOMY_PAT || secrets\.GITHUB_TOKEN' .github/workflows/release-please.yml; then
+            fail "Release Please must not fall back to GITHUB_TOKEN for release branch writes."
+          else
+            pass "Release Please fails closed instead of using GITHUB_TOKEN for release branch writes."
+          fi
+
           auto_merge_enabled="$(echo "${AUTONOMY_AUTO_MERGE_ENABLED}" | tr '[:upper:]' '[:lower:]')"
           if [[ "${auto_merge_enabled}" == "true" ]]; then
             pass "AUTONOMY_AUTO_MERGE_ENABLED=true."

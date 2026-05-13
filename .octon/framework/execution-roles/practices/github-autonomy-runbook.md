@@ -32,13 +32,17 @@ Use this document when setting up or rotating `AUTONOMY_PAT`.
   - `GITHUB_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
 - Workflow wiring (Phase C release acceleration):
   `.github/workflows/release-please.yml`
-  - `token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}`
+  - `token: ${{ secrets.AUTONOMY_PAT }}`
+  - `GH_TOKEN: ${{ secrets.AUTONOMY_PAT }}`
 - Workflow wiring (Phase D steady-state monitoring):
   `.github/workflows/autonomy-release-health.yml`
   - `GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}`
   - `AUTONOMY_PAT_VALUE: ${{ secrets.AUTONOMY_PAT }}`
 
-If `AUTONOMY_PAT` is not set, workflow falls back to `GITHUB_TOKEN`.
+`AUTONOMY_PAT` is mandatory for `.github/workflows/release-please.yml`.
+Release branch writes must not fall back to `GITHUB_TOKEN`, because
+`GITHUB_TOKEN`-authored pushes do not trigger the PR check set required by the
+live `main` ruleset.
 
 ---
 
@@ -714,6 +718,10 @@ Phase 5 (provider-agnostic AI gate):
   `AUTONOMY_PAT` is missing `Pull requests: Read and write`.
 - `release-please` fails when applying labels/comments on release PR:
   `AUTONOMY_PAT` is missing `Issues: Read and write`.
+- `Release Please` fails with
+  `AUTONOMY_PAT is required for Release Please branch writes`: configure
+  `AUTONOMY_PAT`; release PR branch updates intentionally fail closed instead
+  of creating a PR head that cannot mint required checks.
 - Release tags are advancing too quickly while `<1.0.0`:
   verify `release-please-config.json` keeps `"bump-minor-pre-major": false`
   and `"bump-patch-for-minor-pre-major": true`.

@@ -58,18 +58,26 @@ check_run_success() {
   local repo="$1"
   local sha="$2"
   local context="$3"
-  gh api "repos/${repo}/commits/${sha}/check-runs?per_page=100" \
-    --jq ".check_runs[]? | select(.name == \"${context}\") | select(.status == \"completed\" and .conclusion == \"success\") | .name" \
-    2>/dev/null | grep -Fxq "$context"
+  local result
+  result="$(
+    gh api "repos/${repo}/commits/${sha}/check-runs?per_page=100" \
+      --jq ".check_runs | any(.[]?; .name == \"${context}\" and .status == \"completed\" and .conclusion == \"success\")" \
+      2>/dev/null || true
+  )"
+  [[ "$result" == "true" ]]
 }
 
 status_success() {
   local repo="$1"
   local sha="$2"
   local context="$3"
-  gh api "repos/${repo}/commits/${sha}/status" \
-    --jq ".statuses[]? | select(.context == \"${context}\" and .state == \"success\") | .context" \
-    2>/dev/null | grep -Fxq "$context"
+  local result
+  result="$(
+    gh api "repos/${repo}/commits/${sha}/status" \
+      --jq ".statuses | any(.[]?; .context == \"${context}\" and .state == \"success\")" \
+      2>/dev/null || true
+  )"
+  [[ "$result" == "true" ]]
 }
 
 while [[ $# -gt 0 ]]; do

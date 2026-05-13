@@ -35,12 +35,23 @@ jobs:
           OCTON_EFFECTIVE_POLICY_MODE="${EFFECTIVE_MODE}" \
           .octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh
 
+      - name: Assert release branch write token
+        env:
+          AUTONOMY_PAT_VALUE: ${{ secrets.AUTONOMY_PAT }}
+        run: |
+          set -euo pipefail
+          if [[ -z "${AUTONOMY_PAT_VALUE}" ]]; then
+            echo "::error::AUTONOMY_PAT is required for Release Please branch writes."
+            echo "::error::GITHUB_TOKEN-authored release branch pushes do not trigger the required PR check set."
+            exit 1
+          fi
+
       - name: Create or update release PR / tags (attempt 1)
         id: release_attempt_1
         continue-on-error: true
         uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
         with:
-          token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTONOMY_PAT }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -53,7 +64,7 @@ jobs:
         if: steps.release_attempt_1.outcome == 'failure'
         uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4
         with:
-          token: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTONOMY_PAT }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -88,7 +99,7 @@ jobs:
 
       - name: Refresh generated effective state on release PR
         env:
-          GH_TOKEN: ${{ secrets.AUTONOMY_PAT || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.AUTONOMY_PAT }}
         run: |
           set -euo pipefail
           publication_paths=(
