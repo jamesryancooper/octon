@@ -226,7 +226,7 @@ fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
         let executor = DefaultLifecycleRouteExecutor::new(&case_root);
         let mut request = request(
             &case_root,
-            "generate-implementation-prompt",
+            "generate-packet-implementation-prompt",
             "extension",
             "unattended",
         );
@@ -441,7 +441,7 @@ fn mock_executor_writes_structured_result_and_receipt_observation() {
     let result = executor
         .execute_route(request(
             &root,
-            "review-proposal-packet",
+            "review-packet",
             "extension",
             "unattended",
         ))
@@ -451,7 +451,7 @@ fn mock_executor_writes_structured_result_and_receipt_observation() {
     assert_eq!(result.receipts_observed[0].receipt_id, "proposal-review");
     assert!(result.receipts_observed[0].complete);
     assert!(root
-        .join(".octon/state/evidence/runs/workflows/test-run/review-proposal-packet-route-execution.yml")
+        .join(".octon/state/evidence/runs/workflows/test-run/review-packet-route-execution.yml")
         .is_file());
 }
 
@@ -459,7 +459,7 @@ fn mock_executor_writes_structured_result_and_receipt_observation() {
 fn mock_executor_creates_draft_proposal_packet_from_bound_source() {
     let root = temp_root("mock-create");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "create-proposal-packet", "extension", "unattended");
+    let mut request = request(&root, "create-packet", "extension", "unattended");
     fs::remove_dir_all(&request.target).unwrap();
     request.route.required_inputs = vec!["source".to_string()];
     request
@@ -546,7 +546,7 @@ fn unattended_approval_override_writes_explicit_evidence() {
 fn missing_required_input_blocks_before_executor_dispatch() {
     let root = temp_root("missing-input");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "create-proposal-packet", "extension", "unattended");
+    let mut request = request(&root, "create-packet", "extension", "unattended");
     fs::remove_dir_all(&request.target).unwrap();
     request.route.required_inputs = vec!["source".to_string()];
     request.expected_receipts = vec!["proposal-creation".to_string()];
@@ -576,7 +576,7 @@ fn missing_required_input_blocks_before_executor_dispatch() {
 fn approval_metadata_pauses_extension_routes_by_default() {
     let root = temp_root("extension-approval");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "run-implementation", "extension", "minimize");
+    let mut request = request(&root, "run-packet-implementation", "extension", "minimize");
     request.route.approval_required_by_default = true;
     request.route.approval_reason = Some("durable implementation".to_string());
     let result = executor.execute_route(request).unwrap();
@@ -591,7 +591,7 @@ fn approval_metadata_pauses_extension_routes_by_default() {
 fn extension_route_ids_do_not_force_approval_without_metadata() {
     let root = temp_root("extension-no-hardcoded-approval");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "run-implementation", "extension", "minimize");
+    let mut request = request(&root, "run-packet-implementation", "extension", "minimize");
     request.receipts = vec![LifecycleReceiptSpec {
         receipt_id: "implementation-run".to_string(),
         path: "support/implementation-run.md".to_string(),
@@ -621,7 +621,7 @@ fn failed_real_executor_is_not_retryable_after_target_mutation() {
     let executor = DefaultLifecycleRouteExecutor::new(&root);
     let mut request = request(
         &root,
-        "generate-implementation-prompt",
+        "generate-packet-implementation-prompt",
         "extension",
         "unattended",
     );
@@ -681,7 +681,7 @@ fn adapter_rejects_unsafe_manifest_receipt_and_completion_paths_before_execution
     ] {
         let root = temp_root(name);
         let executor = DefaultLifecycleRouteExecutor::new(&root);
-        let mut request = request(&root, "review-proposal-packet", "extension", "unattended");
+        let mut request = request(&root, "review-packet", "extension", "unattended");
         mutate(&mut request);
 
         let result = executor.execute_route(request).unwrap();
@@ -701,7 +701,7 @@ fn adapter_rejects_symlink_escape_for_expected_paths_before_execution() {
     let root = temp_root("unsafe-completion-symlink");
     let outside = temp_root("unsafe-completion-symlink-outside");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "review-proposal-packet", "extension", "unattended");
+    let mut request = request(&root, "review-packet", "extension", "unattended");
     symlink(&outside, request.target.join("outside-link")).unwrap();
     request.expected_receipts = Vec::new();
     request.expected_paths = vec!["outside-link".to_string()];
@@ -724,7 +724,7 @@ fn adapter_rejects_symlink_escape_for_expected_paths_before_execution() {
 fn route_specific_target_change_can_satisfy_completion() {
     let root = temp_root("target-change");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "revise-proposal-packet", "extension", "unattended");
+    let mut request = request(&root, "revise-packet", "extension", "unattended");
     request.expected_receipts = Vec::new();
     request.expected_paths = vec!["support/revisions".to_string()];
     request.expected_target_change = true;
@@ -740,7 +740,7 @@ fn route_specific_target_change_can_satisfy_completion() {
 fn executor_errors_are_recorded_as_structured_failed_results() {
     let root = temp_root("unsupported");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
-    let mut request = request(&root, "review-proposal-packet", "extension", "unattended");
+    let mut request = request(&root, "review-packet", "extension", "unattended");
     request.executor = "unsupported".to_string();
     let result = executor.execute_route(request).unwrap();
     assert_eq!(result.status, "failed");
@@ -749,10 +749,10 @@ fn executor_errors_are_recorded_as_structured_failed_results() {
         Some(octon_lifecycle_executor::LifecycleErrorClass::ExecutorUnavailable)
     );
     assert!(root
-        .join(".octon/state/evidence/runs/workflows/test-run/review-proposal-packet-error.yml")
+        .join(".octon/state/evidence/runs/workflows/test-run/review-packet-error.yml")
         .is_file());
     assert!(root
-        .join(".octon/state/evidence/runs/workflows/test-run/review-proposal-packet-route-execution.yml")
+        .join(".octon/state/evidence/runs/workflows/test-run/review-packet-route-execution.yml")
         .is_file());
 }
 

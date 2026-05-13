@@ -46,7 +46,7 @@ target:
 states:
   - state_id: "review"
   - state_id: "revise"
-  - state_id: "generate-implementation-prompt"
+  - state_id: "generate-packet-implementation-prompt"
 terminal_outcomes:
   - outcome_id: "archived"
     when:
@@ -66,8 +66,8 @@ validators:
 gates:
   - gate_id: "implementation-authorization"
     validator_id: "strict-review"
-    required_before_routes: ["generate-implementation-prompt", "run-implementation", "promote-proposal"]
-    on_fail_route_id: "review-proposal-packet"
+    required_before_routes: ["generate-packet-implementation-prompt", "run-packet-implementation", "promote-proposal"]
+    on_fail_route_id: "review-packet"
 receipts:
   - receipt_id: "proposal-review"
     path: "support/proposal-review.md"
@@ -97,15 +97,15 @@ loops:
     receipt_id: "proposal-review"
     verdict_field: "verdict"
     repeat_values: ["revision-required"]
-    repeat_route_id: "revise-proposal-packet"
+    repeat_route_id: "revise-packet"
     terminal_values: ["accepted", "rejected"]
     max_iterations: 5
 routes:
-  - route_id: "review-proposal-packet"
+  - route_id: "review-packet"
     route_type: "extension"
-    command_id: "octon-proposal-packet-review"
-    skill_id: "octon-proposal-packet-lifecycle-review"
-    prompt_set_id: "octon-proposal-packet-lifecycle-review-proposal-packet"
+    command_id: "octon-proposal-review-packet"
+    skill_id: "octon-proposal-lifecycle-review-packet"
+    prompt_set_id: "octon-proposal-lifecycle-review-packet"
     enter_when:
       any:
         - manifest_status: "draft"
@@ -113,22 +113,22 @@ routes:
             - manifest_status: "in-review"
             - receipt_absent: "proposal-review"
         - receipt_stale: "proposal-review"
-  - route_id: "revise-proposal-packet"
+  - route_id: "revise-packet"
     route_type: "extension"
-    command_id: "octon-proposal-packet-revise"
-    skill_id: "octon-proposal-packet-lifecycle-revise"
-    prompt_set_id: "octon-proposal-packet-lifecycle-revise-proposal-packet"
+    command_id: "octon-proposal-revise-packet"
+    skill_id: "octon-proposal-lifecycle-revise-packet"
+    prompt_set_id: "octon-proposal-lifecycle-revise-packet"
     enter_when:
       all:
         - receipt_complete: "proposal-review"
         - receipt_verdict:
             receipt_id: "proposal-review"
             value: "revision-required"
-  - route_id: "generate-implementation-prompt"
+  - route_id: "generate-packet-implementation-prompt"
     route_type: "extension"
-    command_id: "octon-proposal-packet-generate-implementation-prompt"
-    skill_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
-    prompt_set_id: "octon-proposal-packet-lifecycle-generate-implementation-prompt"
+    command_id: "octon-proposal-generate-packet-implementation-prompt"
+    skill_id: "octon-proposal-lifecycle-generate-packet-implementation-prompt"
+    prompt_set_id: "octon-proposal-lifecycle-generate-packet-implementation-prompt"
     enter_when:
       all:
         - manifest_status: "accepted"
@@ -137,11 +137,11 @@ routes:
             receipt_id: "proposal-review"
             value: "accepted"
         - file_absent: "support/executable-implementation-prompt.md"
-  - route_id: "run-implementation"
+  - route_id: "run-packet-implementation"
     route_type: "extension"
-    command_id: "octon-proposal-packet-run-implementation"
-    skill_id: "octon-proposal-packet-lifecycle-run-implementation"
-    prompt_set_id: "octon-proposal-packet-lifecycle-run-implementation"
+    command_id: "octon-proposal-run-packet-implementation"
+    skill_id: "octon-proposal-lifecycle-run-packet-implementation"
+    prompt_set_id: "octon-proposal-lifecycle-run-packet-implementation"
     enter_when:
       all:
         - manifest_status: "accepted"
@@ -166,11 +166,11 @@ routes:
             receipt_id: "implementation-run"
             field: "verdict"
             value: "pass"
-  - route_id: "closeout-proposal-packet"
+  - route_id: "closeout-packet"
     route_type: "extension"
-    command_id: "octon-proposal-packet-closeout"
-    skill_id: "octon-proposal-packet-lifecycle-closeout"
-    prompt_set_id: "octon-proposal-packet-lifecycle-closeout-proposal-packet"
+    command_id: "octon-proposal-closeout-packet"
+    skill_id: "octon-proposal-lifecycle-closeout-packet"
+    prompt_set_id: "octon-proposal-lifecycle-closeout-packet"
     enter_when:
       all:
         - manifest_status: "implemented"
@@ -461,10 +461,10 @@ YAML
 		  fi
 			
 		  write_packet "$root" draft-packet draft
-  assert_plan_route "draft packet routes to review" "$root" draft-packet review-proposal-packet
+  assert_plan_route "draft packet routes to review" "$root" draft-packet review-packet
 
 	  write_packet "$root" revision-packet in-review revision-required no
-	  assert_plan_route "revision-required review routes to revise" "$root" revision-packet revise-proposal-packet
+	  assert_plan_route "revision-required review routes to revise" "$root" revision-packet revise-packet
 	  write_packet "$root" incomplete-revision-packet in-review revision-required no
 	  sed -i.bak '/^implementation_prompt_authorized:/d' "$root/incomplete-revision-packet/support/proposal-review.md"
 	  rm -f "$root/incomplete-revision-packet/support/proposal-review.md.bak"
@@ -472,7 +472,7 @@ YAML
 
 	  write_packet "$root" accepted-packet accepted accepted yes
 	  output="$(octon_cli "$root" lifecycle plan --lifecycle proposal-packet --target accepted-packet)"
-  if yq -e '.next_route.route_id == "generate-implementation-prompt" and .gate_results[0].passed == true' >/dev/null <<<"$output"; then
+  if yq -e '.next_route.route_id == "generate-packet-implementation-prompt" and .gate_results[0].passed == true' >/dev/null <<<"$output"; then
     pass "fresh accepted review authorizes implementation prompt route"
 	  else
 	    printf '%s\n' "$output" >&2
@@ -484,13 +484,13 @@ YAML
 	  assert_plan_blocked_no_route "incomplete accepted review does not authorize implementation routes" "$root" incomplete-accepted-packet
 
 	  printf 'status: accepted\nchanged: true\n' >"$root/accepted-packet/proposal.yml"
-	  assert_plan_route "stale accepted review routes back to review" "$root" accepted-packet review-proposal-packet
+	  assert_plan_route "stale accepted review routes back to review" "$root" accepted-packet review-packet
 
   write_packet "$root" rejected-packet rejected rejected no
   assert_plan_terminal "rejected review stops lifecycle" "$root" rejected-packet rejected
 
   printf 'status: rejected\nchanged: true\n' >"$root/rejected-packet/proposal.yml"
-  assert_plan_route "stale rejected review routes back to review" "$root" rejected-packet review-proposal-packet
+  assert_plan_route "stale rejected review routes back to review" "$root" rejected-packet review-packet
 
   write_packet "$root" mismatched-rejected-packet accepted rejected no
   assert_plan_blocked_no_route "status-mismatched rejected review does not terminate lifecycle" "$root" mismatched-rejected-packet
@@ -505,7 +505,7 @@ YAML
 
 	  write_packet "$root" implementation-ready-packet accepted accepted yes
 	  touch "$root/implementation-ready-packet/support/executable-implementation-prompt.md"
-	  assert_plan_route "executable prompt routes to run implementation before implementation receipt" "$root" implementation-ready-packet run-implementation
+	  assert_plan_route "executable prompt routes to run implementation before implementation receipt" "$root" implementation-ready-packet run-packet-implementation
 	  write_receipt "$root" implementation-ready-packet "support/implementation-run.md" \
 	    "verdict: pass"
 	  assert_plan_blocked_no_route "incomplete implementation run receipt does not route to promote" "$root" implementation-ready-packet
@@ -529,7 +529,7 @@ YAML
 	  write_receipt "$root" closeout-ready-packet "support/implementation-conformance-review.md" \
 	    "verdict: pass" \
 	    "unresolved_items_count: 0"
-	  assert_plan_route "implemented receipts route to closeout before closeout receipt" "$root" closeout-ready-packet closeout-proposal-packet
+	  assert_plan_route "implemented receipts route to closeout before closeout receipt" "$root" closeout-ready-packet closeout-packet
 	  write_receipt "$root" closeout-ready-packet "support/proposal-closeout.md" \
 	    "verdict: pass" \
 	    "archive_authorized: yes"
@@ -546,7 +546,7 @@ YAML
   assert_plan_route "closeout receipt routes to archive proposal" "$root" closeout-ready-packet archive-proposal
 
   output="$(octon_cli "$root" lifecycle run --lifecycle proposal-packet --target revision-packet --run-id runner-test --executor mock)"
-  if yq -e '.final_verdict == "mock-route-executed" and .route_execution_mode == "mock-executed" and .selected_route.route_id == "revise-proposal-packet"' >/dev/null <<<"$output"; then
+  if yq -e '.final_verdict == "mock-route-executed" and .route_execution_mode == "mock-executed" and .selected_route.route_id == "revise-packet"' >/dev/null <<<"$output"; then
     pass "mock runner executes selected route and reports evidence"
   else
     printf '%s\n' "$output" >&2
@@ -556,7 +556,7 @@ YAML
   [[ -f "$checkpoint" ]] && pass "runner writes lifecycle checkpoint" || fail "runner writes lifecycle checkpoint"
 
   output="$(octon_cli "$root" lifecycle resume --run-id runner-test)"
-  if yq -e '.run_id == "runner-test" and .selected_route.route_id == "revise-proposal-packet"' >/dev/null <<<"$output"; then
+  if yq -e '.run_id == "runner-test" and .selected_route.route_id == "revise-packet"' >/dev/null <<<"$output"; then
     pass "resume reconstructs target state from receipts"
   else
     printf '%s\n' "$output" >&2
@@ -626,7 +626,7 @@ YAML
 
   write_packet "$root" nonmock-packet accepted accepted yes
   output="$(octon_cli "$root" lifecycle run --lifecycle proposal-packet --target nonmock-packet --run-id nonmock-handoff --executor codex)"
-  if yq -e '.final_verdict == "route-ready" and .route_execution_mode == "route-handoff" and .selected_route.route_id == "generate-implementation-prompt"' >/dev/null <<<"$output"; then
+  if yq -e '.final_verdict == "route-ready" and .route_execution_mode == "route-handoff" and .selected_route.route_id == "generate-packet-implementation-prompt"' >/dev/null <<<"$output"; then
     pass "non-mock runner emits route-ready handoff"
   else
     printf '%s\n' "$output" >&2
@@ -658,7 +658,7 @@ YAML
 	  fi
 
 	  output="$(octon_cli "$root" lifecycle run --lifecycle proposal-packet --target revision-packet --run-id nonmock-loop --executor codex --max-iterations 1)"
-  if yq -e '.final_verdict == "route-ready" and .route_execution_mode == "route-handoff" and .selected_route.route_id == "revise-proposal-packet"' >/dev/null <<<"$output"; then
+  if yq -e '.final_verdict == "route-ready" and .route_execution_mode == "route-handoff" and .selected_route.route_id == "revise-packet"' >/dev/null <<<"$output"; then
     pass "non-mock loop route emits handoff"
   else
     printf '%s\n' "$output" >&2

@@ -101,8 +101,10 @@ durable implementation exists.
 - `octon lifecycle program propose-mutation --run-id <id> --spec <path>`
 - `octon lifecycle program apply-mutation --run-id <id> --spec <path> --reason <text>`
 - `octon lifecycle program scaffold --target <parent-program-packet> --spec <path> [--dry-run]`
-- `/octon-proposal-packet-run-lifecycle`
-- `octon-proposal-packet-lifecycle-run-lifecycle`
+- `/octon-proposal-run-packet-lifecycle`
+- `octon-proposal-lifecycle-run-packet-lifecycle`
+- `/octon-proposal-run-program-lifecycle`
+- `octon-proposal-lifecycle-run-program-lifecycle`
 
 ## Validation
 

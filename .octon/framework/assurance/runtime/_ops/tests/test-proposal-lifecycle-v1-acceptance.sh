@@ -9,7 +9,7 @@ FRAMEWORK_DIR="$(cd "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 CARGO_MANIFEST="$REPO_ROOT/.octon/framework/engine/runtime/crates/Cargo.toml"
-REAL_CONTRACT="$REPO_ROOT/.octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/context/lifecycle.contract.yml"
+REAL_CONTRACT="$REPO_ROOT/.octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml"
 REAL_REVIEW_GATE="$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
 REAL_STANDARD_GATE="$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
 REAL_READINESS_GATE="$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
@@ -33,16 +33,16 @@ new_fixture_repo() {
   local root
   root="$(mktemp -d "${TMPDIR:-/tmp}/proposal-lifecycle-v1.XXXXXX")"
   CLEANUP_DIRS+=("$root")
-  mkdir -p "$root/.octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/context"
+  mkdir -p "$root/.octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context"
   mkdir -p "$root/.octon/framework/assurance/runtime/_ops/scripts"
-  cp "$REAL_CONTRACT" "$root/.octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/context/lifecycle.contract.yml"
+  cp "$REAL_CONTRACT" "$root/.octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml"
   cp "$REAL_REVIEW_GATE" "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
   cp "$REAL_STANDARD_GATE" "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
   cp "$REAL_READINESS_GATE" "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'YAML'
 schema_version: "octon-extension-effective-catalog-v7"
 packs:
-  - pack_id: "octon-proposal-packet-lifecycle"
+  - pack_id: "octon-proposal-lifecycle"
     source_id: "bundled-first-party"
     capability_profiles:
       - "validation-surface"
@@ -53,7 +53,7 @@ packs:
       - "lifecycle-contract"
     lifecycle_contracts:
       - lifecycle_id: "proposal-packet"
-        projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/context/lifecycle.contract.yml"
+        projection_source_path: ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml"
 YAML
   printf '%s\n' "$root"
 }
@@ -315,18 +315,18 @@ main() {
 
   assert_registry_generator_portable_surface
 
-  assert_plan_route "missing target routes to proposal creation" "$root" missing-packet create-proposal-packet
+  assert_plan_route "missing target routes to proposal creation" "$root" missing-packet create-packet
 
   mkdir -p "$(packet_dir "$root" partial-packet)/resources"
   printf '# Partial source\n' >"$(packet_dir "$root" partial-packet)/resources/source-context.md"
-  assert_plan_route "partial target without manifest routes to proposal creation" "$root" partial-packet create-proposal-packet
+  assert_plan_route "partial target without manifest routes to proposal creation" "$root" partial-packet create-packet
 
   write_packet "$root" draft-packet draft
-  assert_plan_route "draft routes to proposal review" "$root" draft-packet review-proposal-packet
+  assert_plan_route "draft routes to proposal review" "$root" draft-packet review-packet
 
   output="$(octon_cli "$root" lifecycle run --lifecycle proposal-packet --target missing-source-packet --run-id missing-source --executor mock --execute-routes --approval-policy unattended --max-steps 2)"
-  if yq -e '.final_verdict == "blocked" and .selected_route.route_id == "create-proposal-packet"' >/dev/null <<<"$output" \
-    && [[ -f "$root/.octon/state/evidence/runs/workflows/missing-source/create-proposal-packet-input-binding-blocked.yml" ]] \
+  if yq -e '.final_verdict == "blocked" and .selected_route.route_id == "create-packet"' >/dev/null <<<"$output" \
+    && [[ -f "$root/.octon/state/evidence/runs/workflows/missing-source/create-packet-input-binding-blocked.yml" ]] \
     && [[ ! -f "$(packet_dir "$root" missing-source-packet)/proposal.yml" ]]; then
     pass "missing creation source blocks before packet creation"
   else
@@ -352,11 +352,11 @@ main() {
   fi
 
   write_packet "$root" in-review-packet in-review
-  assert_plan_route "in-review without review routes to proposal review" "$root" in-review-packet review-proposal-packet
+  assert_plan_route "in-review without review routes to proposal review" "$root" in-review-packet review-packet
 
   write_packet "$root" revision-packet in-review
   write_review "$root" revision-packet revision-required no 1
-  assert_plan_route "complete revision-required review routes to revise" "$root" revision-packet revise-proposal-packet
+  assert_plan_route "complete revision-required review routes to revise" "$root" revision-packet revise-packet
 
   write_packet "$root" incomplete-revision-packet in-review
   write_incomplete_review "$root" incomplete-revision-packet
@@ -364,15 +364,15 @@ main() {
 
   write_packet "$root" accepted-packet accepted
   write_review "$root" accepted-packet accepted yes 0
-  assert_plan_route_with_gate_pass "fresh accepted review routes to implementation prompt with strict gate" "$root" accepted-packet generate-implementation-prompt
+  assert_plan_route_with_gate_pass "fresh accepted review routes to implementation prompt with strict gate" "$root" accepted-packet generate-packet-implementation-prompt
 
   printf '\nChanged after review.\n' >>"$(packet_dir "$root" accepted-packet)/README.md"
-  assert_plan_route "stale accepted review routes back to review" "$root" accepted-packet review-proposal-packet
+  assert_plan_route "stale accepted review routes back to review" "$root" accepted-packet review-packet
 
   write_packet "$root" executable-packet accepted
   write_review "$root" executable-packet accepted yes 0
   write_executable_prompt "$root" executable-packet
-  assert_plan_route_with_gate_pass "executable prompt routes to run implementation with strict gate" "$root" executable-packet run-implementation
+  assert_plan_route_with_gate_pass "executable prompt routes to run implementation with strict gate" "$root" executable-packet run-packet-implementation
 
   write_packet "$root" promote-packet accepted
   write_review "$root" promote-packet accepted yes 0
@@ -400,7 +400,7 @@ main() {
   write_receipt "$root" closeout-packet "support/post-implementation-drift-churn-review.md" \
     "verdict: pass" \
     "unresolved_items_count: 0"
-  assert_plan_route "implemented conformance and drift receipts route to closeout" "$root" closeout-packet closeout-proposal-packet
+  assert_plan_route "implemented conformance and drift receipts route to closeout" "$root" closeout-packet closeout-packet
 
   write_receipt "$root" closeout-packet "support/proposal-closeout.md" \
     "verdict: pass" \
@@ -457,7 +457,7 @@ main() {
 	    && [[ -f "$(packet_dir "$root" execute-packet)/support/proposal-review.md" ]] \
 	    && [[ -f "$(packet_dir "$root" execute-packet)/support/implementation-run.md" ]] \
 	    && [[ -f "$(packet_dir "$root" execute-packet)/support/proposal-closeout.md" ]] \
-	    && [[ -f "$root/.octon/state/evidence/runs/workflows/v2-execute/run-implementation-approval-override.yml" ]] \
+	    && [[ -f "$root/.octon/state/evidence/runs/workflows/v2-execute/run-packet-implementation-approval-override.yml" ]] \
 	    && [[ -f "$root/.octon/state/evidence/runs/workflows/v2-execute/promote-proposal-approval-override.yml" ]] \
 	    && [[ -f "$root/.octon/state/evidence/runs/workflows/v2-execute/archive-proposal-approval-override.yml" ]]; then
 	    pass "execute-routes mock completes proposal lifecycle end to end"
@@ -481,7 +481,7 @@ main() {
 
   write_packet "$root" approval-packet draft
   output="$(octon_cli "$root" lifecycle run --lifecycle proposal-packet --target approval-packet --run-id v2-approval --executor mock --execute-routes --approval-policy minimize --max-steps 12)"
-  if yq -e '.final_verdict == "approval-required" and .selected_route.route_id == "run-implementation"' >/dev/null <<<"$output" \
+  if yq -e '.final_verdict == "approval-required" and .selected_route.route_id == "run-packet-implementation"' >/dev/null <<<"$output" \
     && [[ -f "$root/.octon/state/evidence/runs/workflows/v2-approval/approval-required.yml" ]] \
     && grep -q '^route_execution_mode: adapter-executed$' "$root/.octon/state/evidence/runs/workflows/v2-approval/summary.md" \
     && grep -q '^adapter_route_status: approval-required$' "$root/.octon/state/evidence/runs/workflows/v2-approval/summary.md"; then

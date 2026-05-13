@@ -91,21 +91,21 @@ pub fn execute_mock(
 
 fn execute_mock_proposal_route(request: &LifecycleRouteExecutionRequest) -> Result<()> {
     match request.route.route_id.as_str() {
-        "create-proposal-packet" => mock_create(request),
-        "review-proposal-packet" => mock_review(request),
-        "revise-proposal-packet" => mock_revise(request),
-        "generate-implementation-prompt" => write_file(
+        "create-packet" => mock_create(request),
+        "review-packet" => mock_review(request),
+        "revise-packet" => mock_revise(request),
+        "generate-packet-implementation-prompt" => write_file(
             request
                 .target
                 .join("support/executable-implementation-prompt.md"),
             "# Executable Implementation Prompt\n\nMock implementation prompt.\n",
         ),
-        "run-implementation" => write_receipt(
+        "run-packet-implementation" => write_receipt(
             request.target.join("support/implementation-run.md"),
             &run_implementation_fields(),
         ),
         "promote-proposal" => set_manifest_status(request, "implemented"),
-        "run-verification-and-correction-loop" => {
+        "run-packet-verification-and-correction-loop" => {
             write_receipt(
                 request
                     .target
@@ -119,7 +119,7 @@ fn execute_mock_proposal_route(request: &LifecycleRouteExecutionRequest) -> Resu
                 &[("verdict", "pass"), ("unresolved_items_count", "0")],
             )
         }
-        "closeout-proposal-packet" => write_receipt(
+        "closeout-packet" => write_receipt(
             request.target.join("support/proposal-closeout.md"),
             &closeout_fields(),
         ),
@@ -302,7 +302,7 @@ fn mock_review(request: &LifecycleRouteExecutionRequest) -> Result<()> {
         digest,
         blockers,
         approved_targets,
-        if revised { "generate-implementation-prompt" } else { "revise-proposal-packet" }
+        if revised { "generate-packet-implementation-prompt" } else { "revise-packet" }
     );
     write_file(request.target.join("support/proposal-review.md"), &content)
 }

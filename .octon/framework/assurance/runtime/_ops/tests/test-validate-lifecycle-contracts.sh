@@ -612,11 +612,11 @@ main() {
     assert_schema_query_equals "lifecycle recovery idempotency accepts non-recoverable" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.idempotency_class.enum[] | select(. == "non-recoverable")' 'non-recoverable'
     assert_schema_query_equals "lifecycle recovery replan behavior supports after-attempt" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.replan_behavior.enum[] | select(. == "after-attempt")' 'after-attempt'
 
-    program_contract="$REPO_ROOT/.octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
-    assert_success_contract "source proposal-program lifecycle contract passes" "$REPO_ROOT" ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
-    assert_schema_query_equals "program review route declared" "$program_contract" '.routes[]?.route_id | select(. == "review-proposal-program")' 'review-proposal-program'
-    assert_schema_query_equals "program revise route declared" "$program_contract" '.routes[]?.route_id | select(. == "revise-proposal-program")' 'revise-proposal-program'
-    assert_schema_query_equals "program review loop returns to revise" "$program_contract" '.loops[]? | select(.loop_id == "program-review-revision").repeat_route_id' 'revise-proposal-program'
+    program_contract="$REPO_ROOT/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+    assert_success_contract "source proposal-program lifecycle contract passes" "$REPO_ROOT" ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+    assert_schema_query_equals "program review route declared" "$program_contract" '.routes[]?.route_id | select(. == "review-program")' 'review-program'
+    assert_schema_query_equals "program revise route declared" "$program_contract" '.routes[]?.route_id | select(. == "revise-program")' 'revise-program'
+    assert_schema_query_equals "program review loop returns to revise" "$program_contract" '.loops[]? | select(.loop_id == "program-review-revision").repeat_route_id' 'revise-program'
     assert_schema_query_equals "program review gate uses strict review validator" "$program_contract" '.gates[]? | select(.gate_id == "program-review-authorization").validator_id' 'proposal-review-strict'
     assert_schema_query_equals "program review gate protects implementation prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-review-authorization").required_before_routes[] | select(. == "generate-program-implementation-prompt")' 'generate-program-implementation-prompt'
     assert_schema_query_equals "program child readiness remains separate gate" "$program_contract" '.gates[]? | select(.gate_id == "program-child-proposal-readiness").validator_id' 'program-child-proposal-readiness'
@@ -624,7 +624,7 @@ main() {
     assert_schema_query_equals "program structure validator declared" "$program_contract" '.validators[]? | select(.validator_id == "program-structure").argv[] | select(. == ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh")' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh'
     assert_schema_query_equals "program structure gate protects implementation prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-structure").required_before_routes[] | select(. == "generate-program-implementation-prompt")' 'generate-program-implementation-prompt'
     assert_schema_query_equals "program creation receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-creation").path' 'support/program-creation.md'
-    assert_schema_query_equals "program create expects creation receipt" "$program_contract" '.routes[]? | select(.route_id == "create-proposal-program").completion.expected_receipts[] | select(. == "program-creation")' 'program-creation'
+    assert_schema_query_equals "program create expects creation receipt" "$program_contract" '.routes[]? | select(.route_id == "create-program").completion.expected_receipts[] | select(. == "program-creation")' 'program-creation'
     assert_schema_query_equals "program conformance receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-implementation-conformance").path' 'support/program-implementation-conformance-review.md'
     assert_schema_query_equals "program drift receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-post-implementation-drift").path' 'support/program-post-implementation-drift-churn-review.md'
     assert_schema_query_equals "program verification loop expects conformance receipt" "$program_contract" '.routes[]? | select(.route_id == "run-program-verification-and-correction-loop").completion.expected_receipts[] | select(. == "program-implementation-conformance")' 'program-implementation-conformance'

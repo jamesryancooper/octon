@@ -169,7 +169,7 @@ items:
       - path: ".octon/framework/product/features/lifecycle-autopilot.md"
         role: "feature note describing implemented lifecycle scope and limitations"
         authority_class: "navigation-only"
-      - path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
         role: "authored proposal-program lifecycle contract input"
         authority_class: "publication-input-only"
     acceptance_criteria:
@@ -190,7 +190,7 @@ items:
       - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
         role: "completed program lifecycle runtime implementation"
         authority_class: "runtime-implementation"
-      - path: ".octon/generated/effective/extensions/published/octon-proposal-packet-lifecycle/bundled-first-party/context/lifecycles/proposal-program.contract.yml"
+      - path: ".octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycles/proposal-program.contract.yml"
         role: "published proposal-program lifecycle projection consumed at runtime"
         authority_class: "generated-effective-non-authority"
     authority_notes:
@@ -222,7 +222,7 @@ items:
       - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
         role: "program controller and route atomic contract schema"
         authority_class: "runtime-spec"
-      - path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
         role: "proposal-program lifecycle contract input"
         authority_class: "publication-input-only"
     acceptance_criteria:
@@ -278,7 +278,7 @@ items:
       - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/proposal-program-scaffold.schema.json"
         role: "proposal-program scaffold spec schema"
         authority_class: "runtime-spec"
-      - path: ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
         role: "proposal-program lifecycle contract input with recovery recipes"
         authority_class: "publication-input-only"
     acceptance_criteria:
