@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.67](https://github.com/jamesryancooper/octon/compare/octon-v0.6.66...octon-v0.6.67) (2026-05-13)
+
+
+### Features
+
+* **lifecycle:** add proposal program coordination ([d0c4aca](https://github.com/jamesryancooper/octon/commit/d0c4acad1044b503d82acc67b08d3a946fe04688))
+
 ## [0.6.66](https://github.com/jamesryancooper/octon/compare/octon-v0.6.65...octon-v0.6.66) (2026-05-12)
 
 
