@@ -1,0 +1,126 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-autopilot-migration-cleanup",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the Lifecycle Autopilot proposal lifecycle migration cleanup without opening a PR.",
+  "scope": {
+    "summary": "Updated Lifecycle Autopilot docs, catalog navigation, runtime fixtures, lifecycle executor mocks, and refreshed generated extension/capability publication evidence for the renamed octon-proposal-lifecycle packet/program split.",
+    "touched_paths": [
+      ".octon/framework/product/features/lifecycle-autopilot.md",
+      ".octon/framework/product/features/catalog.yml",
+      ".octon/framework/product/roadmap/catalog.yml",
+      ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/mock.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs",
+      ".octon/generated/effective/extensions",
+      ".octon/generated/effective/capabilities",
+      ".octon/state/control/extensions",
+      ".octon/state/evidence/validation/extensions/prompt-alignment",
+      ".octon/state/evidence/validation/publication/extensions",
+      ".octon/state/evidence/validation/publication/capabilities"
+    ],
+    "diff_refs": [
+      "origin/main pre-ref 6bb6d21a634821ad15c61db18be02115b7f803a7",
+      "branch chore/lifecycle-autopilot-migration-cleanup@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+      "origin/main landed-ref bc8a92f732b7781a414c0d6b6a969c2851d38440"
+    ]
+  },
+  "source_branch_ref": "chore/lifecycle-autopilot-migration-cleanup",
+  "target_branch_ref": "origin/main@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+  "remote_branch_ref": "origin/chore/lifecycle-autopilot-migration-cleanup@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/lifecycle-autopilot-migration-cleanup",
+    "source_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "target_pre_ref": "6bb6d21a634821ad15c61db18be02115b7f803a7",
+    "target_post_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "validated_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+      "branch_naming_validation@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+      "route_aware_autonomy_validation@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+      "exact_source_sha_validation@bc8a92f732b7781a414c0d6b6a969c2851d38440"
+    ],
+    "provider_ruleset_ref": "github-ruleset:main:required-status-checks-without-pull-request@2026-05-13",
+    "push_refspec": "bc8a92f732b7781a414c0d6b6a969c2851d38440:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "github-ruleset:main:required-status-checks-without-pull-request@2026-05-13",
+    "source_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "target_ref": "origin/main@bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh preflight passed for bc8a92f732b7781a414c0d6b6a969c2851d38440",
+      "gh branch rules for main exposed required_status_checks, non_fast_forward, required_linear_history, and no pull_request rule",
+      "origin/main post-ref equals landed ref bc8a92f732b7781a414c0d6b6a969c2851d38440"
+    ]
+  },
+  "landed_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+  "main_alignment": {
+    "local_main_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "origin_main_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "landed_ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "aligned": true,
+    "verification_ref": "git rev-parse main origin/main"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-cleanup.sh verified landed ref and source branch refs are contained in origin/main",
+    "gh pr list found no open PR for chore/lifecycle-autopilot-migration-cleanup",
+    "local source branch deleted after containment proof",
+    "remote source branch origin/chore/lifecycle-autopilot-migration-cleanup deleted",
+    "local main fast-forwarded to origin/main at bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "unrelated exploratory files and superseded local publication run artifacts were preserved unstaged"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/lifecycle-autopilot-migration-cleanup",
+    "remote_branch": "origin/chore/lifecycle-autopilot-migration-cleanup",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      "Deleted branch chore/lifecycle-autopilot-migration-cleanup",
+      "Deleted remote branch origin/chore/lifecycle-autopilot-migration-cleanup",
+      "Protected branch check passed",
+      "origin/main containment verified for landed ref and source branch refs"
+    ]
+  },
+  "validation_evidence_refs": [
+    "rg stale octon-proposal-packet identifiers across reviewed surfaces: no matches",
+    "validate-lifecycle-contracts.sh: errors=0 warnings=0",
+    "validate-extension-publication-state.sh: errors=0",
+    "validate-capability-publication-state.sh: errors=0",
+    "validate-host-projections.sh: errors=0",
+    "git diff --check: pass",
+    "GitHub route_neutral_closeout_validation at bc8a92f732b7781a414c0d6b6a969c2851d38440: success",
+    "GitHub branch_naming_validation at bc8a92f732b7781a414c0d6b6a969c2851d38440: success",
+    "GitHub route_aware_autonomy_validation at bc8a92f732b7781a414c0d6b6a969c2851d38440: success",
+    "GitHub exact_source_sha_validation at bc8a92f732b7781a414c0d6b6a969c2851d38440: success"
+  ],
+  "review_waiver_refs": [
+    "Operator explicitly requested branch-no-pr closeout with outcome cleaned.",
+    "No PR was opened or used; provider ruleset allowed route-neutral fast-forward landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "branch": "chore/lifecycle-autopilot-migration-cleanup"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "bc8a92f732b7781a414c0d6b6a969c2851d38440",
+    "instructions": "Revert commit bc8a92f732b7781a414c0d6b6a969c2851d38440 from main if the Lifecycle Autopilot migration cleanup must be backed out. Do not reset published main without explicit operator approval."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-13T19:56:22Z"
+}
