@@ -1,8 +1,8 @@
 schema_version: "octon-runtime-effective-route-bundle-v1"
 generation_id: "runtime-route-bundle-d832aab6f332"
-generated_at: "2026-05-11T18:06:44Z"
+generated_at: "2026-05-13T20:01:32Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-05-11T18-06-44Z-runtime-route-bundle-d832aab6f332.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/runtime/2026-05-13T20-01-32Z-runtime-route-bundle-d832aab6f332.yml"
 source_refs:
   root_manifest_ref: ".octon/octon.yml"
   runtime_resolution_ref: ".octon/instance/governance/runtime-resolution.yml"
@@ -112,6 +112,6 @@ routes:
       - "browser"
       - "api"
 extensions:
-  generation_id: "extensions-c2d4f2cbf257"
+  generation_id: "extensions-e539e7c8b239"
   status: "published"
   quarantine_count: 0
