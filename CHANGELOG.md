@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.68](https://github.com/jamesryancooper/octon/compare/octon-v0.6.67...octon-v0.6.68) (2026-05-14)
+
+
+### Features
+
+* **lifecycle:** harden automation runtime ([aa97847](https://github.com/jamesryancooper/octon/commit/aa978475b7eb7276ff2ed86c78f0b1316401e4d9))
+
 ## [0.6.67](https://github.com/jamesryancooper/octon/compare/octon-v0.6.66...octon-v0.6.67) (2026-05-13)
 
 
