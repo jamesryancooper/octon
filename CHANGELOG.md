@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.69](https://github.com/jamesryancooper/octon/compare/octon-v0.6.68...octon-v0.6.69) (2026-05-14)
+
+
+### Features
+
+* **lifecycle:** classify worktree hygiene ([30ccaaf](https://github.com/jamesryancooper/octon/commit/30ccaafa5e346f09c22fdc073d51396c17f17fcc))
+
 ## [0.6.68](https://github.com/jamesryancooper/octon/compare/octon-v0.6.67...octon-v0.6.68) (2026-05-14)
 
 
