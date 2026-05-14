@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: promote-proposal-1778789393590-98750-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:69ffb585658303a3f5f140a501cbebf501ae3c8a9b17040e171443f41fbbb22c
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-promote-proposal-1778789393590-98750-validate-proposal
+  sequence: 1
+  event_hash: sha256:b30d8670aaba92ada5e58ea4d104e8a15cf3ecbe61e74f4f75e12c2f9b2038cb
+last_event_ref:
+  event_id: evt-run-closed-promote-proposal-1778789393590-98750-validate-proposal
+  sequence: 29
+  event_hash: sha256:1f4583682a43fbf27dbb5047929b74c1bdbb8147d1c0d947893172e9a7c22f26
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:b30d8670aaba92ada5e58ea4d104e8a15cf3ecbe61e74f4f75e12c2f9b2038cb
+  tail_event_hash: sha256:1f4583682a43fbf27dbb5047929b74c1bdbb8147d1c0d947893172e9a7c22f26
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-promote-proposal-1778789393590-98750-validate-proposal
+  context_pack_ref: evt-context-pack-bound-promote-proposal-1778789393590-98750-validate-proposal
+  disclosure_ref: evt-run-closed-promote-proposal-1778789393590-98750-validate-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-promote-proposal-1778789393590-98750-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-8502362544e5
+  run_contract_ref: evt-001-run-created-promote-proposal-1778789393590-98750-validate-proposal
+  run_manifest_ref: evt-002-run-bound-promote-proposal-1778789393590-98750-validate-proposal
+  runtime_state_ref: evt-run-closed-promote-proposal-1778789393590-98750-validate-proposal
+  stage_attempt_ref: evt-stage-started-promote-proposal-1778789393590-98750-validate-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750-validate-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750-validate-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750-validate-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750-validate-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-promote-proposal-1778789393590-98750-validate-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:1f4583682a43fbf27dbb5047929b74c1bdbb8147d1c0d947893172e9a7c22f26
+  materialized_at: 2026-05-14T20:15:43.59917Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-05-14T20:15:44.363063Z

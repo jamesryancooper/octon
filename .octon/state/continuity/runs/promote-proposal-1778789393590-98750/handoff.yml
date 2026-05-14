@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: promote-proposal-1778789393590-98750
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/promote-proposal-1778789393590-98750/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/promote-proposal-1778789393590-98750/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-05-14T20:20:58.110648Z

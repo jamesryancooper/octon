@@ -1,0 +1,19 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-packet-1778792727685-71b4f058
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/framing-boundary-and-terminology-guardrails
+current_state: null
+completed_states: []
+last_route: null
+loop_counts: {}
+receipt_digests:
+  proposal-review: sha256:019ed35e4ce3b30321cf9d0edfd964fe9441722c4e0dda0331301005c4da2782
+last_validator_results: []
+run_inputs: {}
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-no-route
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-packet-1778792727685-71b4f058

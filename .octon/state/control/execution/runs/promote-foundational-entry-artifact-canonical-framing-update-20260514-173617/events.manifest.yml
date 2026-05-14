@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+ledger_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:8d9eb87b963368917cf33233c8ea6a6be4b92fb4d2a54a7ed2e64e021f420a48
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  sequence: 1
+  event_hash: sha256:0b01f720285e3744030b0591fd8fe44c3b71d22534954fbfbbf6a7e760a12e57
+last_event_ref:
+  event_id: evt-checkpoint-start-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  sequence: 20
+  event_hash: sha256:6ad1f5c076f7013e4b6a70532d384ef3dd633bb4dd99c26cb4f4f4e2b4d8cf81
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:0b01f720285e3744030b0591fd8fe44c3b71d22534954fbfbbf6a7e760a12e57
+  tail_event_hash: sha256:6ad1f5c076f7013e4b6a70532d384ef3dd633bb4dd99c26cb4f4f4e2b4d8cf81
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  context_pack_ref: evt-context-pack-bound-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-a54ca9e330e6
+  run_contract_ref: evt-001-run-created-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  run_manifest_ref: evt-002-run-bound-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  runtime_state_ref: evt-capability-authorized-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  stage_attempt_ref: evt-stage-started-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:6ad1f5c076f7013e4b6a70532d384ef3dd633bb4dd99c26cb4f4f4e2b4d8cf81
+  materialized_at: 2026-05-14T17:36:47.91777Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-05-14T17:36:47.91777Z

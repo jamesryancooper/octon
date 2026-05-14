@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: archive-proposal-1778781598867-11942
+ledger_ref: .octon/state/control/execution/runs/archive-proposal-1778781598867-11942/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/archive-proposal-1778781598867-11942/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:d5ed4a95e9447b5d1691405d201038e302422b306f2102743c8fd9e162dcf185
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-archive-proposal-1778781598867-11942
+  sequence: 1
+  event_hash: sha256:715ff65baa81fd2247945973fe58b16caac57782e8a8443443af54e095c31bb2
+last_event_ref:
+  event_id: evt-checkpoint-start-archive-proposal-1778781598867-11942
+  sequence: 20
+  event_hash: sha256:770b21414e12dc6f69955ab4f367e3bbec384b2b5b289ad3007a2af4b8aa316b
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:715ff65baa81fd2247945973fe58b16caac57782e8a8443443af54e095c31bb2
+  tail_event_hash: sha256:770b21414e12dc6f69955ab4f367e3bbec384b2b5b289ad3007a2af4b8aa316b
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-archive-proposal-1778781598867-11942
+  context_pack_ref: evt-context-pack-bound-archive-proposal-1778781598867-11942
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-07188550de5c
+  run_contract_ref: evt-001-run-created-archive-proposal-1778781598867-11942
+  run_manifest_ref: evt-002-run-bound-archive-proposal-1778781598867-11942
+  runtime_state_ref: evt-capability-authorized-archive-proposal-1778781598867-11942
+  stage_attempt_ref: evt-stage-started-archive-proposal-1778781598867-11942
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/archive-proposal-1778781598867-11942/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-archive-proposal-1778781598867-11942
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:770b21414e12dc6f69955ab4f367e3bbec384b2b5b289ad3007a2af4b8aa316b
+  materialized_at: 2026-05-14T18:00:01.232048Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-05-14T18:00:01.232048Z

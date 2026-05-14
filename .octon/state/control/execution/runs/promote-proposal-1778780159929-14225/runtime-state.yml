@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: promote-proposal-1778780159929-14225
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/promote-proposal-1778780159929-14225/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/promote-proposal-1778780159929-14225/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/promote-proposal-1778780159929-14225/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/promote-proposal-1778780159929-14225/receipts/grant-bundle.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/promote-proposal-1778780159929-14225/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/promote-proposal-1778780159929-14225/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/promote-proposal-1778780159929-14225/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/promote-proposal-1778780159929-14225/rollback-posture.yml
+last_applied_event_id: evt-checkpoint-start-promote-proposal-1778780159929-14225
+last_applied_sequence: 20
+last_applied_event_hash: sha256:88733159c4b5e78f1a26c1a2017a10699970e9b3396fc0187c77038ccaf5b790
+materialized_at: 2026-05-14T17:36:02.364492Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-05-14T17:36:00.164487Z
+updated_at: 2026-05-14T17:36:02.364492Z

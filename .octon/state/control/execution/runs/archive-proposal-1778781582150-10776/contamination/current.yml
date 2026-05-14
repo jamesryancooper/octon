@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: archive-proposal-1778781582150-10776-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-05-14T17:59:42.383376Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: archive-proposal-1778781582150-10776
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/archive-proposal-1778781582150-10776/checkpoints/bound.yml

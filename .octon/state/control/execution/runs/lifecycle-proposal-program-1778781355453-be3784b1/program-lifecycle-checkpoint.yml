@@ -1,0 +1,186 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-program-1778781355453-be3784b1
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program
+executor: codex
+child_registry_digest: sha256:0bfb14b188309fe6ddbc44778a5c1a26d779c063ca74ba2a6371382632572259
+execution_mode: gated-parallel
+run_inputs: {}
+scheduler_decision:
+- foundational-entry-artifact-canonical-framing-update
+child_states:
+  agent-node-model-call-contract:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:4608bf83e5eaff397185775fe8cc09d304388a6f709e130f0e843f1f66d5bf8d
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract
+    - .octon/instance/governance/policies/
+  connector-operation-admission:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/connector-operation-admission
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:f3b77a2abfb00d92681d14ba4904af530ae8d67fe3f1d9c8c1ea3d89117985b4
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/adapters/
+    - .octon/inputs/exploratory/proposals/architecture/connector-operation-admission
+    - .octon/instance/governance/connector-admissions/
+    - .octon/instance/governance/connectors/
+  durable-coordination-adapter-evaluation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/durable-coordination-adapter-evaluation
+    current_state: null
+    final_verdict: deferred
+    receipt_digests: {}
+    write_scopes:
+    - .octon/framework/lab/
+    - .octon/inputs/exploratory/proposals/architecture/durable-coordination-adapter-evaluation
+    - .octon/instance/governance/connector-admissions/
+    - .octon/state/evidence/lab/
+  effect-token-enforcement-coverage:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:8f04ad45421261885a449fafaa126232595bbc29981dcf2c4993089361a40095
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage
+  evidence-provenance-hardening:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:42640d2e2b63fe5ecd4ecc0c9682f8c96d4795da36c20b06c74e412d985440db
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/disclosure/
+    - .octon/framework/constitution/contracts/retention/
+    - .octon/framework/constitution/obligations/evidence.yml
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening
+  external-workflow-engine-adapter-evaluation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/external-workflow-engine-adapter-evaluation
+    current_state: null
+    final_verdict: deferred
+    receipt_digests: {}
+    write_scopes:
+    - .octon/framework/lab/
+    - .octon/inputs/exploratory/proposals/architecture/external-workflow-engine-adapter-evaluation
+    - .octon/instance/governance/connector-admissions/
+    - .octon/state/evidence/lab/
+  foundational-entry-artifact-canonical-framing-update:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update
+    current_state: create-packet
+    final_verdict: route-ready
+    receipt_digests: {}
+    write_scopes:
+    - .octon/AGENTS.md
+    - .octon/README.md
+    - .octon/framework/cognition/_meta/architecture/contract-registry.yml
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/cognition/_meta/terminology/glossary.md
+    - .octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update
+    - .octon/instance/bootstrap/START.md
+    - .octon/instance/ingress/AGENTS.md
+  framing-boundary-and-terminology-guardrails:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/framing-boundary-and-terminology-guardrails
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:48a14ac37ecae6e633aa6e3f8b7e240e2edde3d7e750e84fb0fd1dc6cf1c9859
+    write_scopes:
+    - .octon/AGENTS.md
+    - .octon/README.md
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/cognition/_meta/terminology/glossary.md
+    - .octon/framework/cognition/_meta/terminology/naming-constitution.md
+    - .octon/inputs/exploratory/proposals/architecture/framing-boundary-and-terminology-guardrails
+    - .octon/instance/ingress/AGENTS.md
+  mcp-integration-evaluation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/mcp-integration-evaluation
+    current_state: null
+    final_verdict: deferred
+    receipt_digests: {}
+    write_scopes:
+    - .octon/framework/lab/
+    - .octon/inputs/exploratory/proposals/architecture/mcp-integration-evaluation
+    - .octon/instance/governance/connector-admissions/
+    - .octon/state/evidence/lab/
+  migration-cutover-compatibility-retirement:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:4bfc7c09b964796799d8e6ebc16ac0b8cbf36a3b8d363eb19fcf1815fca07afe
+    write_scopes:
+    - .octon/AGENTS.md
+    - .octon/README.md
+    - .octon/framework/cognition/_meta/architecture/specification.md
+    - .octon/framework/cognition/_meta/terminology/glossary.md
+    - .octon/framework/cognition/_meta/terminology/naming-constitution.md
+    - .octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement
+    - .octon/instance/bootstrap/START.md
+    - .octon/instance/ingress/AGENTS.md
+  workflow-history-replay-idempotency-compensation:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:dfbdc52e26f67a559d6c7f9e06edd4d19e0a9c99caad8c28ddb08ecf81573340
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation
+    - .octon/state/evidence/
+  workflow-statechart-task-specific-execution-harness:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+    current_state: generate-packet-implementation-prompt
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:083223f1bb1bd2fdfe86e073641ad13fe615235da236bfb6a8484569f2a48588
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/constitution/contracts/runtime/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/generated/cognition/projections/materialized/
+    - .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+recovery_attempts:
+  foundational-entry-artifact-canonical-framing-update: 1
+  foundational-entry-artifact-canonical-framing-update:stale-receipt: 1
+approvals: []
+latest_event_offset: 7
+latest_event_index: 7
+latest_event_sha256: sha256:68291daf23495888f8cb6bf513a71d1a47fd9bb866fc1a1ce4bc4ef9957a72b3
+event_log_sha256: sha256:aa8806e6f8e7ec9be8f739e6e8fd52968459d3b4c726b35f65fdb7d4d9b08226
+derived_from_event_index: 7
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-recoverable
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-program-1778781355453-be3784b1

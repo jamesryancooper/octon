@@ -1,0 +1,8 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-proposal-program-1778761817890-8faae2d2
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program
+reason: lifecycle-child-executor-exceeded-requested-900-second-timeout-without-output
+cancelled_at: 2026-05-14T12:48:47Z
+evidence_path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1778761817890-8faae2d2/program-cancelled.yml

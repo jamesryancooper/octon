@@ -5,5 +5,5 @@ model_visible_context_ref: .octon/state/evidence/runs/promote-proposal-validate-
 run_id: promote-proposal-validate-proposal
 schema_version: context-pack-status-v1
 status: bound
-updated_at: 2026-05-11T16:50:46.496397Z
+updated_at: 2026-05-14T17:36:48.245989Z
 validity_state: valid

@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/receipts/grant-bundle.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/rollback-posture.yml
+last_applied_event_id: evt-checkpoint-start-promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
+last_applied_sequence: 20
+last_applied_event_hash: sha256:6ad1f5c076f7013e4b6a70532d384ef3dd633bb4dd99c26cb4f4f4e2b4d8cf81
+materialized_at: 2026-05-14T17:36:47.993786Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-05-14T17:36:45.792776Z
+updated_at: 2026-05-14T17:36:47.993786Z

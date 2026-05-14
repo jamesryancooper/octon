@@ -1,0 +1,240 @@
+diff --git a/.octon/README.md b/.octon/README.md
+index 3ac4008af..c63c66f11 100644
+--- a/.octon/README.md
++++ b/.octon/README.md
+@@ -10,6 +10,18 @@ evidenced, reviewable boundaries. This super-root owns the authority, runtime,
+ support, evidence, continuity, and generated read-model surfaces that keep that
+ claim bounded.
+ 
++Octon's core runtime is best understood as a Governed Workflow Runtime:
++workflow state, run contracts, authorization, evidence, replay, rollback, and
++closeout own execution control. Agents participate only as bounded, evidenced
++activity nodes inside admitted execution harnesses.
++
++For admitted workflows, the execution harness is task-specific: it binds the
++current run contract, context, allowed capabilities, rollback posture, and
++evidence expectations for the work at hand. Workflow-statechart schemas,
++agent-node contracts, connector admission changes, MCP integration, Durable
++Object adapters, and external workflow-engine integration remain separately
++governed future work unless durable runtime contracts admit them.
++
+ This README is the concise, registry-backed orientation surface. It summarizes
+ the class-root model, the canonical registries, and the bootstrap entrypoints
+ without restating the full path topology.
+diff --git a/.octon/framework/cognition/_meta/architecture/specification.md b/.octon/framework/cognition/_meta/architecture/specification.md
+index b204c835b..f6d0a81da 100644
+--- a/.octon/framework/cognition/_meta/architecture/specification.md
++++ b/.octon/framework/cognition/_meta/architecture/specification.md
+@@ -20,6 +20,18 @@ This specification is the human-readable companion to that registry. It stays
+ subordinate to the constitutional kernel and must not restate competing
+ constitutional authority.
+ 
++## Canonical Runtime Framing
++
++Octon's core runtime is a Governed Workflow Runtime for consequential software
++work. It compiles or assembles the execution harness for each admitted workflow
++and allows agents to participate only as bounded, evidenced activity nodes.
++Workflow state owns control flow; agents do not.
++
++This framing does not create a rival control plane or imply live support for
++future workflow-statechart schemas, agent-node contracts, connector admission
++changes, MCP integration, Durable Object adapters, or external workflow-engine
++integration.
++
+ ## Constitutional Authority
+ 
+ Repo-local supreme control authority lives under
+diff --git a/.octon/framework/cognition/_meta/terminology/glossary.md b/.octon/framework/cognition/_meta/terminology/glossary.md
+index 59659fda0..f770a8875 100644
+--- a/.octon/framework/cognition/_meta/terminology/glossary.md
++++ b/.octon/framework/cognition/_meta/terminology/glossary.md
+@@ -26,11 +26,50 @@ Use for Octon as a whole.
+ 
+ ### Governed Agent Runtime
+ 
++Compatibility language for Octon's runtime core during the transition to
++workflow-first framing. Read it as the **Governed Workflow Runtime** with
++bounded agent nodes, not as an agent-owned control plane.
++
++Use only when compatibility with existing docs or retained references requires
++the phrase. Prefer **Governed Workflow Runtime** for new durable wording.
++
++### Governed Workflow Runtime
++
+ Octon's execution core: the durable runtime that assembles context, mediates
+-capability use, enforces policy, coordinates execution, records state, accepts
+-intervention, supports rollback and recovery, and retains evidence.
++capability use, enforces policy, coordinates workflow state, records control
++and evidence, accepts intervention, supports replay, rollback, and recovery,
++and controls closeout.
++
++Use for the runtime core, not for the whole of Octon. Workflow state owns
++control flow. Agents do not.
++
++### Deterministic Governed Workflow
++
++A bounded execution path whose state transitions, authorization checks,
++context inputs, allowed effects, evidence requirements, rollback posture, and
++closeout gates are declared, inspectable, and reproducible enough to validate.
++
++### Task-Specific Execution Harness
++
++The execution envelope compiled or assembled for an admitted workflow or run.
++It binds the current objective, run contract, context pack, capability grants,
++authorized effect tokens, rollback posture, validation expectations, and
++retained evidence requirements.
++
++Do not use **harness** here as a synonym for a prompt, model, generic
++framework, or orchestrator.
++
++### Bounded Agent Node
+ 
+-Use for the runtime core, not for the whole of Octon.
++An agent participation point inside an admitted workflow. A bounded agent node
++may perform assigned activity within declared context, capability, evidence,
++and escalation limits, but it does not own workflow state or authorize effects.
++
++### Evidenced Activity Node
++
++A workflow activity whose inputs, outputs, decisions, tool calls, validations,
++and material effects are retained or traceable according to the run's evidence
++requirements.
+ 
+ ### Harness
+ 
+@@ -61,9 +100,10 @@ model routing, and success criteria.
+ 
+ ### Agent
+ 
+-The live operational composite produced when a model executes inside the
+-Governed Agent Runtime under an Agent Definition, with active state, scoped
+-capabilities, and a current objective.
++The live operational composite produced when a model executes as a bounded
++agent node inside the Governed Workflow Runtime under an Agent Definition, with
++active state, scoped capabilities, evidence obligations, and a current
++objective.
+ 
+ ### Objective
+ 
+@@ -87,6 +127,12 @@ run, mission, or execution route.
+ A concrete callable operation or integration exposed through a capability
+ pack. Tool availability does not bypass capability-pack governance.
+ 
++### Admitted Connector Operation
++
++A connector action that has passed the applicable support-target, capability,
++dossier, rollback, authorization, token, evidence, and disclosure requirements.
++Connector, tool, MCP, host, or external-system availability is not permission.
++
+ ### Sandbox
+ 
+ The isolated environment where execution occurs.
+@@ -192,11 +238,28 @@ describe Octon's governed execution substrate.
+ 
+ ### Orchestrator
+ 
+-Valid only for a coordination component or role. Banned as a whole-system
+-name.
++Valid only for a coordination component or role. Banned as a whole-system name
++and discouraged as an agent-first system category, including "orchestrator of
++agents."
+ 
+ ### Platform
+ 
+ Avoid as a primary architecture classification. It may be used in product or
+ deployment discussions only when the architecture classification has already
+ been stated.
++
++### Autonomous Agent Worker
++
++Banned as a primary architecture term. It implies agent-owned control and
++ambient autonomy rather than bounded workflow participation.
++
++### Ambient Tool Access
++
++Banned as a permission model. Tools and connectors require declared capability,
++authorization, support, rollback, evidence, and disclosure posture.
++
++### Durable Object Authority
++
++Banned. Durable Objects, if introduced, may act only as governed coordination
++adapters and never as authority, permission, control truth, retained evidence,
++or closeout truth.
+diff --git a/.octon/instance/bootstrap/START.md b/.octon/instance/bootstrap/START.md
+index b99e80ff6..c001ac967 100644
+--- a/.octon/instance/bootstrap/START.md
++++ b/.octon/instance/bootstrap/START.md
+@@ -7,6 +7,11 @@ description: Boot sequence and orientation for the root .octon Constitutional En
+ 
+ Canonical goal: Enable reliable agent execution that is deterministic enough to trust, observable enough to debug, and flexible enough to evolve.
+ 
++Read that goal through Octon's workflow-first runtime posture. Workflow state,
++run contracts, execution authorization, evidence, rollback posture, and closeout
++own consequential control flow. Agents participate only as bounded, evidenced
++activity nodes inside admitted workflow and run boundaries.
++
+ Use this document for the steady-state boot sequence. Canonical topology,
+ authority families, publication metadata, and doc roles live in
+ `/.octon/framework/cognition/_meta/architecture/contract-registry.yml`.
+@@ -17,6 +22,11 @@ second authority plane. The constitutional kernel anchor remains
+ `/.octon/framework/lab/`, and retained lab evidence remains under
+ `/.octon/state/evidence/lab/`.
+ 
++Generated summaries, raw inputs, chat, model memory, host UI state, tool
++availability, MCP server availability, Durable Object state, and external
++workflow dashboards are not authority, permission, policy, retained evidence,
++or closeout truth.
++
+ Instance-native repo authority lives at:
+ 
+ - `/.octon/instance/manifest.yml`
+@@ -73,6 +83,9 @@ Instance-native repo authority lives at:
+ Consequential execution binds mission, run, control, and evidence surfaces
+ without treating generated summaries or raw inputs as authority.
+ Material execution remains bound to run contracts and execution authorization.
++Task-specific execution harnesses bind the current run contract, context,
++allowed capabilities, rollback posture, and evidence requirements for the work
++at hand; they do not make agents owners of workflow state.
+ 
+ ## Live Operator Flow
+ 
+diff --git a/.octon/instance/ingress/AGENTS.md b/.octon/instance/ingress/AGENTS.md
+index 634fd8b9e..c5103e4bf 100644
+--- a/.octon/instance/ingress/AGENTS.md
++++ b/.octon/instance/ingress/AGENTS.md
+@@ -6,6 +6,11 @@ super-rooted Octon harness.
+ Enable reliable agent execution that is deterministic enough to trust,
+ observable enough to debug, and flexible enough to evolve.
+ 
++Octon's runtime posture is workflow-first: workflow state, run contracts,
++authorization, evidence, rollback posture, and closeout own consequential
++control flow. Agents participate only as bounded, evidenced activity nodes
++inside admitted execution boundaries.
++
+ The machine-readable ingress declaration lives at
+ `/.octon/instance/ingress/manifest.yml`. Treat that manifest as the source of
+ truth for mandatory reads, optional overlays, conditional overlays, adapter
+@@ -34,6 +39,12 @@ restate the full topology registry.
+   - `.octon/instance/charter/workspace.yml`
+ - optional bootstrap orientation:
+   - `.octon/instance/bootstrap/START.md`
++- agent boundary rule:
++  - agents may produce candidate artifacts, summaries, reviews,
++    classifications, patches, repair suggestions, or exception
++    recommendations
++  - agents may not authorize effects, own workflow state, schedule themselves
++    indefinitely, mutate control truth, admit connectors, or close work
+ 
+ ## Read Order
+ 
+@@ -84,6 +95,10 @@ or repo-consequential work, read:
+ - generated outputs live under `generated/**` and remain derived-only
+ - raw `inputs/**` never becomes a direct runtime or policy dependency
+ - `inputs/exploratory/ideation/**` remains human-led
++- generated summaries, raw inputs, chat, model memory, host UI state, tool
++  availability, MCP server availability, Durable Object state, and external
++  workflow dashboards are not authority, permission, policy, retained
++  evidence, or closeout truth
+ - overlay legality, publication metadata, and steady-state path families are
+   registry-backed rather than hand-maintained here
+ 

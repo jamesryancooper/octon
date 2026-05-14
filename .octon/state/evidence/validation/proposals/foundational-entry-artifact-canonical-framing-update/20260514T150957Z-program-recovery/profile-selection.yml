@@ -1,0 +1,7 @@
+schema_version: "octon-recovery-profile-selection-v1"
+run_id: "lifecycle-proposal-program-1778765587179-1b03734b"
+release_state: "pre-1.0"
+change_profile: "atomic"
+profile_selected_at: "2026-05-14T15:09:57Z"
+transitional_exception_note: "not required"
+scope: "recover confirmed proposal-program lifecycle blockers without rewriting retained run evidence"

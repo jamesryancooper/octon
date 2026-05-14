@@ -1,11 +1,11 @@
 context_pack_receipt_ref: .octon/state/evidence/runs/archive-proposal-validate-proposal/context/context-pack-receipt.json
 context_pack_ref: .octon/state/evidence/runs/archive-proposal-validate-proposal/context/context-pack.json
-context_pack_sha256: sha256:0b9cb327515cf22c0c60013dcaa156931503a9d23cecb6933b454c0362e7b992
+context_pack_sha256: sha256:42a064308deb2fc3147bc775583af1cc9976e098bafd24e3ec4b08083285ece4
 context_policy_ref: .octon/instance/governance/policies/context-packing.yml
 model_visible_context_ref: .octon/state/evidence/runs/archive-proposal-validate-proposal/context/model-visible-context.json
-model_visible_context_sha256: sha256:8d95be46c032c866116b35dcb4d8f5d3cc1695acfb9ea745ebfc952d63331d3a
-receipt_sha256: sha256:889a46610692b98408a7cdb33865ce79733a841de8957333ad3e29ce319d3a3b
+model_visible_context_sha256: sha256:23802a3e0ce998ca41dbc1793ea7f555bf586394972cab5e8acec491b36153ee
+receipt_sha256: sha256:068e8bd06bf90adf93393bbc97146dff2f8f2906d59e42af078340091096e1eb
 run_id: archive-proposal-validate-proposal
 schema_version: active-context-pack-v1
-updated_at: 2026-05-11T18:07:09.244969Z
+updated_at: 2026-05-14T18:00:01.557553Z
 validity_state: valid

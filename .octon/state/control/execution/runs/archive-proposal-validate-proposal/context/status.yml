@@ -5,5 +5,5 @@ model_visible_context_ref: .octon/state/evidence/runs/archive-proposal-validate-
 run_id: archive-proposal-validate-proposal
 schema_version: context-pack-status-v1
 status: bound
-updated_at: 2026-05-11T18:07:09.244969Z
+updated_at: 2026-05-14T18:00:01.557553Z
 validity_state: valid
