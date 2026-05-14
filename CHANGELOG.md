@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.70](https://github.com/jamesryancooper/octon/compare/octon-v0.6.69...octon-v0.6.70) (2026-05-14)
+
+
+### Bug Fixes
+
+* **lifecycle:** harden executor timeout handling ([eeeeab1](https://github.com/jamesryancooper/octon/commit/eeeeab1127e7c7716f1b113eb88c797350f32b77))
+
 ## [0.6.69](https://github.com/jamesryancooper/octon/compare/octon-v0.6.68...octon-v0.6.69) (2026-05-14)
 
 
