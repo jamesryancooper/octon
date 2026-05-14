@@ -1,0 +1,123 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-automation-runtime-hardening",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the Lifecycle Automation runtime hardening change on the branch-no-pr route with cleaned outcome.",
+  "scope": {
+    "summary": "Lifecycle automation runtime hardening, explicit execution strategies, durable cancellation, approval guidance, shared observability, and generated projection updates.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/main.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/approval.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs",
+      ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/",
+      ".octon/generated/effective/",
+      ".codex/",
+      ".claude/",
+      ".cursor/"
+    ],
+    "diff_refs": [
+      "chore/lifecycle-automation-hardening@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+      "main@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+      "origin/main@aa978475b7eb7276ff2ed86c78f0b1316401e4d9"
+    ]
+  },
+  "source_branch_ref": "chore/lifecycle-automation-hardening",
+  "target_branch_ref": "origin/main@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+  "remote_branch_ref": "origin/chore/lifecycle-automation-hardening@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/lifecycle-automation-hardening",
+    "source_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "target_pre_ref": "1ac978de666f298a3dbb535e3fce48485930c23d",
+    "target_post_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "validated_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+      "branch_naming_validation@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+      "route_aware_autonomy_validation@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+      "exact_source_sha_validation@aa978475b7eb7276ff2ed86c78f0b1316401e4d9"
+    ],
+    "provider_ruleset_ref": "github-ruleset:jamesryancooper/octon:12881449:main",
+    "push_refspec": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "github-ruleset:jamesryancooper/octon:12881449:main",
+    "source_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "target_ref": "origin/main@aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh preflight passed",
+      "origin/main fast-forwarded from 1ac978de666f298a3dbb535e3fce48485930c23d to aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+      "required GitHub checks passed at exact source SHA"
+    ]
+  },
+  "landed_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+  "main_alignment": {
+    "local_main_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "origin_main_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "landed_ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "aligned": true,
+    "verification_ref": "git rev-parse main origin/main HEAD"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "local branch chore/lifecycle-automation-hardening deleted after containment in origin/main",
+    "remote branch origin/chore/lifecycle-automation-hardening deleted after no-open-PR check",
+    "local main synced to origin/main at aa978475b7eb7276ff2ed86c78f0b1316401e4d9"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/lifecycle-automation-hardening",
+    "remote_branch": "origin/chore/lifecycle-automation-hardening",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      "git branch --list chore/lifecycle-automation-hardening returned no local branch",
+      "git branch -r --list origin/chore/lifecycle-automation-hardening returned no remote-tracking branch",
+      "git-branch-cleanup.sh completed with --delete-remote --confirm"
+    ]
+  },
+  "validation_evidence_refs": [
+    "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel lifecycle: passed 98 tests",
+    "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel lifecycle_program: passed 81 tests",
+    "cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_lifecycle_executor: passed 26 adapter tests",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh: passed 125 checks",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh: passed 51 checks",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh: passed",
+    "bash .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-pack-shape.sh: passed 197 checks",
+    "bash .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-route-resolution.sh: passed 251 checks",
+    "bash .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-routing-guide-docs.sh: passed 11 checks",
+    "bash .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-authority-boundaries.sh: passed 9 checks",
+    ".octon/framework/engine/runtime/run lifecycle plan --lifecycle proposal-program --target .octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program: planned first runnable child foundational-entry-artifact-canonical-framing-update"
+  ],
+  "review_waiver_refs": [
+    "operator explicitly selected branch-no-pr cleaned closeout; no PR was opened",
+    "provider ruleset 12881449 allowed route-neutral no-PR fast-forward landing"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "branch": "chore/lifecycle-automation-hardening"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "aa978475b7eb7276ff2ed86c78f0b1316401e4d9",
+    "instructions": "Run git revert aa978475b7eb7276ff2ed86c78f0b1316401e4d9 on main and validate before pushing a rollback change."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-14T02:27:32Z",
+  "updated_at": "2026-05-14T02:27:32Z"
+}
