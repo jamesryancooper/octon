@@ -9,7 +9,7 @@ use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 use std::thread;
 
 const PROGRAM_CHECKPOINT_FILE: &str = "program-lifecycle-checkpoint.yml";
@@ -863,7 +863,9 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint(
             .as_deref()
             .unwrap_or(child_default_lifecycle)
             .to_string();
-        let child_target_abs = resolve_lifecycle_target_path(&repo_root, Path::new(&child.path))?;
+        let declared_child_target_abs =
+            resolve_lifecycle_target_path(&repo_root, Path::new(&child.path))?;
+        let child_target_abs = resolve_program_child_target(&declared_child_target_abs)?;
         let child_target_rel = rel_display(&repo_root, &child_target_abs);
         let mut blockers = Vec::new();
         let mut selected_route = None;
@@ -882,65 +884,68 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint(
             match plan_lifecycle_from_octon_dir(
                 octon_dir,
                 &child_lifecycle_id,
-                Path::new(&child.path),
+                Path::new(&child_target_rel),
             ) {
                 Ok(plan) => {
                     selected_route = plan.next_route.clone();
                     terminal_outcome = plan.terminal_outcome.clone();
                     final_verdict = plan.final_verdict.clone();
                     receipt_digests = receipt_digest_map(&plan);
-                    let worktree_hygiene_blocked =
-                        lifecycle_plan_has_worktree_hygiene_blocker(&plan);
-                    if worktree_hygiene_blocked {
-                        blockers.push(ProgramBlocker {
-                            blocker_class: "worktree-hygiene-blocked".to_string(),
-                            message: "child closeout is blocked by foreign or ambiguous worktree hygiene; route through closeout-change or operator scope resolution".to_string(),
-                            recovery_route: None,
-                        });
-                    }
-                    if plan
-                        .receipt_states
-                        .values()
-                        .any(|receipt| receipt.stale == Some(true))
-                    {
-                        blockers.push(ProgramBlocker {
-                            blocker_class: "stale-receipt".to_string(),
-                            message: "one or more child receipts are stale".to_string(),
-                            recovery_route: selected_route
-                                .as_ref()
-                                .map(|route| route.route_id.clone()),
-                        });
-                    }
-                    if plan
-                        .receipt_states
-                        .values()
-                        .any(|receipt| !receipt.missing_required_fields.is_empty())
-                    {
-                        blockers.push(ProgramBlocker {
-                            blocker_class: "missing-evidence".to_string(),
-                            message: "one or more child receipts are missing required fields"
-                                .to_string(),
-                            recovery_route: selected_route
-                                .as_ref()
-                                .map(|route| route.route_id.clone()),
-                        });
-                    }
-                    if plan.final_verdict == "blocked-gate" {
-                        blockers.push(ProgramBlocker {
-                            blocker_class: "validation-failed".to_string(),
-                            message: "child lifecycle gate failed".to_string(),
-                            recovery_route: selected_route
-                                .as_ref()
-                                .map(|route| route.route_id.clone()),
-                        });
-                    } else if plan.final_verdict == "blocked-no-route" && !worktree_hygiene_blocked
-                    {
-                        blockers.push(ProgramBlocker {
-                            blocker_class: "missing-evidence".to_string(),
-                            message: "child is not terminal and has no selectable route"
-                                .to_string(),
-                            recovery_route: None,
-                        });
+                    if plan.terminal_outcome.as_deref() != Some("archived") {
+                        let worktree_hygiene_blocked =
+                            lifecycle_plan_has_worktree_hygiene_blocker(&plan);
+                        if worktree_hygiene_blocked {
+                            blockers.push(ProgramBlocker {
+                                blocker_class: "worktree-hygiene-blocked".to_string(),
+                                message: "child closeout is blocked by foreign or ambiguous worktree hygiene; route through closeout-change or operator scope resolution".to_string(),
+                                recovery_route: None,
+                            });
+                        }
+                        if plan
+                            .receipt_states
+                            .values()
+                            .any(|receipt| receipt.stale == Some(true))
+                        {
+                            blockers.push(ProgramBlocker {
+                                blocker_class: "stale-receipt".to_string(),
+                                message: "one or more child receipts are stale".to_string(),
+                                recovery_route: selected_route
+                                    .as_ref()
+                                    .map(|route| route.route_id.clone()),
+                            });
+                        }
+                        if plan
+                            .receipt_states
+                            .values()
+                            .any(|receipt| !receipt.missing_required_fields.is_empty())
+                        {
+                            blockers.push(ProgramBlocker {
+                                blocker_class: "missing-evidence".to_string(),
+                                message: "one or more child receipts are missing required fields"
+                                    .to_string(),
+                                recovery_route: selected_route
+                                    .as_ref()
+                                    .map(|route| route.route_id.clone()),
+                            });
+                        }
+                        if plan.final_verdict == "blocked-gate" {
+                            blockers.push(ProgramBlocker {
+                                blocker_class: "validation-failed".to_string(),
+                                message: "child lifecycle gate failed".to_string(),
+                                recovery_route: selected_route
+                                    .as_ref()
+                                    .map(|route| route.route_id.clone()),
+                            });
+                        } else if plan.final_verdict == "blocked-no-route"
+                            && !worktree_hygiene_blocked
+                        {
+                            blockers.push(ProgramBlocker {
+                                blocker_class: "missing-evidence".to_string(),
+                                message: "child is not terminal and has no selectable route"
+                                    .to_string(),
+                                recovery_route: None,
+                            });
+                        }
                     }
                     match child_write_scopes(child, &child_target_abs, &child_target_rel) {
                         Ok(scopes) => write_scopes = scopes,
@@ -1364,6 +1369,20 @@ fn run_program_lifecycle_single_step(
     let mut child_results = Vec::new();
     let mut final_verdict = plan.final_verdict.clone();
     let mut terminal_outcome = plan.terminal_outcome.clone();
+    write_program_checkpoint_snapshot(
+        octon_dir,
+        control_root,
+        sanitized_run_id,
+        &options.lifecycle_id,
+        target_rel,
+        options.executor,
+        run_inputs,
+        &plan,
+        &child_results,
+        &final_verdict,
+        terminal_outcome.clone(),
+        previous_checkpoint,
+    )?;
     let cancelled_before_dispatch =
         options.execute_routes && lifecycle_cancellation_token_path(control_root).exists();
     if cancelled_before_dispatch {
@@ -1548,7 +1567,9 @@ fn run_program_lifecycle_single_step(
         }
     }
 
-    let mut checkpoint = checkpoint_from_plan(
+    let mut checkpoint = write_program_checkpoint_snapshot(
+        octon_dir,
+        control_root,
         sanitized_run_id,
         &options.lifecycle_id,
         target_rel,
@@ -1558,17 +1579,9 @@ fn run_program_lifecycle_single_step(
         &child_results,
         &final_verdict,
         terminal_outcome.clone(),
-        count_program_events(control_root)?,
-        previous_checkpoint
-            .map(|checkpoint| checkpoint.recovery_attempts.clone())
-            .unwrap_or_default(),
-        previous_checkpoint
-            .map(|checkpoint| checkpoint.approvals.clone())
-            .unwrap_or_default(),
-    );
-    enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
+        previous_checkpoint,
+    )?;
     let checkpoint_path = program_checkpoint_path_for_run(octon_dir, sanitized_run_id)?;
-    fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
     fs::write(
         evidence_root.join("program-plan.yml"),
         serde_yaml::to_string(&plan)?,
@@ -1978,11 +1991,13 @@ pub(crate) fn cancel_program_lifecycle_run(
     let evidence_path = evidence_root.join("program-cancelled.yml");
     let cancellation_token = lifecycle_cancellation_token_path(&control_root);
     let recorded_at = now_rfc3339()?;
+    let stale_locks = collect_child_lock_paths(&repo_root, &control_root)?;
+    let stale_lock_block = yaml_list(&stale_locks);
     fs::write(
         &evidence_path,
         format!(
-            "schema_version: octon-program-lifecycle-cancelled-v1\nrun_id: {sanitized_run_id}\nreason: {reason}\nrecorded_at: {recorded_at}\ncancellation_token: {}\n",
-            rel_display(&repo_root, &cancellation_token)
+            "schema_version: octon-program-lifecycle-cancelled-v1\nrun_id: {sanitized_run_id}\nreason: {reason}\nrecorded_at: {recorded_at}\ncancellation_token: {}\nstale_child_locks:\n{stale_lock_block}",
+            rel_display(&repo_root, &cancellation_token),
         ),
     )?;
     fs::write(
@@ -1995,7 +2010,7 @@ pub(crate) fn cancel_program_lifecycle_run(
             rel_display(&repo_root, &evidence_path)
         ),
     )?;
-    let latest_event_offset = append_program_event(
+    let mut latest_event_offset = append_program_event(
         &control_root,
         &evidence_root,
         &sanitized_run_id,
@@ -2005,6 +2020,25 @@ pub(crate) fn cancel_program_lifecycle_run(
         "program lifecycle run cancelled",
         event_data([("reason", reason)]),
     )?;
+    for lock_path in &stale_locks {
+        let child_id = Path::new(lock_path)
+            .file_stem()
+            .and_then(|stem| stem.to_str())
+            .unwrap_or("unknown");
+        latest_event_offset = append_program_event(
+            &control_root,
+            &evidence_root,
+            &sanitized_run_id,
+            "child-lock-stale",
+            Some(child_id),
+            None,
+            "program cancellation preserved existing child execution lock",
+            event_data([
+                ("status", "preserved-cancelled"),
+                ("lock_path", lock_path.as_str()),
+            ]),
+        )?;
+    }
     checkpoint.final_verdict = "cancelled".to_string();
     checkpoint.terminal_outcome = Some("cancelled".to_string());
     checkpoint.cancelled_at = Some(recorded_at.clone());
@@ -2029,6 +2063,39 @@ pub(crate) fn cancel_program_lifecycle_run(
         evidence_path: rel_display(&repo_root, &evidence_path),
         latest_event_offset,
     })
+}
+
+fn collect_child_lock_paths(repo_root: &Path, control_root: &Path) -> Result<Vec<String>> {
+    let lock_root = control_root.join("locks");
+    if !lock_root.is_dir() {
+        return Ok(Vec::new());
+    }
+    let mut locks = Vec::new();
+    for entry in fs::read_dir(&lock_root)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_file() {
+            locks.push(rel_display(repo_root, &path));
+        }
+    }
+    locks.sort();
+    Ok(locks)
+}
+
+fn yaml_list(values: &[String]) -> String {
+    if values.is_empty() {
+        return "  []\n".to_string();
+    }
+    values
+        .iter()
+        .map(|value| format!("  - {}\n", yaml_scalar(value)))
+        .collect::<String>()
+}
+
+fn yaml_scalar(value: &str) -> String {
+    serde_yaml::to_string(value)
+        .map(|value| value.trim().to_string())
+        .unwrap_or_else(|_| format!("{value:?}"))
 }
 
 pub(crate) fn replay_program_lifecycle_run(
@@ -3559,6 +3626,61 @@ fn plan_program_level_route(
     Ok((Some(route_plan_state(route)), gate_results, None))
 }
 
+fn resolve_program_child_target(active_target_abs: &Path) -> Result<PathBuf> {
+    if active_target_abs.join("proposal.yml").is_file() {
+        return Ok(active_target_abs.to_path_buf());
+    }
+    let Some(archived_target_abs) = archived_target_for_active_target(active_target_abs) else {
+        return Ok(active_target_abs.to_path_buf());
+    };
+    if proposal_status_at_target(&archived_target_abs)?.as_deref() == Some("archived") {
+        Ok(archived_target_abs)
+    } else {
+        Ok(active_target_abs.to_path_buf())
+    }
+}
+
+fn proposal_status_at_target(target_abs: &Path) -> Result<Option<String>> {
+    let manifest_path = target_abs.join("proposal.yml");
+    if !manifest_path.is_file() {
+        return Ok(None);
+    }
+    let manifest: serde_yaml::Value = serde_yaml::from_slice(&fs::read(&manifest_path)?)?;
+    Ok(manifest
+        .get("status")
+        .and_then(|value| value.as_str())
+        .map(str::to_string))
+}
+
+fn archived_target_for_active_target(active_target: &Path) -> Option<PathBuf> {
+    let components = active_target.components().collect::<Vec<_>>();
+    let proposals_index = components.windows(4).position(|window| {
+        matches!(window[0], Component::Normal(part) if part == ".octon")
+            && matches!(window[1], Component::Normal(part) if part == "inputs")
+            && matches!(window[2], Component::Normal(part) if part == "exploratory")
+            && matches!(window[3], Component::Normal(part) if part == "proposals")
+    })?;
+    let kind_index = proposals_index + 4;
+    let id_index = proposals_index + 5;
+    if components.len() != id_index + 1
+        || matches!(components[kind_index], Component::Normal(part) if part == ".archive")
+    {
+        return None;
+    }
+    let mut archived = PathBuf::new();
+    for component in components.iter().take(kind_index) {
+        archived.push(component.as_os_str());
+    }
+    archived.push(".archive");
+    archived.push(components[kind_index].as_os_str());
+    archived.push(components[id_index].as_os_str());
+    Some(archived)
+}
+
+fn rel_path_string(path: &Path) -> String {
+    path.to_string_lossy().replace('\\', "/")
+}
+
 fn apply_dependency_blockers(child_states: &mut BTreeMap<String, ProgramChildPlanState>) {
     let completed = child_states
         .iter()
@@ -3591,6 +3713,14 @@ fn apply_checkpoint_child_drift(
         let Some(state) = child_states.get_mut(child_id) else {
             continue;
         };
+        let archived_relocation =
+            archived_target_for_active_target(Path::new(&checkpoint_state.target))
+                .map(|archived| rel_path_string(&archived) == state.target)
+                .unwrap_or(false)
+                && state.terminal_outcome.as_deref() == Some("archived");
+        if archived_relocation {
+            continue;
+        }
         if state.target != checkpoint_state.target {
             state.blockers.push(ProgramBlocker {
                 blocker_class: "target-drift".to_string(),
@@ -5791,6 +5921,56 @@ fn checkpoint_from_plan(
     }
 }
 
+fn write_program_checkpoint_snapshot(
+    octon_dir: &Path,
+    control_root: &Path,
+    run_id: &str,
+    lifecycle_id: &str,
+    target: &str,
+    executor: ExecutorKind,
+    run_inputs: &BTreeMap<String, String>,
+    plan: &ProgramLifecyclePlanResult,
+    child_results: &[ProgramChildExecutionSummary],
+    final_verdict: &str,
+    terminal_outcome: Option<String>,
+    previous_checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<ProgramLifecycleCheckpoint> {
+    let mut checkpoint = checkpoint_from_plan(
+        run_id,
+        lifecycle_id,
+        target,
+        executor,
+        run_inputs,
+        plan,
+        child_results,
+        final_verdict,
+        terminal_outcome,
+        count_program_events(control_root)?,
+        previous_checkpoint
+            .map(|checkpoint| checkpoint.recovery_attempts.clone())
+            .unwrap_or_default(),
+        previous_checkpoint
+            .map(|checkpoint| checkpoint.approvals.clone())
+            .unwrap_or_default(),
+    );
+    if final_verdict == "cancelled" {
+        if let Some(existing) = read_program_checkpoint_for_run(octon_dir, run_id)? {
+            if existing.cancelled_at.is_some() || existing.cancellation_evidence_path.is_some() {
+                checkpoint.cancelled_at = existing.cancelled_at;
+                checkpoint.cancel_reason = existing.cancel_reason;
+                checkpoint.cancellation_evidence_path = existing.cancellation_evidence_path;
+                checkpoint.terminal_outcome = Some("cancelled".to_string());
+                checkpoint.resume_instruction =
+                    "cancelled program lifecycle runs cannot resume dispatch".to_string();
+            }
+        }
+    }
+    enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
+    let checkpoint_path = program_checkpoint_path_for_run(octon_dir, run_id)?;
+    fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+    Ok(checkpoint)
+}
+
 fn enrich_checkpoint_event_metadata(
     checkpoint: &mut ProgramLifecycleCheckpoint,
     control_root: &Path,
@@ -7048,14 +7228,6 @@ mod tests {
         }
     }
 
-    #[test]
-    fn worktree_hygiene_blocker_is_recoverable_without_lifecycle_route() {
-        assert_eq!(
-            classify_program_blocker_class("worktree-hygiene-blocked"),
-            ProgramBlockerDisposition::Recoverable
-        );
-    }
-
     fn approval_blocker() -> ProgramApprovalBlocker {
         ProgramApprovalBlocker {
             child_id: "a".to_string(),
@@ -7063,6 +7235,14 @@ mod tests {
             reason: "approval required".to_string(),
             blocker_class: Some("approval-required".to_string()),
         }
+    }
+
+    #[test]
+    fn worktree_hygiene_blocker_is_recoverable_without_lifecycle_route() {
+        assert_eq!(
+            classify_program_blocker_class("worktree-hygiene-blocked"),
+            ProgramBlockerDisposition::Recoverable
+        );
     }
 
     fn child_state(child_id: &str, blockers: Vec<ProgramBlocker>) -> ProgramChildPlanState {
@@ -8527,6 +8707,51 @@ routes:
     }
 
     #[test]
+    fn program_planner_resolves_archived_registry_child_without_recreating_active_path() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("archived-registry-child", true);
+        fixture.write_full_child_contract();
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a/proposal.yml",
+            "status: archived\npromotion_targets:\n  - \"framework/a.md\"\n",
+        );
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/architecture/b/proposal.yml",
+            "status: accepted\npromotion_targets:\n  - \"framework/b.md\"\n",
+        );
+        fixture.write_registry(
+            "gated-parallel",
+            r#"  - child_id: "a"
+    path: ".octon/inputs/exploratory/proposals/architecture/a"
+    phase_id: "phase-a"
+  - child_id: "b"
+    path: ".octon/inputs/exploratory/proposals/architecture/b"
+    phase_id: "phase-b"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        let archived = plan.child_states.get("a").unwrap();
+        assert_eq!(archived.terminal_outcome.as_deref(), Some("archived"));
+        assert_eq!(
+            archived.target,
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a"
+        );
+        assert!(archived.selected_route.is_none());
+        assert!(!archived
+            .blockers
+            .iter()
+            .any(|blocker| blocker.recovery_route.as_deref() == Some("create-packet")));
+        assert_eq!(plan.runnable_batch, vec!["b".to_string()]);
+    }
+
+    #[test]
     fn program_verification_prompt_with_missing_aggregate_receipts_routes_to_loop() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-verification-loop", "implemented");
@@ -9703,6 +9928,128 @@ routes:
             )
             .unwrap();
         assert!(recovery_log.is_empty());
+    }
+
+    #[test]
+    fn preexisting_program_cancellation_token_blocks_first_dispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("preexisting-cancel-token", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/preexisting-cancel-token");
+        fs::create_dir_all(&control_root).unwrap();
+        fs::write(
+            control_root.join("cancellation.yml"),
+            "schema_version: octon-lifecycle-cancellation-v1\n",
+        )
+        .unwrap();
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("preexisting-cancel-token".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(20),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                approval_policy: "minimize".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "cancelled");
+        assert_eq!(result.terminal_outcome.as_deref(), Some("cancelled"));
+        assert!(result.child_results.is_empty());
+        let checkpoint: ProgramLifecycleCheckpoint = serde_yaml::from_slice(
+            &fs::read(control_root.join("program-lifecycle-checkpoint.yml")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(checkpoint.final_verdict, "cancelled");
+        let events = fs::read_to_string(control_root.join("program-events.ndjson")).unwrap();
+        assert!(events.contains("\"event_type\":\"cancelled\""));
+        assert!(!events.contains("\"event_type\":\"child-route-started\""));
+    }
+
+    #[test]
+    fn program_cancel_after_plan_checkpoint_records_stale_locks() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("cancel-after-plan-checkpoint", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let planned = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("cancel-after-plan-checkpoint".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: Some(20),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                approval_policy: "minimize".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(planned.final_verdict, "planned");
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/cancel-after-plan-checkpoint");
+        let lock_path = control_root.join("locks/a.lock");
+        fs::create_dir_all(lock_path.parent().unwrap()).unwrap();
+        fs::write(&lock_path, "child_id: a\n").unwrap();
+
+        let cancelled = cancel_program_lifecycle_run(
+            &fixture.octon_dir,
+            "cancel-after-plan-checkpoint",
+            "operator stop",
+        )
+        .unwrap();
+
+        assert_eq!(cancelled.final_verdict, "cancelled");
+        assert!(
+            lock_path.exists(),
+            "cancel must preserve existing stale lock"
+        );
+        let evidence = fs::read_to_string(fixture.octon_dir.join(
+            "state/evidence/runs/workflows/cancel-after-plan-checkpoint/program-cancelled.yml",
+        ))
+        .unwrap();
+        assert!(evidence.contains("stale_child_locks"));
+        assert!(evidence.contains("locks/a.lock"));
+        let events = fs::read_to_string(control_root.join("program-events.ndjson")).unwrap();
+        assert!(events.contains("\"event_type\":\"child-lock-stale\""));
+        let checkpoint: ProgramLifecycleCheckpoint = serde_yaml::from_slice(
+            &fs::read(control_root.join("program-lifecycle-checkpoint.yml")).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(checkpoint.final_verdict, "cancelled");
+        assert_eq!(checkpoint.terminal_outcome.as_deref(), Some("cancelled"));
+        assert!(checkpoint.cancellation_evidence_path.is_some());
     }
 
     #[test]

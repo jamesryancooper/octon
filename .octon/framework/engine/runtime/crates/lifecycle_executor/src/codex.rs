@@ -4,11 +4,19 @@ use crate::request::LifecycleRouteExecutionRequest;
 use crate::result::LifecycleRouteExecutionResult;
 use crate::{observer, prompt_bundle, workflow_leaf};
 use std::fs;
+use std::fs::File;
 use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::process::{Command, Stdio};
+use std::process::{Child, Command, ExitStatus, Stdio};
 use std::thread;
 use std::time::{Duration, Instant};
+
+#[cfg(unix)]
+use std::os::unix::process::CommandExt;
+
+const TERMINATION_GRACE: Duration = Duration::from_secs(2);
+const FORCE_KILL_GRACE: Duration = Duration::from_secs(2);
+const OBSERVATION_INTERVAL: Duration = Duration::from_secs(1);
 
 pub fn execute_codex(
     repo_root: &Path,
@@ -51,39 +59,37 @@ pub fn execute_agent(
     let stderr_path = request
         .evidence_root
         .join(format!("{}-stderr.log", request.route.route_id));
+    let executor_start_path = request
+        .evidence_root
+        .join(format!("{}-executor-start.yml", request.route.route_id));
+    let executor_observation_path = request.evidence_root.join(format!(
+        "{}-executor-observation.yml",
+        request.route.route_id
+    ));
+    let executor_terminal_path = request
+        .evidence_root
+        .join(format!("{}-executor-terminal.yml", request.route.route_id));
     fs::write(&prompt_path, &prompt)?;
 
-    let output = run_with_timeout(repo_root, &executor_bin, executor_name, &prompt, request)?;
-    fs::write(&stdout_path, &output.stdout)?;
-    fs::write(&stderr_path, &output.stderr)?;
+    let output = run_with_timeout(
+        repo_root,
+        &executor_bin,
+        executor_name,
+        &prompt,
+        request,
+        &stdout_path,
+        &stderr_path,
+        &executor_start_path,
+        &executor_observation_path,
+        &executor_terminal_path,
+    )?;
     let observation = observer::observe_completion(request, before.clone(), before_target_digest)
         .map_err(LifecycleExecutionError::from)?;
     let retry_after_target_digest =
         observer::target_digest(&request.target).map_err(LifecycleExecutionError::from)?;
-    let status = if output.timed_out {
-        "timed-out"
-    } else if output.cancelled {
-        "cancelled"
-    } else if !output.success {
-        "failed"
-    } else if observation.completion_observed {
-        "completed"
-    } else {
-        "failed"
-    };
-    let error_class = if output.timed_out {
-        Some(LifecycleErrorClass::Timeout)
-    } else if output.cancelled {
-        Some(LifecycleErrorClass::Cancelled)
-    } else if !output.success {
-        Some(LifecycleErrorClass::ExecutorFailed)
-    } else if !observation.completion_observed {
-        Some(LifecycleErrorClass::CompletionNotObserved)
-    } else {
-        None
-    };
+    let (status, error_class) = route_status_and_error(&output, observation.completion_observed);
     let retryable = matches!(
-        error_class,
+        &error_class,
         Some(LifecycleErrorClass::ExecutorFailed)
             | Some(LifecycleErrorClass::ExecutorUnavailable)
             | Some(LifecycleErrorClass::Timeout)
@@ -93,6 +99,9 @@ pub fn execute_agent(
         prompt_path.clone(),
         stdout_path.clone(),
         stderr_path.clone(),
+        executor_start_path.clone(),
+        executor_observation_path.clone(),
+        executor_terminal_path.clone(),
     ];
     let observation_path = request.evidence_root.join(format!(
         "{}-completion-observation.yml",
@@ -137,8 +146,23 @@ struct AgentOutput {
     success: bool,
     timed_out: bool,
     cancelled: bool,
-    stdout: Vec<u8>,
-    stderr: Vec<u8>,
+}
+
+fn route_status_and_error(
+    output: &AgentOutput,
+    completion_observed: bool,
+) -> (&'static str, Option<LifecycleErrorClass>) {
+    if output.cancelled {
+        ("cancelled", Some(LifecycleErrorClass::Cancelled))
+    } else if output.success && completion_observed {
+        ("completed", None)
+    } else if output.timed_out {
+        ("timed-out", Some(LifecycleErrorClass::Timeout))
+    } else if !output.success {
+        ("failed", Some(LifecycleErrorClass::ExecutorFailed))
+    } else {
+        ("failed", Some(LifecycleErrorClass::CompletionNotObserved))
+    }
 }
 
 fn run_with_timeout(
@@ -147,8 +171,26 @@ fn run_with_timeout(
     executor_name: &str,
     prompt: &str,
     request: &LifecycleRouteExecutionRequest,
+    stdout_path: &Path,
+    stderr_path: &Path,
+    executor_start_path: &Path,
+    executor_observation_path: &Path,
+    executor_terminal_path: &Path,
 ) -> Result<AgentOutput, LifecycleExecutionError> {
     let mut command = build_executor_command(executor_bin, executor_name, repo_root)?;
+    let command_line = executor_command_line(executor_bin, executor_name, repo_root);
+    write_executor_start_evidence(
+        executor_start_path,
+        executor_name,
+        executor_bin,
+        &command_line,
+        request,
+    )?;
+    let stdout_file = File::create(stdout_path)?;
+    let stderr_file = File::create(stderr_path)?;
+    command
+        .stdout(Stdio::from(stdout_file))
+        .stderr(Stdio::from(stderr_file));
     let mut child = command.spawn().map_err(|error| {
         LifecycleExecutionError::new(LifecycleErrorClass::ExecutorUnavailable, error.to_string())
     })?;
@@ -157,40 +199,96 @@ fn run_with_timeout(
     }
     drop(child.stdin.take());
     let start = Instant::now();
+    let mut last_observation = Instant::now()
+        .checked_sub(OBSERVATION_INTERVAL)
+        .unwrap_or_else(Instant::now);
+    write_executor_observation(
+        executor_observation_path,
+        executor_name,
+        child.id(),
+        start.elapsed(),
+        "running",
+        request,
+    )?;
     loop {
         if let Some(token) = request.policy.cancellation_token.as_ref() {
             if token.exists() {
-                let _ = child.kill();
-                let output = child.wait_with_output()?;
+                let termination = terminate_child(&mut child);
+                let exit_observed = termination.status.is_some();
+                write_executor_terminal(
+                    executor_terminal_path,
+                    executor_name,
+                    child.id(),
+                    "cancelled",
+                    start.elapsed(),
+                    termination.status,
+                    exit_observed,
+                    termination.used_force_kill,
+                    termination.error.as_deref(),
+                )?;
                 return Ok(AgentOutput {
                     success: false,
                     timed_out: false,
                     cancelled: true,
-                    stdout: output.stdout,
-                    stderr: output.stderr,
                 });
             }
         }
         if let Some(status) = child.try_wait()? {
-            let output = child.wait_with_output()?;
+            let state = if status.success() {
+                "completed"
+            } else {
+                "failed"
+            };
+            write_executor_terminal(
+                executor_terminal_path,
+                executor_name,
+                child.id(),
+                state,
+                start.elapsed(),
+                Some(status),
+                true,
+                false,
+                None,
+            )?;
             return Ok(AgentOutput {
                 success: status.success(),
                 timed_out: false,
                 cancelled: false,
-                stdout: output.stdout,
-                stderr: output.stderr,
             });
         }
         if start.elapsed() >= Duration::from_secs(request.policy.timeout_seconds) {
-            let _ = child.kill();
-            let output = child.wait_with_output()?;
+            let termination = terminate_child(&mut child);
+            let exit_observed = termination.status.is_some();
+            write_executor_terminal(
+                executor_terminal_path,
+                executor_name,
+                child.id(),
+                "timed-out",
+                start.elapsed(),
+                termination.status,
+                exit_observed,
+                termination.used_force_kill,
+                termination.error.as_deref(),
+            )?;
             return Ok(AgentOutput {
-                success: false,
+                success: termination
+                    .status
+                    .map(|status| status.success())
+                    .unwrap_or(false),
                 timed_out: true,
                 cancelled: false,
-                stdout: output.stdout,
-                stderr: output.stderr,
             });
+        }
+        if last_observation.elapsed() >= OBSERVATION_INTERVAL {
+            write_executor_observation(
+                executor_observation_path,
+                executor_name,
+                child.id(),
+                start.elapsed(),
+                "running",
+                request,
+            )?;
+            last_observation = Instant::now();
         }
         thread::sleep(Duration::from_millis(100));
     }
@@ -221,10 +319,261 @@ fn build_executor_command(
             ));
         }
     }
-    command
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .current_dir(repo_root);
+    command.stdin(Stdio::piped()).current_dir(repo_root);
+    configure_process_group(&mut command);
     Ok(command)
+}
+
+fn executor_command_line(executor_bin: &Path, executor_name: &str, repo_root: &Path) -> String {
+    match executor_name {
+        "codex" => format!(
+            "{} exec --ephemeral --skip-git-repo-check --cd {}",
+            executor_bin.display(),
+            repo_root.display()
+        ),
+        "claude" => format!("{} -p --output-format text", executor_bin.display()),
+        _ => executor_bin.display().to_string(),
+    }
+}
+
+#[cfg(unix)]
+fn configure_process_group(command: &mut Command) {
+    unsafe {
+        command.pre_exec(|| {
+            if libc::setpgid(0, 0) == 0 {
+                Ok(())
+            } else {
+                Err(std::io::Error::last_os_error())
+            }
+        });
+    }
+}
+
+#[cfg(not(unix))]
+fn configure_process_group(_command: &mut Command) {}
+
+struct TerminationResult {
+    status: Option<ExitStatus>,
+    used_force_kill: bool,
+    error: Option<String>,
+}
+
+fn terminate_child(child: &mut Child) -> TerminationResult {
+    let mut error = None;
+    #[cfg(unix)]
+    {
+        let pid = child.id() as libc::pid_t;
+        if unsafe { libc::kill(-pid, libc::SIGTERM) } != 0 {
+            error = Some(std::io::Error::last_os_error().to_string());
+        }
+        if let Ok(Some(status)) = wait_for_child(child, TERMINATION_GRACE) {
+            let cleanup = force_kill_process_group(pid);
+            if error.is_none() {
+                error = cleanup.error;
+            }
+            return TerminationResult {
+                status: Some(status),
+                used_force_kill: cleanup.used_force_kill,
+                error,
+            };
+        }
+        let cleanup = force_kill_process_group(pid);
+        if error.is_none() {
+            error = cleanup.error;
+        }
+        let status = wait_for_child(child, FORCE_KILL_GRACE).ok().flatten();
+        return TerminationResult {
+            status,
+            used_force_kill: cleanup.used_force_kill,
+            error,
+        };
+    }
+    #[cfg(not(unix))]
+    {
+        if let Err(kill_error) = child.kill() {
+            error = Some(kill_error.to_string());
+        }
+        let status = wait_for_child(child, TERMINATION_GRACE).ok().flatten();
+        TerminationResult {
+            status,
+            used_force_kill: false,
+            error,
+        }
+    }
+}
+
+#[cfg(unix)]
+struct ProcessGroupCleanup {
+    used_force_kill: bool,
+    error: Option<String>,
+}
+
+#[cfg(unix)]
+fn force_kill_process_group(pid: libc::pid_t) -> ProcessGroupCleanup {
+    let mut error = None;
+    let used_force_kill = match unsafe { libc::kill(-pid, libc::SIGKILL) } {
+        0 => true,
+        _ if std::io::Error::last_os_error().raw_os_error() == Some(libc::ESRCH) => false,
+        _ => {
+            error = Some(std::io::Error::last_os_error().to_string());
+            false
+        }
+    };
+    let start = Instant::now();
+    while process_group_exists(pid) && start.elapsed() < FORCE_KILL_GRACE {
+        thread::sleep(Duration::from_millis(50));
+    }
+    if process_group_exists(pid) && error.is_none() {
+        error = Some("process group still existed after force kill grace period".to_string());
+    }
+    ProcessGroupCleanup {
+        used_force_kill,
+        error,
+    }
+}
+
+#[cfg(unix)]
+fn process_group_exists(pid: libc::pid_t) -> bool {
+    unsafe { libc::kill(-pid, 0) == 0 }
+}
+
+fn wait_for_child(child: &mut Child, timeout: Duration) -> std::io::Result<Option<ExitStatus>> {
+    let start = Instant::now();
+    loop {
+        if let Some(status) = child.try_wait()? {
+            return Ok(Some(status));
+        }
+        if start.elapsed() >= timeout {
+            return Ok(None);
+        }
+        thread::sleep(Duration::from_millis(50));
+    }
+}
+
+fn write_executor_start_evidence(
+    path: &Path,
+    executor_name: &str,
+    executor_bin: &Path,
+    command_line: &str,
+    request: &LifecycleRouteExecutionRequest,
+) -> Result<(), LifecycleExecutionError> {
+    let cancellation_token = request
+        .policy
+        .cancellation_token
+        .as_ref()
+        .map(|path| path.display().to_string())
+        .unwrap_or_else(|| "none".to_string());
+    fs::write(
+        path,
+        format!(
+            "schema_version: octon-lifecycle-executor-start-v1\nrun_id: {}\nroute_id: {}\nexecutor_name: {}\nexecutor_bin: {}\ncommand_line: {}\ntimeout_seconds: {}\nretry_attempt: {}\napproval_policy: {}\ncancellation_token: {}\nstarted_at: {}\n",
+            yaml_scalar(&request.run_id),
+            yaml_scalar(&request.route.route_id),
+            yaml_scalar(executor_name),
+            yaml_scalar(&executor_bin.display().to_string()),
+            yaml_scalar(command_line),
+            request.policy.timeout_seconds,
+            request.policy.retry_attempt,
+            yaml_scalar(&request.policy.approval_policy),
+            yaml_scalar(&cancellation_token),
+            yaml_scalar(&now_rfc3339()),
+        ),
+    )?;
+    Ok(())
+}
+
+fn write_executor_observation(
+    path: &Path,
+    executor_name: &str,
+    pid: u32,
+    elapsed: Duration,
+    state: &str,
+    request: &LifecycleRouteExecutionRequest,
+) -> Result<(), LifecycleExecutionError> {
+    fs::write(
+        path,
+        format!(
+            "schema_version: octon-lifecycle-executor-observation-v1\nrun_id: {}\nroute_id: {}\nexecutor_name: {}\npid: {}\nelapsed_ms: {}\nstate: {}\nobserved_at: {}\n",
+            yaml_scalar(&request.run_id),
+            yaml_scalar(&request.route.route_id),
+            yaml_scalar(executor_name),
+            pid,
+            elapsed.as_millis(),
+            yaml_scalar(state),
+            yaml_scalar(&now_rfc3339()),
+        ),
+    )?;
+    Ok(())
+}
+
+fn write_executor_terminal(
+    path: &Path,
+    executor_name: &str,
+    pid: u32,
+    state: &str,
+    elapsed: Duration,
+    status: Option<ExitStatus>,
+    process_exit_observed: bool,
+    used_force_kill: bool,
+    termination_error: Option<&str>,
+) -> Result<(), LifecycleExecutionError> {
+    fs::write(
+        path,
+        format!(
+            "schema_version: octon-lifecycle-executor-terminal-v1\nexecutor_name: {}\npid: {}\nelapsed_ms: {}\nstate: {}\nexit_status: {}\nprocess_exit_observed: {}\nused_force_kill: {}\ntermination_error: {}\nrecorded_at: {}\n",
+            yaml_scalar(executor_name),
+            pid,
+            elapsed.as_millis(),
+            yaml_scalar(state),
+            yaml_scalar(
+                &status
+                    .map(|status| status.to_string())
+                    .unwrap_or_else(|| "none".to_string())
+            ),
+            process_exit_observed,
+            used_force_kill,
+            yaml_scalar(termination_error.unwrap_or("none")),
+            yaml_scalar(&now_rfc3339()),
+        ),
+    )?;
+    Ok(())
+}
+
+fn yaml_scalar(value: &str) -> String {
+    serde_yaml::to_string(value)
+        .map(|value| value.trim().to_string())
+        .unwrap_or_else(|_| format!("{value:?}"))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn timeout_boundary_success_with_completion_is_completed() {
+        let output = AgentOutput {
+            success: true,
+            timed_out: true,
+            cancelled: false,
+        };
+
+        let (status, error_class) = route_status_and_error(&output, true);
+
+        assert_eq!(status, "completed");
+        assert_eq!(error_class, None);
+    }
+
+    #[test]
+    fn timeout_boundary_without_completion_remains_timeout() {
+        let output = AgentOutput {
+            success: true,
+            timed_out: true,
+            cancelled: false,
+        };
+
+        let (status, error_class) = route_status_and_error(&output, false);
+
+        assert_eq!(status, "timed-out");
+        assert_eq!(error_class, Some(LifecycleErrorClass::Timeout));
+    }
 }

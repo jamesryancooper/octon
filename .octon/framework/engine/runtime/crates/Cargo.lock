@@ -4209,6 +4209,7 @@ version = "1.0.0"
 dependencies = [
  "anyhow",
  "hex",
+ "libc",
  "octon_runtime_resolver",
  "serde",
  "serde_yaml",

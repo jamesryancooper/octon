@@ -56,15 +56,16 @@ pub fn observe_completion(
     before_status: Option<String>,
     before_target_digest: Option<String>,
 ) -> Result<LifecycleRouteCompletionObservation> {
+    let observation_target = completion_observation_target(request);
     let after_status = manifest_status(
-        &request.target,
+        &observation_target,
         &request.manifest_path,
         &request.status_field,
     )?;
-    let receipts = observe_receipts(&request.target, &request.receipts)?;
+    let receipts = observe_receipts(&observation_target, &request.receipts)?;
     let mut missing_expected_paths = Vec::new();
     for expected in &request.expected_paths {
-        let path = target_local_path(&request.target, expected, "completion expected path")?;
+        let path = target_local_path(&observation_target, expected, "completion expected path")?;
         if !path.exists() {
             missing_expected_paths.push(path);
         }
@@ -124,6 +125,41 @@ pub fn observe_completion(
         completion_observed,
         completion_message,
     })
+}
+
+fn completion_observation_target(request: &LifecycleRouteExecutionRequest) -> PathBuf {
+    if request.route.route_id != "archive-proposal"
+        || request.expected_manifest_status.as_deref() != Some("archived")
+        || request.target.join(&request.manifest_path).is_file()
+    {
+        return request.target.clone();
+    }
+    archived_target_for_active_target(&request.target)
+        .filter(|target| target.join(&request.manifest_path).is_file())
+        .unwrap_or_else(|| request.target.clone())
+}
+
+fn archived_target_for_active_target(target: &Path) -> Option<PathBuf> {
+    let components = target.components().collect::<Vec<_>>();
+    let proposals_index = components.windows(4).position(|window| {
+        matches!(window[0], Component::Normal(part) if part == ".octon")
+            && matches!(window[1], Component::Normal(part) if part == "inputs")
+            && matches!(window[2], Component::Normal(part) if part == "exploratory")
+            && matches!(window[3], Component::Normal(part) if part == "proposals")
+    })?;
+    let kind_index = proposals_index + 4;
+    let id_index = proposals_index + 5;
+    if components.len() != id_index + 1 {
+        return None;
+    }
+    let mut archived = PathBuf::new();
+    for component in components.iter().take(kind_index) {
+        archived.push(component.as_os_str());
+    }
+    archived.push(".archive");
+    archived.push(components[kind_index].as_os_str());
+    archived.push(components[id_index].as_os_str());
+    Some(archived)
 }
 
 pub fn target_digest(target: &Path) -> Result<String> {
@@ -293,6 +329,109 @@ fn ensure_existing_components_stay_in_target(
         }
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::request::{
+        LifecycleExecutionPolicy, LifecycleReceiptSpec, LifecycleRouteExecutionRequest,
+        LifecycleRouteSpec,
+    };
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    fn temp_root(name: &str) -> PathBuf {
+        let nanos = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "octon-observer-{name}-{}-{nanos}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        root
+    }
+
+    fn request_for_archive(root: &Path) -> LifecycleRouteExecutionRequest {
+        LifecycleRouteExecutionRequest {
+            schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
+            run_id: "test-run".to_string(),
+            lifecycle_id: "proposal-packet".to_string(),
+            owner_extension: "test-extension".to_string(),
+            target: root.join(".octon/inputs/exploratory/proposals/architecture/fixture"),
+            manifest_path: "proposal.yml".to_string(),
+            status_field: "status".to_string(),
+            executor: "codex".to_string(),
+            route: LifecycleRouteSpec {
+                route_id: "archive-proposal".to_string(),
+                route_type: "workflow".to_string(),
+                command_id: None,
+                skill_id: None,
+                prompt_set_id: None,
+                required_inputs: Vec::new(),
+                completion_replan_required: true,
+                approval_required_by_default: false,
+                approval_reason: None,
+            },
+            effective_extension_catalog: root
+                .join(".octon/generated/effective/extensions/catalog.effective.yml"),
+            runtime_route_bundle: root.join(".octon/generated/effective/runtime/route-bundle.yml"),
+            bound_inputs: BTreeMap::new(),
+            receipts: vec![LifecycleReceiptSpec {
+                receipt_id: "proposal-closeout".to_string(),
+                path: "support/proposal-closeout.md".to_string(),
+                required_fields: vec![
+                    "verdict".to_string(),
+                    "closed_at".to_string(),
+                    "archive_authorized".to_string(),
+                ],
+                verdict_field: Some("verdict".to_string()),
+            }],
+            expected_receipts: vec!["proposal-closeout".to_string()],
+            expected_paths: Vec::new(),
+            expected_manifest_status: Some("archived".to_string()),
+            expected_target_change: false,
+            evidence_root: root.join(".octon/state/evidence/runs/workflows/test-run"),
+            checkpoint_path: root
+                .join(".octon/state/control/execution/runs/test-run/lifecycle-checkpoint.yml"),
+            policy: LifecycleExecutionPolicy {
+                timeout_seconds: 30,
+                cancellation_token: None,
+                retry_attempt: 0,
+                approval_policy: "unattended".to_string(),
+            },
+            approval_context: None,
+        }
+    }
+
+    #[test]
+    fn archive_completion_observes_archived_target_after_active_target_moves() {
+        let root = temp_root("archive-target");
+        let request = request_for_archive(&root);
+        let archive_target =
+            root.join(".octon/inputs/exploratory/proposals/.archive/architecture/fixture");
+        fs::create_dir_all(archive_target.join("support")).unwrap();
+        fs::write(archive_target.join("proposal.yml"), "status: archived\n").unwrap();
+        fs::write(
+            archive_target.join("support/proposal-closeout.md"),
+            "verdict: pass\nclosed_at: 2026-05-14T00:00:00Z\narchive_authorized: yes\n",
+        )
+        .unwrap();
+
+        let observed = observe_completion(&request, Some("implemented".to_string()), None)
+            .expect("archive completion should be observable");
+
+        assert!(observed.completion_observed);
+        assert_eq!(observed.manifest_status_after.as_deref(), Some("archived"));
+        assert!(observed
+            .receipts_observed
+            .iter()
+            .any(|receipt| receipt.receipt_id == "proposal-closeout"
+                && receipt.exists
+                && receipt.complete
+                && receipt.path.starts_with(&archive_target)));
+    }
 }
 
 fn nearest_existing_ancestor(path: &Path) -> Option<PathBuf> {

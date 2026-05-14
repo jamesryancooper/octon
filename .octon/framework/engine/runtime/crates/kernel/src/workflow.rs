@@ -693,6 +693,7 @@ fn authorize_workflow_stage(
     policy: &PolicyEngine,
     bundle_root: &Path,
     workflow_id: &str,
+    parent_workflow_request_id: &str,
     stage_id: &str,
     action_type: &str,
     target_id: &str,
@@ -733,7 +734,7 @@ fn authorize_workflow_stage(
     let (intent_ref, execution_role_ref, metadata) =
         request::bind_repo_local_request(runtime_cfg, metadata)?;
     let request = ExecutionRequest {
-        request_id: format!("{workflow_id}-{stage_id}"),
+        request_id: workflow_stage_request_id(parent_workflow_request_id, stage_id),
         caller_path: "workflow-stage".to_string(),
         action_type: action_type.to_string(),
         target_id: target_id.to_string(),
@@ -754,7 +755,7 @@ fn authorize_workflow_stage(
         intent_ref: Some(intent_ref),
         autonomy_context: stage_autonomy_context,
         execution_role_ref: Some(execution_role_ref),
-        parent_run_ref: Some(workflow_id.to_string()),
+        parent_run_ref: Some(parent_workflow_request_id.to_string()),
         review_requirements: ReviewRequirements::default(),
         scope_constraints: ScopeConstraints {
             read: vec!["workflow-scope".to_string()],
@@ -1117,6 +1118,7 @@ pub fn run_create_design_package_from_octon_dir(
             &policy,
             &bundle_root,
             "create-design-proposal",
+            &workflow_request.request_id,
             "03-scaffold-proposal",
             "execute_stage",
             "create-design-proposal::scaffold-proposal",
@@ -1309,6 +1311,7 @@ pub fn run_create_design_package_from_octon_dir(
             &policy,
             &bundle_root,
             "create-design-proposal",
+            &workflow_request.request_id,
             "04-validate-proposal",
             "execute_stage",
             "create-design-proposal::validate-proposal",
@@ -1693,6 +1696,7 @@ pub fn run_create_static_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         &format!("create-{}-proposal", kind.as_str()),
+        &workflow_request.request_id,
         "scaffold-proposal",
         "execute_stage",
         &format!("create-{}-proposal::scaffold-proposal", kind.as_str()),
@@ -1809,6 +1813,7 @@ pub fn run_create_static_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         &format!("create-{}-proposal", kind.as_str()),
+        &workflow_request.request_id,
         "validate-proposal",
         "execute_stage",
         &format!("create-{}-proposal::validate-proposal", kind.as_str()),
@@ -2068,6 +2073,7 @@ pub fn run_audit_static_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         &format!("audit-{}-proposal", kind.as_str()),
+        &workflow_request.request_id,
         "validate-proposal",
         "execute_stage",
         &format!("audit-{}-proposal::validate-proposal", kind.as_str()),
@@ -2305,6 +2311,7 @@ pub fn run_validate_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         "validate-proposal",
+        &workflow_request.request_id,
         "validate-proposal",
         "execute_stage",
         "validate-proposal::validate-proposal",
@@ -2708,6 +2715,7 @@ pub fn run_promote_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         "promote-proposal",
+        &workflow_request.request_id,
         "validate-proposal",
         "execute_stage",
         "promote-proposal::validate-proposal",
@@ -2779,6 +2787,7 @@ pub fn run_promote_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         "promote-proposal",
+        &workflow_request.request_id,
         "promote-proposal",
         "execute_stage",
         "promote-proposal::promote-proposal",
@@ -3102,6 +3111,7 @@ pub fn run_archive_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         "archive-proposal",
+        &workflow_request.request_id,
         "validate-proposal",
         "execute_stage",
         "archive-proposal::validate-proposal",
@@ -3173,6 +3183,7 @@ pub fn run_archive_proposal_from_octon_dir(
         &policy,
         &bundle_root,
         "archive-proposal",
+        &workflow_request.request_id,
         "archive-proposal",
         "execute_stage",
         "archive-proposal::archive-proposal",
@@ -6239,6 +6250,10 @@ fn new_workflow_request_id(prefix: &str) -> String {
         .map(|duration| duration.as_millis())
         .unwrap_or(0);
     format!("{prefix}-{millis}-{}", std::process::id())
+}
+
+fn workflow_stage_request_id(parent_workflow_request_id: &str, stage_id: &str) -> String {
+    format!("{parent_workflow_request_id}-{stage_id}")
 }
 
 fn validate_workflow_run_id(input: &str) -> Result<String> {

@@ -12,7 +12,8 @@ use std::os::unix::fs::symlink;
 use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::sync::{Mutex, OnceLock};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::thread;
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 fn temp_root(name: &str) -> PathBuf {
     let nanos = SystemTime::now()
@@ -107,6 +108,56 @@ fi
 echo "failed after mutation" >&2
 exit 9
 "#,
+    );
+    #[cfg(unix)]
+    {
+        let mut permissions = fs::metadata(path).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(path, permissions).unwrap();
+    }
+}
+
+fn write_hanging_agent_binary(path: &Path) {
+    write_file(
+        path,
+        r#"#!/usr/bin/env bash
+set -euo pipefail
+cat >/dev/null
+echo "hanging fake executor started"
+trap '' TERM
+while true; do
+  sleep 60
+done
+"#,
+    );
+    #[cfg(unix)]
+    {
+        let mut permissions = fs::metadata(path).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(path, permissions).unwrap();
+    }
+}
+
+fn write_descendant_hanging_agent_binary(path: &Path, marker: &Path) {
+    write_file(
+        path,
+        &format!(
+            r#"#!/usr/bin/env bash
+set -euo pipefail
+cat >/dev/null
+echo "descendant fake executor started"
+(
+  trap '' TERM
+  sleep 4
+  printf survived > "{}"
+  while true; do
+    sleep 60
+  done
+) &
+wait
+"#,
+            marker.display()
+        ),
     );
     #[cfg(unix)]
     {
@@ -294,6 +345,18 @@ fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
         assert_eq!(result.status, "completed");
         assert_eq!(result.executor_used, expected_executor);
         assert!(result.prompt_packet_path.as_ref().unwrap().is_file());
+        assert!(
+            result
+                .evidence_paths
+                .iter()
+                .any(|path| path
+                    .ends_with("generate-packet-implementation-prompt-executor-start.yml"))
+        );
+        assert!(result
+            .evidence_paths
+            .iter()
+            .any(|path| path
+                .ends_with("generate-packet-implementation-prompt-executor-terminal.yml")));
         let prompt = fs::read_to_string(result.prompt_packet_path.as_ref().unwrap()).unwrap();
         assert!(prompt.contains("## Bound Inputs"));
         assert!(prompt.contains("- `proposal_path`: `packet`"));
@@ -301,6 +364,146 @@ fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
             .join("packet/support/executable-implementation-prompt.md")
             .is_file());
     }
+}
+
+#[test]
+fn real_executor_timeout_writes_logs_and_route_result() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("timeout-agent");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_hanging_agent_binary(&bin_dir.join("codex"));
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+    request.policy.timeout_seconds = 1;
+
+    let started = Instant::now();
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert!(
+        started.elapsed() < Duration::from_secs(8),
+        "timeout route should return promptly"
+    );
+    assert_eq!(result.status, "timed-out");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::Timeout)
+    );
+    assert!(request
+        .evidence_root
+        .join("generate-packet-implementation-prompt-stdout.log")
+        .is_file());
+    assert!(request
+        .evidence_root
+        .join("generate-packet-implementation-prompt-stderr.log")
+        .is_file());
+    assert!(request
+        .evidence_root
+        .join("generate-packet-implementation-prompt-route-execution.yml")
+        .is_file());
+    let terminal = fs::read_to_string(
+        request
+            .evidence_root
+            .join("generate-packet-implementation-prompt-executor-terminal.yml"),
+    )
+    .unwrap();
+    assert!(terminal.contains("state: timed-out"));
+}
+
+#[test]
+fn real_executor_cancellation_during_dispatch_writes_cancelled_result() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("running-cancel-agent");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_hanging_agent_binary(&bin_dir.join("codex"));
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+    request.policy.timeout_seconds = 30;
+    let token = root.join(".octon/state/control/execution/runs/test-run/cancellation.yml");
+    request.policy.cancellation_token = Some(token.clone());
+    let start_evidence = request
+        .evidence_root
+        .join("generate-packet-implementation-prompt-executor-start.yml");
+    let route_evidence = request
+        .evidence_root
+        .join("generate-packet-implementation-prompt-route-execution.yml");
+    let thread_root = root.clone();
+    let handle = thread::spawn(move || {
+        let executor = DefaultLifecycleRouteExecutor::new(&thread_root);
+        executor.execute_route(request).unwrap()
+    });
+    for _ in 0..100 {
+        if start_evidence.is_file() {
+            break;
+        }
+        thread::sleep(Duration::from_millis(50));
+    }
+    assert!(start_evidence.is_file(), "executor should have started");
+    write_file(&token, "schema_version: octon-lifecycle-cancellation-v1\n");
+
+    let result = handle.join().unwrap();
+
+    assert_eq!(result.status, "cancelled");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::Cancelled)
+    );
+    assert!(route_evidence.is_file());
+}
+
+#[test]
+fn timeout_terminates_descendant_process_group() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("descendant-timeout-agent");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    let marker = root.join("descendant-survived");
+    write_descendant_hanging_agent_binary(&bin_dir.join("codex"), &marker);
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+    request.policy.timeout_seconds = 1;
+
+    let result = executor.execute_route(request).unwrap();
+    thread::sleep(Duration::from_secs(2));
+
+    assert_eq!(result.status, "timed-out");
+    assert!(
+        !marker.exists(),
+        "descendant process should be terminated with the executor process group"
+    );
 }
 
 #[test]

@@ -333,6 +333,18 @@ case_archive_passes() {
   grep -Fq '.archive/architecture/fixture-proposal' "$registry" || return 1
 }
 
+case_archive_passes_with_retained_closed_stage_runs() {
+  local fixture_root
+  fixture_root="$(new_fixture_repo)"
+  write_active_architecture_proposal "$fixture_root" "implemented"
+  write_registry_for_active_status "$fixture_root" "implemented"
+  run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md" >/dev/null
+  rm -rf "$fixture_root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal"
+  write_active_architecture_proposal "$fixture_root" "implemented"
+  write_registry_for_active_status "$fixture_root" "implemented"
+  run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md" >/dev/null
+}
+
 case_archive_rejects_non_implemented_disposition() {
   local fixture_root
   fixture_root="$(new_fixture_repo)"
@@ -355,6 +367,7 @@ main() {
     fail "promote-proposal rejects accepted proposals without fresh accepted review"
   fi
   case_archive_passes && pass "archive-proposal workflow archives an implemented proposal and regenerates registry" || fail "archive-proposal workflow archives an implemented proposal and regenerates registry"
+  case_archive_passes_with_retained_closed_stage_runs && pass "archive-proposal workflow reruns with retained closed stage runs" || fail "archive-proposal workflow reruns with retained closed stage runs"
   if ! case_archive_rejects_non_implemented_disposition >/dev/null 2>&1; then
     pass "archive-proposal rejects implemented disposition when the proposal is not implemented"
   else
