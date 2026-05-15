@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: archive-proposal-1778805178254-37205-archive-proposal
+state: closed
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205-archive-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205-archive-proposal/run-manifest.yml
+current_stage_attempt_id: archive-proposal--initial
+last_checkpoint_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205-archive-proposal/checkpoints/execution-complete.yml
+last_receipt_ref: .octon/state/evidence/runs/archive-proposal-1778805178254-37205-archive-proposal/receipts/execution-receipt.json
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205/run-contract.yml
+source_ledger_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205-archive-proposal/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205-archive-proposal/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/archive-proposal-1778805178254-37205-archive-proposal/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/archive-proposal-1778805178254-37205-archive-proposal/rollback-posture.yml
+last_applied_event_id: evt-run-closed-archive-proposal-1778805178254-37205-archive-proposal
+last_applied_sequence: 29
+last_applied_event_hash: sha256:3b818de2c0970e482d70c855f9f04cd1cd9ab9d3aebc40a5ba310e8b5cb9a070
+materialized_at: 2026-05-15T00:35:45.334203Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-05-15T00:34:23.309755Z
+updated_at: 2026-05-15T00:35:45.334203Z

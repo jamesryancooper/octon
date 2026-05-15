@@ -1,0 +1,71 @@
+{
+  "schema_version": "authorized-effect-token-v2",
+  "payload": {
+    "schema_version": "authorized-effect-token-v2",
+    "token_id": "effect-token-evidence-mutation-7071c99add07",
+    "token_type": "AuthorizedEffect<EvidenceMutation>",
+    "effect_kind": "evidence-mutation",
+    "run_id": "archive-proposal-1778805178254-37205-validate-proposal",
+    "request_id": "archive-proposal-1778805178254-37205-validate-proposal",
+    "grant_id": "grant-archive-proposal-1778805178254-37205-validate-proposal",
+    "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-1778805178254-37205-validate-proposal.yml",
+    "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1778805178254-37205-validate-proposal.yml",
+    "run_control_root": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal",
+    "run_evidence_root": ".octon/state/evidence/runs/archive-proposal-1778805178254-37205-validate-proposal",
+    "lifecycle_state_ref": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal/runtime-state.yml",
+    "route_id": "runtime-route:runtime-route-bundle-d832aab6f332:tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "runtime_effective_route_bundle_ref": ".octon/generated/effective/runtime/route-bundle.yml",
+    "runtime_effective_route_bundle_sha256": "5f1307528d0fb198c1d70cb5ea87b1d98d630d3eda9428ebd56aa7266506b5f8",
+    "runtime_effective_route_generation_id": "runtime-route-bundle-d832aab6f332",
+    "runtime_effective_freshness_mode": "digest_bound",
+    "runtime_effective_publication_receipt_ref": ".octon/state/evidence/validation/publication/runtime/2026-05-15T00-32-51Z-runtime-route-bundle-d832aab6f332.yml",
+    "runtime_effective_non_authority_classification": "derived-runtime-handle",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "support_claim_effect": "admitted-live-claim",
+    "support_route": "allow",
+    "allowed_capability_packs": [
+      "repo",
+      "shell",
+      "telemetry"
+    ],
+    "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-framing-boundary-and-terminology-guardrails/stages/validate-proposal",
+    "scope_envelope": {
+      "read": [
+        "workflow-scope"
+      ],
+      "write": [
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-framing-boundary-and-terminology-guardrails/standard-validator.log",
+        "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-framing-boundary-and-terminology-guardrails/stages/validate-proposal"
+      ],
+      "executor_profile": "read_only_analysis",
+      "locality_scope": null
+    },
+    "rollback_plan_ref": null,
+    "rollback_posture_ref": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal/rollback-posture.yml",
+    "approval_request_ref": null,
+    "approval_grant_refs": [],
+    "exception_lease_refs": [],
+    "budget_ref": null,
+    "budget_rule_id": null,
+    "egress_ref": null,
+    "egress_route": null,
+    "issued_at": "2026-05-15T00:33:02.615588Z",
+    "expires_at": null,
+    "single_use": false,
+    "issuer_ref": ".octon/framework/engine/runtime/crates/authority_engine",
+    "revocation_refs": [],
+    "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal/effect-tokens/effect-token-evidence-mutation-7071c99add07.json",
+    "journal_ref": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-7071c99add07",
+    "token_digest": "sha256:e11eaa61a5f9f79c77fcf7ebb1a6a27ad5741b2a8c3a7e4dfa220fe31fcbe7f5"
+  },
+  "status": "minted",
+  "single_use": false,
+  "consumption_count": 2,
+  "issued_event_ref": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal/events.ndjson#evt-effect-token-minted-effect-token-evidence-mutation-7071c99add07",
+  "last_event_ref": ".octon/state/control/execution/runs/archive-proposal-1778805178254-37205-validate-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-7071c99add07",
+  "last_consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1778805178254-37205-validate-proposal/receipts/effect-tokens/effect-token-evidence-mutation-7071c99add07/consumption-e9d2fe88d153.json",
+  "last_consumed_at": "2026-05-15T00:34:22.327026Z",
+  "last_consumer_api_ref": ".octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs::finalize_execution:evidence",
+  "last_target_scope": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-15-archive-proposal-octon-inputs-exploratory-proposals-architecture-framing-boundary-and-terminology-guardrails/stages/validate-proposal",
+  "rejection_reason_codes": []
+}

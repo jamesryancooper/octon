@@ -1,0 +1,16 @@
+schema_version: workflow-statechart-harness-validator-evidence-v1
+validated_at: 2026-05-15T01:00:27Z
+validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh
+verdict: pass
+positive_fixtures:
+  - workflow-statechart-v1
+  - task-specific-execution-harness-v1
+  - task-specific-execution-harness-compile-receipt-v1
+negative_fixtures:
+  - invalid-transition-matrix
+  - missing-required-harness-bindings
+  - generated-projection-binding-authority
+  - raw-input-binding-authority
+  - generated-projection-compile-receipt-authority
+run_lifecycle_parity_ref: .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+generated_projection_ref: .octon/generated/cognition/projections/materialized/workflow-statechart-harness.yml

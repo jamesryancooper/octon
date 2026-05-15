@@ -1,0 +1,98 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-governed-autonomy-closeout",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the governed-autonomy lifecycle blocking remediation before rerunning the proposal-program lifecycle loop.",
+  "scope": {
+    "summary": "Runtime and validator changes for governed unsafe repair, post-attempt validation, cleanup criticality, taxonomy alignment, and unknown-status fail-closed behavior.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+    ],
+    "diff_refs": [
+      "commit:e76a2fbc66dead26014b9dd018988fa6ca7a4445"
+    ]
+  },
+  "source_branch_ref": "chore/lifecycle-governed-autonomy-closeout@e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+  "target_branch_ref": "origin/main@e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live:gh api repos/jamesryancooper/octon/rules/branches/main",
+    "source_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "target_ref": "main",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh --target main --remote origin --allow-empty-check-set"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/lifecycle-governed-autonomy-closeout",
+    "source_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "target_pre_ref": "b28a93fa0ee79a009d5982d86b0dfe50290d55b7",
+    "target_post_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "validated_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "required_check_refs": [],
+    "provider_ruleset_ref": "live:gh api repos/jamesryancooper/octon/rules/branches/main",
+    "push_refspec": "e76a2fbc66dead26014b9dd018988fa6ca7a4445:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+  "main_alignment": {
+    "local_main_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "origin_main_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "landed_ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "aligned": true,
+    "verification_ref": "git-branch-cleanup.sh --branch chore/lifecycle-governed-autonomy-closeout --base main"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "local source branch deleted",
+    "remote source branch deleted",
+    "auxiliary worktree removed",
+    "local main synced to origin/main",
+    "untracked .octon/state evidence classified as retained run/control/evidence and preserved outside this Change scope"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/lifecycle-governed-autonomy-closeout",
+    "remote_branch": "origin/chore/lifecycle-governed-autonomy-closeout",
+    "worktree": "/private/tmp/octon-closeout-lifecycle-governed-autonomy",
+    "evidence_refs": [
+      "git branch --list chore/lifecycle-governed-autonomy-closeout returned empty",
+      "git ls-remote --heads origin chore/lifecycle-governed-autonomy-closeout returned empty",
+      "git worktree list contains only /Users/jamesryancooper/Projects/octon"
+    ]
+  },
+  "validation_evidence_refs": [
+    "cargo test -p octon_kernel lifecycle_program --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml: 109 passed",
+    "cargo test -p octon_kernel lifecycle_unknown_status_fails_closed --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml: 1 passed",
+    "cargo test -p octon_lifecycle_executor --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml: 32 passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh: errors=0 warnings=0",
+    "git diff --check for lifecycle runtime and executor paths: passed"
+  ],
+  "review_waiver_refs": [
+    "operator explicitly requested branch-no-pr closeout without PR"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "e76a2fbc66dead26014b9dd018988fa6ca7a4445",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "b28a93fa0ee79a009d5982d86b0dfe50290d55b7",
+    "instructions": "Revert e76a2fbc66dead26014b9dd018988fa6ca7a4445 or reset to b28a93fa0ee79a009d5982d86b0dfe50290d55b7 only under explicit operator authority."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-15T20:25:01Z",
+  "updated_at": "2026-05-15T20:25:01Z"
+}

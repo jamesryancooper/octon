@@ -1,0 +1,47 @@
+schema_version: workflow-statechart-task-harness-validation-summary-v1
+validated_at: 2026-05-15T00:57:07Z
+verdict: pass
+proposal_path: .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+retained_evidence_root: .octon/state/evidence/validation/proposals/workflow-statechart-task-specific-execution-harness/2026-05-15T00-49-28Z
+validators:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+    result: pass
+    warnings: 1
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness --require-implementation-authorization
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-statechart-harness.sh --evidence-root .octon/state/evidence/validation/proposals/workflow-statechart-task-specific-execution-harness/2026-05-15T00-49-28Z
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-contract-family-version-coherence.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-no-raw-generated-effective-runtime-reads.sh
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness
+    result: pass
+    warnings: 1
+boundary_scans:
+  packet_specific_backrefs: 0
+  generic_proposal_validator_refs: present_as_validator_logic
+  generated_projection_authority: rejected_by_schema_and_validator
+  raw_input_authority: rejected_by_schema_and_validator
+  work_package_self_reference_warning: present_in_existing_drift_validator_logic
+proposal_status_after_route: accepted
