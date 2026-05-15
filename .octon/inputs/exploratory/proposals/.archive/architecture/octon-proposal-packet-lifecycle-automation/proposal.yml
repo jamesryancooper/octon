@@ -9,7 +9,7 @@ summary: >-
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:
-  - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/"
   - ".octon/instance/extensions.yml"
   - ".octon/state/control/extensions/active.yml"
   - ".octon/generated/effective/extensions/"
@@ -21,9 +21,9 @@ archive:
   disposition: "implemented"
   original_path: ".octon/inputs/exploratory/proposals/architecture/octon-proposal-packet-lifecycle-automation"
   promotion_evidence:
-    - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/pack.yml"
-    - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/context/routing.contract.yml"
-    - ".octon/inputs/additive/extensions/octon-proposal-packet-lifecycle/validation/tests/test-pack-shape.sh"
+    - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/pack.yml"
+    - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/routing.contract.yml"
+    - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-pack-shape.sh"
     - ".octon/instance/extensions.yml"
     - ".octon/state/control/extensions/active.yml"
     - ".octon/generated/effective/extensions/catalog.effective.yml"

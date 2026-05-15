@@ -11,7 +11,14 @@ promotion_targets:
 - .octon/README.md
 - .octon/AGENTS.md
 - .octon/instance/ingress/AGENTS.md
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-05-15
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/framing-boundary-and-terminology-guardrails
+  promotion_evidence:
+  - .octon/state/evidence/validation/proposals/framing-boundary-and-terminology-guardrails/implementation-20260514T195505Z.md
 lifecycle:
   temporary: true
   exit_expectation: Promote only after child-owned review, implementation authorization where required, validation receipts, implementation-conformance evidence, post-implementation drift/churn review, and durable promotion evidence exist outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this child packet.

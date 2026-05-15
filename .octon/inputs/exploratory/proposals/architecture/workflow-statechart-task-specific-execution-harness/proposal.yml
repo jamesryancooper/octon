@@ -11,7 +11,7 @@ promotion_targets:
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/generated/cognition/projections/materialized/"
-status: "accepted"
+status: "implemented"
 lifecycle:
   temporary: true
   exit_expectation: >-
