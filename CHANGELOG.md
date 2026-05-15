@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.71](https://github.com/jamesryancooper/octon/compare/octon-v0.6.70...octon-v0.6.71) (2026-05-15)
+
+
+### Features
+
+* **runtime:** add workflow harness contracts ([84bb559](https://github.com/jamesryancooper/octon/commit/84bb559b82aa561ce708514a7e8b640f42e57c77))
+
+
+### Bug Fixes
+
+* **lifecycle:** govern unsafe repair ([e76a2fb](https://github.com/jamesryancooper/octon/commit/e76a2fbc66dead26014b9dd018988fa6ca7a4445))
+
 ## [0.6.70](https://github.com/jamesryancooper/octon/compare/octon-v0.6.69...octon-v0.6.70) (2026-05-14)
 
 
