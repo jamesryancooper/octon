@@ -4,10 +4,10 @@ set -euo pipefail
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 TEST_NAME="$(basename "$0")"
 RECEIPT_REL=".octon/state/evidence/validation/architecture/10of10-target-transition/authorization-boundary/coverage.yml"
+CLEANUP_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/packet10-token-tests.XXXXXX")"
 
 pass_count=0
 fail_count=0
-cleanup_dirs=()
 
 remove_dir_tree() {
   local dir="$1"
@@ -18,10 +18,7 @@ remove_dir_tree() {
 }
 
 cleanup() {
-  local dir
-  for dir in "${cleanup_dirs[@]}"; do
-    remove_dir_tree "$dir"
-  done
+  remove_dir_tree "$CLEANUP_ROOT"
 }
 trap cleanup EXIT
 
@@ -55,8 +52,7 @@ copy_repo_ref() {
 
 create_fixture() {
   local fixture_root ref
-  fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/packet10-tokens.XXXXXX")"
-  cleanup_dirs+=("$fixture_root")
+  fixture_root="$(mktemp -d "$CLEANUP_ROOT/fixture.XXXXXX")"
 
   copy_repo_ref "$fixture_root" ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
   copy_repo_ref "$fixture_root" ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
