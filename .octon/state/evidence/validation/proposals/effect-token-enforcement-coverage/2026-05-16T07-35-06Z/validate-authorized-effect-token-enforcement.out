@@ -1,0 +1,262 @@
+== Authorized Effect Token Enforcement Validation ==
+[OK] present: .octon/framework/engine/runtime/spec/authorized-effect-token-v1.md
+[OK] present: .octon/framework/engine/runtime/spec/authorized-effect-token-v2.schema.json
+[OK] present: .octon/framework/engine/runtime/spec/authorized-effect-token-consumption-v1.schema.json
+[OK] present: .octon/framework/engine/runtime/spec/material-side-effect-inventory.yml
+[OK] present: .octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json
+[OK] present: .octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml
+[OK] present: .octon/framework/engine/runtime/spec/runtime-event-v1.schema.json
+[OK] present: .octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json
+[OK] present: .octon/framework/assurance/runtime/_ops/fixtures/authorized-effect-token-enforcement/fixture-set.yml
+[OK] present: .octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs
+[OK] token contract requires VerifiedEffect<T>
+[OK] execution receipt schema exposes authorized_effects
+[OK] runtime-event-v1 declares effect_token.requested
+[OK] runtime-event-v1 declares effect_token.minted
+[OK] runtime-event-v1 declares effect_token.denied
+[OK] runtime-event-v1 declares effect_token.consumption_requested
+[OK] runtime-event-v1 declares effect_token.consumed
+[OK] runtime-event-v1 declares effect_token.rejected
+[OK] runtime-event-v1 declares effect_token.expired
+[OK] runtime-event-v1 declares effect_token.revoked
+[OK] fixture case valid_token_consumes maps to null
+[OK] fixture case valid_token_consumes has backing Rust test issued_effect_verifies_and_records_consumption_receipt
+[OK] fixture case missing_token maps to missing_token
+[OK] fixture case missing_token has backing Rust test missing_token_record_fails_closed
+[OK] fixture case decision_not_allow maps to decision_not_allow
+[OK] fixture case decision_not_allow has backing Rust test denied_grant_rejects_effect_consumption
+[OK] fixture case wrong_effect_class maps to wrong_effect_class
+[OK] fixture case wrong_effect_class has backing Rust test wrong_effect_class_is_rejected
+[OK] fixture case wrong_run maps to wrong_run
+[OK] fixture case wrong_run has backing Rust test wrong_run_binding_is_rejected
+[OK] fixture case wrong_route maps to wrong_route
+[OK] fixture case wrong_route has backing Rust test wrong_route_binding_is_rejected
+[OK] fixture case stale_token maps to stale_token
+[OK] fixture case stale_token has backing Rust test stale_runtime_effective_route_rejects_effect_consumption
+[OK] fixture case wrong_support_tuple maps to wrong_support_tuple
+[OK] fixture case wrong_support_tuple has backing Rust test wrong_support_tuple_is_rejected
+[OK] fixture case support_envelope_blocked maps to wrong_support_tuple
+[OK] fixture case support_envelope_blocked has backing Rust test support_envelope_block_rejects_effect_consumption
+[OK] fixture case unsupported_tuple maps to unsupported_tuple
+[OK] fixture case unsupported_tuple has backing Rust test unsupported_support_envelope_tuple_is_rejected
+[OK] fixture case excluded_tuple maps to excluded_tuple
+[OK] fixture case excluded_tuple has backing Rust test excluded_support_envelope_tuple_is_rejected
+[OK] fixture case wrong_capability_pack maps to wrong_capability_pack
+[OK] fixture case wrong_capability_pack has backing Rust test wrong_capability_pack_is_rejected
+[OK] fixture case wrong_scope maps to wrong_scope
+[OK] fixture case wrong_scope has backing Rust test wrong_scope_effect_fails_closed
+[OK] fixture case expired_token maps to expired_token
+[OK] fixture case expired_token has backing Rust test expired_effect_is_rejected
+[OK] fixture case revoked_token maps to revoked_token
+[OK] fixture case revoked_token has backing Rust test active_revocation_rejects_effect_consumption
+[OK] fixture case missing_approval maps to missing_approval
+[OK] fixture case missing_approval has backing Rust test missing_approval_binding_rejects_effect_consumption
+[OK] fixture case missing_exception maps to missing_exception
+[OK] fixture case missing_exception has backing Rust test missing_exception_binding_rejects_effect_consumption
+[OK] fixture case rollback_not_ready maps to rollback_not_ready
+[OK] fixture case rollback_not_ready has backing Rust test missing_rollback_posture_rejects_effect_consumption
+[OK] fixture case budget_exceeded maps to budget_exceeded
+[OK] fixture case budget_exceeded has backing Rust test budget_denial_rejects_effect_consumption
+[OK] fixture case egress_denied maps to egress_denied
+[OK] fixture case egress_denied has backing Rust test egress_denial_rejects_effect_consumption
+[OK] fixture case already_consumed maps to already_consumed
+[OK] fixture case already_consumed has backing Rust test single_use_effect_cannot_be_consumed_twice
+[OK] repo-mutation token type present
+[OK] repo-mutation owner present
+[OK] repo-mutation risk tier present
+[OK] repo-mutation material flag present
+[OK] evidence-mutation token type present
+[OK] evidence-mutation owner present
+[OK] evidence-mutation risk tier present
+[OK] evidence-mutation material flag present
+[OK] control-mutation token type present
+[OK] control-mutation owner present
+[OK] control-mutation risk tier present
+[OK] control-mutation material flag present
+[OK] control-plane-preparation token type present
+[OK] control-plane-preparation owner present
+[OK] control-plane-preparation risk tier present
+[OK] control-plane-preparation material flag present
+[OK] generated-effective-publication token type present
+[OK] generated-effective-publication owner present
+[OK] generated-effective-publication risk tier present
+[OK] generated-effective-publication material flag present
+[OK] executor-launch token type present
+[OK] executor-launch owner present
+[OK] executor-launch risk tier present
+[OK] executor-launch material flag present
+[OK] service-invocation token type present
+[OK] service-invocation owner present
+[OK] service-invocation risk tier present
+[OK] service-invocation material flag present
+[OK] protected-ci-check token type present
+[OK] protected-ci-check owner present
+[OK] protected-ci-check risk tier present
+[OK] protected-ci-check material flag present
+[OK] extension-activation token type present
+[OK] extension-activation owner present
+[OK] extension-activation risk tier present
+[OK] extension-activation material flag present
+[OK] capability-pack-activation token type present
+[OK] capability-pack-activation owner present
+[OK] capability-pack-activation risk tier present
+[OK] capability-pack-activation material flag present
+[OK] kernel-tool-invoke class binding present
+[OK] kernel-tool-invoke owner ref present
+[OK] kernel-tool-invoke consumer api ref present
+[OK] kernel-tool-invoke negative bypass ref present
+[OK] kernel-tool-invoke token_required present
+[OK] kernel-tool-invoke coverage_state present
+[OK] kernel-tool-invoke coverage map entry present
+[OK] kernel-tool-invoke token mediation present
+[OK] stdio-service-run class binding present
+[OK] stdio-service-run owner ref present
+[OK] stdio-service-run consumer api ref present
+[OK] stdio-service-run negative bypass ref present
+[OK] stdio-service-run token_required present
+[OK] stdio-service-run coverage_state present
+[OK] stdio-service-run coverage map entry present
+[OK] stdio-service-run token mediation present
+[OK] kernel-studio-launch class binding present
+[OK] kernel-studio-launch owner ref present
+[OK] kernel-studio-launch consumer api ref present
+[OK] kernel-studio-launch negative bypass ref present
+[OK] kernel-studio-launch token_required present
+[OK] kernel-studio-launch coverage_state present
+[OK] kernel-studio-launch coverage map entry present
+[OK] kernel-studio-launch token mediation present
+[OK] kernel-service-scaffold class binding present
+[OK] kernel-service-scaffold owner ref present
+[OK] kernel-service-scaffold consumer api ref present
+[OK] kernel-service-scaffold negative bypass ref present
+[OK] kernel-service-scaffold token_required present
+[OK] kernel-service-scaffold coverage_state present
+[OK] kernel-service-scaffold coverage map entry present
+[OK] kernel-service-scaffold token mediation present
+[OK] kernel-service-build class binding present
+[OK] kernel-service-build owner ref present
+[OK] kernel-service-build consumer api ref present
+[OK] kernel-service-build negative bypass ref present
+[OK] kernel-service-build token_required present
+[OK] kernel-service-build coverage_state present
+[OK] kernel-service-build coverage map entry present
+[OK] kernel-service-build token mediation present
+[OK] authority-execution class binding present
+[OK] authority-execution owner ref present
+[OK] authority-execution consumer api ref present
+[OK] authority-execution negative bypass ref present
+[OK] authority-execution token_required present
+[OK] authority-execution coverage_state present
+[OK] authority-execution coverage map entry present
+[OK] authority-execution token mediation present
+[OK] authority-phases class binding present
+[OK] authority-phases owner ref present
+[OK] authority-phases consumer api ref present
+[OK] authority-phases negative bypass ref present
+[OK] authority-phases token_required present
+[OK] authority-phases coverage_state present
+[OK] authority-phases coverage map entry present
+[OK] authority-phases token mediation present
+[OK] workflow-pipeline-run class binding present
+[OK] workflow-pipeline-run owner ref present
+[OK] workflow-pipeline-run consumer api ref present
+[OK] workflow-pipeline-run negative bypass ref present
+[OK] workflow-pipeline-run token_required present
+[OK] workflow-pipeline-run coverage_state present
+[OK] workflow-pipeline-run coverage map entry present
+[OK] workflow-pipeline-run token mediation present
+[OK] workflow-stage-run class binding present
+[OK] workflow-stage-run owner ref present
+[OK] workflow-stage-run consumer api ref present
+[OK] workflow-stage-run negative bypass ref present
+[OK] workflow-stage-run token_required present
+[OK] workflow-stage-run coverage_state present
+[OK] workflow-stage-run coverage map entry present
+[OK] workflow-stage-run token mediation present
+[OK] publication-runtime-route-bundle class binding present
+[OK] publication-runtime-route-bundle owner ref present
+[OK] publication-runtime-route-bundle consumer api ref present
+[OK] publication-runtime-route-bundle negative bypass ref present
+[OK] publication-runtime-route-bundle token_required present
+[OK] publication-runtime-route-bundle coverage_state present
+[OK] publication-runtime-route-bundle coverage map entry present
+[OK] publication-runtime-route-bundle token mediation present
+[OK] publication-pack-routes class binding present
+[OK] publication-pack-routes owner ref present
+[OK] publication-pack-routes consumer api ref present
+[OK] publication-pack-routes negative bypass ref present
+[OK] publication-pack-routes token_required present
+[OK] publication-pack-routes coverage_state present
+[OK] publication-pack-routes coverage map entry present
+[OK] publication-pack-routes token mediation present
+[OK] publication-support-target-matrix class binding present
+[OK] publication-support-target-matrix owner ref present
+[OK] publication-support-target-matrix consumer api ref present
+[OK] publication-support-target-matrix negative bypass ref present
+[OK] publication-support-target-matrix token_required present
+[OK] publication-support-target-matrix coverage_state present
+[OK] publication-support-target-matrix coverage map entry present
+[OK] publication-support-target-matrix token mediation present
+[OK] protected-ci-auto-merge class binding present
+[OK] protected-ci-auto-merge owner ref present
+[OK] protected-ci-auto-merge consumer api ref present
+[OK] protected-ci-auto-merge negative bypass ref present
+[OK] protected-ci-auto-merge token_required present
+[OK] protected-ci-auto-merge coverage_state present
+[OK] protected-ci-auto-merge coverage map entry present
+[OK] protected-ci-auto-merge token mediation present
+[OK] extension-state-publication class binding present
+[OK] extension-state-publication owner ref present
+[OK] extension-state-publication consumer api ref present
+[OK] extension-state-publication negative bypass ref present
+[OK] extension-state-publication token_required present
+[OK] extension-state-publication coverage_state present
+[OK] extension-state-publication coverage map entry present
+[OK] extension-state-publication token mediation present
+[OK] extension-publication-claude class binding present
+[OK] extension-publication-claude owner ref present
+[OK] extension-publication-claude consumer api ref present
+[OK] extension-publication-claude negative bypass ref present
+[OK] extension-publication-claude token_required present
+[OK] extension-publication-claude coverage_state present
+[OK] extension-publication-claude coverage map entry present
+[OK] extension-publication-claude token mediation present
+[OK] extension-publication-cursor class binding present
+[OK] extension-publication-cursor owner ref present
+[OK] extension-publication-cursor consumer api ref present
+[OK] extension-publication-cursor negative bypass ref present
+[OK] extension-publication-cursor token_required present
+[OK] extension-publication-cursor coverage_state present
+[OK] extension-publication-cursor coverage map entry present
+[OK] extension-publication-cursor token mediation present
+[OK] extension-publication-codex class binding present
+[OK] extension-publication-codex owner ref present
+[OK] extension-publication-codex consumer api ref present
+[OK] extension-publication-codex negative bypass ref present
+[OK] extension-publication-codex token_required present
+[OK] extension-publication-codex coverage_state present
+[OK] extension-publication-codex coverage map entry present
+[OK] extension-publication-codex token mediation present
+[OK] capability-pack-publication class binding present
+[OK] capability-pack-publication owner ref present
+[OK] capability-pack-publication consumer api ref present
+[OK] capability-pack-publication negative bypass ref present
+[OK] capability-pack-publication token_required present
+[OK] capability-pack-publication coverage_state present
+[OK] capability-pack-publication coverage map entry present
+[OK] capability-pack-publication token mediation present
+[OK] connector-admission-runtime-admin class binding present
+[OK] connector-admission-runtime-admin owner ref present
+[OK] connector-admission-runtime-admin consumer api ref present
+[OK] connector-admission-runtime-admin negative bypass ref present
+[OK] connector-admission-runtime-admin token_required present
+[OK] connector-admission-runtime-admin coverage_state present
+[OK] connector-admission-runtime-admin is explicitly non-live: stage_only
+[OK] connector-operation-live-effect class binding present
+[OK] connector-operation-live-effect owner ref present
+[OK] connector-operation-live-effect consumer api ref present
+[OK] connector-operation-live-effect negative bypass ref present
+[OK] connector-operation-live-effect token_required present
+[OK] connector-operation-live-effect coverage_state present
+[OK] connector-operation-live-effect is explicitly non-live: denied_until_connector_admission_runtime_authorization
+Validation summary: errors=0

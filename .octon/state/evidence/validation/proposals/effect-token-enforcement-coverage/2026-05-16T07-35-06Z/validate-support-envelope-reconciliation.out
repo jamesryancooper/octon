@@ -1,0 +1,16 @@
+== Support Envelope Reconciliation Validation ==
+[OK] support-envelope spec present
+[OK] support-envelope result schema present
+[OK] generated result schema version current
+[OK] generated result status is valid
+[OK] generated result remains non-authority
+[OK] generated result uses digest-bound freshness
+[OK] generated result declares invalidation conditions
+[OK] generated result forbids support widening
+[ERROR] published support-envelope reconciliation is stale; regenerate it
+[OK] all declared live tuples reconcile to live
+[OK] generated outputs do not widen support
+[OK] live tuples are proof-backed and freshness-valid
+[OK] live tuples are not excluded or revoked
+[OK] support envelope status reconciled
+Validation summary: errors=1

@@ -1,0 +1,153 @@
+PASS: token enforcement fails without token types
+PASS: token enforcement passes with declared token mediation
+PASS: token enforcement fails without token bypass negative controls
+
+test-material-side-effect-token-bypass-denials.sh: passed=3 failed=0
+warning: fields `blocker` and `safe_unattended_basis` are never read
+   --> kernel/src/lifecycle_program.rs:443:5
+    |
+442 | struct ProgramRepairSelection<'a> {
+    |        ---------------------- fields in this struct
+443 |     blocker: &'a ProgramBlocker,
+    |     ^^^^^^^
+444 |     route: RoutePlanState,
+445 |     safe_unattended_basis: String,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ProgramRepairSelection` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `selected_program_repair_blocker` is never used
+    --> kernel/src/lifecycle_program.rs:4925:4
+     |
+4925 | fn selected_program_repair_blocker<'a>(
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `blocker` and `safe_unattended_basis` are never read
+   --> kernel/src/lifecycle_program.rs:443:5
+    |
+442 | struct ProgramRepairSelection<'a> {
+    |        ---------------------- fields in this struct
+443 |     blocker: &'a ProgramBlocker,
+    |     ^^^^^^^
+444 |     route: RoutePlanState,
+445 |     safe_unattended_basis: String,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ProgramRepairSelection` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `selected_program_repair_blocker` is never used
+    --> kernel/src/lifecycle_program.rs:4925:4
+     |
+4925 | fn selected_program_repair_blocker<'a>(
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `blocker` and `safe_unattended_basis` are never read
+   --> kernel/src/lifecycle_program.rs:443:5
+    |
+442 | struct ProgramRepairSelection<'a> {
+    |        ---------------------- fields in this struct
+443 |     blocker: &'a ProgramBlocker,
+    |     ^^^^^^^
+444 |     route: RoutePlanState,
+445 |     safe_unattended_basis: String,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ProgramRepairSelection` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `selected_program_repair_blocker` is never used
+    --> kernel/src/lifecycle_program.rs:4925:4
+     |
+4925 | fn selected_program_repair_blocker<'a>(
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `blocker` and `safe_unattended_basis` are never read
+   --> kernel/src/lifecycle_program.rs:443:5
+    |
+442 | struct ProgramRepairSelection<'a> {
+    |        ---------------------- fields in this struct
+443 |     blocker: &'a ProgramBlocker,
+    |     ^^^^^^^
+444 |     route: RoutePlanState,
+445 |     safe_unattended_basis: String,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ProgramRepairSelection` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `selected_program_repair_blocker` is never used
+    --> kernel/src/lifecycle_program.rs:4925:4
+     |
+4925 | fn selected_program_repair_blocker<'a>(
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `blocker` and `safe_unattended_basis` are never read
+   --> kernel/src/lifecycle_program.rs:443:5
+    |
+442 | struct ProgramRepairSelection<'a> {
+    |        ---------------------- fields in this struct
+443 |     blocker: &'a ProgramBlocker,
+    |     ^^^^^^^
+444 |     route: RoutePlanState,
+445 |     safe_unattended_basis: String,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ProgramRepairSelection` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `selected_program_repair_blocker` is never used
+    --> kernel/src/lifecycle_program.rs:4925:4
+     |
+4925 | fn selected_program_repair_blocker<'a>(
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: fields `blocker` and `safe_unattended_basis` are never read
+   --> kernel/src/lifecycle_program.rs:443:5
+    |
+442 | struct ProgramRepairSelection<'a> {
+    |        ---------------------- fields in this struct
+443 |     blocker: &'a ProgramBlocker,
+    |     ^^^^^^^
+444 |     route: RoutePlanState,
+445 |     safe_unattended_basis: String,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `ProgramRepairSelection` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `selected_program_repair_blocker` is never used
+    --> kernel/src/lifecycle_program.rs:4925:4
+     |
+4925 | fn selected_program_repair_blocker<'a>(
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+PASS: support-target matrix delegates to runtime boundary
+PASS: pack-routes delegates to runtime boundary
+PASS: runtime-route-bundle delegates to runtime boundary
+PASS: extension-state delegates to runtime boundary
+PASS: capability-routing delegates to runtime boundary
+PASS: host-projections delegates to runtime boundary
+PASS: support-target matrix forged runtime env without manifest fails closed
+PASS: pack-routes forged runtime env without manifest fails closed
+PASS: runtime-route-bundle forged runtime env without manifest fails closed
+PASS: capability-routing forged runtime env without manifest fails closed
+PASS: extension-state forged runtime env without manifest fails closed
+PASS: host-projections forged runtime env without manifest fails closed
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.16s
+     Running unittests src/main.rs (.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-7bbbb56590a67520)
+
+running 1 test
+test workflow::tests::create_design_package_writes_execution_artifacts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 199 filtered out; finished in 12.42s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running unittests src/main.rs (.octon/generated/.tmp/engine/build/runtime-crates-target/debug/deps/octon-7bbbb56590a67520)
+
+running 1 test
+test pipeline::tests::mock_generic_workflow_writes_execution_artifacts ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 199 filtered out; finished in 10.27s
+

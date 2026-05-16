@@ -1,0 +1,175 @@
+== Authorization Boundary Coverage Validation ==
+[OK] yq available
+[OK] authorization coverage receipt present
+[OK] authorization coverage receipt schema is current
+[OK] authorized-effect token validation active
+[OK] authorization boundary spec present
+[OK] authorization spec covers: service invocation
+[OK] authorization spec covers: service build
+[OK] authorization spec covers: workflow-stage execution
+[OK] authorization spec covers: executor launch
+[OK] authorization spec covers: control mutations under `/.octon/state/control/**`
+[OK] authorization spec covers: runtime-facing publication under `/.octon/generated/effective/**`
+[OK] authorization spec covers: extension activation through runtime-owned wrappers
+[OK] authorization spec covers: capability-pack activation through runtime-owned wrappers
+[OK] authorization spec covers: protected CI merge through a token-enforced runtime boundary
+[OK] kernel-tool-invoke file present
+[OK] kernel-tool-invoke contains pattern: authorize_execution(
+[OK] kernel-tool-invoke contains pattern: write_execution_start(
+[OK] kernel-tool-invoke contains pattern: finalize_execution(
+[OK] kernel-tool-invoke declares denial reason code
+[OK] kernel-tool-invoke declares negative controls
+[OK] kernel-tool-invoke declares test coverage
+[OK] kernel-tool-invoke declares authorized-effect token mediation
+[OK] kernel-tool-invoke declares token bypass negative control
+[OK] kernel-studio-launch file present
+[OK] kernel-studio-launch contains pattern: authorize_execution(
+[OK] kernel-studio-launch contains pattern: write_execution_start(
+[OK] kernel-studio-launch contains pattern: finalize_execution(
+[OK] kernel-studio-launch declares denial reason code
+[OK] kernel-studio-launch declares negative controls
+[OK] kernel-studio-launch declares test coverage
+[OK] kernel-studio-launch declares authorized-effect token mediation
+[OK] kernel-studio-launch declares token bypass negative control
+[OK] kernel-service-build file present
+[OK] kernel-service-build contains pattern: authorize_execution(
+[OK] kernel-service-build contains pattern: write_execution_start(
+[OK] kernel-service-build contains pattern: finalize_execution(
+[OK] kernel-service-build declares denial reason code
+[OK] kernel-service-build declares negative controls
+[OK] kernel-service-build declares test coverage
+[OK] kernel-service-build declares authorized-effect token mediation
+[OK] kernel-service-build declares token bypass negative control
+[OK] kernel-service-scaffold file present
+[OK] kernel-service-scaffold contains pattern: authorize_execution(
+[OK] kernel-service-scaffold contains pattern: write_execution_start(
+[OK] kernel-service-scaffold contains pattern: finalize_execution(
+[OK] kernel-service-scaffold declares denial reason code
+[OK] kernel-service-scaffold declares negative controls
+[OK] kernel-service-scaffold declares test coverage
+[OK] kernel-service-scaffold declares authorized-effect token mediation
+[OK] kernel-service-scaffold declares token bypass negative control
+[OK] workflow-pipeline-run file present
+[OK] workflow-pipeline-run contains pattern: authorize_execution(
+[OK] workflow-pipeline-run contains pattern: write_execution_start(
+[OK] workflow-pipeline-run contains pattern: finalize_execution(
+[OK] workflow-pipeline-run declares denial reason code
+[OK] workflow-pipeline-run declares negative controls
+[OK] workflow-pipeline-run declares test coverage
+[OK] workflow-pipeline-run declares authorized-effect token mediation
+[OK] workflow-pipeline-run declares token bypass negative control
+[OK] workflow-stage-run file present
+[OK] workflow-stage-run contains pattern: authorize_execution(
+[OK] workflow-stage-run contains pattern: write_execution_start(
+[OK] workflow-stage-run contains pattern: finalize_execution(
+[OK] workflow-stage-run declares denial reason code
+[OK] workflow-stage-run declares negative controls
+[OK] workflow-stage-run declares test coverage
+[OK] workflow-stage-run declares authorized-effect token mediation
+[OK] workflow-stage-run declares token bypass negative control
+[OK] stdio-service-run file present
+[OK] stdio-service-run contains pattern: authorize_execution(
+[OK] stdio-service-run contains pattern: write_execution_start(
+[OK] stdio-service-run contains pattern: finalize_execution(
+[OK] stdio-service-run declares denial reason code
+[OK] stdio-service-run declares negative controls
+[OK] stdio-service-run declares test coverage
+[OK] stdio-service-run declares authorized-effect token mediation
+[OK] stdio-service-run declares token bypass negative control
+[OK] publication-support-target-matrix file present
+[OK] publication-support-target-matrix contains pattern: run_publication_wrapper support-target-matrix
+[OK] publication-support-target-matrix declares denial reason code
+[OK] publication-support-target-matrix declares negative controls
+[OK] publication-support-target-matrix declares test coverage
+[OK] publication-support-target-matrix declares authorized-effect token mediation
+[OK] publication-support-target-matrix declares token bypass negative control
+[OK] publication-pack-routes file present
+[OK] publication-pack-routes contains pattern: run_publication_wrapper pack-routes
+[OK] publication-pack-routes declares denial reason code
+[OK] publication-pack-routes declares negative controls
+[OK] publication-pack-routes declares test coverage
+[OK] publication-pack-routes declares authorized-effect token mediation
+[OK] publication-pack-routes declares token bypass negative control
+[OK] publication-runtime-route-bundle file present
+[OK] publication-runtime-route-bundle contains pattern: run_publication_wrapper runtime-route-bundle
+[OK] publication-runtime-route-bundle declares denial reason code
+[OK] publication-runtime-route-bundle declares negative controls
+[OK] publication-runtime-route-bundle declares test coverage
+[OK] publication-runtime-route-bundle declares authorized-effect token mediation
+[OK] publication-runtime-route-bundle declares token bypass negative control
+[OK] extension-state-publication file present
+[OK] extension-state-publication contains pattern: enter_publication_runtime_boundary extension-state
+[OK] extension-state-publication declares denial reason code
+[OK] extension-state-publication declares negative controls
+[OK] extension-state-publication declares test coverage
+[OK] extension-state-publication declares authorized-effect token mediation
+[OK] extension-state-publication declares token bypass negative control
+[OK] extension-publication-claude file present
+[OK] extension-publication-claude contains pattern: enter_publication_runtime_boundary host-projections
+[OK] extension-publication-claude declares denial reason code
+[OK] extension-publication-claude declares negative controls
+[OK] extension-publication-claude declares test coverage
+[OK] extension-publication-claude declares authorized-effect token mediation
+[OK] extension-publication-claude declares token bypass negative control
+[OK] extension-publication-cursor file present
+[OK] extension-publication-cursor contains pattern: enter_publication_runtime_boundary host-projections
+[OK] extension-publication-cursor declares denial reason code
+[OK] extension-publication-cursor declares negative controls
+[OK] extension-publication-cursor declares test coverage
+[OK] extension-publication-cursor declares authorized-effect token mediation
+[OK] extension-publication-cursor declares token bypass negative control
+[OK] extension-publication-codex file present
+[OK] extension-publication-codex contains pattern: enter_publication_runtime_boundary host-projections
+[OK] extension-publication-codex declares denial reason code
+[OK] extension-publication-codex declares negative controls
+[OK] extension-publication-codex declares test coverage
+[OK] extension-publication-codex declares authorized-effect token mediation
+[OK] extension-publication-codex declares token bypass negative control
+[OK] capability-pack-publication file present
+[OK] capability-pack-publication contains pattern: enter_publication_runtime_boundary capability-routing
+[OK] capability-pack-publication declares denial reason code
+[OK] capability-pack-publication declares negative controls
+[OK] capability-pack-publication declares test coverage
+[OK] capability-pack-publication declares authorized-effect token mediation
+[OK] capability-pack-publication declares token bypass negative control
+[OK] protected-ci-auto-merge file present
+[OK] protected-ci-auto-merge contains pattern: protected-ci-auto-merge.sh
+[OK] protected-ci-auto-merge contains pattern: --control-json
+[OK] protected-ci-auto-merge declares denial reason code
+[OK] protected-ci-auto-merge declares negative controls
+[OK] protected-ci-auto-merge declares test coverage
+[OK] protected-ci-auto-merge declares authorized-effect token mediation
+[OK] protected-ci-auto-merge declares token bypass negative control
+[OK] orchestration-report-write file present
+[OK] orchestration-report-write contains pattern: authorize_execution(
+[OK] orchestration-report-write contains pattern: write_execution_start(
+[OK] orchestration-report-write contains pattern: finalize_execution(
+[OK] orchestration-report-write declares denial reason code
+[OK] orchestration-report-write declares negative controls
+[OK] orchestration-report-write declares test coverage
+[OK] orchestration-report-write declares authorized-effect token mediation
+[OK] orchestration-report-write declares token bypass negative control
+[OK] authority-execution file present
+[OK] authority-execution contains pattern: pub fn authorize_execution(
+[OK] authority-execution contains pattern: write_decision_artifact(
+[OK] authority-execution contains pattern: record_phase_result(
+[OK] authority-execution declares denial reason code
+[OK] authority-execution declares negative controls
+[OK] authority-execution declares test coverage
+[OK] authority-execution declares authorized-effect token mediation
+[OK] authority-execution declares token bypass negative control
+[OK] authority-phases file present
+[OK] authority-phases contains pattern: authorization-phase-result-v1
+[OK] authority-phases contains pattern: execution-request-v3
+[OK] authority-phases contains pattern: execution-receipt-v3
+[OK] authority-phases declares denial reason code
+[OK] authority-phases declares negative controls
+[OK] authority-phases declares test coverage
+[OK] authority-phases declares authorized-effect token mediation
+[OK] authority-phases declares token bypass negative control
+[OK] workflow gate present: .github/workflows/architecture-conformance.yml
+[OK] .github/workflows/architecture-conformance.yml contains gate text: validate-authorization-boundary-coverage.sh
+[OK] .github/workflows/architecture-conformance.yml contains gate text: validate-material-side-effect-inventory.sh
+[OK] workflow gate present: .github/workflows/deny-by-default-gates.yml
+[OK] .github/workflows/deny-by-default-gates.yml contains gate text: validate-authorization-boundary-coverage.sh
+Validation summary: errors=0

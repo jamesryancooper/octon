@@ -1,8 +1,8 @@
 # Implementation Run Receipt
 
 verdict: blocked
-implemented_at: 2026-05-15T22:14:11Z
-promotion_evidence_count: 13
+implemented_at: 2026-05-16T09:23:27Z
+promotion_evidence_count: 23
 
 ## Profile Selection Receipt
 
@@ -12,87 +12,99 @@ transitional_exception_note: not authorized
 
 ## Worktree Baseline
 
-The run started from an already dirty worktree with unrelated edits under
-runtime constitution contracts, other proposal packet receipts, and instance
-governance policy documentation. Those unrelated edits were preserved. This
-route's durable code change is limited to
-`.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs`.
+This route started from an already dirty worktree with generated/effective
+outputs, state/control and state/evidence run artifacts, sibling proposal
+lifecycle edits, existing packet-local receipt edits, and one approved
+target-family test edit already present. Existing edits were preserved. This
+route refreshed evidence and packet-local receipts without reverting unrelated
+work. A live recheck at `2026-05-16T09:23:27Z` confirmed the same blocked
+generated/read-model freshness outcome.
 
 ## Durable Changes
 
-- Updated `temp_runtime_config()` in `authority_engine` implementation tests to
-  refresh copied generated/effective route, pack-route, and extension-generation
-  lock digests inside each temporary runtime root.
-- Added focused test-only helpers that recompute lock and publication receipt
-  SHA-256 values from the copied temporary fixture tree before authorization
-  tests exercise runtime-effective route-bundle validation.
-- Preserved the existing negative-control behavior: deliberate stale-lock
-  mutations in the tests still fail closed after the temporary fixture baseline
-  is made internally coherent.
+No new durable target-family edit was made during this route attempt. The
+existing approved-target test edit in
+`.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh`
+remains present and replaces per-fixture temporary-directory tracking with one
+cleanup root for deterministic cleanup. Existing durable effect-token
+enforcement surfaces in `.octon/framework/engine/runtime/spec/`,
+`.octon/framework/engine/runtime/crates/`,
+`.octon/framework/assurance/runtime/_ops/scripts/`, and
+`.octon/framework/assurance/runtime/_ops/tests/` were reconciled and exercised.
 
 ## Implementation Map
 
-- `.octon/framework/engine/runtime/crates/` - changed
-  `authority_engine/src/implementation/tests.rs` to make effect-token and route
-  authorization tests independent of live generated/effective projection drift.
-- `.octon/framework/engine/runtime/spec/` - no durable edit was required; the
-  existing material side-effect inventory, authorization-boundary coverage, and
-  authorized effect-token schemas already satisfy the focused validators.
-- `.octon/framework/assurance/runtime/_ops/scripts/` - no durable edit was
-  required; the existing effect-token validators pass.
-- `.octon/framework/assurance/runtime/_ops/tests/` - no durable edit was
-  required; existing bypass, consumption, and coverage tests pass after the
-  temporary runtime fixture baseline is refreshed in the runtime crate tests.
+- `.octon/framework/engine/runtime/spec/` - existing material side-effect
+  inventory, authorization-boundary coverage, authorized effect-token schemas,
+  runtime event schema, and execution receipt schema pass focused validation.
+- `.octon/framework/engine/runtime/crates/` - existing `authorized_effects`,
+  `authority_engine`, and `kernel` runtime code passed required crate tests.
+- `.octon/framework/assurance/runtime/_ops/scripts/` - existing material
+  inventory, authorization-boundary, and authorized effect-token validators pass.
+- `.octon/framework/assurance/runtime/_ops/tests/` - existing bypass,
+  consumption, and coverage fixture tests pass.
 
 ## Retained Evidence
 
-- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-15T22-10-31Z/validation.md`
+- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T09-23-27Z/validation.md`
+- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T07-53-47Z/validation.md`
+- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T08-08-39Z/validation.md`
+- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T07-35-06Z/`
+- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T07-19-47Z/validation.md`
+- `.octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T07-06-51Z/validation.md`
+- Runtime publication wrapper evidence under existing `.octon/state/evidence/runs/publish-*` run evidence roots created by `test-material-side-effect-coverage-fixtures.sh`.
 
 ## Validators Run
 
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage` - pass with one artifact-catalog warning for implementation-route support receipts that are excluded from the accepted review digest.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage` - pass, errors=0 warnings=1.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage` - pass.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage` - pass.
 - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage --require-implementation-authorization` - pass.
-- `(cd .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage && shasum -a 256 -c SHA256SUMS.txt)` - pass before receipt refresh.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh` - pass.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh` - pass.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh` - pass.
-- `bash .octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh` - pass.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh` - pass, errors=0.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh` - pass, errors=0.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh` - pass, errors=0.
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh` - pass, 3 passed and 0 failed.
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-negative-bypass.sh` - pass.
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-consumption.sh` - pass.
-- `bash .octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh` - pass; generated/effective and ACP evidence files touched by the runtime publication wrapper were restored to their prior tracked state after the test.
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh` - pass.
 - `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_authorized_effects` - pass.
 - `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_authority_engine --lib` - pass, 70 tests passed.
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh` - fail; support-envelope reconciliation and run-health read-model checks report generated cognition/read-model digest drift outside this packet's promotion targets.
-- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel --bin octon` - fail; runtime-effective route-bundle validation reports root manifest and pack-route digest drift outside this packet's promotion targets.
+- `cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel --bin octon` - pass, 200 tests passed.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh` - fail, errors=1, because the published generated support-envelope reconciliation is stale.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh` - fail, errors=195, because generated run-health read models carry digest drift for current support reconciliation, runtime route bundle, and pack-route sources.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh` - fail, errors=2; support-envelope reconciliation and run-health read-model validation failed on generated projection drift outside this packet's promotion targets.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage` - pass structurally while preserving blocked conformance verdict.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage` - pass structurally with warnings while preserving blocked drift/churn verdict.
+- `bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only` - pass as dry-run with cleanup_candidates=1397, protected_referenced=49, manual_review=192.
+- Exact `rg` scan for this proposal id and proposal path under declared durable target families - no matches.
 
 ## Generated Runtime Publication Posture
 
-No durable generated/effective output was retained by this route. The coverage
-fixture test exercised existing runtime publication wrappers and temporarily
-touched generated/effective and ACP evidence surfaces; those tracked changes
-were removed because `.octon/generated/**` and `.octon/state/control/**` are
-outside this packet's durable promotion targets.
+No durable generated/effective output is retained as this packet's durable
+implementation. Runtime publication wrappers were exercised by
+`test-material-side-effect-coverage-fixtures.sh`; generated/effective tracked
+diffs and run artifacts remain outside this packet's promotion scope.
 
 ## Rollback Posture
 
-Rollback is bounded to reverting the test-fixture refresh change in
-`authority_engine/src/implementation/tests.rs` and preserving this failed route
-evidence. No generated/effective, state/control, support-target, connector,
-constitution, or proposal status rollback is required from this route.
+No rollback of new durable target-family edits is required from this attempt
+because no new durable target-family edit was made. Generated/effective
+publication repair, state/control cleanup, support-target changes, connector
+changes, constitution changes, and proposal status promotion remain outside
+this route.
 
 ## Blockers
 
 - `BLOCKER-EFFECT-TOKEN-001`: Promotion readiness is blocked by existing
-  generated/effective and generated cognition/read-model digest drift outside
-  the packet's promotion targets. Correcting that drift would require a
-  separate generated publication or projection refresh route, not an expansion
-  of this packet implementation route.
+  support-envelope and generated cognition/read-model digest drift outside the
+  packet's promotion targets. Correcting that drift requires a separate
+  generated publication or projection refresh route, not expansion of this
+  packet implementation route.
 
 ## Route Outcome
 
-Durable scoped work landed and focused effect-token evidence is available, but
-the packet is not ready for `promote-proposal` while architecture conformance
-and the `octon_kernel` binary test remain blocked by out-of-scope projection
-drift. `proposal.yml#status` remains `accepted`.
+Focused effect-token validator and runtime test evidence is available and
+current. The mandatory architecture conformance gate remains blocked by
+out-of-scope support-envelope and generated cognition/read-model digest drift.
+The packet is not ready for `promote-proposal`. `proposal.yml#status` remains
+`accepted`.

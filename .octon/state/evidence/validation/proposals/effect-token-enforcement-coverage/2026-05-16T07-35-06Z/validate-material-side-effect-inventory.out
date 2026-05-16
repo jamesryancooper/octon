@@ -1,0 +1,67 @@
+== Material Side-Effect Inventory Validation ==
+[OK] inventory schema present
+[OK] inventory file present
+[OK] coverage receipt present
+[OK] inventory schema version current
+[OK] authorized-effect token validation active
+[OK] repo-mutation roots present
+[OK] repo-mutation boundary present
+[OK] repo-mutation owner present
+[OK] repo-mutation risk tier present
+[OK] repo-mutation material flag present
+[OK] repo-mutation token type present
+[OK] evidence-mutation roots present
+[OK] evidence-mutation boundary present
+[OK] evidence-mutation owner present
+[OK] evidence-mutation risk tier present
+[OK] evidence-mutation material flag present
+[OK] evidence-mutation token type present
+[OK] control-mutation roots present
+[OK] control-mutation boundary present
+[OK] control-mutation owner present
+[OK] control-mutation risk tier present
+[OK] control-mutation material flag present
+[OK] control-mutation token type present
+[OK] control-plane-preparation roots present
+[OK] control-plane-preparation boundary present
+[OK] control-plane-preparation owner present
+[OK] control-plane-preparation risk tier present
+[OK] control-plane-preparation material flag present
+[OK] generated-effective-publication roots present
+[OK] generated-effective-publication boundary present
+[OK] generated-effective-publication owner present
+[OK] generated-effective-publication risk tier present
+[OK] generated-effective-publication material flag present
+[OK] generated-effective-publication token type present
+[OK] executor-launch roots present
+[OK] executor-launch boundary present
+[OK] executor-launch owner present
+[OK] executor-launch risk tier present
+[OK] executor-launch material flag present
+[OK] executor-launch token type present
+[OK] service-invocation roots present
+[OK] service-invocation boundary present
+[OK] service-invocation owner present
+[OK] service-invocation risk tier present
+[OK] service-invocation material flag present
+[OK] service-invocation token type present
+[OK] protected-ci-check roots present
+[OK] protected-ci-check boundary present
+[OK] protected-ci-check owner present
+[OK] protected-ci-check risk tier present
+[OK] protected-ci-check material flag present
+[OK] protected-ci-check token type present
+[OK] extension-activation roots present
+[OK] extension-activation boundary present
+[OK] extension-activation owner present
+[OK] extension-activation risk tier present
+[OK] extension-activation material flag present
+[OK] extension-activation token type present
+[OK] capability-pack-activation roots present
+[OK] capability-pack-activation boundary present
+[OK] capability-pack-activation owner present
+[OK] capability-pack-activation risk tier present
+[OK] capability-pack-activation material flag present
+[OK] capability-pack-activation token type present
+[OK] coverage receipt binds inventory
+Validation summary: errors=0
