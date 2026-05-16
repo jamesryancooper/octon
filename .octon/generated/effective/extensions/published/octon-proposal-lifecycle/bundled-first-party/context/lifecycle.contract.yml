@@ -267,6 +267,9 @@ routes:
     command_id: "octon-proposal-run-packet-implementation"
     skill_id: "octon-proposal-lifecycle-run-packet-implementation"
     prompt_set_id: "octon-proposal-lifecycle-run-packet-implementation"
+    idempotency:
+      idempotency_class: "bounded-retry"
+      safe_unattended: true
     approval:
       required_by_default: true
       reason: "durable repository implementation requires explicit approval"
@@ -275,14 +278,48 @@ routes:
         - "implementation-run"
       replan_required: true
     enter_when:
-      all:
-        - manifest_status: "accepted"
-        - receipt_complete: "proposal-review"
-        - receipt_verdict:
-            receipt_id: "proposal-review"
-            value: "accepted"
-        - file_present: "support/executable-implementation-prompt.md"
-        - receipt_absent: "implementation-run"
+      any:
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
+            - receipt_absent: "implementation-run"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
+            - receipt_complete: "implementation-run"
+            - receipt_verdict:
+                receipt_id: "implementation-run"
+                value: "blocked"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
+            - receipt_complete: "implementation-run"
+            - receipt_verdict:
+                receipt_id: "implementation-conformance"
+                value: "fail"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict:
+                receipt_id: "proposal-review"
+                value: "accepted"
+            - file_present: "support/executable-implementation-prompt.md"
+            - receipt_complete: "implementation-run"
+            - receipt_verdict:
+                receipt_id: "post-implementation-drift"
+                value: "fail"
   - route_id: "promote-proposal"
     route_type: "workflow"
     approval:

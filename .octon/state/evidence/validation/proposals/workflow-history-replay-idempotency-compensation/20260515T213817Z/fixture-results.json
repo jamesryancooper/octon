@@ -1,0 +1,68 @@
+{
+  "errors": [],
+  "negative": [
+    {
+      "errors": [
+        "duplicate idempotency key not rejected or classified",
+        "duplicate idempotency key has invalid outcome",
+        "duplicate idempotency key missing failure receipt"
+      ],
+      "expected": "duplicate idempotency key",
+      "name": "duplicate-idempotency-accepted"
+    },
+    {
+      "errors": [
+        "retry attempt exceeds limit"
+      ],
+      "expected": "retry attempt exceeds limit",
+      "name": "retry-attempt-exceeds-limit"
+    },
+    {
+      "errors": [
+        "compensation claims global transactionality"
+      ],
+      "expected": "global transactionality",
+      "name": "compensation-global-transactionality"
+    },
+    {
+      "errors": [
+        "generated projections used as authority"
+      ],
+      "expected": "generated projections",
+      "name": "generated-authority"
+    },
+    {
+      "errors": [
+        "unsupported replay missing failure receipt"
+      ],
+      "expected": "unsupported replay missing failure receipt",
+      "name": "unsupported-replay-missing-receipt"
+    },
+    {
+      "errors": [
+        "live side-effect replay lacks fresh authorization"
+      ],
+      "expected": "fresh authorization",
+      "name": "live-side-effect-replay-without-grant"
+    },
+    {
+      "errors": [
+        "forbidden authority ref present: .octon/generated/",
+        "evidence placement must be under .octon/state/evidence"
+      ],
+      "expected": "evidence placement",
+      "name": "generated-evidence-placement"
+    }
+  ],
+  "positive": [
+    {
+      "errors": [],
+      "name": "valid-history"
+    },
+    {
+      "errors": [],
+      "name": "unsupported-history-with-receipt"
+    }
+  ],
+  "verdict": "pass"
+}

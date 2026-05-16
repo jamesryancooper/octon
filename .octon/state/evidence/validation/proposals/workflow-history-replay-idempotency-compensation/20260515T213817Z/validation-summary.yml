@@ -1,0 +1,65 @@
+schema_version: workflow-history-replay-validation-summary-v1
+proposal_id: workflow-history-replay-idempotency-compensation
+implemented_at: 2026-05-15T21:43:21Z
+verdict: pass
+warning_count: 3
+warnings:
+  - validator: validate-proposal-standard.sh
+    detail: "Artifact catalog omits newly generated support receipts; accepted review digest excludes these lifecycle receipts."
+  - validator: validate-proposal-post-implementation-drift.sh
+    detail: "Existing generic assurance scripts contain Work Package/Change scan text unrelated to this packet's promoted terminology."
+  - validator: validate-proposal-post-implementation-drift.sh
+    detail: "The .octon/state/evidence/** promotion target includes retained proposal validation evidence by design."
+commands:
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package <proposal_path>"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package <proposal_path> --require-implementation-authorization"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package <proposal_path>"
+    result: pass-with-warning
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package <proposal_path>"
+    result: pass
+  - command: "python3 -m json.tool .octon/framework/constitution/contracts/runtime/workflow-history-replay-v1.schema.json .octon/framework/constitution/contracts/runtime/idempotency-record-v1.schema.json .octon/framework/constitution/contracts/runtime/failure-receipt-v1.schema.json .octon/framework/constitution/contracts/runtime/retry-record-v1.schema.json .octon/framework/constitution/contracts/runtime/compensation-record-v1.schema.json"
+    result: pass
+  - command: "bash -n .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-history-replay-idempotency-compensation.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-history-replay-idempotency-compensation.sh --evidence-root .octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z"
+    result: pass
+    retained_evidence_refs:
+      - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/child-specific-validator.yml"
+      - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/fixture-results.json"
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-v1.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-lifecycle-transition-coverage.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-lifecycle-normalization.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-contract-family-version-coherence.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/verify-runtime-family-depth.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-no-raw-generated-effective-runtime-reads.sh"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package <proposal_path>"
+    result: pass
+  - command: "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package <proposal_path>"
+    result: pass-with-warning
+retained_evidence_refs:
+  - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/implementation-evidence.md"
+  - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/validation-summary.yml"
+  - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/child-specific-validator.yml"
+  - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/fixture-results.json"
+boundary_result:
+  proposal_path_dependency: "none in runtime, policy, support, control, or closeout authority"
+  generated_evidence_written: false
+  generated_or_input_authority: false
+post_implementation_gate_result:
+  conformance: pass
+  drift_churn: pass-with-warning
+  warning_count: 2

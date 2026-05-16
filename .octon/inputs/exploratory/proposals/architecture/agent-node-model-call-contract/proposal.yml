@@ -11,7 +11,7 @@ promotion_targets:
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/instance/governance/policies/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
-status: "accepted"
+status: "implemented"
 lifecycle:
   temporary: true
   exit_expectation: >-

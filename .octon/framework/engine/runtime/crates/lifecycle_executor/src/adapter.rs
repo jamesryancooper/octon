@@ -64,6 +64,12 @@ impl LifecycleRouteExecutor for DefaultLifecycleRouteExecutor {
             write_result(&request.evidence_root, &request.route.route_id, &result)?;
             return Ok(result);
         }
+        if let Some(result) =
+            executor_preflight_blocked(&self.repo_root, &request, before.clone(), receipts.clone())?
+        {
+            write_result(&request.evidence_root, &request.route.route_id, &result)?;
+            return Ok(result);
+        }
         let approval_override = if approval::unattended_override_active(&request) {
             Some(approval::write_unattended_override(&request)?)
         } else {
@@ -86,6 +92,74 @@ impl LifecycleRouteExecutor for DefaultLifecycleRouteExecutor {
         write_result(&request.evidence_root, &request.route.route_id, &result)?;
         Ok(result)
     }
+}
+
+fn executor_preflight_blocked(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+    manifest_status_before: Option<String>,
+    receipts: Vec<crate::result::ReceiptObservation>,
+) -> Result<Option<LifecycleRouteExecutionResult>, LifecycleExecutionError> {
+    let Some((executor_name, executor_bin)) = auto::resolve_executor(&request.executor) else {
+        return Ok(None);
+    };
+    if executor_name != "codex" {
+        return Ok(None);
+    }
+    let repo_root = repo_root
+        .canonicalize()
+        .unwrap_or_else(|_| repo_root.to_path_buf());
+    let executor_bin = executor_bin
+        .canonicalize()
+        .unwrap_or_else(|_| executor_bin.clone());
+    // Adapter tests install repo-local fake binaries to exercise executor behavior.
+    if executor_bin.starts_with(&repo_root) {
+        return Ok(None);
+    }
+    let Some(reason) = codex::runtime_preflight_failure() else {
+        return Ok(None);
+    };
+    let now = approval::now_rfc3339();
+    let evidence_path = request.evidence_root.join(format!(
+        "{}-executor-preflight-blocked.yml",
+        request.route.route_id
+    ));
+    fs::write(
+        &evidence_path,
+        format!(
+            "schema_version: octon-lifecycle-executor-preflight-blocked-v1\nrun_id: {}\nroute_id: {}\nexecutor: {}\npreflight: codex-runtime-write-access\nstatus: blocked\nretryable: false\nreason: {}\nrecovery_instruction: rerun through the approved escalated execution path so nested Codex can write its local runtime state\nrecorded_at: {}\n",
+            request.run_id,
+            request.route.route_id,
+            executor_name,
+            yaml_string(&reason),
+            now
+        ),
+    )?;
+    Ok(Some(LifecycleRouteExecutionResult {
+        schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
+        run_id: request.run_id.clone(),
+        route_id: request.route.route_id.clone(),
+        executor_used: request.executor.clone(),
+        status: "executor-preflight-blocked".to_string(),
+        started_at: now.clone(),
+        ended_at: now,
+        manifest_status_before: manifest_status_before.clone(),
+        manifest_status_after: observer::manifest_status(
+            &request.target,
+            &request.manifest_path,
+            &request.status_field,
+        )
+        .map_err(LifecycleExecutionError::from)?,
+        receipts_observed: receipts,
+        evidence_paths: vec![evidence_path],
+        stdout_path: None,
+        stderr_path: None,
+        prompt_packet_path: None,
+        retryable: false,
+        next_action: "rerun-with-approved-executor-access".to_string(),
+        error_class: Some(LifecycleErrorClass::ExecutorUnavailable),
+        error_message: Some(format!("nested Codex runtime preflight failed: {reason}")),
+    }))
 }
 
 fn cancellation_token_active(request: &LifecycleRouteExecutionRequest) -> bool {
@@ -257,6 +331,12 @@ fn write_result(
         serde_yaml::to_string(result).map_err(LifecycleExecutionError::from)?,
     )?;
     Ok(())
+}
+
+fn yaml_string(value: &str) -> String {
+    serde_yaml::to_string(value)
+        .map(|value| value.trim().to_string())
+        .unwrap_or_else(|_| format!("{value:?}"))
 }
 
 fn failure_result(

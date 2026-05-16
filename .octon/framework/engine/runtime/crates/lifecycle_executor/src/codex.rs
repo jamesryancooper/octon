@@ -5,11 +5,12 @@ use crate::result::LifecycleRouteExecutionResult;
 use crate::{observer, prompt_bundle, workflow_leaf};
 use std::fs;
 use std::fs::File;
+use std::fs::OpenOptions;
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::{Child, Command, ExitStatus, Stdio};
 use std::thread;
-use std::time::{Duration, Instant};
+use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
 #[cfg(unix)]
 use std::os::unix::process::CommandExt;
@@ -24,6 +25,51 @@ pub fn execute_codex(
     executor_bin: PathBuf,
 ) -> Result<LifecycleRouteExecutionResult, LifecycleExecutionError> {
     execute_agent(repo_root, request, "codex", executor_bin)
+}
+
+pub fn runtime_preflight_failure() -> Option<String> {
+    let home = std::env::var_os("HOME")?;
+    runtime_preflight_failure_for_home(&PathBuf::from(home))
+}
+
+fn runtime_preflight_failure_for_home(home: &Path) -> Option<String> {
+    let codex_dir = home.join(".codex");
+    if !codex_dir.exists() {
+        return None;
+    }
+    if !codex_dir.is_dir() {
+        return Some(format!(
+            "Codex runtime path is not a directory: {}",
+            codex_dir.display()
+        ));
+    }
+    let state_db = codex_dir.join("state_5.sqlite");
+    if state_db.exists() {
+        if let Err(error) = OpenOptions::new().read(true).write(true).open(&state_db) {
+            return Some(format!(
+                "cannot open Codex state database for write access at {}: {error}",
+                state_db.display()
+            ));
+        }
+    }
+    let nonce = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| duration.as_nanos())
+        .unwrap_or(0);
+    let probe = codex_dir.join(format!(
+        ".octon-codex-runtime-preflight-{}-{nonce}.tmp",
+        std::process::id()
+    ));
+    match OpenOptions::new().write(true).create_new(true).open(&probe) {
+        Ok(_) => {
+            let _ = fs::remove_file(&probe);
+            None
+        }
+        Err(error) => Some(format!(
+            "cannot create Codex runtime preflight file at {}: {error}",
+            probe.display()
+        )),
+    }
 }
 
 pub fn execute_agent(
@@ -259,11 +305,13 @@ fn run_with_timeout(
         if start.elapsed() >= Duration::from_secs(request.policy.timeout_seconds) {
             let termination = terminate_child(&mut child);
             let exit_observed = termination.status.is_some();
+            let terminal_state =
+                timeout_terminal_state(termination.status.map(|status| status.success()));
             write_executor_terminal(
                 executor_terminal_path,
                 executor_name,
                 child.id(),
-                "timed-out",
+                terminal_state,
                 start.elapsed(),
                 termination.status,
                 exit_observed,
@@ -291,6 +339,14 @@ fn run_with_timeout(
             last_observation = Instant::now();
         }
         thread::sleep(Duration::from_millis(100));
+    }
+}
+
+fn timeout_terminal_state(success: Option<bool>) -> &'static str {
+    if success.unwrap_or(false) {
+        "completed-timeout-boundary"
+    } else {
+        "timed-out"
     }
 }
 
@@ -561,6 +617,10 @@ mod tests {
 
         assert_eq!(status, "completed");
         assert_eq!(error_class, None);
+        assert_eq!(
+            timeout_terminal_state(Some(true)),
+            "completed-timeout-boundary"
+        );
     }
 
     #[test]
@@ -575,5 +635,31 @@ mod tests {
 
         assert_eq!(status, "timed-out");
         assert_eq!(error_class, Some(LifecycleErrorClass::Timeout));
+        assert_eq!(timeout_terminal_state(Some(false)), "timed-out");
+        assert_eq!(timeout_terminal_state(None), "timed-out");
+    }
+
+    #[test]
+    fn codex_runtime_preflight_reports_readonly_state_db() {
+        let root =
+            std::env::temp_dir().join(format!("octon-codex-preflight-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&root);
+        fs::create_dir_all(root.join(".codex")).unwrap();
+        let state_db = root.join(".codex/state_5.sqlite");
+        fs::write(&state_db, b"").unwrap();
+        let mut permissions = fs::metadata(&state_db).unwrap().permissions();
+        permissions.set_readonly(true);
+        fs::set_permissions(&state_db, permissions).unwrap();
+
+        let failure = runtime_preflight_failure_for_home(&root).unwrap_or_default();
+
+        let mut permissions = fs::metadata(&state_db).unwrap().permissions();
+        permissions.set_readonly(false);
+        fs::set_permissions(&state_db, permissions).unwrap();
+        let _ = fs::remove_dir_all(&root);
+        assert!(
+            failure.contains("cannot open Codex state database for write access"),
+            "failure: {failure}"
+        );
     }
 }

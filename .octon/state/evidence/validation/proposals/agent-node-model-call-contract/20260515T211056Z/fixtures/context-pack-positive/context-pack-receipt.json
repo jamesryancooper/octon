@@ -1,0 +1,76 @@
+{
+  "authority_boundary": {
+    "authorize_execution_ref": ".octon/framework/engine/runtime/spec/execution-authorization-v1.md",
+    "subordinate_to_authorize_execution": true
+  },
+  "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+  "builder_version": "context-pack-builder-v1",
+  "built_at": "2026-05-15T00:00:00Z",
+  "context_pack_id": "context-pack-agent-node-model-call",
+  "context_pack_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/context-pack.json",
+  "context_pack_sha256": "sha256:2106ec6ced16cd27d937b02b9a6f3ce63f4df4a990e20bddae4ae83a1cc8371b",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "failure_policy": {
+    "invalid_required_context_route": "DENY",
+    "missing_required_context_route": "DENY",
+    "reason_codes": [
+      "FCR-004",
+      "FCR-013"
+    ],
+    "stale_required_context_route": "DENY",
+    "unverifiable_required_context_route": "STAGE_ONLY"
+  },
+  "freshness": {
+    "freshness_status": "valid",
+    "generated_at": "2026-05-15T00:00:00Z",
+    "valid_until": "2099-01-01T00:00:00Z"
+  },
+  "invalidation_events_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/invalidation-events.json",
+  "invalidation_state": "not_invalidated",
+  "model_visible_context_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:9c1626cb63737a4b8d9af668675c904ed3502210b3e1c6d65e7ac66be043ebfa",
+  "omissions": [],
+  "omissions_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/omissions.json",
+  "receipt_id": "context-pack-receipt-agent-node-model-call",
+  "redactions_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/redactions.json",
+  "replay_reconstruction_refs": [
+    ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/model-visible-context.json",
+    ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/model-visible-context.sha256"
+  ],
+  "request_binding": {
+    "action_type": "validation",
+    "boundary_sensitive": false,
+    "consequential": true,
+    "request_id": "run-agent-node-model-call-fixture",
+    "requires_context_evidence": true,
+    "risk_tier": "repo-consequential",
+    "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+    "target_id": "agent-node-model-call-fixture",
+    "workflow_mode": "role-mediated"
+  },
+  "request_id": "run-agent-node-model-call-fixture",
+  "run_id": "run-agent-node-model-call-fixture",
+  "schema_version": "context-pack-receipt-v1",
+  "source_manifest_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/source-manifest.json",
+  "source_summary": {
+    "authority_source_count": 1,
+    "derived_source_count": 0,
+    "evidence_source_count": 0,
+    "failed_required_source_count": 0,
+    "non_authoritative_source_count": 0,
+    "required_source_count": 1
+  },
+  "sources": [
+    {
+      "authority_label": "authoritative",
+      "freshness_status": "valid",
+      "required": true,
+      "sha256": "sha256:40c43ca29f0f97eaf95656685e7076fb6c29887df568405ca531685a13e836d2",
+      "source_kind": "constitutional-kernel",
+      "source_ref": ".octon/framework/engine/runtime/spec/agent-node-v1.md",
+      "verification_status": "valid"
+    }
+  ],
+  "validity_state": "valid",
+  "verification_status": "valid"
+}

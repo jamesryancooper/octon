@@ -1,0 +1,302 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/model-call-receipt-v1.schema.json",
+  "title": "Octon Model Call Receipt v1",
+  "description": "Retained evidence for one model call performed by a bounded agent node.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "run_id",
+    "agent_node_ref",
+    "request_id",
+    "model_adapter_ref",
+    "model_tier",
+    "support_target_tuple_ref",
+    "model_routing_policy_ref",
+    "model_eligibility",
+    "context_pack_ref",
+    "context_pack_receipt_ref",
+    "model_visible_context_ref",
+    "model_visible_context_sha256",
+    "input_schema_ref",
+    "output_schema_ref",
+    "output_validation_result",
+    "context_budget",
+    "token_budget",
+    "retry_budget",
+    "cost_budget",
+    "fallback_policy",
+    "budget_decision",
+    "retained_cost_usage_receipt_refs",
+    "terminal_outcome",
+    "replay_envelope",
+    "authority_boundary",
+    "forbidden_authority_claims",
+    "evidence_refs",
+    "timestamps"
+  ],
+  "properties": {
+    "schema_version": { "const": "model-call-receipt-v1" },
+    "receipt_id": { "$ref": "#/$defs/nonEmptyString" },
+    "run_id": { "$ref": "#/$defs/nonEmptyString" },
+    "agent_node_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+    "request_id": { "$ref": "#/$defs/nonEmptyString" },
+    "model_adapter_ref": {
+      "type": "string",
+      "pattern": "^\\.octon/framework/engine/runtime/adapters/model/[^/]+\\.yml$"
+    },
+    "model_tier": {
+      "type": "string",
+      "enum": ["repo-local-governed", "frontier-governed"]
+    },
+    "support_target_tuple_ref": {
+      "type": "string",
+      "pattern": "^tuple://"
+    },
+    "model_routing_policy_ref": {
+      "const": ".octon/instance/governance/policies/model-call-routing.yml"
+    },
+    "model_eligibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "adapter_declared",
+        "support_tuple_declared",
+        "capability_pack_posture_ref",
+        "reason_codes"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["eligible", "stage_only", "deny"]
+        },
+        "adapter_declared": { "const": true },
+        "support_tuple_declared": { "const": true },
+        "capability_pack_posture_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+        "reason_codes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        }
+      }
+    },
+    "context_pack_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+    "context_pack_receipt_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+    "model_visible_context_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+    "model_visible_context_sha256": { "$ref": "#/$defs/sha256" },
+    "input_schema_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+    "output_schema_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+    "output_validation_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_ref", "validation_status", "validator_ref"],
+      "properties": {
+        "schema_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+        "validation_status": {
+          "type": "string",
+          "enum": ["valid", "invalid", "unverifiable"]
+        },
+        "validator_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+        "retained_validation_ref": { "$ref": "#/$defs/stateEvidenceRef" }
+      }
+    },
+    "context_budget": { "$ref": "#/$defs/budget" },
+    "token_budget": { "$ref": "#/$defs/budget" },
+    "retry_budget": { "$ref": "#/$defs/budget" },
+    "cost_budget": { "$ref": "#/$defs/costBudget" },
+    "fallback_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fallback_allowed",
+        "fallback_attempts_used",
+        "fallback_attempts_max",
+        "fallback_requires_budget",
+        "fallback_route"
+      ],
+      "properties": {
+        "fallback_allowed": { "type": "boolean" },
+        "fallback_attempts_used": { "type": "integer", "minimum": 0 },
+        "fallback_attempts_max": { "type": "integer", "minimum": 0 },
+        "fallback_requires_budget": { "const": true },
+        "fallback_route": { "$ref": "#/$defs/failClosedRoute" }
+      }
+    },
+    "budget_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision",
+        "context_within_budget",
+        "tokens_within_budget",
+        "cost_within_budget",
+        "retry_within_budget",
+        "fallback_within_budget",
+        "missing_cost_evidence_route"
+      ],
+      "properties": {
+        "decision": {
+          "type": "string",
+          "enum": ["allow", "stage_only", "deny"]
+        },
+        "context_within_budget": { "type": "boolean" },
+        "tokens_within_budget": { "type": "boolean" },
+        "cost_within_budget": { "type": "boolean" },
+        "retry_within_budget": { "type": "boolean" },
+        "fallback_within_budget": { "type": "boolean" },
+        "missing_cost_evidence_route": { "$ref": "#/$defs/failClosedRoute" }
+      }
+    },
+    "retained_cost_usage_receipt_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/stateEvidenceRef" }
+    },
+    "terminal_outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "reason_codes"],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "succeeded",
+            "failed",
+            "denied",
+            "stage_only",
+            "revoked",
+            "timed_out",
+            "fallback_exhausted",
+            "validation_failed"
+          ]
+        },
+        "reason_codes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        }
+      }
+    },
+    "replay_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_pack_ref",
+        "model_visible_context_ref",
+        "routing_policy_ref",
+        "budget_receipt_refs",
+        "cost_usage_receipt_refs",
+        "output_validation_ref",
+        "probabilistic_output_replay_guaranteed"
+      ],
+      "properties": {
+        "context_pack_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "model_visible_context_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "routing_policy_ref": {
+          "const": ".octon/instance/governance/policies/model-call-routing.yml"
+        },
+        "budget_receipt_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/stateEvidenceRef" }
+        },
+        "cost_usage_receipt_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/stateEvidenceRef" }
+        },
+        "output_validation_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "probabilistic_output_replay_guaranteed": { "const": false }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_output_authorizes_execution",
+        "model_output_owns_workflow_state",
+        "model_output_may_transition_workflow",
+        "model_output_mints_grants",
+        "model_output_consumes_effect_tokens",
+        "model_output_mutates_policy",
+        "model_output_widens_support_claims",
+        "model_output_admits_connectors",
+        "model_output_closes_run"
+      ],
+      "properties": {
+        "model_output_authorizes_execution": { "const": false },
+        "model_output_owns_workflow_state": { "const": false },
+        "model_output_may_transition_workflow": { "const": false },
+        "model_output_mints_grants": { "const": false },
+        "model_output_consumes_effect_tokens": { "const": false },
+        "model_output_mutates_policy": { "const": false },
+        "model_output_widens_support_claims": { "const": false },
+        "model_output_admits_connectors": { "const": false },
+        "model_output_closes_run": { "const": false }
+      }
+    },
+    "forbidden_authority_claims": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/stateEvidenceRef" }
+    },
+    "timestamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requested_at", "completed_at"],
+      "properties": {
+        "requested_at": { "$ref": "#/$defs/nonEmptyString" },
+        "completed_at": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "failClosedRoute": {
+      "type": "string",
+      "enum": ["deny", "stage_only", "escalate"]
+    },
+    "durableRuntimeRef": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "(^|/)\\.octon/(generated|inputs)(/|$)" }
+    },
+    "stateEvidenceRef": {
+      "type": "string",
+      "pattern": "^\\.octon/state/evidence/"
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["limit", "used", "unit", "within_budget"],
+      "properties": {
+        "limit": { "type": "number", "minimum": 0 },
+        "used": { "type": "number", "minimum": 0 },
+        "unit": { "$ref": "#/$defs/nonEmptyString" },
+        "within_budget": { "type": "boolean" }
+      }
+    },
+    "costBudget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "limit_estimated_cost_usd",
+        "observed_or_estimated_cost_usd",
+        "within_budget",
+        "cost_evidence_ref"
+      ],
+      "properties": {
+        "limit_estimated_cost_usd": { "type": "number", "minimum": 0 },
+        "observed_or_estimated_cost_usd": { "type": "number", "minimum": 0 },
+        "within_budget": { "type": "boolean" },
+        "cost_evidence_ref": { "$ref": "#/$defs/stateEvidenceRef" }
+      }
+    }
+  }
+}

@@ -26,11 +26,28 @@ pub fn render_workflow_leaf_prompt(
         )
     })?;
     let mut rendered = format!(
-        "# Lifecycle Workflow Leaf Execution\n\nRun workflow `{}` for lifecycle `{}`.\n\nWorkflow contract: `{}`\n\nInputs:\n",
+        "# Lifecycle Workflow Leaf Execution\n\nRun workflow `{}` for lifecycle `{}`.\n\n- run_id: `{}`\n- approval_policy: `{}`\n\nWorkflow contract: `{}`\n\nInputs:\n",
         request.route.route_id,
         request.lifecycle_id,
+        request.run_id,
+        request.policy.approval_policy,
         manifest_path.display()
     );
+    if let Some(context) = request.approval_context.as_ref() {
+        rendered.push_str("- context_kind: `");
+        rendered.push_str(&context.context_kind);
+        rendered.push_str("`\n");
+        if let Some(program_run_id) = context.program_run_id.as_ref() {
+            rendered.push_str("- program_run_id: `");
+            rendered.push_str(program_run_id);
+            rendered.push_str("`\n");
+        }
+        if let Some(child_id) = context.child_id.as_ref() {
+            rendered.push_str("- child_id: `");
+            rendered.push_str(child_id);
+            rendered.push_str("`\n");
+        }
+    }
     for (key, value) in &request.bound_inputs {
         rendered.push_str(&format!("- `{key}`: `{value}`\n"));
     }

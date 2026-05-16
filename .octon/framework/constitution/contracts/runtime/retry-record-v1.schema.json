@@ -78,6 +78,40 @@
       "type": "string",
       "minLength": 1
     },
+    "idempotency_key": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "blocked_outcome_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "failure_receipt_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "live_side_effect_replay_requested": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "fresh_authorization_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
     "notes": {
       "type": [
         "string",

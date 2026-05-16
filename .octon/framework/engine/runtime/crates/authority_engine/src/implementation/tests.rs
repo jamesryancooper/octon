@@ -256,6 +256,7 @@ fn temp_runtime_config() -> RuntimeConfig {
         fs::copy(pack_receipt, pack_target).expect("copy pack receipt");
         fs::copy(extension_receipt, extension_target).expect("copy extension receipt");
     }
+    refresh_temp_runtime_route_bundle_lock(&base);
     RuntimeConfig {
         octon_dir: base.join(".octon"),
         repo_root: base.clone(),
@@ -288,6 +289,167 @@ fn fixture_sha256(path: &Path) -> String {
     let mut hasher = Sha256::new();
     hasher.update(bytes);
     hex::encode(hasher.finalize())
+}
+
+fn yaml_string(value: &serde_yaml::Value, key: &str) -> String {
+    value
+        .get(key)
+        .and_then(serde_yaml::Value::as_str)
+        .unwrap_or_else(|| panic!("{key} must be present"))
+        .to_string()
+}
+
+fn yaml_set_string(mapping: &mut serde_yaml::Mapping, key: &str, value: String) {
+    mapping.insert(
+        serde_yaml::Value::String(key.to_string()),
+        serde_yaml::Value::String(value),
+    );
+}
+
+fn refresh_temp_runtime_route_bundle_lock(base: &Path) {
+    refresh_temp_pack_routes_lock(base);
+    refresh_temp_extension_generation_lock(base);
+    let octon_dir = base.join(".octon");
+    let lock_path = octon_dir.join("generated/effective/runtime/route-bundle.lock.yml");
+    let mut lock: serde_yaml::Value =
+        serde_yaml::from_str(&fs::read_to_string(&lock_path).expect("read temp route lock"))
+            .expect("parse temp route lock");
+    let receipt_path = base.join(yaml_string(&lock, "publication_receipt_path"));
+    let mapping = lock.as_mapping_mut().expect("temp route lock is a mapping");
+    yaml_set_string(
+        mapping,
+        "route_bundle_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/runtime/route-bundle.yml")),
+    );
+    yaml_set_string(
+        mapping,
+        "publication_receipt_sha256",
+        fixture_sha256(&receipt_path),
+    );
+    let source_digests = mapping
+        .get_mut(serde_yaml::Value::String("source_digests".to_string()))
+        .and_then(serde_yaml::Value::as_mapping_mut)
+        .expect("source_digests mapping");
+    yaml_set_string(
+        source_digests,
+        "runtime_resolution_sha256",
+        fixture_sha256(&octon_dir.join("instance/governance/runtime-resolution.yml")),
+    );
+    yaml_set_string(
+        source_digests,
+        "root_manifest_sha256",
+        fixture_sha256(&octon_dir.join("octon.yml")),
+    );
+    yaml_set_string(
+        source_digests,
+        "support_target_matrix_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/governance/support-target-matrix.yml")),
+    );
+    yaml_set_string(
+        source_digests,
+        "pack_routes_effective_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/capabilities/pack-routes.effective.yml")),
+    );
+    yaml_set_string(
+        source_digests,
+        "pack_routes_lock_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/capabilities/pack-routes.lock.yml")),
+    );
+    yaml_set_string(
+        source_digests,
+        "extensions_catalog_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/extensions/catalog.effective.yml")),
+    );
+    yaml_set_string(
+        source_digests,
+        "extensions_generation_lock_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/extensions/generation.lock.yml")),
+    );
+    fs::write(
+        lock_path,
+        serde_yaml::to_string(&lock).expect("serialize refreshed temp route lock"),
+    )
+    .expect("write refreshed temp route lock");
+}
+
+fn refresh_temp_pack_routes_lock(base: &Path) {
+    let octon_dir = base.join(".octon");
+    let lock_path = octon_dir.join("generated/effective/capabilities/pack-routes.lock.yml");
+    let mut lock: serde_yaml::Value =
+        serde_yaml::from_str(&fs::read_to_string(&lock_path).expect("read temp pack routes lock"))
+            .expect("parse temp pack routes lock");
+    let receipt_path = base.join(yaml_string(&lock, "publication_receipt_path"));
+    let mapping = lock
+        .as_mapping_mut()
+        .expect("temp pack routes lock is a mapping");
+    yaml_set_string(
+        mapping,
+        "publication_receipt_sha256",
+        fixture_sha256(&receipt_path),
+    );
+    yaml_set_string(
+        mapping,
+        "pack_routes_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/capabilities/pack-routes.effective.yml")),
+    );
+    yaml_set_string(
+        mapping,
+        "root_manifest_sha256",
+        fixture_sha256(&octon_dir.join("octon.yml")),
+    );
+    yaml_set_string(
+        mapping,
+        "support_targets_sha256",
+        fixture_sha256(&octon_dir.join("instance/governance/support-targets.yml")),
+    );
+    yaml_set_string(
+        mapping,
+        "governance_registry_sha256",
+        fixture_sha256(&octon_dir.join("instance/governance/capability-packs/registry.yml")),
+    );
+    yaml_set_string(
+        mapping,
+        "runtime_registry_sha256",
+        fixture_sha256(&octon_dir.join("instance/capabilities/runtime/packs/registry.yml")),
+    );
+    yaml_set_string(
+        mapping,
+        "support_target_matrix_sha256",
+        fixture_sha256(&octon_dir.join("generated/effective/governance/support-target-matrix.yml")),
+    );
+    fs::write(
+        lock_path,
+        serde_yaml::to_string(&lock).expect("serialize refreshed temp pack routes lock"),
+    )
+    .expect("write refreshed temp pack routes lock");
+}
+
+fn refresh_temp_extension_generation_lock(base: &Path) {
+    let octon_dir = base.join(".octon");
+    let lock_path = octon_dir.join("generated/effective/extensions/generation.lock.yml");
+    let mut lock: serde_yaml::Value = serde_yaml::from_str(
+        &fs::read_to_string(&lock_path).expect("read temp extension generation lock"),
+    )
+    .expect("parse temp extension generation lock");
+    let receipt_path = base.join(yaml_string(&lock, "publication_receipt_path"));
+    let mapping = lock
+        .as_mapping_mut()
+        .expect("temp extension generation lock is a mapping");
+    yaml_set_string(
+        mapping,
+        "publication_receipt_sha256",
+        fixture_sha256(&receipt_path),
+    );
+    yaml_set_string(
+        mapping,
+        "root_manifest_sha256",
+        fixture_sha256(&octon_dir.join("octon.yml")),
+    );
+    fs::write(
+        lock_path,
+        serde_yaml::to_string(&lock).expect("serialize refreshed temp extension lock"),
+    )
+    .expect("write refreshed temp extension lock");
 }
 
 fn seed_mission_autonomy_fixture(cfg: &RuntimeConfig, mission_id: &str, budget_state: &str) {

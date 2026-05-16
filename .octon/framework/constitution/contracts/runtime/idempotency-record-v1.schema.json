@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/idempotency-record-v1.schema.json",
+  "title": "Octon Idempotency Record v1",
+  "description": "Stable key and duplicate handling record for one replayable or mutating workflow operation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "record_id",
+    "run_id",
+    "operation_ref",
+    "idempotency_key",
+    "key_scope",
+    "first_event_ref",
+    "duplicate_detected",
+    "duplicate_policy",
+    "outcome",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "idempotency-record-v1" },
+    "record_id": { "$ref": "#/$defs/nonEmptyString" },
+    "run_id": { "$ref": "#/$defs/nonEmptyString" },
+    "operation_ref": { "$ref": "#/$defs/nonEmptyString" },
+    "idempotency_key": { "$ref": "#/$defs/nonEmptyString" },
+    "key_scope": {
+      "type": "string",
+      "enum": [
+        "run",
+        "stage-attempt",
+        "capability-call",
+        "replay-attempt",
+        "compensation-attempt"
+      ]
+    },
+    "first_event_ref": { "$ref": "#/$defs/eventRef" },
+    "duplicate_detected": { "type": "boolean" },
+    "duplicate_of_event_ref": { "$ref": "#/$defs/eventRefOrNull" },
+    "duplicate_policy": {
+      "type": "string",
+      "enum": [
+        "unique",
+        "duplicate-rejected",
+        "duplicate-classified"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "duplicate-rejected",
+        "duplicate-classified",
+        "blocked"
+      ]
+    },
+    "retry_record_ref": { "$ref": "#/$defs/nullableString" },
+    "failure_receipt_ref": { "$ref": "#/$defs/nullableString" },
+    "recorded_at": { "$ref": "#/$defs/nonEmptyString" }
+  },
+  "$defs": {
+    "eventRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "sequence", "event_hash", "event_type"],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/nonEmptyString" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "event_hash": { "$ref": "#/$defs/hash" },
+        "event_type": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "eventRefOrNull": {
+      "oneOf": [
+        { "$ref": "#/$defs/eventRef" },
+        { "type": "null" }
+      ]
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "nullableString": { "type": ["string", "null"], "minLength": 1 }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "duplicate_detected": { "const": true } },
+        "required": ["duplicate_detected"]
+      },
+      "then": {
+        "required": ["duplicate_of_event_ref", "failure_receipt_ref"],
+        "properties": {
+          "duplicate_policy": {
+            "enum": ["duplicate-rejected", "duplicate-classified"]
+          },
+          "outcome": {
+            "enum": ["duplicate-rejected", "duplicate-classified", "blocked"]
+          },
+          "duplicate_of_event_ref": { "$ref": "#/$defs/eventRef" },
+          "failure_receipt_ref": { "$ref": "#/$defs/nonEmptyString" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "duplicate_detected": { "const": false } },
+        "required": ["duplicate_detected"]
+      },
+      "then": {
+        "properties": {
+          "duplicate_policy": { "const": "unique" },
+          "outcome": { "enum": ["accepted", "blocked"] }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/model-call-receipt-v1.schema.json",
+  "title": "Constitutional Mirror: Model Call Receipt v1",
+  "allOf": [
+    { "$ref": "../../../engine/runtime/spec/model-call-receipt-v1.schema.json" }
+  ]
+}

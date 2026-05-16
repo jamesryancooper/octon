@@ -1,0 +1,29 @@
+{
+  "authority_sources": [
+    {
+      "authority_label": "authoritative",
+      "bytes_included": 0,
+      "inclusion_mode": "digest-only",
+      "path": ".octon/framework/engine/runtime/spec/agent-node-v1.md",
+      "sha256": "sha256:40c43ca29f0f97eaf95656685e7076fb6c29887df568405ca531685a13e836d2"
+    }
+  ],
+  "budget": {
+    "max_estimated_input_tokens": 100000,
+    "max_prompt_bytes": 400000
+  },
+  "context_pack_id": "context-pack-agent-node-model-call",
+  "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+  "derived_sources": [],
+  "freshness": {
+    "fresh_until": "2099-01-01T00:00:00Z",
+    "generated_at": "2026-05-15T00:00:00Z"
+  },
+  "generated_at": "2026-05-15T00:00:00Z",
+  "model_visible_context_ref": ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:9c1626cb63737a4b8d9af668675c904ed3502210b3e1c6d65e7ac66be043ebfa",
+  "non_authoritative_inputs": [],
+  "omissions": [],
+  "run_id": "run-agent-node-model-call-fixture",
+  "schema_version": "context-pack-v1"
+}

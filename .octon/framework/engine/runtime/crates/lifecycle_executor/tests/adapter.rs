@@ -319,15 +319,13 @@ fn cancellation_token_returns_cancelled_before_executor_dispatch() {
 #[test]
 fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
     let _guard = env_lock().lock().unwrap();
-    let root = temp_root("fake-agent");
-    let bin_dir = root.join("bin");
-    fs::create_dir_all(&bin_dir).unwrap();
-    write_fake_agent_binary(&bin_dir.join("codex"), "codex");
-    write_fake_agent_binary(&bin_dir.join("claude"), "claude");
-    let _path_guard = prepend_path(&bin_dir);
-
     for (mode, expected_executor) in [("codex", "codex"), ("claude", "claude"), ("auto", "codex")] {
         let case_root = temp_root(&format!("fake-agent-{mode}"));
+        let bin_dir = case_root.join("bin");
+        fs::create_dir_all(&bin_dir).unwrap();
+        write_fake_agent_binary(&bin_dir.join("codex"), "codex");
+        write_fake_agent_binary(&bin_dir.join("claude"), "claude");
+        let _path_guard = prepend_path(&bin_dir);
         write_fake_prompt_catalog(&case_root);
         let executor = DefaultLifecycleRouteExecutor::new(&case_root);
         let mut request = request(

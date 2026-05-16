@@ -1,0 +1,500 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/workflow-history-replay-v1.schema.json",
+  "title": "Octon Workflow History Replay v1",
+  "description": "Composite workflow history reconstruction report with replay, idempotency, retry, compensation, failure receipt, and evidence-placement boundaries.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "run_id",
+    "source_authority",
+    "reconstruction",
+    "event_ref_index",
+    "idempotency_records",
+    "retry_records",
+    "compensation_records",
+    "failure_receipts",
+    "evidence_placement",
+    "generated_at",
+    "generated_by"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "workflow-history-replay-v1" },
+    "report_id": { "$ref": "#/$defs/nonEmptyString" },
+    "run_id": { "$ref": "#/$defs/nonEmptyString" },
+    "source_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "journal_ref",
+        "manifest_ref",
+        "runtime_state_ref",
+        "run_manifest_ref",
+        "run_contract_ref",
+        "reconstruction_authority",
+        "generated_projection_authority",
+        "proposal_lineage_authority",
+        "raw_input_authority",
+        "durable_object_authority",
+        "external_workflow_engine_authority",
+        "mcp_or_tool_availability_authority"
+      ],
+      "properties": {
+        "journal_ref": { "$ref": "#/$defs/stateControlRef" },
+        "manifest_ref": { "$ref": "#/$defs/stateControlRef" },
+        "runtime_state_ref": { "$ref": "#/$defs/stateControlRef" },
+        "run_manifest_ref": { "$ref": "#/$defs/stateControlRef" },
+        "run_contract_ref": { "$ref": "#/$defs/nonEmptyString" },
+        "reconstruction_authority": {
+          "type": "string",
+          "const": "canonical-run-journal-first"
+        },
+        "generated_projection_authority": { "type": "boolean", "const": false },
+        "proposal_lineage_authority": { "type": "boolean", "const": false },
+        "raw_input_authority": { "type": "boolean", "const": false },
+        "durable_object_authority": { "type": "boolean", "const": false },
+        "external_workflow_engine_authority": { "type": "boolean", "const": false },
+        "mcp_or_tool_availability_authority": { "type": "boolean", "const": false }
+      }
+    },
+    "reconstruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replay_outcome",
+        "latest_sequence",
+        "latest_hash",
+        "runtime_state_match",
+        "manifest_match",
+        "hash_chain_status",
+        "gap_refs",
+        "drift_findings",
+        "unsupported_reason_refs",
+        "live_side_effect_replay_requested",
+        "live_side_effect_replay_requires_fresh_authorization"
+      ],
+      "properties": {
+        "replay_outcome": {
+          "type": "string",
+          "enum": ["valid", "drifted", "incomplete", "unsupported", "blocked"]
+        },
+        "latest_sequence": { "type": "integer", "minimum": 0 },
+        "latest_hash": { "$ref": "#/$defs/hashOrNull" },
+        "runtime_state_match": { "type": "boolean" },
+        "manifest_match": { "type": "boolean" },
+        "hash_chain_status": {
+          "type": "string",
+          "enum": ["verified", "broken", "unverified"]
+        },
+        "gap_refs": { "$ref": "#/$defs/refArray" },
+        "drift_findings": { "$ref": "#/$defs/findingArray" },
+        "unsupported_reason_refs": { "$ref": "#/$defs/refArray" },
+        "live_side_effect_replay_requested": { "type": "boolean" },
+        "live_side_effect_replay_requires_fresh_authorization": { "type": "boolean", "const": true },
+        "fresh_authorization_ref": { "$ref": "#/$defs/nullableString" },
+        "failure_receipt_ref": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "event_ref_index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_rebuild_event_refs",
+        "transition_event_refs",
+        "replay_event_refs",
+        "disclosure_event_refs",
+        "evidence_snapshot_event_refs",
+        "drift_event_refs"
+      ],
+      "properties": {
+        "state_rebuild_event_refs": { "$ref": "#/$defs/eventRefArray" },
+        "transition_event_refs": { "$ref": "#/$defs/eventRefArray" },
+        "replay_event_refs": { "$ref": "#/$defs/eventRefArray" },
+        "disclosure_event_refs": { "$ref": "#/$defs/eventRefArray" },
+        "evidence_snapshot_event_refs": { "$ref": "#/$defs/eventRefArray" },
+        "drift_event_refs": { "$ref": "#/$defs/eventRefArray" }
+      }
+    },
+    "idempotency_records": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/idempotencyRecord" }
+    },
+    "retry_records": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/retryRecord" }
+    },
+    "compensation_records": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/compensationRecord" }
+    },
+    "failure_receipts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/failureReceipt" }
+    },
+    "evidence_placement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retained_evidence_root",
+        "retained_evidence_refs",
+        "generated_evidence_written",
+        "placement_receipt_ref"
+      ],
+      "properties": {
+        "retained_evidence_root": { "$ref": "#/$defs/stateEvidenceRef" },
+        "retained_evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/stateEvidenceRef" },
+          "uniqueItems": true
+        },
+        "generated_evidence_written": { "type": "boolean", "const": false },
+        "placement_receipt_ref": { "$ref": "#/$defs/stateEvidenceRef" }
+      }
+    },
+    "generated_at": { "$ref": "#/$defs/nonEmptyString" },
+    "generated_by": { "$ref": "#/$defs/actor" }
+  },
+  "$defs": {
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor_class", "actor_ref"],
+      "properties": {
+        "actor_class": {
+          "type": "string",
+          "enum": ["runtime", "validator", "operator", "replay-service"]
+        },
+        "actor_ref": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "compensationRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "compensation_scope",
+        "status",
+        "transactionality_claims",
+        "affected_refs",
+        "recorded_at"
+      ],
+      "properties": {
+        "record_id": { "$ref": "#/$defs/nonEmptyString" },
+        "compensation_scope": {
+          "type": "string",
+          "enum": ["bounded-compensating-action", "unsupported-rollback", "no-compensation-available"]
+        },
+        "compensation_plan_ref": { "$ref": "#/$defs/nullableString" },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "completed", "blocked", "unsupported", "not-needed"]
+        },
+        "transactionality_claims": { "$ref": "#/$defs/transactionalityBoundary" },
+        "affected_refs": { "$ref": "#/$defs/refArray" },
+        "failure_receipt_ref": { "$ref": "#/$defs/nullableString" },
+        "recorded_at": { "$ref": "#/$defs/nonEmptyString" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "compensation_scope": {
+                "enum": ["unsupported-rollback", "no-compensation-available"]
+              }
+            },
+            "required": ["compensation_scope"]
+          },
+          "then": {
+            "required": ["failure_receipt_ref"],
+            "properties": {
+              "failure_receipt_ref": { "$ref": "#/$defs/nonEmptyString" },
+              "status": { "enum": ["blocked", "unsupported"] }
+            }
+          }
+        }
+      ]
+    },
+    "eventRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "sequence", "event_hash", "event_type"],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/nonEmptyString" },
+        "sequence": { "type": "integer", "minimum": 1 },
+        "event_hash": { "$ref": "#/$defs/hash" },
+        "event_type": { "$ref": "#/$defs/nonEmptyString" },
+        "ledger_ref": { "$ref": "#/$defs/nullableString" },
+        "manifest_ref": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "eventRefArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/eventRef" },
+      "uniqueItems": true
+    },
+    "failureReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_id",
+        "failure_class",
+        "outcome",
+        "retained_evidence_ref",
+        "disclosure_ref"
+      ],
+      "properties": {
+        "receipt_id": { "$ref": "#/$defs/nonEmptyString" },
+        "failure_class": {
+          "type": "string",
+          "enum": [
+            "replay-gap",
+            "replay-drift",
+            "unsupported-replay",
+            "duplicate-idempotency-key",
+            "retry-blocked",
+            "compensation-unsupported",
+            "evidence-placement-missing"
+          ]
+        },
+        "outcome": {
+          "type": "string",
+          "enum": ["blocked", "unsupported", "drifted", "incomplete", "denied", "escalated"]
+        },
+        "retained_evidence_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "disclosure_ref": { "$ref": "#/$defs/nonEmptyString" }
+      }
+    },
+    "findingArray": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "finding_type", "severity"],
+        "properties": {
+          "finding_id": { "$ref": "#/$defs/nonEmptyString" },
+          "finding_type": {
+            "type": "string",
+            "enum": [
+              "journal-runtime-state-mismatch",
+              "missing-side-artifact",
+              "hash-chain-invalid",
+              "sequence-gap",
+              "manifest-mismatch",
+              "control-evidence-boundary-violation",
+              "generated-view-used-as-authority",
+              "unsupported-authority-source",
+              "other"
+            ]
+          },
+          "severity": { "type": "string", "enum": ["blocking", "warning", "info"] },
+          "finding_ref": { "$ref": "#/$defs/nullableString" }
+        }
+      },
+      "uniqueItems": true
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "hashOrNull": {
+      "type": ["string", "null"],
+      "pattern": "^sha256:[A-Fa-f0-9]{64}$"
+    },
+    "idempotencyRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "record_id",
+        "idempotency_key",
+        "operation_ref",
+        "duplicate_detected",
+        "duplicate_policy",
+        "outcome"
+      ],
+      "properties": {
+        "record_id": { "$ref": "#/$defs/nonEmptyString" },
+        "idempotency_key": { "$ref": "#/$defs/nonEmptyString" },
+        "operation_ref": { "$ref": "#/$defs/nonEmptyString" },
+        "first_event_ref": { "$ref": "#/$defs/eventRef" },
+        "duplicate_detected": { "type": "boolean" },
+        "duplicate_policy": {
+          "type": "string",
+          "enum": ["unique", "duplicate-rejected", "duplicate-classified"]
+        },
+        "duplicate_of_event_ref": {
+          "oneOf": [{ "$ref": "#/$defs/eventRef" }, { "type": "null" }]
+        },
+        "outcome": {
+          "type": "string",
+          "enum": ["accepted", "duplicate-rejected", "duplicate-classified", "blocked"]
+        },
+        "failure_receipt_ref": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "nullableString": { "type": ["string", "null"], "minLength": 1 },
+    "refArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/nonEmptyString" },
+      "uniqueItems": true
+    },
+    "retryRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "retry_id",
+        "retry_class",
+        "attempt_counter",
+        "attempt_limit",
+        "route_taken",
+        "result",
+        "triggering_artifact_ref"
+      ],
+      "properties": {
+        "retry_id": { "$ref": "#/$defs/nonEmptyString" },
+        "retry_class": {
+          "type": "string",
+          "enum": [
+            "retryable_transient",
+            "retryable_validation",
+            "retryable_environment",
+            "rollback_then_retry",
+            "manual_review_required",
+            "non_retryable_contract_violation",
+            "contamination_reset_required"
+          ]
+        },
+        "attempt_counter": { "type": "integer", "minimum": 1 },
+        "attempt_limit": { "type": "integer", "minimum": 1 },
+        "route_taken": {
+          "type": "string",
+          "enum": ["allow", "stage_only", "deny", "escalate", "observe_only"]
+        },
+        "result": {
+          "type": "string",
+          "enum": ["pending", "not-needed", "succeeded", "failed", "blocked"]
+        },
+        "triggering_artifact_ref": { "$ref": "#/$defs/nonEmptyString" },
+        "live_side_effect_replay_requested": { "type": "boolean" },
+        "fresh_authorization_ref": { "$ref": "#/$defs/nullableString" },
+        "failure_receipt_ref": { "$ref": "#/$defs/nullableString" }
+      }
+    },
+    "stateControlRef": {
+      "type": "string",
+      "pattern": "^(\\.?/?\\.octon/state/control/|/\\.octon/state/control/).+"
+    },
+    "stateEvidenceRef": {
+      "type": "string",
+      "pattern": "^(\\.?/?\\.octon/state/evidence/|/\\.octon/state/evidence/).+"
+    },
+    "transactionalityBoundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bounded_compensation_only",
+        "global_transactionality_claimed",
+        "full_rollback_claimed",
+        "external_system_replay_claimed"
+      ],
+      "properties": {
+        "bounded_compensation_only": { "type": "boolean", "const": true },
+        "global_transactionality_claimed": { "type": "boolean", "const": false },
+        "full_rollback_claimed": { "type": "boolean", "const": false },
+        "external_system_replay_claimed": { "type": "boolean", "const": false }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "reconstruction": {
+            "properties": { "replay_outcome": { "const": "drifted" } },
+            "required": ["replay_outcome"]
+          }
+        },
+        "required": ["reconstruction"]
+      },
+      "then": {
+        "properties": {
+          "reconstruction": {
+            "required": ["failure_receipt_ref"],
+            "properties": {
+              "drift_findings": { "minItems": 1 },
+              "failure_receipt_ref": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reconstruction": {
+            "properties": { "replay_outcome": { "const": "incomplete" } },
+            "required": ["replay_outcome"]
+          }
+        },
+        "required": ["reconstruction"]
+      },
+      "then": {
+        "properties": {
+          "reconstruction": {
+            "required": ["failure_receipt_ref"],
+            "properties": {
+              "gap_refs": { "minItems": 1 },
+              "failure_receipt_ref": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reconstruction": {
+            "properties": { "replay_outcome": { "const": "unsupported" } },
+            "required": ["replay_outcome"]
+          }
+        },
+        "required": ["reconstruction"]
+      },
+      "then": {
+        "properties": {
+          "reconstruction": {
+            "required": ["failure_receipt_ref"],
+            "properties": {
+              "unsupported_reason_refs": { "minItems": 1 },
+              "failure_receipt_ref": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "reconstruction": {
+            "properties": { "live_side_effect_replay_requested": { "const": true } },
+            "required": ["live_side_effect_replay_requested"]
+          }
+        },
+        "required": ["reconstruction"]
+      },
+      "then": {
+        "properties": {
+          "reconstruction": {
+            "required": ["fresh_authorization_ref"],
+            "properties": {
+              "fresh_authorization_ref": { "$ref": "#/$defs/nonEmptyString" }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -569,6 +569,12 @@ struct ProgramLifecycleCheckpoint {
     target: String,
     #[serde(default)]
     executor: Option<String>,
+    #[serde(default = "default_approval_policy_minimize")]
+    approval_policy: String,
+    #[serde(default)]
+    timeout_seconds: Option<u64>,
+    #[serde(default)]
+    max_child_concurrency: Option<usize>,
     child_registry_digest: String,
     execution_mode: String,
     #[serde(default)]
@@ -612,6 +618,10 @@ struct ProgramLifecycleCheckpoint {
     terminal_outcome: Option<String>,
     final_verdict: String,
     resume_instruction: String,
+}
+
+fn default_approval_policy_minimize() -> String {
+    "minimize".to_string()
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -1304,15 +1314,24 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                                     .map(|route| route.route_id.clone()),
                             });
                         }
-                        if plan
-                            .receipt_states
-                            .values()
-                            .any(|receipt| !receipt.missing_required_fields.is_empty())
-                        {
+                        if plan.receipt_states.values().any(|receipt| {
+                            receipt.exists && !receipt.missing_required_fields.is_empty()
+                        }) {
                             blockers.push(ProgramBlocker {
                                 blocker_class: "missing-evidence".to_string(),
-                                message: "one or more child receipts are missing required fields"
+                                message: "one or more existing child receipts are missing required fields"
                                     .to_string(),
+                                recovery_route: selected_route
+                                    .as_ref()
+                                    .map(|route| route.route_id.clone()),
+                            });
+                        }
+                        if let Some(blocker_class) =
+                            child_implementation_blocker_class(&plan, &child_target_abs)
+                        {
+                            blockers.push(ProgramBlocker {
+                                blocker_class: blocker_class.to_string(),
+                                message: child_implementation_blocker_message(blocker_class),
                                 recovery_route: selected_route
                                     .as_ref()
                                     .map(|route| route.route_id.clone()),
@@ -1627,7 +1646,12 @@ pub(crate) fn run_program_lifecycle_from_octon_dir(
         }
         options.run_inputs.clone()
     };
-    append_program_run_started_if_needed(&control_root, &evidence_root, &sanitized_run_id)?;
+    append_program_run_started_if_needed(
+        &control_root,
+        &evidence_root,
+        &sanitized_run_id,
+        &options.approval_policy,
+    )?;
     if let Some(checkpoint) = previous_checkpoint.as_ref() {
         if program_checkpoint_cancelled(checkpoint)
             || lifecycle_cancellation_token_path(&control_root).exists()
@@ -1835,12 +1859,14 @@ fn run_program_lifecycle_single_step(
         &options.lifecycle_id,
         target_rel,
         options.executor,
+        &options.approval_policy,
         run_inputs,
         &plan,
         &child_results,
         &final_verdict,
         terminal_outcome.clone(),
         previous_checkpoint,
+        options,
     )?;
     let cancelled_before_dispatch =
         options.execute_routes && lifecycle_cancellation_token_path(control_root).exists();
@@ -2082,12 +2108,14 @@ fn run_program_lifecycle_single_step(
         &options.lifecycle_id,
         target_rel,
         options.executor,
+        &options.approval_policy,
         run_inputs,
         &plan,
         &child_results,
         &final_verdict,
         terminal_outcome.clone(),
         previous_checkpoint,
+        options,
     )?;
     let checkpoint_path = program_checkpoint_path_for_run(octon_dir, sanitized_run_id)?;
     fs::write(
@@ -2161,6 +2189,7 @@ fn append_program_run_started_if_needed(
     control_root: &Path,
     evidence_root: &Path,
     run_id: &str,
+    approval_policy: &str,
 ) -> Result<()> {
     if count_program_events(control_root)? > 0 {
         return Ok(());
@@ -2173,7 +2202,7 @@ fn append_program_run_started_if_needed(
         None,
         None,
         "program lifecycle run started",
-        program_event_data(std::iter::empty::<(&str, &str)>()),
+        program_event_data([("approval_policy", approval_policy)]),
     )?;
     Ok(())
 }
@@ -2233,10 +2262,15 @@ fn program_result_has_agent_continuable_dispatch(result: &ProgramLifecycleRunRes
         .as_ref()
         .map(|result| result.status == "approval-required")
         .unwrap_or(false);
-    let child_human_blocks = result
+    let child_non_continuable_blocks = result
         .child_results
         .iter()
-        .filter(|summary| summary.status == "approval-required")
+        .filter(|summary| {
+            matches!(
+                summary.status.as_str(),
+                "approval-required" | "executor-preflight-blocked"
+            )
+        })
         .count();
     if parent_human_blocked
         && result.child_results.is_empty()
@@ -2244,11 +2278,12 @@ fn program_result_has_agent_continuable_dispatch(result: &ProgramLifecycleRunRes
     {
         return false;
     }
-    result
-        .child_results
-        .iter()
-        .any(|summary| summary.status != "approval-required")
-        || child_human_blocks < result.selected_children.len()
+    result.child_results.iter().any(|summary| {
+        !matches!(
+            summary.status.as_str(),
+            "approval-required" | "executor-preflight-blocked"
+        )
+    }) || child_non_continuable_blocks < result.selected_children.len()
 }
 
 fn plan_has_safe_continuation_after_unsafe(plan: &ProgramLifecyclePlanResult) -> bool {
@@ -2292,16 +2327,19 @@ fn final_verdict_after_child_execution(
     plan: &ProgramLifecyclePlanResult,
     child_results: &[ProgramChildExecutionSummary],
 ) -> String {
-    let execution_had_human_block = child_results
-        .iter()
-        .any(|result| result.status == "approval-required");
+    let execution_had_human_block = child_results.iter().any(|result| {
+        matches!(
+            result.status.as_str(),
+            "approval-required" | "executor-preflight-blocked"
+        )
+    });
     let execution_had_cancellation = child_results
         .iter()
         .any(|result| result.status == "cancelled");
     let execution_had_failure = child_results.iter().any(|result| {
         matches!(
             result.status.as_str(),
-            "failed" | "timed-out" | "blocked" | "blocked-unsafe"
+            "failed" | "timed-out" | "blocked" | "blocked-unsafe" | "executor-preflight-blocked"
         )
     });
     let unsafe_results = child_results
@@ -2388,9 +2426,11 @@ pub(crate) fn resume_program_lifecycle_from_octon_dir(
             max_iterations: None,
             execute_routes: true,
             max_steps: None,
-            timeout_seconds: None,
-            max_child_concurrency: Some(DEFAULT_MAX_CHILD_CONCURRENCY),
-            approval_policy: "minimize".to_string(),
+            timeout_seconds: checkpoint.timeout_seconds,
+            max_child_concurrency: checkpoint
+                .max_child_concurrency
+                .or(Some(DEFAULT_MAX_CHILD_CONCURRENCY)),
+            approval_policy: checkpoint.approval_policy,
             run_inputs: checkpoint.run_inputs,
             program_child_filter: None,
         },
@@ -2597,7 +2637,12 @@ pub(crate) fn cancel_program_lifecycle_run(
         .join(&sanitized_run_id);
     fs::create_dir_all(&control_root)?;
     fs::create_dir_all(&evidence_root)?;
-    append_program_run_started_if_needed(&control_root, &evidence_root, &sanitized_run_id)?;
+    append_program_run_started_if_needed(
+        &control_root,
+        &evidence_root,
+        &sanitized_run_id,
+        &checkpoint.approval_policy,
+    )?;
     let evidence_path = evidence_root.join("program-cancelled.yml");
     let cancellation_token = lifecycle_cancellation_token_path(&control_root);
     let recorded_at = now_rfc3339()?;
@@ -4323,6 +4368,87 @@ fn receipt_passed(receipts: &BTreeMap<String, ReceiptPlanState>, receipt_id: &st
         .unwrap_or(false)
 }
 
+fn child_implementation_blocker_class(
+    plan: &LifecyclePlanResult,
+    child_target_abs: &Path,
+) -> Option<&'static str> {
+    if receipt_verdict_matches(
+        &plan.receipt_states,
+        "implementation-run",
+        &["blocked", "fail"],
+    ) {
+        return Some(
+            if child_receipts_report_projection_drift(child_target_abs) {
+                "publication-drift"
+            } else {
+                "implementation-blocked"
+            },
+        );
+    }
+    if receipt_verdict_matches(
+        &plan.receipt_states,
+        "implementation-conformance",
+        &["blocked", "fail"],
+    ) || receipt_verdict_matches(
+        &plan.receipt_states,
+        "post-implementation-drift",
+        &["blocked", "fail"],
+    ) {
+        return Some(
+            if child_receipts_report_projection_drift(child_target_abs) {
+                "publication-drift"
+            } else {
+                "validation-failed"
+            },
+        );
+    }
+    None
+}
+
+fn child_implementation_blocker_message(blocker_class: &str) -> String {
+    match blocker_class {
+        "publication-drift" => {
+            "child implementation is blocked by generated/effective or read-model projection drift"
+                .to_string()
+        }
+        "implementation-blocked" => {
+            "child implementation receipt reports a blocked implementation run".to_string()
+        }
+        _ => "child implementation validation failed".to_string(),
+    }
+}
+
+fn receipt_verdict_matches(
+    receipts: &BTreeMap<String, ReceiptPlanState>,
+    receipt_id: &str,
+    expected: &[&str],
+) -> bool {
+    receipts
+        .get(receipt_id)
+        .and_then(|receipt| receipt.verdict.as_deref())
+        .map(|verdict| expected.iter().any(|value| value == &verdict))
+        .unwrap_or(false)
+}
+
+fn child_receipts_report_projection_drift(child_target_abs: &Path) -> bool {
+    [
+        "support/implementation-run.md",
+        "support/implementation-conformance-review.md",
+        "support/post-implementation-drift-churn-review.md",
+        "support/validation.md",
+    ]
+    .iter()
+    .filter_map(|path| fs::read_to_string(child_target_abs.join(path)).ok())
+    .any(|content| {
+        let content = content.to_ascii_lowercase();
+        content.contains("generated/effective")
+            || content.contains("read-model")
+            || content.contains("projection drift")
+            || content.contains("publication drift")
+            || content.contains("digest drift")
+    })
+}
+
 fn closeout_receipt_authorizes_archive(receipts: &BTreeMap<String, ReceiptPlanState>) -> bool {
     receipts
         .get("proposal-closeout")
@@ -5008,7 +5134,13 @@ fn collect_approval_blockers(
                 );
                 if required && !route_approval_granted {
                     if approval_policy == "unattended"
-                        && route_spec_safe_unattended_basis(&route.route_id, route_spec).is_some()
+                        && child_route_safe_unattended_basis(
+                            program,
+                            state,
+                            &route.route_id,
+                            route_spec,
+                        )
+                        .is_some()
                     {
                         continue;
                     }
@@ -5063,6 +5195,42 @@ fn collect_approval_blockers(
         }
     }
     Ok(blockers)
+}
+
+fn child_route_safe_unattended_basis(
+    program: &ProgramSpec,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+    route: &RouteSpec,
+) -> Option<String> {
+    if let Some(basis) = route_spec_safe_unattended_basis(route_id, route) {
+        return Some(basis);
+    }
+    if route.route_type != "workflow" {
+        return None;
+    }
+    let has_human_or_unsafe_blocker = state.blockers.iter().any(|blocker| {
+        matches!(
+            classify_program_blocker_class(&blocker.blocker_class),
+            ProgramBlockerDisposition::Human | ProgramBlockerDisposition::Unsafe
+        ) && !blocker_has_safe_agent_repair(program, blocker)
+    });
+    (!has_human_or_unsafe_blocker).then(|| {
+        format!(
+            "route {route_id} operator-unattended workflow override with no human-only or unsafe child blocker"
+        )
+    })
+}
+
+fn lifecycle_route_safe_unattended_basis_for_child(
+    octon_dir: &Path,
+    program: &ProgramSpec,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+) -> Result<Option<String>> {
+    let loaded = load_lifecycle_contract(octon_dir, &state.child_lifecycle_id)?;
+    Ok(route_by_id(&loaded.contract, route_id)
+        .and_then(|route| child_route_safe_unattended_basis(program, state, route_id, route)))
 }
 
 fn approval_granted(
@@ -5326,9 +5494,11 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
         ),
         "executor-failed"
         | "failed"
+        | "implementation-blocked"
         | "missing-evidence"
         | "missing-required-evidence"
         | "missing-route-evidence"
+        | "publication-drift"
         | "stale-receipt"
         | "validation-failed" => (
             blocker_class,
@@ -5925,18 +6095,27 @@ fn build_child_execution_jobs(
                 child_evidence_root.join("child-plan.yml"),
                 serde_yaml::to_string(state)?,
             )?;
-            let safe_unattended_basis = if let Some(class) = blocker_class.as_deref() {
-                load_lifecycle_contract(octon_dir, &plan.lifecycle_id)?
-                    .contract
-                    .program
-                    .as_ref()
-                    .and_then(|program| recovery_safe_unattended_basis(Some(program), class))
-            } else {
-                lifecycle_route_safe_unattended_basis(
+            let program_contract = load_lifecycle_contract(octon_dir, &options.lifecycle_id)?;
+            let program = program_contract.contract.program.as_ref();
+            let route_safe_unattended_basis = match program {
+                Some(program) => lifecycle_route_safe_unattended_basis_for_child(
+                    octon_dir,
+                    program,
+                    state,
+                    &route.route_id,
+                )?,
+                None => lifecycle_route_safe_unattended_basis(
                     octon_dir,
                     &state.child_lifecycle_id,
                     &route.route_id,
-                )?
+                )?,
+            };
+            let safe_unattended_basis = if let Some(class) = blocker_class.as_deref() {
+                program
+                    .and_then(|program| recovery_safe_unattended_basis(Some(program), class))
+                    .or(route_safe_unattended_basis)
+            } else {
+                route_safe_unattended_basis
             };
             let approval_policy = approval_policy_for_child_route(
                 &options.approval_policy,
@@ -6055,13 +6234,22 @@ fn selected_route_for_child_execution(
     let Some(program) = loaded.contract.program.as_ref() else {
         return Ok((state.selected_route.clone(), None));
     };
+    let unresolved_authority_blocker = unresolved_child_authority_blocker(program, state);
     let Some(blocker) = state.blockers.iter().find(|blocker| {
         recovery_route_for_blocker(program, blocker).is_some()
             && !matches!(
                 blocker.blocker_class.as_str(),
                 "approval-required" | "operator-approval-required" | "governed-agent-approval"
             )
+            && (unresolved_authority_blocker.is_none()
+                || matches!(
+                    classify_program_blocker_class(&blocker.blocker_class),
+                    ProgramBlockerDisposition::Human | ProgramBlockerDisposition::Unsafe
+                ))
     }) else {
+        if let Some(blocker) = unresolved_authority_blocker {
+            return Ok((None, Some(blocker.blocker_class.clone())));
+        }
         return Ok((state.selected_route.clone(), None));
     };
     if blocker_non_recoverable(&blocker.blocker_class)
@@ -6110,6 +6298,21 @@ fn selected_route_for_child_execution(
             Some(blocker.blocker_class.clone()),
         ))
     }
+}
+
+fn unresolved_child_authority_blocker<'a>(
+    program: &ProgramSpec,
+    state: &'a ProgramChildPlanState,
+) -> Option<&'a ProgramBlocker> {
+    state.blockers.iter().find(|blocker| {
+        !matches!(
+            blocker.blocker_class.as_str(),
+            "approval-required" | "operator-approval-required" | "governed-agent-approval"
+        ) && matches!(
+            classify_program_blocker_class(&blocker.blocker_class),
+            ProgramBlockerDisposition::Human | ProgramBlockerDisposition::Unsafe
+        ) && !blocker_has_safe_agent_repair(program, blocker)
+    })
 }
 
 fn unsafe_repair_evidence_for_job(
@@ -8283,6 +8486,7 @@ fn checkpoint_from_plan(
     lifecycle_id: &str,
     target: &str,
     executor: ExecutorKind,
+    approval_policy: &str,
     run_inputs: &BTreeMap<String, String>,
     plan: &ProgramLifecyclePlanResult,
     child_results: &[ProgramChildExecutionSummary],
@@ -8333,6 +8537,9 @@ fn checkpoint_from_plan(
         execution_strategy: plan.execution_strategy.clone(),
         target: target.to_string(),
         executor: Some(executor.as_str().to_string()),
+        approval_policy: approval_policy.to_string(),
+        timeout_seconds: None,
+        max_child_concurrency: None,
         child_registry_digest: plan.child_registry_digest.clone(),
         execution_mode: plan.execution_mode.clone(),
         run_inputs: run_inputs.clone(),
@@ -8381,18 +8588,21 @@ fn write_program_checkpoint_snapshot(
     lifecycle_id: &str,
     target: &str,
     executor: ExecutorKind,
+    approval_policy: &str,
     run_inputs: &BTreeMap<String, String>,
     plan: &ProgramLifecyclePlanResult,
     child_results: &[ProgramChildExecutionSummary],
     final_verdict: &str,
     terminal_outcome: Option<String>,
     previous_checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    options: &RunLifecycleOptions,
 ) -> Result<ProgramLifecycleCheckpoint> {
     let mut checkpoint = checkpoint_from_plan(
         run_id,
         lifecycle_id,
         target,
         executor,
+        approval_policy,
         run_inputs,
         plan,
         child_results,
@@ -8406,6 +8616,8 @@ fn write_program_checkpoint_snapshot(
             .map(|checkpoint| checkpoint.approvals.clone())
             .unwrap_or_default(),
     );
+    checkpoint.timeout_seconds = options.timeout_seconds;
+    checkpoint.max_child_concurrency = options.max_child_concurrency;
     if final_verdict == "cancelled" {
         if let Some(existing) = read_program_checkpoint_for_run(octon_dir, run_id)? {
             if existing.cancelled_at.is_some() || existing.cancellation_evidence_path.is_some() {
@@ -9994,6 +10206,16 @@ mod tests {
                 ProgramBlockerDisposition::Recoverable,
             ),
             (
+                "implementation-blocked",
+                "implementation-blocked",
+                ProgramBlockerDisposition::Recoverable,
+            ),
+            (
+                "publication-drift",
+                "publication-drift",
+                ProgramBlockerDisposition::Recoverable,
+            ),
+            (
                 "recovery-budget-override-required",
                 "recovery-budget-override-required",
                 ProgramBlockerDisposition::Human,
@@ -10176,11 +10398,30 @@ routes:
       expected_receipts: ["implementation-prompt"]
   - route_id: "run-packet-implementation"
     route_type: "extension"
+    idempotency:
+      idempotency_class: "bounded-retry"
+      safe_unattended: true
     enter_when:
-      all:
-        - manifest_status: "accepted"
-        - receipt_complete: "implementation-prompt"
-        - receipt_absent: "implementation-run"
+      any:
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "implementation-prompt"
+            - receipt_absent: "implementation-run"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "implementation-prompt"
+            - receipt_complete: "implementation-run"
+            - receipt_verdict: { receipt_id: "implementation-run", value: "blocked" }
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "implementation-prompt"
+            - receipt_complete: "implementation-run"
+            - receipt_verdict: { receipt_id: "implementation-conformance", value: "fail" }
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "implementation-prompt"
+            - receipt_complete: "implementation-run"
+            - receipt_verdict: { receipt_id: "post-implementation-drift", value: "fail" }
     completion:
       expected_receipts: ["implementation-run"]
   - route_id: "promote-proposal"
@@ -10253,6 +10494,41 @@ routes:
     approval:
       required_by_default: true
       reason: "child route mutates a durable target"
+"#,
+            );
+        }
+
+        fn write_child_contract_with_workflow_promotion_approval(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+states: [{ state_id: "promote" }]
+terminal_outcomes:
+  - outcome_id: "implemented"
+    when: { manifest_status: "implemented" }
+receipts:
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_complete: "implementation-run"
+        - receipt_verdict: { receipt_id: "implementation-run", value: "pass" }
+    completion:
+      expected_manifest_status: "implemented"
+    approval:
+      required_by_default: true
+      reason: "durable proposal promotion requires explicit approval"
 "#,
             );
         }
@@ -12143,6 +12419,124 @@ routes:
     }
 
     #[test]
+    fn unattended_policy_dispatches_governed_workflow_promotion() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("approval-unattended-workflow-promote", true);
+        fixture.write_child_contract_with_workflow_promotion_approval();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "approval-gated",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("approval-unattended-workflow-promote".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                approval_policy: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(result.child_results.iter().any(|summary| {
+            summary.route_id == "promote-proposal" && summary.status == "completed"
+        }));
+        assert_eq!(
+            proposal_status_at_target(&fixture.root.join("children/a"))
+                .unwrap()
+                .as_deref(),
+            Some("implemented")
+        );
+        assert!(fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/approval-unattended-workflow-promote/children/a/promote-proposal-approval-override.yml")
+            .is_file());
+    }
+
+    #[test]
+    fn program_resume_preserves_checkpointed_unattended_approval_policy() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("resume-preserves-unattended", true);
+        fixture.write_child_contract_with_workflow_promotion_approval();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "approval-gated",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("resume-preserves-unattended".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: Some(7),
+                timeout_seconds: Some(42),
+                max_child_concurrency: Some(2),
+                approval_policy: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "resume-preserves-unattended")
+                .unwrap()
+                .unwrap();
+        assert_eq!(checkpoint.approval_policy, "unattended");
+        assert_eq!(checkpoint.timeout_seconds, Some(42));
+        assert_eq!(checkpoint.max_child_concurrency, Some(2));
+
+        let resumed = resume_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "resume-preserves-unattended",
+        )
+        .unwrap();
+
+        assert!(resumed.child_results.iter().any(|summary| {
+            summary.route_id == "promote-proposal" && summary.status == "completed"
+        }));
+        assert_eq!(
+            proposal_status_at_target(&fixture.root.join("children/a"))
+                .unwrap()
+                .as_deref(),
+            Some("implemented")
+        );
+        let resumed_checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "resume-preserves-unattended")
+                .unwrap()
+                .unwrap();
+        assert_eq!(resumed_checkpoint.approval_policy, "unattended");
+        assert_eq!(resumed_checkpoint.timeout_seconds, Some(42));
+        assert_eq!(resumed_checkpoint.max_child_concurrency, Some(2));
+    }
+
+    #[test]
     fn approval_grant_is_consumed_by_retry_without_unattended_cli_policy() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("approval-consumed", true);
@@ -12444,6 +12838,7 @@ routes:
             "proposal-program",
             "parent",
             ExecutorKind::Mock,
+            "minimize",
             &BTreeMap::new(),
             &plan,
             &[],
@@ -15169,6 +15564,7 @@ rationale: "prove overwrite guard"
             "proposal-program",
             "parent",
             ExecutorKind::Mock,
+            "minimize",
             &BTreeMap::new(),
             &plan,
             &[],
@@ -15226,6 +15622,7 @@ rationale: "prove overwrite guard"
             "proposal-program",
             "parent",
             ExecutorKind::Mock,
+            "minimize",
             &BTreeMap::new(),
             &plan,
             &[],
@@ -15253,6 +15650,129 @@ rationale: "prove overwrite guard"
             .blockers
             .iter()
             .any(|blocker| blocker.message.contains("recovery budget exhausted")));
+    }
+
+    #[test]
+    fn recovery_budget_does_not_block_after_route_progress() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("recovery-budget-progress", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        assert_eq!(
+            plan.child_states
+                .get("a")
+                .unwrap()
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("promote-proposal")
+        );
+
+        let mut checkpoint = checkpoint_from_plan(
+            "recovery-budget-progress",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "minimize",
+            &BTreeMap::new(),
+            &plan,
+            &[],
+            &plan.final_verdict,
+            None,
+            0,
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        checkpoint
+            .recovery_attempts
+            .insert("a:missing-evidence".to_string(), 2);
+        let replanned = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+        )
+        .unwrap();
+        let child = replanned.child_states.get("a").unwrap();
+        assert_eq!(replanned.runnable_batch, vec!["a".to_string()]);
+        assert!(!child.blockers.iter().any(|blocker| {
+            blocker.blocker_class == "recovery-budget-override-required"
+                || blocker.blocker_class == "missing-evidence"
+        }));
+    }
+
+    #[test]
+    fn blocked_implementation_receipt_selects_recoverable_retry_route() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("implementation-blocked-route", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: blocked\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: fail\nunresolved_items_count: 1\n\nGenerated/effective projection drift remains.\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: fail\nunresolved_items_count: 1\n\nRead-model digest drift remains.\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let child = plan.child_states.get("a").unwrap();
+        assert_eq!(
+            child
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("run-packet-implementation")
+        );
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+        assert!(child.blockers.iter().any(|blocker| {
+            blocker.blocker_class == "publication-drift"
+                && blocker.recovery_route.as_deref() == Some("run-packet-implementation")
+        }));
+        assert!(!child
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "missing-evidence"));
     }
 
     #[test]
@@ -15373,6 +15893,72 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn stale_receipt_recovery_waits_for_ownership_resolution() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("stale-receipt-ownership-first", true);
+        fixture.write_program_contract_with_recovery_recipes();
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let mut state = plan.child_states.get("a").unwrap().clone();
+        state.selected_route = Some(RoutePlanState {
+            route_id: "run-implementation".to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        state.blockers = vec![
+            ProgramBlocker {
+                blocker_class: "artifact-ownership-unclear".to_string(),
+                message: "ownership cannot be resolved from local evidence".to_string(),
+                recovery_route: None,
+            },
+            ProgramBlocker {
+                blocker_class: "stale-receipt".to_string(),
+                message: "one or more child receipts are stale".to_string(),
+                recovery_route: Some("run-implementation".to_string()),
+            },
+        ];
+
+        let (route, blocker_class) = selected_route_for_child_execution(
+            &fixture.octon_dir,
+            &RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("stale-receipt-ownership-first".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                approval_policy: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+            &state,
+            None,
+            &plan.child_registry_digest,
+        )
+        .unwrap();
+
+        assert!(route.is_none());
+        assert_eq!(blocker_class.as_deref(), Some("artifact-ownership-unclear"));
+    }
+
+    #[test]
     fn program_execute_loop_continues_recoverable_or_unattended_pending_dispatch() {
         let result = ProgramLifecycleRunResult {
             schema_version: "octon-program-lifecycle-run-result-v1".to_string(),
@@ -15417,6 +16003,21 @@ rationale: "prove overwrite guard"
         }];
         assert!(program_execute_loop_should_stop(
             &approval_blocked,
+            "unattended"
+        ));
+        let mut executor_preflight_blocked = blocked_human.clone();
+        executor_preflight_blocked.child_results = vec![ProgramChildExecutionSummary {
+            child_id: "a".to_string(),
+            child_run_id: "stop-semantics-a".to_string(),
+            route_id: "run-implementation".to_string(),
+            status: "executor-preflight-blocked".to_string(),
+            attempts: 0,
+            retryable: false,
+            blocker_class: Some("executor-unavailable".to_string()),
+            error_message: Some("nested Codex runtime preflight failed".to_string()),
+        }];
+        assert!(program_execute_loop_should_stop(
+            &executor_preflight_blocked,
             "unattended"
         ));
 

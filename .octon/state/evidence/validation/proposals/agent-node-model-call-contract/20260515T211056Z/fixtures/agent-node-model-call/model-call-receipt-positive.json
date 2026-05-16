@@ -1,0 +1,109 @@
+{
+  "agent_node_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/agent-nodes/agent-node-demo.json",
+  "authority_boundary": {
+    "model_output_admits_connectors": false,
+    "model_output_authorizes_execution": false,
+    "model_output_closes_run": false,
+    "model_output_consumes_effect_tokens": false,
+    "model_output_may_transition_workflow": false,
+    "model_output_mints_grants": false,
+    "model_output_mutates_policy": false,
+    "model_output_owns_workflow_state": false,
+    "model_output_widens_support_claims": false
+  },
+  "budget_decision": {
+    "context_within_budget": true,
+    "cost_within_budget": true,
+    "decision": "allow",
+    "fallback_within_budget": true,
+    "missing_cost_evidence_route": "stage_only",
+    "retry_within_budget": true,
+    "tokens_within_budget": true
+  },
+  "context_budget": {
+    "limit": 400000,
+    "unit": "bytes",
+    "used": 1200,
+    "within_budget": true
+  },
+  "context_pack_receipt_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/context-pack-receipt.json",
+  "context_pack_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/context-pack.json",
+  "cost_budget": {
+    "cost_evidence_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo-cost-usage.json",
+    "limit_estimated_cost_usd": 1.0,
+    "observed_or_estimated_cost_usd": 0.01,
+    "within_budget": true
+  },
+  "evidence_refs": [
+    ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo.json"
+  ],
+  "fallback_policy": {
+    "fallback_allowed": true,
+    "fallback_attempts_max": 1,
+    "fallback_attempts_used": 0,
+    "fallback_requires_budget": true,
+    "fallback_route": "stage_only"
+  },
+  "forbidden_authority_claims": [],
+  "input_schema_ref": ".octon/framework/engine/runtime/spec/context-pack-receipt-v1.schema.json",
+  "model_adapter_ref": ".octon/framework/engine/runtime/adapters/model/repo-local-governed.yml",
+  "model_eligibility": {
+    "adapter_declared": true,
+    "capability_pack_posture_ref": ".octon/instance/governance/capability-packs/repo.yml",
+    "decision": "eligible",
+    "reason_codes": [],
+    "support_tuple_declared": true
+  },
+  "model_routing_policy_ref": ".octon/instance/governance/policies/model-call-routing.yml",
+  "model_tier": "repo-local-governed",
+  "model_visible_context_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/model-visible-context.json",
+  "model_visible_context_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "output_schema_ref": ".octon/framework/engine/runtime/spec/model-call-receipt-v1.schema.json",
+  "output_validation_result": {
+    "retained_validation_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/assurance/model-call-demo-output-validation.json",
+    "schema_ref": ".octon/framework/engine/runtime/spec/model-call-receipt-v1.schema.json",
+    "validation_status": "valid",
+    "validator_ref": ".octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh"
+  },
+  "receipt_id": "model-call-demo",
+  "replay_envelope": {
+    "budget_receipt_refs": [
+      ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo-budget.json"
+    ],
+    "context_pack_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/context-pack.json",
+    "cost_usage_receipt_refs": [
+      ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo-cost-usage.json"
+    ],
+    "model_visible_context_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/context/model-visible-context.json",
+    "output_validation_ref": ".octon/state/evidence/runs/run-agent-node-model-call-fixture/assurance/model-call-demo-output-validation.json",
+    "probabilistic_output_replay_guaranteed": false,
+    "routing_policy_ref": ".octon/instance/governance/policies/model-call-routing.yml"
+  },
+  "request_id": "request-demo",
+  "retained_cost_usage_receipt_refs": [
+    ".octon/state/evidence/runs/run-agent-node-model-call-fixture/receipts/model-calls/model-call-demo-cost-usage.json"
+  ],
+  "retry_budget": {
+    "limit": 1,
+    "unit": "attempts",
+    "used": 0,
+    "within_budget": true
+  },
+  "run_id": "run-agent-node-model-call-fixture",
+  "schema_version": "model-call-receipt-v1",
+  "support_target_tuple_ref": "tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell",
+  "terminal_outcome": {
+    "reason_codes": [],
+    "state": "succeeded"
+  },
+  "timestamps": {
+    "completed_at": "2026-05-15T00:00:01Z",
+    "requested_at": "2026-05-15T00:00:00Z"
+  },
+  "token_budget": {
+    "limit": 100000,
+    "unit": "tokens",
+    "used": 400,
+    "within_budget": true
+  }
+}

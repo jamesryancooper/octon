@@ -35,6 +35,18 @@ These policies do not authorize connector execution. Material connector
 operations remain bound to governed runs, context packs, authorization grants,
 authorized-effect token verification, run journals, and connector receipts.
 
+## Model Call Routing Policy
+
+- `model-call-routing.yml`: model-call eligibility, budget, fallback, retry,
+  output-validation, and retained cost/usage receipt requirements for Agent
+  Node v1 activities inside existing governed runs.
+
+This policy does not authorize execution, admit connectors, widen support
+targets, publish generated/effective outputs, or guarantee universal replay for
+probabilistic model output. Material effects remain bound to run contracts,
+context packs, authorization grants, authorized-effect token verification, run
+journals, and retained evidence.
+
 Related machine-readable posture and path-family declarations live outside this
 policy directory:
 

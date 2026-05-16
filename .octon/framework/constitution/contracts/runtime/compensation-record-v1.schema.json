@@ -8,15 +8,97 @@
     "schema_version",
     "run_id",
     "record_id",
+    "compensation_scope",
     "status",
+    "transactionality_claims",
+    "affected_refs",
     "recorded_at"
   ],
   "properties": {
     "schema_version": { "const": "compensation-record-v1" },
     "run_id": { "type": "string", "minLength": 1 },
     "record_id": { "type": "string", "minLength": 1 },
-    "status": { "type": "string", "minLength": 1 },
+    "compensation_scope": {
+      "type": "string",
+      "enum": [
+        "bounded-compensating-action",
+        "unsupported-rollback",
+        "no-compensation-available"
+      ]
+    },
+    "compensation_plan_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "completed",
+        "blocked",
+        "unsupported",
+        "not-needed"
+      ]
+    },
+    "transactionality_claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bounded_compensation_only",
+        "global_transactionality_claimed",
+        "full_rollback_claimed",
+        "external_system_replay_claimed"
+      ],
+      "properties": {
+        "bounded_compensation_only": { "type": "boolean", "const": true },
+        "global_transactionality_claimed": { "type": "boolean", "const": false },
+        "full_rollback_claimed": { "type": "boolean", "const": false },
+        "external_system_replay_claimed": { "type": "boolean", "const": false }
+      }
+    },
+    "affected_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "failure_receipt_ref": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
     "recorded_at": { "type": "string", "minLength": 1 },
     "notes": { "type": "string" }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "compensation_scope": {
+            "enum": [
+              "unsupported-rollback",
+              "no-compensation-available"
+            ]
+          }
+        },
+        "required": ["compensation_scope"]
+      },
+      "then": {
+        "required": ["failure_receipt_ref"],
+        "properties": {
+          "failure_receipt_ref": { "type": "string", "minLength": 1 },
+          "status": {
+            "enum": [
+              "blocked",
+              "unsupported"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

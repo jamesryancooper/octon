@@ -1,12 +1,82 @@
 # Implementation Conformance Review
 
-verdict: fail
-unresolved_items_count: 1
+verdict: pass
+unresolved_items_count: 0
 
 ## Blockers
 
-- No durable implementation has been performed from this draft child packet.
+None.
 
-## Notes
+## Checked Evidence
 
-This placeholder is retained so closeout gates have an explicit child-owned receipt surface. It must be replaced after implementation.
+- `.octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/implementation-run.md`
+- `.octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/validation.md`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/implementation-evidence.md`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/validation-summary.yml`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/child-specific-validator.yml`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/fixture-results.json`
+
+## Promotion Target Coverage
+
+All durable work landed inside the declared target families:
+
+- `.octon/framework/engine/runtime/spec/`
+- `.octon/framework/constitution/contracts/runtime/`
+- `.octon/framework/assurance/runtime/_ops/scripts/`
+- `.octon/state/evidence/`
+
+The route did not edit runtime crates, `.octon/instance/**`, `.octon/state/control/**`, `.octon/generated/**`, repo-root adapters, support-target declarations, connector admissions, capability packs, external workflow engines, Durable Object adapters, MCP integrations, or model routing policy.
+
+## Implementation Map Coverage
+
+The executable implementation prompt is covered by the promoted Workflow History Replay v1 runtime spec, strict constitutional workflow history replay schema, idempotency schema, failure receipt schema, strengthened retry and compensation schemas, runtime family registration, runtime README documentation, child-specific validator, and retained validation evidence.
+
+The implementation establishes canonical-journal-first reconstruction, valid/drifted/incomplete/unsupported/blocked replay outcomes, event-reference roles, idempotency duplicate detection, retry class and limit checks, bounded compensation-only posture, unsupported rollback failure receipts, fresh-authorization requirements for live side-effect replay, and retained evidence placement under `.octon/state/evidence/**`.
+
+## Validator Coverage
+
+Validated by:
+
+- `validate-proposal-implementation-readiness.sh`
+- `validate-proposal-review-gate.sh`
+- `validate-proposal-standard.sh`
+- `validate-architecture-proposal.sh`
+- `validate-workflow-history-replay-idempotency-compensation.sh`
+- `validate-run-lifecycle-v1.sh`
+- `validate-run-lifecycle-transition-coverage.sh`
+- `validate-run-journal-contracts.sh`
+- `validate-runtime-lifecycle-normalization.sh`
+- `validate-contract-family-version-coherence.sh`
+- `verify-runtime-family-depth.sh`
+- `validate-generated-non-authority.sh`
+- `validate-input-non-authority.sh`
+- `validate-no-raw-generated-effective-runtime-reads.sh`
+
+## Generated Output Coverage
+
+No generated/effective output changed. This packet authorizes durable runtime specs, constitutional runtime contracts, assurance validation, and retained validation evidence only. Generated projections, proposal support files, raw inputs, chat history, external workflow state, MCP state, Durable Object state, and tool availability remain non-authoritative.
+
+## Rollback Coverage
+
+Rollback is bounded to removing the new workflow history replay spec, workflow-history replay schema, idempotency schema, failure receipt schema, child-specific validator, retained validation evidence, and reverting the retry, compensation, runtime family, and runtime README edits made by this packet. The existing Run Lifecycle v1, Run Journal v1, Workflow Statechart v1, Task-Specific Execution Harness v1, Execution Authorization v1, Context Pack Builder v1, Authorized Effect Token v1, Evidence Store v1, support-target, generated non-authority, input non-authority, and fail-closed contracts remain canonical.
+
+## Downstream Reference Coverage
+
+Downstream references are limited to runtime contract family registration, runtime contract README documentation, child-specific validation logic, and retained validation evidence. Exact proposal-path hits are retained evidence or validator naming only; generic proposal-path hits are proposal lifecycle or proposal registry logic and do not create runtime, policy, support, control, or closeout dependencies on this packet.
+
+## Exclusions
+
+- No universal replay of arbitrary external systems is claimed.
+- No full rollback or global transactionality guarantee is claimed.
+- No external workflow-engine authority is claimed.
+- No Durable Object persistence is approved as canonical control or evidence.
+- No runtime crate behavior changed.
+- No generated/effective publication changed.
+- No connector admission, support-target declaration, capability pack, MCP integration, or model routing policy changed.
+- Proposal-local support files, source conversations, chat, host state, tool availability, and generated projections remain non-authoritative.
+
+## Final Closeout Recommendation
+
+Implementation conformance passes for this route. The packet should remain
+`status: accepted`; the separate `promote-proposal` route owns any later
+rewrite to `implemented`.

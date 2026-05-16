@@ -54,6 +54,12 @@ Executor behavior:
   explicit, resumable approval by default. `--approval-policy unattended` is an
   explicit operator override; the adapter records approval override evidence
   before executing an approval-gated route under that policy.
+- Before a long unattended run with the `codex` executor, preflight nested
+  executor runtime access. If the sandbox cannot write the Codex runtime state
+  database, app-server socket, or required local executor state, rerun through
+  the approved escalated execution path before dispatching child routes. Treat
+  this as operator procedure/preflight evidence, not as a child lifecycle
+  blocker or recovery-budget attempt.
 - Child approval pauses should route operators through `octon lifecycle program
   approve --run-id <program-run> --child <child> --route <route> --reason
   <reason>`, followed by program retry or lifecycle resume. Approval remains

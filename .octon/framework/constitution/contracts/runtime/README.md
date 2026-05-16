@@ -28,6 +28,9 @@ Run roots are the primary execution-time unit of truth.
   `/.octon/state/evidence/runs/<run-id>/{assurance/**,measurements/**,interventions/**,disclosure/**}`
 - canonical replay and trace pointers live under:
   `/.octon/state/evidence/runs/<run-id>/{replay-pointers.yml,trace-pointers.yml}`
+- canonical workflow history replay evidence, failure receipts, and placement
+  receipts live under:
+  `/.octon/state/evidence/runs/<run-id>/{replay/**,failure-receipts/**,receipts/**}`
 
 ## Final Rules
 
@@ -49,9 +52,22 @@ Run roots are the primary execution-time unit of truth.
   effect-token classes, evidence obligations, rollback or compensation posture,
   human-intervention posture, model/cost policy, and closeout criteria before
   authorization is requested.
+- Agent Node v1 and Model Call Receipt v1 admit model-backed work only as
+  typed, finite, evidenced activity inside an existing task-specific harness and
+  governed run. Agent nodes and model outputs do not authorize execution, own
+  workflow state, admit connectors, widen support, mutate policy, consume effect
+  tokens, or close runs.
 - Generated statechart or harness projections are derived-only navigation
   surfaces and cannot satisfy runtime authority, policy authority, support
   claims, control truth, or closeout evidence.
+- Workflow history replay reconstructs from the canonical run journal first
+  and classifies valid, drifted, incomplete, unsupported, or blocked histories.
+  Idempotency, retry, compensation, unsupported rollback, and evidence
+  placement gaps require retained failure receipts and operator disclosure.
+- Compensation records describe bounded compensating action only. They must not
+  claim universal replay, full rollback, global transactionality, external
+  workflow-engine authority, or Durable Object persistence as canonical control
+  or evidence.
 
 ## Canonical Files
 
@@ -69,9 +85,16 @@ Run roots are the primary execution-time unit of truth.
 - `checkpoint-v2.schema.json`
 - `state-reconstruction-v1.md`
 - `replay-pointers-v1.schema.json`
+- `workflow-history-replay-v1.schema.json`
+- `idempotency-record-v1.schema.json`
+- `retry-record-v1.schema.json`
+- `compensation-record-v1.schema.json`
+- `failure-receipt-v1.schema.json`
 - `workflow-statechart-v1.schema.json`
 - `task-specific-execution-harness-v1.schema.json`
 - `task-specific-execution-harness-compile-receipt-v1.schema.json`
+- `agent-node-v1.schema.json`
+- `model-call-receipt-v1.schema.json`
 
 ## Canonical Roots
 
@@ -80,6 +103,10 @@ Run roots are the primary execution-time unit of truth.
 - checkpoints: `/.octon/state/control/execution/runs/<run-id>/checkpoints/**`
 - continuity handoff: `/.octon/state/continuity/runs/<run-id>/handoff.yml`
 - retained run evidence: `/.octon/state/evidence/runs/<run-id>/**`
+- retained workflow history replay evidence:
+  `/.octon/state/evidence/runs/<run-id>/replay/**`
+- retained failure receipts:
+  `/.octon/state/evidence/runs/<run-id>/failure-receipts/**`
 
 ## Compatibility/Historical Surfaces
 
@@ -98,3 +125,5 @@ but they must not replace the bound run root as runtime authority.
 - `verify-runtime-family-depth.sh`
 - `verify-continuity-linkage.sh`
 - `validate-contract-family-version-coherence.sh`
+- `validate-agent-node-model-call-contract.sh`
+- `validate-workflow-history-replay-idempotency-compensation.sh`

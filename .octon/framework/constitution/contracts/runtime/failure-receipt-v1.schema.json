@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/runtime/failure-receipt-v1.schema.json",
+  "title": "Octon Workflow Failure Receipt v1",
+  "description": "Retained evidence receipt for replay, retry, idempotency, compensation, or evidence-placement gaps.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "run_id",
+    "failure_class",
+    "outcome",
+    "triggering_artifact_ref",
+    "retained_evidence_ref",
+    "disclosure_ref",
+    "authority_boundary",
+    "recorded_at"
+  ],
+  "properties": {
+    "schema_version": { "type": "string", "const": "failure-receipt-v1" },
+    "receipt_id": { "$ref": "#/$defs/nonEmptyString" },
+    "run_id": { "$ref": "#/$defs/nonEmptyString" },
+    "failure_class": {
+      "type": "string",
+      "enum": [
+        "replay-gap",
+        "replay-drift",
+        "unsupported-replay",
+        "duplicate-idempotency-key",
+        "retry-blocked",
+        "compensation-unsupported",
+        "evidence-placement-missing"
+      ]
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "blocked",
+        "unsupported",
+        "drifted",
+        "incomplete",
+        "denied",
+        "escalated"
+      ]
+    },
+    "triggering_artifact_ref": { "$ref": "#/$defs/nonEmptyString" },
+    "retained_evidence_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+    "disclosure_ref": { "$ref": "#/$defs/nonEmptyString" },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "control_truth_mutated",
+        "generated_projection_used_as_authority",
+        "proposal_lineage_used_as_authority",
+        "raw_input_used_as_authority",
+        "durable_object_used_as_authority",
+        "external_workflow_engine_used_as_authority",
+        "mcp_or_tool_availability_used_as_authority"
+      ],
+      "properties": {
+        "control_truth_mutated": { "type": "boolean", "const": false },
+        "generated_projection_used_as_authority": { "type": "boolean", "const": false },
+        "proposal_lineage_used_as_authority": { "type": "boolean", "const": false },
+        "raw_input_used_as_authority": { "type": "boolean", "const": false },
+        "durable_object_used_as_authority": { "type": "boolean", "const": false },
+        "external_workflow_engine_used_as_authority": { "type": "boolean", "const": false },
+        "mcp_or_tool_availability_used_as_authority": { "type": "boolean", "const": false }
+      }
+    },
+    "notes": { "$ref": "#/$defs/nullableString" },
+    "recorded_at": { "$ref": "#/$defs/nonEmptyString" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "nullableString": { "type": ["string", "null"], "minLength": 1 },
+    "stateEvidenceRef": {
+      "type": "string",
+      "pattern": "^(\\.?/?\\.octon/state/evidence/|/\\.octon/state/evidence/).+"
+    }
+  }
+}

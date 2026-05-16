@@ -6,7 +6,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract"
     title: "Agent Node Model Call Contract"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/framework/constitution/contracts/runtime/"

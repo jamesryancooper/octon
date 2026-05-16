@@ -50,6 +50,25 @@ run_lifecycle:
     schema_ref: ".octon/framework/constitution/contracts/runtime/replay-pointers-v1.schema.json"
     evidence_root: ".octon/state/evidence/runs"
     canonical_file: "replay-pointers.yml"
+  workflow_history_replay:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/workflow-history-replay-v1.schema.json"
+    runtime_spec_ref: ".octon/framework/engine/runtime/spec/workflow-history-replay-v1.md"
+    reconstruction_schema_ref: ".octon/framework/engine/runtime/spec/run-lifecycle-reconstruction-v1.schema.json"
+    control_sources:
+      - ".octon/state/control/execution/runs/<run-id>/events.ndjson"
+      - ".octon/state/control/execution/runs/<run-id>/events.manifest.yml"
+      - ".octon/state/control/execution/runs/<run-id>/runtime-state.yml"
+    retained_evidence_root: ".octon/state/evidence/runs"
+    rule: >-
+      Workflow history replay reconstructs from the canonical Run Journal
+      first, classifies valid, drifted, incomplete, unsupported, and blocked
+      histories, and fails closed when idempotency, retry, compensation,
+      disclosure, or retained evidence cannot be proven.
+  idempotency_records:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/idempotency-record-v1.schema.json"
+    control_root: ".octon/state/control/execution/runs"
+    canonical_dir: "idempotency"
+    rule: "Mutating workflow events and replayable commands require stable idempotency keys; duplicates are rejected or explicitly classified."
   trace_pointers:
     schema_ref: ".octon/framework/constitution/contracts/runtime/trace-pointer-v2.schema.json"
     evidence_root: ".octon/state/evidence/runs"
@@ -66,6 +85,12 @@ run_lifecycle:
     schema_ref: ".octon/framework/constitution/contracts/runtime/compensation-record-v1.schema.json"
     control_root: ".octon/state/control/execution/runs"
     canonical_dir: "compensation"
+    rule: "Compensation records describe bounded compensating action only and must not claim full rollback, global transactionality, or external-system replay."
+  failure_receipts:
+    schema_ref: ".octon/framework/constitution/contracts/runtime/failure-receipt-v1.schema.json"
+    evidence_root: ".octon/state/evidence/runs"
+    canonical_dir: "failure-receipts"
+    rule: "Unsupported replay, retry, idempotency, compensation, and evidence-placement gaps require retained failure receipts and operator disclosure."
   retained_run_evidence:
     evidence_root: ".octon/state/evidence/runs"
     canonical_families:
@@ -241,6 +266,28 @@ workflow_statechart_task_harness:
     compile_receipt_schema_ref: ".octon/framework/constitution/contracts/runtime/task-specific-execution-harness-compile-receipt-v1.schema.json"
     compile_receipt_runtime_schema_ref: ".octon/framework/engine/runtime/spec/task-specific-execution-harness-compile-receipt-v1.schema.json"
     rule: "Task-specific harness records bind the required objective, run-contract, support, capability, context, authorization, effect-token, evidence, rollback, human-intervention, model/cost, and closeout envelope before authorization is requested."
+  agent_node_model_call:
+    agent_node:
+      schema_ref: ".octon/framework/constitution/contracts/runtime/agent-node-v1.schema.json"
+      runtime_spec_ref: ".octon/framework/engine/runtime/spec/agent-node-v1.md"
+      runtime_schema_ref: ".octon/framework/engine/runtime/spec/agent-node-v1.schema.json"
+      rule: "Agent Node v1 is a bounded workflow activity record inside an existing task-specific harness and run lifecycle root; it does not authorize execution, own workflow state, admit connectors, widen support, or close runs."
+    model_call_receipt:
+      schema_ref: ".octon/framework/constitution/contracts/runtime/model-call-receipt-v1.schema.json"
+      runtime_spec_ref: ".octon/framework/engine/runtime/spec/model-call-receipt-v1.md"
+      runtime_schema_ref: ".octon/framework/engine/runtime/spec/model-call-receipt-v1.schema.json"
+      retained_evidence_root: ".octon/state/evidence/runs"
+      rule: "Model Call Receipt v1 binds context digest, routing policy, model eligibility, budgets, fallback, retry, retained cost/usage evidence, output validation, terminal outcome, and replay envelope as evidence only."
+    model_call_policy_ref: ".octon/instance/governance/policies/model-call-routing.yml"
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh"
+    authority_boundary_rule: >-
+      Agent nodes and model outputs may produce candidate activity evidence
+      only. Run Lifecycle v1, Workflow Statechart v1, Task-Specific Execution
+      Harness v1, Execution Authorization v1, Context Pack Builder v1,
+      Authorized Effect Token v1, Evidence Store v1, support-target
+      declarations, model-adapter declarations, capability-pack governance,
+      connector admission posture, and fail-closed obligations remain
+      canonical.
   generated_projection:
     projection_ref: ".octon/generated/cognition/projections/materialized/workflow-statechart-harness.yml"
     authority_status: "derived-only"

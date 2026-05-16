@@ -1,0 +1,27 @@
+schema_version: workflow-history-replay-idempotency-compensation-validator-v1
+validator: .octon/framework/assurance/runtime/_ops/scripts/validate-workflow-history-replay-idempotency-compensation.sh
+validated_at: 2026-05-15T21:43:21Z
+verdict: pass
+evidence_root: .octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z
+coverage:
+  valid_history: true
+  drift_and_incomplete_rules: true
+  unsupported_history: true
+  duplicate_idempotency_keys: true
+  retry_limits: true
+  compensation_boundaries: true
+  failure_receipts: true
+  evidence_placement: true
+positive_fixtures:
+  - valid-history
+  - unsupported-history-with-receipt
+negative_fixtures:
+  - duplicate-idempotency-accepted
+  - retry-attempt-exceeds-limit
+  - compensation-global-transactionality
+  - generated-authority
+  - unsupported-replay-missing-receipt
+  - live-side-effect-replay-without-grant
+  - generated-evidence-placement
+unresolved_errors:
+  - none

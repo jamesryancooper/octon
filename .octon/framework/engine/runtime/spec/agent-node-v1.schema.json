@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/engine/runtime/spec/agent-node-v1.schema.json",
+  "title": "Octon Agent Node v1",
+  "description": "A bounded workflow activity node for model-backed work inside an existing task-specific execution harness.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "agent_node_id",
+    "run_id",
+    "run_root_ref",
+    "harness_ref",
+    "workflow_state_ref",
+    "statechart_ref",
+    "model_call_policy_ref",
+    "model_call_receipt_refs",
+    "input_refs",
+    "output_schema_ref",
+    "output_validation_evidence_refs",
+    "context_binding",
+    "tool_allowlist_refs",
+    "connector_refs",
+    "budget_refs",
+    "timeout_policy",
+    "retry_policy",
+    "fallback_policy",
+    "revocation_policy",
+    "terminal_state",
+    "fail_closed_policy",
+    "retained_evidence_refs",
+    "authority_boundary",
+    "forbidden_authority_claims",
+    "created_at"
+  ],
+  "properties": {
+    "schema_version": { "const": "agent-node-v1" },
+    "agent_node_id": { "$ref": "#/$defs/nonEmptyString" },
+    "run_id": { "$ref": "#/$defs/nonEmptyString" },
+    "run_root_ref": { "$ref": "#/$defs/runRootRef" },
+    "harness_ref": { "$ref": "#/$defs/stateControlRef" },
+    "workflow_state_ref": { "$ref": "#/$defs/stateControlRef" },
+    "statechart_ref": {
+      "const": ".octon/framework/engine/runtime/spec/workflow-statechart-v1.md"
+    },
+    "model_call_policy_ref": {
+      "const": ".octon/instance/governance/policies/model-call-routing.yml"
+    },
+    "model_call_receipt_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/stateEvidenceRef" }
+    },
+    "input_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/durableRuntimeRef" }
+    },
+    "output_schema_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+    "output_validation_evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/stateEvidenceRef" }
+    },
+    "context_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_pack_ref",
+        "context_pack_receipt_ref",
+        "model_visible_context_ref",
+        "model_visible_context_sha256"
+      ],
+      "properties": {
+        "context_pack_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "context_pack_receipt_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "model_visible_context_ref": { "$ref": "#/$defs/stateEvidenceRef" },
+        "model_visible_context_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "tool_allowlist_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/toolOrCapabilityRef" }
+    },
+    "connector_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/connectorPostureRef" }
+    },
+    "budget_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_budget_ref",
+        "token_budget_ref",
+        "cost_budget_ref",
+        "retry_budget_ref"
+      ],
+      "properties": {
+        "context_budget_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+        "token_budget_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+        "cost_budget_ref": { "$ref": "#/$defs/durableRuntimeRef" },
+        "retry_budget_ref": { "$ref": "#/$defs/durableRuntimeRef" }
+      }
+    },
+    "timeout_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeout_seconds", "timeout_route"],
+      "properties": {
+        "timeout_seconds": { "type": "integer", "minimum": 1 },
+        "timeout_route": { "$ref": "#/$defs/failClosedRoute" }
+      }
+    },
+    "retry_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_attempts",
+        "attempts_consumed",
+        "retryable_failure_classes",
+        "retry_exhaustion_route"
+      ],
+      "properties": {
+        "max_attempts": { "type": "integer", "minimum": 0 },
+        "attempts_consumed": { "type": "integer", "minimum": 0 },
+        "retryable_failure_classes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/nonEmptyString" }
+        },
+        "retry_exhaustion_route": { "$ref": "#/$defs/failClosedRoute" }
+      }
+    },
+    "fallback_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "fallback_allowed",
+        "max_fallback_attempts",
+        "fallback_attempts_consumed",
+        "fallback_requires_budget",
+        "fallback_violation_route"
+      ],
+      "properties": {
+        "fallback_allowed": { "type": "boolean" },
+        "max_fallback_attempts": { "type": "integer", "minimum": 0 },
+        "fallback_attempts_consumed": { "type": "integer", "minimum": 0 },
+        "fallback_requires_budget": { "const": true },
+        "fallback_violation_route": { "$ref": "#/$defs/failClosedRoute" }
+      }
+    },
+    "revocation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revocation_ref_required", "revoked_route"],
+      "properties": {
+        "revocation_ref_required": { "const": true },
+        "revoked_route": { "$ref": "#/$defs/failClosedRoute" }
+      }
+    },
+    "terminal_state": {
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed",
+        "denied",
+        "stage_only",
+        "revoked",
+        "timed_out",
+        "fallback_exhausted",
+        "validation_failed"
+      ]
+    },
+    "fail_closed_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_route", "reason_code_refs"],
+      "properties": {
+        "default_route": { "$ref": "#/$defs/failClosedRoute" },
+        "reason_code_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^FCR-[0-9]{3}$" }
+        }
+      }
+    },
+    "retained_evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/stateEvidenceRef" }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "agent_node_authorizes_execution",
+        "agent_node_owns_workflow_state",
+        "agent_node_may_transition_workflow",
+        "agent_node_may_schedule_work",
+        "agent_node_may_queue_work",
+        "agent_node_mints_grants",
+        "agent_node_consumes_effect_tokens",
+        "agent_node_mutates_policy",
+        "agent_node_widens_support_claims",
+        "agent_node_admits_connectors",
+        "agent_node_closes_run"
+      ],
+      "properties": {
+        "agent_node_authorizes_execution": { "const": false },
+        "agent_node_owns_workflow_state": { "const": false },
+        "agent_node_may_transition_workflow": { "const": false },
+        "agent_node_may_schedule_work": { "const": false },
+        "agent_node_may_queue_work": { "const": false },
+        "agent_node_mints_grants": { "const": false },
+        "agent_node_consumes_effect_tokens": { "const": false },
+        "agent_node_mutates_policy": { "const": false },
+        "agent_node_widens_support_claims": { "const": false },
+        "agent_node_admits_connectors": { "const": false },
+        "agent_node_closes_run": { "const": false }
+      }
+    },
+    "forbidden_authority_claims": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "created_at": { "$ref": "#/$defs/nonEmptyString" }
+  },
+  "$defs": {
+    "nonEmptyString": { "type": "string", "minLength": 1 },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "failClosedRoute": {
+      "type": "string",
+      "enum": ["deny", "stage_only", "escalate"]
+    },
+    "durableRuntimeRef": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "pattern": "(^|/)\\.octon/(generated|inputs)(/|$)" }
+    },
+    "stateControlRef": {
+      "type": "string",
+      "pattern": "^\\.octon/state/control/"
+    },
+    "stateEvidenceRef": {
+      "type": "string",
+      "pattern": "^\\.octon/state/evidence/"
+    },
+    "runRootRef": {
+      "type": "string",
+      "pattern": "^\\.octon/state/control/execution/runs/[^/]+$"
+    },
+    "toolOrCapabilityRef": {
+      "type": "string",
+      "pattern": "^\\.octon/(framework/capabilities|instance/governance/capability-packs|framework/engine/runtime/spec/authorized-effect-token-v1\\.md)"
+    },
+    "connectorPostureRef": {
+      "type": "string",
+      "pattern": "^\\.octon/(instance/governance/(connectors|connector-admissions)|framework/engine/runtime/spec/(connector|tool-connector))"
+    }
+  }
+}

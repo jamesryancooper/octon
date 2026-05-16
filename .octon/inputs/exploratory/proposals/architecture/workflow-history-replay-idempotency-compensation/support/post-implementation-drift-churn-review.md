@@ -1,12 +1,92 @@
 # Post-Implementation Drift Churn Review
 
-verdict: fail
-unresolved_items_count: 1
+verdict: pass
+unresolved_items_count: 0
 
 ## Blockers
 
-- No durable implementation exists to review for drift or terminology churn.
+None.
 
-## Notes
+## Checked Evidence
 
-This placeholder is proposal-local evidence only and does not authorize closeout.
+- `.octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/implementation-run.md`
+- `.octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/implementation-conformance-review.md`
+- `.octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/validation.md`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/implementation-evidence.md`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/validation-summary.yml`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/child-specific-validator.yml`
+- `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/fixture-results.json`
+
+## Backreference Scan
+
+The exact proposal-path scan found no active runtime, policy, support, control, or closeout dependency on `.octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation`. Exact proposal-id hits are limited to the child-specific validator name and retained evidence path.
+
+Generic `inputs/exploratory/proposals` hits are existing proposal lifecycle, proposal registry, evolution compiler, architecture conformance exclusion, and proposal validator logic.
+
+## Naming Drift
+
+The promoted terminology stays within Workflow History Replay v1, Run Journal v1, Run Lifecycle v1, Workflow Statechart v1, Task-Specific Execution Harness v1, idempotency records, retry records, compensation records, failure receipts, retained evidence, and no-authority boundary language. It does not introduce `Work Package` terminology or imply live Governed Workflow Runtime support beyond this bounded contract surface.
+
+## Generated Projection Freshness
+
+No generated projection was created or refreshed by this packet. Generated/effective outputs remain derived-only and non-authoritative. The accepted review digest stays fresh because implementation-run, conformance, drift/churn, validation, executable implementation prompt, and checksum support material are excluded from the proposal review digest.
+
+## Manifest And Schema Validity
+
+The proposal manifest remains `status: accepted`. The architecture subtype manifest parses. The new and modified runtime JSON schemas parse with `python3 -m json.tool`, are statically checked by `validate-workflow-history-replay-idempotency-compensation.sh`, and are covered by positive and negative fixtures retained in `.octon/state/evidence/**`.
+
+## Repo-Local Projection Boundaries
+
+No `.github/**`, repo-root adapter, generated/effective output, support matrix, connector admission, capability pack, support-target declaration, instance policy, runtime crate, external workflow publication, Durable Object adapter, MCP integration, or model routing surface changed.
+
+## Target Family Boundaries
+
+Durable edits are limited to declared target families:
+
+- `.octon/framework/engine/runtime/spec/`
+- `.octon/framework/constitution/contracts/runtime/`
+- `.octon/framework/assurance/runtime/_ops/scripts/`
+- `.octon/state/evidence/`
+
+Retained validation evidence lives under `.octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/`, outside `inputs/**` and outside `generated/**`.
+
+## Churn Review
+
+The implementation adds the smallest coherent contract set for the packet: one runtime narrative spec, three new constitutional runtime schemas, bounded updates to retry and compensation schemas, runtime family and README registration, one focused validator, and retained validation evidence. It adds no dependency, runtime crate behavior, generated publication, connector admission, instance policy, support-target declaration, or capability pack change.
+
+## Validators Run
+
+- `validate-proposal-implementation-readiness.sh`
+- `validate-proposal-review-gate.sh`
+- `validate-proposal-standard.sh`
+- `validate-architecture-proposal.sh`
+- `validate-workflow-history-replay-idempotency-compensation.sh`
+- `validate-run-lifecycle-v1.sh`
+- `validate-run-lifecycle-transition-coverage.sh`
+- `validate-run-journal-contracts.sh`
+- `validate-runtime-lifecycle-normalization.sh`
+- `validate-contract-family-version-coherence.sh`
+- `verify-runtime-family-depth.sh`
+- `validate-generated-non-authority.sh`
+- `validate-input-non-authority.sh`
+- `validate-no-raw-generated-effective-runtime-reads.sh`
+- `validate-proposal-implementation-conformance.sh`
+- `validate-proposal-post-implementation-drift.sh`
+
+## Exclusions
+
+- No universal replay of arbitrary external systems is claimed.
+- No full rollback or global transactionality guarantee is claimed.
+- No external workflow-engine authority is claimed.
+- No Durable Object persistence is approved as canonical control or evidence.
+- No runtime crate behavior changed.
+- No generated/effective publication changed.
+- No connector admission, support-target declaration, capability pack, MCP integration, instance policy, or model routing policy changed.
+- Proposal-local support files, source conversations, chat, host state, tool availability, and generated projections remain non-authoritative.
+- Existing generic proposal lifecycle scripts may refer to proposal paths as proposal-processing inputs; those references are not runtime, policy, support, control, or closeout authority.
+
+## Final Closeout Recommendation
+
+Post-implementation drift/churn review passes for this route. The packet should
+remain `status: accepted`; the separate `promote-proposal` route owns any later
+rewrite to `implemented`.

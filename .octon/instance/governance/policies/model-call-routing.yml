@@ -1,0 +1,124 @@
+schema_version: "model-call-routing-policy-v1"
+policy_id: "repo-local-model-call-routing"
+owner: "Octon governance"
+status: "active"
+default_route: "deny"
+scope: "Model-call routing, eligibility, budget, fallback, retry, and retained cost/usage receipt policy for Agent Node v1 activities."
+
+authority_refs:
+  support_targets: ".octon/instance/governance/support-targets.yml"
+  model_adapters: ".octon/framework/engine/runtime/adapters/model"
+  execution_budgets: ".octon/instance/governance/policies/execution-budgets.yml"
+  network_egress: ".octon/instance/governance/policies/network-egress.yml"
+  capability_pack_registry: ".octon/instance/governance/capability-packs/registry.yml"
+  connector_admission: ".octon/instance/governance/policies/connector-admission.yml"
+  context_packing: ".octon/instance/governance/policies/context-packing.yml"
+  execution_authorization: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  fail_closed: ".octon/framework/constitution/obligations/fail-closed.yml"
+  evidence_obligations: ".octon/framework/constitution/obligations/evidence.yml"
+
+doctrine:
+  - "A model call is admissible only as a bounded Agent Node v1 activity inside an existing task-specific execution harness and governed run."
+  - "The model-call receipt is retained evidence, not authority, policy, support truth, workflow state, or closeout truth."
+  - "Model output may produce candidate content, but it cannot authorize execution, mint grants, consume effect tokens, mutate policy, widen support, admit connectors, transition workflow state, or close a run."
+  - "Tool allowlists and connector references are by-reference posture checks only and do not create connector or MCP permission authority."
+
+admissibility_requirements:
+  required_bindings:
+    - "run-contract-v3"
+    - "run-lifecycle-v1"
+    - "workflow-statechart-v1"
+    - "task-specific-execution-harness-v1"
+    - "context-pack-receipt-v1"
+    - "model-call-receipt-v1"
+    - "support-target tuple"
+    - "model-adapter declaration"
+    - "capability-pack posture"
+    - "execution-budget policy"
+    - "retained cost/usage receipt"
+    - "output schema validation"
+  model_adapter_tiers:
+    - "repo-local-governed"
+    - "frontier-governed"
+  tuple_binding_required: true
+  context_pack_receipt_required: true
+  model_visible_context_digest_required: true
+  output_schema_validation_required: true
+  retained_cost_usage_receipt_required: true
+
+budget_classes:
+  context:
+    policy_ref: ".octon/instance/governance/policies/context-packing.yml"
+    required: true
+    exceeded_route: "stage_only"
+  tokens:
+    policy_ref: ".octon/instance/governance/policies/execution-budgets.yml"
+    required: true
+    exceeded_route: "stage_only"
+  estimated_cost:
+    policy_ref: ".octon/instance/governance/policies/execution-budgets.yml"
+    required: true
+    missing_cost_evidence_route: "stage_only"
+    exceeded_route: "deny"
+  retries:
+    required: true
+    exceeded_route: "deny"
+  fallback_attempts:
+    required: true
+    exceeded_route: "deny"
+
+routing_rules:
+  missing_run_or_harness_binding: "deny"
+  missing_workflow_state_binding: "deny"
+  missing_context_pack_receipt: "deny"
+  stale_context_pack_receipt: "deny"
+  missing_model_visible_context_digest: "deny"
+  mismatched_model_visible_context_digest: "deny"
+  missing_model_routing_policy_ref: "deny"
+  ineligible_model_adapter_or_tier: "deny"
+  unsupported_support_tuple: "deny"
+  missing_budget: "stage_only"
+  exceeded_context_or_token_budget: "stage_only"
+  exceeded_cost_budget: "deny"
+  missing_cost_usage_receipt: "stage_only"
+  retry_budget_exhausted: "deny"
+  fallback_policy_missing_or_violated: "deny"
+  output_schema_validation_failed: "stage_only"
+  missing_retained_evidence: "stage_only"
+  raw_input_as_authority: "deny"
+  generated_projection_as_authority: "deny"
+  agent_or_model_output_authority_claim: "deny"
+
+fallback_policy:
+  fallback_must_narrow_authority: true
+  fallback_requires_declared_model_adapter: true
+  fallback_requires_budget_remaining: true
+  fallback_requires_context_digest_reuse_or_rebuild: true
+  fallback_must_emit_retained_receipt: true
+  fallback_cannot_admit_connector: true
+  fallback_cannot_widen_support: true
+
+retry_policy:
+  retry_must_preserve_run_root: true
+  retry_must_preserve_or_rebuild_context_pack: true
+  retry_must_record_attempt_count: true
+  retry_must_emit_retained_cost_usage_receipt: true
+  retry_exhaustion_route: "deny"
+
+non_authority_boundaries:
+  agent_node_authorizes_execution: false
+  model_call_receipt_authorizes_execution: false
+  model_output_is_policy_authority: false
+  model_output_is_workflow_state: false
+  model_output_can_close_run: false
+  model_call_policy_admits_connectors: false
+  model_call_policy_widens_support_targets: false
+  universal_probabilistic_replay_guaranteed: false
+
+deferred_scope:
+  - "connector or MCP permission model"
+  - "external workflow-engine execution"
+  - "runtime crate behavior"
+  - "generated/effective publication"
+  - "support-target widening"
+  - "universal replay guarantee for probabilistic model output"
