@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.72](https://github.com/jamesryancooper/octon/compare/octon-v0.6.71...octon-v0.6.72) (2026-05-16)
+
+
+### Bug Fixes
+
+* **lifecycle:** govern autonomous recovery routes ([53cb53b](https://github.com/jamesryancooper/octon/commit/53cb53bd2a41ff9b537490b7b5caa77dd9467f83))
+* **lifecycle:** recover publication drift in program loop ([84ac215](https://github.com/jamesryancooper/octon/commit/84ac2152995838b447f8f745cc8ad52a4b422806))
+
 ## [0.6.71](https://github.com/jamesryancooper/octon/compare/octon-v0.6.70...octon-v0.6.71) (2026-05-15)
 
 
