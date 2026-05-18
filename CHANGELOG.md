@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.73](https://github.com/jamesryancooper/octon/compare/octon-v0.6.72...octon-v0.6.73) (2026-05-18)
+
+
+### Features
+
+* **authority:** add governed automation zones ([2aea562](https://github.com/jamesryancooper/octon/commit/2aea56270d2e76e8dda836cfad0157fbb783d9e3))
+* **lifecycle:** delegate governed route execution ([7bfb6f8](https://github.com/jamesryancooper/octon/commit/7bfb6f83a400025f4ddabd588d365d1b23d45cc6))
+
 ## [0.6.72](https://github.com/jamesryancooper/octon/compare/octon-v0.6.71...octon-v0.6.72) (2026-05-16)
 
 
