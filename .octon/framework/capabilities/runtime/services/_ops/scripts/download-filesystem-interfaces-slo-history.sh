@@ -16,6 +16,48 @@ Usage: $0 [--repo <owner/repo>] [--workflow <workflow-file>] [--artifact-name <n
 USAGE
 }
 
+gh_with_retries() {
+  local label="$1"
+  shift
+
+  local attempts="${GITHUB_API_RETRY_ATTEMPTS:-5}"
+  local delay="${GITHUB_API_RETRY_DELAY_SECONDS:-2}"
+
+  if ! [[ "$attempts" =~ ^[0-9]+$ ]] || [[ "$attempts" -lt 1 ]]; then
+    attempts="5"
+  fi
+  if ! [[ "$delay" =~ ^[0-9]+$ ]] || [[ "$delay" -lt 1 ]]; then
+    delay="2"
+  fi
+
+  local attempt output status
+  for ((attempt = 1; attempt <= attempts; attempt += 1)); do
+    if output="$("$@" 2>&1)"; then
+      if [[ -n "$output" ]]; then
+        printf "%s\n" "$output"
+      fi
+      return 0
+    fi
+
+    status="$?"
+    if [[ "$attempt" -lt "$attempts" ]]; then
+      echo "WARN: $label failed on attempt $attempt/$attempts; retrying in ${delay}s" >&2
+      if [[ -n "$output" ]]; then
+        echo "$output" >&2
+      fi
+      sleep "$delay"
+      delay=$((delay * 2))
+      continue
+    fi
+
+    echo "ERROR: $label failed after $attempts attempts" >&2
+    if [[ -n "$output" ]]; then
+      echo "$output" >&2
+    fi
+    return "$status"
+  done
+}
+
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --repo)
@@ -80,14 +122,20 @@ fi
 
 mkdir -p "$out_dir"
 
-mapfile -t run_ids < <(
-  gh run list \
-    --repo "$repo" \
-    --workflow "$workflow" \
-    --limit "$limit" \
-    --json databaseId,conclusion \
-    --jq '.[] | select(.conclusion=="success") | .databaseId'
-)
+run_list_output="$(
+  gh_with_retries "list successful runs for workflow '$workflow'" \
+    gh run list \
+      --repo "$repo" \
+      --workflow "$workflow" \
+      --limit "$limit" \
+      --json databaseId,conclusion \
+      --jq '.[] | select(.conclusion=="success") | .databaseId'
+)" || exit "$?"
+
+run_ids=()
+if [[ -n "$run_list_output" ]]; then
+  mapfile -t run_ids <<< "$run_list_output"
+fi
 
 if [[ "${#run_ids[@]}" -eq 0 ]]; then
   if [[ "$allow_empty" == "1" ]]; then
@@ -104,7 +152,8 @@ downloaded_runs=0
 for run_id in "${run_ids[@]}"; do
   run_dir="$out_dir/run-$run_id"
   mkdir -p "$run_dir"
-  if gh run download "$run_id" --repo "$repo" --name "$artifact_name" --dir "$run_dir" >/dev/null 2>&1; then
+  if gh_with_retries "download artifact '$artifact_name' from run $run_id" \
+    gh run download "$run_id" --repo "$repo" --name "$artifact_name" --dir "$run_dir" >/dev/null; then
     downloaded_runs=$((downloaded_runs + 1))
   else
     rm -rf "$run_dir"
