@@ -1,12 +1,12 @@
 schema_version: "octon-extension-effective-catalog-v7"
 generator_version: "extension-publication-v6"
 generation_id: "extensions-e539e7c8b239"
-published_at: "2026-05-18T13:31:58Z"
+published_at: "2026-05-18T16:56:43Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-05-18T13-31-58Z-extensions-e539e7c8b239.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-05-18T16-56-43Z-extensions-e539e7c8b239.yml"
 compatibility_status: "compatible"
-compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-05-18T13-31-58Z-extensions-e539e7c8b239.yml"
-compatibility_receipt_sha256: "5c26fa9ae2aca8e4035d654c2173f4c424dc3a63966b2618845af6f5b31308af"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-05-18T16-56-43Z-extensions-e539e7c8b239.yml"
+compatibility_receipt_sha256: "2ec198e94ae4b4c7dec9ad973619baf0dbf6aa5aae67e6f6b0854937163eb5e5"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -1100,7 +1100,7 @@ packs:
         bundle_sha256: "dc0a2f4a9a62411b2bdc9e6e8bb6090d143cb2665ace65aa0592198d84521992"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1210,7 +1210,7 @@ packs:
         bundle_sha256: "032dca109b2133f1533c0dbeef78552c94ca73dace7af60b5cb4cdf08ebb9f45"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1305,7 +1305,7 @@ packs:
         bundle_sha256: "e82cb690090f674acf7315546255fc72fe7974be5bde480f6a19f935517279ad"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1406,7 +1406,7 @@ packs:
         bundle_sha256: "48c77c396d4da58c1118f9f1efac6933f33cd8a2fd092809cf29f6f416b3a2d3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1509,7 +1509,7 @@ packs:
         bundle_sha256: "38171090ea3d0a9af3b02a0b136c6363e0cdb1bf4786d5917858d82b604e247e"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1600,7 +1600,7 @@ packs:
         bundle_sha256: "26df7c17cc4f917e733cc66c3e9fe7b408879f64632a7119ac796a3dd89c94f1"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1695,7 +1695,7 @@ packs:
         bundle_sha256: "fdfd4260560bc544e69de1311d058fd59fa0527b7855f48435e955a2ebb6fcdc"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1795,7 +1795,7 @@ packs:
         bundle_sha256: "8b8bc9e0bc71bc250a9337bd38ca11c35482f3599a636dd804ec54c23e88d722"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1890,7 +1890,7 @@ packs:
         bundle_sha256: "9a7dcf1b54ad8940676fa4c3aac6c5e0fe0b97bfa234a17f8f3d2917fd19f5be"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -1985,7 +1985,7 @@ packs:
         bundle_sha256: "016c23331b5b1cb5788cf5f1906d1f3eeba589e90611cb5fb81ae9faacc75248"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2814,7 +2814,7 @@ packs:
         bundle_sha256: "d36d46f07f56aedb3bc886f65633beabee35743e05779a9b269583def6035f41"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -2915,7 +2915,7 @@ packs:
         bundle_sha256: "83db4ef3d8939f243e5b3c9e178ff53e726ed8c95b64c0aa166d8ba64a57a6de"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3020,7 +3020,7 @@ packs:
         bundle_sha256: "d0dd7cc94da476abcf0b9196fe4377a0c63576ba39e0adf5f4d52cbcf48e0ae6"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3121,7 +3121,7 @@ packs:
         bundle_sha256: "0ea74d80f60b8c5784ec7dd76b574018ebb2319f0c0ca1dd80f6f38701f95eab"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3285,7 +3285,7 @@ packs:
         bundle_sha256: "f660b9d42fb68b5f4a36fe739c354dcbcea5abdf1a27ee035d0c2b611a67429f"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3839,7 +3839,7 @@ packs:
         bundle_sha256: "25aa7f7c31ec3bfb7d256f874233b5f1faf300e55f44c55494940626de740223"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3908,7 +3908,7 @@ packs:
         bundle_sha256: "a05590915e86b8ca8ddbf6b9401780440ec1bc10cad188530bffa2238cfc35b9"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -3981,7 +3981,7 @@ packs:
         bundle_sha256: "825b49d5d24372dea3581a89dd8e39a7fedd7fb619f42060d82e9f26553c709d"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -4050,7 +4050,7 @@ packs:
         bundle_sha256: "4f25573e25e24f1e4cb979fdf82dc01fad9d702ce2a41f38d02eb5107ba61ed3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6486,7 +6486,7 @@ packs:
         bundle_sha256: "fba0f4e0c45384773906af8bc4b86a63d05e0efa825c42d6f75009ae94adc402"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6553,7 +6553,7 @@ packs:
         bundle_sha256: "9d73014e5f73ebe1e9d5bdfd310be043a40d5011f9af205608916491355c9464"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6620,7 +6620,7 @@ packs:
         bundle_sha256: "ac38d63d9d1888efe3b3cd923f38321b3e524d4a899d1c14f112a85506789f8b"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6714,7 +6714,7 @@ packs:
         bundle_sha256: "a09a473676ff2990ae368c776a7fc2c3809c3a9ac176a451e73cd088bd5dfceb"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6777,7 +6777,7 @@ packs:
         bundle_sha256: "f1d4dfc81438b54357f80d2f383665eba0fbf6811273fedd3a5f387dfd443df0"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6840,7 +6840,7 @@ packs:
         bundle_sha256: "47a51c65cc720b943e79cad22b97d696127bc7d4bfade57b7a91127341ccf370"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6907,7 +6907,7 @@ packs:
         bundle_sha256: "1a9109e7eaf3b9cd1c9a7a881dfeb7b120491c57d80c3df4548e2c8534754140"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -6974,7 +6974,7 @@ packs:
         bundle_sha256: "b4cd344d5139ad2a359a1db8590e1c044069b5a9932bfe3259a03339ebe109e3"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7037,7 +7037,7 @@ packs:
         bundle_sha256: "98f5899d3a56dc793deccd6eadb79fe4327fb25fd9e1b6248ffbe4e17cd855de"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7100,7 +7100,7 @@ packs:
         bundle_sha256: "901622fca1272f22dcc90a3622f4da10d2f222b315506f7b1755c883da1521f2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7163,7 +7163,7 @@ packs:
         bundle_sha256: "88b9cf7c1e8bc728a4a977affb7cc89be58aaa1d59ef2bb42d5fc3181b1536f7"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7230,7 +7230,7 @@ packs:
         bundle_sha256: "3842903f025c94528af6c3d2feb83a13999ff5a172fba998c5b801f8da0c07f1"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7293,7 +7293,7 @@ packs:
         bundle_sha256: "2d2e41ff7924df6f0c53947ba8938c549552499fa8cfd16fd0e8d9f2f0f05555"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7356,7 +7356,7 @@ packs:
         bundle_sha256: "4ec8aa5689e641f3eb6a08abba9fce979e283e894b7ec38f5ac534cb013466f2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7419,7 +7419,7 @@ packs:
         bundle_sha256: "05da10c225272485da1a5fcfad00422c8f417bc1f50d85b82847d3cf1a8fe354"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7482,7 +7482,7 @@ packs:
         bundle_sha256: "d486bb2bd89c1e9dd1341ae039236298290371d2c9c625334d2f39a779bbfee2"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7547,7 +7547,7 @@ packs:
         bundle_sha256: "5469e5ab609123e49e3f3b804077df406397a7d783a87997a5b53325b02671b5"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7610,7 +7610,7 @@ packs:
         bundle_sha256: "27ab20a3c7e4a128d3eb88e1381bc5a9a697b6fc96fbb7552d8450e59b9aebec"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7675,7 +7675,7 @@ packs:
         bundle_sha256: "a3744acd4bf370005c0e51f7d4b5366430a0d42764cea89d060ac707025cb934"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7738,7 +7738,7 @@ packs:
         bundle_sha256: "45d8d3bec11241e0ad6bc07b13b00b1b5eec7eef85274c95a0eb07eb5af8c513"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7801,7 +7801,7 @@ packs:
         bundle_sha256: "5d5a92f013503328f78c770746edfae84137e023f92ccebe90d7119575ccd9f5"
         publication_status: "published"
         alignment_status: "fresh"
-        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T13-31-58Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml"
+        alignment_receipt_path: ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-18T16-56-43Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml"
         default_alignment_mode: "auto"
         skip_mode_policy: "degraded-retained-explicit"
         invalidation_conditions:
@@ -7861,4 +7861,4 @@ source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "e539e7c8b239dc8d1fa7dcdd06aa43253ea2aa9c00518ee8c5451ecda65071a9"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "655490189cb59a4095c4c99b9b5269cf0d943dde443882af27836109fded6432"
+  root_manifest_sha256: "baf881fd631346235416c9e5049797c98913180cd5ff6b95fbcac72b647b0f0f"
