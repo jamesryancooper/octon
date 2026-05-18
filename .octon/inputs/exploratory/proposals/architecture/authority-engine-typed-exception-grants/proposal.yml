@@ -1,0 +1,57 @@
+schema_version: "proposal-v1"
+proposal_id: "authority-engine-typed-exception-grants"
+title: "Authority Engine Typed Exception Grants"
+summary: >-
+  Migrate authority-engine approval artifacts toward typed human exception
+  grants and grant-consumption evidence instead of generic approval defaults.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/authority_engine/"
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after the shared contract model is accepted and child-owned
+    validation, conformance, drift/churn, and promotion receipts are retained.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "delegated-governance-shared-contract-model"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for authority-engine typed exception grants. It does
+  not mutate runtime code or schemas by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
+authority_class_impact:
+  framework: "May propose authority-engine and authority contract changes."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain grant-consumption evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Generated artifacts may report grant state but cannot create grants."
+evidence_requirements:
+  - "Typed human exception grant schema."
+  - "Grant-consumption evidence model."
+  - "Authority provenance receipt."
+  - "Negative controls for generic approval reason and importance-only approval."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "typed exception grant validation"
+acceptance_criteria_summary: >-
+  Accepted when authority-engine grant behavior is specified as typed exception
+  authority or delegated grant consumption, with no generic approval fallback.
+rollback_summary: "Reject or supersede if generic approval artifacts remain authority defaults."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement authority-engine changes until promoted."

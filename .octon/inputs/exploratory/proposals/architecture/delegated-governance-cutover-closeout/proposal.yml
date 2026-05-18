@@ -1,0 +1,62 @@
+schema_version: "proposal-v1"
+proposal_id: "delegated-governance-cutover-closeout"
+title: "Delegated Governance Cutover Closeout"
+summary: >-
+  Perform final compatibility retirement, cutover, aggregate evidence review,
+  and parent-program closeout for Octon-wide delegated governance migration.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/product/features/lifecycle-autopilot.md"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement last, after required predecessor children have terminal outcomes
+    and fresh child-owned receipts.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "governance-validator-negative-controls"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for final cutover and closeout. It must not claim
+  migration completion before predecessor receipts are fresh.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration"
+authority_class_impact:
+  framework: "May propose final cutover, compatibility retirement, and product documentation updates."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain aggregate closeout evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Generated projections cannot prove cutover completion by themselves."
+evidence_requirements:
+  - "Fresh predecessor child receipts."
+  - "Aggregate validation report."
+  - "Compatibility retirement evidence."
+  - "Generated/read-model non-authority review."
+  - "Program closeout receipt."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "program child readiness validation"
+  - "cutover compatibility validation"
+acceptance_criteria_summary: >-
+  Accepted when cutover can run last and prove all required children completed
+  without replacing child-owned receipts.
+rollback_summary: "Reject or supersede if cutover can proceed with stale or missing predecessor evidence."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement cutover until promoted."

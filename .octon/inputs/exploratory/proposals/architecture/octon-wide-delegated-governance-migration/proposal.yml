@@ -1,0 +1,95 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-wide-delegated-governance-migration"
+title: "Octon-Wide Delegated Governance Migration"
+summary: >-
+  Parent proposal program coordinating the Octon-wide migration from default
+  approval posture to proof-gated delegated execution and typed human exception
+  grants, using the accepted architecture packet as the governing stance.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/constitution/contracts/adapters/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/engine/runtime/crates/authority_engine/"
+  - ".octon/framework/engine/runtime/crates/kernel/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/orchestration/governance/"
+  - ".octon/framework/capabilities/governance/policy/"
+  - ".octon/instance/governance/connectors/"
+  - ".octon/generated/cognition/projections/materialized/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate, review, implement, validate, close out, reject, supersede, or
+    archive child proposal packets; retain aggregate program evidence outside
+    proposal-local inputs; then archive this parent only after required children
+    reach terminal outcomes with fresh child-owned receipts.
+related_proposals:
+  - "delegated-governance-inventory-and-vocabulary"
+  - "delegated-governance-shared-contract-model"
+  - "authority-engine-typed-exception-grants"
+  - "mission-runtime-proof-first-posture"
+  - "connector-external-effect-delegation-boundaries"
+  - "run-health-proof-state-read-models"
+  - "workflow-capability-human-boundary-classification"
+  - "governance-validator-negative-controls"
+  - "delegated-governance-cutover-closeout"
+selected_implementation_target: "Octon-Wide Delegated Governance Migration"
+scope_statement: >-
+  Proposal-program coordination only. The parent sequences and gates child
+  packets for delegated governance migration work. It does not implement
+  runtime code, schemas, validators, connector permissions, workflow behavior,
+  state/control truth, retained evidence, or generated projections.
+program_execution_mode: "gated-parallel"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+authority_class_impact:
+  framework: "May coordinate future child packets that propose framework contract, runtime, validator, workflow, and governance changes."
+  instance: "May coordinate future child packets that propose instance connector governance and support-target changes."
+  state_control: "No direct change from the parent packet."
+  state_evidence: "Aggregate program evidence is required outside proposal-local inputs before closeout."
+  generated: "Generated projections remain derived-only and never grant authority."
+  inputs: "This parent and its children remain non-authoritative proposal lineage until promoted through durable evidence."
+runtime_behavior_impact: "None from the parent program packet."
+generated_input_authority_impact: >-
+  Reinforces that generated projections, read models, proposal-local receipts,
+  chat history, tool availability, dashboards, and agent output may support
+  evidence but cannot grant authority.
+evidence_requirements:
+  - "Accepted architecture review receipt."
+  - "Parent program child registry and human index."
+  - "Child-owned proposal reviews and implementation readiness receipts."
+  - "Child-owned implementation, validation, conformance, drift/churn, and promotion receipts."
+  - "Aggregate program closeout evidence that summarizes but does not replace child receipts."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal-program structure validation"
+  - "proposal-program child readiness validation"
+  - "implementation-readiness validation"
+  - "child receipt freshness validation"
+  - "generated/read-model non-authority validation"
+  - "typed human-boundary validation"
+acceptance_criteria_summary: >-
+  Parent program is acceptable when it coordinates all required migration
+  domains through sibling child packets, preserves child-owned authority, and
+  prevents any claim of canonical delegated governance behavior until child
+  promotion evidence exists.
+rollback_summary: >-
+  Remove, reject, supersede, or archive this parent program if it starts to own
+  child implementation truth, bypasses the accepted architecture stance, widens
+  authority scope, or treats generated/read-model outputs as control authority.
+owner:
+  role: "Octon architecture proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: >-
+  This parent program does not implement Octon-wide delegated governance. All
+  durable behavior, schema, validator, connector, authority, runtime, and
+  generated projection changes require accepted child packets and retained
+  evidence outside proposal-local inputs.

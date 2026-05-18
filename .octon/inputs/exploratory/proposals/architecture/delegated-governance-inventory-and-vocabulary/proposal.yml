@@ -1,0 +1,59 @@
+schema_version: "proposal-v1"
+proposal_id: "delegated-governance-inventory-and-vocabulary"
+title: "Delegated Governance Inventory And Vocabulary"
+summary: >-
+  Inventory Octon approval/default-authority surfaces and classify each as
+  delegated execution, typed human exception, deny-only, projection-only, or
+  needs-more-evidence.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/orchestration/governance/"
+  - ".octon/framework/capabilities/governance/policy/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after child-owned review, retained validation evidence,
+    conformance review, drift/churn review, and durable promotion evidence.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for inventory and vocabulary. It does not mutate
+  runtime code, schemas, validators, connector permissions, or generated
+  projections by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration"
+authority_class_impact:
+  framework: "May propose inventory and vocabulary changes for delegated governance surfaces."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain inventory evidence outside inputs."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Generated outputs and proposal-local receipts may support inventory evidence but cannot grant authority."
+evidence_requirements:
+  - "Approval/default-authority surface inventory."
+  - "Classification matrix using delegated execution, typed human exception, deny-only, projection-only, and needs-more-evidence."
+  - "Evidence that generated outputs and read models are not authority."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "inventory completeness review"
+  - "vocabulary consistency review"
+acceptance_criteria_summary: >-
+  Accepted when the inventory and vocabulary are specific enough for the shared
+  contract model child to use without creating new approval defaults.
+rollback_summary: "Reject or supersede if the inventory conflates observation with authority."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement inventory changes until later promoted."

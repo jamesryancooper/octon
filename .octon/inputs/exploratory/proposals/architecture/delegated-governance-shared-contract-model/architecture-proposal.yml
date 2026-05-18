@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Shared delegated governance contract model"
+decision_type: "boundary-change"
+decision_summary: "Define common proof semantics for delegated execution and typed human exceptions across non-lifecycle domains."

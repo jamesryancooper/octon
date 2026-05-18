@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Delegated governance inventory and vocabulary"
+decision_type: "boundary-change"
+decision_summary: "Define the inventory and classification vocabulary used by downstream delegated governance migration children."

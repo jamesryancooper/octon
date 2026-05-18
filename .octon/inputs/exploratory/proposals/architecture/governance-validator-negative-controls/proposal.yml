@@ -1,0 +1,62 @@
+schema_version: "proposal-v1"
+proposal_id: "governance-validator-negative-controls"
+title: "Governance Validator Negative Controls"
+summary: >-
+  Add cross-domain validators and negative controls for delegated governance:
+  no approval defaults, no dispatch without proof, no generated authority, and
+  fail-closed behavior for stale or mismatched evidence.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/constitution/contracts/authority/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after domain children define enough migrated surface for
+    validators and negative controls to bind real behavior.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "authority-engine-typed-exception-grants"
+  - "mission-runtime-proof-first-posture"
+  - "connector-external-effect-delegation-boundaries"
+  - "run-health-proof-state-read-models"
+  - "workflow-capability-human-boundary-classification"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for validators and negative controls. It does not
+  mutate validators by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration"
+authority_class_impact:
+  framework: "May propose assurance validator, test, and authority contract changes."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain validator evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Validators must prove generated outputs cannot grant authority."
+evidence_requirements:
+  - "Approval-default absence checks."
+  - "Retained proof before dispatch checks."
+  - "Generated/read-model non-authority checks."
+  - "Fail-closed checks for stale, missing, contradictory, and scope-mismatched evidence."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "negative-control test suite"
+acceptance_criteria_summary: >-
+  Accepted when validators and tests are scoped to prevent delegated governance
+  regressions across migrated domains.
+rollback_summary: "Reject or supersede if validators overclaim authority or miss generated-output misuse."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement validator changes until promoted."

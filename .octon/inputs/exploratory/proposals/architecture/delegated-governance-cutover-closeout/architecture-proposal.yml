@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Delegated governance cutover and closeout"
+decision_type: "boundary-change"
+decision_summary: "Define final cutover, compatibility retirement, and parent-program closeout gates for delegated governance migration."

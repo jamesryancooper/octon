@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Authority engine typed exception grants"
+decision_type: "boundary-change"
+decision_summary: "Replace authority-engine default approval posture with typed exception grants and delegated grant consumption semantics."

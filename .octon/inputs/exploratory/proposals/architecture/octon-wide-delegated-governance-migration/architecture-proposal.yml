@@ -1,0 +1,18 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Octon-wide delegated governance migration coordination"
+decision_type: "boundary-change"
+decision_summary: >-
+  Coordinate the migration from generic approval defaults to proof-gated
+  delegated execution and typed human exception boundaries across authority,
+  runtime, connector, read-model, workflow, validator, and cutover domains.
+affected_surfaces:
+  - "authority contracts and authority engine"
+  - "runtime posture and lifecycle reference behavior"
+  - "connector and external-effect authorization"
+  - "run-health and read-model projections"
+  - "workflow and capability classification"
+  - "governance validators and negative controls"
+  - "program cutover and closeout evidence"
+non_authority_statement: >-
+  This parent program is proposal-local coordination. It does not grant child
+  authority, satisfy child receipts, or promote durable behavior.

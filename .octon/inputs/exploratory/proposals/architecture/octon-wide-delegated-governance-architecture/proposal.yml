@@ -1,0 +1,109 @@
+schema_version: "proposal-v1"
+proposal_id: "octon-wide-delegated-governance-architecture"
+title: "Octon-Wide Delegated Governance Architecture"
+summary: >-
+  Define the Octon-wide target stance for proof-gated delegated execution:
+  machine delegation is the default where authority can be proven by contract,
+  evidence, scope, authority zone, replay safety, retained receipts, and
+  fail-closed validation; human approval remains only as typed exception grants
+  for non-machine-provable boundaries.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/engine/runtime/crates/authority_engine/"
+  - ".octon/framework/engine/runtime/crates/kernel/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/orchestration/governance/"
+  - ".octon/framework/capabilities/governance/policy/"
+  - ".octon/framework/product/features/lifecycle-autopilot.md"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Review, revise, accept, reject, supersede, or archive this architecture
+    packet before any Octon-wide implementation program is created. Durable
+    runtime, schema, validator, connector, authority, and generated projection
+    changes require later accepted implementation packets and retained evidence
+    outside proposal-local inputs.
+related_proposals:
+  - "governed-workflow-runtime-transition-program"
+  - "effect-token-enforcement-coverage"
+  - "connector-operation-admission"
+  - "evidence-provenance-hardening"
+selected_implementation_target: "Octon-Wide Delegated Governance Architecture"
+scope_statement: >-
+  Decision and migration architecture only. This packet defines the Octon-wide
+  target stance, domain inventory, public interface direction, implementation
+  sequencing, and acceptance gates for a later proposal-program. It does not
+  mutate runtime code, schemas, authority contracts, connector permissions,
+  workflow behavior, state/control truth, retained evidence, or generated
+  projections.
+non_goals:
+  - "No direct runtime, schema, validator, connector, workflow, or generated projection mutation."
+  - "No removal of canonical approval, exception, or revocation artifacts before a replacement migration is accepted and validated."
+  - "No claim that external irreversible effects are machine-delegable without explicit rollback, compensation, token, or human-boundary proof."
+  - "No widening of support targets, connector permissions, or authority zones."
+source_lineage:
+  - "Clean-break delegated lifecycle automation migration completed in this thread."
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+  - ".octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+authority_class_impact:
+  framework: "May propose future framework contract, runtime, validator, governance, and read-model changes after review and accepted implementation packets."
+  instance: "No direct instance governance mutation from this draft architecture packet."
+  state_control: "No state/control mutation. Future implementations must preserve control truth as canonical runtime authority where applicable."
+  state_evidence: "No retained evidence mutation from this packet. Future implementations must retain proof, failure, grant-consumption, and validation receipts outside inputs/**."
+  generated: "No generated projection mutation. Generated outputs remain derived-only and never grant authority."
+  inputs: "This packet and its support material are proposal-local, non-authoritative architecture inputs."
+runtime_behavior_impact: >-
+  None from this draft packet. Any runtime behavior change requires accepted
+  review, implementation authorization, durable edits, validators, conformance
+  evidence, drift/churn review, and promotion receipts outside proposal-local
+  paths.
+generated_input_authority_impact: >-
+  Reinforces that generated projections, read models, proposal-local receipts,
+  chat history, tool availability, host UI state, and agent output may support
+  evidence but cannot grant authority.
+evidence_requirements:
+  - "Octon-wide approval/default-authority inventory."
+  - "Domain migration matrix for authority engine, mission/runtime, connectors, run-health/read-models, workflow classification, governance docs, schemas, validators, and lifecycle reference behavior."
+  - "Typed human exception boundary vocabulary and grant-consumption rules."
+  - "Proof-retention and replay-safety acceptance criteria."
+  - "Negative-control test matrix for missing proof, stale evidence, scope mismatch, generated-output authority misuse, unsafe resume, governance mutation, and external irreversible effects."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "source-of-truth map validation"
+  - "approval-default inventory completeness review"
+  - "typed human-boundary vocabulary review"
+  - "generated/read-model non-authority review"
+  - "authorized-effect-token preservation review"
+acceptance_criteria_summary: >-
+  This packet is acceptable when it cleanly defines the Octon-wide delegated
+  governance stance, preserves existing canonical authority strengths, limits
+  human approval to typed exception boundaries, identifies the migration domains
+  and non-goals, and gives future implementation packets concrete acceptance
+  tests without prematurely changing runtime behavior.
+rollback_summary: >-
+  Reject or supersede this packet if it weakens canonical control truth,
+  confuses generated/read-model outputs with authority, over-delegates external
+  irreversible effects, or tries to replace approval infrastructure without a
+  reviewed migration path.
+owner:
+  role: "Octon architecture proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: >-
+  This architecture packet does not implement Octon-wide delegated governance.
+  Existing authority engine, mission/runtime, connector, read-model, workflow,
+  approval, exception, revocation, and effect-token contracts remain canonical
+  until replaced through accepted implementation packets and validated promotion
+  evidence.

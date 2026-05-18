@@ -1,0 +1,147 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "delegated-governance-inventory-and-vocabulary"
+    path: ".octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "inventory"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/constitution/contracts/authority/"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/orchestration/governance/"
+      - ".octon/framework/capabilities/governance/policy/"
+    seed_role: "first-child"
+  - child_id: "delegated-governance-shared-contract-model"
+    path: ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
+    required: true
+    deferred: false
+    dependencies:
+      - "delegated-governance-inventory-and-vocabulary"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "contract"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/constitution/contracts/authority/"
+      - ".octon/framework/constitution/contracts/runtime/"
+      - ".octon/framework/engine/runtime/spec/"
+    seed_role: "follow-on"
+  - child_id: "authority-engine-typed-exception-grants"
+    path: ".octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants"
+    required: true
+    deferred: false
+    dependencies:
+      - "delegated-governance-shared-contract-model"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "authority"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/authority_engine/"
+      - ".octon/framework/constitution/contracts/authority/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    seed_role: "follow-on"
+  - child_id: "mission-runtime-proof-first-posture"
+    path: ".octon/inputs/exploratory/proposals/architecture/mission-runtime-proof-first-posture"
+    required: true
+    deferred: false
+    dependencies:
+      - "delegated-governance-shared-contract-model"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "runtime"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/constitution/contracts/runtime/"
+    seed_role: "follow-on"
+  - child_id: "connector-external-effect-delegation-boundaries"
+    path: ".octon/inputs/exploratory/proposals/architecture/connector-external-effect-delegation-boundaries"
+    required: true
+    deferred: false
+    dependencies:
+      - "delegated-governance-shared-contract-model"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "connector"
+    rollback_posture: "compensating"
+    write_scopes:
+      - ".octon/instance/governance/connectors/"
+      - ".octon/framework/constitution/contracts/adapters/"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+    seed_role: "follow-on"
+  - child_id: "run-health-proof-state-read-models"
+    path: ".octon/inputs/exploratory/proposals/architecture/run-health-proof-state-read-models"
+    required: true
+    deferred: false
+    dependencies:
+      - "delegated-governance-shared-contract-model"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "read-model"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/generated/cognition/projections/materialized/"
+    seed_role: "follow-on"
+  - child_id: "workflow-capability-human-boundary-classification"
+    path: ".octon/inputs/exploratory/proposals/architecture/workflow-capability-human-boundary-classification"
+    required: true
+    deferred: false
+    dependencies:
+      - "delegated-governance-shared-contract-model"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "workflow"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/governance/"
+      - ".octon/framework/capabilities/governance/policy/"
+      - ".octon/framework/engine/runtime/spec/"
+    seed_role: "follow-on"
+  - child_id: "governance-validator-negative-controls"
+    path: ".octon/inputs/exploratory/proposals/architecture/governance-validator-negative-controls"
+    required: true
+    deferred: false
+    dependencies:
+      - "authority-engine-typed-exception-grants"
+      - "mission-runtime-proof-first-posture"
+      - "connector-external-effect-delegation-boundaries"
+      - "run-health-proof-state-read-models"
+      - "workflow-capability-human-boundary-classification"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "validator"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/constitution/contracts/authority/"
+    seed_role: "follow-on"
+  - child_id: "delegated-governance-cutover-closeout"
+    path: ".octon/inputs/exploratory/proposals/architecture/delegated-governance-cutover-closeout"
+    required: true
+    deferred: false
+    dependencies:
+      - "governance-validator-negative-controls"
+    dependency_gate: "closeout"
+    phase_id: "phase-5"
+    group_id: "cutover"
+    rollback_posture: "rollback-route"
+    write_scopes:
+      - ".octon/framework/constitution/contracts/authority/"
+      - ".octon/framework/constitution/contracts/runtime/"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/product/features/lifecycle-autopilot.md"
+    seed_role: "follow-on"

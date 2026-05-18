@@ -1,0 +1,37 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Octon-Wide Delegated Governance Architecture"
+target_state: >-
+  Octon-wide execution uses proof-gated delegated authority by default where
+  machine-checkable contracts, invocation authority, evidence, declared scope,
+  authority-zone allowance, replay safety, retained receipts, and fail-closed
+  behavior establish permission before dispatch.
+boundary_change: >-
+  Approval ceases to be a default execution posture for migrated domains.
+  Human approval artifacts become typed exception grants for non-machine-provable
+  authority boundaries, while consuming an already-bound grant is modeled as
+  delegated execution that still requires retained proof.
+authoritative_targets_after_promotion:
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/engine/runtime/crates/authority_engine/"
+  - ".octon/framework/engine/runtime/crates/kernel/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/orchestration/governance/"
+  - ".octon/framework/capabilities/governance/policy/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"

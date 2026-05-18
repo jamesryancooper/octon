@@ -1,0 +1,56 @@
+schema_version: "proposal-v1"
+proposal_id: "run-health-proof-state-read-models"
+title: "Run Health Proof State Read Models"
+summary: >-
+  Update run-health and read-model vocabulary so projections report proof state
+  and typed human-boundary states without becoming control authority.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/generated/cognition/projections/materialized/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after shared contract evidence and retained read-model
+    validation, conformance, drift/churn, and promotion receipts.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "delegated-governance-shared-contract-model"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for run-health and read-model status vocabulary. It
+  does not refresh generated projections by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
+authority_class_impact:
+  framework: "May propose runtime spec and validator changes for proof-state reporting."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain projection validation evidence."
+  generated: "May update generated projections as derived artifacts only."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Read models and generated projections remain observational."
+evidence_requirements:
+  - "Proof-first read-model status vocabulary."
+  - "Non-authority declaration for projections."
+  - "Negative controls preventing read-model control truth."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "read-model non-authority validation"
+acceptance_criteria_summary: >-
+  Accepted when run-health/read-model states can report proof outcomes without
+  becoming authorization or control truth.
+rollback_summary: "Reject or supersede if a projection can grant dispatch authority."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement read-model changes until promoted."

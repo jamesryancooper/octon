@@ -1,0 +1,58 @@
+schema_version: "proposal-v1"
+proposal_id: "mission-runtime-proof-first-posture"
+title: "Mission Runtime Proof-First Posture"
+summary: >-
+  Normalize mission and runtime posture so autonomous or unattended execution
+  blocks on proof failure or typed human boundary, not generic approval-required
+  semantics.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/kernel/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/constitution/contracts/runtime/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after shared contract evidence and retained validation,
+    conformance, drift/churn, and promotion receipts.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "delegated-governance-shared-contract-model"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for mission/runtime posture. It does not mutate
+  runtime behavior by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
+authority_class_impact:
+  framework: "May propose kernel runtime, runtime contract, and runtime spec changes."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain dispatch proof evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Read models may report proof state but cannot authorize dispatch."
+evidence_requirements:
+  - "Proof-first runtime posture contract."
+  - "Unattended execution proof requirements."
+  - "Fail-closed outcomes for missing, stale, ambiguous, or contradictory proof."
+  - "Negative controls for operator override semantics."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "runtime proof posture validation"
+acceptance_criteria_summary: >-
+  Accepted when mission/runtime dispatch semantics derive from proof and typed
+  human boundaries instead of generic approval-required posture.
+rollback_summary: "Reject or supersede if unattended execution can bypass retained proof."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement runtime posture changes until promoted."

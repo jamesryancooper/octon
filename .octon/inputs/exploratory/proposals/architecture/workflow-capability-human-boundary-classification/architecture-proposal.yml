@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Workflow and capability human-boundary classification"
+decision_type: "boundary-change"
+decision_summary: "Derive workflow and capability human-only classifications from typed non-machine-provable boundaries."

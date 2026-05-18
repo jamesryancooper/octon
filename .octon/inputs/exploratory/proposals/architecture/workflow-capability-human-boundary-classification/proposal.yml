@@ -1,0 +1,58 @@
+schema_version: "proposal-v1"
+proposal_id: "workflow-capability-human-boundary-classification"
+title: "Workflow Capability Human Boundary Classification"
+summary: >-
+  Normalize workflow and capability classifications so human-only and
+  role-mediated outcomes derive from proof boundaries instead of generic route
+  shape or importance.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/orchestration/governance/"
+  - ".octon/framework/capabilities/governance/policy/"
+  - ".octon/framework/engine/runtime/spec/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after shared contract evidence and retained workflow
+    validation, conformance, drift/churn, and promotion receipts.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "delegated-governance-shared-contract-model"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for workflow and capability classification. It does
+  not mutate workflow behavior by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
+authority_class_impact:
+  framework: "May propose workflow/capability governance and runtime spec changes."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain classification evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Generated capability indexes cannot classify authority by themselves."
+evidence_requirements:
+  - "Workflow and capability classification inventory."
+  - "Typed human-only boundary mapping."
+  - "Delegability criteria for role-mediated paths."
+  - "Negative controls for route-shape approval defaults."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "classification negative controls"
+acceptance_criteria_summary: >-
+  Accepted when workflow and capability human-only labels are derived from
+  precise proof boundaries rather than generic importance or route shape.
+rollback_summary: "Reject or supersede if workflow classification restores route-default approval."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement workflow classification changes until promoted."

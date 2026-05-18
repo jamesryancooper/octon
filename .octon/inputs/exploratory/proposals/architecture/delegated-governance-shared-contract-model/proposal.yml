@@ -1,0 +1,57 @@
+schema_version: "proposal-v1"
+proposal_id: "delegated-governance-shared-contract-model"
+title: "Delegated Governance Shared Contract Model"
+summary: >-
+  Define generic proof-first delegation contract semantics for non-lifecycle
+  Octon surfaces without forcing every domain to reuse lifecycle route schema.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/authority/"
+  - ".octon/framework/constitution/contracts/runtime/"
+  - ".octon/framework/engine/runtime/spec/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after inventory evidence is available and child-owned
+    validation, conformance, drift/churn, and promotion receipts are retained.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "delegated-governance-inventory-and-vocabulary"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for shared delegated governance contract semantics.
+  It does not mutate runtime behavior by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary"
+authority_class_impact:
+  framework: "May propose shared contract semantics for proof-gated delegated execution."
+  instance: "No direct instance mutation from this packet."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain contract validation evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Generated outputs and read models may report proof state but cannot grant authority."
+evidence_requirements:
+  - "Inventory child evidence."
+  - "Delegation contract field mapping for non-lifecycle domains."
+  - "Typed human exception boundary vocabulary."
+  - "Grant-consumption semantics."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "contract semantics validation"
+acceptance_criteria_summary: >-
+  Accepted when shared contract semantics can drive domain children without
+  preserving default approval posture.
+rollback_summary: "Reject or supersede if the shared model recreates approval defaults."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement shared contracts until promoted."

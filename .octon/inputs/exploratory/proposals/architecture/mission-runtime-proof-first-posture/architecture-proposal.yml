@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Mission and runtime proof-first posture"
+decision_type: "boundary-change"
+decision_summary: "Replace generic mission/runtime approval-required semantics with proof-first dispatch posture and typed human boundary outcomes."

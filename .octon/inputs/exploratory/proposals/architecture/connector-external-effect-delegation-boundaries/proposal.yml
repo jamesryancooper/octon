@@ -1,0 +1,59 @@
+schema_version: "proposal-v1"
+proposal_id: "connector-external-effect-delegation-boundaries"
+title: "Connector External Effect Delegation Boundaries"
+summary: >-
+  Define connector and external-effect delegation boundaries, preserving human
+  authority for irreversible effects unless token, rollback, compensation, and
+  irreversibility proof are explicit.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/instance/governance/connectors/"
+  - ".octon/framework/constitution/contracts/adapters/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement only after shared contract evidence and retained connector
+    validation, conformance, drift/churn, and promotion receipts.
+related_proposals:
+  - "octon-wide-delegated-governance-migration"
+  - "delegated-governance-shared-contract-model"
+program_parent: "octon-wide-delegated-governance-migration"
+scope_statement: >-
+  Architecture child packet for connector and external-effect boundaries. It
+  does not widen connector permissions by itself.
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture"
+  - ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model"
+authority_class_impact:
+  framework: "May propose adapter contract and runtime spec changes."
+  instance: "May propose connector governance changes after implementation review."
+  state_control: "No state/control mutation from this packet."
+  state_evidence: "Future implementation must retain token and external-effect evidence."
+  generated: "Generated projections remain non-authority."
+  inputs: "This child packet is proposal-local input."
+runtime_behavior_impact: "None from this accepted child packet."
+generated_input_authority_impact: "Generated connector summaries cannot authorize external effects."
+evidence_requirements:
+  - "Authorized effect token proof."
+  - "Rollback or compensation proof."
+  - "External irreversibility classification."
+  - "Connector scope and egress proof."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "external-effect negative controls"
+acceptance_criteria_summary: >-
+  Accepted when connector effects are delegable only with explicit token,
+  rollback or compensation, scope, egress, and irreversibility proof.
+rollback_summary: "Reject or supersede if irreversible external effects become routine delegated execution without proof."
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-18"
+explicit_runtime_non_implementation_statement: "This child packet does not implement connector behavior until promoted."

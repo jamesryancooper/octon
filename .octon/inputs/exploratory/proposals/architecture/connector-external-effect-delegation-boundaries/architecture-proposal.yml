@@ -1,0 +1,4 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "Connector and external-effect delegation boundaries"
+decision_type: "boundary-change"
+decision_summary: "Define proof gates for connector and external irreversible effects under the delegated governance stance."
