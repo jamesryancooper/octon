@@ -274,6 +274,28 @@ skills:
         description: "Stable program finding id."
     requires:
       context: []
+  octon-proposal-lifecycle-cleanup-lifecycle-residue:
+    version: "1.0.0"
+    commands: ["/octon-proposal-cleanup-lifecycle-residue"]
+    parameters:
+      - name: program_packet_path
+        type: text
+        required: true
+        description: "Parent proposal program packet path."
+      - name: run_id
+        type: text
+        required: false
+        description: "Optional lifecycle run id that produced the residue."
+      - name: blocked_child_id
+        type: text
+        required: false
+        description: "Optional child id whose closeout/archive preflight was blocked."
+      - name: blocked_route_id
+        type: text
+        required: false
+        description: "Optional child route id blocked by worktree hygiene."
+    requires:
+      context: []
   octon-proposal-lifecycle-run-program-verification-and-correction-loop:
     version: "1.0.0"
     commands: ["/octon-proposal-run-program-verification-and-correction-loop"]

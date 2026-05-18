@@ -133,6 +133,21 @@ fn execute_mock_proposal_route(request: &LifecycleRouteExecutionRequest) -> Resu
 fn execute_mock_program_route(request: &LifecycleRouteExecutionRequest) -> Result<()> {
     match request.route.route_id.as_str() {
         "promote-proposal" => set_manifest_status(request, "implemented"),
+        "cleanup-lifecycle-residue" => {
+            let cleaned_at = now_rfc3339();
+            write_receipt(
+                request.target.join("support/lifecycle-residue-cleanup.md"),
+                &[
+                    ("verdict", "blocked"),
+                    ("cleaned_at", cleaned_at.as_str()),
+                    ("cleanup_candidates", "0"),
+                    ("manual_review_count", "1"),
+                    ("worktree_hygiene_verdict", "blocked"),
+                    ("remaining_blocker_class", "artifact-ownership-unclear"),
+                    ("residue_fingerprint", "mock"),
+                ],
+            )
+        }
         _ => Ok(()),
     }
 }

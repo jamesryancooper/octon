@@ -43,6 +43,7 @@ const OPERATION_CLASS_EXECUTE_CHILD_ROUTE: &str = "execute-child-route";
 const OPERATION_CLASS_PROGRAM_RECOVERY_ACTION: &str = "program-recovery-action";
 const OPERATION_CLASS_CLOSEOUT_READINESS: &str = "closeout-readiness";
 const ROUTE_ID_PROMOTE_PROPOSAL: &str = "promote-proposal";
+const ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE: &str = "cleanup-lifecycle-residue";
 const RECEIPT_ID_PROPOSAL_REVIEW: &str = "proposal-review";
 const RECEIPT_ID_PROGRAM_IMPLEMENTATION_PROMPT: &str = "program-implementation-prompt";
 const RECEIPT_ID_IMPLEMENTATION_RUN: &str = "implementation-run";
@@ -56,6 +57,8 @@ const BLOCKER_AUTHORITY_ZONE_DENIED: &str = "authority-zone-denied";
 const BLOCKER_AUTHORITY_ZONE_AMBIGUOUS: &str = "authority-zone-ambiguous";
 const BLOCKER_DURABLE_AUTHORITY_APPROVAL_REQUIRED: &str = "scope-expansion";
 const BLOCKER_PROTECTED_ARTIFACT_APPROVAL_REQUIRED: &str = "scope-expansion";
+const BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED: &str = "lifecycle-residue-cleanup-needed";
+const UNKNOWN_RESIDUE_FINGERPRINT: &str = "unknown";
 
 fn default_orchestrated_replan_loop_execution_strategy() -> String {
     LifecycleExecutionStrategy::OrchestratedReplanLoop
@@ -228,6 +231,9 @@ pub(crate) struct ProgramLifecyclePlanResult {
     #[serde(default)]
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub required_child_completion: BTreeMap<String, ProgramRequiredChildCompletion>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub closeout_hygiene_suppressions: BTreeMap<String, ProgramCloseoutHygieneSuppression>,
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub safe_repair_candidates: Vec<ProgramSafeRepairCandidate>,
@@ -693,6 +699,9 @@ pub(crate) struct ProgramChildExecutionSummary {
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub evidence_paths: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub worktree_hygiene_foreign_fingerprint: Option<String>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
@@ -709,6 +718,32 @@ struct ProgramRecoveryProgressFingerprint {
     receipt_digests: BTreeMap<String, String>,
     #[serde(default)]
     selected_route_id: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+pub(crate) struct ProgramCloseoutHygieneSuppression {
+    child_id: String,
+    route_id: String,
+    blocker_class: String,
+    message: String,
+    #[serde(default)]
+    evidence_paths: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    worktree_hygiene_foreign_fingerprint: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+struct ProgramResidueCleanupAttempt {
+    child_id: String,
+    route_id: String,
+    blocker_class: String,
+    residue_fingerprint: String,
+    cleanup_route_id: String,
+    status: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    evidence_paths: Vec<String>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
@@ -741,6 +776,10 @@ struct ProgramLifecycleCheckpoint {
     program_recovery_action_attempts: BTreeMap<String, u32>,
     #[serde(default)]
     recovery_progress_fingerprints: BTreeMap<String, ProgramRecoveryProgressFingerprint>,
+    #[serde(default)]
+    closeout_hygiene_suppressions: BTreeMap<String, ProgramCloseoutHygieneSuppression>,
+    #[serde(default)]
+    residue_cleanup_attempts: BTreeMap<String, ProgramResidueCleanupAttempt>,
     #[serde(default)]
     approvals: Vec<ProgramApprovalGrant>,
     #[serde(default)]
@@ -1317,6 +1356,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             scheduler_phase: None,
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
             program_recovery_recipe_validation_failures: Vec::new(),
@@ -1376,6 +1416,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 scheduler_phase: None,
                 skipped_blocked_children: Vec::new(),
                 required_child_completion: BTreeMap::new(),
+                closeout_hygiene_suppressions: BTreeMap::new(),
                 safe_repair_candidates: Vec::new(),
                 program_recovery_recipe_validation_status: None,
                 program_recovery_recipe_validation_failures: Vec::new(),
@@ -1435,6 +1476,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             scheduler_phase: None,
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
             program_recovery_recipe_validation_failures: Vec::new(),
@@ -1610,6 +1652,16 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
 
     apply_checkpoint_child_drift(&repo_root, &mut child_states, checkpoint);
     apply_dependency_blockers(&mut child_states);
+    let closeout_hygiene_suppressions =
+        apply_closeout_hygiene_suppressions(&repo_root, checkpoint, &mut child_states)?;
+    apply_lifecycle_residue_cleanup_blocker(
+        &context.loaded.contract,
+        program,
+        &closeout_hygiene_suppressions,
+        checkpoint,
+        invocation_authority,
+        &mut program_blockers,
+    );
     if !program
         .supported_execution_modes
         .iter()
@@ -1815,6 +1867,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         scheduler_phase,
         skipped_blocked_children,
         required_child_completion,
+        closeout_hygiene_suppressions,
         safe_repair_candidates,
         program_recovery_recipe_validation_status: program_recovery_recipe_validation.status,
         program_recovery_recipe_validation_failures: program_recovery_recipe_validation.failures,
@@ -2067,6 +2120,9 @@ fn run_program_lifecycle_single_step(
         .map(|checkpoint| checkpoint.program_recovery_action_attempts.clone())
         .unwrap_or_default();
     let mut program_recovery_action_attempted = false;
+    let mut residue_cleanup_attempts = previous_checkpoint
+        .map(|checkpoint| checkpoint.residue_cleanup_attempts.clone())
+        .unwrap_or_default();
     if plan.program_route.is_none() {
         if let Some(child_id) = options.program_child_filter.as_ref() {
             filter_plan_to_child(&mut plan, child_id)?;
@@ -2105,6 +2161,7 @@ fn run_program_lifecycle_single_step(
         terminal_outcome.clone(),
         previous_checkpoint,
         options,
+        Some(&residue_cleanup_attempts),
     )?;
     let cancelled_before_dispatch =
         options.execute_routes && lifecycle_cancellation_token_path(control_root).exists();
@@ -2155,6 +2212,11 @@ fn run_program_lifecycle_single_step(
                 step_context,
             )?;
             if let Some(result) = parent_route_result.as_ref() {
+                record_residue_cleanup_attempts_for_parent_route(
+                    &mut residue_cleanup_attempts,
+                    &before_parent_plan,
+                    result,
+                );
                 let mut parent_repair_validation =
                     ProgramRecoveryPostAttemptValidationOutcome::route_not_completed(
                         &result.status,
@@ -2163,7 +2225,10 @@ fn run_program_lifecycle_single_step(
                     );
                 if matches!(result.status.as_str(), "completed" | "no-op") {
                     let replan_checkpoint =
-                        checkpoint_for_post_execution_replan(previous_checkpoint);
+                        checkpoint_for_post_execution_replan_with_residue_attempts(
+                            previous_checkpoint,
+                            &residue_cleanup_attempts,
+                        );
                     plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                         octon_dir,
                         &options.lifecycle_id,
@@ -2186,30 +2251,20 @@ fn run_program_lifecycle_single_step(
                                 true,
                             );
                     } else {
-                        parent_repair_validation =
-                            ProgramRecoveryPostAttemptValidationOutcome {
-                                status: "failed".to_string(),
-                                failures: vec![
-                                    "program repair route completed but blocker class or program contract was unavailable"
-                                        .to_string(),
-                                ],
-                                declared: Vec::new(),
-                                results: Vec::new(),
-                                execution_can_resume: false,
-                                resume_decision_basis:
-                                    "missing program repair validation context".to_string(),
-                                final_blocker_class: parent_repair_blocker_class.clone(),
-                            };
-                    }
-                    if parent_repair_validation.execution_can_resume {
                         final_verdict = plan.final_verdict.clone();
                         terminal_outcome = plan.terminal_outcome.clone();
-                    } else if plan_has_safe_continuation_after_unsafe(&plan) {
-                        final_verdict = "blocked-recoverable".to_string();
-                        terminal_outcome = None;
-                    } else {
-                        final_verdict = "blocked-unsafe".to_string();
-                        terminal_outcome = None;
+                    }
+                    if parent_repair_blocker_class.is_some() {
+                        if parent_repair_validation.execution_can_resume {
+                            final_verdict = plan.final_verdict.clone();
+                            terminal_outcome = plan.terminal_outcome.clone();
+                        } else if plan_has_safe_continuation_after_unsafe(&plan) {
+                            final_verdict = "blocked-recoverable".to_string();
+                            terminal_outcome = None;
+                        } else {
+                            final_verdict = "blocked-unsafe".to_string();
+                            terminal_outcome = None;
+                        }
                     }
                 } else {
                     final_verdict = final_verdict_for_parent_route_status(&result.status);
@@ -2219,11 +2274,13 @@ fn run_program_lifecycle_single_step(
                         None
                     };
                 }
-                finalize_parent_unsafe_repair_evidence(
-                    evidence_root,
-                    result,
-                    &parent_repair_validation,
-                )?;
+                if parent_repair_blocker_class.is_some() {
+                    finalize_parent_unsafe_repair_evidence(
+                        evidence_root,
+                        result,
+                        &parent_repair_validation,
+                    )?;
+                }
             }
         } else {
             final_verdict = "route-ready".to_string();
@@ -2503,6 +2560,7 @@ fn run_program_lifecycle_single_step(
         terminal_outcome.clone(),
         previous_checkpoint,
         options,
+        Some(&residue_cleanup_attempts),
     )?;
     let checkpoint_path = program_checkpoint_path_for_run(octon_dir, sanitized_run_id)?;
     fs::write(
@@ -5712,6 +5770,220 @@ fn apply_dependency_blockers(child_states: &mut BTreeMap<String, ProgramChildPla
     }
 }
 
+fn apply_closeout_hygiene_suppressions(
+    repo_root: &Path,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    child_states: &mut BTreeMap<String, ProgramChildPlanState>,
+) -> Result<BTreeMap<String, ProgramCloseoutHygieneSuppression>> {
+    let mut active = BTreeMap::new();
+    let Some(checkpoint) = checkpoint else {
+        return Ok(active);
+    };
+    for suppression in checkpoint.closeout_hygiene_suppressions.values() {
+        if !route_has_closeout_hygiene_preflight(&suppression.route_id) {
+            continue;
+        }
+        let Some(state) = child_states.get_mut(&suppression.child_id) else {
+            continue;
+        };
+        if state.terminal_outcome.is_some() {
+            continue;
+        }
+        let selected_route_matches = state
+            .selected_route
+            .as_ref()
+            .map(|route| route.route_id.as_str())
+            == Some(suppression.route_id.as_str());
+        if !selected_route_matches {
+            continue;
+        }
+        let Some(current) =
+            closeout_worktree_hygiene_classifier(repo_root, &state.target, &checkpoint.run_id)?
+        else {
+            continue;
+        };
+        if current.decision.status == "pass" {
+            continue;
+        }
+        if current.decision.blocker_class != suppression.blocker_class {
+            continue;
+        }
+        if residue_cleanup_fingerprint(current.decision.foreign_fingerprint.as_deref())
+            != residue_cleanup_fingerprint(
+                suppression.worktree_hygiene_foreign_fingerprint.as_deref(),
+            )
+        {
+            continue;
+        }
+        let blocker = ProgramBlocker {
+            blocker_class: suppression.blocker_class.clone(),
+            message: suppression.message.clone(),
+            recovery_route: None,
+        };
+        if !state.blockers.iter().any(|existing| {
+            existing.blocker_class == blocker.blocker_class && existing.message == blocker.message
+        }) {
+            state.blockers.push(blocker);
+        }
+        active.insert(
+            closeout_hygiene_suppression_key(&suppression.child_id, &suppression.route_id),
+            suppression.clone(),
+        );
+    }
+    Ok(active)
+}
+
+fn apply_lifecycle_residue_cleanup_blocker(
+    contract: &LifecycleContract,
+    program: &ProgramSpec,
+    closeout_hygiene_suppressions: &BTreeMap<String, ProgramCloseoutHygieneSuppression>,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    invocation_authority: &str,
+    program_blockers: &mut Vec<ProgramBlocker>,
+) {
+    if !lifecycle_residue_cleanup_authorized(invocation_authority)
+        || closeout_hygiene_suppressions.is_empty()
+        || route_by_id(contract, ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE).is_none()
+    {
+        return;
+    }
+    let Some(recipe) =
+        recovery_recipe_for_blocker(program, BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED)
+    else {
+        return;
+    };
+    if validate_recovery_recipe_metadata(recipe, BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED, false)
+        .is_err()
+    {
+        return;
+    }
+    for suppression in closeout_hygiene_suppressions.values() {
+        if suppression.blocker_class != "artifact-ownership-unclear" {
+            continue;
+        }
+        if residue_cleanup_attempt_recorded(checkpoint, suppression) {
+            continue;
+        }
+        let fingerprint = residue_cleanup_fingerprint(
+            suppression.worktree_hygiene_foreign_fingerprint.as_deref(),
+        );
+        if program_blockers.iter().any(|blocker| {
+            blocker.blocker_class == BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED
+                && blocker
+                    .message
+                    .contains(&format!("residue_fingerprint={fingerprint}"))
+        }) {
+            continue;
+        }
+        program_blockers.push(ProgramBlocker {
+            blocker_class: BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED.to_string(),
+            message: format!(
+                "child {} route {} is blocked by lifecycle residue; residue_fingerprint={fingerprint}; cleanup-lifecycle-residue may classify and close out safe residue without bypassing ownership gates",
+                suppression.child_id, suppression.route_id
+            ),
+            recovery_route: Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE.to_string()),
+        });
+        break;
+    }
+}
+
+fn lifecycle_residue_cleanup_authorized(invocation_authority: &str) -> bool {
+    matches!(invocation_authority, "unattended" | "grant-consumption")
+}
+
+fn residue_cleanup_fingerprint(fingerprint: Option<&str>) -> String {
+    fingerprint
+        .map(str::trim)
+        .filter(|value| !value.is_empty())
+        .unwrap_or(UNKNOWN_RESIDUE_FINGERPRINT)
+        .to_string()
+}
+
+fn residue_cleanup_attempt_key(
+    child_id: &str,
+    route_id: &str,
+    blocker_class: &str,
+    fingerprint: Option<&str>,
+) -> String {
+    format!(
+        "{child_id}:{route_id}:{blocker_class}:{}",
+        residue_cleanup_fingerprint(fingerprint)
+    )
+}
+
+fn residue_cleanup_attempt_recorded(
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    suppression: &ProgramCloseoutHygieneSuppression,
+) -> bool {
+    let Some(checkpoint) = checkpoint else {
+        return false;
+    };
+    checkpoint
+        .residue_cleanup_attempts
+        .contains_key(&residue_cleanup_attempt_key(
+            &suppression.child_id,
+            &suppression.route_id,
+            &suppression.blocker_class,
+            suppression.worktree_hygiene_foreign_fingerprint.as_deref(),
+        ))
+}
+
+fn record_residue_cleanup_attempts_for_parent_route(
+    attempts: &mut BTreeMap<String, ProgramResidueCleanupAttempt>,
+    plan: &ProgramLifecyclePlanResult,
+    result: &LifecycleRouteExecutionResult,
+) {
+    if plan
+        .program_route
+        .as_ref()
+        .map(|route| route.route_id.as_str())
+        != Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        || result.route_id != ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE
+    {
+        return;
+    }
+    for suppression in plan.closeout_hygiene_suppressions.values() {
+        if suppression.blocker_class != "artifact-ownership-unclear" {
+            continue;
+        }
+        let fingerprint = residue_cleanup_fingerprint(
+            suppression.worktree_hygiene_foreign_fingerprint.as_deref(),
+        );
+        let key = residue_cleanup_attempt_key(
+            &suppression.child_id,
+            &suppression.route_id,
+            &suppression.blocker_class,
+            Some(&fingerprint),
+        );
+        attempts.insert(
+            key,
+            ProgramResidueCleanupAttempt {
+                child_id: suppression.child_id.clone(),
+                route_id: suppression.route_id.clone(),
+                blocker_class: suppression.blocker_class.clone(),
+                residue_fingerprint: fingerprint,
+                cleanup_route_id: ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE.to_string(),
+                status: result.status.clone(),
+                evidence_paths: result
+                    .evidence_paths
+                    .iter()
+                    .map(|path| path.to_string_lossy().to_string())
+                    .collect(),
+            },
+        );
+    }
+}
+
+fn checkpoint_for_post_execution_replan_with_residue_attempts(
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    residue_cleanup_attempts: &BTreeMap<String, ProgramResidueCleanupAttempt>,
+) -> Option<ProgramLifecycleCheckpoint> {
+    checkpoint_for_post_execution_replan(checkpoint).map(|mut checkpoint| {
+        checkpoint.residue_cleanup_attempts = residue_cleanup_attempts.clone();
+        checkpoint
+    })
+}
+
 fn dependency_gate_satisfied(
     status: Option<&ProgramChildGateStatus>,
     required_gate: &str,
@@ -7280,6 +7552,11 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
             ProgramNormalizedCategory::Human,
             "artifact ownership or criticality is unclear and must not be guessed",
         ),
+        BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED => (
+            BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED,
+            ProgramNormalizedCategory::Recoverable,
+            "dedicated cleanup route may classify safe residue while preserving ambiguous or foreign artifacts",
+        ),
         "executor-timed-out" => (
             "executor-timed-out",
             ProgramNormalizedCategory::Recoverable,
@@ -8338,6 +8615,7 @@ fn build_child_execution_jobs(
                     ),
                     error_class: None,
                     evidence_paths: Vec::new(),
+                    worktree_hygiene_foreign_fingerprint: None,
                 });
                 continue;
             };
@@ -8468,6 +8746,7 @@ fn build_child_execution_jobs(
                     )),
                     error_class: Some("authority-zone".to_string()),
                     evidence_paths: vec![authority_decision_path],
+                    worktree_hygiene_foreign_fingerprint: None,
                 });
                 continue;
             }
@@ -8634,33 +8913,19 @@ fn closeout_worktree_hygiene_preflight(
     state: &ProgramChildPlanState,
     route_id: &str,
 ) -> Result<Option<ProgramChildExecutionSummary>> {
-    if !matches!(route_id, "closeout-packet" | "archive-proposal") {
+    if !route_has_closeout_hygiene_preflight(route_id) {
         return Ok(None);
     }
     let stdout_path = child_evidence_root.join("worktree-hygiene-preflight.stdout.yml");
     let stderr_path = child_evidence_root.join("worktree-hygiene-preflight.stderr.log");
-    let script =
-        ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh";
-    if !repo_root.join(script).is_file() {
+    let Some(classifier) =
+        closeout_worktree_hygiene_classifier(repo_root, &state.target, program_run_id)?
+    else {
         return Ok(None);
-    }
-    let output = Command::new("bash")
-        .arg(script)
-        .arg("--target")
-        .arg(&state.target)
-        .arg("--lifecycle")
-        .arg("proposal-packet")
-        .arg("--run-id")
-        .arg(program_run_id)
-        .arg("--format")
-        .arg("yaml")
-        .current_dir(repo_root)
-        .env("OCTON_ROOT_DIR", repo_root)
-        .output()?;
-    fs::write(&stdout_path, &output.stdout)?;
-    fs::write(&stderr_path, &output.stderr)?;
-    let stdout = String::from_utf8_lossy(&output.stdout);
-    let decision = classify_worktree_hygiene_preflight(output.status.success(), &stdout);
+    };
+    fs::write(&stdout_path, &classifier.stdout)?;
+    fs::write(&stderr_path, &classifier.stderr)?;
+    let decision = classifier.decision;
     let status = decision.status;
     let stdout_rel = rel_display(repo_root, &stdout_path);
     let stderr_rel = rel_display(repo_root, &stderr_path);
@@ -8692,13 +8957,62 @@ fn closeout_worktree_hygiene_preflight(
         error_message: Some(decision.message),
         error_class: None,
         evidence_paths: vec![stdout_rel, stderr_rel],
+        worktree_hygiene_foreign_fingerprint: decision.foreign_fingerprint,
     }))
 }
 
+fn route_has_closeout_hygiene_preflight(route_id: &str) -> bool {
+    matches!(route_id, "closeout-packet" | "archive-proposal")
+}
+
+fn closeout_hygiene_suppression_key(child_id: &str, route_id: &str) -> String {
+    format!("{child_id}:{route_id}")
+}
+
+struct WorktreeHygieneClassifierRun {
+    stdout: Vec<u8>,
+    stderr: Vec<u8>,
+    decision: WorktreeHygienePreflightDecision,
+}
+
+fn closeout_worktree_hygiene_classifier(
+    repo_root: &Path,
+    target: &str,
+    program_run_id: &str,
+) -> Result<Option<WorktreeHygieneClassifierRun>> {
+    let script =
+        ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh";
+    if !repo_root.join(script).is_file() {
+        return Ok(None);
+    }
+    let output = Command::new("bash")
+        .arg(script)
+        .arg("--target")
+        .arg(target)
+        .arg("--lifecycle")
+        .arg("proposal-packet")
+        .arg("--run-id")
+        .arg(program_run_id)
+        .arg("--format")
+        .arg("yaml")
+        .current_dir(repo_root)
+        .env("OCTON_ROOT_DIR", repo_root)
+        .output()?;
+    let stdout_text = String::from_utf8_lossy(&output.stdout);
+    let decision = classify_worktree_hygiene_preflight(output.status.success(), &stdout_text);
+    Ok(Some(WorktreeHygieneClassifierRun {
+        stdout: output.stdout,
+        stderr: output.stderr,
+        decision,
+    }))
+}
+
+#[derive(Clone, Debug)]
 struct WorktreeHygienePreflightDecision {
     status: &'static str,
     blocker_class: String,
     message: String,
+    foreign_fingerprint: Option<String>,
 }
 
 #[derive(Default, Deserialize)]
@@ -8709,6 +9023,8 @@ struct WorktreeHygieneClassifierOutput {
     worktree_hygiene_blocker_class: Option<String>,
     #[serde(default)]
     worktree_hygiene_foreign_path_count: Option<u64>,
+    #[serde(default)]
+    worktree_hygiene_foreign_fingerprint: Option<String>,
 }
 
 fn classify_worktree_hygiene_preflight(
@@ -8727,6 +9043,9 @@ fn classify_worktree_hygiene_preflight(
     let foreign_count = parsed
         .as_ref()
         .and_then(|value| value.worktree_hygiene_foreign_path_count);
+    let foreign_fingerprint = parsed
+        .as_ref()
+        .and_then(|value| value.worktree_hygiene_foreign_fingerprint.clone());
 
     let noncritical_current_run_residue = matches!(
         blocker_class,
@@ -8741,6 +9060,7 @@ fn classify_worktree_hygiene_preflight(
             status: "pass",
             blocker_class: String::new(),
             message: "closeout/archive worktree hygiene is passable".to_string(),
+            foreign_fingerprint,
         };
     }
 
@@ -8748,6 +9068,7 @@ fn classify_worktree_hygiene_preflight(
         status: "blocked",
         blocker_class: "artifact-ownership-unclear".to_string(),
         message: "closeout/archive blocked by foreign or ambiguous worktree hygiene".to_string(),
+        foreign_fingerprint,
     }
 }
 
@@ -10618,6 +10939,7 @@ fn execute_atomic_program(
                 error_message: Some(blocker.reason.clone()),
                 error_class: None,
                 evidence_paths: Vec::new(),
+                worktree_hygiene_foreign_fingerprint: None,
             })
             .collect());
     }
@@ -10653,6 +10975,7 @@ fn execute_atomic_program(
                     ),
                     error_class: None,
                     evidence_paths: Vec::new(),
+                    worktree_hygiene_foreign_fingerprint: None,
                 }
             })
             .collect());
@@ -10688,6 +11011,7 @@ fn execute_atomic_program(
                     error_message: Some(error_message),
                     error_class: None,
                     evidence_paths: Vec::new(),
+                    worktree_hygiene_foreign_fingerprint: None,
                 }]);
             }
         };
@@ -10769,6 +11093,7 @@ fn execute_atomic_program(
                     error_message: Some(error_message),
                     error_class: None,
                     evidence_paths: Vec::new(),
+                    worktree_hygiene_foreign_fingerprint: None,
                 });
                 return Ok(summaries);
             }
@@ -10867,6 +11192,7 @@ fn execute_atomic_program(
                     error_message: Some(error_message),
                     error_class: None,
                     evidence_paths: Vec::new(),
+                    worktree_hygiene_foreign_fingerprint: None,
                 });
                 return Ok(summaries);
             }
@@ -10909,6 +11235,7 @@ fn execute_atomic_program(
                     ),
                     error_class: None,
                     evidence_paths: Vec::new(),
+                    worktree_hygiene_foreign_fingerprint: None,
                 });
             } else {
                 summaries.extend(compensation);
@@ -11024,6 +11351,7 @@ fn execute_atomic_route_phase(
             )),
             error_class: Some("authority-zone".to_string()),
             evidence_paths: vec![authority_decision_path],
+            worktree_hygiene_foreign_fingerprint: None,
         });
     }
     if invocation_authority == "grant-consumption" {
@@ -11101,6 +11429,7 @@ fn execute_atomic_route_phase(
             .iter()
             .map(|path| rel_path_string(path))
             .collect(),
+        worktree_hygiene_foreign_fingerprint: None,
     })
 }
 
@@ -11143,6 +11472,7 @@ fn rollback_atomic_children(
                 error_message: Some("missing rollback or compensation route".to_string()),
                 error_class: None,
                 evidence_paths: Vec::new(),
+                worktree_hygiene_foreign_fingerprint: None,
             });
             continue;
         };
@@ -11429,6 +11759,7 @@ fn execute_child_job(
                         error_message: Some(error_message),
                         error_class: Some(error.class.as_str().to_string()),
                         evidence_paths,
+                        worktree_hygiene_foreign_fingerprint: None,
                     },
                     lock_path: job.lock_path,
                 });
@@ -11467,6 +11798,7 @@ fn execute_child_job(
                 .iter()
                 .map(|path| rel_path_string(path))
                 .collect(),
+            worktree_hygiene_foreign_fingerprint: None,
         },
         lock_path: job.lock_path,
     })
@@ -11725,6 +12057,7 @@ fn finalize_parent_unsafe_repair_evidence(
             .iter()
             .map(|path| rel_path_string(path))
             .collect(),
+        worktree_hygiene_foreign_fingerprint: None,
     };
     finalize_unsafe_repair_evidence_with_outcome(
         &evidence_root.join("parent"),
@@ -12237,6 +12570,7 @@ fn checkpoint_from_plan(
     mut previous_recovery_attempts: BTreeMap<String, u32>,
     previous_program_recovery_action_attempts: BTreeMap<String, u32>,
     mut previous_progress_fingerprints: BTreeMap<String, ProgramRecoveryProgressFingerprint>,
+    mut closeout_hygiene_suppressions: BTreeMap<String, ProgramCloseoutHygieneSuppression>,
     approvals: Vec<ProgramApprovalGrant>,
 ) -> ProgramLifecycleCheckpoint {
     let child_states = plan
@@ -12271,12 +12605,39 @@ fn checkpoint_from_plan(
         *previous_recovery_attempts
             .entry(result.child_id.clone())
             .or_default() += result.attempts;
-        if let Some(state) = plan.child_states.get(&result.child_id) {
-            let blocker_class = result.blocker_class.as_deref().unwrap_or("route");
-            previous_progress_fingerprints.insert(
-                recovery_progress_key(&result.child_id, &result.route_id, blocker_class),
-                child_progress_fingerprint(state, &result.route_id, blocker_class),
-            );
+        if result.attempts > 0 {
+            if let Some(state) = plan.child_states.get(&result.child_id) {
+                let blocker_class = result.blocker_class.as_deref().unwrap_or("route");
+                previous_progress_fingerprints.insert(
+                    recovery_progress_key(&result.child_id, &result.route_id, blocker_class),
+                    child_progress_fingerprint(state, &result.route_id, blocker_class),
+                );
+            }
+        }
+        if route_has_closeout_hygiene_preflight(&result.route_id) {
+            let key = closeout_hygiene_suppression_key(&result.child_id, &result.route_id);
+            if result.status == "blocked"
+                && result.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+            {
+                closeout_hygiene_suppressions.insert(
+                    key,
+                    ProgramCloseoutHygieneSuppression {
+                        child_id: result.child_id.clone(),
+                        route_id: result.route_id.clone(),
+                        blocker_class: "artifact-ownership-unclear".to_string(),
+                        message: result.error_message.clone().unwrap_or_else(|| {
+                            "closeout/archive blocked by foreign or ambiguous worktree hygiene"
+                                .to_string()
+                        }),
+                        evidence_paths: result.evidence_paths.clone(),
+                        worktree_hygiene_foreign_fingerprint: result
+                            .worktree_hygiene_foreign_fingerprint
+                            .clone(),
+                    },
+                );
+            } else {
+                closeout_hygiene_suppressions.remove(&key);
+            }
         }
     }
 
@@ -12298,6 +12659,8 @@ fn checkpoint_from_plan(
         recovery_attempts: previous_recovery_attempts,
         program_recovery_action_attempts: previous_program_recovery_action_attempts,
         recovery_progress_fingerprints: previous_progress_fingerprints,
+        closeout_hygiene_suppressions,
+        residue_cleanup_attempts: BTreeMap::new(),
         approvals,
         program_recovery_recipe_validation_status: plan
             .program_recovery_recipe_validation_status
@@ -12348,6 +12711,7 @@ fn write_program_checkpoint_snapshot(
     terminal_outcome: Option<String>,
     previous_checkpoint: Option<&ProgramLifecycleCheckpoint>,
     options: &RunLifecycleOptions,
+    residue_cleanup_attempts: Option<&BTreeMap<String, ProgramResidueCleanupAttempt>>,
 ) -> Result<ProgramLifecycleCheckpoint> {
     let mut checkpoint = checkpoint_from_plan(
         run_id,
@@ -12370,10 +12734,17 @@ fn write_program_checkpoint_snapshot(
         previous_checkpoint
             .map(|checkpoint| checkpoint.recovery_progress_fingerprints.clone())
             .unwrap_or_default(),
+        plan.closeout_hygiene_suppressions.clone(),
         previous_checkpoint
             .map(|checkpoint| checkpoint.approvals.clone())
             .unwrap_or_default(),
     );
+    checkpoint.residue_cleanup_attempts = residue_cleanup_attempts
+        .cloned()
+        .or_else(|| {
+            previous_checkpoint.map(|checkpoint| checkpoint.residue_cleanup_attempts.clone())
+        })
+        .unwrap_or_default();
     checkpoint.timeout_seconds = options.timeout_seconds;
     checkpoint.max_child_concurrency = options.max_child_concurrency;
     if final_verdict == "cancelled" {
@@ -14180,6 +14551,7 @@ mod tests {
             scheduler_phase: Some("default".to_string()),
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
             program_recovery_recipe_validation_failures: Vec::new(),
@@ -14303,6 +14675,7 @@ mod tests {
             0,
             BTreeMap::new(),
             used_actions,
+            BTreeMap::new(),
             BTreeMap::new(),
             Vec::new(),
         );
@@ -14659,6 +15032,7 @@ mod tests {
             ),
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
 
         assert!(child_results_have_publication_post_validation_failure(
@@ -15989,6 +16363,89 @@ routes:
             );
         }
 
+        fn write_program_contract_with_residue_cleanup_route(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+    handlers:
+      lifecycle-residue-cleanup-needed:
+        recovery_route_id: "cleanup-lifecycle-residue"
+        max_attempts: 1
+        replan_after_attempt: true
+        human_required: false
+    recipes:
+      - blocker_class: "lifecycle-residue-cleanup-needed"
+        recovery_route_id: "cleanup-lifecycle-residue"
+        idempotency_class: "idempotent-rerun"
+        human_required: false
+        retry_budget: 1
+        dependent_handling: "continue-independent"
+        post_attempt_validation: ["replan-live-state"]
+        replan_behavior: "after-attempt"
+        allowed_authority_zones: ["workspace-declared", "octon-run-bound", "current-run-agent-artifact"]
+        allowed_artifact_classes: ["workspace-source", "run-control", "run-evidence", "current-run-generated"]
+        operation_class: "program-recovery-action"
+        requires_zone_evidence: true
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+states: [{ state_id: "coordinate" }]
+receipts:
+  - receipt_id: "lifecycle-residue-cleanup"
+    path: "support/lifecycle-residue-cleanup.md"
+    required_fields: ["verdict", "cleaned_at", "cleanup_candidates", "manual_review_count", "worktree_hygiene_verdict", "remaining_blocker_class", "residue_fingerprint"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "generate-program-implementation-prompt"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["program-implementation-prompt"]
+      replay_class: "idempotent"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+  - route_id: "cleanup-lifecycle-residue"
+    route_type: "extension"
+    command_id: "octon-proposal-cleanup-lifecycle-residue"
+    skill_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
+    prompt_set_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared", "octon-run-bound", "current-run-agent-artifact"]
+      declared_write_scope_source: "route-completion-and-target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["lifecycle-residue-cleanup"]
+      replay_class: "idempotent-rerun"
+      automated_recovery_policy: "bounded-retry"
+      human_only_boundaries: ["scope-expansion", "policy-override", "unresolved-risk-acceptance", "authority-ambiguity"]
+    completion:
+      expected_receipts: ["lifecycle-residue-cleanup"]
+      expected_paths: ["support/lifecycle-residue-cleanup.md"]
+      replan_required: true
+"#,
+            );
+        }
+
         fn write_program_contract_with_publication_recovery_action(&self) {
             self.write(
                 ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
@@ -16088,10 +16545,50 @@ printf 'support envelope refreshed\n'
 
         fn write_worktree_hygiene_classifier(&self, pass: bool) {
             let verdict = if pass { "pass" } else { "blocked" };
+            let foreign_path_count = if pass { 0 } else { 1 };
+            let foreign_fingerprint = if pass { "sha256:clean" } else { "sha256:dirty" };
             self.write(
                 ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
                 &format!(
-                    "#!/usr/bin/env bash\nprintf 'worktree_hygiene_verdict: \"{verdict}\"\\n'\n"
+                    "#!/usr/bin/env bash\nprintf 'worktree_hygiene_verdict: \"{verdict}\"\\n'\nprintf 'worktree_hygiene_blocker_class: \"worktree-hygiene-blocked\"\\n'\nprintf 'worktree_hygiene_foreign_path_count: {foreign_path_count}\\n'\nprintf 'worktree_hygiene_foreign_fingerprint: \"{foreign_fingerprint}\"\\n'\n"
+                ),
+            );
+        }
+
+        fn write_worktree_hygiene_classifier_blocking_child(
+            &self,
+            child_id: &str,
+            fingerprint: &str,
+        ) {
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+                &format!(
+                    r#"#!/usr/bin/env bash
+set -euo pipefail
+target=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --target)
+      target="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+if [[ "$target" == *"children/{child_id}"* ]]; then
+  printf 'worktree_hygiene_verdict: "blocked"\n'
+  printf 'worktree_hygiene_blocker_class: "worktree-hygiene-blocked"\n'
+  printf 'worktree_hygiene_foreign_path_count: 1\n'
+  printf 'worktree_hygiene_foreign_fingerprint: "{fingerprint}"\n'
+else
+  printf 'worktree_hygiene_verdict: "pass"\n'
+  printf 'worktree_hygiene_blocker_class: ""\n'
+  printf 'worktree_hygiene_foreign_path_count: 0\n'
+  printf 'worktree_hygiene_foreign_fingerprint: "sha256:clean"\n'
+fi
+"#
                 ),
             );
         }
@@ -18132,6 +18629,7 @@ routes:
             BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
+            BTreeMap::new(),
             Vec::new(),
         );
         checkpoint
@@ -18679,6 +19177,7 @@ routes:
             error_message: Some("unsafe route stopped".to_string()),
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
 
         plan.runnable_batch = vec!["b".to_string()];
@@ -18770,6 +19269,7 @@ routes:
             error_message: Some("post validation failed".to_string()),
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         };
 
         finalize_unsafe_repair_evidence(&evidence_root, &failed_summary).unwrap();
@@ -20878,6 +21378,7 @@ rationale: "prove overwrite guard"
             BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
+            BTreeMap::new(),
             Vec::new(),
         );
 
@@ -20935,6 +21436,7 @@ rationale: "prove overwrite guard"
             &plan.final_verdict,
             None,
             0,
+            BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
@@ -21008,6 +21510,7 @@ rationale: "prove overwrite guard"
             &plan.final_verdict,
             None,
             0,
+            BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
@@ -21134,6 +21637,7 @@ rationale: "prove overwrite guard"
             ),
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
         let checkpoint = checkpoint_from_plan(
             "no-progress-fingerprint",
@@ -21147,6 +21651,7 @@ rationale: "prove overwrite guard"
             "blocked-recoverable",
             None,
             0,
+            BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
             BTreeMap::new(),
@@ -21471,6 +21976,7 @@ rationale: "prove overwrite guard"
             error_message: None,
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
 
         enforce_recovery_post_attempt_validations(
@@ -21549,6 +22055,577 @@ rationale: "prove overwrite guard"
         assert!(events
             .iter()
             .any(|event| event.event_type == "worktree-hygiene-preflight"));
+    }
+
+    #[test]
+    fn closeout_hygiene_suppression_skips_repeat_and_continues_other_child() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-suppression-continues", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_child("b", "framework/b.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+  - child_id: "b"
+    path: "children/b"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-suppression-continues".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(20),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(
+            result
+                .child_results
+                .iter()
+                .filter(|summary| {
+                    summary.child_id == "a"
+                        && summary.route_id == "closeout-packet"
+                        && summary.blocker_class.as_deref() == Some("artifact-ownership-unclear")
+                })
+                .count(),
+            1
+        );
+        assert!(result.child_results.iter().any(|summary| {
+            summary.child_id == "b"
+                && summary.route_id == "archive-proposal"
+                && summary.status == "completed"
+        }));
+        assert!(
+            fs::read_to_string(fixture.root.join("children/b/proposal.yml"))
+                .unwrap()
+                .contains("status: archived")
+        );
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/closeout-hygiene-suppression-continues"),
+        )
+        .unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "worktree-hygiene-preflight"
+                        && event.child_id.as_deref() == Some("a")
+                })
+                .count(),
+            1
+        );
+    }
+
+    #[test]
+    fn closeout_hygiene_suppression_stops_single_child_without_max_steps() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-suppression-single", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-suppression-single".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-human");
+        assert_eq!(
+            result
+                .child_results
+                .iter()
+                .filter(|summary| summary.route_id == "closeout-packet")
+                .count(),
+            1
+        );
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/closeout-hygiene-suppression-single");
+        let events = read_program_events(&control_root).unwrap();
+        assert!(!events
+            .iter()
+            .any(|event| event.event_type == "max-steps-exhausted"));
+        let status =
+            status_program_lifecycle_run(&fixture.octon_dir, "closeout-hygiene-suppression-single")
+                .unwrap();
+        assert!(status.runnable_batch.is_empty());
+        assert!(status
+            .child_blockers
+            .get("a")
+            .unwrap()
+            .iter()
+            .any(|blocker| blocker.blocker_class == "artifact-ownership-unclear"));
+        let explanation = explain_program_lifecycle_blockers(
+            &fixture.octon_dir,
+            "closeout-hygiene-suppression-single",
+        )
+        .unwrap();
+        assert!(explanation
+            .child_blockers
+            .get("a")
+            .unwrap()
+            .iter()
+            .any(|blocker| blocker.blocker_class == "artifact-ownership-unclear"));
+    }
+
+    #[test]
+    fn closeout_hygiene_suppression_invalidates_on_fingerprint_change() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("closeout-hygiene-suppression-fingerprint", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-suppression-fingerprint".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        let first_checkpoint = read_program_checkpoint_for_run(
+            &fixture.octon_dir,
+            "closeout-hygiene-suppression-fingerprint",
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(
+            first_checkpoint
+                .closeout_hygiene_suppressions
+                .get("a:closeout-packet")
+                .and_then(|suppression| suppression
+                    .worktree_hygiene_foreign_fingerprint
+                    .as_deref()),
+            Some("sha256:dirty-a")
+        );
+
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-b");
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("closeout-hygiene-suppression-fingerprint".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/closeout-hygiene-suppression-fingerprint"),
+        )
+        .unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| event.event_type == "worktree-hygiene-preflight")
+                .count(),
+            2
+        );
+        let second_checkpoint = read_program_checkpoint_for_run(
+            &fixture.octon_dir,
+            "closeout-hygiene-suppression-fingerprint",
+        )
+        .unwrap()
+        .unwrap();
+        assert_eq!(
+            second_checkpoint
+                .closeout_hygiene_suppressions
+                .get("a:closeout-packet")
+                .and_then(|suppression| suppression
+                    .worktree_hygiene_foreign_fingerprint
+                    .as_deref()),
+            Some("sha256:dirty-b")
+        );
+    }
+
+    #[test]
+    fn residue_cleanup_route_runs_once_for_suppressed_hygiene_blocker() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-route-once", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("residue-cleanup-route-once".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-human");
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/residue-cleanup-route-once");
+        let events = read_program_events(&control_root).unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "parent-route-started"
+                        && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                })
+                .count(),
+            1
+        );
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "residue-cleanup-route-once")
+                .unwrap()
+                .unwrap();
+        assert!(checkpoint
+            .residue_cleanup_attempts
+            .contains_key("a:closeout-packet:artifact-ownership-unclear:sha256:dirty-a"));
+        assert!(fixture
+            .root
+            .join("parent/support/lifecycle-residue-cleanup.md")
+            .is_file());
+    }
+
+    #[test]
+    fn residue_cleanup_unchanged_fingerprint_is_not_redispatched() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-no-repeat", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        for _ in 0..2 {
+            run_program_lifecycle_from_octon_dir(
+                &fixture.octon_dir,
+                RunLifecycleOptions {
+                    lifecycle_id: "proposal-program".to_string(),
+                    target: PathBuf::from("parent"),
+                    run_id: Some("residue-cleanup-no-repeat".to_string()),
+                    executor: ExecutorKind::Mock,
+                    max_iterations: None,
+                    execute_routes: true,
+                    max_steps: Some(24),
+                    timeout_seconds: None,
+                    max_child_concurrency: None,
+                    invocation_authority: "unattended".to_string(),
+                    run_inputs: BTreeMap::new(),
+                    program_child_filter: None,
+                },
+            )
+            .unwrap();
+        }
+
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/residue-cleanup-no-repeat"),
+        )
+        .unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "parent-route-started"
+                        && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                })
+                .count(),
+            1
+        );
+        let status =
+            status_program_lifecycle_run(&fixture.octon_dir, "residue-cleanup-no-repeat").unwrap();
+        assert!(status
+            .child_blockers
+            .get("a")
+            .unwrap()
+            .iter()
+            .any(|blocker| blocker.blocker_class == "artifact-ownership-unclear"));
+    }
+
+    #[test]
+    fn residue_cleanup_changed_fingerprint_allows_new_attempt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-fingerprint-change", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("residue-cleanup-fingerprint-change".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-b");
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("residue-cleanup-fingerprint-change".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/residue-cleanup-fingerprint-change"),
+        )
+        .unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "parent-route-started"
+                        && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                })
+                .count(),
+            2
+        );
+        let checkpoint = read_program_checkpoint_for_run(
+            &fixture.octon_dir,
+            "residue-cleanup-fingerprint-change",
+        )
+        .unwrap()
+        .unwrap();
+        assert!(checkpoint
+            .residue_cleanup_attempts
+            .contains_key("a:closeout-packet:artifact-ownership-unclear:sha256:dirty-a"));
+        assert!(checkpoint
+            .residue_cleanup_attempts
+            .contains_key("a:closeout-packet:artifact-ownership-unclear:sha256:dirty-b"));
+    }
+
+    #[test]
+    fn residue_cleanup_does_not_prevent_other_child_progress() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-continues-other-child", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier_blocking_child("a", "sha256:dirty-a");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_child("b", "framework/b.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+  - child_id: "b"
+    path: "children/b"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("residue-cleanup-continues-other-child".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(24),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-human");
+        assert!(
+            fs::read_to_string(fixture.root.join("children/b/proposal.yml"))
+                .unwrap()
+                .contains("status: archived")
+        );
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/residue-cleanup-continues-other-child"),
+        )
+        .unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| {
+                    event.event_type == "parent-route-started"
+                        && event.route_id.as_deref() == Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+                })
+                .count(),
+            1
+        );
     }
 
     #[test]
@@ -21660,6 +22737,7 @@ rationale: "prove overwrite guard"
             error_message: None,
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
         assert!(program_execute_loop_should_stop(
             &approval_blocked,
@@ -21677,6 +22755,7 @@ rationale: "prove overwrite guard"
             error_message: Some("nested Codex runtime preflight failed".to_string()),
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
         assert!(program_execute_loop_should_stop(
             &executor_preflight_blocked,
@@ -21754,6 +22833,7 @@ rationale: "prove overwrite guard"
                 error_message: None,
                 error_class: None,
                 evidence_paths: Vec::new(),
+                worktree_hygiene_foreign_fingerprint: None,
             }];
 
             enforce_recovery_post_attempt_validations(
@@ -21827,6 +22907,7 @@ rationale: "prove overwrite guard"
             error_message: None,
             error_class: None,
             evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
         }];
 
         enforce_recovery_post_attempt_validations(
@@ -22005,6 +23086,7 @@ routes:
             scheduler_phase: Some("default".to_string()),
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
             program_recovery_recipe_validation_failures: Vec::new(),
@@ -22294,6 +23376,7 @@ routes:
                 error_message: None,
                 error_class: None,
                 evidence_paths: Vec::new(),
+                worktree_hygiene_foreign_fingerprint: None,
             },
             lock_path: lock_path.clone(),
         };
@@ -22341,6 +23424,7 @@ routes:
                 error_message: None,
                 error_class: None,
                 evidence_paths: Vec::new(),
+                worktree_hygiene_foreign_fingerprint: None,
             },
             lock_path: lock_path.clone(),
         };

@@ -64,6 +64,11 @@ program:
       noncritical-artifact-cleanup:
         max_attempts: 1
         replan_after_attempt: true
+      lifecycle-residue-cleanup-needed:
+        recovery_route_id: "cleanup-lifecycle-residue"
+        max_attempts: 1
+        replan_after_attempt: true
+        human_required: false
       authority-ambiguity:
         max_attempts: 0
         human_required: true
@@ -237,6 +242,32 @@ program:
         operation_class: "cleanup-current-run-artifact"
         requires_run_binding: true
         requires_declared_write_scope: true
+        requires_zone_evidence: true
+      - blocker_class: "lifecycle-residue-cleanup-needed"
+        recovery_route_id: "cleanup-lifecycle-residue"
+        preconditions:
+          - "live-state-readable"
+          - "authority-zone-allowed"
+          - "run-bound-current"
+        idempotency_class: "idempotent-rerun"
+        human_required: false
+        retry_budget: 1
+        dependent_handling: "continue-independent"
+        post_attempt_validation:
+          - "replan-live-state"
+          - "authority-boundary-check"
+        replan_behavior: "after-attempt"
+        allowed_authority_zones:
+          - "workspace-declared"
+          - "octon-run-bound"
+          - "current-run-agent-artifact"
+        allowed_artifact_classes:
+          - "workspace-source"
+          - "run-control"
+          - "run-evidence"
+          - "current-run-generated"
+        operation_class: "program-recovery-action"
+        requires_run_binding: true
         requires_zone_evidence: true
       - blocker_class: "authority-ambiguity"
         idempotency_class: "approval-gated-mutation"
@@ -473,6 +504,17 @@ receipts:
       - "closed_at"
       - "archive_authorized"
       - "child_authority_preserved"
+    verdict_field: "verdict"
+  - receipt_id: "lifecycle-residue-cleanup"
+    path: "support/lifecycle-residue-cleanup.md"
+    required_fields:
+      - "verdict"
+      - "cleaned_at"
+      - "cleanup_candidates"
+      - "manual_review_count"
+      - "worktree_hygiene_verdict"
+      - "remaining_blocker_class"
+      - "residue_fingerprint"
     verdict_field: "verdict"
 
 loops:
@@ -795,6 +837,41 @@ routes:
       all:
         - manifest_status: "implemented"
         - receipt_complete: "program-verification-prompt"
+  - route_id: "cleanup-lifecycle-residue"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed:
+        - "workspace-declared"
+        - "octon-run-bound"
+        - "current-run-agent-artifact"
+      declared_write_scope_source: "route-completion-and-target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion:
+        - "lifecycle-residue-cleanup"
+      replay_class: "idempotent-rerun"
+      automated_recovery_policy: "bounded-retry"
+      human_only_boundaries:
+        - "scope-expansion"
+        - "policy-override"
+        - "unresolved-risk-acceptance"
+        - "stale-evidence-acceptance"
+        - "authority-ambiguity"
+    command_id: "octon-proposal-cleanup-lifecycle-residue"
+    skill_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
+    prompt_set_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
+    completion:
+      expected_receipts:
+        - "lifecycle-residue-cleanup"
+      expected_paths:
+        - "support/lifecycle-residue-cleanup.md"
+      replan_required: true
+    enter_when:
+      any:
+        - manifest_status: "accepted"
+        - manifest_status: "implemented"
   - route_id: "generate-program-closeout-prompt"
     route_type: "extension"
     delegation_contract:

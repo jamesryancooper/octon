@@ -74,6 +74,7 @@ revise-program	octon-proposal-revise-program	octon-proposal-lifecycle-revise-pro
 generate-program-implementation-prompt	octon-proposal-generate-program-implementation-prompt	octon-proposal-lifecycle-generate-program-implementation-prompt	octon-proposal-lifecycle-generate-program-implementation-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 generate-program-verification-prompt	octon-proposal-generate-program-verification-prompt	octon-proposal-lifecycle-generate-program-verification-prompt	octon-proposal-lifecycle-generate-program-verification-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 generate-program-correction-prompt	octon-proposal-generate-program-correction-prompt	octon-proposal-lifecycle-generate-program-correction-prompt	octon-proposal-lifecycle-generate-program-correction-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program","finding_id":"FINDING-001"}
+cleanup-lifecycle-residue	octon-proposal-cleanup-lifecycle-residue	octon-proposal-lifecycle-cleanup-lifecycle-residue	octon-proposal-lifecycle-cleanup-lifecycle-residue	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 run-program-verification-and-correction-loop	octon-proposal-run-program-verification-and-correction-loop	octon-proposal-lifecycle-run-program-verification-and-correction-loop	octon-proposal-lifecycle-run-program-verification-and-correction-loop	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 generate-program-closeout-prompt	octon-proposal-generate-program-closeout-prompt	octon-proposal-lifecycle-generate-program-closeout-prompt	octon-proposal-lifecycle-generate-program-closeout-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 closeout-program	octon-proposal-closeout-program	octon-proposal-lifecycle-closeout-program	octon-proposal-lifecycle-closeout-program	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
@@ -163,9 +164,11 @@ main() {
   assert_route_failure "missing program path for explicit explain escalates" '{"bundle":"explain-program"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program path for explicit review escalates" '{"bundle":"review-program"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program path for explicit revise escalates" '{"bundle":"revise-program"}' "missing-required-inputs" "missing-program-packet-path"
+  assert_route_failure "missing program path for explicit cleanup escalates" '{"bundle":"cleanup-lifecycle-residue"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program path for action explain escalates" '{"lifecycle_action":"explain-program"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program path for action review escalates" '{"lifecycle_action":"review-program"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program path for action revise escalates" '{"lifecycle_action":"revise-program"}' "missing-required-inputs" "missing-program-packet-path"
+  assert_route_failure "missing program path for action cleanup escalates" '{"lifecycle_action":"cleanup-lifecycle-residue"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program path escalates" '{"lifecycle_action":"closeout-program"}' "missing-required-inputs" "missing-program-packet-path"
   assert_route_failure "missing program correction finding escalates" '{"lifecycle_action":"generate-program-correction-prompt","program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}' "missing-required-inputs" "missing-finding-id"
 

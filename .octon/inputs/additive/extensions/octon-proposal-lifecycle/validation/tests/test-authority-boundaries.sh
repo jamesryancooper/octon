@@ -12,7 +12,7 @@ pass() { printf 'PASS: %s\n' "$1"; pass_count=$((pass_count + 1)); }
 fail() { printf 'FAIL: %s\n' "$1" >&2; fail_count=$((fail_count + 1)); }
 
 main() {
-  local status unexpected_statuses
+  local field missing_field status unexpected_statuses
 
   if rg -n 'do not become Octon authority|do not become authority|must not claim authority|never become Octon authority' "$PACK_ROOT" >/dev/null; then
     pass "non-authority boundary language is present"
@@ -70,6 +70,44 @@ main() {
     pass "program aggregate receipts preserve child authority"
   else
     fail "program aggregate receipt authority boundary is missing"
+  fi
+
+  if ! rg -n 'cleanup-local-run-artifacts|Bash\(git (add|commit|push|merge|checkout -b)' \
+    "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md" \
+    "$PACK_ROOT/skills/octon-proposal-lifecycle-closeout-program/SKILL.md" >/dev/null; then
+    pass "closeout skills do not carry broad cleanup or git mutation authority"
+  else
+    fail "closeout skills carry cleanup or broad git mutation authority"
+  fi
+
+  if rg -n 'cleanup-local-run-artifacts|Bash\(git (add|commit|push|merge|checkout -b)' \
+    "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null; then
+    pass "dedicated cleanup skill carries cleanup route authority"
+  else
+    fail "dedicated cleanup skill is missing cleanup route authority"
+  fi
+
+  if rg -n 'cleanup-local-run-artifacts\.sh' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'helper-classified cleanup candidates' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'protected, referenced, ambiguous, manual-review, user-owned' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'active implementation artifacts|active implementation work' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'push-safe disposition receipt' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null \
+    && rg -n 'classify-proposal-worktree-hygiene\.sh' "$PACK_ROOT/prompts/cleanup-lifecycle-residue" "$PACK_ROOT/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md" >/dev/null; then
+    pass "cleanup route behavior contract preserves residue boundaries"
+  else
+    fail "cleanup route behavior contract is incomplete"
+  fi
+
+  missing_field=0
+  for field in verdict cleaned_at cleanup_candidates manual_review_count worktree_hygiene_verdict remaining_blocker_class residue_fingerprint; do
+    if ! yq -e ".receipts[]? | select(.receipt_id == \"lifecycle-residue-cleanup\" and .path == \"support/lifecycle-residue-cleanup.md\") | .required_fields[]? | select(. == \"$field\")" "$PACK_ROOT/context/lifecycles/proposal-program.contract.yml" >/dev/null; then
+      missing_field=1
+    fi
+  done
+  if [[ "$missing_field" -eq 0 ]]; then
+    pass "cleanup route receipt declares required residue fields"
+  else
+    fail "cleanup route receipt is missing required residue fields"
   fi
 
   unexpected_statuses="$(

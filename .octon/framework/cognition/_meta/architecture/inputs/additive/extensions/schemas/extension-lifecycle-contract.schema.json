@@ -313,6 +313,7 @@
             "write-scope-conflict",
             "atomic-write-scope-conflict",
             "noncritical-artifact-cleanup",
+            "lifecycle-residue-cleanup-needed",
             "critical-artifact-cleanup-required",
             "artifact-cleanup-required",
             "artifact-ownership-unclear",

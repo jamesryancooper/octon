@@ -174,6 +174,15 @@ row_count() {
   fi
 }
 
+rows_sha256() {
+  local file="$1"
+  if [[ -s "$file" ]]; then
+    LC_ALL=C sort "$file" | shasum -a 256 | awk '{print "sha256:" $1}'
+  else
+    printf '' | shasum -a 256 | awk '{print "sha256:" $1}'
+  fi
+}
+
 add_prefix "$SCOPE_PREFIXES" "$TARGET_REL"
 add_in_scope_from_manifest "$MANIFEST"
 
@@ -214,6 +223,7 @@ done < <(git -C "$ROOT_DIR" status --porcelain=v1 --untracked-files=all)
 OWNED_COUNT="$(row_count "$OWNED_ROWS")"
 SCOPE_COUNT="$(row_count "$SCOPE_ROWS")"
 FOREIGN_COUNT="$(row_count "$FOREIGN_ROWS")"
+FOREIGN_FINGERPRINT="$(rows_sha256 "$FOREIGN_ROWS")"
 if [[ "$FOREIGN_COUNT" -gt 0 ]]; then
   VERDICT="blocked"
   BLOCKER_CLASS="worktree-hygiene-blocked"
@@ -239,6 +249,7 @@ printf 'worktree_hygiene_blocker_class: "%s"\n' "$BLOCKER_CLASS"
 printf 'worktree_hygiene_owned_path_count: %s\n' "$OWNED_COUNT"
 printf 'worktree_hygiene_in_scope_path_count: %s\n' "$SCOPE_COUNT"
 printf 'worktree_hygiene_foreign_path_count: %s\n' "$FOREIGN_COUNT"
+printf 'worktree_hygiene_foreign_fingerprint: "%s"\n' "$FOREIGN_FINGERPRINT"
 printf 'worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"\n'
 printf 'next_route_condition: '
 yaml_quote "$NEXT_ROUTE"

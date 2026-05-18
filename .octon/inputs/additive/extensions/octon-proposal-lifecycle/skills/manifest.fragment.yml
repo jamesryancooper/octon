@@ -190,6 +190,15 @@ skills:
     status: active
     tags: [octon, proposal, lifecycle, program]
     triggers: ["generate program correction prompt"]
+  - id: octon-proposal-lifecycle-cleanup-lifecycle-residue
+    display_name: "Octon Proposal Lifecycle: Cleanup Lifecycle Residue"
+    group: extensions
+    path: octon-proposal-lifecycle-cleanup-lifecycle-residue/
+    skill_class: invocable
+    summary: "Run the cleanup-lifecycle-residue bundle."
+    status: active
+    tags: [octon, proposal, lifecycle, program, cleanup]
+    triggers: ["cleanup lifecycle residue", "proposal lifecycle residue cleanup"]
   - id: octon-proposal-lifecycle-run-program-verification-and-correction-loop
     display_name: "Octon Proposal Lifecycle: Run Program Verification And Correction Loop"
     group: extensions

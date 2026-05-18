@@ -27,6 +27,7 @@
 | `generate-program-implementation-prompt` | `octon-proposal-lifecycle-generate-program-implementation-prompt` | `octon-proposal-generate-program-implementation-prompt` | `octon-proposal-lifecycle-generate-program-implementation-prompt` |
 | `generate-program-verification-prompt` | `octon-proposal-lifecycle-generate-program-verification-prompt` | `octon-proposal-generate-program-verification-prompt` | `octon-proposal-lifecycle-generate-program-verification-prompt` |
 | `generate-program-correction-prompt` | `octon-proposal-lifecycle-generate-program-correction-prompt` | `octon-proposal-generate-program-correction-prompt` | `octon-proposal-lifecycle-generate-program-correction-prompt` |
+| `cleanup-lifecycle-residue` | `octon-proposal-lifecycle-cleanup-lifecycle-residue` | `octon-proposal-cleanup-lifecycle-residue` | `octon-proposal-lifecycle-cleanup-lifecycle-residue` |
 | `run-program-verification-and-correction-loop` | `octon-proposal-lifecycle-run-program-verification-and-correction-loop` | `octon-proposal-run-program-verification-and-correction-loop` | `octon-proposal-lifecycle-run-program-verification-and-correction-loop` |
 | `generate-program-closeout-prompt` | `octon-proposal-lifecycle-generate-program-closeout-prompt` | `octon-proposal-generate-program-closeout-prompt` | `octon-proposal-lifecycle-generate-program-closeout-prompt` |
 | `closeout-program` | `octon-proposal-lifecycle-closeout-program` | `octon-proposal-closeout-program` | `octon-proposal-lifecycle-closeout-program` |

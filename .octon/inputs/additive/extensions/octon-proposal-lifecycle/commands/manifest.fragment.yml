@@ -120,6 +120,12 @@ commands:
     summary: "Generate targeted correction prompt for a program-level or child finding."
     access: agent
     argument_hint: "<program-packet-path> --finding-id <id>"
+  - id: octon-proposal-cleanup-lifecycle-residue
+    display_name: "Octon Proposal Lifecycle: Cleanup Lifecycle Residue"
+    path: octon-proposal-cleanup-lifecycle-residue.md
+    summary: "Classify and close out safe residual worktree artifacts for a proposal program lifecycle run."
+    access: agent
+    argument_hint: "<program-packet-path> [--run-id <id>] [--blocked-child-id <id>] [--blocked-route-id <route-id>]"
   - id: octon-proposal-run-program-verification-and-correction-loop
     display_name: "Octon Proposal Lifecycle: Run Program Verification And Correction Loop"
     path: octon-proposal-run-program-verification-and-correction-loop.md
