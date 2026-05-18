@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.74](https://github.com/jamesryancooper/octon/compare/octon-v0.6.73...octon-v0.6.74) (2026-05-18)
+
+
+### Features
+
+* **lifecycle:** add residue cleanup route ([d33aa08](https://github.com/jamesryancooper/octon/commit/d33aa080e88c23a2fcad934d546245cbe8c65b67))
+
+
+### Bug Fixes
+
+* **filesystem-interfaces:** fallback for slo run listing ([9ecce46](https://github.com/jamesryancooper/octon/commit/9ecce4620fd11c1544e1b846737bdff4c3d34eaf))
+* **filesystem-interfaces:** retry slo history downloads ([c02ef41](https://github.com/jamesryancooper/octon/commit/c02ef413693ad3217d53e037656409579e1f63e1))
+
 ## [0.6.73](https://github.com/jamesryancooper/octon/compare/octon-v0.6.72...octon-v0.6.73) (2026-05-18)
 
 
