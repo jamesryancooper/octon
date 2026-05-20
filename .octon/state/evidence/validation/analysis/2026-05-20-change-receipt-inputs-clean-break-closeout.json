@@ -1,0 +1,153 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "inputs-clean-break-closeout-2026-05-20",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "blocked",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the clean-break input surface migration without opening a PR, preserving raw input non-authority boundaries and avoiding unrelated dirty worktree changes.",
+  "scope": {
+    "summary": "Input model contract, documentation, validator, and intake-status hardening originally committed as 4117efa3bd92feb6104f17ece0499c80a816e627 and replayed onto current origin/main as 58fc1a7606686f374da1fcef4388c562b543fefb.",
+    "profile_selection_receipt": {
+      "change_profile": "atomic",
+      "release_state": "pre-1.0",
+      "selection_rationale": "Repo ingress defaults pre-1.0 work to atomic unless a hard gate requires transitional coexistence. This closeout is a single branch-isolated migration closeout with no transitional compatibility gate.",
+      "hard_gate_facts": [
+        "operator explicitly selected branch-no-pr",
+        "operator explicitly prohibited PR creation",
+        "no extension activation, publication, projection generation, or input-authority change is part of the accepted change set"
+      ]
+    },
+    "touched_paths": [
+      ".gitignore",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-exploratory-input-surfaces.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh",
+      ".octon/framework/cognition/_meta/architecture/inputs/README.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/additive/README.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/README.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/exploratory/README.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/projects.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/scratchpad.md",
+      ".octon/framework/engine/governance/inputs/additive/README.md",
+      ".octon/framework/engine/governance/inputs/additive/incoming-intake-processing.md",
+      ".octon/inputs/README.md",
+      ".octon/inputs/additive/.archive/README.md",
+      ".octon/inputs/additive/.incoming/.gitkeep",
+      ".octon/inputs/additive/.incoming/README.md",
+      ".octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/intake-status.yml",
+      ".octon/inputs/additive/README.md",
+      ".octon/inputs/additive/extensions/README.md",
+      ".octon/inputs/exploratory/README.md",
+      ".octon/inputs/exploratory/ideation/projects/README.md",
+      ".octon/inputs/exploratory/ideation/projects/_scaffold/template/project.md",
+      ".octon/inputs/exploratory/ideation/projects/_scaffold/template/resources.md",
+      ".octon/inputs/exploratory/ideation/projects/registry.md",
+      ".octon/inputs/exploratory/ideation/scratchpad/README.md",
+      ".octon/inputs/exploratory/ideation/scratchpad/inbox/README.md"
+    ],
+    "diff_refs": [
+      "original-local-commit@4117efa3bd92feb6104f17ece0499c80a816e627",
+      "replayed-current-origin-main-commit@58fc1a7606686f374da1fcef4388c562b543fefb"
+    ],
+    "read_only_inventory": {
+      "starting_branch": "chore/inputs-clean-break",
+      "starting_head": "4117efa3bd92feb6104f17ece0499c80a816e627",
+      "local_origin_main_before_fetch": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+      "remote_main_before_fetch": "8021190501b79fba28a1d8f2a7b2f8702c25814c",
+      "local_commits_ahead_of_local_origin_main": 1,
+      "staged_entries": 37,
+      "unstaged_tracked_paths": 165,
+      "untracked_paths": 1088,
+      "ignored_paths": 263405
+    },
+    "group_dispositions": [
+      {
+        "group": "accepted input-model migration commit",
+        "disposition": "replay on clean current-origin branch and attempt branch-no-pr closeout"
+      },
+      {
+        "group": "pre-existing staged exploratory package/report renames",
+        "disposition": "leave untouched as potentially user-owned unrelated work"
+      },
+      {
+        "group": "pre-existing unstaged generated outputs, host projections, extension source-pack edits, state/control edits, exploratory plan/report edits, and projection files",
+        "disposition": "leave untouched as potentially user-owned or unrelated generated state"
+      },
+      {
+        "group": "pre-existing untracked and ignored evidence, publication, continuity, and archive residue",
+        "disposition": "leave untouched because cleanup safety cannot be proven without risking retained evidence or user-owned work"
+      }
+    ]
+  },
+  "source_branch_ref": "chore/inputs-clean-break-closeout",
+  "target_branch_ref": "origin/main@8021190501b79fba28a1d8f2a7b2f8702c25814c",
+  "landing_evaluation": {
+    "status": "blocked",
+    "provider_ruleset_ref": ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json#rulesets.current_live_main",
+    "blocker_reason": "Target cleaned closeout cannot be claimed until the source branch is pushed, hosted no-PR preflight proves route-neutral provider rules, and exact source-SHA required checks pass for the source ref.",
+    "evidence_refs": [
+      "hosted no-PR preflight is required after source branch push",
+      "target cleaned is intentionally fail-closed pending exact hosted evidence"
+    ]
+  },
+  "not_landed_reason": "Hosted no-PR landing was not yet proven at receipt creation; exact source-SHA required check evidence is mandatory before mutating origin/main.",
+  "not_cleaned_reason": "The starting worktree contains unrelated staged, unstaged, untracked, and ignored residue; source branch cleanup and local main sync cannot be claimed until landing and containment are proven.",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "cleanup deferred for original dirty worktree: staged=37, unstaged_tracked=165, untracked=1088, ignored=263405",
+    "no generated/effective output, host projection, extension publication state, or evidence residue was cleaned as part of the accepted change set"
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/inputs-clean-break-closeout",
+    "remote_branch": "origin/chore/inputs-clean-break-closeout",
+    "worktree": "/private/tmp/octon-inputs-closeout-20260520",
+    "blocker_reason": "Branch cleanup is unsafe before hosted landing and origin/main containment are proven.",
+    "evidence_refs": [
+      "git-branch-cleanup.sh must only run after landed-ref containment and rollback posture are proven"
+    ]
+  },
+  "validation_evidence_refs": [
+    "static stale-phrase sweep for exploratory ideation input docs",
+    "input root allowlist inspection",
+    "validate-exploratory-input-surfaces.sh",
+    "validate-input-non-authority.sh",
+    "validate-input-archive-retention.sh",
+    "validate-extension-active-state-compactness.sh",
+    "validate-extension-pack-contract.sh",
+    "validate-extension-publication-state.sh",
+    "validate-host-projections.sh",
+    "validate-non-authority-register.sh",
+    "validate-bootstrap-authority-surfaces.sh",
+    "validate-harness-structure.sh",
+    "test-validate-raw-input-dependency-ban.sh",
+    "test-validate-host-projections.sh",
+    "test-validate-extension-pack-contract.sh",
+    "git diff --check"
+  ],
+  "review_waiver_refs": [
+    "operator-requested branch-no-pr closeout without PR"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "chore/inputs-clean-break-closeout",
+    "branch": "chore/inputs-clean-break-closeout"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/inputs-clean-break-closeout",
+    "instructions": "Before hosted landing, discard by deleting local and remote chore/inputs-clean-break-closeout. After any future hosted landing, revert the landed ref recorded by hosted no-PR preflight/landing evidence."
+  },
+  "closeout_outcome": "blocked",
+  "remaining_blockers": [
+    "Hosted no-PR landing requires pushed source branch evidence.",
+    "Hosted no-PR landing requires route-neutral provider ruleset evidence.",
+    "Hosted no-PR landing requires exact source-SHA required checks.",
+    "Cleaned outcome requires origin/main containment, local main alignment, and safe source branch cleanup or explicit deferred cleanup evidence."
+  ],
+  "created_at": "2026-05-20T17:00:34Z"
+}
