@@ -1,0 +1,115 @@
+{
+  "schema": "octon-change-closeout-receipt-v1",
+  "change_id": "local-branch-residue-closeout",
+  "operator_requested_route": "branch-no-pr",
+  "selected_route": "branch-no-pr",
+  "change_profile": "atomic",
+  "release_state": "pre-1.0",
+  "profile_selection_receipt": {
+    "change_profile": "atomic",
+    "release_state": "pre-1.0",
+    "reason": "The request was a bounded closeout of local branch residue with isolated accepted change sets and evidence-backed cleanup only."
+  },
+  "intent": "Close remaining local branch residue safely without opening a PR, force-pushing, or discarding ambiguous dirty work.",
+  "target_outcome": "cleaned",
+  "actual_lifecycle_outcome": "landed_and_partially_cleaned_with_active_dirty_branch_retained",
+  "route_constraints": [
+    "No PR was opened.",
+    "No force push was used.",
+    "Only branch-no-pr landings were used for accepted change sets.",
+    "Raw .octon/inputs/** material was not treated as runtime, policy, generated, state/control, publication, retained evidence, or host-projection authority."
+  ],
+  "starting_inventory_summary": {
+    "initial_branch": "chore/inputs-clean-break",
+    "initial_head": "4117efa3bd92feb6104f17ece0499c80a816e627",
+    "initial_main_and_origin_main": "9e30905efff8b8f8053dafe3648d93dec90bfc27",
+    "local_only_branches_reviewed": [
+      "chore/orchestrated-replan-postmortem-prompt@e834e785363e304ebc0d714b046b30c7debb2ade",
+      "chore/referenced-lifecycle-evidence@4269fc737b74a16e21e91a0e1e56fdd08867b3ad",
+      "chore/inputs-clean-break@4117efa3bd92feb6104f17ece0499c80a816e627"
+    ],
+    "dirty_worktree": "chore/inputs-clean-break had staged, unstaged, untracked, and ignored residue at start; ambiguous tracked and staged residue was left untouched."
+  },
+  "accepted_change_sets": [
+    {
+      "source_branch": "chore/replan-postmortem-prompt-closeout",
+      "landed_commit": "52c371cd5884e0ff07985009b1173db1c9baf8f0",
+      "commit_subject": "chore(prompts): add replan postmortem prompt",
+      "scope": [
+        ".octon/framework/scaffolding/practices/prompts/2026-05-17T15-27-40Z-orchestrated-replan-loop-postmortem.prompt.md",
+        ".octon/state/evidence/runs/skills/refine-prompt/2026-05-17T15-27-40Z-orchestrated-replan-loop-postmortem.md"
+      ],
+      "disposition": "landed_on_origin_main",
+      "durable_history": "origin/main contains 52c371cd5884e0ff07985009b1173db1c9baf8f0."
+    },
+    {
+      "source_branch": "chore/referenced-lifecycle-evidence-closeout",
+      "landed_commit": "86a0d232fd834ccb9176aa18ce45cf1bba71c438",
+      "commit_subject": "chore(evidence): preserve referenced lifecycle records",
+      "scope": [
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a*/",
+        ".octon/state/control/execution/runs/promote-proposal-1778907502763-54233*/",
+        ".octon/state/continuity/runs/lifecycle-proposal-program-1778904192406-8da93d7a*/",
+        ".octon/state/continuity/runs/promote-proposal-1778907502763-54233*/",
+        ".octon/state/evidence/control/execution/*1778904192406-8da93d7a*.yml",
+        ".octon/state/evidence/control/execution/*1778907502763-54233*.yml",
+        ".octon/state/evidence/external-index/runs/*1778904192406-8da93d7a*.yml",
+        ".octon/state/evidence/external-index/runs/*1778907502763-54233*.yml",
+        ".octon/state/evidence/validation/analysis/2026-05-16-promote-proposal*.md",
+        ".octon/state/evidence/validation/compatibility/extensions/2026-05-16T04-17-12Z-extensions-e539e7c8b239.yml",
+        ".octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-*.yml",
+        ".octon/state/evidence/validation/publication/*/2026-05-16T04-*.yml"
+      ],
+      "disposition": "landed_on_origin_main",
+      "durable_history": "origin/main contains 86a0d232fd834ccb9176aa18ce45cf1bba71c438."
+    }
+  ],
+  "validation_evidence": [
+    "replan prompt: git diff --check passed.",
+    "replan prompt: git diff --cached --check passed before commit.",
+    "replan prompt: validate-harness-structure.sh passed with errors=0 warnings=0.",
+    "replan prompt broad check: validate-framework-core-boundary.sh failed on pre-existing unrelated framework/product and legacy framework-state references; not selected as the validation floor.",
+    "referenced lifecycle evidence: git diff --cached --check passed before commit.",
+    "referenced lifecycle evidence: git diff --check passed.",
+    "referenced lifecycle evidence: validate-harness-structure.sh passed with errors=0 warnings=0.",
+    "referenced lifecycle evidence: validate-evidence-completeness.sh passed with errors=0.",
+    "referenced lifecycle evidence: validate-run-authority-ledger-coherence.sh passed with errors=0.",
+    "referenced lifecycle evidence: validate-state-surface-alignment.sh passed.",
+    "referenced lifecycle evidence broad checks: validate-run-bundle-completeness.sh and validate-evidence-classification.sh failed on pre-existing bootstrap-doctor/repo-shell missing evidence-classification and retained-run files; those paths were not touched by the evidence commit.",
+    "hosted preflight passed for 52c371cd5884e0ff07985009b1173db1c9baf8f0 with exact-source checks satisfied.",
+    "hosted landing completed for 52c371cd5884e0ff07985009b1173db1c9baf8f0 by fast-forwarding origin/main.",
+    "hosted preflight passed for 86a0d232fd834ccb9176aa18ce45cf1bba71c438 with exact-source checks satisfied.",
+    "first hosted landing attempt for 86a0d232fd834ccb9176aa18ce45cf1bba71c438 was rejected because GitHub still reported exact_source_sha_validation in progress.",
+    "gh api check-run inspection then showed exact_source_sha_validation completed successfully for 86a0d232fd834ccb9176aa18ce45cf1bba71c438.",
+    "retry hosted landing completed for 86a0d232fd834ccb9176aa18ce45cf1bba71c438 by fast-forwarding origin/main."
+  ],
+  "branch_cleanup_evidence": [
+    "git log --cherry-mark --right-only origin/main...chore/orchestrated-replan-postmortem-prompt reported '= e834e7853', proving patch equivalence to landed main history.",
+    "git log --cherry-mark --right-only origin/main...chore/referenced-lifecycle-evidence reported '= 4269fc737', proving patch equivalence to landed main history.",
+    "git log --cherry-mark --right-only origin/main...chore/inputs-clean-break reported '= 4117efa3b', proving only its committed patch is represented on main; the branch was retained because its worktree has dirty residue.",
+    "Temporary closeout worktrees for replan and referenced-lifecycle-evidence were removed after containment.",
+    "Remote closeout source branches chore/replan-postmortem-prompt-closeout and chore/referenced-lifecycle-evidence-closeout were deleted after origin/main contained their landed commits.",
+    "Local original branches chore/orchestrated-replan-postmortem-prompt and chore/referenced-lifecycle-evidence were deleted after patch-equivalence proof."
+  ],
+  "residue_disposition": {
+    "removed_as_safe_residue": [
+      "142 untracked files on chore/inputs-clean-break that were byte-for-byte identical to origin/main."
+    ],
+    "intentionally_retained": [
+      "chore/inputs-clean-break branch and its staged/unstaged tracked residue.",
+      "Remaining non-duplicate untracked state/control/evidence, migration, validation, prompt, and input files whose retention or disposal was not provable from patch equivalence alone.",
+      "Ignored residue not proven disposable in this closeout."
+    ],
+    "blocked_or_ambiguous": [
+      "The active chore/inputs-clean-break worktree remains dirty with mixed staged moves, tracked modifications, generated/effective outputs, state/control changes, extension activation/control files, and non-duplicate evidence residue. It was not reset, discarded, or landed."
+    ]
+  },
+  "publication_status": "No publishers, projection generators, migrations, or alignment profiles were run for this closeout.",
+  "integration_status": "Accepted branch-no-pr change sets were landed on origin/main by hosted no-PR fast-forward; local main was synced after each landing.",
+  "cleanup_status": "Obsolete source branches for the landed replan and referenced lifecycle evidence changes were cleaned; the dirty active inputs-clean-break branch was retained.",
+  "rollback_or_discard_plan": [
+    "Revert 52c371cd5884e0ff07985009b1173db1c9baf8f0 from main to roll back the replan prompt/evidence landing.",
+    "Revert 86a0d232fd834ccb9176aa18ce45cf1bba71c438 from main to roll back the referenced lifecycle evidence landing.",
+    "Do not reset or delete chore/inputs-clean-break without a separate ownership and lifecycle disposition for its dirty worktree."
+  ]
+}
