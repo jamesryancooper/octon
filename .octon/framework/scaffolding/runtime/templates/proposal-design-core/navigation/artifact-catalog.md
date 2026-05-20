@@ -1,6 +1,6 @@
 # Artifact Catalog
 
-This catalog is generated from the on-disk proposal package shape. Regenerate
+This catalog is generated from the on-disk proposal packet shape. Regenerate
 it whenever files are added, removed, or reorganized.
 
 ## Proposal

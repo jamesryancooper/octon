@@ -21,7 +21,7 @@ produce the audit report that drives the rest of the workflow.
 
 1. Load the canonical design-audit stage prompt.
 2. Substitute `<PACKAGE_PATH>` with the target proposal path.
-3. Execute the prompt against the current package state.
+3. Execute the prompt against the current packet state.
 4. Persist the resulting report at:
    - `bundle/reports/01-design-package-audit.md`
 5. Record:

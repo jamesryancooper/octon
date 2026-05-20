@@ -469,7 +469,7 @@ run_weights() {
 
 run_mission_autonomy() {
   run_step \
-    "Validate mission proposal package" \
+    "Validate mission proposal packet" \
     bash "$SCRIPT_DIR/validate-mission-proposal-package.sh"
 
   run_step \

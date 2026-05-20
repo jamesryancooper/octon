@@ -20,7 +20,7 @@ Pressure-test the audited package before any rigorous-mode mutation stages run.
 
 1. Load the canonical design red-team stage prompt.
 2. Substitute `<PACKAGE_PATH>` with the target package path.
-3. Execute the prompt against the current package state.
+3. Execute the prompt against the current packet state.
 4. Persist the resulting report at:
    - `bundle/reports/03-design-red-PROFILE.md`
 5. Record the highest-risk design ambiguities and unsafe implementation paths.

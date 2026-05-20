@@ -208,7 +208,7 @@ validate_manifest_targets_covered() {
 }
 
 if [[ ! -d "$PROPOSAL_DIR" ]]; then
-  fail "proposal package exists"
+  fail "proposal packet exists"
   echo "Validation summary: errors=$errors warnings=$warnings"
   exit 1
 fi

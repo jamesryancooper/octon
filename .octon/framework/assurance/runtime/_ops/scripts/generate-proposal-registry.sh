@@ -123,10 +123,10 @@ validate_package() {
     return 0
   fi
   if ! bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
-    fail "proposal package validates without registry recursion: $proposal_rel"
+    fail "proposal packet validates without registry recursion: $proposal_rel"
     return 1
   fi
-  pass "proposal package validates without registry recursion: $proposal_rel"
+  pass "proposal packet validates without registry recursion: $proposal_rel"
 
   validator="$(subtype_validator_for_kind "$kind")" || {
     fail "subtype validator exists for proposal kind '$kind' ($proposal_rel)"

@@ -19,7 +19,7 @@ the fail-closed proposal validator stack.
    - `policy-proposal.yml`
    - policy working docs
    - generated navigation files
-4. Regenerate `navigation/artifact-catalog.md` from the on-disk package shape.
+4. Regenerate `navigation/artifact-catalog.md` from the on-disk packet shape.
 5. Render `navigation/source-of-truth-map.md` from the policy subtype
    contract.
 6. Regenerate `.octon/generated/proposals/registry.yml` from manifests by

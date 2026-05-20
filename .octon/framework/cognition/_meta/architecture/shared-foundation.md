@@ -124,7 +124,7 @@ Repo trust remains in `instance/extensions.yml`.
   `instance/**` shadow-tree model
 - Raw `inputs/**` paths must never become direct runtime or policy
   dependencies.
-- Proposal packages are integrated raw exploratory input only; they remain
+- Proposal packets are integrated raw exploratory input only; they remain
   non-canonical and are discovered through `generated/proposals/registry.yml`
   without making that registry authoritative. The registry is rebuilt
   deterministically from proposal manifests and belongs to the generated/ops

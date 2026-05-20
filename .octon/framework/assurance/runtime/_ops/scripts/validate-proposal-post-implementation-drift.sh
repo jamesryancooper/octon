@@ -62,7 +62,7 @@ REGISTRY="$ROOT_DIR/.octon/generated/proposals/registry.yml"
 legacy_archive=0
 
 if [[ ! -d "$PROPOSAL_DIR" ]]; then
-  fail "proposal package exists"
+  fail "proposal packet exists"
   echo "Validation summary: errors=$errors warnings=$warnings"
   exit 1
 fi

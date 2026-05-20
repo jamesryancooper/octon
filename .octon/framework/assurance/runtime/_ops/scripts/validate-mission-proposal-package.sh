@@ -30,12 +30,12 @@ main() {
   require_file "$REGISTRY"
   if [[ -d "$ACTIVE_DIR" ]]; then
     proposal_dir="$ACTIVE_DIR"
-    pass "active proposal package present"
+    pass "active proposal packet present"
   elif [[ -d "$ARCHIVED_DIR" ]]; then
     proposal_dir="$ARCHIVED_DIR"
-    pass "archived proposal package present"
+    pass "archived proposal packet present"
   else
-    fail "mission-scoped-reversible-autonomy proposal package is missing"
+    fail "mission-scoped-reversible-autonomy proposal packet is missing"
   fi
 
   if [[ -n "$proposal_dir" ]]; then

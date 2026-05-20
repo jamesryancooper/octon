@@ -171,7 +171,7 @@ workflows:
     status: active
     triggers:
       - "validate proposal"
-      - "check proposal package"
+      - "check proposal packet"
       - "verify proposal registry drift"
   - id: promote-proposal
     display_name: Promote Proposal
@@ -215,7 +215,7 @@ workflows:
     status: active
     triggers:
       - "archive proposal"
-      - "retire proposal package"
+      - "retire proposal packet"
       - "move proposal to archive"
   - id: evaluate-workflow
     display_name: Evaluate Workflow

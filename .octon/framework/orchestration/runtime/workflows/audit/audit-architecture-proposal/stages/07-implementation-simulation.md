@@ -21,7 +21,7 @@ blockers or ambiguities that would prevent deterministic construction.
 
 1. Load the canonical implementation-simulation stage prompt.
 2. Substitute `<PACKAGE_PATH>` with the current target proposal path.
-3. Execute the prompt against the current package state.
+3. Execute the prompt against the current packet state.
 4. Persist the report at:
    - `bundle/reports/06-implementation-simulation.md`
 5. Record whether true implementation blockers remain.

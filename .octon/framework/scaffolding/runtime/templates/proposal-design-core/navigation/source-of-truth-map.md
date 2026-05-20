@@ -11,10 +11,10 @@ proposal a canonical repository authority.
 | Concern | Source of truth | Notes |
 | --- | --- | --- |
 | Repo-wide authority and non-canonical rules | `.octon/README.md`, `.octon/framework/cognition/_meta/architecture/specification.md`, `.octon/framework/cognition/_meta/architecture/runtime-vs-ops-contract.md` | These durable surfaces outrank this proposal. |
-| Proposal workspace layout and lifecycle contract | `.octon/inputs/exploratory/proposals/README.md`, `.octon/framework/scaffolding/governance/patterns/proposal-standard.md`, `.octon/framework/scaffolding/governance/patterns/design-proposal-standard.md` | These durable proposal rules define placement, lifecycle, and package expectations. |
+| Proposal workspace layout and lifecycle contract | `.octon/inputs/exploratory/proposals/README.md`, `.octon/framework/scaffolding/governance/patterns/proposal-standard.md`, `.octon/framework/scaffolding/governance/patterns/design-proposal-standard.md` | These durable proposal rules define placement, lifecycle, and packet expectations. |
 | Design subtype contract | `.octon/framework/scaffolding/runtime/templates/design-proposal.schema.json`, `.octon/framework/assurance/runtime/_ops/scripts/validate-design-proposal.sh` | The subtype manifest, module rules, and validator behavior must remain aligned. |
 | Proposal registry projection contract | `.octon/generated/proposals/registry.yml`, `.octon/framework/cognition/_meta/architecture/generated/proposals/schemas/proposal-registry.schema.json` | The registry is projection-only and never outranks the manifests. |
-| Workflow evidence location | `.octon/state/evidence/runs/workflows/`, `.octon/state/evidence/validation/` | Proposal operation receipts belong under retained evidence, not inside the proposal package. |
+| Workflow evidence location | `.octon/state/evidence/runs/workflows/`, `.octon/state/evidence/validation/` | Proposal operation receipts belong under retained evidence, not inside the proposal packet. |
 
 ## Primary Proposal Inputs
 
@@ -48,7 +48,7 @@ proposal a canonical repository authority.
 | `implementation/*.md` | Implementation framing and first-slice guidance | Supporting implementation guidance |
 | Optional module docs | Supporting reference, history, contracts, conformance, and canonicalization material | Supporting, not authoritative over manifests |
 | `navigation/source-of-truth-map.md` | Manual proposal-local precedence, authority, and evidence map | Explanatory support |
-| `navigation/artifact-catalog.md` | Generated file inventory for the current package shape | Low-authority generated inventory |
+| `navigation/artifact-catalog.md` | Generated file inventory for the current packet shape | Low-authority generated inventory |
 | `/.octon/generated/proposals/registry.yml` | Discovery projection rebuilt from proposal manifests | Projection only |
 | `README.md` | Human entry point and reading guidance | Explanatory only |
 
@@ -57,7 +57,7 @@ proposal a canonical repository authority.
 | Surface | Status | Rule |
 | --- | --- | --- |
 | `/.octon/generated/proposals/registry.yml` | Committed projection | Must be regenerated from manifests or fail-closed validated; never authoritative over manifests |
-| `navigation/artifact-catalog.md` | Generated inventory | Reflects the current package shape but does not define lifecycle truth |
+| `navigation/artifact-catalog.md` | Generated inventory | Reflects the current packet shape but does not define lifecycle truth |
 | Workflow bundles under `state/evidence/runs/workflows/**` | Retained evidence | Evidence of proposal operations, not lifecycle authority |
 
 ## Conflict Resolution
@@ -80,4 +80,4 @@ proposal a canonical repository authority.
 - This proposal remains temporary and non-canonical even when its content is implementation-ready.
 - Durable runtime, documentation, policy, and contract outputs must be promoted outside `/.octon/inputs/exploratory/proposals/`.
 - Proposal discovery is allowed through the committed registry projection, but lifecycle truth stays in `proposal.yml` and `design-proposal.yml`.
-- Proposal operation evidence belongs under `state/evidence/**`, not inside the proposal package or under `generated/**`.
+- Proposal operation evidence belongs under `state/evidence/**`, not inside the proposal packet or under `generated/**`.

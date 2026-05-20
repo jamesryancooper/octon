@@ -22,7 +22,7 @@ baseline standard validator.
    - core navigation and implementation docs
    - class-specific `normative/` docs
    - selected optional-module docs and directories
-4. Regenerate `navigation/artifact-catalog.md` from the on-disk package shape.
+4. Regenerate `navigation/artifact-catalog.md` from the on-disk packet shape.
 5. Render `navigation/source-of-truth-map.md` from the selected class and
    modules.
 6. Regenerate `.octon/generated/proposals/registry.yml` from manifests by
