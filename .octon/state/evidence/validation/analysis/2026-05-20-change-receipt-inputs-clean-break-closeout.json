@@ -109,15 +109,18 @@
   "landing_evaluation": {
     "status": "blocked",
     "provider_ruleset_ref": ".octon/framework/execution-roles/practices/standards/github-control-plane-contract.json#rulesets.current_live_main",
-    "source_ref": "chore/inputs-clean-break-closeout",
+    "source_ref": "55a7fb8ce404c57ca1c813bcb16d839b0c59ccb8",
     "target_ref": "origin/main@8021190501b79fba28a1d8f2a7b2f8702c25814c",
-    "blocker_reason": "Target cleaned closeout cannot be claimed until the source branch is pushed, hosted no-PR preflight proves route-neutral provider rules, and exact source-SHA required checks pass for the source ref.",
+    "blocker_reason": "Hosted no-PR preflight on the pushed source branch confirmed live provider rules allow route-neutral no-PR landing and the source branch is current with origin/main, then failed closed because required exact-SHA check route_neutral_closeout_validation was missing or failing at 55a7fb8ce404c57ca1c813bcb16d839b0c59ccb8.",
     "evidence_refs": [
-      "hosted no-PR preflight required after source branch push",
-      "target cleaned intentionally fail-closed pending exact hosted evidence"
+      "git push -u origin chore/inputs-clean-break-closeout: PASS",
+      "git-branch-hosted-preflight.sh --target main --remote origin --receipt ... --require-check route_neutral_closeout_validation --require-check branch_naming_validation --require-check route_aware_autonomy_validation --require-check exact_source_sha_validation: BLOCKED",
+      "preflight output: [OK] Live provider ruleset allows route-neutral hosted no-PR landing",
+      "preflight output: [OK] Source ref is current with origin/main",
+      "preflight output: [ERROR] Missing or failing required check at exact SHA 55a7fb8ce404c57ca1c813bcb16d839b0c59ccb8: route_neutral_closeout_validation"
     ]
   },
-  "not_landed_reason": "Hosted no-PR landing is not proven; exact source-SHA required check evidence and route-neutral provider rules are mandatory before mutating origin/main.",
+  "not_landed_reason": "Hosted no-PR landing is blocked because the required exact-SHA check route_neutral_closeout_validation was missing or failing at the pushed source SHA 55a7fb8ce404c57ca1c813bcb16d839b0c59ccb8. origin/main was not mutated.",
   "not_cleaned_reason": "Cleaned requires hosted landing, origin/main containment, local main alignment, and safe source branch cleanup or explicit deferred cleanup after landing; those facts are not yet proven.",
   "integration_method": "not-applicable",
   "integration_status": "not_landed",
@@ -160,8 +163,9 @@
     "test-validate-input-non-authority.sh: PASS",
     "test-validate-input-archive-retention.sh: PASS",
     "test-validate-incoming-intake-unit.sh: PASS",
-    "git diff --check: pending final run",
-    "validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/validation/analysis/2026-05-20-change-receipt-inputs-clean-break-closeout.json: pending final run"
+    "git diff --check: PASS",
+    "validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/validation/analysis/2026-05-20-change-receipt-inputs-clean-break-closeout.json: PASS",
+    "hosted no-PR preflight: BLOCKED on missing/failing route_neutral_closeout_validation at exact source SHA 55a7fb8ce404c57ca1c813bcb16d839b0c59ccb8"
   ],
   "review_waiver_refs": [
     "operator-requested branch-no-pr closeout without PR"
@@ -178,11 +182,10 @@
   },
   "closeout_outcome": "blocked",
   "remaining_blockers": [
-    "Hosted no-PR landing requires pushed source branch evidence.",
-    "Hosted no-PR landing requires route-neutral provider ruleset evidence.",
-    "Hosted no-PR landing requires exact source-SHA required checks.",
+    "Hosted no-PR landing is blocked by missing or failing exact-SHA check route_neutral_closeout_validation.",
+    "Hosted no-PR landing still requires all exact source-SHA route-neutral checks before origin/main may be mutated.",
     "Cleaned outcome requires origin/main containment, local main alignment, and safe source branch cleanup or explicit deferred cleanup evidence."
   ],
   "created_at": "2026-05-20T17:00:34Z",
-  "updated_at": "2026-05-20T17:31:00Z"
+  "updated_at": "2026-05-20T17:43:00Z"
 }
