@@ -2,6 +2,8 @@
 
 Workspace resources useful for this project.
 
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+
 ---
 
 ## Assistants
@@ -22,10 +24,10 @@ Consult these for background knowledge:
 
 | Resource | Why It's Relevant |
 |----------|-------------------|
-| `cognition/runtime/context/glossary.md` | Domain terminology definitions |
-| `cognition/runtime/context/decisions.md` | Existing decisions to build on or challenge |
-| `cognition/runtime/context/lessons.md` | Anti-patterns and failures to avoid |
-| `cognition/runtime/context/constraints.md` | Non-negotiable boundaries |
+| `/.octon/instance/cognition/context/shared/glossary.md` | Domain terminology definitions |
+| `/.octon/instance/cognition/decisions/` | Existing decisions to build on or challenge |
+| `/.octon/instance/cognition/context/shared/lessons.md` | Anti-patterns and failures to avoid |
+| `/.octon/instance/cognition/context/shared/constraints.md` | Non-negotiable boundaries |
 
 ---
 

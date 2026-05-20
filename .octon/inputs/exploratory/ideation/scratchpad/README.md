@@ -7,6 +7,8 @@ description: The single human-led directory for thinking, staging, and archives.
 
 This directory consolidates all **human-led content** — a space where humans can explore ideas, stage imports, archive deprecated content, and collaborate with agents under explicit direction.
 
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+
 ---
 
 ## Structure
@@ -35,11 +37,10 @@ Ideas flow from raw captures to committed work:
 │ ideas/              │        │ ideation/projects/  │
 │ (quick captures)    │───────▶│ (committed research)│
 │         ↓           │        │         ↓           │
-│ brainstorm/         │────┘   │ orchestration/      │
-│ (explore before     │        │   missions/         │
-│  committing)        │        │         ↓           │
-└─────────────────────┘        │ cognition/runtime/context/  │
-                               │ (permanent knowledge)│
+│ brainstorm/         │────┘   │ governed proposal,  │
+│ (explore before     │        │ plan, Change,       │
+│  committing)        │        │ retained evidence,  │
+└─────────────────────┘        │ or durable edit      │
                                └─────────────────────┘
 ```
 
@@ -47,8 +48,8 @@ Ideas flow from raw captures to committed work:
 |-------|----------|---------|------------|
 | Capture | `ideas/` | Quick notes, "what if" | → `brainstorm/` or die |
 | Explore | `brainstorm/` | Validate before committing | → `projects/` or kill |
-| Research | `projects/` | Committed exploration | → `context/` or `missions/` |
-| Execute | `missions/` | Committed execution | → shipped work |
+| Research | `projects/` | Committed exploration | → governed route outside `inputs/**` |
+| Execute | governed work | Committed execution | → validated durable output |
 
 Most ideas die in `ideas/`. That's the point — low friction capture, aggressive filtering.
 
@@ -170,21 +171,20 @@ Use `ideas/` for:
 ## Relationship to Workspace
 
 ```
-.octon/
-├── ideation/
-│   ├── projects/        # Graduated from brainstorm/
-│   └── scratchpad/      # Human-led zone (you are here)
-│       ├── brainstorm/  # Pre-project exploration
-│       ├── ideas/       # Raw captures
-│       └── ...
-├── orchestration/
-│   └── missions/        # Execution workstreams
-├── cognition/
-│   └── context/         # Permanent knowledge
-└── continuity/          # Session tracking
+.octon/inputs/exploratory/ideation/
+├── projects/        # Graduated from brainstorm/
+└── scratchpad/      # Human-led zone (you are here)
+    ├── brainstorm/  # Pre-project exploration
+    ├── ideas/       # Raw captures
+    └── ...
 ```
 
-Projects have graduated from scratchpad to workspace-level because they frequently produce artifacts that feed the main workspace. The scratchpad now focuses on truly ephemeral content and the early-stage funnel (`ideas/` → `brainstorm/`).
+Projects have graduated from scratchpad to a more structured human-led input
+surface. The scratchpad now focuses on truly ephemeral content and the
+early-stage funnel (`ideas/` to `brainstorm/`). Scratchpad and project material
+remains non-authoritative input until a governed proposal, plan, Change,
+retained evidence update, or durable authored edit outside `inputs/**` consumes
+it.
 
 ---
 

@@ -36,11 +36,14 @@ last_activity: YYYY-MM-DD
 
 When this research matures, findings should go to:
 
-- [ ] `cognition/runtime/context/decisions.md` — Design decisions made
-- [ ] `cognition/runtime/context/lessons.md` — Anti-patterns discovered
-- [ ] `cognition/runtime/context/glossary.md` — New terminology defined
-- [ ] Create mission — If actionable work identified
+- [ ] Governed proposal
+- [ ] Advisory plan
+- [ ] Change with validation and evidence
+- [ ] Retained evidence update
+- [ ] Durable authored edit outside `inputs/**`
 - [ ] Other: [specify]
+
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
 
 ## Status
 
@@ -52,7 +55,9 @@ When this research matures, findings should go to:
 
 ## Findings Summary
 
-*Summarize key findings here as research progresses. This section becomes the basis for publishing to context/.*
+*Summarize key findings here as research progresses. This section becomes the
+basis for a governed proposal, plan, Change, retained evidence update, or
+durable authored edit outside `inputs/**`.*
 
 ### Key Insights
 

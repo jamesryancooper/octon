@@ -4,6 +4,18 @@
 **/archive/
 !.octon/inputs/exploratory/proposals/
 !.octon/inputs/exploratory/proposals/**
+!.octon/inputs/additive/.archive/
+!.octon/inputs/additive/.archive/**
+!.octon/framework/scaffolding/runtime/templates/octon/inputs/additive/.archive/
+!.octon/framework/scaffolding/runtime/templates/octon/inputs/additive/.archive/**
+.octon/inputs/additive/.incoming/*
+!.octon/inputs/additive/.incoming/.gitkeep
+!.octon/inputs/additive/.incoming/README.md
+!.octon/inputs/additive/.incoming/*/
+.octon/inputs/additive/.incoming/*/**
+!.octon/inputs/additive/.incoming/*/intake-status.yml
+.octon/framework/scaffolding/runtime/templates/octon/inputs/additive/.incoming/*
+!.octon/framework/scaffolding/runtime/templates/octon/inputs/additive/.incoming/.gitkeep
 
 # Environment files
 .env

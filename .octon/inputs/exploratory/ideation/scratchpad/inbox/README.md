@@ -7,6 +7,8 @@ description: Temporary staging area for external imports and untriaged artifacts
 
 This directory is a **temporary holding area** for external artifacts that need to be reviewed, processed, and moved to their canonical locations.
 
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+
 ---
 
 ## What Belongs Here
@@ -26,7 +28,7 @@ This directory is a **temporary holding area** for external artifacts that need 
 |--------------|---------------|
 | Ideas worth exploring | `.scratchpad/brainstorm/` |
 | Committed research | `ideation/projects/` |
-| Finalized decisions | `cognition/runtime/context/decisions.md` |
+| Finalized decisions | governed decision or durable authored update outside `inputs/**` |
 | Active documentation | Parent directory (outside `.octon/`) |
 | Deprecated content | `.scratchpad/archive/` |
 
@@ -38,11 +40,13 @@ This directory is a **temporary holding area** for external artifacts that need 
 1. IMPORT    → Human adds raw material to .inbox/
 2. TRIAGE    → Human reviews and categorizes
 3. PROCESS   → Human (optionally with agent) refines content
-4. MOVE OUT  → Content goes to canonical home
+4. MOVE OUT  → Content goes to a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`
 5. CLEAN UP  → Delete processed items from .inbox/
 ```
 
-**Key principle:** Items in `.inbox/` are **temporary**. They should eventually move out to their canonical locations.
+**Key principle:** Items in `.inbox/` are **temporary** and non-authoritative.
+They should eventually move out through a governed proposal, plan, Change,
+retained evidence update, or durable authored edit outside `inputs/**`.
 
 ---
 
@@ -90,9 +94,8 @@ Scenario: Human imports a research PDF
 2. Human asks agent: "Summarize .inbox/research-paper.pdf"
 3. Agent reads specific file, provides summary
 4. Human reviews, extracts key insights
-5. Human moves relevant content to:
-   - docs/research/paper-summary.md (canonical doc)
-   - cognition/runtime/context/decisions.md (if decisions made)
+5. Human routes relevant content through a governed proposal, plan, Change,
+   retained evidence update, or durable authored edit outside `inputs/**`
 6. Human deletes or archives original from .inbox/
 ```
 
@@ -103,9 +106,9 @@ Scenario: Human imports a research PDF
 | Aspect | `.inbox/` | `.scratchpad/brainstorm/` | `projects/` |
 |--------|-----------|---------------------------|-------------|
 | **Purpose** | Temporary staging | Idea exploration | Committed research |
-| **Lifecycle** | Move out → delete | Graduate or kill | Until findings published |
+| **Lifecycle** | Move out then delete | Graduate or kill | Until a governed route consumes findings |
 | **Content origin** | External imports | Internal ideas | Graduated brainstorms |
-| **Destination** | Various | `projects/` or delete | `context/` or `missions/` |
+| **Destination** | Governed route or delete | `projects/` or delete | governed route outside `inputs/**` |
 
 ---
 

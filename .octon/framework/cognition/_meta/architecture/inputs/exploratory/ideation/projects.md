@@ -1,17 +1,17 @@
 ---
 title: Projects
-description: Human-led explorations that produce harness artifacts.
+description: Human-led explorations that may inform governed work.
 ---
 
 # Projects
 
-Projects are **human-led explorations** that live in `.octon/inputs/exploratory/ideation/projects/`. They provide isolated scope, memory, and continuity for structured research spanning multiple sessions — and produce artifacts that feed the main harness.
+Projects are **human-led explorations** that live in `.octon/inputs/exploratory/ideation/projects/`. They provide isolated scope, memory, and continuity for structured research spanning multiple sessions. They remain non-authoritative input until findings are routed through governed work outside `inputs/**`.
 
 ---
 
 ## What is a Project?
 
-A project is a **scaled-down harness** for human-led exploration:
+A project is a **structured workspace** for human-led exploration:
 
 | Harness Component | Project Equivalent |
 |---------------------|----------------------------|
@@ -23,9 +23,12 @@ A project is a **scaled-down harness** for human-led exploration:
 Projects provide structure for investigations that:
 
 - Span **multiple sessions** and need continuity
-- Require **isolated context** separate from harness progress
-- Will **produce artifacts** that feed `context/`, `missions/`, etc.
+- Require isolated research memory separate from governed work
+- May inform a governed proposal, plan, Change, retained evidence update, or
+  durable authored edit outside `inputs/**`
 - Benefit from **explicit goal and scope** definition
+
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
 
 ---
 
@@ -35,7 +38,7 @@ Projects and missions serve different purposes:
 
 | Aspect | Project | Mission |
 |--------|---------|---------|
-| **Location** | `projects/` | `missions/` |
+| **Location** | `projects/` | governed execution surface |
 | **Purpose** | Divergent exploration | Convergent execution |
 | **Autonomy** | Human-led | Agent-accessible |
 | **Output** | Insights, decisions, learnings | Completed deliverables |
@@ -57,15 +60,17 @@ ideation/scratchpad/ideas/      Quick captures (most ephemeral)
         ↓
 ideation/scratchpad/brainstorm/ Structured exploration (filter stage)
         ↓
-ideation/projects/              Committed research (produces artifacts)
+ideation/projects/              Committed research (non-authoritative input)
         ↓
-orchestration/missions/         Committed execution (ships deliverables)
+governed proposal, plan, Change, retained evidence update, or durable edit
         ↓
-instance/cognition/context/shared/              Permanent harness knowledge
-generated/cognition/summaries/                  Derived readable summaries
+durable surface outside inputs/** after validation and evidence
 ```
 
-Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `context/` directly or spawn `missions/`.
+Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become
+projects. Projects remain non-authoritative input and may inform a governed
+proposal, plan, Change, retained evidence update, or durable authored edit
+outside `inputs/**`.
 
 ---
 
@@ -78,7 +83,7 @@ stateDiagram-v2
     Active --> Active: Log progress
     Active --> Paused: Pause work
     Paused --> Active: Resume
-    Active --> Completed: Findings published
+    Active --> Completed: Governed route chosen
     Completed --> [*]
 ```
 
@@ -86,7 +91,7 @@ stateDiagram-v2
 |--------|-------------|
 | **Active** | Research in progress |
 | **Paused** | Temporarily on hold (document reason) |
-| **Completed** | Findings published to harness |
+| **Completed** | Governed route chosen and outcome recorded |
 
 ---
 
@@ -130,7 +135,7 @@ The `registry.md` tracks all projects in three tables:
 
 | Project | Goal | Completed | Outcomes |
 |---------|------|-----------|----------|
-| api-design | Design v2 API structure | 2025-01-05 | /.octon/instance/cognition/decisions/, generated summary refreshed, mission created |
+| api-design | Design v2 API structure | 2025-01-05 | Governed proposal accepted; durable decision update landed outside inputs/** |
 ```
 
 ---
@@ -171,10 +176,12 @@ last_activity: YYYY-MM-DD
 ## Outputs
 
 When this research matures, findings should go to:
-- [ ] `/.octon/instance/cognition/decisions/` — Durable design decisions recorded
-- [ ] `/.octon/instance/cognition/context/shared/lessons.md` — Anti-patterns discovered
-- [ ] `/.octon/instance/cognition/context/shared/glossary.md` — New terminology defined
-- [ ] Create mission — If actionable work identified
+- [ ] Governed proposal
+- [ ] Advisory plan
+- [ ] Change with validation and evidence
+- [ ] Retained evidence update
+- [ ] Durable authored edit outside `inputs/**`
+- [ ] Other: [specify]
 
 ## Status
 **Current:** active
@@ -354,13 +361,16 @@ Projects should consume harness context as research inputs:
 When findings are ready:
 
 1. **Summarize findings** in `project.md` Findings Summary section
-2. **Publish to harness** — update the relevant durable harness surfaces
-   directly
-3. **Spawn missions** if actionable work was identified
+2. **Choose a governed route** — proposal, plan, Change, retained evidence
+   update, or durable authored edit outside `inputs/**`
+3. **Record validation and evidence** required by that governed route
 4. **Move registry entry** from **Active** to **Completed**
-5. **Note outcomes** — what was published and where
+5. **Note outcomes** — what route consumed the findings and where durable
+   output landed
 
-Unlike a separate "promotion" workflow, projects live in the harness so findings flow directly to their destinations.
+Projects remain non-authoritative input. Findings become durable only through a
+separate governed proposal, plan, Change, retained evidence update, or durable
+authored edit outside `inputs/**`.
 
 ---
 
@@ -378,11 +388,11 @@ When work needs to pause:
 
 | Content Type | Destination |
 |--------------|-------------|
-| Design decisions | `/.octon/instance/cognition/decisions/` |
-| Anti-patterns discovered | `/.octon/instance/cognition/context/shared/lessons.md` |
-| New terminology | `/.octon/instance/cognition/context/shared/glossary.md` |
-| Actionable work identified | Create mission in `orchestration/missions/` |
-| Finalized constraints | `/.octon/instance/cognition/context/shared/constraints.md` |
+| Design decisions | governed decision update outside `inputs/**` |
+| Anti-patterns discovered | governed retained evidence or durable authored update |
+| New terminology | governed durable authored update |
+| Actionable work identified | governed proposal, plan, or Change |
+| Finalized constraints | governed durable authored update |
 
 ---
 
@@ -426,9 +436,9 @@ Evaluate authentication library options for the new user service.
 3. What are the security tradeoffs?
 
 ## Outputs
-- [x] `/.octon/instance/cognition/decisions/` — Library selection
-- [ ] `/.octon/instance/cognition/context/shared/lessons.md` — Security pitfalls found
-- [ ] Create mission — Implementation work
+- [x] Governed proposal — Library selection
+- [ ] Retained evidence update — Security pitfalls found
+- [ ] Change with validation and evidence — Implementation work
 
 ## Findings Summary
 
@@ -448,7 +458,6 @@ Evaluate authentication library options for the new user service.
 ## See Also
 
 - [Scratchpad](./scratchpad.md) — Ideas and brainstorm (upstream)
-- [Missions](../../../orchestration/_meta/architecture/missions.md) — Execution workstreams (downstream)
 - [Dot-Prefixed Directories](../../../cognition/_meta/architecture/dot-files.md) — Autonomy rules
 - [README.md](./README.md) — Canonical harness structure
 - `.octon/inputs/exploratory/ideation/projects/README.md` — In-harness documentation

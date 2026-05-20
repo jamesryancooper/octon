@@ -1,0 +1,6 @@
+schema_version: octon-additive-incoming-intake-status-v1
+intake_id: octon-rust-skill-pack-rust-source-authority
+authority_mode: non_authoritative
+status: unclassified
+reason: "Retained as raw additive intake only; this migration does not install, normalize, activate, publish, or project the Rust intake unit."
+next_step: "Run governed incoming intake processing before any classification or disposition."

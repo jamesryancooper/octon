@@ -1,11 +1,15 @@
 ---
 title: Projects
-description: Human-led explorations that produce workspace artifacts.
+description: Human-led explorations that may inform governed work.
 ---
 
 # Projects
 
-Projects are **human-led explorations** that produce artifacts feeding the main workspace. They provide isolated scope, memory, and continuity for structured research spanning multiple sessions.
+Projects are **human-led explorations** that may inform governed Octon work.
+They provide isolated scope, memory, and continuity for structured research
+spanning multiple sessions. Project material remains non-authoritative input
+until a separate governed proposal, plan, Change, retained evidence update, or
+durable authored edit outside `inputs/**` promotes the relevant findings.
 
 ---
 
@@ -34,14 +38,16 @@ ideation/scratchpad/ideas/      Quick captures (most ephemeral)
         ↓
 ideation/scratchpad/brainstorm/ Structured exploration (filter stage)
         ↓
-ideation/projects/              Committed research (produces artifacts)
+ideation/projects/              Committed research (non-authoritative input)
         ↓
-orchestration/missions/         Committed execution (ships deliverables)
+governed proposal, plan, Change, retained evidence update, or durable edit
         ↓
-cognition/runtime/context/              Permanent workspace knowledge
+durable surface outside inputs/** after validation and evidence
 ```
 
-Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become projects. Projects feed `cognition/runtime/context/` directly or spawn `orchestration/missions/`.
+Most ideas die in `ideas/`. Some graduate to `brainstorm/`. Survivors become
+projects. Projects may inform a governed proposal, plan, Change, retained
+evidence update, or durable authored edit outside `inputs/**`.
 
 ---
 
@@ -100,7 +106,9 @@ Created → Active → Completed → Archived
 |--------|-------------|
 | **Active** | Research in progress |
 | **Paused** | Temporarily on hold (document reason) |
-| **Completed** | Findings published to workspace |
+| **Completed** | Governed route chosen and outcome recorded |
+
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
 
 ---
 
@@ -145,18 +153,20 @@ When a brainstorm graduates:
 When findings are ready:
 
 1. **Summarize findings** in `project.md` Findings Summary section
-2. **Publish to workspace** — update relevant `cognition/runtime/context/` files directly
-3. **Spawn missions** if actionable work was identified
+2. **Choose a governed route** — proposal, plan, Change, retained evidence
+   update, or durable authored edit outside `inputs/**`
+3. **Record validation and evidence** required by that governed route
 4. **Move registry entry** from **Active** to **Completed**
-5. **Note outcomes** — what was published and where
+5. **Note outcomes** — what route consumed the findings and where durable
+   output landed
 
-Unlike the old scratchpad model, there's no separate "promotion" step. Projects live in the workspace, so findings flow directly to `cognition/runtime/context/decisions.md`, `cognition/runtime/context/lessons.md`, etc.
+Projects remain non-authoritative input. Findings become durable only through a
+separate governed proposal, plan, Change, retained evidence update, or durable
+authored edit outside `inputs/**`.
 
 ---
 
 ## See Also
 
-- [`orchestration/missions/`](../../orchestration/missions/README.md) — Convergent execution workstreams
 - [`ideation/scratchpad/brainstorm/`](../scratchpad/brainstorm/README.md) — Pre-project exploration
-- [`cognition/runtime/context/`](../../cognition/runtime/context/) — Where findings get published
 - [`docs/architecture/workspaces/projects.md`](../../docs/architecture/workspaces/projects.md) — Full architecture documentation

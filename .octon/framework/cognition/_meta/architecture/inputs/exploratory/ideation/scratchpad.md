@@ -5,13 +5,13 @@ description: Human-led thinking, exploration, and the ideas-to-projects funnel.
 
 # Harness Scratchpad
 
-The `ideation/scratchpad/` directory is a **persistent, human-led space** for thinking, exploration, and early-stage idea development. Unlike the main harness which is agent-facing, `ideation/scratchpad/` requires explicit human direction for agent collaboration.
+The `ideation/scratchpad/` directory is a **persistent, human-led space** for thinking, exploration, and early-stage idea development. Unlike governed execution surfaces, `ideation/scratchpad/` requires explicit human direction for agent collaboration.
 
 ---
 
 ## Purpose
 
-The scratchpad serves needs that don't fit in agent-facing directories:
+The scratchpad serves needs that do not fit in governed execution surfaces:
 
 | Need | Solution |
 |------|----------|
@@ -35,11 +35,11 @@ ideation/scratchpad/             .octon/
 │ ideas/              │        │ projects/           │
 │ (quick captures)    │───────▶│ (committed research)│
 │         ↓           │        │         ↓           │
-│ brainstorm/         │────┘   │ missions/           │
+│ brainstorm/         │────┘   │ governed proposal,  │
 │ (explore before     │        │ (committed execution)│
-│  committing)        │        │         ↓           │
-└─────────────────────┘        │ context/            │
-                               │ (permanent knowledge)│
+│  committing)        │        │ plan, Change,       │
+└─────────────────────┘        │ retained evidence,  │
+                               │ or durable edit      │
                                └─────────────────────┘
 ```
 
@@ -48,7 +48,9 @@ ideation/scratchpad/             .octon/
 | Capture | `ideas/` | Quick notes, "what if" | ~10% graduate |
 | Explore | `brainstorm/` | Validate before committing | ~30% graduate |
 | Research | `projects/` | Committed exploration | Most complete |
-| Execute | `missions/` | Committed execution | Ships work |
+| Execute | governed work | Committed execution | Validated durable output |
+
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
 
 **Design principle:** Low friction capture, aggressive filtering. Most ideas should die early.
 
@@ -242,11 +244,10 @@ Snippets, quotes, code fragments for reference.
 ```mermaid
 graph TB
     subgraph harness_root [.octon/]
-        subgraph agent_facing [Agent-Facing]
+        subgraph governed_surfaces [Governed Surfaces]
             projects[ideation/projects/]
-            context[instance/cognition/context/shared/]
             progress[state/continuity/repo/]
-            missions[instance/orchestration/missions/]
+            governed[governed proposal, plan, Change, retained evidence, or durable edit]
         end
 
         subgraph human_led [Human-Led: ideation/scratchpad/]
@@ -259,16 +260,14 @@ graph TB
 
     ideas -->|explore| brainstorm
     brainstorm -->|graduate| projects
-    projects -->|insights| context
-    projects -->|actionable| missions
-    inbox -->|triage| agent_facing
+    projects -->|may inform| governed
+    inbox -->|triage| governed
 ```
 
 | Directory | Autonomy | Persistence |
 |-----------|----------|-------------|
 | `projects/` | Human-led (explicit direction) | Until completed |
-| `missions/` | Agent-accessible | Until archived |
-| `context/` | Agent-accessible | Permanent |
+| governed work | Contract-governed | Until completed or superseded |
 | `ideation/scratchpad/*` | Human-led only | Varies |
 
 ---
@@ -301,6 +300,6 @@ graph TB
 - [Projects](./projects.md) — Committed research (downstream from brainstorm)
 - [Dot-Prefixed Directories](../../../cognition/_meta/architecture/dot-files.md) — Autonomy rules for human-led directories
 - [README.md](./README.md) — Canonical harness structure
-- [Missions](../../../orchestration/_meta/architecture/missions.md) — Agent-facing sub-projects
+- [Missions](../../../orchestration/_meta/architecture/missions.md) — Execution workstreams
 - `.octon/inputs/exploratory/ideation/scratchpad/README.md` — In-harness documentation
 - `.octon/inputs/exploratory/ideation/scratchpad/brainstorm/README.md` — Brainstorm template

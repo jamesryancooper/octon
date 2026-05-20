@@ -1,15 +1,19 @@
 # Additive Extension Inputs
 
-`inputs/additive/extensions/**` is the canonical raw-input surface for additive
-extension packs.
+`inputs/additive/extensions/**` is the canonical raw-input surface for
+normalized additive extension packs.
 
 ## Placement Rules
 
-- Raw packs live only under `inputs/additive/extensions/<pack-id>/`.
+- Normalized raw extension packs live only under
+  `inputs/additive/extensions/<pack-id>/`.
 - Raw packs are non-authoritative source inputs only.
 - Runtime and policy consumers must never read raw pack paths directly.
 - Pack payloads remain additive and subordinate to `framework/**` and
   `instance/**`.
+- Downloaded, unreviewed, or route-undecided intake units live under
+  `inputs/additive/.incoming/<intake-id>/`, not under this normalized extension
+  pack root.
 
 ## Canonical Pack Layout
 

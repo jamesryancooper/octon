@@ -2,6 +2,8 @@
 
 This registry tracks active, paused, and completed projects.
 
+Required route: governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+
 ---
 
 ## Active
@@ -57,10 +59,12 @@ This registry tracks active, paused, and completed projects.
 ### Completing Research
 
 1. Summarize findings in `project.md`
-2. Publish findings directly to `cognition/runtime/context/` files
-3. Spawn missions if actionable work was identified
+2. Choose a governed proposal, plan, Change, retained evidence update, or
+   durable authored edit outside `inputs/**`
+3. Record validation and evidence required by that governed route
 4. Move entry from **Active** to **Completed**
-5. Note outcomes (where findings went)
+5. Note outcomes (which route consumed the findings and where durable output
+   landed)
 
 ### Pausing Research
 
