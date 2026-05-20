@@ -1,0 +1,96 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-residue-cleanup-route",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "add a dedicated unattended proposal lifecycle cleanup route and land it without a PR",
+  "scope": {
+    "summary": "Runtime controller, hygiene fingerprinting, extension contracts, cleanup prompt and skill bundle, generated effective route artifacts, and authority regression tests.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle",
+      ".octon/generated/effective/extensions",
+      ".codex/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue"
+    ]
+  },
+  "source_branch_ref": "chore/lifecycle-residue-cleanup-route@d33aa080e88c23a2fcad934d546245cbe8c65b67",
+  "target_branch_ref": "origin/main@d33aa080e88c23a2fcad934d546245cbe8c65b67",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live gh api repos/jamesryancooper/octon/rules/branches/main",
+    "source_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "target_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh output: provider ruleset allows route-neutral hosted no-PR landing",
+      "git-branch-land-hosted-no-pr.sh output: origin/main equals landed ref after push"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/lifecycle-residue-cleanup-route",
+    "source_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "target_pre_ref": "8fc68f7574d78cf97ebba214dc1682d7063e5cca",
+    "target_post_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "validated_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed"
+    ],
+    "provider_ruleset_ref": "live gh api repos/jamesryancooper/octon/rules/branches/main",
+    "push_refspec": "d33aa080e88c23a2fcad934d546245cbe8c65b67:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+  "main_alignment": {
+    "local_main_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "origin_main_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "landed_ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "aligned": true,
+    "verification_ref": "git rev-parse main && git rev-parse origin/main"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-cleanup.sh output: local branch deleted",
+    "git-branch-cleanup.sh output: remote branch deleted",
+    "git-branch-cleanup.sh output: local main synced to origin/main"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/lifecycle-residue-cleanup-route",
+    "remote_branch": "origin/chore/lifecycle-residue-cleanup-route",
+    "evidence_refs": [
+      "git branch --list chore/lifecycle-residue-cleanup-route returned no branch",
+      "git ls-remote --heads origin chore/lifecycle-residue-cleanup-route returned no ref"
+    ]
+  },
+  "validation_evidence_refs": [
+    "cargo test -p octon_kernel lifecycle_program::tests --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml",
+    "cargo fmt -p octon_kernel --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -- --check",
+    "bash .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-route-resolution.sh",
+    "bash .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-authority-boundaries.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh",
+    "git diff --check"
+  ],
+  "review_waiver_refs": [
+    "operator explicitly selected branch-no-pr closeout without PR"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "d33aa080e88c23a2fcad934d546245cbe8c65b67",
+    "instructions": "Run git revert d33aa080e88c23a2fcad934d546245cbe8c65b67 on main and push the revert if rollback is required."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-18T22:54:40Z"
+}
