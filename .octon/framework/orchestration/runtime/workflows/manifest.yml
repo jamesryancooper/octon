@@ -73,6 +73,20 @@ workflows:
       - "build repo snapshot"
       - "export pack bundle"
       - "materialize repo snapshot"
+  - id: process-incoming-intake
+    display_name: Process Incoming Intake
+    group: meta
+    domain: additive-inputs
+    path: meta/process-incoming-intake/
+    execution_profile: core
+    summary: Manually classify and dispose an Octon intake unit from additive `.incoming` as an extension, core skill, or blocked input.
+    status: active
+    triggers:
+      - "process incoming intake"
+      - "classify incoming intake"
+      - "classify intake unit"
+      - "process downloaded intake"
+      - "normalize incoming extension"
   - id: closeout
     display_name: Closeout Change
     group: meta

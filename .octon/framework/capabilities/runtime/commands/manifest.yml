@@ -379,6 +379,24 @@ commands:
   - claude
   - cursor
   - codex
+- id: process-incoming-intake
+  display_name: Process Incoming Intake
+  path: process-incoming-intake.md
+  summary: Manually trigger governed classification and disposition for a raw additive intake unit.
+  access: agent
+  argument_hint: <intake-id> [--requested-route <route>] [--stop-after-classification]
+  routing:
+    selectors:
+      include:
+      - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+  host_adapters:
+  - claude
+  - cursor
+  - codex
 - id: refactor
   display_name: Refactor
   path: refactor.md

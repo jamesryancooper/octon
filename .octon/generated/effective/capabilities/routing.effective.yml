@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-59cb89ce72cb
-published_at: 2026-05-20T19:25:14Z
+generation_id: capabilities-e53f03106329
+published_at: 2026-05-20T19:33:05Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-20T19-25-14Z-capabilities-59cb89ce72cb.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-20T19-33-05Z-capabilities-e53f03106329.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,7 +15,7 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: 0278e59edfd5df6eefd565cc654995c631748d23790707fc19eb6fcc2777878a
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: 13e67cbfac06e5ac7e930a0f92c82ae76886213651c446bc78203603c5ddfdb0
+  framework_commands_manifest_sha256: 332fd28d9ec458bb5a1e6e69a828260a5622372312d87ae5db789273ca96a2d3
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: 6a0f07f65f226986d8d195bc276f2c67f21bf03d03a65d6d5f6bded47eb7459a
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
@@ -592,6 +592,37 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9999-1-command-framework.command.init
     projection_name: init
+  - effective_id: framework.command.process-incoming-intake
+    artifact_map_id: framework-command-process-incoming-intake
+    origin_class: framework
+    capability_kind: command
+    capability_id: process-incoming-intake
+    display_name: Process Incoming Intake
+    summary: Manually trigger governed classification and disposition for a raw additive intake unit.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
+    capability_domain: command
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9999-1-command-framework.command.process-incoming-intake
+    projection_name: process-incoming-intake
   - effective_id: framework.command.provision-host-tools
     artifact_map_id: framework-command-provision-host-tools
     origin_class: framework
@@ -6367,6 +6398,7 @@ resolution_order:
   - framework.command.evaluate-workflow
   - framework.command.export-harness
   - framework.command.init
+  - framework.command.process-incoming-intake
   - framework.command.provision-host-tools
   - framework.command.query-ask
   - framework.command.query-explain

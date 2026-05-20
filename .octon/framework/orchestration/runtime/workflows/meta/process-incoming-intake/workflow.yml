@@ -1,0 +1,201 @@
+---
+schema_version: workflow-contract-v2
+name: process-incoming-intake
+description: Classify and dispose an Octon intake unit staged under additive
+  `.incoming` as a normalized additive extension, a core Octon skill, or a
+  blocked/proposal-required input without letting raw intake become authority.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: mutating
+execution_controls:
+  cancel_safe: false
+coordination_key_strategy:
+  kind: workflow-target
+  source_fields:
+    - workflow_group
+    - workflow_id
+  format: workflow:{workflow_group}/{workflow_id}
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: intake_id
+    type: text
+    required: true
+    description: Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`
+  - name: requested_route
+    type: text
+    required: false
+    description: Optional route hint; final classification must still be proven by the decision matrix
+  - name: stop_after_classification
+    type: boolean
+    required: false
+    description: Stop after writing the classification receipt without applying disposition
+stages:
+  - id: validate-intake
+    asset: stages/01-validate-intake.md
+    kind: verification
+    consumes: []
+    produces:
+      - stage:validate-intake
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: classify-route
+    asset: stages/02-classify-route.md
+    kind: analysis
+    consumes:
+      - stage:validate-intake
+    produces:
+      - stage:classify-route
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: execute-disposition
+    asset: stages/03-execute-disposition.md
+    kind: mutation
+    consumes:
+      - stage:classify-route
+    produces:
+      - stage:execute-disposition
+    mutation_scope:
+      - workflow-scope
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - repo.write
+        - evidence.write
+        - publication.write
+      side_effects:
+        write_repo: true
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: true
+        branch_mutation: false
+      risk_tier: high
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-scope
+      review_requirements:
+        human_approval: true
+        quorum: false
+        rollback_metadata: true
+      allowed_executor_profiles:
+        - scoped_repo_mutation
+  - id: validate-closeout
+    asset: stages/04-validate-closeout.md
+    kind: verification
+    consumes:
+      - stage:execute-disposition
+    produces:
+      - stage:validate-closeout
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: medium
+      scope:
+        read:
+          - workflow-scope
+        write:
+          - workflow-evidence
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+artifacts:
+  - name: incoming_intake_decision
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/decision.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Route decision, rejected routes, provenance/trust findings, and selected disposition
+  - name: incoming_intake_validation
+    path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md"
+    kind: file
+    format: markdown
+    determinism: unique
+    description: Route-specific validation commands, outcomes, and cleanup evidence
+done_gate:
+  checks:
+    - "incoming path is `.octon/inputs/additive/.incoming/<intake-id>/`"
+    - "validate-incoming-intake-unit.sh passes and its deterministic inventory is preserved in workflow evidence"
+    - "root `.archive/**`, Downloads paths, generated outputs, and host-specific skill directories are not used as staging"
+    - "one and only one route is selected from additive extension, core Octon skill, or blocked/proposal-required"
+    - "route decision evidence records criteria, rejected routes, provenance, trust posture, and compatibility findings"
+    - "additive extension route normalizes into `inputs/additive/extensions/<extension-pack-id>/` and uses existing extension publication flows"
+    - "core skill route installs only into `framework/capabilities/runtime/skills/**` and uses existing skill validation and projection flows"
+    - "blocked route performs no install, activation, publication, projection, or runtime exposure"
+    - "final disposition leaves no `.incoming/<intake-id>/` copy; only `stop_after_classification=true` may leave raw intake in place"
+    - "archive retention is safe, justified, and evidenced; unsafe retained material uses evidence-only pointers"
+    - "route-specific validation commands pass or documented blockers stop the workflow fail-closed"
+constraints:
+  fail_closed: true
+  forbid_design_packages: true
+  require_relative_local_assets: true

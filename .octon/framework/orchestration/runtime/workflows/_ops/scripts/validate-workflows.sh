@@ -361,6 +361,14 @@ check_workflow_contract() {
     pass "workflow '$id' avoids temporary .octon/inputs/exploratory/proposals paths"
   fi
 
+  if [[ "$id" == "process-incoming-intake" ]]; then
+    if matches_path_regex 'final disposition leaves no `\.incoming/<intake-id>/` copy; only `stop_after_classification=true` may leave raw intake in place' "$workflow_file"; then
+      pass "workflow '$id' declares final incoming cleanup semantics"
+    else
+      fail "workflow '$id' must require final disposition to remove .incoming/<intake-id> except stop_after_classification"
+    fi
+  fi
+
   check_workflow_stages "$id" "$workflow_file" "$workflow_dir"
   check_registry_commands "$id"
 }

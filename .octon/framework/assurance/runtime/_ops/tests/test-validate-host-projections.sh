@@ -66,6 +66,10 @@ EOF
 # Demo Command
 EOF
 
+  cat >"$root/.octon/framework/capabilities/runtime/commands/process-incoming-intake.md" <<'EOF'
+# Process Incoming Intake
+EOF
+
   cat >"$root/.octon/framework/capabilities/runtime/skills/demo/SKILL.md" <<'EOF'
 # Demo Skill
 allowed-tools: Read
@@ -225,6 +229,33 @@ routing_candidates:
     precedence_tier: "native-authority"
     stable_sort_key: "0000"
     projection_name: "demo-command"
+  - effective_id: "framework.command.process-incoming-intake"
+    artifact_map_id: "framework-command-process-incoming-intake"
+    origin_class: "framework"
+    capability_kind: "command"
+    capability_id: "process-incoming-intake"
+    display_name: "Process Incoming Intake"
+    summary: "Classify and dispose a raw additive intake unit through the governed intake workflow."
+    status: "active"
+    source_manifest: ".octon/framework/capabilities/runtime/commands/manifest.yml"
+    capability_domain: "command"
+    host_adapters: [claude, cursor, codex]
+    selectors:
+      include: ["**"]
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: "native-authority"
+    stable_sort_key: "0000a"
+    projection_name: "process-incoming-intake"
   - effective_id: "framework.skill.demo-skill"
     artifact_map_id: "framework-skill-demo-skill"
     origin_class: "framework"
@@ -308,6 +339,7 @@ routing_candidates:
     projection_name: "demo-ext-skill"
 resolution_order:
   - "framework.command.demo-command"
+  - "framework.command.process-incoming-intake"
   - "framework.skill.demo-skill"
   - "extension.command.demo-ext.demo-ext-command"
   - "extension.skill.demo-ext.demo-ext-skill"
@@ -340,6 +372,17 @@ artifacts:
     source_manifest_path: ".octon/framework/capabilities/runtime/skills/registry.yml"
     source_manifest_sha256: "fixture"
     source_path: ".octon/framework/capabilities/runtime/skills/demo/SKILL.md"
+    source_sha256: "fixture"
+  - artifact_map_id: "framework-command-process-incoming-intake"
+    effective_id: "framework.command.process-incoming-intake"
+    origin_class: "framework"
+    capability_kind: "command"
+    capability_id: "process-incoming-intake"
+    display_name: "Process Incoming Intake"
+    source_kind: "framework-native"
+    source_manifest_path: ".octon/framework/capabilities/runtime/commands/manifest.yml"
+    source_manifest_sha256: "fixture"
+    source_path: ".octon/framework/capabilities/runtime/commands/process-incoming-intake.md"
     source_sha256: "fixture"
   - artifact_map_id: "extension-command-demo-ext-demo-ext-command"
     effective_id: "extension.command.demo-ext.demo-ext-command"
@@ -391,6 +434,7 @@ case_publish_and_validate_passes() {
   write_fixture "$fixture"
   run_publish "$fixture"
   run_validator "$fixture"
+  [[ -f "$fixture/.codex/commands/process-incoming-intake.md" ]]
 }
 
 case_stale_projection_is_pruned() {

@@ -1334,6 +1334,46 @@ workflows:
         description: "Comma-separated pack ids. Required only for pack_bundle."
     access: human
     depends_on: []
+  process-incoming-intake:
+    version: "1.0.0"
+    execution_profile: core
+    commands: ["/process-incoming-intake"]
+    parameters:
+      - name: intake_id
+        type: text
+        required: true
+        description: "Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`"
+      - name: requested_route
+        type: text
+        required: false
+        description: "Optional route hint; final classification must still be proven by the decision matrix"
+      - name: stop_after_classification
+        type: boolean
+        required: false
+        description: "Stop after writing the classification receipt without applying disposition"
+    access: human
+    depends_on: []
+    io:
+      inputs:
+        - name: incoming_intake
+          path: "/.octon/inputs/additive/.incoming/{{intake_id}}/"
+          kind: directory
+          format: mixed
+          required: true
+          description: "Raw intake unit to classify and dispose through the manual governed workflow"
+      outputs:
+        - name: incoming_intake_decision
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/decision.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Route decision, rejected routes, provenance/trust findings, and selected disposition"
+        - name: incoming_intake_validation
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Route-specific validation commands, outcomes, and cleanup evidence"
   closeout:
     version: "2.0.0"
     execution_profile: core
