@@ -141,15 +141,16 @@
     "cleanup-local-run-artifacts.sh --summary-only before cleanup: PASS",
     "cleanup-local-run-artifacts.sh --confirm --summary-only: PASS",
     "cleanup-local-run-artifacts.sh --summary-only after cleanup: PASS",
-    "git diff --check: planned",
-    "validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/validation/analysis/2026-05-20-residue-disposition-closeout.json: planned"
+    "git diff --check: PASS",
+    "git diff --cached --check: PASS",
+    "validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/validation/analysis/2026-05-20-residue-disposition-closeout.json: PASS"
   ],
   "review_waiver_refs": [
     "operator explicitly requested branch-no-pr and prohibited PR creation"
   ],
   "durable_history": {
-    "kind": "branch",
-    "ref": "chore/residue-disposition-closeout",
+    "kind": "commit",
+    "ref": "6d6477039",
     "branch": "chore/residue-disposition-closeout"
   },
   "rollback_handle": {
