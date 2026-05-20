@@ -50,14 +50,14 @@ Expected behavior:
 Command:
 
 ```text
-/octon-drift-triage --packet-path ".octon/inputs/exploratory/packages/2026-04-15-octon-drift-triage-demo"
+/octon-drift-triage --packet-path ".octon/inputs/exploratory/reports/2026-04-15-octon-drift-triage-demo"
 ```
 
 Expected behavior:
 
 - reloads stored inputs from `packet.yml`
 - refreshes the packet in place
-- preserves the packet as a non-authoritative report package
+- preserves the packet as a non-authoritative report
 
 ## 5. Fallback
 

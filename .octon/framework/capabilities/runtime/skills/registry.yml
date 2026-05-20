@@ -26,7 +26,7 @@ skills:
         description: Additional source materials by topic
       outputs:
       - name: synthesis_document
-        path: /.octon/inputs/exploratory/drafts/{{topic}}-synthesis.md
+        path: /.octon/inputs/exploratory/syntheses/{{topic}}-synthesis.md
         kind: file
         format: markdown
         determinism: stable
@@ -2592,6 +2592,276 @@ skills:
       fingerprints:
         tech_tags: []
         language_tags: []
+  rust:
+    version: 1.0.1
+    commands: []
+    parameters: []
+    requires:
+      context: []
+    io:
+      inputs: []
+      outputs: []
+    host_adapters: []
+    routing:
+      selectors:
+        include:
+        - '**/Cargo.toml'
+        - '**/Cargo.lock'
+        - '**/*.rs'
+        - '**/src/main.rs'
+        - '**/src/lib.rs'
+        - '**/src/bin/**'
+        - '**/crates/**'
+        - '**/tests/**'
+        - '**/xtask/**'
+        exclude:
+        - '**/target/**'
+        - '**/.git/**'
+        - '**/node_modules/**'
+      fingerprints:
+        tech_tags:
+        - rust
+        - cargo
+        - cli
+        - automation
+        - repo-tooling
+        language_tags:
+        - rust
+  audit-rust-tool-architecture:
+    version: 1.0.1
+    commands:
+    - /audit-rust-tool-architecture
+    parameters:
+    - name: target_path
+      type: folder
+      required: true
+      description: Rust script, crate, CLI utility, automation tool, repo-maintenance tool, or repo-local Rust scope to audit
+    - name: mode
+      type: text
+      required: false
+      default: audit
+      description: 'audit, migration-plan, or post-remediation'
+    - name: evidence_depth
+      type: text
+      required: false
+      default: standard
+      description: 'Evidence intensity: quick, standard, deep'
+    - name: include_workspace_advice
+      type: boolean
+      required: false
+      default: true
+      description: Whether to evaluate if workspace splitting is justified
+    - name: severity_threshold
+      type: text
+      required: false
+      default: all
+      description: 'Minimum severity to report: critical, high, medium, low, all'
+    - name: post_remediation
+      type: boolean
+      required: false
+      default: false
+      description: Enable strict done-gate verification after corrections
+    - name: convergence_k
+      type: text
+      required: false
+      default: '3'
+      description: Number of controlled reruns used to evaluate finding stability
+    - name: seed_list
+      type: text
+      required: false
+      description: Comma-separated deterministic seeds used for consistency checks
+    requires:
+      context: []
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+      - id: rust
+        kind: skill
+        ref: rust
+        role: prerequisite
+        required: true
+    io:
+      inputs: []
+      outputs:
+      - name: rust_tool_architecture_audit_report
+        path: /.octon/state/evidence/validation/analysis/{{date}}-rust-tool-architecture-audit-{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Evidence-backed Rust tool architecture audit with findings, severity, and migration recommendations
+      - name: rust_tool_architecture_summary_json
+        path: /.octon/state/evidence/validation/analysis/{{date}}-rust-tool-architecture-audit-{{run_id}}.json
+        kind: file
+        format: json
+        determinism: unique
+        description: Machine-readable summary of architecture findings and migration stages
+      - name: bounded_audit_bundle
+        path: /.octon/state/evidence/validation/audits/{{date}}-{{run_id}}/
+        kind: directory
+        format: mixed
+        determinism: unique
+        description: Bounded audit bundle with findings, inspected paths, coverage notes, and validation artifacts
+      - name: run_log
+        path: /.octon/state/evidence/runs/skills/audit-rust-tool-architecture/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for this Rust architecture audit run
+      - name: log_index
+        path: /.octon/state/evidence/runs/skills/audit-rust-tool-architecture/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Index of all audit-rust-tool-architecture runs
+      - name: top_log_index
+        path: /.octon/state/evidence/runs/skills/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Top-level log index across skills
+    host_adapters:
+    - claude
+    - cursor
+    - codex
+    routing:
+      selectors:
+        include:
+        - '**/Cargo.toml'
+        - '**/Cargo.lock'
+        - '**/*.rs'
+        - '**/src/main.rs'
+        - '**/src/lib.rs'
+        - '**/src/bin/**'
+        - '**/crates/**'
+        - '**/tests/**'
+        - '**/xtask/**'
+        exclude:
+        - '**/target/**'
+        - '**/.git/**'
+        - '**/node_modules/**'
+      fingerprints:
+        tech_tags:
+        - rust
+        - cargo
+        - cli
+        - automation
+        - repo-tooling
+        language_tags:
+        - rust
+  plan-rust-tool-migration:
+    version: 1.0.1
+    commands:
+    - /plan-rust-tool-migration
+    parameters:
+    - name: target_path
+      type: folder
+      required: true
+      description: Rust script, crate, CLI utility, automation tool, or repo-local Rust scope to plan for migration
+    - name: desired_target
+      type: text
+      required: false
+      default: auto
+      description: 'auto, main-modules, bin-lib-split, multiple-binaries, workspace, or internal-crates'
+    - name: migration_depth
+      type: text
+      required: false
+      default: sufficient
+      description: 'minimal, sufficient, or comprehensive'
+    - name: preserve_cli_contract
+      type: boolean
+      required: false
+      default: true
+      description: Preserve current CLI behavior unless explicitly justified
+    - name: include_file_moves
+      type: boolean
+      required: false
+      default: true
+      description: Include proposed file/module moves in the migration plan
+    - name: evidence_depth
+      type: text
+      required: false
+      default: standard
+      description: 'Evidence intensity: quick, standard, deep'
+    - name: post_remediation
+      type: boolean
+      required: false
+      default: false
+      description: Enable verification-oriented plan format after implementation
+    requires:
+      context: []
+    composition:
+      mode: prerequisites
+      failure_policy: fail_fast
+      steps:
+      - id: rust
+        kind: skill
+        ref: rust
+        role: prerequisite
+        required: true
+    io:
+      inputs: []
+      outputs:
+      - name: rust_tool_migration_plan
+        path: /.octon/inputs/exploratory/plans/{{date}}-rust-tool-migration-plan-{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Advisory staged migration plan for a Rust script or tool
+      - name: rust_tool_migration_summary_json
+        path: /.octon/state/evidence/validation/analysis/{{date}}-rust-tool-migration-plan-{{run_id}}.json
+        kind: file
+        format: json
+        determinism: unique
+        description: Machine-readable migration summary and acceptance criteria
+      - name: run_log
+        path: /.octon/state/evidence/runs/skills/plan-rust-tool-migration/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for this Rust migration planning run
+      - name: log_index
+        path: /.octon/state/evidence/runs/skills/plan-rust-tool-migration/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Index of all plan-rust-tool-migration runs
+      - name: top_log_index
+        path: /.octon/state/evidence/runs/skills/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Top-level log index across skills
+    host_adapters:
+    - claude
+    - cursor
+    - codex
+    routing:
+      selectors:
+        include:
+        - '**/Cargo.toml'
+        - '**/Cargo.lock'
+        - '**/*.rs'
+        - '**/src/main.rs'
+        - '**/src/lib.rs'
+        - '**/src/bin/**'
+        - '**/crates/**'
+        - '**/tests/**'
+        - '**/xtask/**'
+        exclude:
+        - '**/target/**'
+        - '**/.git/**'
+        - '**/node_modules/**'
+      fingerprints:
+        tech_tags:
+        - rust
+        - cargo
+        - cli
+        - automation
+        - repo-tooling
+        - migration
+        language_tags:
+        - rust
   react-composition-patterns:
     version: 1.0.0
     commands:

@@ -4,22 +4,31 @@ This surface governs Packet 8 additive extension-pack boundaries.
 
 ## Canonical Rules
 
-- Raw extension packs live only under `inputs/additive/extensions/**`.
+- Downloaded, unreviewed, or route-undecided additive intake units are governed
+  by `../inputs/additive/incoming-intake-processing.md` and live only under
+  `inputs/additive/.incoming/<intake-id>/` until classified.
+- Normalized raw extension packs live only under
+  `inputs/additive/extensions/<pack-id>/`.
+- Rejected, superseded, historical, or quarantined additive intake copies live
+  only under `inputs/additive/.archive/<intake-id>/` when retained before or
+  after classification.
 - Desired repo-owned activation lives only in `instance/extensions.yml`.
 - Actual active state and quarantine truth live only under
   `state/control/extensions/**`.
 - Runtime-facing extension consumption reads only
   `generated/effective/extensions/**`.
-- Raw pack paths must never become direct runtime or policy dependencies.
+- Raw pack paths and incoming intake paths must never become direct runtime or
+  policy dependencies.
 
 ## Ownership Model
 
 Use this ownership split across all extension artifact types:
 
 - **Extension-owned raw artifacts**
-  Content authored inside a pack under `inputs/additive/extensions/<pack-id>/`
-  such as commands, skills, prompts, templates, context docs, validation docs,
-  extension-local fixtures, and extension-local validation tests.
+  Content authored inside a normalized pack under
+  `inputs/additive/extensions/<pack-id>/` such as commands, skills, prompts,
+  templates, context docs, validation docs, extension-local fixtures, and
+  extension-local validation tests.
 - **Framework-owned extension system artifacts**
   Generic publication, validation, routing, projection, discovery, and
   portability machinery that must continue to work even when a specific
@@ -45,4 +54,5 @@ Rules:
 ## Subcontracts
 
 - `boundary-contract.md`
+- `../inputs/additive/incoming-intake-processing.md`
 - `trust-and-compatibility.md`

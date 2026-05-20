@@ -41,9 +41,9 @@ Allowed `kind` values in v1:
 - `policy`
 - `architecture`
 
-## Authority
+## Proposal-Local Lifecycle Sources
 
-Manifest authority for every proposal:
+Lifecycle sources for every proposal:
 
 1. `proposal.yml`
 2. subtype manifest (`design-proposal.yml`, `migration-proposal.yml`,
@@ -59,7 +59,8 @@ Proposal-local navigation and supporting material follow after the manifests:
 
 Rules:
 
-- `proposal.yml` and the subtype manifest are the only lifecycle authorities.
+- `proposal.yml` and the subtype manifest are the only proposal-local lifecycle
+  sources.
 - `navigation/source-of-truth-map.md` is the manual precedence and boundary map.
 - `navigation/artifact-catalog.md` is generated inventory, not semantic
   authority.
@@ -120,7 +121,7 @@ Allowed values:
 Rules:
 
 - `proposal_id` must match the final directory name.
-- active and archived proposal package paths must use the exact
+- active and archived proposal packet paths must use the exact
   `<kind>/<proposal_id>` layout with no numeric prefix in the directory name.
 - `promotion_targets` must contain one or more repo-relative durable targets.
 - `promotion_scope=octon-internal` requires every `promotion_target` to be
@@ -153,7 +154,7 @@ Rules:
 Proposals move through one active lifecycle and one archive lifecycle:
 
 1. `draft`
-   - The proposal package exists at the active proposal path.
+   - The proposal packet exists at the active proposal path.
    - `proposal.yml`, subtype manifest, `README.md`, and navigation files exist.
    - The registry projection exists under
      `/.octon/generated/proposals/registry.yml` and is rebuilt from manifests.
@@ -248,7 +249,7 @@ A proposal is implementation-grade complete only when:
 - no placeholder text, TODOs, stale assumptions, contradictions, or ambiguous
   target-state language remains in active proposal artifacts;
 - repo-local projections, generated outputs, retained evidence, and
-  proposal-local authority boundaries are explicit.
+  proposal-local lifecycle-source boundaries are explicit.
 
 The required receipt lives at
 `support/implementation-grade-completeness-review.md` and must include:

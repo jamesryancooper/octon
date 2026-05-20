@@ -126,11 +126,11 @@ steady_state_surface_classes:
       - ".octon/state/evidence/disclosure/releases/**"
     authority_posture: "retained-historical-record"
     role: "Historical proof and disclosure records retained for lineage, replay, and audit."
-  proposal-input:
+  exploratory-input:
     canonical_roots:
       - ".octon/inputs/exploratory/**"
     authority_posture: "lineage-only-input"
-    role: "Exploratory proposal packets that may guide promotion work but never become live authority."
+    role: "Exploratory ideation, proposal packets, plans, syntheses, and reports that may guide promotion work but never become live authority."
   raw-additive-input:
     canonical_roots:
       - ".octon/inputs/additive/**"
@@ -1401,11 +1401,14 @@ path_families:
   inputs_additive:
     class_root: "inputs"
     canonical_paths:
+      - ".octon/inputs/additive/.incoming/**"
+      - ".octon/inputs/additive/.archive/**"
       - ".octon/inputs/additive/extensions/**"
     authority_class: "non-authoritative-additive-input"
     role: >-
-      Raw additive extension packs with compatibility and provenance, subject
-      to explicit trust activation and publication.
+      Raw additive intake, retained additive archive material, and normalized
+      extension source packs with compatibility and provenance, subject to
+      explicit trust activation and publication.
     allowed_consumers:
       - "pack tooling"
       - "validators"
@@ -1421,7 +1424,7 @@ path_families:
     canonical_paths:
       - ".octon/inputs/exploratory/**"
     authority_class: "non-authoritative-exploratory-input"
-    role: "Human-led ideation and proposal packets retained as exploratory lineage."
+    role: "Human-led ideation, proposal packets, plans, syntheses, and reports retained as exploratory lineage."
     allowed_consumers:
       - "humans"
       - "proposal tooling"

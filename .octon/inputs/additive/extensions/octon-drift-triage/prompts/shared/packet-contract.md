@@ -7,7 +7,7 @@ package contract.
 
 Default destination:
 
-`/.octon/inputs/exploratory/packages/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
+`/.octon/inputs/exploratory/reports/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
 
 Refresh destination:
 

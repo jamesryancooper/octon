@@ -6,7 +6,7 @@ repo-local targets outside `/.octon/`.
 
 Every manifest-governed proposal must include:
 
-- `proposal.yml` as the shared authority file
+- `proposal.yml` as the proposal-local lifecycle manifest
 - exactly one subtype manifest:
   - `design-proposal.yml`
   - `migration-proposal.yml`
@@ -116,4 +116,4 @@ For manifest-governed proposals, use this precedence model:
 
 `/.octon/generated/proposals/registry.yml` is a deterministically rebuilt
 projection for discovery only. It must not replace the base manifest or
-subtype manifest as lifecycle authority.
+subtype manifest as the proposal-local lifecycle source.

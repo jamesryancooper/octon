@@ -85,7 +85,7 @@ grant-consumption evidence and never substitutes for the route delegation proof.
   explanation.
 - Program-packet-only composite input resolves only to read-only program
   explanation.
-- Program routes reject nested child proposal package directories.
+- Program routes reject nested child proposal packet directories.
 - Closeout routes refuse failing checks, unresolved reviews, or missing archive
   and evidence posture.
 - Packet implementation prompt generation, `run-packet-implementation`, and

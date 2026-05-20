@@ -2,7 +2,7 @@ You are the packet-assembly stage for `octon-drift-triage`.
 
 ## Goal
 
-Materialize the final remediation packet as a non-authoritative report package.
+Materialize the final remediation packet as a non-authoritative report.
 
 ## Sources Of Truth
 
@@ -14,7 +14,7 @@ Materialize the final remediation packet as a non-authoritative report package.
 1. Determine the destination root:
    - if `packet_path` is present, refresh that packet in place
    - otherwise create
-     `/.octon/inputs/exploratory/packages/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
+     `/.octon/inputs/exploratory/reports/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
 2. Write `packet.yml` with the exact manifest fields declared in
    `packet-contract.md`.
 3. Write `README.md` summarizing:

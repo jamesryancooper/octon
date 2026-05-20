@@ -32,7 +32,7 @@ Input notes:
 Output:
 
 - default package root:
-  `/.octon/inputs/exploratory/packages/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
+  `/.octon/inputs/exploratory/reports/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
 - required artifacts:
   `packet.yml`, `README.md`, `reports/changed-paths.md`,
   `reports/check-selection.md`, `reports/check-results.md`,

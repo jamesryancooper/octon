@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-09bd8614067e
-published_at: 2026-05-18T16:59:51Z
+generation_id: capabilities-839864a1e985
+published_at: 2026-05-20T17:24:16Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-18T16-59-51Z-capabilities-09bd8614067e.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-20T17-24-16Z-capabilities-839864a1e985.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -13,13 +13,13 @@ invalidation_conditions:
   - extensions-lock-sha-changed
 source:
   root_manifest_path: .octon/octon.yml
-  root_manifest_sha256: baf881fd631346235416c9e5049797c98913180cd5ff6b95fbcac72b647b0f0f
+  root_manifest_sha256: 0278e59edfd5df6eefd565cc654995c631748d23790707fc19eb6fcc2777878a
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: 13e67cbfac06e5ac7e930a0f92c82ae76886213651c446bc78203603c5ddfdb0
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: e866c2d05140f6c5adc70e0fd1faad3f90c1a67cce8065ed09f62e4ec641eecc
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: c266648c9aeea46df5d5d543f59212fe890e344df75f7f1bd23f592f77b2530c
+  framework_skills_registry_sha256: 488eb85c27a71fbe101b4e0faf8ba500de544172bcd311a1117d004f4233af4e
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: e0b62799b5b03cc1c0bf3180403be2cea89f8e815cc1d28937ccfc7920ffce1e
+  extensions_catalog_sha256: 1281b4924504f7e38b83d9e7232cc8d087a536d5509b595c8d75c548497ba79e
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: c49397138904207ebf0acd1101ece716734bc36cc67cee0dbfc5efa24c9b8074
+  extensions_generation_lock_sha256: 2119a310d33281641792eb8961f268105da0a66c476d88657bef453d4fa3b859
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -3985,6 +3985,37 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-lifecycle.octon-proposal
     projection_name: octon-proposal
+  - effective_id: extension.command.octon-proposal-lifecycle.octon-proposal-cleanup-lifecycle-residue
+    artifact_map_id: extension-command-octon-proposal-lifecycle-octon-proposal-cleanup-lifecycle-residue
+    origin_class: extension
+    capability_kind: command
+    capability_id: octon-proposal-cleanup-lifecycle-residue
+    display_name: 'Octon Proposal Lifecycle: Cleanup Lifecycle Residue'
+    summary: Classify and close out safe residual worktree artifacts for a proposal program lifecycle run.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-command-extension.command.octon-proposal-lifecycle.octon-proposal-cleanup-lifecycle-residue
+    projection_name: octon-proposal-cleanup-lifecycle-residue
   - effective_id: extension.command.octon-proposal-lifecycle.octon-proposal-closeout-packet
     artifact_map_id: extension-command-octon-proposal-lifecycle-octon-proposal-closeout-packet
     origin_class: extension
@@ -5411,6 +5442,37 @@ routing_candidates:
     precedence_tier: additive-extension
     stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle
     projection_name: octon-proposal-lifecycle
+  - effective_id: extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-cleanup-lifecycle-residue
+    artifact_map_id: extension-skill-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue
+    origin_class: extension
+    capability_kind: skill
+    capability_id: octon-proposal-lifecycle-cleanup-lifecycle-residue
+    display_name: 'Octon Proposal Lifecycle: Cleanup Lifecycle Residue'
+    summary: Run the cleanup-lifecycle-residue bundle.
+    status: active
+    source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
+    capability_domain: extension
+    host_adapters:
+      - claude
+      - cursor
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags: []
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids: []
+      tech_tag_matches: []
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 0
+    precedence_tier: additive-extension
+    stable_sort_key: 9999-9999-2-skill-extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-cleanup-lifecycle-residue
+    projection_name: octon-proposal-lifecycle-cleanup-lifecycle-residue
   - effective_id: extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-closeout-packet
     artifact_map_id: extension-skill-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet
     origin_class: extension
@@ -6258,6 +6320,7 @@ resolution_order:
   - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
   - extension.command.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
   - extension.command.octon-proposal-lifecycle.octon-proposal
+  - extension.command.octon-proposal-lifecycle.octon-proposal-cleanup-lifecycle-residue
   - extension.command.octon-proposal-lifecycle.octon-proposal-closeout-packet
   - extension.command.octon-proposal-lifecycle.octon-proposal-closeout-program
   - extension.command.octon-proposal-lifecycle.octon-proposal-create-packet
@@ -6304,6 +6367,7 @@ resolution_order:
   - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-refactor-target
   - extension.skill.octon-impact-map-and-validation-selector.octon-impact-map-and-validation-selector-touched-paths
   - extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle
+  - extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-cleanup-lifecycle-residue
   - extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-closeout-packet
   - extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-closeout-program
   - extension.skill.octon-proposal-lifecycle.octon-proposal-lifecycle-create-packet

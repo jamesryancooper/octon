@@ -128,7 +128,7 @@ allowed-tools: Read Glob Grep Write(logs/*)
 - `SKILL.md` — executor + collaborator, turns vague ideas into validated designs through iterative dialogue
 - `references/phases.md` — 5 phases: Clarify (one question at a time, multiple choice preferred, max 5 questions) -> Explore (2-3 approaches with tradeoffs, recommendation) -> Converge (refine chosen approach, resolve remaining decisions) -> Design (200-300 word sections, validate each) -> Document (compile into design doc)
 - `references/interaction.md` — dialogue protocol: clarification questions, approach selection, section validation checkpoints
-- `references/io-contract.md` — params: idea, context; output: design document in /.octon/inputs/exploratory/drafts/
+- `references/io-contract.md` — params: idea, context; output: design document in /.octon/inputs/exploratory/syntheses/
 - `references/examples.md` — 2 examples (notification system brainstorm, user changes direction mid-design)
 
 **Key content from superpowers source:**
@@ -153,7 +153,7 @@ ideation:
 ```yaml
 skill_sets: [executor, collaborator]
 capabilities: []
-allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/drafts/*) Write(logs/*)
+allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/syntheses/*) Write(logs/*)
 ```
 
 ---

@@ -30,6 +30,14 @@ copy_packet2_runtime_scripts() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-exploratory-input-surfaces.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-exploratory-input-surfaces.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-input-archive-retention.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-input-archive-retention.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh" \
@@ -107,6 +115,10 @@ EOF
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-companion-manifests.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-export-profile-contract.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-raw-input-dependency-ban.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-exploratory-input-surfaces.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-input-archive-retention.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-registry.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-locality-publication-state.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh" \
@@ -228,6 +240,8 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/framework/engine/runtime/crates/wasm_host/src" \
     "$fixture_root/.octon/framework/engine/runtime/spec" \
     "$fixture_root/.octon/framework/engine/runtime/config" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation" \
     "$fixture_root/.octon/framework/capabilities/runtime/commands" \
     "$fixture_root/.octon/framework/capabilities/runtime/skills" \
     "$fixture_root/.octon/framework/capabilities/runtime/skills/native-skill" \
@@ -238,6 +252,7 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/framework/capabilities/governance" \
     "$fixture_root/.octon/framework/cognition/governance" \
     "$fixture_root/.octon/framework/engine/governance" \
+    "$fixture_root/.octon/framework/engine/governance/inputs/additive" \
     "$fixture_root/.octon/framework/orchestration/governance" \
     "$fixture_root/.octon/framework/scaffolding/governance" \
     "$fixture_root/.octon/framework/orchestration/runtime/workflows/meta/migrate-harness" \
@@ -248,7 +263,14 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/instance/capabilities/runtime/commands" \
     "$fixture_root/.octon/instance/capabilities/runtime/skills" \
     "$fixture_root/.octon/instance/governance/policies" \
-    "$fixture_root/.octon/inputs/additive/extensions/.archive" \
+    "$fixture_root/.octon/inputs/additive/.archive" \
+    "$fixture_root/.octon/inputs/additive/.incoming" \
+    "$fixture_root/.octon/inputs/exploratory/proposals" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/projects/_scaffold/template" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/scratchpad/inbox" \
+    "$fixture_root/.octon/inputs/exploratory/plans" \
+    "$fixture_root/.octon/inputs/exploratory/syntheses" \
+    "$fixture_root/.octon/inputs/exploratory/reports" \
     "$fixture_root/.octon/state/control/locality" \
     "$fixture_root/.octon/state/control/execution" \
     "$fixture_root/.octon/state/evidence/validation/publication/extensions" \
@@ -259,6 +281,134 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/generated/proposals"
 
   printf '0.5.0\n' >"$fixture_root/version.txt"
+
+  cat >"$fixture_root/.octon/inputs/README.md" <<'EOF'
+# Inputs
+
+Raw inputs are non-authoritative and never runtime, policy, generated, state/control, publication, retained evidence, or host-projection authority.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/additive/README.md" <<'EOF'
+# Additive Inputs
+
+Everything in this tree is non-authoritative input.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/additive/.incoming/README.md" <<'EOF'
+# Incoming Intake
+
+Long-lived intake units require intake-status.yml.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/README.md" <<'EOF'
+# Exploratory Inputs
+
+Exploratory inputs never become runtime, policy, generated, state/control, publication, retained evidence, or host-projection authority.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/proposals/README.md" <<'EOF'
+# Proposals
+
+Proposal packets remain non-authoritative input until governed promotion.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/ideation/projects/README.md" <<'EOF'
+# Ideation Projects
+
+This is human-led, non-authoritative input. Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/ideation/projects/registry.md" <<'EOF'
+# Ideation Registry
+
+Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/ideation/projects/_scaffold/template/project.md" <<'EOF'
+# Project
+
+Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/ideation/projects/_scaffold/template/resources.md" <<'EOF'
+# Resources
+
+Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/ideation/scratchpad/README.md" <<'EOF'
+# Scratchpad
+
+This is human-led content and non-authoritative input. Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/ideation/scratchpad/inbox/README.md" <<'EOF'
+# Inbox
+
+Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/plans/README.md" <<'EOF'
+# Plans
+
+Plans are not evidence, workflow state, policy, or runtime authority.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/syntheses/README.md" <<'EOF'
+# Syntheses
+
+Syntheses remain advisory until promoted.
+EOF
+
+  cat >"$fixture_root/.octon/inputs/exploratory/reports/README.md" <<'EOF'
+# Reports
+
+Reports are non-authoritative source material.
+EOF
+
+  cat >"$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/README.md" <<'EOF'
+# Input Architecture
+
+Raw inputs are non-authoritative and never runtime, policy, generated, state/control, publication, retained evidence, or host-projection authority.
+EOF
+
+  cat >"$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/additive/README.md" <<'EOF'
+# Additive Input Architecture
+
+Raw additive input boundaries cover `.incoming/**`, `.archive/**`, or extension source packs.
+EOF
+
+  cat >"$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/README.md" <<'EOF'
+# Exploratory Input Architecture
+
+Local README files under `.octon/inputs/exploratory/**` are point-of-use adapters.
+
+- ideation/**
+- proposals/**
+- plans/*.md
+- syntheses/*.md
+- reports/<report-id>/
+
+Exploratory material may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/projects.md" <<'EOF'
+# Ideation Projects Architecture
+
+Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/scratchpad.md" <<'EOF'
+# Ideation Scratchpad Architecture
+
+Ideation may inform a governed proposal, plan, Change, retained evidence update, or durable authored edit outside `inputs/**`.
+EOF
+
+  cat >"$fixture_root/.octon/framework/engine/governance/inputs/additive/incoming-intake-processing.md" <<'EOF'
+# Incoming Intake Processing
+
+Raw intake units are non-authoritative; they are never runtime, policy, publication, generated, state/control, retained evidence, or host-projection authority.
+EOF
 
   cat >"$fixture_root/.octon/octon.yml" <<'EOF'
 schema_version: "octon-root-manifest-v2"

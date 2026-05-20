@@ -44,6 +44,35 @@ case_valid_seeded_packs_pass() {
   run_validator "$fixture_root"
 }
 
+case_additive_incoming_intake_units_are_ignored() {
+  local fixture_root incoming
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  incoming="$fixture_root/.octon/inputs/additive/.incoming/downloaded-kit"
+  mkdir -p "$incoming/install" "$incoming/repo"
+  printf '# Downloaded Kit\n' >"$incoming/README.md"
+  printf 'schema_version: "not-an-extension-pack"\n' >"$incoming/install/fragment.yml"
+
+  run_validator "$fixture_root"
+}
+
+case_extension_incoming_directory_fails_closed() {
+  local fixture_root incoming
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  copy_packet2_runtime_scripts "$fixture_root"
+  write_valid_packet2_fixture "$fixture_root"
+
+  incoming="$fixture_root/.octon/inputs/additive/extensions/.incoming/downloaded-kit"
+  mkdir -p "$incoming"
+  printf '# Downloaded Kit\n' >"$incoming/README.md"
+
+  ! run_validator "$fixture_root"
+}
+
 case_invalid_pack_schema_fails() {
   local fixture_root
   fixture_root="$(create_packet2_fixture_repo)"
@@ -493,6 +522,8 @@ EOF
 
 main() {
   assert_success "seeded packet-8 packs satisfy the pack contract" case_valid_seeded_packs_pass
+  assert_success "additive incoming intake units are ignored by pack validation" case_additive_incoming_intake_units_are_ignored
+  assert_success "extension incoming directory fails closed" case_extension_incoming_directory_fails_closed
   assert_success "supported required_contracts entries are accepted" case_supported_required_contracts_pass
   assert_success "matching selected version pins are accepted" case_selected_version_pin_matching_pack_version_passes
   assert_success "required_contracts resolve against live schema versions" case_required_contracts_follow_live_schema_versions

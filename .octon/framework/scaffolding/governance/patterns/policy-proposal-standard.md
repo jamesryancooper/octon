@@ -47,8 +47,8 @@ Rules:
 - `policy/enforcement-plan.md` must name verification or enforcement updates
   needed to make the policy effective.
 - `navigation/source-of-truth-map.md` must identify the durable authorities,
-  proposal-local authorities, derived projections, retained evidence surfaces,
-  and boundary rules for the policy change.
+  proposal-local lifecycle sources, derived projections, retained evidence
+  surfaces, and boundary rules for the policy change.
 - `implemented` means the policy change is promoted into durable authority
   surfaces and the named enforcement or verification updates exist outside the
   proposal workspace.

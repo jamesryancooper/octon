@@ -13,4 +13,4 @@ Each route must preserve:
 - registry projection as discovery-only.
 
 Routes must not create descendant-local proposal workspaces or nested child
-proposal package directories.
+proposal packet directories.

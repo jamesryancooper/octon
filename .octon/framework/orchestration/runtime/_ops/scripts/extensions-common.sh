@@ -100,6 +100,17 @@ ext_join_sorted_unique_lines() {
   ext_sorted_unique_lines "$@"
 }
 
+ext_is_reserved_extension_input_entry() {
+  case "$1" in
+    .gitkeep|.DS_Store|README.md)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 ext_pack_key() {
   printf '%s|%s' "$1" "$2"
 }

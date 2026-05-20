@@ -3,7 +3,7 @@ version: "1.0.0"
 compatibility:
   required_files: []
   required_directories:
-    - ".octon/inputs/exploratory/packages"
+    - ".octon/inputs/exploratory/reports"
     - ".octon/state/evidence/validation/extensions"
     - ".octon/generated/effective/extensions"
     - ".octon/generated/effective/capabilities"

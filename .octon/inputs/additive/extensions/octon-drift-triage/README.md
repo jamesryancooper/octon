@@ -40,9 +40,9 @@ Examples live in:
 
 ## Output
 
-The bundle materializes a non-authoritative report package under:
+The bundle materializes a non-authoritative report under:
 
-`/.octon/inputs/exploratory/packages/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
+`/.octon/inputs/exploratory/reports/<YYYY-MM-DD>-octon-drift-triage-<input-slug>/`
 
 The output package always contains:
 

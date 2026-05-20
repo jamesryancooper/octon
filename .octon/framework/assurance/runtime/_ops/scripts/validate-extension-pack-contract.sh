@@ -32,37 +32,35 @@ main() {
 
   while IFS= read -r entry; do
     name="$(basename "$entry")"
-    case "$name" in
-      .archive|.gitkeep)
-        ;;
-      *)
-        if [[ -d "$entry" ]]; then
-          manifest="$entry/pack.yml"
-          if [[ ! -f "$manifest" ]]; then
-            fail "missing pack manifest: ${manifest#$ROOT_DIR/}"
-            continue
-          fi
-          pack_id="$(yq -r '.pack_id // ""' "$manifest")"
-          source_id="$(yq -r '.provenance.source_id // ""' "$manifest")"
-          if [[ -z "$pack_id" ]]; then
-            fail "pack contract invalid for $name: missing-pack-id"
-            continue
-          fi
-          if [[ -n "${seen_pack_ids["$pack_id"]:-}" ]]; then
-            fail "duplicate pack_id detected: $pack_id"
-            continue
-          fi
-          seen_pack_ids["$pack_id"]="1"
-          if ext_validate_pack_contract "$name" "$source_id" 0; then
-            pass "pack contract valid: $name"
-          else
-            fail "pack contract invalid for $name: $EXT_LAST_ERROR_REASON"
-          fi
-        else
-          fail "unexpected non-directory entry under inputs/additive/extensions: ${entry#$ROOT_DIR/}"
-        fi
-        ;;
-    esac
+    if ext_is_reserved_extension_input_entry "$name"; then
+      continue
+    fi
+
+    if [[ -d "$entry" ]]; then
+      manifest="$entry/pack.yml"
+      if [[ ! -f "$manifest" ]]; then
+        fail "missing pack manifest: ${manifest#$ROOT_DIR/}"
+        continue
+      fi
+      pack_id="$(yq -r '.pack_id // ""' "$manifest")"
+      source_id="$(yq -r '.provenance.source_id // ""' "$manifest")"
+      if [[ -z "$pack_id" ]]; then
+        fail "pack contract invalid for $name: missing-pack-id"
+        continue
+      fi
+      if [[ -n "${seen_pack_ids["$pack_id"]:-}" ]]; then
+        fail "duplicate pack_id detected: $pack_id"
+        continue
+      fi
+      seen_pack_ids["$pack_id"]="1"
+      if ext_validate_pack_contract "$name" "$source_id" 0; then
+        pass "pack contract valid: $name"
+      else
+        fail "pack contract invalid for $name: $EXT_LAST_ERROR_REASON"
+      fi
+    else
+      fail "unexpected non-directory entry under inputs/additive/extensions: ${entry#$ROOT_DIR/}"
+    fi
   done < <(find "$PACKS_DIR" -mindepth 1 -maxdepth 1 -print | sort)
 
   while IFS=$'\t' read -r pack_id source_id; do

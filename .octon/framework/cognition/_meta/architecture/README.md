@@ -218,12 +218,14 @@ Agents struggle when they "arrive with no memory of what came before." A `.octon
 │   └── orchestration/
 ├── inputs/
 │   ├── additive/
+│   │   ├── .incoming/
+│   │   ├── .archive/
 │   │   └── extensions/
 │   └── exploratory/
 │       ├── ideation/
 │       ├── plans/
-│       ├── drafts/
-│       ├── packages/
+│       ├── syntheses/
+│       ├── reports/
 │       └── proposals/
 ├── state/
 │   ├── continuity/

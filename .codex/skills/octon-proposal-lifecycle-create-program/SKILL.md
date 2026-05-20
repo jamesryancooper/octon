@@ -22,7 +22,7 @@ Implemented child packets also inherit the post-implementation conformance and
 drift/churn gates before closeout or implemented archival.
 
 Create a parent proposal program packet that references canonical child
-packets. Reject nested child proposal package directories.
+packets. Reject nested child proposal packet directories.
 
 Write parent-local `support/program-creation.md` with `child_authority_preserved:
 yes` only when the registry, human index, sequence, child contract, and closeout

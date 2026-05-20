@@ -3,8 +3,8 @@
 - input types:
   changed paths, Git diff refs, or an existing `octon-drift-triage` packet
 - output type:
-  non-authoritative remediation report package under
-  `/.octon/inputs/exploratory/packages/**`
+  non-authoritative remediation report under
+  `/.octon/inputs/exploratory/reports/**`
 - default mode:
   `select`
 - optional execution mode:

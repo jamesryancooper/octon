@@ -259,17 +259,17 @@ Exit criteria:
 Owner: `octon-platform`  
 Edit order:
 
-1. Rewrite `.octon/inputs/exploratory/packages/2026-02-18-quality-charter-qge-integration/qge-readme.md`
-2. Rewrite `.octon/inputs/exploratory/packages/2026-02-18-quality-weight-model-update/FILES.md`
-3. Rewrite `.octon/inputs/exploratory/packages/2026-02-18-subsystem-override-policy/SUBSYSTEM_OVERRIDE_POLICY.md`
-4. Rewrite `.octon/inputs/exploratory/packages/2026-02-18-quality-charter-qge-integration/output.example.md`
+1. Rewrite `.octon/inputs/exploratory/reports/2026-02-18-quality-charter-qge-integration/qge-readme.md`
+2. Rewrite `.octon/inputs/exploratory/reports/2026-02-18-quality-weight-model-update/FILES.md`
+3. Rewrite `.octon/inputs/exploratory/reports/2026-02-18-subsystem-override-policy/SUBSYSTEM_OVERRIDE_POLICY.md`
+4. Rewrite `.octon/inputs/exploratory/reports/2026-02-18-quality-charter-qge-integration/output.example.md`
 5. Ensure rewritten reports reference current Assurance Engine surfaces and canonical umbrella chain.
 
 Verification command:
 
 ```bash
-rg -n 'LEGACY_QUALITY_ENGINE|\LEGACY_QUALITY_PATH|Trust > Speed of development' .octon/inputs/exploratory/packages/2026-02-18-*
-rg -n 'Assurance Engine|Assurance > Productivity > Integration' .octon/inputs/exploratory/packages/2026-02-18-*
+rg -n 'LEGACY_QUALITY_ENGINE|\LEGACY_QUALITY_PATH|Trust > Speed of development' .octon/inputs/exploratory/reports/2026-02-18-*
+rg -n 'Assurance Engine|Assurance > Productivity > Integration' .octon/inputs/exploratory/reports/2026-02-18-*
 ```
 
 Exit criteria:

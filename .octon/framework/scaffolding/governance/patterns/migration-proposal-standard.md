@@ -46,8 +46,8 @@ Rules:
 - `migration/rollback.md` must name rollback trigger conditions and evidence
   references.
 - `navigation/source-of-truth-map.md` must identify the durable authorities,
-  proposal-local authorities, derived projections, retained evidence surfaces,
-  and boundary rules for the migration.
+  proposal-local lifecycle sources, derived projections, retained evidence
+  surfaces, and boundary rules for the migration.
 - `implemented` means the migration's final-state contract is live, required
   validation evidence exists, and no staged coexistence remains unless the
   selected profile explicitly permits it.

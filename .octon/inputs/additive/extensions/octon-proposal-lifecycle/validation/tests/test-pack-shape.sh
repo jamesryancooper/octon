@@ -90,7 +90,7 @@ main() {
     pass "legacy lifecycle-prefixed command files removed"
   fi
 
-  if rg -n 'Invalid nested placement|nested child proposal package directories|Reject nested' "$PACK_ROOT/context" "$PACK_ROOT/prompts" >/dev/null; then
+  if rg -n 'Invalid nested placement|nested child proposal packet directories|Reject nested' "$PACK_ROOT/context" "$PACK_ROOT/prompts" >/dev/null; then
     pass "program nesting rejection is documented"
   else
     fail "program nesting rejection is missing"

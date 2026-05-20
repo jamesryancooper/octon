@@ -23,7 +23,7 @@ The pack composes these existing Octon surfaces:
 ## Non-Goals
 
 - no new proposal workspace root,
-- no nested child proposal package directories,
+- no nested child proposal packet directories,
 - no runtime or policy dependency on raw proposal packets,
 - no direct mutation of generated proposal registry outside its generator,
 - no use of GitHub, CI, comments, labels, chat, tools, or browser state as

@@ -12,7 +12,7 @@ metadata:
   updated: "2026-04-15"
 skill_sets: [executor, specialist]
 capabilities: [self-validating]
-allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/packages/*)
+allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/reports/*)
 ---
 
 # Octon Drift Triage
@@ -27,7 +27,7 @@ packet converted into a ranked remediation packet.
 3. Select direct checks, recommendation bundles, and conditional repo-hygiene.
 4. If `mode=run`, execute the selected read-only checks and distill results.
 5. Merge evidence into remediation families and rank the outcomes.
-6. Materialize the packet under `/.octon/inputs/exploratory/packages/`.
+6. Materialize the packet under `/.octon/inputs/exploratory/reports/`.
 
 ## Inputs
 
@@ -42,7 +42,7 @@ packet converted into a ranked remediation packet.
 
 ## Outputs
 
-- a report package rooted under `/.octon/inputs/exploratory/packages/`
+- a report rooted under `/.octon/inputs/exploratory/reports/`
 - `packet.yml` with stored input state, selected checks, repo-hygiene status,
   ranking metadata, and remediation items
 - human-facing reports, a remediation plan, and a maintainer-ready prompt

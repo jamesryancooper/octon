@@ -60,7 +60,7 @@ The 10/10 target state distinguishes these surface classes clearly:
 | `generated-operator-read-model` | `generated/cognition/**` | derived operator/maintainer read model only |
 | `compatibility-projection` | retained shims such as `instance/capabilities/runtime/packs/**`, repo-root ingress adapters, and current `generated/cognition/projections/materialized/**` mirrors | compatibility only; never authority |
 | `historical-evidence` | retained disclosure and lab history under `state/evidence/**` | historical proof and lineage |
-| `proposal-input` | `inputs/exploratory/proposals/**` | exploratory lineage only |
+| `exploratory-input` | `inputs/exploratory/**` | exploratory lineage only |
 | `raw-additive-input` | `inputs/additive/**` | untrusted additive input pending activation/publication |
 
 These classes keep target-state language precise without creating a rival
@@ -230,8 +230,8 @@ family groups:
 | `generated_cognition` | `generated/cognition/**` | Non-authoritative operator and mission read models |
 | `generated_operator_navigation_maps` | current live successor paths under `generated/cognition/projections/materialized/**` | Traceable operator maps published without authority |
 | `generated_proposals` | `generated/proposals/registry.yml` | Non-authoritative proposal discovery |
-| `inputs_additive` | `inputs/additive/extensions/**` | Raw additive packs before trust activation and publication |
-| `inputs_exploratory` | `inputs/exploratory/**` | Ideation and proposal lineage only |
+| `inputs_additive` | `inputs/additive/**` | Raw additive intake, archive, and extension source packs before trust activation and publication |
+| `inputs_exploratory` | `inputs/exploratory/**` | Ideation, proposal, plan, synthesis, and report lineage only |
 
 Full canonical paths, allowed consumers, forbidden consumers, validators, and
 doc bindings are maintained in the registry rather than in this document.

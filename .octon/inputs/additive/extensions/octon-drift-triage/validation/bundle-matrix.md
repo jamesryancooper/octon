@@ -15,8 +15,8 @@
 
 | Fixture | Mode | Purpose |
 |---|---|---|
-| `validation/fixtures/packets/select-mode-demo` | `select` | validates required report package layout without raw check captures |
-| `validation/fixtures/packets/run-mode-demo` | `run` | validates required report package layout with raw check captures |
+| `validation/fixtures/packets/select-mode-demo` | `select` | validates required report layout without raw check captures |
+| `validation/fixtures/packets/run-mode-demo` | `run` | validates required report layout with raw check captures |
 
 ## Executable Tests
 

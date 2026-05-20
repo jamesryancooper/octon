@@ -12,7 +12,7 @@ Use this grounding order for `octon-drift-triage`:
 ## Non-Authority Rule
 
 - `inputs/additive/extensions/**` is additive source input only
-- `inputs/exploratory/packages/**` is a report-package workspace only
+- `inputs/exploratory/reports/**` is a report workspace only
 - `generated/effective/**` is rebuildable publication output only
 - none of the above surfaces mint policy or runtime authority
 

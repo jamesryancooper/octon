@@ -13,7 +13,7 @@ The skills subsystem has undergone significant structural changes since the last
 | `2026-02-10-skills-subsystem-audit-plan.md` | Executed | Defined 14-dimension audit framework; this plan supersedes it with post-remediation scope |
 | `2026-02-10-skills-audit-remediation-plan.md` | Executed | 7-phase remediation; validator passed after |
 | `2026-02-10-skills-post-remediation-plan.md` | Partially executed | Phases 1-5 address A1-A13; some items may remain open |
-| `2026-02-10-skills-state-directory-consolidation.md` | In-flight | `_ops/state/` migration staged in git; needs verification |
+| `2026-02-10-skills-state-directory-consolidation-plan.md` | In-flight | `_ops/state/` migration staged in git; needs verification |
 
 This audit treats all prior work as "claimed done" and independently verifies it.
 
@@ -205,7 +205,7 @@ Read the validator source and catalogue every named check (27+ claimed). For eac
 
 1. Confirm `../../*` no longer blanket-passes
 2. Confirm paths resolving outside `.octon/` are rejected
-3. Confirm legitimate cross-directory paths (e.g., `/.octon/inputs/exploratory/drafts/*`) are allowed
+3. Confirm legitimate cross-directory paths (e.g., `/.octon/inputs/exploratory/syntheses/*`) are allowed
 4. Test edge case: `../../../../../../etc/passwd` — must be rejected
 
 #### 3.5 Grouped path handling
