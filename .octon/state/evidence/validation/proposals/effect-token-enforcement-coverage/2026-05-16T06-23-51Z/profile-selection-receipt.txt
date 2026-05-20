@@ -1,0 +1,4 @@
+release_state: pre-1.0
+change_profile: atomic
+transitional_exception_note: not authorized
+recorded_at: 2026-05-16T06-23-51Z

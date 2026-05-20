@@ -1,0 +1,3 @@
+release_state: pre-1.0
+change_profile: atomic
+transitional_exception_note: not authorized

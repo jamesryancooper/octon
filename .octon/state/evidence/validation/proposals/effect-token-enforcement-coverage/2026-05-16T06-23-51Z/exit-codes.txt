@@ -1,0 +1,17 @@
+validate-proposal-standard exit=0
+validate-architecture-proposal exit=0
+validate-proposal-implementation-readiness exit=0
+validate-proposal-review-gate exit=0
+checksum exit=0
+validate-material-side-effect-inventory exit=0
+validate-authorization-boundary-coverage exit=0
+validate-authorized-effect-token-enforcement exit=0
+test-material-side-effect-token-bypass-denials exit=0
+test-authorized-effect-token-negative-bypass exit=0
+test-authorized-effect-token-consumption exit=0
+test-material-side-effect-coverage-fixtures exit=0
+cargo-authorized-effects exit=0
+cargo-authority-engine-lib exit=0
+cargo-kernel-bin exit=0
+validate-architecture-conformance exit=1
+cleanup-local-run-artifacts-summary exit=0

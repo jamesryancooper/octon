@@ -1,0 +1,258 @@
+ M .octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh
+ M .octon/generated/effective/capabilities/artifact-map.yml
+ M .octon/generated/effective/capabilities/generation.lock.yml
+ M .octon/generated/effective/capabilities/pack-routes.effective.yml
+ M .octon/generated/effective/capabilities/pack-routes.lock.yml
+ M .octon/generated/effective/capabilities/routing.effective.yml
+ M .octon/generated/effective/extensions/artifact-map.yml
+ M .octon/generated/effective/extensions/catalog.effective.yml
+ M .octon/generated/effective/extensions/generation.lock.yml
+ M .octon/generated/effective/runtime/route-bundle.lock.yml
+ M .octon/generated/effective/runtime/route-bundle.yml
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage/SHA256SUMS.txt
+ M .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage/support/implementation-conformance-review.md
+ M .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage/support/implementation-run.md
+ M .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage/support/post-implementation-drift-churn-review.md
+ M .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage/support/validation.md
+ M .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/proposal.yml
+ M .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/executable-implementation-prompt.md
+ M .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/implementation-conformance-review.md
+ M .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/post-implementation-drift-churn-review.md
+ M .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/proposal-review.md
+ M .octon/state/control/extensions/active.yml
+ M .octon/state/control/extensions/quarantine.yml
+ M .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+?? .octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract/support/proposal-closeout.md
+?? .octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation/support/proposal-closeout.md
+?? .octon/state/continuity/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/
+?? .octon/state/continuity/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/
+?? .octon/state/continuity/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/
+?? .octon/state/continuity/runs/promote-proposal-1778907502763-54233-promote-proposal/
+?? .octon/state/continuity/runs/promote-proposal-1778907502763-54233-validate-proposal/
+?? .octon/state/continuity/runs/promote-proposal-1778907502763-54233/
+?? .octon/state/continuity/runs/publish-1778904987675-57096/
+?? .octon/state/continuity/runs/publish-1778905028221-57605/
+?? .octon/state/continuity/runs/publish-1778905180024-99531/
+?? .octon/state/continuity/runs/publish-1778905201786-7191/
+?? .octon/state/continuity/runs/publish-1778905212294-7584/
+?? .octon/state/continuity/runs/publish-1778908303431-15559/
+?? .octon/state/continuity/runs/publish-1778908309049-15803/
+?? .octon/state/continuity/runs/publish-1778908315423-16206/
+?? .octon/state/continuity/runs/publish-1778909439567-79655/
+?? .octon/state/continuity/runs/publish-1778909445277-81762/
+?? .octon/state/continuity/runs/publish-1778909451883-84271/
+?? .octon/state/continuity/runs/publish-1778910137695-91595/
+?? .octon/state/continuity/runs/publish-1778910143395-93626/
+?? .octon/state/continuity/runs/publish-1778910149673-96019/
+?? .octon/state/continuity/runs/publish-1778911272179-3198/
+?? .octon/state/continuity/runs/publish-1778911277755-3461/
+?? .octon/state/continuity/runs/publish-1778911284217-3863/
+?? .octon/state/continuity/runs/publish-1778912356210-3604/
+?? .octon/state/continuity/runs/publish-1778912361762-3875/
+?? .octon/state/continuity/runs/publish-1778912368376-4306/
+?? .octon/state/continuity/runs/publish-1778912433843-7019/
+?? .octon/state/continuity/runs/publish-1778912439627-7284/
+?? .octon/state/continuity/runs/publish-1778912445999-7646/
+?? .octon/state/continuity/runs/publish-1778912989124-10817/
+?? .octon/state/continuity/runs/publish-1778912994749-11080/
+?? .octon/state/continuity/runs/publish-1778913001288-11440/
+?? .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/
+?? .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/
+?? .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/
+?? .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a/
+?? .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-promote-proposal/
+?? .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal/
+?? .octon/state/control/execution/runs/promote-proposal-1778907502763-54233/
+?? .octon/state/control/execution/runs/publish-1778904987675-57096/
+?? .octon/state/control/execution/runs/publish-1778905028221-57605/
+?? .octon/state/control/execution/runs/publish-1778905180024-99531/
+?? .octon/state/control/execution/runs/publish-1778905201786-7191/
+?? .octon/state/control/execution/runs/publish-1778905212294-7584/
+?? .octon/state/control/execution/runs/publish-1778908303431-15559/
+?? .octon/state/control/execution/runs/publish-1778908309049-15803/
+?? .octon/state/control/execution/runs/publish-1778908315423-16206/
+?? .octon/state/control/execution/runs/publish-1778909439567-79655/
+?? .octon/state/control/execution/runs/publish-1778909445277-81762/
+?? .octon/state/control/execution/runs/publish-1778909451883-84271/
+?? .octon/state/control/execution/runs/publish-1778910137695-91595/
+?? .octon/state/control/execution/runs/publish-1778910143395-93626/
+?? .octon/state/control/execution/runs/publish-1778910149673-96019/
+?? .octon/state/control/execution/runs/publish-1778911272179-3198/
+?? .octon/state/control/execution/runs/publish-1778911277755-3461/
+?? .octon/state/control/execution/runs/publish-1778911284217-3863/
+?? .octon/state/control/execution/runs/publish-1778912356210-3604/
+?? .octon/state/control/execution/runs/publish-1778912361762-3875/
+?? .octon/state/control/execution/runs/publish-1778912368376-4306/
+?? .octon/state/control/execution/runs/publish-1778912433843-7019/
+?? .octon/state/control/execution/runs/publish-1778912439627-7284/
+?? .octon/state/control/execution/runs/publish-1778912445999-7646/
+?? .octon/state/control/execution/runs/publish-1778912989124-10817/
+?? .octon/state/control/execution/runs/publish-1778912994749-11080/
+?? .octon/state/control/execution/runs/publish-1778913001288-11440/
+?? .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal.yml
+?? .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal.yml
+?? .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation.yml
+?? .octon/state/evidence/control/execution/authority-decision-promote-proposal-1778907502763-54233-promote-proposal.yml
+?? .octon/state/evidence/control/execution/authority-decision-promote-proposal-1778907502763-54233-validate-proposal.yml
+?? .octon/state/evidence/control/execution/authority-decision-promote-proposal-1778907502763-54233.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778904987675-57096.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778905028221-57605.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778905180024-99531.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778905201786-7191.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778905212294-7584.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778908303431-15559.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778908309049-15803.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778908315423-16206.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778909439567-79655.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778909445277-81762.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778909451883-84271.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778910137695-91595.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778910143395-93626.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778910149673-96019.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778911272179-3198.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778911277755-3461.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778911284217-3863.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912356210-3604.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912361762-3875.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912368376-4306.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912433843-7019.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912439627-7284.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912445999-7646.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912989124-10817.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778912994749-11080.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1778913001288-11440.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-promote-proposal-1778907502763-54233-promote-proposal.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-promote-proposal-1778907502763-54233-validate-proposal.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-promote-proposal-1778907502763-54233.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778904987675-57096.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778905028221-57605.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778905180024-99531.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778905201786-7191.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778905212294-7584.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778908303431-15559.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778908309049-15803.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778908315423-16206.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778909439567-79655.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778909445277-81762.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778909451883-84271.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778910137695-91595.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778910143395-93626.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778910149673-96019.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778911272179-3198.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778911277755-3461.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778911284217-3863.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912356210-3604.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912361762-3875.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912368376-4306.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912433843-7019.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912439627-7284.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912445999-7646.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912989124-10817.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778912994749-11080.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1778913001288-11440.yml
+?? .octon/state/evidence/external-index/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal.yml
+?? .octon/state/evidence/external-index/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal.yml
+?? .octon/state/evidence/external-index/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation.yml
+?? .octon/state/evidence/external-index/runs/promote-proposal-1778907502763-54233-promote-proposal.yml
+?? .octon/state/evidence/external-index/runs/promote-proposal-1778907502763-54233-validate-proposal.yml
+?? .octon/state/evidence/external-index/runs/promote-proposal-1778907502763-54233.yml
+?? .octon/state/evidence/external-index/runs/publish-1778904987675-57096.yml
+?? .octon/state/evidence/external-index/runs/publish-1778905028221-57605.yml
+?? .octon/state/evidence/external-index/runs/publish-1778905180024-99531.yml
+?? .octon/state/evidence/external-index/runs/publish-1778905201786-7191.yml
+?? .octon/state/evidence/external-index/runs/publish-1778905212294-7584.yml
+?? .octon/state/evidence/external-index/runs/publish-1778908303431-15559.yml
+?? .octon/state/evidence/external-index/runs/publish-1778908309049-15803.yml
+?? .octon/state/evidence/external-index/runs/publish-1778908315423-16206.yml
+?? .octon/state/evidence/external-index/runs/publish-1778909439567-79655.yml
+?? .octon/state/evidence/external-index/runs/publish-1778909445277-81762.yml
+?? .octon/state/evidence/external-index/runs/publish-1778909451883-84271.yml
+?? .octon/state/evidence/external-index/runs/publish-1778910137695-91595.yml
+?? .octon/state/evidence/external-index/runs/publish-1778910143395-93626.yml
+?? .octon/state/evidence/external-index/runs/publish-1778910149673-96019.yml
+?? .octon/state/evidence/external-index/runs/publish-1778911272179-3198.yml
+?? .octon/state/evidence/external-index/runs/publish-1778911277755-3461.yml
+?? .octon/state/evidence/external-index/runs/publish-1778911284217-3863.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912356210-3604.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912361762-3875.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912368376-4306.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912433843-7019.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912439627-7284.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912445999-7646.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912989124-10817.yml
+?? .octon/state/evidence/external-index/runs/publish-1778912994749-11080.yml
+?? .octon/state/evidence/external-index/runs/publish-1778913001288-11440.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/agent-node-model-call-contract/
+?? .octon/state/evidence/validation/analysis/2026-05-16-promote-proposal-1.md
+?? .octon/state/evidence/validation/analysis/2026-05-16-promote-proposal.md
+?? .octon/state/evidence/validation/compatibility/extensions/2026-05-16T04-17-12Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-05-16T04-17-12Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T05-36-44Z/
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T05-42-29Z/
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T05-53-41Z/
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T06-08-31Z/
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T06-23-51Z/
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T06-38-48Z/
+?? .octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-16T06-49-50Z/
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T04-19-57Z-capabilities-46d76d4b11c1.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T04-20-05Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T05-11-52Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T05-30-48Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T05-42-26Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T06-01-21Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T06-19-25Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T06-20-43Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-05-16T06-29-58Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/extensions/2026-05-16T04-17-12Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T04-16-31Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T04-20-16Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T05-11-58Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T05-30-55Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T05-42-32Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T06-01-27Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T06-19-31Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T06-20-49Z-runtime-route-bundle-d832aab6f332.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-05-16T06-30-04Z-runtime-route-bundle-d832aab6f332.yml

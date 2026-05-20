@@ -1,0 +1,32 @@
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] accepted proposal has accepted review verdict
+[OK] review authorizes implementation prompt
+[OK] accepted review has no open blocking findings
+[OK] reviewed packet digest is fresh
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/
+[OK] proposal status is accepted for implementation authorization
+[OK] proposal review authorizes implementation
+[OK] proposal review permits implementation prompt generation
+[OK] proposal review has no open blockers for implementation
+[OK] reviewed packet digest is fresh
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/
+Validation summary: errors=0 warnings=0

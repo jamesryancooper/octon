@@ -1,0 +1,8 @@
+Profile Selection Receipt
+release_state: pre-1.0
+change_profile: atomic
+transitional_exception_note: not authorized
+source_refs:
+  - .octon/framework/constitution/charter.yml
+  - .octon/instance/charter/workspace.yml
+  - .octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage/proposal.yml

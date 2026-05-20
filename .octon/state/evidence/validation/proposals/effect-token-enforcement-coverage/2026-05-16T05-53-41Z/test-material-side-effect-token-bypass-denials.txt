@@ -1,0 +1,5 @@
+PASS: token enforcement fails without token types
+PASS: token enforcement passes with declared token mediation
+PASS: token enforcement fails without token bypass negative controls
+
+test-material-side-effect-token-bypass-denials.sh: passed=3 failed=0

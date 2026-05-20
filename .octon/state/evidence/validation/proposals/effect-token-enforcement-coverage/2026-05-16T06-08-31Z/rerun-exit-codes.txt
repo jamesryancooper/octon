@@ -1,0 +1,2 @@
+test-material-side-effect-token-bypass-denials 0
+test-material-side-effect-coverage-fixtures 2

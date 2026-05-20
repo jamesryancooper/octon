@@ -1,0 +1,681 @@
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:9:pub struct AuthorizedEffectScope {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:21:pub struct AuthorizedEffectPayload {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:61:    pub scope_envelope: AuthorizedEffectScope,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:94:pub struct AuthorizedEffect<T> {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:96:    payload: AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:101:impl<T: EffectKind> AuthorizedEffect<T> {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:102:    pub fn payload(&self) -> &AuthorizedEffectPayload {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:210:    pub fn scope_envelope(&self) -> &AuthorizedEffectScope {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:284:pub struct VerifiedEffect<T> {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:285:    payload: AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:288:    consumption_receipt_ref: String,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:293:impl<T: EffectKind> VerifiedEffect<T> {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:294:    pub fn payload(&self) -> &AuthorizedEffectPayload {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:318:    pub fn consumption_receipt_ref(&self) -> &str {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:319:        &self.consumption_receipt_ref
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:330:        AuthorizedEffect, AuthorizedEffectPayload, EffectKind, PhantomData, VerifiedEffect,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:333:    pub fn mint_authorized_effect<T: EffectKind>(
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:334:        payload: AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:335:    ) -> AuthorizedEffect<T> {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:336:        AuthorizedEffect {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:343:        payload: AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:346:        consumption_receipt_ref: impl Into<String>,
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:348:    ) -> VerifiedEffect<T> {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:349:        VerifiedEffect {
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:353:            consumption_receipt_ref: consumption_receipt_ref.into(),
+.octon/framework/engine/runtime/crates/authorized_effects/src/lib.rs:362:    pub use crate::authority_mint::{mint_authorized_effect, mint_verified_effect};
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:65:  yq -e '.paths[]? | select((.authorized_effect_token_type // .token_type // .authorized_effect_token_ref // .token_mediation.token_type // .token_mediation.ref // "") != "")' "$coverage_map_file" >/dev/null 2>&1
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:74:    && has_text 'verify_authorized_effect(' "$ROOT_DIR/.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:79:  yq -r ".paths[] | select(.path_id == \"$path_id\") | (.authorized_effect_token_type // .token_type // .authorized_effect_token_ref // .token_mediation.token_type // .token_mediation.ref // \"\")" "$coverage_map_file"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:102:  ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:224:        emit_validator_result "validate-authorization-boundary-coverage.sh" "authorized_effect_tokens" "runtime" "runtime" "pass"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:226:        emit_validator_result "validate-authorization-boundary-coverage.sh" "authorized_effect_tokens" "semantic" "semantic" "pass"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorization-boundary-coverage.sh:232:      emit_validator_result "validate-authorization-boundary-coverage.sh" "authorized_effect_tokens" "runtime" "existence" "fail"
+.octon/framework/engine/runtime/crates/authorized_effects/Cargo.toml:2:name = "octon_authorized_effects"
+.octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh:188:contains_proposal_path() {
+.octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh:654:  if contains_proposal_path "$candidate_path"; then
+.octon/framework/assurance/runtime/_ops/scripts/validate-engagement-change-package-compiler.sh:731:  if contains_proposal_path "$change_package"; then
+.octon/framework/engine/runtime/crates/replay_store/src/lib.rs:325:    pub authorized_effect_classes: Vec<String>,
+.octon/framework/engine/runtime/crates/replay_store/src/lib.rs:333:        if self.authorized_event_ids.is_empty() && self.authorized_effect_classes.is_empty() {
+.octon/framework/engine/runtime/crates/replay_store/src/lib.rs:341:        if !self.authorized_effect_classes.is_empty()
+.octon/framework/engine/runtime/crates/replay_store/src/lib.rs:343:                .authorized_effect_classes
+.octon/framework/engine/runtime/crates/replay_store/src/lib.rs:1061:                authorized_effect_classes: vec!["external-side-effect".to_string()],
+.octon/framework/engine/runtime/crates/telemetry_sink/src/lib.rs:172:                authorized_effect_classes: vec!["external-side-effect".to_string()],
+.octon/framework/engine/runtime/crates/Cargo.lock:4146: "octon_authorized_effects",
+.octon/framework/engine/runtime/crates/Cargo.lock:4159:name = "octon_authorized_effects"
+.octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs:2341:            ".octon/state/evidence/runs/{run_id}/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/crates/policy_engine/src/lib.rs:740:            "material side-effect".to_string(),
+.octon/framework/assurance/runtime/_ops/tests/test-audit-architecture-proposal-workflow-runner.sh:112:  output="$(cd "$fixture_root" && "$RUNNER" workflow run audit-architecture-proposal --set "proposal_path=$fixture_rel")"
+.octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs:2855:				"\nWorkflow route entry surface:\n\n```sh\nocton workflow run {} --set proposal_path={}\n```\n\nAdd any other required `--set` inputs declared by that workflow contract before running it.\n",
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:20:    authorize_execution, authorized_effect_reference, build_executor_command,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:23:    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, verify_authorized_effect,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:24:    write_execution_start, AuthorizedEffect, AuthorizedEffectReference, EvidenceMutation,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:43:    effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:47:    authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:49:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:60:    authorized_effects.push(authorized_effect_reference(&verified));
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:67:    effect: &AuthorizedEffect<RepoMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:70:    authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:72:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:80:    authorized_effects.push(authorized_effect_reference(&verified));
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:87:    effect: &AuthorizedEffect<RepoMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:91:    authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:93:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:104:    authorized_effects.push(authorized_effect_reference(&verified));
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:466:        .get("proposal_path")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:469:            anyhow::anyhow!("workflow 'audit-design-proposal' requires --set proposal_path=<path>")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:652:    let proposal_path = options
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:654:        .get("proposal_path")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:657:            anyhow::anyhow!("workflow '{workflow_id}' requires --set proposal_path=<path>")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:666:            proposal_path: proposal_path.into(),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:681:    let proposal_path = options
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:683:        .get("proposal_path")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:686:            anyhow::anyhow!("workflow 'validate-proposal' requires --set proposal_path=<path>")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:694:            proposal_path: proposal_path.into(),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:709:    let proposal_path = options
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:711:        .get("proposal_path")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:714:            anyhow::anyhow!("workflow 'promote-proposal' requires --set proposal_path=<path>")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:729:            proposal_path: proposal_path.into(),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:745:    let proposal_path = options
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:747:        .get("proposal_path")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:750:            anyhow::anyhow!("workflow 'archive-proposal' requires --set proposal_path=<path>")
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:770:            proposal_path: proposal_path.into(),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1100:        let mut stage_authorized_effects = Vec::new();
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1108:            &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1129:                &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1141:                &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1158:                    authorized_effects: stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1184:                        &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1193:                        &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1206:                    &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1218:                    &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1235:                        authorized_effects: stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1250:                        let verified_repo_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1261:                        stage_authorized_effects
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1262:                            .push(authorized_effect_reference(&verified_repo_effect));
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1274:                        let verified_repo_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1285:                        stage_authorized_effects
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1286:                            .push(authorized_effect_reference(&verified_repo_effect));
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1304:                    &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1313:                    &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:1332:                        authorized_effects: stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:2639:                    .join("workflow-execution/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:2716:                .join("workflow-execution/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:2720:            result.bundle_root.join("stages/01/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:2722:            result.bundle_root.join("stages/02/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:2733:            &fs::read_to_string(result.bundle_root.join("stages/02/execution-receipt.json"))
+.octon/framework/engine/runtime/crates/kernel/src/pipeline.rs:2737:        assert_eq!(receipt["schema_version"], "execution-receipt-v3");
+.octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh:654:	    && grep -q 'octon workflow run promote-proposal --set proposal_path=' "$root/.octon/state/evidence/runs/workflows/workflow-handoff/commands.md"; then
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:4:    authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:11:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:22:      - ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:24:    authorized_effect_token_type: "AuthorizedEffect<ExecutorLaunch>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:31:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:42:    authorized_effect_token_type: "AuthorizedEffect<RepoMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:49:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:60:    authorized_effect_token_type: "AuthorizedEffect<RepoMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:67:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:78:    authorized_effect_token_type: "AuthorizedEffect<StateControlMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:85:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:95:    authorized_effect_token_type: "AuthorizedEffect<RepoMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:102:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:112:    authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:119:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:129:    authorized_effect_token_type: "AuthorizedEffect<GeneratedEffectivePublication>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:137:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:145:    authorized_effect_token_type: "AuthorizedEffect<GeneratedEffectivePublication>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:153:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:161:    authorized_effect_token_type: "AuthorizedEffect<GeneratedEffectivePublication>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:169:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:177:    authorized_effect_token_type: "AuthorizedEffect<ExtensionActivation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:185:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:193:    authorized_effect_token_type: "AuthorizedEffect<ExtensionActivation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:201:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:209:    authorized_effect_token_type: "AuthorizedEffect<ExtensionActivation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:217:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:225:    authorized_effect_token_type: "AuthorizedEffect<ExtensionActivation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:233:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:241:    authorized_effect_token_type: "AuthorizedEffect<CapabilityPackActivation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:249:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:257:    authorized_effect_token_type: "AuthorizedEffect<ProtectedCiCheck>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:264:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:272:    authorized_effect_token_type: "AuthorizedEffect<EvidenceMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:279:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:290:    authorized_effect_token_type: "AuthorizedEffect<StateControlMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:297:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:310:    authorized_effect_token_type: "AuthorizedEffect<EvidenceMutation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:317:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/execution-receipt.json"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:325:    authorized_effect_token_type: "control-plane-preparation-no-external-effect"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:341:    authorized_effect_token_type: "AuthorizedEffect<ServiceInvocation>"
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage.yml:348:    receipt_artifact_ref: ".octon/state/evidence/runs/<run-id>/receipts/connector-execution-receipt.yml"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh:6:bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh"
+.octon/framework/assurance/runtime/_ops/tests/test-audit-migration-proposal-workflow-runner.sh:114:  output="$(cd "$fixture_root" && "$RUNNER" workflow run audit-migration-proposal --set "proposal_path=$fixture_rel")"
+.octon/framework/engine/runtime/crates/authority_engine/src/phases/receipt.rs:103:        schema_version: "execution-receipt-v3".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/phases/receipt.rs:203:        authorized_effects: side_effects.authorized_effects.clone(),
+.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs:1064:            "material_effect_inventory_ref": ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml",
+.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs:1372:        ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml".to_string(),
+.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs:1966:        ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml".to_string(),
+.octon/framework/engine/runtime/crates/kernel/src/commands/mission.rs:2761:                "execution-receipt-after-run-start"
+.octon/framework/engine/runtime/spec/run-lifecycle-v1.md:87:  `AuthorizedEffect<T>` into `VerifiedEffect<T>` before mutation.
+.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh:136:- `proposal_path`: `.octon/inputs/exploratory/proposals/policy/shared-id`
+.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh:207:- `proposal_path`: `.octon/inputs/exploratory/proposals/migration/shared-id`
+.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh:259:  local proposal_path="$2"
+.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-standard.sh:262:    bash "$VALIDATE_SCRIPT" --package "$proposal_path"
+.octon/framework/engine/runtime/crates/lifecycle_executor/src/input_binding.rs:8:        ("proposal_path".to_string(), target),
+.octon/framework/engine/runtime/crates/kernel/src/commands/engagement.rs:1702:            "execution-receipt-after-run-start"
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:11:    artifact_root_from_relative, authorize_execution, authorized_effect_reference,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:16:    now_rfc3339, validate_run_lifecycle_operation, verify_authorized_effect,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:17:    verify_authorized_effect_verification_bundle, write_authorized_effect_verification_bundle,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:18:    write_execution_start, AuthorizedEffectReference, AuthorizedEffectVerificationBundle,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:21:    SideEffectFlags, SideEffectSummary, VerifiedEffect,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:64:    _effect: &VerifiedEffect<ServiceInvocation>,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:83:    _effect: &VerifiedEffect<RepoMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:93:    _effect: &VerifiedEffect<RepoMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:116:    _effect: &VerifiedEffect<ExecutorLaunch>,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:231:    authorized_effects: Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:624:    let verified_service_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:656:            authorized_effects: vec![authorized_effect_reference(&verified_service_effect)],
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:736:    let verified_executor_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:782:            authorized_effects: vec![authorized_effect_reference(&verified_executor_effect)],
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:861:            let verified_repo_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:889:                    authorized_effects: vec![authorized_effect_reference(&verified_repo_effect)],
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:983:            let verified_repo_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1021:                    authorized_effects: vec![authorized_effect_reference(&verified_repo_effect)],
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1053:            write_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1068:            write_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1083:            write_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1098:            write_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1234:    let authorized_effects = if publication_result_manifest_path.is_file() {
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1244:            result_manifest.authorized_effects
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1276:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1322:            let mut authorized_effects = Vec::new();
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1325:                let bundle: AuthorizedEffectVerificationBundle =
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1353:                authorized_effects.push(verify_authorized_effect_verification_bundle(Path::new(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1366:                    authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1534:            let verified_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1569:                        authorized_effects: vec![authorized_effect_reference(&verified_effect)],
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:1679:                    authorized_effects: vec![authorized_effect_reference(&verified_effect)],
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:2414:        .or_else(|| yaml_get_optional_string(bundle_yaml, "proposal_path"))
+.octon/framework/engine/runtime/crates/kernel/src/commands/mod.rs:2416:        overrides.insert("proposal_path".to_string(), path);
+.octon/framework/assurance/runtime/_ops/tests/test-architecture-health-depth.sh:59:authorized_effect_tokens|runtime|validate-material-side-effect-inventory.sh|optional
+.octon/framework/engine/runtime/crates/kernel/src/commands/evolution.rs:603:        .get("proposal_path_dependency_scan")
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs:14:pub use octon_authorized_effects::{
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs:15:    AuthorizedEffect, AuthorizedEffectPayload, AuthorizedEffectScope, CapabilityPackActivation,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs:18:    StateControlMutation, VerifiedEffect,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs:29:    authorized_effect_reference, issue_capability_pack_activation_effect,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs:34:    verify_authorized_effect, verify_authorized_effect_verification_bundle,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation.rs:35:    write_authorized_effect_verification_bundle, AuthorizedEffectVerificationBundle,
+.octon/framework/engine/runtime/crates/Cargo.toml:6:  "authorized_effects",
+.octon/framework/assurance/runtime/_ops/tests/test-audit-design-proposal-workflow-runner.sh:81:    --set "proposal_path=$proposal_rel" \
+.octon/framework/engine/runtime/crates/kernel/src/main.rs:2310:            "proposal_path=.octon/inputs/exploratory/proposals/.archive/design/orchestration-domain-design-package",
+.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-post-implementation-drift.sh:386:case_unrelated_proposal_path_literal_passes_drift() {
+.octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-post-implementation-drift.sh:451:    case_unrelated_proposal_path_literal_passes_drift
+.octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs:360:        assert!(prompt.contains("- `proposal_path`: `packet`"));
+.octon/framework/assurance/runtime/_ops/tests/test-audit-policy-proposal-workflow-runner.sh:112:  output="$(cd "$fixture_root" && "$RUNNER" workflow run audit-policy-proposal --set "proposal_path=$fixture_rel")"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:129:    ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:130:    ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:149:  require_contains_contract ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json" "context_pack_receipt_ref" "execution receipt binds context receipt"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:150:  require_contains_contract ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json" "model_visible_context_ref" "execution receipt binds model-visible serialization ref"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:151:  require_contains_contract ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json" "run.context_pack_requested" "runtime events include context pack requested"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:152:  require_contains_contract ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json" "run.context_pack_built" "runtime events include context pack built"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:153:  require_contains_contract ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json" "run.context_pack_bound" "runtime events include context pack bound"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:154:  require_contains_contract ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json" "run.context_pack_invalidated" "runtime events include context pack invalidated"
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:171:    ".octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-context-pack-builder.sh:172:    ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json" \
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:2:use octon_authorized_effects::{AuthorizedEffect, EvidenceMutation, StateControlMutation};
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:504:    pub evidence: AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:505:    pub control: AuthorizedEffect<StateControlMutation>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:525:    pub authorized_effects: Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:631:    pub authorized_effects: Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:646:pub struct AuthorizedEffectReference {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:652:    pub consumption_receipt_ref: String,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/api.rs:676:            receipt: root.join("execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:18:    authorize_execution, authorized_effect_reference, build_executor_command,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:21:    now_rfc3339 as auth_now_rfc3339, resolve_executor_profile, verify_authorized_effect,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:22:    write_execution_start, AuthorizedEffect, AuthorizedEffectReference, EvidenceMutation,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:210:    pub proposal_path: PathBuf,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:440:    pub proposal_path: PathBuf,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:447:    pub proposal_path: PathBuf,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:455:    pub proposal_path: PathBuf,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:626:    effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:630:    authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:632:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:643:    authorized_effects.push(authorized_effect_reference(&verified));
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:650:    effect: &AuthorizedEffect<RepoMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:653:    authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:655:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:663:    authorized_effects.push(authorized_effect_reference(&verified));
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:670:    effect: &AuthorizedEffect<RepoMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:674:    authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:676:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:687:    authorized_effects.push(authorized_effect_reference(&verified));
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:1303:                "# Validate Proposal\n\n- proposal_path: `{}`\n- validators:\n  - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package {}`\n  - `bash .octon/framework/assurance/runtime/_ops/scripts/validate-design-proposal.sh --package {}`\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:1969:    let proposal_root = if options.proposal_path.is_absolute() {
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:1970:        options.proposal_path.clone()
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:1972:        repo_root.join(&options.proposal_path)
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2162:        "# Audit {} Proposal Summary\n\n- workflow_id: `audit-{}-proposal`\n- proposal_path: `{}`\n- final_verdict: `validated`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2219:    let proposal_root = if options.proposal_path.is_absolute() {
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2220:        options.proposal_path.clone()
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2222:        repo_root.join(&options.proposal_path)
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2416:                rel_path(&repo_root, &run_evidence_root.join("receipts/execution-receipt.json")),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2486:                rel_path(&repo_root, &run_evidence_root.join("receipts/execution-receipt.json")),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2505:            "- validate proposal | proposal_path={} | proposal_kind={} | validator_log={}",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2513:        "# Validate Proposal Summary\n\n- workflow_id: `validate-proposal`\n- proposal_path: `{}`\n- proposal_kind: `{}`\n- final_verdict: `validated`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2600:    let proposal_root = if options.proposal_path.is_absolute() {
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2601:        options.proposal_path.clone()
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2603:        repo_root.join(&options.proposal_path)
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2859:                "- validate proposal before promotion | proposal_path={} | validator_log={}",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2864:                "- promote proposal | proposal_path={} | promotion_evidence={}",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2871:        "# Promote Proposal Summary\n\n- workflow_id: `promote-proposal`\n- proposal_path: `{}`\n- proposal_kind: `{}`\n- final_verdict: `implemented`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n- promotion_evidence: `{}`\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2970:    let proposal_root = if options.proposal_path.is_absolute() {
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2971:        options.proposal_path.clone()
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:2973:        repo_root.join(&options.proposal_path)
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:3282:                "- validate proposal before archive | proposal_path={} | validator_log={}",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:3296:        "# Archive Proposal Summary\n\n- workflow_id: `archive-proposal`\n- proposal_path: `{}`\n- archived_path: `{}`\n- proposal_kind: `{}`\n- final_verdict: `archived`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n- disposition: `{}`\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:3833:            let mut stage_authorized_effects = Vec::new();
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:3841:                &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:3889:                &mut stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:3912:                            authorized_effects: stage_authorized_effects.clone(),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4039:                    authorized_effects: stage_authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4066:        evidence_effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4067:        repo_effect: Option<&AuthorizedEffect<RepoMutation>>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4068:        authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4081:                    authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4099:                    authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4117:                    authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4136:        evidence_effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4137:        repo_effect: Option<&AuthorizedEffect<RepoMutation>>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4138:        authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4150:        let report_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4157:        authorized_effects.push(authorized_effect_reference(&report_effect));
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4159:            let verified_repo_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4166:            authorized_effects.push(authorized_effect_reference(&verified_repo_effect));
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4184:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4206:        evidence_effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4207:        repo_effect: Option<&AuthorizedEffect<RepoMutation>>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4208:        authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4221:            let verified_repo_effect = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4228:            authorized_effects.push(authorized_effect_reference(&verified_repo_effect));
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4246:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4264:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4277:        evidence_effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4278:        repo_effect: Option<&AuthorizedEffect<RepoMutation>>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4279:        authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4295:                authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4305:                    authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4317:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4330:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4344:        evidence_effect: &AuthorizedEffect<EvidenceMutation>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4345:        authorized_effects: &mut Vec<AuthorizedEffectReference>,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:4363:            authorized_effects,
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:5328:        "# Artifact Catalog\n\nThis catalog is generated from the on-disk proposal package shape. Regenerate it whenever files are added, removed, or reorganized.\n\n## Proposal\n\n- `proposal_id`: `{}`\n- `proposal_kind`: `{}`\n- `proposal_path`: `{}`\n\n## Files\n\n| Path | Role |\n| --- | --- |\n{}",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:5474:            "1. Fill in the proposal-specific normative and implementation details.\n2. Run `/audit-design-proposal proposal_path=\"{}\"` to mature the proposal.\n3. Promote durable outputs into the listed implementation targets before archiving the proposal.\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:5550:            "- proposal_path: `{}`\n- file_count: `{}`\n\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:5559:        "# Scaffolded Proposal Inventory\n\n- proposal_path: `not-created`\n- file_count: `0`\n"
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:5987:        "# Create {} Proposal Summary\n\n- workflow_id: `create-{}-proposal`\n- proposal_path: `{}`\n- promotion_scope: `{}`\n- final_verdict: `scaffolded`\n- bundle_root: `{}`\n- summary_report: `{}`\n- validator_log: `{}`\n",
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7165:            "/audit-design-proposal proposal_path=\".octon/inputs/exploratory/proposals/design/runtime-package\""
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7339:                proposal_path: PathBuf::from(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7386:                proposal_path: PathBuf::from(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7478:                .join("workflow-execution/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7481:                .join("stages/03-scaffold-proposal/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7484:                .join("stages/04-validate-proposal/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7521:                proposal_path: PathBuf::from(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7531:                .join("workflow-execution/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7534:                .join("stages/scaffold-proposal/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7537:                .join("stages/validate-proposal/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7540:                .join("workflow-execution/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7543:                .join("stages/validate-proposal/execution-receipt.json"),
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7598:            .join("workflow-execution/execution-receipt.json")
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7618:                proposal_path: PathBuf::from(
+.octon/framework/engine/runtime/crates/kernel/src/workflow.rs:7634:            .join("workflow-execution/execution-receipt.json")
+.octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh:96:  proposal_path:
+.octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh:518:  yq -i '.input_bindings.proposal_path.source = "runtime.shell"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+.octon/framework/assurance/runtime/_ops/tests/test-validate-design-proposal.sh:206:  local proposal_path="$2"
+.octon/framework/assurance/runtime/_ops/tests/test-validate-design-proposal.sh:209:    bash "$VALIDATE_SCRIPT" --package "$proposal_path"
+.octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh:129:- `proposal_path`: `.octon/inputs/exploratory/proposals/architecture/fixture-proposal`
+.octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh:204:- `proposal_path`: `.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal`
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:4:    artifact_root_from_relative, authorize_execution, authorized_effect_reference,
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:6:    now_rfc3339, verify_authorized_effect, write_execution_start, ExecutionArtifactEffects,
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:8:    ServiceInvocation, SideEffectFlags, SideEffectSummary, VerifiedEffect,
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:35:    _effect: &VerifiedEffect<ServiceInvocation>,
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:344:                    let verified_effect = match verify_authorized_effect(
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:408:                                    authorized_effects: vec![authorized_effect_reference(
+.octon/framework/engine/runtime/crates/kernel/src/stdio.rs:432:                                    authorized_effects: vec![authorized_effect_reference(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:743:        "canonical journal must not persist runtime-event-v1 aliases"
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:838:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1131:fn recompute_effect_token_digest(payload: &AuthorizedEffectPayload) -> String {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1142:    effect: &AuthorizedEffect<T>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1143:    mutate: impl FnOnce(&mut AuthorizedEffectPayload),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1144:) -> AuthorizedEffect<T> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1150:    let mut payload: AuthorizedEffectPayload =
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1160:    octon_authorized_effects::authority_mint::mint_authorized_effect::<T>(payload)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1206:fn issued_effect_verifies_and_records_consumption_receipt() {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1214:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1225:        .join(verified.consumption_receipt_ref());
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1285:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1307:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1334:    verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1342:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1369:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1395:    let payload: AuthorizedEffectPayload = serde_json::from_value(record["payload"].clone())
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1404:    let expired_effect = octon_authorized_effects::authority_mint::mint_authorized_effect::<
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1409:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1436:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1458:        payload.token_type = "AuthorizedEffect<RepoMutation>".to_string();
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1460:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1483:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1506:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1533:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1559:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1610:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1646:    verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1689:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1737:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1764:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1798:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1821:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1848:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1875:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1909:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1937:    let err = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1976:    write_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:1984:    let err = verify_authorized_effect_verification_bundle(&bundle_path)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:2014:    write_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:2028:        serde_json::Value::String("AuthorizedEffect<RepoMutation>".to_string());
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:2034:    let err = verify_authorized_effect_verification_bundle(&bundle_path)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/tests.rs:2418:        Some("execution-receipt-v3")
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:148:- `proposal_path`: `.octon/inputs/exploratory/proposals/architecture/fixture-proposal`
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:283:  output="$(run_workflow "$fixture_root" validate-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal")"
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:296:  output="$(run_workflow "$fixture_root" promote-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "promotion_evidence=.octon/README.md")"
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:310:  run_workflow "$fixture_root" promote-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "promotion_evidence=.octon/README.md"
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:318:  run_workflow "$fixture_root" promote-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "promotion_evidence=.octon/README.md"
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:326:  output="$(run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md")"
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:341:  run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md" >/dev/null
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:345:  run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md" >/dev/null
+.octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh:353:  run_workflow "$fixture_root" archive-proposal --set "proposal_path=.octon/inputs/exploratory/proposals/architecture/fixture-proposal" --set "disposition=implemented" --set "promotion_evidence=.octon/README.md"
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:2:use octon_authorized_effects::authority_mint::{mint_authorized_effect, mint_verified_effect};
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:3:use octon_authorized_effects::{
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:4:    AuthorizedEffect, AuthorizedEffectPayload, AuthorizedEffectScope, CapabilityPackActivation,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:7:    StateControlMutation, VerifiedEffect,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:29:    ".octon/framework/engine/runtime/spec/runtime-event-v1.schema.json";
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:35:pub struct AuthorizedEffectVerificationBundle {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:40:    pub token_payload: AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:43:struct AuthorizedEffectTokenRecord {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:45:    payload: AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:54:    last_consumption_receipt_ref: Option<String>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:66:struct AuthorizedEffectConsumptionReceipt {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:102:        evidence: issue_authorized_effect::<EvidenceMutation>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:108:        control: issue_authorized_effect::<StateControlMutation>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:122:) -> CoreResult<AuthorizedEffect<EvidenceMutation>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:123:    issue_authorized_effect::<EvidenceMutation>(runtime_path, grant, scope_ref.into(), single_use)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:131:) -> CoreResult<AuthorizedEffect<GeneratedEffectivePublication>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:132:    issue_authorized_effect::<GeneratedEffectivePublication>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:144:) -> CoreResult<AuthorizedEffect<ServiceInvocation>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:145:    issue_authorized_effect::<ServiceInvocation>(runtime_path, grant, scope_ref.into(), true)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:152:) -> CoreResult<AuthorizedEffect<RepoMutation>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:153:    issue_authorized_effect::<RepoMutation>(runtime_path, grant, scope_ref.into(), true)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:161:) -> CoreResult<AuthorizedEffect<RepoMutation>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:162:    issue_authorized_effect::<RepoMutation>(runtime_path, grant, scope_ref.into(), single_use)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:169:) -> CoreResult<AuthorizedEffect<ExecutorLaunch>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:170:    issue_authorized_effect::<ExecutorLaunch>(runtime_path, grant, scope_ref.into(), true)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:178:) -> CoreResult<AuthorizedEffect<ExtensionActivation>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:179:    issue_authorized_effect::<ExtensionActivation>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:192:) -> CoreResult<AuthorizedEffect<CapabilityPackActivation>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:193:    issue_authorized_effect::<CapabilityPackActivation>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:206:) -> CoreResult<AuthorizedEffect<ProtectedCiCheck>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:207:    issue_authorized_effect::<ProtectedCiCheck>(runtime_path, grant, scope_ref.into(), single_use)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:210:pub fn verify_authorized_effect<T: EffectKind>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:213:    effect: &AuthorizedEffect<T>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:216:) -> CoreResult<VerifiedEffect<T>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:619:            "consumption_receipt_ref": receipt_ref,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:624:    let receipt = AuthorizedEffectConsumptionReceipt {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:654:    record.last_consumption_receipt_ref = Some(receipt_ref.clone());
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:669:pub fn authorized_effect_reference<T: EffectKind>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:670:    verified: &VerifiedEffect<T>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:671:) -> AuthorizedEffectReference {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:672:    AuthorizedEffectReference {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:678:        consumption_receipt_ref: verified.consumption_receipt_ref().to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:683:pub fn write_authorized_effect_verification_bundle<T: EffectKind>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:684:    effect: &AuthorizedEffect<T>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:689:) -> CoreResult<AuthorizedEffectVerificationBundle> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:690:    let bundle = AuthorizedEffectVerificationBundle {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:701:pub fn verify_authorized_effect_verification_bundle(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:703:) -> CoreResult<AuthorizedEffectReference> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:713:    let bundle: AuthorizedEffectVerificationBundle =
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:799:fn issue_authorized_effect<T: EffectKind>(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:804:) -> CoreResult<AuthorizedEffect<T>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:828:                "token_type": authorized_effect_type::<T>(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:855:            "token_type": authorized_effect_type::<T>(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:861:    let payload = AuthorizedEffectPayload {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:864:        token_type: authorized_effect_type::<T>(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:952:    let record = AuthorizedEffectTokenRecord {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:960:        last_consumption_receipt_ref: None,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:969:    let mint_receipt = AuthorizedEffectConsumptionReceipt {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:993:    Ok(mint_authorized_effect(payload))
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:999:    bundle: &AuthorizedEffectVerificationBundle,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1000:) -> CoreResult<AuthorizedEffectReference> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1001:    let effect = mint_authorized_effect::<T>(bundle.token_payload.clone());
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1002:    let verified = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1009:    Ok(authorized_effect_reference(&verified))
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1049:fn authorized_effect_type<T: EffectKind>() -> String {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1051:        "repo-mutation" => "AuthorizedEffect<RepoMutation>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1053:            "AuthorizedEffect<GeneratedEffectivePublication>".to_string()
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1055:        "state-control-mutation" => "AuthorizedEffect<StateControlMutation>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1056:        "evidence-mutation" => "AuthorizedEffect<EvidenceMutation>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1057:        "executor-launch" => "AuthorizedEffect<ExecutorLaunch>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1058:        "service-invocation" => "AuthorizedEffect<ServiceInvocation>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1059:        "protected-ci-check" => "AuthorizedEffect<ProtectedCiCheck>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1060:        "extension-activation" => "AuthorizedEffect<ExtensionActivation>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1061:        "capability-pack-activation" => "AuthorizedEffect<CapabilityPackActivation>".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1062:        other => format!("AuthorizedEffect<{other}>"),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1066:fn scope_envelope_from_grant(grant: &GrantBundle) -> AuthorizedEffectScope {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1067:    AuthorizedEffectScope {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1142:fn compute_token_digest(payload: &AuthorizedEffectPayload) -> CoreResult<String> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1154:fn persist_token_record(path: &Path, record: &AuthorizedEffectTokenRecord) -> CoreResult<()> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1158:fn load_token_record(path: &Path) -> CoreResult<AuthorizedEffectTokenRecord> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1349:    payload: &AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1401:fn required_authority_refs_exist(repo_root: &Path, payload: &AuthorizedEffectPayload) -> bool {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1420:    payload: &AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1440:fn route_binding_matches(grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1476:    payload: &AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1526:fn support_route_denied(grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1548:    payload: &AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1580:    payload: &AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1608:    payload: &AuthorizedEffectPayload,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1628:fn budget_denied(repo_root: &Path, grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1651:fn egress_denied(repo_root: &Path, grant: &GrantBundle, payload: &AuthorizedEffectPayload) -> bool {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1751:fn approval_trace_refs(payload: &AuthorizedEffectPayload, grant: &GrantBundle) -> Vec<String> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1797:    token_scope: &AuthorizedEffectScope,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1901:    effect: &AuthorizedEffect<T>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1905:) -> CoreResult<VerifiedEffect<T>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1932:    let receipt = AuthorizedEffectConsumptionReceipt {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1964:    effect: &AuthorizedEffect<T>,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1965:    record: &mut AuthorizedEffectTokenRecord,
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1971:) -> CoreResult<VerifiedEffect<T>> {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:1998:    let receipt = AuthorizedEffectConsumptionReceipt {
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/effects.rs:2028:    record.last_consumption_receipt_ref = Some(receipt_ref.clone());
+.octon/framework/engine/runtime/spec/execution-receipt-v1.schema.json:3:  "$id": "https://octon.local/engine/runtime/spec/execution-receipt-v1.schema.json",
+.octon/framework/engine/runtime/spec/execution-receipt-v1.schema.json:26:      "const": "execution-receipt-v1"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:57:  copy_repo_ref "$fixture_root" ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:58:  copy_repo_ref "$fixture_root" ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:71:  local inventory="$fixture_root/.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:84:    yq -i "(.paths[] | select(.path_id == \"$path_id\")).authorized_effect_token_type = \"effect::$path_id\"" "$coverage_map"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:92:    bash "$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh" >/dev/null
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:100:  yq -i 'del(.classes[].token_type)' "$fixture_root/.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+.octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh:101:  yq -i 'del(.paths[].authorized_effect_token_type)' "$fixture_root/$(yq -r '.coverage_map_ref' "$fixture_root/$RECEIPT_REL")"
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:638:            ".octon/state/evidence/runs/{}/execution-receipt.json",
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:1116:            format!(".octon/state/evidence/runs/{}/execution-receipt.json", request.request_id)
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:2795:            "execution-receipt.json".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3408:    verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3416:    verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3741:    let verified_evidence = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3749:    let verified_control = verify_authorized_effect(
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3759:        .authorized_effects
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3760:        .push(authorized_effect_reference(&verified_evidence));
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3762:        .authorized_effects
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3763:        .push(authorized_effect_reference(&verified_control));
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3765:        .authorized_effects
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3768:                left.consumption_receipt_ref
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3769:                    .cmp(&right.consumption_receipt_ref),
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3773:        .authorized_effects
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3776:                && left.consumption_receipt_ref == right.consumption_receipt_ref
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:3792:        let execution_receipt = bound.receipts_root.join("execution-receipt.json");
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/execution.rs:4220:        ".octon/state/evidence/runs/{}/receipts/execution-receipt.json",
+.octon/framework/assurance/runtime/_ops/tests/test-authorized-effect-token-consumption.sh:8:  -p octon_authority_engine --lib issued_effect_verifies_and_records_consumption_receipt
+.octon/framework/assurance/runtime/_ops/tests/test-authorization-boundary-coverage.sh:7:bash "$ROOT/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh"
+.octon/framework/engine/runtime/crates/kernel/src/side_effects/mod.rs:7:    ".octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json";
+.octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs:1463:            "execution-receipt".to_string(),
+.octon/framework/engine/runtime/crates/authority_engine/Cargo.toml:17:octon_authorized_effects = { path = "../authorized_effects", features = ["authority-mint"] }
+.octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh:140:  proposal_path_pattern="\\.octon/$input_root_pattern(/[^/]+)?/$proposal_id_pattern"
+.octon/framework/assurance/runtime/_ops/scripts/validate-agent-node-model-call-contract.sh:141:  if rg -n "$input_root_pattern|$proposal_path_pattern" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-audit-design-proposal-workflow.sh:44:  require_fixed 'proposal_path' "$WORKFLOW_DIR/workflow.yml" "workflow contract exposes proposal_path input"
+.octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json:3:  "$id": "https://octon.local/engine/runtime/spec/execution-receipt-v3.schema.json",
+.octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json:29:    "authorized_effects",
+.octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json:33:    "schema_version": { "const": "execution-receipt-v3" },
+.octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json:59:    "authorized_effects": {
+.octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json:69:          "consumption_receipt_ref",
+.octon/framework/engine/runtime/spec/execution-receipt-v3.schema.json:78:          "consumption_receipt_ref": { "type": "string", "minLength": 1 },
+.octon/framework/assurance/runtime/_ops/scripts/validate-self-evolution-runtime-v5.sh:339:  require_yq "$promotion" '.promotion_runtime_self_approves == false and .target_root_legality == "valid" and .recertification_required == true and .proposal_path_dependency_scan == "pass" and .support_no_widening == "pass" and (.support_no_widening_evidence_refs | length) > 0 and (.durable_decision_refs | length) > 0 and (.generated_projection_refresh_refs | length) > 0' "promotion request is gated, non-self-approving, and no-widening"
+.octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh:6:RECEIPT_PATH="$RUN_ROOT/execution-receipt.json"
+.octon/framework/assurance/runtime/_ops/scripts/assert-protected-execution-posture.sh:54:    schema_version: "execution-receipt-v1",
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:1:schema_version: material-side-effect-inventory-v1
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:4:    token_type: "AuthorizedEffect<RepoMutation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:17:    token_type: "AuthorizedEffect<EvidenceMutation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:29:    token_type: "AuthorizedEffect<StateControlMutation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:40:    token_type: "NoAuthorizedEffectToken<ControlPlanePreparation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:54:    token_type: "AuthorizedEffect<GeneratedEffectivePublication>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:66:    token_type: "AuthorizedEffect<ExecutorLaunch>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:78:    token_type: "AuthorizedEffect<ServiceInvocation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:92:    token_type: "AuthorizedEffect<ProtectedCiCheck>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:102:    token_type: "AuthorizedEffect<ExtensionActivation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:117:    token_type: "AuthorizedEffect<CapabilityPackActivation>"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:133:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:135:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:142:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:144:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:151:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:153:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:160:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:162:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:169:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:171:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:178:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:180:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:187:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:189:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:195:    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:196:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:198:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:204:    negative_bypass_test_ref: ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-coverage-fixtures.sh"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:205:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:207:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:214:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:216:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:223:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:225:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:232:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:234:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:241:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:243:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:250:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:252:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:259:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:261:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:268:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:270:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:277:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:279:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:286:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:288:    token_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:295:    consumption_receipt_required: false
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:297:    token_required: false
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:302:    consumer_api_ref: ".octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:304:    consumption_receipt_required: true
+.octon/framework/engine/runtime/spec/material-side-effect-inventory.yml:306:    token_required: true
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:9:SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:10:INVENTORY="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:24:  yq -e '.classes[]? | select((.token_type // .authorized_effect_token // .authorized_effect_token_ref // "") != "")' "$INVENTORY" >/dev/null 2>&1
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:29:  ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:32:  ".octon/framework/assurance/runtime/_ops/tests/test-material-side-effect-token-bypass-denials.sh"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:36:  "material-side-effect-inventory-v1" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:37:  "material-side-effect-inventory-v2"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:47:  material-side-effect-inventory-v1|material-side-effect-inventory-v2)
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:51:    fail "inventory schema_version must be a supported material-side-effect-inventory version"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:75:done < <(yq -r '.classes[] | [.id, (.roots[0] // ""), .required_boundary, .owner, .risk_tier, (.material|tostring), (.token_type // .authorized_effect_token // .authorized_effect_token_ref // "")] | @tsv' "$INVENTORY")
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:77:if yq -e '.inventory_ref == ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"' "$RECEIPT" >/dev/null 2>&1; then
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:85:  emit_validator_result "validate-material-side-effect-inventory.sh" "material_side_effect_inventory" "semantic" "semantic" "pass"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:87:    emit_validator_result "validate-material-side-effect-inventory.sh" "authorized_effect_tokens" "semantic" "semantic" "pass"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:90:  emit_validator_result "validate-material-side-effect-inventory.sh" "material_side_effect_inventory" "semantic" "existence" "fail"
+.octon/framework/assurance/runtime/_ops/scripts/validate-material-side-effect-inventory.sh:92:    emit_validator_result "validate-material-side-effect-inventory.sh" "authorized_effect_tokens" "semantic" "existence" "fail"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:30:INVENTORY="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:31:INVENTORY_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:33:EVENT_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:34:RECEIPT_SCHEMA="$OCTON_DIR/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:56:has_text "VerifiedEffect<T>" "$TOKEN_V1" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:57:  && pass "token contract requires VerifiedEffect<T>" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:58:  || fail "token contract must require VerifiedEffect<T>"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:60:has_text "\"authorized_effects\"" "$RECEIPT_SCHEMA" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:61:  && pass "execution receipt schema exposes authorized_effects" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:62:  || fail "execution receipt schema must expose authorized_effects"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:75:    && pass "runtime-event-v1 declares $event_name" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:76:    || fail "runtime-event-v1 must declare $event_name"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:127:while IFS=$'\t' read -r path_id class_id owner_ref consumer_api_ref negative_ref token_required coverage_state; do
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:135:  [[ "$token_required" == "true" || "$token_required" == "false" ]] \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:136:    && pass "$path_id token_required present" \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:137:    || fail "$path_id missing token_required"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:148:    if [[ "$token_required" == "true" ]]; then
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:149:      yq -e ".paths[] | select(.path_id == \"$path_id\" and (.authorized_effect_token_type // \"\") != \"\")" "$COVERAGE_MAP" >/dev/null 2>&1 \
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:151:        || fail "$path_id missing authorized_effect_token_type"
+.octon/framework/assurance/runtime/_ops/scripts/validate-authorized-effect-token-enforcement.sh:156:done < <(yq -r '.paths[] | [.path_id, .class_id, .owner_ref, .consumer_api_ref, .negative_bypass_test_ref, (.token_required|tostring), .coverage_state] | @tsv' "$INVENTORY")
+.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh:20:  "validate-material-side-effect-inventory.sh"
+.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh:49:  "authorized_effect_tokens|runtime|validate-material-side-effect-inventory.sh|optional"
+.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-health.sh:50:  "authorized_effect_tokens|runtime|validate-authorization-boundary-coverage.sh|optional"
+.octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh:49:require_file "$OCTON_DIR/framework/engine/runtime/spec/execution-receipt-v3.schema.json"
+.octon/framework/assurance/runtime/_ops/scripts/validate-execution-role-hard-cutover.sh:50:require_file "$OCTON_DIR/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+.octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh:135:    ".octon/framework/engine/runtime/spec/material-side-effect-inventory.yml"
+.octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh:166:    connector-execution-receipt-v1
+.octon/framework/assurance/runtime/_ops/scripts/validate-connector-admission-runtime-v4.sh:192:  require_json_schema "$OCTON_DIR/framework/constitution/contracts/runtime/connector-execution-receipt-v1.schema.json" "connector execution receipt constitutional schema"
+.octon/framework/assurance/runtime/_ops/scripts/validate-mission-runtime-contracts.sh:54:    execution-receipt-v2.schema.json \
+.octon/framework/assurance/runtime/_ops/scripts/validate-execution-governance.sh:74:  require_file "$OCTON_DIR/framework/engine/runtime/spec/execution-receipt-v1.schema.json"
+.octon/framework/engine/runtime/spec/runtime-event-v1.schema.json:3:  "$id": "https://octon.local/engine/runtime/spec/runtime-event-v1.schema.json",
+.octon/framework/engine/runtime/spec/runtime-event-v1.schema.json:5:  "description": "Compatibility-only engine-local runtime event envelope. Dot-named runtime-event-v1 events must be normalized into canonical hyphenated run-event-v2 events before they enter the canonical control journal, reconstruction path, replay path, or closeout evidence snapshots.",
+.octon/framework/engine/runtime/spec/runtime-event-v1.schema.json:16:    "schema_version": { "const": "runtime-event-v1" },
+.octon/framework/engine/runtime/spec/runtime-event-v1.schema.json:124:    "consumption_receipt_ref": { "type": ["string", "null"] },
+.octon/framework/assurance/runtime/_ops/scripts/validate-run-journal-contracts.sh:49:require_file "$OCTON_DIR/framework/engine/runtime/spec/runtime-event-v1.schema.json"
+.octon/framework/engine/runtime/spec/run-journal-v1.md:65:`runtime-event-v1` dot-named events remain compatibility aliases only. They
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md:3:This contract proves that every material side-effect path is routed through the
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md:22:- the issued `AuthorizedEffect<T>` class,
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md:62:- the required `AuthorizedEffect<T>` token type
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md:82:For any material side-effecting path, the boundary proof must show journal
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md:123:- `execution-receipt-v3.schema.json`
+.octon/framework/engine/runtime/spec/authorization-boundary-coverage-v1.md:124:- `runtime-event-v1.schema.json`
+.octon/framework/engine/runtime/spec/context-pack-builder-v1.md:290:`runtime-event-v1` dot names such as `run.context_pack_built` are compatibility
+.octon/framework/engine/runtime/spec/context-pack-builder-v1.md:310:- `execution-receipt-v3.schema.json`
+.octon/framework/engine/runtime/spec/context-pack-builder-v1.md:311:- `runtime-event-v1.schema.json`
+.octon/framework/engine/runtime/spec/authorized-effect-token-v1.md:18:AuthorizedEffect<T>
+.octon/framework/engine/runtime/spec/authorized-effect-token-v1.md:24:VerifiedEffect<T>
+.octon/framework/engine/runtime/spec/authorized-effect-token-v1.md:92:- `AuthorizedEffect<T>` is only a transport artifact.
+.octon/framework/engine/runtime/spec/authorized-effect-token-v1.md:121:relevant token type as input and verify it into `VerifiedEffect<T>` before
+.octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json:3:  "$id": "https://octon.local/engine/runtime/spec/execution-receipt-v2.schema.json",
+.octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json:26:    "schema_version": { "const": "execution-receipt-v2" },
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:15:`AuthorizedEffect<T>` values issued from the active allow grant and verify them
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:16:into `VerifiedEffect<T>` guards before mutation.
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:31:  `AuthorizedEffect<T>` derived from the current allow grant.
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:34:  envelope and yields `VerifiedEffect<T>`.
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:65:  `GrantBundle`, typed `AuthorizedEffect<T>`, verified `VerifiedEffect<T>`,
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:72:- `execution-receipt-v3.schema.json`
+.octon/framework/engine/runtime/spec/execution-authorization-v1.md:77:- `runtime-event-v1.schema.json`
+.octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json:3:  "$id": "https://octon.local/engine/runtime/spec/connector-execution-receipt-v1.schema.json",
+.octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json:17:    "authorized_effect_token_ref",
+.octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json:25:    "schema_version": { "const": "connector-execution-receipt-v1" },
+.octon/framework/engine/runtime/spec/connector-execution-receipt-v1.schema.json:34:    "authorized_effect_token_ref": { "type": "string", "minLength": 1 },
+.octon/framework/engine/runtime/spec/promotion-request-v1.schema.json:16:    "proposal_path_dependency_scan",
+.octon/framework/engine/runtime/spec/promotion-request-v1.schema.json:30:    "proposal_path_dependency_scan": { "type": "string", "enum": ["pass", "fail", "not_run"] },
+.octon/framework/engine/runtime/spec/policy-interface-v1.md:163:For material ACP runs (`phase=promote|finalize` or explicit material side-effect
+.octon/framework/engine/runtime/spec/runtime-resolution-v1.md:43:- material side-effect inventory coverage
+.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json:3:  "$id": "https://octon.local/engine/runtime/spec/material-side-effect-inventory-v1.schema.json",
+.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json:11:      "const": "material-side-effect-inventory-v1"
+.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json:59:          "consumption_receipt_required",
+.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json:61:          "token_required",
+.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json:70:          "consumption_receipt_required": { "type": "boolean" },
+.octon/framework/engine/runtime/spec/material-side-effect-inventory-v1.schema.json:72:          "token_required": { "type": "boolean" },
