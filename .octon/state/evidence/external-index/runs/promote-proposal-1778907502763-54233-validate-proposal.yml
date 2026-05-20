@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:a5189b353149c986937b1002fcd8f56803292663616ed799e33a79555b2e59e1
+  entry_id: promote-proposal-1778907502763-54233-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/promote-proposal-1778907502763-54233-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-05-16T05:03:25.410179Z
+  run_id: promote-proposal-1778907502763-54233-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:5466fb32be492a5e8b906a57491725d7ad9f20297f02cfd61de891355053faa5
+  entry_id: promote-proposal-1778907502763-54233-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/promote-proposal-1778907502763-54233-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-05-16T05:03:25.410179Z
+  run_id: promote-proposal-1778907502763-54233-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-promote-proposal-1778907502763-54233-validate-proposal
+run_id: promote-proposal-1778907502763-54233-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-16T05:03:25.410179Z

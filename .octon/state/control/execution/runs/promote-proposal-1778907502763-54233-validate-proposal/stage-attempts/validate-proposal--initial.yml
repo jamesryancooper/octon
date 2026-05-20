@@ -1,0 +1,37 @@
+allowed_capabilities:
+- workflow.stage.execute
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal
+- .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal
+attempt_kind: initial
+completion_status: criteria-pending
+created_at: 2026-05-16T04:58:25.317896Z
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the bounded consequential envelope.
+evidence_refs:
+- .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/receipts/grant-bundle.json
+- .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status reaches a terminal state that agrees with the decision artifact.
+issued_by: octon-kernel
+objective_ref: .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal/run-contract.yml
+objective_slice: Stage workflow-stage:validate-proposal for target promote-proposal::validate-proposal
+predecessor_refs: []
+requested_capabilities:
+- workflow.stage.execute
+- evidence.write
+retry_class: manual_review_required
+rollback_candidate: true
+rollback_notes: Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.
+run_id: promote-proposal-1778907502763-54233-validate-proposal
+schema_version: stage-attempt-v1
+stage_attempt_id: validate-proposal--initial
+stage_ref: workflow-stage:validate-proposal
+status: succeeded
+successor_refs: []
+updated_at: 2026-05-16T05:03:26.015896Z
+validated_by: octon-kernel

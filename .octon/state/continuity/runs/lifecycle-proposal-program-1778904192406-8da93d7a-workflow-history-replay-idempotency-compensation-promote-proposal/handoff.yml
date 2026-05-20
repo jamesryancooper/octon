@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: promote-proposal--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/run-contract.yml
+next_action: null
+updated_at: 2026-05-16T04:26:44.367995Z

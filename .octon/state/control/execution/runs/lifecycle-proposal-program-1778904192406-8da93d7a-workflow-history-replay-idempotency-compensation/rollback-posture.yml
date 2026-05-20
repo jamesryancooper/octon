@@ -1,0 +1,17 @@
+schema_version: run-rollback-posture-v1
+run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+reversibility_class: reversible
+rollback_strategy: rollback
+rollback_ref: null
+rollback_handle: null
+compensation_handle: null
+recovery_window: null
+contamination_state: clean
+retry_record_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/retry-records/baseline.yml
+contamination_record_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/contamination/current.yml
+resume_allowed: true
+reset_action: No reset required; canonical run evidence remained coherent.
+invalidated_artifacts: []
+hard_reset_required: false
+posture_source: run-contract-default
+updated_at: 2026-05-16T04:21:03.380174Z

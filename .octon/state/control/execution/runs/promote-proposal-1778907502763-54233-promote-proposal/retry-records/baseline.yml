@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-05-16T05:03:26.375309Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: promote-proposal-1778907502763-54233-promote-proposal-baseline
+route_taken: allow
+run_id: promote-proposal-1778907502763-54233-promote-proposal
+schema_version: run-retry-record-v1
+stage_attempt_id: promote-proposal--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-promote-proposal/stage-attempts/promote-proposal--initial.yml

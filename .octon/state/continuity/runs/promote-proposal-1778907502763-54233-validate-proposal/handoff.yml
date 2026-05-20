@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: promote-proposal-1778907502763-54233-validate-proposal
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/promote-proposal-1778907502763-54233-validate-proposal/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: validate-proposal--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/promote-proposal-1778907502763-54233/run-contract.yml
+next_action: null
+updated_at: 2026-05-16T05:03:26.154683Z

@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:b7d24ce811cc9e970bb3949564f7f2560df14e6bca91704fa750f1c20a471af8
+event_count: 33
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  sequence: 1
+  event_hash: sha256:16bbe3cc5452d645b6c710ba04e7051f5bd165354478f95b3dc0476acf37b34b
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  sequence: 33
+  event_hash: sha256:e6f2ad5eed25e04cb7ca5e15257163c0967537de99cebd5d6e7cd644eae8cd12
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:16bbe3cc5452d645b6c710ba04e7051f5bd165354478f95b3dc0476acf37b34b
+  tail_event_hash: sha256:e6f2ad5eed25e04cb7ca5e15257163c0967537de99cebd5d6e7cd644eae8cd12
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  disclosure_ref: evt-run-closed-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-1ad938e07137
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  runtime_state_ref: evt-run-closed-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
+  last_applied_sequence: 33
+  last_applied_event_hash: sha256:e6f2ad5eed25e04cb7ca5e15257163c0967537de99cebd5d6e7cd644eae8cd12
+  materialized_at: 2026-05-16T04:26:44.493908Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-05-16T04:26:45.438201Z

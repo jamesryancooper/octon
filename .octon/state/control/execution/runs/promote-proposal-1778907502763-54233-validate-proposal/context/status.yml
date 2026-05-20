@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/promote-proposal-1778907502763-54233-validate-proposal/context/model-visible-context.json
+run_id: promote-proposal-1778907502763-54233-validate-proposal
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-05-16T04:58:25.335294Z
+validity_state: valid

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:6dd28ff35445d2a3e55de8df3d29464aed02b146bdca71525c40058ece13a0b3
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:329a0fd8af5874d080e6f6d6f0e67777d056f9402a448964fcba9798c2236aaf
+receipt_sha256: sha256:5ba5be7a65cfdc31ff966cafbee730b0d50877c886f052dee4bdb396e244ea01
+run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-16T04:21:05.811156Z
+validity_state: valid

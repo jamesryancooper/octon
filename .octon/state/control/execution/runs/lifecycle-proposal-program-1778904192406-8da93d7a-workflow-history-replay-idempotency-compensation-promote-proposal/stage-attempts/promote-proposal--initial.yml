@@ -1,0 +1,39 @@
+allowed_capabilities:
+- workflow.stage.execute
+- repo.write
+- evidence.write
+allowed_zones:
+- .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal
+- .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal
+attempt_kind: initial
+completion_status: criteria-pending
+created_at: 2026-05-16T04:26:30.280355Z
+entry_criteria:
+- Run contract is bound under the canonical run root.
+- Support-target tuple remains admitted for the bounded consequential envelope.
+evidence_refs:
+- .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/receipts/policy-receipt.latest.json
+- .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/receipts/grant-bundle.json
+- .octon/state/evidence/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/receipts/execution-receipt.json
+exit_criteria:
+- Stage receipts, replay refs, and disclosure refs are retained under canonical run roots.
+- Stage status reaches a terminal state that agrees with the decision artifact.
+issued_by: octon-kernel
+objective_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/run-contract.yml
+objective_slice: Stage workflow-stage:promote-proposal for target promote-proposal::promote-proposal
+predecessor_refs: []
+requested_capabilities:
+- workflow.stage.execute
+- repo.write
+- evidence.write
+retry_class: manual_review_required
+rollback_candidate: true
+rollback_notes: Restore from the canonical checkpoint and reissue the stage if retained evidence becomes inconsistent.
+run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal
+schema_version: stage-attempt-v1
+stage_attempt_id: promote-proposal--initial
+stage_ref: workflow-stage:promote-proposal
+status: failed
+successor_refs: []
+updated_at: 2026-05-16T04:26:44.197442Z
+validated_by: octon-kernel
