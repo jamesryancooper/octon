@@ -5,8 +5,9 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../../../../.." && pwd)"
 
 required_paths=(
   ".octon/framework/scaffolding/runtime/templates/octon/instance/extensions.yml"
+  ".octon/framework/scaffolding/runtime/templates/octon/inputs/additive/.incoming/.gitkeep"
+  ".octon/framework/scaffolding/runtime/templates/octon/inputs/additive/.archive/.gitkeep"
   ".octon/framework/scaffolding/runtime/templates/octon/inputs/additive/extensions/.gitkeep"
-  ".octon/framework/scaffolding/runtime/templates/octon/inputs/additive/extensions/.archive/.gitkeep"
   ".octon/framework/scaffolding/runtime/templates/octon/generated/effective/extensions/catalog.effective.yml"
   ".octon/framework/scaffolding/runtime/templates/octon/generated/effective/extensions/artifact-map.yml"
   ".octon/framework/scaffolding/runtime/templates/octon/generated/effective/extensions/generation.lock.yml"
