@@ -79,7 +79,9 @@ main() {
   check_list_block_has_no_inputs "$README_DOC" "### Instance-Native Surfaces" "README instance-native list excludes raw inputs"
 
   require_text "Only \`framework/**\` and \`instance/**\` are authored authority surfaces." "$INGRESS_DOC" "ingress keeps authored authority bounded to framework and instance"
-  require_text "raw pack input: \`inputs/additive/extensions/<pack-id>/**\`" "$START_DOC" "bootstrap documents raw additive pack input separately"
+  require_text "incoming additive intake: \`inputs/additive/.incoming/<intake-id>/**\`" "$START_DOC" "bootstrap documents incoming additive intake separately"
+  require_text "retained additive intake archive: \`inputs/additive/.archive/<intake-id>/**\`" "$START_DOC" "bootstrap documents retained additive intake archive separately"
+  require_text "normalized extension pack source: \`inputs/additive/extensions/<pack-id>/**\`" "$START_DOC" "bootstrap documents normalized extension pack source separately"
   require_text "desired trust activation: \`instance/extensions.yml\`" "$START_DOC" "bootstrap documents additive trust activation"
   require_text "actual active state: \`state/control/extensions/active.yml\`" "$START_DOC" "bootstrap documents additive actual state"
   require_text "quarantine state: \`state/control/extensions/quarantine.yml\`" "$START_DOC" "bootstrap documents additive quarantine state"

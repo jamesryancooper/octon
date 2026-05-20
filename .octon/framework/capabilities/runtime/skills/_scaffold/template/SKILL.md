@@ -100,7 +100,7 @@ Output paths are defined in `.octon/framework/capabilities/runtime/skills/regist
 
 All operational categories in `.octon/framework/capabilities/runtime/skills/` follow the `{{category}}/{{skill-id}}/` pattern:
 
-- **Deliverables:** `.octon/generated/{{category}}/` (e.g., `.octon/framework/scaffolding/practices/prompts/`, `.octon/inputs/exploratory/drafts/`)
+- **Deliverables:** `.octon/generated/{{category}}/` (e.g., `.octon/framework/scaffolding/practices/prompts/`, `.octon/inputs/exploratory/syntheses/`)
 - **Configs:** `.octon/instance/capabilities/runtime/skills/configs/{{skill-id}}/` (per-skill configuration overrides)
 - **Resources:** `.octon/instance/capabilities/runtime/skills/resources/{{skill-id}}/` (per-skill input materials)
 - **Continuity Artifacts:** `.octon/state/control/skills/checkpoints/{{skill-id}}/{{run-id}}/` (for stateful/resumable skills)

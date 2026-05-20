@@ -90,7 +90,7 @@ main() {
         --glob '!.octon/generated/**' \
         --glob '!.octon/state/evidence/**' \
         --glob '!.octon/inputs/exploratory/ideation/**' \
-        --glob '!.octon/inputs/exploratory/packages/**' \
+        --glob '!.octon/inputs/exploratory/reports/**' \
         --glob '!.octon/inputs/exploratory/proposals/**' \
         --glob '!.octon/inputs/exploratory/proposals/.archive/**' \
         --glob '!.octon/instance/cognition/decisions/**' \

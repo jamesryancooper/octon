@@ -167,7 +167,7 @@ Output paths are defined in the skill's registry I/O mapping. Skills produce two
 | Category | Path Pattern |
 |----------|--------------|
 | Prompts | `.octon/framework/scaffolding/practices/prompts/{{timestamp}}-{{name}}.md` |
-| Drafts | `.octon/inputs/exploratory/drafts/{{timestamp}}-{{name}}.md` |
+| Drafts | `.octon/inputs/exploratory/syntheses/{{timestamp}}-{{name}}.md` |
 | Reports | `.octon/state/evidence/validation/analysis/{{timestamp}}-{{name}}.md` |
 
 **Operational Artifacts (`.octon/framework/capabilities/runtime/skills/`):**
@@ -305,7 +305,7 @@ outputs:
 |-------------|--------|----------------|
 | `{{topic}}` | Inferred from input path (`api-design/`) | `api-design` |
 
-**Result:** `.octon/inputs/exploratory/drafts/api-design-synthesis.md`
+**Result:** `.octon/inputs/exploratory/syntheses/api-design-synthesis.md`
 
 ### Placeholder Validation
 

@@ -798,7 +798,7 @@ Deliverables go directly to their **final destination** in `.octon/{{category}}/
 | Category | Purpose | Example Path |
 |----------|---------|--------------|
 | `prompts` | Refined prompts | `.octon/framework/scaffolding/practices/prompts/` |
-| `drafts` | Document drafts | `.octon/inputs/exploratory/drafts/` |
+| `drafts` | Document drafts | `.octon/inputs/exploratory/syntheses/` |
 | `reports` | Analysis reports | `.octon/state/evidence/validation/analysis/` |
 | `analyses` | Code/data analyses | `.octon/instance/cognition/context/shared/analyses/` |
 | `scaffolds` | Generated scaffolds | Target directory |

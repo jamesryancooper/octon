@@ -20,7 +20,7 @@ Harness integrity auditor — structural analyst that enforces harness boundary 
 |---|---|---|
 | Framework | `framework/` | `manifest.yml`, `overlay-points/`, portable authored domains, portable `_ops/` helpers only |
 | Instance | `instance/` | `manifest.yml`, `ingress/`, `bootstrap/`, `locality/`, `cognition/`, `orchestration/`, `extensions.yml` |
-| Inputs | `inputs/` | `additive/extensions/`, `exploratory/proposals/`, `exploratory/plans/`, `exploratory/drafts/`, `exploratory/ideation/` |
+| Inputs | `inputs/` | `additive/extensions/`, `exploratory/proposals/`, `exploratory/plans/`, `exploratory/syntheses/`, `exploratory/ideation/` |
 | State | `state/` | `continuity/`, `evidence/`, `control/` |
 | Generated | `generated/` | `effective/`, `cognition/`, `proposals/` |
 

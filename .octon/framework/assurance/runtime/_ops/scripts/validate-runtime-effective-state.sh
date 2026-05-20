@@ -72,8 +72,14 @@ main() {
     "framework and instance companion manifests are current" \
     "$SCRIPT_DIR/validate-companion-manifests.sh"
   run_validator \
-    "raw-input dependency ban holds for runtime and governance surfaces" \
-    "$SCRIPT_DIR/validate-raw-input-dependency-ban.sh"
+    "intake-wide raw input non-authority holds" \
+    "$SCRIPT_DIR/validate-input-non-authority.sh"
+  run_validator \
+    "exploratory input surfaces are governed and current" \
+    "$SCRIPT_DIR/validate-exploratory-input-surfaces.sh"
+  run_validator \
+    "raw input archive retention is evidenced" \
+    "$SCRIPT_DIR/validate-input-archive-retention.sh"
   run_validator \
     "locality publication state is current and coherent" \
     "$SCRIPT_DIR/validate-locality-publication-state.sh"

@@ -250,7 +250,7 @@ skills:
           required: true
           description: "Research notes and source materials"
       outputs:
-        - path: ".octon/inputs/exploratory/drafts/{{topic}}-synthesis.md"
+        - path: ".octon/inputs/exploratory/syntheses/{{topic}}-synthesis.md"
           kind: file
           format: markdown
           determinism: stable
@@ -313,7 +313,7 @@ Deliverables go directly to their final destination with tiered permissions:
 ```yaml
 # Deliverables - final destination
 .octon/framework/scaffolding/practices/prompts/{{timestamp}}-refined.md
-.octon/inputs/exploratory/drafts/{{topic}}-synthesis.md
+.octon/inputs/exploratory/syntheses/{{topic}}-synthesis.md
 ```
 
 #### Operational Artifacts
