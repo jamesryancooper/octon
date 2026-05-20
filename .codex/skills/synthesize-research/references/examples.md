@@ -2,11 +2,11 @@
 examples:
   - input: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/projects/auth-patterns/"
     invocation: "/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/projects/auth-patterns/"
-    output: ".octon/inputs/exploratory/drafts/auth-patterns-synthesis.md"
+    output: ".octon/inputs/exploratory/syntheses/auth-patterns-synthesis.md"
     description: "Synthesize authentication pattern research"
   - input: "/.octon/instance/capabilities/runtime/skills/resources/synthesize-research/api-design/"
     invocation: "/synthesize-research /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/api-design/"
-    output: ".octon/inputs/exploratory/drafts/api-design-synthesis.md"
+    output: ".octon/inputs/exploratory/syntheses/api-design-synthesis.md"
     description: "Consolidate API design research notes"
 ---
 
@@ -38,7 +38,7 @@ projects/auth-patterns/
 
 ### Expected Output
 
-**Path:** `.octon/inputs/exploratory/drafts/auth-patterns-synthesis.md`
+**Path:** `.octon/inputs/exploratory/syntheses/auth-patterns-synthesis.md`
 
 ```markdown
 # Research Synthesis: auth-patterns
@@ -147,7 +147,7 @@ Consolidating research notes on REST vs. GraphQL API design.
 
 ### Expected Output
 
-**Path:** `.octon/inputs/exploratory/drafts/api-design-synthesis.md`
+**Path:** `.octon/inputs/exploratory/syntheses/api-design-synthesis.md`
 
 ```markdown
 # Research Synthesis: api-design
@@ -242,7 +242,7 @@ Handling a folder with minimal research content.
 
 ### Expected Output
 
-**Path:** `.octon/inputs/exploratory/drafts/quick-notes-synthesis.md`
+**Path:** `.octon/inputs/exploratory/syntheses/quick-notes-synthesis.md`
 
 ```markdown
 # Research Synthesis: quick-notes

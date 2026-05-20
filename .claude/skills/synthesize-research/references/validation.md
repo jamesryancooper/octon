@@ -1,6 +1,6 @@
 ---
 acceptance_criteria:
-  - "Synthesis document exists in .octon/inputs/exploratory/drafts/"
+  - "Synthesis document exists in .octon/inputs/exploratory/syntheses/"
   - "Document includes executive summary (3-5 sentences)"
   - "Key findings are organized by theme (3-7 themes)"
   - "Each theme has insight, evidence, and confidence level"
@@ -18,7 +18,7 @@ Acceptance criteria and quality checklist for the synthesize-research skill.
 
 ## Acceptance Criteria
 
-- [ ] Synthesis document exists in `.octon/inputs/exploratory/drafts/`
+- [ ] Synthesis document exists in `.octon/inputs/exploratory/syntheses/`
 - [ ] Document includes executive summary (3-5 sentences)
 - [ ] Key findings are organized by theme (3-7 themes)
 - [ ] Each theme has insight, evidence, and confidence level
@@ -85,7 +85,7 @@ Acceptance criteria and quality checklist for the synthesize-research skill.
 
 | Path Type | Pattern | Example |
 |-----------|---------|---------|
-| Synthesis output | `.octon/inputs/exploratory/drafts/{{topic}}-synthesis.md` | `.octon/inputs/exploratory/drafts/api-design-synthesis.md` |
+| Synthesis output | `.octon/inputs/exploratory/syntheses/{{topic}}-synthesis.md` | `.octon/inputs/exploratory/syntheses/api-design-synthesis.md` |
 | Run log | `/.octon/state/evidence/runs/skills/synthesize-research/{{run_id}}.md` | `/.octon/state/evidence/runs/skills/synthesize-research/2025-01-12-api-design.md` |
 
 ## Error Conditions

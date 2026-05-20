@@ -24,7 +24,7 @@ behavior:
         - "List open questions and gaps"
     - name: "Output"
       steps:
-        - "Write synthesis to .octon/inputs/exploratory/drafts/{{topic}}-synthesis.md"
+        - "Write synthesis to .octon/inputs/exploratory/syntheses/{{topic}}-synthesis.md"
         - "Write run log to /.octon/state/evidence/runs/skills/synthesize-research/{{timestamp}}-synthesize-research.md"
   goals:
     - "Consolidate dispersed research into a single coherent document"
@@ -129,7 +129,7 @@ Write the synthesis document.
 Produce final artifacts.
 
 1. **Write synthesis document**
-   - Path: `.octon/inputs/exploratory/drafts/{{topic}}-synthesis.md`
+   - Path: `.octon/inputs/exploratory/syntheses/{{topic}}-synthesis.md`
    - Use standard output format (see io-contract.md)
    - Include all sections: summary, themes, contradictions, questions, sources
 

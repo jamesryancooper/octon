@@ -7,7 +7,7 @@
 #   - Parameters: .octon/framework/capabilities/runtime/skills/registry.yml
 #   - Output paths: .octon/framework/capabilities/runtime/skills/registry.yml
 #
-# Current allowed-tools: Read Glob Write(/.octon/inputs/exploratory/drafts/*) Write(/.octon/state/evidence/runs/skills/*)
+# Current allowed-tools: Read Glob Write(/.octon/inputs/exploratory/syntheses/*) Write(/.octon/state/evidence/runs/skills/*)
 #
 # Prose descriptions below are derived from these sources.
 # If discrepancies exist, the authoritative sources are correct.
@@ -106,7 +106,7 @@ ended_at: 2025-01-12T10:44:12Z
 inputs:
   - /.octon/instance/capabilities/runtime/skills/resources/synthesize-research/api-design/
 outputs:
-  - .octon/inputs/exploratory/drafts/api-design-synthesis.md
+  - .octon/inputs/exploratory/syntheses/api-design-synthesis.md
 tools_used:
   - filesystem.read
   - filesystem.write
