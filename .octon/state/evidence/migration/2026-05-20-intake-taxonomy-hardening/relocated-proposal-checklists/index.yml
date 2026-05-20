@@ -1,0 +1,17 @@
+schema_version: "octon-migration-evidence-index-v1"
+migration_id: "2026-05-20-intake-taxonomy-hardening"
+disposition: "relocated_active_governance_references_from_raw_proposal_archive"
+reason: >
+  Active instance governance cannot depend on raw proposal archive paths as
+  policy authority. The checklist payloads were retained as migration evidence
+  so the active closeout contract can reference evidence, not raw input.
+items:
+  - checklist_id: "claim-readiness"
+    from: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/CLAIM_READINESS_CHECKLIST.md"
+    to: ".octon/state/evidence/migration/2026-05-20-intake-taxonomy-hardening/relocated-proposal-checklists/CLAIM_READINESS_CHECKLIST.md"
+  - checklist_id: "release-promotion"
+    from: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/RELEASE_PROMOTION_CHECKLIST.md"
+    to: ".octon/state/evidence/migration/2026-05-20-intake-taxonomy-hardening/relocated-proposal-checklists/RELEASE_PROMOTION_CHECKLIST.md"
+  - checklist_id: "brownfield-retrofit"
+    from: ".octon/inputs/exploratory/proposals/.archive/architecture/octon-unified-execution-constitution-proposal-packet/06_CHECKLISTS/BROWNFIELD_RETROFIT_CHECKLIST.md"
+    to: ".octon/state/evidence/migration/2026-05-20-intake-taxonomy-hardening/relocated-proposal-checklists/BROWNFIELD_RETROFIT_CHECKLIST.md"
