@@ -61,10 +61,11 @@ orchestration_runtime_run_kernel() {
 
 next_expiry() {
   local seconds="$1"
-  date -u -v+"${seconds}"S '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || python3 - <<PY
-from datetime import datetime, timedelta, timezone
-print((datetime.now(timezone.utc)+timedelta(seconds=int("${seconds}"))).strftime("%Y-%m-%dT%H:%M:%SZ"))
-PY
+  [[ "$seconds" =~ ^[0-9]+$ ]] || { echo "invalid seconds value: $seconds" >&2; return 1; }
+  date -u -v+"${seconds}"S '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null && return 0
+  date -u -d "+${seconds} seconds" '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null && return 0
+  echo "unable to compute UTC expiry with system date" >&2
+  return 1
 }
 
 coordination_key_file() {

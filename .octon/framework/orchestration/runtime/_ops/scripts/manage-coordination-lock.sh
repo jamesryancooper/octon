@@ -17,14 +17,6 @@ Usage:
 EOF
 }
 
-next_expiry() {
-  local seconds="$1"
-  date -u -v+"${seconds}"S '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || python3 - <<PY
-from datetime import datetime, timedelta, timezone
-print((datetime.now(timezone.utc)+timedelta(seconds=int("${seconds}"))).strftime("%Y-%m-%dT%H:%M:%SZ"))
-PY
-}
-
 acquire_lock_impl() {
   local coordination_key="$1"
   local lock_class="$2"

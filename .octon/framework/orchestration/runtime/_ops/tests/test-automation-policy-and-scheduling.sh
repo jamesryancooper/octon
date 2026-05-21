@@ -9,7 +9,7 @@ FRAMEWORK_DIR="$(cd -- "$ORCHESTRATION_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-SCHEDULE_SCRIPT=".octon/framework/orchestration/runtime/_ops/scripts/evaluate-automation-schedule.py"
+SCHEDULE_SCRIPT=".octon/framework/orchestration/runtime/_ops/scripts/evaluate-automation-schedule.sh"
 SCHEDULE_LAUNCH_SCRIPT=".octon/framework/orchestration/runtime/_ops/scripts/launch-scheduled-automation-run.sh"
 SCHEDULE_FIXTURES_DIR=".octon/framework/orchestration/runtime/_ops/fixtures/scheduling"
 EMIT_SCRIPT=".octon/framework/orchestration/runtime/_ops/scripts/emit-watcher-event.sh"
@@ -117,8 +117,8 @@ schedule:
   timezone: "America/Chicago"
   missed_run_policy: "next_window"
 EOF
-  spring_json="$(python3 "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$spring_trigger" --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-spring-forward.json")"
-  fall_json="$(python3 "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$fall_trigger" --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-fall-back.json")"
+  spring_json="$(bash "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$spring_trigger" --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-spring-forward.json")"
+  fall_json="$(bash "$REPO_ROOT/$SCHEDULE_SCRIPT" --automation-id daily-harness-evaluation --trigger-file "$fall_trigger" --transition-file "$REPO_ROOT/$SCHEDULE_FIXTURES_DIR/dst-fall-back.json")"
   jq -e '.resolved_local_time == "03:00" and .window_count == 1' <<<"$spring_json" >/dev/null
   jq -e '.resolved_local_time == "01:30" and .window_count == 1 and .selected_occurrence == "first"' <<<"$fall_json" >/dev/null
 }

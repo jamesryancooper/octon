@@ -1916,11 +1916,7 @@ case "$cmd" in
     fi
 
     if [[ -z "$lease_expires_at" && -n "$lease_seconds" ]]; then
-      lease_expires_at="$(date -u -v+"${lease_seconds}"S '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || python3 - <<PY
-from datetime import datetime, timedelta, timezone
-print((datetime.now(timezone.utc)+timedelta(seconds=int("${lease_seconds}"))).strftime("%Y-%m-%dT%H:%M:%SZ"))
-PY
-)"
+      lease_expires_at="$(next_expiry "$lease_seconds")"
     fi
     [[ -n "$lease_expires_at" ]] || { echo "lease-expires-at or lease-seconds is required" >&2; exit 1; }
     [[ -n "$executor_acknowledged_at" ]] || executor_acknowledged_at="$started_at"
@@ -2076,11 +2072,7 @@ PY
     run_file="$RUNTIME_RUNS_DIR/$run_id.yml"
     [[ -f "$run_file" ]] || { echo "run not found: $run_id" >&2; exit 1; }
     heartbeat_at="$(now_utc)"
-    lease_expires_at="$(date -u -v+"${lease_seconds}"S '+%Y-%m-%dT%H:%M:%SZ' 2>/dev/null || python3 - <<PY
-from datetime import datetime, timedelta, timezone
-print((datetime.now(timezone.utc)+timedelta(seconds=int("${lease_seconds}"))).strftime("%Y-%m-%dT%H:%M:%SZ"))
-PY
-)"
+    lease_expires_at="$(next_expiry "$lease_seconds")"
     run_json="$(yq -o=json '.' "$run_file" | jq --arg heartbeat_at "$heartbeat_at" --arg lease_expires_at "$lease_expires_at" '.last_heartbeat_at=$heartbeat_at | .lease_expires_at=$lease_expires_at')"
     printf '%s\n' "$run_json" | yq -P -p=json '.' > "$run_file"
     update_run_contract_status "$run_id" "running" "$heartbeat_at"

@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/orchestration-runtime-common.sh"
 orchestration_runtime_init "${BASH_SOURCE[0]}"
-require_tools yq jq python3
+require_tools yq jq
 
 automation_id=""
 transition_file=""
@@ -26,7 +26,7 @@ automation_dir="$RUNTIME_DIR/automations/$automation_id"
 [[ -f "$automation_dir/automation.yml" ]] || { echo "automation not found: $automation_id" >&2; exit 1; }
 [[ "$(yq -r '.kind' "$automation_dir/trigger.yml")" == "schedule" ]] || { echo "automation is not scheduled: $automation_id" >&2; exit 1; }
 
-schedule_eval="$(python3 "$SCRIPT_DIR/evaluate-automation-schedule.py" --automation-id "$automation_id" --trigger-file "$automation_dir/trigger.yml" --transition-file "$transition_file")"
+schedule_eval="$(bash "$SCRIPT_DIR/evaluate-automation-schedule.sh" --automation-id "$automation_id" --trigger-file "$automation_dir/trigger.yml" --transition-file "$transition_file")"
 schedule_window_id="$(jq -r '.schedule_window_id' <<<"$schedule_eval")"
 workflow_group="$(yq -r '.workflow_ref.workflow_group' "$automation_dir/automation.yml")"
 workflow_id="$(yq -r '.workflow_ref.workflow_id' "$automation_dir/automation.yml")"
