@@ -30,9 +30,10 @@ requires branch-based handling.
 
 When the operator asks for closeout without naming a narrower target outcome or
 route request, the default target lifecycle outcome is `cleaned`. Actual
-lifecycle outcome remains evidence-based: if `cleaned` cannot be proven, the receipt must
-downgrade truthfully to the highest supported route-compatible outcome and
-record the exact blocker, missing proof, or next-route condition. `direct-main`
+lifecycle outcome remains evidence-based: if `cleaned` cannot be proven, the
+receipt must downgrade truthfully to the highest supported route-compatible
+outcome and record the exact blocker, missing proof, structured stop reason, or
+next-route condition. `direct-main`
 and `branch-no-pr` closeout include an origin push by default. For
 `direct-main`, push `main` and verify `origin/main` contains the recorded landed
 ref, then fetch and sync local `main` to `origin/main` before declaring closeout
@@ -40,13 +41,13 @@ complete. For `branch-no-pr`, attempt the full hosted no-PR landing and cleanup
 path needed for `cleaned` unless the operator explicitly requested
 `published-branch`, `branch-local-complete`, `landed`, `preserved`, or
 `blocked`, or explicitly selected the `stage-only-escalate` route, or unless a
-concrete blocker prevents the proof. After
-any `branch-no-pr` or `branch-pr` work lands in `origin/main`, closeout also
-includes safe branch cleanup or an explicit deferred-cleanup blocker, followed
-by a fetch, local `main` sync, and proof that local `main`, `origin/main`, and
-the recorded landed ref are aligned. Skipping the push or cleanup is allowed
-only for an explicit local-only operator instruction or a concrete blocker, and
-the receipt must not claim full hosted closeout.
+concrete blocker prevents the proof. After any `branch-no-pr` or `branch-pr`
+work lands in `origin/main`, closeout also includes safe branch cleanup,
+followed by a fetch, local `main` sync, and proof that local `main`,
+`origin/main`, and the recorded landed ref are aligned. Skipping the push or
+cleanup is allowed only for an explicit local-only operator instruction or a
+concrete blocker, and the receipt must downgrade the actual outcome instead of
+claiming `cleaned`.
 
 For solo work, select the fastest safe route. Consider `direct-main` first
 when the Change is low-risk, the operator is on clean current `main`, local
@@ -107,12 +108,12 @@ needed to prove it. If the operator explicitly requests `published-branch`,
 narrower target. If the operator explicitly requests the `stage-only-escalate`
 route, select that route only when its route preconditions apply and pair it
 with a route-compatible target such as `preserved`, `blocked`, or `escalated`.
-If the target is `landed` or
-`cleaned` but the actual result is only `published-branch`, the receipt must
-record landing evaluation evidence, `closeout_outcome: continued`, and a
-precise `not_landed_reason`. If the target is `cleaned` but cleanup cannot be
-completed or explicitly deferred, or if proof is missing for full closeout, the
-receipt must also record `not_cleaned_reason`.
+If the target is `landed` or `cleaned` but the actual result is only
+`published-branch`, the receipt must record landing evaluation evidence,
+`closeout_outcome: continued`, a precise `not_landed_reason`, and structured
+`landing_stop_reason`. If the target is `cleaned` but cleanup cannot be
+completed, or if proof is missing for full closeout, the receipt must also
+record `not_cleaned_reason` and structured `cleanup_stop_reason`.
 
 - `direct-main`: low-risk solo Change, locally validated, landed directly on
   current clean `main`, pushed to `origin`, with a Change receipt and rollback
@@ -162,8 +163,9 @@ Branch-no-PR outcomes:
   `origin/main`; cleanup that deletes or prunes branch refs requires a
   governed branch cleanup authorization receipt.
 - `cleaned`: local branch, remote branch when present, and worktree cleanup are
-  complete with governed cleanup authorization when branch refs are mutated, or
-  explicitly deferred with evidence.
+  complete with governed cleanup authorization when branch refs are mutated.
+  Deferred cleanup downgrades the actual outcome to `landed`, `deferred`, or
+  `blocked` with blocker evidence; it is not a truthful `cleaned` outcome.
 - `deferred`: the target remains reachable, but the current run stops before the
   target outcome because a specific proof, authority, hosted check, sync, or
   cleanup condition is pending.
@@ -187,9 +189,10 @@ PR-backed outcomes:
   cleanup completion or an explicit deferred-cleanup blocker plus local `main`
   synchronized to `origin/main`; cleanup that deletes or prunes branch refs
   requires a governed branch cleanup authorization receipt.
-- `cleaned`: local branch, remote branch, and worktree cleanup are complete or
-  explicitly deferred with evidence, and source branch ref mutation requires
-  governed cleanup authorization.
+- `cleaned`: local branch, remote branch, and worktree cleanup are complete,
+  and source branch ref mutation requires governed cleanup authorization.
+  Deferred cleanup downgrades the actual outcome to `landed`, `deferred`, or
+  `blocked` with blocker evidence.
 - `deferred`: the target remains reachable, but the current run stops before the
   target outcome because a specific proof, authority, hosted check, sync, or
   cleanup condition is pending.
@@ -221,10 +224,11 @@ merge ref is verified as contained in `origin/main`:
 5. Do not delete protected branches, active work branches, unmerged branches,
    open-PR branches, or branches whose evidence and rollback posture are not
    retained.
-6. If cleanup cannot be completed safely, record the precise blocker and
-   cleanup disposition in the Change receipt.
-7. After cleanup is complete or explicitly deferred, fetch from origin and sync
-   local `main` to `origin/main`.
+6. If cleanup cannot be completed safely, record the precise blocker,
+   `cleanup_stop_reason`, and downgraded actual lifecycle outcome in the Change
+   receipt.
+7. After cleanup is complete, fetch from origin and sync local `main` to
+   `origin/main`.
 8. Verify local `main`, `origin/main`, and the recorded landed ref are aligned
    before declaring closeout complete.
 
@@ -250,9 +254,11 @@ Every completed Change requires durable history:
 
 When a receipt targets `landed` or `cleaned` but records a lower actual
 outcome, durable history must include landing evaluation evidence plus
-`not_landed_reason` or `not_cleaned_reason` as appropriate. A receipt that only
-records a pushed source branch is a handoff receipt and must not be reported as
-completed closeout.
+`not_landed_reason` and `landing_stop_reason` as appropriate. When the target
+is `cleaned` but actual cleanup is not completed, the receipt must include
+`not_cleaned_reason` and `cleanup_stop_reason`. A receipt that only records a
+pushed source branch is a handoff receipt and must not be reported as completed
+closeout.
 
 PR-backed Changes may project this information into PR bodies and checks, but
 the PR is not the authority source. No-PR Changes must retain equivalent local

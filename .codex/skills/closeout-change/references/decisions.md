@@ -63,12 +63,14 @@ Lifecycle outcomes:
 - `landed`: the Change is integrated into `main` with route-appropriate hosted
   evidence.
 - `cleaned`: branch, remote branch when present, and worktree cleanup are
-  complete or explicitly deferred with evidence.
+  complete with governed cleanup authorization when refs are mutated. Deferred
+  cleanup is a lower actual outcome with blocker evidence, not `cleaned`.
 - `deferred`: the target remains reachable, but this run stops on a specific
   pending proof, authority, hosted check, sync, cleanup, or next-route condition.
 - `blocked`, `escalated`, or `denied`: closeout cannot truthfully progress.
 
 If target outcome is `landed` or `cleaned` but actual outcome is only
-`published-branch`, record landing evaluation evidence and `not_landed_reason`.
+`published-branch`, record landing evaluation evidence, `not_landed_reason`,
+and `landing_stop_reason`.
 If target outcome is `cleaned` but cleanup or local-main sync cannot be proven,
-record `not_cleaned_reason`.
+record `not_cleaned_reason` and `cleanup_stop_reason`.

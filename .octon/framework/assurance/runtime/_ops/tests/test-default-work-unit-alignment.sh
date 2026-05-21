@@ -99,17 +99,21 @@ case_receipt_schema_has_hosted_landing_evidence() {
   ' "$schema" >/dev/null
 }
 
-case_receipt_schema_blocks_cleaned_pending_cleanup() {
+case_receipt_schema_requires_completed_cleanup_for_cleaned() {
   local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
   jq -e '
-    [
+    ([
       .allOf[]?
       | select(.if.properties.lifecycle_outcome.const == "cleaned")
-      | select((.then.properties.cleanup_status.enum | index("completed")) != null)
-      | select((.then.properties.cleanup_status.enum | index("deferred")) != null)
-      | select((.then.properties.cleanup_status.enum | index("pending")) == null)
-    ]
-    | length == 1
+      | select(.then.properties.cleanup_status.const == "completed")
+    ] | length == 1)
+    and
+    ([
+      .allOf[]?
+      | select(.if.properties.lifecycle_outcome.const == "cleaned")
+      | (.then.properties.cleanup_status.enum? // [])[]?
+      | select(. == "deferred" or . == "pending")
+    ] | length == 0)
   ' "$schema" >/dev/null
 }
 
@@ -216,7 +220,7 @@ main() {
   assert_success "receipt schema and policy default unspecified target to cleaned" case_receipt_schema_defaults_target_to_cleaned
   assert_success "receipt schema includes lifecycle outcomes" case_receipt_schema_has_lifecycle_outcomes
   assert_success "receipt schema includes hosted no-PR landing evidence" case_receipt_schema_has_hosted_landing_evidence
-  assert_success "receipt schema blocks cleaned with pending cleanup" case_receipt_schema_blocks_cleaned_pending_cleanup
+  assert_success "receipt schema requires completed cleanup for cleaned outcome" case_receipt_schema_requires_completed_cleanup_for_cleaned
   assert_success "receipt schema blocks completed landed branch closeout with pending cleanup" case_receipt_schema_blocks_completed_landed_branch_pending_cleanup
   assert_success "machine policy includes fail-closed receipt condition" case_policy_has_fail_closed_conditions
   assert_success "machine policy keeps no-PR landing as branch-no-pr outcome" case_policy_keeps_no_pr_landing_as_outcome

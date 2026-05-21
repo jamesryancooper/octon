@@ -19,7 +19,7 @@ title: Closeout Change Safety
   `ready` as completed closeout.
 - Do not downgrade a target outcome of `landed` or `cleaned` to
   `published-branch` without recording landing evaluation evidence and a
-  precise blocker.
+  precise blocker plus `landing_stop_reason`.
 - Do not attempt hosted no-PR landing when the provider ruleset requires PR;
   report a blocker instead.
 - Do not silently convert a blocked `branch-no-pr` hosted landing into
@@ -38,8 +38,10 @@ title: Closeout Change Safety
   source branch, landed ref, local `main`, `origin/main`, no-open-PR proof, and
   rollback/discard posture.
 - Do not report a draft, open, or ready PR as full closeout.
-- Do not claim cleanup unless local branch, remote branch when present, and
-  worktree cleanup evidence exists or a deferred-cleanup record is written.
+- Do not claim cleaned closeout unless local branch, remote branch when present,
+  and worktree cleanup evidence proves cleanup completed. Deferred cleanup must
+  downgrade the actual outcome and record `not_cleaned_reason` plus
+  `cleanup_stop_reason`.
 - Do not claim cleaned closeout when final local `main`, `origin/main`, and the
   recorded landed ref alignment cannot be proven.
 - Do not retain proposal-local runtime dependencies.

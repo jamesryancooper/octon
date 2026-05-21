@@ -381,9 +381,15 @@ def receipt_has_completed_full_closeout(ref, field):
         if cleanup_status not in {"completed", "deferred"}:
             fail(f"{field} branch full closeout cleanup_status must be completed or deferred")
             return False
+        if lifecycle == "cleaned" and cleanup_status != "completed":
+            fail(f"{field} cleaned branch receipt must have completed cleanup_status")
+            return False
         source_cleanup = receipt.get("source_branch_cleanup")
         if not isinstance(source_cleanup, dict):
             fail(f"{field} branch full closeout must include source_branch_cleanup")
+            return False
+        if lifecycle == "cleaned" and source_cleanup.get("status") != "completed":
+            fail(f"{field} cleaned branch receipt must have completed source_branch_cleanup")
             return False
         if source_cleanup.get("status") == "deferred":
             has_cleanup_evidence = (

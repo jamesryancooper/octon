@@ -28,7 +28,7 @@ closeout_defaults:
     actual_outcome_rule: >-
       lifecycle_outcome remains evidence-based. If cleaned cannot be proven,
       downgrade to the highest supported route-compatible outcome and record the
-      missing proof, blocker, or next-route condition.
+      missing proof, blocker, structured stop reason, or next-route condition.
 deprecated_terms:
   - term: "work-package"
     replacement: "change-package"
@@ -237,10 +237,11 @@ route_lifecycle_outcomes:
     cleaned_requires:
       - "landed_ref_or_explicit_non_landing_outcome"
       - "not_cleaned_reason_when_target_cleaned_but_actual_outcome_is_not_cleaned"
+      - "cleanup_stop_reason_when_target_cleaned_but_actual_outcome_is_not_cleaned"
       - "governed_branch_cleanup_authorization_receipt_when_cleanup_mutates_refs"
-      - "local_branch_cleanup_evidence_or_deferred_cleanup_record"
-      - "worktree_cleanup_evidence_or_deferred_cleanup_record"
-      - "remote_branch_cleanup_evidence_or_deferred_cleanup_record_when_remote_branch_existed"
+      - "local_branch_cleanup_completed_or_not_applicable"
+      - "worktree_cleanup_completed_or_not_applicable"
+      - "remote_branch_cleanup_completed_or_not_applicable_when_remote_branch_existed"
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
@@ -292,9 +293,9 @@ route_lifecycle_outcomes:
     cleaned_requires:
       - "pr_merged_or_external_blocker"
       - "governed_branch_cleanup_authorization_receipt_when_cleanup_mutates_refs"
-      - "local_branch_cleanup_evidence_or_deferred_cleanup_record"
-      - "worktree_cleanup_evidence_or_deferred_cleanup_record"
-      - "remote_branch_cleanup_evidence_or_deferred_cleanup_record"
+      - "local_branch_cleanup_completed_or_not_applicable"
+      - "worktree_cleanup_completed_or_not_applicable"
+      - "remote_branch_cleanup_completed_or_not_applicable"
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
@@ -350,7 +351,11 @@ fail_closed_conditions:
   - "published_branch_reported_as_completed_closeout"
   - "target_landed_or_cleaned_without_landing_evaluation"
   - "target_landed_or_cleaned_downgraded_without_not_landed_reason"
+  - "target_landed_or_cleaned_downgraded_without_landing_stop_reason"
   - "target_cleaned_downgraded_without_not_cleaned_reason"
+  - "target_cleaned_downgraded_without_cleanup_stop_reason"
+  - "runtime_approval_denied_without_matching_governance_authorization"
+  - "cleaned_outcome_with_deferred_or_pending_cleanup"
   - "stale_remote_branch_ref_in_closeout_receipt"
   - "landed_branch_closeout_without_safe_branch_cleanup_or_deferred_cleanup_record"
   - "landed_branch_closeout_without_source_branch_integration_evidence"

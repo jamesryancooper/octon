@@ -26,8 +26,8 @@ Outputs:
 
 Receipt outputs must record selected route, target lifecycle outcome, actual
 lifecycle outcome, integration status, publication status, cleanup status,
-durable history, rollback handle, and cleanup evidence or deferred-cleanup
-evidence when cleanup is claimed.
+durable history, rollback handle, cleanup evidence when cleanup is claimed, and
+structured stop reasons when a target of `landed` or `cleaned` downgrades.
 
 When the input omits `target_lifecycle_outcome` and the operator asked to close
 out the Change, the receipt must record `target_lifecycle_outcome: cleaned`.
@@ -58,6 +58,7 @@ cleanup policy proof.
 
 When target lifecycle outcome is `landed` or `cleaned` but actual outcome is
 lower, receipt outputs must also record landing evaluation evidence and
-`not_landed_reason`. When target lifecycle outcome is `cleaned` but cleanup or
-local-main sync is not proven, receipt outputs must record
-`not_cleaned_reason`.
+`not_landed_reason` plus `landing_stop_reason`. When target lifecycle outcome
+is `cleaned` but cleanup or local-main sync is not proven, receipt outputs must
+record `not_cleaned_reason` plus `cleanup_stop_reason`; the actual outcome must
+be downgraded instead of claiming `cleaned`.

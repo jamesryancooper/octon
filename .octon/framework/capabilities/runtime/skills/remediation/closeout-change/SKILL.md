@@ -141,18 +141,25 @@ Execute the Change Closeout State Machine phase loop from
   exact blocker, and set cleanup disposition to deferred or blocked instead of
   claiming cleaned/full closeout.
 - If the target outcome is `cleaned` and cleanup or local-main sync cannot be
-  proven, record `not_cleaned_reason` and report continued, blocked, or
-  escalated closeout instead of completed closeout.
+  proven, record `not_cleaned_reason` and `cleanup_stop_reason`, then report a
+  lower actual outcome such as `landed`, `deferred`, or `blocked` instead of
+  completed cleaned closeout.
+- If a target of `landed` or `cleaned` stops before `origin/main` mutation,
+  record `landing_stop_reason` with `not_landed_reason`. Use
+  `runtime_approval_denied` only when Octon governance authorization exists and
+  validates but the runtime, sandbox, provider, or host approval boundary still
+  refuses the mutation.
 - Branch-based `landed` or `cleaned` full closeout requires receipt evidence
   that the source branch changes are integrated into `origin/main`; a
   post-landing fetch occurred; local `main` was updated to match
   `origin/main`; the recorded `landed_ref` is contained in both local `main`
   and `origin/main`; and branch cleanup is completed with governed cleanup
-  authorization or explicitly deferred with blocker evidence.
-- After cleanup is completed or explicitly deferred, fetch from origin, sync
-  local `main` to `origin/main`, verify local `main`, `origin/main`, and the
-  recorded `landed_ref` are aligned, and record containment evidence before
-  declaring branch-based closeout complete.
+  authorization when claiming `cleaned`.
+- After cleanup is completed, fetch from origin, sync local `main` to
+  `origin/main`, verify local `main`, `origin/main`, and the recorded
+  `landed_ref` are aligned, and record containment evidence before declaring
+  branch-based cleaned closeout complete. Deferred cleanup is a lower actual
+  outcome, not `cleaned`.
 - If the provider ruleset requires PR for `main`, report a blocker for
   `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
   `branch-pr`; PR mutation requires selected route `branch-pr` or explicit

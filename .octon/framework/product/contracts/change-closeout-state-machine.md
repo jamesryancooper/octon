@@ -25,7 +25,7 @@ naming a narrower target or route request, the state machine resolves
 `target_lifecycle_outcome` to `cleaned`. Actual `lifecycle_outcome` stays
 evidence-based; if `cleaned` cannot be proven, the receipt must downgrade to the
 highest supported route-compatible outcome and record the exact missing proof,
-blocker, or next-route condition.
+structured stop reason, blocker, or next-route condition.
 
 The model forbids `branch-land-no-pr` as a top-level route, `Closeout Changes`
 as a default work unit, and a peer `Publish Changes` workflow. Publication is a
@@ -65,9 +65,11 @@ landing authorization evidence for hosted `branch-no-pr` landing, final main
 alignment, and `stateful_closeout` receipt evidence.
 
 `cleaned` requires landed evidence or an explicitly non-landing outcome, branch
-cleanup and worktree cleanup completed or explicitly deferred, governed cleanup
+cleanup and worktree cleanup completed when claiming cleaned, governed cleanup
 authorization when branch refs are mutated, cleanup safety evidence, final main
-alignment when landed, and `stateful_closeout` receipt evidence.
+alignment when landed, and `stateful_closeout` receipt evidence. Deferred
+cleanup is valid blocker evidence for a lower actual outcome such as `landed`,
+`deferred`, or `blocked`; it is not a truthful `cleaned` outcome.
 
 `deferred` requires preserved state plus the exact pending proof, authority,
 hosted check, sync, cleanup, or next-route condition. `blocked` requires
@@ -119,6 +121,15 @@ closeout. They must also reject force-push, ambiguous deletion, reset,
 restoration, overwrite, and branch cleanup without containment, no-open-PR
 status, rollback/discard posture, governed cleanup authorization, and
 local/remote cleanup status.
+
+Downgraded receipts must distinguish the stop class from the prose reason. A
+target of `landed` or `cleaned` that stops before landing records
+`landing_stop_reason` alongside `not_landed_reason`; a target of `cleaned` that
+lands but does not clean records `cleanup_stop_reason` alongside
+`not_cleaned_reason`. If Octon governance authorization is present but the
+runtime, sandbox, provider, or host refuses the mutation, the receipt cites the
+authorization receipt and records `runtime_approval_denied` instead of
+collapsing the case into a generic blocker.
 
 ## Non-Authority Boundaries
 

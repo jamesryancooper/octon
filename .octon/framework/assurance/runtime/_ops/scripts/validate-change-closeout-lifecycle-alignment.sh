@@ -162,6 +162,8 @@ validate_contracts() {
   done
   require_jq "$RECEIPT_SCHEMA" '.properties.outcome_intent.enum[] | select(. == "handoff-only")' "receipt schema models outcome intent" "receipt schema must model outcome intent"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_evaluation.properties.status.enum[] | select(. == "blocked")' "receipt schema models landing evaluation" "receipt schema must model landing evaluation"
+  require_jq "$RECEIPT_SCHEMA" '.properties.landing_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured landing stop reason" "receipt schema must model landing_stop_reason"
+  require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured cleanup stop reason" "receipt schema must model cleanup_stop_reason"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization ref" "receipt schema must model landing_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_authorization_ref' "receipt schema models governed cleanup authorization ref" "receipt schema must model cleanup_authorization_ref"
@@ -229,6 +231,10 @@ validate_contracts() {
   require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "policy treats stage-only-escalate as route request" "policy must treat stage-only-escalate as a route request"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "unspecified_closeout_target_not_resolved_to_cleaned")' "policy fails closed when unspecified closeout target is not cleaned" "policy must fail closed when unspecified closeout target is not cleaned"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_landed_or_cleaned_without_landing_evaluation")' "policy fails closed on missing landing evaluation for landing targets" "policy must fail closed on missing landing evaluation for landing targets"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_landed_or_cleaned_downgraded_without_landing_stop_reason")' "policy fails closed on missing landing stop reason" "policy must fail closed on missing landing_stop_reason"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_cleaned_downgraded_without_cleanup_stop_reason")' "policy fails closed on missing cleanup stop reason" "policy must fail closed on missing cleanup_stop_reason"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "runtime_approval_denied_without_matching_governance_authorization")' "policy fails closed on runtime denial without matching authorization" "policy must fail closed on runtime denial without matching authorization"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "cleaned_outcome_with_deferred_or_pending_cleanup")' "policy fails closed on cleaned with deferred cleanup" "policy must fail closed on cleaned with deferred cleanup"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_without_valid_governed_authorization")' "policy fails closed without governed landing authorization" "policy must fail closed without governed landing authorization"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "policy fails closed on stale or denied authorization" "policy must fail closed on stale or denied landing authorization"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_without_valid_governed_authorization")' "policy fails closed without governed cleanup authorization" "policy must fail closed without governed cleanup authorization"
@@ -388,6 +394,54 @@ validate_cleanup_authorization_ref() {
   jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization preserves host controls" || fail "cleanup authorization must preserve host controls"
 }
 
+validate_downgrade_landing_authorization_ref() {
+  local auth_ref auth_path source_branch target source_ref
+  auth_ref="$(json_value '.landing_authorization_ref')"
+  json_has_nonempty '.landing_authorization_ref' && pass "runtime-denied landing has landing authorization ref" || { fail "runtime-denied landing requires landing_authorization_ref"; return; }
+  auth_path="$(resolve_ref_path "$auth_ref")" || { fail "landing_authorization_ref cannot be resolved"; return; }
+  [[ -f "$auth_path" ]] || { fail "runtime-denied landing authorization resolves to an existing file"; return; }
+  jq -e '.' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied landing authorization parses as JSON" || { fail "runtime-denied landing authorization parses as JSON"; return; }
+
+  source_branch="$(json_value '.source_branch_ref')"
+  target="$(json_value '.target_lifecycle_outcome')"
+  source_ref="$(json_value '.landing_evaluation.source_ref')"
+  [[ -n "$source_ref" ]] || source_ref="$(json_value '.durable_history.ref')"
+
+  jq -e '.schema_version == "branch-landing-authorization-v1"' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied landing authorization schema version valid" || fail "runtime-denied landing authorization schema_version must be branch-landing-authorization-v1"
+  jq -e '.authorization_result == "approved"' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied landing authorization is approved" || fail "runtime-denied landing authorization must be approved"
+  jq -e '.selected_route == "branch-no-pr"' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied landing authorization route is branch-no-pr" || fail "runtime-denied landing authorization route must be branch-no-pr"
+  [[ "$(jq -r '.source_branch // ""' "$auth_path")" == "$source_branch" ]] && pass "runtime-denied landing authorization source branch matches receipt" || fail "runtime-denied landing authorization source_branch must match source_branch_ref"
+  if [[ -n "$source_ref" ]]; then
+    [[ "$(jq -r '.source_ref // ""' "$auth_path")" == "$source_ref" ]] && pass "runtime-denied landing authorization source ref matches receipt evidence" || fail "runtime-denied landing authorization source_ref must match receipt evidence"
+  fi
+  [[ "$(jq -r '.target_lifecycle_outcome // ""' "$auth_path")" == "$target" ]] && pass "runtime-denied landing authorization target matches receipt" || fail "runtime-denied landing authorization target_lifecycle_outcome must match receipt"
+  jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied landing authorization preserves host controls" || fail "runtime-denied landing authorization must preserve host controls"
+}
+
+validate_downgrade_cleanup_authorization_ref() {
+  local auth_ref auth_path route source_branch landed_ref origin_main_ref local_main_ref
+  auth_ref="$(json_value '.cleanup_authorization_ref')"
+  json_has_nonempty '.cleanup_authorization_ref' && pass "runtime-denied cleanup has cleanup authorization ref" || { fail "runtime-denied cleanup requires cleanup_authorization_ref"; return; }
+  auth_path="$(resolve_ref_path "$auth_ref")" || { fail "cleanup_authorization_ref cannot be resolved"; return; }
+  [[ -f "$auth_path" ]] || { fail "runtime-denied cleanup authorization resolves to an existing file"; return; }
+  jq -e '.' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied cleanup authorization parses as JSON" || { fail "runtime-denied cleanup authorization parses as JSON"; return; }
+
+  route="$(json_value '.selected_route')"
+  source_branch="$(json_value '.source_branch_ref')"
+  landed_ref="$(json_value '.landed_ref')"
+  origin_main_ref="$(json_value '.main_alignment.origin_main_ref')"
+  local_main_ref="$(json_value '.main_alignment.local_main_ref')"
+
+  jq -e '.schema_version == "branch-cleanup-authorization-v1"' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied cleanup authorization schema version valid" || fail "runtime-denied cleanup authorization schema_version must be branch-cleanup-authorization-v1"
+  jq -e '.authorization_result == "approved"' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied cleanup authorization is approved" || fail "runtime-denied cleanup authorization must be approved"
+  [[ "$(jq -r '.selected_route // ""' "$auth_path")" == "$route" ]] && pass "runtime-denied cleanup authorization route matches receipt" || fail "runtime-denied cleanup authorization route must match receipt selected_route"
+  [[ "$(jq -r '.source_branch // ""' "$auth_path")" == "$source_branch" ]] && pass "runtime-denied cleanup authorization source branch matches receipt" || fail "runtime-denied cleanup authorization source_branch must match source_branch_ref"
+  [[ "$(jq -r '.landed_ref // ""' "$auth_path")" == "$landed_ref" ]] && pass "runtime-denied cleanup authorization landed ref matches receipt" || fail "runtime-denied cleanup authorization landed_ref must match receipt landed_ref"
+  [[ "$(jq -r '.origin_main_ref // ""' "$auth_path")" == "$origin_main_ref" ]] && pass "runtime-denied cleanup authorization origin/main ref matches receipt" || fail "runtime-denied cleanup authorization origin_main_ref must match main_alignment.origin_main_ref"
+  [[ "$(jq -r '.local_main_ref // ""' "$auth_path")" == "$local_main_ref" ]] && pass "runtime-denied cleanup authorization local main ref matches receipt" || fail "runtime-denied cleanup authorization local_main_ref must match main_alignment.local_main_ref"
+  jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "runtime-denied cleanup authorization preserves host controls" || fail "runtime-denied cleanup authorization must preserve host controls"
+}
+
 validate_receipt() {
   [[ -f "$RECEIPT_PATH" ]] || { fail "receipt exists: $RECEIPT_PATH"; return; }
   jq -e '.' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt parses as JSON" || { fail "receipt parses as JSON"; return; }
@@ -530,10 +584,18 @@ validate_receipt() {
     if [[ ( "$target" == "landed" || "$target" == "cleaned" ) && "$integration" != "landed" ]]; then
       jq -e '.landing_evaluation | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "landing target has landing evaluation" || fail "landing target requires landing_evaluation"
       json_has_nonempty '.not_landed_reason' && pass "landing target downgrade has not_landed_reason" || fail "landing target downgrade requires not_landed_reason"
+      json_has_nonempty '.landing_stop_reason' && pass "landing target downgrade has landing_stop_reason" || fail "landing target downgrade requires landing_stop_reason"
+      if [[ "$(json_value '.landing_stop_reason')" == "runtime_approval_denied" ]]; then
+        validate_downgrade_landing_authorization_ref
+      fi
       [[ "$closeout_outcome" != "completed" ]] && pass "landing target downgrade is not completed closeout" || fail "landing target downgrade must not claim completed closeout"
     fi
     if [[ "$target" == "cleaned" && "$outcome" != "cleaned" ]]; then
       json_has_nonempty '.not_cleaned_reason' && pass "cleaned target downgrade has not_cleaned_reason" || fail "cleaned target downgrade requires not_cleaned_reason"
+      json_has_nonempty '.cleanup_stop_reason' && pass "cleaned target downgrade has cleanup_stop_reason" || fail "cleaned target downgrade requires cleanup_stop_reason"
+      if [[ "$(json_value '.cleanup_stop_reason')" == "runtime_approval_denied" ]]; then
+        validate_downgrade_cleanup_authorization_ref
+      fi
       [[ "$closeout_outcome" != "completed" ]] && pass "cleaned target downgrade is not completed closeout" || fail "cleaned target downgrade must not claim completed closeout"
     fi
     if [[ "$outcome" == "landed" || "$outcome" == "cleaned" ]]; then
@@ -721,9 +783,12 @@ validate_receipt() {
 
   if [[ "$outcome" == "cleaned" ]]; then
     case "$cleanup" in
-      completed|deferred) pass "cleaned outcome has terminal or explicitly deferred cleanup status" ;;
-      *) fail "cleaned outcome must not have pending or not_applicable cleanup status" ;;
+      completed) pass "cleaned outcome has completed cleanup status" ;;
+      *) fail "cleaned outcome must have completed cleanup status" ;;
     esac
+    if [[ ( "$route" == "branch-no-pr" || "$route" == "branch-pr" ) ]]; then
+      [[ "$(json_value '.source_branch_cleanup.status')" == "completed" ]] && pass "cleaned branch outcome has completed source branch cleanup" || fail "cleaned branch outcome requires completed source_branch_cleanup"
+    fi
   fi
 }
 

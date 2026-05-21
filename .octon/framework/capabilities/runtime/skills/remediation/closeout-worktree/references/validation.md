@@ -32,7 +32,7 @@ Successful wrapper execution proves:
   `origin/main`, governed landing authorization for hosted no-PR landing,
   post-landing fetch, local `main` sync to `origin/main`, landed-ref
   containment in both refs, and cleanup completed with governed cleanup
-  authorization or deferred with blocker evidence through the singular receipt;
+  authorization when the singular receipt reports `cleaned`;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - ambiguous, foreign, user-owned, generated, evidence, host-projection,

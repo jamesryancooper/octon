@@ -85,6 +85,39 @@ attach_valid_landing_authorization() {
   printf '%s\n' "$auth"
 }
 
+attach_downgrade_landing_authorization() {
+  local receipt="$1"
+  local auth tmp
+  auth="$(mktemp)"
+  CLEANUP_FILES+=("$auth")
+  jq '{
+    schema_version: "branch-landing-authorization-v1",
+    authorization_id: ("fixture-runtime-denied-" + .change_id),
+    authorization_result: "approved",
+    selected_route: "branch-no-pr",
+    target_lifecycle_outcome: .target_lifecycle_outcome,
+    remote: "origin",
+    target_branch: "main",
+    source_branch: .source_branch_ref,
+    source_ref: (.landing_evaluation.source_ref // .durable_history.ref),
+    remote_source_ref: (.landing_evaluation.source_ref // .durable_history.ref),
+    target_pre_ref: "cccccccccccccccccccccccccccccccccccccccc",
+    provider_ruleset_ref: (.landing_evaluation.provider_ruleset_ref // "route-neutral-main"),
+    no_pr_required: true,
+    preflight_status: "passed",
+    required_check_refs: ["route_neutral_closeout_validation@dddddddddddddddddddddddddddddddddddddddd"],
+    allow_empty_check_set: false,
+    rollback_handle: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .durable_history.ref)),
+    host_controls_not_bypassed: true,
+    runtime_safety_boundary: "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+    created_at: .created_at
+  }' "$receipt" >"$auth"
+  tmp="$(mktemp)"
+  jq --arg auth "$auth" '.landing_authorization_ref = $auth' "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+  printf '%s\n' "$auth"
+}
+
 attach_valid_cleanup_authorization() {
   local receipt="$1"
   local auth tmp
@@ -513,6 +546,13 @@ case_cleaned_pending_cleanup_fails() {
   ! run_validator "$receipt"
 }
 
+case_cleaned_deferred_cleanup_fails() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .cleanup_evidence_refs = ["cleanup deferred"] | .source_branch_cleanup.status = "deferred" | .source_branch_cleanup.blocker_reason = "cleanup deferred" | .source_branch_cleanup.evidence_refs = ["cleanup deferred"]'
+  ! run_validator "$receipt"
+}
+
 case_landed_completed_pending_cleanup_fails() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
@@ -530,28 +570,72 @@ case_landed_pending_cleanup_continued_passes() {
 case_target_landed_downgraded_requires_not_landed_reason() {
   local receipt
   receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | del(.not_landed_reason)'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | .landing_stop_reason = "provider_policy_blocked" | del(.not_landed_reason)'
+  ! run_validator "$receipt"
+}
+
+case_target_landed_downgraded_requires_landing_stop_reason() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | .not_landed_reason = "Provider ruleset blocks hosted no-PR landing." | del(.landing_stop_reason)'
   ! run_validator "$receipt"
 }
 
 case_target_landed_downgraded_with_blocker_passes() {
   local receipt
   receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | .not_landed_reason = "Provider ruleset blocks hosted no-PR landing." | .landing_evaluation = {"status":"blocked","blocker_reason":"Provider ruleset blocks hosted no-PR landing."}'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | .not_landed_reason = "Provider ruleset blocks hosted no-PR landing." | .landing_stop_reason = "provider_policy_blocked" | .landing_evaluation = {"status":"blocked","blocker_reason":"Provider ruleset blocks hosted no-PR landing."}'
   run_validator "$receipt"
 }
 
 case_default_cleaned_downgraded_to_published_branch_passes() {
   local receipt
   receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .not_landed_reason = "Hosted no-PR landing was not proven during this run." | .not_cleaned_reason = "Landing, local main sync, and branch cleanup evidence are missing for cleaned closeout." | .landing_evaluation = {"status":"blocked","blocker_reason":"Hosted no-PR landing was not proven during this run."}'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .not_landed_reason = "Hosted no-PR landing was not proven during this run." | .landing_stop_reason = "hosted_checks_pending" | .not_cleaned_reason = "Landing, local main sync, and branch cleanup evidence are missing for cleaned closeout." | .cleanup_stop_reason = "landing_not_completed" | .landing_evaluation = {"status":"blocked","blocker_reason":"Hosted no-PR landing was not proven during this run."}'
   run_validator "$receipt"
 }
 
 case_target_cleaned_downgraded_requires_not_cleaned_reason() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .lifecycle_outcome = "landed" | .closeout_outcome = "continued" | del(.not_cleaned_reason)'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .lifecycle_outcome = "landed" | .closeout_outcome = "continued" | .cleanup_stop_reason = "cleanup_deferred_by_operator" | del(.not_cleaned_reason)'
+  ! run_validator "$receipt"
+}
+
+case_target_cleaned_downgraded_requires_cleanup_stop_reason() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .lifecycle_outcome = "landed" | .closeout_outcome = "continued" | .not_cleaned_reason = "Branch cleanup was deferred." | del(.cleanup_stop_reason)'
+  ! run_validator "$receipt"
+}
+
+case_runtime_denied_landing_with_authorization_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .not_landed_reason = "Runtime approval boundary denied hosted origin/main mutation after Octon authorization validated." | .landing_stop_reason = "runtime_approval_denied" | .not_cleaned_reason = "Landing did not complete, so cleanup could not run." | .cleanup_stop_reason = "landing_not_completed" | .landing_evaluation = {"status":"blocked","provider_ruleset_ref":"route-neutral-main","source_ref":.durable_history.ref,"blocker_reason":"Runtime approval boundary denied hosted origin/main mutation after Octon authorization validated."}'
+  attach_downgrade_landing_authorization "$receipt" >/dev/null
+  run_validator "$receipt"
+}
+
+case_runtime_denied_landing_without_authorization_fails() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .not_landed_reason = "Runtime approval boundary denied hosted origin/main mutation." | .landing_stop_reason = "runtime_approval_denied" | .not_cleaned_reason = "Landing did not complete, so cleanup could not run." | .cleanup_stop_reason = "landing_not_completed" | .landing_evaluation = {"status":"blocked","provider_ruleset_ref":"route-neutral-main","source_ref":.durable_history.ref,"blocker_reason":"Runtime approval boundary denied hosted origin/main mutation."} | del(.landing_authorization_ref)'
+  ! run_validator "$receipt"
+}
+
+case_runtime_denied_cleanup_with_authorization_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "landed" | .outcome_intent = "attempt-cleaned-closeout" | .closeout_outcome = "continued" | .cleanup_status = "deferred" | .not_cleaned_reason = "Runtime approval boundary denied branch cleanup after Octon cleanup authorization validated." | .cleanup_stop_reason = "runtime_approval_denied" | .cleanup_evidence_refs = ["runtime approval denied cleanup"] | .source_branch_cleanup.status = "deferred" | .source_branch_cleanup.blocker_reason = "Runtime approval boundary denied branch cleanup after Octon cleanup authorization validated." | .source_branch_cleanup.evidence_refs = ["runtime approval denied cleanup"]'
+  attach_valid_cleanup_authorization "$receipt" >/dev/null
+  run_validator "$receipt"
+}
+
+case_runtime_denied_cleanup_without_authorization_fails() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "landed" | .outcome_intent = "attempt-cleaned-closeout" | .closeout_outcome = "continued" | .cleanup_status = "deferred" | .not_cleaned_reason = "Runtime approval boundary denied branch cleanup." | .cleanup_stop_reason = "runtime_approval_denied" | .cleanup_evidence_refs = ["runtime approval denied cleanup"] | .source_branch_cleanup.status = "deferred" | .source_branch_cleanup.blocker_reason = "Runtime approval boundary denied branch cleanup." | .source_branch_cleanup.evidence_refs = ["runtime approval denied cleanup"] | del(.cleanup_authorization_ref)'
   ! run_validator "$receipt"
 }
 
@@ -591,14 +675,14 @@ case_branch_no_pr_cleaned_rejects_stale_cleanup_authorization() {
 case_deferred_actual_outcome_requires_blocker_evidence() {
   local receipt
   receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "deferred" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .not_landed_reason = "Required hosted checks are pending." | .not_cleaned_reason = "Required hosted checks are pending before landing and cleanup." | .landing_evaluation = {"status":"blocked","blocker_reason":"Required hosted checks are pending."} | .external_blocker_refs = ["required hosted checks pending"] | .remaining_blockers = ["Required hosted checks are pending."]'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "deferred" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .not_landed_reason = "Required hosted checks are pending." | .landing_stop_reason = "hosted_checks_pending" | .not_cleaned_reason = "Required hosted checks are pending before landing and cleanup." | .cleanup_stop_reason = "landing_not_completed" | .landing_evaluation = {"status":"blocked","blocker_reason":"Required hosted checks are pending."} | .external_blocker_refs = ["required hosted checks pending"] | .remaining_blockers = ["Required hosted checks are pending."]'
   run_validator "$receipt"
 }
 
 case_deferred_actual_outcome_without_blocker_fails() {
   local receipt
   receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
-  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "deferred" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .not_landed_reason = "Required hosted checks are pending." | .not_cleaned_reason = "Required hosted checks are pending before landing and cleanup." | .landing_evaluation = {"status":"blocked","blocker_reason":"Required hosted checks are pending."} | del(.remaining_blockers)'
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "deferred" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .not_landed_reason = "Required hosted checks are pending." | .landing_stop_reason = "hosted_checks_pending" | .not_cleaned_reason = "Required hosted checks are pending before landing and cleanup." | .cleanup_stop_reason = "landing_not_completed" | .landing_evaluation = {"status":"blocked","blocker_reason":"Required hosted checks are pending."} | del(.remaining_blockers)'
   ! run_validator "$receipt"
 }
 
@@ -710,12 +794,19 @@ main() {
   assert_success "branch-pr draft/open cannot claim full closeout" case_branch_pr_draft_not_full_closeout
   assert_success "cleanup claim requires evidence" case_cleanup_claim_requires_evidence
   assert_success "cleaned with pending cleanup fails" case_cleaned_pending_cleanup_fails
+  assert_success "cleaned with deferred cleanup fails" case_cleaned_deferred_cleanup_fails
   assert_success "completed landed branch closeout with pending cleanup fails" case_landed_completed_pending_cleanup_fails
   assert_success "landed with pending cleanup remains valid before full closeout" case_landed_pending_cleanup_continued_passes
   assert_success "target landed downgrade requires not_landed_reason" case_target_landed_downgraded_requires_not_landed_reason
+  assert_success "target landed downgrade requires landing_stop_reason" case_target_landed_downgraded_requires_landing_stop_reason
   assert_success "target landed downgrade with blocker passes" case_target_landed_downgraded_with_blocker_passes
   assert_success "default cleaned target can downgrade to explicit published-branch evidence" case_default_cleaned_downgraded_to_published_branch_passes
   assert_success "target cleaned downgrade requires not_cleaned_reason" case_target_cleaned_downgraded_requires_not_cleaned_reason
+  assert_success "target cleaned downgrade requires cleanup_stop_reason" case_target_cleaned_downgraded_requires_cleanup_stop_reason
+  assert_success "runtime-denied landing with governance authorization passes" case_runtime_denied_landing_with_authorization_passes
+  assert_success "runtime-denied landing without governance authorization fails" case_runtime_denied_landing_without_authorization_fails
+  assert_success "runtime-denied cleanup with governance authorization passes" case_runtime_denied_cleanup_with_authorization_passes
+  assert_success "runtime-denied cleanup without governance authorization fails" case_runtime_denied_cleanup_without_authorization_fails
   assert_success "branch-no-pr cleaned full evidence passes" case_branch_no_pr_cleaned_full_evidence_passes
   assert_success "branch-no-pr cleaned requires governed cleanup authorization" case_branch_no_pr_cleaned_requires_cleanup_authorization
   assert_success "branch-no-pr cleaned rejects denied cleanup authorization" case_branch_no_pr_cleaned_rejects_denied_cleanup_authorization

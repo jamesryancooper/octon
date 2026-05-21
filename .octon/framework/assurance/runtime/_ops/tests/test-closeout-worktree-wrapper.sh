@@ -62,6 +62,15 @@ ensure_fixture_root() {
   mkdir -p "$fixture_root/.octon/state/evidence/runs/skills/closeout-change"
 }
 
+rewrite_fixture_json() {
+  local file="$1"
+  local filter="$2"
+  local tmp
+  tmp="$(mktemp "${TMPDIR:-/tmp}/closeout-worktree-wrapper.rewrite.XXXXXX")"
+  jq "$filter" "$file" >"$tmp"
+  mv "$tmp" "$file"
+}
+
 write_closeout_change_fixture() {
   local suffix="$1"
   ensure_fixture_root
@@ -1126,6 +1135,63 @@ YAML
   ! run_validator_with_fixtures "$report" >/dev/null
 }
 
+case_closed_candidate_with_cleaned_deferred_cleanup_fails() {
+  local report receipt
+  report="$(new_report)"
+  write_closeout_change_fixture "cleaned-deferred-candidate/change-receipt.json"
+  receipt="$fixture_root/.octon/state/evidence/runs/skills/closeout-change/cleaned-deferred-candidate/change-receipt.json"
+  rewrite_fixture_json "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .source_branch_cleanup.status = "deferred" | .source_branch_cleanup.blocker_reason = "fixture cleanup deferred" | .source_branch_cleanup.evidence_refs = ["fixture cleanup deferred"] | .cleanup_evidence_refs = ["fixture cleanup deferred"]'
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-cleaned-deferred-cleanup
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/cleaned-deferred-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/cleaned-deferred-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/cleaned-deferred-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 case_prior_candidate_without_reconciliation_fails() {
   local report
   report="$(new_report)"
@@ -1712,6 +1778,7 @@ main() {
   assert_success "unresolved candidate with terminal next route fails" case_unresolved_candidate_with_terminal_next_route_fails
   assert_success "synthetic closeout-change ref for closed candidate fails" case_synthetic_closeout_change_ref_fails
   assert_success "closed candidate with continued closeout-change receipt fails" case_closed_candidate_with_continued_receipt_fails
+  assert_success "closed candidate with cleaned deferred cleanup fails" case_closed_candidate_with_cleaned_deferred_cleanup_fails
   assert_success "prior candidate omitted without reconciliation fails" case_prior_candidate_without_reconciliation_fails
   assert_success "ignored residue without foreign retained evidence fails" case_ignored_residue_without_foreign_coverage_fails
   assert_success "classifier detects staged unstaged and untracked residue" case_classifier_counts_multi_residue_classes

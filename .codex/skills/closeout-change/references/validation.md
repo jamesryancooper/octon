@@ -23,8 +23,8 @@ actual lifecycle outcome:
   equals `landed_ref`.
   `published-branch` is valid only as a continued handoff or blocker outcome,
   not as completed closeout. If the target was `landed` or `cleaned`, the
-  receipt must include landing evaluation evidence and `not_landed_reason`
-  when actual outcome is lower.
+  receipt must include landing evaluation evidence, `not_landed_reason`, and
+  `landing_stop_reason` when actual outcome is lower.
 - `branch-pr`: Change identity, PR metadata, hosted checks when required,
   review evidence, lifecycle outcome, receipt, and rollback handle exist.
   Full closeout requires merge evidence or a precise external blocker.
@@ -37,9 +37,10 @@ alignment evidence for local `main`, `origin/main`, and `landed_ref`. A
 integration into `origin/main`, post-landing `git fetch` evidence, local
 `main` synchronization to `origin/main`, and landed-ref containment in both
 local `main` and `origin/main`. For cleaned targets, validation must include
-source-branch cleanup evidence backed by `branch-cleanup-authorization-v1`, or
-a deferred-cleanup blocker plus `not_cleaned_reason` when the actual outcome is
-not `cleaned`.
+source-branch cleanup evidence backed by `branch-cleanup-authorization-v1`.
+Deferred cleanup must downgrade the actual outcome and include
+`not_cleaned_reason` plus `cleanup_stop_reason`; it must not validate as
+`lifecycle_outcome: cleaned`.
 
 Completed or cleaned closeout also requires `stateful_closeout` evidence from
 the Change Closeout State Machine. That evidence must cite the initial

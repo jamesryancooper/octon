@@ -231,6 +231,46 @@
       "type": "string",
       "minLength": 1
     },
+    "landing_stop_reason": {
+      "type": "string",
+      "description": "Structured reason a target of landed or cleaned stopped before origin/main landing.",
+      "enum": [
+        "governance_authorization_missing",
+        "governance_authorization_malformed",
+        "governance_authorization_stale",
+        "governance_authorization_denied",
+        "runtime_approval_denied",
+        "provider_policy_blocked",
+        "hosted_checks_pending",
+        "hosted_checks_failed",
+        "source_branch_stale",
+        "fast_forward_blocked",
+        "landing_execution_failed",
+        "external_blocker"
+      ]
+    },
+    "cleanup_stop_reason": {
+      "type": "string",
+      "description": "Structured reason a target of cleaned stopped before completed cleanup.",
+      "enum": [
+        "landing_not_completed",
+        "governance_authorization_missing",
+        "governance_authorization_malformed",
+        "governance_authorization_stale",
+        "governance_authorization_denied",
+        "runtime_approval_denied",
+        "provider_policy_blocked",
+        "cleanup_unsafe",
+        "cleanup_deferred_by_operator",
+        "local_main_sync_missing",
+        "containment_missing",
+        "open_pr_exists",
+        "protected_branch",
+        "rollback_posture_missing",
+        "cleanup_execution_failed",
+        "external_blocker"
+      ]
+    },
     "main_alignment": {
       "type": "object",
       "additionalProperties": false,
@@ -847,7 +887,7 @@
         "required": ["target_lifecycle_outcome", "integration_status"]
       },
       "then": {
-        "required": ["landing_evaluation", "not_landed_reason"],
+        "required": ["landing_evaluation", "not_landed_reason", "landing_stop_reason"],
         "properties": {
           "closeout_outcome": {
             "enum": ["continued", "stage_only", "blocked", "escalated", "denied"]
@@ -866,7 +906,7 @@
         "required": ["target_lifecycle_outcome", "lifecycle_outcome"]
       },
       "then": {
-        "required": ["not_cleaned_reason"],
+        "required": ["not_cleaned_reason", "cleanup_stop_reason"],
         "properties": {
           "closeout_outcome": {
             "enum": ["continued", "stage_only", "blocked", "escalated", "denied"]
@@ -883,7 +923,7 @@
       "then": {
         "properties": {
           "cleanup_status": {
-            "enum": ["completed", "deferred"]
+            "const": "completed"
           }
         }
       }

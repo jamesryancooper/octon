@@ -75,7 +75,7 @@ target_lifecycle_defaults:
   actual_outcome_rule: >-
     Actual lifecycle outcome remains evidence-based. If cleaned cannot be
     proven, record the lower route-compatible lifecycle_outcome and the exact
-    missing proof, blocker, or next-route condition.
+    missing proof, structured stop reason, blocker, or next-route condition.
 phases:
   - phase_id: "read-in-and-constraints"
     mode: "single-pass"
@@ -290,7 +290,7 @@ evidence_gates:
   cleaned:
     required:
       - "landed ref or explicitly non-landing outcome"
-      - "branch cleanup and worktree cleanup completed or explicitly deferred"
+      - "branch cleanup and worktree cleanup completed when claiming cleaned"
       - "governed branch cleanup authorization evidence when cleanup mutates local or remote refs"
       - "cleanup safety evidence"
       - "post-landing fetch and local main sync evidence when landed"
@@ -337,6 +337,24 @@ required_stateful_receipt_fields:
   - "cleanup_decision_refs"
   - "safe_cleanup_evidence_class"
   - "final_verification_ref"
+structured_downgrade_reasons:
+  landing_stop_reason:
+    applies_when: "target_lifecycle_outcome is landed or cleaned and integration_status is not landed"
+    required_with:
+      - "landing_evaluation"
+      - "not_landed_reason"
+    enum_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json#/properties/landing_stop_reason"
+  cleanup_stop_reason:
+    applies_when: "target_lifecycle_outcome is cleaned and lifecycle_outcome is not cleaned"
+    required_with:
+      - "not_cleaned_reason"
+    enum_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json#/properties/cleanup_stop_reason"
+  runtime_approval_boundary: >-
+    A receipt may distinguish Octon governance authorization from a runtime,
+    sandbox, provider, or host approval denial by recording the validating
+    authorization receipt and a runtime_approval_denied stop reason. The
+    authorization is evidence that Octon governance allowed the action; it does
+    not bypass external approval controls.
 non_authority_boundaries:
   - ".octon/inputs/**"
   - "proposal-local files"
