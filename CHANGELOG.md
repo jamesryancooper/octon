@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.6.75](https://github.com/jamesryancooper/octon/compare/octon-v0.6.74...octon-v0.6.75) (2026-05-21)
+
+
+### Features
+
+* **closeout:** add change closeout state machine ([414f937](https://github.com/jamesryancooper/octon/commit/414f9375f9e229a2e2f738b021479bda88906852))
+* **closeout:** add governed branch landing authorization ([191d360](https://github.com/jamesryancooper/octon/commit/191d360f1d30cf40a54991872920c0ba822b50ca))
+* **closeout:** govern branch cleanup authorization ([6f49572](https://github.com/jamesryancooper/octon/commit/6f49572ef6a7b6acbcc204c6028a9f4cd9f4b893))
+
+
+### Bug Fixes
+
+* **ci:** restore main closeout validation ([e5c0608](https://github.com/jamesryancooper/octon/commit/e5c0608d2e408b9146dac22c79bab43a6a6ada72))
+* **closeout:** default closeout target to cleaned ([5bb55fd](https://github.com/jamesryancooper/octon/commit/5bb55fde06a533d3503cf7cc5809fc542387a2a3))
+* **closeout:** expose cleanup main sync proof ([30fed93](https://github.com/jamesryancooper/octon/commit/30fed93f650061e255587629f736fc1ffc4fcb92))
+* **closeout:** harden branch closeout evidence ([8dbd1ab](https://github.com/jamesryancooper/octon/commit/8dbd1aba8179269a870cc9dc6bc8c2f6860e2860))
+* **closeout:** harden worktree evidence validation ([16a9679](https://github.com/jamesryancooper/octon/commit/16a96799c504f6c6eaa84c61225e1a4f06263f78))
+* **closeout:** require cleaned closeout proof ([a6dd872](https://github.com/jamesryancooper/octon/commit/a6dd87255bffebb921fce1b7131fb0fc4651f481))
+
+
+### Refactors
+
+* **orchestration:** replace schedule evaluator python ([33db0b8](https://github.com/jamesryancooper/octon/commit/33db0b8ee72200cc73725641720ac419517d0e2e))
+
 ## [0.6.74](https://github.com/jamesryancooper/octon/compare/octon-v0.6.73...octon-v0.6.74) (2026-05-18)
 
 
