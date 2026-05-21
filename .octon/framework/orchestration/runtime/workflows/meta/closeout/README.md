@@ -59,13 +59,13 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] branch-pr published, ready, landed, and cleaned outcomes are distinguished
 - [ ] PR-specific mechanics are selected only after branch-pr routing
 - [ ] landed and cleaned claims require route-appropriate evidence
+- [ ] completed and cleaned claims require stateful closeout evidence from the Change Closeout State Machine
 - [ ] published-branch handoff cannot be reported as completed closeout
 - [ ] ingress remains a pointer to this workflow rather than an inline closeout policy surface
 
 ## References
 
 - Canonical contract: `.octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml`
-- State-machine contract: `.octon/framework/product/contracts/change-closeout-state-machine.yml`
 - Canonical stages: `.octon/framework/orchestration/runtime/workflows/meta/closeout/stages/`
 
 ## Version History
