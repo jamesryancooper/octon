@@ -12,7 +12,9 @@ title: Closeout Worktree Phases
    in read-only mode and retain the classifier output or summary reference.
 4. Partition residue into candidate Change scopes. Each candidate must have a
    coherent intent, path set, ownership posture, likely route, target lifecycle
-   outcome, validation floor, and rollback or discard posture.
+   outcome, validation floor, and rollback or discard posture. For a generic
+   worktree closeout request, default candidate target outcomes to `cleaned`
+   unless a narrower target is explicit.
 5. Mark every observed item as one of: selected candidate, later candidate,
    retained evidence, generated projection, host projection, local ignored
    residue, blocked, ambiguous, or foreign/user-owned.

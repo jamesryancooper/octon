@@ -28,9 +28,12 @@
    exact source SHA required checks, a pushed source branch current with
    `origin/main`, fast-forward-only update evidence, and post-push proof that
    `origin/main` equals the recorded `landed_ref`.
-6. For ambiguous `branch-no-pr` closeout intent, ask whether the target is
-   pushed-branch handoff, hosted no-PR landing, or cleaned closeout. Do not
-   infer `published-branch` as full closeout from a route-only instruction.
+6. For generic closeout intent, default `target_lifecycle_outcome` to
+   `cleaned`. Use `published-branch`, `branch-local-complete`, `landed`,
+   `preserved`, or `blocked` only when the operator explicitly requests that
+   narrower target. Treat `stage-only-escalate` as an explicit route request
+   with a route-compatible target. Do not infer `published-branch` as full
+   closeout from a route-only instruction.
 7. For `branch-no-pr` closeout that does not land on hosted `main`, push the
    source branch to origin and record `remote_branch_ref`; otherwise report
    branch-local state as local-only or incomplete. If the target was `landed`

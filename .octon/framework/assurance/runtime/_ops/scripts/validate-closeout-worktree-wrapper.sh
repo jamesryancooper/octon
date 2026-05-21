@@ -119,6 +119,9 @@ validate_static() {
   require_literal "$WRAPPER_IO" "Each iteration must include" \
     "I/O contract documents orchestration iterations" \
     "I/O contract must document orchestration iterations"
+  require_literal "$WRAPPER_IO" "omitted means \`cleaned\`" \
+    "I/O contract documents cleaned default target" \
+    "I/O contract must document cleaned default target"
   require_literal "$WRAPPER_VALIDATION" "selected candidate has explicit include and exclude path boundaries" \
     "wrapper validation requires explicit boundaries" \
     "wrapper validation must require explicit boundaries"

@@ -20,6 +20,13 @@ default work-unit policy still owns route selection. PR-backed mechanics remain
 delegated only after selected route `branch-pr`. Hosted no-PR landing remains a
 `branch-no-pr` lifecycle path, not a top-level route.
 
+When an operator asks to close out a Change or worktree without explicitly
+naming a narrower target or route request, the state machine resolves
+`target_lifecycle_outcome` to `cleaned`. Actual `lifecycle_outcome` stays
+evidence-based; if `cleaned` cannot be proven, the receipt must downgrade to the
+highest supported route-compatible outcome and record the exact missing proof,
+blocker, or next-route condition.
+
 The model forbids `branch-land-no-pr` as a top-level route, `Closeout Changes`
 as a default work unit, and a peer `Publish Changes` workflow. Publication is a
 route/status operation or generated/effective publication mechanism, not a
@@ -39,7 +46,7 @@ pushes, PRs, landing, deletion, reset, restore, or overwrite.
 | Read-in and constraints | Single pass | Ingress, default work-unit policy, git autonomy, receipt, validation, and provider constraints recorded. | Required governing source missing, route conflict, or forbidden action required. |
 | Inventory | Loop | Current branch, HEAD, main, origin/main, staged, unstaged, untracked, ignored, branch, remote, and worktree state captured. | Repository state cannot be inspected safely. |
 | Residue classification | Loop | Every dirty, untracked, ignored, generated, evidence, host-projection, release, input-surface, and branch item has exactly one disposition. | Ambiguous or user-owned work would need deletion, restoration, reset, or overwrite. |
-| Route and target lifecycle resolution | Loop | Exactly one route and target outcome recorded, or an honest blocked/escalated outcome recorded. | PR-required predicate conflicts with fixed `branch-no-pr`, or no authority exists to choose route/outcome. |
+| Route and target lifecycle resolution | Loop | Exactly one route and target outcome recorded, with unspecified closeout requests defaulted to `cleaned`, or an honest blocked/escalated outcome recorded. | PR-required predicate conflicts with fixed `branch-no-pr`, or no authority exists to choose route/outcome. |
 | Safe cleanup | Loop | Only evidence-backed residue removed; retained or ambiguous items documented. | Removal lacks containment, patch equivalence, tracked replacement, explicit ignored/local-residue status, or validator proof. |
 | Change-set preparation | Loop | Branch or direct-main state contains only the coherent accepted change set. | Coherent scope cannot be isolated without overwriting user-owned work. |
 | Validation | Loop | `git diff --check` and the selected validators pass, or blocker evidence is recorded. | Required publishers, projection generators, migrations, alignment profiles, or activation changes are outside scope. |
@@ -61,10 +68,12 @@ cleanup and worktree cleanup completed or explicitly deferred, cleanup safety
 evidence, final main alignment when landed, and `stateful_closeout` receipt
 evidence.
 
-`blocked` requires preserved state plus the exact missing condition.
-`preserved` requires a recoverable patch, checkpoint, branch, or durable state
-plus rollback or discard plan. `escalated` requires preserved state plus the
-specific human, policy, provider, or ownership decision required.
+`deferred` requires preserved state plus the exact pending proof, authority,
+hosted check, sync, cleanup, or next-route condition. `blocked` requires
+preserved state plus the exact missing condition. `preserved` requires a
+recoverable patch, checkpoint, branch, or durable state plus rollback or discard
+plan. `escalated` requires preserved state plus the specific human, policy,
+provider, or ownership decision required.
 
 ## Cleanup Safety
 

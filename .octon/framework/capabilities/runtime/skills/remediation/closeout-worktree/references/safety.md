@@ -5,8 +5,9 @@ title: Closeout Worktree Safety
 # Safety
 
 - Preserve unrelated and user-owned work.
-- Fail closed when candidate ownership, route, target outcome, cleanup
-  authority, validation scope, or rollback posture is ambiguous.
+- Fail closed when candidate ownership, route, cleanup authority, validation
+  scope, or rollback posture is ambiguous. A generic closeout target is not
+  ambiguous; it defaults to `cleaned`.
 - Do not stage files directly from the wrapper.
 - Do not commit, push, land, merge, open PRs, delete branches, restore, reset,
   or overwrite directly from the wrapper.

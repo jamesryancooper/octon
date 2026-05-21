@@ -8,7 +8,8 @@ Inputs:
 
 - Optional `change_id`
 - Optional `route`
-- Optional `target_lifecycle_outcome`
+- Optional `target_lifecycle_outcome`; omitted means `cleaned` for generic
+  closeout requests
 - Optional `lifecycle_outcome`
 - Optional `include_paths`
 - Optional `exclude_paths`
@@ -27,6 +28,13 @@ Receipt outputs must record selected route, target lifecycle outcome, actual
 lifecycle outcome, integration status, publication status, cleanup status,
 durable history, rollback handle, and cleanup evidence or deferred-cleanup
 evidence when cleanup is claimed.
+
+When the input omits `target_lifecycle_outcome` and the operator asked to close
+out the Change, the receipt must record `target_lifecycle_outcome: cleaned`.
+Explicit `published-branch`, `branch-local-complete`, `landed`, `preserved`,
+or `blocked` requests remain narrower lifecycle targets. Explicit
+`stage-only-escalate` requests are route requests and must be paired with a
+route-compatible target such as `preserved`, `blocked`, or `escalated`.
 
 For branch-based completed closeout, receipt outputs must also record
 `source_branch_integration` and `main_alignment` evidence proving the source

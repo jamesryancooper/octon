@@ -56,6 +56,15 @@ case_closeout_worktree_wrapper_exists() {
     yq -e '.relationship_to_default_work_unit.dirty_worktree_wrapper.decomposition_rule == "partition residue into singular Change closeouts and delegate each coherent unit to closeout-change"' "$contract" >/dev/null
 }
 
+case_unspecified_closeout_defaults_to_cleaned() {
+  local contract="$ROOT_DIR/.octon/framework/product/contracts/change-closeout-state-machine.yml"
+  local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
+  yq -e '.target_lifecycle_defaults.unspecified_closeout_request == "cleaned"' "$contract" >/dev/null &&
+    yq -e '.target_lifecycle_defaults.explicit_narrower_lifecycle_targets[]? | select(. == "published-branch")' "$contract" >/dev/null &&
+    yq -e '.target_lifecycle_defaults.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "$contract" >/dev/null &&
+    jq -e '.properties.target_lifecycle_outcome.default == "cleaned"' "$schema" >/dev/null
+}
+
 case_valid_completed_receipt_passes() {
   local receipt
   receipt="$(write_receipt <<'JSON'
@@ -237,6 +246,7 @@ main() {
   assert_success "state-machine validator passes live repo" case_live_repo_passes
   assert_success "residue classifier is read-only" case_classifier_is_read_only
   assert_success "closeout-worktree wrapper exists and decomposes singular changes" case_closeout_worktree_wrapper_exists
+  assert_success "unspecified closeout target defaults to cleaned" case_unspecified_closeout_defaults_to_cleaned
   assert_success "valid completed receipt with stateful evidence passes" case_valid_completed_receipt_passes
   assert_success "completed receipt without stateful evidence fails" case_completed_without_stateful_fails
   assert_success "ready PR cannot claim completed closeout" case_ready_completed_fails

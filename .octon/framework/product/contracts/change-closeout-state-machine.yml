@@ -44,6 +44,7 @@ lifecycle_outcomes:
   - "ready"
   - "landed"
   - "cleaned"
+  - "deferred"
   - "blocked"
   - "escalated"
   - "denied"
@@ -55,6 +56,24 @@ separation_rules:
     A route, branch push, draft PR, ready PR, branch-local commit, checkpoint,
     or generated projection never proves landed, cleaned, or completed
     closeout by itself.
+target_lifecycle_defaults:
+  unspecified_closeout_request: "cleaned"
+  rule: >-
+    When an operator asks to close out a Change or worktree without explicitly
+    naming a narrower target, resolve target_lifecycle_outcome to cleaned before
+    executing route-specific mutation.
+  explicit_narrower_lifecycle_targets:
+    - "published-branch"
+    - "branch-local-complete"
+    - "landed"
+    - "preserved"
+    - "blocked"
+  explicit_narrower_route_requests:
+    - "stage-only-escalate"
+  actual_outcome_rule: >-
+    Actual lifecycle outcome remains evidence-based. If cleaned cannot be
+    proven, record the lower route-compatible lifecycle_outcome and the exact
+    missing proof, blocker, or next-route condition.
 phases:
   - phase_id: "read-in-and-constraints"
     mode: "single-pass"
@@ -111,7 +130,7 @@ phases:
       - "inventory"
       - "residue-classification"
     exit_evidence:
-      - "exactly one route and target outcome recorded, or an honest blocked/escalated outcome recorded"
+      - "exactly one route and target outcome recorded, with unspecified closeout requests defaulted to cleaned, or an honest blocked/escalated outcome recorded"
     stop_or_escalation_conditions:
       - "PR-required predicate conflicts with fixed branch-no-pr"
       - "no authority exists to choose route or outcome"

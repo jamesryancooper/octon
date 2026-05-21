@@ -12,7 +12,9 @@ Candidate grouping is valid only when all of these are true:
 - the candidate has a coherent operator intent or branch/receipt identity;
 - the candidate's paths can be isolated without overwriting or deleting
   ambiguous work;
-- route and target lifecycle outcome can be resolved or honestly blocked;
+- route and target lifecycle outcome can be resolved or honestly blocked; a
+  generic worktree closeout request defaults each candidate target to `cleaned`
+  unless the operator explicitly requested a narrower target;
 - validation and rollback posture can be stated for that candidate;
 - unrelated residue can be retained, deferred, or escalated without being
   staged into the candidate.

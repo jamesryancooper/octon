@@ -121,6 +121,10 @@ validate_static() {
   require_yq "$STATE_MACHINE_YML" '.non_authority_boundaries[]? | select(. == ".octon/inputs/**")' "state machine marks inputs non-authoritative" "state machine must mark inputs non-authoritative"
   require_literal "$STATE_MACHINE_MD" "Detection alone is not deletion authority." "state machine docs deny detection-only deletion" "state machine docs must deny detection-only deletion"
   require_literal "$STATE_MACHINE_MD" 'Completed or cleaned closeout claims must include a `stateful_closeout` object' "state machine docs require stateful receipt evidence" "state machine docs must require stateful receipt evidence"
+  require_literal "$STATE_MACHINE_MD" 'the state machine resolves' "state machine docs define default target resolution" "state machine docs must define default target resolution"
+  require_yq "$STATE_MACHINE_YML" '.target_lifecycle_defaults.unspecified_closeout_request == "cleaned"' "state machine defaults unspecified target to cleaned" "state machine must default unspecified target to cleaned"
+  require_yq "$STATE_MACHINE_YML" '.target_lifecycle_defaults.explicit_narrower_lifecycle_targets[]? | select(. == "published-branch")' "state machine models explicit narrower lifecycle targets" "state machine must model explicit narrower lifecycle targets separately from routes"
+  require_yq "$STATE_MACHINE_YML" '.target_lifecycle_defaults.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "state machine models explicit stage-only route request separately" "state machine must model stage-only-escalate as an explicit route request"
   require_literal "$STATE_MACHINE_MD" '`Closeout Worktree` is the optional dirty-worktree wrapper.' "state machine docs describe Closeout Worktree wrapper" "state machine docs must describe Closeout Worktree wrapper"
   require_literal "$STATE_MACHINE_MD" "each coherent unit must be" "state machine docs require singular unit closeout" "state machine docs must require singular unit closeout"
 
@@ -186,7 +190,7 @@ validate_receipt() {
   fi
 
   case "$outcome" in
-    published-branch|published|ready)
+    published-branch|published|ready|deferred)
       if [[ "$closeout" == "completed" ]]; then
         fail "$outcome must not be completed closeout"
       else

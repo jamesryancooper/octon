@@ -18,10 +18,11 @@
    lifecycle outcome, then closeout report posture. Do not infer completion from
    a route, branch push, draft/open PR, ready PR, or branch-local commit.
    Keep the state machine as phase and evidence authority, not route authority.
-5. When `branch-no-pr` is selected and the operator intent does not specify
-   pushed-branch handoff, hosted no-PR landing, or cleaned closeout, ask for
-   the target lifecycle outcome before mutating hosted refs, deleting branches,
-   or reporting closeout.
+5. When the operator asks to close out a Change or worktree without naming a
+   narrower target outcome, resolve `target_lifecycle_outcome` to `cleaned`
+   before mutating hosted refs, deleting branches, or reporting closeout.
+   Explicit requests for pushed-branch handoff, branch-local completion, landed
+   only, preservation, blocker recording, or escalation remain narrower targets.
 6. Treat red required checks, failing jobs, failing scripts, unresolved review
    conversations, unresolved author action items, missing rollback handles,
    missing Change receipts, and failed final hygiene as blockers, not as

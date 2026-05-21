@@ -49,7 +49,9 @@ Execute the Change Closeout State Machine phase loop from
    residue. Detection alone is not deletion authority.
 4. **Resolve Route And Target Outcome** — Resolve Target Outcome after selecting exactly one route from
    `.octon/framework/product/contracts/default-work-unit.yml`; resolve the
-   target lifecycle outcome separately from the route.
+   target lifecycle outcome separately from the route. When the operator asks to
+   close out the Change without naming a narrower target, set
+   `target_lifecycle_outcome: cleaned`.
    Select Outcome by recording the actual lifecycle outcome only after the
    route-specific evidence is available.
 5. **Safe Cleanup** — Remove only evidence-backed residue. Escalate on
@@ -83,13 +85,20 @@ Execute the Change Closeout State Machine phase loop from
   route-neutral hosted landing; provider support is a hosted landing
   precondition, not a route-selection reason by itself.
 - Do not treat a route as the requested lifecycle outcome. When the operator
-  says `branch-no-pr` without stating handoff, landing, or cleanup intent, ask
-  whether to stop at `published-branch`, attempt hosted no-PR landing, or
-  attempt cleaned closeout before mutating hosted refs.
+  asks to close out a Change without explicitly requesting a narrower target
+  such as `published-branch`, `branch-local-complete`, `landed`, `preserved`,
+  or `blocked`, and without explicitly requesting the `stage-only-escalate`
+  route, default `target_lifecycle_outcome` to `cleaned` before mutating hosted
+  refs.
 - If the target outcome is `landed` or `cleaned` and evidence only supports
   `published-branch`, record `published-branch` as a continued handoff with
   landing evaluation evidence and `not_landed_reason`; do not call it completed
   closeout.
+- If the default or explicit target outcome is `cleaned` and evidence only
+  supports a lower actual outcome, record the lower route-compatible
+  `lifecycle_outcome`, `closeout_outcome: continued`, `blocked`, or `escalated`,
+  and the exact `not_landed_reason`, `not_cleaned_reason`, blocker, or
+  next-route condition.
 - `branch-local-complete` and `published-branch` are continuation or handoff
   outcomes only. They must report `closeout_outcome: continued`, `blocked`, or
   escalated/denied as appropriate, never completed.

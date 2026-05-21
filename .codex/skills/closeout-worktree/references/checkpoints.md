@@ -12,7 +12,8 @@ Record a wrapper checkpoint before every delegated singular closeout:
 - candidate partition table;
 - selected candidate id and include/exclude paths;
 - retained, deferred, blocked, ambiguous, and foreign items;
-- route and target outcome hints passed to `closeout-change`;
+- route and target outcome hints passed to `closeout-change`, with omitted
+  closeout targets resolved to `cleaned`;
 - rollback or discard posture for the selected candidate.
 
 Record a checkpoint after every delegated singular closeout:

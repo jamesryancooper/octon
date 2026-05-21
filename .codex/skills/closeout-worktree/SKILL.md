@@ -52,7 +52,9 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    candidate-keyed blocker.
 7. **Delegate Singular Closeout** — Route the selected candidate through
    `closeout-change` with explicit include/exclude paths, route hints, target
-   outcome, and receipt refs when known.
+   outcome, and receipt refs when known. If the operator only asked to close out
+   the worktree and did not explicitly request a narrower outcome, pass
+   `target_lifecycle_outcome: cleaned` to each safely separable candidate.
 8. **Re-inventory** — After each delegated closeout attempt, re-run inventory
    and classification before selecting another candidate.
 9. **Repeat Or Stop** — Continue selecting and delegating one candidate at a

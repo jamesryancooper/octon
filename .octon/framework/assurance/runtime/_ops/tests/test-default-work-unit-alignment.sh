@@ -66,6 +66,15 @@ case_receipt_schema_requires_lifecycle_fields() {
   ' "$schema" >/dev/null
 }
 
+case_receipt_schema_defaults_target_to_cleaned() {
+  local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
+  local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
+  jq -e '.properties.target_lifecycle_outcome.default == "cleaned"' "$schema" >/dev/null &&
+    yq -e '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "cleaned"' "$policy" >/dev/null &&
+    yq -e '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_lifecycle_outcomes[]? | select(. == "published-branch")' "$policy" >/dev/null &&
+    yq -e '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "$policy" >/dev/null
+}
+
 case_receipt_schema_has_lifecycle_outcomes() {
   local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
   jq -e '
@@ -75,7 +84,8 @@ case_receipt_schema_has_lifecycle_outcomes() {
     (.properties.lifecycle_outcome.enum | index("published")) and
     (.properties.lifecycle_outcome.enum | index("ready")) and
     (.properties.lifecycle_outcome.enum | index("landed")) and
-    (.properties.lifecycle_outcome.enum | index("cleaned"))
+    (.properties.lifecycle_outcome.enum | index("cleaned")) and
+    (.properties.lifecycle_outcome.enum | index("deferred"))
   ' "$schema" >/dev/null
 }
 
@@ -203,6 +213,7 @@ main() {
   assert_success "quickstart has post-landing cleanup and sync rules" case_quickstart_has_post_landing_cleanup_sync
   assert_success "receipt schema includes all route ids" case_receipt_schema_has_routes
   assert_success "receipt schema requires lifecycle status fields" case_receipt_schema_requires_lifecycle_fields
+  assert_success "receipt schema and policy default unspecified target to cleaned" case_receipt_schema_defaults_target_to_cleaned
   assert_success "receipt schema includes lifecycle outcomes" case_receipt_schema_has_lifecycle_outcomes
   assert_success "receipt schema includes hosted no-PR landing evidence" case_receipt_schema_has_hosted_landing_evidence
   assert_success "receipt schema blocks cleaned with pending cleanup" case_receipt_schema_blocks_cleaned_pending_cleanup

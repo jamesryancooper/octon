@@ -17,9 +17,9 @@ title: Closeout Change Phases
    validation floor, collaboration need, protected surfaces, and continuity.
 6. Select exactly one route.
 7. Resolve the target lifecycle outcome separately from the route. If the
-   operator selected `branch-no-pr` but did not specify handoff, hosted
-   landing, or cleaned closeout, ask before mutating hosted refs or deleting
-   branches.
+   operator only asked to close out the Change and did not explicitly specify a
+   narrower target, set `target_lifecycle_outcome: cleaned` before mutating
+   hosted refs or deleting branches.
 8. Select the actual lifecycle outcome separately from the route and target.
 9. Verify route-required and outcome-required evidence.
 10. For `branch-no-pr`, distinguish preservation, branch-local commit, branch

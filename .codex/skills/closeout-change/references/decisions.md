@@ -31,12 +31,14 @@ claim.
 | step | decision | autonomous action | ask or stop when |
 | ---- | -------- | ----------------- | ---------------- |
 | 1 | Select route: `direct-main`, `branch-no-pr`, `branch-pr`, or `stage-only-escalate`. | Use the fastest safe route allowed by policy, validation, rollback, and operator intent. | Route evidence, authority, or operator intent conflicts. |
-| 2 | Select target lifecycle outcome. | Proceed when the target is explicit or safely inferable from the operator request. | `branch-no-pr` is route-only or the next step mutates hosted refs, deletes branches, marks ready, merges, cleans, or syncs `main`. |
+| 2 | Select target lifecycle outcome. | Default unspecified closeout requests to `cleaned`; honor explicit narrower lifecycle targets such as `published-branch`, `branch-local-complete`, `landed`, `preserved`, or `blocked`. Treat `stage-only-escalate` as an explicit route request with a route-compatible target. | Route or target evidence conflicts, or the operator explicitly requests an outcome the selected route cannot support. |
 | 3 | Select actual lifecycle outcome from evidence. | Record the highest route-compatible outcome that evidence proves. | Evidence is missing, stale, blocked, or proves only a lower outcome. |
 | 4 | Choose closeout report posture. | Report completed closeout only for route-compatible landed or cleaned outcomes with required receipt, rollback, cleanup, and alignment evidence. | Non-terminal outcomes become continued handoff; blocked evidence becomes blocker receipt; denied authority becomes denied closeout. |
 
-Ask a clarification question when `branch-no-pr` is selected but the target is
-ambiguous:
+Do not ask whether a generic "close out" request means handoff or cleanup; the
+default target is `cleaned`. Ask only when the operator's words explicitly
+conflict with that default or name a route/outcome combination the selected
+route cannot support:
 
 - "Do you want `branch-no-pr` closeout to stop at pushed-branch handoff, or
   should I attempt hosted landing?"
@@ -62,6 +64,8 @@ Lifecycle outcomes:
   evidence.
 - `cleaned`: branch, remote branch when present, and worktree cleanup are
   complete or explicitly deferred with evidence.
+- `deferred`: the target remains reachable, but this run stops on a specific
+  pending proof, authority, hosted check, sync, cleanup, or next-route condition.
 - `blocked`, `escalated`, or `denied`: closeout cannot truthfully progress.
 
 If target outcome is `landed` or `cleaned` but actual outcome is only

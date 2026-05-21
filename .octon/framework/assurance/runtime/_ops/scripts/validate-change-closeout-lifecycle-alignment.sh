@@ -131,9 +131,10 @@ validate_contracts() {
     pass "branch landing without PR remains a branch-no-pr lifecycle outcome"
   fi
 
-  for outcome in preserved branch-local-complete published-branch published ready landed cleaned blocked escalated denied; do
+  for outcome in preserved branch-local-complete published-branch published ready landed cleaned deferred blocked escalated denied; do
     require_jq "$RECEIPT_SCHEMA" ".properties.lifecycle_outcome.enum[] | select(. == \"$outcome\")" "receipt schema accepts outcome $outcome" "receipt schema missing outcome $outcome"
   done
+  require_jq "$RECEIPT_SCHEMA" '.properties.target_lifecycle_outcome.default == "cleaned"' "receipt schema defaults unspecified closeout target to cleaned" "receipt schema must default unspecified closeout target to cleaned"
   for field in target_lifecycle_outcome lifecycle_outcome outcome_intent integration_status publication_status cleanup_status; do
     require_jq "$RECEIPT_SCHEMA" ".required[] | select(. == \"$field\")" "receipt schema requires $field" "receipt schema missing required $field"
   done
@@ -165,6 +166,9 @@ validate_contracts() {
   require_yq "$POLICY" '.state_machine_ref == ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "policy references Change Closeout State Machine" "policy must reference Change Closeout State Machine"
   require_yq "$STATE_MACHINE" '.state_machine_id == "change-closeout-state-machine"' "state machine contract has stable id" "state machine contract must have stable id"
   require_yq "$STATE_MACHINE" '.relationship_to_default_work_unit.dirty_worktree_wrapper.default_work_unit_replacement == false' "state machine keeps Closeout Worktree as wrapper" "state machine must keep Closeout Worktree as wrapper"
+  require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.unspecified_closeout_request == "cleaned"' "state machine defaults unspecified closeout target to cleaned" "state machine must default unspecified closeout target to cleaned"
+  require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.explicit_narrower_lifecycle_targets[]? | select(. == "published-branch")' "state machine separates narrower lifecycle targets from route requests" "state machine must separate narrower lifecycle targets from route requests"
+  require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "state machine treats stage-only-escalate as route request" "state machine must treat stage-only-escalate as a route request"
   require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "residue-classification")' "state machine contract defines residue classification phase" "state machine contract must define residue classification phase"
   require_yq "$STATE_MACHINE" '.cleanup_safety.denied_classes[]? | select(. == "detection-only")' "state machine denies detection-only cleanup" "state machine must deny detection-only cleanup"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "branch-pr supports ready lifecycle outcome" "branch-pr must support ready lifecycle outcome"
@@ -178,12 +182,17 @@ validate_contracts() {
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_source_branch_integration_evidence")' "policy fails closed on landed branch closeout without source branch integration evidence" "policy must fail closed on landed branch closeout without source branch integration evidence"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_post_landing_fetch_and_local_main_sync_evidence")' "policy fails closed on landed branch closeout without post-landing fetch/sync evidence" "policy must fail closed on landed branch closeout without post-landing fetch/sync evidence"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "published_branch_reported_as_completed_closeout")' "policy fails closed on pushed branch handoff reported as completed" "policy must fail closed on pushed branch handoff reported as completed"
+  require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "cleaned"' "policy defaults unspecified closeout target to cleaned" "policy must default unspecified closeout target to cleaned"
+  require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_lifecycle_outcomes[]? | select(. == "published-branch")' "policy separates narrower lifecycle outcomes from route requests" "policy must separate narrower lifecycle outcomes from route requests"
+  require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "policy treats stage-only-escalate as route request" "policy must treat stage-only-escalate as a route request"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "unspecified_closeout_target_not_resolved_to_cleaned")' "policy fails closed when unspecified closeout target is not cleaned" "policy must fail closed when unspecified closeout target is not cleaned"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_landed_or_cleaned_without_landing_evaluation")' "policy fails closed on missing landing evaluation for landing targets" "policy must fail closed on missing landing evaluation for landing targets"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "stale_remote_branch_ref_in_closeout_receipt")' "policy fails closed on stale recorded remote branch refs" "policy must fail closed on stale recorded remote branch refs"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "post_landing_local_main_not_synced_to_origin_main")' "policy fails closed on missing post-landing local main sync" "policy must fail closed on missing post-landing local main sync"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_attempts_protected_active_unmerged_open_pr_or_unretained_rollback_ref")' "policy fails closed on unsafe branch cleanup" "policy must fail closed on unsafe branch cleanup"
   require_literal "$POLICY_MD" "Routes do not by themselves prove landing, publication, or cleanup." "policy docs separate route from outcome" "policy docs must separate route from outcome"
   require_literal "$POLICY_MD" "Target lifecycle outcome records what the operator or" "policy docs separate target and actual outcome" "policy docs must separate target and actual outcome"
+  require_literal "$POLICY_MD" "the default target lifecycle outcome is \`cleaned\`" "policy docs define cleaned as default target" "policy docs must define cleaned as default target"
   require_literal "$POLICY_MD" "This is a continued handoff outcome, not completed closeout." "policy docs define published-branch as continued handoff" "policy docs must define published-branch as continued handoff"
   require_literal "$POLICY_MD" 'direct-main` closeout must push to `origin/main`' "policy docs require direct-main origin push for closeout" "policy docs must require direct-main origin push for closeout"
   require_literal "$POLICY_MD" "push the source branch to" "policy docs require branch-no-pr origin push for closeout" "policy docs must require branch-no-pr origin push for closeout"
@@ -193,6 +202,7 @@ validate_contracts() {
   require_literal "$POLICY_MD" 'If a provider ruleset currently requires a pull request for `main`, hosted' "policy docs fail closed when provider requires PR" "policy docs must fail closed when provider ruleset requires PR"
   require_literal "$CLOSEOUT_CHANGE" 'Do not claim `branch-no-pr` as `landed`' "closeout-change blocks false no-PR landing claims" "closeout-change must block false no-PR landing claims"
   require_literal "$CLOSEOUT_CHANGE" "Resolve Target Outcome" "closeout-change resolves target outcome" "closeout-change must resolve target outcome"
+  require_literal "$CLOSEOUT_CHANGE" "target_lifecycle_outcome: cleaned" "closeout-change defaults unspecified closeout target to cleaned" "closeout-change must default unspecified closeout target to cleaned"
   require_literal "$CLOSEOUT_CHANGE" "do not call it completed" "closeout-change blocks published-branch completion overclaim" "closeout-change must block published-branch completion overclaim"
   require_literal "$CLOSEOUT_CHANGE" "Bash(git push *)" "closeout-change can push direct-main and branch publication refs" "closeout-change must allow route-required git push"
   require_literal "$CLOSEOUT_CHANGE" "git-branch-push.sh" "closeout-change can invoke branch publication helper" "closeout-change must allow branch publication helper"
@@ -267,7 +277,7 @@ validate_receipt() {
   [[ -n "$cleanup" ]] && pass "receipt has cleanup status" || fail "receipt missing cleanup status"
 
   case "$outcome" in
-    preserved|branch-local-complete|published-branch|published|ready)
+    preserved|branch-local-complete|published-branch|published|ready|deferred)
       if [[ "$closeout_outcome" == "completed" ]]; then
         fail "$outcome must not be reported as completed closeout"
       else
@@ -297,7 +307,7 @@ validate_receipt() {
           ;;
       esac
       case "$outcome" in
-        preserved|branch-local-complete|published-branch|landed|cleaned|blocked|escalated|denied)
+        preserved|branch-local-complete|published-branch|landed|cleaned|deferred|blocked|escalated|denied)
           pass "branch-no-pr outcome is branch-only scoped"
           ;;
         *)
@@ -315,7 +325,7 @@ validate_receipt() {
           ;;
       esac
       case "$outcome" in
-        preserved|published|ready|landed|cleaned|blocked|escalated|denied)
+        preserved|published|ready|landed|cleaned|deferred|blocked|escalated|denied)
           pass "branch-pr outcome is PR-route scoped"
           ;;
         *)
@@ -329,7 +339,7 @@ validate_receipt() {
         *) fail "stage-only-escalate target must not claim completion lifecycle states" ;;
       esac
       case "$outcome" in
-        preserved|blocked|escalated|denied) pass "stage-only outcome is preservation or blocker scoped" ;;
+        preserved|deferred|blocked|escalated|denied) pass "stage-only outcome is preservation or blocker scoped" ;;
         *) fail "stage-only-escalate outcome must not claim completion lifecycle states" ;;
       esac
       ;;
@@ -435,6 +445,12 @@ validate_receipt() {
     fail "preserved outcome must not claim landed integration"
   elif [[ "$outcome" == "preserved" ]]; then
     pass "preserved outcome does not claim landed integration"
+  fi
+
+  if [[ "$outcome" == "deferred" ]]; then
+    [[ "$integration" != "landed" ]] && pass "deferred outcome does not claim landed integration" || fail "deferred outcome must not claim landed integration"
+    [[ "$closeout_outcome" != "completed" ]] && pass "deferred outcome is non-terminal closeout" || fail "deferred outcome must not claim completed closeout"
+    json_array_nonempty '.remaining_blockers' && pass "deferred outcome records blocker or next-route evidence" || fail "deferred outcome requires remaining_blockers"
   fi
 
   if [[ "$integration" == "landed" || "$outcome" == "landed" || "$outcome" == "cleaned" ]]; then

@@ -50,6 +50,8 @@
     },
     "target_lifecycle_outcome": {
       "type": "string",
+      "default": "cleaned",
+      "description": "Requested lifecycle target. If the operator only asks to close out a Change or worktree and does not name a narrower target, resolve this to cleaned before writing the receipt.",
       "enum": [
         "preserved",
         "branch-local-complete",
@@ -73,6 +75,7 @@
         "ready",
         "landed",
         "cleaned",
+        "deferred",
         "blocked",
         "escalated",
         "denied"
@@ -462,7 +465,7 @@
             "enum": ["preserved", "published", "ready", "landed", "cleaned", "blocked", "escalated", "denied"]
           },
           "lifecycle_outcome": {
-            "enum": ["preserved", "published", "ready", "landed", "cleaned", "blocked", "escalated", "denied"]
+            "enum": ["preserved", "published", "ready", "landed", "cleaned", "deferred", "blocked", "escalated", "denied"]
           },
           "publication_status": {
             "enum": ["none", "pr-opened", "pr-ready", "pr-merged"]
@@ -479,7 +482,7 @@
             "enum": ["preserved", "branch-local-complete", "published-branch", "landed", "cleaned", "blocked", "escalated", "denied"]
           },
           "lifecycle_outcome": {
-            "enum": ["preserved", "branch-local-complete", "published-branch", "landed", "cleaned", "blocked", "escalated", "denied"]
+            "enum": ["preserved", "branch-local-complete", "published-branch", "landed", "cleaned", "deferred", "blocked", "escalated", "denied"]
           },
           "publication_status": {
             "enum": ["none", "pushed-branch", "hosted-main-updated"]
@@ -848,7 +851,7 @@
         "properties": {
           "target_lifecycle_outcome": { "const": "cleaned" },
           "lifecycle_outcome": {
-            "enum": ["preserved", "branch-local-complete", "published-branch", "published", "ready", "landed", "blocked", "escalated", "denied"]
+            "enum": ["preserved", "branch-local-complete", "published-branch", "published", "ready", "landed", "deferred", "blocked", "escalated", "denied"]
           }
         },
         "required": ["target_lifecycle_outcome", "lifecycle_outcome"]
@@ -956,11 +959,36 @@
       }
     },
     {
+      "if": {
+        "properties": {
+          "lifecycle_outcome": { "const": "deferred" }
+        },
+        "required": ["lifecycle_outcome"]
+      },
+      "then": {
+        "required": ["remaining_blockers"],
+        "properties": {
+          "integration_status": {
+            "enum": ["not_landed", "not_applicable"]
+          },
+          "cleanup_status": {
+            "enum": ["pending", "deferred", "not_applicable"]
+          },
+          "closeout_outcome": {
+            "enum": ["continued", "stage_only", "blocked", "escalated", "denied"]
+          },
+          "remaining_blockers": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
       "if": { "properties": { "selected_route": { "const": "stage-only-escalate" } } },
       "then": {
         "properties": {
           "lifecycle_outcome": {
-            "enum": ["preserved", "blocked", "escalated", "denied"]
+            "enum": ["preserved", "deferred", "blocked", "escalated", "denied"]
           },
           "target_lifecycle_outcome": {
             "enum": ["preserved", "blocked", "escalated", "denied"]

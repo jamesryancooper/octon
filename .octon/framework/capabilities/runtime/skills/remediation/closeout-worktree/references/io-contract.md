@@ -7,7 +7,8 @@ title: Closeout Worktree I/O Contract
 Inputs:
 
 - Optional `worktree_id`
-- Optional `target_lifecycle_outcome`
+- Optional `target_lifecycle_outcome`; omitted means `cleaned` for generic
+  worktree closeout requests
 - Optional `candidate_limit`
 - Optional `include_paths`
 - Optional `exclude_paths`
@@ -30,6 +31,16 @@ residue, blocker, final disposition, and next route condition.
 The wrapper does not emit a replacement Change receipt. Each completed,
 continued, blocked, escalated, or denied candidate must rely on the singular
 Change receipt or blocker evidence produced by `closeout-change`.
+
+If the operator does not explicitly request a narrower worktree or candidate
+target such as `published-branch`, `branch-local-complete`, `landed`,
+`preserved`, or `blocked`, and does not explicitly request the
+`stage-only-escalate` route, the wrapper must pass
+`target_lifecycle_outcome: cleaned` to each safely separable `closeout-change`
+delegation. Explicit `stage-only-escalate` route requests must be paired with a
+route-compatible target such as `preserved`, `blocked`, or `escalated`. The
+report may still record a lower final candidate disposition when the singular
+receipt proves only a lower outcome.
 
 ## Report Schema
 

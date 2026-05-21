@@ -5,8 +5,9 @@ title: Closeout Change Safety
 # Safety
 
 - Fail closed when route selection is ambiguous.
-- Fail closed when the target lifecycle outcome is ambiguous and the next step
-  would mutate hosted `main`, delete a branch, or overclaim completion.
+- Resolve a generic closeout request to `target_lifecycle_outcome: cleaned`;
+  fail closed only when the operator's requested narrower target conflicts with
+  the selected route or required proof.
 - Preserve unrelated working tree changes.
 - Do not stage files outside the intended Change scope.
 - Do not bypass required validation, review, approval, evidence, or rollback

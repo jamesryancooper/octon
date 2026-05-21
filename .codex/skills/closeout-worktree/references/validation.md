@@ -7,6 +7,8 @@ title: Closeout Worktree Validation
 Successful wrapper execution proves:
 
 - the worktree was inventoried before candidate selection;
+- any omitted worktree-level closeout target was resolved to `cleaned` before
+  candidate delegation;
 - residue classification was read-only and retained or summarized;
 - every observed item has exactly one disposition;
 - each delegated unit was one coherent Change;

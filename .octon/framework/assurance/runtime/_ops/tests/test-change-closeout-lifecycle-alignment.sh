@@ -76,6 +76,15 @@ case_valid_branch_no_pr_published_branch_example_passes() {
   run_validator "$EXAMPLE_DIR/valid-branch-no-pr-published-branch.json"
 }
 
+case_schema_defaults_target_to_cleaned() {
+  local schema="$ROOT_DIR/.octon/framework/product/contracts/change-receipt-v1.schema.json"
+  local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
+  jq -e '.properties.target_lifecycle_outcome.default == "cleaned"' "$schema" >/dev/null &&
+    yq -e '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "cleaned"' "$policy" >/dev/null &&
+    yq -e '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_lifecycle_outcomes[]? | select(. == "published-branch")' "$policy" >/dev/null &&
+    yq -e '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "$policy" >/dev/null
+}
+
 case_invalid_draft_pr_full_closeout_example_fails() {
   ! run_validator "$EXAMPLE_DIR/invalid-draft-pr-claimed-full-closeout.json"
 }
@@ -456,10 +465,38 @@ case_target_landed_downgraded_with_blocker_passes() {
   run_validator "$receipt"
 }
 
+case_default_cleaned_downgraded_to_published_branch_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .not_landed_reason = "Hosted no-PR landing was not proven during this run." | .not_cleaned_reason = "Landing, local main sync, and branch cleanup evidence are missing for cleaned closeout." | .landing_evaluation = {"status":"blocked","blocker_reason":"Hosted no-PR landing was not proven during this run."}'
+  run_validator "$receipt"
+}
+
 case_target_cleaned_downgraded_requires_not_cleaned_reason() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .lifecycle_outcome = "landed" | .closeout_outcome = "continued" | del(.not_cleaned_reason)'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_cleaned_full_evidence_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
+  run_validator "$receipt"
+}
+
+case_deferred_actual_outcome_requires_blocker_evidence() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "deferred" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .not_landed_reason = "Required hosted checks are pending." | .not_cleaned_reason = "Required hosted checks are pending before landing and cleanup." | .landing_evaluation = {"status":"blocked","blocker_reason":"Required hosted checks are pending."} | .external_blocker_refs = ["required hosted checks pending"] | .remaining_blockers = ["Required hosted checks are pending."]'
+  run_validator "$receipt"
+}
+
+case_deferred_actual_outcome_without_blocker_fails() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "deferred" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "deferred" | .not_landed_reason = "Required hosted checks are pending." | .not_cleaned_reason = "Required hosted checks are pending before landing and cleanup." | .landing_evaluation = {"status":"blocked","blocker_reason":"Required hosted checks are pending."} | del(.remaining_blockers)'
   ! run_validator "$receipt"
 }
 
@@ -533,6 +570,7 @@ main() {
   assert_success "valid branch-pr ready example passes" case_valid_branch_pr_ready_example_passes
   assert_success "valid branch-no-pr branch-local example passes" case_valid_branch_no_pr_branch_local_example_passes
   assert_success "valid branch-no-pr published-branch example passes" case_valid_branch_no_pr_published_branch_example_passes
+  assert_success "schema and policy default unspecified target to cleaned" case_schema_defaults_target_to_cleaned
   assert_success "invalid draft PR full closeout example fails" case_invalid_draft_pr_full_closeout_example_fails
   assert_success "invalid pushed-only landed example fails" case_invalid_pushed_only_landed_example_fails
   assert_success "invalid published-branch completed closeout example fails" case_invalid_published_branch_completed_closeout_example_fails
@@ -551,7 +589,11 @@ main() {
   assert_success "landed with pending cleanup remains valid before full closeout" case_landed_pending_cleanup_continued_passes
   assert_success "target landed downgrade requires not_landed_reason" case_target_landed_downgraded_requires_not_landed_reason
   assert_success "target landed downgrade with blocker passes" case_target_landed_downgraded_with_blocker_passes
+  assert_success "default cleaned target can downgrade to explicit published-branch evidence" case_default_cleaned_downgraded_to_published_branch_passes
   assert_success "target cleaned downgrade requires not_cleaned_reason" case_target_cleaned_downgraded_requires_not_cleaned_reason
+  assert_success "branch-no-pr cleaned full evidence passes" case_branch_no_pr_cleaned_full_evidence_passes
+  assert_success "deferred actual outcome with blocker evidence passes" case_deferred_actual_outcome_requires_blocker_evidence
+  assert_success "deferred actual outcome without blocker evidence fails" case_deferred_actual_outcome_without_blocker_fails
   assert_success "completed branch closeout requires source integration evidence" case_completed_branch_requires_source_integration
   assert_success "completed branch closeout requires post-fetch sync evidence" case_completed_branch_requires_post_fetch_sync_evidence
   assert_success "completed branch closeout requires landed-ref containment" case_completed_branch_requires_landed_ref_containment

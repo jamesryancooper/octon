@@ -7,6 +7,8 @@ title: Closeout Change Validation
 Successful closeout proves one route, one target lifecycle outcome, and one
 actual lifecycle outcome:
 
+- an omitted target lifecycle outcome for a generic closeout request was
+  resolved to `cleaned` before route mutation;
 - `direct-main`: commit on current clean `main`, local validation evidence,
   Change receipt, landed ref, cleanup status, and rollback handle exist without
   PR metadata.
@@ -29,7 +31,7 @@ actual lifecycle outcome:
 
 For any landed or cleaned branch outcome, validation must include final
 alignment evidence for local `main`, `origin/main`, and `landed_ref`. A
-branch-based completed closeout must additionally prove source-branch
+  branch-based completed closeout must additionally prove source-branch
 integration into `origin/main`, post-landing `git fetch` evidence, local
 `main` synchronization to `origin/main`, and landed-ref containment in both
 local `main` and `origin/main`. For cleaned targets, validation must include

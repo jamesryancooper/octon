@@ -11,6 +11,24 @@ worktree_wrapper:
   skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
   purpose: "Decompose a dirty worktree into singular Change closeout candidates and orchestrate each safely separable candidate through closeout-change."
   default_work_unit_replacement: false
+closeout_defaults:
+  target_lifecycle_outcome:
+    unspecified_closeout_request: "cleaned"
+    resolution_rule: >-
+      When the operator asks to close out a Change or worktree without naming a
+      narrower lifecycle target, resolve target_lifecycle_outcome to cleaned.
+    explicit_narrower_lifecycle_outcomes:
+      - "published-branch"
+      - "branch-local-complete"
+      - "landed"
+      - "preserved"
+      - "blocked"
+    explicit_narrower_route_requests:
+      - "stage-only-escalate"
+    actual_outcome_rule: >-
+      lifecycle_outcome remains evidence-based. If cleaned cannot be proven,
+      downgrade to the highest supported route-compatible outcome and record the
+      missing proof, blocker, or next-route condition.
 deprecated_terms:
   - term: "work-package"
     replacement: "change-package"
@@ -162,6 +180,7 @@ route_lifecycle_outcomes:
       - "published-branch"
       - "landed"
       - "cleaned"
+      - "deferred"
       - "blocked"
       - "escalated"
       - "denied"
@@ -227,6 +246,7 @@ route_lifecycle_outcomes:
       - "ready"
       - "landed"
       - "cleaned"
+      - "deferred"
       - "blocked"
       - "escalated"
       - "denied"
@@ -275,6 +295,7 @@ route_lifecycle_outcomes:
   stage-only-escalate:
     allowed_outcomes:
       - "preserved"
+      - "deferred"
       - "blocked"
       - "escalated"
       - "denied"
@@ -306,6 +327,7 @@ fail_closed_conditions:
   - "missing_required_validation"
   - "missing_rollback_handle"
   - "missing_change_receipt"
+  - "unspecified_closeout_target_not_resolved_to_cleaned"
   - "completed_or_cleaned_closeout_missing_state_machine_evidence"
   - "provider_ruleset_blocks_requested_hosted_no_pr_landing"
   - "hosted_no_pr_landing_missing_exact_sha_checks"

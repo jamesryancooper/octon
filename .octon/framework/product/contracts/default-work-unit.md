@@ -28,18 +28,25 @@ isolation from `main`, pause/resume safety, multiple commits, handoff,
 elevated-risk validation, protected-surface review, or when repository policy
 requires branch-based handling.
 
-When the operator asks for closeout, `direct-main` and `branch-no-pr` closeout
-include an origin push by default. For `direct-main`, push `main` and verify
-`origin/main` contains the recorded landed ref, then fetch and sync local
-`main` to `origin/main` before declaring closeout complete. For `branch-no-pr`,
-push the source branch for branch-publication closeout or complete the hosted
-no-PR landing path when `landed` is claimed. After any `branch-no-pr` or
-`branch-pr` work lands in `origin/main`, closeout also includes safe branch
-cleanup or an explicit deferred-cleanup blocker, followed by a fetch, local
-`main` sync, and proof that local `main`, `origin/main`, and the recorded
-landed ref are aligned. Skipping the push or cleanup is allowed only for an
-explicit local-only operator instruction or a concrete blocker, and the receipt
-must not claim full hosted closeout.
+When the operator asks for closeout without naming a narrower target outcome or
+route request, the default target lifecycle outcome is `cleaned`. Actual
+lifecycle outcome remains evidence-based: if `cleaned` cannot be proven, the receipt must
+downgrade truthfully to the highest supported route-compatible outcome and
+record the exact blocker, missing proof, or next-route condition. `direct-main`
+and `branch-no-pr` closeout include an origin push by default. For
+`direct-main`, push `main` and verify `origin/main` contains the recorded landed
+ref, then fetch and sync local `main` to `origin/main` before declaring closeout
+complete. For `branch-no-pr`, attempt the full hosted no-PR landing and cleanup
+path needed for `cleaned` unless the operator explicitly requested
+`published-branch`, `branch-local-complete`, `landed`, `preserved`, or
+`blocked`, or explicitly selected the `stage-only-escalate` route, or unless a
+concrete blocker prevents the proof. After
+any `branch-no-pr` or `branch-pr` work lands in `origin/main`, closeout also
+includes safe branch cleanup or an explicit deferred-cleanup blocker, followed
+by a fetch, local `main` sync, and proof that local `main`, `origin/main`, and
+the recorded landed ref are aligned. Skipping the push or cleanup is allowed
+only for an explicit local-only operator instruction or a concrete blocker, and
+the receipt must not claim full hosted closeout.
 
 For solo work, select the fastest safe route. Consider `direct-main` first
 when the Change is low-risk, the operator is on clean current `main`, local
@@ -67,8 +74,10 @@ authoritative policy.
 
 Route selection starts from Change identity and chooses the execution or review
 channel the Change needs. Target lifecycle outcome records what the operator or
-agent is trying to achieve. Lifecycle outcome is recorded separately and
-answers how far through closeout the Change actually progressed.
+agent is trying to achieve; when the operator only asks to "close out" the
+Change or worktree, the default target is `cleaned`. Lifecycle outcome is
+recorded separately and answers how far through closeout the Change actually
+progressed.
 
 The Change Closeout State Machine at
 `.octon/framework/product/contracts/change-closeout-state-machine.yml` binds the
@@ -84,13 +93,18 @@ authorize direct staging, commits, pushes, PRs, landing, deletion, reset,
 restore, or overwrite.
 
 When the operator asks for `branch-no-pr` closeout and does not name a target
-outcome, the agent must clarify whether the request is for pushed-branch
-handoff, hosted no-PR landing, or cleaned closeout. If the target is `landed`
-or `cleaned` but the actual result is only `published-branch`, the receipt must
+outcome, resolve the target to `cleaned` and attempt the full route lifecycle
+needed to prove it. If the operator explicitly requests `published-branch`,
+`branch-local-complete`, `landed`, `preserved`, or `blocked`, honor that
+narrower target. If the operator explicitly requests the `stage-only-escalate`
+route, select that route only when its route preconditions apply and pair it
+with a route-compatible target such as `preserved`, `blocked`, or `escalated`.
+If the target is `landed` or
+`cleaned` but the actual result is only `published-branch`, the receipt must
 record landing evaluation evidence, `closeout_outcome: continued`, and a
 precise `not_landed_reason`. If the target is `cleaned` but cleanup cannot be
-completed or explicitly deferred, the receipt must also record
-`not_cleaned_reason`.
+completed or explicitly deferred, or if proof is missing for full closeout, the
+receipt must also record `not_cleaned_reason`.
 
 - `direct-main`: low-risk solo Change, locally validated, landed directly on
   current clean `main`, pushed to `origin`, with a Change receipt and rollback
@@ -139,6 +153,9 @@ Branch-no-PR outcomes:
   local `main` synchronized to `origin/main`.
 - `cleaned`: local branch, remote branch when present, and worktree cleanup are
   complete or explicitly deferred with evidence.
+- `deferred`: the target remains reachable, but the current run stops before the
+  target outcome because a specific proof, authority, hosted check, sync, or
+  cleanup condition is pending.
 
 PR-backed outcomes:
 
@@ -160,6 +177,9 @@ PR-backed outcomes:
   synchronized to `origin/main`.
 - `cleaned`: local branch, remote branch, and worktree cleanup are complete or
   explicitly deferred with evidence.
+- `deferred`: the target remains reachable, but the current run stops before the
+  target outcome because a specific proof, authority, hosted check, sync, or
+  cleanup condition is pending.
 
 A checkpoint, patch, or branch-local commit must never be reported as landed.
 A draft or open PR must never be reported as full closeout. Landing requires a
