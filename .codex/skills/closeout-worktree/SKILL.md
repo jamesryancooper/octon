@@ -57,7 +57,9 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    `target_lifecycle_outcome: cleaned` to each safely separable candidate.
    For branch-no-pr landing, the delegated `closeout-change` run must own
    hosted preflight, governed landing authorization, hosted mutation, and
-   rollback evidence.
+   rollback evidence. For branch cleanup, the delegated `closeout-change` run
+   must own governed cleanup authorization and any local or remote branch
+   deletion.
 8. **Re-inventory** — After each delegated closeout attempt, re-run inventory
    and classification before selecting another candidate.
 9. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
@@ -95,6 +97,9 @@ candidates must cite a singular `closeout-change` receipt under
 `closeout_outcome` is `completed`. A `published-branch` or
 `branch-local-complete` receipt is a continued handoff and must not be reported
 as `closed`; use `deferred`, `blocked`, or retained evidence instead.
+When a closed branch candidate claims completed source branch cleanup, the
+singular receipt must cite a validating `branch-cleanup-authorization-v1`
+receipt; cleanup-deferred landed branches must not be reported as cleaned.
 Synthetic route labels are not sufficient closeout evidence.
 
 Candidates with `retained`, `deferred`, or `foreign` disposition must have

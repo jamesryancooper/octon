@@ -33,6 +33,10 @@ title: Closeout Change Safety
 - Do not report branch-based full closeout unless source-branch integration
   into `origin/main`, post-landing fetch, local `main` sync to `origin/main`,
   and landed-ref containment in both refs are recorded.
+- Do not delete or prune local or remote source branch refs unless a retained
+  `branch-cleanup-authorization-v1` receipt validates against the current
+  source branch, landed ref, local `main`, `origin/main`, no-open-PR proof, and
+  rollback/discard posture.
 - Do not report a draft, open, or ready PR as full closeout.
 - Do not claim cleanup unless local branch, remote branch when present, and
   worktree cleanup evidence exists or a deferred-cleanup record is written.

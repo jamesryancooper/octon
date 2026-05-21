@@ -254,6 +254,72 @@ def load_closeout_change_receipt(ref, field, require_receipt=False):
     return loaded
 
 
+def resolve_receipt_ref(ref, field):
+    if not is_nonempty_string(ref):
+        fail(f"{field} must be a non-empty evidence ref")
+        return None
+    if ref.startswith("evidence://"):
+        value = f".octon/state/evidence/{ref.removeprefix('evidence://')}"
+        validate_repo_path(value, field)
+        path = PurePosixPath(value)
+        if path.is_absolute() or ".." in path.parts:
+            return None
+        return EVIDENCE_ROOT / Path(*path.parts)
+    if ref.startswith("/"):
+        return Path(ref)
+    validate_repo_path(ref, field)
+    path = PurePosixPath(ref)
+    if path.is_absolute() or ".." in path.parts:
+        return None
+    return EVIDENCE_ROOT / Path(*path.parts)
+
+
+def validate_cleanup_authorization(receipt, field):
+    auth_ref = receipt.get("cleanup_authorization_ref")
+    if not is_nonempty_string(auth_ref):
+        fail(f"{field} completed source branch cleanup requires cleanup_authorization_ref")
+        return False
+    auth_path = resolve_receipt_ref(auth_ref, f"{field}.cleanup_authorization_ref")
+    if auth_path is None:
+        return False
+    if not auth_path.is_file():
+        fail(f"{field}.cleanup_authorization_ref must resolve to an existing cleanup authorization receipt")
+        return False
+    try:
+        auth = json.loads(auth_path.read_text())
+    except Exception as exc:
+        fail(f"{field}.cleanup_authorization_ref must parse as JSON: {exc}")
+        return False
+    if not isinstance(auth, dict):
+        fail(f"{field}.cleanup_authorization_ref must be a JSON object")
+        return False
+
+    main_alignment = receipt.get("main_alignment") if isinstance(receipt.get("main_alignment"), dict) else {}
+    expected = {
+        "schema_version": "branch-cleanup-authorization-v1",
+        "authorization_result": "approved",
+        "selected_route": receipt.get("selected_route"),
+        "target_lifecycle_outcome": "cleaned",
+        "source_branch": receipt.get("source_branch_ref"),
+        "landed_ref": receipt.get("landed_ref"),
+        "origin_main_ref": main_alignment.get("origin_main_ref"),
+        "local_main_ref": main_alignment.get("local_main_ref"),
+        "local_main_synced_to_origin_main": True,
+        "origin_main_contains_landed_ref": True,
+        "local_main_contains_landed_ref": True,
+        "source_branch_contained_in_origin_main": True,
+        "source_branch_protected": False,
+        "open_pr_count": 0,
+        "cleanup_policy_allowed": True,
+        "host_controls_not_bypassed": True,
+    }
+    for key, expected_value in expected.items():
+        if auth.get(key) != expected_value:
+            fail(f"{field}.cleanup_authorization_ref {key} must match completed branch cleanup evidence")
+            return False
+    return True
+
+
 def receipt_has_completed_full_closeout(ref, field):
     receipt = load_closeout_change_receipt(ref, field, require_receipt=True)
     if not isinstance(receipt, dict):
@@ -334,6 +400,8 @@ def receipt_has_completed_full_closeout(ref, field):
             if not has_cleanup_evidence:
                 fail(f"{field} deferred source branch cleanup requires blocker evidence")
                 return False
+        if source_cleanup.get("status") == "completed" and not validate_cleanup_authorization(receipt, field):
+            return False
 
     return True
 

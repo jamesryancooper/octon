@@ -192,12 +192,23 @@ helpers:
   git_branch_land_hosted_no_pr:
     route_guard: "branch-no-pr only"
     posture: "fast-forward-only hosted no-PR landing helper requiring governed authorization"
+  git_branch_authorize_cleanup:
+    route_guard: "branch-no-pr or branch-pr only"
+    posture: "governed branch cleanup authorization helper"
+    safety:
+      - "performs no cleanup mutation"
+      - "requires source branch changes integrated into origin/main"
+      - "requires local main synchronized to origin/main"
+      - "requires landed ref containment in local main and origin/main"
+      - "requires no protected source branch and no open PR"
+      - "requires retained rollback posture"
   git_branch_cleanup:
     route_guard: "branch-no-pr or branch-pr only"
-    posture: "branch and worktree cleanup helper without requiring PR metadata"
+    posture: "branch and worktree cleanup helper requiring governed branch-cleanup authorization"
     safety:
       - "refuses protected branch names"
       - "requires retained rollback posture for mutating cleanup"
+      - "requires branch-cleanup-authorization-v1 before mutating cleanup"
       - "requires origin/main containment before deleting local or remote refs"
       - "blocks cleanup when no-open-PR proof cannot be completed or an open PR exists"
       - "syncs local main to origin/main after cleanup unless explicitly skipped"
@@ -214,6 +225,7 @@ validation:
     - "branch-no-pr hosted landing claim without provider route-neutral ruleset evidence"
     - "branch-no-pr hosted landing claim without exact source SHA checks"
     - "branch-no-pr hosted landing mutation without governed landing authorization"
+    - "branch cleanup mutation without governed branch cleanup authorization"
     - "branch-no-pr hosted landing claim without origin/main equality"
     - "published-branch reported as completed closeout"
     - "target landed or cleaned outcome missing landing evaluation or blocker reason"

@@ -13,6 +13,7 @@ policy_refs:
   default_work_unit_policy_ref: ".octon/framework/product/contracts/default-work-unit.yml"
   receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
   branch_landing_authorization_schema_ref: ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"
+  branch_cleanup_authorization_schema_ref: ".octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
   closeout_workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
   closeout_change_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
   closeout_worktree_wrapper_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
@@ -224,11 +225,13 @@ phases:
       - "branch contained in origin/main"
       - "no open PR"
       - "rollback or discard handle retained"
+      - "governed branch cleanup authorization receipt when cleanup mutates local or remote refs"
       - "local and remote cleanup status recorded"
     stop_or_escalation_conditions:
       - "containment cannot be proven"
       - "no-open-PR status cannot be proven"
       - "rollback posture cannot be proven"
+      - "governed branch cleanup authorization receipt missing, malformed, stale, denied, or mismatched"
   - phase_id: "receipt-and-evidence"
     mode: "loop"
     route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
@@ -288,6 +291,7 @@ evidence_gates:
     required:
       - "landed ref or explicitly non-landing outcome"
       - "branch cleanup and worktree cleanup completed or explicitly deferred"
+      - "governed branch cleanup authorization evidence when cleanup mutates local or remote refs"
       - "cleanup safety evidence"
       - "post-landing fetch and local main sync evidence when landed"
       - "origin/main and local main containment of landed_ref when landed"

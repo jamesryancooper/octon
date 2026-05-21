@@ -11,6 +11,7 @@ STATE_MACHINE="$OCTON_DIR/framework/product/contracts/change-closeout-state-mach
 STATE_MACHINE_MD="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.md"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
 AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
+CLEANUP_AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"
 RECEIPT_EXAMPLES_DIR="$OCTON_DIR/framework/product/contracts/examples/change-receipts"
 VALID_DIRECT_MAIN_LANDED="$RECEIPT_EXAMPLES_DIR/valid-direct-main-landed.json"
 VALID_BRANCH_PR_READY="$RECEIPT_EXAMPLES_DIR/valid-branch-pr-ready.json"
@@ -30,6 +31,7 @@ BRANCH_COMMIT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-
 BRANCH_PUSH_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-push.sh"
 BRANCH_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-land.sh"
 BRANCH_CLEANUP_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
+BRANCH_CLEANUP_AUTH_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh"
 REQUIRED_CHECKS_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh"
 HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
 HOSTED_AUTH_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
@@ -138,7 +140,7 @@ resolve_ref_path() {
 }
 
 validate_contracts() {
-  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT"; do
+  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$CLEANUP_AUTHORIZATION_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$BRANCH_CLEANUP_AUTH_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT"; do
     require_file "$file"
   done
 
@@ -162,10 +164,19 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_evaluation.properties.status.enum[] | select(. == "blocked")' "receipt schema models landing evaluation" "receipt schema must model landing evaluation"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization ref" "receipt schema must model landing_authorization_ref"
   require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
+  require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_authorization_ref' "receipt schema models governed cleanup authorization ref" "receipt schema must model cleanup_authorization_ref"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "cleanup_authorization_ref")' "receipt schema requires governed authorization for completed branch cleanup" "receipt schema must require cleanup_authorization_ref for completed branch cleanup claims"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.authorization_result.enum[] | select(. == "approved")' "authorization schema models approval result" "authorization schema must model approved authorization"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
   require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host safety controls" "authorization schema must preserve host safety controls"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-cleanup-authorization-v1"' "cleanup authorization schema has stable version" "cleanup authorization schema must define branch-cleanup-authorization-v1"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.target_lifecycle_outcome.const == "cleaned"' "cleanup authorization schema scopes cleanup to cleaned target" "cleanup authorization schema must scope cleanup to cleaned target"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.local_main_synced_to_origin_main.const == true' "cleanup authorization requires local main sync proof" "cleanup authorization schema must require local main sync proof"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.source_branch_contained_in_origin_main.const == true' "cleanup authorization requires source branch containment proof" "cleanup authorization schema must require source branch containment proof"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.source_branch_protected.const == false' "cleanup authorization forbids protected branch cleanup" "cleanup authorization schema must forbid protected branch cleanup"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.open_pr_count.const == 0' "cleanup authorization requires no-open-PR proof" "cleanup authorization schema must require no-open-PR proof"
+  require_jq "$CLEANUP_AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "cleanup authorization preserves host safety controls" "cleanup authorization schema must preserve host safety controls"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.required[] | select(. == "origin_main_ref")' "receipt schema models final main alignment" "receipt schema must model final main alignment"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.origin_fetch_evidence_ref' "receipt schema models post-landing origin fetch evidence" "receipt schema must model post-landing origin fetch evidence"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_sync_evidence_ref' "receipt schema models local main sync evidence" "receipt schema must model local main sync evidence"
@@ -184,6 +195,7 @@ validate_contracts() {
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[]? | select(. == "landed")' "branch-no-pr supports landed lifecycle outcome" "branch-no-pr must support landed lifecycle outcome"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "provider_ruleset_allows_route_neutral_fast_forward_update")' "branch-no-pr landed requires route-neutral provider rules" "branch-no-pr landed must require route-neutral provider rules"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "governed_landing_authorization_receipt")' "branch-no-pr landed requires governed authorization" "branch-no-pr landed must require governed landing authorization"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".cleaned_requires[]? | select(. == "governed_branch_cleanup_authorization_receipt_when_cleanup_mutates_refs")' "branch-no-pr cleaned requires governed cleanup authorization" "branch-no-pr cleaned must require governed cleanup authorization"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "landing_authorization_matches_source_ref_and_origin_main_pre_ref")' "branch-no-pr landed requires current authorization refs" "branch-no-pr landed must require authorization to match source and origin/main pre-ref"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "branch-no-pr landed requires origin/main equality" "branch-no-pr landed must require origin/main equality"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "branch-no-pr landed requires source branch integration evidence" "branch-no-pr landed must require source branch integration evidence"
@@ -194,6 +206,7 @@ validate_contracts() {
   require_yq "$POLICY" '.state_machine_ref == ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "policy references Change Closeout State Machine" "policy must reference Change Closeout State Machine"
   require_yq "$STATE_MACHINE" '.state_machine_id == "change-closeout-state-machine"' "state machine contract has stable id" "state machine contract must have stable id"
   require_yq "$STATE_MACHINE" '.policy_refs.branch_landing_authorization_schema_ref == ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"' "state machine references branch landing authorization schema" "state machine must reference branch landing authorization schema"
+  require_yq "$STATE_MACHINE" '.policy_refs.branch_cleanup_authorization_schema_ref == ".octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"' "state machine references branch cleanup authorization schema" "state machine must reference branch cleanup authorization schema"
   require_yq "$STATE_MACHINE" '.relationship_to_default_work_unit.dirty_worktree_wrapper.default_work_unit_replacement == false' "state machine keeps Closeout Worktree as wrapper" "state machine must keep Closeout Worktree as wrapper"
   require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.unspecified_closeout_request == "cleaned"' "state machine defaults unspecified closeout target to cleaned" "state machine must default unspecified closeout target to cleaned"
   require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.explicit_narrower_lifecycle_targets[]? | select(. == "published-branch")' "state machine separates narrower lifecycle targets from route requests" "state machine must separate narrower lifecycle targets from route requests"
@@ -218,6 +231,8 @@ validate_contracts() {
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_landed_or_cleaned_without_landing_evaluation")' "policy fails closed on missing landing evaluation for landing targets" "policy must fail closed on missing landing evaluation for landing targets"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_without_valid_governed_authorization")' "policy fails closed without governed landing authorization" "policy must fail closed without governed landing authorization"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "policy fails closed on stale or denied authorization" "policy must fail closed on stale or denied landing authorization"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_without_valid_governed_authorization")' "policy fails closed without governed cleanup authorization" "policy must fail closed without governed cleanup authorization"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_with_stale_or_denied_authorization")' "policy fails closed on stale or denied cleanup authorization" "policy must fail closed on stale or denied cleanup authorization"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "stale_remote_branch_ref_in_closeout_receipt")' "policy fails closed on stale recorded remote branch refs" "policy must fail closed on stale recorded remote branch refs"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "post_landing_local_main_not_synced_to_origin_main")' "policy fails closed on missing post-landing local main sync" "policy must fail closed on missing post-landing local main sync"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_attempts_protected_active_unmerged_open_pr_or_unretained_rollback_ref")' "policy fails closed on unsafe branch cleanup" "policy must fail closed on unsafe branch cleanup"
@@ -269,9 +284,12 @@ validate_contracts() {
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "requires retained rollback posture for mutating cleanup")' "worktree contract requires retained rollback posture before cleanup" "worktree contract must require retained rollback posture before cleanup"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "blocks cleanup when no-open-PR proof cannot be completed or an open PR exists")' "worktree contract blocks open-PR or unprovable no-PR cleanup" "worktree contract must block open-PR or unprovable no-PR cleanup"
   require_literal "$BRANCH_CLEANUP_SCRIPT" "Refusing to clean up protected branch" "branch cleanup helper refuses protected branches" "branch cleanup helper must refuse protected branches"
+  require_literal "$BRANCH_CLEANUP_SCRIPT" "branch-cleanup-authorization-v1" "branch cleanup helper requires governed cleanup authorization" "branch cleanup helper must require governed cleanup authorization"
   require_literal "$BRANCH_CLEANUP_SCRIPT" "origin/main containment" "branch cleanup helper emits origin/main containment evidence" "branch cleanup helper must emit origin/main containment evidence"
   require_literal "$BRANCH_CLEANUP_SCRIPT" "retained rollback" "branch cleanup helper requires retained rollback posture" "branch cleanup helper must require retained rollback posture"
   require_literal "$BRANCH_CLEANUP_SCRIPT" "open PR exists" "branch cleanup helper refuses open-PR branches" "branch cleanup helper must refuse open-PR branches"
+  require_literal "$BRANCH_CLEANUP_AUTH_SCRIPT" "branch-cleanup-authorization-v1" "branch cleanup authorization helper emits governed authorization" "branch cleanup authorization helper must emit governed authorization"
+  require_literal "$BRANCH_CLEANUP_AUTH_SCRIPT" "does not bypass platform, sandbox, provider, or host safety controls" "branch cleanup authorization helper records runtime safety boundary" "branch cleanup authorization helper must record runtime safety boundary"
   require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "hosted preflight blocks PR-required provider rules" "hosted preflight must block PR-required provider rules"
   require_literal "$HOSTED_AUTH_SCRIPT" "branch-landing-authorization-v1" "hosted authorization helper emits governed authorization" "hosted authorization helper must emit governed authorization"
   require_literal "$HOSTED_AUTH_SCRIPT" "does not bypass platform, sandbox, or host safety controls" "hosted authorization helper records runtime safety boundary" "hosted authorization helper must record runtime safety boundary"
@@ -321,6 +339,53 @@ validate_landing_authorization_ref() {
   jq -e '.required_check_refs | type == "array" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records exact-SHA check evidence" || fail "landing authorization requires check evidence"
   jq -e '.rollback_handle | type == "string" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records rollback handle" || fail "landing authorization requires rollback handle"
   jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization preserves host controls" || fail "landing authorization must preserve host controls"
+}
+
+validate_cleanup_authorization_ref() {
+  local auth_ref auth_path route source_branch landed_ref origin_main_ref local_main_ref rollback_ref rollback_kind rollback_expected remote
+  auth_ref="$(json_value '.cleanup_authorization_ref')"
+  json_has_nonempty '.cleanup_authorization_ref' && pass "completed branch cleanup has cleanup authorization ref" || { fail "completed branch cleanup requires cleanup_authorization_ref"; return; }
+  auth_path="$(resolve_ref_path "$auth_ref")" || { fail "cleanup_authorization_ref cannot be resolved"; return; }
+  [[ -f "$auth_path" ]] || { fail "cleanup authorization receipt resolves to an existing file"; return; }
+  jq -e '.' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization parses as JSON" || { fail "cleanup authorization parses as JSON"; return; }
+
+  route="$(json_value '.selected_route')"
+  source_branch="$(json_value '.source_branch_ref')"
+  landed_ref="$(json_value '.landed_ref')"
+  origin_main_ref="$(json_value '.main_alignment.origin_main_ref')"
+  local_main_ref="$(json_value '.main_alignment.local_main_ref')"
+  rollback_kind="$(json_value '.rollback_handle.kind')"
+  rollback_ref="$(json_value '.rollback_handle.ref')"
+  rollback_expected="${rollback_kind}:${rollback_ref}"
+  remote="$(json_value '.hosted_landing.remote')"
+  [[ -n "$remote" ]] || remote="origin"
+
+  jq -e '.schema_version == "branch-cleanup-authorization-v1"' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization schema version valid" || fail "cleanup authorization schema_version must be branch-cleanup-authorization-v1"
+  jq -e '.authorization_result == "approved"' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization is approved" || fail "cleanup authorization must be approved"
+  [[ "$(jq -r '.selected_route // ""' "$auth_path")" == "$route" ]] && pass "cleanup authorization route matches receipt" || fail "cleanup authorization route must match receipt selected_route"
+  jq -e '.target_lifecycle_outcome == "cleaned"' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization target is cleaned" || fail "cleanup authorization target must be cleaned"
+  [[ "$(jq -r '.remote // ""' "$auth_path")" == "$remote" ]] && pass "cleanup authorization remote matches receipt" || fail "cleanup authorization remote must match receipt remote"
+  [[ "$(jq -r '.base_branch // ""' "$auth_path")" == "main" ]] && pass "cleanup authorization base branch is main" || fail "cleanup authorization base_branch must be main"
+  [[ "$(jq -r '.source_branch // ""' "$auth_path")" == "$source_branch" ]] && pass "cleanup authorization source branch matches receipt" || fail "cleanup authorization source_branch must match source_branch_ref"
+  [[ "$(jq -r '.landed_ref // ""' "$auth_path")" == "$landed_ref" ]] && pass "cleanup authorization landed ref matches receipt" || fail "cleanup authorization landed_ref must match receipt landed_ref"
+  [[ "$(jq -r '.origin_main_ref // ""' "$auth_path")" == "$origin_main_ref" ]] && pass "cleanup authorization origin/main ref matches final alignment" || fail "cleanup authorization origin_main_ref must match main_alignment.origin_main_ref"
+  [[ "$(jq -r '.local_main_ref // ""' "$auth_path")" == "$local_main_ref" ]] && pass "cleanup authorization local main ref matches final alignment" || fail "cleanup authorization local_main_ref must match main_alignment.local_main_ref"
+  if [[ -n "$rollback_ref" ]]; then
+    if [[ "$(jq -r '.rollback_handle // ""' "$auth_path")" == "$rollback_ref" || "$(jq -r '.rollback_handle // ""' "$auth_path")" == "$rollback_expected" ]]; then
+      pass "cleanup authorization rollback handle matches receipt"
+    else
+      fail "cleanup authorization rollback_handle must match receipt rollback handle"
+    fi
+  else
+    fail "cleanup authorization comparison requires receipt rollback_handle.ref"
+  fi
+  jq -e '.local_main_synced_to_origin_main == true' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization proves local main sync" || fail "cleanup authorization must prove local main sync"
+  jq -e '.origin_main_contains_landed_ref == true and .local_main_contains_landed_ref == true' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization proves landed-ref containment" || fail "cleanup authorization must prove landed-ref containment"
+  jq -e '.source_branch_contained_in_origin_main == true' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization proves source branch containment" || fail "cleanup authorization must prove source branch containment"
+  jq -e '.source_branch_protected == false' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization proves source branch is not protected" || fail "cleanup authorization must prove source branch is not protected"
+  jq -e '.open_pr_count == 0' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization proves no open PR" || fail "cleanup authorization must prove no open PR"
+  jq -e '.cleanup_policy_allowed == true' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization proves cleanup policy allowed" || fail "cleanup authorization must prove cleanup policy allowed"
+  jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "cleanup authorization preserves host controls" || fail "cleanup authorization must preserve host controls"
 }
 
 validate_receipt() {
@@ -640,6 +705,9 @@ validate_receipt() {
         completed|deferred|skipped) pass "source branch cleanup disposition is terminal or explicitly deferred" ;;
         *) fail "source_branch_cleanup.status must be completed, deferred, or skipped for completed closeout" ;;
       esac
+      if [[ "$cleanup_disposition" == "completed" ]]; then
+        validate_cleanup_authorization_ref
+      fi
       if [[ "$cleanup_disposition" == "deferred" ]]; then
         json_has_nonempty '.source_branch_cleanup.blocker_reason' && pass "deferred source branch cleanup records blocker reason" || fail "deferred source branch cleanup requires blocker_reason"
         if json_array_nonempty '.source_branch_cleanup.evidence_refs' || json_array_nonempty '.cleanup_evidence_refs' || json_array_nonempty '.external_blocker_refs'; then

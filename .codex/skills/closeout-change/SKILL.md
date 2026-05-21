@@ -14,7 +14,7 @@ metadata:
   updated: "2026-05-05"
 skill_sets: [executor, collaborator, guardian, integrator]
 capabilities: [external-dependent, stateful, safety-bounded, self-validating]
-allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git rev-parse *) Bash(git branch *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git rev-parse *) Bash(git branch *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-cleanup.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Closeout Change
@@ -67,8 +67,8 @@ Execute the Change Closeout State Machine phase loop from
 9. **PR-Backed Delegation** — Invoke `closeout-pr` only when selected route is
    `branch-pr`.
 10. **Branch Cleanup** — For landed branch routes, prove `origin/main`
-    containment, no-open-PR status, rollback/discard posture, and local/remote
-    cleanup status.
+    containment, no-open-PR status, rollback/discard posture, governed cleanup
+    authorization, and local/remote cleanup status.
 11. **Receipt And Evidence** — Produce or update a Change receipt shaped by
     `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
     Completed or cleaned claims require `stateful_closeout` evidence.
@@ -124,9 +124,19 @@ Execute the Change Closeout State Machine phase loop from
   controls.
 - Post-Landing Cleanup And Sync: after landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
   otherwise verified as contained in `origin/main`, clean up obsolete local and
-  remote source branches that are safe to delete. Never delete protected
-  branches, active work branches, unmerged branches, open-PR branches, or
-  branches whose evidence and rollback posture are not retained.
+  remote source branches only after emitting or referencing a validating
+  `branch-cleanup-authorization-v1` receipt. Never delete protected branches,
+  active work branches, unmerged branches, open-PR branches, or branches whose
+  evidence and rollback posture are not retained.
+- Branch cleanup authorization must prove the source branch changes are
+  integrated into `origin/main`, local `main` is synchronized to `origin/main`,
+  the recorded `landed_ref` is contained in both refs, the source branch is not
+  protected, no open PR exists, rollback/discard posture is retained, cleanup
+  policy allows the mutation, and host/platform safety controls are not
+  bypassed.
+- If branch cleanup authorization is missing, malformed, stale, denied, or
+  mismatched, do not delete or prune refs. Report `landed`, `deferred`, or
+  `blocked` with blocker evidence instead of `cleaned`.
 - If branch cleanup cannot be completed safely, keep the branch, record the
   exact blocker, and set cleanup disposition to deferred or blocked instead of
   claiming cleaned/full closeout.
@@ -137,8 +147,8 @@ Execute the Change Closeout State Machine phase loop from
   that the source branch changes are integrated into `origin/main`; a
   post-landing fetch occurred; local `main` was updated to match
   `origin/main`; the recorded `landed_ref` is contained in both local `main`
-  and `origin/main`; and branch cleanup is completed or explicitly deferred
-  with blocker evidence.
+  and `origin/main`; and branch cleanup is completed with governed cleanup
+  authorization or explicitly deferred with blocker evidence.
 - After cleanup is completed or explicitly deferred, fetch from origin, sync
   local `main` to `origin/main`, verify local `main`, `origin/main`, and the
   recorded `landed_ref` are aligned, and record containment evidence before

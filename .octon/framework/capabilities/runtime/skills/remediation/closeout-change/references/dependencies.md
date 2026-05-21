@@ -5,7 +5,8 @@ title: Closeout Change Dependencies
 # Dependencies
 
 - `git` for local status, diff, branch, commit, and rollback handle discovery.
-- Branch-only git helpers for branch-local commit, push, landing, and cleanup
+- Branch-only git helpers for branch-local commit, push, governed landing
+  authorization, hosted landing, governed cleanup authorization, and cleanup
   when `branch-no-pr` selects those lifecycle outcomes.
 - `gh` only when the selected route is `branch-pr` or the task starts from an
   existing PR.

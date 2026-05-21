@@ -35,6 +35,10 @@ When a delegated candidate lands through hosted `branch-no-pr`, that singular
 receipt must carry the governed landing authorization reference required by
 `closeout-change`; the wrapper report may cite it only through the singular
 receipt and must not authorize hosted mutation itself.
+When a delegated candidate cleans up a local or remote source branch, that
+singular receipt must carry the governed cleanup authorization reference
+required by `closeout-change`; the wrapper report may cite it only through the
+singular receipt and must not authorize branch deletion itself.
 
 If the operator does not explicitly request a narrower worktree or candidate
 target such as `published-branch`, `branch-local-complete`, `landed`,
@@ -100,6 +104,10 @@ orchestration iteration, resolves under
 `/.octon/state/evidence/runs/skills/closeout-change/`, and records
 `closeout_outcome: completed`. A branch receipt with `branch-local-complete` or
 `published-branch` is a continued handoff, not closed wrapper disposition.
+When the receipt claims completed source branch cleanup, it must also cite a
+validating `branch-cleanup-authorization-v1` receipt. A cleanup-deferred landed
+receipt may be closed as landed only when it is not reported as cleaned and
+retains blocker evidence for cleanup deferral.
 Delegated candidates may cite retained closeout-change evidence, but synthetic
 route labels do not prove delegation.
 

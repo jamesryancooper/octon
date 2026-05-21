@@ -131,6 +131,10 @@
       "type": "string",
       "minLength": 1
     },
+    "cleanup_authorization_ref": {
+      "type": "string",
+      "minLength": 1
+    },
     "landing_evaluation": {
       "type": "object",
       "additionalProperties": false,
@@ -920,6 +924,26 @@
             }
           }
         ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "selected_route": {
+            "enum": ["branch-no-pr", "branch-pr"]
+          },
+          "source_branch_cleanup": {
+            "properties": {
+              "status": { "const": "completed" }
+            },
+            "required": ["status"]
+          },
+          "cleanup_status": { "const": "completed" }
+        },
+        "required": ["selected_route", "source_branch_cleanup", "cleanup_status"]
+      },
+      "then": {
+        "required": ["cleanup_authorization_ref"]
       }
     },
     {

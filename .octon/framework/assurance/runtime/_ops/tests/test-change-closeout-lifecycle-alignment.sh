@@ -85,6 +85,48 @@ attach_valid_landing_authorization() {
   printf '%s\n' "$auth"
 }
 
+attach_valid_cleanup_authorization() {
+  local receipt="$1"
+  local auth tmp
+  auth="$(mktemp)"
+  CLEANUP_FILES+=("$auth")
+  jq '{
+    schema_version: "branch-cleanup-authorization-v1",
+    authorization_id: ("fixture-cleanup-" + .change_id),
+    authorization_result: "approved",
+    selected_route: .selected_route,
+    target_lifecycle_outcome: "cleaned",
+    remote: (.hosted_landing.remote // "origin"),
+    base_branch: "main",
+    source_branch: .source_branch_ref,
+    landed_ref: .landed_ref,
+    origin_main_ref: .main_alignment.origin_main_ref,
+    local_main_ref: .main_alignment.local_main_ref,
+    local_source_ref: (.source_branch_integration.source_ref // .landed_ref),
+    remote_source_ref: (.source_branch_integration.source_ref // .landed_ref),
+    local_branch_exists: true,
+    remote_branch_exists: true,
+    local_main_synced_to_origin_main: true,
+    origin_main_contains_landed_ref: true,
+    local_main_contains_landed_ref: true,
+    source_branch_contained_in_origin_main: true,
+    source_branch_protected: false,
+    open_pr_count: 0,
+    rollback_handle: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .landed_ref)),
+    cleanup_policy_allowed: true,
+    delete_remote_requested: true,
+    remove_worktrees_requested: true,
+    sync_main_requested: true,
+    host_controls_not_bypassed: true,
+    runtime_safety_boundary: "Octon cleanup authorization is required before branch deletion, but it does not bypass platform, sandbox, provider, or host safety controls.",
+    created_at: .created_at
+  }' "$receipt" >"$auth"
+  tmp="$(mktemp)"
+  jq --arg auth "$auth" '.cleanup_authorization_ref = $auth' "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+  printf '%s\n' "$auth"
+}
+
 run_validator() {
   bash "$VALIDATOR" --receipt "$1" >/dev/null
 }
@@ -517,7 +559,33 @@ case_branch_no_pr_cleaned_full_evidence_passes() {
   local receipt
   receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
   rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
+  attach_valid_cleanup_authorization "$receipt" >/dev/null
   run_validator "$receipt"
+}
+
+case_branch_no_pr_cleaned_requires_cleanup_authorization() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason, .cleanup_authorization_ref)'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_cleaned_rejects_denied_cleanup_authorization() {
+  local receipt auth
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
+  auth="$(attach_valid_cleanup_authorization "$receipt")"
+  rewrite_json_file "$auth" '.authorization_result = "denied"'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_cleaned_rejects_stale_cleanup_authorization() {
+  local receipt auth
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .cleanup_status = "completed" | .cleanup_evidence_refs = ["source branch cleanup completed after origin/main containment"] | .source_branch_cleanup.status = "completed" | .source_branch_cleanup.evidence_refs = ["source branch cleanup completed after origin/main containment"] | del(.source_branch_cleanup.blocker_reason)'
+  auth="$(attach_valid_cleanup_authorization "$receipt")"
+  rewrite_json_file "$auth" '.landed_ref = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"'
+  ! run_validator "$receipt"
 }
 
 case_deferred_actual_outcome_requires_blocker_evidence() {
@@ -649,6 +717,9 @@ main() {
   assert_success "default cleaned target can downgrade to explicit published-branch evidence" case_default_cleaned_downgraded_to_published_branch_passes
   assert_success "target cleaned downgrade requires not_cleaned_reason" case_target_cleaned_downgraded_requires_not_cleaned_reason
   assert_success "branch-no-pr cleaned full evidence passes" case_branch_no_pr_cleaned_full_evidence_passes
+  assert_success "branch-no-pr cleaned requires governed cleanup authorization" case_branch_no_pr_cleaned_requires_cleanup_authorization
+  assert_success "branch-no-pr cleaned rejects denied cleanup authorization" case_branch_no_pr_cleaned_rejects_denied_cleanup_authorization
+  assert_success "branch-no-pr cleaned rejects stale cleanup authorization" case_branch_no_pr_cleaned_rejects_stale_cleanup_authorization
   assert_success "deferred actual outcome with blocker evidence passes" case_deferred_actual_outcome_requires_blocker_evidence
   assert_success "deferred actual outcome without blocker evidence fails" case_deferred_actual_outcome_without_blocker_fails
   assert_success "completed branch closeout requires source integration evidence" case_completed_branch_requires_source_integration

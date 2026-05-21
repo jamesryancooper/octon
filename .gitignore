@@ -49,6 +49,8 @@ logs/
 
 # Runtime and service run records
 runs/
+!.octon/generated/cognition/projections/materialized/runs/
+!.octon/generated/cognition/projections/materialized/runs/**
 !.octon/state/continuity/runs/
 !.octon/state/continuity/runs/**
 !.octon/state/control/execution/runs/

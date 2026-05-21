@@ -159,9 +159,11 @@ Branch-no-PR outcomes:
   rollback handle, and post-push proof that `origin/main` equals the recorded
   landed ref. Full closeout after landing requires cleanup completion or an
   explicit deferred-cleanup blocker plus local `main` synchronized to
-  `origin/main`.
+  `origin/main`; cleanup that deletes or prunes branch refs requires a
+  governed branch cleanup authorization receipt.
 - `cleaned`: local branch, remote branch when present, and worktree cleanup are
-  complete or explicitly deferred with evidence.
+  complete with governed cleanup authorization when branch refs are mutated, or
+  explicitly deferred with evidence.
 - `deferred`: the target remains reachable, but the current run stops before the
   target outcome because a specific proof, authority, hosted check, sync, or
   cleanup condition is pending.
@@ -183,9 +185,11 @@ PR-backed outcomes:
 - `landed`: the PR is merged into `main` and `origin/main` is fetched and
   verified to contain the merged result. Full closeout after landing requires
   cleanup completion or an explicit deferred-cleanup blocker plus local `main`
-  synchronized to `origin/main`.
+  synchronized to `origin/main`; cleanup that deletes or prunes branch refs
+  requires a governed branch cleanup authorization receipt.
 - `cleaned`: local branch, remote branch, and worktree cleanup are complete or
-  explicitly deferred with evidence.
+  explicitly deferred with evidence, and source branch ref mutation requires
+  governed cleanup authorization.
 - `deferred`: the target remains reachable, but the current run stops before the
   target outcome because a specific proof, authority, hosted check, sync, or
   cleanup condition is pending.
@@ -210,16 +214,18 @@ merge ref is verified as contained in `origin/main`:
 
 1. Verify `origin/main` contains the landed commit or merge ref.
 2. Verify required post-landing checks and closeout evidence are complete.
-3. Delete only obsolete local and remote source branches that are safe to
+3. Emit or reference a `branch-cleanup-authorization-v1` receipt before any
+   local or remote source branch deletion or pruning.
+4. Delete only obsolete local and remote source branches that are safe to
    delete.
-4. Do not delete protected branches, active work branches, unmerged branches,
+5. Do not delete protected branches, active work branches, unmerged branches,
    open-PR branches, or branches whose evidence and rollback posture are not
    retained.
-5. If cleanup cannot be completed safely, record the precise blocker and
+6. If cleanup cannot be completed safely, record the precise blocker and
    cleanup disposition in the Change receipt.
-6. After cleanup is complete or explicitly deferred, fetch from origin and sync
+7. After cleanup is complete or explicitly deferred, fetch from origin and sync
    local `main` to `origin/main`.
-7. Verify local `main`, `origin/main`, and the recorded landed ref are aligned
+8. Verify local `main`, `origin/main`, and the recorded landed ref are aligned
    before declaring closeout complete.
 
 For `direct-main`, there is no source-branch cleanup requirement, but closeout
@@ -286,6 +292,15 @@ landing helper. If the execution environment still requires a late external
 approval after the authorization validates, record that runtime approval
 boundary as an execution-environment blocker and do not overclaim landing.
 
+Branch cleanup must fail closed unless a current governed
+`branch-cleanup-authorization-v1` receipt validates before deleting or pruning
+local or remote source branch refs. The authorization must prove source branch
+changes are integrated into `origin/main`, local `main` is synchronized to
+`origin/main`, the landed ref is contained in both refs, the source branch is
+not protected, no open PR exists, rollback/discard posture is retained, cleanup
+policy allows the mutation, and platform, sandbox, provider, and host controls
+are not bypassed.
+
 The target GitHub ruleset is route-neutral protected `main`: required status
 checks, linear history, non-fast-forward protection, and deletion protection
 remain universal, while universal PR-required merging is removed. Universal
@@ -314,6 +329,10 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
 - Do not mutate hosted `origin/main` for `branch-no-pr` landing without a valid
   governed landing authorization receipt matching the current source and target
   refs.
+- Do not delete or prune local or remote source branch refs without a valid
+  governed cleanup authorization receipt matching the current source branch,
+  landed ref, local `main`, `origin/main`, no-open-PR proof, and rollback
+  posture.
 - Do not claim full `branch-no-pr` or `branch-pr` closeout after landing while
   branch cleanup is still pending; cleanup must be completed or explicitly
   deferred with blocker evidence.
