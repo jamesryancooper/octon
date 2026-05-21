@@ -42,6 +42,13 @@ branch changes are integrated into `origin/main`, local `main` was synchronized
 to the fetched `origin/main`, and both local `main` and `origin/main` contain
 the recorded `landed_ref`.
 
+For hosted `branch-no-pr` landing, receipt outputs must include
+`landing_authorization_ref` pointing to a retained
+`branch-landing-authorization-v1` receipt. The authorization receipt must
+validate before `origin/main` mutation and match the source branch, source ref,
+target branch, target pre-ref, provider no-PR proof, exact-SHA check evidence
+or explicit empty-check policy, and rollback/discard posture.
+
 When target lifecycle outcome is `landed` or `cleaned` but actual outcome is
 lower, receipt outputs must also record landing evaluation evidence and
 `not_landed_reason`. When target lifecycle outcome is `cleaned` but cleanup or

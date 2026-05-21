@@ -29,9 +29,10 @@ Successful wrapper execution proves:
   `.octon/state/evidence/runs/skills/closeout-change/`, and the receipt records
   `closeout_outcome: completed`;
 - branch-based closed candidates prove source-branch integration into
-  `origin/main`, post-landing fetch, local `main` sync to `origin/main`,
-  landed-ref containment in both refs, and cleanup completed or deferred with
-  blocker evidence through the singular receipt;
+  `origin/main`, governed landing authorization for hosted no-PR landing,
+  post-landing fetch, local `main` sync to `origin/main`, landed-ref
+  containment in both refs, and cleanup completed or deferred with blocker
+  evidence through the singular receipt;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - ambiguous, foreign, user-owned, generated, evidence, host-projection,

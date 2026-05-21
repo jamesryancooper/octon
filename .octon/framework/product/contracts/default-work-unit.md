@@ -58,6 +58,14 @@ operator instruction requires a branch or PR.
 Provider route-neutral capability is not itself a reason to choose
 `branch-no-pr`. It is a hosted landing precondition after `branch-no-pr` is
 selected for branch isolation and hosted no-PR landing is intended.
+Before the hosted `origin/main` mutation, Closeout Change must also emit or
+reference a governed `branch-landing-authorization-v1` receipt that binds the
+selected `branch-no-pr` route, landing target, pushed source ref, current
+`origin/main` pre-ref, provider no-PR proof, exact-SHA check evidence or
+explicit empty-check policy, and rollback/discard handle. The mutating hosted
+landing helper must validate that receipt and fail closed if it is missing,
+malformed, stale, denied, or mismatched. This authorization is Octon evidence;
+it does not bypass platform, sandbox, or host safety controls.
 
 Change Package is the active internal execution-bundle name for pre-1.0 and
 later target-state surfaces. No active compatibility alias, shim, parallel
@@ -147,10 +155,11 @@ Branch-no-PR outcomes:
   `cleaned` without a recorded blocker.
 - `landed`: the branch Change is fast-forward integrated into hosted `main`
   without a PR, with provider ruleset evidence, exact source SHA validation,
-  source branch push evidence, rollback handle, and post-push proof that
-  `origin/main` equals the recorded landed ref. Full closeout after landing
-  requires cleanup completion or an explicit deferred-cleanup blocker plus
-  local `main` synchronized to `origin/main`.
+  source branch push evidence, a governed landing authorization receipt,
+  rollback handle, and post-push proof that `origin/main` equals the recorded
+  landed ref. Full closeout after landing requires cleanup completion or an
+  explicit deferred-cleanup blocker plus local `main` synchronized to
+  `origin/main`.
 - `cleaned`: local branch, remote branch when present, and worktree cleanup are
   complete or explicitly deferred with evidence.
 - `deferred`: the target remains reachable, but the current run stops before the
@@ -269,6 +278,14 @@ If a provider ruleset currently requires a pull request for `main`, hosted
 blocker unless the operator explicitly selects a PR-backed route. Do not
 silently convert `branch-no-pr` to `branch-pr`.
 
+Hosted `branch-no-pr` landing must fail closed unless a current governed
+landing authorization receipt validates immediately before mutation. The
+authorization must name the same source branch, source ref, target branch,
+target pre-ref, provider/ruleset evidence, and rollback posture used by the
+landing helper. If the execution environment still requires a late external
+approval after the authorization validates, record that runtime approval
+boundary as an execution-environment blocker and do not overclaim landing.
+
 The target GitHub ruleset is route-neutral protected `main`: required status
 checks, linear history, non-fast-forward protection, and deletion protection
 remain universal, while universal PR-required merging is removed. Universal
@@ -294,6 +311,9 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
   landing evaluation evidence and a precise blocker.
 - Do not claim `branch-no-pr` as hosted landed unless `origin/main` equals the
   recorded landed ref after the fast-forward push.
+- Do not mutate hosted `origin/main` for `branch-no-pr` landing without a valid
+  governed landing authorization receipt matching the current source and target
+  refs.
 - Do not claim full `branch-no-pr` or `branch-pr` closeout after landing while
   branch cleanup is still pending; cleanup must be completed or explicitly
   deferred with blocker evidence.

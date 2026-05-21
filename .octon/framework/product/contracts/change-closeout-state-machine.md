@@ -50,7 +50,7 @@ pushes, PRs, landing, deletion, reset, restore, or overwrite.
 | Safe cleanup | Loop | Only evidence-backed residue removed; retained or ambiguous items documented. | Removal lacks containment, patch equivalence, tracked replacement, explicit ignored/local-residue status, or validator proof. |
 | Change-set preparation | Loop | Branch or direct-main state contains only the coherent accepted change set. | Coherent scope cannot be isolated without overwriting user-owned work. |
 | Validation | Loop | `git diff --check` and the selected validators pass, or blocker evidence is recorded. | Required publishers, projection generators, migrations, alignment profiles, or activation changes are outside scope. |
-| Hosted no-PR checks and landing | Loop for `branch-no-pr` | Pushed source branch, exact source-SHA checks, provider permission, fast-forward/update proof, `origin/main == landed_ref`, rollback handle, and final local sync. | Provider requires PR, exact-SHA checks fail out of scope, or fast-forward/update cannot be proven. |
+| Hosted no-PR checks and landing | Loop for `branch-no-pr` | Pushed source branch, exact source-SHA checks, provider permission, governed landing authorization receipt, fast-forward/update proof, `origin/main == landed_ref`, rollback handle, and final local sync. | Provider requires PR, governed landing authorization is missing, malformed, stale, denied, or mismatched, runtime platform approval still blocks mutation, exact-SHA checks fail out of scope, or fast-forward/update cannot be proven. |
 | PR-backed subflow | Loop for `branch-pr` | PR state, checks, review disposition, merge or blocker evidence. | PR mutation would occur without `branch-pr` route. |
 | Branch cleanup | Loop for branch routes | Branch contained in `origin/main`, no open PR, rollback/discard handle retained, and local/remote cleanup status recorded. | Containment, no-open-PR status, or rollback posture cannot be proven. |
 | Receipt and evidence | Loop | Receipt records route, target outcome, actual outcome, state-machine evidence, validation, integration, cleanup, publication, rollback, and blockers. | Receipt cannot truthfully support requested outcome. |
@@ -60,7 +60,8 @@ pushes, PRs, landing, deletion, reset, restore, or overwrite.
 ## Evidence Gates
 
 `landed` requires a landed ref, route-compatible integration method,
-validation evidence, rollback handle, hosted or origin evidence, final main
+validation evidence, rollback handle, hosted or origin evidence, governed
+landing authorization evidence for hosted `branch-no-pr` landing, final main
 alignment, and `stateful_closeout` receipt evidence.
 
 `cleaned` requires landed evidence or an explicitly non-landing outcome, branch
@@ -103,6 +104,10 @@ Branch-based completed closeout additionally requires retained receipt evidence
 that the source branch changes are integrated into `origin/main`, origin was
 fetched after landing, local `main` was synchronized to `origin/main`, and the
 recorded landed ref is contained in both local `main` and `origin/main`.
+Hosted `branch-no-pr` landing additionally requires a retained
+`branch-landing-authorization-v1` receipt that validates before the hosted
+mutation and matches the source ref and target pre-ref used by the landing
+helper.
 
 Receipts must reject `published-branch`, `published`, or `ready` as completed
 closeout. They must also reject force-push, ambiguous deletion, reset,

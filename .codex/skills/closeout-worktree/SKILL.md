@@ -55,6 +55,9 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    outcome, and receipt refs when known. If the operator only asked to close out
    the worktree and did not explicitly request a narrower outcome, pass
    `target_lifecycle_outcome: cleaned` to each safely separable candidate.
+   For branch-no-pr landing, the delegated `closeout-change` run must own
+   hosted preflight, governed landing authorization, hosted mutation, and
+   rollback evidence.
 8. **Re-inventory** — After each delegated closeout attempt, re-run inventory
    and classification before selecting another candidate.
 9. **Repeat Or Stop** — Continue selecting and delegating one candidate at a

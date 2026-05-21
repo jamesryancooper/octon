@@ -183,12 +183,15 @@ helpers:
   git_branch_hosted_preflight:
     route_guard: "branch-no-pr only"
     posture: "hosted no-PR landing preflight helper"
+  git_branch_authorize_hosted_no_pr:
+    route_guard: "branch-no-pr only"
+    posture: "governed hosted no-PR landing authorization helper"
   git_branch_land:
     route_guard: "branch-no-pr only"
     posture: "local no-PR branch landing helper"
   git_branch_land_hosted_no_pr:
     route_guard: "branch-no-pr only"
-    posture: "fast-forward-only hosted no-PR landing helper"
+    posture: "fast-forward-only hosted no-PR landing helper requiring governed authorization"
   git_branch_cleanup:
     route_guard: "branch-no-pr or branch-pr only"
     posture: "branch and worktree cleanup helper without requiring PR metadata"
@@ -210,6 +213,7 @@ validation:
     - "branch-no-pr receipt containing PR metadata"
     - "branch-no-pr hosted landing claim without provider route-neutral ruleset evidence"
     - "branch-no-pr hosted landing claim without exact source SHA checks"
+    - "branch-no-pr hosted landing mutation without governed landing authorization"
     - "branch-no-pr hosted landing claim without origin/main equality"
     - "published-branch reported as completed closeout"
     - "target landed or cleaned outcome missing landing evaluation or blocker reason"

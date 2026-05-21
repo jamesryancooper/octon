@@ -16,9 +16,11 @@ actual lifecycle outcome:
   validation or blocker, durable history, integration/publication/cleanup
   status, receipt, and rollback or discard plan exist. Hosted `landed` requires
   provider ruleset evidence showing route-neutral fast-forward updates are
-  allowed, a pushed source branch, exact source SHA required checks, freshness
-  against `origin/main`, a fast-forward-only hosted update, landed ref, rollback
-  handle, and post-push proof that `origin/main` equals `landed_ref`.
+  allowed, governed landing authorization evidence recorded in
+  `landing_authorization_ref`, a pushed source branch, exact source SHA
+  required checks, freshness against `origin/main`, a fast-forward-only hosted
+  update, landed ref, rollback handle, and post-push proof that `origin/main`
+  equals `landed_ref`.
   `published-branch` is valid only as a continued handoff or blocker outcome,
   not as completed closeout. If the target was `landed` or `cleaned`, the
   receipt must include landing evaluation evidence and `not_landed_reason`

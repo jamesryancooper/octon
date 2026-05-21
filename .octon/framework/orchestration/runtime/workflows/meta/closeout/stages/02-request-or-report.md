@@ -26,8 +26,10 @@
    PR predicate applies.
 5. For hosted `branch-no-pr` landing, require hosted no-PR landing preflight,
    exact source SHA required checks, a pushed source branch current with
-   `origin/main`, fast-forward-only update evidence, and post-push proof that
-   `origin/main` equals the recorded `landed_ref`.
+   `origin/main`, governed `branch-landing-authorization-v1` evidence matching
+   the pushed source ref and `origin/main` pre-ref, fast-forward-only update
+   evidence, and post-push proof that `origin/main` equals the recorded
+   `landed_ref`.
 6. For generic closeout intent, default `target_lifecycle_outcome` to
    `cleaned`. Use `published-branch`, `branch-local-complete`, `landed`,
    `preserved`, or `blocked` only when the operator explicitly requests that

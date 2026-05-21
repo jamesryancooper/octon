@@ -14,7 +14,7 @@ metadata:
   updated: "2026-05-05"
 skill_sets: [executor, collaborator, guardian, integrator]
 capabilities: [external-dependent, stateful, safety-bounded, self-validating]
-allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git rev-parse *) Bash(git branch *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
+allowed-tools: Read Glob Grep Edit Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git rev-parse *) Bash(git branch *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-commit.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
 # Closeout Change
@@ -62,8 +62,8 @@ Execute the Change Closeout State Machine phase loop from
 7. **Validate** — Run the selected validation floor and route-specific checks.
 8. **Hosted No-PR Checks And Landing** — For selected `branch-no-pr` hosted
    landing, require preflight, pushed source branch, exact source-SHA checks,
-   fast-forward/update proof, `origin/main == landed_ref`, rollback handle, and
-   final local sync.
+   governed landing authorization, fast-forward/update proof,
+   `origin/main == landed_ref`, rollback handle, and final local sync.
 9. **PR-Backed Delegation** — Invoke `closeout-pr` only when selected route is
    `branch-pr`.
 10. **Branch Cleanup** — For landed branch routes, prove `origin/main`
@@ -115,9 +115,13 @@ Execute the Change Closeout State Machine phase loop from
   hosted no-PR landing for `landed`. Without an origin push, report a local
   checkpoint, local-only result, or blocker instead of full closeout.
 - For hosted `branch-no-pr` landing, run hosted no-PR landing preflight before
-  mutation and require provider ruleset evidence, a pushed source branch, exact
-  source SHA required checks, fast-forward-only update evidence, and proof that
-  `origin/main` equals `landed_ref` after the push.
+  mutation, emit or reference a `branch-landing-authorization-v1` receipt, and
+  require the mutating helper to validate that authorization before it can
+  update `origin/main`. The authorization must bind provider ruleset evidence,
+  a pushed source branch, exact source SHA required checks or explicit
+  empty-check policy, the current target pre-ref, rollback/discard posture, and
+  no-PR eligibility. It does not bypass platform, sandbox, or host safety
+  controls.
 - Post-Landing Cleanup And Sync: after landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
   otherwise verified as contained in `origin/main`, clean up obsolete local and
   remote source branches that are safe to delete. Never delete protected

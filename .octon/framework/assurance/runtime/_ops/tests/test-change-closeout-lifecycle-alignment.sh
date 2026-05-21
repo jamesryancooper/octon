@@ -52,6 +52,39 @@ rewrite_json_file() {
   mv "$tmp" "$file"
 }
 
+attach_valid_landing_authorization() {
+  local receipt="$1"
+  local auth tmp
+  auth="$(mktemp)"
+  CLEANUP_FILES+=("$auth")
+  jq '{
+    schema_version: "branch-landing-authorization-v1",
+    authorization_id: ("fixture-" + .change_id),
+    authorization_result: "approved",
+    selected_route: "branch-no-pr",
+    target_lifecycle_outcome: .target_lifecycle_outcome,
+    remote: .hosted_landing.remote,
+    target_branch: .hosted_landing.target_branch,
+    source_branch: .hosted_landing.source_branch,
+    source_ref: .hosted_landing.source_ref,
+    remote_source_ref: .hosted_landing.source_ref,
+    target_pre_ref: .hosted_landing.target_pre_ref,
+    provider_ruleset_ref: .hosted_landing.provider_ruleset_ref,
+    no_pr_required: true,
+    preflight_status: "passed",
+    required_check_refs: .hosted_landing.required_check_refs,
+    allow_empty_check_set: false,
+    rollback_handle: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .hosted_landing.source_ref)),
+    host_controls_not_bypassed: true,
+    runtime_safety_boundary: "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+    created_at: .created_at
+  }' "$receipt" >"$auth"
+  tmp="$(mktemp)"
+  jq --arg auth "$auth" '.landing_authorization_ref = $auth' "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+  printf '%s\n' "$auth"
+}
+
 run_validator() {
   bash "$VALIDATOR" --receipt "$1" >/dev/null
 }
@@ -188,6 +221,7 @@ case_no_pr_landed_receipt_passes() {
 }
 JSON
 )"
+  attach_valid_landing_authorization "$receipt" >/dev/null
   run_validator "$receipt"
 }
 
@@ -528,6 +562,29 @@ case_completed_branch_requires_stateful_closeout() {
   ! run_validator "$receipt"
 }
 
+case_branch_no_pr_landed_requires_landing_authorization() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" 'del(.landing_authorization_ref)'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_landed_rejects_denied_authorization() {
+  local receipt auth
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '.authorization_result = "denied"'
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_landed_rejects_stale_authorization() {
+  local receipt auth
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '.source_ref = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"'
+  ! run_validator "$receipt"
+}
+
 case_branch_pr_landed_completed_pending_cleanup_fails() {
   local receipt
   receipt="$(write_receipt <<'JSON'
@@ -598,6 +655,9 @@ main() {
   assert_success "completed branch closeout requires post-fetch sync evidence" case_completed_branch_requires_post_fetch_sync_evidence
   assert_success "completed branch closeout requires landed-ref containment" case_completed_branch_requires_landed_ref_containment
   assert_success "completed branch closeout requires stateful closeout evidence" case_completed_branch_requires_stateful_closeout
+  assert_success "branch-no-pr landed requires governed landing authorization" case_branch_no_pr_landed_requires_landing_authorization
+  assert_success "branch-no-pr landed rejects denied landing authorization" case_branch_no_pr_landed_rejects_denied_authorization
+  assert_success "branch-no-pr landed rejects stale landing authorization" case_branch_no_pr_landed_rejects_stale_authorization
   assert_success "branch-pr landed completed closeout with pending cleanup fails" case_branch_pr_landed_completed_pending_cleanup_fails
 
   echo

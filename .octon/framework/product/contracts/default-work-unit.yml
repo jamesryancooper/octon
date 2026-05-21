@@ -83,6 +83,7 @@ routes:
       - "local_validation_or_recorded_blocker"
       - "durable_commit_patch_or_checkpoint"
       - "origin_push_evidence_for_closeout"
+      - "governed_landing_authorization_receipt_when_landed"
       - "hosted_landing_evidence_when_landed"
       - "lifecycle_outcome"
       - "integration_status"
@@ -212,6 +213,8 @@ route_lifecycle_outcomes:
       - "provider_ruleset_allows_route_neutral_fast_forward_update"
       - "source_branch_pushed_to_remote"
       - "source_ref_current_with_origin_main"
+      - "governed_landing_authorization_receipt"
+      - "landing_authorization_matches_source_ref_and_origin_main_pre_ref"
       - "source_branch_changes_integrated_into_origin_main"
       - "exact_source_sha_required_checks_passed"
       - "integration_method"
@@ -333,6 +336,8 @@ fail_closed_conditions:
   - "hosted_no_pr_landing_missing_exact_sha_checks"
   - "direct_main_hosted_publication_missing_exact_sha_checks"
   - "hosted_no_pr_landing_from_stale_branch"
+  - "hosted_no_pr_landing_without_valid_governed_authorization"
+  - "hosted_no_pr_landing_with_stale_or_denied_authorization"
   - "hosted_no_pr_landing_without_origin_main_equality"
   - "direct_main_closeout_without_origin_push"
   - "branch_no_pr_closeout_without_origin_push"
@@ -381,4 +386,5 @@ hosted_provider_ruleset:
     mechanism: "fast-forward-only protected update"
     no_pr_mutation: true
     requires_exact_sha_check_evidence: true
+    requires_governed_landing_authorization: true
     post_push_verification: "origin/main equals landed_ref"

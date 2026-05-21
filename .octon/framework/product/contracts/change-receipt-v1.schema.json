@@ -127,6 +127,10 @@
       "type": "string",
       "minLength": 1
     },
+    "landing_authorization_ref": {
+      "type": "string",
+      "minLength": 1
+    },
     "landing_evaluation": {
       "type": "object",
       "additionalProperties": false,
@@ -578,6 +582,7 @@
       },
       "then": {
         "required": [
+          "landing_authorization_ref",
           "hosted_landing",
           "landing_evaluation",
           "landed_ref",

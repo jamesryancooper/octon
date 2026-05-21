@@ -28,8 +28,9 @@
    missing Change receipts, and failed final hygiene as blockers, not as
    waiting states.
 7. For hosted `branch-no-pr` landing, evaluate whether provider rules allow
-   route-neutral fast-forward updates; a PR-required ruleset is a blocker, not
-   permission to open a PR.
+   route-neutral fast-forward updates and whether a governed landing
+   authorization can be emitted for the current source ref and `origin/main`
+   pre-ref; a PR-required ruleset is a blocker, not permission to open a PR.
 8. If target outcome is `landed` or `cleaned` but evidence only supports
    `published-branch`, record landing evaluation evidence, `not_landed_reason`,
    and `closeout_outcome: continued` or a blocker state.

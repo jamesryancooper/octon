@@ -31,6 +31,10 @@ residue, blocker, final disposition, and next route condition.
 The wrapper does not emit a replacement Change receipt. Each completed,
 continued, blocked, escalated, or denied candidate must rely on the singular
 Change receipt or blocker evidence produced by `closeout-change`.
+When a delegated candidate lands through hosted `branch-no-pr`, that singular
+receipt must carry the governed landing authorization reference required by
+`closeout-change`; the wrapper report may cite it only through the singular
+receipt and must not authorize hosted mutation itself.
 
 If the operator does not explicitly request a narrower worktree or candidate
 target such as `published-branch`, `branch-local-complete`, `landed`,

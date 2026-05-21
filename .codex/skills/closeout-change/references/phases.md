@@ -24,8 +24,9 @@ title: Closeout Change Phases
 9. Verify route-required and outcome-required evidence.
 10. For `branch-no-pr`, distinguish preservation, branch-local commit, branch
    push, hosted no-PR landing on `main`, and cleanup. Hosted no-PR landing
-   requires preflight before mutation and post-push proof that `origin/main`
-   equals the recorded `landed_ref`.
+   requires preflight and governed `branch-landing-authorization-v1` evidence
+   before mutation and post-push proof that `origin/main` equals the recorded
+   `landed_ref`.
 11. For `branch-pr`, distinguish published, ready, landed, and cleaned states
    instead of treating draft/open/ready PRs as full closeout.
 12. Complete the route-specific output or record stage-only blockers. If the

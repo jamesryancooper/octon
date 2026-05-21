@@ -52,6 +52,39 @@ rewrite_json_file() {
   mv "$tmp" "$file"
 }
 
+attach_valid_landing_authorization() {
+  local receipt="$1"
+  local auth tmp
+  auth="$(mktemp)"
+  CLEANUP_FILES+=("$auth")
+  jq '{
+    schema_version: "branch-landing-authorization-v1",
+    authorization_id: ("fixture-" + .change_id),
+    authorization_result: "approved",
+    selected_route: "branch-no-pr",
+    target_lifecycle_outcome: .target_lifecycle_outcome,
+    remote: .hosted_landing.remote,
+    target_branch: .hosted_landing.target_branch,
+    source_branch: .hosted_landing.source_branch,
+    source_ref: .hosted_landing.source_ref,
+    remote_source_ref: .hosted_landing.source_ref,
+    target_pre_ref: .hosted_landing.target_pre_ref,
+    provider_ruleset_ref: .hosted_landing.provider_ruleset_ref,
+    no_pr_required: true,
+    preflight_status: "passed",
+    required_check_refs: .hosted_landing.required_check_refs,
+    allow_empty_check_set: false,
+    rollback_handle: ((.rollback_handle.kind // "rollback") + ":" + (.rollback_handle.ref // .hosted_landing.source_ref)),
+    host_controls_not_bypassed: true,
+    runtime_safety_boundary: "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+    created_at: .created_at
+  }' "$receipt" >"$auth"
+  tmp="$(mktemp)"
+  jq --arg auth "$auth" '.landing_authorization_ref = $auth' "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+  printf '%s\n' "$auth"
+}
+
 run_hosted_validator() {
   bash "$VALIDATOR" --receipt "$1" --skip-live-remote >/dev/null
 }
@@ -149,6 +182,7 @@ case_valid_hosted_no_pr_receipt_passes() {
 }
 JSON
 )"
+  attach_valid_landing_authorization "$receipt" >/dev/null
   run_hosted_validator "$receipt"
 }
 
@@ -264,6 +298,29 @@ case_missing_pushed_source_branch_evidence_fails() {
   local receipt
   receipt="$(copy_valid_hosted_receipt)"
   rewrite_json_file "$receipt" 'del(.remote_branch_ref)'
+  ! run_hosted_validator "$receipt"
+}
+
+case_missing_landing_authorization_fails() {
+  local receipt
+  receipt="$(copy_valid_hosted_receipt)"
+  rewrite_json_file "$receipt" 'del(.landing_authorization_ref)'
+  ! run_hosted_validator "$receipt"
+}
+
+case_denied_landing_authorization_fails() {
+  local receipt auth
+  receipt="$(copy_valid_hosted_receipt)"
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '.authorization_result = "denied"'
+  ! run_hosted_validator "$receipt"
+}
+
+case_stale_landing_authorization_fails() {
+  local receipt auth
+  receipt="$(copy_valid_hosted_receipt)"
+  auth="$(attach_valid_landing_authorization "$receipt")"
+  rewrite_json_file "$auth" '.target_pre_ref = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"'
   ! run_hosted_validator "$receipt"
 }
 
@@ -399,6 +456,9 @@ main() {
   assert_success "hosted no-PR receipt missing one route-neutral check fails" case_missing_route_neutral_check_fails
   assert_success "hosted no-PR check ref not bound to source SHA fails" case_check_ref_without_source_sha_fails
   assert_success "hosted no-PR receipt missing pushed source branch evidence fails" case_missing_pushed_source_branch_evidence_fails
+  assert_success "hosted no-PR receipt missing landing authorization fails" case_missing_landing_authorization_fails
+  assert_success "hosted no-PR receipt denied landing authorization fails" case_denied_landing_authorization_fails
+  assert_success "hosted no-PR receipt stale landing authorization fails" case_stale_landing_authorization_fails
   assert_success "PR metadata fails for branch-no-pr hosted landing" case_pr_metadata_fails
   assert_success "current PR-required ruleset passes current expectation" case_current_pr_required_ruleset_passes_current_expectation
   assert_success "route-neutral ruleset passes target expectation" case_route_neutral_ruleset_passes_target_expectation

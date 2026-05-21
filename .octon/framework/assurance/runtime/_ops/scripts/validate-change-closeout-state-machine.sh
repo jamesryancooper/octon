@@ -10,6 +10,7 @@ STATE_MACHINE_MD="$OCTON_DIR/framework/product/contracts/change-closeout-state-m
 DEFAULT_WORK_UNIT_YML="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 DEFAULT_WORK_UNIT_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
+AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
 WORKFLOW="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
 WORKFLOW_STAGE_EVALUATE="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/stages/01-evaluate-context.md"
 WORKFLOW_STAGE_REPORT="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md"
@@ -92,7 +93,7 @@ json_bool_true() {
 }
 
 validate_static() {
-  for file in "$STATE_MACHINE_YML" "$STATE_MACHINE_MD" "$DEFAULT_WORK_UNIT_YML" "$DEFAULT_WORK_UNIT_MD" "$RECEIPT_SCHEMA" "$WORKFLOW" "$WORKFLOW_STAGE_EVALUATE" "$WORKFLOW_STAGE_REPORT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_CHANGE_PHASES" "$CLOSEOUT_CHANGE_VALIDATION" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_WORKTREE_PHASES" "$CLOSEOUT_WORKTREE_VALIDATION" "$WRAPPER_REPORT_VALIDATOR" "$CLOSEOUT_PR" "$CLOSEOUT_PR_PHASES" "$WORKTREE_CONTRACT" "$RESIDUE_CLASSIFIER"; do
+  for file in "$STATE_MACHINE_YML" "$STATE_MACHINE_MD" "$DEFAULT_WORK_UNIT_YML" "$DEFAULT_WORK_UNIT_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$WORKFLOW" "$WORKFLOW_STAGE_EVALUATE" "$WORKFLOW_STAGE_REPORT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_CHANGE_PHASES" "$CLOSEOUT_CHANGE_VALIDATION" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_WORKTREE_PHASES" "$CLOSEOUT_WORKTREE_VALIDATION" "$WRAPPER_REPORT_VALIDATOR" "$CLOSEOUT_PR" "$CLOSEOUT_PR_PHASES" "$WORKTREE_CONTRACT" "$RESIDUE_CLASSIFIER"; do
     require_file "$file"
   done
 
@@ -101,6 +102,7 @@ validate_static() {
   require_yq "$STATE_MACHINE_YML" '.default_work_unit == "change"' "state machine binds to Change" "state machine must bind to Change"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.route_authority == ".octon/framework/product/contracts/default-work-unit.yml"' "state machine preserves default-work-unit route authority" "state machine must preserve default-work-unit route authority"
   require_yq "$STATE_MACHINE_YML" '.policy_refs.closeout_worktree_wrapper_ref == ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"' "state machine references closeout-worktree wrapper" "state machine must reference closeout-worktree wrapper"
+  require_yq "$STATE_MACHINE_YML" '.policy_refs.branch_landing_authorization_schema_ref == ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"' "state machine references branch landing authorization schema" "state machine must reference branch landing authorization schema"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.dirty_worktree_wrapper.canonical_name == "Closeout Worktree"' "state machine names Closeout Worktree wrapper" "state machine must name Closeout Worktree wrapper"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.dirty_worktree_wrapper.default_work_unit_replacement == false' "Closeout Worktree does not replace default work unit" "Closeout Worktree must not replace default work unit"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.dirty_worktree_wrapper.decomposition_rule == "partition residue into singular Change closeouts and delegate each coherent unit to closeout-change"' "Closeout Worktree decomposes into closeout-change" "Closeout Worktree must decompose into closeout-change"
@@ -130,6 +132,10 @@ validate_static() {
 
   require_yq "$DEFAULT_WORK_UNIT_YML" '.state_machine_ref == ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "default work unit references state machine" "default work unit must reference state machine"
   require_yq "$DEFAULT_WORK_UNIT_YML" '.fail_closed_conditions[]? | select(. == "completed_or_cleaned_closeout_missing_state_machine_evidence")' "default work unit fails closed on missing state-machine evidence" "default work unit must fail closed on missing state-machine evidence"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_without_valid_governed_authorization")' "default work unit fails closed without governed landing authorization" "default work unit must fail closed without governed landing authorization"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "default work unit fails closed on stale or denied authorization" "default work unit must fail closed on stale or denied landing authorization"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "governed_landing_authorization_receipt")' "default work unit requires governed no-PR landing authorization" "default work unit must require governed no-PR landing authorization"
+  require_yq "$DEFAULT_WORK_UNIT_YML" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "landing_authorization_matches_source_ref_and_origin_main_pre_ref")' "default work unit requires current authorization refs" "default work unit must require authorization to match source and origin/main pre-ref"
   require_literal "$DEFAULT_WORK_UNIT_MD" "Change Closeout State Machine" "default work unit docs reference state machine" "default work unit docs must reference state machine"
   require_literal "$DEFAULT_WORK_UNIT_MD" "Stateful closeout evidence for completed or cleaned claims." "default work unit durable history includes stateful evidence" "default work unit durable history must include stateful evidence"
 
@@ -140,6 +146,11 @@ validate_static() {
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "cleanup_decision_refs")' "receipt schema requires cleanup decision refs" "receipt schema must require cleanup decision refs"
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "safe_cleanup_evidence_class")' "receipt schema requires cleanup safety class" "receipt schema must require cleanup safety class"
   require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "final_verification_ref")' "receipt schema requires final verification ref" "receipt schema must require final verification ref"
+  require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization" "receipt schema must model landing_authorization_ref"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for no-PR landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host controls" "authorization schema must preserve host controls"
   require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.closeout_outcome.const == "completed") | select((.then.required // []) | index("stateful_closeout"))] | length == 1' "receipt schema requires stateful_closeout for completed closeout" "receipt schema must require stateful_closeout for completed closeout"
   require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.lifecycle_outcome.const == "cleaned") | select((.then.required // []) | index("stateful_closeout"))] | length == 1' "receipt schema requires stateful_closeout for cleaned outcome" "receipt schema must require stateful_closeout for cleaned outcome"
 
@@ -150,6 +161,8 @@ validate_static() {
   require_literal "$CLOSEOUT_CHANGE" 'Use `closeout-worktree` when the operator asks to close out a dirty worktree' "closeout-change routes dirty worktrees to wrapper" "closeout-change must route dirty worktrees to wrapper"
   require_literal "$CLOSEOUT_CHANGE_PHASES" "Detection alone is not deletion authority." "closeout-change phases deny deletion by detection" "closeout-change phases must deny deletion by detection"
   require_literal "$CLOSEOUT_CHANGE_VALIDATION" 'Completed or cleaned closeout also requires `stateful_closeout`' "closeout-change validation requires stateful evidence" "closeout-change validation must require stateful evidence"
+  require_literal "$CLOSEOUT_CHANGE" "branch-landing-authorization-v1" "closeout-change requires governed landing authorization" "closeout-change must require governed landing authorization"
+  require_literal "$CLOSEOUT_CHANGE_VALIDATION" "landing_authorization_ref" "closeout-change validation requires landing authorization ref" "closeout-change validation must require landing authorization ref"
   require_literal "$CLOSEOUT_WORKTREE" "Dirty-worktree wrapper for decomposing multiple local change sets into" "closeout-worktree is dirty-worktree wrapper" "closeout-worktree must be dirty-worktree wrapper"
   require_literal "$CLOSEOUT_WORKTREE" "Route the selected candidate through" "closeout-worktree delegates selected candidate" "closeout-worktree must delegate selected candidate"
   require_literal "$CLOSEOUT_WORKTREE" "schema_version: closeout-worktree-report-v1" "closeout-worktree documents report evidence schema" "closeout-worktree must document report evidence schema"
@@ -213,6 +226,7 @@ validate_receipt() {
 
   if [[ "$route" == "branch-no-pr" && ( "$outcome" == "landed" || "$outcome" == "cleaned" ) ]]; then
     json_array_nonempty '.stateful_closeout.hosted_landing_refs' && pass "hosted no-PR terminal claim has hosted landing refs" || fail "hosted no-PR terminal claim requires hosted_landing_refs"
+    json_has_nonempty '.landing_authorization_ref' && pass "hosted no-PR terminal claim has landing authorization ref" || fail "hosted no-PR terminal claim requires landing_authorization_ref"
   fi
 
   if [[ ( "$route" == "branch-no-pr" || "$route" == "branch-pr" ) && "$integration" == "landed" && "$closeout" == "completed" ]]; then

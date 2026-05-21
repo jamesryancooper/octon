@@ -7,11 +7,13 @@ ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 POLICY="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
+AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
 CLOSEOUT_CHANGE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
 WORKFLOW_STAGE="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md"
 WORKTREE_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
 REQUIRED_CHECKS_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh"
 HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+HOSTED_AUTH_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
 HOSTED_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
 GITHUB_CONTROL_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/github-control-plane-contract.json"
 
@@ -84,17 +86,45 @@ json_bool_true() {
   jq -e "$expr == true" "$RECEIPT_PATH" >/dev/null 2>&1
 }
 
+resolve_ref_path() {
+  local ref="$1"
+  case "$ref" in
+    "")
+      return 1
+      ;;
+    /*)
+      printf '%s\n' "$ref"
+      ;;
+    evidence://*)
+      printf '%s/.octon/state/evidence/%s\n' "$ROOT_DIR" "${ref#evidence://}"
+      ;;
+    *)
+      printf '%s/%s\n' "$ROOT_DIR" "$ref"
+      ;;
+  esac
+}
+
 validate_static() {
-  for file in "$POLICY" "$RECEIPT_SCHEMA" "$CLOSEOUT_CHANGE" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT" "$GITHUB_CONTROL_CONTRACT"; do
+  for file in "$POLICY" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$CLOSEOUT_CHANGE" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT" "$GITHUB_CONTROL_CONTRACT"; do
     require_file "$file"
   done
 
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "provider_ruleset_allows_route_neutral_fast_forward_update")' "policy requires route-neutral provider rules for hosted no-PR landing" "policy must require route-neutral provider rules for hosted no-PR landing"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "governed_landing_authorization_receipt")' "policy requires governed landing authorization for hosted no-PR landing" "policy must require governed landing authorization for hosted no-PR landing"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "landing_authorization_matches_source_ref_and_origin_main_pre_ref")' "policy requires current authorization source/target refs" "policy must require authorization to match source and target pre-ref"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "source_branch_pushed_to_remote")' "policy requires pushed source branch for hosted no-PR landing" "policy must require pushed source branch for hosted no-PR landing"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "policy requires source branch integration for hosted no-PR landing" "policy must require source branch integration for hosted no-PR landing"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "policy requires origin/main equality after hosted no-PR landing" "policy must require origin/main equality after hosted no-PR landing"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "post_landing_fetch_origin_completed")' "policy requires post-landing fetch for hosted no-PR landing" "policy must require post-landing fetch for hosted no-PR landing"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_contains_landed_ref_after_sync")' "policy requires synced local main containment for hosted no-PR landing" "policy must require synced local main containment for hosted no-PR landing"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_without_valid_governed_authorization")' "policy fails closed without governed landing authorization" "policy must fail closed without governed landing authorization"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "policy fails closed on stale or denied landing authorization" "policy must fail closed on stale or denied landing authorization"
+  require_yq "$POLICY" '.hosted_provider_ruleset.branch_no_pr_hosted_landing.requires_governed_landing_authorization == true' "policy requires authorization before hosted mutation" "policy must require authorization before hosted mutation"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema version valid" "authorization schema must define branch-landing-authorization-v1"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host controls" "authorization schema must preserve host controls"
+  require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models landing authorization ref" "receipt schema must model landing_authorization_ref"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires landing authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "source_ref")' "receipt schema requires hosted source ref" "receipt schema must require hosted source ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "target_post_ref")' "receipt schema requires hosted target post-ref" "receipt schema must require hosted target post-ref"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "required_check_refs")' "receipt schema requires hosted required check refs" "receipt schema must require hosted required check refs"
@@ -102,10 +132,17 @@ validate_static() {
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.origin_fetch_evidence_ref' "receipt schema models post-landing fetch evidence" "receipt schema must model post-landing fetch evidence"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_sync_evidence_ref' "receipt schema models local main sync evidence" "receipt schema must model local main sync evidence"
   require_literal "$CLOSEOUT_CHANGE" "hosted no-PR landing preflight" "closeout skill requires hosted no-PR preflight" "closeout skill must require hosted no-PR preflight"
+  require_literal "$CLOSEOUT_CHANGE" "branch-landing-authorization-v1" "closeout skill requires governed landing authorization" "closeout skill must require governed landing authorization"
   require_literal "$WORKFLOW_STAGE" "exact source SHA required checks" "workflow requires exact source SHA required checks" "workflow must require exact source SHA required checks"
-  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.posture == "fast-forward-only hosted no-PR landing helper"' "worktree contract registers hosted no-PR landing helper" "worktree contract must register hosted no-PR landing helper"
+  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_authorize_hosted_no_pr.posture == "governed hosted no-PR landing authorization helper"' "worktree contract registers hosted no-PR authorization helper" "worktree contract must register hosted no-PR authorization helper"
+  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.posture == "fast-forward-only hosted no-PR landing helper requiring governed authorization"' "worktree contract registers hosted no-PR landing helper" "worktree contract must register hosted no-PR landing helper"
   require_literal "$REQUIRED_CHECKS_SCRIPT" "exact commit SHA" "required-check helper validates exact commit SHA" "required-check helper must validate exact commit SHA"
   require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "preflight fails closed when provider requires PR" "preflight must fail closed when provider requires PR"
+  require_literal "$HOSTED_AUTH_SCRIPT" "branch-landing-authorization-v1" "authorization helper emits governed receipt" "authorization helper must emit governed receipt"
+  require_literal "$HOSTED_AUTH_SCRIPT" "git-branch-hosted-preflight.sh" "authorization helper runs hosted preflight" "authorization helper must run hosted preflight"
+  require_literal "$HOSTED_AUTH_SCRIPT" "does not bypass platform, sandbox, or host safety controls" "authorization helper records host safety boundary" "authorization helper must record host safety boundary"
+  require_literal "$HOSTED_LAND_SCRIPT" "requires --authorization" "hosted land helper requires authorization before mutation" "hosted land helper must require authorization before mutation"
+  require_literal "$HOSTED_LAND_SCRIPT" "Landing authorization target pre-ref is stale" "hosted land helper blocks stale authorization" "hosted land helper must block stale authorization"
   require_literal "$HOSTED_LAND_SCRIPT" 'push "$REMOTE" "$SOURCE_REF:refs/heads/$TARGET_BRANCH"' "hosted land helper uses non-force target push" "hosted land helper must use non-force target push"
   require_jq "$GITHUB_CONTROL_CONTRACT" '(.rulesets.current_live_main.required_checks // []) | index("route_neutral_closeout_validation")' "control contract exposes route-neutral required checks" "control contract must expose route-neutral required checks"
 }
@@ -141,6 +178,40 @@ validate_required_check_refs() {
       fail "hosted landing missing exact-SHA check ref for $expected_check"
     fi
   done < <(expected_route_neutral_checks)
+}
+
+validate_landing_authorization_ref() {
+  local auth_ref auth_path source_ref target_pre_ref source_branch target_branch remote provider_ruleset_ref
+  auth_ref="$(json_value '.landing_authorization_ref')"
+  json_has_nonempty '.landing_authorization_ref' && pass "receipt has landing authorization ref" || { fail "hosted landing requires landing_authorization_ref"; return; }
+  auth_path="$(resolve_ref_path "$auth_ref")" || { fail "landing_authorization_ref cannot be resolved"; return; }
+  [[ -f "$auth_path" ]] || { fail "landing authorization receipt resolves to an existing file"; return; }
+  jq -e '.' "$auth_path" >/dev/null 2>&1 && pass "landing authorization parses as JSON" || { fail "landing authorization parses as JSON"; return; }
+
+  source_ref="$(json_value '.hosted_landing.source_ref')"
+  target_pre_ref="$(json_value '.hosted_landing.target_pre_ref')"
+  source_branch="$(json_value '.source_branch_ref')"
+  target_branch="$(json_value '.hosted_landing.target_branch')"
+  remote="$(json_value '.hosted_landing.remote')"
+  provider_ruleset_ref="$(json_value '.hosted_landing.provider_ruleset_ref')"
+
+  jq -e '.schema_version == "branch-landing-authorization-v1"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization schema version valid" || fail "landing authorization schema_version must be branch-landing-authorization-v1"
+  jq -e '.authorization_result == "approved"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization is approved" || fail "landing authorization must be approved"
+  jq -e '.selected_route == "branch-no-pr"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization route is branch-no-pr" || fail "landing authorization route must be branch-no-pr"
+  jq -e '.target_lifecycle_outcome == "landed" or .target_lifecycle_outcome == "cleaned"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization target is landing scoped" || fail "landing authorization target must be landed or cleaned"
+  [[ "$(jq -r '.remote // ""' "$auth_path")" == "$remote" ]] && pass "landing authorization remote matches hosted landing" || fail "landing authorization remote must match hosted landing"
+  [[ "$(jq -r '.target_branch // ""' "$auth_path")" == "$target_branch" ]] && pass "landing authorization target branch matches hosted landing" || fail "landing authorization target branch must match hosted landing"
+  [[ "$(jq -r '.source_branch // ""' "$auth_path")" == "$source_branch" ]] && pass "landing authorization source branch matches receipt" || fail "landing authorization source branch must match receipt"
+  [[ "$(jq -r '.source_ref // ""' "$auth_path")" == "$source_ref" ]] && pass "landing authorization source ref matches hosted landing" || fail "landing authorization source ref must match hosted landing"
+  [[ "$(jq -r '.remote_source_ref // ""' "$auth_path")" == "$source_ref" ]] && pass "landing authorization remote source ref matches source" || fail "landing authorization remote source ref must match source"
+  [[ "$(jq -r '.target_pre_ref // ""' "$auth_path")" == "$target_pre_ref" ]] && pass "landing authorization target pre-ref matches hosted landing" || fail "landing authorization target pre-ref must match hosted landing"
+  [[ "$(jq -r '.provider_ruleset_ref // ""' "$auth_path")" == "$provider_ruleset_ref" ]] && pass "landing authorization provider ruleset matches hosted landing" || fail "landing authorization provider ruleset must match hosted landing"
+  jq -e --slurpfile receipt "$RECEIPT_PATH" '(.required_check_refs | sort) == ($receipt[0].hosted_landing.required_check_refs | sort)' "$auth_path" >/dev/null 2>&1 && pass "landing authorization check refs match hosted landing" || fail "landing authorization check refs must match hosted landing required_check_refs"
+  jq -e '.no_pr_required == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization proves no PR required" || fail "landing authorization must prove no PR required"
+  jq -e '.preflight_status == "passed"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records passed preflight" || fail "landing authorization must record passed preflight"
+  jq -e '.required_check_refs | type == "array" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records check evidence" || fail "landing authorization requires check evidence"
+  jq -e '.rollback_handle | type == "string" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records rollback handle" || fail "landing authorization requires rollback handle"
+  jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization preserves host controls" || fail "landing authorization must preserve host controls"
 }
 
 validate_receipt() {
@@ -190,6 +261,7 @@ validate_receipt() {
 
   jq -e '.hosted_landing | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has hosted_landing evidence" || fail "branch-no-pr landed/cleaned requires hosted landing evidence"
   jq -e '.landing_evaluation | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has landing evaluation evidence" || fail "branch-no-pr landed/cleaned requires landing_evaluation"
+  validate_landing_authorization_ref
   jq -e '.main_alignment.aligned == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt has final main alignment evidence" || fail "branch-no-pr landed/cleaned requires main_alignment.aligned true"
   json_has_nonempty '.hosted_landing.provider_ruleset_ref' && pass "hosted landing has provider ruleset ref" || fail "hosted landing requires provider_ruleset_ref"
   json_array_nonempty '.hosted_landing.required_check_refs' && pass "hosted landing has required check refs" || fail "hosted landing requires required_check_refs"

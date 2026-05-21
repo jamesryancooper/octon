@@ -10,6 +10,7 @@ POLICY_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
 STATE_MACHINE="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.yml"
 STATE_MACHINE_MD="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.md"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
+AUTHORIZATION_SCHEMA="$OCTON_DIR/framework/product/contracts/branch-landing-authorization-v1.schema.json"
 RECEIPT_EXAMPLES_DIR="$OCTON_DIR/framework/product/contracts/examples/change-receipts"
 VALID_DIRECT_MAIN_LANDED="$RECEIPT_EXAMPLES_DIR/valid-direct-main-landed.json"
 VALID_BRANCH_PR_READY="$RECEIPT_EXAMPLES_DIR/valid-branch-pr-ready.json"
@@ -31,6 +32,7 @@ BRANCH_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-br
 BRANCH_CLEANUP_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh"
 REQUIRED_CHECKS_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh"
 HOSTED_PREFLIGHT_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh"
+HOSTED_AUTH_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-authorize-hosted-no-pr.sh"
 HOSTED_LAND_SCRIPT="$OCTON_DIR/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh"
 
 RECEIPT_PATH=""
@@ -117,8 +119,26 @@ remote_ref_sha() {
   fi
 }
 
+resolve_ref_path() {
+  local ref="$1"
+  case "$ref" in
+    "")
+      return 1
+      ;;
+    /*)
+      printf '%s\n' "$ref"
+      ;;
+    evidence://*)
+      printf '%s/.octon/state/evidence/%s\n' "$ROOT_DIR" "${ref#evidence://}"
+      ;;
+    *)
+      printf '%s/%s\n' "$ROOT_DIR" "$ref"
+      ;;
+  esac
+}
+
 validate_contracts() {
-  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT"; do
+  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$AUTHORIZATION_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_AUTH_SCRIPT" "$HOSTED_LAND_SCRIPT"; do
     require_file "$file"
   done
 
@@ -140,6 +160,12 @@ validate_contracts() {
   done
   require_jq "$RECEIPT_SCHEMA" '.properties.outcome_intent.enum[] | select(. == "handoff-only")' "receipt schema models outcome intent" "receipt schema must model outcome intent"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_evaluation.properties.status.enum[] | select(. == "blocked")' "receipt schema models landing evaluation" "receipt schema must model landing evaluation"
+  require_jq "$RECEIPT_SCHEMA" '.properties.landing_authorization_ref' "receipt schema models governed landing authorization ref" "receipt schema must model landing_authorization_ref"
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "landing_authorization_ref")' "receipt schema requires governed authorization for branch-no-pr landing" "receipt schema must require landing_authorization_ref for branch-no-pr landed/cleaned claims"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.schema_version.const == "branch-landing-authorization-v1"' "authorization schema has stable version" "authorization schema must define branch-landing-authorization-v1"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.authorization_result.enum[] | select(. == "approved")' "authorization schema models approval result" "authorization schema must model approved authorization"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.no_pr_required.const == true' "authorization schema requires no-PR proof" "authorization schema must require no_pr_required true"
+  require_jq "$AUTHORIZATION_SCHEMA" '.properties.host_controls_not_bypassed.const == true' "authorization schema preserves host safety controls" "authorization schema must preserve host safety controls"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.required[] | select(. == "origin_main_ref")' "receipt schema models final main alignment" "receipt schema must model final main alignment"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.origin_fetch_evidence_ref' "receipt schema models post-landing origin fetch evidence" "receipt schema must model post-landing origin fetch evidence"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_sync_evidence_ref' "receipt schema models local main sync evidence" "receipt schema must model local main sync evidence"
@@ -157,6 +183,8 @@ validate_contracts() {
 
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[]? | select(. == "landed")' "branch-no-pr supports landed lifecycle outcome" "branch-no-pr must support landed lifecycle outcome"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "provider_ruleset_allows_route_neutral_fast_forward_update")' "branch-no-pr landed requires route-neutral provider rules" "branch-no-pr landed must require route-neutral provider rules"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "governed_landing_authorization_receipt")' "branch-no-pr landed requires governed authorization" "branch-no-pr landed must require governed landing authorization"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "landing_authorization_matches_source_ref_and_origin_main_pre_ref")' "branch-no-pr landed requires current authorization refs" "branch-no-pr landed must require authorization to match source and origin/main pre-ref"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "branch-no-pr landed requires origin/main equality" "branch-no-pr landed must require origin/main equality"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "branch-no-pr landed requires source branch integration evidence" "branch-no-pr landed must require source branch integration evidence"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "post_landing_fetch_origin_completed")' "branch-no-pr landed requires post-landing fetch evidence" "branch-no-pr landed must require post-landing fetch evidence"
@@ -165,6 +193,7 @@ validate_contracts() {
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-no-pr landed requires local/main/origin alignment proof" "branch-no-pr landed must require local/main/origin alignment proof"
   require_yq "$POLICY" '.state_machine_ref == ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "policy references Change Closeout State Machine" "policy must reference Change Closeout State Machine"
   require_yq "$STATE_MACHINE" '.state_machine_id == "change-closeout-state-machine"' "state machine contract has stable id" "state machine contract must have stable id"
+  require_yq "$STATE_MACHINE" '.policy_refs.branch_landing_authorization_schema_ref == ".octon/framework/product/contracts/branch-landing-authorization-v1.schema.json"' "state machine references branch landing authorization schema" "state machine must reference branch landing authorization schema"
   require_yq "$STATE_MACHINE" '.relationship_to_default_work_unit.dirty_worktree_wrapper.default_work_unit_replacement == false' "state machine keeps Closeout Worktree as wrapper" "state machine must keep Closeout Worktree as wrapper"
   require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.unspecified_closeout_request == "cleaned"' "state machine defaults unspecified closeout target to cleaned" "state machine must default unspecified closeout target to cleaned"
   require_yq "$STATE_MACHINE" '.target_lifecycle_defaults.explicit_narrower_lifecycle_targets[]? | select(. == "published-branch")' "state machine separates narrower lifecycle targets from route requests" "state machine must separate narrower lifecycle targets from route requests"
@@ -187,6 +216,8 @@ validate_contracts() {
   require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "policy treats stage-only-escalate as route request" "policy must treat stage-only-escalate as a route request"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "unspecified_closeout_target_not_resolved_to_cleaned")' "policy fails closed when unspecified closeout target is not cleaned" "policy must fail closed when unspecified closeout target is not cleaned"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_landed_or_cleaned_without_landing_evaluation")' "policy fails closed on missing landing evaluation for landing targets" "policy must fail closed on missing landing evaluation for landing targets"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_without_valid_governed_authorization")' "policy fails closed without governed landing authorization" "policy must fail closed without governed landing authorization"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "hosted_no_pr_landing_with_stale_or_denied_authorization")' "policy fails closed on stale or denied authorization" "policy must fail closed on stale or denied landing authorization"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "stale_remote_branch_ref_in_closeout_receipt")' "policy fails closed on stale recorded remote branch refs" "policy must fail closed on stale recorded remote branch refs"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "post_landing_local_main_not_synced_to_origin_main")' "policy fails closed on missing post-landing local main sync" "policy must fail closed on missing post-landing local main sync"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_cleanup_attempts_protected_active_unmerged_open_pr_or_unretained_rollback_ref")' "policy fails closed on unsafe branch cleanup" "policy must fail closed on unsafe branch cleanup"
@@ -208,6 +239,8 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "git-branch-push.sh" "closeout-change can invoke branch publication helper" "closeout-change must allow branch publication helper"
   require_literal "$CLOSEOUT_CHANGE" "git-required-checks-at-ref.sh" "closeout-change can invoke exact-SHA check helper" "closeout-change must allow exact-SHA check helper"
   require_literal "$CLOSEOUT_CHANGE" "git-branch-hosted-preflight.sh" "closeout-change can invoke hosted no-PR preflight helper" "closeout-change must allow hosted no-PR preflight helper"
+  require_literal "$CLOSEOUT_CHANGE" "git-branch-authorize-hosted-no-pr.sh" "closeout-change can invoke hosted no-PR authorization helper" "closeout-change must allow hosted no-PR authorization helper"
+  require_literal "$CLOSEOUT_CHANGE" "branch-landing-authorization-v1" "closeout-change requires governed landing authorization" "closeout-change must require governed landing authorization"
   require_literal "$CLOSEOUT_CHANGE" "git-branch-land-hosted-no-pr.sh" "closeout-change can invoke hosted no-PR landing helper" "closeout-change must allow hosted no-PR landing helper"
   require_literal "$CLOSEOUT_CHANGE" 'push to `origin/main`' "closeout-change requires direct-main origin push" "closeout-change must require direct-main origin push"
   require_literal "$CLOSEOUT_CHANGE" "push the source branch to origin" "closeout-change requires branch-no-pr origin push" "closeout-change must require branch-no-pr origin push"
@@ -227,6 +260,7 @@ validate_contracts() {
   require_literal "$WORKFLOW_STAGE" 'local `main`, `origin/main`, and' "workflow requires post-cleanup local main alignment" "workflow must require post-cleanup local main alignment"
   require_literal "$WORKFLOW_STAGE" "cleanup-local-run-artifacts.sh" "workflow classifies local run/control/evidence residue before cleaned closeout" "workflow must classify local residue before cleaned closeout"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land.route_guard == "branch-no-pr only"' "branch landing helper is route guarded" "branch landing helper must be route guarded"
+  require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_authorize_hosted_no_pr.route_guard == "branch-no-pr only"' "hosted no-PR authorization helper is route guarded" "hosted no-PR authorization helper must be route guarded"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.route_guard == "branch-no-pr only"' "hosted no-PR landing helper is route guarded" "hosted no-PR landing helper must be route guarded"
   require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-no-pr")' "worktree contract applies post-landing cleanup to branch-no-pr" "worktree contract must apply post-landing cleanup to branch-no-pr"
   require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-pr")' "worktree contract applies post-landing cleanup to branch-pr" "worktree contract must apply post-landing cleanup to branch-pr"
@@ -239,16 +273,54 @@ validate_contracts() {
   require_literal "$BRANCH_CLEANUP_SCRIPT" "retained rollback" "branch cleanup helper requires retained rollback posture" "branch cleanup helper must require retained rollback posture"
   require_literal "$BRANCH_CLEANUP_SCRIPT" "open PR exists" "branch cleanup helper refuses open-PR branches" "branch cleanup helper must refuse open-PR branches"
   require_literal "$HOSTED_PREFLIGHT_SCRIPT" "Provider ruleset requires PR; hosted branch-no-pr landing unavailable." "hosted preflight blocks PR-required provider rules" "hosted preflight must block PR-required provider rules"
+  require_literal "$HOSTED_AUTH_SCRIPT" "branch-landing-authorization-v1" "hosted authorization helper emits governed authorization" "hosted authorization helper must emit governed authorization"
+  require_literal "$HOSTED_AUTH_SCRIPT" "does not bypass platform, sandbox, or host safety controls" "hosted authorization helper records runtime safety boundary" "hosted authorization helper must record runtime safety boundary"
+  require_literal "$HOSTED_LAND_SCRIPT" "requires --authorization" "hosted land helper requires authorization" "hosted land helper must require authorization"
+  require_literal "$HOSTED_LAND_SCRIPT" "Landing authorization target pre-ref is stale" "hosted land helper blocks stale authorization" "hosted land helper must block stale authorization"
   require_literal "$HOSTED_LAND_SCRIPT" 'origin/main equals landed_ref after push' "hosted land helper emits origin/main equality evidence" "hosted land helper must emit origin/main equality evidence"
   require_jq "$VALID_DIRECT_MAIN_LANDED" '.selected_route == "direct-main" and .lifecycle_outcome == "landed" and .integration_method == "direct-commit" and .integration_status == "landed" and .publication_status == "none" and .durable_history.kind == "commit"' "receipt example covers direct-main landed closeout" "receipt example must cover direct-main landed closeout"
   require_jq "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "branch-local-complete" and .integration_status == "not_landed" and .publication_status == "none" and .closeout_outcome == "continued" and .durable_history.kind == "commit"' "receipt example covers branch-no-pr branch-local completion" "receipt example must cover branch-no-pr branch-local completion"
   require_jq "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "published-branch" and .lifecycle_outcome == "published-branch" and .publication_status == "pushed-branch" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "receipt example covers branch-no-pr pushed-branch handoff" "receipt example must cover branch-no-pr pushed-branch handoff"
   require_jq "$VALID_BRANCH_PR_READY" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .publication_status == "pr-ready" and .integration_status == "not_landed" and .closeout_outcome == "continued"' "receipt example covers branch-pr ready without landed closeout" "receipt example must cover branch-pr ready without landed closeout"
-  require_jq "$VALID_HOSTED_BRANCH_NO_PR_LANDED" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "landed" and .lifecycle_outcome == "landed" and .integration_status == "landed" and .publication_status == "hosted-main-updated" and .hosted_landing.target_post_ref == .landed_ref and .main_alignment.aligned == true' "receipt example covers hosted branch-no-pr landing" "receipt example must cover hosted branch-no-pr landing"
+  require_jq "$VALID_HOSTED_BRANCH_NO_PR_LANDED" '.selected_route == "branch-no-pr" and .target_lifecycle_outcome == "landed" and .lifecycle_outcome == "landed" and .integration_status == "landed" and .publication_status == "hosted-main-updated" and (.landing_authorization_ref | type == "string" and length > 0) and .hosted_landing.target_post_ref == .landed_ref and .main_alignment.aligned == true' "receipt example covers hosted branch-no-pr landing" "receipt example must cover hosted branch-no-pr landing"
   require_jq "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "landed" and .publication_status == "pushed-branch"' "receipt example covers pushed-only landed overclaim" "receipt example must cover pushed-only landed overclaim"
   require_jq "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "published-branch" and .closeout_outcome == "completed"' "receipt example covers pushed-branch completed-closeout overclaim" "receipt example must cover pushed-branch completed-closeout overclaim"
   require_jq "$INVALID_STALE_REMOTE_BRANCH_REF" '.selected_route == "branch-no-pr" and .lifecycle_outcome == "published-branch" and .remote_branch_ref != ("origin/" + .source_branch_ref + "@" + .durable_history.ref)' "receipt example covers stale remote branch ref" "receipt example must cover stale remote branch ref"
   require_jq "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" '.selected_route == "branch-pr" and .lifecycle_outcome == "ready" and .closeout_outcome == "completed"' "receipt example covers draft/open PR full-closeout overclaim" "receipt example must cover draft/open PR full-closeout overclaim"
+}
+
+validate_landing_authorization_ref() {
+  local auth_ref auth_path source_ref target_pre_ref source_branch target_branch remote provider_ruleset_ref
+  auth_ref="$(json_value '.landing_authorization_ref')"
+  json_has_nonempty '.landing_authorization_ref' && pass "branch-no-pr landed claim has landing authorization ref" || { fail "branch-no-pr landed claim requires landing_authorization_ref"; return; }
+  auth_path="$(resolve_ref_path "$auth_ref")" || { fail "landing_authorization_ref cannot be resolved"; return; }
+  [[ -f "$auth_path" ]] || { fail "landing authorization receipt resolves to an existing file"; return; }
+  jq -e '.' "$auth_path" >/dev/null 2>&1 && pass "landing authorization parses as JSON" || { fail "landing authorization parses as JSON"; return; }
+
+  source_ref="$(json_value '.hosted_landing.source_ref')"
+  target_pre_ref="$(json_value '.hosted_landing.target_pre_ref')"
+  source_branch="$(json_value '.source_branch_ref')"
+  target_branch="$(json_value '.hosted_landing.target_branch')"
+  remote="$(json_value '.hosted_landing.remote')"
+  provider_ruleset_ref="$(json_value '.hosted_landing.provider_ruleset_ref')"
+
+  jq -e '.schema_version == "branch-landing-authorization-v1"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization schema version valid" || fail "landing authorization schema_version must be branch-landing-authorization-v1"
+  jq -e '.authorization_result == "approved"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization is approved" || fail "landing authorization must be approved"
+  jq -e '.selected_route == "branch-no-pr"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization route is branch-no-pr" || fail "landing authorization route must be branch-no-pr"
+  jq -e '.target_lifecycle_outcome == "landed" or .target_lifecycle_outcome == "cleaned"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization target is landing scoped" || fail "landing authorization target must be landed or cleaned"
+  [[ "$(jq -r '.remote // ""' "$auth_path")" == "$remote" ]] && pass "landing authorization remote matches hosted landing" || fail "landing authorization remote must match hosted landing"
+  [[ "$(jq -r '.target_branch // ""' "$auth_path")" == "$target_branch" ]] && pass "landing authorization target branch matches hosted landing" || fail "landing authorization target branch must match hosted landing"
+  [[ "$(jq -r '.source_branch // ""' "$auth_path")" == "$source_branch" ]] && pass "landing authorization source branch matches receipt" || fail "landing authorization source branch must match receipt"
+  [[ "$(jq -r '.source_ref // ""' "$auth_path")" == "$source_ref" ]] && pass "landing authorization source ref matches hosted landing" || fail "landing authorization source ref must match hosted landing"
+  [[ "$(jq -r '.remote_source_ref // ""' "$auth_path")" == "$source_ref" ]] && pass "landing authorization remote source ref matches source" || fail "landing authorization remote source ref must match source"
+  [[ "$(jq -r '.target_pre_ref // ""' "$auth_path")" == "$target_pre_ref" ]] && pass "landing authorization target pre-ref matches hosted landing" || fail "landing authorization target pre-ref must match hosted landing"
+  [[ "$(jq -r '.provider_ruleset_ref // ""' "$auth_path")" == "$provider_ruleset_ref" ]] && pass "landing authorization provider ruleset matches hosted landing" || fail "landing authorization provider ruleset must match hosted landing"
+  jq -e --slurpfile receipt "$RECEIPT_PATH" '(.required_check_refs | sort) == ($receipt[0].hosted_landing.required_check_refs | sort)' "$auth_path" >/dev/null 2>&1 && pass "landing authorization check refs match hosted landing" || fail "landing authorization check refs must match hosted landing required_check_refs"
+  jq -e '.no_pr_required == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization proves no PR required" || fail "landing authorization must prove no PR required"
+  jq -e '.preflight_status == "passed"' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records passed preflight" || fail "landing authorization must record passed preflight"
+  jq -e '.required_check_refs | type == "array" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records exact-SHA check evidence" || fail "landing authorization requires check evidence"
+  jq -e '.rollback_handle | type == "string" and length > 0' "$auth_path" >/dev/null 2>&1 && pass "landing authorization records rollback handle" || fail "landing authorization requires rollback handle"
+  jq -e '.host_controls_not_bypassed == true' "$auth_path" >/dev/null 2>&1 && pass "landing authorization preserves host controls" || fail "landing authorization must preserve host controls"
 }
 
 validate_receipt() {
@@ -404,6 +476,7 @@ validate_receipt() {
       [[ "$integration_method" == "fast-forward" ]] && pass "branch-no-pr landed uses fast-forward integration" || fail "branch-no-pr landed requires fast-forward integration"
       jq -e '.landing_evaluation | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "branch-no-pr landed has landing evaluation" || fail "branch-no-pr landed requires landing_evaluation"
       jq -e '.hosted_landing | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "branch-no-pr landed has hosted landing evidence" || fail "branch-no-pr landed requires hosted_landing evidence"
+      validate_landing_authorization_ref
       json_has_nonempty '.hosted_landing.provider_ruleset_ref' && pass "hosted landing has provider ruleset evidence" || fail "hosted landing requires provider_ruleset_ref"
       json_array_nonempty '.hosted_landing.required_check_refs' && pass "hosted landing has exact-SHA check refs" || fail "hosted landing requires required_check_refs"
       jq -e '.hosted_landing.fast_forward_only == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "hosted landing is fast-forward only" || fail "hosted landing requires fast_forward_only true"
