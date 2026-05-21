@@ -90,6 +90,11 @@ safety class, hosted landing references when applicable, branch cleanup
 references when applicable, final verification, and escalation references when
 applicable.
 
+Branch-based completed closeout additionally requires retained receipt evidence
+that the source branch changes are integrated into `origin/main`, origin was
+fetched after landing, local `main` was synchronized to `origin/main`, and the
+recorded landed ref is contained in both local `main` and `origin/main`.
+
 Receipts must reject `published-branch`, `published`, or `ready` as completed
 closeout. They must also reject force-push, ambiguous deletion, reset,
 restoration, overwrite, and branch cleanup without containment, no-open-PR

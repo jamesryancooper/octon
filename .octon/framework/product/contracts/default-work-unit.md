@@ -277,6 +277,10 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
 - Do not claim full `branch-no-pr` or `branch-pr` closeout after landing while
   branch cleanup is still pending; cleanup must be completed or explicitly
   deferred with blocker evidence.
+- Do not claim full branch-based closeout without receipt evidence that the
+  source branch changes are integrated into `origin/main`, origin was fetched
+  after landing, local `main` was synchronized to `origin/main`, and the
+  recorded landed ref is contained in both local `main` and `origin/main`.
 - Do not delete protected branches, active work branches, unmerged branches,
   open-PR branches, or branches whose evidence and rollback posture are not
   retained.

@@ -96,6 +96,11 @@ json_array_nonempty() {
   jq -e "$expr | type == \"array\" and length > 0" "$RECEIPT_PATH" >/dev/null 2>&1
 }
 
+json_bool_true() {
+  local expr="$1"
+  jq -e "$expr == true" "$RECEIPT_PATH" >/dev/null 2>&1
+}
+
 looks_like_sha() {
   [[ "$1" =~ ^[0-9a-fA-F]{40}$ ]]
 }
@@ -135,6 +140,11 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.properties.outcome_intent.enum[] | select(. == "handoff-only")' "receipt schema models outcome intent" "receipt schema must model outcome intent"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_evaluation.properties.status.enum[] | select(. == "blocked")' "receipt schema models landing evaluation" "receipt schema must model landing evaluation"
   require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.required[] | select(. == "origin_main_ref")' "receipt schema models final main alignment" "receipt schema must model final main alignment"
+  require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.origin_fetch_evidence_ref' "receipt schema models post-landing origin fetch evidence" "receipt schema must model post-landing origin fetch evidence"
+  require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_sync_evidence_ref' "receipt schema models local main sync evidence" "receipt schema must model local main sync evidence"
+  require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.origin_main_contains_landed_ref.const == true' "receipt schema models origin/main landed-ref containment" "receipt schema must model origin/main landed-ref containment"
+  require_jq "$RECEIPT_SCHEMA" '.properties.main_alignment.properties.local_main_contains_landed_ref.const == true' "receipt schema models local main landed-ref containment" "receipt schema must model local main landed-ref containment"
+  require_jq "$RECEIPT_SCHEMA" '.properties.source_branch_integration.required[] | select(. == "evidence_refs")' "receipt schema models source branch integration evidence" "receipt schema must model source branch integration evidence"
   require_jq "$RECEIPT_SCHEMA" '.properties.source_branch_cleanup.properties.status.enum[] | select(. == "deferred")' "receipt schema models source branch cleanup disposition" "receipt schema must model source branch cleanup disposition"
   require_jq "$RECEIPT_SCHEMA" '.properties.publication_status.enum[] | select(. == "hosted-main-updated")' "receipt schema models hosted main update publication status" "receipt schema missing hosted-main-updated publication status"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "provider_ruleset_ref")' "receipt schema requires provider ruleset evidence for hosted landing" "receipt schema must require provider ruleset evidence for hosted landing"
@@ -147,7 +157,10 @@ validate_contracts() {
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[]? | select(. == "landed")' "branch-no-pr supports landed lifecycle outcome" "branch-no-pr must support landed lifecycle outcome"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "provider_ruleset_allows_route_neutral_fast_forward_update")' "branch-no-pr landed requires route-neutral provider rules" "branch-no-pr landed must require route-neutral provider rules"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "branch-no-pr landed requires origin/main equality" "branch-no-pr landed must require origin/main equality"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "branch-no-pr landed requires source branch integration evidence" "branch-no-pr landed must require source branch integration evidence"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "post_landing_fetch_origin_completed")' "branch-no-pr landed requires post-landing fetch evidence" "branch-no-pr landed must require post-landing fetch evidence"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "branch-no-pr landed requires branch cleanup or deferred cleanup record" "branch-no-pr landed must require branch cleanup or deferred cleanup record"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_contains_landed_ref_after_sync")' "branch-no-pr landed requires local main landed-ref containment" "branch-no-pr landed must require local main landed-ref containment"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-no-pr landed requires local/main/origin alignment proof" "branch-no-pr landed must require local/main/origin alignment proof"
   require_yq "$POLICY" '.state_machine_ref == ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "policy references Change Closeout State Machine" "policy must reference Change Closeout State Machine"
   require_yq "$STATE_MACHINE" '.state_machine_id == "change-closeout-state-machine"' "state machine contract has stable id" "state machine contract must have stable id"
@@ -155,11 +168,15 @@ validate_contracts() {
   require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "residue-classification")' "state machine contract defines residue classification phase" "state machine contract must define residue classification phase"
   require_yq "$STATE_MACHINE" '.cleanup_safety.denied_classes[]? | select(. == "detection-only")' "state machine denies detection-only cleanup" "state machine must deny detection-only cleanup"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "branch-pr supports ready lifecycle outcome" "branch-pr must support ready lifecycle outcome"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "source_branch_changes_integrated_into_origin_main")' "branch-pr landed requires source branch integration evidence" "branch-pr landed must require source branch integration evidence"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "branch-pr landed requires branch cleanup or deferred cleanup record" "branch-pr landed must require branch cleanup or deferred cleanup record"
+  require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "post_landing_fetch_origin_completed")' "branch-pr landed requires post-landing fetch evidence" "branch-pr landed must require post-landing fetch evidence"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-pr landed requires local/main/origin alignment proof" "branch-pr landed must require local/main/origin alignment proof"
   require_yq "$POLICY" '.route_lifecycle_outcomes."direct-main".full_closeout_requires[]? | select(. == "local_main_equals_origin_main_after_fetch")' "direct-main closeout requires local main sync after fetch" "direct-main closeout must require local main sync after fetch"
   require_yq "$POLICY" '.route_lifecycle_outcomes."direct-main".full_closeout_requires[]? | select(. == "local_main_contains_landed_ref_after_fetch")' "direct-main closeout requires landed ref containment after fetch" "direct-main closeout must require landed ref containment after fetch"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_safe_branch_cleanup_or_deferred_cleanup_record")' "policy fails closed on landed branch closeout without cleanup disposition" "policy must fail closed on landed branch closeout without cleanup disposition"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_source_branch_integration_evidence")' "policy fails closed on landed branch closeout without source branch integration evidence" "policy must fail closed on landed branch closeout without source branch integration evidence"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_post_landing_fetch_and_local_main_sync_evidence")' "policy fails closed on landed branch closeout without post-landing fetch/sync evidence" "policy must fail closed on landed branch closeout without post-landing fetch/sync evidence"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "published_branch_reported_as_completed_closeout")' "policy fails closed on pushed branch handoff reported as completed" "policy must fail closed on pushed branch handoff reported as completed"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "target_landed_or_cleaned_without_landing_evaluation")' "policy fails closed on missing landing evaluation for landing targets" "policy must fail closed on missing landing evaluation for landing targets"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "stale_remote_branch_ref_in_closeout_receipt")' "policy fails closed on stale recorded remote branch refs" "policy must fail closed on stale recorded remote branch refs"
@@ -186,6 +203,8 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "push the source branch to origin" "closeout-change requires branch-no-pr origin push" "closeout-change must require branch-no-pr origin push"
   require_literal "$CLOSEOUT_CHANGE" "hosted no-PR landing preflight" "closeout-change requires hosted no-PR preflight" "closeout-change must require hosted no-PR preflight"
   require_literal "$CLOSEOUT_CHANGE" "Post-Landing Cleanup And Sync" "closeout-change requires post-landing cleanup and sync" "closeout-change must require post-landing cleanup and sync"
+  require_literal "$CLOSEOUT_CHANGE" "source branch changes are integrated into \`origin/main\`" "closeout-change requires source branch integration before full closeout" "closeout-change must require source branch integration before full closeout"
+  require_literal "$CLOSEOUT_CHANGE" "recorded \`landed_ref\` is contained in both local \`main\`" "closeout-change requires landed-ref containment before full closeout" "closeout-change must require landed-ref containment before full closeout"
   require_literal "$CLOSEOUT_CHANGE" "Never delete protected" "closeout-change forbids unsafe branch cleanup" "closeout-change must forbid unsafe branch cleanup"
   require_literal "$CLOSEOUT_WORKTREE" 'singular `closeout-change` runs' "closeout-worktree delegates singular closeout-change runs" "closeout-worktree must delegate singular closeout-change runs"
   require_literal "$CLOSEOUT_WORKTREE" "Do not stage, commit, push, open a PR" "closeout-worktree forbids direct material route actions" "closeout-worktree must forbid direct material route actions"
@@ -388,6 +407,11 @@ validate_receipt() {
       else
         fail "hosted landing requires target_post_ref and landed_ref"
       fi
+      if json_has_nonempty '.hosted_landing.source_ref' && json_has_nonempty '.landed_ref'; then
+        [[ "$(json_value '.hosted_landing.source_ref')" == "$(json_value '.landed_ref')" ]] && pass "branch-no-pr fast-forward integrates exact source ref into origin/main" || fail "branch-no-pr hosted landing source_ref must equal landed_ref"
+      else
+        fail "hosted landing requires source_ref and landed_ref"
+      fi
     fi
   fi
 
@@ -417,6 +441,9 @@ validate_receipt() {
     json_has_nonempty '.landed_ref' && pass "landed claim has landed ref" || fail "landed claim requires landed_ref"
     json_has_nonempty '.target_branch_ref' && pass "landed claim has target branch ref" || fail "landed claim requires target_branch_ref"
     jq -e '.main_alignment.aligned == true' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "landed claim has final main alignment evidence" || fail "landed claim requires main_alignment.aligned true"
+    json_has_nonempty '.main_alignment.landed_ref' && pass "main alignment records landed ref" || fail "main_alignment requires landed_ref"
+    json_has_nonempty '.main_alignment.local_main_ref' && pass "main alignment records local main ref" || fail "main_alignment requires local_main_ref"
+    json_has_nonempty '.main_alignment.origin_main_ref' && pass "main alignment records origin/main ref" || fail "main_alignment requires origin_main_ref"
     if json_has_nonempty '.main_alignment.landed_ref' && json_has_nonempty '.landed_ref'; then
       [[ "$(json_value '.main_alignment.landed_ref')" == "$(json_value '.landed_ref')" ]] && pass "main alignment landed_ref matches receipt landed_ref" || fail "main_alignment.landed_ref must equal landed_ref"
     fi
@@ -434,6 +461,17 @@ validate_receipt() {
     else
       pass "landed claim uses commit, branch, or PR durable history"
     fi
+  fi
+
+  if [[ "$closeout_outcome" == "completed" || "$outcome" == "cleaned" ]]; then
+    jq -e '.stateful_closeout | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "completed or cleaned closeout has stateful_closeout evidence" || fail "completed or cleaned closeout requires stateful_closeout"
+    json_has_nonempty '.stateful_closeout.initial_inventory_ref' && pass "stateful closeout has initial inventory ref" || fail "stateful_closeout requires initial_inventory_ref"
+    json_has_nonempty '.stateful_closeout.residue_classification_ref' && pass "stateful closeout has residue classification ref" || fail "stateful_closeout requires residue_classification_ref"
+    json_array_nonempty '.stateful_closeout.phase_exit_refs' && pass "stateful closeout has phase exit refs" || fail "stateful_closeout requires phase_exit_refs"
+    json_array_nonempty '.stateful_closeout.cleanup_decision_refs' && pass "stateful closeout has cleanup decision refs" || fail "stateful_closeout requires cleanup_decision_refs"
+    json_has_nonempty '.stateful_closeout.safe_cleanup_evidence_class' && pass "stateful closeout has cleanup safety class" || fail "stateful_closeout requires safe_cleanup_evidence_class"
+    json_has_nonempty '.stateful_closeout.final_verification_ref' && pass "stateful closeout has final verification ref" || fail "stateful_closeout requires final_verification_ref"
+    [[ "$(json_value '.stateful_closeout.state_machine_version')" == "change-closeout-state-machine-v1" ]] && pass "stateful closeout names current state machine" || fail "stateful_closeout must name change-closeout-state-machine-v1"
   fi
 
   if [[ "$route" == "branch-pr" ]]; then
@@ -472,6 +510,35 @@ validate_receipt() {
   fi
 
   if [[ ( "$route" == "branch-no-pr" || "$route" == "branch-pr" ) && "$integration" == "landed" && "$closeout_outcome" == "completed" ]]; then
+    case "$outcome" in
+      landed|cleaned) pass "completed branch closeout has landed or cleaned lifecycle outcome" ;;
+      *) fail "completed branch closeout must have landed or cleaned lifecycle outcome" ;;
+    esac
+    json_has_nonempty '.source_branch_ref' && pass "completed branch closeout records source branch" || fail "completed branch closeout requires source_branch_ref"
+    jq -e '.source_branch_integration | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "completed branch closeout has source branch integration evidence" || fail "completed branch closeout requires source_branch_integration"
+    if jq -e '.source_branch_integration | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+      json_bool_true '.source_branch_integration.integrated' && pass "source branch integration is affirmed" || fail "source_branch_integration.integrated must be true"
+      json_array_nonempty '.source_branch_integration.evidence_refs' && pass "source branch integration has evidence refs" || fail "source_branch_integration requires evidence_refs"
+      if json_has_nonempty '.source_branch_integration.source_branch_ref' && json_has_nonempty '.source_branch_ref'; then
+        [[ "$(json_value '.source_branch_integration.source_branch_ref')" == "$(json_value '.source_branch_ref')" ]] && pass "source branch integration names the receipt source branch" || fail "source_branch_integration.source_branch_ref must equal source_branch_ref"
+      else
+        fail "source_branch_integration requires source_branch_ref"
+      fi
+      if json_has_nonempty '.source_branch_integration.landed_ref' && json_has_nonempty '.landed_ref'; then
+        [[ "$(json_value '.source_branch_integration.landed_ref')" == "$(json_value '.landed_ref')" ]] && pass "source branch integration landed_ref matches receipt landed_ref" || fail "source_branch_integration.landed_ref must equal landed_ref"
+      else
+        fail "source_branch_integration requires landed_ref"
+      fi
+      if json_has_nonempty '.source_branch_integration.origin_main_ref' && json_has_nonempty '.main_alignment.origin_main_ref'; then
+        [[ "$(json_value '.source_branch_integration.origin_main_ref')" == "$(json_value '.main_alignment.origin_main_ref')" ]] && pass "source branch integration origin/main ref matches final alignment" || fail "source_branch_integration.origin_main_ref must equal main_alignment.origin_main_ref"
+      else
+        fail "source_branch_integration requires origin_main_ref"
+      fi
+    fi
+    json_has_nonempty '.main_alignment.origin_fetch_evidence_ref' && pass "completed branch closeout records post-landing fetch evidence" || fail "completed branch closeout requires main_alignment.origin_fetch_evidence_ref"
+    json_has_nonempty '.main_alignment.local_main_sync_evidence_ref' && pass "completed branch closeout records local main sync evidence" || fail "completed branch closeout requires main_alignment.local_main_sync_evidence_ref"
+    json_bool_true '.main_alignment.origin_main_contains_landed_ref' && pass "origin/main containment of landed_ref is proven" || fail "completed branch closeout requires origin_main_contains_landed_ref true"
+    json_bool_true '.main_alignment.local_main_contains_landed_ref' && pass "local main containment of landed_ref is proven" || fail "completed branch closeout requires local_main_contains_landed_ref true"
     case "$cleanup" in
       completed|deferred) pass "completed landed branch closeout has cleanup completed or deferred" ;;
       *) fail "completed landed branch closeout must not leave cleanup pending" ;;
@@ -484,6 +551,14 @@ validate_receipt() {
         completed|deferred|skipped) pass "source branch cleanup disposition is terminal or explicitly deferred" ;;
         *) fail "source_branch_cleanup.status must be completed, deferred, or skipped for completed closeout" ;;
       esac
+      if [[ "$cleanup_disposition" == "deferred" ]]; then
+        json_has_nonempty '.source_branch_cleanup.blocker_reason' && pass "deferred source branch cleanup records blocker reason" || fail "deferred source branch cleanup requires blocker_reason"
+        if json_array_nonempty '.source_branch_cleanup.evidence_refs' || json_array_nonempty '.cleanup_evidence_refs' || json_array_nonempty '.external_blocker_refs'; then
+          pass "deferred source branch cleanup has blocker or evidence refs"
+        else
+          fail "deferred source branch cleanup requires evidence_refs, cleanup_evidence_refs, or external_blocker_refs"
+        fi
+      fi
     fi
   fi
 

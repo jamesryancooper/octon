@@ -28,10 +28,13 @@ actual lifecycle outcome:
   claiming completion.
 
 For any landed or cleaned branch outcome, validation must include final
-alignment evidence for local `main`, `origin/main`, and `landed_ref`. For
-cleaned targets, validation must include source-branch cleanup evidence or a
-deferred-cleanup blocker plus `not_cleaned_reason` when the actual outcome is
-not `cleaned`.
+alignment evidence for local `main`, `origin/main`, and `landed_ref`. A
+branch-based completed closeout must additionally prove source-branch
+integration into `origin/main`, post-landing `git fetch` evidence, local
+`main` synchronization to `origin/main`, and landed-ref containment in both
+local `main` and `origin/main`. For cleaned targets, validation must include
+source-branch cleanup evidence or a deferred-cleanup blocker plus
+`not_cleaned_reason` when the actual outcome is not `cleaned`.
 
 Completed or cleaned closeout also requires `stateful_closeout` evidence from
 the Change Closeout State Machine. That evidence must cite the initial

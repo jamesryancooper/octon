@@ -46,6 +46,19 @@
     "ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
     "instructions": "Revert the direct-main commit if post-closeout validation fails."
   },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "example-direct-main-inventory",
+    "residue_classification_ref": "example-direct-main-classification",
+    "phase_exit_refs": [
+      "example-direct-main-phase-exits"
+    ],
+    "cleanup_decision_refs": [
+      "example-direct-main-cleanup-decision"
+    ],
+    "safe_cleanup_evidence_class": "validator-proof",
+    "final_verification_ref": "example-direct-main-final-verification"
+  },
   "closeout_outcome": "completed",
   "created_at": "2026-05-04T00:00:00Z"
 }

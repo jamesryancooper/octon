@@ -125,6 +125,12 @@ validate_static() {
   require_literal "$WRAPPER_VALIDATION" "orchestration iteration" \
     "wrapper validation requires orchestration evidence" \
     "wrapper validation must require orchestration evidence"
+  require_literal "$WRAPPER_VALIDATION" "and the receipt records" \
+    "wrapper validation requires completed closeout-change receipts for closed candidates" \
+    "wrapper validation must require completed closeout-change receipts for closed candidates"
+  require_literal "$WRAPPER_VALIDATION" "continued handoff receipt as \`closed\` fails" \
+    "wrapper validation rejects continued handoff receipts as closed candidates" \
+    "wrapper validation must reject continued handoff receipts as closed candidates"
   require_literal "$CODEX_WRAPPER" "name: closeout-worktree" \
     "Codex host projection exposes closeout-worktree" \
     "Codex host projection must expose closeout-worktree"
@@ -213,15 +219,127 @@ def ref_to_repo_path(ref, field):
 def require_closeout_change_evidence(ref, field):
     path = ref_to_repo_path(ref, field)
     if path is None:
-        return
+        return None
     resolved = path.resolve()
     try:
         resolved.relative_to(CLOSEOUT_CHANGE_ROOT)
     except ValueError:
         fail(f"{field} must stay under .octon/state/evidence/runs/skills/closeout-change/: {ref}")
-        return
+        return None
     if not resolved.is_file():
         fail(f"{field} must resolve to a retained closeout-change evidence file: {ref}")
+        return None
+    return resolved
+
+
+def load_closeout_change_receipt(ref, field, require_receipt=False):
+    resolved = require_closeout_change_evidence(ref, field)
+    if resolved is None:
+        return None
+    if resolved.suffix != ".json":
+        if require_receipt:
+            fail(f"{field} must resolve to a closeout-change receipt JSON when reporting closed/full closeout: {ref}")
+        return None
+    try:
+        loaded = json.loads(resolved.read_text())
+    except Exception as exc:
+        fail(f"{field} must be parseable closeout-change receipt JSON: {exc}")
+        return None
+    if not isinstance(loaded, dict):
+        fail(f"{field} closeout-change receipt must be a JSON object")
+        return None
+    return loaded
+
+
+def receipt_has_completed_full_closeout(ref, field):
+    receipt = load_closeout_change_receipt(ref, field, require_receipt=True)
+    if not isinstance(receipt, dict):
+        return False
+
+    if receipt.get("closeout_outcome") != "completed":
+        fail(f"{field} receipt closeout_outcome must be completed for a closed candidate")
+        return False
+
+    route = receipt.get("selected_route")
+    lifecycle = receipt.get("lifecycle_outcome")
+    integration = receipt.get("integration_status")
+    landed_ref = receipt.get("landed_ref")
+    main_alignment = receipt.get("main_alignment") if isinstance(receipt.get("main_alignment"), dict) else {}
+
+    if route in {"branch-no-pr", "branch-pr"}:
+        if lifecycle not in {"landed", "cleaned"}:
+            fail(f"{field} branch receipt must have landed or cleaned lifecycle_outcome for closed candidate")
+            return False
+        if integration != "landed":
+            fail(f"{field} branch receipt must have integration_status landed for closed candidate")
+            return False
+
+        source_integration = receipt.get("source_branch_integration")
+        if not isinstance(source_integration, dict):
+            fail(f"{field} branch receipt must include source_branch_integration for closed candidate")
+            return False
+        if source_integration.get("integrated") is not True:
+            fail(f"{field} source_branch_integration.integrated must be true")
+            return False
+        if not isinstance(source_integration.get("evidence_refs"), list) or not source_integration.get("evidence_refs"):
+            fail(f"{field} source_branch_integration.evidence_refs must be non-empty")
+            return False
+        if source_integration.get("source_branch_ref") != receipt.get("source_branch_ref"):
+            fail(f"{field} source_branch_integration.source_branch_ref must equal source_branch_ref")
+            return False
+        if source_integration.get("landed_ref") != landed_ref:
+            fail(f"{field} source_branch_integration.landed_ref must equal landed_ref")
+            return False
+
+        required_alignment = {
+            "local_main_ref": landed_ref,
+            "origin_main_ref": landed_ref,
+            "landed_ref": landed_ref,
+            "aligned": True,
+            "origin_main_contains_landed_ref": True,
+            "local_main_contains_landed_ref": True,
+        }
+        for key, expected in required_alignment.items():
+            if main_alignment.get(key) != expected:
+                fail(f"{field} main_alignment.{key} must prove local main, origin/main, and landed_ref alignment")
+                return False
+        for key in ("origin_fetch_evidence_ref", "local_main_sync_evidence_ref"):
+            if not is_nonempty_string(main_alignment.get(key)):
+                fail(f"{field} main_alignment.{key} must be present for branch full closeout")
+                return False
+
+        cleanup_status = receipt.get("cleanup_status")
+        if cleanup_status not in {"completed", "deferred"}:
+            fail(f"{field} branch full closeout cleanup_status must be completed or deferred")
+            return False
+        source_cleanup = receipt.get("source_branch_cleanup")
+        if not isinstance(source_cleanup, dict):
+            fail(f"{field} branch full closeout must include source_branch_cleanup")
+            return False
+        if source_cleanup.get("status") == "deferred":
+            has_cleanup_evidence = (
+                is_nonempty_string(source_cleanup.get("blocker_reason"))
+                and (
+                    isinstance(source_cleanup.get("evidence_refs"), list)
+                    and bool(source_cleanup.get("evidence_refs"))
+                    or isinstance(receipt.get("cleanup_evidence_refs"), list)
+                    and bool(receipt.get("cleanup_evidence_refs"))
+                    or isinstance(receipt.get("external_blocker_refs"), list)
+                    and bool(receipt.get("external_blocker_refs"))
+                )
+            )
+            if not has_cleanup_evidence:
+                fail(f"{field} deferred source branch cleanup requires blocker evidence")
+                return False
+
+    return True
+
+
+def receipt_is_nonterminal_handoff(ref, field):
+    receipt = load_closeout_change_receipt(ref, field, require_receipt=True)
+    if not isinstance(receipt, dict):
+        return False
+    return receipt.get("closeout_outcome") in {"continued", "stage_only", "blocked", "escalated", "denied"}
 
 
 def load_yaml_as_json(path, field):
@@ -296,9 +414,10 @@ selected = None
 all_paths = {}
 valid_dispositions = {"selected", "delegated", "closed", "retained", "deferred", "blocked", "escalated", "foreign", "ambiguous"}
 delegated_dispositions = {"delegated", "closed"}
-retained_residue_dispositions = {"retained", "deferred", "foreign"}
+retained_residue_dispositions = {"retained", "foreign"}
+deferred_dispositions = {"deferred"}
 blocker_dispositions = {"blocked", "escalated", "ambiguous"}
-unresolved_dispositions = retained_residue_dispositions | blocker_dispositions
+unresolved_dispositions = retained_residue_dispositions | deferred_dispositions | blocker_dispositions
 unresolved_candidates = []
 candidates_by_id = {}
 candidate_boundaries = {}
@@ -412,6 +531,15 @@ for candidate in unresolved_candidates:
             for include_path in include_paths:
                 if not any(path_covers_boundary(item.get("path"), include_path) for item in evidence_items if is_nonempty_string(item.get("path"))):
                     fail(f"{prefix} retained_residue evidence must cover boundary path {include_path}")
+    if disposition in deferred_dispositions:
+        ref = candidate.get("closeout_change_ref")
+        if retained_by_candidate.get(candidate_id) or blockers_by_candidate.get(candidate_id):
+            pass
+        elif is_nonempty_string(ref):
+            if not receipt_is_nonterminal_handoff(ref, f"{prefix}.closeout_change_ref"):
+                fail(f"{prefix}.closeout_change_ref must record a non-terminal closeout-change outcome for deferred disposition")
+        else:
+            fail(f"{prefix} with disposition deferred must have retained_residue, blocker evidence, or a non-terminal closeout-change receipt")
 
     if disposition in blocker_dispositions:
         if not blockers_by_candidate.get(candidate_id):
@@ -445,10 +573,19 @@ else:
             ref = item.get("closeout_change_ref")
             require(is_nonempty_string(ref) and "closeout-change" in ref, f"{prefix}.closeout_change_ref must cite closeout-change")
             if is_nonempty_string(ref):
-                require_closeout_change_evidence(ref, f"{prefix}.closeout_change_ref")
+                receipt_has_completed_full_closeout(ref, f"{prefix}.closeout_change_ref")
         elif state in retained_residue_dispositions:
             if not retained_by_candidate.get(candidate_id):
                 fail(f"{prefix} with state {state} must have retained_residue evidence")
+        elif state == "deferred":
+            ref = item.get("closeout_change_ref")
+            if retained_by_candidate.get(candidate_id) or blockers_by_candidate.get(candidate_id):
+                pass
+            elif is_nonempty_string(ref):
+                if not receipt_is_nonterminal_handoff(ref, f"{prefix}.closeout_change_ref"):
+                    fail(f"{prefix}.closeout_change_ref must record a non-terminal closeout-change outcome for deferred state")
+            else:
+                fail(f"{prefix} with state deferred must have retained_residue, blocker evidence, or a non-terminal closeout-change receipt")
         elif state in {"blocked", "escalated"}:
             if not blockers_by_candidate.get(candidate_id):
                 fail(f"{prefix} with state {state} must have blocker evidence")
@@ -494,6 +631,8 @@ for index, iteration in enumerate(iterations):
     require(is_nonempty_string(ref) and "closeout-change" in ref, f"{prefix}.closeout_change_ref must cite closeout-change")
     if is_nonempty_string(ref):
         require_closeout_change_evidence(ref, f"{prefix}.closeout_change_ref")
+        if iteration.get("closeout_change_outcome") == "closed":
+            receipt_has_completed_full_closeout(ref, f"{prefix}.closeout_change_ref")
 
     include_paths = path_list(iteration.get("include_paths"), f"{prefix}.include_paths")
     path_list(iteration.get("exclude_paths", []), f"{prefix}.exclude_paths", required=False)

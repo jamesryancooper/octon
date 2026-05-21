@@ -28,6 +28,12 @@ lifecycle outcome, integration status, publication status, cleanup status,
 durable history, rollback handle, and cleanup evidence or deferred-cleanup
 evidence when cleanup is claimed.
 
+For branch-based completed closeout, receipt outputs must also record
+`source_branch_integration` and `main_alignment` evidence proving the source
+branch changes are integrated into `origin/main`, local `main` was synchronized
+to the fetched `origin/main`, and both local `main` and `origin/main` contain
+the recorded `landed_ref`.
+
 When target lifecycle outcome is `landed` or `cleaned` but actual outcome is
 lower, receipt outputs must also record landing evaluation evidence and
 `not_landed_reason`. When target lifecycle outcome is `cleaned` but cleanup or

@@ -25,6 +25,9 @@ title: Closeout Change Safety
   `branch-pr`.
 - Do not report hosted no-PR landing unless exact source SHA checks passed and
   `origin/main` equals the recorded landed ref after the fast-forward push.
+- Do not report branch-based full closeout unless source-branch integration
+  into `origin/main`, post-landing fetch, local `main` sync to `origin/main`,
+  and landed-ref containment in both refs are recorded.
 - Do not report a draft, open, or ready PR as full closeout.
 - Do not claim cleanup unless local branch, remote branch when present, and
   worktree cleanup evidence exists or a deferred-cleanup record is written.

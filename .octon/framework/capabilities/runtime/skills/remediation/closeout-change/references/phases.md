@@ -34,3 +34,7 @@ title: Closeout Change Phases
     blocked closeout.
 13. Write or update the Change receipt and execution log. Completed or cleaned
     claims require `stateful_closeout` evidence.
+14. Before reporting branch-based full closeout, verify the source branch
+    changes are integrated into `origin/main`, fetch origin, update local
+    `main` to that same ref, verify landed-ref containment in both refs, and
+    record cleanup completed or explicitly deferred with blocker evidence.

@@ -90,6 +90,9 @@ Execute the Change Closeout State Machine phase loop from
   `published-branch`, record `published-branch` as a continued handoff with
   landing evaluation evidence and `not_landed_reason`; do not call it completed
   closeout.
+- `branch-local-complete` and `published-branch` are continuation or handoff
+  outcomes only. They must report `closeout_outcome: continued`, `blocked`, or
+  escalated/denied as appropriate, never completed.
 - Do not claim direct-main completion without a commit, local validation
   evidence, Change receipt, rollback handle, push to `origin/main`, and proof
   that `origin/main` contains the landed ref plus post-push fetch/sync proof
@@ -117,9 +120,16 @@ Execute the Change Closeout State Machine phase loop from
 - If the target outcome is `cleaned` and cleanup or local-main sync cannot be
   proven, record `not_cleaned_reason` and report continued, blocked, or
   escalated closeout instead of completed closeout.
+- Branch-based `landed` or `cleaned` full closeout requires receipt evidence
+  that the source branch changes are integrated into `origin/main`; a
+  post-landing fetch occurred; local `main` was updated to match
+  `origin/main`; the recorded `landed_ref` is contained in both local `main`
+  and `origin/main`; and branch cleanup is completed or explicitly deferred
+  with blocker evidence.
 - After cleanup is completed or explicitly deferred, fetch from origin, sync
-  local `main` to `origin/main`, and verify local `main`, `origin/main`, and
-  the recorded `landed_ref` are aligned before declaring closeout complete.
+  local `main` to `origin/main`, verify local `main`, `origin/main`, and the
+  recorded `landed_ref` are aligned, and record containment evidence before
+  declaring branch-based closeout complete.
 - If the provider ruleset requires PR for `main`, report a blocker for
   `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
   `branch-pr`; PR mutation requires selected route `branch-pr` or explicit

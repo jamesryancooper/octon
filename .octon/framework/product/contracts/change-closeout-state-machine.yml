@@ -251,10 +251,13 @@ evidence_gates:
   landed:
     required:
       - "landed_ref"
+      - "source_branch_integration when route is branch-based"
       - "route-compatible integration method"
       - "validation evidence"
       - "rollback handle"
       - "hosted or origin evidence"
+      - "post-landing fetch and local main sync evidence"
+      - "origin/main and local main containment of landed_ref"
       - "final main alignment"
       - "stateful_closeout"
   cleaned:
@@ -262,6 +265,8 @@ evidence_gates:
       - "landed ref or explicitly non-landing outcome"
       - "branch cleanup and worktree cleanup completed or explicitly deferred"
       - "cleanup safety evidence"
+      - "post-landing fetch and local main sync evidence when landed"
+      - "origin/main and local main containment of landed_ref when landed"
       - "final main alignment when landed"
       - "stateful_closeout"
   blocked:

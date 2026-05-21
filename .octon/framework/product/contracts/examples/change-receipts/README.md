@@ -30,7 +30,9 @@ prove that a live GitHub ruleset has been migrated.
   continued`.
 - `valid-hosted-branch-no-pr-landed.json` demonstrates hosted no-PR landing
   evidence for `branch-no-pr` with exact source SHA checks and fast-forward
-  integration evidence.
+  integration evidence, plus source-branch integration, post-landing fetch,
+  local `main` sync, landed-ref containment, cleanup disposition, and
+  `stateful_closeout` evidence.
 - `invalid-pushed-only-branch-claimed-landed.json` is intentionally invalid. A
   pushed branch is `published-branch`, not hosted `landed`.
 - `invalid-published-branch-completed-closeout.json` is intentionally invalid.

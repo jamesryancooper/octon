@@ -85,9 +85,12 @@ reference, `closeout-change` outcome, post-inventory, post-classification, and
 the next selection reason. Every report must include
 `final_candidate_dispositions` keyed by candidate id with final state `closed`,
 `retained`, `blocked`, `escalated`, `deferred`, or `foreign`; closed
-candidates must cite the singular `closeout-change` receipt, log, or evidence
-reference under `.octon/state/evidence/runs/skills/closeout-change/`; synthetic
-route labels are not sufficient closeout evidence.
+candidates must cite a singular `closeout-change` receipt under
+`.octon/state/evidence/runs/skills/closeout-change/` whose
+`closeout_outcome` is `completed`. A `published-branch` or
+`branch-local-complete` receipt is a continued handoff and must not be reported
+as `closed`; use `deferred`, `blocked`, or retained evidence instead.
+Synthetic route labels are not sufficient closeout evidence.
 
 Candidates with `retained`, `deferred`, or `foreign` disposition must have
 candidate-keyed `retained_residue` entries covering their included boundary

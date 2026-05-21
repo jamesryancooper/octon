@@ -106,7 +106,7 @@ case_no_pr_landed_receipt_passes() {
   "scope": {"summary": "test"},
   "source_branch_ref": "feature/no-pr",
   "target_branch_ref": "origin/main@def0000000000000000000000000000000000000",
-  "remote_branch_ref": "origin/feature/no-pr",
+  "remote_branch_ref": "origin/feature/no-pr@def0000000000000000000000000000000000000",
   "landed_ref": "def0000000000000000000000000000000000000",
   "hosted_landing": {
     "remote": "origin",
@@ -128,11 +128,24 @@ case_no_pr_landed_receipt_passes() {
     "target_ref": "origin/main@def0000000000000000000000000000000000000",
     "evidence_refs": ["validator passed"]
   },
+  "source_branch_integration": {
+    "source_branch_ref": "feature/no-pr",
+    "source_ref": "def0000000000000000000000000000000000000",
+    "landed_ref": "def0000000000000000000000000000000000000",
+    "origin_main_ref": "def0000000000000000000000000000000000000",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": ["origin/main contains feature/no-pr at def0000000000000000000000000000000000000"]
+  },
   "main_alignment": {
     "local_main_ref": "def0000000000000000000000000000000000000",
     "origin_main_ref": "def0000000000000000000000000000000000000",
     "landed_ref": "def0000000000000000000000000000000000000",
-    "aligned": true
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin after landing",
+    "local_main_sync_evidence_ref": "git switch main && git merge --ff-only origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
   },
   "integration_method": "fast-forward",
   "integration_status": "landed",
@@ -143,12 +156,24 @@ case_no_pr_landed_receipt_passes() {
     "status": "deferred",
     "local_branch": "feature/no-pr",
     "remote_branch": "origin/feature/no-pr",
-    "blocker_reason": "cleanup deferred until operator leaves worktree"
+    "blocker_reason": "cleanup deferred until operator leaves worktree",
+    "evidence_refs": ["cleanup deferred until operator leaves worktree"]
   },
   "validation_evidence_refs": ["validator passed"],
   "review_waiver_refs": ["solo maintainer no-PR route"],
-  "durable_history": {"kind": "commit", "ref": "abc", "branch": "feature/no-pr"},
+  "durable_history": {"kind": "commit", "ref": "def0000000000000000000000000000000000000", "branch": "feature/no-pr"},
   "rollback_handle": {"kind": "revert-commit", "ref": "def"},
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "evidence://initial",
+    "residue_classification_ref": "evidence://classification",
+    "phase_exit_refs": ["evidence://phase"],
+    "cleanup_decision_refs": ["evidence://cleanup"],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": ["evidence://hosted-landing"],
+    "branch_cleanup_refs": ["evidence://branch-cleanup"],
+    "final_verification_ref": "evidence://final"
+  },
   "closeout_outcome": "completed",
   "created_at": "2026-05-01T00:00:00Z"
 }
@@ -438,6 +463,34 @@ case_target_cleaned_downgraded_requires_not_cleaned_reason() {
   ! run_validator "$receipt"
 }
 
+case_completed_branch_requires_source_integration() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" 'del(.source_branch_integration)'
+  ! run_validator "$receipt"
+}
+
+case_completed_branch_requires_post_fetch_sync_evidence() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" 'del(.main_alignment.origin_fetch_evidence_ref, .main_alignment.local_main_sync_evidence_ref)'
+  ! run_validator "$receipt"
+}
+
+case_completed_branch_requires_landed_ref_containment() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" '.main_alignment.local_main_contains_landed_ref = false'
+  ! run_validator "$receipt"
+}
+
+case_completed_branch_requires_stateful_closeout() {
+  local receipt
+  receipt="$(copy_example_receipt valid-hosted-branch-no-pr-landed.json)"
+  rewrite_json_file "$receipt" 'del(.stateful_closeout)'
+  ! run_validator "$receipt"
+}
+
 case_branch_pr_landed_completed_pending_cleanup_fails() {
   local receipt
   receipt="$(write_receipt <<'JSON'
@@ -499,6 +552,10 @@ main() {
   assert_success "target landed downgrade requires not_landed_reason" case_target_landed_downgraded_requires_not_landed_reason
   assert_success "target landed downgrade with blocker passes" case_target_landed_downgraded_with_blocker_passes
   assert_success "target cleaned downgrade requires not_cleaned_reason" case_target_cleaned_downgraded_requires_not_cleaned_reason
+  assert_success "completed branch closeout requires source integration evidence" case_completed_branch_requires_source_integration
+  assert_success "completed branch closeout requires post-fetch sync evidence" case_completed_branch_requires_post_fetch_sync_evidence
+  assert_success "completed branch closeout requires landed-ref containment" case_completed_branch_requires_landed_ref_containment
+  assert_success "completed branch closeout requires stateful closeout evidence" case_completed_branch_requires_stateful_closeout
   assert_success "branch-pr landed completed closeout with pending cleanup fails" case_branch_pr_landed_completed_pending_cleanup_fails
 
   echo

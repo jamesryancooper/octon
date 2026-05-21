@@ -86,6 +86,11 @@ json_has_nonempty() {
   jq -e "$expr | type == \"string\" and length > 0" "$RECEIPT_PATH" >/dev/null 2>&1
 }
 
+json_bool_true() {
+  local expr="$1"
+  jq -e "$expr == true" "$RECEIPT_PATH" >/dev/null 2>&1
+}
+
 validate_static() {
   for file in "$STATE_MACHINE_YML" "$STATE_MACHINE_MD" "$DEFAULT_WORK_UNIT_YML" "$DEFAULT_WORK_UNIT_MD" "$RECEIPT_SCHEMA" "$WORKFLOW" "$WORKFLOW_STAGE_EVALUATE" "$WORKFLOW_STAGE_REPORT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_CHANGE_PHASES" "$CLOSEOUT_CHANGE_VALIDATION" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_WORKTREE_PHASES" "$CLOSEOUT_WORKTREE_VALIDATION" "$WRAPPER_REPORT_VALIDATOR" "$CLOSEOUT_PR" "$CLOSEOUT_PR_PHASES" "$WORKTREE_CONTRACT" "$RESIDUE_CLASSIFIER"; do
     require_file "$file"
@@ -208,6 +213,13 @@ validate_receipt() {
 
   if [[ ( "$route" == "branch-no-pr" || "$route" == "branch-pr" ) && "$integration" == "landed" && "$closeout" == "completed" ]]; then
     json_array_nonempty '.stateful_closeout.branch_cleanup_refs' && pass "completed landed branch closeout has branch cleanup refs" || fail "completed landed branch closeout requires branch_cleanup_refs"
+    jq -e '.source_branch_integration | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "completed landed branch closeout has source branch integration evidence" || fail "completed landed branch closeout requires source_branch_integration"
+    json_bool_true '.source_branch_integration.integrated' && pass "source branch integration is affirmed" || fail "source_branch_integration.integrated must be true"
+    json_array_nonempty '.source_branch_integration.evidence_refs' && pass "source branch integration has evidence refs" || fail "source_branch_integration requires evidence_refs"
+    json_has_nonempty '.main_alignment.origin_fetch_evidence_ref' && pass "completed landed branch closeout has post-landing fetch evidence" || fail "completed landed branch closeout requires origin_fetch_evidence_ref"
+    json_has_nonempty '.main_alignment.local_main_sync_evidence_ref' && pass "completed landed branch closeout has local main sync evidence" || fail "completed landed branch closeout requires local_main_sync_evidence_ref"
+    json_bool_true '.main_alignment.origin_main_contains_landed_ref' && pass "origin/main contains landed ref" || fail "completed landed branch closeout requires origin_main_contains_landed_ref true"
+    json_bool_true '.main_alignment.local_main_contains_landed_ref' && pass "local main contains landed ref" || fail "completed landed branch closeout requires local_main_contains_landed_ref true"
   fi
 
   if [[ "$cleanup" == "completed" && "$safety_class" == "not-applicable" ]]; then

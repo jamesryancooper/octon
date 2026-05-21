@@ -15,11 +15,11 @@ prior_candidate_reconciliation:
     - prior_candidate_id: candidate-run-health-non-authority
       disposition: folded
       current_candidate_id: candidate-change-closeout-state-machine
-      rationale: run-health non-authority remediation was part of the same accepted implementation Change and was closed under the selected singular closeout-change receipt
+      rationale: run-health non-authority remediation was part of the same accepted implementation Change and was published under the selected singular closeout-change handoff receipt
     - prior_candidate_id: candidate-generated-projections
       disposition: folded
       current_candidate_id: candidate-change-closeout-state-machine
-      rationale: generated projections were derived outputs of the same accepted implementation Change and were closed with their generating source changes
+      rationale: generated projections were derived outputs of the same accepted implementation Change and were published with their generating source changes under the same handoff receipt
     - prior_candidate_id: candidate-publication-run-residue
       disposition: retained
       current_candidate_id: candidate-publication-control-run-residue
@@ -30,7 +30,7 @@ prior_candidate_reconciliation:
       rationale: local ignored residue remains user/tooling-owned residue outside the selected Change boundary and is preserved without cleanup authority
 candidates:
   - candidate_id: candidate-change-closeout-state-machine
-    disposition: closed
+    disposition: deferred
     ownership: implementation authored in this session for the change-closeout-state-machine follow-up
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
@@ -186,13 +186,15 @@ iterations:
     next_selection_reason: remaining publication/control run artifacts are retained residue requiring separate authority-backed retention or cleanup
 final_candidate_dispositions:
   candidate-change-closeout-state-machine:
-    state: closed
+    state: deferred
     closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-20260521T140550Z/change-receipt.json
     evidence:
       commit: 414f9375f9e229a2e2f738b021479bda88906852
       branch: chore/change-closeout-state-machine
       remote_ref: origin/chore/change-closeout-state-machine
       lifecycle_outcome: published-branch
+      closeout_outcome: continued
+      reason: published-branch is a continued handoff; it is not full closeout until landed on origin/main, local main is synchronized, landed-ref containment is proven, and cleanup is completed or explicitly deferred with blocker evidence
   candidate-publication-control-run-residue:
     state: retained
     evidence:

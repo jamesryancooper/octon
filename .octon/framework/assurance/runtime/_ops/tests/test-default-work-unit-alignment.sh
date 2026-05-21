@@ -130,7 +130,11 @@ case_policy_keeps_no_pr_landing_as_outcome() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
   yq -e '.route_lifecycle_outcomes."branch-no-pr".allowed_outcomes[] | select(. == "landed")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "origin_main_equals_landed_ref_after_push")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "source_branch_changes_integrated_into_origin_main")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "post_landing_fetch_origin_completed")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-no-pr".landed_requires[] | select(. == "local_main_contains_landed_ref_after_sync")' "$policy" >/dev/null &&
+    yq -e '.route_lifecycle_outcomes."branch-pr".landed_requires[] | select(. == "source_branch_changes_integrated_into_origin_main")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."branch-pr".landed_requires[] | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."direct-main".full_closeout_requires[] | select(. == "local_main_equals_origin_main_after_fetch")' "$policy" >/dev/null &&
     yq -e '.route_lifecycle_outcomes."direct-main".full_closeout_requires[] | select(. == "local_main_contains_landed_ref_after_fetch")' "$policy" >/dev/null &&

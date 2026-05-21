@@ -22,9 +22,14 @@ Successful wrapper execution proves:
   post-classification, and next-selection evidence;
 - every candidate has exactly one final disposition under
   `final_candidate_dispositions`;
-- each closed candidate cites the singular `closeout-change` receipt, log, or
-  evidence ref used for that iteration, and that ref resolves under
-  `.octon/state/evidence/runs/skills/closeout-change/`;
+- each closed candidate cites the singular `closeout-change` receipt JSON used
+  for that iteration, that ref resolves under
+  `.octon/state/evidence/runs/skills/closeout-change/`, and the receipt records
+  `closeout_outcome: completed`;
+- branch-based closed candidates prove source-branch integration into
+  `origin/main`, post-landing fetch, local `main` sync to `origin/main`,
+  landed-ref containment in both refs, and cleanup completed or deferred with
+  blocker evidence through the singular receipt;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - ambiguous, foreign, user-owned, generated, evidence, host-projection,
@@ -50,7 +55,9 @@ Negative controls:
 - A wrapper report with an iteration missing post-inventory or
   post-classification evidence fails.
 - A wrapper report with a closed final disposition but no singular
-  `closeout-change` reference fails.
+  completed `closeout-change` receipt fails.
+- A wrapper report that marks a `published-branch` or `branch-local-complete`
+  continued handoff receipt as `closed` fails.
 - A wrapper report with a synthetic or non-resolving `closeout-change`
   reference for a delegated or closed candidate fails.
 - A wrapper report that references a prior wrapper report but omits a prior

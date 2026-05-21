@@ -80,11 +80,13 @@ candidate is delegated or closed. Each iteration must include:
 `final_candidate_dispositions` must be keyed by candidate id and must include
 exactly one final state for every candidate: `closed`, `retained`, `blocked`,
 `escalated`, `deferred`, or `foreign`. A `closed` final disposition must cite
-the singular `closeout-change` receipt, log, or evidence reference that appears
-in the corresponding orchestration iteration. Delegated and closed candidates
-must cite a retained evidence file under
-`/.octon/state/evidence/runs/skills/closeout-change/`; synthetic route labels
-do not prove delegation.
+the singular `closeout-change` receipt JSON that appears in the corresponding
+orchestration iteration, resolves under
+`/.octon/state/evidence/runs/skills/closeout-change/`, and records
+`closeout_outcome: completed`. A branch receipt with `branch-local-complete` or
+`published-branch` is a continued handoff, not closed wrapper disposition.
+Delegated candidates may cite retained closeout-change evidence, but synthetic
+route labels do not prove delegation.
 
 `final_residue_classes` must include an `ignored` count from the final
 classification or final inventory summary. When `ignored` is greater than zero,
@@ -99,6 +101,9 @@ Unresolved candidates must carry candidate-keyed evidence:
   candidate's included boundary paths.
 - `blocked`, `escalated`, and `ambiguous` candidates require `blockers`
   entries with matching `candidate_id` and `blocker` or `reason` text.
+- `deferred` candidates may also cite a non-terminal `closeout-change` receipt
+  that records `continued`, `blocked`, `stage_only`, `escalated`, or `denied`
+  closeout instead of pretending a handoff is closed.
 - Reports with any unresolved candidate must use a non-terminal
   `next_route_condition` that names the remaining route, blocker, or operator
   resolution condition.

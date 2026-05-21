@@ -109,11 +109,24 @@ case_valid_hosted_no_pr_receipt_passes() {
     "target_ref": "origin/main@def0000000000000000000000000000000000000",
     "evidence_refs": ["route-neutral checks passed at def0000000000000000000000000000000000000"]
   },
+  "source_branch_integration": {
+    "source_branch_ref": "feature/no-pr",
+    "source_ref": "def0000000000000000000000000000000000000",
+    "landed_ref": "def0000000000000000000000000000000000000",
+    "origin_main_ref": "def0000000000000000000000000000000000000",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": ["origin/main contains feature/no-pr at def0000000000000000000000000000000000000"]
+  },
   "main_alignment": {
     "local_main_ref": "def0000000000000000000000000000000000000",
     "origin_main_ref": "def0000000000000000000000000000000000000",
     "landed_ref": "def0000000000000000000000000000000000000",
-    "aligned": true
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin after hosted landing",
+    "local_main_sync_evidence_ref": "git switch main && git merge --ff-only origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
   },
   "integration_method": "fast-forward",
   "integration_status": "landed",
@@ -124,7 +137,8 @@ case_valid_hosted_no_pr_receipt_passes() {
     "status": "deferred",
     "local_branch": "feature/no-pr",
     "remote_branch": "origin/feature/no-pr",
-    "blocker_reason": "cleanup deferred while operator remains on branch"
+    "blocker_reason": "cleanup deferred while operator remains on branch",
+    "evidence_refs": ["cleanup deferred while operator remains on branch"]
   },
   "validation_evidence_refs": ["route-neutral checks passed at def0000000000000000000000000000000000000"],
   "review_waiver_refs": ["solo maintainer no-PR route"],
