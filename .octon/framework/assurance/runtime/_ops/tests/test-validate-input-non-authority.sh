@@ -41,6 +41,17 @@ run_validator() {
     bash "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh" >/dev/null
 }
 
+run_validator_without_rg() {
+  local fixture_root="$1"
+  local shim_bin="$fixture_root/no-rg-bin"
+  local yq_path
+  yq_path="$(command -v yq)"
+  mkdir -p "$shim_bin"
+  [[ -e "$shim_bin/yq" ]] || ln -s "$yq_path" "$shim_bin/yq"
+  PATH="$shim_bin:/usr/bin:/bin" OCTON_DIR_OVERRIDE="$fixture_root/.octon" OCTON_ROOT_DIR="$fixture_root" \
+    bash "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh" >/dev/null
+}
+
 write_leak_and_expect_failure() {
   local rel="$1"
   local body="$2"
@@ -124,6 +135,19 @@ EOF
   run_validator "$fixture_root"
 }
 
+case_no_rg_fallback_validates_and_scans() {
+  local fixture_root
+  fixture_root="$(create_packet2_fixture_repo)"
+  CLEANUP_DIRS+=("$fixture_root")
+  prepare_fixture "$fixture_root"
+  run_validator_without_rg "$fixture_root" || return 1
+
+  mkdir -p "$fixture_root/.octon/instance/governance/policies"
+  printf '%s\n' 'runtime_source: ".octon/inputs/exploratory/plans/no-rg-leak.md"' \
+    >"$fixture_root/.octon/instance/governance/policies/no-rg-leak.yml"
+  ! run_validator_without_rg "$fixture_root"
+}
+
 main() {
   assert_success "input non-authority validator accepts valid fixture" case_valid_fixture_passes
   assert_success "input non-authority validator rejects runtime raw input leak" case_runtime_raw_input_leak_fails
@@ -135,6 +159,7 @@ main() {
   assert_success "input non-authority validator rejects workflow registry raw input leak" case_workflow_registry_raw_input_leak_fails
   assert_success "input non-authority validator rejects host projection raw input leak" case_host_projection_raw_input_leak_fails
   assert_success "input non-authority validator allows skill output path contracts" case_allowed_skill_output_path_passes
+  assert_success "input non-authority validator works without rg" case_no_rg_fallback_validates_and_scans
 
   echo
   echo "Passed: $pass_count"

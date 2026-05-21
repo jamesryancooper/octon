@@ -30,7 +30,38 @@ rel_path() {
 has_text() {
   local file="$1"
   local text="$2"
-  rg -Fq -- "$text" "$file"
+  if command -v rg >/dev/null 2>&1; then
+    rg -Fq -- "$text" "$file"
+  else
+    grep -Fq -- "$text" "$file"
+  fi
+}
+
+scan_input_references() {
+  local pattern="$1"
+  shift
+
+  if command -v rg >/dev/null 2>&1; then
+    rg -n \
+      -g '*.md' -g '*.yml' -g '*.yaml' -g '*.json' -g '*.sh' \
+      -g '*.rs' -g '*.py' -g '*.toml' -g '*.js' -g '*.ts' -g '*.tsx' -g '*.mjs' -g '*.cjs' \
+      "$pattern" \
+      "$@" || true
+    return
+  fi
+
+  local file result
+  while IFS= read -r -d '' file; do
+    grep -nE -- "$pattern" "$file" | while IFS= read -r result; do
+      printf '%s:%s\n' "$file" "$result"
+    done || true
+  done < <(
+    find "$@" -type f \( \
+      -name '*.md' -o -name '*.yml' -o -name '*.yaml' -o -name '*.json' -o -name '*.sh' -o \
+      -name '*.rs' -o -name '*.py' -o -name '*.toml' -o -name '*.js' -o -name '*.ts' -o \
+      -name '*.tsx' -o -name '*.mjs' -o -name '*.cjs' \
+    \) -print0 2>/dev/null
+  )
 }
 
 require_text_if_file_exists() {
@@ -401,11 +432,9 @@ main() {
 
   local matches line file line_no text rel
   matches="$(
-    rg -n \
-      -g '*.md' -g '*.yml' -g '*.yaml' -g '*.json' -g '*.sh' \
-      -g '*.rs' -g '*.py' -g '*.toml' -g '*.js' -g '*.ts' -g '*.tsx' -g '*.mjs' -g '*.cjs' \
+    scan_input_references \
       '(\.octon/)?inputs/additive/(\.incoming|\.archive)/|(\.octon/)?inputs/additive/extensions/\.(incoming|archive)(/|$)|(\.octon/)?inputs/exploratory/(proposals|ideation|plans|syntheses|reports|drafts|packages)(/|$)' \
-      "${target_args[@]}" || true
+      "${target_args[@]}"
   )"
 
   if [[ -z "$matches" ]]; then
