@@ -17,9 +17,10 @@ capabilities: [external-dependent, long-running, stateful]
 allowed-tools: Read Glob Grep Edit Bash(gh *) Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git rev-parse *) Bash(git branch *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Closeout PR
+# Closeout PR-Backed Change
 
-PR-backed Change closeout subflow for one branch worktree.
+PR-backed Change closeout subflow for one branch worktree. The command id
+remains `closeout-pr`; the human-facing name is Closeout PR-Backed Change.
 
 ## When to Use
 
@@ -125,6 +126,8 @@ Outputs are written to:
 - Full PR-backed closeout after merge requires branch cleanup to be completed
   or explicitly deferred with evidence, followed by fetch/sync proof that local
   `main`, `origin/main`, and the recorded landed ref are aligned
+- Completed or cleaned PR-backed closeout requires `stateful_closeout` receipt
+  evidence from the Change Closeout State Machine
 - Never delete protected branches, active work branches, unmerged branches,
   open-PR branches, or branches whose evidence and rollback posture are not
   retained; record the blocker and deferred cleanup disposition instead

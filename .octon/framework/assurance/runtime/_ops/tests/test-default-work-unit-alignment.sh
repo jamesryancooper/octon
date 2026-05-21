@@ -162,11 +162,24 @@ case_closeout_skills_project_to_codex() {
   local registry="$ROOT_DIR/.octon/framework/capabilities/runtime/skills/registry.yml"
   local routing="$ROOT_DIR/.octon/generated/effective/capabilities/routing.effective.yml"
   yq -e '.skills."closeout-change".host_adapters[] | select(. == "codex")' "$registry" >/dev/null &&
+    yq -e '.skills."closeout-worktree".host_adapters[] | select(. == "codex")' "$registry" >/dev/null &&
     yq -e '.skills."closeout-pr".host_adapters[] | select(. == "codex")' "$registry" >/dev/null &&
     yq -e '.routing_candidates[] | select(.effective_id == "framework.skill.closeout-change") | .host_adapters[] | select(. == "codex")' "$routing" >/dev/null &&
+    yq -e '.routing_candidates[] | select(.effective_id == "framework.skill.closeout-worktree") | .host_adapters[] | select(. == "codex")' "$routing" >/dev/null &&
     yq -e '.routing_candidates[] | select(.effective_id == "framework.skill.closeout-pr") | .host_adapters[] | select(. == "codex")' "$routing" >/dev/null &&
     [[ -f "$ROOT_DIR/.codex/skills/closeout-change/SKILL.md" ]] &&
+    [[ -f "$ROOT_DIR/.codex/skills/closeout-worktree/SKILL.md" ]] &&
     [[ -f "$ROOT_DIR/.codex/skills/closeout-pr/SKILL.md" ]]
+}
+
+case_closeout_worktree_wrapper_decomposes_to_singular_changes() {
+  local wrapper="$ROOT_DIR/.octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+  local validator="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+  grep -Fq 'Dirty-worktree wrapper for decomposing multiple local change sets' "$wrapper" &&
+    grep -Fq 'singular `closeout-change` runs' "$wrapper" &&
+    grep -Fq 'Do not create a `Closeout Changes` model' "$wrapper" &&
+    grep -Fq 'closeout-worktree-report-v1' "$wrapper" &&
+    grep -Fq 'multiple observed change sets must be partitioned into multiple candidates' "$validator"
 }
 
 case_closeout_tool_surface_supports_route_actions() {
@@ -196,6 +209,7 @@ main() {
   assert_success "machine policy defines solo route selection semantics" case_policy_defines_solo_route_selection
   assert_success "receipt examples cover solo direct-main and branch-local routes" case_receipt_examples_cover_solo_routes
   assert_success "closeout skills project to Codex" case_closeout_skills_project_to_codex
+  assert_success "closeout-worktree decomposes to singular closeout-change runs" case_closeout_worktree_wrapper_decomposes_to_singular_changes
   assert_success "closeout-change tool surface supports route actions" case_closeout_tool_surface_supports_route_actions
   echo
   echo "Passed: $pass_count"

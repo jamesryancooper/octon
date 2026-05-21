@@ -1225,7 +1225,7 @@ skills:
     group: remediation
     path: remediation/closeout-change/
     skill_class: invocable
-    summary: "Route-neutral Change closeout that separates route, target outcome, actual outcome, and evidence."
+    summary: "Route-neutral Change closeout that resolves Change identity, selects the default-work-unit route, records lifecycle and receipt evidence, and delegates PR-backed closeout only after branch-pr."
     status: active
     tags:
       - change
@@ -1239,6 +1239,36 @@ skills:
       - "ship this change"
       - "change closeout"
       - "finish without pr"
+    skill_sets:
+      - executor
+      - collaborator
+      - guardian
+      - integrator
+    capabilities:
+      - external-dependent
+      - stateful
+      - safety-bounded
+      - self-validating
+
+  - id: closeout-worktree
+    display_name: Closeout Worktree
+    group: remediation
+    path: remediation/closeout-worktree/
+    skill_class: invocable
+    summary: "Dirty-worktree wrapper that decomposes local residue into singular Closeout Change runs."
+    status: active
+    tags:
+      - change
+      - closeout
+      - git
+      - remediation
+      - worktree
+    triggers:
+      - "close out this worktree"
+      - "close out all local changes"
+      - "close out the dirty worktree"
+      - "worktree closeout"
+      - "multiple change closeout"
     skill_sets:
       - executor
       - collaborator

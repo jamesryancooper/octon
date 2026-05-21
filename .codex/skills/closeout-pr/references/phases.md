@@ -98,4 +98,6 @@ description: Phase-by-phase execution for the closeout-pr skill.
 2. Record lifecycle outcome `landed` after merge evidence exists.
 3. Record lifecycle outcome `cleaned` only after local branch, remote branch,
    and worktree cleanup evidence exists or deferred-cleanup evidence is written.
-4. If a real external blocker prevents progress, report it explicitly and stop.
+4. Include `stateful_closeout` receipt evidence before reporting completed or
+   cleaned PR-backed closeout.
+5. If a real external blocker prevents progress, report it explicitly and stop.

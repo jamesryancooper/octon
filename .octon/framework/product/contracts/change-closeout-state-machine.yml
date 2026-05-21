@@ -1,0 +1,323 @@
+schema_version: "change-closeout-state-machine-v1"
+state_machine_id: "change-closeout-state-machine"
+version: "1.0.0"
+status: "active"
+owner: "Octon governance"
+default_work_unit: "change"
+purpose: >-
+  Bind Change closeout route selection, target lifecycle outcome, actual
+  lifecycle outcome, cleanup, validation, evidence, rollback, and final sync
+  into one route-neutral state machine without replacing the canonical
+  default work-unit policy.
+policy_refs:
+  default_work_unit_policy_ref: ".octon/framework/product/contracts/default-work-unit.yml"
+  receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  closeout_workflow_ref: ".octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml"
+  closeout_change_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+  closeout_worktree_wrapper_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+  closeout_pr_subflow_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
+  git_worktree_autonomy_ref: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+relationship_to_default_work_unit:
+  route_authority: ".octon/framework/product/contracts/default-work-unit.yml"
+  posture: "operationalizes existing route semantics"
+  dirty_worktree_wrapper:
+    canonical_name: "Closeout Worktree"
+    skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+    posture: "optional wrapper for decomposing dirty worktree residue and orchestrating repeated singular closeout-change runs"
+    decomposition_rule: "partition residue into singular Change closeouts and delegate each coherent unit to closeout-change"
+    orchestration_rule: "delegate each safely separable coherent unit to closeout-change, re-inventory, and repeat until every candidate has a final disposition"
+    default_work_unit_replacement: false
+  forbidden_competing_routes:
+    - "branch-land-no-pr"
+    - "Closeout Changes"
+    - "Publish Changes"
+routes:
+  - "direct-main"
+  - "branch-no-pr"
+  - "branch-pr"
+  - "stage-only-escalate"
+lifecycle_outcomes:
+  - "preserved"
+  - "branch-local-complete"
+  - "published-branch"
+  - "published"
+  - "ready"
+  - "landed"
+  - "cleaned"
+  - "blocked"
+  - "escalated"
+  - "denied"
+separation_rules:
+  selected_route: "Chosen Change closeout route."
+  target_lifecycle_outcome: "Requested or intended lifecycle target."
+  lifecycle_outcome: "Actual lifecycle outcome supported by evidence."
+  rule: >-
+    A route, branch push, draft PR, ready PR, branch-local commit, checkpoint,
+    or generated projection never proves landed, cleaned, or completed
+    closeout by itself.
+phases:
+  - phase_id: "read-in-and-constraints"
+    mode: "single-pass"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "new operator instruction changes route, authority, or forbidden actions"
+    backward_transitions: []
+    exit_evidence:
+      - "ingress, default work-unit policy, git autonomy, receipt, validation, and provider constraints recorded"
+    stop_or_escalation_conditions:
+      - "required governing source missing"
+      - "route conflict"
+      - "forbidden action required"
+  - phase_id: "inventory"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "cleanup"
+      - "validation repair"
+      - "fetch or sync"
+      - "landing"
+      - "branch deletion"
+      - "unexpected dirty state"
+    backward_transitions:
+      - "residue-classification"
+      - "safe-cleanup"
+      - "validation"
+      - "final-verification"
+    exit_evidence:
+      - "current branch, HEAD, main, origin/main, staged, unstaged, untracked, ignored, branch, remote, and worktree state captured"
+    stop_or_escalation_conditions:
+      - "repository state cannot be inspected safely"
+  - phase_id: "residue-classification"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "new residue appears"
+      - "a residue group splits"
+      - "ownership is unclear"
+      - "validation reveals contamination"
+    backward_transitions:
+      - "inventory"
+      - "safe-cleanup"
+    exit_evidence:
+      - "every dirty, untracked, ignored, generated, evidence, host-projection, release, input-surface, and branch item has exactly one disposition"
+    stop_or_escalation_conditions:
+      - "ambiguous or user-owned work would need deletion, restoration, reset, or overwrite"
+  - phase_id: "route-and-target-lifecycle-resolution"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "requested route, target outcome, authority, provider rule, or operator intent is ambiguous"
+    backward_transitions:
+      - "inventory"
+      - "residue-classification"
+    exit_evidence:
+      - "exactly one route and target outcome recorded, or an honest blocked/escalated outcome recorded"
+    stop_or_escalation_conditions:
+      - "PR-required predicate conflicts with fixed branch-no-pr"
+      - "no authority exists to choose route or outcome"
+  - phase_id: "safe-cleanup"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "cleanup can reveal new residue"
+    backward_transitions:
+      - "inventory"
+      - "residue-classification"
+    exit_evidence:
+      - "only evidence-backed residue removed"
+      - "retained or ambiguous items documented"
+    stop_or_escalation_conditions:
+      - "removal lacks containment, patch equivalence, tracked replacement, explicit ignored/local-residue status, or validator proof"
+  - phase_id: "change-set-preparation"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr"]
+    re_entry_triggers:
+      - "branch base is stale"
+      - "staged scope is contaminated"
+      - "change-set grouping changes"
+    backward_transitions:
+      - "inventory"
+      - "residue-classification"
+    exit_evidence:
+      - "branch or direct-main state contains only the coherent accepted change set"
+    stop_or_escalation_conditions:
+      - "coherent scope cannot be isolated without overwriting user-owned work"
+  - phase_id: "validation"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr"]
+    re_entry_triggers:
+      - "failure is inside the accepted change set and can be repaired"
+    backward_transitions:
+      - "residue-classification"
+      - "change-set-preparation"
+    exit_evidence:
+      - "git diff --check and selected validators pass, or blocker evidence is recorded"
+    stop_or_escalation_conditions:
+      - "required publishers, projection generators, migrations, alignment profiles, or activation changes are outside scope"
+  - phase_id: "hosted-no-pr-checks-and-landing"
+    mode: "loop"
+    route_applicability: ["branch-no-pr"]
+    re_entry_triggers:
+      - "hosted checks pending"
+      - "origin/main moves"
+      - "rebase or recreate changes source SHA"
+    backward_transitions:
+      - "inventory"
+      - "validation"
+    exit_evidence:
+      - "pushed source branch"
+      - "exact source-SHA required checks"
+      - "provider no-PR permission"
+      - "fast-forward/update proof"
+      - "origin/main equals landed_ref"
+      - "rollback handle"
+      - "final local sync"
+    stop_or_escalation_conditions:
+      - "provider requires PR"
+      - "exact-SHA checks fail out of scope"
+      - "fast-forward/update cannot be proven"
+  - phase_id: "pr-backed-subflow"
+    mode: "loop"
+    route_applicability: ["branch-pr"]
+    re_entry_triggers:
+      - "PR checks, reviews, mergeability, cleanup, or final sync remain unresolved"
+    backward_transitions:
+      - "validation"
+      - "branch-cleanup"
+    exit_evidence:
+      - "PR state, checks, review disposition, merge or blocker evidence"
+    stop_or_escalation_conditions:
+      - "PR mutation would occur without branch-pr route"
+  - phase_id: "branch-cleanup"
+    mode: "loop"
+    route_applicability: ["branch-no-pr", "branch-pr"]
+    re_entry_triggers:
+      - "containment, no-open-PR status, rollback posture, or local/remote cleanup remains unproven"
+    backward_transitions:
+      - "inventory"
+      - "safe-cleanup"
+      - "final-verification"
+    exit_evidence:
+      - "branch contained in origin/main"
+      - "no open PR"
+      - "rollback or discard handle retained"
+      - "local and remote cleanup status recorded"
+    stop_or_escalation_conditions:
+      - "containment cannot be proven"
+      - "no-open-PR status cannot be proven"
+      - "rollback posture cannot be proven"
+  - phase_id: "receipt-and-evidence"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "receipt overclaims lifecycle state"
+      - "receipt misses required evidence"
+      - "receipt validator fails"
+    backward_transitions:
+      - "inventory"
+      - "validation"
+      - "branch-cleanup"
+    exit_evidence:
+      - "receipt records route, target outcome, actual outcome, state-machine evidence, validation, integration, cleanup, publication, rollback, and blockers"
+    stop_or_escalation_conditions:
+      - "receipt cannot truthfully support requested outcome"
+  - phase_id: "final-verification"
+    mode: "loop"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers:
+      - "dirty state"
+      - "remote drift"
+      - "branch ambiguity"
+      - "final equality mismatch"
+    backward_transitions:
+      - "inventory"
+      - "branch-cleanup"
+      - "receipt-and-evidence"
+    exit_evidence:
+      - "worktree clean or retained residue documented"
+      - "local HEAD, main, and origin/main equality proven when claimed"
+    stop_or_escalation_conditions:
+      - "final sync cannot be proven or would require unsafe mutation"
+  - phase_id: "final-report"
+    mode: "single-pass"
+    route_applicability: ["direct-main", "branch-no-pr", "branch-pr", "stage-only-escalate"]
+    re_entry_triggers: []
+    backward_transitions: []
+    exit_evidence:
+      - "actual lifecycle outcome, landed refs, validation, receipt, cleanup, retained residue, blockers, rollback handle, and final sync stated"
+    stop_or_escalation_conditions:
+      - "none; report the blocker instead of looping"
+evidence_gates:
+  landed:
+    required:
+      - "landed_ref"
+      - "route-compatible integration method"
+      - "validation evidence"
+      - "rollback handle"
+      - "hosted or origin evidence"
+      - "final main alignment"
+      - "stateful_closeout"
+  cleaned:
+    required:
+      - "landed ref or explicitly non-landing outcome"
+      - "branch cleanup and worktree cleanup completed or explicitly deferred"
+      - "cleanup safety evidence"
+      - "final main alignment when landed"
+      - "stateful_closeout"
+  blocked:
+    required:
+      - "preserved state"
+      - "exact missing condition"
+  preserved:
+    required:
+      - "recoverable patch, checkpoint, branch, or durable state"
+      - "rollback or discard plan"
+  escalated:
+    required:
+      - "preserved state"
+      - "specific human, policy, provider, or ownership decision required"
+cleanup_safety:
+  allowed_evidence_classes:
+    - "origin-main-containment"
+    - "patch-equivalence"
+    - "tracked-replacement"
+    - "explicit-ignored-local-residue"
+    - "validator-proof"
+  denied_classes:
+    - "detection-only"
+    - "ambiguous-ownership"
+    - "user-owned-work"
+    - "protected-branch"
+    - "active-work-branch"
+    - "unmerged-branch"
+    - "open-pr-branch"
+    - "unretained-rollback-ref"
+stateful_receipt_object: "stateful_closeout"
+stateful_receipt_required_when:
+  - "closeout_outcome == completed"
+  - "lifecycle_outcome == cleaned"
+required_stateful_receipt_fields:
+  - "state_machine_version"
+  - "initial_inventory_ref"
+  - "residue_classification_ref"
+  - "phase_exit_refs"
+  - "cleanup_decision_refs"
+  - "safe_cleanup_evidence_class"
+  - "final_verification_ref"
+non_authority_boundaries:
+  - ".octon/inputs/**"
+  - "proposal-local files"
+  - "generated outputs"
+  - "host state"
+  - "GitHub state"
+  - "chat"
+  - "model memory"
+  - "tool availability"
+forbidden_actions:
+  - "force-push"
+  - "reset ambiguous or user-owned work"
+  - "restore ambiguous or user-owned work"
+  - "overwrite ambiguous or user-owned work"
+  - "delete ambiguous or user-owned work"
+  - "open a PR without selected route branch-pr"
+  - "claim completed closeout from published-branch, published, or ready"

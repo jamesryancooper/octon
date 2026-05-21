@@ -26,40 +26,54 @@ Route-neutral closeout for Octon's default work unit: the Change.
 Use this skill when a Change has reached a credible completion or checkpoint
 point and the next output route has not already been selected.
 
+Use `closeout-worktree` when the operator asks to close out a dirty worktree or
+multiple local change sets. `closeout-worktree` must decompose the work into
+singular `closeout-change` runs rather than replacing the Change default work
+unit.
+
 Use `closeout-pr` only after this skill or another canonical authority has
 selected `branch-pr`, or when the task starts from an existing PR context.
 
 ## Core Workflow
 
-1. **Resolve Change** — Identify the Change intent, scope, touched paths, and
-   existing branch or PR context.
-2. **Select Route** — Load
-   `.octon/framework/product/contracts/default-work-unit.yml` and select exactly
-   one route: `direct-main`, `branch-no-pr`, `branch-pr`, or
-   `stage-only-escalate`. For solo work, consider `direct-main` first when all
-   direct-main predicates are satisfied and no branch or PR predicate applies.
-3. **Resolve Target Outcome** — Resolve the requested lifecycle target before
-   mutation: preservation, branch-local completion, pushed-branch handoff,
-   hosted landing, cleaned closeout, PR publication, PR readiness, PR landing,
-   blocker recording, or denial.
-4. **Select Outcome** — Resolve actual lifecycle outcome separately from route
-   and target:
-   `preserved`, `branch-local-complete`, `published-branch`, `published`,
-   `ready`, `landed`, `cleaned`, `blocked`, `escalated`, or `denied`.
-5. **Validate Evidence** — Check the route-required validation, review or
-   waiver, durable history, receipt, and rollback evidence.
-6. **Act Or Preserve** — Complete the route-specific next step or preserve state
-   and report blockers.
-7. **Record Receipt** — Produce or update a Change receipt shaped by
-   `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
-8. **Post-Landing Cleanup And Sync** — When `branch-no-pr` or `branch-pr` work
-   has landed in `origin/main`, verify containment, complete safe branch
-   cleanup or record a deferred-cleanup blocker, fetch origin, sync local
-   `main` to `origin/main`, and verify local `main`, `origin/main`, and the
-   recorded landed ref are aligned. For `direct-main`, fetch and sync local
-   `main` after the push and post-push checks.
-9. **Delegate PR** — Invoke `closeout-pr` only when the selected route is
+Execute the Change Closeout State Machine phase loop from
+`.octon/framework/product/contracts/change-closeout-state-machine.yml`.
+
+1. **Read In And Bind Constraints** — Load the default work unit policy, state
+   machine, Change receipt schema, Git/worktree contract, and current
+   repository state.
+2. **Inventory** — Capture branch, HEAD, `main`, `origin/main`, staged,
+   unstaged, untracked, ignored, branch, remote, and worktree state.
+3. **Classify Residue** — Classify staged, unstaged, untracked, ignored,
+   generated, host-projection, evidence, release, input-surface, and branch
+   residue. Detection alone is not deletion authority.
+4. **Resolve Route And Target Outcome** — Resolve Target Outcome after selecting exactly one route from
+   `.octon/framework/product/contracts/default-work-unit.yml`; resolve the
+   target lifecycle outcome separately from the route.
+   Select Outcome by recording the actual lifecycle outcome only after the
+   route-specific evidence is available.
+5. **Safe Cleanup** — Remove only evidence-backed residue. Escalate on
+   ambiguous ownership, user-owned work, protected branches, active branches,
+   unmerged branches, open-PR branches, or missing rollback posture.
+6. **Prepare Change Set** — Keep only the coherent accepted Change in the
+   staged scope or branch.
+7. **Validate** — Run the selected validation floor and route-specific checks.
+8. **Hosted No-PR Checks And Landing** — For selected `branch-no-pr` hosted
+   landing, require preflight, pushed source branch, exact source-SHA checks,
+   fast-forward/update proof, `origin/main == landed_ref`, rollback handle, and
+   final local sync.
+9. **PR-Backed Delegation** — Invoke `closeout-pr` only when selected route is
    `branch-pr`.
+10. **Branch Cleanup** — For landed branch routes, prove `origin/main`
+    containment, no-open-PR status, rollback/discard posture, and local/remote
+    cleanup status.
+11. **Receipt And Evidence** — Produce or update a Change receipt shaped by
+    `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
+    Completed or cleaned claims require `stateful_closeout` evidence.
+12. **Final Verification** — Verify clean or documented retained residue and
+    final local `main`, `origin/main`, and landed-ref alignment when claimed.
+13. **Final Report** — Report the actual lifecycle outcome, blockers,
+    validation, receipt, cleanup, rollback handle, and final sync.
 
 ## Boundaries
 
@@ -92,7 +106,7 @@ selected `branch-pr`, or when the task starts from an existing PR context.
   mutation and require provider ruleset evidence, a pushed source branch, exact
   source SHA required checks, fast-forward-only update evidence, and proof that
   `origin/main` equals `landed_ref` after the push.
-- After landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
+- Post-Landing Cleanup And Sync: after landed `branch-no-pr` or `branch-pr` work is merged, fast-forwarded, or
   otherwise verified as contained in `origin/main`, clean up obsolete local and
   remote source branches that are safe to delete. Never delete protected
   branches, active work branches, unmerged branches, open-PR branches, or
@@ -114,6 +128,8 @@ selected `branch-pr`, or when the task starts from an existing PR context.
   ready; full PR-backed closeout requires merge evidence or a precise external
   blocker.
 - Do not treat stage-only evidence as completed durable history.
+- Do not claim completed or cleaned closeout without `stateful_closeout`
+  receipt evidence from the Change Closeout State Machine.
 - Do not use proposal-local packet paths as runtime or policy dependencies.
 
 ## References

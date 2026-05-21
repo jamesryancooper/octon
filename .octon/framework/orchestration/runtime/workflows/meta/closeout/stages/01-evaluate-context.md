@@ -1,6 +1,7 @@
 # Evaluate Context
 
-1. Load the canonical default work unit policy and Git/worktree route contract.
+1. Load the canonical default work unit policy, Change Closeout State Machine,
+   and Git/worktree route contract.
 2. Resolve or create the Change identity before selecting branch or PR actions.
 3. Select the route, target lifecycle outcome, and actual lifecycle outcome
    separately. Determine whether the current state is:
@@ -16,6 +17,7 @@
 4. Apply the decision ladder in order: route, target lifecycle outcome, actual
    lifecycle outcome, then closeout report posture. Do not infer completion from
    a route, branch push, draft/open PR, ready PR, or branch-local commit.
+   Keep the state machine as phase and evidence authority, not route authority.
 5. When `branch-no-pr` is selected and the operator intent does not specify
    pushed-branch handoff, hosted no-PR landing, or cleaned closeout, ask for
    the target lifecycle outcome before mutating hosted refs, deleting branches,
@@ -32,3 +34,7 @@
    and `closeout_outcome: continued` or a blocker state.
 9. Record the selected Change route, target lifecycle outcome, actual lifecycle
    outcome, and every blocking condition.
+10. For any completed or cleaned claim, require `stateful_closeout` receipt
+    evidence that identifies inventory, residue classification, phase exits,
+    cleanup decisions, final verification, and applicable hosted landing or
+    branch cleanup references.

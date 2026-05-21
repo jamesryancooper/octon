@@ -1,0 +1,104 @@
+---
+title: Change Closeout State Machine
+description: Durable state-machine contract for route-neutral Octon Change closeout.
+status: active
+---
+
+# Change Closeout State Machine
+
+The Change Closeout State Machine is the route-neutral closeout contract for
+Octon's default work unit, the Change. It operationalizes the existing
+`direct-main`, `branch-no-pr`, `branch-pr`, and `stage-only-escalate` routes in
+`.octon/framework/product/contracts/default-work-unit.yml`; it does not replace
+that policy and does not add a competing route authority.
+
+## Authority Boundary
+
+The state machine owns closeout phases, loop semantics, evidence gates,
+cleanup safety, receipt evidence, rollback posture, and final sync checks. The
+default work-unit policy still owns route selection. PR-backed mechanics remain
+delegated only after selected route `branch-pr`. Hosted no-PR landing remains a
+`branch-no-pr` lifecycle path, not a top-level route.
+
+The model forbids `branch-land-no-pr` as a top-level route, `Closeout Changes`
+as a default work unit, and a peer `Publish Changes` workflow. Publication is a
+route/status operation or generated/effective publication mechanism, not a
+second closeout workflow.
+
+`Closeout Worktree` is the optional dirty-worktree wrapper. It may inventory
+and partition multiple local candidate Changes, but each coherent unit must be
+closed by singular `Closeout Change` execution with its own route, target
+outcome, actual outcome, evidence, and receipt or blocker. The wrapper is not a
+replacement default work unit and does not authorize direct staging, commits,
+pushes, PRs, landing, deletion, reset, restore, or overwrite.
+
+## Phase Loop
+
+| Phase | Mode | Exit Evidence | Stop Or Escalation |
+| --- | --- | --- | --- |
+| Read-in and constraints | Single pass | Ingress, default work-unit policy, git autonomy, receipt, validation, and provider constraints recorded. | Required governing source missing, route conflict, or forbidden action required. |
+| Inventory | Loop | Current branch, HEAD, main, origin/main, staged, unstaged, untracked, ignored, branch, remote, and worktree state captured. | Repository state cannot be inspected safely. |
+| Residue classification | Loop | Every dirty, untracked, ignored, generated, evidence, host-projection, release, input-surface, and branch item has exactly one disposition. | Ambiguous or user-owned work would need deletion, restoration, reset, or overwrite. |
+| Route and target lifecycle resolution | Loop | Exactly one route and target outcome recorded, or an honest blocked/escalated outcome recorded. | PR-required predicate conflicts with fixed `branch-no-pr`, or no authority exists to choose route/outcome. |
+| Safe cleanup | Loop | Only evidence-backed residue removed; retained or ambiguous items documented. | Removal lacks containment, patch equivalence, tracked replacement, explicit ignored/local-residue status, or validator proof. |
+| Change-set preparation | Loop | Branch or direct-main state contains only the coherent accepted change set. | Coherent scope cannot be isolated without overwriting user-owned work. |
+| Validation | Loop | `git diff --check` and the selected validators pass, or blocker evidence is recorded. | Required publishers, projection generators, migrations, alignment profiles, or activation changes are outside scope. |
+| Hosted no-PR checks and landing | Loop for `branch-no-pr` | Pushed source branch, exact source-SHA checks, provider permission, fast-forward/update proof, `origin/main == landed_ref`, rollback handle, and final local sync. | Provider requires PR, exact-SHA checks fail out of scope, or fast-forward/update cannot be proven. |
+| PR-backed subflow | Loop for `branch-pr` | PR state, checks, review disposition, merge or blocker evidence. | PR mutation would occur without `branch-pr` route. |
+| Branch cleanup | Loop for branch routes | Branch contained in `origin/main`, no open PR, rollback/discard handle retained, and local/remote cleanup status recorded. | Containment, no-open-PR status, or rollback posture cannot be proven. |
+| Receipt and evidence | Loop | Receipt records route, target outcome, actual outcome, state-machine evidence, validation, integration, cleanup, publication, rollback, and blockers. | Receipt cannot truthfully support requested outcome. |
+| Final verification | Loop | Worktree clean or retained residue documented; local `HEAD`, `main`, and `origin/main` equality proven when claimed. | Final sync cannot be proven or would require unsafe mutation. |
+| Final report | Single pass | Actual lifecycle outcome, landed refs, validation, receipt, cleanup, retained residue, blockers, rollback handle, and final sync stated. | Report the blocker instead of looping. |
+
+## Evidence Gates
+
+`landed` requires a landed ref, route-compatible integration method,
+validation evidence, rollback handle, hosted or origin evidence, final main
+alignment, and `stateful_closeout` receipt evidence.
+
+`cleaned` requires landed evidence or an explicitly non-landing outcome, branch
+cleanup and worktree cleanup completed or explicitly deferred, cleanup safety
+evidence, final main alignment when landed, and `stateful_closeout` receipt
+evidence.
+
+`blocked` requires preserved state plus the exact missing condition.
+`preserved` requires a recoverable patch, checkpoint, branch, or durable state
+plus rollback or discard plan. `escalated` requires preserved state plus the
+specific human, policy, provider, or ownership decision required.
+
+## Cleanup Safety
+
+Destructive cleanup is allowed only when backed by direct evidence:
+
+- origin/main containment;
+- patch equivalence;
+- tracked replacement;
+- explicit ignored or local-residue status;
+- validator proof.
+
+Detection alone is not deletion authority. Cleanup must fail closed for
+ambiguous ownership, user-owned work, protected branches, active work branches,
+unmerged branches, open-PR branches, and refs without retained rollback
+posture.
+
+## Receipt Evidence
+
+Completed or cleaned closeout claims must include a `stateful_closeout` object
+in the Change receipt. The object records the state-machine version, initial
+inventory, residue classification, phase exits, cleanup decisions, cleanup
+safety class, hosted landing references when applicable, branch cleanup
+references when applicable, final verification, and escalation references when
+applicable.
+
+Receipts must reject `published-branch`, `published`, or `ready` as completed
+closeout. They must also reject force-push, ambiguous deletion, reset,
+restoration, overwrite, and branch cleanup without containment, no-open-PR
+status, rollback/discard posture, and local/remote cleanup status.
+
+## Non-Authority Boundaries
+
+`.octon/inputs/**`, proposal-local files, raw inputs, generated outputs, host
+state, GitHub state, chat, model memory, and tool availability are not
+runtime, policy, control, retained-evidence, publication, or closeout
+authority. They may inform an implementation only when durable contracts and
+retained evidence outside `inputs/**` support the claim.

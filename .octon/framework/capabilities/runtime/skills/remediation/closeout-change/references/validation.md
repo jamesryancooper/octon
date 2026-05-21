@@ -32,3 +32,9 @@ alignment evidence for local `main`, `origin/main`, and `landed_ref`. For
 cleaned targets, validation must include source-branch cleanup evidence or a
 deferred-cleanup blocker plus `not_cleaned_reason` when the actual outcome is
 not `cleaned`.
+
+Completed or cleaned closeout also requires `stateful_closeout` evidence from
+the Change Closeout State Machine. That evidence must cite the initial
+inventory, residue classification, phase exits, cleanup decisions, cleanup
+safety class, final verification, and hosted landing or branch cleanup refs
+when applicable.

@@ -17,6 +17,7 @@ coordination_key_strategy:
 executor_interface_version: workflow-executor-v1
 policy_refs:
   default_work_unit_policy_ref: ".octon/framework/product/contracts/default-work-unit.yml"
+  state_machine_ref: ".octon/framework/product/contracts/change-closeout-state-machine.yml"
   workflow_contract_ref: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
   owner_surface_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
   pr_subflow_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
@@ -114,6 +115,7 @@ done_gate:
     - "branch-pr published, ready, landed, and cleaned outcomes are distinguished"
     - "PR-specific mechanics are selected only after branch-pr routing"
     - "landed and cleaned claims require route-appropriate evidence"
+    - "completed and cleaned claims require stateful closeout evidence from the Change Closeout State Machine"
     - "published-branch handoff cannot be reported as completed closeout"
     - "ingress remains a pointer to this workflow rather than an inline closeout policy surface"
 constraints:

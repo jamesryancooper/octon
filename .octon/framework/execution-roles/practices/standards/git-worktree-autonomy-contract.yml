@@ -8,7 +8,9 @@ purpose: >-
   Requests the default work unit.
 policy_refs:
   default_work_unit_policy_ref: ".octon/framework/product/contracts/default-work-unit.yml"
+  change_closeout_state_machine_ref: ".octon/framework/product/contracts/change-closeout-state-machine.yml"
   change_receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  worktree_wrapper_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
   pr_subflow_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
 environment:
   supported_operator_lanes:
@@ -96,7 +98,10 @@ operating_model:
         - "next route condition"
 closeout:
   owner_surface: "/closeout-change"
+  worktree_wrapper: "/closeout-worktree"
+  worktree_wrapper_rule: "decompose dirty worktree residue into singular closeout-change runs without replacing the Change default work unit"
   pr_backed_subflow: "/closeout-pr"
+  state_machine: "change-closeout-state-machine-v1"
   trigger_terms:
     - "finish"
     - "ship"
@@ -126,6 +131,28 @@ closeout:
       - "local main is fast-forwarded to origin/main"
       - "local main, origin/main, and landed_ref are aligned"
     direct_main_requirement: "fetch origin after push and post-push checks, sync local main to origin/main, and verify local main, origin/main, and landed_ref are aligned"
+  residue_classification:
+    read_only: true
+    detection_is_deletion_authority: false
+    classes:
+      - "staged"
+      - "unstaged-tracked"
+      - "untracked"
+      - "ignored"
+      - "local-branch"
+      - "remote-branch"
+      - "generated-effective-output"
+      - "host-projection"
+      - "retained-evidence"
+      - "state-control"
+      - "release-version"
+      - "input-surface"
+    cleanup_requires:
+      - "origin-main-containment"
+      - "patch-equivalence"
+      - "tracked-replacement"
+      - "explicit-ignored-local-residue"
+      - "validator-proof"
 helpers:
   git_wt_new:
     route_guard: "branch-no-pr or branch-pr only"

@@ -50,6 +50,8 @@ const RECEIPT_ID_IMPLEMENTATION_RUN: &str = "implementation-run";
 const RECEIPT_ID_IMPLEMENTATION_CONFORMANCE: &str = "implementation-conformance";
 const RECEIPT_ID_POST_IMPLEMENTATION_DRIFT: &str = "post-implementation-drift";
 const FIELD_CHILD_AUTHORITY_PRESERVED: &str = "child_authority_preserved";
+const PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL: &str =
+    ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health";
 const APPROVAL_POSTURE_PRE_GRANTED: &str = "pre-granted";
 const APPROVAL_POSTURE_APPROVAL_REQUIRED: &str = "authority-ambiguity";
 const APPROVAL_POSTURE_DENY: &str = "deny";
@@ -10829,6 +10831,120 @@ fn run_program_recovery_command(
     Ok(output)
 }
 
+#[derive(Debug, Deserialize)]
+struct ProgramRecoveryRunHealthGenerationReceipt {
+    schema_version: String,
+    #[serde(default)]
+    published_paths: Vec<String>,
+    #[serde(default)]
+    pruned_paths: Vec<String>,
+    #[serde(default)]
+    outputs: Vec<ProgramRecoveryRunHealthGenerationOutput>,
+}
+
+#[derive(Debug, Deserialize)]
+struct ProgramRecoveryRunHealthGenerationOutput {
+    #[serde(default)]
+    health_ref: String,
+}
+
+fn validate_program_recovery_repo_relative_path(path: &str, field: &str) -> Result<()> {
+    if !is_safe_repo_relative(path) {
+        bail!("program recovery run-health receipt {field} path must be safe repo-relative: {path}");
+    }
+    Ok(())
+}
+
+fn parse_git_status_path(line: &str) -> Option<String> {
+    let raw = line.get(3..)?.trim();
+    if raw.is_empty() {
+        return None;
+    }
+    let path = raw
+        .rsplit_once(" -> ")
+        .map(|(_, current)| current.trim())
+        .unwrap_or(raw);
+    if path.is_empty() {
+        None
+    } else {
+        Some(path.to_string())
+    }
+}
+
+fn read_program_recovery_run_health_changed_paths(
+    repo_root: &Path,
+    action_root: &Path,
+) -> Result<BTreeSet<String>> {
+    let receipt_path = action_root.join("run-health").join("generation.yml");
+    let bytes = fs::read(&receipt_path).with_context(|| {
+        format!(
+            "program recovery run-health generation receipt missing: {}",
+            receipt_path.display()
+        )
+    })?;
+    let receipt: ProgramRecoveryRunHealthGenerationReceipt =
+        serde_yaml::from_slice(&bytes).with_context(|| {
+            format!(
+                "program recovery run-health generation receipt is not valid YAML: {}",
+                receipt_path.display()
+            )
+        })?;
+    if receipt.schema_version != "run-health-generation-receipt-v1" {
+        bail!(
+            "program recovery run-health generation receipt has unsupported schema_version: {}",
+            receipt.schema_version
+        );
+    }
+    if receipt.published_paths.is_empty() {
+        bail!("program recovery run-health generation receipt must publish at least one path");
+    }
+    if receipt.outputs.is_empty() {
+        bail!("program recovery run-health generation receipt must include outputs");
+    }
+
+    let mut published = BTreeSet::new();
+    for path in &receipt.published_paths {
+        validate_program_recovery_repo_relative_path(path, "published_paths")?;
+        if !published.insert(path.clone()) {
+            bail!("program recovery run-health generation receipt contains duplicate published_paths entry: {path}");
+        }
+        if !repo_root.join(path).is_file() {
+            bail!("program recovery run-health generation receipt published path is missing on disk: {path}");
+        }
+    }
+
+    let mut pruned = BTreeSet::new();
+    for path in &receipt.pruned_paths {
+        validate_program_recovery_repo_relative_path(path, "pruned_paths")?;
+        if !pruned.insert(path.clone()) {
+            bail!("program recovery run-health generation receipt contains duplicate pruned_paths entry: {path}");
+        }
+        if published.contains(path) {
+            bail!("program recovery run-health generation receipt path appears in both published_paths and pruned_paths: {path}");
+        }
+        if repo_root.join(path).exists() {
+            bail!("program recovery run-health generation receipt pruned path still exists on disk: {path}");
+        }
+    }
+
+    for output in &receipt.outputs {
+        if output.health_ref.trim().is_empty() {
+            bail!("program recovery run-health generation receipt output health_ref must not be empty");
+        }
+        validate_program_recovery_repo_relative_path(&output.health_ref, "outputs.health_ref")?;
+        if !published.contains(&output.health_ref) {
+            bail!(
+                "program recovery run-health generation receipt output health_ref is missing from published_paths: {}",
+                output.health_ref
+            );
+        }
+    }
+
+    let mut changed_paths = published;
+    changed_paths.extend(pruned);
+    Ok(changed_paths)
+}
+
 fn write_program_recovery_changed_paths(repo_root: &Path, action_root: &Path) -> Result<()> {
     let output = Command::new("git")
         .arg("-C")
@@ -10837,24 +10953,27 @@ fn write_program_recovery_changed_paths(repo_root: &Path, action_root: &Path) ->
         .arg("--short")
         .arg("--")
         .arg(".octon/generated")
-        .arg(".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health")
+        .arg(PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL)
         .output()?;
     let stdout = String::from_utf8_lossy(&output.stdout);
-    let changed_paths = stdout
+    let mut changed_paths = stdout
         .lines()
-        .filter(|line| {
-            line.contains("support-envelope-reconciliation.yml")
-                || line.contains(".octon/generated/cognition/projections/materialized/runs")
-                || line.contains(
-                    ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health",
-                )
+        .filter_map(parse_git_status_path)
+        .filter(|path| {
+            path.ends_with("support-envelope-reconciliation.yml")
+                || rel_path_under(path, PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL)
         })
-        .collect::<Vec<_>>()
-        .join("\n");
+        .collect::<BTreeSet<_>>();
+    changed_paths.extend(read_program_recovery_run_health_changed_paths(
+        repo_root,
+        action_root,
+    )?);
     let changed_paths = if changed_paths.is_empty() {
-        changed_paths
+        String::new()
     } else {
-        format!("{changed_paths}\n")
+        let mut text = changed_paths.into_iter().collect::<Vec<_>>().join("\n");
+        text.push('\n');
+        text
     };
     fs::write(action_root.join("changed-paths.txt"), changed_paths)?;
     Ok(())
@@ -16527,7 +16646,47 @@ printf 'support envelope refreshed\n'
             );
             self.write(
                 ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
-                "#!/usr/bin/env bash\nprintf 'run health refreshed\\n'\n",
+                r#"#!/usr/bin/env bash
+set -euo pipefail
+evidence_root=""
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --evidence-root)
+      shift
+      evidence_root="${1:-}"
+      ;;
+  esac
+  shift || true
+done
+[[ -n "$evidence_root" ]] || { printf 'missing --evidence-root\n' >&2; exit 2; }
+generated_root=".octon/generated"
+generated_root="${generated_root}/cognition/projections/materialized/runs"
+health_rel="${generated_root}/test-run/health.yml"
+index_rel="${generated_root}/index.yml"
+mkdir -p "${health_rel%/*}" "$evidence_root"
+printf 'schema_version: run-health-read-model-v1\n' >"$health_rel"
+printf 'schema_version: run-health-read-model-index-v1\n' >"$index_rel"
+cat >"$evidence_root/generation.yml" <<EOF
+schema_version: "run-health-generation-receipt-v1"
+generated_at: "2026-05-21T00:00:00Z"
+generator_ref: ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
+schema_ref: ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
+authority:
+  classification: "generated_read_model_non_authoritative"
+  may_authorize: false
+  may_widen_support: false
+published_paths:
+  - "$index_rel"
+  - "$health_rel"
+pruned_paths: []
+outputs:
+  - run_id: "test-run"
+    health_ref: "$health_rel"
+    status: "healthy"
+EOF
+printf 'run health refreshed\n'
+"#,
             );
             self.write(
                 ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh",
@@ -17026,6 +17185,131 @@ routes:
 "#,
         );
         fixture
+    }
+
+    fn generated_run_health_root_rel() -> String {
+        format!(".octon/generated/{}", "cognition/projections/materialized/runs")
+    }
+
+    fn generated_run_health_index_rel() -> String {
+        format!("{}/index.yml", generated_run_health_root_rel())
+    }
+
+    fn generated_run_health_health_rel(run_id: &str) -> String {
+        format!("{}/{run_id}/health.yml", generated_run_health_root_rel())
+    }
+
+    fn write_program_recovery_run_health_receipt(
+        fixture: &ProgramFixture,
+        action_root: &Path,
+        schema_version: &str,
+        published_paths: &[String],
+        pruned_paths: &[String],
+        output_refs: &[String],
+    ) {
+        let receipt_path = action_root.join("run-health").join("generation.yml");
+        fs::create_dir_all(receipt_path.parent().unwrap()).unwrap();
+        let published = if published_paths.is_empty() {
+            "[]".to_string()
+        } else {
+            published_paths
+                .iter()
+                .map(|path| format!("  - \"{path}\""))
+                .collect::<Vec<_>>()
+                .join("\n")
+        };
+        let pruned = if pruned_paths.is_empty() {
+            "[]".to_string()
+        } else {
+            pruned_paths
+                .iter()
+                .map(|path| format!("  - \"{path}\""))
+                .collect::<Vec<_>>()
+                .join("\n")
+        };
+        let outputs = output_refs
+            .iter()
+            .map(|path| format!("  - health_ref: \"{path}\""))
+            .collect::<Vec<_>>()
+            .join("\n");
+        let body = format!(
+            "schema_version: \"{schema_version}\"\npublished_paths:\n{published}\npruned_paths:\n{pruned}\noutputs:\n{outputs}\n"
+        );
+        fs::write(receipt_path, body).unwrap();
+        fixture.write(
+            &generated_run_health_index_rel(),
+            "schema_version: run-health-read-model-index-v1\n",
+        );
+        for path in published_paths {
+            if path.ends_with("/health.yml") {
+                fixture.write(path, "schema_version: run-health-read-model-v1\n");
+            }
+        }
+    }
+
+    #[test]
+    fn program_recovery_changed_paths_use_run_health_generation_receipt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("program-recovery-changed-paths", true);
+        let action_root = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/program-recovery-changed-paths/program-recovery-actions/refresh-publication-projections/attempt-1",
+        );
+        let index_ref = generated_run_health_index_rel();
+        let published_health = generated_run_health_health_rel("test-run");
+        let pruned_health = generated_run_health_health_rel("stale-run");
+        write_program_recovery_run_health_receipt(
+            &fixture,
+            &action_root,
+            "run-health-generation-receipt-v1",
+            &[index_ref.clone(), published_health.clone()],
+            std::slice::from_ref(&pruned_health),
+            std::slice::from_ref(&published_health),
+        );
+
+        write_program_recovery_changed_paths(&fixture.root, &action_root).unwrap();
+
+        let changed = fs::read_to_string(action_root.join("changed-paths.txt")).unwrap();
+        let mut expected = vec![index_ref, published_health, pruned_health];
+        expected.sort();
+        let mut expected_text = expected.join("\n");
+        expected_text.push('\n');
+        assert_eq!(changed, expected_text);
+    }
+
+    #[test]
+    fn program_recovery_changed_paths_fail_closed_when_run_health_receipt_missing() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("program-recovery-changed-paths-missing", true);
+        let action_root = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/program-recovery-changed-paths-missing/program-recovery-actions/refresh-publication-projections/attempt-1",
+        );
+        fs::create_dir_all(&action_root).unwrap();
+
+        let error = write_program_recovery_changed_paths(&fixture.root, &action_root).unwrap_err();
+        assert!(error.to_string().contains("generation receipt missing"));
+    }
+
+    #[test]
+    fn program_recovery_changed_paths_fail_closed_when_run_health_receipt_is_malformed() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("program-recovery-changed-paths-malformed", true);
+        let action_root = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/program-recovery-changed-paths-malformed/program-recovery-actions/refresh-publication-projections/attempt-1",
+        );
+        let index_ref = generated_run_health_index_rel();
+        let published_health = generated_run_health_health_rel("test-run");
+        let output_health = generated_run_health_health_rel("other-run");
+        write_program_recovery_run_health_receipt(
+            &fixture,
+            &action_root,
+            "run-health-generation-receipt-v1",
+            &[index_ref, published_health],
+            &[],
+            &[output_health],
+        );
+
+        let error = write_program_recovery_changed_paths(&fixture.root, &action_root).unwrap_err();
+        assert!(!error.to_string().is_empty());
     }
 
     #[test]

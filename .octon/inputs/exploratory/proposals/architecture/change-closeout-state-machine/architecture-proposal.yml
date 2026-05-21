@@ -1,0 +1,48 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+title: "Change Closeout State Machine"
+target_state: >-
+  Octon has a canonical Change Closeout State Machine product contract that
+  coordinates route selection, target lifecycle outcome, actual lifecycle
+  outcome, validation loops, hosted no-PR landing, PR-backed delegation, branch
+  cleanup, local worktree cleanup, receipt evidence, rollback posture, and final
+  main/origin synchronization without turning branches, PRs, generated outputs,
+  or proposal-local inputs into authority.
+boundary_change: >-
+  Closeout loop semantics and cleanup evidence become first-class product
+  contract obligations instead of procedure-only guidance. The change preserves
+  the existing direct-main, branch-no-pr, branch-pr, and stage-only/escalated
+  routes while adding explicit state-machine evidence gates and validator
+  coverage.
+authoritative_targets_after_promotion:
+  - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.md"
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/framework/product/contracts/default-work-unit.md"
+  - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+  - ".octon/framework/orchestration/runtime/workflows/meta/closeout/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/"
+  - ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+proposal_local_lifecycle_sources:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+proposal_local_lifecycle_note: >-
+  These files are proposal-local lifecycle sources for evaluating this packet.
+  They are not durable closeout authority and must not be referenced by promoted
+  runtime, policy, workflow, validator, generated/effective, host-projection, or
+  retained-evidence surfaces as authority.
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "support/**"
+  - "validation-plan.md"
+  - "RISK-REGISTER.md"
+  - "NON-GOALS.md"

@@ -130,6 +130,20 @@ def repo_relative_path(path):
         return None
 
 
+def unique_path_list(values):
+    seen = set()
+    result = []
+    for value in values:
+        if value in (None, ""):
+            continue
+        text = str(value)
+        if text in seen:
+            continue
+        seen.add(text)
+        result.append(text)
+    return sorted(result)
+
+
 def is_retained_evidence_path(path):
     rel = repo_relative_path(path)
     if not rel:
@@ -1058,7 +1072,7 @@ def generate_fixtures(fixtures_root, output_root, generated_at):
         health = generate_for_run(case["case_id"], control_root, generated_at, route_bundle_ref, pack_routes_ref)
         out_file = output_root / case["case_id"] / "health.yml"
         write_yaml(out_file, health)
-        results.append({"run_id": case["case_id"], "health_ref": out_file.as_posix(), "status": health["health"]["status"]})
+        results.append({"run_id": case["case_id"], "health_ref": repo_ref(out_file), "status": health["health"]["status"]})
     write_yaml(
         output_root / "index.yml",
         {
@@ -1082,7 +1096,7 @@ def run_ids_from_repo():
     return sorted(path.name for path in root.iterdir() if path.is_dir() and (path / "run-manifest.yml").is_file())
 
 
-def write_evidence(evidence_root, generated_at, outputs, no_evidence):
+def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned_paths, no_evidence):
     if no_evidence:
         return
     records = []
@@ -1103,6 +1117,8 @@ def write_evidence(evidence_root, generated_at, outputs, no_evidence):
                 "may_authorize": False,
                 "may_widen_support": False,
             },
+            "published_paths": unique_path_list(published_paths),
+            "pruned_paths": unique_path_list(pruned_paths),
             "outputs": records,
         },
     )
@@ -1120,9 +1136,10 @@ def prune_stale_generated_runs(output_root, live_run_ids):
             continue
         if not (candidate / "health.yml").is_file():
             continue
+        for child in sorted(item for item in candidate.rglob("*") if item.is_file()):
+            pruned.append(repo_ref(child))
         shutil.rmtree(candidate)
-        pruned.append(candidate.name)
-    return sorted(pruned)
+    return unique_path_list(pruned)
 
 
 def main():
@@ -1133,7 +1150,11 @@ def main():
 
     if args.fixtures_root:
         results = generate_fixtures(Path(args.fixtures_root), output_root, generated_at)
-        write_evidence(evidence_root, generated_at, results, args.no_evidence)
+        index_ref = repo_ref(output_root / "index.yml")
+        published_paths = [item["health_ref"] for item in results]
+        if index_ref:
+            published_paths.append(index_ref)
+        write_evidence(evidence_root, generated_at, results, published_paths, [], args.no_evidence)
         print(f"Generated {len(results)} fixture run-health read models under {output_root}")
         return
 
@@ -1168,7 +1189,11 @@ def main():
             "runs": outputs,
         },
     )
-    write_evidence(evidence_root, generated_at, outputs, args.no_evidence)
+    index_ref = repo_ref(output_root / "index.yml")
+    published_paths = [item["health_ref"] for item in outputs]
+    if index_ref:
+        published_paths.append(index_ref)
+    write_evidence(evidence_root, generated_at, outputs, published_paths, pruned, args.no_evidence)
     if pruned:
         print(f"Pruned {len(pruned)} stale run-health read models under {output_root}")
     print(f"Generated {len(outputs)} run-health read models under {output_root}")

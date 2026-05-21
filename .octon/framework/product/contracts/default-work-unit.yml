@@ -5,6 +5,12 @@ status: "active"
 default_work_unit: "change"
 internal_execution_bundle: "change-package"
 run_authority_unit: "run-contract"
+worktree_wrapper:
+  id: "closeout-worktree"
+  display_name: "Closeout Worktree"
+  skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+  purpose: "Decompose a dirty worktree into singular Change closeout candidates and orchestrate each safely separable candidate through closeout-change."
+  default_work_unit_replacement: false
 deprecated_terms:
   - term: "work-package"
     replacement: "change-package"
@@ -146,6 +152,7 @@ route_lifecycle_outcomes:
       - "local_main_equals_origin_main_after_fetch"
       - "local_main_contains_landed_ref_after_fetch"
       - "change_receipt"
+      - "stateful_closeout_evidence"
       - "rollback_handle"
       - "cleanup_status"
   branch-no-pr:
@@ -197,6 +204,7 @@ route_lifecycle_outcomes:
       - "local_main_synced_to_origin_main_after_cleanup"
       - "local_main_origin_main_landed_ref_alignment_verified"
       - "main_alignment_receipt"
+      - "stateful_closeout_evidence"
       - "rollback_handle"
       - "cleanup_status"
     cleaned_requires:
@@ -207,6 +215,7 @@ route_lifecycle_outcomes:
       - "remote_branch_cleanup_evidence_or_deferred_cleanup_record_when_remote_branch_existed"
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
       - "local_main_synced_to_origin_main_after_cleanup"
+      - "stateful_closeout_evidence"
   branch-pr:
     allowed_outcomes:
       - "preserved"
@@ -245,6 +254,7 @@ route_lifecycle_outcomes:
       - "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "local_main_origin_main_landed_ref_alignment_verified"
+      - "stateful_closeout_evidence"
       - "rollback_handle"
     cleaned_requires:
       - "pr_merged_or_external_blocker"
@@ -253,6 +263,7 @@ route_lifecycle_outcomes:
       - "remote_branch_cleanup_evidence_or_deferred_cleanup_record"
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
       - "local_main_synced_to_origin_main_after_cleanup"
+      - "stateful_closeout_evidence"
   stage-only-escalate:
     allowed_outcomes:
       - "preserved"
@@ -287,6 +298,7 @@ fail_closed_conditions:
   - "missing_required_validation"
   - "missing_rollback_handle"
   - "missing_change_receipt"
+  - "completed_or_cleaned_closeout_missing_state_machine_evidence"
   - "provider_ruleset_blocks_requested_hosted_no_pr_landing"
   - "hosted_no_pr_landing_missing_exact_sha_checks"
   - "direct_main_hosted_publication_missing_exact_sha_checks"
@@ -314,6 +326,7 @@ fail_closed_conditions:
   - "proposal_local_runtime_dependency"
   - "host_projection_claims_authority"
 receipt_schema_ref: ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+state_machine_ref: ".octon/framework/product/contracts/change-closeout-state-machine.yml"
 hosted_provider_ruleset:
   target_model: "route-neutral protected main"
   required_main_rules:

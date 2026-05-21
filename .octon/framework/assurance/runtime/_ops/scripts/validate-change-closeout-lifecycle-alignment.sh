@@ -7,6 +7,8 @@ ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
 POLICY="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 POLICY_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
+STATE_MACHINE="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.yml"
+STATE_MACHINE_MD="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.md"
 RECEIPT_SCHEMA="$OCTON_DIR/framework/product/contracts/change-receipt-v1.schema.json"
 RECEIPT_EXAMPLES_DIR="$OCTON_DIR/framework/product/contracts/examples/change-receipts"
 VALID_DIRECT_MAIN_LANDED="$RECEIPT_EXAMPLES_DIR/valid-direct-main-landed.json"
@@ -19,6 +21,7 @@ INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT="$RECEIPT_EXAMPLES_DIR/invalid-publi
 INVALID_STALE_REMOTE_BRANCH_REF="$RECEIPT_EXAMPLES_DIR/invalid-stale-remote-branch-ref.json"
 INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT="$RECEIPT_EXAMPLES_DIR/invalid-draft-pr-claimed-full-closeout.json"
 CLOSEOUT_CHANGE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+CLOSEOUT_WORKTREE="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
 CLOSEOUT_PR="$OCTON_DIR/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
 WORKFLOW_STAGE="$OCTON_DIR/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md"
 WORKTREE_CONTRACT="$OCTON_DIR/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
@@ -110,7 +113,7 @@ remote_ref_sha() {
 }
 
 validate_contracts() {
-  for file in "$POLICY" "$POLICY_MD" "$RECEIPT_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT"; do
+  for file in "$POLICY" "$POLICY_MD" "$STATE_MACHINE" "$STATE_MACHINE_MD" "$RECEIPT_SCHEMA" "$VALID_DIRECT_MAIN_LANDED" "$VALID_BRANCH_NO_PR_BRANCH_LOCAL_COMPLETE" "$VALID_BRANCH_NO_PR_PUBLISHED_BRANCH" "$VALID_BRANCH_PR_READY" "$VALID_HOSTED_BRANCH_NO_PR_LANDED" "$INVALID_PUSHED_ONLY_BRANCH_CLAIMED_LANDED" "$INVALID_PUBLISHED_BRANCH_COMPLETED_CLOSEOUT" "$INVALID_STALE_REMOTE_BRANCH_REF" "$INVALID_DRAFT_PR_CLAIMED_FULL_CLOSEOUT" "$CLOSEOUT_CHANGE" "$CLOSEOUT_WORKTREE" "$CLOSEOUT_PR" "$WORKFLOW_STAGE" "$WORKTREE_CONTRACT" "$BRANCH_COMMIT_SCRIPT" "$BRANCH_PUSH_SCRIPT" "$BRANCH_LAND_SCRIPT" "$BRANCH_CLEANUP_SCRIPT" "$REQUIRED_CHECKS_SCRIPT" "$HOSTED_PREFLIGHT_SCRIPT" "$HOSTED_LAND_SCRIPT"; do
     require_file "$file"
   done
 
@@ -136,6 +139,8 @@ validate_contracts() {
   require_jq "$RECEIPT_SCHEMA" '.properties.publication_status.enum[] | select(. == "hosted-main-updated")' "receipt schema models hosted main update publication status" "receipt schema missing hosted-main-updated publication status"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "provider_ruleset_ref")' "receipt schema requires provider ruleset evidence for hosted landing" "receipt schema must require provider ruleset evidence for hosted landing"
   require_jq "$RECEIPT_SCHEMA" '.properties.hosted_landing.required[] | select(. == "required_check_refs")' "receipt schema requires exact-SHA check refs for hosted landing" "receipt schema must require exact-SHA check refs for hosted landing"
+  require_jq "$RECEIPT_SCHEMA" '.properties.stateful_closeout.required[] | select(. == "state_machine_version")' "receipt schema models stateful closeout evidence" "receipt schema must model stateful closeout evidence"
+  require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.closeout_outcome.const == "completed") | select((.then.required // []) | index("stateful_closeout"))] | length == 1' "receipt schema requires stateful evidence for completed closeout" "receipt schema must require stateful evidence for completed closeout"
   require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.closeout_outcome.const == "completed") | select(.if.properties.integration_status.const == "landed") | select((.if.properties.selected_route.enum | index("branch-no-pr")) != null) | select((.if.properties.selected_route.enum | index("branch-pr")) != null) | select((.then.properties.cleanup_status.enum | index("completed")) != null) | select((.then.properties.cleanup_status.enum | index("deferred")) != null) | select((.then.properties.cleanup_status.enum | index("pending")) == null)] | length == 1' "receipt schema blocks completed landed branch closeout with pending cleanup" "receipt schema must block completed landed branch closeout with pending cleanup"
   require_jq "$RECEIPT_SCHEMA" '[.allOf[]? | select(.if.properties.selected_route.const == "branch-no-pr") | select(.if.properties.lifecycle_outcome.const == "published-branch") | select((.then.properties.closeout_outcome.enum | index("completed")) == null)] | length == 1' "receipt schema blocks published-branch completed closeout" "receipt schema must block published-branch completed closeout"
 
@@ -144,6 +149,11 @@ validate_contracts() {
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "origin_main_equals_landed_ref_after_push")' "branch-no-pr landed requires origin/main equality" "branch-no-pr landed must require origin/main equality"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref")' "branch-no-pr landed requires branch cleanup or deferred cleanup record" "branch-no-pr landed must require branch cleanup or deferred cleanup record"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-no-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-no-pr landed requires local/main/origin alignment proof" "branch-no-pr landed must require local/main/origin alignment proof"
+  require_yq "$POLICY" '.state_machine_ref == ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "policy references Change Closeout State Machine" "policy must reference Change Closeout State Machine"
+  require_yq "$STATE_MACHINE" '.state_machine_id == "change-closeout-state-machine"' "state machine contract has stable id" "state machine contract must have stable id"
+  require_yq "$STATE_MACHINE" '.relationship_to_default_work_unit.dirty_worktree_wrapper.default_work_unit_replacement == false' "state machine keeps Closeout Worktree as wrapper" "state machine must keep Closeout Worktree as wrapper"
+  require_yq "$STATE_MACHINE" '.phases[]? | select(.phase_id == "residue-classification")' "state machine contract defines residue classification phase" "state machine contract must define residue classification phase"
+  require_yq "$STATE_MACHINE" '.cleanup_safety.denied_classes[]? | select(. == "detection-only")' "state machine denies detection-only cleanup" "state machine must deny detection-only cleanup"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".allowed_outcomes[]? | select(. == "ready")' "branch-pr supports ready lifecycle outcome" "branch-pr must support ready lifecycle outcome"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result")' "branch-pr landed requires branch cleanup or deferred cleanup record" "branch-pr landed must require branch cleanup or deferred cleanup record"
   require_yq "$POLICY" '.route_lifecycle_outcomes."branch-pr".landed_requires[]? | select(. == "local_main_origin_main_landed_ref_alignment_verified")' "branch-pr landed requires local/main/origin alignment proof" "branch-pr landed must require local/main/origin alignment proof"
@@ -177,6 +187,8 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "hosted no-PR landing preflight" "closeout-change requires hosted no-PR preflight" "closeout-change must require hosted no-PR preflight"
   require_literal "$CLOSEOUT_CHANGE" "Post-Landing Cleanup And Sync" "closeout-change requires post-landing cleanup and sync" "closeout-change must require post-landing cleanup and sync"
   require_literal "$CLOSEOUT_CHANGE" "Never delete protected" "closeout-change forbids unsafe branch cleanup" "closeout-change must forbid unsafe branch cleanup"
+  require_literal "$CLOSEOUT_WORKTREE" 'singular `closeout-change` runs' "closeout-worktree delegates singular closeout-change runs" "closeout-worktree must delegate singular closeout-change runs"
+  require_literal "$CLOSEOUT_WORKTREE" "Do not stage, commit, push, open a PR" "closeout-worktree forbids direct material route actions" "closeout-worktree must forbid direct material route actions"
   require_literal "$CLOSEOUT_PR" 'Draft/open PR state is `published`, not full closeout' "closeout-pr blocks draft/open full closeout claims" "closeout-pr must block draft/open full closeout claims"
   require_literal "$CLOSEOUT_PR" 'Full PR-backed closeout after merge requires branch cleanup' "closeout-pr requires post-merge branch cleanup" "closeout-pr must require post-merge branch cleanup"
   require_literal "$CLOSEOUT_PR" 'Required branch cleanup or post-cleanup local `main` sync cannot be proven' "closeout-pr escalates unprovable cleanup or sync" "closeout-pr must escalate unprovable cleanup or sync"
@@ -189,6 +201,7 @@ validate_contracts() {
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_land_hosted_no_pr.route_guard == "branch-no-pr only"' "hosted no-PR landing helper is route guarded" "hosted no-PR landing helper must be route guarded"
   require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-no-pr")' "worktree contract applies post-landing cleanup to branch-no-pr" "worktree contract must apply post-landing cleanup to branch-no-pr"
   require_yq "$WORKTREE_CONTRACT" '.closeout.post_landing_cleanup.applies_to_routes[]? | select(. == "branch-pr")' "worktree contract applies post-landing cleanup to branch-pr" "worktree contract must apply post-landing cleanup to branch-pr"
+  require_yq "$WORKTREE_CONTRACT" '.closeout.worktree_wrapper == "/closeout-worktree"' "worktree contract exposes Closeout Worktree wrapper" "worktree contract must expose Closeout Worktree wrapper"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "requires origin/main containment before deleting local or remote refs")' "worktree contract requires origin/main containment before cleanup" "worktree contract must require origin/main containment before cleanup"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "requires retained rollback posture for mutating cleanup")' "worktree contract requires retained rollback posture before cleanup" "worktree contract must require retained rollback posture before cleanup"
   require_yq "$WORKTREE_CONTRACT" '.helpers.git_branch_cleanup.safety[]? | select(. == "blocks cleanup when no-open-PR proof cannot be completed or an open PR exists")' "worktree contract blocks open-PR or unprovable no-PR cleanup" "worktree contract must block open-PR or unprovable no-PR cleanup"

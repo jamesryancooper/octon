@@ -65,6 +65,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## References
 
 - Canonical contract: `.octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml`
+- State-machine contract: `.octon/framework/product/contracts/change-closeout-state-machine.yml`
 - Canonical stages: `.octon/framework/orchestration/runtime/workflows/meta/closeout/stages/`
 
 ## Version History

@@ -1,412 +1,601 @@
-schema_version: run-health-read-model-index-v1
-generated_at: '2026-05-18T01:19:28Z'
-authority:
-  classification: generated_read_model_non_authoritative
-  may_authorize: false
-  may_widen_support: false
-runs:
-- run_id: archive-proposal-1778522826862-49940
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778522826862-49940/health.yml
-  status: stale
-- run_id: archive-proposal-1778781582150-10776
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778781582150-10776/health.yml
-  status: stale
-- run_id: archive-proposal-1778781598867-11942
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778781598867-11942/health.yml
-  status: stale
-- run_id: archive-proposal-1778805178254-37205
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205/health.yml
-  status: stale
-- run_id: archive-proposal-1778805178254-37205-archive-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205-archive-proposal/health.yml
-  status: stale
-- run_id: archive-proposal-1778805178254-37205-validate-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205-validate-proposal/health.yml
-  status: stale
-- run_id: archive-proposal-archive-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-archive-proposal/health.yml
-  status: stale
-- run_id: archive-proposal-validate-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/archive-proposal-validate-proposal/health.yml
-  status: stale
-- run_id: bootstrap-doctor-workflow-20260413-v4
-  health_ref: .octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4/health.yml
-  status: evidence-incomplete
-- run_id: bootstrap-doctor-workflow-20260413-v4-stage-inline
-  health_ref: .octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/health.yml
-  status: evidence-incomplete
-- run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation
-  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/health.yml
-  status: stale
-- run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/health.yml
-  status: stale
-- run_id: lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/health.yml
-  status: stale
-- run_id: promote-foundational-entry-artifact-canonical-framing-update-20260514-173617
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/health.yml
-  status: stale
-- run_id: promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/health.yml
-  status: stale
-- run_id: promote-proposal-1778780159929-14225
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778780159929-14225/health.yml
-  status: stale
-- run_id: promote-proposal-1778789393590-98750
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750/health.yml
-  status: stale
-- run_id: promote-proposal-1778789393590-98750-promote-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750-promote-proposal/health.yml
-  status: stale
-- run_id: promote-proposal-1778789393590-98750-validate-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750-validate-proposal/health.yml
-  status: stale
-- run_id: promote-proposal-1778907502763-54233
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233/health.yml
-  status: stale
-- run_id: promote-proposal-1778907502763-54233-promote-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233-promote-proposal/health.yml
-  status: stale
-- run_id: promote-proposal-1778907502763-54233-validate-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233-validate-proposal/health.yml
-  status: stale
-- run_id: promote-proposal-promote-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-promote-proposal/health.yml
-  status: stale
-- run_id: promote-proposal-validate-proposal
-  health_ref: .octon/generated/cognition/projections/materialized/runs/promote-proposal-validate-proposal/health.yml
-  status: stale
-- run_id: protected-ci-1776956405637-68212
-  health_ref: .octon/generated/cognition/projections/materialized/runs/protected-ci-1776956405637-68212/health.yml
-  status: stale
-- run_id: publish-1777422984064-73566
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777422984064-73566/health.yml
-  status: stale
-- run_id: publish-1777423061903-95134
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777423061903-95134/health.yml
-  status: stale
-- run_id: publish-1777423080924-1883
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777423080924-1883/health.yml
-  status: stale
-- run_id: publish-1777423089728-2628
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777423089728-2628/health.yml
-  status: stale
-- run_id: publish-1777424810079-75845
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777424810079-75845/health.yml
-  status: stale
-- run_id: publish-1777424884404-97686
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777424884404-97686/health.yml
-  status: stale
-- run_id: publish-1777424916339-5871
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777424916339-5871/health.yml
-  status: stale
-- run_id: publish-1777424924984-6610
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777424924984-6610/health.yml
-  status: stale
-- run_id: publish-1777471258209-32069
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777471258209-32069/health.yml
-  status: stale
-- run_id: publish-1777471367077-57702
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777471367077-57702/health.yml
-  status: stale
-- run_id: publish-1777471375866-58163
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777471375866-58163/health.yml
-  status: stale
-- run_id: publish-1777471430431-75071
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777471430431-75071/health.yml
-  status: stale
-- run_id: publish-1777471448764-89339
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777471448764-89339/health.yml
-  status: stale
-- run_id: publish-1777472435164-84124
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777472435164-84124/health.yml
-  status: stale
-- run_id: publish-1777472507311-5563
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777472507311-5563/health.yml
-  status: stale
-- run_id: publish-1777472515437-5926
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777472515437-5926/health.yml
-  status: stale
-- run_id: publish-1777472536856-11767
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777472536856-11767/health.yml
-  status: stale
-- run_id: publish-1777632056333-84806
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777632056333-84806/health.yml
-  status: stale
-- run_id: publish-1777632076001-91565
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777632076001-91565/health.yml
-  status: stale
-- run_id: publish-1777645675141-62877
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645675141-62877/health.yml
-  status: stale
-- run_id: publish-1777645695599-82172
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645695599-82172/health.yml
-  status: stale
-- run_id: publish-1777645703361-87101
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645703361-87101/health.yml
-  status: stale
-- run_id: publish-1777645737021-7127
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645737021-7127/health.yml
-  status: stale
-- run_id: publish-1777645854848-6068
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645854848-6068/health.yml
-  status: stale
-- run_id: publish-1777645877352-18070
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645877352-18070/health.yml
-  status: stale
-- run_id: publish-1777645884878-19017
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777645884878-19017/health.yml
-  status: stale
-- run_id: publish-1777652598179-97374
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777652598179-97374/health.yml
-  status: stale
-- run_id: publish-1777665554323-38413
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777665554323-38413/health.yml
-  status: stale
-- run_id: publish-1777666570603-87006
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777666570603-87006/health.yml
-  status: stale
-- run_id: publish-1777677297712-9334
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777677297712-9334/health.yml
-  status: stale
-- run_id: publish-1777677401499-41587
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777677401499-41587/health.yml
-  status: stale
-- run_id: publish-1777677458864-64783
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777677458864-64783/health.yml
-  status: stale
-- run_id: publish-1777677584427-89158
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777677584427-89158/health.yml
-  status: stale
-- run_id: publish-1777677603963-89508
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777677603963-89508/health.yml
-  status: stale
-- run_id: publish-1777775597631-68872
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777775597631-68872/health.yml
-  status: stale
-- run_id: publish-1777775701772-1640
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777775701772-1640/health.yml
-  status: stale
-- run_id: publish-1777775720373-8518
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777775720373-8518/health.yml
-  status: stale
-- run_id: publish-1777776075480-23816
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777776075480-23816/health.yml
-  status: stale
-- run_id: publish-1777776174857-56345
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777776174857-56345/health.yml
-  status: stale
-- run_id: publish-1777776194375-63235
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777776194375-63235/health.yml
-  status: stale
-- run_id: publish-1777778128494-55429
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777778128494-55429/health.yml
-  status: stale
-- run_id: publish-1777778180159-61448
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777778180159-61448/health.yml
-  status: stale
-- run_id: publish-1777778287559-93662
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777778287559-93662/health.yml
-  status: stale
-- run_id: publish-1777778424256-13836
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777778424256-13836/health.yml
-  status: stale
-- run_id: publish-1777778445320-20696
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777778445320-20696/health.yml
-  status: stale
-- run_id: publish-1777778510053-37929
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777778510053-37929/health.yml
-  status: stale
-- run_id: publish-1777823294526-55200
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777823294526-55200/health.yml
-  status: stale
-- run_id: publish-1777823457586-1227
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777823457586-1227/health.yml
-  status: stale
-- run_id: publish-1777823567650-25980
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1777823567650-25980/health.yml
-  status: stale
-- run_id: publish-1778066051949-87170
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066051949-87170/health.yml
-  status: stale
-- run_id: publish-1778066108337-12662
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066108337-12662/health.yml
-  status: stale
-- run_id: publish-1778066175529-48085
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066175529-48085/health.yml
-  status: stale
-- run_id: publish-1778066220190-72409
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066220190-72409/health.yml
-  status: stale
-- run_id: publish-1778066449024-16298
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066449024-16298/health.yml
-  status: stale
-- run_id: publish-1778066702138-99668
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066702138-99668/health.yml
-  status: stale
-- run_id: publish-1778066722638-6823
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778066722638-6823/health.yml
-  status: stale
-- run_id: publish-1778616331311-93068
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778616331311-93068/health.yml
-  status: stale
-- run_id: publish-1778616447459-34741
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778616447459-34741/health.yml
-  status: stale
-- run_id: publish-1778623229627-86379
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778623229627-86379/health.yml
-  status: stale
-- run_id: publish-1778804493197-24604
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778804493197-24604/health.yml
-  status: stale
-- run_id: publish-1778805087830-25396
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778805087830-25396/health.yml
-  status: stale
-- run_id: publish-1778805144635-28111
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778805144635-28111/health.yml
-  status: stale
-- run_id: publish-1778805167655-36699
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778805167655-36699/health.yml
-  status: stale
-- run_id: publish-1778877939065-76435
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778877939065-76435/health.yml
-  status: stale
-- run_id: publish-1778878128691-27800
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1778878128691-27800/health.yml
-  status: stale
-- run_id: publish-1779030478276-59343
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779030478276-59343/health.yml
-  status: stale
-- run_id: publish-1779030484426-61231
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779030484426-61231/health.yml
-  status: stale
-- run_id: publish-1779030490878-63540
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779030490878-63540/health.yml
-  status: stale
-- run_id: publish-1779035019068-86412
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779035019068-86412/health.yml
-  status: stale
-- run_id: publish-1779035025180-88067
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779035025180-88067/health.yml
-  status: stale
-- run_id: publish-1779035031992-90072
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779035031992-90072/health.yml
-  status: stale
-- run_id: publish-1779040694068-29865
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779040694068-29865/health.yml
-  status: stale
-- run_id: publish-1779040761414-37654
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779040761414-37654/health.yml
-  status: stale
-- run_id: publish-1779041110006-5860
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779041110006-5860/health.yml
-  status: stale
-- run_id: publish-1779041192827-14427
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779041192827-14427/health.yml
-  status: stale
-- run_id: publish-1779041201577-14787
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779041201577-14787/health.yml
-  status: stale
-- run_id: publish-1779047372537-14457
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779047372537-14457/health.yml
-  status: stale
-- run_id: publish-1779047532786-57181
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779047532786-57181/health.yml
-  status: stale
-- run_id: publish-1779047555278-64552
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779047555278-64552/health.yml
-  status: stale
-- run_id: publish-1779047564157-64887
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779047564157-64887/health.yml
-  status: stale
-- run_id: publish-1779053286728-34030
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779053286728-34030/health.yml
-  status: stale
-- run_id: publish-1779053480107-88851
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779053480107-88851/health.yml
-  status: stale
-- run_id: publish-1779053630808-32392
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779053630808-32392/health.yml
-  status: stale
-- run_id: publish-1779053649401-39756
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779053649401-39756/health.yml
-  status: stale
-- run_id: publish-1779053694781-45025
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779053694781-45025/health.yml
-  status: stale
-- run_id: publish-1779053860696-86680
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779053860696-86680/health.yml
-  status: stale
-- run_id: publish-1779066727409-11243
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779066727409-11243/health.yml
-  status: stale
-- run_id: publish-1779066733397-11522
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779066733397-11522/health.yml
-  status: stale
-- run_id: publish-1779066740097-11923
-  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779066740097-11923/health.yml
-  status: stale
-- run_id: repo-consequential-preflight-workflow-20260413-v4
-  health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml
-  status: evidence-incomplete
-- run_id: repo-consequential-preflight-workflow-20260413-v4-stage-inline
-  health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/health.yml
-  status: evidence-incomplete
-- run_id: repo-shell-supported-scenario-workflow-20260413-v4
-  health_ref: .octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4/health.yml
-  status: evidence-incomplete
-- run_id: repo-shell-supported-scenario-workflow-20260413-v4-stage-inline
-  health_ref: .octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/health.yml
-  status: evidence-incomplete
-- run_id: run-wave3-runtime-bridge-20260327
-  health_ref: .octon/generated/cognition/projections/materialized/runs/run-wave3-runtime-bridge-20260327/health.yml
-  status: evidence-incomplete
-- run_id: run-wave4-benchmark-evaluator-20260327
-  health_ref: .octon/generated/cognition/projections/materialized/runs/run-wave4-benchmark-evaluator-20260327/health.yml
-  status: evidence-incomplete
-- run_id: uec-audit-architecture-20260331-2
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-audit-architecture-20260331-2/health.yml
-  status: evidence-incomplete
-- run_id: uec-audit-workflow-system-20260401-agent-augmented-1
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-audit-workflow-system-20260401-agent-augmented-1/health.yml
-  status: stale
-- run_id: uec-bounded-repo-shell-boundary-sensitive-20260409
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/health.yml
-  status: revoked
-- run_id: uec-evaluate-harness-20260401-agent-augmented-1
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-evaluate-harness-20260401-agent-augmented-1/health.yml
-  status: stale
-- run_id: uec-global-ci-observe-read-20260404
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-global-ci-observe-read-20260404/health.yml
-  status: evidence-incomplete
-- run_id: uec-global-frontier-browser-api-studio-20260404
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-global-frontier-browser-api-studio-20260404/health.yml
-  status: review-required
-- run_id: uec-global-github-repo-consequential-20260404
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-global-github-repo-consequential-20260404/health.yml
-  status: stale
-- run_id: uec-global-repo-shell-observe-read-20260404
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-global-repo-shell-observe-read-20260404/health.yml
-  status: evidence-incomplete
-- run_id: uec-repo-shell-boundary-sensitive-recertified-20260410
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/health.yml
-  status: revoked
-- run_id: uec-repo-shell-repo-consequential-recertified-20260410
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-repo-shell-repo-consequential-recertified-20260410/health.yml
-  status: stale
-- run_id: uec-safe-stage-approval-exercise-20260402
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-safe-stage-approval-exercise-20260402/health.yml
-  status: stale
-- run_id: uec-safe-stage-lease-revocation-exercise-20260402
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-safe-stage-lease-revocation-exercise-20260402/health.yml
-  status: revoked
-- run_id: uec-validate-proposal-20260331-b
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260331-b/health.yml
-  status: blocked
-- run_id: uec-validate-proposal-20260331-success-3
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260331-success-3/health.yml
-  status: evidence-incomplete
-- run_id: uec-validate-proposal-20260401-agent-augmented-3
-  health_ref: .octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260401-agent-augmented-3/health.yml
-  status: stale
+{
+  "schema_version": "run-health-read-model-index-v1",
+  "generated_at": "2026-05-21T02:57:31Z",
+  "authority": {
+    "classification": "generated_read_model_non_authoritative",
+    "may_authorize": false,
+    "may_widen_support": false
+  },
+  "runs": [
+    {
+      "run_id": "archive-proposal-1778522826862-49940",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778522826862-49940/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1778781582150-10776",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778781582150-10776/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1778781598867-11942",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778781598867-11942/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1778805178254-37205",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1778805178254-37205-archive-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205-archive-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-1778805178254-37205-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-1778805178254-37205-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-archive-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-archive-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "archive-proposal-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/archive-proposal-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "bootstrap-doctor-workflow-20260413-v4",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "bootstrap-doctor-workflow-20260413-v4-stage-inline",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/bootstrap-doctor-workflow-20260413-v4-stage-inline/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-promote-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/lifecycle-proposal-program-1778904192406-8da93d7a-workflow-history-replay-idempotency-compensation-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-foundational-entry-artifact-canonical-framing-update-20260514-173617",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-foundational-entry-artifact-canonical-framing-update-20260514-173617/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-lifecycle-autopilot-effective-catalog-portability-correction-20260511/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778780159929-14225",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778780159929-14225/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778789393590-98750",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778789393590-98750-promote-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750-promote-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778789393590-98750-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778789393590-98750-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778907502763-54233",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778907502763-54233-promote-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233-promote-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-1778907502763-54233-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-1778907502763-54233-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-promote-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-promote-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "promote-proposal-validate-proposal",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/promote-proposal-validate-proposal/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "protected-ci-1776956405637-68212",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/protected-ci-1776956405637-68212/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777422984064-73566",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777422984064-73566/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777423061903-95134",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777423061903-95134/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777423080924-1883",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777423080924-1883/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777423089728-2628",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777423089728-2628/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777424810079-75845",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424810079-75845/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777424884404-97686",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424884404-97686/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777424916339-5871",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424916339-5871/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777424924984-6610",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777424924984-6610/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777471258209-32069",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471258209-32069/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777471367077-57702",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471367077-57702/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777471375866-58163",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471375866-58163/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777471430431-75071",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471430431-75071/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777471448764-89339",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777471448764-89339/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777472435164-84124",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472435164-84124/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777472507311-5563",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472507311-5563/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777472515437-5926",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472515437-5926/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777472536856-11767",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777472536856-11767/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777632056333-84806",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777632056333-84806/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777632076001-91565",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777632076001-91565/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645675141-62877",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645675141-62877/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645695599-82172",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645695599-82172/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645703361-87101",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645703361-87101/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645737021-7127",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645737021-7127/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645854848-6068",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645854848-6068/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645877352-18070",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645877352-18070/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777645884878-19017",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777645884878-19017/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777652598179-97374",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777652598179-97374/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777665554323-38413",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777665554323-38413/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777666570603-87006",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777666570603-87006/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777677297712-9334",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677297712-9334/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777677401499-41587",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677401499-41587/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777677458864-64783",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677458864-64783/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777677584427-89158",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677584427-89158/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777677603963-89508",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777677603963-89508/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777775597631-68872",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777775597631-68872/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777775701772-1640",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777775701772-1640/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777775720373-8518",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777775720373-8518/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777776075480-23816",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777776075480-23816/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777776174857-56345",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777776174857-56345/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777776194375-63235",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777776194375-63235/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777778128494-55429",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778128494-55429/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777778180159-61448",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778180159-61448/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777778287559-93662",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778287559-93662/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777778424256-13836",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778424256-13836/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777778445320-20696",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778445320-20696/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777778510053-37929",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777778510053-37929/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777823294526-55200",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777823294526-55200/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777823457586-1227",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777823457586-1227/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1777823567650-25980",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1777823567650-25980/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066051949-87170",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066051949-87170/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066108337-12662",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066108337-12662/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066175529-48085",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066175529-48085/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066220190-72409",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066220190-72409/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066449024-16298",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066449024-16298/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066702138-99668",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066702138-99668/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778066722638-6823",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778066722638-6823/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778616331311-93068",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778616331311-93068/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778616447459-34741",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778616447459-34741/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778623229627-86379",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778623229627-86379/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778804493197-24604",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778804493197-24604/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778805087830-25396",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778805087830-25396/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778805144635-28111",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778805144635-28111/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778805167655-36699",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778805167655-36699/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778877939065-76435",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778877939065-76435/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1778878128691-27800",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1778878128691-27800/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779297200530-91697",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297200530-91697/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779297552112-2070",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297552112-2070/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779297842174-78249",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297842174-78249/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779297867218-85967",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779297867218-85967/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779305091843-92167",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779305091843-92167/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779305121205-490",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779305121205-490/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "publish-1779325702961-81690",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/publish-1779325702961-81690/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "repo-consequential-preflight-workflow-20260413-v4",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "repo-consequential-preflight-workflow-20260413-v4-stage-inline",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4-stage-inline/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "repo-shell-supported-scenario-workflow-20260413-v4",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "repo-shell-supported-scenario-workflow-20260413-v4-stage-inline",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/repo-shell-supported-scenario-workflow-20260413-v4-stage-inline/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "run-wave3-runtime-bridge-20260327",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/run-wave3-runtime-bridge-20260327/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "run-wave4-benchmark-evaluator-20260327",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/run-wave4-benchmark-evaluator-20260327/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "uec-audit-architecture-20260331-2",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-audit-architecture-20260331-2/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "uec-audit-workflow-system-20260401-agent-augmented-1",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-audit-workflow-system-20260401-agent-augmented-1/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "uec-bounded-repo-shell-boundary-sensitive-20260409",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-bounded-repo-shell-boundary-sensitive-20260409/health.yml",
+      "status": "revoked"
+    },
+    {
+      "run_id": "uec-evaluate-harness-20260401-agent-augmented-1",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-evaluate-harness-20260401-agent-augmented-1/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "uec-global-ci-observe-read-20260404",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-ci-observe-read-20260404/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "uec-global-frontier-browser-api-studio-20260404",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-frontier-browser-api-studio-20260404/health.yml",
+      "status": "review-required"
+    },
+    {
+      "run_id": "uec-global-github-repo-consequential-20260404",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-github-repo-consequential-20260404/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "uec-global-repo-shell-observe-read-20260404",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-global-repo-shell-observe-read-20260404/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "uec-repo-shell-boundary-sensitive-recertified-20260410",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-repo-shell-boundary-sensitive-recertified-20260410/health.yml",
+      "status": "revoked"
+    },
+    {
+      "run_id": "uec-repo-shell-repo-consequential-recertified-20260410",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-repo-shell-repo-consequential-recertified-20260410/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "uec-safe-stage-approval-exercise-20260402",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-safe-stage-approval-exercise-20260402/health.yml",
+      "status": "stale"
+    },
+    {
+      "run_id": "uec-safe-stage-lease-revocation-exercise-20260402",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-safe-stage-lease-revocation-exercise-20260402/health.yml",
+      "status": "revoked"
+    },
+    {
+      "run_id": "uec-validate-proposal-20260331-b",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260331-b/health.yml",
+      "status": "blocked"
+    },
+    {
+      "run_id": "uec-validate-proposal-20260331-success-3",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260331-success-3/health.yml",
+      "status": "evidence-incomplete"
+    },
+    {
+      "run_id": "uec-validate-proposal-20260401-agent-augmented-3",
+      "health_ref": ".octon/generated/cognition/projections/materialized/runs/uec-validate-proposal-20260401-agent-augmented-3/health.yml",
+      "status": "stale"
+    }
+  ]
+}

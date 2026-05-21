@@ -3705,6 +3705,96 @@ skills:
         - change
         - closeout
         language_tags: []
+  closeout-worktree:
+    version: 1.0.1
+    commands:
+    - /closeout-worktree
+    parameters:
+    - name: worktree_id
+      type: text
+      required: false
+      description: Optional worktree or branch identifier for the dirty worktree being decomposed
+    - name: target_lifecycle_outcome
+      type: text
+      required: false
+      description: Optional requested lifecycle target applied to candidate Changes when safe and explicit
+    - name: candidate_limit
+      type: number
+      required: false
+      description: Optional maximum number of candidate Changes to close in this wrapper run
+    - name: include_paths
+      type: text
+      required: false
+      description: Optional comma-separated paths eligible for decomposition
+    - name: exclude_paths
+      type: text
+      required: false
+      description: Optional comma-separated paths excluded from decomposition
+    - name: receipt_refs
+      type: text
+      required: false
+      description: Optional comma-separated existing Change receipt paths to consider
+    - name: stop_after_first
+      type: boolean
+      required: false
+      description: Stop after the first delegated singular closeout attempt
+    requires:
+      context:
+      - type: file_exists
+        path: /.octon/framework/product/contracts/default-work-unit.yml
+        description: Canonical default work unit policy
+      - type: file_exists
+        path: /.octon/framework/product/contracts/change-closeout-state-machine.yml
+        description: Change Closeout State Machine contract
+      - type: file_exists
+        path: /.octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+        description: Singular Change closeout executor
+      - type: file_exists
+        path: /.octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+        description: Read-only residue classifier
+      - type: file_exists
+        path: /.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        description: Wrapper evidence validator for multi-candidate closeout reports
+    io:
+      inputs: []
+      outputs:
+      - name: worktree_closeout_report
+        path: /.octon/state/evidence/validation/analysis/{{date}}-closeout-worktree-{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Structured worktree decomposition report covering candidate Changes, delegation, retained residue, and blockers
+      - name: run_log
+        path: /.octon/state/evidence/runs/skills/closeout-worktree/{{run_id}}.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for closeout-worktree runs
+      - name: log_index
+        path: /.octon/state/evidence/runs/skills/closeout-worktree/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Index of closeout-worktree runs
+      - name: top_log_index
+        path: /.octon/state/evidence/runs/skills/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Top-level log index (cross-skill)
+    host_adapters:
+    - codex
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags:
+        - change
+        - closeout
+        - worktree
+        language_tags: []
   triage-ci-failure:
     version: 1.0.1
     commands:

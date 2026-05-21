@@ -70,6 +70,7 @@ FORBIDDEN_CONSUMERS = {
     "authority",
     "support-claim-evaluation",
 }
+GENERATED_RUN_HEALTH_ROOT = ".octon/generated/cognition/projections/materialized/runs/"
 
 
 def parse_args():
@@ -78,6 +79,7 @@ def parse_args():
     parser.add_argument("--health-file", action="append", default=[])
     parser.add_argument("--fixtures-root", default=str(DEFAULT_FIXTURES_ROOT))
     parser.add_argument("--fixture-output-root", default=None)
+    parser.add_argument("--evidence-root", default=None)
     parser.add_argument("--no-live", action="store_true")
     parser.add_argument("--no-fixtures", action="store_true")
     parser.add_argument("--no-report", action="store_true")
@@ -112,6 +114,14 @@ def is_hash_string(value):
     if not isinstance(value, str) or not value.startswith("sha256:") or len(value) != 71:
         return False
     return all(ch in "0123456789abcdef" for ch in value[7:])
+
+
+def is_repo_relative_generated_run_health_ref(value):
+    if not is_non_empty_string(value):
+        return False
+    if value.startswith("/") or Path(value).is_absolute():
+        return False
+    return value.startswith(GENERATED_RUN_HEALTH_ROOT)
 
 
 def require_object(data, key, failures, context):
@@ -441,6 +451,93 @@ def health_files_from(root):
     return sorted(path for path in root.glob("*/health.yml") if path.is_file())
 
 
+def validate_generation_receipt(evidence_root):
+    evidence_root = Path(evidence_root)
+    receipt_path = evidence_root / "generation.yml"
+    failures = []
+    if not receipt_path.is_file():
+        return [f"missing generation receipt: {receipt_path}"]
+
+    data = load_yaml(receipt_path)
+    context = str(receipt_path)
+    if not isinstance(data, dict):
+        return [f"{context}: generation receipt must be a YAML object"]
+
+    if data.get("schema_version") != "run-health-generation-receipt-v1":
+        failures.append(f"{context}: schema_version must be run-health-generation-receipt-v1")
+    if data.get("generator_ref") != ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh":
+        failures.append(f"{context}: generator_ref is invalid")
+    if data.get("schema_ref") != ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json":
+        failures.append(f"{context}: schema_ref is invalid")
+    if data.get("validator_ref") != ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh":
+        failures.append(f"{context}: validator_ref is invalid")
+
+    authority = data.get("authority")
+    if not isinstance(authority, dict):
+        failures.append(f"{context}: authority must be an object")
+        authority = {}
+    if authority.get("classification") != "generated_read_model_non_authoritative":
+        failures.append(f"{context}: authority.classification is invalid")
+    if authority.get("may_authorize") is not False:
+        failures.append(f"{context}: authority.may_authorize must be false")
+    if authority.get("may_widen_support") is not False:
+        failures.append(f"{context}: authority.may_widen_support must be false")
+
+    published_paths = data.get("published_paths")
+    if not isinstance(published_paths, list) or not published_paths:
+        failures.append(f"{context}: published_paths must be a non-empty list")
+        published_paths = []
+    elif len(published_paths) != len(set(published_paths)):
+        failures.append(f"{context}: published_paths must be unique")
+
+    published_set = set()
+    for item in published_paths:
+        if not is_repo_relative_generated_run_health_ref(item):
+            failures.append(f"{context}: published_paths item must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}: {item}")
+            continue
+        published_set.add(item)
+        resolved = resolve_ref(item)
+        if resolved is None or not resolved.is_file():
+            failures.append(f"{context}: published path missing on disk: {item}")
+
+    index_ref = GENERATED_RUN_HEALTH_ROOT + "index.yml"
+    if published_paths and index_ref not in published_set:
+        failures.append(f"{context}: published_paths must include {index_ref}")
+
+    pruned_paths = data.get("pruned_paths", [])
+    if not isinstance(pruned_paths, list):
+        failures.append(f"{context}: pruned_paths must be a list")
+        pruned_paths = []
+    elif len(pruned_paths) != len(set(pruned_paths)):
+        failures.append(f"{context}: pruned_paths must be unique")
+
+    pruned_set = set()
+    for item in pruned_paths:
+        if not is_repo_relative_generated_run_health_ref(item):
+            failures.append(f"{context}: pruned_paths item must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}: {item}")
+            continue
+        pruned_set.add(item)
+    if published_set & pruned_set:
+        failures.append(f"{context}: published_paths and pruned_paths must be disjoint")
+
+    outputs = data.get("outputs")
+    if not isinstance(outputs, list) or not outputs:
+        failures.append(f"{context}: outputs must be a non-empty list")
+        outputs = []
+    for index, item in enumerate(outputs):
+        if not isinstance(item, dict):
+            failures.append(f"{context}: outputs[{index}] must be an object")
+            continue
+        health_ref = item.get("health_ref")
+        if not is_repo_relative_generated_run_health_ref(health_ref):
+            failures.append(f"{context}: outputs[{index}].health_ref must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}")
+            continue
+        if health_ref not in published_set:
+            failures.append(f"{context}: outputs[{index}].health_ref must appear in published_paths")
+
+    return failures
+
+
 def assert_no_inputs_refs(data, failures, context):
     refs = []
     refs.extend([value for value in data.get("canonical_refs", {}).values() if isinstance(value, str)])
@@ -597,6 +694,10 @@ def main():
 
     if not args.no_live and not candidate_files:
         failures.append(f"no run-health files found under {args.health_root}")
+
+    evidence_root = Path(args.evidence_root) if args.evidence_root else (DEFAULT_EVIDENCE_ROOT if not args.no_live else None)
+    if evidence_root is not None:
+        failures.extend(validate_generation_receipt(evidence_root))
 
     fixture_files_for_negative = []
     if not args.no_fixtures:

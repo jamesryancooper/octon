@@ -278,6 +278,69 @@
         }
       }
     },
+    "stateful_closeout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_machine_version",
+        "initial_inventory_ref",
+        "residue_classification_ref",
+        "phase_exit_refs",
+        "cleanup_decision_refs",
+        "safe_cleanup_evidence_class",
+        "final_verification_ref"
+      ],
+      "properties": {
+        "state_machine_version": {
+          "const": "change-closeout-state-machine-v1"
+        },
+        "initial_inventory_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "residue_classification_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "phase_exit_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "cleanup_decision_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "safe_cleanup_evidence_class": {
+          "type": "string",
+          "enum": [
+            "origin-main-containment",
+            "patch-equivalence",
+            "tracked-replacement",
+            "explicit-ignored-local-residue",
+            "validator-proof",
+            "not-applicable"
+          ]
+        },
+        "hosted_landing_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "branch_cleanup_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "final_verification_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "escalation_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
     "external_blocker_refs": {
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
@@ -340,6 +403,28 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "closeout_outcome": { "const": "completed" }
+        },
+        "required": ["closeout_outcome"]
+      },
+      "then": {
+        "required": ["stateful_closeout"]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "lifecycle_outcome": { "const": "cleaned" }
+        },
+        "required": ["lifecycle_outcome"]
+      },
+      "then": {
+        "required": ["stateful_closeout"]
+      }
+    },
     {
       "if": { "properties": { "selected_route": { "const": "branch-pr" } } },
       "then": {

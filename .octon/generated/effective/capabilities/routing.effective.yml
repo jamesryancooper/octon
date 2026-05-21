@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-e53f03106329
-published_at: 2026-05-20T19:33:05Z
+generation_id: capabilities-9a5e2f72d255
+published_at: 2026-05-21T13:27:44Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-20T19-33-05Z-capabilities-e53f03106329.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-21T13-27-44Z-capabilities-9a5e2f72d255.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -17,9 +17,9 @@ source:
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: 332fd28d9ec458bb5a1e6e69a828260a5622372312d87ae5db789273ca96a2d3
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 6a0f07f65f226986d8d195bc276f2c67f21bf03d03a65d6d5f6bded47eb7459a
+  framework_skills_manifest_sha256: 00cce275990294e1f0dcf74f5fb9d69de174e2d933794cecd8ed010bad11734e
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: 488eb85c27a71fbe101b4e0faf8ba500de544172bcd311a1117d004f4233af4e
+  framework_skills_registry_sha256: 5d0da6f3854d72b02c5531775d798a99c481b698c836c8f8dbb96e8269944837
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -211,13 +211,49 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9993-1-skill-framework.skill.rust
     projection_name: rust
+  - effective_id: framework.skill.closeout-worktree
+    artifact_map_id: framework-skill-closeout-worktree
+    origin_class: framework
+    capability_kind: skill
+    capability_id: closeout-worktree
+    display_name: Closeout Worktree
+    summary: Dirty-worktree wrapper that decomposes local residue into singular Closeout Change runs.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: remediation
+    host_adapters:
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags:
+        - change
+        - closeout
+        - worktree
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids:
+        - octon-harness
+      tech_tag_matches:
+        - change
+        - closeout
+        - worktree
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 3
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9996-1-skill-framework.skill.closeout-worktree
+    projection_name: closeout-worktree
   - effective_id: framework.skill.closeout-change
     artifact_map_id: framework-skill-closeout-change
     origin_class: framework
     capability_kind: skill
     capability_id: closeout-change
     display_name: Closeout Change
-    summary: Route-neutral Change closeout that separates route, target outcome, actual outcome, and evidence.
+    summary: Route-neutral Change closeout that resolves Change identity, selects the default-work-unit route, records lifecycle and receipt evidence, and delegates PR-backed closeout only after branch-pr.
     status: active
     source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
     capability_domain: remediation
@@ -6385,6 +6421,7 @@ resolution_order:
   - framework.skill.plan-rust-tool-migration
   - framework.skill.audit-rust-tool-architecture
   - framework.skill.rust
+  - framework.skill.closeout-worktree
   - framework.skill.closeout-change
   - instance.command.repo-hygiene
   - framework.command.alignment-check

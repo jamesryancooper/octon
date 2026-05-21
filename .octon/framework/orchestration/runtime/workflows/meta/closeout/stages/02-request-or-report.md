@@ -14,7 +14,8 @@
 2. Mention PR mutation only when the selected route is `branch-pr`.
 3. Choose the report posture from evidence:
    - completed closeout only when the selected route, target outcome, actual
-     outcome, receipt, rollback, cleanup, and alignment evidence all agree
+     outcome, state-machine receipt evidence, rollback, cleanup, and alignment
+     evidence all agree
    - continued handoff for `published-branch`, `branch-local-complete`,
      `published`, or `ready`
    - blocker receipt when required validation, landing, cleanup, sync, review,
@@ -63,7 +64,9 @@
    as landed.
 13. Never report `published-branch`, `branch-local-complete`, `published`, or
     `ready` as completed closeout.
-14. Never restate the prompt matrix inline in ingress.
-15. If a compatibility fallback prompt is still needed for legacy adapters, cite
+14. Never claim completed or cleaned closeout without `stateful_closeout`
+    evidence from the Change Closeout State Machine.
+15. Never restate the prompt matrix inline in ingress.
+16. If a compatibility fallback prompt is still needed for legacy adapters, cite
    the workflow contract and retirement register rather than treating the
    prompt as canonical policy.

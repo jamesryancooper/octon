@@ -70,6 +70,19 @@ channel the Change needs. Target lifecycle outcome records what the operator or
 agent is trying to achieve. Lifecycle outcome is recorded separately and
 answers how far through closeout the Change actually progressed.
 
+The Change Closeout State Machine at
+`.octon/framework/product/contracts/change-closeout-state-machine.yml` binds the
+phase loop, residue classification, cleanup safety, stateful receipt evidence,
+rollback posture, and final verification required to prove those lifecycle
+claims. It operationalizes this policy; it does not replace route selection or
+create a competing closeout authority.
+
+`Closeout Worktree` is the optional wrapper for dirty worktrees. It decomposes
+multiple local residue groups into singular `Closeout Change` executions. It
+does not replace the default work unit, mint a `Closeout Changes` model, or
+authorize direct staging, commits, pushes, PRs, landing, deletion, reset,
+restore, or overwrite.
+
 When the operator asks for `branch-no-pr` closeout and does not name a target
 outcome, the agent must clarify whether the request is for pushed-branch
 handoff, hosted no-PR landing, or cleaned closeout. If the target is `landed`
@@ -196,6 +209,7 @@ Every completed Change requires durable history:
 - Review evidence or explicit waiver when required.
 - Durable history reference: commit, patch, checkpoint, branch, or PR.
 - Lifecycle outcome, integration status, publication status, and cleanup status.
+- Stateful closeout evidence for completed or cleaned claims.
 - Rollback handle.
 - Closeout outcome and remaining blockers.
 
