@@ -227,7 +227,11 @@ sync_main_to_origin() {
       git -C "$REPO_ROOT" merge-base --is-ancestor "$LANDED_REF" "$BASE_BRANCH" ||
         error "Post-cleanup sync failed: landed ref is not contained in local $BASE_BRANCH."
     fi
-    echo "[OK] Local $BASE_BRANCH is synced to $REMOTE/$BASE_BRANCH: $main_ref"
+    if [[ "$REMOTE/$BASE_BRANCH" == "origin/main" ]]; then
+      echo "[OK] Local $BASE_BRANCH is synced to origin/main: $main_ref"
+    else
+      echo "[OK] Local $BASE_BRANCH is synced to $REMOTE/$BASE_BRANCH: $main_ref"
+    fi
   else
     echo "[OK] Dry run would sync local $BASE_BRANCH to $REMOTE/$BASE_BRANCH."
   fi
