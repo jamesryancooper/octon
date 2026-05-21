@@ -23,12 +23,18 @@ Successful wrapper execution proves:
 - every candidate has exactly one final disposition under
   `final_candidate_dispositions`;
 - each closed candidate cites the singular `closeout-change` receipt, log, or
-  evidence ref used for that iteration;
+  evidence ref used for that iteration, and that ref resolves under
+  `.octon/state/evidence/runs/skills/closeout-change/`;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - ambiguous, foreign, user-owned, generated, evidence, host-projection,
   release, input-surface, or local ignored residue was retained or escalated
   rather than silently cleaned;
+- ignored residue reported by the final classifier summary is covered by a
+  retained or foreign candidate with candidate-keyed evidence;
+- any prior wrapper partition referenced by the report is reconciled so prior
+  candidates are either still present or explicitly folded, retained, blocked,
+  escalated, deferred, or foreign;
 - final reporting distinguishes closed Changes from retained or blocked
   worktree residue.
 
@@ -45,6 +51,12 @@ Negative controls:
   post-classification evidence fails.
 - A wrapper report with a closed final disposition but no singular
   `closeout-change` reference fails.
+- A wrapper report with a synthetic or non-resolving `closeout-change`
+  reference for a delegated or closed candidate fails.
+- A wrapper report that references a prior wrapper report but omits a prior
+  candidate without reconciliation fails.
+- A wrapper report whose final residue summary reports ignored residue but
+  lacks ignored/local retained or foreign evidence fails.
 - A wrapper report with a safely separable selected candidate blocked only
   because multiple candidates exist fails.
 - A wrapper report whose final dispositions omit any candidate fails.

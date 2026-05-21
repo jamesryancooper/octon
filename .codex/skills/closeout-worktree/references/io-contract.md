@@ -51,6 +51,7 @@ include:
 - `retained_residue`
 - `blockers`
 - `final_inventory_ref`
+- `final_residue_classes`
 - `next_route_condition`
 
 Each candidate record must include `candidate_id`, `disposition`, `ownership`,
@@ -80,7 +81,15 @@ candidate is delegated or closed. Each iteration must include:
 exactly one final state for every candidate: `closed`, `retained`, `blocked`,
 `escalated`, `deferred`, or `foreign`. A `closed` final disposition must cite
 the singular `closeout-change` receipt, log, or evidence reference that appears
-in the corresponding orchestration iteration.
+in the corresponding orchestration iteration. Delegated and closed candidates
+must cite a retained evidence file under
+`/.octon/state/evidence/runs/skills/closeout-change/`; synthetic route labels
+do not prove delegation.
+
+`final_residue_classes` must include an `ignored` count from the final
+classification or final inventory summary. When `ignored` is greater than zero,
+the report must include a retained or foreign candidate with candidate-keyed
+ignored/local residue evidence.
 
 Unresolved candidates must carry candidate-keyed evidence:
 
@@ -96,3 +105,9 @@ Unresolved candidates must carry candidate-keyed evidence:
 - A report must not mark a safely separable selected candidate as blocked only
   because other candidates exist; multiple candidates trigger wrapper
   orchestration, not partition-only completion.
+
+When a report continues or supersedes a previous wrapper partition, include
+`prior_candidate_reconciliation.prior_report_ref` and a reconciliation record
+for every prior candidate that is not still present. Each record must name the
+prior candidate, the current candidate it maps to, one disposition of `folded`,
+`retained`, `blocked`, `escalated`, `deferred`, or `foreign`, and a rationale.

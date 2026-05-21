@@ -1,0 +1,89 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "change-closeout-state-machine-20260521T140550Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "published-branch",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "handoff-only",
+  "intent": "Publish the bounded Change closeout state machine implementation and Closeout Worktree wrapper correction branch for review or later landing without introducing a Closeout Changes model.",
+  "scope": {
+    "summary": "Change closeout state machine contracts, Closeout Worktree orchestration wrapper, run-health non-authority remediation, capability projections, proposal evidence, validators, and retained validation evidence.",
+    "touched_paths": [
+      ".codex/skills/closeout-change/",
+      ".codex/skills/closeout-pr/",
+      ".codex/skills/closeout-worktree/",
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/framework/assurance/runtime/_ops/tests/",
+      ".octon/framework/capabilities/runtime/skills/",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/",
+      ".octon/framework/product/contracts/",
+      ".octon/generated/cognition/projections/materialized/runs/",
+      ".octon/generated/effective/capabilities/",
+      ".octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/",
+      ".octon/state/evidence/validation/proposals/change-closeout-state-machine/"
+    ],
+    "diff_refs": [
+      "commit:414f9375f9e229a2e2f738b021479bda88906852"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/validation/analysis/20260521T140550Z-closeout-worktree-report.yml"
+    ]
+  },
+  "source_branch_ref": "chore/change-closeout-state-machine",
+  "remote_branch_ref": "origin/chore/change-closeout-state-machine@414f9375f9e229a2e2f738b021479bda88906852",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "414f9375f9e229a2e2f738b021479bda88906852",
+    "target_ref": "origin/main"
+  },
+  "not_landed_reason": "The selected outcome was published-branch handoff; hosted no-PR landing was not requested or attempted.",
+  "not_cleaned_reason": "Branch cleanup is deferred because the branch is intentionally retained for review or later landing.",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Remote branch origin/chore/change-closeout-state-machine points at 414f9375f9e229a2e2f738b021479bda88906852.",
+    "Local branch chore/change-closeout-state-machine is retained; no cleanup was attempted."
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/change-closeout-state-machine",
+    "remote_branch": "origin/chore/change-closeout-state-machine",
+    "blocker_reason": "Cleanup is deferred until branch review, landing, or explicit discard authority."
+  },
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh: passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh: 17/17 passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh: passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-state-machine.sh: 7/7 passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh: passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-default-work-unit-alignment.sh: 19/19 passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh: passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh: 25/25 passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh: passed before branch publication",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh: passed before branch publication",
+    "git diff --check: passed before branch publication"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened; branch-no-pr published-branch is a continued handoff outcome."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "414f9375f9e229a2e2f738b021479bda88906852",
+    "branch": "chore/change-closeout-state-machine"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/change-closeout-state-machine",
+    "instructions": "Discard local and remote branch refs before landing. If the branch is later landed, revert the landed commit range instead of deleting retained evidence."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Landing and cleanup were not attempted as part of the published-branch handoff."
+  ],
+  "created_at": "2026-05-21T14:05:50Z",
+  "updated_at": "2026-05-21T14:05:50Z"
+}

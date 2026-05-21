@@ -8,6 +8,7 @@ CLASSIFIER="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/classify-c
 pass_count=0
 fail_count=0
 cleanup_paths=()
+fixture_root=""
 
 cleanup() {
   local path
@@ -53,6 +54,25 @@ new_report() {
   printf '%s\n' "$file"
 }
 
+ensure_fixture_root() {
+  if [[ -z "$fixture_root" ]]; then
+    fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.evidence.XXXXXX")"
+    cleanup_paths+=("$fixture_root")
+  fi
+  mkdir -p "$fixture_root/.octon/state/evidence/runs/skills/closeout-change"
+}
+
+write_closeout_change_fixture() {
+  local suffix="$1"
+  ensure_fixture_root
+  mkdir -p "$(dirname "$fixture_root/.octon/state/evidence/runs/skills/closeout-change/$suffix")"
+  printf 'fixture closeout-change evidence: %s\n' "$suffix" >"$fixture_root/.octon/state/evidence/runs/skills/closeout-change/$suffix"
+}
+
+run_validator_with_fixtures() {
+  CLOSEOUT_WORKTREE_EVIDENCE_ROOT="$fixture_root" bash "$VALIDATOR" --report "$1"
+}
+
 case_static_validator_passes() {
   bash "$VALIDATOR" >/dev/null
 }
@@ -60,6 +80,8 @@ case_static_validator_passes() {
 case_valid_multi_candidate_report_passes() {
   local report
   report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate.md"
+  write_closeout_change_fixture "runtime-candidate.md"
   cat >"$report" <<'YAML'
 schema_version: closeout-worktree-report-v1
 wrapper_id: closeout-worktree
@@ -79,7 +101,7 @@ candidates:
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
     rollback_or_discard_posture: rollback-handle-retained
-    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
     boundaries:
       include_paths:
         - docs/closeout.md
@@ -93,7 +115,7 @@ candidates:
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
     rollback_or_discard_posture: rollback-handle-retained
-    closeout_change_ref: evidence://runs/skills/closeout-change/runtime-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/runtime-candidate.md
     boundaries:
       include_paths:
         - src/runtime/kernel.rs
@@ -110,7 +132,7 @@ iterations:
     exclude_paths:
       - src/runtime/kernel.rs
       - .octon/generated/effective/capabilities/routing.effective.yml
-    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
     closeout_change_outcome: closed
     post_inventory_ref: evidence://worktree/inventory-002
     post_classification_ref: evidence://worktree/classification-002
@@ -123,7 +145,7 @@ iterations:
       - src/runtime/kernel.rs
     exclude_paths:
       - docs/closeout.md
-    closeout_change_ref: evidence://runs/skills/closeout-change/runtime-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/runtime-candidate.md
     closeout_change_outcome: closed
     post_inventory_ref: evidence://worktree/inventory-003
     post_classification_ref: evidence://worktree/classification-003
@@ -131,21 +153,24 @@ iterations:
 final_candidate_dispositions:
   candidate-docs:
     state: closed
-    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
   candidate-runtime:
     state: closed
-    closeout_change_ref: evidence://runs/skills/closeout-change/runtime-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/runtime-candidate.md
 retained_residue: []
 blockers: []
 final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
 next_route_condition: none
 YAML
-  bash "$VALIDATOR" --report "$report" >/dev/null
+  run_validator_with_fixtures "$report" >/dev/null
 }
 
 case_first_close_then_second_blocked_passes() {
   local report
   report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate.md"
   cat >"$report" <<'YAML'
 schema_version: closeout-worktree-report-v1
 wrapper_id: closeout-worktree
@@ -165,7 +190,7 @@ candidates:
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
     rollback_or_discard_posture: rollback-handle-retained
-    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
     boundaries:
       include_paths:
         - docs/closeout.md
@@ -191,7 +216,7 @@ iterations:
       - docs/closeout.md
     exclude_paths:
       - src/runtime/kernel.rs
-    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
     closeout_change_outcome: closed
     post_inventory_ref: evidence://worktree/inventory-002
     post_classification_ref: evidence://worktree/classification-002
@@ -199,7 +224,7 @@ iterations:
 final_candidate_dispositions:
   candidate-docs:
     state: closed
-    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
   candidate-runtime:
     state: blocked
     reason: operator must resolve ownership of src/runtime/kernel.rs before closeout-change can run
@@ -208,9 +233,11 @@ blockers:
   - candidate_id: candidate-runtime
     blocker: operator must resolve ownership of src/runtime/kernel.rs before closeout-change can run
 final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
 next_route_condition: operator resolves candidate-runtime ownership blocker
 YAML
-  bash "$VALIDATOR" --report "$report" >/dev/null
+  run_validator_with_fixtures "$report" >/dev/null
 }
 
 case_multiple_sets_batched_into_one_candidate_fails() {
@@ -806,6 +833,173 @@ YAML
   ! bash "$VALIDATOR" --report "$report" >/dev/null
 }
 
+case_synthetic_closeout_change_ref_fails() {
+  local report
+  report="$(new_report)"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-synthetic-closeout-ref
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: published-branch
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: closeout-change://branch-no-pr/published-branch/synthetic
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: closeout-change://branch-no-pr/published-branch/synthetic
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: closeout-change://branch-no-pr/published-branch/synthetic
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! bash "$VALIDATOR" --report "$report" >/dev/null
+}
+
+case_prior_candidate_without_reconciliation_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate.md"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-missing-prior-reconciliation
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-change-closeout-state-machine
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/20260521T130413Z-closeout-worktree-report.yml
+  candidates: []
+candidates:
+  - candidate_id: candidate-change-closeout-state-machine
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: published-branch
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-change-closeout-state-machine
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-change-closeout-state-machine:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_ignored_residue_without_foreign_coverage_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate.md"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-missing-ignored-coverage
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: published-branch
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate.md
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 1
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 case_classifier_counts_multi_residue_classes() {
   local repo output
   repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.repo.XXXXXX")"
@@ -845,6 +1039,9 @@ main() {
   assert_success "retained candidate without retained residue evidence fails" case_retained_candidate_without_retained_residue_fails
   assert_success "ambiguous candidate without blocker evidence fails" case_ambiguous_candidate_without_blocker_fails
   assert_success "unresolved candidate with terminal next route fails" case_unresolved_candidate_with_terminal_next_route_fails
+  assert_success "synthetic closeout-change ref for closed candidate fails" case_synthetic_closeout_change_ref_fails
+  assert_success "prior candidate omitted without reconciliation fails" case_prior_candidate_without_reconciliation_fails
+  assert_success "ignored residue without foreign retained evidence fails" case_ignored_residue_without_foreign_coverage_fails
   assert_success "classifier detects staged unstaged and untracked residue" case_classifier_counts_multi_residue_classes
 
   echo

@@ -140,13 +140,18 @@ validate_report() {
   fi
 
   set +e
-  REPORT_JSON="$report_json" python3 - <<'PY'
+  REPORT_JSON="$report_json" ROOT_DIR="$ROOT_DIR" CLOSEOUT_WORKTREE_EVIDENCE_ROOT="${CLOSEOUT_WORKTREE_EVIDENCE_ROOT:-$ROOT_DIR}" python3 - <<'PY'
 import json
 import os
+import subprocess
 import sys
+from pathlib import Path
 from pathlib import PurePosixPath
 
 errors = []
+ROOT_DIR = Path(os.environ["ROOT_DIR"]).resolve()
+EVIDENCE_ROOT = Path(os.environ.get("CLOSEOUT_WORKTREE_EVIDENCE_ROOT", str(ROOT_DIR))).resolve()
+CLOSEOUT_CHANGE_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/closeout-change").resolve()
 
 
 def fail(message):
@@ -169,6 +174,72 @@ def validate_repo_path(value, field):
     path = PurePosixPath(value)
     if path.is_absolute() or ".." in path.parts:
         fail(f"{field} must be repo-relative and must not contain parent traversal: {value}")
+
+
+def repo_path(value, field):
+    validate_repo_path(value, field)
+    if not is_nonempty_string(value):
+        return None
+    path = PurePosixPath(value)
+    if path.is_absolute() or ".." in path.parts:
+        return None
+    return ROOT_DIR / Path(*path.parts)
+
+
+def ref_to_repo_path(ref, field):
+    if not is_nonempty_string(ref):
+        fail(f"{field} must be a non-empty evidence ref")
+        return None
+
+    if ref.startswith("evidence://runs/skills/closeout-change/"):
+        suffix = ref.removeprefix("evidence://runs/skills/closeout-change/")
+        if not suffix:
+            fail(f"{field} must include a closeout-change evidence path suffix")
+            return None
+        value = f".octon/state/evidence/runs/skills/closeout-change/{suffix}"
+    elif ref.startswith(".octon/state/evidence/runs/skills/closeout-change/"):
+        value = ref
+    else:
+        fail(f"{field} must cite retained closeout-change evidence under .octon/state/evidence/runs/skills/closeout-change/")
+        return None
+
+    validate_repo_path(value, field)
+    path = PurePosixPath(value)
+    if path.is_absolute() or ".." in path.parts:
+        return None
+    return EVIDENCE_ROOT / Path(*path.parts)
+
+
+def require_closeout_change_evidence(ref, field):
+    path = ref_to_repo_path(ref, field)
+    if path is None:
+        return
+    resolved = path.resolve()
+    try:
+        resolved.relative_to(CLOSEOUT_CHANGE_ROOT)
+    except ValueError:
+        fail(f"{field} must stay under .octon/state/evidence/runs/skills/closeout-change/: {ref}")
+        return
+    if not resolved.is_file():
+        fail(f"{field} must resolve to a retained closeout-change evidence file: {ref}")
+
+
+def load_yaml_as_json(path, field):
+    try:
+        completed = subprocess.run(
+            ["yq", "-o=json", ".", str(path)],
+            check=True,
+            text=True,
+            capture_output=True,
+        )
+        loaded = json.loads(completed.stdout)
+        if not isinstance(loaded, dict):
+            fail(f"{field} must parse to a mapping")
+            return {}
+        return loaded
+    except Exception as exc:
+        fail(f"{field} must be a parseable YAML report: {exc}")
+        return {}
 
 
 def path_covers_boundary(evidence_path, boundary_path):
@@ -281,6 +352,8 @@ for index, candidate in enumerate(candidates):
     if disposition in delegated_dispositions:
         ref = candidate.get("closeout_change_ref")
         require(is_nonempty_string(ref) and "closeout-change" in ref, f"{prefix}.closeout_change_ref must reference closeout-change")
+        if is_nonempty_string(ref):
+            require_closeout_change_evidence(ref, f"{prefix}.closeout_change_ref")
 
 require(selected is not None, "selected_candidate_id must match a candidate")
 
@@ -371,6 +444,8 @@ else:
         if state == "closed":
             ref = item.get("closeout_change_ref")
             require(is_nonempty_string(ref) and "closeout-change" in ref, f"{prefix}.closeout_change_ref must cite closeout-change")
+            if is_nonempty_string(ref):
+                require_closeout_change_evidence(ref, f"{prefix}.closeout_change_ref")
         elif state in retained_residue_dispositions:
             if not retained_by_candidate.get(candidate_id):
                 fail(f"{prefix} with state {state} must have retained_residue evidence")
@@ -417,6 +492,8 @@ for index, iteration in enumerate(iterations):
 
     ref = iteration.get("closeout_change_ref")
     require(is_nonempty_string(ref) and "closeout-change" in ref, f"{prefix}.closeout_change_ref must cite closeout-change")
+    if is_nonempty_string(ref):
+        require_closeout_change_evidence(ref, f"{prefix}.closeout_change_ref")
 
     include_paths = path_list(iteration.get("include_paths"), f"{prefix}.include_paths")
     path_list(iteration.get("exclude_paths", []), f"{prefix}.exclude_paths", required=False)
@@ -453,6 +530,95 @@ if isinstance(final_dispositions, dict):
             }
             if is_nonempty_string(final_ref) and final_ref not in iteration_refs:
                 fail(f"final_candidate_dispositions.{candidate_id}.closeout_change_ref must match an iteration closeout_change_ref")
+
+final_residue_classes = data.get("final_residue_classes")
+ignored_count = 0
+if not isinstance(final_residue_classes, dict):
+    fail("final_residue_classes must be a mapping with an ignored count")
+else:
+    ignored_count = final_residue_classes.get("ignored")
+    if not isinstance(ignored_count, int) or ignored_count < 0:
+        fail("final_residue_classes.ignored must be a non-negative integer")
+
+if isinstance(ignored_count, int) and ignored_count > 0:
+    ignored_coverage = False
+    for item in data.get("retained_residue", []):
+        if not isinstance(item, dict):
+            continue
+        candidate_id = item.get("candidate_id")
+        candidate = candidates_by_id.get(candidate_id)
+        final_state = final_states.get(candidate_id)
+        candidate_disposition = candidate.get("disposition") if isinstance(candidate, dict) else None
+        if candidate_disposition not in {"foreign", "retained"} and final_state not in {"foreign", "retained"}:
+            continue
+        evidence_text = " ".join(
+            str(value)
+            for value in (
+                candidate_id,
+                candidate.get("ownership") if isinstance(candidate, dict) else "",
+                item.get("path"),
+                item.get("disposition"),
+            )
+            if value is not None
+        ).lower()
+        if "ignored" in evidence_text or "local" in evidence_text:
+            ignored_coverage = True
+            break
+    if not ignored_coverage:
+        fail("final_residue_classes.ignored > 0 requires foreign or retained candidate-keyed ignored/local residue evidence")
+
+prior_reconciliation = data.get("prior_candidate_reconciliation")
+if prior_reconciliation is not None:
+    if not isinstance(prior_reconciliation, dict):
+        fail("prior_candidate_reconciliation must be a mapping")
+    else:
+        prior_report_ref = prior_reconciliation.get("prior_report_ref")
+        prior_report_path = repo_path(prior_report_ref, "prior_candidate_reconciliation.prior_report_ref")
+        prior_candidate_ids = set()
+        if prior_report_path is not None:
+            if not prior_report_path.is_file():
+                fail(f"prior_candidate_reconciliation.prior_report_ref must resolve to an existing report: {prior_report_ref}")
+            else:
+                prior_report = load_yaml_as_json(prior_report_path, "prior_candidate_reconciliation.prior_report_ref")
+                prior_candidates = prior_report.get("candidates")
+                if isinstance(prior_candidates, list):
+                    for index, prior_candidate in enumerate(prior_candidates):
+                        if isinstance(prior_candidate, dict) and is_nonempty_string(prior_candidate.get("candidate_id")):
+                            prior_candidate_ids.add(prior_candidate["candidate_id"])
+                        else:
+                            fail(f"prior report candidates[{index}].candidate_id must be present")
+                else:
+                    fail("prior report candidates must be a list")
+
+        reconciliation_items = prior_reconciliation.get("candidates")
+        if not isinstance(reconciliation_items, list):
+            fail("prior_candidate_reconciliation.candidates must be a list")
+            reconciliation_items = []
+
+        reconciled_ids = set()
+        valid_reconciliation = {"folded", "retained", "blocked", "escalated", "deferred", "foreign"}
+        for index, item in enumerate(reconciliation_items):
+            prefix = f"prior_candidate_reconciliation.candidates[{index}]"
+            if not isinstance(item, dict):
+                fail(f"{prefix} must be a mapping")
+                continue
+            prior_candidate_id = item.get("prior_candidate_id")
+            current_candidate_id = item.get("current_candidate_id")
+            disposition = item.get("disposition")
+            require(is_nonempty_string(prior_candidate_id), f"{prefix}.prior_candidate_id must be present")
+            require(disposition in valid_reconciliation, f"{prefix}.disposition must be one of {sorted(valid_reconciliation)}")
+            require(is_nonempty_string(current_candidate_id), f"{prefix}.current_candidate_id must be present")
+            if is_nonempty_string(current_candidate_id):
+                require(current_candidate_id in candidate_ids, f"{prefix}.current_candidate_id must match a current candidate")
+            require(is_nonempty_string(item.get("rationale")), f"{prefix}.rationale must be present")
+            if is_nonempty_string(prior_candidate_id):
+                reconciled_ids.add(prior_candidate_id)
+                if prior_candidate_ids and prior_candidate_id not in prior_candidate_ids:
+                    fail(f"{prefix}.prior_candidate_id is not present in prior report: {prior_candidate_id}")
+
+        for prior_candidate_id in sorted(prior_candidate_ids):
+            if prior_candidate_id not in candidate_ids and prior_candidate_id not in reconciled_ids:
+                fail(f"prior candidate {prior_candidate_id} must remain present or be explicitly reconciled")
 
 selected_final_state = final_states.get(selected_id)
 selected_candidate_disposition = selected.get("disposition") if isinstance(selected, dict) else None

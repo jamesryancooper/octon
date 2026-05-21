@@ -1,0 +1,282 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: 20260521T140550Z
+default_work_unit: Change
+observed_change_set_count: 4
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: git-status://20260521T133900Z/pre-closeout-worktree
+residue_classification_ref: classifier://20260521T133900Z/pre-closeout-worktree
+selected_candidate_id: candidate-change-closeout-state-machine
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/20260521T130413Z-closeout-worktree-report.yml
+  candidates:
+    - prior_candidate_id: candidate-run-health-non-authority
+      disposition: folded
+      current_candidate_id: candidate-change-closeout-state-machine
+      rationale: run-health non-authority remediation was part of the same accepted implementation Change and was closed under the selected singular closeout-change receipt
+    - prior_candidate_id: candidate-generated-projections
+      disposition: folded
+      current_candidate_id: candidate-change-closeout-state-machine
+      rationale: generated projections were derived outputs of the same accepted implementation Change and were closed with their generating source changes
+    - prior_candidate_id: candidate-publication-run-residue
+      disposition: retained
+      current_candidate_id: candidate-publication-control-run-residue
+      rationale: publication/control run artifacts remain outside the selected Change boundary and require separate authority-backed retention or cleanup
+    - prior_candidate_id: candidate-local-ignored-residue
+      disposition: foreign
+      current_candidate_id: candidate-local-ignored-residue
+      rationale: local ignored residue remains user/tooling-owned residue outside the selected Change boundary and is preserved without cleanup authority
+candidates:
+  - candidate_id: candidate-change-closeout-state-machine
+    disposition: closed
+    ownership: implementation authored in this session for the change-closeout-state-machine follow-up
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: published-branch
+    rollback_or_discard_posture: revert commit 414f9375f9e229a2e2f738b021479bda88906852 or delete published branch chore/change-closeout-state-machine before landing
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-20260521T140550Z/change-receipt.json
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-change/
+        - .codex/skills/closeout-pr/
+        - .codex/skills/closeout-worktree/
+        - .octon/framework/assurance/runtime/_ops/scripts/
+        - .octon/framework/assurance/runtime/_ops/tests/
+        - .octon/framework/capabilities/runtime/skills/
+        - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+        - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+        - .octon/framework/orchestration/runtime/workflows/meta/closeout/
+        - .octon/framework/product/contracts/
+        - .octon/generated/cognition/projections/materialized/runs/
+        - .octon/generated/effective/capabilities/
+        - .octon/generated/proposals/registry.yml
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T130413Z.md
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260521T031349Z/worktree-hygiene.yml
+        - .octon/state/evidence/validation/analysis/20260521T130413Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/proposals/change-closeout-state-machine/
+        - .octon/state/evidence/validation/publication/capabilities/
+        - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml
+      exclude_paths:
+        - .octon/state/continuity/runs/
+        - .octon/state/control/execution/runs/
+        - .octon/state/evidence/control/execution/
+        - .octon/state/evidence/external-index/runs/
+  - candidate_id: candidate-publication-control-run-residue
+    disposition: retained
+    ownership: untracked publication/control run artifacts produced by capability projection publication runs
+    route_hint: stage-only-escalate
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: retained for a separate authority-backed retention or cleanup decision; detection is not deletion authority
+    boundaries:
+      include_paths:
+        - .octon/state/continuity/runs/
+        - .octon/state/control/execution/runs/
+        - .octon/state/evidence/control/execution/
+        - .octon/state/evidence/external-index/runs/
+      exclude_paths:
+        - .codex/skills/closeout-change/
+        - .codex/skills/closeout-pr/
+        - .codex/skills/closeout-worktree/
+        - .octon/framework/
+        - .octon/generated/
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/state/evidence/validation/
+  - candidate_id: candidate-closeout-worktree-evidence-output
+    disposition: retained
+    ownership: closeout-worktree wrapper evidence emitted by this run after the delegated closeout
+    route_hint: stage-only-escalate
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: retained as the wrapper execution record; do not delete without an evidence retention decision
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T140550Z.md
+        - .octon/state/evidence/validation/analysis/20260521T140550Z-closeout-worktree-report.yml
+      exclude_paths:
+        - .codex/skills/closeout-change/
+        - .codex/skills/closeout-pr/
+        - .codex/skills/closeout-worktree/
+        - .octon/framework/
+        - .octon/generated/
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/state/continuity/runs/
+        - .octon/state/control/execution/runs/
+        - .octon/state/evidence/control/execution/
+        - .octon/state/evidence/external-index/runs/
+  - candidate_id: candidate-local-ignored-residue
+    disposition: foreign
+    ownership: user-or-local-tooling ignored residue observed in the final worktree inventory
+    route_hint: stage-only-escalate
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: preserved without cleanup authority; detection is not deletion authority
+    boundaries:
+      include_paths:
+        - .archive/
+        - .claude/settings.local.json
+        - .codex/config.toml
+        - .envrc
+        - .octon/framework/cognition/practices/methodology/archive/
+        - .octon/framework/engine/runtime/crates/authority_engine/.octon/
+        - .octon/framework/engine/runtime/crates/target/
+        - .octon/framework/engine/runtime/crates/wasm_host/target/
+        - .octon/framework/orchestration/runtime/missions/.archive/
+        - .octon/generated/.tmp/
+        - .octon/generated/cognition/graph/
+        - .octon/generated/cognition/projections/materialized/cognition-runtime-surface-map.latest.yml
+        - .octon/generated/cognition/projections/materialized/connectors/
+        - .octon/generated/cognition/projections/materialized/engagements/
+        - .octon/generated/cognition/projections/materialized/missions/mission-autonomy-v2-validation.yml
+        - .octon/generated/cognition/projections/materialized/runs/archive-proposal-*/
+        - .octon/generated/cognition/projections/materialized/runs/promote-proposal-*/
+        - .octon/generated/cognition/projections/materialized/runs/publish-*/
+        - .octon/generated/cognition/projections/materialized/stewardship/
+        - .octon/inputs/additive/.incoming/
+        - .octon/inputs/exploratory/ideation/scratchpad/archive/
+        - .octon/inputs/exploratory/proposals/.archive/
+        - .prompts/
+        - .vscode/
+      exclude_paths:
+        - .codex/skills/closeout-change/
+        - .codex/skills/closeout-pr/
+        - .codex/skills/closeout-worktree/
+        - .octon/framework/assurance/runtime/_ops/scripts/
+        - .octon/framework/assurance/runtime/_ops/tests/
+        - .octon/framework/capabilities/runtime/skills/
+        - .octon/generated/effective/capabilities/
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+        - .octon/state/evidence/validation/
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: git-status://20260521T133900Z/pre-closeout-worktree
+    pre_classification_ref: classifier://20260521T133900Z/pre-closeout-worktree
+    selected_candidate_id: candidate-change-closeout-state-machine
+    include_paths:
+      - .codex/skills/closeout-change/
+      - .codex/skills/closeout-pr/
+      - .codex/skills/closeout-worktree/
+      - .octon/framework/assurance/runtime/_ops/scripts/
+      - .octon/framework/assurance/runtime/_ops/tests/
+      - .octon/framework/capabilities/runtime/skills/
+      - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+      - .octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml
+      - .octon/framework/orchestration/runtime/workflows/meta/closeout/
+      - .octon/framework/product/contracts/
+      - .octon/generated/cognition/projections/materialized/runs/
+      - .octon/generated/effective/capabilities/
+      - .octon/generated/proposals/registry.yml
+      - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/
+      - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+      - .octon/state/evidence/runs/skills/closeout-worktree/20260521T130413Z.md
+      - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260521T031349Z/worktree-hygiene.yml
+      - .octon/state/evidence/validation/analysis/20260521T130413Z-closeout-worktree-report.yml
+      - .octon/state/evidence/validation/proposals/change-closeout-state-machine/
+      - .octon/state/evidence/validation/publication/capabilities/
+      - .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml
+    exclude_paths:
+      - .octon/state/continuity/runs/
+      - .octon/state/control/execution/runs/
+      - .octon/state/evidence/control/execution/
+      - .octon/state/evidence/external-index/runs/
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-20260521T140550Z/change-receipt.json
+    closeout_change_outcome: published-branch
+    post_inventory_ref: git-status://20260521T140250Z/post-push
+    post_classification_ref: classifier://20260521T140250Z/post-push
+    next_selection_reason: remaining publication/control run artifacts are retained residue requiring separate authority-backed retention or cleanup
+final_candidate_dispositions:
+  candidate-change-closeout-state-machine:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-20260521T140550Z/change-receipt.json
+    evidence:
+      commit: 414f9375f9e229a2e2f738b021479bda88906852
+      branch: chore/change-closeout-state-machine
+      remote_ref: origin/chore/change-closeout-state-machine
+      lifecycle_outcome: published-branch
+  candidate-publication-control-run-residue:
+    state: retained
+    evidence:
+      reason: publication/control run artifacts remain outside the selected Change boundary and require separate authority-backed disposition
+  candidate-closeout-worktree-evidence-output:
+    state: retained
+    evidence:
+      reason: wrapper report and skill log are intentionally retained as closeout-worktree evidence outputs
+  candidate-local-ignored-residue:
+    state: foreign
+    evidence:
+      reason: local ignored residue remains outside closeout authority and is retained without cleanup
+retained_residue:
+  - candidate_id: candidate-publication-control-run-residue
+    path: .octon/state/continuity/runs/
+    disposition: retained for separate control-run retention decision
+  - candidate_id: candidate-publication-control-run-residue
+    path: .octon/state/control/execution/runs/
+    disposition: retained for separate execution-run retention decision
+  - candidate_id: candidate-publication-control-run-residue
+    path: .octon/state/evidence/control/execution/
+    disposition: retained for separate control evidence retention decision
+  - candidate_id: candidate-publication-control-run-residue
+    path: .octon/state/evidence/external-index/runs/
+    disposition: retained for separate external-index evidence retention decision
+  - candidate_id: candidate-closeout-worktree-evidence-output
+    path: .octon/state/evidence/runs/skills/closeout-worktree/20260521T140550Z.md
+    disposition: retained as this closeout-worktree execution log
+  - candidate_id: candidate-closeout-worktree-evidence-output
+    path: .octon/state/evidence/validation/analysis/20260521T140550Z-closeout-worktree-report.yml
+    disposition: retained as this closeout-worktree wrapper report
+  - candidate_id: candidate-local-ignored-residue
+    path: .archive/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .claude/settings.local.json
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .codex/config.toml
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .envrc
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/framework/cognition/practices/methodology/archive/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/framework/engine/runtime/crates/authority_engine/.octon/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/framework/engine/runtime/crates/target/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/framework/engine/runtime/crates/wasm_host/target/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/framework/orchestration/runtime/missions/.archive/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/generated/.tmp/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/generated/cognition/graph/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/generated/cognition/projections/materialized/
+    disposition: foreign ignored local generated residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/inputs/additive/.incoming/
+    disposition: foreign ignored local input residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/inputs/exploratory/ideation/scratchpad/archive/
+    disposition: foreign ignored local input residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .octon/inputs/exploratory/proposals/.archive/
+    disposition: foreign ignored local input residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .prompts/
+    disposition: foreign ignored local residue retained without cleanup authority
+  - candidate_id: candidate-local-ignored-residue
+    path: .vscode/
+    disposition: foreign ignored local residue retained without cleanup authority
+blockers: []
+final_inventory_ref: git-status://20260521T140730Z/final-worktree
+final_residue_classes:
+  ignored: 3698
+next_route_condition: retained-publication-control-run-residue-wrapper-evidence-output-and-foreign-ignored-residue-require-authority-backed-retention-or-cleanup

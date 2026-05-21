@@ -86,14 +86,18 @@ the next selection reason. Every report must include
 `final_candidate_dispositions` keyed by candidate id with final state `closed`,
 `retained`, `blocked`, `escalated`, `deferred`, or `foreign`; closed
 candidates must cite the singular `closeout-change` receipt, log, or evidence
-reference.
+reference under `.octon/state/evidence/runs/skills/closeout-change/`; synthetic
+route labels are not sufficient closeout evidence.
 
 Candidates with `retained`, `deferred`, or `foreign` disposition must have
 candidate-keyed `retained_residue` entries covering their included boundary
 paths. Candidates with `blocked`, `escalated`, or `ambiguous` disposition must
 have candidate-keyed blocker evidence, and reports with unresolved candidates
-must not use a terminal `next_route_condition` such as `none`. Validate the
-report with
+must not use a terminal `next_route_condition` such as `none`. Reports that
+supersede or continue an earlier wrapper partition must reconcile every prior
+candidate as still present, folded, retained, blocked, escalated, deferred, or
+foreign. Reports whose final classifier summary shows ignored residue must
+include retained or foreign ignored-residue evidence. Validate the report with
 `.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report <path>`
 before claiming worktree closeout.
 
