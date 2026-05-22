@@ -213,7 +213,7 @@ local_artifact_hygiene:
       action: "rebuildable cleanup candidate when untracked and unreferenced"
     generated_run_health_projection:
       criteria:
-        - ".octon/generated/cognition/projections/materialized/runs/**"
+        - "generated run-health materialized run projection subtree"
       action: "route to generate-run-health-read-model.sh --all-runs; do not delete through generic local artifact cleanup"
     stale_unreferenced_publication_attempt:
       criteria:
