@@ -1,0 +1,193 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "incoming-additive-intake-unit-contract",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "blocked",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the accepted incoming-additive-intake-unit-contract proposal implementation through a governed branch-no-pr route.",
+  "scope": {
+    "summary": "Defines the minimal incoming additive intake-unit envelope, updates non-authority and workflow governance, adds validator/schema coverage, retains proposal lifecycle evidence, and synchronizes the generated proposal registry projection.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-extension-pack-contract.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-incoming-intake-unit.sh",
+      ".octon/framework/capabilities/runtime/commands/process-incoming-intake.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/README.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/additive/README.md",
+      ".octon/framework/cognition/_meta/architecture/inputs/additive/schemas/incoming-intake-unit.schema.json",
+      ".octon/framework/engine/governance/inputs/additive/",
+      ".octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/README.md",
+      ".octon/inputs/additive/README.md",
+      ".octon/inputs/additive/.incoming/README.md",
+      ".octon/inputs/exploratory/proposals/architecture/incoming-additive-intake-unit-contract/",
+      ".octon/state/evidence/validation/proposals/incoming-additive-intake-unit-contract/",
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/"
+    ],
+    "diff_refs": [
+      "commit:441326a8b",
+      "commit:d67d752f8",
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/diff-name-status-before-commit.log",
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/diff-stat-before-commit.log"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-cleanup-authorization.json"
+    ]
+  },
+  "source_branch_ref": "chore/incoming-additive-intake-unit-contract",
+  "target_branch_ref": "main",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "blocked",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "target_ref": "origin/main@9ddb49da5ce8398313f7b9bdc2cef03a505ecdf2",
+    "evidence_refs": [
+      "git-branch-push.sh published origin/chore/incoming-additive-intake-unit-contract at d67d752f81fe552db07afa9dcd042723cbc0020c without creating a PR.",
+      "git-branch-hosted-preflight.sh passed for source ref d67d752f81fe552db07afa9dcd042723cbc0020c and target pre-ref 9ddb49da5ce8398313f7b9bdc2cef03a505ecdf2.",
+      "GitHub checks route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, and exact_source_sha_validation passed at the exact source SHA.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for the source ref and target pre-ref.",
+      "git-branch-land-hosted-no-pr.sh validated the authorization and fast-forwarded origin/main to d67d752f81fe552db07afa9dcd042723cbc0020c.",
+      "Release automation advanced origin/main to 96083013f93305d02f48dc899d575c7bc7bedc87 before completed closeout evidence could prove final local main, origin/main, and landed_ref equality."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/incoming-additive-intake-unit-contract",
+    "source_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "target_pre_ref": "9ddb49da5ce8398313f7b9bdc2cef03a505ecdf2",
+    "target_post_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "validated_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@d67d752f81fe552db07afa9dcd042723cbc0020c",
+      "branch_naming_validation@d67d752f81fe552db07afa9dcd042723cbc0020c",
+      "route_aware_autonomy_validation@d67d752f81fe552db07afa9dcd042723cbc0020c",
+      "exact_source_sha_validation@d67d752f81fe552db07afa9dcd042723cbc0020c"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "d67d752f81fe552db07afa9dcd042723cbc0020c:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/incoming-additive-intake-unit-contract",
+    "source_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "landed_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "origin_main_ref": "96083013f93305d02f48dc899d575c7bc7bedc87",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing; origin/main later advanced by release automation while retaining the landed ref",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "origin/main then advanced to 96083013f93305d02f48dc899d575c7bc7bedc87 via release automation commit chore(main): release octon 0.6.77 (#448).",
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/landed-ref-containment-after-cleanup.log"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "96083013f93305d02f48dc899d575c7bc7bedc87",
+    "origin_main_ref": "96083013f93305d02f48dc899d575c7bc7bedc87",
+    "landed_ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-authorize-cleanup.sh fetched origin and observed origin/main at 96083013f93305d02f48dc899d575c7bc7bedc87.",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main fast-forwarded local main to 96083013f93305d02f48dc899d575c7bc7bedc87 after release automation advanced origin/main.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/final-ref-alignment-after-cleanup.log"
+  },
+  "integration_method": "fast-forward",
+  "not_landed_reason": "Hosted landing succeeded at d67d752f81fe552db07afa9dcd042723cbc0020c, but completed closeout cannot claim landed under the validator because release automation advanced origin/main to 96083013f93305d02f48dc899d575c7bc7bedc87 before final local main, origin/main, and landed_ref equality could be retained.",
+  "not_cleaned_reason": "Source branch cleanup completed, but cleaned closeout is blocked because final local main and origin/main equal 96083013f93305d02f48dc899d575c7bc7bedc87 while the route landed_ref is d67d752f81fe552db07afa9dcd042723cbc0020c.",
+  "landing_stop_reason": "external_blocker",
+  "cleanup_stop_reason": "external_blocker",
+  "integration_status": "not_landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-authorize-cleanup.sh emitted branch-cleanup-authorization-v1 after proving local/main and origin/main alignment, landed-ref containment, source-branch containment, no protected branch, no open PR, retained rollback posture, and remote deletion intent.",
+    "git-branch-cleanup.sh validated cleanup authorization, deleted local branch chore/incoming-additive-intake-unit-contract, deleted remote branch origin/chore/incoming-additive-intake-unit-contract, and verified local main synced to origin/main.",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/local-branch-after-cleanup.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/remote-branch-after-cleanup.log"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/incoming-additive-intake-unit-contract",
+    "remote_branch": "origin/chore/incoming-additive-intake-unit-contract",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup.sh output: Deleted branch chore/incoming-additive-intake-unit-contract (was d67d752f8).",
+      "git-branch-cleanup.sh output: remote branch origin/chore/incoming-additive-intake-unit-contract deleted.",
+      "post-cleanup local and remote branch list logs are empty."
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/inventory-before-commit.log",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/run-log.md",
+    "phase_exit_refs": [
+      "branch isolated: chore/incoming-additive-intake-unit-contract",
+      "local validation floor passed before commit",
+      "branch-local commits: 441326a8b and d67d752f8",
+      "source branch published: origin/chore/incoming-additive-intake-unit-contract@d67d752f81fe552db07afa9dcd042723cbc0020c",
+      "hosted no-PR preflight passed with exact source-SHA checks",
+      "landing authorization emitted and validated",
+      "origin/main fast-forwarded to d67d752f81fe552db07afa9dcd042723cbc0020c",
+      "release automation advanced origin/main to 96083013f93305d02f48dc899d575c7bc7bedc87 while retaining landed ref",
+      "cleanup authorization emitted and validated",
+      "local and remote source branch refs deleted",
+      "local main and origin/main aligned at 96083013f93305d02f48dc899d575c7bc7bedc87"
+    ],
+    "cleanup_decision_refs": [
+      "landing_authorization_ref",
+      "cleanup_authorization_ref"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/final-verification-after-cleanup.log"
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/git-diff-check-before-commit.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/git-diff-check-final-before-commit.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/jq-incoming-intake-schema.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/test-validate-incoming-intake-unit.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/test-validate-extension-pack-contract.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-input-non-authority.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-proposal-standard.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-proposal-review-gate.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-proposal-implementation-readiness.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-architecture-proposal.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-proposal-implementation-conformance.log",
+    ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/validate-proposal-post-implementation-drift.log",
+    "GitHub exact source-SHA checks at d67d752f81fe552db07afa9dcd042723cbc0020c: route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, exact_source_sha_validation"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because Change routing selected branch-no-pr and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "d67d752f81fe552db07afa9dcd042723cbc0020c",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "revert commits 441326a8b and d67d752f8 from main if rollback is required",
+    "instructions": "If rollback is required, revert the landed branch commits 441326a8b and d67d752f8 from main. The release automation commit 96083013f may require a separate release/version rollback decision if it must also be unwound."
+  },
+  "closeout_outcome": "blocked",
+  "remaining_blockers": [
+    "Completed/cleaned closeout is blocked by strict final-ref equality: release automation advanced origin/main to 96083013f93305d02f48dc899d575c7bc7bedc87 after the hosted landing at d67d752f81fe552db07afa9dcd042723cbc0020c.",
+    "No route-specific source branch cleanup blockers remain; local and remote source branch refs were deleted after governed cleanup authorization."
+  ],
+  "created_at": "2026-05-22T20:36:06Z",
+  "updated_at": "2026-05-22T20:51:41Z"
+}
