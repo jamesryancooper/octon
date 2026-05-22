@@ -2,6 +2,11 @@
 
 Execute only the route selected by the classification receipt.
 
+The source under `.incoming/<intake-id>/` remains raw intake throughout this
+stage. Only reviewed material copied or rewritten into the selected destination
+by this stage can become a normalized candidate for later validation,
+activation, or publication.
+
 ## Additive Extension Pack
 
 Normalize the reviewed intake into
@@ -56,3 +61,6 @@ Prohibited for every route:
 - validation, provenance, trust, compatibility, publication, or projection
   bypasses
 - retaining `.incoming/<intake-id>/` after final disposition
+- treating `intake.yml` or any file under `payload/` as runtime, policy,
+  generated, retained evidence, state/control, publication, extension-pack,
+  skill, or host-projection authority

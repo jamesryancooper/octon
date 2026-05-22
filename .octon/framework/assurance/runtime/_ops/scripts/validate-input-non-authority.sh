@@ -111,7 +111,7 @@ validate_incoming_status_markers() {
     return
   fi
 
-  local entry base status_file schema intake_id authority_mode status reason next_step
+  local entry base envelope_file status_file schema intake_id authority_mode status reason next_step payload_root
   while IFS= read -r entry; do
     [[ -n "$entry" ]] || continue
     base="$(basename "$entry")"
@@ -129,9 +129,57 @@ validate_incoming_status_markers() {
       continue
     fi
 
+    envelope_file="$entry/intake.yml"
     status_file="$entry/intake-status.yml"
+
+    if [[ -f "$envelope_file" ]]; then
+      if ! yq -e '.' "$envelope_file" >/dev/null 2>&1; then
+        fail "incoming intake envelope is malformed: $(rel_path "$envelope_file")"
+        continue
+      fi
+
+      schema="$(yq -r '.schema_version // ""' "$envelope_file")"
+      intake_id="$(yq -r '.intake_id // ""' "$envelope_file")"
+      authority_mode="$(yq -r '.authority_mode // ""' "$envelope_file")"
+      status="$(yq -r '.status // ""' "$envelope_file")"
+      reason="$(yq -r '.reason // ""' "$envelope_file")"
+      next_step="$(yq -r '.next_step // ""' "$envelope_file")"
+      payload_root="$(yq -r '.payload.root // ""' "$envelope_file")"
+
+      [[ "$schema" == "octon-additive-incoming-intake-unit-v1" ]] \
+        && pass "incoming intake envelope schema current: $base" \
+        || fail "incoming intake envelope schema must be octon-additive-incoming-intake-unit-v1: $(rel_path "$envelope_file")"
+      [[ "$intake_id" == "$base" ]] \
+        && pass "incoming intake envelope id matches directory: $base" \
+        || fail "incoming intake envelope intake_id must match directory: $(rel_path "$envelope_file")"
+      [[ "$authority_mode" == "non_authoritative" ]] \
+        && pass "incoming intake envelope is non_authoritative: $base" \
+        || fail "incoming intake envelope authority_mode must be non_authoritative: $(rel_path "$envelope_file")"
+      case "$status" in
+        unclassified|classified-pending-normalization|rejected-pending-archive|blocked|intentionally-retained-temporarily)
+          pass "incoming intake envelope status is allowed: $base"
+          ;;
+        *)
+          fail "incoming intake envelope status is not allowed: $(rel_path "$envelope_file")"
+          ;;
+      esac
+      [[ -n "$reason" ]] \
+        && pass "incoming intake envelope has reason: $base" \
+        || fail "incoming intake envelope requires reason: $(rel_path "$envelope_file")"
+      [[ -n "$next_step" ]] \
+        && pass "incoming intake envelope has next_step: $base" \
+        || fail "incoming intake envelope requires next_step: $(rel_path "$envelope_file")"
+      [[ "$payload_root" == "payload/" ]] \
+        && pass "incoming intake envelope payload root is payload/: $base" \
+        || fail "incoming intake envelope payload.root must be payload/: $(rel_path "$envelope_file")"
+      [[ -d "$entry/payload" && ! -L "$entry/payload" ]] \
+        && pass "incoming intake payload root exists: $base" \
+        || fail "incoming intake payload root must exist and not be a symlink: $(rel_path "$entry/payload")"
+      continue
+    fi
+
     if [[ ! -f "$status_file" ]]; then
-      fail "incoming intake directory requires intake-status.yml: $(rel_path "$entry")"
+      fail "incoming intake directory requires intake.yml or legacy intake-status.yml: $(rel_path "$entry")"
       continue
     fi
 
@@ -143,28 +191,28 @@ validate_incoming_status_markers() {
     next_step="$(yq -r '.next_step // ""' "$status_file")"
 
     [[ "$schema" == "octon-additive-incoming-intake-status-v1" ]] \
-      && pass "incoming intake status schema current: $base" \
-      || fail "incoming intake status schema must be octon-additive-incoming-intake-status-v1: $(rel_path "$status_file")"
+      && pass "legacy incoming intake status schema current: $base" \
+      || fail "legacy incoming intake status schema must be octon-additive-incoming-intake-status-v1: $(rel_path "$status_file")"
     [[ "$intake_id" == "$base" ]] \
-      && pass "incoming intake status id matches directory: $base" \
-      || fail "incoming intake status intake_id must match directory: $(rel_path "$status_file")"
+      && pass "legacy incoming intake status id matches directory: $base" \
+      || fail "legacy incoming intake status intake_id must match directory: $(rel_path "$status_file")"
     [[ "$authority_mode" == "non_authoritative" ]] \
-      && pass "incoming intake status is non_authoritative: $base" \
-      || fail "incoming intake status authority_mode must be non_authoritative: $(rel_path "$status_file")"
+      && pass "legacy incoming intake status is non_authoritative: $base" \
+      || fail "legacy incoming intake status authority_mode must be non_authoritative: $(rel_path "$status_file")"
     case "$status" in
       unclassified|classified-pending-normalization|rejected-pending-archive|blocked|intentionally-retained-temporarily)
-        pass "incoming intake status is allowed: $base"
+        pass "legacy incoming intake status is allowed: $base"
         ;;
       *)
-        fail "incoming intake status is not allowed: $(rel_path "$status_file")"
+        fail "legacy incoming intake status is not allowed: $(rel_path "$status_file")"
         ;;
     esac
     [[ -n "$reason" ]] \
-      && pass "incoming intake status has reason: $base" \
-      || fail "incoming intake status requires reason: $(rel_path "$status_file")"
+      && pass "legacy incoming intake status has reason: $base" \
+      || fail "legacy incoming intake status requires reason: $(rel_path "$status_file")"
     [[ -n "$next_step" ]] \
-      && pass "incoming intake status has next_step: $base" \
-      || fail "incoming intake status requires next_step: $(rel_path "$status_file")"
+      && pass "legacy incoming intake status has next_step: $base" \
+      || fail "legacy incoming intake status requires next_step: $(rel_path "$status_file")"
   done < <(find "$ADDITIVE_INCOMING_DIR" -mindepth 1 -maxdepth 1 -print | sort)
 }
 
@@ -312,7 +360,8 @@ is_allowed_input_reference() {
       return
       ;;
     .octon/generated/proposals/registry.yml)
-      [[ "$line" == *"inputs/exploratory/proposals/"* ]]
+      [[ "$line" == *"inputs/exploratory/proposals/"* ]] || \
+        [[ "$line" == *".octon/inputs/additive/.incoming/README.md"* ]]
       return
       ;;
     .octon/generated/effective/extensions/catalog.effective.yml|\
@@ -400,8 +449,8 @@ main() {
     "exploratory contract states raw inputs are non-authoritative"
   require_text_if_file_exists \
     ".octon/inputs/additive/.incoming/README.md" \
-    "intake-status.yml" \
-    "incoming contract documents status marker"
+    "intake.yml" \
+    "incoming contract documents intake envelope"
   require_text_if_file_exists \
     ".octon/framework/cognition/_meta/architecture/inputs/additive/README.md" \
     '`.incoming/**`, `.archive/**`, or' \

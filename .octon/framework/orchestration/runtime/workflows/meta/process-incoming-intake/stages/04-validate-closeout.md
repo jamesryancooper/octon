@@ -48,4 +48,7 @@ Required closeout:
 - `.incoming/<intake-id>/` is absent after final disposition; only a
   classification-only stop may leave raw intake in place
 - evidence records file/path changes, validation outcomes, cleanup disposition,
-  and any unresolved blocker
+  intake-envelope findings, payload inventory, and any unresolved blocker
+- no runtime, policy, generated, retained evidence, state/control, publication,
+  extension-pack, skill, or host-projection surface depends on `.incoming/**` or
+  `.archive/**`

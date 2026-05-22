@@ -1,0 +1,8 @@
+[ERROR] unexpected top-level entry in intake unit: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/INSTALL.md
+[ERROR] unexpected top-level entry in intake unit: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/install
+[ERROR] unexpected top-level entry in intake unit: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/intake-status.yml
+[ERROR] unexpected top-level entry in intake unit: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/repo
+[ERROR] unexpected top-level entry in intake unit: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/tests
+[ERROR] missing required intake.yml: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/intake.yml
+[ERROR] missing required payload directory: .octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/payload
+Validation summary: errors=7

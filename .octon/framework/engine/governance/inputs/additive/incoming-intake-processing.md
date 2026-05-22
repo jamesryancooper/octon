@@ -8,6 +8,22 @@ they are never runtime, policy, publication, generated, state/control, retained
 evidence, or host-projection authority. Processing begins only after the intake
 unit is classified into exactly one final route.
 
+New intake units must be bounded by a minimal, non-authoritative envelope:
+
+```text
+inputs/additive/.incoming/<intake-id>/
+  intake.yml
+  payload/
+  README.md
+```
+
+`intake.yml` and `payload/` are required. `README.md` is optional human context.
+Raw payload must live only under `payload/`. The envelope records intake-time
+facts needed for deterministic capture and classification; it is not a
+normalized extension pack, installed skill, evidence bundle, generated output,
+state/control source, publication source, policy source, runtime source, or
+host projection.
+
 ## Lifecycle
 
 1. **Intake**
@@ -17,8 +33,14 @@ unit is classified into exactly one final route.
      path outside `.octon/inputs/additive/.incoming/**`.
    - Validate with
      `bash .octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh --intake-id <intake-id>`.
-   - Inventory meaningful files, exclude platform noise such as `.DS_Store`,
-     and record checksums for retained decision evidence.
+   - Require `intake.yml`, `payload/`, and no other top-level entries except
+     optional `README.md`.
+   - Inventory meaningful payload files under `payload/`, exclude platform
+     noise such as `.DS_Store`, and record checksums for retained decision
+     evidence.
+   - Treat validator-reported provenance, route, binary, executable,
+     secret/private-data, redistribution, size, candidate extension pack, and
+     candidate core skill findings as classification inputs.
 2. **Classification**
    - Apply the decision matrix below.
    - Emit a decision receipt under `state/evidence/**` before any installation,
@@ -44,10 +66,10 @@ unit is classified into exactly one final route.
      evidence capture.
    - Leave `.incoming/<intake-id>/` in place only when processing explicitly stops
      after classification without applying disposition.
-   - Any `.incoming/<intake-id>/` directory that remains in place must include
-     `intake-status.yml` with `schema_version:
-     octon-additive-incoming-intake-status-v1`, matching `intake_id`,
-     `authority_mode: non_authoritative`, one allowed status, and a reason.
+   - Any current `.incoming/<intake-id>/` directory that remains in place must
+     preserve its non-authoritative `intake.yml` envelope. Legacy directories
+     with `intake-status.yml` remain non-authoritative raw intake until a
+     separately governed migration or disposition occurs.
    - Retain rejected, superseded, historical, or blocked intake copies under
      `inputs/additive/.archive/<intake-id>/` only when retention is safe,
      reviewable, justified, and evidenced.
@@ -59,7 +81,7 @@ unit is classified into exactly one final route.
 | --- | --- | --- | --- | --- |
 | Additive extension pack | Optional, selectable, portable, trust-gated, externally sourced, or useful as a reusable pack outside the core harness | prompt bundles, optional language support packs, templates, portable commands, extension-owned skills | `inputs/additive/extensions/<extension-pack-id>/` | `pack.yml`, `validation/compatibility.yml`, capability profiles, provenance, trust decision, extension publication validation |
 | Core Octon skill | Always-on foundation capability required by Octon itself, framework-owned, not optional, not trust-selected, and needed by core orchestration or capability routing | canonical foundation skill, required governance support skill, built-in harness behavior skill | `framework/capabilities/runtime/skills/<family>/<skill-id>/` | skill manifest/registry integration, allowed-tool review, skill validation, capability routing, host projection validation when projections change |
-| Blocked / proposal-required | Ownership unclear, provenance missing, unsafe trust posture, invalid structure, schema mismatch, route ambiguity, or no existing Octon contract fits | downloaded kit with no provenance, direct installer that tries to modify host-specific directories, source bundle requiring new authority surface, malformed extension with no compatible schema | `inputs/additive/.archive/<intake-id>/` when safely retained; decision evidence under `state/evidence/**` | blocked decision receipt, proposal/design route, no activation, no publication, no runtime consumption |
+| Blocked / proposal-required | Ownership unclear, provenance missing, unsafe trust posture, invalid structure, schema mismatch, route ambiguity, risky payload, or no existing Octon contract fits | downloaded kit with no provenance, direct installer that tries to modify host-specific directories, source bundle requiring new authority surface, malformed extension with no compatible schema, opaque binary or secret-bearing payload | `inputs/additive/.archive/<intake-id>/` when safely retained; decision evidence under `state/evidence/**` | blocked decision receipt, proposal/design route, no activation, no publication, no runtime consumption |
 
 ## Additive Extension Route
 
@@ -133,8 +155,11 @@ Blocking conditions include:
 
 - ambiguous ownership between `framework/**`, `instance/**`, and `inputs/**`
 - missing or unverifiable provenance
+- missing or invalid intake envelope or payload containment
 - trust posture requiring a human acknowledgement that has not been granted
 - schema mismatch or unsupported extension API version
+- opaque binaries, executables, secrets/private data, proprietary material,
+  redistribution risk, or oversized payloads without explicit disposition
 - installer instructions that bypass Octon manifests, registries, validation,
   publication, or host projection flows
 - attempts to write directly to `.codex/skills`, `.claude/skills`,
@@ -177,7 +202,8 @@ evidence pointers were kept.
 Each processing run must retain:
 
 - incoming path and intake id
-- inventory of meaningful files and explicitly excluded noise
+- envelope facts, classification findings, and inventory of meaningful payload
+  files with explicitly excluded noise
 - route decision and rationale
 - rejected routes and why they were rejected
 - provenance, trust, and compatibility findings

@@ -7,6 +7,8 @@ published, or projected Octon capability.
 
 - Incoming intake units live only under
   `inputs/additive/.incoming/<intake-id>/` until classification.
+- Current incoming intake units require `intake.yml` and `payload/`; optional
+  `README.md` may provide non-authoritative human context.
 - Retained intake copies live only under
   `inputs/additive/.archive/<intake-id>/` when retention is safe, justified, and
   evidenced.
@@ -16,6 +18,9 @@ published, or projected Octon capability.
 - Raw additive intake and archive copies are non-authoritative source material.
 - Runtime, policy, generated, state/control, publication, and host-projection
   consumers must never consume `.incoming/**` or `.archive/**` as authority.
+- Missing provenance, candidate extension packs, candidate core skills,
+  binaries, executables, secrets, redistribution risk, oversized payloads, and
+  route ambiguity are classification findings, not authority grants.
 
 ## Subcontracts
 

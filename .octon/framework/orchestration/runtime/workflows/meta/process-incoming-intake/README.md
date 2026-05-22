@@ -41,7 +41,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Parameters
 
-- `intake_id` (text, required=true): Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`
+- `intake_id` (text, required=true): Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`; current units require `intake.yml` and `payload/`
 - `requested_route` (text, required=false): Optional route hint; final classification must still be proven by the decision matrix
 - `stop_after_classification` (boolean, required=false): Stop after writing the classification receipt without applying disposition
 
@@ -53,7 +53,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `incoming_intake_decision` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/decision.md`: Route decision, rejected routes, provenance/trust findings, and selected disposition
+- `incoming_intake_decision` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/decision.md`: Route decision, rejected routes, intake-envelope findings, provenance/trust findings, and selected disposition
 - `incoming_intake_validation` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md`: Route-specific validation commands, outcomes, and cleanup evidence
 
 ## Steps
@@ -66,10 +66,11 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Verification Gate
 
 - [ ] incoming path is `.octon/inputs/additive/.incoming/<intake-id>/`
-- [ ] validate-incoming-intake-unit.sh passes and its deterministic inventory is preserved in workflow evidence
+- [ ] intake unit has non-authoritative `intake.yml`, required `payload/`, and no top-level raw payload leakage
+- [ ] validate-incoming-intake-unit.sh passes and its deterministic payload inventory plus classification findings are preserved in workflow evidence
 - [ ] root `.archive/**`, Downloads paths, generated outputs, and host-specific skill directories are not used as staging
 - [ ] one and only one route is selected from additive extension, core Octon skill, or blocked/proposal-required
-- [ ] route decision evidence records criteria, rejected routes, provenance, trust posture, and compatibility findings
+- [ ] route decision evidence records criteria, rejected routes, envelope findings, provenance, trust posture, and compatibility findings
 - [ ] additive extension route normalizes into `inputs/additive/extensions/<extension-pack-id>/` and uses existing extension publication flows
 - [ ] core skill route installs only into `framework/capabilities/runtime/skills/**` and uses existing skill validation and projection flows
 - [ ] blocked route performs no install, activation, publication, projection, or runtime exposure

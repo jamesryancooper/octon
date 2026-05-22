@@ -1,0 +1,6 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+decision_summary: >-
+  Define only a minimal incoming additive intake-unit envelope, not a full
+  normalized extension-pack or core-skill shape.

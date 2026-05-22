@@ -1,0 +1,97 @@
+schema_version: "proposal-v1"
+proposal_id: "incoming-additive-intake-unit-contract"
+title: "Incoming Additive Intake Unit Contract"
+summary: >-
+  Define the smallest validator-backed, non-authoritative envelope for raw
+  additive incoming intake units while preserving the boundary between raw
+  intake, route classification, normalization, activation, publication, and
+  retained evidence.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/inputs/README.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/"
+  - ".octon/framework/engine/governance/inputs/additive/"
+  - ".octon/framework/capabilities/runtime/commands/process-incoming-intake.md"
+  - ".octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/README.md"
+  - ".octon/inputs/additive/README.md"
+  - ".octon/inputs/additive/.incoming/README.md"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only through durable edits to the listed Octon targets, validator
+    receipts, workflow conformance evidence, migration notes, and human
+    governance approval for any archive or existing-intake migration. This
+    packet itself remains non-authoritative proposal input.
+related_proposals: []
+scope_statement: >-
+  Additive incoming intake-unit shape before classification, including required
+  envelope metadata, raw payload layout, validator behavior, lifecycle
+  separation, and migration guidance for existing .incoming and .archive units.
+non_goals:
+  - "No installation, normalization, activation, publication, archive movement, or processing of any intake unit."
+  - "No route-specific incoming requirements that belong to normalized extension packs or core skill installation."
+  - "No runtime, policy, generated, retained evidence, state/control, publication, or host-projection authority under .incoming/** or .archive/**."
+source_lineage:
+  - ".octon/instance/ingress/AGENTS.md"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/cognition/_meta/architecture/inputs/README.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/README.md"
+  - ".octon/inputs/README.md"
+  - ".octon/inputs/additive/README.md"
+  - ".octon/inputs/additive/.incoming/README.md"
+  - ".octon/framework/engine/governance/inputs/additive/incoming-intake-processing.md"
+  - ".octon/framework/capabilities/runtime/commands/process-incoming-intake.md"
+  - ".octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-incoming-intake-unit.sh"
+authority_class_impact:
+  framework: "May propose durable framework documentation, schema, workflow, command, and validator changes after promotion."
+  instance: "No direct instance mutation from this draft packet."
+  state_control: "No state/control mutation from this draft packet."
+  state_evidence: "No retained evidence is created by this packet; implementation receipts must live outside raw intake."
+  generated: "Generated outputs remain derived-only and cannot consume .incoming/** as authority."
+  inputs: "This proposal and all raw intake units remain non-authoritative inputs until promoted through durable framework surfaces."
+runtime_behavior_impact: >-
+  None from this draft packet. A later implementation would only tighten intake
+  admission validation and classification workflow behavior; it would not make
+  incoming payloads runtime-authoritative.
+generated_input_authority_impact: >-
+  Reinforces that raw incoming payloads, archived raw intake, proposal packets,
+  generated projections, host projections, and agent summaries are not authority
+  by path, shape, or reference.
+evidence_requirements:
+  - "Validator receipts for valid, malformed, missing-provenance, nested-root, symlink/path-escape, binary, oversized, and candidate-pack fixtures."
+  - "Workflow receipts showing intake validation separated from classification, disposition, normalization, activation, publication, and archive retention."
+  - "Migration inventory for existing .incoming and .archive units before any movement or rewrite."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "incoming intake unit validator positive and negative fixtures"
+  - "input non-authority dependency scan"
+  - "extension-pack validator regression that .incoming/** is ignored"
+acceptance_criteria_summary: >-
+  Accepted when the proposal defines a minimal non-authoritative envelope that
+  improves determinism, observability, provenance, and fail-closed behavior
+  without collapsing raw intake into normalized extension, skill, authority,
+  state, generated, publication, or host-projection surfaces.
+rollback_summary: >-
+  Revert durable envelope/schema/validator/workflow changes and restore the
+  current path-only intake validator if the contract blocks legitimate raw
+  capture without improving safety or causes .incoming/** to be consumed as
+  authority.
+owner:
+  role: "Octon architecture proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-22"
+explicit_runtime_non_implementation_statement: >-
+  This draft packet does not install, normalize, activate, publish, archive,
+  migrate, or process any incoming intake unit and does not make .incoming/** or
+  .archive/** authoritative.

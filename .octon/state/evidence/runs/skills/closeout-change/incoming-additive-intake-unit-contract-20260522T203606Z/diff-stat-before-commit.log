@@ -1,0 +1,20 @@
+ .../_ops/scripts/validate-incoming-intake-unit.sh  | 418 ++++++++++++++++++---
+ .../_ops/scripts/validate-input-non-authority.sh   |  83 +++-
+ .../tests/test-validate-extension-pack-contract.sh |  33 +-
+ .../tests/test-validate-incoming-intake-unit.sh    | 240 ++++++++++--
+ .../runtime/commands/process-incoming-intake.md    |  13 +-
+ .../cognition/_meta/architecture/inputs/README.md  |  27 +-
+ .../_meta/architecture/inputs/additive/README.md   |  60 ++-
+ .../engine/governance/inputs/additive/README.md    |   5 +
+ .../inputs/additive/incoming-intake-processing.md  |  42 ++-
+ .../meta/process-incoming-intake/README.md         |   9 +-
+ .../stages/01-validate-intake.md                   |  24 +-
+ .../stages/02-classify-route.md                    |  10 +-
+ .../stages/03-execute-disposition.md               |   8 +
+ .../stages/04-validate-closeout.md                 |   5 +-
+ .../meta/process-incoming-intake/workflow.yml      |   9 +-
+ .octon/generated/proposals/registry.yml            |  17 +
+ .octon/inputs/README.md                            |   8 +-
+ .octon/inputs/additive/.incoming/README.md         |  53 ++-
+ .octon/inputs/additive/README.md                   |  23 +-
+ 19 files changed, 948 insertions(+), 139 deletions(-)

@@ -1,0 +1,28 @@
+PASS: seeded packet-8 packs satisfy the pack contract
+PASS: additive incoming intake units are ignored by pack validation
+PASS: extension incoming directory fails closed
+PASS: supported required_contracts entries are accepted
+PASS: matching selected version pins are accepted
+PASS: required_contracts resolve against live schema versions
+PASS: required_contracts reject live version mismatches
+PASS: pack validator rejects legacy pack manifest shape
+PASS: pack validator rejects disallowed top-level pack buckets
+PASS: valid routing contracts are accepted
+PASS: invalid routing contracts are rejected
+PASS: pack validator rejects missing required provenance fields
+PASS: pack validator rejects provenance/source mismatches
+PASS: external packs require external provenance
+PASS: unsupported required_contracts entries are rejected
+PASS: missing capability_profiles are rejected
+PASS: duplicate capability profiles are rejected
+PASS: unknown capability profiles are rejected
+PASS: validation-surface is required for every pack
+PASS: capability profiles require their artifacts
+PASS: prompt-bundle requires a manifest-based prompt bundle
+PASS: routing contracts require referenced capability profiles
+PASS: lifecycle extension routes require routing capability profile
+PASS: missing compatibility profiles are rejected
+PASS: invalid compatibility profile behavior keys are rejected
+
+Passed: 25
+Failed: 0

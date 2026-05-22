@@ -21,7 +21,7 @@ inputs:
   - name: intake_id
     type: text
     required: true
-    description: Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`
+    description: Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`; current units require `intake.yml` and `payload/`
   - name: requested_route
     type: text
     required: false
@@ -175,7 +175,7 @@ artifacts:
     kind: file
     format: markdown
     determinism: unique
-    description: Route decision, rejected routes, provenance/trust findings, and selected disposition
+    description: Route decision, rejected routes, intake-envelope findings, provenance/trust findings, and selected disposition
   - name: incoming_intake_validation
     path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md"
     kind: file
@@ -185,10 +185,11 @@ artifacts:
 done_gate:
   checks:
     - "incoming path is `.octon/inputs/additive/.incoming/<intake-id>/`"
-    - "validate-incoming-intake-unit.sh passes and its deterministic inventory is preserved in workflow evidence"
+    - "intake unit has non-authoritative `intake.yml`, required `payload/`, and no top-level raw payload leakage"
+    - "validate-incoming-intake-unit.sh passes and its deterministic payload inventory plus classification findings are preserved in workflow evidence"
     - "root `.archive/**`, Downloads paths, generated outputs, and host-specific skill directories are not used as staging"
     - "one and only one route is selected from additive extension, core Octon skill, or blocked/proposal-required"
-    - "route decision evidence records criteria, rejected routes, provenance, trust posture, and compatibility findings"
+    - "route decision evidence records criteria, rejected routes, envelope findings, provenance, trust posture, and compatibility findings"
     - "additive extension route normalizes into `inputs/additive/extensions/<extension-pack-id>/` and uses existing extension publication flows"
     - "core skill route installs only into `framework/capabilities/runtime/skills/**` and uses existing skill validation and projection flows"
     - "blocked route performs no install, activation, publication, projection, or runtime exposure"

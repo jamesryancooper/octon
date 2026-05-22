@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/incoming-intake-unit.schema.json",
+  "title": "Octon Additive Incoming Intake Unit Envelope",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "intake_id",
+    "authority_mode",
+    "status",
+    "staged_at",
+    "submitted_by",
+    "reason",
+    "next_step",
+    "route_hint",
+    "payload",
+    "provenance",
+    "risk"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-additive-incoming-intake-unit-v1"
+    },
+    "intake_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      "maxLength": 128
+    },
+    "authority_mode": {
+      "const": "non_authoritative"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "unclassified",
+        "classified-pending-normalization",
+        "rejected-pending-archive",
+        "blocked",
+        "intentionally-retained-temporarily"
+      ]
+    },
+    "staged_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "submitted_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "type",
+        "name"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "human",
+            "agent-assisted",
+            "unknown"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "next_step": {
+      "type": "string",
+      "minLength": 1
+    },
+    "route_hint": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "additive-extension-pack",
+        "core-octon-skill",
+        "blocked-proposal-required"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "root",
+        "form"
+      ],
+      "properties": {
+        "root": {
+          "const": "payload/"
+        },
+        "form": {
+          "type": "string",
+          "enum": [
+            "directory",
+            "archive-expanded",
+            "archive-unexpanded",
+            "mixed",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "origin_class",
+        "imported_from",
+        "origin_uri",
+        "source_digest_sha256",
+        "attestation_refs"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "declared",
+            "partial",
+            "missing",
+            "unverified"
+          ]
+        },
+        "origin_class": {
+          "type": "string",
+          "enum": [
+            "first_party_bundled",
+            "first_party_external",
+            "third_party",
+            "unknown"
+          ]
+        },
+        "imported_from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "origin_uri": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_digest_sha256": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "attestation_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "risk": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "contains_executable",
+        "contains_binary",
+        "contains_secret_or_private_data",
+        "redistribution_risk",
+        "size_class"
+      ],
+      "properties": {
+        "contains_executable": {
+          "$ref": "#/$defs/triState"
+        },
+        "contains_binary": {
+          "$ref": "#/$defs/triState"
+        },
+        "contains_secret_or_private_data": {
+          "$ref": "#/$defs/triState"
+        },
+        "redistribution_risk": {
+          "$ref": "#/$defs/triState"
+        },
+        "size_class": {
+          "type": "string",
+          "enum": [
+            "small",
+            "medium",
+            "large",
+            "oversized",
+            "unknown"
+          ]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "triState": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "unknown"
+      ]
+    }
+  }
+}

@@ -52,9 +52,38 @@ case_additive_incoming_intake_units_are_ignored() {
   write_valid_packet2_fixture "$fixture_root"
 
   incoming="$fixture_root/.octon/inputs/additive/.incoming/downloaded-kit"
-  mkdir -p "$incoming/install" "$incoming/repo"
+  mkdir -p "$incoming/payload/candidate" "$incoming/payload/repo"
+  cat >"$incoming/intake.yml" <<'EOF'
+schema_version: "octon-additive-incoming-intake-unit-v1"
+intake_id: "downloaded-kit"
+authority_mode: "non_authoritative"
+status: "unclassified"
+staged_at: "2026-05-22T00:00:00Z"
+submitted_by:
+  type: "human"
+  name: "fixture"
+reason: "extension validator should ignore raw incoming candidates"
+next_step: "classify-route"
+route_hint: "unknown"
+payload:
+  root: "payload/"
+  form: "directory"
+provenance:
+  status: "missing"
+  origin_class: "unknown"
+  imported_from: "unknown"
+  origin_uri: null
+  source_digest_sha256: null
+  attestation_refs: []
+risk:
+  contains_executable: "unknown"
+  contains_binary: "unknown"
+  contains_secret_or_private_data: "unknown"
+  redistribution_risk: "unknown"
+  size_class: "unknown"
+EOF
   printf '# Downloaded Kit\n' >"$incoming/README.md"
-  printf 'schema_version: "not-an-extension-pack"\n' >"$incoming/install/fragment.yml"
+  printf 'schema_version: "octon-extension-pack-v5"\npack_id: "downloaded-kit"\n' >"$incoming/payload/candidate/pack.yml"
 
   run_validator "$fixture_root"
 }

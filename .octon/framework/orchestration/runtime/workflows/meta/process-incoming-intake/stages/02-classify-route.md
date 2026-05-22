@@ -28,9 +28,17 @@ Decision receipt requirements:
 - selected route and rationale
 - criteria that matched the selected route
 - each rejected route and why it was rejected
-- provenance, trust, compatibility, schema, ownership, and support findings
+- intake-envelope validator findings
+- provenance, trust, compatibility, schema, ownership, risk, and support findings
 - whether route execution requires human acknowledgement, proposal work, or
   blocked disposition
+
+Treat these as classification findings, not normalized authority: missing,
+partial, declared-only, or unverified provenance; route ambiguity; opaque
+binaries; executables; secrets/private data; proprietary or redistribution-risk
+material; oversized payloads; candidate extension packs; candidate core skills;
+installer bypass instructions; unsupported schemas; and payloads that require a
+new receiving contract.
 
 If `stop_after_classification` is true, stop after this receipt, do not run the
 mutation stage, and explicitly record that `.incoming/<intake-id>/` remains raw

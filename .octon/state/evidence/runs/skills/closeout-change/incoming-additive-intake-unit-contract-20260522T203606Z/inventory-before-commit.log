@@ -1,0 +1,24 @@
+## chore/incoming-additive-intake-unit-contract
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-extension-pack-contract.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-incoming-intake-unit.sh
+ M .octon/framework/capabilities/runtime/commands/process-incoming-intake.md
+ M .octon/framework/cognition/_meta/architecture/inputs/README.md
+ M .octon/framework/cognition/_meta/architecture/inputs/additive/README.md
+ M .octon/framework/engine/governance/inputs/additive/README.md
+ M .octon/framework/engine/governance/inputs/additive/incoming-intake-processing.md
+ M .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/README.md
+ M .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/01-validate-intake.md
+ M .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/02-classify-route.md
+ M .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/03-execute-disposition.md
+ M .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/stages/04-validate-closeout.md
+ M .octon/framework/orchestration/runtime/workflows/meta/process-incoming-intake/workflow.yml
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/README.md
+ M .octon/inputs/additive/.incoming/README.md
+ M .octon/inputs/additive/README.md
+?? .octon/framework/cognition/_meta/architecture/inputs/additive/schemas/
+?? .octon/inputs/exploratory/proposals/architecture/incoming-additive-intake-unit-contract/
+?? .octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/
+?? .octon/state/evidence/validation/proposals/incoming-additive-intake-unit-contract/

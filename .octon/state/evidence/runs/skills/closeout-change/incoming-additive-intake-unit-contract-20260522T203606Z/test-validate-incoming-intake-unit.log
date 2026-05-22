@@ -1,0 +1,24 @@
+PASS: incoming intake validator accepts valid minimal envelope
+PASS: incoming intake validator supports --path for fixtures
+PASS: incoming intake validator rejects bad ids
+PASS: incoming intake validator rejects missing intake
+PASS: incoming intake validator rejects missing intake.yml
+PASS: incoming intake validator rejects malformed intake.yml
+PASS: incoming intake validator rejects mismatched intake_id
+PASS: incoming intake validator rejects missing payload
+PASS: incoming intake validator rejects empty payload
+PASS: incoming intake validator rejects noise-only payload
+PASS: incoming intake validator rejects top-level payload leakage
+PASS: incoming intake validator rejects symlink escape inside payload
+PASS: incoming intake validator rejects hardlink payload escape
+PASS: incoming intake validator rejects forbidden resolved targets
+PASS: incoming intake validator accepts safe filenames with spaces
+PASS: incoming intake validator rejects unsafe inventory paths
+PASS: incoming intake validator rejects nested staging roots
+PASS: missing provenance is a classification finding
+PASS: candidate extension packs inside payload are findings
+PASS: candidate core skills inside payload are findings
+PASS: declared binary secret and oversized risks are findings
+
+Passed: 21
+Failed: 0
