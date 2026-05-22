@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-change-closeout-state-machine-191d360f1d30",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/change-closeout-state-machine",
+  "source_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+  "remote_source_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+  "target_pre_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@191d360f1d30cf40a54991872920c0ba822b50ca",
+    "branch_naming_validation@191d360f1d30cf40a54991872920c0ba822b50ca",
+    "route_aware_autonomy_validation@191d360f1d30cf40a54991872920c0ba822b50ca",
+    "exact_source_sha_validation@191d360f1d30cf40a54991872920c0ba822b50ca"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "revert landed commit 191d360f1d30cf40a54991872920c0ba822b50ca from main if rollback is required; retain closeout evidence",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-05-21T17:30:42Z"
+}

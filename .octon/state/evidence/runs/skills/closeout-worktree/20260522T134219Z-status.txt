@@ -1,0 +1,155 @@
+ M .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+ M .octon/framework/capabilities/runtime/skills/capabilities.yml
+ M .octon/framework/capabilities/runtime/skills/manifest.yml
+ M .octon/framework/capabilities/runtime/skills/registry.yml
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-closeout.md
+ M .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-review.md
+ M .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+ M .octon/instance/governance/policies/repo-hygiene.yml
+?? .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+?? .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+?? .octon/generated/cognition/projections/materialized/runs/publish-1779325702961-81690/health.yml
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/README.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture-proposal.yml
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/acceptance-criteria.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/implementation-plan.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/architecture/target-architecture.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/navigation/artifact-catalog.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/navigation/source-of-truth-map.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/proposal.yml
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/resources/source-findings.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/resources/source-prompt.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/executable-implementation-prompt.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-conformance-review.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-grade-completeness-review.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/implementation-run.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/post-implementation-drift-churn-review.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-closeout.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-review.md
+?? .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/validation.md
+?? .octon/state/continuity/runs/publish-1779325702961-81690/handoff.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/authority/budget-ledger.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/authority/decision.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/authority/grant-bundle.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/authority/review-dispositions.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/checkpoints/bound.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/checkpoints/execution-complete.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/checkpoints/execution-start.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/contamination/current.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/context/active-context-pack.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/context/status.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/effect-tokens/effect-token-evidence-mutation-a12f156a14f8.json
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/effect-tokens/effect-token-extension-activation-58b4cfbdc0f5.json
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/effect-tokens/effect-token-extension-activation-dd6cd700ba91.json
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/effect-tokens/effect-token-extension-activation-f27751a79f0a.json
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/effect-tokens/effect-token-state-control-mutation-70e4fbf3339c.json
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/events.manifest.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/events.ndjson
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/retry-records/baseline.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/rollback-posture.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/run-contract.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/run-manifest.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/runtime-state.yml
+?? .octon/state/control/execution/runs/publish-1779325702961-81690/stage-attempts/initial.yml
+?? .octon/state/evidence/control/execution/authority-decision-publish-1779325702961-81690.yml
+?? .octon/state/evidence/control/execution/authority-grant-bundle-publish-1779325702961-81690.yml
+?? .octon/state/evidence/external-index/runs/publish-1779325702961-81690.yml
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-lifecycle-feature-20260521T220527Z/branch-cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-lifecycle-feature-20260521T220527Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-lifecycle-feature-20260521T220527Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-lifecycle-feature-20260521T220527Z/run.log.md
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-cleaned-20260521T194308Z/branch-cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-cleaned-20260521T194308Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-cleaned-20260521T194308Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-cleaned-20260521T194308Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/default-cleaned-closeout-lifecycle-20260521T204351Z/branch-cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/default-cleaned-closeout-lifecycle-20260521T204351Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/default-cleaned-closeout-lifecycle-20260521T204351Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/default-cleaned-lifecycle-20260521T164926Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/default-cleaned-lifecycle-20260521T164926Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/governed-branch-landing-20260521T173023Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/governed-branch-landing-20260521T173023Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/governed-branch-landing-20260521T173023Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/main-closeout-ci-repair-cleaned-20260521T200156Z/branch-cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/main-closeout-ci-repair-cleaned-20260521T200156Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/main-closeout-ci-repair-cleaned-20260521T200156Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/main-closeout-ci-repair-cleaned-20260521T200156Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/orchestration-python-free-20260521T192934Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/orchestration-python-free-20260521T192934Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/final-inventory.txt
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/git-diff-check.txt
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/in-scope-diff-stat.txt
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/in-scope-status.txt
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/initial-inventory.txt
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/validate-change-closeout-lifecycle-alignment.txt
+?? .octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z/branch-landing-authorization.json
+?? .octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z/change-receipt.json
+?? .octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z/run-log.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T160350Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T164926Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T173023Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T174043Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T192934Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T204351Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260521T224630Z.md
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-diff-stat.txt
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-status-ignored.txt
+?? .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-status.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260521T221853Z/worktree-hygiene.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260521T222457Z/worktree-hygiene.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine/20260521T223323Z/worktree-hygiene.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/git-diff-check.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-implementation-conformance.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-implementation-readiness.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-post-implementation-drift.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-standard.txt
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/worktree-hygiene.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T133614Z/worktree-hygiene-after-generator.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T133614Z/worktree-hygiene-final-after-closeout-update.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T133614Z/worktree-hygiene-final.yml
+?? .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T133614Z/worktree-hygiene.yml
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/authorize-output.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/cleanup-authorization.json
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/cleanup-output.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/final-cleanup-summary.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/generate-run-health-read-model.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/post-cleanup-summary.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/post-generator-cleanup-summary.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/post-generator-revert-cleanup-summary.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/validate-proposal-implementation-conformance-final.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/validate-proposal-implementation-readiness-final.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/validate-proposal-post-implementation-drift-final.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/validate-proposal-review-gate-final.txt
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/validate-proposal-standard-final.txt
+?? .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T164926Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T173023Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T174043Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T180634Z-branch-cleanup-preauthorization-profile.md
+?? .octon/state/evidence/validation/analysis/20260521T192934Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T194308Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T204351Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260521T224630Z-closeout-worktree-report.yml
+?? .octon/state/evidence/validation/analysis/20260522T132738Z-change-closeout-repo-hygiene-cleanup-authorization-receipts.md
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/git-diff-check.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/test-cleanup-local-run-artifacts.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-architecture-proposal.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-closeout-worktree-wrapper.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-implementation-conformance.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-implementation-readiness.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-post-implementation-drift.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-review-gate.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-standard.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-repo-hygiene-governance.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-run-health-read-model.txt
+?? .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-skills-repo-hygiene-cleanup.txt

@@ -1,0 +1,299 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260522T134219Z
+default_work_unit: Change
+observed_change_set_count: 6
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-status.txt
+residue_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-classification.yml
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/final-cleanup-summary.txt
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z/cleanup-authorization.json
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 28
+  manual_review: 90
+repo_hygiene_next_route_condition: protected and manual-review residue must remain retained or be resolved by a separate governed ownership decision; detection does not authorize deletion
+selected_candidate_id: candidate-repo-hygiene-cleanup-authorization-implementation
+candidates:
+  - candidate_id: candidate-repo-hygiene-cleanup-authorization-implementation
+    disposition: delegated
+    ownership: repo-hygiene-cleanup-authorization-receipts-change
+    route_hint: closeout-change
+    target_lifecycle_outcome: blocked
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-worktree-delegated-20260522T134219Z/change-receipt.json
+    rollback_or_discard_posture: retain implementation, proposal, and validation evidence until a future singular route can land or archive it
+    boundaries:
+      include_paths:
+        - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+        - .octon/framework/capabilities/runtime/skills/capabilities.yml
+        - .octon/framework/capabilities/runtime/skills/manifest.yml
+        - .octon/framework/capabilities/runtime/skills/registry.yml
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+        - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+        - .octon/generated/proposals/registry.yml
+        - .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+        - .octon/instance/governance/policies/repo-hygiene.yml
+        - .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+        - .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts
+        - .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z
+        - .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-worktree-delegated-20260522T134219Z
+        - .octon/state/evidence/validation/analysis/20260522T132738Z-change-closeout-repo-hygiene-cleanup-authorization-receipts.md
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+        - .octon/generated/cognition/projections/materialized/runs
+        - .octon/state/continuity/runs/publish-1779325702961-81690
+        - .octon/state/control/execution/runs/publish-1779325702961-81690
+        - .octon/state/evidence/runs/skills/closeout-worktree
+  - candidate_id: candidate-change-closeout-state-machine-support
+    disposition: blocked
+    ownership: change-closeout-state-machine-proposal-lifecycle
+    route_hint: octon-proposal-lifecycle-closeout-packet
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: retain proposal-local support receipts until that packet can rerun closeout on a clean scoped worktree
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-review.md
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+        - .octon/generated/proposals/registry.yml
+        - .octon/state
+  - candidate_id: candidate-protected-publish-run-state
+    disposition: retained
+    ownership: protected-publication-run-state
+    route_hint: retain-or-operator-ownership-resolution
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve because cleanup helper classifies this publish-run state as protected referenced or manual-review residue
+    boundaries:
+      include_paths:
+        - .octon/generated/cognition/projections/materialized/runs/publish-1779325702961-81690
+        - .octon/state/continuity/runs/publish-1779325702961-81690
+        - .octon/state/control/execution/runs/publish-1779325702961-81690
+        - .octon/state/evidence/control/execution/authority-decision-publish-1779325702961-81690.yml
+        - .octon/state/evidence/control/execution/authority-grant-bundle-publish-1779325702961-81690.yml
+        - .octon/state/evidence/external-index/runs/publish-1779325702961-81690.yml
+      exclude_paths:
+        - .octon/framework
+        - .octon/inputs
+        - .octon/state/evidence/runs/skills
+  - candidate_id: candidate-historical-closeout-evidence
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: retain-or-future-governed-evidence-cleanup
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve retained closeout and validation evidence unless a future governed route proves safe retirement
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/change-closeout-lifecycle-feature-20260521T220527Z
+        - .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-cleaned-20260521T194308Z
+        - .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z
+        - .octon/state/evidence/runs/skills/closeout-change/default-cleaned-closeout-lifecycle-20260521T204351Z
+        - .octon/state/evidence/runs/skills/closeout-change/default-cleaned-lifecycle-20260521T164926Z
+        - .octon/state/evidence/runs/skills/closeout-change/governed-branch-landing-20260521T173023Z
+        - .octon/state/evidence/runs/skills/closeout-change/main-closeout-ci-repair-cleaned-20260521T200156Z
+        - .octon/state/evidence/runs/skills/closeout-change/orchestration-python-free-20260521T192934Z
+        - .octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T160350Z.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T164926Z.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T173023Z.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T174043Z.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T192934Z.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T204351Z.md
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T224630Z.md
+        - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/change-closeout-state-machine
+        - .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T164926Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T173023Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T174043Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T180634Z-branch-cleanup-preauthorization-profile.md
+        - .octon/state/evidence/validation/analysis/20260521T192934Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T194308Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T204351Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/analysis/20260521T224630Z-closeout-worktree-report.yml
+      exclude_paths:
+        - .octon/framework
+        - .octon/generated
+        - .octon/inputs
+  - candidate_id: candidate-current-wrapper-evidence
+    disposition: retained
+    ownership: closeout-worktree-current-run-evidence
+    route_hint: retain-wrapper-evidence
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve this wrapper report and its inventory/classification evidence as the current worktree disposition
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-status.txt
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-status-ignored.txt
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-diff-stat.txt
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-classification.yml
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-final-status.txt
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-final-classification.yml
+        - .octon/state/evidence/validation/analysis/20260522T134219Z-closeout-worktree-report.yml
+      exclude_paths:
+        - .octon/framework
+        - .octon/generated
+        - .octon/inputs
+  - candidate_id: candidate-local-ignored-residue
+    disposition: foreign
+    ownership: local-ignored-residue
+    route_hint: none
+    target_lifecycle_outcome: foreign
+    rollback_or_discard_posture: preserve ignored local residue; ignored detection is not cleanup authority
+    boundaries:
+      include_paths:
+        - .
+      exclude_paths:
+        - .octon/framework
+        - .octon/instance
+        - .octon/inputs
+iterations:
+  - iteration_id: iteration-001-repo-hygiene-stage-only
+    pre_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-status.txt
+    pre_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-classification.yml
+    selected_candidate_id: candidate-repo-hygiene-cleanup-authorization-implementation
+    include_paths:
+      - .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+      - .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+      - .octon/framework/capabilities/runtime/skills/capabilities.yml
+      - .octon/framework/capabilities/runtime/skills/manifest.yml
+      - .octon/framework/capabilities/runtime/skills/registry.yml
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+      - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+      - .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+      - .octon/generated/proposals/registry.yml
+      - .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+      - .octon/instance/governance/policies/repo-hygiene.yml
+      - .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+      - .octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts
+      - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/20260522T133614Z
+      - .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts
+      - .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z
+      - .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-worktree-delegated-20260522T134219Z
+      - .octon/state/evidence/validation/analysis/20260522T132738Z-change-closeout-repo-hygiene-cleanup-authorization-receipts.md
+    exclude_paths:
+      - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+      - .octon/generated/cognition/projections/materialized/runs
+      - .octon/state/continuity/runs/publish-1779325702961-81690
+      - .octon/state/control/execution/runs/publish-1779325702961-81690
+      - .octon/state/evidence/runs/skills/closeout-worktree
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-worktree-delegated-20260522T134219Z/change-receipt.json
+    closeout_change_outcome: blocked
+    post_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-final-status.txt
+    post_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-final-classification.yml
+    next_selection_reason: stop after delegated candidate returned blocked and remaining candidates require retention, operator ownership resolution, or separate proposal lifecycle closeout
+final_candidate_dispositions:
+  candidate-repo-hygiene-cleanup-authorization-implementation:
+    state: blocked
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-worktree-delegated-20260522T134219Z/change-receipt.json
+    reason: Singular closeout-change returned blocked because direct-main closeout is unavailable while the worktree retains unrelated protected, foreign, and retained candidates.
+  candidate-change-closeout-state-machine-support:
+    state: blocked
+    reason: These proposal-local support edits belong to the earlier change-closeout-state-machine packet and require that packet's closeout route after worktree hygiene is resolved.
+  candidate-protected-publish-run-state:
+    state: retained
+    reason: Cleanup helper classifies the remaining publish-run state as protected referenced or manual-review residue.
+  candidate-historical-closeout-evidence:
+    state: retained
+    reason: Historical closeout evidence remains retained operational evidence and is not cleanup-authorized by this wrapper.
+  candidate-current-wrapper-evidence:
+    state: retained
+    reason: Current wrapper evidence is retained to make this worktree disposition auditable.
+  candidate-local-ignored-residue:
+    state: foreign
+    reason: Ignored local residue is outside the selected Change and intentionally untouched.
+retained_residue:
+  - candidate_id: candidate-protected-publish-run-state
+    path: .octon/generated/cognition/projections/materialized/runs/publish-1779325702961-81690
+    disposition: retained generated run-health projection associated with protected publish-run state
+  - candidate_id: candidate-protected-publish-run-state
+    path: .octon/state/continuity/runs/publish-1779325702961-81690
+    disposition: retained protected continuity run state
+  - candidate_id: candidate-protected-publish-run-state
+    path: .octon/state/control/execution/runs/publish-1779325702961-81690
+    disposition: retained protected control run state
+  - candidate_id: candidate-protected-publish-run-state
+    path: .octon/state/evidence/control/execution/authority-decision-publish-1779325702961-81690.yml
+    disposition: retained protected authority decision evidence
+  - candidate_id: candidate-protected-publish-run-state
+    path: .octon/state/evidence/control/execution/authority-grant-bundle-publish-1779325702961-81690.yml
+    disposition: retained protected authority grant evidence
+  - candidate_id: candidate-protected-publish-run-state
+    path: .octon/state/evidence/external-index/runs/publish-1779325702961-81690.yml
+    disposition: retained external index evidence
+  - candidate_id: candidate-historical-closeout-evidence
+    path: .octon/state/evidence/runs/skills
+    disposition: retained historical closeout skill evidence
+  - candidate_id: candidate-historical-closeout-evidence
+    path: .octon/state/evidence/validation/analysis
+    disposition: retained historical validation analysis evidence
+  - candidate_id: candidate-current-wrapper-evidence
+    path: .octon/state/evidence/runs/skills/closeout-worktree
+    disposition: retained current closeout-worktree inventory and classifier evidence
+  - candidate_id: candidate-current-wrapper-evidence
+    path: .octon/state/evidence/validation/analysis/20260522T134219Z-closeout-worktree-report.yml
+    disposition: retained current closeout-worktree wrapper report
+  - candidate_id: candidate-local-ignored-residue
+    path: .
+    disposition: foreign ignored local residue retained
+blockers:
+  - candidate_id: candidate-repo-hygiene-cleanup-authorization-implementation
+    blocker: direct-main closeout is unavailable because current main contains unrelated retained, protected, and foreign candidates outside this singular Change boundary
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-worktree-delegated-20260522T134219Z/change-receipt.json
+  - candidate_id: candidate-change-closeout-state-machine-support
+    blocker: proposal packet closeout for change-closeout-state-machine remains separate and blocked until worktree hygiene no longer observes foreign or ambiguous residue
+    evidence_ref: .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-closeout.md
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/20260521T224630Z-closeout-worktree-report.yml
+  candidates:
+    - prior_candidate_id: candidate-change-closeout-state-machine-closeout-support
+      current_candidate_id: candidate-change-closeout-state-machine-support
+      disposition: blocked
+      rationale: Same proposal-local support candidate remains present and separate.
+    - prior_candidate_id: candidate-repo-hygiene-cleanup-authorization-proposal
+      current_candidate_id: candidate-repo-hygiene-cleanup-authorization-implementation
+      disposition: folded
+      rationale: Prior proposal candidate is now folded into the implementation, proposal, registry, and validation evidence candidate.
+    - prior_candidate_id: candidate-local-run-state-residue-cleanup
+      current_candidate_id: candidate-protected-publish-run-state
+      disposition: folded
+      rationale: Helper-approved cleanup candidates were removed by receipt before this wrapper run; remaining local-run residue is protected or manual-review publish-run state.
+    - prior_candidate_id: candidate-generated-run-health-residue
+      current_candidate_id: candidate-protected-publish-run-state
+      disposition: folded
+      rationale: The only remaining generated run-health projection belongs to the protected publish-run state candidate.
+    - prior_candidate_id: candidate-closeout-evidence-residue
+      current_candidate_id: candidate-historical-closeout-evidence
+      disposition: retained
+      rationale: Historical closeout evidence remains retained and separate from the selected repo-hygiene Change.
+    - prior_candidate_id: candidate-local-ignored-residue
+      current_candidate_id: candidate-local-ignored-residue
+      disposition: foreign
+      rationale: Ignored local residue remains foreign and intentionally untouched.
+final_inventory_ref: .octon/state/evidence/runs/skills/closeout-worktree/20260522T134219Z-final-status.txt
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 14
+  untracked: 49
+  ignored: 3692
+  local_branch: 1
+  remote_branch: 3
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 102
+  state_control: 23
+  release_version: 0
+  input_surface: 20
+next_route_condition: Worktree closeout remains non-terminal; reroute the repo-hygiene implementation through an explicit branch or PR closeout decision, rerun the change-closeout-state-machine packet closeout separately, and retain or resolve protected/manual-review evidence through governed ownership before claiming a clean worktree.

@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-change-closeout-state-machine-30fed93f6500",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/change-closeout-state-machine",
+  "source_ref": "30fed93f650061e255587629f736fc1ffc4fcb92",
+  "remote_source_ref": "30fed93f650061e255587629f736fc1ffc4fcb92",
+  "target_pre_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@30fed93f650061e255587629f736fc1ffc4fcb92",
+    "branch_naming_validation@30fed93f650061e255587629f736fc1ffc4fcb92",
+    "route_aware_autonomy_validation@30fed93f650061e255587629f736fc1ffc4fcb92",
+    "exact_source_sha_validation@30fed93f650061e255587629f736fc1ffc4fcb92"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "revert landed ref 30fed93f650061e255587629f736fc1ffc4fcb92 from main if rollback is required; source branch cleanup is authorized only after retained rollback posture",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-05-21T19:43:22Z"
+}

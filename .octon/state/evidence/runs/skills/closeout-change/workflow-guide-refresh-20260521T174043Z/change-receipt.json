@@ -1,0 +1,140 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "workflow-guide-refresh-20260521T174043Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Refresh the generated closeout workflow README so the closeout workflow guide matches the canonical workflow after lifecycle contract changes.",
+  "scope": {
+    "summary": "Generated closeout workflow README alignment after the governed branch landing lifecycle update.",
+    "touched_paths": [
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/README.md"
+    ],
+    "diff_refs": [
+      "commit:8e892914fcdd4cec27686c457f8a47808c6eb5a0"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/validation/analysis/20260521T174043Z-closeout-worktree-report.yml"
+    ]
+  },
+  "source_branch_ref": "chore/change-closeout-state-machine",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/change-closeout-state-machine@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z/branch-landing-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "target_ref": "origin/main@191d360f1d30cf40a54991872920c0ba822b50ca",
+    "evidence_refs": [
+      "git push origin chore/change-closeout-state-machine: published 8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+      "GitHub check-runs at source SHA 8e892914fcdd4cec27686c457f8a47808c6eb5a0 reported required route-neutral checks passed.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source ref 8e892914fcdd4cec27686c457f8a47808c6eb5a0 and target pre-ref 191d360f1d30cf40a54991872920c0ba822b50ca",
+      "git-branch-land-hosted-no-pr.sh validated authorization and fast-forwarded origin/main to 8e892914fcdd4cec27686c457f8a47808c6eb5a0"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/change-closeout-state-machine",
+    "source_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "target_pre_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "target_post_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "validated_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+      "branch_naming_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+      "route_aware_autonomy_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+      "exact_source_sha_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "8e892914fcdd4cec27686c457f8a47808c6eb5a0:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/change-closeout-state-machine",
+    "source_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "landed_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "origin_main_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git merge-base --is-ancestor 8e892914fcdd4cec27686c457f8a47808c6eb5a0 origin/main: passed."
+    ]
+  },
+  "not_cleaned_reason": "The default target was cleaned and branch landing plus local-main sync are complete, but local and remote source branch cleanup was not completed because source branch deletion remains a destructive cleanup action requiring explicit approval.",
+  "main_alignment": {
+    "local_main_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "origin_main_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "landed_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-land-hosted-no-pr.sh fetched and validated origin/main before hosted landing",
+    "local_main_sync_evidence_ref": "git branch --force main origin/main: passed after hosted landing",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main origin/chore/change-closeout-state-machine returned 8e892914fcdd4cec27686c457f8a47808c6eb5a0 for all refs"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Source branch cleanup was not attempted for this follow-up because the earlier cleanup attempt was rejected by the execution approval boundary as destructive shared-repo cleanup requiring explicit approval.",
+    "Local branch chore/change-closeout-state-machine remains at 8e892914fcdd4cec27686c457f8a47808c6eb5a0.",
+    "Remote branch origin/chore/change-closeout-state-machine remains at 8e892914fcdd4cec27686c457f8a47808c6eb5a0."
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/change-closeout-state-machine",
+    "remote_branch": "origin/chore/change-closeout-state-machine",
+    "blocker_reason": "Explicit destructive-cleanup approval is required before deleting retained local and remote source branch refs; the branch refs are contained in local main and origin/main.",
+    "evidence_refs": [
+      "git branch --all --contains 8e892914fcdd4cec27686c457f8a47808c6eb5a0 lists main, origin/main, local source branch, and remote source branch",
+      "git merge-base --is-ancestor 8e892914fcdd4cec27686c457f8a47808c6eb5a0 main: passed",
+      "git merge-base --is-ancestor 8e892914fcdd4cec27686c457f8a47808c6eb5a0 origin/main: passed"
+    ]
+  },
+  "external_blocker_refs": [
+    "approval-boundary: branch cleanup deletion of local and remote chore/change-closeout-state-machine requires explicit destructive-cleanup approval",
+    "post-landing-main-ci: Architecture Conformance run 26242885076 failed on support-envelope reconciliation and run-health read-model validation because generated run-health paths recorded by .octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml are missing in the CI checkout",
+    "post-landing-main-ci: Harness Self-Containment Validation run 26242885070 failed during orchestration runtime surface hooks because runtime-effective route bundle validation reported root manifest digest drift"
+  ],
+  "validation_evidence_refs": [
+    "bash .octon/framework/orchestration/runtime/workflows/_ops/scripts/validate-workflows.sh: passed",
+    "git diff --check: passed before commit",
+    "git diff --cached --check: passed before commit",
+    "GitHub required source-SHA checks passed at 8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "GitHub main push checks for commit 8e892914fcdd4cec27686c457f8a47808c6eb5a0: Main Push Safety, Main Change Route Guard, Change Route Projection, UEC Cutover Validate, and Commit and Branch Standards passed",
+    "GitHub main push Architecture Conformance run 26242885076 failed on pre-existing generated run-health/support-envelope state, outside the generated closeout workflow README candidate",
+    "GitHub main push Harness Self-Containment Validation run 26242885070 failed on runtime-effective route bundle root manifest digest drift, outside the generated closeout workflow README candidate",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh --receipt .octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z/change-receipt.json: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/workflow-guide-refresh-20260521T174043Z/change-receipt.json: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/20260521T174043Z-closeout-worktree-report.yml: passed"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because Change routing selected branch-no-pr and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "branch": "chore/change-closeout-state-machine"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "instructions": "Revert commit 8e892914fcdd4cec27686c457f8a47808c6eb5a0 from main if rollback is required; do not delete retained evidence as rollback."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Full cleaned closeout still requires explicit approval to delete or otherwise clean up the retained local and remote chore/change-closeout-state-machine branch refs.",
+    "Post-landing main Architecture Conformance remains red due support-envelope/run-health generated-state validation outside the workflow guide refresh candidate.",
+    "Post-landing main Harness Self-Containment Validation remains red due runtime-effective route bundle root manifest digest drift outside the workflow guide refresh candidate.",
+    "Untracked publication/control residue, previous closeout evidence residue, current closeout evidence residue, and ignored local residue remain retained or foreign in the wrapper report."
+  ],
+  "created_at": "2026-05-21T17:44:03Z",
+  "updated_at": "2026-05-21T17:44:03Z"
+}

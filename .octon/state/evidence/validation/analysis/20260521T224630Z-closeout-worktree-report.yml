@@ -1,0 +1,160 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260521T224630Z
+default_work_unit: Change
+observed_change_set_count: 6
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: git-status://20260521T224630Z/pre-change-closeout-state-machine-blocker-pass
+residue_classification_ref: classifier://20260521T224630Z/pre-change-closeout-state-machine-blocker-pass
+selected_candidate_id: candidate-local-run-state-residue-cleanup
+candidates:
+  - candidate_id: candidate-change-closeout-state-machine-closeout-support
+    disposition: blocked
+    ownership: proposal-closeout-lifecycle-support
+    route_hint: octon-proposal-lifecycle-closeout-packet
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: retain proposal-local closeout and review receipts until archive gate can pass
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-closeout.md
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-review.md
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+        - .octon/generated/proposals/registry.yml
+        - .octon/generated/cognition/projections/materialized/runs
+        - .octon/state
+  - candidate_id: candidate-repo-hygiene-cleanup-authorization-proposal
+    disposition: deferred
+    ownership: separate-proposal-change
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: retain as separate proposal packet until singular Change closeout is selected
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+        - .octon/generated/proposals/registry.yml
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine
+        - .octon/generated/cognition/projections/materialized/runs
+        - .octon/state
+  - candidate_id: candidate-local-run-state-residue-cleanup
+    disposition: blocked
+    ownership: repo-hygiene-local-run-residue
+    route_hint: cleanup-local-run-artifacts
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: preserve-before-explicit-cleanup-authorization
+    boundaries:
+      include_paths:
+        - .octon/state/continuity/runs
+        - .octon/state/control/execution/runs
+        - .octon/state/evidence/control/execution
+        - .octon/state/evidence/external-index/runs
+      exclude_paths:
+        - .octon/inputs
+        - .octon/framework
+        - .octon/generated
+  - candidate_id: candidate-generated-run-health-residue
+    disposition: deferred
+    ownership: generated-run-health-read-model
+    route_hint: generate-run-health-read-model
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: generator-owned pruning only
+    boundaries:
+      include_paths:
+        - .octon/generated/cognition/projections/materialized/runs
+      exclude_paths:
+        - .octon/framework
+        - .octon/instance
+        - .octon/state
+  - candidate_id: candidate-closeout-evidence-residue
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve retained evidence unless a future governed repo-hygiene route classifies it otherwise
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills
+        - .octon/state/evidence/validation/analysis
+      exclude_paths:
+        - .octon/framework
+        - .octon/generated
+        - .octon/inputs
+  - candidate_id: candidate-local-ignored-residue
+    disposition: foreign
+    ownership: local-ignored-residue
+    route_hint: none
+    target_lifecycle_outcome: foreign
+    rollback_or_discard_posture: preserve local ignored residue
+    boundaries:
+      include_paths:
+        - .
+      exclude_paths:
+        - .octon/framework
+        - .octon/instance
+iterations: []
+final_candidate_dispositions:
+  candidate-change-closeout-state-machine-closeout-support:
+    state: blocked
+    reason: The proposal packet closeout receipt remains blocked by foreign or ambiguous worktree hygiene residue outside the packet lifecycle boundary.
+  candidate-repo-hygiene-cleanup-authorization-proposal:
+    state: deferred
+    reason: This is a separate proposal Change and must be closed through its own singular closeout route before it stops blocking the change-closeout-state-machine packet archive gate.
+  candidate-local-run-state-residue-cleanup:
+    state: blocked
+    reason: The local-run artifact helper reported cleanup candidates, but destructive --confirm cleanup was not authorized in this route; protected and manual-review state residue also remains.
+  candidate-generated-run-health-residue:
+    state: deferred
+    reason: Generated run-health residue is generator-owned and must be governed through generate-run-health-read-model.sh pruning, not generic local-run cleanup.
+  candidate-closeout-evidence-residue:
+    state: retained
+    reason: Closeout evidence remains retained operational evidence and was not deleted by wrapper authority.
+  candidate-local-ignored-residue:
+    state: foreign
+    reason: Ignored local residue is outside the selected Change and intentionally untouched.
+retained_residue:
+  - candidate_id: candidate-repo-hygiene-cleanup-authorization-proposal
+    path: .octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts
+    disposition: retained separate proposal packet pending its own Change closeout
+  - candidate_id: candidate-repo-hygiene-cleanup-authorization-proposal
+    path: .octon/generated/proposals/registry.yml
+    disposition: retained proposal registry update pending the same separate Change closeout
+  - candidate_id: candidate-generated-run-health-residue
+    path: .octon/generated/cognition/projections/materialized/runs
+    disposition: retained generated run-health read-model residue pending generator-owned pruning or retention
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills
+    disposition: retained closeout skill run evidence
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/validation/analysis
+    disposition: retained closeout worktree analysis evidence
+  - candidate_id: candidate-local-ignored-residue
+    path: .
+    disposition: foreign ignored local residue retained
+blockers:
+  - candidate_id: candidate-change-closeout-state-machine-closeout-support
+    blocker: proposal packet archive gate remains blocked until the read-only proposal hygiene classifier reports no foreign-or-ambiguous paths
+    evidence_ref: .octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/support/proposal-closeout.md
+  - candidate_id: candidate-repo-hygiene-cleanup-authorization-proposal
+    reason: separate proposal packet plus generated registry update must be routed as its own Change before the target packet can claim a clean worktree
+  - candidate_id: candidate-local-run-state-residue-cleanup
+    blocker: cleanup-local-run-artifacts.sh --summary-only reported 607 cleanup candidates, 28 protected referenced paths, and 43 manual-review paths; --confirm cleanup was not authorized
+  - candidate_id: candidate-generated-run-health-residue
+    reason: generic local-run cleanup does not own generated run-health pruning
+final_inventory_ref: git-status://20260521T224630Z/post-non-destructive-blocker-pass
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 3
+  untracked: 169
+  ignored: 3692
+  local_branch: 1
+  remote_branch: 3
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 116
+  state_control: 538
+  release_version: 0
+  input_surface: 13
+next_route_condition: Explicit operator cleanup approval or a governed repo-hygiene cleanup authorization is required for helper-classified cleanup candidates; separate Change closeout is required for the repo-hygiene proposal; generated run-health residue must remain generator-owned; rerun proposal packet closeout only after those blockers are resolved.

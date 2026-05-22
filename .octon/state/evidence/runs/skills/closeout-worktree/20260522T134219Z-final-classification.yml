@@ -1,0 +1,29 @@
+schema_version: change-closeout-residue-classification-v1
+read_only: true
+detection_is_deletion_authority: false
+root: /Users/jamesryancooper/Projects/octon
+classes:
+  - class: staged
+    count: 0
+  - class: unstaged-tracked
+    count: 14
+  - class: untracked
+    count: 49
+  - class: ignored
+    count: 3692
+  - class: local-branch
+    count: 1
+  - class: remote-branch
+    count: 3
+  - class: generated-effective-output
+    count: 0
+  - class: host-projection
+    count: 0
+  - class: retained-evidence
+    count: 102
+  - class: state-control
+    count: 23
+  - class: release-version
+    count: 0
+  - class: input-surface
+    count: 20

@@ -1,0 +1,151 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "governed-branch-landing-20260521T173023Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Add governed preauthorization for hosted branch-no-pr landing so safe Octon-approved origin/main mutation is evidenced before execution.",
+  "scope": {
+    "summary": "Closeout lifecycle contracts, hosted branch landing helper enforcement, authorization schema, closeout skill docs, validators, tests, generated capability publication metadata, and retained implementation evidence.",
+    "touched_paths": [
+      ".codex/skills/closeout-change/",
+      ".codex/skills/closeout-worktree/",
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/framework/assurance/runtime/_ops/tests/",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+      ".octon/framework/execution-roles/_ops/scripts/git/",
+      ".octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md",
+      ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/",
+      ".octon/framework/product/contracts/",
+      ".octon/generated/effective/capabilities/",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/analysis/20260521T170309Z-branch-landing-preauthorization-profile.md",
+      ".octon/state/evidence/validation/publication/capabilities/2026-05-21T17-19-43Z-capabilities-d7b827e4f500.yml"
+    ],
+    "diff_refs": [
+      "commit:191d360f1d30cf40a54991872920c0ba822b50ca"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/validation/analysis/20260521T173023Z-closeout-worktree-report.yml"
+    ]
+  },
+  "source_branch_ref": "chore/change-closeout-state-machine",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/change-closeout-state-machine@191d360f1d30cf40a54991872920c0ba822b50ca",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-branch-landing-20260521T173023Z/branch-landing-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "target_ref": "origin/main@5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "evidence_refs": [
+      "git push origin chore/change-closeout-state-machine: published 191d360f1d30cf40a54991872920c0ba822b50ca",
+      "git-required-checks-at-ref.sh: route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, and exact_source_sha_validation passed at 191d360f1d30cf40a54991872920c0ba822b50ca",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source ref 191d360f1d30cf40a54991872920c0ba822b50ca and target pre-ref 5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+      "git-branch-land-hosted-no-pr.sh validated authorization and fast-forwarded origin/main to 191d360f1d30cf40a54991872920c0ba822b50ca"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/change-closeout-state-machine",
+    "source_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "target_pre_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "target_post_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "validated_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@191d360f1d30cf40a54991872920c0ba822b50ca",
+      "branch_naming_validation@191d360f1d30cf40a54991872920c0ba822b50ca",
+      "route_aware_autonomy_validation@191d360f1d30cf40a54991872920c0ba822b50ca",
+      "exact_source_sha_validation@191d360f1d30cf40a54991872920c0ba822b50ca"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "191d360f1d30cf40a54991872920c0ba822b50ca:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/change-closeout-state-machine",
+    "source_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "landed_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "origin_main_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git merge-base --is-ancestor 191d360f1d30cf40a54991872920c0ba822b50ca origin/main: passed."
+    ]
+  },
+  "not_cleaned_reason": "The default target was cleaned and branch landing plus local-main sync are complete, but local and remote source branch cleanup was not completed because the execution approval boundary rejected branch deletion cleanup as a destructive shared-repo action requiring explicit approval.",
+  "main_alignment": {
+    "local_main_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "origin_main_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "landed_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin main chore/change-closeout-state-machine: passed after hosted landing",
+    "local_main_sync_evidence_ref": "git branch --force main origin/main: passed after hosted landing",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main origin/chore/change-closeout-state-machine returned 191d360f1d30cf40a54991872920c0ba822b50ca for all refs"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Branch cleanup helper was invoked with --delete-remote --confirm and rejected by the execution approval boundary before deleting any local or remote branch.",
+    "Local branch chore/change-closeout-state-machine remains at 191d360f1d30cf40a54991872920c0ba822b50ca.",
+    "Remote branch origin/chore/change-closeout-state-machine remains at 191d360f1d30cf40a54991872920c0ba822b50ca."
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/change-closeout-state-machine",
+    "remote_branch": "origin/chore/change-closeout-state-machine",
+    "blocker_reason": "The execution approval boundary rejected destructive source branch deletion cleanup; retained local and remote branch refs remain safe because the landed ref is contained in local main and origin/main.",
+    "evidence_refs": [
+      "branch cleanup command was rejected before mutation by approvals reviewer",
+      "git rev-parse HEAD main origin/main origin/chore/change-closeout-state-machine returned the same landed ref",
+      "git merge-base --is-ancestor 191d360f1d30cf40a54991872920c0ba822b50ca main: passed",
+      "git merge-base --is-ancestor 191d360f1d30cf40a54991872920c0ba822b50ca origin/main: passed"
+    ]
+  },
+  "external_blocker_refs": [
+    "approval-boundary: branch cleanup deletion of local and remote chore/change-closeout-state-machine was rejected as requiring explicit approval"
+  ],
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-hosted-no-pr-landing.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-hosted-no-pr-landing.sh: 21/21 passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh: 37/37 passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-default-work-unit-alignment.sh: 20/20 passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-state-machine.sh: 8/8 passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh: passed",
+    "git diff --cached --check: passed before commit"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because Change routing selected branch-no-pr and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "branch": "chore/change-closeout-state-machine"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+    "instructions": "Revert commit 191d360f1d30cf40a54991872920c0ba822b50ca from main if rollback is required; do not delete retained evidence as rollback."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Full cleaned closeout still requires explicit approval to delete or otherwise clean up the retained local and remote chore/change-closeout-state-machine branch refs.",
+    "Untracked publication/control residue, previous closeout evidence residue, current closeout evidence residue, and ignored local residue remain retained or foreign in the wrapper report."
+  ],
+  "created_at": "2026-05-21T17:30:23Z",
+  "updated_at": "2026-05-21T17:30:23Z"
+}

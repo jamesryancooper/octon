@@ -1,0 +1,193 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260521T164926Z
+default_work_unit: Change
+observed_change_set_count: 4
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: git-status://20260521T164926Z/pre-closeout
+residue_classification_ref: classifier://20260521T164926Z/pre-closeout
+selected_candidate_id: candidate-default-cleaned-lifecycle
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+  candidates:
+    - prior_candidate_id: candidate-closeout-lifecycle-completion-follow-up
+      current_candidate_id: candidate-default-cleaned-lifecycle
+      disposition: folded
+      rationale: The prior follow-up candidate remains the same change lineage; this run adds the cleaned-default lifecycle correction on top of that branch.
+    - prior_candidate_id: candidate-publication-run-residue
+      current_candidate_id: candidate-publication-run-residue
+      disposition: retained
+      rationale: Publication/control run residue remains local retained residue and was not staged or cleaned by the wrapper.
+    - prior_candidate_id: candidate-local-ignored-residue
+      current_candidate_id: candidate-local-ignored-residue
+      disposition: foreign
+      rationale: Ignored local residue remains outside the Change and is retained as foreign local residue.
+candidates:
+  - candidate_id: candidate-default-cleaned-lifecycle
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: discard branch before landing; revert landed commit range if later landed
+    closeout_change_ref: evidence://runs/skills/closeout-change/default-cleaned-lifecycle-20260521T164926Z/change-receipt.json
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-change
+        - .codex/skills/closeout-worktree
+        - .octon/framework/assurance/runtime/_ops/scripts
+        - .octon/framework/assurance/runtime/_ops/tests
+        - .octon/framework/capabilities/runtime/skills/registry.yml
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree
+        - .octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md
+        - .octon/framework/orchestration/runtime/workflows/meta/closeout
+        - .octon/framework/product/contracts
+        - .octon/generated/effective/capabilities
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/validation/publication/capabilities/2026-05-21T16-38-42Z-capabilities-d7b827e4f500.yml
+      exclude_paths:
+        - .octon/state/continuity/runs
+        - .octon/state/control/execution/runs
+        - .octon/state/evidence/control/execution
+        - .octon/state/evidence/external-index/runs
+        - .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T160350Z.md
+        - .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/publication/capabilities/2026-05-21T16-28-48Z-capabilities-d7b827e4f500.yml
+        - ignored local residue
+  - candidate_id: candidate-publication-run-residue
+    disposition: retained
+    ownership: local-run-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve-before-routing
+    boundaries:
+      include_paths:
+        - .octon/state/continuity/runs
+        - .octon/state/control/execution/runs
+        - .octon/state/evidence/control/execution
+        - .octon/state/evidence/external-index/runs
+      exclude_paths:
+        - .codex/skills/closeout-change
+        - .codex/skills/closeout-worktree
+        - .octon/framework
+        - .octon/generated/effective/capabilities
+  - candidate_id: candidate-prior-closeout-evidence-residue
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve-before-routing
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z
+        - .octon/state/evidence/runs/skills/closeout-worktree/20260521T160350Z.md
+        - .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+        - .octon/state/evidence/validation/publication/capabilities/2026-05-21T16-28-48Z-capabilities-d7b827e4f500.yml
+      exclude_paths:
+        - .codex/skills/closeout-change
+        - .codex/skills/closeout-worktree
+        - .octon/framework
+        - .octon/generated/effective/capabilities
+  - candidate_id: candidate-local-ignored-residue
+    disposition: foreign
+    ownership: local-ignored-residue
+    route_hint: none
+    target_lifecycle_outcome: foreign
+    rollback_or_discard_posture: preserve-before-routing
+    boundaries:
+      include_paths:
+        - .
+      exclude_paths:
+        - .codex/skills/closeout-change
+        - .codex/skills/closeout-worktree
+        - .octon/framework
+        - .octon/generated/effective/capabilities
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: git-status://20260521T164926Z/pre-closeout
+    pre_classification_ref: classifier://20260521T164926Z/pre-closeout
+    selected_candidate_id: candidate-default-cleaned-lifecycle
+    include_paths:
+      - .codex/skills/closeout-change
+      - .codex/skills/closeout-worktree
+      - .octon/framework/assurance/runtime/_ops/scripts
+      - .octon/framework/assurance/runtime/_ops/tests
+      - .octon/framework/capabilities/runtime/skills/registry.yml
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree
+      - .octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md
+      - .octon/framework/orchestration/runtime/workflows/meta/closeout
+      - .octon/framework/product/contracts
+      - .octon/generated/effective/capabilities
+      - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+      - .octon/state/evidence/validation/publication/capabilities/2026-05-21T16-38-42Z-capabilities-d7b827e4f500.yml
+    exclude_paths:
+      - .octon/state/continuity/runs
+      - .octon/state/control/execution/runs
+      - .octon/state/evidence/control/execution
+      - .octon/state/evidence/external-index/runs
+      - .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z
+      - .octon/state/evidence/runs/skills/closeout-worktree/20260521T160350Z.md
+      - .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+      - .octon/state/evidence/validation/publication/capabilities/2026-05-21T16-28-48Z-capabilities-d7b827e4f500.yml
+      - ignored local residue
+    closeout_change_ref: evidence://runs/skills/closeout-change/default-cleaned-lifecycle-20260521T164926Z/change-receipt.json
+    closeout_change_outcome: continued
+    post_inventory_ref: git-status://20260521T164926Z/post-closeout
+    post_classification_ref: classifier://20260521T164926Z/post-closeout
+    next_selection_reason: The selected Change was committed, pushed, landed to origin/main, and local main was synchronized; source branch cleanup plus publication/control, prior closeout evidence, and ignored local residue remain retained or foreign.
+final_candidate_dispositions:
+  candidate-default-cleaned-lifecycle:
+    state: deferred
+    closeout_change_ref: evidence://runs/skills/closeout-change/default-cleaned-lifecycle-20260521T164926Z/change-receipt.json
+    reason: The singular closeout-change target was cleaned, but the actual outcome is landed/continued because source branch cleanup was not performed.
+  candidate-publication-run-residue:
+    state: retained
+    reason: Local publication/control run residue remains untracked retained evidence or control residue and was not cleaned by detection-only authority.
+  candidate-prior-closeout-evidence-residue:
+    state: retained
+    reason: Prior closeout evidence and a stale capability publication receipt remain untracked retained evidence outside the selected Change.
+  candidate-local-ignored-residue:
+    state: foreign
+    reason: Ignored local residue remains outside the Change and is intentionally untouched.
+retained_residue:
+  - candidate_id: candidate-publication-run-residue
+    path: .octon/state/continuity/runs
+    disposition: retained local publication continuity residue
+  - candidate_id: candidate-publication-run-residue
+    path: .octon/state/control/execution/runs
+    disposition: retained local publication control residue
+  - candidate_id: candidate-publication-run-residue
+    path: .octon/state/evidence/control/execution
+    disposition: retained local publication control evidence
+  - candidate_id: candidate-publication-run-residue
+    path: .octon/state/evidence/external-index/runs
+    disposition: retained local publication external-index evidence
+  - candidate_id: candidate-prior-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/change-closeout-state-machine-follow-up-20260521T160350Z
+    disposition: retained prior closeout-change evidence residue
+  - candidate_id: candidate-prior-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-worktree/20260521T160350Z.md
+    disposition: retained prior closeout-worktree run log residue
+  - candidate_id: candidate-prior-closeout-evidence-residue
+    path: .octon/state/evidence/validation/analysis/20260521T160350Z-closeout-worktree-report.yml
+    disposition: retained prior closeout-worktree report residue
+  - candidate_id: candidate-prior-closeout-evidence-residue
+    path: .octon/state/evidence/validation/publication/capabilities/2026-05-21T16-28-48Z-capabilities-d7b827e4f500.yml
+    disposition: retained stale capability publication receipt residue
+  - candidate_id: candidate-local-ignored-residue
+    path: .
+    disposition: foreign ignored/local residue retained
+blockers:
+  - candidate_id: candidate-default-cleaned-lifecycle
+    blocker: Source branch cleanup remains deferred; local and remote chore/change-closeout-state-machine refs are retained as rollback/discard handles.
+final_inventory_ref: git-status://20260521T164926Z/post-closeout
+final_residue_classes:
+  untracked: 87
+  ignored: 3713
+  retained_evidence: 57
+  state_control: 360
+next_route_condition: Decide whether to clean up the local and remote chore/change-closeout-state-machine source branch refs or retain them with explicit rollback/discard evidence. Retained publication/control, prior closeout evidence, and ignored local residue remain untouched.
