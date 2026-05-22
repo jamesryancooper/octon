@@ -20,7 +20,16 @@ promotion_targets:
   - ".octon/inputs/README.md"
   - ".octon/inputs/additive/README.md"
   - ".octon/inputs/additive/.incoming/README.md"
-status: "accepted"
+status: "archived"
+archive:
+  archived_at: "2026-05-22"
+  archived_from_status: "accepted"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/incoming-additive-intake-unit-contract"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/incoming-additive-intake-unit-contract/20260522T190935Z/implementation-evidence.md"
+    - ".octon/state/evidence/validation/proposals/incoming-additive-intake-unit-contract/20260522T200120Z/verification-correction-loop.md"
+    - ".octon/state/evidence/runs/skills/closeout-change/incoming-additive-intake-unit-contract-20260522T203606Z/change-receipt.json"
 lifecycle:
   temporary: true
   exit_expectation: >-

@@ -102,6 +102,13 @@ target families, not additional drift introduced by implementation.
 
 ## Exclusions
 
+- Work Package/Change naming drift scan hits in broad promoted
+  validator/test target families
+  `.octon/framework/assurance/runtime/_ops/scripts/` and
+  `.octon/framework/assurance/runtime/_ops/tests/` are excluded from this
+  packet's intake-contract drift finding because they are validator
+  self-check/control strings, not durable incoming intake terminology
+  introduced by the implementation.
 - No intake unit migration, archive movement, deletion, cleanup, installation,
   normalization, activation, publication, or host projection.
 - No proprietary-material handling.
