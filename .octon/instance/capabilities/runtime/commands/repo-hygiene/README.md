@@ -53,14 +53,34 @@ paths. Classify them with the dry-run-first helper:
 
 ```bash
 bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --authorize /tmp/repo-hygiene-cleanup-authorization.json
+bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --authorization /tmp/repo-hygiene-cleanup-authorization.json
 bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --confirm
 ```
 
-The helper removes nothing unless `--confirm` is provided. It protects tracked
-files and untracked files referenced by tracked locks, receipts, governance, or
-workflow surfaces. Unknown `.octon/state/**` artifacts, build-to-delete
-evidence, referenced evidence, and active control state route to retention or
-manual review rather than cleanup.
+The helper removes nothing unless either `--confirm` is provided or a validating
+`repo-hygiene-cleanup-authorization-v1` receipt is passed with
+`--authorization <receipt.json>`. `--authorize <out.json>` emits a non-mutating
+receipt over the current cleanup candidate set; the delete path then revalidates
+the current git refs, status digest, classification digest, cleanup path set,
+protected paths, and manual-review paths before removing only the exact
+authorized files.
+
+The receipt route does not bypass filesystem, sandbox, host, provider, or
+platform safety controls. Missing, malformed, denied, expired, stale, or
+path-mismatched receipts fail closed before deletion. The helper protects
+tracked files and untracked files referenced by tracked locks, receipts,
+governance, or workflow surfaces. Unknown `.octon/state/**` artifacts,
+build-to-delete evidence, referenced evidence, active control state, raw input
+surfaces, generated authority, generated run-health projections, and
+user-owned or ignored residue route to retention or manual review rather than
+generic cleanup.
+
+Generated run-health projection pruning remains generator-owned. Use
+`generate-run-health-read-model.sh --all-runs` and retain the generator's
+`pruned_paths` evidence instead of deleting
+`.octon/generated/cognition/projections/materialized/runs/**` with the local
+artifact helper.
 
 ## Detector Stack
 

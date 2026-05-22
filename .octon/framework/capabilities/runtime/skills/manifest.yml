@@ -1250,6 +1250,33 @@ skills:
       - safety-bounded
       - self-validating
 
+  - id: repo-hygiene-cleanup
+    display_name: Repo Hygiene Cleanup
+    group: remediation
+    path: remediation/repo-hygiene-cleanup/
+    skill_class: invocable
+    summary: "Receipt-backed repository hygiene cleanup for local Octon run artifacts."
+    status: active
+    tags:
+      - repo-hygiene
+      - cleanup
+      - evidence
+      - remediation
+      - receipt
+    triggers:
+      - "repo hygiene cleanup"
+      - "cleanup local octon run artifacts"
+      - "emit repo hygiene cleanup authorization"
+      - "use cleanup authorization receipt"
+    skill_sets:
+      - executor
+      - guardian
+    capabilities:
+      - external-dependent
+      - stateful
+      - safety-bounded
+      - self-validating
+
   - id: closeout-worktree
     display_name: Closeout Worktree
     group: remediation

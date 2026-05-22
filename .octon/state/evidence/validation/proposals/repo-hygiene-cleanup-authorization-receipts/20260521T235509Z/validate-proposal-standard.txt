@@ -1,0 +1,37 @@
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' artifact catalog references only on-disk files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' artifact catalog covers visible files
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' octon-internal targets stay under .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' avoids mixed target families
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts' promotion target avoids proposal-path backreferences: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+Validation summary: errors=0 warnings=0

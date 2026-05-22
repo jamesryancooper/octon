@@ -110,6 +110,15 @@ validate_static() {
   require_literal "$WRAPPER" "schema_version: closeout-worktree-report-v1" \
     "wrapper documents report schema version" \
     "wrapper must document report schema version"
+  require_literal "$WRAPPER" "repo_hygiene_cleanup_actions_performed: false" \
+    "wrapper records that repo-hygiene cleanup actions are not performed by the wrapper" \
+    "wrapper must record repo_hygiene_cleanup_actions_performed: false"
+  require_literal "$WRAPPER" "repo_hygiene_next_route_condition" \
+    "wrapper documents repo-hygiene next route condition" \
+    "wrapper must document repo_hygiene_next_route_condition"
+  require_literal "$CLOSEOUT_CHANGE" '`cleaned` is route-bound' \
+    "closeout-change limits cleaned to route-bound cleanup evidence" \
+    "closeout-change must limit cleaned to route-bound cleanup evidence"
   require_literal "$WRAPPER_IO" "closeout-worktree-report-v1" \
     "I/O contract documents wrapper report schema" \
     "I/O contract must document wrapper report schema"
@@ -470,9 +479,40 @@ require(data.get("default_work_unit") == "Change", "default_work_unit must remai
 require(data.get("read_only_classification") is True, "read_only_classification must be true")
 require(data.get("detection_is_deletion_authority") is False, "detection_is_deletion_authority must be false")
 require(data.get("direct_material_actions_performed") is False, "direct_material_actions_performed must be false")
+if "repo_hygiene_cleanup_actions_performed" in data:
+    require(data.get("repo_hygiene_cleanup_actions_performed") is False, "repo_hygiene_cleanup_actions_performed must be false")
 
 for field in ("run_id", "initial_inventory_ref", "residue_classification_ref", "final_inventory_ref", "selected_candidate_id", "next_route_condition"):
     require(is_nonempty_string(data.get(field)), f"{field} must be present")
+
+terminal_next_route_values = {"none", "no-op", "noop", "n/a", "na", "closed", "complete", "completed", "done", "terminal"}
+repo_hygiene_unresolved_count = 0
+repo_hygiene_summary = data.get("repo_hygiene_summary")
+if repo_hygiene_summary is not None:
+    if not isinstance(repo_hygiene_summary, dict):
+        fail("repo_hygiene_summary must be a mapping")
+    else:
+        for field in ("cleanup_candidates", "protected_referenced", "manual_review"):
+            value = repo_hygiene_summary.get(field)
+            if not isinstance(value, int) or value < 0:
+                fail(f"repo_hygiene_summary.{field} must be a non-negative integer")
+            else:
+                repo_hygiene_unresolved_count += value
+
+if repo_hygiene_unresolved_count > 0:
+    require(is_nonempty_string(data.get("repo_hygiene_classification_ref")), "repo_hygiene_classification_ref must be present when repo-hygiene residue remains")
+    require(is_nonempty_string(data.get("repo_hygiene_next_route_condition")), "repo_hygiene_next_route_condition must be present when repo-hygiene residue remains")
+    next_route = data.get("repo_hygiene_next_route_condition")
+    if is_nonempty_string(next_route) and next_route.strip().lower() in terminal_next_route_values:
+        fail("repo_hygiene_next_route_condition must not be terminal when repo-hygiene residue remains")
+    worktree_next_route = data.get("next_route_condition")
+    if is_nonempty_string(worktree_next_route) and worktree_next_route.strip().lower() in terminal_next_route_values:
+        fail("next_route_condition must not be terminal while repo-hygiene residue remains unresolved")
+
+if data.get("repo_hygiene_classification_ref") is not None:
+    validate_repo_path(data.get("repo_hygiene_classification_ref"), "repo_hygiene_classification_ref")
+if data.get("repo_hygiene_cleanup_authorization_ref") is not None:
+    validate_repo_path(data.get("repo_hygiene_cleanup_authorization_ref"), "repo_hygiene_cleanup_authorization_ref")
 
 observed_count = data.get("observed_change_set_count")
 require(isinstance(observed_count, int) and observed_count >= 1, "observed_change_set_count must be a positive integer")

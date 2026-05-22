@@ -1,0 +1,50 @@
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] accepted proposal has accepted review verdict
+[OK] review authorizes implementation prompt
+[OK] accepted review has no open blocking findings
+[OK] reviewed packet digest is fresh
+[OK] review covers promotion target: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] review covers promotion target: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] review covers promotion target: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] proposal status is accepted for implementation authorization
+[OK] proposal review authorizes implementation
+[OK] proposal review permits implementation prompt generation
+[OK] proposal review has no open blockers for implementation
+[OK] reviewed packet digest is fresh
+[OK] review covers promotion target: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] review covers promotion target: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] review covers promotion target: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+Validation summary: errors=0 warnings=0

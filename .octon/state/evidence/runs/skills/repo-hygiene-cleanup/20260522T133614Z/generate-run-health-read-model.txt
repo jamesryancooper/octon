@@ -1,0 +1,2 @@
+Pruned 21 stale run-health read models under /Users/jamesryancooper/Projects/octon/.octon/generated/cognition/projections/materialized/runs
+Generated 118 run-health read models under /Users/jamesryancooper/Projects/octon/.octon/generated/cognition/projections/materialized/runs

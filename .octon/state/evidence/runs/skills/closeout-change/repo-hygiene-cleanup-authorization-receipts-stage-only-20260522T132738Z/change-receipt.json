@@ -1,0 +1,92 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z",
+  "selected_route": "stage-only-escalate",
+  "operator_requested_route": "stage-only-escalate",
+  "target_lifecycle_outcome": "blocked",
+  "lifecycle_outcome": "blocked",
+  "outcome_intent": "record-blocker-only",
+  "intent": "Record route-neutral closeout for the repo-hygiene cleanup authorization receipts implementation after packet closeout refused archive readiness.",
+  "scope": {
+    "summary": "Repo-hygiene cleanup authorization receipt implementation, proposal packet support evidence, and closeout-packet blocked evidence.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+      ".octon/framework/capabilities/runtime/skills/capabilities.yml",
+      ".octon/framework/capabilities/runtime/skills/manifest.yml",
+      ".octon/framework/capabilities/runtime/skills/registry.yml",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/",
+      ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+      ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md",
+      ".octon/instance/governance/policies/repo-hygiene.yml",
+      ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/"
+    ],
+    "diff_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/in-scope-status.txt",
+      ".octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/in-scope-diff-stat.txt"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/worktree-hygiene.yml"
+    ]
+  },
+  "landing_evaluation": {
+    "status": "blocked",
+    "target_ref": "origin/main@a54673f88b341291d0bab4069e18b965d9e4f925",
+    "blocker_reason": "Closeout route selected stage-only-escalate because direct-main is unavailable with unrelated dirty worktree residue and packet closeout refused archive readiness.",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-implementation-readiness.txt",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/worktree-hygiene.yml"
+    ]
+  },
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "No cleanup, staging, commit, push, branch deletion, reset, or archive was performed by this closeout-change run.",
+    "Worktree hygiene remains blocked by 709 foreign or ambiguous paths recorded in closeout-packet evidence."
+  ],
+  "validation_evidence_refs": [
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/test-cleanup-local-run-artifacts.txt",
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-repo-hygiene-governance.txt",
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-closeout-worktree-wrapper.txt",
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-run-health-read-model.txt",
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-skills-repo-hygiene-cleanup.txt",
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-implementation-conformance.txt",
+    ".octon/state/evidence/validation/proposals/repo-hygiene-cleanup-authorization-receipts/20260521T235509Z/validate-proposal-post-implementation-drift.txt",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-implementation-conformance.txt",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-post-implementation-drift.txt",
+    ".octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/git-diff-check.txt"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened; this run records a stage-only blocker because archive readiness is refused and direct-main predicates are not satisfied."
+  ],
+  "durable_history": {
+    "kind": "checkpoint",
+    "ref": ".octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/initial-inventory.txt"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": ".octon/state/evidence/runs/skills/closeout-change/repo-hygiene-cleanup-authorization-receipts-stage-only-20260522T132738Z/change-receipt.json",
+    "instructions": "No route mutation occurred. To discard this closeout checkpoint, remove the closeout-change evidence files from this run; do not revert implementation files unless intentionally rolling back the proposal implementation."
+  },
+  "closeout_outcome": "blocked",
+  "remaining_blockers": [
+    "support/proposal-review.md has a stale reviewed packet digest relative to the current packet.",
+    "closeout-packet worktree hygiene reports 709 foreign or ambiguous paths outside this Change scope.",
+    "direct-main is unavailable because current main is dirty with unrelated residue."
+  ],
+  "external_blocker_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/support/proposal-closeout.md",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/worktree-hygiene.yml",
+    ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/repo-hygiene-cleanup-authorization-receipts/20260522T132040Z/validate-proposal-implementation-readiness.txt"
+  ],
+  "created_at": "2026-05-22T13:27:38Z",
+  "updated_at": "2026-05-22T13:27:38Z"
+}

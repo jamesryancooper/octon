@@ -1,0 +1,46 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Repo Hygiene Cleanup Authorization Receipts"
+target_state: >-
+  Repo hygiene owns a retained, machine-checkable cleanup authorization receipt
+  that can replace repeated ad hoc confirmation only for bounded local residue
+  after the cleanup helper revalidates the receipt against current git status,
+  path classification, and reference scans immediately before deletion.
+boundary_change: >-
+  Destructive local artifact cleanup moves from operator confirmation as the
+  only non-dry-run path to a dual-path model: manual --confirm remains available,
+  while receipt-backed cleanup is permitted only for exact, revalidated,
+  untracked, unreferenced, non-authoritative cleanup candidates. Closeout
+  Worktree remains a routing wrapper, Closeout Change remains route-bound, and
+  generated run-health pruning remains generator-owned.
+authoritative_targets_after_promotion:
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+  - ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+  - ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md"
+  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/capabilities.yml"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Implementation must add one receipt schema, harden the existing local-run
+  cleanup helper, extend existing repo-hygiene and closeout validators, and
+  register one narrow remediation skill without introducing a new default work
+  unit or broad cleanup command.

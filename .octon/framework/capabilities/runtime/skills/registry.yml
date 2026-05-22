@@ -3705,6 +3705,77 @@ skills:
         - change
         - closeout
         language_tags: []
+  repo-hygiene-cleanup:
+    version: 1.0.0
+    commands:
+    - /repo-hygiene-cleanup
+    parameters:
+    - name: authorization_receipt
+      type: file
+      required: false
+      description: Existing repo-hygiene cleanup authorization receipt to validate before deletion
+    - name: emit_authorization
+      type: boolean
+      required: false
+      description: Emit a cleanup authorization receipt for the current candidate set
+    - name: manual_confirm
+      type: boolean
+      required: false
+      description: Use explicit operator confirmation instead of the receipt-backed route
+    - name: evidence_run_id
+      type: text
+      required: false
+      description: Optional run id for retained repo-hygiene cleanup evidence
+    requires:
+      context:
+      - type: file_exists
+        path: /.octon/instance/governance/policies/repo-hygiene.yml
+        description: Canonical repo hygiene policy
+      - type: file_exists
+        path: /.octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+        description: Cleanup authorization receipt schema
+      - type: file_exists
+        path: /.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+        description: Dry-run-first cleanup classifier and receipt validator
+    io:
+      inputs: []
+      outputs:
+      - name: cleanup_authorization_receipt
+        path: /.octon/state/evidence/runs/skills/repo-hygiene-cleanup/{{run_id}}/cleanup-authorization.json
+        kind: file
+        format: json
+        determinism: unique
+        description: Optional repo-hygiene-cleanup-authorization-v1 receipt emitted before cleanup
+      - name: run_log
+        path: /.octon/state/evidence/runs/skills/repo-hygiene-cleanup/{{run_id}}/run.md
+        kind: file
+        format: markdown
+        determinism: unique
+        description: Execution log for repo-hygiene-cleanup runs
+      - name: log_index
+        path: /.octon/state/evidence/runs/skills/repo-hygiene-cleanup/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Index of repo-hygiene-cleanup runs
+      - name: top_log_index
+        path: /.octon/state/evidence/runs/skills/index.yml
+        kind: file
+        format: yaml
+        determinism: variable
+        description: Top-level log index (cross-skill)
+    host_adapters:
+    - codex
+    routing:
+      selectors:
+        include:
+        - '**'
+        exclude: []
+      fingerprints:
+        tech_tags:
+        - repo-hygiene
+        - cleanup
+        language_tags: []
   closeout-worktree:
     version: 1.0.1
     commands:

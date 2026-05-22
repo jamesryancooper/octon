@@ -39,7 +39,10 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    staged, unstaged, untracked, ignored, branch, and remote state.
 3. **Classify Residue** — Run the read-only residue classifier and classify
    staged, unstaged, untracked, ignored, generated, host-projection, evidence,
-   release, input-surface, and branch residue.
+   release, input-surface, repo-hygiene cleanup candidates, protected
+   referenced paths, manual-review paths, and branch residue. Repo-hygiene
+   cleanup classification is routing evidence only; this wrapper does not
+   perform cleanup actions.
 4. **Partition Candidate Changes** — Group residue into candidate Change
    scopes by intent, touched paths, branch identity, receipt references,
    validation requirements, and operator instructions.
@@ -68,7 +71,8 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    or when the next selected candidate has a candidate-keyed blocker.
 10. **Wrapper Report** — Record the final worktree disposition: closed
     Changes, retained candidates, blocked or escalated items, evidence refs,
-    and next route condition.
+    repo-hygiene classification refs, repo-hygiene cleanup authorization refs
+    when available, and next route condition.
 
 ## Wrapper Evidence
 
@@ -78,6 +82,17 @@ observed candidate count, selected candidate, candidate boundaries,
 orchestration iterations, delegated `closeout-change` evidence, retained
 residue, blockers, final candidate dispositions, final inventory, and
 next-route condition.
+
+When repo-hygiene residue is present, the report should include
+`repo_hygiene_classification_ref`,
+`repo_hygiene_cleanup_authorization_ref`,
+`repo_hygiene_summary.cleanup_candidates`,
+`repo_hygiene_summary.protected_referenced`,
+`repo_hygiene_summary.manual_review`,
+`repo_hygiene_cleanup_actions_performed: false`, and
+`repo_hygiene_next_route_condition`. `repo_hygiene_cleanup_actions_performed`
+must remain false; route actual cleanup to `repo-hygiene-cleanup` or a
+singular route with its own cleanup authority.
 
 For every selected or delegated candidate, include explicit
 `boundaries.include_paths` and `boundaries.exclude_paths`. Multiple observed
@@ -124,6 +139,10 @@ before claiming worktree closeout.
   selected singular `closeout-change` route.
 - Do not close unrelated residue under one receipt.
 - Do not treat detection as deletion authority.
+- Do not perform repo-hygiene cleanup from the wrapper. Global local artifact
+  hygiene routes to `repo-hygiene-cleanup`, and unresolved cleanup candidates,
+  protected referenced paths, or manual-review paths must prevent a terminal
+  full-worktree hygiene claim.
 - Do not use `.octon/inputs/**`, proposal-local files, generated outputs, host
   state, GitHub state, chat, model memory, or tool availability as closeout
   authority.

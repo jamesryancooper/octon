@@ -1,0 +1,121 @@
+== Repo Hygiene Governance Validation ==
+[OK] found .octon/instance/governance/policies/repo-hygiene.yml
+[OK] found .octon/instance/capabilities/runtime/host-tools/requirements.yml
+[OK] found .octon/instance/governance/policies/host-tool-resolution.yml
+[OK] found .octon/framework/capabilities/runtime/commands/provision-host-tools.md
+[OK] found .octon/framework/scaffolding/runtime/_ops/scripts/provision-host-tools.sh
+[OK] found .octon/instance/capabilities/runtime/commands/manifest.yml
+[OK] found .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] found .octon/instance/capabilities/runtime/commands/repo-hygiene/repo-hygiene.sh
+[OK] found .octon/instance/capabilities/runtime/commands/repo-hygiene/repo-hygiene-common.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] found .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] found .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/cleanup-publication-validation-runs.sh
+[OK] found .octon/framework/engine/runtime/spec/evidence-store-v1.md
+[OK] found .octon/framework/execution-roles/practices/standards/cleanup-pass.md
+[OK] found .octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] found .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] found .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] found .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] found .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] found .octon/instance/governance/contracts/retirement-policy.yml
+[OK] found .octon/instance/governance/contracts/retirement-review.yml
+[OK] found .octon/instance/governance/contracts/drift-review.yml
+[OK] found .octon/instance/governance/contracts/ablation-deletion-workflow.yml
+[OK] found .github/workflows/architecture-conformance.yml
+[OK] found .github/workflows/closure-certification.yml
+[OK] found .github/workflows/repo-hygiene.yml
+[OK] found .octon/state/evidence/validation/publication/build-to-delete/2026-04-09-bounded-uec-hardening/repo-hygiene-findings.yml
+[OK] repo-hygiene policy schema is correct
+[OK] repo-hygiene policy publishes the exact decision grammar
+[OK] repo-hygiene policy forbids unused == safe-to-delete
+[OK] repo-hygiene policy binds release lineage
+[OK] repo-hygiene policy binds closeout reviews
+[OK] repo-hygiene policy binds claim gate
+[OK] repo-hygiene policy references local run artifact cleanup helper
+[OK] repo-hygiene policy references cleanup authorization schema
+[OK] repo-hygiene policy classifies local run/control/evidence residue
+[OK] repo-hygiene policy declares local run artifact classifier detector
+[OK] local artifact hygiene defaults to dry-run
+[OK] local artifact hygiene binds cleanup authorization schema
+[OK] local artifact hygiene requires explicit confirmation before deletion
+[OK] local artifact hygiene allows validating cleanup authorization receipt
+[OK] local artifact hygiene routes run-health pruning to generator
+[OK] repo-hygiene policy gates untracked local state residue classification
+[OK] repo-hygiene policy gates invalid cleanup authorization receipts
+[OK] cleanup authorization schema pins schema_version
+[OK] cleanup authorization schema rejects generated run-health projection authorization
+[OK] repo-hygiene host-tool requirements declare cargo-udeps
+[OK] host-tool policy preserves /init boundary
+[OK] instance command manifest registers repo-hygiene
+[OK] repo-hygiene README documents scan mode
+[OK] repo-hygiene README documents enforce mode
+[OK] repo-hygiene README documents audit mode
+[OK] repo-hygiene README documents packetize mode
+[OK] repo-hygiene README documents local run artifact helper
+[OK] repo-hygiene README documents receipt-backed cleanup
+[OK] repo-hygiene README routes run-health pruning to generator
+[OK] repo-hygiene README points at host-tool requirements
+[OK] repo-hygiene README points at provisioning command
+[OK] repo-hygiene implementation resolves tools through provisioning runtime
+[OK] local artifact helper emits cleanup authorization receipts
+[OK] local artifact helper validates cleanup authorization receipts
+[OK] local artifact helper binds cleanup authorization schema
+[OK] local artifact helper routes generated run-health projections away from cleanup
+[OK] local artifact helper tests malformed receipt denial
+[OK] local artifact helper tests denied receipt denial
+[OK] local artifact helper tests schema-invalid receipt denial
+[OK] local artifact helper tests stale/path-set denial
+[OK] local artifact helper tests protected path mismatch denial
+[OK] local artifact helper tests tracked path denial
+[OK] local artifact helper tests referenced path denial
+[OK] local artifact helper tests manual-review durable evidence denial
+[OK] local artifact helper tests active control denial
+[OK] local artifact helper tests input-surface denial
+[OK] local artifact helper tests generated authority denial
+[OK] local artifact helper tests generated run-health denial
+[OK] local artifact helper tests ignored/user-owned proof denial
+[OK] skill manifest exposes invocable repo-hygiene-cleanup
+[OK] skill registry exposes /repo-hygiene-cleanup command
+[OK] capabilities remediation group includes repo-hygiene-cleanup
+[OK] repo-hygiene-cleanup skill binds authorization receipt contract
+[OK] closeout-worktree records no repo-hygiene cleanup actions
+[OK] closeout-worktree validator rejects wrapper cleanup authority
+[OK] closeout-change limits cleaned to route-bound cleanup
+[OK] evidence store specifies local run residue classifier
+[OK] evidence store defines stale publication attempt classification
+[OK] cleanup pass routes local run artifacts through helper
+[OK] closeout workflow classifies local state residue before cleaned outcome
+[OK] legacy publication cleanup delegates to local artifact helper
+[OK] retirement policy references repo-hygiene policy
+[OK] retirement review requires repo-hygiene attachment
+[OK] drift review requires repo-hygiene attachment
+[OK] ablation workflow requires repo-hygiene attachment evidence
+[OK] architecture workflow triggers on repo-native command lane
+[OK] architecture workflow runs repo-hygiene governance validator
+[OK] closure workflow runs global retirement closure validator
+[OK] repo-hygiene workflow runs enforce mode
+[OK] repo-hygiene workflow runs audit mode
+[OK] latest repo-hygiene packet attachment is closure-ready
+[OK] repo-hygiene policy parses
+[OK] cleanup authorization schema parses
+[OK] host-tool requirements parse
+[OK] host-tool resolution policy parses
+[OK] instance command manifest parses
+[OK] repo-hygiene workflow parses
+[OK] architecture workflow parses
+[OK] closure workflow parses
+[OK] repo-hygiene main script parses
+[OK] repo-hygiene common script parses
+[OK] local run artifact cleanup script parses
+[OK] legacy publication cleanup wrapper parses
+[OK] local run artifact cleanup helper tests pass
+[OK] closeout worktree validator parses
+[OK] repo-hygiene validator parses
+[OK] git diff check is clean
+Validation summary: errors=0

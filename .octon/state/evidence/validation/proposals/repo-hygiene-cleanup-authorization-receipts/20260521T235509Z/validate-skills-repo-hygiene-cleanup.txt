@@ -1,0 +1,48 @@
+================================
+Skills Validation
+================================
+Skills directory: /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/runtime/skills
+Manifest: /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/runtime/skills/manifest.yml
+Registry: /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/runtime/skills/registry.yml
+Validation profile: strict
+Skills registry: /Users/jamesryancooper/Projects/octon/.octon/framework/capabilities/runtime/skills/registry.yml (single-registry mode)
+[0;32m✓[0m Agent-only governance policy validated
+Token counting: tiktoken (accurate)
+
+Validating: repo-hygiene-cleanup
+─────────────────────────────
+[0;32m✓[0m Directory exists
+[0;32m✓[0m SKILL.md exists
+[0;32m✓[0m SKILL.md name matches directory
+[0;32m✓[0m Listed in manifest.yml
+[0;32m✓[0m Listed in registry.yml
+[0;32m✓[0m display_name is valid: Repo Hygiene Cleanup
+[0;32m✓[0m No version drift in SKILL.md
+[0;32m✓[0m No tool requirements drift in io-contract.md
+[0;32m✓[0m No tool requirements drift in safety.md
+[0;32m✓[0m No duplicated tables in SKILL.md
+[0;32m✓[0m No duplicated tables in io-contract.md
+[0;32m✓[0m No duplicated tables in safety.md
+[0;32m✓[0m No deprecated top-level outputs in registry.yml
+[0;32m✓[0m I/O mappings present in skills registry
+[0;32m✓[0m allowed-tools is valid: filesystem.glob filesystem.grep filesystem.read filesystem.write.scoped shell.execute
+[0;32m✓[0m deny-by-default preflight passed for skill 'repo-hygiene-cleanup'
+[0;32m✓[0m External dependency capability declared for non-minimal Bash permissions
+[0;32m✓[0m allowed-services not declared
+[0;32m✓[0m Declared skill_sets/capabilities are valid
+[0;32m✓[0m skill_class contract is valid: invocable
+[0;32m✓[0m Manifest and SKILL.md skill_sets/capabilities are aligned
+[0;32m✓[0m Output paths within harness scope
+[0;32m✓[0m SKILL.md within token budget (~0 tokens)
+[0;32m✓[0m Manifest entry within token budget (~0 tokens)
+[0;32m✓[0m Description/summary alignment OK
+[0;32m✓[0m Reference file content aligns with registry
+[0;32m✓[0m Placeholder formats valid ({{snake_case}})
+[0;32m✓[0m Version OK: 1.0.0
+[0;32m✓[0m SKILL.md within line budget (89 lines)
+[0;32m✓[0m Compiled deny-by-default skill policy catalog: /Users/jamesryancooper/Projects/octon/.octon/generated/.tmp/capabilities/policy/skills-deny-by-default-policy.catalog.yml
+
+================================
+Validation Summary
+================================
+[0;32mAll checks passed![0m

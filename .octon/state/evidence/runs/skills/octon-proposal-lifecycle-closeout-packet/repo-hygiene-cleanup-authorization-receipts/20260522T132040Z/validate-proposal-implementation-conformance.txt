@@ -1,0 +1,30 @@
+[OK] proposal manifest parses
+[OK] proposal kind supports implementation-conformance gate
+[OK] implementation conformance review exists
+[OK] conformance verdict is explicit
+[OK] unresolved item count is numeric
+[OK] conformance review includes section: Blockers
+[OK] conformance review includes section: Checked Evidence
+[OK] conformance review includes section: Promotion Target Coverage
+[OK] conformance review includes section: Implementation Map Coverage
+[OK] conformance review includes section: Validator Coverage
+[OK] conformance review includes section: Generated Output Coverage
+[OK] conformance review includes section: Rollback Coverage
+[OK] conformance review includes section: Downstream Reference Coverage
+[OK] conformance review includes section: Exclusions
+[OK] conformance review includes section: Final Closeout Recommendation
+[OK] promotion targets are present
+[OK] promotion target exists: .octon/instance/governance/policies/repo-hygiene.yml
+[OK] promotion target exists: .octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+[OK] promotion target exists: .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] promotion target exists: .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] promotion target exists: .octon/framework/capabilities/runtime/skills/manifest.yml
+[OK] promotion target exists: .octon/framework/capabilities/runtime/skills/registry.yml
+[OK] promotion target exists: .octon/framework/capabilities/runtime/skills/capabilities.yml
+[OK] promotion target exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] promotion target exists: .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+[OK] promotion target exists: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+Validation summary: errors=0 warnings=0

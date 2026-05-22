@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+  "title": "Repo Hygiene Cleanup Authorization Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "authorization_id",
+    "authorization_result",
+    "created_at",
+    "policy_ref",
+    "helper_ref",
+    "schema_ref",
+    "repo_root_ref",
+    "head_ref",
+    "main_ref",
+    "origin_main_ref",
+    "git_status_digest",
+    "classification_ref",
+    "classification_digest",
+    "cleanup_path_set_digest",
+    "authorized_paths",
+    "protected_paths_digest",
+    "manual_review_paths_digest",
+    "discard_or_rollback_posture",
+    "runtime_safety_boundary"
+  ],
+  "anyOf": [
+    {
+      "required": ["valid_until_status_changes"]
+    },
+    {
+      "required": ["expires_at"]
+    }
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "repo-hygiene-cleanup-authorization-v1"
+    },
+    "authorization_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^repo-hygiene-cleanup-[A-Za-z0-9._:-]+$"
+    },
+    "authorization_result": {
+      "type": "string",
+      "enum": ["approved", "denied"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "valid_until_status_changes": {
+      "type": "boolean",
+      "const": true
+    },
+    "policy_ref": {
+      "type": "string",
+      "const": ".octon/instance/governance/policies/repo-hygiene.yml"
+    },
+    "helper_ref": {
+      "type": "string",
+      "const": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+    },
+    "schema_ref": {
+      "type": "string",
+      "const": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+    },
+    "repo_root_ref": {
+      "type": "string",
+      "const": "."
+    },
+    "head_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "main_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "origin_main_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "git_status_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "classification_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "classification_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "cleanup_path_set_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "authorized_paths": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/authorizedPath"
+      },
+      "uniqueItems": true
+    },
+    "protected_paths_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "manual_review_paths_digest": {
+      "$ref": "#/$defs/sha256Digest"
+    },
+    "discard_or_rollback_posture": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime_safety_boundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "authorization_result": {
+            "const": "approved"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "authorized_paths": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(^|/)\\.\\.(/|$))(?!\\.octon/inputs/)(?!\\.octon/generated/effective/)(?!\\.octon/generated/cognition/projections/materialized/runs/).+"
+    },
+    "authorizedPath": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "class", "pattern_id", "proofs"],
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "class": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pattern_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "proofs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "untracked",
+            "unreferenced_by_tracked_files",
+            "non_authoritative",
+            "allowed_cleanup_pattern",
+            "not_input_surface",
+            "not_durable_evidence",
+            "not_active_control_state",
+            "not_generated_authority",
+            "not_generated_run_health_projection",
+            "not_ignored_or_user_owned_residue"
+          ],
+          "properties": {
+            "untracked": {
+              "const": true
+            },
+            "unreferenced_by_tracked_files": {
+              "const": true
+            },
+            "non_authoritative": {
+              "const": true
+            },
+            "allowed_cleanup_pattern": {
+              "const": true
+            },
+            "not_input_surface": {
+              "const": true
+            },
+            "not_durable_evidence": {
+              "const": true
+            },
+            "not_active_control_state": {
+              "const": true
+            },
+            "not_generated_authority": {
+              "const": true
+            },
+            "not_generated_run_health_projection": {
+              "const": true
+            },
+            "not_ignored_or_user_owned_residue": {
+              "const": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

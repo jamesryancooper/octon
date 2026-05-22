@@ -31,7 +31,8 @@ ai_assisted_cleanup_refs:
   cleanup_pass_standard_ref: ".octon/framework/execution-roles/practices/standards/cleanup-pass.md"
   validation_evidence_quality_ref: ".octon/framework/execution-roles/practices/standards/validation-evidence-quality.md"
   local_run_artifact_cleanup_helper_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
-  rule: "AI-assisted cleanup pass receipts may identify candidates, but destructive outcomes still require this policy's routing, confidence rules, and ablation or retention evidence."
+  repo_hygiene_cleanup_authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  rule: "AI-assisted cleanup pass receipts may identify candidates, but destructive outcomes still require this policy's routing, confidence rules, and ablation, retention, explicit --confirm, or validating repo-hygiene cleanup authorization receipt evidence."
 scope:
   included_roots:
     - ".octon/framework/**"
@@ -173,14 +174,18 @@ protected_surfaces:
       description: "The current governance review receipt is claim-adjacent evidence and must stay protected."
       forced_action: "never-delete"
 local_artifact_hygiene:
-  scope: "Untracked local artifacts under .octon/state/** and rebuildable scratch output under .octon/generated/.tmp/**."
+  scope: "Untracked local artifacts under .octon/state/**, rebuildable scratch output under .octon/generated/.tmp/**, and generated run-health projections that must be routed away from generic cleanup."
   classifier_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+  authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
   default_mode: "dry-run"
   deletion_requires:
     - "explicit --confirm operator action"
+    - "or validating repo-hygiene cleanup authorization receipt passed to cleanup-local-run-artifacts.sh with --authorization <receipt.json>"
     - "path matches a known local residue or stale publication-attempt pattern"
     - "path is not tracked by git"
     - "path is not referenced by any tracked control, evidence, generated, governance, workflow, or documentation file"
+    - "helper revalidates git refs, status digest, classification digest, cleanup path-set digest, protected paths digest, and manual-review paths digest immediately before deletion"
+    - "generated run-health projections are rejected by generic cleanup and routed to generate-run-health-read-model.sh --all-runs generator-owned pruning with pruned_paths evidence"
   classifications:
     retained_evidence:
       criteria:
@@ -196,6 +201,10 @@ local_artifact_hygiene:
       criteria:
         - ".octon/generated/.tmp/**"
       action: "rebuildable cleanup candidate when untracked and unreferenced"
+    generated_run_health_projection:
+      criteria:
+        - ".octon/generated/cognition/projections/materialized/runs/**"
+      action: "route to generate-run-health-read-model.sh --all-runs; do not delete through generic local artifact cleanup"
     stale_unreferenced_publication_attempt:
       criteria:
         - "untracked superseded publication receipt under publication, compatibility, or prompt-alignment validation roots"
@@ -255,10 +264,20 @@ same_change_requirements:
     required_outcome:
       - "classify-with-local-run-artifact-helper"
       - "delete-only-cleanup-candidates-with-explicit-confirmation"
+      - "or delete-only-exact-current-cleanup-candidates-with-validating-repo-hygiene-cleanup-authorization-receipt"
       - "retain-or-escalate-referenced-or-manual-review-artifacts"
     blocks:
       - "cleaned-closeout-claim-when-unclassified-residue-is-used-as-evidence"
       - "safe-to-delete-routing-for-referenced-evidence"
+  - id: "RH-006"
+    condition: "A cleanup authorization receipt is missing, malformed, denied, expired, stale, path-mismatched, proof-incomplete, or attempts to authorize protected, referenced, tracked, input, active control, durable evidence, generated authority, generated run-health, ignored, or user-owned residue."
+    required_outcome:
+      - "fail-closed-before-deletion"
+      - "retain-current-residue"
+      - "rerun-classification-or-escalate-for-manual-review"
+    blocks:
+      - "receipt-backed-cleanup"
+      - "cleaned-closeout-claim-when-repo-hygiene-candidates-remain-unresolved"
 mode_boundaries:
   scan:
     side_effects: "none"

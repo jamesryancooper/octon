@@ -1,0 +1,91 @@
+schema_version: "proposal-v1"
+proposal_id: "repo-hygiene-cleanup-authorization-receipts"
+title: "Repo Hygiene Cleanup Authorization Receipts"
+summary: >-
+  Define governed post-closeout repo hygiene cleanup authorization receipts,
+  helper revalidation, and a narrow repo-hygiene cleanup skill route so agents
+  can clean eligible residue without repeated ad hoc confirmation while
+  preserving fail-closed safety.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+  - ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  - ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+  - ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md"
+  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/manifest.yml"
+  - ".octon/framework/capabilities/runtime/skills/registry.yml"
+  - ".octon/framework/capabilities/runtime/skills/capabilities.yml"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after the implementation adds a durable authorization schema,
+    helper revalidation behavior, validator and fixture coverage, narrow skill
+    routing, and closeout boundary updates outside proposal-local paths. Archive
+    after promotion evidence proves the durable targets stand alone.
+related_proposals:
+  - "change-closeout-state-machine"
+source_lineage:
+  - "resources/source-prompt.md"
+  - "resources/source-findings.md"
+selected_implementation_target: "repo-hygiene authorization receipts plus helper hardening"
+scope_statement: >-
+  Govern autonomous cleanup only for untracked, unreferenced, non-authoritative
+  post-closeout residue that matches explicit repo-hygiene cleanup patterns and
+  is revalidated immediately before deletion.
+non_goals:
+  - "No Closeout Changes model, command, or competing default work unit."
+  - "No migration of material cleanup authority into Closeout Worktree."
+  - "No claim that Closeout Change cleaned means global worktree hygiene."
+  - "No new broad repo-hygiene command."
+  - "No cleanup of generated run-health projections through the generic local-run helper."
+authority_class_impact:
+  framework: "Adds a product receipt schema, helper behavior, tests, validators, and skill routing only after promotion."
+  instance: "Updates repo-hygiene policy and operator-facing repo-hygiene docs only after promotion."
+  state_control: "No live control truth changes from this proposal packet."
+  state_evidence: "Future cleanup receipts and run evidence must be retained outside inputs/**."
+  generated: "Generated proposal registry remains a discovery projection and cannot authorize cleanup."
+  inputs: "This proposal packet and lineage resources are non-authoritative."
+runtime_behavior_impact: >-
+  None from this proposal packet. Runtime cleanup behavior changes only after
+  durable promotion into the listed targets and passing validation.
+generated_input_authority_impact: >-
+  Reinforces that generated outputs, raw inputs, host projections, chat state,
+  provider metadata, ignored local files, and tool availability cannot authorize
+  cleanup.
+evidence_requirements:
+  - "Receipt schema validation for repo-hygiene-cleanup-authorization-v1."
+  - "Helper tests proving authorization-based cleanup and fail-closed receipt rejection."
+  - "Closeout-worktree report validation proving hygiene is routed, not performed by the wrapper."
+  - "Repo-hygiene governance validation covering policy, helper, docs, and skill registration."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "repo hygiene governance validation"
+  - "cleanup helper positive and negative tests"
+  - "closeout-worktree wrapper validation"
+  - "skill registry validation"
+acceptance_criteria_summary: >-
+  Future agents may delete post-closeout residue without ad hoc confirmation
+  only when a repo-hygiene cleanup authorization receipt validates and the
+  cleanup helper revalidates the exact path set immediately before deletion.
+rollback_summary: >-
+  Remove the new authorization schema, skill route, helper flags, policy
+  references, and validation updates; retain any emitted cleanup authorization
+  or denied-cleanup evidence under state/evidence for auditability.
+owner:
+  role: "Octon architecture proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-21"
+explicit_runtime_non_implementation_statement: >-
+  This packet does not authorize cleanup. Existing repo-hygiene policy and
+  helper behavior remain canonical until durable implementation lands.

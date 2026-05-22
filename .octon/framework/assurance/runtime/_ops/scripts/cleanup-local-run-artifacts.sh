@@ -9,16 +9,24 @@ OCTON_ARG=""
 CONFIRM=0
 FAIL_ON_MANUAL=0
 SUMMARY_ONLY=0
+AUTHORIZE_OUT=""
+AUTHORIZATION_RECEIPT=""
+
+POLICY_REF=".octon/instance/governance/policies/repo-hygiene.yml"
+HELPER_REF=".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
+SCHEMA_REF=".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+RUN_HEALTH_GENERATOR_REF=".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
 
 usage() {
   cat <<'USAGE'
-cleanup-local-run-artifacts.sh [--confirm] [--fail-on-manual] [--summary-only] [--root <repo-root>] [--octon-dir <octon-root>]
+cleanup-local-run-artifacts.sh [--confirm] [--fail-on-manual] [--summary-only] [--authorize <out.json>] [--authorization <receipt.json>] [--root <repo-root>] [--octon-dir <octon-root>]
 
 Classify untracked local Octon run/control/evidence artifacts and optionally
 remove only cleanup-safe local residue. Dry-run is the default.
 
 The helper protects tracked files and untracked files referenced by tracked
-files. Deletion requires --confirm.
+files. Deletion requires either explicit --confirm or a validating
+repo-hygiene-cleanup-authorization-v1 receipt passed with --authorization.
 USAGE
 }
 
@@ -35,6 +43,22 @@ while [[ $# -gt 0 ]]; do
     --summary-only)
       SUMMARY_ONLY=1
       shift
+      ;;
+    --authorize)
+      AUTHORIZE_OUT="${2:-}"
+      [[ -n "$AUTHORIZE_OUT" ]] || {
+        echo "[ERROR] --authorize requires a value" >&2
+        exit 2
+      }
+      shift 2
+      ;;
+    --authorization)
+      AUTHORIZATION_RECEIPT="${2:-}"
+      [[ -n "$AUTHORIZATION_RECEIPT" ]] || {
+        echo "[ERROR] --authorization requires a value" >&2
+        exit 2
+      }
+      shift 2
       ;;
     --root)
       ROOT_ARG="${2:-}"
@@ -63,6 +87,21 @@ while [[ $# -gt 0 ]]; do
       ;;
   esac
 done
+
+if [[ -n "$AUTHORIZE_OUT" && -n "$AUTHORIZATION_RECEIPT" ]]; then
+  echo "[ERROR] --authorize and --authorization are mutually exclusive" >&2
+  exit 2
+fi
+
+if [[ "$CONFIRM" -eq 1 && -n "$AUTHORIZATION_RECEIPT" ]]; then
+  echo "[ERROR] --confirm and --authorization are mutually exclusive cleanup routes" >&2
+  exit 2
+fi
+
+if [[ "$SUMMARY_ONLY" -eq 1 && ( -n "$AUTHORIZE_OUT" || -n "$AUTHORIZATION_RECEIPT" ) ]]; then
+  echo "[ERROR] --summary-only cannot emit or consume authorization receipts" >&2
+  exit 2
+fi
 
 if [[ -n "$ROOT_ARG" ]]; then
   ROOT_DIR="$(cd -- "$ROOT_ARG" && pwd)"
@@ -95,18 +134,124 @@ if [[ "$OCTON_DIR" != "$EXPECTED_OCTON_DIR" ]]; then
   exit 2
 fi
 
+if [[ -n "$AUTHORIZATION_RECEIPT" && ! -f "$AUTHORIZATION_RECEIPT" ]]; then
+  echo "[ERROR] authorization receipt is missing or unreadable: $AUTHORIZATION_RECEIPT" >&2
+  exit 1
+fi
+
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/octon-local-run-artifacts.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT
 UNTRACKED_PATHS="$TMP_DIR/untracked-paths.txt"
 REFERENCED_PATHS="$TMP_DIR/referenced-paths.txt"
+EXCLUDED_PATHS="$TMP_DIR/excluded-paths.txt"
+STATUS_ROWS="$TMP_DIR/status-rows.txt"
+CLASSIFICATION_ROWS="$TMP_DIR/classification-rows.tsv"
+CLEANUP_PATHS="$TMP_DIR/cleanup-paths.txt"
+PROTECTED_PATHS="$TMP_DIR/protected-paths.txt"
+MANUAL_PATHS="$TMP_DIR/manual-paths.txt"
+AUTHORIZED_PATHS="$TMP_DIR/authorized-paths.txt"
 
-git -C "$ROOT_DIR" ls-files --others --exclude-standard -- .octon/state .octon/generated/.tmp >"$UNTRACKED_PATHS"
+: >"$EXCLUDED_PATHS"
+: >"$CLASSIFICATION_ROWS"
+: >"$CLEANUP_PATHS"
+: >"$PROTECTED_PATHS"
+: >"$MANUAL_PATHS"
+: >"$AUTHORIZED_PATHS"
+
+repo_relative_if_under_root() {
+  local candidate="$1"
+  python3 - "$ROOT_DIR" "$candidate" <<'PY'
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).resolve()
+candidate = Path(sys.argv[2])
+if not candidate.is_absolute():
+    candidate = Path.cwd() / candidate
+try:
+    print(candidate.resolve().relative_to(root).as_posix())
+except ValueError:
+    pass
+PY
+}
+
+add_excluded_path() {
+  local raw="$1"
+  local rel
+  rel="$(repo_relative_if_under_root "$raw")"
+  [[ -z "$rel" ]] || printf '%s\n' "$rel" >>"$EXCLUDED_PATHS"
+}
+
+[[ -z "$AUTHORIZE_OUT" ]] || add_excluded_path "$AUTHORIZE_OUT"
+[[ -z "$AUTHORIZATION_RECEIPT" ]] || add_excluded_path "$AUTHORIZATION_RECEIPT"
+sort -u "$EXCLUDED_PATHS" -o "$EXCLUDED_PATHS"
+
+is_excluded_path() {
+  local rel="$1"
+  [[ -s "$EXCLUDED_PATHS" ]] && grep -Fxq -- "$rel" "$EXCLUDED_PATHS"
+}
+
+filter_excluded_paths() {
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] || continue
+    is_excluded_path "$rel" && continue
+    printf '%s\n' "$rel"
+  done
+}
+
+filter_status_rows() {
+  while IFS= read -r line; do
+    [[ -n "$line" ]] || continue
+    local rel="$line"
+    case "$line" in
+      '?? '*|'!! '*)
+        rel="${line:3}"
+        ;;
+      *)
+        rel="${line:3}"
+        ;;
+    esac
+    is_excluded_path "$rel" && continue
+    printf '%s\n' "$line"
+  done
+}
+
+digest_file() {
+  local file="$1"
+  local digest
+  digest="$(shasum -a 256 "$file" | awk '{print $1}')"
+  printf 'sha256:%s\n' "$digest"
+}
+
+git_ref_or_unavailable() {
+  local ref="$1"
+  git -C "$ROOT_DIR" rev-parse --verify "$ref" 2>/dev/null || printf 'unavailable\n'
+}
+
+HEAD_REF="$(git_ref_or_unavailable HEAD)"
+MAIN_REF="$(git_ref_or_unavailable main)"
+ORIGIN_MAIN_REF="$(git_ref_or_unavailable origin/main)"
+
+git -C "$ROOT_DIR" ls-files --others --exclude-standard -- \
+  .octon/state \
+  .octon/generated/.tmp \
+  .octon/generated/cognition/projections/materialized/runs \
+  | sort -u \
+  | filter_excluded_paths >"$UNTRACKED_PATHS"
+
 if [[ -s "$UNTRACKED_PATHS" ]]; then
   git -C "$ROOT_DIR" grep -h -F -o -f "$UNTRACKED_PATHS" -- >"$REFERENCED_PATHS" 2>/dev/null || true
   sort -u "$REFERENCED_PATHS" -o "$REFERENCED_PATHS"
 else
   : >"$REFERENCED_PATHS"
 fi
+
+git -C "$ROOT_DIR" status --porcelain=v1 -uall -- \
+  .octon/state \
+  .octon/generated/.tmp \
+  .octon/generated/cognition/projections/materialized/runs \
+  | sort -u \
+  | filter_status_rows >"$STATUS_ROWS"
 
 is_referenced_by_tracked_file() {
   local rel="$1"
@@ -131,6 +276,9 @@ referenced_kind_for_path() {
     .octon/generated/.tmp/*)
       echo "generated_scratch_output"
       ;;
+    .octon/generated/cognition/projections/materialized/runs/*)
+      echo "generated_run_health_projection"
+      ;;
     *)
       echo "referenced_untracked"
       ;;
@@ -146,6 +294,15 @@ classify_path() {
   fi
 
   case "$rel" in
+    .octon/generated/cognition/projections/materialized/runs/*)
+      set_classification "generated_run_health_projection" "manual_review" "generated run-health pruning is generator-owned; run $RUN_HEALTH_GENERATOR_REF --all-runs"
+      ;;
+    .octon/inputs/*)
+      set_classification "input_surface" "manual_review" "raw inputs are non-authoritative and outside local cleanup authority"
+      ;;
+    .octon/generated/effective/*)
+      set_classification "generated_authority" "manual_review" "generated effective authority outputs are never generic cleanup candidates"
+      ;;
     .octon/state/control/execution/runs/publish-*/*|\
     .octon/state/continuity/runs/publish-*/*|\
     .octon/state/control/execution/approvals/requests/publish-*.yml|\
@@ -195,6 +352,328 @@ classify_path() {
   esac
 }
 
+while IFS= read -r rel; do
+  [[ -n "$rel" ]] || continue
+  CLASS_KIND=""
+  CLASS_DISPOSITION=""
+  CLASS_REASON=""
+  classify_path "$rel"
+  printf '%s\t%s\t%s\t%s\n' "$CLASS_DISPOSITION" "$CLASS_KIND" "$rel" "$CLASS_REASON" >>"$CLASSIFICATION_ROWS"
+  case "$CLASS_DISPOSITION" in
+    cleanup_candidate)
+      printf '%s\n' "$rel" >>"$CLEANUP_PATHS"
+      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'cleanup_candidate\t%s\t%s\t%s\n' "$CLASS_KIND" "$rel" "$CLASS_REASON"
+      ;;
+    protected_referenced|protected)
+      printf '%s\n' "$rel" >>"$PROTECTED_PATHS"
+      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'protected\t%s\t%s\t%s\n' "$CLASS_KIND" "$rel" "$CLASS_REASON"
+      ;;
+    manual_review)
+      printf '%s\n' "$rel" >>"$MANUAL_PATHS"
+      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'manual_review\t%s\t%s\t%s\n' "$CLASS_KIND" "$rel" "$CLASS_REASON"
+      ;;
+    *)
+      printf '%s\n' "$rel" >>"$MANUAL_PATHS"
+      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'manual_review\t%s\t%s\tunrecognized disposition %s\n' "$CLASS_KIND" "$rel" "$CLASS_DISPOSITION"
+      ;;
+  esac
+done <"$UNTRACKED_PATHS"
+
+sort -u "$CLASSIFICATION_ROWS" -o "$CLASSIFICATION_ROWS"
+sort -u "$CLEANUP_PATHS" -o "$CLEANUP_PATHS"
+sort -u "$PROTECTED_PATHS" -o "$PROTECTED_PATHS"
+sort -u "$MANUAL_PATHS" -o "$MANUAL_PATHS"
+
+GIT_STATUS_DIGEST="$(digest_file "$STATUS_ROWS")"
+CLASSIFICATION_DIGEST="$(digest_file "$CLASSIFICATION_ROWS")"
+CLEANUP_PATH_SET_DIGEST="$(digest_file "$CLEANUP_PATHS")"
+PROTECTED_PATHS_DIGEST="$(digest_file "$PROTECTED_PATHS")"
+MANUAL_REVIEW_PATHS_DIGEST="$(digest_file "$MANUAL_PATHS")"
+
+count_lines() {
+  local file="$1"
+  if [[ -s "$file" ]]; then
+    wc -l <"$file" | tr -d ' '
+  else
+    echo 0
+  fi
+}
+
+cleanup_count="$(count_lines "$CLEANUP_PATHS")"
+protected_count="$(count_lines "$PROTECTED_PATHS")"
+manual_count="$(count_lines "$MANUAL_PATHS")"
+
+write_authorization_receipt() {
+  local out="$1"
+  mkdir -p "$(dirname -- "$out")"
+  CREATED_AT="$(date -u '+%Y-%m-%dT%H:%M:%SZ')" \
+  ROOT_DIR="$ROOT_DIR" \
+  POLICY_REF="$POLICY_REF" \
+  HELPER_REF="$HELPER_REF" \
+  SCHEMA_REF="$SCHEMA_REF" \
+  HEAD_REF="$HEAD_REF" \
+  MAIN_REF="$MAIN_REF" \
+  ORIGIN_MAIN_REF="$ORIGIN_MAIN_REF" \
+  GIT_STATUS_DIGEST="$GIT_STATUS_DIGEST" \
+  CLASSIFICATION_DIGEST="$CLASSIFICATION_DIGEST" \
+  CLEANUP_PATH_SET_DIGEST="$CLEANUP_PATH_SET_DIGEST" \
+  PROTECTED_PATHS_DIGEST="$PROTECTED_PATHS_DIGEST" \
+  MANUAL_REVIEW_PATHS_DIGEST="$MANUAL_REVIEW_PATHS_DIGEST" \
+  CLASSIFICATION_ROWS="$CLASSIFICATION_ROWS" \
+  CLEANUP_PATHS="$CLEANUP_PATHS" \
+  OUT="$out" \
+  python3 - <<'PY'
+import hashlib
+import json
+import os
+from pathlib import Path
+
+def read_lines(path):
+    path = Path(path)
+    if not path.exists():
+        return []
+    return [line.rstrip("\n") for line in path.read_text(encoding="utf-8").splitlines() if line.rstrip("\n")]
+
+rows = {}
+for row in read_lines(os.environ["CLASSIFICATION_ROWS"]):
+    parts = row.split("\t", 3)
+    if len(parts) == 4:
+        disposition, kind, path, reason = parts
+        rows[path] = {"disposition": disposition, "class": kind, "reason": reason}
+
+authorized_paths = []
+for rel in read_lines(os.environ["CLEANUP_PATHS"]):
+    kind = rows.get(rel, {}).get("class", "cleanup_candidate")
+    authorized_paths.append(
+        {
+            "path": rel,
+            "class": kind,
+            "pattern_id": kind,
+            "proofs": {
+                "untracked": True,
+                "unreferenced_by_tracked_files": True,
+                "non_authoritative": True,
+                "allowed_cleanup_pattern": True,
+                "not_input_surface": True,
+                "not_durable_evidence": True,
+                "not_active_control_state": True,
+                "not_generated_authority": True,
+                "not_generated_run_health_projection": True,
+                "not_ignored_or_user_owned_residue": True,
+            },
+        }
+    )
+
+authorization_id_source = "\n".join(
+    [
+        os.environ["CREATED_AT"],
+        os.environ["HEAD_REF"],
+        os.environ["GIT_STATUS_DIGEST"],
+        os.environ["CLEANUP_PATH_SET_DIGEST"],
+    ]
+)
+authorization_id = "repo-hygiene-cleanup-" + hashlib.sha256(authorization_id_source.encode("utf-8")).hexdigest()[:16]
+receipt = {
+    "schema_version": "repo-hygiene-cleanup-authorization-v1",
+    "authorization_id": authorization_id,
+    "authorization_result": "approved" if authorized_paths else "denied",
+    "created_at": os.environ["CREATED_AT"],
+    "valid_until_status_changes": True,
+    "policy_ref": os.environ["POLICY_REF"],
+    "helper_ref": os.environ["HELPER_REF"],
+    "schema_ref": os.environ["SCHEMA_REF"],
+    "repo_root_ref": ".",
+    "head_ref": os.environ["HEAD_REF"],
+    "main_ref": os.environ["MAIN_REF"],
+    "origin_main_ref": os.environ["ORIGIN_MAIN_REF"],
+    "git_status_digest": os.environ["GIT_STATUS_DIGEST"],
+    "classification_ref": "inline:cleanup-local-run-artifacts.sh",
+    "classification_digest": os.environ["CLASSIFICATION_DIGEST"],
+    "cleanup_path_set_digest": os.environ["CLEANUP_PATH_SET_DIGEST"],
+    "authorized_paths": authorized_paths,
+    "protected_paths_digest": os.environ["PROTECTED_PATHS_DIGEST"],
+    "manual_review_paths_digest": os.environ["MANUAL_REVIEW_PATHS_DIGEST"],
+    "discard_or_rollback_posture": "delete only the exact untracked authorized path set; retain protected and manual-review residue",
+    "runtime_safety_boundary": "Octon governance receipt does not bypass filesystem, sandbox, host, provider, or platform permission boundaries.",
+}
+Path(os.environ["OUT"]).write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+PY
+  echo "[OK] wrote cleanup authorization receipt: $out"
+}
+
+validate_authorization_receipt() {
+  local receipt="$1"
+  RECEIPT="$receipt" \
+  POLICY_REF="$POLICY_REF" \
+  HELPER_REF="$HELPER_REF" \
+  SCHEMA_REF="$SCHEMA_REF" \
+  HEAD_REF="$HEAD_REF" \
+  MAIN_REF="$MAIN_REF" \
+  ORIGIN_MAIN_REF="$ORIGIN_MAIN_REF" \
+  GIT_STATUS_DIGEST="$GIT_STATUS_DIGEST" \
+  CLASSIFICATION_DIGEST="$CLASSIFICATION_DIGEST" \
+  CLEANUP_PATH_SET_DIGEST="$CLEANUP_PATH_SET_DIGEST" \
+  PROTECTED_PATHS_DIGEST="$PROTECTED_PATHS_DIGEST" \
+  MANUAL_REVIEW_PATHS_DIGEST="$MANUAL_REVIEW_PATHS_DIGEST" \
+  CLEANUP_PATHS="$CLEANUP_PATHS" \
+  AUTHORIZED_PATHS="$AUTHORIZED_PATHS" \
+  python3 - <<'PY'
+import json
+import os
+import sys
+from datetime import datetime, timezone
+from pathlib import Path, PurePosixPath
+
+def fail(message):
+    print(f"[ERROR] {message}", file=sys.stderr)
+    sys.exit(1)
+
+def read_lines(path):
+    path = Path(path)
+    if not path.exists():
+        return []
+    return [line.rstrip("\n") for line in path.read_text(encoding="utf-8").splitlines() if line.rstrip("\n")]
+
+receipt_path = Path(os.environ["RECEIPT"])
+try:
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+except Exception as exc:
+    fail(f"authorization receipt is malformed or unreadable: {exc}")
+
+if not isinstance(receipt, dict):
+    fail("authorization receipt root must be an object")
+
+required = [
+    "schema_version",
+    "authorization_id",
+    "authorization_result",
+    "created_at",
+    "policy_ref",
+    "helper_ref",
+    "schema_ref",
+    "repo_root_ref",
+    "head_ref",
+    "main_ref",
+    "origin_main_ref",
+    "git_status_digest",
+    "classification_ref",
+    "classification_digest",
+    "cleanup_path_set_digest",
+    "authorized_paths",
+    "protected_paths_digest",
+    "manual_review_paths_digest",
+    "discard_or_rollback_posture",
+    "runtime_safety_boundary",
+]
+for key in required:
+    if key not in receipt:
+        fail(f"authorization receipt missing required field: {key}")
+
+allowed_top_level = set(required) | {"expires_at", "valid_until_status_changes"}
+unexpected_top_level = sorted(set(receipt) - allowed_top_level)
+if unexpected_top_level:
+    fail(f"authorization receipt contains schema-invalid fields: {', '.join(unexpected_top_level)}")
+
+if receipt.get("schema_version") != "repo-hygiene-cleanup-authorization-v1":
+    fail("authorization receipt schema_version is invalid")
+if receipt.get("authorization_result") != "approved":
+    fail("authorization receipt is denied or not approved")
+if "valid_until_status_changes" in receipt and receipt.get("valid_until_status_changes") is not True:
+    fail("authorization receipt valid_until_status_changes must be true when present")
+if receipt.get("valid_until_status_changes") is not True and not receipt.get("expires_at"):
+    fail("authorization receipt must declare valid_until_status_changes or expires_at")
+if receipt.get("repo_root_ref") != ".":
+    fail("authorization receipt repo_root_ref must be .")
+try:
+    datetime.fromisoformat(str(receipt["created_at"]).replace("Z", "+00:00"))
+except Exception as exc:
+    fail(f"authorization receipt created_at is invalid: {exc}")
+if receipt.get("expires_at"):
+    try:
+        expires_at = datetime.fromisoformat(str(receipt["expires_at"]).replace("Z", "+00:00"))
+    except Exception as exc:
+        fail(f"authorization receipt expires_at is invalid: {exc}")
+    if expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+    if expires_at <= datetime.now(timezone.utc):
+        fail("authorization receipt is expired")
+
+expected = {
+    "policy_ref": os.environ["POLICY_REF"],
+    "helper_ref": os.environ["HELPER_REF"],
+    "schema_ref": os.environ["SCHEMA_REF"],
+    "head_ref": os.environ["HEAD_REF"],
+    "main_ref": os.environ["MAIN_REF"],
+    "origin_main_ref": os.environ["ORIGIN_MAIN_REF"],
+    "git_status_digest": os.environ["GIT_STATUS_DIGEST"],
+    "classification_digest": os.environ["CLASSIFICATION_DIGEST"],
+    "cleanup_path_set_digest": os.environ["CLEANUP_PATH_SET_DIGEST"],
+    "protected_paths_digest": os.environ["PROTECTED_PATHS_DIGEST"],
+    "manual_review_paths_digest": os.environ["MANUAL_REVIEW_PATHS_DIGEST"],
+}
+for key, value in expected.items():
+    if receipt.get(key) != value:
+        fail(f"authorization receipt is stale or mismatched: {key}")
+
+authorized = receipt.get("authorized_paths")
+if not isinstance(authorized, list) or not authorized:
+    fail("authorization receipt must approve a non-empty path set")
+
+current_paths = read_lines(os.environ["CLEANUP_PATHS"])
+receipt_paths = []
+required_proofs = [
+    "untracked",
+    "unreferenced_by_tracked_files",
+    "non_authoritative",
+    "allowed_cleanup_pattern",
+    "not_input_surface",
+    "not_durable_evidence",
+    "not_active_control_state",
+    "not_generated_authority",
+    "not_generated_run_health_projection",
+    "not_ignored_or_user_owned_residue",
+]
+
+for index, item in enumerate(authorized):
+    if not isinstance(item, dict):
+        fail(f"authorized_paths[{index}] must be an object")
+    unexpected_item_fields = sorted(set(item) - {"path", "class", "pattern_id", "proofs"})
+    if unexpected_item_fields:
+        fail(f"authorized_paths[{index}] contains schema-invalid fields: {', '.join(unexpected_item_fields)}")
+    path = item.get("path")
+    if not isinstance(path, str) or not path:
+        fail(f"authorized_paths[{index}].path must be non-empty")
+    parsed = PurePosixPath(path)
+    if parsed.is_absolute() or ".." in parsed.parts:
+        fail(f"authorized path must be repo-relative and safe: {path}")
+    if path.startswith(".octon/inputs/"):
+        fail(f"input-surface path cannot be authorized: {path}")
+    if path.startswith(".octon/generated/effective/"):
+        fail(f"generated authority path cannot be authorized: {path}")
+    if path.startswith(".octon/generated/cognition/projections/materialized/runs/"):
+        fail(f"generated run-health path must route to generator-owned pruning: {path}")
+    if not isinstance(item.get("class"), str) or not item["class"]:
+        fail(f"authorized_paths[{index}].class must be non-empty")
+    if not isinstance(item.get("pattern_id"), str) or not item["pattern_id"]:
+        fail(f"authorized_paths[{index}].pattern_id must be non-empty")
+    proofs = item.get("proofs")
+    if not isinstance(proofs, dict):
+        fail(f"authorized_paths[{index}].proofs must be an object")
+    unexpected_proofs = sorted(set(proofs) - set(required_proofs))
+    if unexpected_proofs:
+        fail(f"authorized_paths[{index}].proofs contains schema-invalid fields: {', '.join(unexpected_proofs)}")
+    for proof in required_proofs:
+        if proofs.get(proof) is not True:
+            fail(f"authorized_paths[{index}].proofs.{proof} must be true")
+    receipt_paths.append(path)
+
+if sorted(receipt_paths) != current_paths:
+    fail("authorization receipt path set does not match current cleanup candidates exactly")
+
+Path(os.environ["AUTHORIZED_PATHS"]).write_text("\n".join(current_paths) + ("\n" if current_paths else ""), encoding="utf-8")
+PY
+}
+
 prune_empty_parents() {
   local rel="$1"
   local dir
@@ -206,46 +685,57 @@ prune_empty_parents() {
   done
 }
 
-declare -a CLEANUP_CANDIDATES=()
-declare -a PROTECTED_REFERENCED=()
-declare -a MANUAL_REVIEW=()
-
-while IFS= read -r rel; do
-  [[ -n "$rel" ]] || continue
-  CLASS_KIND=""
-  CLASS_DISPOSITION=""
-  CLASS_REASON=""
-  classify_path "$rel"
-  case "$CLASS_DISPOSITION" in
-    cleanup_candidate)
-      CLEANUP_CANDIDATES+=("$rel")
-      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'cleanup_candidate\t%s\t%s\t%s\n' "$CLASS_KIND" "$rel" "$CLASS_REASON"
-      ;;
-    protected_referenced|protected)
-      PROTECTED_REFERENCED+=("$rel")
-      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'protected\t%s\t%s\t%s\n' "$CLASS_KIND" "$rel" "$CLASS_REASON"
-      ;;
-    manual_review)
-      MANUAL_REVIEW+=("$rel")
-      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'manual_review\t%s\t%s\t%s\n' "$CLASS_KIND" "$rel" "$CLASS_REASON"
-      ;;
-    *)
-      MANUAL_REVIEW+=("$rel")
-      [[ "$SUMMARY_ONLY" -eq 1 ]] || printf 'manual_review\t%s\t%s\tunrecognized disposition %s\n' "$CLASS_KIND" "$rel" "$CLASS_DISPOSITION"
-      ;;
-  esac
-done <"$UNTRACKED_PATHS"
+mode="dry-run"
+if [[ "$CONFIRM" -eq 1 ]]; then
+  mode="confirm"
+elif [[ -n "$AUTHORIZE_OUT" ]]; then
+  mode="authorize"
+elif [[ -n "$AUTHORIZATION_RECEIPT" ]]; then
+  mode="authorization"
+fi
 
 echo "summary:"
-echo "  mode: $([[ "$CONFIRM" -eq 1 ]] && echo confirm || echo dry-run)"
-echo "  cleanup_candidates: ${#CLEANUP_CANDIDATES[@]}"
-echo "  protected_referenced: ${#PROTECTED_REFERENCED[@]}"
-echo "  manual_review: ${#MANUAL_REVIEW[@]}"
+echo "  mode: $mode"
+echo "  cleanup_candidates: $cleanup_count"
+echo "  protected_referenced: $protected_count"
+echo "  manual_review: $manual_count"
+echo "  git_status_digest: $GIT_STATUS_DIGEST"
+echo "  classification_digest: $CLASSIFICATION_DIGEST"
+echo "  cleanup_path_set_digest: $CLEANUP_PATH_SET_DIGEST"
+echo "  protected_paths_digest: $PROTECTED_PATHS_DIGEST"
+echo "  manual_review_paths_digest: $MANUAL_REVIEW_PATHS_DIGEST"
 
-if [[ "$CONFIRM" -ne 1 ]]; then
-  echo "[OK] dry-run complete; rerun with --confirm to remove cleanup candidates only"
-else
-  for rel in "${CLEANUP_CANDIDATES[@]}"; do
+if [[ -n "$AUTHORIZE_OUT" ]]; then
+  write_authorization_receipt "$AUTHORIZE_OUT"
+  if [[ "$cleanup_count" -eq 0 ]]; then
+    echo "[WARN] denied authorization because no cleanup candidates are present"
+  fi
+  exit 0
+fi
+
+if [[ -n "$AUTHORIZATION_RECEIPT" ]]; then
+  validate_authorization_receipt "$AUTHORIZATION_RECEIPT"
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] || continue
+    if [[ ! -f "$ROOT_DIR/$rel" && ! -L "$ROOT_DIR/$rel" ]]; then
+      echo "[ERROR] authorized cleanup candidate no longer exists as a file: $rel" >&2
+      exit 1
+    fi
+    if git -C "$ROOT_DIR" ls-files --error-unmatch -- "$rel" >/dev/null 2>&1; then
+      echo "[ERROR] authorized cleanup candidate is now tracked: $rel" >&2
+      exit 1
+    fi
+  done <"$AUTHORIZED_PATHS"
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] || continue
+    rm -f -- "$ROOT_DIR/$rel"
+    prune_empty_parents "$rel"
+    echo "removed: $rel"
+  done <"$AUTHORIZED_PATHS"
+  echo "[OK] removed $(count_lines "$AUTHORIZED_PATHS") cleanup candidate file(s) via validating authorization receipt; protected and manual-review files were retained"
+elif [[ "$CONFIRM" -eq 1 ]]; then
+  while IFS= read -r rel; do
+    [[ -n "$rel" ]] || continue
     if [[ -f "$ROOT_DIR/$rel" || -L "$ROOT_DIR/$rel" ]]; then
       rm -f -- "$ROOT_DIR/$rel"
       prune_empty_parents "$rel"
@@ -253,11 +743,13 @@ else
     else
       echo "[WARN] cleanup candidate no longer exists as a file: $rel"
     fi
-  done
-  echo "[OK] removed ${#CLEANUP_CANDIDATES[@]} cleanup candidate file(s); protected and manual-review files were retained"
+  done <"$CLEANUP_PATHS"
+  echo "[OK] removed $cleanup_count cleanup candidate file(s); protected and manual-review files were retained"
+else
+  echo "[OK] dry-run complete; rerun with --confirm or --authorization <receipt.json> to remove cleanup candidates only"
 fi
 
-if [[ "$FAIL_ON_MANUAL" -eq 1 && "${#MANUAL_REVIEW[@]}" -gt 0 ]]; then
+if [[ "$FAIL_ON_MANUAL" -eq 1 && "$manual_count" -gt 0 ]]; then
   echo "[ERROR] manual-review artifacts remain" >&2
   exit 1
 fi

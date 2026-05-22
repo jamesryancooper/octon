@@ -140,6 +140,12 @@ Execute the Change Closeout State Machine phase loop from
 - If branch cleanup cannot be completed safely, keep the branch, record the
   exact blocker, and set cleanup disposition to deferred or blocked instead of
   claiming cleaned/full closeout.
+- `cleaned` is route-bound: it proves only the selected Change route cleanup,
+  branch cleanup, retained residue, and sync requirements that this singular
+  closeout owns. It does not assert global worktree hygiene. Unrelated or
+  global local artifact residue must be routed through `closeout-worktree` or
+  `repo-hygiene-cleanup`, and unresolved repo-hygiene cleanup candidates block
+  a full-worktree cleanliness claim.
 - If the target outcome is `cleaned` and cleanup or local-main sync cannot be
   proven, record `not_cleaned_reason` and `cleanup_stop_reason`, then report a
   lower actual outcome such as `landed`, `deferred`, or `blocked` instead of
