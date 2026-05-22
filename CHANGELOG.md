@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.76](https://github.com/jamesryancooper/octon/compare/octon-v0.6.75...octon-v0.6.76) (2026-05-22)
+
+
+### Features
+
+* **repo-hygiene:** add cleanup authorization receipts ([ac0e17e](https://github.com/jamesryancooper/octon/commit/ac0e17e7acb3c875fc1a9ffc15da6472e31ac121))
+
 ## [0.6.75](https://github.com/jamesryancooper/octon/compare/octon-v0.6.74...octon-v0.6.75) (2026-05-21)
 
 
