@@ -1,0 +1,121 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260522T161817Z
+default_work_unit: Change
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+repo_hygiene_cleanup_outcome: not-applicable
+initial_inventory_ref: git-status://20260522T161817Z/pre-runtime-projection-refresh-closeout
+residue_classification_ref: classifier://20260522T161817Z/pre-runtime-projection-refresh-closeout
+selected_candidate_id: candidate-runtime-projection-refresh
+candidates:
+  - candidate_id: candidate-runtime-projection-refresh
+    disposition: closed
+    ownership: closeout-runtime-projection-refresh
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/change-receipt.json
+    rollback_or_discard_posture: revert landed commit b145ac41ea4bbab5d6c131474ef1e865917aef6b if rollback is required; source branch cleanup evidence is retained
+    boundaries:
+      include_paths:
+        - .codex/skills/repo-hygiene-cleanup
+        - .octon/generated/cognition/projections/materialized/runs
+        - .octon/generated/effective
+        - .octon/state/continuity/runs
+        - .octon/state/control/execution/runs
+        - .octon/state/control/extensions
+        - .octon/state/evidence/control/execution
+        - .octon/state/evidence/external-index/runs
+        - .octon/state/evidence/validation
+      exclude_paths:
+        - .octon/inputs
+        - .git
+  - candidate_id: candidate-closeout-evidence-residue
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve retained closeout evidence unless a later governed cleanup or evidence-retention route supersedes it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z
+        - .octon/state/evidence/validation/analysis/20260522T161817Z-closeout-worktree-report.yml
+      exclude_paths:
+        - .octon/generated
+        - .octon/inputs
+  - candidate_id: candidate-local-ignored-residue
+    disposition: foreign
+    ownership: local-ignored-residue
+    route_hint: none
+    target_lifecycle_outcome: foreign
+    rollback_or_discard_posture: preserve ignored local residue outside this Change route
+    boundaries:
+      include_paths:
+        - .
+      exclude_paths:
+        - .octon/framework
+        - .octon/instance
+iterations:
+  - iteration_id: iteration-runtime-projection-refresh-closeout-change
+    pre_inventory_ref: git-status://20260522T161817Z/pre-runtime-projection-refresh-closeout
+    pre_classification_ref: classifier://20260522T161817Z/pre-runtime-projection-refresh-closeout
+    selected_candidate_id: candidate-runtime-projection-refresh
+    include_paths:
+      - .codex/skills/repo-hygiene-cleanup
+      - .octon/generated/cognition/projections/materialized/runs
+      - .octon/generated/effective
+      - .octon/state/continuity/runs
+      - .octon/state/control/execution/runs
+      - .octon/state/control/extensions
+      - .octon/state/evidence/control/execution
+      - .octon/state/evidence/external-index/runs
+      - .octon/state/evidence/validation
+    exclude_paths:
+      - .octon/inputs
+      - .git
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git-status://20260522T163738Z/post-cleanup-main
+    post_classification_ref: classifier://20260522T163738Z/post-cleanup-main
+    next_selection_reason: The singular closeout-change candidate reached cleaned; only retained closeout evidence and foreign ignored local residue remain documented outside the branch route.
+final_candidate_dispositions:
+  candidate-runtime-projection-refresh:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/change-receipt.json
+    reason: The branch-no-pr Change landed on origin/main, local main is synchronized, and governed branch cleanup removed the local and remote source branch refs.
+  candidate-closeout-evidence-residue:
+    state: retained
+    reason: Closeout evidence created by this wrapper pass remains retained operational evidence and is not deleted by wrapper authority.
+  candidate-local-ignored-residue:
+    state: foreign
+    reason: Ignored local residue is outside the selected Change and intentionally untouched.
+retained_residue:
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z
+    disposition: retained closeout-change authorization and nonterminal receipt evidence
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/validation/analysis/20260522T161817Z-closeout-worktree-report.yml
+    disposition: retained closeout-worktree report evidence
+  - candidate_id: candidate-local-ignored-residue
+    path: .
+    disposition: foreign ignored local residue retained outside this closeout route
+blockers:
+  []
+final_inventory_ref: git-status://20260522T163738Z/post-cleanup-main
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 2
+  ignored: 3707
+  local_branch: 1
+  remote_branch: 3
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 4
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: No branch route action remains for candidate-runtime-projection-refresh; retained closeout evidence and foreign ignored local residue remain documented outside source branch cleanup authority.

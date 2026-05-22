@@ -1,0 +1,169 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "closeout-runtime-projection-refresh-20260522T161817Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the runtime projection refresh branch that restores generated host projections, effective runtime outputs, and run-health read models after the routine cleanup lifecycle work landed on main.",
+  "scope": {
+    "summary": "Generated projection refresh branch landed through governed hosted no-PR fast-forward, then local and remote source branch refs were cleaned with governed cleanup authorization.",
+    "touched_paths": [
+      ".codex/skills/repo-hygiene-cleanup",
+      ".octon/generated/cognition/projections/materialized/runs",
+      ".octon/generated/effective",
+      ".octon/state/continuity/runs",
+      ".octon/state/control/execution/runs",
+      ".octon/state/control/extensions",
+      ".octon/state/evidence/control/execution",
+      ".octon/state/evidence/external-index/runs",
+      ".octon/state/evidence/validation"
+    ],
+    "diff_refs": [
+      "commit:b145ac41ea4bbab5d6c131474ef1e865917aef6b"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/validation/analysis/20260522T161817Z-closeout-worktree-report.yml"
+    ]
+  },
+  "source_branch_ref": "chore/closeout-runtime-projection-refresh",
+  "target_branch_ref": "main",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "target_ref": "origin/main@f6b5775319803b8a5d06c0c68c3eace3de25577d",
+    "evidence_refs": [
+      "git-branch-push.sh published origin/chore/closeout-runtime-projection-refresh at b145ac41ea4bbab5d6c131474ef1e865917aef6b without creating a PR.",
+      "git-branch-hosted-preflight.sh passed for source ref b145ac41ea4bbab5d6c131474ef1e865917aef6b and target pre-ref f6b5775319803b8a5d06c0c68c3eace3de25577d.",
+      "GitHub rules for main required route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, and exact_source_sha_validation.",
+      "GitHub check-runs at source SHA b145ac41ea4bbab5d6c131474ef1e865917aef6b reported all four required checks completed successfully.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source ref b145ac41ea4bbab5d6c131474ef1e865917aef6b and target pre-ref f6b5775319803b8a5d06c0c68c3eace3de25577d.",
+      "git-branch-land-hosted-no-pr.sh validated the authorization and fast-forwarded origin/main to b145ac41ea4bbab5d6c131474ef1e865917aef6b."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/closeout-runtime-projection-refresh",
+    "source_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "target_pre_ref": "f6b5775319803b8a5d06c0c68c3eace3de25577d",
+    "target_post_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "validated_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+      "branch_naming_validation@b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+      "route_aware_autonomy_validation@b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+      "exact_source_sha_validation@b145ac41ea4bbab5d6c131474ef1e865917aef6b"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "b145ac41ea4bbab5d6c131474ef1e865917aef6b:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/closeout-runtime-projection-refresh",
+    "source_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "landed_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "origin_main_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git fetch origin main:main fast-forwarded local main to b145ac41ea4bbab5d6c131474ef1e865917aef6b.",
+      "git merge-base --is-ancestor chore/closeout-runtime-projection-refresh origin/main: passed before cleanup."
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "origin_main_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "landed_ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin main:main fast-forwarded local main to b145ac41ea4bbab5d6c131474ef1e865917aef6b after hosted landing.",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh post-cleanup sync: passed; local main is up to date with origin/main.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main returned b145ac41ea4bbab5d6c131474ef1e865917aef6b for all refs after cleanup."
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-authorize-cleanup.sh emitted branch-cleanup-authorization-v1 after proving local main sync, source branch containment, landed-ref containment, no protected branch, no open PR, retained rollback posture, and remote deletion intent.",
+    "git-branch-cleanup.sh validated branch-cleanup authorization, switched to main, deleted local branch chore/closeout-runtime-projection-refresh, deleted remote branch origin/chore/closeout-runtime-projection-refresh, and re-synced local main.",
+    "git branch --list chore/closeout-runtime-projection-refresh returned no local branch.",
+    "git branch -r --list origin/chore/closeout-runtime-projection-refresh returned no remote-tracking branch."
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/closeout-runtime-projection-refresh",
+    "remote_branch": "origin/chore/closeout-runtime-projection-refresh",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      "Branch cleanup authorization receipt: .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup.sh output: Deleted branch chore/closeout-runtime-projection-refresh (was b145ac41e).",
+      "git-branch-cleanup.sh output: To github.com:jamesryancooper/octon.git - [deleted] chore/closeout-runtime-projection-refresh.",
+      "post-cleanup git branch --list and git branch -r --list checks returned no source branch."
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git-status://20260522T161817Z/pre-runtime-projection-refresh-closeout",
+    "residue_classification_ref": "classifier://20260522T161817Z/pre-runtime-projection-refresh-closeout",
+    "phase_exit_refs": [
+      "source branch published: origin/chore/closeout-runtime-projection-refresh@b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+      "preflight: git-branch-hosted-preflight.sh passed at b145ac41ea4bbab5d6c131474ef1e865917aef6b.",
+      "landing authorization: branch-landing-authorization-v1 approved for source ref b145ac41ea4bbab5d6c131474ef1e865917aef6b and target pre-ref f6b5775319803b8a5d06c0c68c3eace3de25577d.",
+      "landing: git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to b145ac41ea4bbab5d6c131474ef1e865917aef6b.",
+      "cleanup authorization: branch-cleanup-authorization-v1 approved source branch cleanup after containment and no-open-PR proof.",
+      "cleanup: git-branch-cleanup.sh completed local and remote source branch cleanup.",
+      "sync: local main, origin/main, and HEAD aligned at b145ac41ea4bbab5d6c131474ef1e865917aef6b."
+    ],
+    "cleanup_decision_refs": [
+      "landing_authorization_ref",
+      "cleanup_authorization_ref"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "git-status://20260522T163738Z/post-cleanup-main"
+  },
+  "validation_evidence_refs": [
+    "git diff --check origin/main...HEAD: passed before hosted landing",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh: passed before hosted landing",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh: passed before hosted landing",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh: passed before hosted landing",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh --no-fixtures: passed before hosted landing",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh: passed before hosted landing",
+    "GitHub required source-SHA checks at b145ac41ea4bbab5d6c131474ef1e865917aef6b: route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, and exact_source_sha_validation all passed.",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/closeout-runtime-projection-refresh-20260522T161817Z/change-receipt.json: passed after cleanup",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report .octon/state/evidence/validation/analysis/20260522T161817Z-closeout-worktree-report.yml: passed after cleanup",
+    "git diff --check: passed after cleanup"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because Change routing selected branch-no-pr and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "revert:b145ac41ea4bbab5d6c131474ef1e865917aef6b",
+    "instructions": "Revert landed ref b145ac41ea4bbab5d6c131474ef1e865917aef6b from main if rollback is required; branch cleanup evidence is retained separately and the source branch can be recreated from the landed commit if needed."
+  },
+  "closeout_outcome": "completed",
+  "remaining_blockers": [
+    "No route-specific source branch closeout blockers remain. Retained closeout evidence and ignored local residue remain outside source branch cleanup authority."
+  ],
+  "created_at": "2026-05-22T16:18:17Z",
+  "updated_at": "2026-05-22T16:37:38Z"
+}
