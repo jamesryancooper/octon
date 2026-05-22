@@ -1,0 +1,15 @@
+ .../_ops/scripts/cleanup-local-run-artifacts.sh    | 558 +++++++++++++++++++--
+ .../scripts/validate-closeout-worktree-wrapper.sh  |  40 ++
+ .../scripts/validate-repo-hygiene-governance.sh    |  53 ++
+ .../_ops/tests/test-cleanup-local-run-artifacts.sh | 207 +++++++-
+ .../capabilities/runtime/skills/capabilities.yml   |   2 +-
+ .../capabilities/runtime/skills/manifest.yml       |  27 +
+ .../capabilities/runtime/skills/registry.yml       |  71 +++
+ .../skills/remediation/closeout-change/SKILL.md    |   6 +
+ .../skills/remediation/closeout-worktree/SKILL.md  |  23 +-
+ .octon/generated/proposals/registry.yml            |  20 +
+ .../support/proposal-closeout.md                   |  97 ++--
+ .../support/proposal-review.md                     |  56 ++-
+ .../runtime/commands/repo-hygiene/README.md        |  30 +-
+ .../instance/governance/policies/repo-hygiene.yml  |  23 +-
+ 14 files changed, 1080 insertions(+), 133 deletions(-)
