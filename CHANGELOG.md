@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.77](https://github.com/jamesryancooper/octon/compare/octon-v0.6.76...octon-v0.6.77) (2026-05-22)
+
+
+### Features
+
+* **closeout:** automate routine cleanup closeout ([c4b91ab](https://github.com/jamesryancooper/octon/commit/c4b91abefdaa540c5dcdc3c1742070eafc7cee81))
+* **closeout:** distinguish terminal worktree states ([9ddb49d](https://github.com/jamesryancooper/octon/commit/9ddb49da5ce8398313f7b9bdc2cef03a505ecdf2))
+* **intake:** define incoming additive intake envelope ([441326a](https://github.com/jamesryancooper/octon/commit/441326a8b192f4ef0dcf9d936a3f08532c1d4b35))
+
+
+### Bug Fixes
+
+* **intake:** preserve validator test mode ([d67d752](https://github.com/jamesryancooper/octon/commit/d67d752f81fe552db07afa9dcd042723cbc0020c))
+* **repo-hygiene:** avoid generated read-model dependency ([f6b5775](https://github.com/jamesryancooper/octon/commit/f6b5775319803b8a5d06c0c68c3eace3de25577d))
+
 ## [0.6.76](https://github.com/jamesryancooper/octon/compare/octon-v0.6.75...octon-v0.6.76) (2026-05-22)
 
 
