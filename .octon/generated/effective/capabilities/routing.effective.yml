@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-db3bba4383b6
-published_at: 2026-05-21T22:12:11Z
+generation_id: capabilities-57b0d6b747b0
+published_at: 2026-05-22T14:25:21Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-21T22-12-11Z-capabilities-db3bba4383b6.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-22T14-25-21Z-capabilities-57b0d6b747b0.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -13,13 +13,13 @@ invalidation_conditions:
   - extensions-lock-sha-changed
 source:
   root_manifest_path: .octon/octon.yml
-  root_manifest_sha256: 5f9e66316935edf62e15d8f47bfe220653cb42cdea8f59c7299eb99873641c0e
+  root_manifest_sha256: b663c5ee99580b02486b75d80db463d267d8469682220a15cc7369ef63083324
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
   framework_commands_manifest_sha256: 332fd28d9ec458bb5a1e6e69a828260a5622372312d87ae5db789273ca96a2d3
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
-  framework_skills_manifest_sha256: 00cce275990294e1f0dcf74f5fb9d69de174e2d933794cecd8ed010bad11734e
+  framework_skills_manifest_sha256: ca46b7455f10601bdc19318e8b2a05f0f1e1eddf790aafa5e0fa5be2ffcec07b
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
-  framework_skills_registry_sha256: e4fb4b8cc9be1c6f0c1c98937f02ef7cbba390e98e508e5de219489a7a92f6c5
+  framework_skills_registry_sha256: 047f54e42abdc60e5fd8b38afbda00ecb96d2b471a28fc000b4186fcdbea286e
   framework_services_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
   framework_services_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
   framework_tools_manifest_path: .octon/framework/capabilities/runtime/tools/manifest.yml
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 7d6a911753666bbfc6ea38aaa0b4ef1cee78faaba1cb6d004cd3a626720b1c17
+  extensions_catalog_sha256: 0f6f7e004e5bea6b917818e27309d796c65427c4dd97fd77383ef77b24258bfe
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: fb2eb0c2d7a09cc9f2dfdb8e9e4fb62d639197f0d0903b6b78b4a9a616ab0029
+  extensions_generation_lock_sha256: e71c4931550294a8a90768dc519dc3d02d6417a7e8c8dffb964588f9d4af1054
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -281,6 +281,40 @@ routing_candidates:
     precedence_tier: native-authority
     stable_sort_key: 9999-9997-1-skill-framework.skill.closeout-change
     projection_name: closeout-change
+  - effective_id: framework.skill.repo-hygiene-cleanup
+    artifact_map_id: framework-skill-repo-hygiene-cleanup
+    origin_class: framework
+    capability_kind: skill
+    capability_id: repo-hygiene-cleanup
+    display_name: Repo Hygiene Cleanup
+    summary: Receipt-backed repository hygiene cleanup for local Octon run artifacts.
+    status: active
+    source_manifest: .octon/framework/capabilities/runtime/skills/manifest.yml
+    capability_domain: remediation
+    host_adapters:
+      - codex
+    selectors:
+      include:
+        - '**'
+      exclude: []
+    fingerprints:
+      tech_tags:
+        - repo-hygiene
+        - cleanup
+      language_tags: []
+    scope_relevance:
+      matching_scope_ids:
+        - octon-harness
+      tech_tag_matches:
+        - repo-hygiene
+        - cleanup
+      language_tag_matches: []
+      preferred_domain_match_scope_ids: []
+      preferred_kind_match_scope_ids: []
+      score: 2
+    precedence_tier: native-authority
+    stable_sort_key: 9999-9997-1-skill-framework.skill.repo-hygiene-cleanup
+    projection_name: repo-hygiene-cleanup
   - effective_id: instance.command.repo-hygiene
     artifact_map_id: instance-command-repo-hygiene
     origin_class: instance
@@ -6423,6 +6457,7 @@ resolution_order:
   - framework.skill.rust
   - framework.skill.closeout-worktree
   - framework.skill.closeout-change
+  - framework.skill.repo-hygiene-cleanup
   - instance.command.repo-hygiene
   - framework.command.alignment-check
   - framework.command.audit-skills-system-expansion
