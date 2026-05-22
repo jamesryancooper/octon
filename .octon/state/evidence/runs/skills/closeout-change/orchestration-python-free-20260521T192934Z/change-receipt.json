@@ -1,0 +1,87 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "orchestration-python-free-20260521T192934Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "closeout-worktree delegated branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Replace the orchestration runtime schedule evaluator Python script and local Python fallback paths with shell-only runtime helpers.",
+  "scope": {
+    "summary": "Shell-only orchestration runtime schedule evaluation and lease-expiry helpers.",
+    "touched_paths": [
+      ".octon/framework/orchestration/runtime/_ops/scripts/evaluate-automation-schedule.py",
+      ".octon/framework/orchestration/runtime/_ops/scripts/evaluate-automation-schedule.sh",
+      ".octon/framework/orchestration/runtime/_ops/scripts/launch-scheduled-automation-run.sh",
+      ".octon/framework/orchestration/runtime/_ops/scripts/manage-coordination-lock.sh",
+      ".octon/framework/orchestration/runtime/_ops/scripts/orchestration-runtime-common.sh",
+      ".octon/framework/orchestration/runtime/_ops/scripts/write-run.sh",
+      ".octon/framework/orchestration/runtime/_ops/tests/test-automation-policy-and-scheduling.sh"
+    ],
+    "diff_refs": [
+      "commit:33db0b8ee72200cc73725641720ac419517d0e2e"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/validation/analysis/20260521T192934Z-closeout-worktree-report.yml"
+    ]
+  },
+  "source_branch_ref": "chore/change-closeout-state-machine",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/change-closeout-state-machine@33db0b8ee72200cc73725641720ac419517d0e2e",
+  "landing_evaluation": {
+    "status": "blocked",
+    "provider_ruleset_ref": "not-reached",
+    "source_ref": "33db0b8ee72200cc73725641720ac419517d0e2e",
+    "target_ref": "origin/main@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "evidence_refs": [
+      "git-branch-push.sh pushed chore/change-closeout-state-machine to origin at 33db0b8ee72200cc73725641720ac419517d0e2e",
+      "git-branch-hosted-preflight.sh --target main --remote origin --allow-empty-check-set failed before provider mutation: Working tree is not clean; commit or preserve branch state before hosted landing."
+    ]
+  },
+  "not_landed_reason": "Hosted no-PR landing was not attempted because the preflight requires a clean tracked worktree and the repository still contains unresolved tracked residue from separate closeout lifecycle, generated projection, and run-health candidates.",
+  "not_cleaned_reason": "The default target was cleaned, but only pushed-branch publication is proven. Landing is blocked by unresolved tracked worktree residue, and branch cleanup cannot run before landing and cleanup authorization evidence exist.",
+  "integration_method": "not_landed",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Source branch cleanup was not attempted because the source branch has not been landed to origin/main for this commit.",
+    "Local and remote chore/change-closeout-state-machine refs are retained as continuation and rollback handles."
+  ],
+  "external_blocker_refs": [
+    "hosted-no-pr-preflight: dirty tracked worktree blocks landing",
+    "remaining-worktree-candidates: closeout lifecycle branch-cleanup authorization changes, generated effective outputs, run-health projections, publication/control residue, retained evidence, and ignored local residue remain unresolved"
+  ],
+  "validation_evidence_refs": [
+    "bash .octon/framework/orchestration/runtime/_ops/tests/test-automation-policy-and-scheduling.sh: passed",
+    "bash .octon/framework/orchestration/runtime/_ops/tests/test-shared-runtime-primitives.sh: passed",
+    "bash .octon/framework/orchestration/runtime/_ops/tests/test-watcher-routing-and-queue.sh: passed",
+    "bash .octon/framework/orchestration/runtime/_ops/tests/test-incident-approval-control.sh: passed",
+    "bash .octon/framework/orchestration/runtime/_ops/tests/test-operator-hardening.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh: passed",
+    "bash .octon/framework/orchestration/runtime/_ops/scripts/validate-orchestration-runtime.sh: passed",
+    "git diff --check: passed",
+    "rg -n \"evaluate-automation-schedule\\.py|python3\" .octon/framework/orchestration/runtime/_ops/scripts .octon/framework/orchestration/runtime/_ops/tests: no matches"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because Change routing selected branch-no-pr and this run stopped at pushed-branch handoff before hosted landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "33db0b8ee72200cc73725641720ac419517d0e2e",
+    "branch": "chore/change-closeout-state-machine"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch-before-landing",
+    "ref": "33db0b8ee72200cc73725641720ac419517d0e2e",
+    "instructions": "Before landing, discard or reset the source branch away from commit 33db0b8ee72200cc73725641720ac419517d0e2e if rollback is required. If later landed, revert that commit from main."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Hosted no-PR landing requires a clean tracked worktree; unrelated tracked candidates remain dirty.",
+    "Full cleaned closeout requires landing onto origin/main, local main sync, landed-ref containment proof, and governed branch cleanup authorization.",
+    "The remaining closeout lifecycle implementation and generated/state residue must be handled as separate wrapper candidates before terminal worktree closeout can be claimed."
+  ],
+  "created_at": "2026-05-21T19:29:34Z",
+  "updated_at": "2026-05-21T19:29:34Z"
+}

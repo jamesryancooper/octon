@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-change-closeout-state-machine-8e892914fcdd",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/change-closeout-state-machine",
+  "source_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+  "remote_source_ref": "8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+  "target_pre_ref": "191d360f1d30cf40a54991872920c0ba822b50ca",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "branch_naming_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "route_aware_autonomy_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0",
+    "exact_source_sha_validation@8e892914fcdd4cec27686c457f8a47808c6eb5a0"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "discard branch chore/change-closeout-state-machine after landing if cleanup later approved; revert landed commit 8e892914fcdd4cec27686c457f8a47808c6eb5a0 if later invalidated",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-05-21T17:41:16Z"
+}

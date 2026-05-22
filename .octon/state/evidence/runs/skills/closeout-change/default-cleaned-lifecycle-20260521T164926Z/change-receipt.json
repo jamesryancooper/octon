@@ -1,0 +1,136 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "default-cleaned-lifecycle-20260521T164926Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "landed",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Default generic Closeout Change and Closeout Worktree requests to the cleaned target while preserving evidence-based actual lifecycle downgrades.",
+  "scope": {
+    "summary": "Closeout lifecycle contracts, default work unit policy, closeout skill docs, validators, tests, generated capability publication metadata, and retained capability publication receipt.",
+    "touched_paths": [
+      ".codex/skills/closeout-change/",
+      ".codex/skills/closeout-worktree/",
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/framework/assurance/runtime/_ops/tests/",
+      ".octon/framework/capabilities/runtime/skills/registry.yml",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+      ".octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/",
+      ".octon/framework/product/contracts/",
+      ".octon/generated/effective/capabilities/",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/publication/capabilities/2026-05-21T16-38-42Z-capabilities-d7b827e4f500.yml"
+    ],
+    "diff_refs": [
+      "commit:5bb55fde06a533d3503cf7cc5809fc542387a2a3"
+    ],
+    "retained_residue_refs": [
+      ".octon/state/evidence/validation/analysis/20260521T164926Z-closeout-worktree-report.yml"
+    ]
+  },
+  "source_branch_ref": "chore/change-closeout-state-machine",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/change-closeout-state-machine@5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live gh rules check via git-branch-hosted-preflight allowed route-neutral hosted no-PR landing",
+    "source_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "target_ref": "origin/main@5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "evidence_refs": [
+      "git fetch origin: passed",
+      "git push: origin/chore/change-closeout-state-machine advanced from 8dbd1aba8179269a870cc9dc6bc8c2f6860e2860 to 5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+      "bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh --target main --remote origin --allow-empty-check-set: passed",
+      "bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-land-hosted-no-pr.sh --target main --remote origin --allow-empty-check-set --confirm: passed",
+      "git branch --force main origin/main: passed"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/change-closeout-state-machine",
+    "source_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "target_pre_ref": "16d68efd78c6a7e7cdca5fa4226583cb6455e4ff",
+    "target_post_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "validated_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "required_check_refs": [
+      "empty check set explicitly allowed by git-branch-hosted-preflight.sh --allow-empty-check-set"
+    ],
+    "provider_ruleset_ref": "live gh rules check allowed route-neutral hosted no-PR landing",
+    "push_refspec": "5bb55fde06a533d3503cf7cc5809fc542387a2a3:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/change-closeout-state-machine",
+    "source_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "landed_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "origin_main_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git merge-base --is-ancestor 5bb55fde06a533d3503cf7cc5809fc542387a2a3 origin/main: passed"
+    ]
+  },
+  "not_cleaned_reason": "The default target was cleaned and landing plus local-main sync are complete, but source branch cleanup was not performed; local and remote source branches remain retained as rollback/discard handles.",
+  "main_alignment": {
+    "local_main_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "origin_main_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "landed_ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin main: passed",
+    "local_main_sync_evidence_ref": "git branch --force main origin/main: passed",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main origin/chore/change-closeout-state-machine returned 5bb55fde06a533d3503cf7cc5809fc542387a2a3 for all refs"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Remote branch origin/chore/change-closeout-state-machine points at 5bb55fde06a533d3503cf7cc5809fc542387a2a3.",
+    "Local branch chore/change-closeout-state-machine is retained after landing as a rollback/discard handle."
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/change-closeout-state-machine",
+    "remote_branch": "origin/chore/change-closeout-state-machine",
+    "blocker_reason": "Cleanup is deferred because source branch deletion was not requested in the merge-and-sync command and the branch is retained as a rollback/discard handle.",
+    "evidence_refs": [
+      "git rev-parse HEAD origin/chore/change-closeout-state-machine returned 5bb55fde06a533d3503cf7cc5809fc542387a2a3 for both refs.",
+      "git rev-parse main origin/main returned 16d68efd78c6a7e7cdca5fa4226583cb6455e4ff for both refs."
+    ]
+  },
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh: 34/34 passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-default-work-unit-alignment.sh: 20/20 passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh: passed",
+    "git diff --check --cached: passed before commit"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened; branch-no-pr publication is a continued handoff outcome unless landing is separately approved and completed."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "branch": "chore/change-closeout-state-machine"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "5bb55fde06a533d3503cf7cc5809fc542387a2a3",
+    "instructions": "Revert commit 5bb55fde06a533d3503cf7cc5809fc542387a2a3 from main if rollback is required; do not delete retained evidence as rollback."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Full cleaned closeout still requires source branch cleanup completion or a separate explicit decision to retain both source branch refs.",
+    "Untracked publication/control residue, previous closeout evidence residue, and ignored local residue remain retained or foreign in the wrapper report."
+  ],
+  "created_at": "2026-05-21T16:49:26Z",
+  "updated_at": "2026-05-21T16:49:26Z"
+}
