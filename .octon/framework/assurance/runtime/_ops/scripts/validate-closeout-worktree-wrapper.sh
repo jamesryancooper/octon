@@ -119,6 +119,9 @@ validate_static() {
   require_literal "$WRAPPER" "repo_hygiene_cleanup_ref" \
     "wrapper documents delegated repo-hygiene cleanup evidence" \
     "wrapper must document repo_hygiene_cleanup_ref"
+  require_literal "$WRAPPER" "worktree_terminal_state" \
+    "wrapper documents worktree terminal state" \
+    "wrapper must document worktree_terminal_state"
   require_literal "$WRAPPER" "partition autonomously" \
     "wrapper documents autonomous unambiguous partitioning" \
     "wrapper must document autonomous unambiguous partitioning"
@@ -140,6 +143,9 @@ validate_static() {
   require_literal "$WRAPPER_IO" "omitted means \`cleaned\`" \
     "I/O contract documents cleaned default target" \
     "I/O contract must document cleaned default target"
+  require_literal "$WRAPPER_IO" "git_clean_terminal" \
+    "I/O contract documents Git-clean terminal state" \
+    "I/O contract must document git_clean_terminal"
   require_literal "$WRAPPER_VALIDATION" "selected candidate has explicit include and exclude path boundaries" \
     "wrapper validation requires explicit boundaries" \
     "wrapper validation must require explicit boundaries"
@@ -155,6 +161,9 @@ validate_static() {
   require_literal "$WRAPPER_VALIDATION" "repo_hygiene_cleanup_actions_performed: true" \
     "wrapper validation rejects direct repo-hygiene cleanup action claims" \
     "wrapper validation must reject direct repo-hygiene cleanup action claims"
+  require_literal "$WRAPPER_VALIDATION" "worktree_terminal_state" \
+    "wrapper validation documents terminal state checks" \
+    "wrapper validation must document worktree_terminal_state checks"
   require_literal "$CODEX_WRAPPER" "name: closeout-worktree" \
     "Codex host projection exposes closeout-worktree" \
     "Codex host projection must expose closeout-worktree"
@@ -527,6 +536,17 @@ require(data.get("direct_material_actions_performed") is False, "direct_material
 if "repo_hygiene_cleanup_actions_performed" in data:
     require(data.get("repo_hygiene_cleanup_actions_performed") is False, "repo_hygiene_cleanup_actions_performed must be false")
 
+valid_worktree_terminal_states = {
+    "git_clean_terminal",
+    "disposition_complete_with_retained_residue",
+    "nonterminal",
+}
+worktree_terminal_state = data.get("worktree_terminal_state")
+require(
+    worktree_terminal_state in valid_worktree_terminal_states,
+    f"worktree_terminal_state must be one of {sorted(valid_worktree_terminal_states)}",
+)
+
 for field in ("run_id", "initial_inventory_ref", "residue_classification_ref", "final_inventory_ref", "selected_candidate_id", "next_route_condition"):
     require(is_nonempty_string(data.get(field)), f"{field} must be present")
 
@@ -571,6 +591,8 @@ if repo_hygiene_summary is not None:
 if repo_hygiene_unresolved_count > 0:
     require(is_nonempty_string(data.get("repo_hygiene_classification_ref")), "repo_hygiene_classification_ref must be present when repo-hygiene residue remains")
     require(is_nonempty_string(data.get("repo_hygiene_next_route_condition")), "repo_hygiene_next_route_condition must be present when repo-hygiene residue remains")
+    if worktree_terminal_state == "git_clean_terminal":
+        fail("worktree_terminal_state git_clean_terminal is not allowed while repo-hygiene residue remains unresolved")
     next_route = data.get("repo_hygiene_next_route_condition")
     if is_nonempty_string(next_route) and next_route.strip().lower() in terminal_next_route_values:
         fail("repo_hygiene_next_route_condition must not be terminal when repo-hygiene residue remains")
@@ -697,8 +719,12 @@ else:
 if unresolved_candidates:
     terminal_next_route_values = {"none", "no-op", "noop", "n/a", "na", "closed", "complete", "completed", "done", "terminal"}
     next_route = data.get("next_route_condition")
-    if is_nonempty_string(next_route) and next_route.strip().lower() in terminal_next_route_values:
-        fail("next_route_condition must not be terminal when unresolved candidates remain")
+    if (
+        is_nonempty_string(next_route)
+        and next_route.strip().lower() in terminal_next_route_values
+        and worktree_terminal_state == "nonterminal"
+    ):
+        fail("next_route_condition must not be terminal with unresolved candidates when worktree_terminal_state is nonterminal")
 
 for candidate in unresolved_candidates:
     candidate_id = candidate.get("candidate_id")
@@ -858,12 +884,48 @@ if isinstance(final_dispositions, dict):
 
 final_residue_classes = data.get("final_residue_classes")
 ignored_count = 0
+final_residue_counts = {}
 if not isinstance(final_residue_classes, dict):
     fail("final_residue_classes must be a mapping with an ignored count")
 else:
     ignored_count = final_residue_classes.get("ignored")
     if not isinstance(ignored_count, int) or ignored_count < 0:
         fail("final_residue_classes.ignored must be a non-negative integer")
+
+    def residue_count(canonical, aliases, required=False):
+        found = False
+        value = 0
+        for key in (canonical, *aliases):
+            if key in final_residue_classes:
+                found = True
+                value = final_residue_classes.get(key)
+                break
+        if not found:
+            if required:
+                fail(f"final_residue_classes.{canonical} must be present for git_clean_terminal")
+            return 0
+        if not isinstance(value, int) or value < 0:
+            fail(f"final_residue_classes.{canonical} must be a non-negative integer")
+            return 0
+        return value
+
+    residue_specs = {
+        "staged": (),
+        "unstaged_tracked": ("unstaged-tracked",),
+        "untracked": (),
+        "generated_effective_output": ("generated-effective-output",),
+        "host_projection": ("host-projection",),
+        "retained_evidence": ("retained-evidence",),
+        "state_control": ("state-control",),
+        "release_version": ("release-version",),
+        "input_surface": ("input-surface",),
+    }
+    for canonical, aliases in residue_specs.items():
+        final_residue_counts[canonical] = residue_count(
+            canonical,
+            aliases,
+            required=worktree_terminal_state == "git_clean_terminal",
+        )
 
 if isinstance(ignored_count, int) and ignored_count > 0:
     ignored_coverage = False
@@ -969,11 +1031,56 @@ if selected_candidate_disposition in {"blocked", "escalated", "ambiguous"} or se
 non_closed_final_states = [
     candidate_id for candidate_id, state in final_states.items() if state != "closed"
 ]
-if non_closed_final_states:
-    terminal_next_route_values = {"none", "no-op", "noop", "n/a", "na", "closed", "complete", "completed", "done", "terminal"}
-    next_route = data.get("next_route_condition")
-    if is_nonempty_string(next_route) and next_route.strip().lower() in terminal_next_route_values:
-        fail("next_route_condition must not be terminal unless every candidate is closed")
+terminal_next_route_values = {"none", "no-op", "noop", "n/a", "na", "closed", "complete", "completed", "done", "terminal"}
+next_route = data.get("next_route_condition")
+terminal_next_route = is_nonempty_string(next_route) and next_route.strip().lower() in terminal_next_route_values
+
+def has_ignored_local_retained_evidence(candidate_id):
+    for item in retained_by_candidate.get(candidate_id, []):
+        if not isinstance(item, dict):
+            continue
+        candidate = candidates_by_id.get(candidate_id)
+        evidence_text = " ".join(
+            str(value)
+            for value in (
+                candidate_id,
+                candidate.get("ownership") if isinstance(candidate, dict) else "",
+                item.get("path"),
+                item.get("disposition"),
+            )
+            if value is not None
+        ).lower()
+        if "ignored" in evidence_text or "local" in evidence_text:
+            return True
+    return False
+
+if worktree_terminal_state == "nonterminal":
+    if terminal_next_route:
+        fail("next_route_condition must not be terminal when worktree_terminal_state is nonterminal")
+elif worktree_terminal_state == "disposition_complete_with_retained_residue":
+    bad_states = {
+        candidate_id: state
+        for candidate_id, state in final_states.items()
+        if state not in {"closed", "retained", "foreign"}
+    }
+    if bad_states:
+        fail("disposition_complete_with_retained_residue allows only closed, retained, or foreign final candidate states")
+    if repo_hygiene_unresolved_count > 0:
+        fail("disposition_complete_with_retained_residue is not allowed while repo-hygiene residue remains unresolved")
+elif worktree_terminal_state == "git_clean_terminal":
+    dirty_counts = {
+        key: value
+        for key, value in final_residue_counts.items()
+        if value > 0
+    }
+    if dirty_counts:
+        fail(f"git_clean_terminal requires zero non-ignored residue counts, found {dirty_counts}")
+    if repo_hygiene_unresolved_count > 0:
+        fail("git_clean_terminal is not allowed while repo-hygiene residue remains unresolved")
+    for candidate_id in non_closed_final_states:
+        state = final_states.get(candidate_id)
+        if state != "foreign" or not has_ignored_local_retained_evidence(candidate_id):
+            fail("git_clean_terminal allows non-closed candidates only for covered ignored/local foreign residue")
 
 if errors:
     for message in errors:

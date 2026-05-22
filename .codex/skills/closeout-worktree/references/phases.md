@@ -36,8 +36,12 @@ title: Closeout Worktree Phases
    completes, blocks, or escalates.
 10. Repeat candidate selection when the next candidate is coherent and safely
    separable. Re-inventory and re-classify after every `closeout-change` run
-   before selecting that next candidate.
+   before selecting that next candidate. If generic worktree closeout targets
+   `cleaned` and only unambiguous closeout evidence residue remains under
+   retained evidence roots, route that residue as the next singular
+   `closeout-change` candidate.
 11. Write a wrapper report that records closed Changes, retained candidates,
-    blockers, escalations, validation evidence, and the next route condition.
+    blockers, escalations, validation evidence, `worktree_terminal_state`, and
+    the next route condition.
 
 Detection alone is not deletion authority. This wrapper must partition residue into singular Change closeouts and coordinate those closeouts; it does not authorize cleanup outside singular Change closeout.

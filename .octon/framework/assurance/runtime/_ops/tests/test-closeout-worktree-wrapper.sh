@@ -301,6 +301,7 @@ observed_change_set_count: 2
 read_only_classification: true
 detection_is_deletion_authority: false
 direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
 initial_inventory_ref: evidence://worktree/initial
 residue_classification_ref: evidence://worktree/classification
 selected_candidate_id: candidate-docs
@@ -371,7 +372,16 @@ retained_residue: []
 blockers: []
 final_inventory_ref: evidence://worktree/final
 final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
   ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
 next_route_condition: none
 YAML
   run_validator_with_fixtures "$report" >/dev/null
@@ -392,6 +402,7 @@ read_only_classification: true
 detection_is_deletion_authority: false
 direct_material_actions_performed: false
 repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: git_clean_terminal
 repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture/classification.txt
 repo_hygiene_cleanup_ref: evidence://runs/skills/repo-hygiene-cleanup/fixture/run-log.yml
 repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture/authorization.json
@@ -439,10 +450,492 @@ retained_residue: []
 blockers: []
 final_inventory_ref: evidence://worktree/final
 final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
   ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
 next_route_condition: none
 YAML
   run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_git_clean_terminal_after_evidence_retention_candidate_passes() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "primary-candidate/change-receipt.json"
+  write_closeout_change_fixture "evidence-retention-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-git-clean-after-evidence-retention
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-primary
+candidates:
+  - candidate_id: candidate-primary
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - src/runtime/kernel.rs
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-candidate
+  - candidate_id: candidate-closeout-evidence-retention
+    disposition: delegated
+    ownership: retained-closeout-evidence
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/evidence-retention-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-candidate
+      exclude_paths:
+        - src/runtime/kernel.rs
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-primary
+    include_paths:
+      - src/runtime/kernel.rs
+    exclude_paths:
+      - .octon/state/evidence/runs/skills/closeout-change/primary-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: retained closeout evidence is the only new non-ignored residue and is safely separable
+  - iteration_id: iteration-002
+    pre_inventory_ref: evidence://worktree/inventory-002
+    pre_classification_ref: evidence://worktree/classification-002
+    selected_candidate_id: candidate-closeout-evidence-retention
+    include_paths:
+      - .octon/state/evidence/runs/skills/closeout-change/primary-candidate
+    exclude_paths:
+      - src/runtime/kernel.rs
+    closeout_change_ref: evidence://runs/skills/closeout-change/evidence-retention-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-003
+    post_classification_ref: evidence://worktree/classification-003
+    next_selection_reason: no non-ignored residue remains after evidence-retention closeout
+final_candidate_dispositions:
+  candidate-primary:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-candidate/change-receipt.json
+  candidate-closeout-evidence-retention:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/evidence-retention-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: none
+YAML
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_disposition_complete_with_retained_residue_passes() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "primary-retained-report-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-disposition-complete-retained
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-primary
+candidates:
+  - candidate_id: candidate-primary
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-report-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - src/runtime/kernel.rs
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
+  - candidate_id: candidate-closeout-evidence-residue
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve retained closeout evidence until a later governed route supersedes it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
+      exclude_paths:
+        - src/runtime/kernel.rs
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-primary
+    include_paths:
+      - src/runtime/kernel.rs
+    exclude_paths:
+      - .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-report-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: retained closeout evidence remains documented but Git-clean is not claimed
+final_candidate_dispositions:
+  candidate-primary:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-report-candidate/change-receipt.json
+  candidate-closeout-evidence-residue:
+    state: retained
+    reason: closeout evidence remains retained and outside wrapper deletion authority
+retained_residue:
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
+    disposition: retained closeout evidence
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  untracked: 2
+  ignored: 0
+  retained_evidence: 4
+next_route_condition: none
+YAML
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_git_clean_terminal_with_retained_evidence_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "primary-retained-invalid-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-git-clean-with-retained-evidence
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-primary
+candidates:
+  - candidate_id: candidate-primary
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-invalid-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - src/runtime/kernel.rs
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-retained-invalid-candidate
+  - candidate_id: candidate-closeout-evidence-residue
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve retained closeout evidence until a later governed route supersedes it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-retained-invalid-candidate
+      exclude_paths:
+        - src/runtime/kernel.rs
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-primary
+    include_paths:
+      - src/runtime/kernel.rs
+    exclude_paths:
+      - .octon/state/evidence/runs/skills/closeout-change/primary-retained-invalid-candidate
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-invalid-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: retained closeout evidence remains
+final_candidate_dispositions:
+  candidate-primary:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-invalid-candidate/change-receipt.json
+  candidate-closeout-evidence-residue:
+    state: retained
+retained_residue:
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/primary-retained-invalid-candidate
+    disposition: retained closeout evidence
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 1
+  ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 1
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_retained_terminal_missing_worktree_terminal_state_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "primary-missing-terminal-state/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-missing-terminal-state
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-primary
+candidates:
+  - candidate_id: candidate-primary
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-missing-terminal-state/change-receipt.json
+    boundaries:
+      include_paths:
+        - src/runtime/kernel.rs
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-missing-terminal-state
+  - candidate_id: candidate-closeout-evidence-residue
+    disposition: retained
+    ownership: retained-closeout-evidence
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve retained closeout evidence until a later governed route supersedes it
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/primary-missing-terminal-state
+      exclude_paths:
+        - src/runtime/kernel.rs
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-primary
+    include_paths:
+      - src/runtime/kernel.rs
+    exclude_paths:
+      - .octon/state/evidence/runs/skills/closeout-change/primary-missing-terminal-state
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-missing-terminal-state/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: retained closeout evidence remains
+final_candidate_dispositions:
+  candidate-primary:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/primary-missing-terminal-state/change-receipt.json
+  candidate-closeout-evidence-residue:
+    state: retained
+retained_residue:
+  - candidate_id: candidate-closeout-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/primary-missing-terminal-state
+    disposition: retained closeout evidence
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  untracked: 1
+  ignored: 0
+  retained_evidence: 1
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_repo_hygiene_delegated_retained_report_passes() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-retained-hygiene-candidate/change-receipt.json"
+  write_repo_hygiene_cleanup_fixture "fixture-retained/run-log.yml"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-repo-hygiene-delegated-retained
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: nonterminal
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture-retained/classification.txt
+repo_hygiene_cleanup_ref: evidence://runs/skills/repo-hygiene-cleanup/fixture-retained/run-log.yml
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture-retained/authorization.json
+repo_hygiene_cleanup_outcome: delegated-retained
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 1
+repo_hygiene_next_route_condition: manual-review repo-hygiene residue remains retained by delegated route
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-retained-hygiene-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths:
+        - .octon/state/evidence/runs/manual-review.yml
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths:
+      - .octon/state/evidence/runs/manual-review.yml
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-retained-hygiene-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: delegated repo-hygiene retained manual-review residue outside wrapper cleanup authority
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-retained-hygiene-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: delegated repo-hygiene manual-review residue remains retained
+YAML
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_repo_hygiene_unresolved_blocks_git_clean_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-unresolved-hygiene-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-repo-hygiene-unresolved-git-clean
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture-unresolved/classification.txt
+repo_hygiene_cleanup_outcome: classification-only
+repo_hygiene_summary:
+  cleanup_candidates: 1
+  protected_referenced: 0
+  manual_review: 0
+repo_hygiene_next_route_condition: delegate cleanup candidate to repo-hygiene-cleanup
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-unresolved-hygiene-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-unresolved-hygiene-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: repo-hygiene cleanup candidate remains unresolved
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-unresolved-hygiene-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: delegate unresolved repo-hygiene cleanup candidate
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
 }
 
 case_repo_hygiene_cleanup_actions_performed_fails() {
@@ -572,6 +1065,7 @@ observed_change_set_count: 2
 read_only_classification: true
 detection_is_deletion_authority: false
 direct_material_actions_performed: false
+worktree_terminal_state: nonterminal
 initial_inventory_ref: evidence://worktree/initial
 residue_classification_ref: evidence://worktree/classification
 selected_candidate_id: candidate-docs
@@ -1558,6 +2052,7 @@ observed_change_set_count: 2
 read_only_classification: true
 detection_is_deletion_authority: false
 direct_material_actions_performed: false
+worktree_terminal_state: nonterminal
 initial_inventory_ref: "file://$initial_inventory"
 residue_classification_ref: "file://$initial_classification"
 selected_candidate_id: candidate-docs
@@ -1982,6 +2477,12 @@ main() {
   assert_success "static closeout-worktree registration and projection pass" case_static_validator_passes
   assert_success "valid multi-candidate wrapper orchestration report passes" case_valid_multi_candidate_report_passes
   assert_success "repo-hygiene delegated cleanup report passes" case_repo_hygiene_delegated_cleanup_report_passes
+  assert_success "git-clean terminal report after evidence-retention candidate passes" case_git_clean_terminal_after_evidence_retention_candidate_passes
+  assert_success "disposition-complete retained residue report passes" case_disposition_complete_with_retained_residue_passes
+  assert_success "git-clean terminal with retained evidence fails" case_git_clean_terminal_with_retained_evidence_fails
+  assert_success "retained terminal report missing worktree terminal state fails" case_retained_terminal_missing_worktree_terminal_state_fails
+  assert_success "repo-hygiene delegated retained report passes" case_repo_hygiene_delegated_retained_report_passes
+  assert_success "unresolved repo-hygiene residue blocks git-clean terminal state" case_repo_hygiene_unresolved_blocks_git_clean_fails
   assert_success "repo-hygiene cleanup action from wrapper fails" case_repo_hygiene_cleanup_actions_performed_fails
   assert_success "repo-hygiene cleanup ref must resolve" case_repo_hygiene_cleanup_ref_must_resolve_fails
   assert_success "first candidate closes and second candidate blocks with evidence" case_first_close_then_second_blocked_passes

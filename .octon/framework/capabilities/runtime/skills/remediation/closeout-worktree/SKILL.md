@@ -59,7 +59,9 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    `closeout-change` with explicit include/exclude paths, route hints, target
    outcome, and receipt refs when known. If the operator only asked to close out
    the worktree and did not explicitly request a narrower outcome, pass
-   `target_lifecycle_outcome: cleaned` to each safely separable candidate.
+   `target_lifecycle_outcome: cleaned` to each safely separable candidate. For
+   wrapper-level closeout this targets `git_clean_terminal` when policy allows;
+   singular `closeout-change` `cleaned` remains route-bound.
    For branch-no-pr landing, the delegated `closeout-change` run must own
    hosted preflight, governed landing authorization, hosted mutation, and
    rollback evidence. For branch cleanup, the delegated `closeout-change` run
@@ -73,16 +75,21 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    remain false because this wrapper did not delete anything.
 9. **Re-inventory** — After each delegated closeout attempt or delegated
    repo-hygiene cleanup, re-run inventory and classification before selecting
-   another candidate.
+   another candidate. When the generic target is `cleaned` and the only new
+   non-ignored residue is unambiguous closeout evidence under retained evidence
+   roots, create the next candidate with `route_hint: closeout-change`,
+   `target_lifecycle_outcome: cleaned`, and explicit include/exclude paths.
 10. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
    time while coherent candidates remain. Stop only when every candidate is
-   closed, retained, blocked, escalated, deferred, or foreign with evidence,
-   or when the next selected candidate has a candidate-keyed blocker.
+   closed, retained, blocked, escalated, deferred, or foreign with evidence and
+   the wrapper can truthfully report a `worktree_terminal_state`, or when the
+   next selected candidate has a candidate-keyed blocker.
 11. **Wrapper Report** — Record the final worktree disposition: closed
     Changes, retained candidates, blocked or escalated items, evidence refs,
     repo-hygiene classification refs, delegated repo-hygiene cleanup refs,
     repo-hygiene cleanup authorization refs when available, detached worktree
-    cleanup safety proof when applicable, and next route condition.
+    cleanup safety proof when applicable, `worktree_terminal_state`, and next
+    route condition.
 
 ## Wrapper Evidence
 
@@ -90,8 +97,20 @@ Write wrapper reports as `schema_version: closeout-worktree-report-v1`. The
 report must record the initial inventory, read-only residue classification,
 observed candidate count, selected candidate, candidate boundaries,
 orchestration iterations, delegated `closeout-change` evidence, retained
-residue, blockers, final candidate dispositions, final inventory, and
-next-route condition.
+residue, blockers, final candidate dispositions, final inventory,
+`worktree_terminal_state`, and next-route condition.
+
+`worktree_terminal_state` must be one of:
+
+- `git_clean_terminal`: no non-ignored staged, unstaged, untracked,
+  retained-evidence, generated-effective, host-projection, state-control,
+  release-version, or input-surface residue remains. Ignored local residue may
+  remain only with foreign or retained evidence.
+- `disposition_complete_with_retained_residue`: every candidate is `closed`,
+  `retained`, or `foreign` with authority-backed evidence, but Git-clean is not
+  claimed.
+- `nonterminal`: blocked, deferred, escalated, ambiguous, or unresolved
+  delegated residue remains.
 
 When repo-hygiene residue is present, the report should include
 `repo_hygiene_classification_ref`,
@@ -137,12 +156,15 @@ Synthetic route labels are not sufficient closeout evidence.
 Candidates with `retained`, `deferred`, or `foreign` disposition must have
 candidate-keyed `retained_residue` entries covering their included boundary
 paths. Candidates with `blocked`, `escalated`, or `ambiguous` disposition must
-have candidate-keyed blocker evidence, and reports with unresolved candidates
-must not use a terminal `next_route_condition` such as `none`. Reports that
-supersede or continue an earlier wrapper partition must reconcile every prior
-candidate as still present, folded, retained, blocked, escalated, deferred, or
-foreign. Reports whose final classifier summary shows ignored residue must
-include retained or foreign ignored-residue evidence. Validate the report with
+have candidate-keyed blocker evidence. Reports that use
+`git_clean_terminal` must have no untracked retained evidence or other
+non-ignored residue, and reports that cannot avoid emitting fresh repo-local
+closeout evidence after the final delegated candidate must use
+`disposition_complete_with_retained_residue` instead. Reports that supersede or
+continue an earlier wrapper partition must reconcile every prior candidate as
+still present, folded, retained, blocked, escalated, deferred, or foreign.
+Reports whose final classifier summary shows ignored residue must include
+retained or foreign ignored-residue evidence. Validate the report with
 `.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report <path>`
 before claiming worktree closeout.
 
@@ -158,8 +180,8 @@ before claiming worktree closeout.
 - Do not treat detection as deletion authority.
 - Do not perform repo-hygiene cleanup from the wrapper. Global local artifact
   hygiene routes to `repo-hygiene-cleanup`, and unresolved cleanup candidates,
-  protected referenced paths, or manual-review paths must prevent a terminal
-  full-worktree hygiene claim.
+  protected referenced paths, or manual-review paths must prevent
+  `git_clean_terminal`.
 - Do not remove stale detached Git worktrees from detection alone. Removal
   requires explicit detached, clean, unreferenced, non-active worktree proof and
   must be recorded separately from branch cleanup and repo-hygiene cleanup.
@@ -170,6 +192,9 @@ before claiming worktree closeout.
   ambiguous or user-owned work.
 - Do not claim full worktree closeout while any retained, blocked, ambiguous,
   or foreign candidate remains undocumented.
+- Do not claim `git_clean_terminal` while untracked retained evidence or other
+  non-ignored residue remains; use `disposition_complete_with_retained_residue`
+  when all remaining residue is authority-backed and intentionally retained.
 
 ## References
 

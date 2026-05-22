@@ -38,6 +38,14 @@ candidates are the wrapper's normal operating condition: select one safely
 separable candidate, route it through singular `closeout-change`, re-inventory,
 and then decide the next candidate.
 
+After a delegated closeout, if the generic worktree target is `cleaned` and the
+only new non-ignored residue is unambiguous closeout evidence under retained
+evidence roots, route that evidence as the next singular `closeout-change`
+candidate. If fresh repo-local evidence residue remains after the final
+delegated candidate, report
+`worktree_terminal_state: disposition_complete_with_retained_residue` rather
+than `git_clean_terminal`.
+
 When candidate boundaries are unambiguous, do not ask the operator to approve
 the partition before delegation. Ask only when ownership, overlap,
 destructive action, target outcome, route, validation, rollback, or cleanup

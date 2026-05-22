@@ -31,6 +31,10 @@ relationship_to_default_work_unit:
     posture: "optional wrapper for decomposing dirty worktree residue and orchestrating repeated singular closeout-change runs"
     decomposition_rule: "partition residue into singular Change closeouts and delegate each coherent unit to closeout-change"
     orchestration_rule: "delegate each safely separable coherent unit to closeout-change, re-inventory, and repeat until every candidate has a final disposition"
+    terminal_states:
+      git_clean_terminal: "No non-ignored staged, unstaged, untracked, retained-evidence, generated-effective, host-projection, state-control, release-version, or input-surface residue remains; ignored local residue may remain only with foreign or retained evidence."
+      disposition_complete_with_retained_residue: "Every candidate is closed, retained, or foreign with authority-backed evidence, but Git-clean worktree state is not claimed."
+      nonterminal: "Blocked, deferred, escalated, ambiguous, or unresolved delegated residue remains."
     default_work_unit_replacement: false
   forbidden_competing_routes:
     - "branch-land-no-pr"
@@ -66,7 +70,9 @@ target_lifecycle_defaults:
   rule: >-
     When an operator asks to close out a Change or worktree without explicitly
     naming a narrower target, resolve target_lifecycle_outcome to cleaned before
-    executing route-specific mutation.
+    executing route-specific mutation. For closeout-worktree, cleaned targets
+    git_clean_terminal when policy allows; singular closeout-change cleaned
+    remains route-bound.
   explicit_narrower_lifecycle_targets:
     - "published-branch"
     - "branch-local-complete"
@@ -86,6 +92,7 @@ routine_autonomy:
     operator_prompt_required: false
   dirty_worktree_partitioning:
     default_when_unambiguous: "partition and delegate each coherent candidate through closeout-change"
+    post_closeout_evidence_residue_rule: "When generic worktree closeout targets cleaned and only safely separable closeout evidence residue remains after re-inventory, route that residue as the next singular closeout-change candidate; if fresh repo-local evidence residue remains after the final delegated candidate, report disposition_complete_with_retained_residue rather than git_clean_terminal."
     ask_operator_only_for:
       - "candidate boundary overlap"
       - "unsafe destructive action"

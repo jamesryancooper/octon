@@ -58,7 +58,9 @@ target such as `published-branch`, `branch-local-complete`, `landed`,
 delegation. Explicit `stage-only-escalate` route requests must be paired with a
 route-compatible target such as `preserved`, `blocked`, or `escalated`. The
 report may still record a lower final candidate disposition when the singular
-receipt proves only a lower outcome.
+receipt proves only a lower outcome. Wrapper-level `cleaned` targets
+`worktree_terminal_state: git_clean_terminal` when policy allows; singular
+`closeout-change` `cleaned` remains route-bound.
 
 ## Report Schema
 
@@ -81,12 +83,25 @@ include:
 - `blockers`
 - `final_inventory_ref`
 - `final_residue_classes`
+- `worktree_terminal_state`
 - optional `repo_hygiene_classification_ref`
 - optional `repo_hygiene_cleanup_ref`
 - optional `repo_hygiene_cleanup_authorization_ref`
 - optional `repo_hygiene_cleanup_outcome`
 - optional `repo_hygiene_next_route_condition`
 - `next_route_condition`
+
+`worktree_terminal_state` must be one of:
+
+- `git_clean_terminal`: no non-ignored staged, unstaged, untracked,
+  retained-evidence, generated-effective, host-projection, state-control,
+  release-version, or input-surface residue remains; ignored local residue may
+  remain only with foreign or retained evidence.
+- `disposition_complete_with_retained_residue`: every candidate is `closed`,
+  `retained`, or `foreign` with authority-backed evidence, but Git-clean is not
+  claimed.
+- `nonterminal`: blocked, deferred, escalated, ambiguous, or unresolved
+  delegated residue remains.
 
 Each candidate record must include `candidate_id`, `disposition`, `ownership`,
 `route_hint`, `target_lifecycle_outcome`, `rollback_or_discard_posture`, and
@@ -145,6 +160,11 @@ Unresolved candidates must carry candidate-keyed evidence:
 - Reports with any unresolved candidate must use a non-terminal
   `next_route_condition` that names the remaining route, blocker, or operator
   resolution condition.
+- Reports with `worktree_terminal_state: git_clean_terminal` must not have
+  untracked retained evidence or other non-ignored residue in
+  `final_residue_classes`; if fresh repo-local closeout evidence remains after
+  the final delegated candidate, use
+  `disposition_complete_with_retained_residue`.
 - A report must not mark a safely separable selected candidate as blocked only
   because other candidates exist; multiple candidates trigger wrapper
   orchestration, not partition-only completion.

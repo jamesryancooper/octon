@@ -172,6 +172,10 @@ approval denial, or cleanup outside a governed route.
   global local artifact residue must be routed through `closeout-worktree` or
   `repo-hygiene-cleanup`, and unresolved repo-hygiene cleanup candidates block
   a full-worktree cleanliness claim.
+- Closeout evidence generated after route cleanup and landing is outside the
+  already-landed Change route. When a wrapper-level Git-clean terminal state is
+  required, that evidence must be retained, blocked, or routed as a separate
+  singular Change rather than folded into the completed route receipt.
 - Eligible local Octon run/artifact residue is not branch cleanup. Route it to
   `repo-hygiene-cleanup` and its validating
   `repo-hygiene-cleanup-authorization-v1` receipt flow; generated run-health

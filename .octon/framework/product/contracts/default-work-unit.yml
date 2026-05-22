@@ -11,12 +11,18 @@ worktree_wrapper:
   skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
   purpose: "Decompose a dirty worktree into singular Change closeout candidates and orchestrate each safely separable candidate through closeout-change."
   default_work_unit_replacement: false
+  terminal_states:
+    git_clean_terminal: "No non-ignored staged, unstaged, untracked, retained-evidence, generated-effective, host-projection, state-control, release-version, or input-surface residue remains; ignored local residue may remain only with foreign or retained evidence."
+    disposition_complete_with_retained_residue: "Every candidate is closed, retained, or foreign with authority-backed evidence, but Git-clean worktree state is not claimed."
+    nonterminal: "Blocked, deferred, escalated, ambiguous, or unresolved delegated residue remains."
 closeout_defaults:
   target_lifecycle_outcome:
     unspecified_closeout_request: "cleaned"
     resolution_rule: >-
       When the operator asks to close out a Change or worktree without naming a
       narrower lifecycle target, resolve target_lifecycle_outcome to cleaned.
+      For closeout-worktree, this targets git_clean_terminal when policy allows;
+      singular closeout-change cleaned remains route-bound.
     explicit_narrower_lifecycle_outcomes:
       - "published-branch"
       - "branch-local-complete"
@@ -40,6 +46,14 @@ routine_closeout_autonomy:
     references, validation floors, and rollback posture may be partitioned and
     routed through repeated singular closeout-change candidates without asking
     the operator to choose each partition.
+  post_closeout_evidence_residue_rule: >-
+    When generic worktree closeout targets cleaned and re-inventory finds only
+    safely separable closeout evidence residue under retained evidence roots,
+    closeout-worktree should create the next candidate and delegate it through
+    singular closeout-change instead of asking for another operator cleanup
+    instruction. If the wrapper cannot avoid leaving fresh repo-local evidence
+    residue after the final delegated candidate, it must report
+    disposition_complete_with_retained_residue rather than git_clean_terminal.
   branch_no_pr_default_progression:
     when_selected_and_target_is_cleaned:
       - "create_or_select_task_branch_for_the_singular_candidate_when_branch_identity_is_absent_and_branch_isolation_is_required"

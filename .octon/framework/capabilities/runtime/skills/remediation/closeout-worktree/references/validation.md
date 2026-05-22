@@ -25,6 +25,8 @@ Successful wrapper execution proves:
   post-classification, and next-selection evidence;
 - every candidate has exactly one final disposition under
   `final_candidate_dispositions`;
+- `worktree_terminal_state` distinguishes `git_clean_terminal`,
+  `disposition_complete_with_retained_residue`, and `nonterminal`;
 - each closed candidate cites the singular `closeout-change` receipt JSON used
   for that iteration, that ref resolves under
   `.octon/state/evidence/runs/skills/closeout-change/`, and the receipt records
@@ -48,6 +50,8 @@ Successful wrapper execution proves:
   escalated, deferred, or foreign;
 - final reporting distinguishes closed Changes from retained or blocked
   worktree residue.
+- terminal reporting distinguishes a truly Git-clean worktree from a fully
+  dispositioned worktree that still retains evidence residue.
 
 Negative controls:
 
@@ -87,6 +91,10 @@ Negative controls:
   no matching candidate-keyed blocker evidence fails.
 - A wrapper report that carries unresolved candidates while claiming terminal
   `next_route_condition: none` fails.
+- A wrapper report that claims `worktree_terminal_state: git_clean_terminal`
+  while untracked retained evidence or other non-ignored residue remains fails.
+- A wrapper report that claims terminal retained-residue disposition without
+  `worktree_terminal_state: disposition_complete_with_retained_residue` fails.
 - A wrapper report that claims terminal completion while any candidate lacks a
   terminal final disposition fails.
 - A wrapper report that claims cleanup from detection-only evidence fails.
