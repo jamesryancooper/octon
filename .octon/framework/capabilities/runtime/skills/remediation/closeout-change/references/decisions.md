@@ -38,14 +38,16 @@ claim.
 Do not ask whether a generic "close out" request means handoff or cleanup; the
 default target is `cleaned`. Ask only when the operator's words explicitly
 conflict with that default or name a route/outcome combination the selected
-route cannot support:
+route cannot support. After `branch-no-pr` is selected, continue through branch
+creation when needed, source-branch push, hosted no-PR preflight, governed
+landing authorization, landing, governed branch cleanup authorization, safe
+branch cleanup, local-main sync, and receipt generation without another prompt
+when all route-specific evidence validates.
 
-- "Do you want `branch-no-pr` closeout to stop at pushed-branch handoff, or
-  should I attempt hosted landing?"
-- "If hosted landing succeeds, should I proceed through safe branch cleanup and
-  local-main sync?"
-- "If landing is blocked, should I record a blocker receipt, publish the branch
-  for handoff, or stop for review?"
+Ask or stop only for candidate overlap, unclear ownership, unsafe destructive
+action, missing validation, missing rollback posture, provider PR
+requirements, stale or denied authorization, runtime/sandbox/provider/host
+approval denial, or cleanup outside a governed route.
 
 Lifecycle outcomes:
 

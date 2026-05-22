@@ -25,7 +25,9 @@ scratch artifacts.
 
 Use this skill when a worktree contains local `.octon/state/**` or
 `.octon/generated/.tmp/**` residue and the operator wants a bounded cleanup
-route after classification.
+route after classification. `closeout-worktree` may delegate eligible residue
+to this skill during routine cleaned closeout; this skill remains a hygiene
+subroute and does not replace `closeout-change` or authorize branch cleanup.
 
 Do not use this skill to implement proposals, clean generated run-health
 projections, delete branches, remove tracked files, clean input packets, or
@@ -49,7 +51,12 @@ rewrite durable framework or instance authority.
 4. **Select Route** - Use one of two delete routes only:
    `--confirm` for explicit operator action, or `--authorize <receipt.json>`
    followed by `--authorization <receipt.json>` for receipt-backed cleanup.
-   If the operator did not authorize deletion, stop after classification.
+   The receipt route may proceed without another operator prompt only when the
+   helper's current classification contains exact untracked, unreferenced
+   cleanup candidates and no protected, manual-review, ignored, user-owned,
+   generated run-health, active control, durable evidence, input, tracked, or
+   generated-authority path is included. If neither delete route is available
+   or valid, stop after classification.
 5. **Receipt Route** - When using the receipt route, store the emitted
    `repo-hygiene-cleanup-authorization-v1` receipt under retained evidence,
    then invoke the helper with `--authorization`. The helper must revalidate
@@ -87,3 +94,6 @@ This skill must not delete
   safety controls.
 - Do not claim full worktree closeout; this skill only handles repo-hygiene
   cleanup candidates within the helper's current scope.
+- Do not delete branches, tracked files, proposal inputs, generated run-health
+  projections, durable evidence, active control state, detached Git worktrees,
+  ignored paths, or user-owned paths.

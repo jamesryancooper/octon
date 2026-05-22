@@ -116,6 +116,15 @@ validate_static() {
   require_literal "$WRAPPER" "repo_hygiene_next_route_condition" \
     "wrapper documents repo-hygiene next route condition" \
     "wrapper must document repo_hygiene_next_route_condition"
+  require_literal "$WRAPPER" "repo_hygiene_cleanup_ref" \
+    "wrapper documents delegated repo-hygiene cleanup evidence" \
+    "wrapper must document repo_hygiene_cleanup_ref"
+  require_literal "$WRAPPER" "partition autonomously" \
+    "wrapper documents autonomous unambiguous partitioning" \
+    "wrapper must document autonomous unambiguous partitioning"
+  require_literal "$WRAPPER" "stale detached Git worktrees" \
+    "wrapper documents detached worktree cleanup safety routing" \
+    "wrapper must document detached worktree cleanup safety routing"
   require_literal "$CLOSEOUT_CHANGE" '`cleaned` is route-bound' \
     "closeout-change limits cleaned to route-bound cleanup evidence" \
     "closeout-change must limit cleaned to route-bound cleanup evidence"
@@ -143,6 +152,9 @@ validate_static() {
   require_literal "$WRAPPER_VALIDATION" "continued handoff receipt as \`closed\` fails" \
     "wrapper validation rejects continued handoff receipts as closed candidates" \
     "wrapper validation must reject continued handoff receipts as closed candidates"
+  require_literal "$WRAPPER_VALIDATION" "repo_hygiene_cleanup_actions_performed: true" \
+    "wrapper validation rejects direct repo-hygiene cleanup action claims" \
+    "wrapper validation must reject direct repo-hygiene cleanup action claims"
   require_literal "$CODEX_WRAPPER" "name: closeout-worktree" \
     "Codex host projection exposes closeout-worktree" \
     "Codex host projection must expose closeout-worktree"
@@ -170,6 +182,7 @@ errors = []
 ROOT_DIR = Path(os.environ["ROOT_DIR"]).resolve()
 EVIDENCE_ROOT = Path(os.environ.get("CLOSEOUT_WORKTREE_EVIDENCE_ROOT", str(ROOT_DIR))).resolve()
 CLOSEOUT_CHANGE_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/closeout-change").resolve()
+REPO_HYGIENE_CLEANUP_ROOT = (EVIDENCE_ROOT / ".octon/state/evidence/runs/skills/repo-hygiene-cleanup").resolve()
 
 
 def fail(message):
@@ -281,6 +294,38 @@ def resolve_receipt_ref(ref, field):
     if path.is_absolute() or ".." in path.parts:
         return None
     return EVIDENCE_ROOT / Path(*path.parts)
+
+
+def resolve_repo_hygiene_cleanup_ref(ref, field):
+    if not is_nonempty_string(ref):
+        fail(f"{field} must be a non-empty evidence ref")
+        return None
+    if ref.startswith("evidence://runs/skills/repo-hygiene-cleanup/"):
+        suffix = ref.removeprefix("evidence://runs/skills/repo-hygiene-cleanup/")
+        if not suffix:
+            fail(f"{field} must include a repo-hygiene-cleanup evidence path suffix")
+            return None
+        value = f".octon/state/evidence/runs/skills/repo-hygiene-cleanup/{suffix}"
+    elif ref.startswith(".octon/state/evidence/runs/skills/repo-hygiene-cleanup/"):
+        value = ref
+    else:
+        fail(f"{field} must cite delegated repo-hygiene-cleanup evidence under .octon/state/evidence/runs/skills/repo-hygiene-cleanup/")
+        return None
+
+    validate_repo_path(value, field)
+    path = PurePosixPath(value)
+    if path.is_absolute() or ".." in path.parts:
+        return None
+    resolved = (EVIDENCE_ROOT / Path(*path.parts)).resolve()
+    try:
+        resolved.relative_to(REPO_HYGIENE_CLEANUP_ROOT)
+    except ValueError:
+        fail(f"{field} must stay under .octon/state/evidence/runs/skills/repo-hygiene-cleanup/: {ref}")
+        return None
+    if not resolved.exists():
+        fail(f"{field} must resolve to delegated repo-hygiene-cleanup evidence: {ref}")
+        return None
+    return resolved
 
 
 def validate_cleanup_authorization(receipt, field):
@@ -488,6 +533,30 @@ for field in ("run_id", "initial_inventory_ref", "residue_classification_ref", "
 terminal_next_route_values = {"none", "no-op", "noop", "n/a", "na", "closed", "complete", "completed", "done", "terminal"}
 repo_hygiene_unresolved_count = 0
 repo_hygiene_summary = data.get("repo_hygiene_summary")
+repo_hygiene_cleanup_ref = data.get("repo_hygiene_cleanup_ref")
+repo_hygiene_cleanup_outcome = data.get("repo_hygiene_cleanup_outcome")
+if repo_hygiene_cleanup_ref is not None:
+    resolve_repo_hygiene_cleanup_ref(repo_hygiene_cleanup_ref, "repo_hygiene_cleanup_ref")
+    valid_cleanup_outcomes = {
+        "classification-only",
+        "delegated-cleaned",
+        "delegated-blocked",
+        "delegated-retained",
+        "not-applicable",
+    }
+    require(
+        repo_hygiene_cleanup_outcome in valid_cleanup_outcomes,
+        f"repo_hygiene_cleanup_outcome must be one of {sorted(valid_cleanup_outcomes)} when repo_hygiene_cleanup_ref is present",
+    )
+    require(
+        data.get("repo_hygiene_cleanup_actions_performed") is False,
+        "delegated repo-hygiene cleanup requires repo_hygiene_cleanup_actions_performed: false",
+    )
+elif repo_hygiene_cleanup_outcome is not None:
+    require(
+        repo_hygiene_cleanup_outcome in {"classification-only", "not-applicable"},
+        "repo_hygiene_cleanup_outcome without repo_hygiene_cleanup_ref must be classification-only or not-applicable",
+    )
 if repo_hygiene_summary is not None:
     if not isinstance(repo_hygiene_summary, dict):
         fail("repo_hygiene_summary must be a mapping")

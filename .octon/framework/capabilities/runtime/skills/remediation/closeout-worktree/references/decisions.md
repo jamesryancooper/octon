@@ -38,6 +38,18 @@ candidates are the wrapper's normal operating condition: select one safely
 separable candidate, route it through singular `closeout-change`, re-inventory,
 and then decide the next candidate.
 
+When candidate boundaries are unambiguous, do not ask the operator to approve
+the partition before delegation. Ask only when ownership, overlap,
+destructive action, target outcome, route, validation, rollback, or cleanup
+authority is genuinely unclear.
+
+Eligible local Octon run/artifact residue is not a Change candidate and is not
+wrapper-owned cleanup. Classify it, record repo-hygiene routing evidence, and
+delegate cleanup to `repo-hygiene-cleanup` when the helper scope and receipt
+route can prove deletion safety. Generated run-health projections route to the
+run-health generator. Stale detached Git worktrees route through Git worktree
+cleanup safety proof. Anything outside those routes is retained or blocked.
+
 If the operator uses the phrase "closeout changes", reinterpret it as
 `Closeout Worktree` only for routing convenience. Do not introduce a canonical
 `Closeout Changes` model.

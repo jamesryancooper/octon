@@ -45,7 +45,9 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    perform cleanup actions.
 4. **Partition Candidate Changes** — Group residue into candidate Change
    scopes by intent, touched paths, branch identity, receipt references,
-   validation requirements, and operator instructions.
+   validation requirements, and operator instructions. When grouping is
+   unambiguous, partition autonomously; do not ask the operator to name the
+   first candidate merely because multiple candidates exist.
 5. **Resolve Ambiguity** — Ask or stop when ownership, grouping, target
    outcome, route, validation floor, cleanup authority, or destructive action
    would be ambiguous.
@@ -63,16 +65,24 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    rollback evidence. For branch cleanup, the delegated `closeout-change` run
    must own governed cleanup authorization and any local or remote branch
    deletion.
-8. **Re-inventory** — After each delegated closeout attempt, re-run inventory
-   and classification before selecting another candidate.
-9. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
+8. **Delegate Repo-Hygiene Residue** — When classification identifies eligible
+   local Octon run/artifact residue, delegate it to `repo-hygiene-cleanup`
+   using that feature's classify-first, receipt-backed helper route. The
+   wrapper may record the classification, delegated run, authorization ref, and
+   next-route condition, but `repo_hygiene_cleanup_actions_performed` must
+   remain false because this wrapper did not delete anything.
+9. **Re-inventory** — After each delegated closeout attempt or delegated
+   repo-hygiene cleanup, re-run inventory and classification before selecting
+   another candidate.
+10. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
    time while coherent candidates remain. Stop only when every candidate is
    closed, retained, blocked, escalated, deferred, or foreign with evidence,
    or when the next selected candidate has a candidate-keyed blocker.
-10. **Wrapper Report** — Record the final worktree disposition: closed
+11. **Wrapper Report** — Record the final worktree disposition: closed
     Changes, retained candidates, blocked or escalated items, evidence refs,
-    repo-hygiene classification refs, repo-hygiene cleanup authorization refs
-    when available, and next route condition.
+    repo-hygiene classification refs, delegated repo-hygiene cleanup refs,
+    repo-hygiene cleanup authorization refs when available, detached worktree
+    cleanup safety proof when applicable, and next route condition.
 
 ## Wrapper Evidence
 
@@ -85,7 +95,9 @@ next-route condition.
 
 When repo-hygiene residue is present, the report should include
 `repo_hygiene_classification_ref`,
+`repo_hygiene_cleanup_ref`,
 `repo_hygiene_cleanup_authorization_ref`,
+`repo_hygiene_cleanup_outcome`,
 `repo_hygiene_summary.cleanup_candidates`,
 `repo_hygiene_summary.protected_referenced`,
 `repo_hygiene_summary.manual_review`,
@@ -93,6 +105,11 @@ When repo-hygiene residue is present, the report should include
 `repo_hygiene_next_route_condition`. `repo_hygiene_cleanup_actions_performed`
 must remain false; route actual cleanup to `repo-hygiene-cleanup` or a
 singular route with its own cleanup authority.
+
+When stale detached Git worktrees are observed, the report must either retain
+them with rationale or cite explicit worktree cleanup safety proof: detached
+HEAD, clean worktree, no active branch, no open PR or branch ownership claim,
+not the current worktree, and removal through Git worktree cleanup policy.
 
 For every selected or delegated candidate, include explicit
 `boundaries.include_paths` and `boundaries.exclude_paths`. Multiple observed
@@ -143,6 +160,9 @@ before claiming worktree closeout.
   hygiene routes to `repo-hygiene-cleanup`, and unresolved cleanup candidates,
   protected referenced paths, or manual-review paths must prevent a terminal
   full-worktree hygiene claim.
+- Do not remove stale detached Git worktrees from detection alone. Removal
+  requires explicit detached, clean, unreferenced, non-active worktree proof and
+  must be recorded separately from branch cleanup and repo-hygiene cleanup.
 - Do not use `.octon/inputs/**`, proposal-local files, generated outputs, host
   state, GitHub state, chat, model memory, or tool availability as closeout
   authority.

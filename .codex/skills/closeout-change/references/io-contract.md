@@ -15,6 +15,12 @@ Inputs:
 - Optional `exclude_paths`
 - Optional `receipt_ref`
 
+When `include_paths` and `exclude_paths` come from `closeout-worktree`, they
+are candidate boundaries, not optional hints. `closeout-change` must stage and
+commit only the included boundary paths, preserve excluded paths, and create or
+select a task branch for branch-isolated candidates when the selected route
+requires branch identity and none exists.
+
 Outputs:
 
 - Change closeout report under
@@ -55,6 +61,12 @@ receipt outputs must include `cleanup_authorization_ref` pointing to a retained
 validate before cleanup mutation and match the source branch, landed ref,
 local `main`, `origin/main`, no-open-PR proof, rollback/discard posture, and
 cleanup policy proof.
+
+Repo-hygiene cleanup is outside the Change receipt unless it is cited as a
+separate delegated hygiene route. Eligible local Octon run/artifact residue
+uses `repo-hygiene-cleanup`; generated run-health projections use the
+run-health generator; stale detached Git worktrees require explicit Git
+worktree cleanup proof.
 
 When target lifecycle outcome is `landed` or `cleaned` but actual outcome is
 lower, receipt outputs must also record landing evaluation evidence and

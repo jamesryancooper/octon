@@ -20,23 +20,27 @@ title: Closeout Change Phases
    operator only asked to close out the Change and did not explicitly specify a
    narrower target, set `target_lifecycle_outcome: cleaned` before mutating
    hosted refs or deleting branches.
-8. Select the actual lifecycle outcome separately from the route and target.
-9. Verify route-required and outcome-required evidence.
-10. For `branch-no-pr`, distinguish preservation, branch-local commit, branch
+8. For delegated worktree candidates, honor include/exclude boundaries. When
+   branch isolation is required and no candidate branch exists, create or
+   select a task branch, then stage only included paths and preserve excluded
+   residue.
+9. Select the actual lifecycle outcome separately from the route and target.
+10. Verify route-required and outcome-required evidence.
+11. For `branch-no-pr`, distinguish preservation, branch-local commit, branch
    push, hosted no-PR landing on `main`, and cleanup. Hosted no-PR landing
    requires preflight and governed `branch-landing-authorization-v1` evidence
    before mutation and post-push proof that `origin/main` equals the recorded
    `landed_ref`.
-11. For `branch-pr`, distinguish published, ready, landed, and cleaned states
+12. For `branch-pr`, distinguish published, ready, landed, and cleaned states
    instead of treating draft/open/ready PRs as full closeout.
-12. Complete the route-specific output or record stage-only blockers. If the
+13. Complete the route-specific output or record stage-only blockers. If the
     target outcome was `landed` or `cleaned` but the actual outcome is lower,
     record `not_landed_reason` or `not_cleaned_reason` plus
     `landing_stop_reason` or `cleanup_stop_reason` and report continued or
     blocked closeout.
-13. Write or update the Change receipt and execution log. Completed or cleaned
+14. Write or update the Change receipt and execution log. Completed or cleaned
     claims require `stateful_closeout` evidence.
-14. Before reporting branch-based full closeout, verify the source branch
+15. Before reporting branch-based full closeout, verify the source branch
     changes are integrated into `origin/main`, fetch origin, update local
     `main` to that same ref, verify landed-ref containment in both refs, and
     record cleanup completed with `branch-cleanup-authorization-v1` evidence

@@ -101,6 +101,39 @@ does not replace the default work unit, mint a `Closeout Changes` model, or
 authorize direct staging, commits, pushes, PRs, landing, deletion, reset,
 restore, or overwrite.
 
+Routine closeout autonomy is allowed inside those boundaries. A generic
+closeout request already means `target_lifecycle_outcome: cleaned`; the agent
+does not need to ask whether routine branch landing, cleanup, final sync, or
+receipt generation should continue when the selected route, validation,
+rollback, and authorization evidence all satisfy policy. A dirty worktree with
+unambiguous path groups, branch identities or branch-creation need, receipt
+references, validation floors, and rollback posture should be partitioned into
+candidate Changes and routed one at a time through `closeout-change` without
+requiring the operator to name each partition. The wrapper records boundaries
+and delegates; the singular `closeout-change` run owns branch creation,
+staging, commit, push, hosted no-PR landing, branch cleanup authorization,
+branch cleanup, final `main` sync, and the Change receipt.
+
+Ask the operator only for real ambiguity or unsafe action: overlapping
+candidate boundaries, unclear ownership, user-owned paths, protected branches,
+unmerged or open-PR branches, missing authority, unresolved validation,
+missing rollback posture, policy conflicts, provider PR requirements, host or
+sandbox approval denial, or cleanup outside an authorized route.
+
+Residual cleanup is routed by authority path. Branch refs require governed
+branch cleanup authorization. Eligible untracked local Octon run/artifact
+residue under the helper's scope routes through `repo-hygiene-cleanup` and
+`cleanup-local-run-artifacts.sh`; the worktree wrapper may classify and cite
+that route but must not delete those paths itself. Generated run-health
+projections route through `generate-run-health-read-model.sh --all-runs` and
+its pruning evidence, not generic deletion. Stale detached Git worktrees may be
+removed only through Git worktree cleanup policy with explicit proof that the
+worktree is detached, clean, unreferenced by active branch or PR state, and not
+the current worktree. Tracked files, proposal inputs, durable evidence, active
+control state, generated authority, ignored or user-owned paths, and ambiguous
+residue are retained or blocked with precise evidence unless a singular
+authorized route owns the cleanup.
+
 When the operator asks for `branch-no-pr` closeout and does not name a target
 outcome, resolve the target to `cleaned` and attempt the full route lifecycle
 needed to prove it. If the operator explicitly requests `published-branch`,

@@ -177,7 +177,17 @@ local_artifact_hygiene:
   scope: "Untracked local artifacts under .octon/state/**, rebuildable scratch output under .octon/generated/.tmp/**, and generated run-health projections that must be routed away from generic cleanup."
   classifier_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
   authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  delegated_closeout_route: "closeout-worktree may delegate eligible local residue to repo-hygiene-cleanup, but the wrapper itself must not delete or claim cleanup authority."
   default_mode: "dry-run"
+  autonomous_receipt_route:
+    allowed: true
+    rule: >-
+      A routine closeout may use the helper's --authorize then --authorization
+      route without another operator prompt when the current dry-run
+      classification and validating receipt cover only exact untracked,
+      unreferenced cleanup candidates and protected, manual-review, ignored,
+      user-owned, generated run-health, durable evidence, active control,
+      input, tracked, and generated-authority paths are excluded.
   deletion_requires:
     - "explicit --confirm operator action"
     - "or validating repo-hygiene cleanup authorization receipt passed to cleanup-local-run-artifacts.sh with --authorization <receipt.json>"

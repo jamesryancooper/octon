@@ -18,6 +18,9 @@ policy_refs:
   closeout_change_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
   closeout_worktree_wrapper_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"
   closeout_pr_subflow_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
+  repo_hygiene_cleanup_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  repo_hygiene_cleanup_authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  run_health_generator_ref: ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
   git_worktree_autonomy_ref: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
 relationship_to_default_work_unit:
   route_authority: ".octon/framework/product/contracts/default-work-unit.yml"
@@ -76,6 +79,58 @@ target_lifecycle_defaults:
     Actual lifecycle outcome remains evidence-based. If cleaned cannot be
     proven, record the lower route-compatible lifecycle_outcome and the exact
     missing proof, structured stop reason, blocker, or next-route condition.
+routine_autonomy:
+  goal: "Remove routine operator steering while preserving Change-first routing."
+  generic_closeout_request:
+    target_lifecycle_outcome: "cleaned"
+    operator_prompt_required: false
+  dirty_worktree_partitioning:
+    default_when_unambiguous: "partition and delegate each coherent candidate through closeout-change"
+    ask_operator_only_for:
+      - "candidate boundary overlap"
+      - "unsafe destructive action"
+      - "missing authority"
+      - "unclear ownership"
+      - "protected branch"
+      - "unresolved validation"
+      - "policy conflict"
+      - "cleanup outside an authorized route"
+    wrapper_material_actions_forbidden:
+      - "stage"
+      - "commit"
+      - "push"
+      - "open-pr"
+      - "land"
+      - "merge"
+      - "delete"
+      - "reset"
+      - "restore"
+      - "overwrite"
+  branch_no_pr_cleaned_progression:
+    closeout_change_may_continue_without_extra_operator_prompt_when:
+      - "selected route is branch-no-pr"
+      - "target_lifecycle_outcome is cleaned"
+      - "candidate include and exclude boundaries are explicit"
+      - "validation floor is known and runnable or blocker is recorded"
+      - "rollback or discard posture is retained"
+      - "provider no-PR rules, landing authorization, cleanup authorization, branch safety, and final sync checks pass before each mutation"
+    closeout_change_may_create_task_branch_when:
+      - "branch isolation is required"
+      - "no candidate branch identity exists"
+      - "candidate boundaries are unambiguous"
+      - "the branch name follows repository naming rules"
+      - "exclude paths remain untouched"
+  residue_authority_routes:
+    branch_refs: "branch-cleanup-authorization-v1 through closeout-change"
+    eligible_local_run_artifact_residue: "repo-hygiene-cleanup with cleanup-local-run-artifacts.sh classification and receipt-backed deletion"
+    generated_run_health_projections: "generate-run-health-read-model.sh --all-runs with pruned_paths evidence"
+    stale_detached_git_worktrees: "Git worktree cleanup policy with explicit detached, clean, unreferenced, non-active proof"
+    tracked_files: "singular Change route only"
+    proposal_inputs: "proposal lifecycle archive or retention route only"
+    durable_evidence: "retain or escalate"
+    active_control_state: "retain or escalate"
+    generated_authority: "owning generator/publisher route only"
+    ignored_or_user_owned_paths: "retain or escalate"
 phases:
   - phase_id: "read-in-and-constraints"
     mode: "single-pass"
@@ -147,8 +202,13 @@ phases:
     exit_evidence:
       - "only evidence-backed residue removed"
       - "retained or ambiguous items documented"
+      - "eligible local Octon run/artifact residue routed to repo-hygiene-cleanup or retained with blocker evidence"
+      - "generated run-health projections routed to generator-owned pruning evidence, not direct deletion"
+      - "stale detached Git worktrees removed only with explicit clean detached unreferenced non-active proof"
     stop_or_escalation_conditions:
       - "removal lacks containment, patch equivalence, tracked replacement, explicit ignored/local-residue status, or validator proof"
+      - "repo-hygiene cleanup would exceed the helper's governed scope"
+      - "detached worktree cleanup lacks clean detached unreferenced non-active proof"
   - phase_id: "change-set-preparation"
     mode: "loop"
     route_applicability: ["direct-main", "branch-no-pr", "branch-pr"]

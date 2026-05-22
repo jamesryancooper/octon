@@ -40,6 +40,16 @@ singular receipt must carry the governed cleanup authorization reference
 required by `closeout-change`; the wrapper report may cite it only through the
 singular receipt and must not authorize branch deletion itself.
 
+Repo-hygiene cleanup is a delegated subroute, not a wrapper action. The wrapper
+may cite `repo_hygiene_cleanup_ref`,
+`repo_hygiene_cleanup_authorization_ref`, and
+`repo_hygiene_cleanup_outcome`, but
+`repo_hygiene_cleanup_actions_performed` must remain `false`. A terminal
+worktree hygiene claim is allowed only when the final repo-hygiene
+classification reports no unresolved cleanup candidates, protected referenced
+paths, or manual-review paths, or when a blocker or next-route condition
+records why the residue remains.
+
 If the operator does not explicitly request a narrower worktree or candidate
 target such as `published-branch`, `branch-local-complete`, `landed`,
 `preserved`, or `blocked`, and does not explicitly request the
@@ -71,6 +81,11 @@ include:
 - `blockers`
 - `final_inventory_ref`
 - `final_residue_classes`
+- optional `repo_hygiene_classification_ref`
+- optional `repo_hygiene_cleanup_ref`
+- optional `repo_hygiene_cleanup_authorization_ref`
+- optional `repo_hygiene_cleanup_outcome`
+- optional `repo_hygiene_next_route_condition`
 - `next_route_condition`
 
 Each candidate record must include `candidate_id`, `disposition`, `ownership`,
@@ -133,6 +148,9 @@ Unresolved candidates must carry candidate-keyed evidence:
 - A report must not mark a safely separable selected candidate as blocked only
   because other candidates exist; multiple candidates trigger wrapper
   orchestration, not partition-only completion.
+- A report must not claim the wrapper performed repo-hygiene deletion. If
+  repo-hygiene cleanup occurred, cite the delegated `repo-hygiene-cleanup`
+  evidence and keep `repo_hygiene_cleanup_actions_performed: false`.
 
 When a report continues or supersedes a previous wrapper partition, include
 `prior_candidate_reconciliation.prior_report_ref` and a reconciliation record

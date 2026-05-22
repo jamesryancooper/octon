@@ -207,6 +207,23 @@ write_continued_closeout_change_fixture() {
 JSON
 }
 
+write_repo_hygiene_cleanup_fixture() {
+  local suffix="$1"
+  ensure_fixture_root
+  mkdir -p "$(dirname "$fixture_root/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/$suffix")"
+  cat >"$fixture_root/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/$suffix" <<'JSON'
+schema_version: repo-hygiene-cleanup-run-log-v1
+route: repo-hygiene-cleanup
+cleanup_outcome: delegated-cleaned
+classification_ref: evidence://runs/skills/repo-hygiene-cleanup/fixture/classification.txt
+authorization_ref: evidence://runs/skills/repo-hygiene-cleanup/fixture/authorization.json
+deleted_paths:
+  - .octon/state/control/execution/runs/publish-fixture/runtime-state.yml
+retained_protected_paths: []
+retained_manual_review_paths: []
+JSON
+}
+
 run_validator_with_fixtures() {
   CLOSEOUT_WORKTREE_EVIDENCE_ROOT="$fixture_root" bash "$VALIDATOR" --report "$1"
 }
@@ -358,6 +375,188 @@ final_residue_classes:
 next_route_condition: none
 YAML
   run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_repo_hygiene_delegated_cleanup_report_passes() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate/change-receipt.json"
+  write_repo_hygiene_cleanup_fixture "fixture/run-log.yml"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-repo-hygiene-delegated
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture/classification.txt
+repo_hygiene_cleanup_ref: evidence://runs/skills/repo-hygiene-cleanup/fixture/run-log.yml
+repo_hygiene_cleanup_authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/fixture/authorization.json
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+repo_hygiene_next_route_condition: none
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths:
+        - .octon/state/control/execution/runs/publish-fixture/runtime-state.yml
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths:
+      - .octon/state/control/execution/runs/publish-fixture/runtime-state.yml
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: repo-hygiene residue delegated to repo-hygiene-cleanup and no candidate residue remains
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_repo_hygiene_cleanup_actions_performed_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-repo-hygiene-wrapper-action
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: true
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_repo_hygiene_cleanup_ref_must_resolve_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "docs-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-repo-hygiene-missing-ref
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+repo_hygiene_cleanup_ref: evidence://runs/skills/repo-hygiene-cleanup/missing/run-log.yml
+repo_hygiene_cleanup_outcome: delegated-cleaned
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/docs-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
 }
 
 case_first_close_then_second_blocked_passes() {
@@ -1759,9 +1958,32 @@ YAML
   ! run_validator_with_fixtures "$report" >/dev/null
 }
 
+case_classifier_accepts_linked_detached_worktree() {
+  local repo linked linked_real output
+  repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.linked-repo.XXXXXX")"
+  linked="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.linked-tree.XXXXXX")"
+  cleanup_paths+=("$repo" "$linked")
+  git -C "$repo" init -q
+  git -C "$repo" config user.email "octon@example.invalid"
+  git -C "$repo" config user.name "Octon Test"
+  printf '%s\n' "seed" >"$repo/README.md"
+  git -C "$repo" add README.md
+  git -C "$repo" commit -q -m "seed linked worktree repo"
+  rmdir "$linked"
+  git -C "$repo" worktree add --detach "$linked" HEAD >/dev/null 2>&1
+  linked_real="$(cd "$linked" && pwd -P)"
+  output="$(bash "$CLASSIFIER" --root "$linked")"
+  git -C "$repo" worktree remove --force "$linked" >/dev/null 2>&1
+  printf '%s\n' "$output" | grep -Fq 'schema_version: change-closeout-residue-classification-v1' &&
+    printf '%s\n' "$output" | grep -Fq "root: $linked_real"
+}
+
 main() {
   assert_success "static closeout-worktree registration and projection pass" case_static_validator_passes
   assert_success "valid multi-candidate wrapper orchestration report passes" case_valid_multi_candidate_report_passes
+  assert_success "repo-hygiene delegated cleanup report passes" case_repo_hygiene_delegated_cleanup_report_passes
+  assert_success "repo-hygiene cleanup action from wrapper fails" case_repo_hygiene_cleanup_actions_performed_fails
+  assert_success "repo-hygiene cleanup ref must resolve" case_repo_hygiene_cleanup_ref_must_resolve_fails
   assert_success "first candidate closes and second candidate blocks with evidence" case_first_close_then_second_blocked_passes
   assert_success "multiple change sets batched into one candidate fail" case_multiple_sets_batched_into_one_candidate_fails
   assert_success "selected candidate without explicit boundaries fails" case_selected_candidate_without_boundaries_fails
@@ -1787,6 +2009,7 @@ main() {
   assert_success "replay terminal report with unprocessed candidate fails" case_replay_terminal_with_unprocessed_candidate_fails
   assert_success "replay synthetic closeout-change ref fails" case_replay_synthetic_closeout_ref_fails
   assert_success "replay ignored residue without retained coverage fails" case_replay_ignored_residue_without_coverage_fails
+  assert_success "classifier accepts linked detached worktree roots" case_classifier_accepts_linked_detached_worktree
 
   echo
   echo "Passed: $pass_count"

@@ -18,6 +18,7 @@ Successful wrapper execution proves:
   than batched into one Change receipt;
 - multiple observed change sets did not stop orchestration by themselves when
   the selected candidate was safely separable;
+- unambiguous partitions can proceed without an operator partition prompt;
 - inventory and classification were repeated after each delegated closeout;
 - each delegated or closed candidate has an orchestration iteration with
   pre-inventory, pre-classification, singular `closeout-change`, post-inventory,
@@ -35,6 +36,8 @@ Successful wrapper execution proves:
   authorization when the singular receipt reports `cleaned`;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
+- repo-hygiene cleanup, when needed, was delegated to the
+  `repo-hygiene-cleanup` route and not performed by the wrapper;
 - ambiguous, foreign, user-owned, generated, evidence, host-projection,
   release, input-surface, or local ignored residue was retained or escalated
   rather than silently cleaned;
@@ -71,6 +74,12 @@ Negative controls:
   lacks ignored/local retained or foreign evidence fails.
 - A wrapper report with a safely separable selected candidate blocked only
   because multiple candidates exist fails.
+- A wrapper report with `repo_hygiene_cleanup_actions_performed: true` fails.
+- A wrapper report that cites repo-hygiene cleanup with a non-resolving
+  `repo_hygiene_cleanup_ref` fails.
+- A wrapper report that leaves repo-hygiene cleanup candidates, protected
+  referenced paths, or manual-review paths unresolved while claiming terminal
+  `next_route_condition: none` fails.
 - A wrapper report whose final dispositions omit any candidate fails.
 - A wrapper report with a `retained`, `deferred`, or `foreign` candidate but no
   matching candidate-keyed retained-residue evidence fails.

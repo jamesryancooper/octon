@@ -14,7 +14,9 @@ title: Closeout Worktree Phases
    coherent intent, path set, ownership posture, likely route, target lifecycle
    outcome, validation floor, and rollback or discard posture. For a generic
    worktree closeout request, default candidate target outcomes to `cleaned`
-   unless a narrower target is explicit.
+   unless a narrower target is explicit. When these facts are unambiguous,
+   partition autonomously instead of asking the operator to choose the first
+   candidate.
 5. Mark every observed item as one of: selected candidate, later candidate,
    retained evidence, generated projection, host projection, local ignored
    residue, blocked, ambiguous, or foreign/user-owned.
@@ -25,12 +27,17 @@ title: Closeout Worktree Phases
    separated.
 7. Invoke or hand off to `closeout-change` for the selected candidate using
    explicit include and exclude path boundaries.
-8. Re-run inventory and residue classification after the singular closeout
+8. Delegate eligible local Octon run/artifact residue to
+   `repo-hygiene-cleanup`; route generated run-health projections to the
+   run-health generator; retain or block any detached worktree residue until
+   Git worktree cleanup proof is available. Do not delete any of these classes
+   directly from the wrapper.
+9. Re-run inventory and residue classification after the singular closeout
    completes, blocks, or escalates.
-9. Repeat candidate selection when the next candidate is coherent and safely
+10. Repeat candidate selection when the next candidate is coherent and safely
    separable. Re-inventory and re-classify after every `closeout-change` run
    before selecting that next candidate.
-10. Write a wrapper report that records closed Changes, retained candidates,
+11. Write a wrapper report that records closed Changes, retained candidates,
     blockers, escalations, validation evidence, and the next route condition.
 
 Detection alone is not deletion authority. This wrapper must partition residue into singular Change closeouts and coordinate those closeouts; it does not authorize cleanup outside singular Change closeout.

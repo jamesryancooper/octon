@@ -32,10 +32,12 @@ while [[ $# -gt 0 ]]; do
   shift
 done
 
-if [[ ! -d "$ROOT_DIR/.git" ]]; then
+if ! git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "[ERROR] not a git repository: $ROOT_DIR" >&2
   exit 1
 fi
+
+ROOT_DIR="$(git -C "$ROOT_DIR" rev-parse --show-toplevel)"
 
 echo "schema_version: change-closeout-residue-classification-v1"
 echo "read_only: true"

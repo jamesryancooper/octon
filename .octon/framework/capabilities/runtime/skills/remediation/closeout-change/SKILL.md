@@ -58,7 +58,12 @@ Execute the Change Closeout State Machine phase loop from
    ambiguous ownership, user-owned work, protected branches, active branches,
    unmerged branches, open-PR branches, or missing rollback posture.
 6. **Prepare Change Set** — Keep only the coherent accepted Change in the
-   staged scope or branch.
+   staged scope or branch. When a delegated worktree candidate has explicit
+   include/exclude boundaries, branch isolation is required, and no candidate
+   branch exists, create or select a task branch without asking for another
+   partition decision; stage only the include paths and preserve every excluded,
+   ambiguous, ignored, user-owned, generated-authority, input, control, or
+   evidence path outside the candidate boundary.
 7. **Validate** — Run the selected validation floor and route-specific checks.
 8. **Hosted No-PR Checks And Landing** — For selected `branch-no-pr` hosted
    landing, require preflight, pushed source branch, exact source-SHA checks,
@@ -77,6 +82,22 @@ Execute the Change Closeout State Machine phase loop from
 13. **Final Report** — Report the actual lifecycle outcome, blockers,
     validation, receipt, cleanup, rollback handle, and final sync.
 
+## Routine Autonomy
+
+For a generic closeout request, assume `target_lifecycle_outcome: cleaned`.
+Do not pause to ask whether to partition an unambiguous dirty worktree
+candidate, create the required branch, push the source branch, run hosted
+no-PR preflight, emit landing authorization, land, emit cleanup authorization,
+clean safe source refs, sync local `main`, or write the receipt when the
+selected route, validation floor, rollback posture, policy, and helper
+authorization checks all pass.
+
+Ask only when there is real ambiguity or unsafe action: overlapping candidate
+boundaries, unclear ownership, protected or active branches, unmerged or
+open-PR branches, missing validation, missing rollback posture, provider rules
+requiring PR, stale or denied authorization, runtime/sandbox/provider/host
+approval denial, or cleanup outside a governed route.
+
 ## Boundaries
 
 - Do not open a PR unless route selection returns `branch-pr`.
@@ -84,6 +105,11 @@ Execute the Change Closeout State Machine phase loop from
 - Do not choose `branch-no-pr` solely because the provider can support
   route-neutral hosted landing; provider support is a hosted landing
   precondition, not a route-selection reason by itself.
+- Do not ask the operator to confirm routine `cleaned` progression after
+  `branch-no-pr` has been selected and all route-specific preconditions,
+  validation, rollback, landing authorization, cleanup authorization, and final
+  sync proof are satisfied. Continue until `cleaned` is proven or a precise
+  blocker requires downgrade.
 - Do not treat a route as the requested lifecycle outcome. When the operator
   asks to close out a Change without explicitly requesting a narrower target
   such as `published-branch`, `branch-local-complete`, `landed`, `preserved`,
@@ -146,6 +172,11 @@ Execute the Change Closeout State Machine phase loop from
   global local artifact residue must be routed through `closeout-worktree` or
   `repo-hygiene-cleanup`, and unresolved repo-hygiene cleanup candidates block
   a full-worktree cleanliness claim.
+- Eligible local Octon run/artifact residue is not branch cleanup. Route it to
+  `repo-hygiene-cleanup` and its validating
+  `repo-hygiene-cleanup-authorization-v1` receipt flow; generated run-health
+  projections remain generator-owned and stale detached Git worktrees require
+  explicit Git worktree cleanup proof.
 - If the target outcome is `cleaned` and cleanup or local-main sync cannot be
   proven, record `not_cleaned_reason` and `cleanup_stop_reason`, then report a
   lower actual outcome such as `landed`, `deferred`, or `blocked` instead of

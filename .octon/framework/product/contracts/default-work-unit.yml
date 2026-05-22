@@ -29,6 +29,51 @@ closeout_defaults:
       lifecycle_outcome remains evidence-based. If cleaned cannot be proven,
       downgrade to the highest supported route-compatible outcome and record the
       missing proof, blocker, structured stop reason, or next-route condition.
+routine_closeout_autonomy:
+  generic_closeout_target: "cleaned"
+  operator_prompt_rule: >-
+    Ask only for real ambiguity, unsafe destructive action, missing authority,
+    unclear ownership, protected branches, unresolved validation, policy
+    conflicts, or cleanup outside an authorized route.
+  unambiguous_dirty_worktree_rule: >-
+    A dirty worktree with separable path groups, branch identities, receipt
+    references, validation floors, and rollback posture may be partitioned and
+    routed through repeated singular closeout-change candidates without asking
+    the operator to choose each partition.
+  branch_no_pr_default_progression:
+    when_selected_and_target_is_cleaned:
+      - "create_or_select_task_branch_for_the_singular_candidate_when_branch_identity_is_absent_and_branch_isolation_is_required"
+      - "stage_only_the_candidate_include_paths_and_preserve_exclude_paths"
+      - "commit_candidate_scope_with_change_receipt_or_continuation_receipt"
+      - "push_source_branch_to_origin"
+      - "run_hosted_no_pr_preflight_and_exact_sha_checks"
+      - "emit_or_reference_governed_landing_authorization"
+      - "land_hosted_main_when_provider_rules_and_authorization_validate"
+      - "emit_or_reference_governed_branch_cleanup_authorization"
+      - "clean_safe_local_and_remote_source_refs"
+      - "fetch_origin_sync_local_main_and_verify_main_alignment"
+      - "record_stateful_closeout_receipt"
+    stop_before_prompting_when_any:
+      - "candidate_boundary_overlap"
+      - "unowned_or_user_owned_paths"
+      - "protected_or_active_branch"
+      - "unmerged_or_open_pr_branch"
+      - "missing_validation_or_rollback_evidence"
+      - "provider_requires_pr"
+      - "authorization_missing_stale_denied_or_mismatched"
+      - "runtime_sandbox_provider_or_host_approval_denies_mutation"
+  residue_authority_routing:
+    branch_refs: "governed branch cleanup authorization through closeout-change"
+    eligible_local_octon_run_artifact_residue: "repo-hygiene-cleanup receipt-backed helper route"
+    generated_run_health_projections: "generate-run-health-read-model.sh --all-runs generator/pruning evidence"
+    stale_detached_git_worktrees: "git worktree cleanup policy with explicit safety proof: detached, clean, unreferenced, non-active, and not current"
+    tracked_files: "retain or route through a singular Change; never repo-hygiene cleanup"
+    proposal_inputs: "retain or archive through proposal lifecycle; never cleanup authority"
+    durable_evidence: "retain unless a higher policy supplies explicit retention/retirement authority"
+    active_control_state: "retain or escalate"
+    generated_authority: "regenerate through owning publisher; never generic cleanup"
+    ignored_or_user_owned_paths: "retain or escalate"
+    ambiguous_residue: "retain or block with candidate-keyed evidence"
 deprecated_terms:
   - term: "work-package"
     replacement: "change-package"
