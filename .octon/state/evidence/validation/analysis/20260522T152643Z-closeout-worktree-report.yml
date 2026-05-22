@@ -1,0 +1,151 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260522T152643Z
+default_work_unit: Change
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: git-status://20260522T152018Z-pre-closeout-autonomy-routine-cleanup
+residue_classification_ref: classifier://20260522T152018Z-pre-closeout-autonomy-routine-cleanup
+selected_candidate_id: candidate-closeout-autonomy-routine-cleanup
+candidates:
+  - candidate_id: candidate-closeout-autonomy-routine-cleanup
+    disposition: closed
+    ownership: closeout-autonomy-routine-cleanup-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-autonomy-routine-cleanup-clean-20260522T152643Z/change-receipt.json
+    rollback_or_discard_posture: revert landed ref c4b91abefdaa540c5dcdc3c1742070eafc7cee81 from main if rollback is required
+    boundaries:
+      include_paths:
+        - .codex/skills/closeout-change/SKILL.md
+        - .codex/skills/closeout-change/references/decisions.md
+        - .codex/skills/closeout-change/references/io-contract.md
+        - .codex/skills/closeout-change/references/phases.md
+        - .codex/skills/closeout-worktree/SKILL.md
+        - .codex/skills/closeout-worktree/references/decisions.md
+        - .codex/skills/closeout-worktree/references/io-contract.md
+        - .codex/skills/closeout-worktree/references/phases.md
+        - .codex/skills/closeout-worktree/references/validation.md
+        - .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/decisions.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/io-contract.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/phases.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/decisions.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/phases.md
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+        - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+        - .octon/framework/product/contracts/change-closeout-state-machine.yml
+        - .octon/framework/product/contracts/default-work-unit.md
+        - .octon/framework/product/contracts/default-work-unit.yml
+        - .octon/instance/governance/policies/repo-hygiene.yml
+      exclude_paths:
+        - refs/heads/chore/closeout-autonomy-routine-cleanup
+        - refs/remotes/origin/chore/closeout-autonomy-routine-cleanup
+        - ignored-local-residue
+  - candidate_id: candidate-provider-rejected-merge-source-branch
+    disposition: blocked
+    ownership: branch-ref-cleanup
+    route_hint: closeout-change-branch-cleanup-blocked
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: retain branch refs until explicit unmerged branch discard authority exists; no force-push or deletion is performed
+    boundaries:
+      include_paths:
+        - refs/heads/chore/closeout-autonomy-routine-cleanup
+        - refs/remotes/origin/chore/closeout-autonomy-routine-cleanup
+      exclude_paths:
+        - .octon/framework
+        - .codex
+        - .octon/state/evidence/runs/skills/closeout-change/closeout-autonomy-routine-cleanup-clean-20260522T152643Z
+  - candidate_id: candidate-local-ignored-residue
+    disposition: foreign
+    ownership: local-ignored-residue
+    route_hint: none
+    target_lifecycle_outcome: foreign
+    rollback_or_discard_posture: preserve ignored local residue; ignored detection is not cleanup authority
+    boundaries:
+      include_paths:
+        - .
+      exclude_paths:
+        - .octon/framework
+        - .octon/instance
+        - .octon/inputs
+iterations:
+  - iteration_id: iteration-001-clean-branch-closeout
+    pre_inventory_ref: git-status://20260522T152643Z-pre-clean-branch
+    pre_classification_ref: classifier://20260522T152643Z-pre-clean-branch
+    selected_candidate_id: candidate-closeout-autonomy-routine-cleanup
+    include_paths:
+      - .codex/skills/closeout-change/SKILL.md
+      - .codex/skills/closeout-change/references/decisions.md
+      - .codex/skills/closeout-change/references/io-contract.md
+      - .codex/skills/closeout-change/references/phases.md
+      - .codex/skills/closeout-worktree/SKILL.md
+      - .codex/skills/closeout-worktree/references/decisions.md
+      - .codex/skills/closeout-worktree/references/io-contract.md
+      - .codex/skills/closeout-worktree/references/phases.md
+      - .codex/skills/closeout-worktree/references/validation.md
+      - .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh
+      - .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/decisions.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/io-contract.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/phases.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/decisions.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/phases.md
+      - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+      - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+      - .octon/framework/product/contracts/change-closeout-state-machine.yml
+      - .octon/framework/product/contracts/default-work-unit.md
+      - .octon/framework/product/contracts/default-work-unit.yml
+      - .octon/instance/governance/policies/repo-hygiene.yml
+    exclude_paths:
+      - refs/heads/chore/closeout-autonomy-routine-cleanup
+      - refs/remotes/origin/chore/closeout-autonomy-routine-cleanup
+      - ignored-local-residue
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-autonomy-routine-cleanup-clean-20260522T152643Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: git-status://20260522T152830Z-post-clean-branch-cleanup
+    post_classification_ref: classifier://20260522T152830Z-post-clean-branch-cleanup
+    next_selection_reason: implementation candidate closed; provider-rejected merge source branch remains blocked because its source ref is not contained in origin/main
+final_candidate_dispositions:
+  candidate-closeout-autonomy-routine-cleanup:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-autonomy-routine-cleanup-clean-20260522T152643Z/change-receipt.json
+  candidate-provider-rejected-merge-source-branch:
+    state: blocked
+    reason: merge-contaminated source branch ref 8d101ae09201a1d41e44d13236d07e3e1ba3e4d2 is not contained in origin/main and cannot be deleted under branch-cleanup-authorization-v1
+  candidate-local-ignored-residue:
+    state: foreign
+    reason: ignored local residue is outside the selected Change and intentionally untouched
+retained_residue:
+  - candidate_id: candidate-local-ignored-residue
+    path: .
+    disposition: foreign ignored local residue retained
+blockers:
+  - candidate_id: candidate-provider-rejected-merge-source-branch
+    blocker: original source branch contains provider-rejected merge commit 8d101ae09201a1d41e44d13236d07e3e1ba3e4d2 and is not an ancestor of origin/main
+    evidence_ref: .octon/state/evidence/runs/skills/closeout-change/closeout-autonomy-routine-cleanup-20260522T152252Z/run-log.md
+final_inventory_ref: git-status://20260522T152830Z-final-main
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 3692
+  local_branch: 2
+  remote_branch: 4
+next_route_condition: explicit unmerged branch discard authority or a governed branch cleanup route that can handle provider-rejected uncontained branch refs
