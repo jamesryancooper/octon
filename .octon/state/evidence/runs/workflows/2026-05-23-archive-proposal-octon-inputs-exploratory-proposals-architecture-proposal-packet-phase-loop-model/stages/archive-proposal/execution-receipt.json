@@ -1,0 +1,200 @@
+{
+  "schema_version": "execution-receipt-v3",
+  "request_id": "archive-proposal-1779561513972-2474-archive-proposal",
+  "grant_id": "grant-archive-proposal-1779561513972-2474-archive-proposal",
+  "target_id": "archive-proposal::archive-proposal",
+  "action_type": "execute_stage",
+  "path_type": "workflow-stage",
+  "environment_class": "protected",
+  "workflow_mode": "role-mediated",
+  "requested_capability_packs": [
+    "repo",
+    "git",
+    "telemetry"
+  ],
+  "granted_capability_packs": [
+    "repo",
+    "git",
+    "shell",
+    "telemetry"
+  ],
+  "requested_capabilities": [
+    "workflow.stage.execute",
+    "repo.write",
+    "evidence.write"
+  ],
+  "granted_capabilities": [
+    "workflow.stage.execute",
+    "repo.write",
+    "evidence.write"
+  ],
+  "policy_mode_requested": "hard-enforce",
+  "policy_mode_effective": "hard-enforce",
+  "decision": "ALLOW",
+  "reason_codes": [
+    "ACP_EVIDENCE_INVALID"
+  ],
+  "execution_role_ref": {
+    "kind": "system",
+    "id": "octon-kernel"
+  },
+  "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/context/context-pack.json",
+  "context_evidence_required": true,
+  "context_evidence_binding": {
+    "context_pack_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/context/context-pack.json",
+    "context_pack_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/context/context-pack-receipt.json",
+    "context_pack_sha256": "sha256:558eca09f94dfdf920aa7273f0da224f5b58d1e1a164382a8111e0af8ccaa107",
+    "receipt_sha256": "sha256:e6cc5b8bce41aea5887e220e2665625be97a5a7fad874d31556dc2c8715fe509",
+    "builder_spec_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+    "builder_version": "context-pack-builder-v1",
+    "verification_status": "valid",
+    "freshness_status": "valid",
+    "valid_until": "9999-12-31T23:59:59Z",
+    "context_policy_ref": ".octon/instance/governance/policies/context-packing.yml",
+    "model_visible_context_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/context/model-visible-context.json",
+    "model_visible_context_sha256": "sha256:ffdf1225dd0c1e608b564c151396a0eb7ceaa7679570bbb6e2afd5153be14bb3",
+    "context_validity_state": "valid",
+    "context_rebuild_ref": null,
+    "context_invalidation_ref": null,
+    "source_count": 12,
+    "failed_required_source_count": 0,
+    "subordinate_to_authorize_execution": true
+  },
+  "risk_materiality_ref": ".octon/framework/constitution/contracts/authority/risk-materiality-v1.schema.json",
+  "support_target_tuple_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal#support_target_tuple",
+  "rollback_plan_ref": ".octon/framework/constitution/contracts/runtime/rollback-plan-v1.schema.json",
+  "browser_ui_record_refs": [],
+  "api_egress_record_refs": [],
+  "side_effects": {
+    "touched_scope": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet-phase-loop-model",
+      ".octon/generated/proposals/registry.yml"
+    ],
+    "shell_commands": [],
+    "network_targets": [],
+    "publications": [],
+    "branch_mutations": [],
+    "executor_profile": "scoped_repo_mutation",
+    "dangerous_flags_blocked": [],
+    "authorized_effects": [
+      {
+        "token_id": "effect-token-evidence-mutation-6ad4cd3eb48b",
+        "token_type": "AuthorizedEffect<EvidenceMutation>",
+        "effect_kind": "evidence-mutation",
+        "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/stages/archive-proposal",
+        "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/effect-tokens/effect-token-evidence-mutation-6ad4cd3eb48b.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/effect-tokens/effect-token-evidence-mutation-6ad4cd3eb48b/consumption-596ad7a4f74d.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-6ad4cd3eb48b",
+          ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-6ad4cd3eb48b"
+        ]
+      },
+      {
+        "token_id": "effect-token-state-control-mutation-71d90d97b9c3",
+        "token_type": "AuthorizedEffect<StateControlMutation>",
+        "effect_kind": "state-control-mutation",
+        "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/stages/archive-proposal",
+        "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/effect-tokens/effect-token-state-control-mutation-71d90d97b9c3.json",
+        "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/effect-tokens/effect-token-state-control-mutation-71d90d97b9c3/consumption-db92966f1e85.json",
+        "journal_event_refs": [
+          ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-71d90d97b9c3",
+          ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-71d90d97b9c3"
+        ]
+      }
+    ]
+  },
+  "mission_ref": null,
+  "slice_ref": null,
+  "intent_ref": {
+    "id": "workspace-charter://octon/octon-governed-harness",
+    "version": "1.3.0"
+  },
+  "mission_class": null,
+  "oversight_mode": null,
+  "execution_posture": null,
+  "reversibility_class": null,
+  "boundary_id": null,
+  "rollback_handle": null,
+  "compensation_handle": null,
+  "recovery_window": null,
+  "autonomy_budget_state": null,
+  "breaker_state": null,
+  "applied_directive_refs": [],
+  "applied_authorize_update_refs": [],
+  "touched_scope": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet-phase-loop-model",
+    ".octon/generated/proposals/registry.yml"
+  ],
+  "override_requested": false,
+  "override_accepted": true,
+  "ai_review_enforced": false,
+  "autonomy_policy_enforced": false,
+  "evidence_links": {
+    "authority_decision": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-1779561513972-2474-archive-proposal.yml",
+    "authority_grant_bundle": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1779561513972-2474-archive-proposal.yml",
+    "authorization_phase_grant": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/authorization-phases/grant.json",
+    "authorization_phase_preflight": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/authorization-phases/preflight.json",
+    "authorization_phase_receipt_materialization": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/authorization-phases/receipt-materialization.json",
+    "authorization_phase_request_materialization": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/authorization-phases/request-materialization.json",
+    "authorization_phase_routing": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/authorization-phases/routing.json",
+    "decision": "policy-decision.json",
+    "grant": "grant-bundle.json",
+    "instruction_manifest": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/instruction-layer-manifest.json",
+    "outcome": "outcome.json",
+    "policy_digest": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/policy-digest.latest.md",
+    "policy_receipt": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/policy-receipt.latest.json",
+    "receipt": "execution-receipt.json",
+    "replay_pointers": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/replay-pointers.yml",
+    "request": "execution-request.json",
+    "retained_evidence": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/retained-run-evidence.yml",
+    "run_control_root": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal",
+    "run_receipts_root": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts",
+    "run_root": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal",
+    "side_effects": "side-effects.json",
+    "stage_attempt": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/stage-attempts/archive-proposal--initial.yml",
+    "trace_pointers": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/trace-pointers.yml"
+  },
+  "budget": null,
+  "support_tier": "repo-consequential",
+  "ownership_refs": [
+    "operator://octon-maintainers"
+  ],
+  "approval_request_ref": null,
+  "approval_grant_refs": [],
+  "exception_lease_refs": [],
+  "revocation_refs": [],
+  "decision_artifact_ref": ".octon/state/evidence/control/execution/authority-decision-archive-proposal-1779561513972-2474-archive-proposal.yml",
+  "authority_grant_bundle_ref": ".octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1779561513972-2474-archive-proposal.yml",
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-6ad4cd3eb48b",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/stages/archive-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/effect-tokens/effect-token-evidence-mutation-6ad4cd3eb48b.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/effect-tokens/effect-token-evidence-mutation-6ad4cd3eb48b/consumption-596ad7a4f74d.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-6ad4cd3eb48b",
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-6ad4cd3eb48b"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-71d90d97b9c3",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/stages/archive-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/effect-tokens/effect-token-state-control-mutation-71d90d97b9c3.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/effect-tokens/effect-token-state-control-mutation-71d90d97b9c3/consumption-db92966f1e85.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-71d90d97b9c3",
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-71d90d97b9c3"
+      ]
+    }
+  ],
+  "network_egress_posture": null,
+  "evidence_completeness_status": null,
+  "timestamps": {
+    "started_at": "2026-05-23T18:44:42.305278Z",
+    "completed_at": "2026-05-23T18:51:06.851694Z"
+  }
+}
