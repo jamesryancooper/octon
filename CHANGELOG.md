@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.78](https://github.com/jamesryancooper/octon/compare/octon-v0.6.77...octon-v0.6.78) (2026-05-23)
+
+
+### Features
+
+* **lifecycle:** add proposal packet phase loops ([bf79c85](https://github.com/jamesryancooper/octon/commit/bf79c85b68668e2282159ce729240e7a267b7244))
+
 ## [0.6.77](https://github.com/jamesryancooper/octon/compare/octon-v0.6.76...octon-v0.6.77) (2026-05-22)
 
 
