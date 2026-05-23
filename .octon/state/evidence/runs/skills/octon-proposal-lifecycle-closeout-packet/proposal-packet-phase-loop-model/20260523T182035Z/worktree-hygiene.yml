@@ -1,0 +1,23 @@
+schema_version: "octon-proposal-worktree-hygiene-v1"
+target: ".octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model"
+lifecycle: "proposal-packet"
+run_id: "20260523T182035Z"
+worktree_hygiene_verdict: "blocked"
+worktree_hygiene_blocker_class: "worktree-hygiene-blocked"
+worktree_hygiene_owned_path_count: 0
+worktree_hygiene_in_scope_path_count: 0
+worktree_hygiene_foreign_path_count: 3
+worktree_hygiene_foreign_fingerprint: "sha256:07ff301bc13d872fbb73aa4d3799b75035af3856ceaf80a896604490574d7977"
+worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
+next_route_condition: "route through closeout-change or operator scope resolution before proposal archive authorization"
+owned_by_this_lifecycle_run:
+  []
+declared_in_scope_change:
+  []
+foreign_or_ambiguous:
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/closeout-change/proposal-packet-phase-loop-model-20260523T164511Z/branch-cleanup-authorization.json"
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/closeout-change/proposal-packet-phase-loop-model-20260523T164511Z/branch-landing-authorization.json"
+  - status: "??"
+    path: ".octon/state/evidence/runs/skills/closeout-change/proposal-packet-phase-loop-model-20260523T164511Z/change-receipt.json"
