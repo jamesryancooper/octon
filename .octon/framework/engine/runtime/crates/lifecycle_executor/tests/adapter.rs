@@ -214,6 +214,7 @@ fn request(
         run_id: "test-run".to_string(),
         lifecycle_id: "proposal-packet".to_string(),
         owner_extension: "test-extension".to_string(),
+        phase_id: Some("implementation-execution".to_string()),
         target,
         manifest_path: "proposal.yml".to_string(),
         status_field: "status".to_string(),

@@ -339,6 +339,7 @@ fn authorization_blocked_result(
             schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
             run_id: request.run_id.clone(),
             route_id: request.route.route_id.clone(),
+            phase_id: request.phase_id.clone(),
             executor_used: request.executor.clone(),
             status: "authorization-proof-failed".to_string(),
             started_at: now.clone(),
@@ -360,6 +361,7 @@ fn authorization_blocked_result(
         schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
         run_id: request.run_id.clone(),
         route_id: request.route.route_id.clone(),
+        phase_id: request.phase_id.clone(),
         executor_used: request.executor.clone(),
         status: if error.class == LifecycleErrorClass::HumanBoundaryRequired {
             "human-boundary-blocked".to_string()
@@ -398,6 +400,7 @@ fn fallback_result(
         schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
         run_id: request.run_id.clone(),
         route_id: request.route.route_id.clone(),
+        phase_id: request.phase_id.clone(),
         executor_used: request.executor.clone(),
         status: "authorization-proof-failed".to_string(),
         started_at: now.clone(),

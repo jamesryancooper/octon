@@ -34,7 +34,7 @@ packs:
         projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml"
 YAML
   cat >"$root/.octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml" <<'YAML'
-schema_version: "octon-extension-lifecycle-contract-v1"
+schema_version: "octon-extension-lifecycle-contract-v2"
 lifecycle_id: "proposal-packet"
 owner_extension: "test-extension"
 version: "1.0.0"
@@ -100,6 +100,37 @@ loops:
     repeat_route_id: "revise-packet"
     terminal_values: ["accepted", "rejected"]
     max_iterations: 5
+phase_loop:
+  model_version: "phase-loop-v1"
+  phases:
+    - phase_id: "review-and-revision"
+      mode: "loop"
+      route_refs: ["review-packet", "revise-packet"]
+      terminal_refs: ["rejected"]
+    - phase_id: "implementation-prompt-generation"
+      mode: "route"
+      route_refs: ["generate-packet-implementation-prompt"]
+      terminal_refs: []
+    - phase_id: "implementation-execution"
+      mode: "loop"
+      route_refs: ["run-packet-implementation"]
+      terminal_refs: []
+    - phase_id: "promotion"
+      mode: "route"
+      route_refs: ["promote-proposal"]
+      terminal_refs: []
+    - phase_id: "closeout-and-hygiene"
+      mode: "route"
+      route_refs: ["closeout-packet"]
+      terminal_refs: []
+    - phase_id: "archival"
+      mode: "route"
+      route_refs: ["archive-proposal"]
+      terminal_refs: ["archived"]
+    - phase_id: "terminal-explanation-reporting"
+      mode: "terminal"
+      route_refs: []
+      terminal_refs: ["archived", "rejected"]
 routes:
   - route_id: "review-packet"
     route_type: "extension"
@@ -273,6 +304,17 @@ assert_plan_route() {
   local label="$1" root="$2" target="$3" expected="$4" output
   output="$(octon_cli "$root" lifecycle plan --lifecycle proposal-packet --target "$target")"
   if yq -e ".next_route.route_id == \"$expected\"" >/dev/null <<<"$output"; then
+    pass "$label"
+  else
+    printf '%s\n' "$output" >&2
+    fail "$label"
+  fi
+}
+
+assert_plan_phase() {
+  local label="$1" root="$2" target="$3" expected="$4" output
+  output="$(octon_cli "$root" lifecycle plan --lifecycle proposal-packet --target "$target")"
+  if yq -e ".current_phase == \"$expected\"" >/dev/null <<<"$output"; then
     pass "$label"
   else
     printf '%s\n' "$output" >&2
@@ -465,6 +507,7 @@ YAML
 
 	  write_packet "$root" revision-packet in-review revision-required no
 	  assert_plan_route "revision-required review routes to revise" "$root" revision-packet revise-packet
+	  assert_plan_phase "revision route is in review-and-revision phase" "$root" revision-packet review-and-revision
 	  write_packet "$root" incomplete-revision-packet in-review revision-required no
 	  sed -i.bak '/^implementation_prompt_authorized:/d' "$root/incomplete-revision-packet/support/proposal-review.md"
 	  rm -f "$root/incomplete-revision-packet/support/proposal-review.md.bak"
@@ -472,7 +515,7 @@ YAML
 
 	  write_packet "$root" accepted-packet accepted accepted yes
 	  output="$(octon_cli "$root" lifecycle plan --lifecycle proposal-packet --target accepted-packet)"
-  if yq -e '.next_route.route_id == "generate-packet-implementation-prompt" and .gate_results[0].passed == true' >/dev/null <<<"$output"; then
+  if yq -e '.next_route.route_id == "generate-packet-implementation-prompt" and .current_phase == "implementation-prompt-generation" and .gate_results[0].passed == true' >/dev/null <<<"$output"; then
     pass "fresh accepted review authorizes implementation prompt route"
 	  else
 	    printf '%s\n' "$output" >&2
@@ -502,6 +545,7 @@ YAML
 
   write_packet "$root" archived-packet archived
   assert_plan_terminal "archived packet is no-op completed" "$root" archived-packet archived
+  assert_plan_phase "archived packet reports terminal explanation phase" "$root" archived-packet terminal-explanation-reporting
 
 	  write_packet "$root" implementation-ready-packet accepted accepted yes
 	  touch "$root/implementation-ready-packet/support/executable-implementation-prompt.md"
@@ -554,9 +598,20 @@ YAML
   fi
   checkpoint="$root/.octon/state/control/execution/runs/runner-test/lifecycle-checkpoint.yml"
   [[ -f "$checkpoint" ]] && pass "runner writes lifecycle checkpoint" || fail "runner writes lifecycle checkpoint"
+  if yq -e '.current_phase == "review-and-revision" and .phase_counts."review-and-revision" == 1 and .last_phase_transition == "phase-entered:review-and-revision"' "$checkpoint" >/dev/null; then
+    pass "runner checkpoint records phase state"
+  else
+    fail "runner checkpoint records phase state"
+  fi
+  if grep -q '"event_type":"phase-entered"' "$root/.octon/state/control/execution/runs/runner-test/lifecycle-events.ndjson" \
+    && grep -q '"phase_id":"review-and-revision"' "$root/.octon/state/control/execution/runs/runner-test/lifecycle-events.ndjson"; then
+    pass "runner event log records phase transition"
+  else
+    fail "runner event log records phase transition"
+  fi
 
   output="$(octon_cli "$root" lifecycle resume --run-id runner-test)"
-  if yq -e '.run_id == "runner-test" and .selected_route.route_id == "revise-packet"' >/dev/null <<<"$output"; then
+  if yq -e '.run_id == "runner-test" and .selected_route.route_id == "revise-packet" and .current_phase == "review-and-revision"' >/dev/null <<<"$output"; then
     pass "resume reconstructs target state from receipts"
   else
     printf '%s\n' "$output" >&2

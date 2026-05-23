@@ -151,6 +151,57 @@ routes:
 YAML
 }
 
+add_valid_phase_loop() {
+  local root="$1" contract
+  contract="$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  yq -i '
+    .schema_version = "octon-extension-lifecycle-contract-v2" |
+    .phase_loop = {
+      "model_version": "phase-loop-v1",
+      "phases": [
+        {
+          "phase_id": "review-phase",
+          "mode": "loop",
+          "owner_layer": "test-extension",
+          "route_refs": ["test-route"],
+          "receipt_refs": ["test-review"],
+          "gate_refs": ["test-gate"],
+          "validator_refs": ["test-validator"],
+          "loop_refs": ["test-loop"],
+          "terminal_refs": [],
+          "entry_when": {"route_refs_authoritative": true},
+          "exit_when": {"receipt_refs_complete": true},
+          "exit_evidence_refs": ["test-review"],
+          "re_entry_triggers": ["receipt-stale"],
+          "backward_transitions": [{"to_phase_id": "review-phase", "when": {"receipt_stale": "test-review"}}],
+          "loop_bounds": {"max_phase_iterations": 3, "max_route_dispatches": 3},
+          "stop_conditions": [{"stop_class": "blocked-max-iterations", "when": {"loop_bound_exhausted": true}}],
+          "authority_boundaries": ["scope-expansion"]
+        },
+        {
+          "phase_id": "terminal-reporting",
+          "mode": "terminal",
+          "owner_layer": "runner",
+          "route_refs": [],
+          "receipt_refs": [],
+          "gate_refs": [],
+          "validator_refs": [],
+          "loop_refs": [],
+          "terminal_refs": ["archived"],
+          "entry_when": {"terminal_or_blocked_verdict": true},
+          "exit_when": {"final_report_emitted": true},
+          "exit_evidence_refs": [],
+          "re_entry_triggers": [],
+          "backward_transitions": [],
+          "loop_bounds": {"max_phase_iterations": 1, "max_route_dispatches": 0},
+          "stop_conditions": [{"stop_class": "terminal", "when": {"terminal_or_blocked_verdict": true}}],
+          "authority_boundaries": ["scope-expansion"]
+        }
+      ]
+    }
+  ' "$contract"
+}
+
 write_valid_program_contract() {
   local root="$1"
   cat >"$root/.octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml" <<'YAML'
@@ -410,6 +461,53 @@ main() {
   write_valid_contract "$root"
   yq -i '.execution_strategy = "route-progression"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
   assert_success "valid explicit route-progression lifecycle contract passes" "$root"
+
+  root="$(new_fixture_repo valid-v2-phase-loop)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_phase_loop "$root"
+  assert_success "valid v2 phase-loop lifecycle contract passes" "$root"
+
+  root="$(new_fixture_repo invalid-v2-missing-phase-loop)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  yq -i '.schema_version = "octon-extension-lifecycle-contract-v2"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "v2 lifecycle without phase_loop fails" "$root"
+
+  root="$(new_fixture_repo invalid-phase-route-ref)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_phase_loop "$root"
+  yq -i '.phase_loop.phases[0].route_refs = ["missing-route"]' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "missing phase route ref fails" "$root"
+
+  root="$(new_fixture_repo invalid-phase-receipt-ref)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_phase_loop "$root"
+  yq -i '.phase_loop.phases[0].receipt_refs = ["missing-review"]' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "missing phase receipt ref fails" "$root"
+
+  root="$(new_fixture_repo invalid-phase-transition-ref)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_phase_loop "$root"
+  yq -i '.phase_loop.phases[0].backward_transitions[0].to_phase_id = "missing-phase"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "missing phase backward transition target fails" "$root"
+
+  root="$(new_fixture_repo invalid-terminal-phase-route)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_phase_loop "$root"
+  yq -i '.phase_loop.phases[1].route_refs = ["test-route"]' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "terminal phase route dispatch fails" "$root"
+
+  root="$(new_fixture_repo invalid-phase-status-name)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_phase_loop "$root"
+  yq -i '.phase_loop.phases[0].phase_id = "draft"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "phase id duplicating manifest status fails" "$root"
 
   root="$(new_fixture_repo valid-program-contract)"
   write_fixture_support "$root"
@@ -725,6 +823,8 @@ main() {
     cancellation_schema="$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/lifecycle-cancellation.schema.json"
     approval_guidance_schema="$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/lifecycle-human-exception-grant.schema.json"
     lifecycle_schema="$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
+    route_request_schema="$REPO_ROOT/.octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json"
+    route_result_schema="$REPO_ROOT/.octon/framework/engine/runtime/spec/lifecycle-route-execution-result-v1.schema.json"
 
     assert_schema_query_equals "registry identifier definition matches runtime" "$registry_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9-]*$'
     for query in \
@@ -777,12 +877,19 @@ main() {
     assert_schema_query_equals "packet lifecycle event schema version declared" "$packet_event_schema" '.properties.schema_version.const' 'octon-lifecycle-run-event-v1'
     assert_schema_query_equals "packet lifecycle event supports cancellation events" "$packet_event_schema" '.properties.final_verdict.enum[] | select(. == "cancelled")' 'cancelled'
     assert_schema_query_equals "packet lifecycle event step kind includes route dispatch" "$packet_event_schema" '.properties.step_kind.enum[] | select(. == "route-dispatch")' 'route-dispatch'
+    assert_schema_query_equals "packet lifecycle event supports phase category" "$packet_event_schema" '.properties.event_category.enum[] | select(. == "phase")' 'phase'
+    assert_schema_query_equals "packet lifecycle event phase id uses lifecycle id pattern" "$packet_event_schema" '.properties.phase_id.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "packet lifecycle event transition id links event and phase" "$packet_event_schema" '.properties.transition_id.pattern' '^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$'
     assert_schema_query_equals "lifecycle cancellation schema accepts shared cancellation marker" "$cancellation_schema" '.properties.schema_version.enum[] | select(. == "octon-lifecycle-cancellation-v1")' 'octon-lifecycle-cancellation-v1'
     assert_schema_query_equals "lifecycle cancellation schema accepts program cancellation evidence" "$cancellation_schema" '.properties.schema_version.enum[] | select(. == "octon-program-lifecycle-cancelled-v1")' 'octon-program-lifecycle-cancelled-v1'
     assert_schema_query_equals "human exception schema routes program child grants" "$approval_guidance_schema" '.properties.context_kind.enum[] | select(. == "program-child-route")' 'program-child-route'
     assert_schema_query_equals "human exception schema requires typed boundary" "$approval_guidance_schema" '.properties.human_only_boundary.enum[] | select(. == "scope-expansion")' 'scope-expansion'
 
     assert_schema_query_equals "lifecycle execution strategy accepts route-progression" "$lifecycle_schema" '.properties.execution_strategy.enum[] | select(. == "route-progression")' 'route-progression'
+    assert_schema_query_equals "lifecycle contract schema accepts v2" "$lifecycle_schema" '.properties.schema_version.enum[] | select(. == "octon-extension-lifecycle-contract-v2")' 'octon-extension-lifecycle-contract-v2'
+    assert_schema_query_equals "lifecycle contract schema declares phase_loop" "$lifecycle_schema" '.properties.phase_loop."$ref"' '#/$defs/phaseLoop'
+    assert_schema_query_equals "phase loop model version declared" "$lifecycle_schema" '."$defs".phaseLoop.properties.model_version.const' 'phase-loop-v1'
+    assert_schema_query_equals "phase loop terminal mode declared" "$lifecycle_schema" '."$defs".phase.properties.mode.enum[] | select(. == "terminal")' 'terminal'
     assert_schema_query_equals "lifecycle execution strategy accepts orchestrated-replan-loop" "$lifecycle_schema" '.properties.execution_strategy.enum[] | select(. == "orchestrated-replan-loop")' 'orchestrated-replan-loop'
     assert_schema_query_equals "lifecycle recovery idempotency accepts non-recoverable" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.idempotency_class.enum[] | select(. == "non-recoverable")' 'non-recoverable'
     assert_schema_query_equals "lifecycle recovery replan behavior supports after-attempt" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.replan_behavior.enum[] | select(. == "after-attempt")' 'after-attempt'
@@ -791,10 +898,16 @@ main() {
     assert_schema_query_equals "lifecycle recovery preconditions support authority-zone-allowed" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.preconditions.items.enum[] | select(. == "authority-zone-allowed")' 'authority-zone-allowed'
     assert_schema_query_equals "lifecycle recovery actions support cleanup-current-run-artifacts" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.recovery_action_id.enum[] | select(. == "cleanup-current-run-artifacts")' 'cleanup-current-run-artifacts'
     assert_schema_query_equals "lifecycle recovery blockers support authority-zone-denied" "$lifecycle_schema" '."$defs".programRecoveryRecipe.properties.blocker_class.enum[] | select(. == "authority-zone-denied")' 'authority-zone-denied'
+    assert_schema_query_equals "route execution request carries phase id context" "$route_request_schema" '.properties.phase_id.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "route execution result carries phase id context" "$route_result_schema" '.properties.phase_id.pattern' '^[a-z][a-z0-9-]*$'
 
     packet_contract="$REPO_ROOT/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
     program_contract="$REPO_ROOT/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
     assert_success_contract "source proposal-packet lifecycle contract passes" "$REPO_ROOT" ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
+    assert_schema_query_equals "source proposal-packet lifecycle contract uses v2" "$packet_contract" '.schema_version' 'octon-extension-lifecycle-contract-v2'
+    assert_schema_query_equals "source proposal-packet phase loop model declared" "$packet_contract" '.phase_loop.model_version' 'phase-loop-v1'
+    assert_schema_query_equals "source proposal-packet implementation execution phase declared" "$packet_contract" '.phase_loop.phases[]? | select(.phase_id == "implementation-execution").route_refs[] | select(. == "run-packet-implementation")' 'run-packet-implementation'
+    assert_schema_query_equals "source proposal-packet terminal phase does not dispatch" "$packet_contract" '.phase_loop.phases[]? | select(.phase_id == "terminal-explanation-reporting").route_refs | length' '0'
     assert_schema_query_equals "packet promote declares safe delegation contract" "$packet_contract" '.routes[]? | select(.route_id == "promote-proposal").delegation_contract.safe_delegation' 'true'
     assert_success_contract "source proposal-program lifecycle contract passes" "$REPO_ROOT" ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
     assert_schema_query_equals "program review route declared" "$program_contract" '.routes[]?.route_id | select(. == "review-program")' 'review-program'

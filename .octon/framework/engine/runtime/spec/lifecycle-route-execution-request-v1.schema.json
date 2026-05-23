@@ -23,6 +23,7 @@
     "run_id": { "type": "string", "minLength": 1 },
     "lifecycle_id": { "type": "string", "minLength": 1 },
     "owner_extension": { "type": "string", "minLength": 1 },
+    "phase_id": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9-]*$" },
     "target": { "type": "string", "minLength": 1 },
     "executor": { "enum": ["auto", "codex", "claude", "mock"] },
     "route": {

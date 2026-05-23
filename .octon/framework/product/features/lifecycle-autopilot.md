@@ -12,6 +12,16 @@ implementation prompt generation, implementation, promotion,
 verification/correction, closeout, and archival without adding new proposal
 manifest statuses.
 
+Proposal packet route progression is phase-aware through lifecycle contract v2.
+The contract's generic `phase_loop` primitive supplies validated phase ids,
+route/receipt/gate/validator/loop/terminal references, backward transitions,
+finite loop bounds, and terminal stop classes. The runner records
+`current_phase`, phase counts, phase blockers, and phase transition events in
+durable run plans, checkpoints, summaries, and hash-chained packet lifecycle
+event logs. Phase context never authorizes execution; implementation,
+promotion, closeout, and archival still require fresh receipts, validators,
+scope checks, authority-boundary checks, and route delegation proof.
+
 Lifecycle Autopilot also supports proposal-program lifecycles for parent
 program packets that coordinate multiple child proposal packets. Program runs
 plan child targets from a structured parent-owned child registry, schedule
@@ -28,7 +38,7 @@ targets, validation verdicts, and archive metadata.
 
 The lifecycle runner owns orchestration: planning, route selection, gates,
 receipt freshness and completeness, stale receipt detection, loop bounds,
-evidence, checkpoints, resume, and idempotency.
+phase evaluation, evidence, checkpoints, resume, and idempotency.
 
 The lifecycle executor adapter owns route execution: prompt or workflow
 invocation, generic input binding, completion observation, approval pauses,
@@ -37,6 +47,8 @@ timeouts, cancellation, retries, and structured execution results.
 Lifecycle Autopilot uses generated effective projections as runtime-discovered
 handles. Raw additive extension inputs are authoring inputs only, and
 proposal-local receipts remain evidence only.
+Generated projections may expose `phase_loop` to the runner, but they remain
+derived publications and do not become source authority.
 
 Effective catalog lifecycle discovery treats an absent `lifecycle_contracts`
 field and an explicit empty `lifecycle_contracts: []` list as "no lifecycle

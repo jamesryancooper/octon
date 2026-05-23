@@ -156,6 +156,10 @@ struct LifecycleRunEvent {
     #[serde(skip_serializing_if = "Option::is_none")]
     route_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    phase_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    transition_id: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     child_id: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     final_verdict: Option<String>,
@@ -195,6 +199,15 @@ pub(crate) struct LifecyclePlanResult {
     pub gate_results: Vec<GatePlanResult>,
     pub blocked_by_gate: Option<String>,
     pub checkpoint_drift: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub phase_loop_model: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub current_phase: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub phase_blockers: BTreeMap<String, String>,
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub blocker_class: Option<String>,
@@ -248,6 +261,9 @@ pub(crate) struct LifecycleRunResult {
     pub bundle_root: String,
     pub checkpoint_path: String,
     pub selected_route: Option<RoutePlanState>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub current_phase: Option<String>,
     pub terminal_outcome: Option<String>,
     pub final_verdict: String,
 }
@@ -269,6 +285,8 @@ struct LifecycleContract {
     receipts: Vec<ReceiptSpec>,
     #[serde(default)]
     loops: Vec<LoopSpec>,
+    #[serde(default)]
+    phase_loop: Option<PhaseLoopSpec>,
     #[serde(default)]
     routes: Vec<RouteSpec>,
     #[serde(default)]
@@ -309,6 +327,68 @@ fn default_route_progression_execution_strategy() -> String {
     LifecycleExecutionStrategy::RouteProgression
         .as_str()
         .to_string()
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct PhaseLoopSpec {
+    model_version: String,
+    #[serde(default)]
+    phases: Vec<PhaseSpec>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[allow(dead_code)]
+struct PhaseSpec {
+    phase_id: String,
+    #[serde(default)]
+    mode: String,
+    #[serde(default)]
+    owner_layer: String,
+    #[serde(default)]
+    route_refs: Vec<String>,
+    #[serde(default)]
+    receipt_refs: Vec<String>,
+    #[serde(default)]
+    gate_refs: Vec<String>,
+    #[serde(default)]
+    validator_refs: Vec<String>,
+    #[serde(default)]
+    loop_refs: Vec<String>,
+    #[serde(default)]
+    terminal_refs: Vec<String>,
+    #[serde(default)]
+    exit_evidence_refs: Vec<String>,
+    #[serde(default)]
+    re_entry_triggers: Vec<String>,
+    #[serde(default)]
+    backward_transitions: Vec<PhaseTransitionSpec>,
+    #[serde(default)]
+    loop_bounds: PhaseLoopBoundsSpec,
+    #[serde(default)]
+    stop_conditions: Vec<PhaseStopConditionSpec>,
+    #[serde(default)]
+    authority_boundaries: Vec<String>,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[allow(dead_code)]
+struct PhaseTransitionSpec {
+    to_phase_id: String,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[allow(dead_code)]
+struct PhaseLoopBoundsSpec {
+    #[serde(default)]
+    max_phase_iterations: u32,
+    #[serde(default)]
+    max_route_dispatches: u32,
+}
+
+#[derive(Clone, Debug, Default, Deserialize)]
+#[allow(dead_code)]
+struct PhaseStopConditionSpec {
+    stop_class: String,
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -566,10 +646,18 @@ struct LifecycleCheckpoint {
     execution_strategy: String,
     target: String,
     current_state: Option<String>,
+    #[serde(default)]
+    current_phase: Option<String>,
     completed_states: Vec<String>,
     last_route: Option<String>,
     #[serde(default)]
     loop_counts: BTreeMap<String, u32>,
+    #[serde(default)]
+    phase_counts: BTreeMap<String, u32>,
+    #[serde(default)]
+    last_phase_transition: Option<String>,
+    #[serde(default)]
+    phase_blockers: BTreeMap<String, String>,
     #[serde(default)]
     receipt_digests: BTreeMap<String, String>,
     #[serde(default)]
@@ -682,6 +770,9 @@ pub(crate) fn append_lifecycle_event(
 ) -> Result<u64> {
     fs::create_dir_all(control_root)?;
     fs::create_dir_all(evidence_root)?;
+    let mut data = data;
+    let phase_id = data.remove("phase_id");
+    let transition_id = data.remove("transition_id");
     let control_log = lifecycle_event_log_path(control_root);
     let evidence_log = lifecycle_event_log_path(evidence_root);
     let event_index = count_lifecycle_events(&control_log)?;
@@ -703,6 +794,8 @@ pub(crate) fn append_lifecycle_event(
         step_number,
         step_kind: step_kind.map(str::to_string),
         route_id: route_id.map(str::to_string),
+        phase_id,
+        transition_id,
         child_id: child_id.map(str::to_string),
         final_verdict: final_verdict.map(str::to_string),
         data,
@@ -1085,6 +1178,7 @@ fn lifecycle_cancelled_run_result(
         bundle_root: rel_display(repo_root, evidence_root),
         checkpoint_path: rel_display(repo_root, checkpoint_path),
         selected_route: None,
+        current_phase: checkpoint.current_phase.clone(),
         terminal_outcome: Some("cancelled".to_string()),
         final_verdict: "cancelled".to_string(),
     }
@@ -1141,6 +1235,18 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
     let receipt_states = receipt_plan_states(&repo_root, &loaded.contract, &target_state);
     let (blocker_class, blocker_message) =
         lifecycle_plan_blocker_for_receipts(&final_verdict, &receipt_states);
+    let current_phase = current_phase_for_plan(
+        &loaded.contract,
+        selected_route.as_ref().map(|route| route.route_id.as_str()),
+        terminal_outcome.as_deref(),
+        &final_verdict,
+    );
+    let phase_blockers = phase_blockers_for_plan(
+        &final_verdict,
+        blocked_by_gate.as_deref(),
+        blocker_class.as_deref(),
+        blocker_message.as_deref(),
+    );
 
     Ok(LifecyclePlanResult {
         schema_version: "octon-lifecycle-plan-v1".to_string(),
@@ -1157,6 +1263,9 @@ pub(crate) fn plan_lifecycle_from_octon_dir(
         gate_results,
         blocked_by_gate,
         checkpoint_drift: None,
+        phase_loop_model: phase_loop_model(&loaded.contract),
+        current_phase,
+        phase_blockers,
         blocker_class,
         blocker_message,
         final_verdict,
@@ -1279,6 +1388,32 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         final_verdict = "completed".to_string();
     }
     plan.final_verdict = final_verdict.clone();
+    plan.current_phase = current_phase_for_plan(
+        &loaded.contract,
+        plan.next_route
+            .as_ref()
+            .map(|route| route.route_id.as_str()),
+        plan.terminal_outcome.as_deref(),
+        &final_verdict,
+    );
+    plan.phase_blockers = phase_blockers_for_plan(
+        &final_verdict,
+        plan.blocked_by_gate.as_deref(),
+        plan.blocker_class.as_deref(),
+        plan.blocker_message.as_deref(),
+    );
+
+    let mut phase_counts = previous_checkpoint
+        .as_ref()
+        .map(|checkpoint| checkpoint.phase_counts.clone())
+        .unwrap_or_default();
+    if let Some(phase_id) = plan.current_phase.as_ref() {
+        *phase_counts.entry(phase_id.clone()).or_insert(0) += 1;
+    }
+    let last_phase_transition = plan
+        .current_phase
+        .as_ref()
+        .map(|phase_id| phase_transition_id("phase-entered", phase_id));
 
     let checkpoint = LifecycleCheckpoint {
         schema_version: "octon-lifecycle-checkpoint-v1".to_string(),
@@ -1291,6 +1426,7 @@ pub(crate) fn run_lifecycle_from_octon_dir(
             .as_ref()
             .map(|route| route.route_id.clone())
             .or_else(|| plan.terminal_outcome.clone()),
+        current_phase: plan.current_phase.clone(),
         completed_states: if final_verdict == "mock-route-executed" {
             plan.next_route
                 .as_ref()
@@ -1306,6 +1442,9 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         },
         last_route: plan.next_route.as_ref().map(|route| route.route_id.clone()),
         loop_counts,
+        phase_counts,
+        last_phase_transition,
+        phase_blockers: plan.phase_blockers.clone(),
         receipt_digests: receipt_digest_map(&plan),
         last_validator_results: plan.gate_results.clone(),
         run_inputs,
@@ -1336,11 +1475,34 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         evidence_root.join("commands.md"),
         lifecycle_commands(&options.lifecycle_id, &target_abs, plan.next_route.as_ref()),
     )?;
+    if let Some(phase_id) = plan.current_phase.as_ref() {
+        append_lifecycle_event(
+            &control_root,
+            &evidence_root,
+            &sanitized_run_id,
+            &options.lifecycle_id,
+            execution_strategy.as_str(),
+            &target_abs,
+            "phase-entered",
+            "phase",
+            "runtime",
+            None,
+            None,
+            None,
+            plan.next_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            None,
+            Some(&final_verdict),
+            phase_transition_event_data(phase_id, "phase-entered"),
+        )?;
+    }
     let mut event_data = BTreeMap::new();
     event_data.insert("final_verdict".to_string(), final_verdict.clone());
     if let Some(route) = plan.next_route.as_ref() {
         event_data.insert("selected_route".to_string(), route.route_id.clone());
     }
+    insert_phase_event_context(&mut event_data, plan.current_phase.as_deref());
     append_lifecycle_event(
         &control_root,
         &evidence_root,
@@ -1362,6 +1524,8 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         event_data,
     )?;
     if !options.execute_routes && plan.next_route.is_some() && final_verdict == "route-ready" {
+        let mut event_data = BTreeMap::new();
+        insert_phase_event_context(&mut event_data, plan.current_phase.as_deref());
         append_lifecycle_event(
             &control_root,
             &evidence_root,
@@ -1380,9 +1544,11 @@ pub(crate) fn run_lifecycle_from_octon_dir(
                 .map(|route| route.route_id.as_str()),
             None,
             Some(&final_verdict),
-            BTreeMap::new(),
+            event_data,
         )?;
     } else if classify_lifecycle_status(&final_verdict).is_terminal_or_blocked() {
+        let mut status_event_data = BTreeMap::new();
+        insert_phase_event_context(&mut status_event_data, plan.current_phase.as_deref());
         append_lifecycle_event(
             &control_root,
             &evidence_root,
@@ -1405,8 +1571,35 @@ pub(crate) fn run_lifecycle_from_octon_dir(
                 .map(|route| route.route_id.as_str()),
             None,
             Some(&final_verdict),
-            BTreeMap::new(),
+            status_event_data,
         )?;
+        if let Some(phase_id) = plan.current_phase.as_ref() {
+            let phase_event_type = if final_verdict == "completed" {
+                "phase-exited"
+            } else {
+                "phase-blocked"
+            };
+            append_lifecycle_event(
+                &control_root,
+                &evidence_root,
+                &sanitized_run_id,
+                &options.lifecycle_id,
+                execution_strategy.as_str(),
+                &target_abs,
+                phase_event_type,
+                "phase",
+                "runtime",
+                None,
+                None,
+                None,
+                plan.next_route
+                    .as_ref()
+                    .map(|route| route.route_id.as_str()),
+                None,
+                Some(&final_verdict),
+                phase_transition_event_data(phase_id, phase_event_type),
+            )?;
+        }
     }
 
     Ok(LifecycleRunResult {
@@ -1426,6 +1619,7 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         bundle_root: rel_display(&repo_root, &evidence_root),
         checkpoint_path: rel_display(&repo_root, &checkpoint_path),
         selected_route: plan.next_route,
+        current_phase: plan.current_phase,
         terminal_outcome: plan.terminal_outcome,
         final_verdict,
     })
@@ -1478,11 +1672,12 @@ pub(crate) fn resume_lifecycle_from_octon_dir(
         .as_ref()
         .map(|route| route.route_id.clone())
         .or_else(|| plan.terminal_outcome.clone());
-    let checkpoint_drifted = reconstructed != checkpoint.current_state;
+    let checkpoint_phase_drifted = plan.current_phase != checkpoint.current_phase;
+    let checkpoint_drifted = reconstructed != checkpoint.current_state || checkpoint_phase_drifted;
     if checkpoint_drifted {
         plan.checkpoint_drift = Some(format!(
-            "checkpoint current_state {:?} differed from target-derived state {:?}; target receipts were trusted",
-            checkpoint.current_state, reconstructed
+            "checkpoint current_state {:?} / current_phase {:?} differed from target-derived state {:?} / phase {:?}; target receipts were trusted",
+            checkpoint.current_state, checkpoint.current_phase, reconstructed, plan.current_phase
         ));
     } else if checkpoint.final_verdict == "blocked-max-iterations" {
         plan.final_verdict = "blocked-max-iterations".to_string();
@@ -1525,6 +1720,7 @@ pub(crate) fn resume_lifecycle_from_octon_dir(
         bundle_root: rel_display(&repo_root, &evidence_root),
         checkpoint_path: rel_display(&repo_root, &checkpoint_path),
         selected_route: plan.next_route,
+        current_phase: plan.current_phase,
         terminal_outcome: plan.terminal_outcome,
         final_verdict: plan.final_verdict,
     })
@@ -1969,6 +2165,101 @@ fn route_has_skip_when_target_exists(contract: &LifecycleContract, route_id: &st
     false
 }
 
+fn phase_loop_model(contract: &LifecycleContract) -> Option<String> {
+    contract
+        .phase_loop
+        .as_ref()
+        .map(|phase_loop| phase_loop.model_version.clone())
+}
+
+fn current_phase_for_plan(
+    contract: &LifecycleContract,
+    route_id: Option<&str>,
+    terminal_outcome: Option<&str>,
+    final_verdict: &str,
+) -> Option<String> {
+    let phase_loop = contract.phase_loop.as_ref()?;
+    if let Some(route_id) = route_id {
+        if let Some(phase) = phase_loop
+            .phases
+            .iter()
+            .find(|phase| phase.route_refs.iter().any(|route| route == route_id))
+        {
+            return Some(phase.phase_id.clone());
+        }
+    }
+    if classify_lifecycle_status(final_verdict).is_terminal_or_blocked() {
+        if let Some(phase) = phase_loop.phases.iter().find(|phase| {
+            phase.mode == "terminal"
+                && terminal_outcome
+                    .map(|outcome| {
+                        phase
+                            .terminal_refs
+                            .iter()
+                            .any(|terminal| terminal == outcome)
+                    })
+                    .unwrap_or(true)
+        }) {
+            return Some(phase.phase_id.clone());
+        }
+    }
+    if let Some(terminal_outcome) = terminal_outcome {
+        if let Some(phase) = phase_loop.phases.iter().find(|phase| {
+            phase
+                .terminal_refs
+                .iter()
+                .any(|terminal| terminal == terminal_outcome)
+        }) {
+            return Some(phase.phase_id.clone());
+        }
+    }
+    None
+}
+
+fn phase_blockers_for_plan(
+    final_verdict: &str,
+    blocked_by_gate: Option<&str>,
+    blocker_class: Option<&str>,
+    blocker_message: Option<&str>,
+) -> BTreeMap<String, String> {
+    let mut blockers = BTreeMap::new();
+    if classify_lifecycle_status(final_verdict).is_terminal_or_blocked()
+        && final_verdict != "completed"
+    {
+        blockers.insert("final_verdict".to_string(), final_verdict.to_string());
+    }
+    if let Some(gate_id) = blocked_by_gate {
+        blockers.insert("blocked_by_gate".to_string(), gate_id.to_string());
+    }
+    if let Some(blocker_class) = blocker_class {
+        blockers.insert("blocker_class".to_string(), blocker_class.to_string());
+    }
+    if let Some(blocker_message) = blocker_message {
+        blockers.insert("blocker_message".to_string(), blocker_message.to_string());
+    }
+    blockers
+}
+
+fn insert_phase_event_context(data: &mut BTreeMap<String, String>, phase_id: Option<&str>) {
+    if let Some(phase_id) = phase_id {
+        data.insert("phase_id".to_string(), phase_id.to_string());
+    }
+}
+
+fn phase_transition_id(event_type: &str, phase_id: &str) -> String {
+    format!("{event_type}:{phase_id}")
+}
+
+fn phase_transition_event_data(phase_id: &str, event_type: &str) -> BTreeMap<String, String> {
+    let mut data = BTreeMap::new();
+    data.insert("phase_id".to_string(), phase_id.to_string());
+    data.insert(
+        "transition_id".to_string(),
+        phase_transition_id(event_type, phase_id),
+    );
+    data
+}
+
 fn receipt_verdict(
     contract: &LifecycleContract,
     target_state: &TargetState,
@@ -2102,6 +2393,7 @@ pub(crate) fn lifecycle_execution_request_from_run(
         &run.run_id,
         &run.lifecycle_id,
         &run.target,
+        run.current_phase.as_deref(),
         route,
         executor,
         timeout_seconds,
@@ -2122,6 +2414,7 @@ fn lifecycle_execution_request_for_route(
     run_id: &str,
     lifecycle_id: &str,
     target_rel: &str,
+    phase_id: Option<&str>,
     route: &RoutePlanState,
     executor: ExecutorKind,
     timeout_seconds: u64,
@@ -2231,6 +2524,7 @@ fn lifecycle_execution_request_for_route(
         run_id: run_id.to_string(),
         lifecycle_id: lifecycle_id.to_string(),
         owner_extension: loaded.contract.owner_extension.clone(),
+        phase_id: phase_id.map(str::to_string),
         target,
         manifest_path: loaded.contract.target.manifest_path.clone(),
         status_field: loaded.contract.target.status_field.clone(),
@@ -2717,6 +3011,13 @@ pub(crate) fn update_lifecycle_checkpoint_final_verdict(
         return Ok(());
     };
     checkpoint.final_verdict = final_verdict.to_string();
+    if classify_lifecycle_status(final_verdict).is_terminal_or_blocked()
+        && final_verdict != "completed"
+    {
+        checkpoint
+            .phase_blockers
+            .insert("final_verdict".to_string(), final_verdict.to_string());
+    }
     if final_verdict == "cancelled" && checkpoint.cancelled_at.is_none() {
         checkpoint.cancelled_at = Some(now_rfc3339()?);
         checkpoint.cancel_reason =
@@ -2848,6 +3149,7 @@ fn lifecycle_summary(
         .map(|route| route.route_id.as_str())
         .unwrap_or("none");
     let terminal = plan.terminal_outcome.as_deref().unwrap_or("none");
+    let phase = plan.current_phase.as_deref().unwrap_or("none");
     let execution_mode = route_execution_mode(
         executor,
         final_verdict,
@@ -2864,7 +3166,7 @@ fn lifecycle_summary(
         })
         .unwrap_or_default();
     format!(
-        "# Lifecycle Run\n\nrun_id: {run_id}\nrecorded_at: {}\nlifecycle_id: {}\nexecution_strategy: {}\ntarget: {}\nexecutor: {}\nroute_execution_mode: {execution_mode}\nselected_route: {route}\nterminal_outcome: {terminal}\nfinal_verdict: {final_verdict}\n{blocker_note}\n{handoff_note}\n",
+        "# Lifecycle Run\n\nrun_id: {run_id}\nrecorded_at: {}\nlifecycle_id: {}\nexecution_strategy: {}\ntarget: {}\nexecutor: {}\nroute_execution_mode: {execution_mode}\ncurrent_phase: {phase}\nselected_route: {route}\nterminal_outcome: {terminal}\nfinal_verdict: {final_verdict}\n{blocker_note}\n{handoff_note}\n",
         now_rfc3339().unwrap_or_else(|_| "unknown".to_string()),
         plan.lifecycle_id,
         plan.execution_strategy,
@@ -2880,13 +3182,14 @@ fn lifecycle_adapter_execution_summary(run: &LifecycleRunResult, adapter_status:
         .map(|route| route.route_id.as_str())
         .unwrap_or("none");
     let terminal = run.terminal_outcome.as_deref().unwrap_or("none");
+    let phase = run.current_phase.as_deref().unwrap_or("none");
     let route_execution_result = run
         .selected_route
         .as_ref()
         .map(|route| format!("{}-route-execution.yml", route.route_id))
         .unwrap_or_else(|| "none".to_string());
     format!(
-        "# Lifecycle Run\n\nrun_id: {}\nrecorded_at: {}\nlifecycle_id: {}\nexecution_strategy: {}\ntarget: {}\nexecutor: {}\nroute_execution_mode: {}\nselected_route: {}\nterminal_outcome: {}\nfinal_verdict: {}\nadapter_route_status: {}\nroute_execution_result: {}\n\nNote: the lifecycle executor adapter executed the selected route. The runner will re-plan from target receipts and manifest state before selecting any further route.\n",
+        "# Lifecycle Run\n\nrun_id: {}\nrecorded_at: {}\nlifecycle_id: {}\nexecution_strategy: {}\ntarget: {}\nexecutor: {}\nroute_execution_mode: {}\ncurrent_phase: {}\nselected_route: {}\nterminal_outcome: {}\nfinal_verdict: {}\nadapter_route_status: {}\nroute_execution_result: {}\n\nNote: the lifecycle executor adapter executed the selected route. The runner will re-plan from target receipts and manifest state before selecting any further route.\n",
         run.run_id,
         now_rfc3339().unwrap_or_else(|_| "unknown".to_string()),
         run.lifecycle_id,
@@ -2894,6 +3197,7 @@ fn lifecycle_adapter_execution_summary(run: &LifecycleRunResult, adapter_status:
         run.target,
         run.executor,
         run.route_execution_mode,
+        phase,
         route,
         terminal,
         run.final_verdict,
@@ -3282,6 +3586,7 @@ routes:
             "run-1",
             "proposal-packet",
             "packet",
+            None,
             &route,
             ExecutorKind::Codex,
             60,

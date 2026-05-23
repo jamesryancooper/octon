@@ -14,7 +14,9 @@ The runner plans from the published lifecycle contract, evaluates
 receipt-driven gates, records workflow evidence and checkpoints, and reports
 the next route. The proposal packet contract declares
 `execution_strategy: route-progression`, so runtime dispatch stays on the
-packet lifecycle driver.
+packet lifecycle driver. The contract also declares `phase_loop.model_version:
+phase-loop-v1`; `current_phase` and phase transition events are checkpoint and
+observability context only.
 
 Executor boundary:
 
@@ -36,3 +38,5 @@ Executor boundary:
 
 It must not create new proposal statuses or treat proposal-local receipts as
 durable authority.
+It must not treat phase context as approval, delegation proof, or route
+execution authority.

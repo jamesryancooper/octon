@@ -38,6 +38,10 @@ Resolve `bundle` or `lifecycle_action` through
   `accepted`, `revision-required`, or `rejected` review outcomes; do not add
   new proposal statuses. Use `support/revisions/<revision-id>.md` for
   packet-local revision passes and route back to review.
+- Packet `phase_loop` phases are lifecycle context, not manifest statuses.
+  `current_phase`, phase counts, and phase transition events help explain and
+  resume a run but do not authorize implementation, promotion, closeout, or
+  archive.
 - Program review and revision are parent coordination only. Parent review may
   write parent-local `support/proposal-review.md` and update only the parent
   manifest status to `accepted`, `rejected`, or `in-review`; parent revision
@@ -60,10 +64,10 @@ Resolve `bundle` or `lifecycle_action` through
   policy, support, or closure authority.
 - Use the shared `octon lifecycle` runner when the operator asks for a single
   end-to-end lifecycle orchestration surface. The runner owns planning, gates,
-  stale-receipt detection, loop limits, evidence, and resume. Dispatch follows
-  the published `execution_strategy`: `route-progression` for packet routes and
-  `orchestrated-replan-loop` for program orchestration. Leaf proposal skills
-  continue to own packet-specific semantics and edits.
+  stale-receipt detection, phase context, loop limits, evidence, and resume.
+  Dispatch follows the published `execution_strategy`: `route-progression` for
+  packet routes and `orchestrated-replan-loop` for program orchestration. Leaf
+  proposal skills continue to own packet-specific semantics and edits.
 - Use `/octon-proposal-run-program-lifecycle` for shared
   `proposal-program` orchestration. It wraps `octon lifecycle run --lifecycle
   proposal-program --target <program-packet-path>` and has no dispatcher route

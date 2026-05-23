@@ -968,10 +968,112 @@ validate_program_route_references() {
   done
 }
 
+validate_phase_ref_list() {
+  local contract="$1" expr="$2" label="$3" allowed_ids="$4"
+  local ref
+  while IFS= read -r ref; do
+    [[ -n "$ref" && "$ref" != "null" ]] || continue
+    id_list_contains "$ref" "$allowed_ids" \
+      && pass "phase ref exists: $label -> $ref" \
+      || fail "phase ref missing: $label -> $ref"
+  done < <(yq -r "$expr[]? // \"\"" "$contract" 2>/dev/null || true)
+}
+
+validate_phase_loop() {
+  local contract="$1" lifecycle_id="$2" contract_route_ids="$3" receipt_ids="$4" gate_ids="$5" validator_ids="$6" loop_ids="$7" terminal_ids="$8" allowed_statuses="$9"
+  local model_version phase_count phase_ids index phase_id mode route_ref_count max_phase_iterations max_route_dispatches transition_count transition_index to_phase_id
+
+  if ! yq -e '.phase_loop | tag == "!!map"' "$contract" >/dev/null 2>&1; then
+    fail "v2 phase_loop declared: $lifecycle_id"
+    return
+  fi
+  model_version="$(yq -r '.phase_loop.model_version // ""' "$contract" 2>/dev/null || true)"
+  [[ "$model_version" == "phase-loop-v1" ]] \
+    && pass "phase_loop model version valid: $lifecycle_id" \
+    || fail "phase_loop model version invalid: $lifecycle_id -> $model_version"
+  yq -e '.phase_loop.phases | tag == "!!seq" and length > 0' "$contract" >/dev/null 2>&1 \
+    && pass "phase_loop phases declared: $lifecycle_id" \
+    || fail "phase_loop phases missing: $lifecycle_id"
+  validate_unique_ids "$contract" '.phase_loop.phases[]?.phase_id' "phase"
+
+  phase_ids="$(load_ids "$contract" '.phase_loop.phases[]?.phase_id')"
+  phase_count="$(yq -r '(.phase_loop.phases // []) | length' "$contract" 2>/dev/null || echo 0)"
+  for ((index=0; index<phase_count; index++)); do
+    phase_id="$(yq -r ".phase_loop.phases[$index].phase_id // \"\"" "$contract" 2>/dev/null || true)"
+    mode="$(yq -r ".phase_loop.phases[$index].mode // \"\"" "$contract" 2>/dev/null || true)"
+    [[ "$phase_id" =~ ^[a-z][a-z0-9-]*$ ]] \
+      && pass "phase id valid: $phase_id" \
+      || fail "phase id invalid: $phase_id"
+    if id_list_contains "$phase_id" "$allowed_statuses"; then
+      fail "phase id must not duplicate manifest status: $phase_id"
+    else
+      pass "phase id distinct from manifest status: $phase_id"
+    fi
+    case "$mode" in
+      route|gate|loop|terminal)
+        pass "phase mode valid: $phase_id -> $mode"
+        ;;
+      *)
+        fail "phase mode invalid: $phase_id -> $mode"
+        ;;
+    esac
+
+    for field in route_refs receipt_refs gate_refs validator_refs loop_refs terminal_refs exit_evidence_refs re_entry_triggers backward_transitions stop_conditions authority_boundaries; do
+      yq -e ".phase_loop.phases[$index].$field | tag == \"!!seq\"" "$contract" >/dev/null 2>&1 \
+        && pass "phase sequence field declared: $phase_id -> $field" \
+        || fail "phase sequence field missing or invalid: $phase_id -> $field"
+    done
+    for field in entry_when exit_when loop_bounds; do
+      yq -e ".phase_loop.phases[$index].$field | tag == \"!!map\"" "$contract" >/dev/null 2>&1 \
+        && pass "phase map field declared: $phase_id -> $field" \
+        || fail "phase map field missing or invalid: $phase_id -> $field"
+    done
+
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].route_refs" "phase $phase_id route_refs" "$contract_route_ids"
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].receipt_refs" "phase $phase_id receipt_refs" "$receipt_ids"
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].gate_refs" "phase $phase_id gate_refs" "$gate_ids"
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].validator_refs" "phase $phase_id validator_refs" "$validator_ids"
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].loop_refs" "phase $phase_id loop_refs" "$loop_ids"
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].terminal_refs" "phase $phase_id terminal_refs" "$terminal_ids"
+    validate_phase_ref_list "$contract" ".phase_loop.phases[$index].exit_evidence_refs" "phase $phase_id exit_evidence_refs" "$receipt_ids"
+
+    validate_condition_receipt_refs "$contract" ".phase_loop.phases[$index].entry_when" "phase $phase_id entry_when" "$receipt_ids"
+    validate_condition_path_refs "$contract" ".phase_loop.phases[$index].entry_when" "phase $phase_id entry_when"
+    validate_condition_receipt_refs "$contract" ".phase_loop.phases[$index].exit_when" "phase $phase_id exit_when" "$receipt_ids"
+    validate_condition_path_refs "$contract" ".phase_loop.phases[$index].exit_when" "phase $phase_id exit_when"
+
+    route_ref_count="$(yq -r "(.phase_loop.phases[$index].route_refs // []) | length" "$contract" 2>/dev/null || echo 0)"
+    if [[ "$mode" == "terminal" && "$route_ref_count" != "0" ]]; then
+      fail "terminal phase must not dispatch routes: $phase_id"
+    else
+      pass "terminal phase route dispatch rule valid: $phase_id"
+    fi
+
+    max_phase_iterations="$(yq -r ".phase_loop.phases[$index].loop_bounds.max_phase_iterations // \"\"" "$contract" 2>/dev/null || true)"
+    max_route_dispatches="$(yq -r ".phase_loop.phases[$index].loop_bounds.max_route_dispatches // \"\"" "$contract" 2>/dev/null || true)"
+    [[ "$max_phase_iterations" =~ ^[1-9][0-9]*$ ]] \
+      && pass "phase max_phase_iterations bounded: $phase_id" \
+      || fail "phase max_phase_iterations invalid: $phase_id"
+    [[ "$max_route_dispatches" =~ ^[0-9]+$ ]] \
+      && pass "phase max_route_dispatches bounded: $phase_id" \
+      || fail "phase max_route_dispatches invalid: $phase_id"
+
+    transition_count="$(yq -r "(.phase_loop.phases[$index].backward_transitions // []) | length" "$contract" 2>/dev/null || echo 0)"
+    for ((transition_index=0; transition_index<transition_count; transition_index++)); do
+      to_phase_id="$(yq -r ".phase_loop.phases[$index].backward_transitions[$transition_index].to_phase_id // \"\"" "$contract" 2>/dev/null || true)"
+      id_list_contains "$to_phase_id" "$phase_ids" \
+        && pass "phase backward transition target exists: $phase_id -> $to_phase_id" \
+        || fail "phase backward transition target missing: $phase_id -> $to_phase_id"
+      validate_condition_receipt_refs "$contract" ".phase_loop.phases[$index].backward_transitions[$transition_index].when" "phase $phase_id backward_transition[$transition_index]" "$receipt_ids"
+      validate_condition_path_refs "$contract" ".phase_loop.phases[$index].backward_transitions[$transition_index].when" "phase $phase_id backward_transition[$transition_index]"
+    done
+  done
+}
+
 validate_contract() {
   local contract="$1" rel pack_id owner lifecycle_id routing_contract command_manifest skill_manifest skill_registry workflows_manifest
   local route_ids contract_route_ids command_ids skill_ids prompt_set_ids workflow_ids validator_ids gate_ids receipt_ids input_binding_ids
-  local route_count index route_id route_type command_id skill_id prompt_set_id validator_id receipt_id loop_id max_iterations target_manifest allowed_statuses
+  local route_count index route_id route_type command_id skill_id prompt_set_id validator_id receipt_id loop_id max_iterations target_manifest allowed_statuses schema_version
 
   rel="$(rel_from_root "$contract")"
   pack_id="$(pack_id_for_contract "$rel")"
@@ -988,9 +1090,15 @@ validate_contract() {
     fail "lifecycle contract parses: $rel"
     return
   }
-  [[ "$(yq -r '.schema_version // ""' "$contract")" == "octon-extension-lifecycle-contract-v1" ]] \
-    && pass "lifecycle schema version valid: $pack_id" \
-    || fail "lifecycle schema version invalid: $pack_id"
+  schema_version="$(yq -r '.schema_version // ""' "$contract")"
+  case "$schema_version" in
+    octon-extension-lifecycle-contract-v1|octon-extension-lifecycle-contract-v2)
+      pass "lifecycle schema version valid: $pack_id -> $schema_version"
+      ;;
+    *)
+      fail "lifecycle schema version invalid: $pack_id -> $schema_version"
+      ;;
+  esac
 
   owner="$(yq -r '.owner_extension // ""' "$contract")"
   lifecycle_id="$(yq -r '.lifecycle_id // ""' "$contract")"
@@ -1292,6 +1400,23 @@ validate_contract() {
     id_list_contains "$repeat_route_id" "$(load_ids "$contract" '.routes[]?.route_id')" && pass "loop repeat route exists: $loop_id" || fail "loop repeat route missing: $loop_id"
     [[ "$max_iterations" =~ ^[1-9][0-9]*$ ]] && pass "loop max_iterations bounded: $loop_id" || fail "loop max_iterations invalid: $loop_id"
   done
+
+  if [[ "$schema_version" == "octon-extension-lifecycle-contract-v2" ]]; then
+    validate_phase_loop \
+      "$contract" \
+      "$lifecycle_id" \
+      "$contract_route_ids" \
+      "$receipt_ids" \
+      "$gate_ids" \
+      "$validator_ids" \
+      "$(load_ids "$contract" '.loops[]?.loop_id')" \
+      "$(load_ids "$contract" '.terminal_outcomes[]?.outcome_id')" \
+      "$allowed_statuses"
+  elif yq -e '.phase_loop' "$contract" >/dev/null 2>&1; then
+    fail "phase_loop requires lifecycle contract v2: $lifecycle_id"
+  else
+    pass "v1 phase_loop absent: $lifecycle_id"
+  fi
 }
 
 main() {

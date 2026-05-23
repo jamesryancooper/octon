@@ -8,6 +8,8 @@ pub struct LifecycleRouteExecutionRequest {
     pub run_id: String,
     pub lifecycle_id: String,
     pub owner_extension: String,
+    #[serde(default)]
+    pub phase_id: Option<String>,
     pub target: PathBuf,
     pub manifest_path: String,
     pub status_field: String,

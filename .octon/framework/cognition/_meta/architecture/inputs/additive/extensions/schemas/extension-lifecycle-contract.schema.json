@@ -17,7 +17,10 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "octon-extension-lifecycle-contract-v1"
+      "enum": [
+        "octon-extension-lifecycle-contract-v1",
+        "octon-extension-lifecycle-contract-v2"
+      ]
     },
     "lifecycle_id": {
       "type": "string",
@@ -120,6 +123,9 @@
       "items": {
         "$ref": "#/$defs/loop"
       }
+    },
+    "phase_loop": {
+      "$ref": "#/$defs/phaseLoop"
     },
     "program": {
       "$ref": "#/$defs/program"
@@ -677,6 +683,181 @@
         }
       }
     },
+    "phaseLoop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_version", "phases"],
+      "properties": {
+        "model_version": {
+          "const": "phase-loop-v1"
+        },
+        "phases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/phase"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "phase": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phase_id",
+        "mode",
+        "owner_layer",
+        "route_refs",
+        "receipt_refs",
+        "gate_refs",
+        "validator_refs",
+        "loop_refs",
+        "terminal_refs",
+        "entry_when",
+        "exit_when",
+        "exit_evidence_refs",
+        "re_entry_triggers",
+        "backward_transitions",
+        "loop_bounds",
+        "stop_conditions",
+        "authority_boundaries"
+      ],
+      "properties": {
+        "phase_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "mode": {
+          "type": "string",
+          "enum": ["route", "gate", "loop", "terminal"]
+        },
+        "owner_layer": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "route_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "receipt_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "gate_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "validator_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "loop_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "terminal_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "entry_when": {
+          "$ref": "#/$defs/conditionSet"
+        },
+        "exit_when": {
+          "$ref": "#/$defs/conditionSet"
+        },
+        "exit_evidence_refs": {
+          "$ref": "#/$defs/lifecycleIdRefs"
+        },
+        "re_entry_triggers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "backward_transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/phaseTransition"
+          }
+        },
+        "loop_bounds": {
+          "$ref": "#/$defs/phaseLoopBounds"
+        },
+        "stop_conditions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/phaseStopCondition"
+          }
+        },
+        "authority_boundaries": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "scope-expansion",
+              "policy-override",
+              "unresolved-risk-acceptance",
+              "governance-mutation",
+              "contradictory-evidence-resolution",
+              "stale-evidence-acceptance",
+              "authority-ambiguity",
+              "unsafe-resume",
+              "external-irreversible-effect"
+            ]
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "phaseTransition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["to_phase_id", "when"],
+      "properties": {
+        "to_phase_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "when": {
+          "$ref": "#/$defs/conditionSet"
+        }
+      }
+    },
+    "phaseLoopBounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_phase_iterations", "max_route_dispatches"],
+      "properties": {
+        "max_phase_iterations": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "max_route_dispatches": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "phaseStopCondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["stop_class", "when"],
+      "properties": {
+        "stop_class": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "when": {
+          "$ref": "#/$defs/conditionSet"
+        }
+      }
+    },
+    "lifecycleIdRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9-]*$"
+      },
+      "uniqueItems": true
+    },
     "route": {
       "type": "object",
       "additionalProperties": false,
@@ -884,6 +1065,23 @@
     }
   },
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "octon-extension-lifecycle-contract-v2"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "phase_loop"
+        ]
+      }
+    },
     {
       "if": {
         "required": [

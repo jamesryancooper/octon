@@ -19,6 +19,7 @@
     "schema_version": { "const": "octon-lifecycle-route-execution-result-v1" },
     "run_id": { "type": "string", "minLength": 1 },
     "route_id": { "type": "string", "minLength": 1 },
+    "phase_id": { "type": ["string", "null"], "pattern": "^[a-z][a-z0-9-]*$" },
     "executor_used": { "type": "string", "minLength": 1 },
     "status": {
       "enum": ["completed", "no-op", "failed", "timed-out", "cancelled", "blocked", "authorization-proof-failed", "human-boundary-blocked", "executor-preflight-blocked"]

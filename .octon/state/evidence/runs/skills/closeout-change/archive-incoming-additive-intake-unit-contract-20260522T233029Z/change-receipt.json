@@ -1,0 +1,143 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "incoming-additive-intake-unit-contract-archive",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Archive the incoming-additive-intake-unit-contract proposal packet after implementation, verification, correction, and proposal closeout.",
+  "scope": {
+    "summary": "Move the proposal packet from the active architecture proposal set into the architecture proposal archive, mark the proposal manifest archived, refresh the generated proposal registry, and retain a small archive validation note.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract/**",
+      ".octon/inputs/exploratory/proposals/architecture/incoming-additive-intake-unit-contract/**",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence/validation/analysis/2026-05-22-archive-proposal.md"
+    ],
+    "diff_refs": [
+      "22e0ebafed183c759d66552495a2da6367f5da2c..b61b2856201204b5c0fdb89cc37568ffa9875be5"
+    ]
+  },
+  "source_branch_ref": "refs/heads/chore/archive-incoming-additive-intake-unit-contract",
+  "target_branch_ref": "refs/heads/main",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "target_ref": "refs/remotes/origin/main",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh --allow-empty-check-set",
+      ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/landing-authorization.json"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/archive-incoming-additive-intake-unit-contract",
+    "source_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "target_pre_ref": "22e0ebafed183c759d66552495a2da6367f5da2c",
+    "target_post_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "validated_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@b61b2856201204b5c0fdb89cc37568ffa9875be5"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "b61b2856201204b5c0fdb89cc37568ffa9875be5:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+  "source_branch_integration": {
+    "source_branch_ref": "refs/heads/chore/archive-incoming-additive-intake-unit-contract",
+    "source_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "landed_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "origin_main_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh --authorization .octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/landing-authorization.json --allow-empty-check-set --confirm"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "origin_main_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "landed_ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh fetch --prune origin",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main and git-branch-cleanup.sh post-cleanup sync",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse main == git rev-parse origin/main == b61b2856201204b5c0fdb89cc37568ffa9875be5"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/cleanup-authorization.json",
+    "git-branch-cleanup.sh --authorization .octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/cleanup-authorization.json --delete-remote --confirm"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/archive-incoming-additive-intake-unit-contract",
+    "remote_branch": "origin/chore/archive-incoming-additive-intake-unit-contract",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/cleanup-authorization.json",
+      "git branch --list chore/archive-incoming-additive-intake-unit-contract produced no branch",
+      "git branch -r --list origin/chore/archive-incoming-additive-intake-unit-contract produced no branch"
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --branch --short before commit showed staged archive scope plus unrelated untracked closeout evidence residue excluded from this Change route",
+    "residue_classification_ref": "Tracked archive, proposal registry, and archive validation note were included; unrelated local evidence residue under .octon/state/evidence/runs/skills/closeout-change/incoming-additive-packet-closeout-20260522T212311Z/ was retained and excluded",
+    "phase_exit_refs": [
+      "read-in-and-constraints: ingress, default-work-unit, closeout state machine, receipt schema, and git-worktree autonomy contract read",
+      "validation: git diff --cached --check passed",
+      "validation: target proposal validators passed",
+      "validation: generate-proposal-registry.sh --check passed with errors=0",
+      "hosted-no-pr-checks-and-landing: exact source SHA preflight passed",
+      "branch-cleanup: cleanup authorization and cleanup helper passed"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/archive-incoming-additive-intake-unit-contract-20260522T233029Z/cleanup-authorization.json"
+    ],
+    "final_verification_ref": "main and origin/main both resolve to b61b2856201204b5c0fdb89cc37568ffa9875be5; source branch refs absent locally and remotely"
+  },
+  "validation_evidence_refs": [
+    "git diff --cached --check",
+    "validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract --skip-registry-check",
+    "validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract",
+    "validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract",
+    "validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract",
+    "validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract",
+    "validate-archive-proposal-workflow.sh",
+    "generate-proposal-registry.sh --check",
+    ".octon/state/evidence/validation/analysis/2026-05-22-archive-proposal.md"
+  ],
+  "review_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/incoming-additive-intake-unit-contract/support/proposal-closeout.md"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "b61b2856201204b5c0fdb89cc37568ffa9875be5",
+    "branch": "chore/archive-incoming-additive-intake-unit-contract"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main pre-landing ref 22e0ebafed183c759d66552495a2da6367f5da2c",
+    "instructions": "Use a governed follow-up Change to revert commit b61b2856201204b5c0fdb89cc37568ffa9875be5 or restore origin/main to pre-landing ref 22e0ebafed183c759d66552495a2da6367f5da2c if human governance approves rollback."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-22T23:32:31Z"
+}

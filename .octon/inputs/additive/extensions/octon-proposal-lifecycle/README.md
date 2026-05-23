@@ -71,6 +71,9 @@ Leaf routes are listed in `context/bundle-matrix.md` and governed by
 orchestration, gate checks, stale-review detection, evidence, checkpoints, and
 resume. Its contract uses `execution_strategy: route-progression`. By default,
 non-mock executors stop at a gated `route-ready` handoff.
+The proposal packet contract also declares `phase_loop.model_version:
+phase-loop-v1`; phase ids are checkpoint/event context and not proposal
+statuses or approval evidence.
 With `--execute-routes`, selected routes run through the shared lifecycle
 executor adapter while prompt-bundle execution remains outside the lifecycle
 runner itself.

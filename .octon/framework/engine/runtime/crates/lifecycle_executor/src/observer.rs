@@ -359,6 +359,7 @@ mod tests {
             run_id: "test-run".to_string(),
             lifecycle_id: "proposal-packet".to_string(),
             owner_extension: "test-extension".to_string(),
+            phase_id: Some("archival".to_string()),
             target: root.join(".octon/inputs/exploratory/proposals/architecture/fixture"),
             manifest_path: "proposal.yml".to_string(),
             status_field: "status".to_string(),

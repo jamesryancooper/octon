@@ -8154,6 +8154,7 @@ fn execute_parent_program_route(
         program_run_id,
         &plan.lifecycle_id,
         &plan.target,
+        plan.scheduler_phase.as_deref(),
         route,
         options.executor,
         options.timeout_seconds.unwrap_or(1800),
@@ -8404,6 +8405,7 @@ fn finding_binding_unavailable_result(
         schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
         run_id: program_run_id.to_string(),
         route_id: route.route_id.clone(),
+        phase_id: None,
         executor_used: "program-controller".to_string(),
         status: "blocked-human".to_string(),
         started_at: now.clone(),
@@ -8836,6 +8838,7 @@ fn build_child_execution_jobs(
                 &child_run_id,
                 &state.child_lifecycle_id,
                 &state.target,
+                state.phase_id.as_deref().or(state.group_id.as_deref()),
                 route,
                 options.executor,
                 options.timeout_seconds.unwrap_or(1800),
@@ -10850,7 +10853,9 @@ struct ProgramRecoveryRunHealthGenerationOutput {
 
 fn validate_program_recovery_repo_relative_path(path: &str, field: &str) -> Result<()> {
     if !is_safe_repo_relative(path) {
-        bail!("program recovery run-health receipt {field} path must be safe repo-relative: {path}");
+        bail!(
+            "program recovery run-health receipt {field} path must be safe repo-relative: {path}"
+        );
     }
     Ok(())
 }
@@ -10882,8 +10887,8 @@ fn read_program_recovery_run_health_changed_paths(
             receipt_path.display()
         )
     })?;
-    let receipt: ProgramRecoveryRunHealthGenerationReceipt =
-        serde_yaml::from_slice(&bytes).with_context(|| {
+    let receipt: ProgramRecoveryRunHealthGenerationReceipt = serde_yaml::from_slice(&bytes)
+        .with_context(|| {
             format!(
                 "program recovery run-health generation receipt is not valid YAML: {}",
                 receipt_path.display()
@@ -11500,6 +11505,7 @@ fn execute_atomic_route_phase(
         &child_run_id,
         &state.child_lifecycle_id,
         &state.target,
+        Some(phase),
         &route_plan,
         options.executor,
         options.timeout_seconds.unwrap_or(1800),
@@ -14895,6 +14901,7 @@ mod tests {
             schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
             run_id: "executor-timeout".to_string(),
             route_id: "run-implementation".to_string(),
+            phase_id: None,
             executor_used: "mock".to_string(),
             status: "timed-out".to_string(),
             started_at: "now".to_string(),
@@ -17188,7 +17195,10 @@ routes:
     }
 
     fn generated_run_health_root_rel() -> String {
-        format!(".octon/generated/{}", "cognition/projections/materialized/runs")
+        format!(
+            ".octon/generated/{}",
+            "cognition/projections/materialized/runs"
+        )
     }
 
     fn generated_run_health_index_rel() -> String {
@@ -19339,6 +19349,7 @@ routes:
             schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
             run_id: "program-parent-post-validation".to_string(),
             route_id: "generate-program-implementation-prompt".to_string(),
+            phase_id: None,
             executor_used: "mock".to_string(),
             status: "completed".to_string(),
             started_at: "now".to_string(),
@@ -19525,6 +19536,7 @@ routes:
             schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
             run_id: "unsafe-repair-finalization-a".to_string(),
             route_id: "run-implementation".to_string(),
+            phase_id: None,
             executor_used: "mock".to_string(),
             status: "completed".to_string(),
             started_at: "now".to_string(),

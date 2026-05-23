@@ -26,6 +26,11 @@ Runtime dispatch follows the published contract `execution_strategy`:
 `orchestrated-replan-loop` selects the program lifecycle controller. Route
 contracts still define eligible work, and program scheduler fields still
 define child batching; neither is treated as the execution strategy.
+The proposal packet contract also declares `phase_loop.model_version:
+phase-loop-v1`. Phases provide governed checkpoint and event context for route
+progression, including review/revision loops and backward transitions, but
+they do not add proposal statuses or authorize route execution. Runner
+orchestration remains separate from extension route semantics.
 With `--execute-routes`, the runner delegates selected route execution to the
 shared lifecycle executor adapter; prompt-bundle and workflow execution remains
 outside the lifecycle runner itself. For proposal programs, `--execute-routes`
@@ -95,3 +100,6 @@ grant-consumption evidence and never substitutes for the route delegation proof.
   `promote-proposal` through `support/implementation-run.md`, and from
   closeout to archive through `support/proposal-closeout.md`; these receipts
   are packet-local loop state, not new proposal statuses.
+- Packet phase context in plans, checkpoints, executor requests, and event
+  logs is observability and resume context only; it is not approval,
+  authority, or route-selection ownership.

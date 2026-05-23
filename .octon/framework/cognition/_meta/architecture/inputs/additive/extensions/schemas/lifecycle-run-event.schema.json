@@ -63,6 +63,7 @@
         "planning",
         "handoff",
         "dispatch",
+        "phase",
         "status",
         "budget",
         "control"
@@ -96,6 +97,14 @@
     "route_id": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "phase_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "transition_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$"
     },
     "child_id": {
       "$ref": "#/$defs/identifier"

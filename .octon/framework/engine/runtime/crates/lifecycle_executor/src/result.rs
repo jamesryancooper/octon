@@ -8,6 +8,8 @@ pub struct LifecycleRouteExecutionResult {
     pub schema_version: String,
     pub run_id: String,
     pub route_id: String,
+    #[serde(default)]
+    pub phase_id: Option<String>,
     pub executor_used: String,
     pub status: String,
     pub started_at: String,

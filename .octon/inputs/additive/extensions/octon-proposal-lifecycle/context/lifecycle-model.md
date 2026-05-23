@@ -81,6 +81,44 @@ produce a retained delegation proof. `--invocation-authority unattended` authori
 Non-execute handoffs do not consume loop iterations; executed routes do consume
 bounded loop attempts.
 
+## Proposal Packet Phase Loop
+
+The proposal packet lifecycle contract uses `schema_version:
+octon-extension-lifecycle-contract-v2` and declares `phase_loop.model_version:
+phase-loop-v1`. Phase ids are lifecycle phase context, not `proposal.yml`
+statuses. The proposal manifest status set remains limited to the contract's
+declared `target.allowed_statuses`; review and revision still live in receipts.
+
+The packet phase loop binds these governed phases to existing routes,
+receipts, gates, validators, loops, and terminal outcomes:
+
+1. `target-binding-and-lifecycle-discovery`
+2. `packet-creation`
+3. `structural-validation`
+4. `implementation-grade-completeness`
+5. `review-and-revision`
+6. `implementation-authorization`
+7. `implementation-prompt-generation`
+8. `implementation-execution`
+9. `promotion`
+10. `verification-and-correction`
+11. `closeout-and-hygiene`
+12. `archival`
+13. `terminal-explanation-reporting`
+
+The substrate validates phase references, finite phase and route-dispatch
+bounds, backward transitions, terminal phases, and status separation. At
+runtime the runner reports `current_phase`, phase counts, phase blockers, and
+phase transition events in plans, checkpoints, summaries, and
+`lifecycle-events.ndjson`. The runner does not use phases to mint authority or
+reinterpret route semantics; route selection remains governed by existing
+route conditions, receipts, gates, and delegation proof.
+
+Executor requests and results may carry `phase_id` as context. The executor
+must not select phases, advance phases, or treat phase context as approval.
+Generated effective projections remain runtime discovery handles only and are
+refreshed from authored extension inputs.
+
 Lifecycle stop evidence uses a shared vocabulary across packet and program
 runs: planned handoff, adapter-dispatched route or child batch, terminal
 completion, `blocked-human`, `blocked-recoverable`, `blocked-unsafe`,

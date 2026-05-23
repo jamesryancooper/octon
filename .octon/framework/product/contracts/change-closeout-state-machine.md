@@ -20,6 +20,13 @@ default work-unit policy still owns route selection. PR-backed mechanics remain
 delegated only after selected route `branch-pr`. Hosted no-PR landing remains a
 `branch-no-pr` lifecycle path, not a top-level route.
 
+This contract is the closeout-specific state-machine precedent for
+phase-scoped evidence and loop observability. Generic lifecycle `phase_loop`
+contracts may reuse the same separation of concerns: phases describe governed
+entry, exit, backtrack, stop, and observability policy, while route selection
+and authority remain owned by the governing work-unit policy, lifecycle routes,
+receipts, gates, validators, and delegation proof.
+
 When an operator asks to close out a Change or worktree without explicitly
 naming a narrower target or route request, the state machine resolves
 `target_lifecycle_outcome` to `cleaned`. Actual `lifecycle_outcome` stays

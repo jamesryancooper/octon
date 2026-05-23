@@ -162,6 +162,7 @@ pub fn execute_agent(
         schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
         run_id: request.run_id.clone(),
         route_id: request.route.route_id.clone(),
+        phase_id: request.phase_id.clone(),
         executor_used: executor_name.to_string(),
         status: status.to_string(),
         started_at,

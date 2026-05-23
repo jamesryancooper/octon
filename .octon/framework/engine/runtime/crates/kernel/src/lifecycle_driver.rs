@@ -158,7 +158,7 @@ fn append_packet_event_for_run(
     step_number: Option<u32>,
     step_kind: Option<&str>,
     final_verdict: Option<&str>,
-    data: BTreeMap<String, String>,
+    mut data: BTreeMap<String, String>,
 ) -> Result<()> {
     if run.bundle_root.is_empty() || run.checkpoint_path.is_empty() {
         return Ok(());
@@ -168,6 +168,9 @@ fn append_packet_event_for_run(
     let Some(control_root) = checkpoint_path.parent() else {
         return Ok(());
     };
+    if let Some(phase_id) = run.current_phase.as_ref() {
+        data.insert("phase_id".to_string(), phase_id.clone());
+    }
     append_lifecycle_event(
         control_root,
         &evidence_root,

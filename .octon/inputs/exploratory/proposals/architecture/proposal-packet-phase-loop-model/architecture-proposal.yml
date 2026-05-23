@@ -1,0 +1,64 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+title: "Proposal Packet Phase-Loop Model"
+target_state: >-
+  Proposal packet lifecycles are represented as explicit phase-loop plans:
+  each phase has entry evidence, allowed routes, loop policy, exit evidence,
+  stop classes, checkpoint expectations, and event-log obligations. Generic
+  substrate owns phase-loop mechanics; the proposal lifecycle extension owns
+  proposal route semantics and packet-specific receipts. Neither layer can
+  self-authorize durable mutation.
+boundary_change: >-
+  Introduce a layered boundary between generic lifecycle phase-loop substrate
+  semantics and proposal-extension route semantics. The generic runner may
+  orchestrate phases, loops, gates, checkpoints, resume, and event logs, while
+  proposal-specific contracts continue to declare statuses, routes, receipts,
+  review loops, implementation gates, closeout, and archival behavior.
+authoritative_targets_after_promotion:
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/routing-guide.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/"
+  - ".octon/framework/product/features/lifecycle-autopilot.md"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/contracts/change-closeout-state-machine.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/lifecycle-run-event.schema.json"
+  - ".octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/lifecycle-route-execution-result-v1.schema.json"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "navigation/source-of-truth-map.md"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "PACKET_MANIFEST.md"
+  - "navigation/artifact-catalog.md"
+  - "architecture/current-state-gap-map.md"
+  - "architecture/file-change-map.md"
+  - "architecture/cutover-checklist.md"
+  - "architecture/rollback-plan.md"
+  - "architecture/operator-disclosure.md"
+  - "resources/**"
+  - "support/**"
+placement_decision: "layered-both"
+placement_rationale: >-
+  A purely extension-only design would leave checkpoint, event-log, stop-class,
+  resume, and loop-bound semantics duplicated across lifecycle contracts. A
+  purely substrate-only design would incorrectly move proposal route meaning
+  into the generic runner. The target is layered: substrate owns common
+  phase-loop mechanics; the proposal extension owns proposal packet semantics.

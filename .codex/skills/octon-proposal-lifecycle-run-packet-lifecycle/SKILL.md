@@ -30,7 +30,10 @@ catalog, reconstructs proposal state from `proposal.yml` and proposal-local
 support receipts, evaluates gates and stale-review checks, selects the next
 route, and writes run evidence plus a resumable checkpoint. Its contract
 declares `execution_strategy: route-progression`, so packet lifecycle
-execution remains on the route-progression driver.
+execution remains on the route-progression driver. The contract also declares
+`phase_loop.model_version: phase-loop-v1`; phase context is recorded in plans,
+checkpoints, executor requests, and `lifecycle-events.ndjson` as observability
+and resume context only.
 
 Executor behavior:
 
@@ -48,6 +51,7 @@ Executor behavior:
   without adapter dispatch.
 - Non-execute handoffs do not consume bounded loop iterations because the
   selected route has not executed.
+- Phase ids are not proposal statuses and do not authorize execution.
 
 ## Boundaries
 
@@ -59,3 +63,5 @@ Executor behavior:
 - Treat proposal-local receipts as packet evidence only, never as runtime,
   policy, support, or durable authority.
 - Do not interpret `route-ready` as completed route execution.
+- Do not treat `current_phase` or phase transition events as approval,
+  delegation proof, or durable implementation evidence.

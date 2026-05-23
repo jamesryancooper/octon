@@ -1,0 +1,34 @@
+schema_version: proposal-v1
+proposal_id: proposal-packet-phase-loop-model
+title: Proposal Packet Phase-Loop Model
+summary: Clean-break architecture proposal for making proposal packet lifecycle phases explicit, loop-bounded, receipt-gated, checkpointed, and event-logged without making proposal packets authoritative or adding proposal manifest statuses.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/routing-guide.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/
+- .octon/framework/product/features/lifecycle-autopilot.md
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/product/contracts/change-closeout-state-machine.md
+- .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json
+- .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/lifecycle-run-event.schema.json
+- .octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json
+- .octon/framework/engine/runtime/spec/lifecycle-route-execution-result-v1.schema.json
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/
+- .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-v1-acceptance.sh
+status: implemented
+lifecycle:
+  temporary: true
+  exit_expectation: Review, revise, and accept this packet before any implementation prompt is generated. If accepted, later promotion may update only the declared durable targets outside this proposal path, refresh generated effective projections as a derived publication step, and then archive or supersede this packet after conformance and drift receipts pass.
+related_proposals:
+- octon-proposal-packet-lifecycle-automation

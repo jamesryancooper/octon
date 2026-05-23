@@ -14,6 +14,12 @@ This command is a human-invoked agent facade over the governed workflow. It is
 not an autonomous watcher, scanner, or direct installer.
 It processes only additive intake units under `.incoming`; it does not process exploratory proposals, advisory plans, syntheses, or reports.
 
+Current intake units must have a non-authoritative `intake.yml` envelope and a
+`payload/` raw payload root. The envelope is only intake bookkeeping. Candidate
+extension packs, core skills, generated-looking outputs, evidence-looking
+trees, or host-projection-looking trees under `payload/` remain raw intake until
+classification and disposition explicitly admit them elsewhere.
+
 ## Usage
 
 ```text
@@ -30,9 +36,12 @@ Execute the canonical workflow at:
 
 The workflow must:
 
-1. Validate the intake unit path.
+1. Validate the intake unit path, `intake.yml` envelope, and `payload/`
+   containment.
 2. Classify the route as additive extension pack, core Octon skill, or
-   blocked/proposal-required.
+   blocked/proposal-required, using validator findings for missing provenance,
+   binaries, executables, secrets/private data, redistribution risk, oversized
+   payloads, candidate packs, and candidate skills.
 3. Write decision evidence before mutation.
 4. Execute only the selected disposition route.
 5. Validate closeout and cleanup; final disposition must leave no

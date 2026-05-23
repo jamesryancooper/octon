@@ -1,4 +1,4 @@
-schema_version: "octon-extension-lifecycle-contract-v1"
+schema_version: "octon-extension-lifecycle-contract-v2"
 lifecycle_id: "proposal-packet"
 owner_extension: "octon-proposal-lifecycle"
 version: "1.0.0"
@@ -179,6 +179,484 @@ loops:
       - "accepted"
       - "rejected"
     max_iterations: 5
+
+phase_loop:
+  model_version: "phase-loop-v1"
+  phases:
+    - phase_id: "target-binding-and-lifecycle-discovery"
+      mode: "gate"
+      owner_layer: "substrate-runner"
+      route_refs: []
+      receipt_refs: []
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        durable_binding_required: true
+      exit_when:
+        effective_lifecycle_handle_bound: true
+      exit_evidence_refs: []
+      re_entry_triggers:
+        - "missing-lifecycle-handle"
+        - "invalid-run-input"
+        - "stale-generated-projection"
+      backward_transitions: []
+      loop_bounds:
+        max_phase_iterations: 1
+        max_route_dispatches: 0
+      stop_conditions:
+        - stop_class: "blocked-missing-authority"
+          when:
+            authority_envelope_missing: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+    - phase_id: "packet-creation"
+      mode: "route"
+      owner_layer: "proposal-extension"
+      route_refs:
+        - "create-packet"
+      receipt_refs:
+        - "proposal-creation"
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "proposal-creation"
+      re_entry_triggers:
+        - "source-context-missing"
+        - "proposal-manifest-missing"
+      backward_transitions:
+        - to_phase_id: "target-binding-and-lifecycle-discovery"
+          when:
+            source_context_missing: true
+      loop_bounds:
+        max_phase_iterations: 2
+        max_route_dispatches: 2
+      stop_conditions:
+        - stop_class: "blocked-invalid-input"
+          when:
+            source_context_missing: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "policy-override"
+    - phase_id: "structural-validation"
+      mode: "gate"
+      owner_layer: "validator-runner"
+      route_refs: []
+      receipt_refs:
+        - "proposal-creation"
+      gate_refs: []
+      validator_refs:
+        - "proposal-standard"
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        validator_refs_authoritative: true
+      exit_when:
+        validator_refs_pass: true
+      exit_evidence_refs:
+        - "proposal-creation"
+      re_entry_triggers:
+        - "validator-failed"
+        - "packet-structure-drift"
+      backward_transitions:
+        - to_phase_id: "packet-creation"
+          when:
+            creation_receipt_missing: true
+      loop_bounds:
+        max_phase_iterations: 3
+        max_route_dispatches: 0
+      stop_conditions:
+        - stop_class: "blocked-validation"
+          when:
+            validator_refs_fail: true
+      authority_boundaries:
+        - "scope-expansion"
+    - phase_id: "implementation-grade-completeness"
+      mode: "gate"
+      owner_layer: "proposal-extension"
+      route_refs: []
+      receipt_refs:
+        - "implementation-grade-completeness"
+      gate_refs:
+        - "implementation-grade-readiness"
+      validator_refs:
+        - "proposal-readiness"
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        validator_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "implementation-grade-completeness"
+      re_entry_triggers:
+        - "incomplete-packet"
+        - "unresolved-question"
+      backward_transitions:
+        - to_phase_id: "packet-creation"
+          when:
+            packet_revision_required: true
+      loop_bounds:
+        max_phase_iterations: 5
+        max_route_dispatches: 0
+      stop_conditions:
+        - stop_class: "blocked-incomplete"
+          when:
+            unresolved_questions_present: true
+      authority_boundaries:
+        - "unresolved-risk-acceptance"
+        - "stale-evidence-acceptance"
+    - phase_id: "review-and-revision"
+      mode: "loop"
+      owner_layer: "proposal-extension"
+      route_refs:
+        - "review-packet"
+        - "revise-packet"
+      receipt_refs:
+        - "proposal-review"
+      gate_refs: []
+      validator_refs:
+        - "proposal-review-baseline"
+      loop_refs:
+        - "proposal-review-revision"
+      terminal_refs:
+        - "rejected"
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "proposal-review"
+      re_entry_triggers:
+        - "receipt-stale"
+        - "revision-required"
+      backward_transitions:
+        - to_phase_id: "structural-validation"
+          when:
+            packet_structure_changed: true
+      loop_bounds:
+        max_phase_iterations: 5
+        max_route_dispatches: 5
+      stop_conditions:
+        - stop_class: "blocked-max-iterations"
+          when:
+            loop_bound_exhausted: true
+        - stop_class: "blocked-human"
+          when:
+            contradictory_evidence_present: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+        - "contradictory-evidence-resolution"
+    - phase_id: "implementation-authorization"
+      mode: "gate"
+      owner_layer: "validator-runner"
+      route_refs: []
+      receipt_refs:
+        - "proposal-review"
+      gate_refs:
+        - "implementation-authorization"
+      validator_refs:
+        - "proposal-review-strict"
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        gate_refs_authoritative: true
+      exit_when:
+        gate_refs_pass: true
+      exit_evidence_refs:
+        - "proposal-review"
+      re_entry_triggers:
+        - "review-receipt-stale"
+        - "implementation-authorization-missing"
+      backward_transitions:
+        - to_phase_id: "review-and-revision"
+          when:
+            review_receipt_stale: true
+      loop_bounds:
+        max_phase_iterations: 3
+        max_route_dispatches: 0
+      stop_conditions:
+        - stop_class: "blocked-gate"
+          when:
+            gate_refs_fail: true
+      authority_boundaries:
+        - "stale-evidence-acceptance"
+        - "policy-override"
+    - phase_id: "implementation-prompt-generation"
+      mode: "route"
+      owner_layer: "proposal-extension"
+      route_refs:
+        - "generate-packet-implementation-prompt"
+      receipt_refs:
+        - "proposal-review"
+        - "implementation-grade-completeness"
+      gate_refs:
+        - "implementation-grade-readiness"
+        - "implementation-authorization"
+      validator_refs:
+        - "proposal-readiness"
+        - "proposal-review-strict"
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        implementation_prompt_ready: true
+      exit_evidence_refs:
+        - "proposal-review"
+        - "implementation-grade-completeness"
+      re_entry_triggers:
+        - "prompt-readiness-failed"
+        - "review-receipt-stale"
+      backward_transitions:
+        - to_phase_id: "implementation-grade-completeness"
+          when:
+            completeness_receipt_stale: true
+        - to_phase_id: "review-and-revision"
+          when:
+            review_receipt_stale: true
+      loop_bounds:
+        max_phase_iterations: 3
+        max_route_dispatches: 3
+      stop_conditions:
+        - stop_class: "blocked-gate"
+          when:
+            required_gate_missing: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+    - phase_id: "implementation-execution"
+      mode: "loop"
+      owner_layer: "executor"
+      route_refs:
+        - "run-packet-implementation"
+      receipt_refs:
+        - "implementation-run"
+        - "proposal-review"
+      gate_refs:
+        - "implementation-grade-readiness"
+        - "implementation-authorization"
+      validator_refs:
+        - "proposal-readiness"
+        - "proposal-review-strict"
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "implementation-run"
+      re_entry_triggers:
+        - "implementation-blocked"
+        - "post-implementation-conformance-failed"
+        - "post-implementation-drift-failed"
+      backward_transitions:
+        - to_phase_id: "review-and-revision"
+          when:
+            implementation_scope_change_required: true
+      loop_bounds:
+        max_phase_iterations: 3
+        max_route_dispatches: 3
+      stop_conditions:
+        - stop_class: "blocked-scope-change"
+          when:
+            implementation_scope_change_required: true
+        - stop_class: "blocked-max-iterations"
+          when:
+            loop_bound_exhausted: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "policy-override"
+        - "governance-mutation"
+        - "external-irreversible-effect"
+    - phase_id: "promotion"
+      mode: "route"
+      owner_layer: "workflow-runner"
+      route_refs:
+        - "promote-proposal"
+      receipt_refs:
+        - "implementation-run"
+        - "proposal-review"
+      gate_refs:
+        - "implementation-grade-readiness"
+        - "implementation-authorization"
+      validator_refs:
+        - "proposal-readiness"
+        - "proposal-review-strict"
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        implementation_evidence_promoted: true
+      exit_evidence_refs:
+        - "implementation-run"
+      re_entry_triggers:
+        - "promotion-evidence-stale"
+        - "missing-authority"
+      backward_transitions:
+        - to_phase_id: "implementation-execution"
+          when:
+            implementation_receipt_missing: true
+      loop_bounds:
+        max_phase_iterations: 2
+        max_route_dispatches: 2
+      stop_conditions:
+        - stop_class: "blocked-missing-authority"
+          when:
+            promotion_authority_missing: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+        - "governance-mutation"
+    - phase_id: "verification-and-correction"
+      mode: "loop"
+      owner_layer: "proposal-extension"
+      route_refs:
+        - "run-packet-verification-and-correction-loop"
+      receipt_refs:
+        - "implementation-run"
+        - "implementation-conformance"
+        - "post-implementation-drift"
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "implementation-conformance"
+        - "post-implementation-drift"
+      re_entry_triggers:
+        - "correction-required"
+        - "drift-detected"
+      backward_transitions:
+        - to_phase_id: "review-and-revision"
+          when:
+            packet_error_requires_revision: true
+      loop_bounds:
+        max_phase_iterations: 5
+        max_route_dispatches: 5
+      stop_conditions:
+        - stop_class: "blocked-max-iterations"
+          when:
+            correction_bound_exhausted: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+    - phase_id: "closeout-and-hygiene"
+      mode: "route"
+      owner_layer: "proposal-extension"
+      route_refs:
+        - "closeout-packet"
+      receipt_refs:
+        - "implementation-conformance"
+        - "post-implementation-drift"
+        - "proposal-closeout"
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs: []
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        receipt_refs_complete: true
+      exit_evidence_refs:
+        - "proposal-closeout"
+      re_entry_triggers:
+        - "hygiene-blocker"
+        - "closeout-receipt-missing"
+      backward_transitions:
+        - to_phase_id: "verification-and-correction"
+          when:
+            conformance_or_drift_receipt_missing: true
+      loop_bounds:
+        max_phase_iterations: 3
+        max_route_dispatches: 3
+      stop_conditions:
+        - stop_class: "blocked-hygiene"
+          when:
+            hygiene_blocker_present: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+    - phase_id: "archival"
+      mode: "route"
+      owner_layer: "workflow-runner"
+      route_refs:
+        - "archive-proposal"
+      receipt_refs:
+        - "implementation-conformance"
+        - "post-implementation-drift"
+        - "proposal-closeout"
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs:
+        - "archived"
+      entry_when:
+        route_refs_authoritative: true
+      exit_when:
+        terminal_refs_reached: true
+      exit_evidence_refs:
+        - "proposal-closeout"
+      re_entry_triggers:
+        - "archive-receipt-stale"
+      backward_transitions:
+        - to_phase_id: "closeout-and-hygiene"
+          when:
+            closeout_receipt_missing: true
+      loop_bounds:
+        max_phase_iterations: 2
+        max_route_dispatches: 2
+      stop_conditions:
+        - stop_class: "blocked-missing-authority"
+          when:
+            archive_authority_missing: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
+        - "contradictory-evidence-resolution"
+    - phase_id: "terminal-explanation-reporting"
+      mode: "terminal"
+      owner_layer: "runner"
+      route_refs: []
+      receipt_refs: []
+      gate_refs: []
+      validator_refs: []
+      loop_refs: []
+      terminal_refs:
+        - "archived"
+        - "rejected"
+      entry_when:
+        terminal_or_blocked_verdict: true
+      exit_when:
+        final_report_emitted: true
+      exit_evidence_refs: []
+      re_entry_triggers: []
+      backward_transitions: []
+      loop_bounds:
+        max_phase_iterations: 1
+        max_route_dispatches: 0
+      stop_conditions:
+        - stop_class: "terminal"
+          when:
+            terminal_or_blocked_verdict: true
+      authority_boundaries:
+        - "scope-expansion"
+        - "stale-evidence-acceptance"
 
 routes:
   - route_id: "create-packet"
