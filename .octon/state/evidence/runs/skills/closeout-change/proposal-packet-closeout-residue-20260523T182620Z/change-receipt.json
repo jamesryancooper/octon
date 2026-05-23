@@ -1,0 +1,84 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-packet-closeout-residue-20260523T182620Z",
+  "selected_route": "direct-main",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "direct-main-landing",
+  "intent": "Close out the proposal-packet-phase-loop-model closeout residue by retaining the blocked packet closeout receipt and referenced closeout evidence on main before rerunning packet closeout.",
+  "scope": {
+    "summary": "Retain the refreshed blocked proposal closeout receipt, its hygiene evidence, and the prior governed closeout-change landing and cleanup evidence so the proposal packet closeout hygiene gate can be evaluated against a clean tracked worktree.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model/support/proposal-closeout.md",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-packet-phase-loop-model-20260523T164511Z/**",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-packet-phase-loop-model/20260523T182035Z/**",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-packet-closeout-residue-20260523T182620Z/change-receipt.json"
+    ],
+    "diff_refs": [
+      "bf79c85b68668e2282159ce729240e7a267b7244..direct-main-closeout-commit"
+    ]
+  },
+  "target_branch_ref": "main",
+  "landed_ref": "direct-main-closeout-commit",
+  "main_alignment": {
+    "local_main_ref": "bf79c85b68668e2282159ce729240e7a267b7244",
+    "origin_main_ref": "bf79c85b68668e2282159ce729240e7a267b7244",
+    "landed_ref": "direct-main-closeout-commit",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "pre-closeout git rev-parse HEAD main origin/main all returned bf79c85b68668e2282159ce729240e7a267b7244; post-push verification is reported by the closeout-change final result.",
+    "local_main_sync_evidence_ref": "direct-main closeout starts from local main synchronized with origin/main.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "final direct-main closeout verification resolves the concrete landed commit after commit creation."
+  },
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git status before closeout showed only the proposal-closeout refresh and retained evidence paths listed in this receipt.",
+    "No deletion, reset, or branch cleanup is required for this direct-main receipt-retention change."
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git-status://20260523T182620Z/pre-direct-main-closeout",
+    "residue_classification_ref": "closeout-change://route=direct-main,target=cleaned,scope=proposal-packet-closeout-residue",
+    "phase_exit_refs": [
+      "read-in-and-constraints: closeout-change and proposal packet closeout skills, default-work-unit policy, change closeout state machine, commit policy, and current repository state were read.",
+      "inventory: local HEAD, main, and origin/main were aligned at bf79c85b68668e2282159ce729240e7a267b7244 before this closeout.",
+      "residue-classification: dirty paths are a coherent receipt/evidence retention change for proposal-packet-phase-loop-model closeout.",
+      "route-resolution: direct-main selected because the change is narrow receipt/evidence retention on current synchronized main with no branch or PR predicate.",
+      "validation: proposal standard, architecture proposal, implementation readiness, implementation conformance, post-implementation drift/churn, and git diff checks passed for the packet closeout residue."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-packet-phase-loop-model/20260523T182035Z/worktree-hygiene.yml",
+      ".octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-packet-phase-loop-model/20260523T182035Z/summary.md"
+    ],
+    "safe_cleanup_evidence_class": "not-applicable",
+    "final_verification_ref": "post-commit and post-push final verification reported by closeout-change final result"
+  },
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model --skip-registry-check: errors=0 warnings=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model: errors=0 warnings=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model: errors=0 warnings=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model: errors=0 warnings=0",
+    "git diff --check: passed"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because this is a narrow direct-main receipt/evidence retention closeout on synchronized main."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "direct-main-closeout-commit",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main pre-closeout ref bf79c85b68668e2282159ce729240e7a267b7244",
+    "instructions": "Use a governed follow-up Change to revert the direct-main closeout commit if retaining the proposal closeout evidence on main must be undone."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-23T18:26:20Z",
+  "updated_at": "2026-05-23T18:26:20Z"
+}

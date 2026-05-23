@@ -1,19 +1,11 @@
-# Artifact Catalog
+# Scaffolded Proposal Inventory
 
-## Root Files
+- proposal_path: `/Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet-phase-loop-model`
+- file_count: `35`
 
 - `PACKET_MANIFEST.md`
 - `README.md`
 - `architecture-proposal.yml`
-- `proposal.yml`
-
-## Navigation
-
-- `navigation/artifact-catalog.md`
-- `navigation/source-of-truth-map.md`
-
-## Architecture
-
 - `architecture/acceptance-criteria.md`
 - `architecture/current-state-gap-map.md`
 - `architecture/cutover-checklist.md`
@@ -23,9 +15,9 @@
 - `architecture/rollback-plan.md`
 - `architecture/target-architecture.md`
 - `architecture/validation-plan.md`
-
-## Resources
-
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `proposal.yml`
 - `resources/assumptions-and-blockers.md`
 - `resources/evidence-plan.md`
 - `resources/non-changes.md`
@@ -33,19 +25,16 @@
 - `resources/risk-register.md`
 - `resources/source-context.md`
 - `resources/traceability-map.md`
-
-## Support
-
+- `support/correction-prompts/PPLM-VFY-001.md`
 - `support/custom-closeout-prompt.md`
 - `support/executable-implementation-prompt.md`
-- `support/correction-prompts/PPLM-VFY-001.md`
 - `support/follow-up-verification-prompt.md`
 - `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-run.md`
 - `support/post-implementation-drift-churn-review.md`
-- `support/proposal-creation.md`
 - `support/proposal-closeout.md`
+- `support/proposal-creation.md`
 - `support/proposal-review.md`
 - `support/revisions/revision-2026-05-23-phase-loop-review.md`
 - `support/validation.md`

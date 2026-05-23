@@ -1,0 +1,38 @@
+{
+  "touched_scope": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet-phase-loop-model",
+    ".octon/generated/proposals/registry.yml"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "scoped_repo_mutation",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-6ad4cd3eb48b",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/stages/archive-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/effect-tokens/effect-token-evidence-mutation-6ad4cd3eb48b.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/effect-tokens/effect-token-evidence-mutation-6ad4cd3eb48b/consumption-596ad7a4f74d.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-6ad4cd3eb48b",
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-6ad4cd3eb48b"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-71d90d97b9c3",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/stages/archive-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/effect-tokens/effect-token-state-control-mutation-71d90d97b9c3.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/receipts/effect-tokens/effect-token-state-control-mutation-71d90d97b9c3/consumption-db92966f1e85.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-71d90d97b9c3",
+        ".octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-71d90d97b9c3"
+      ]
+    }
+  ]
+}

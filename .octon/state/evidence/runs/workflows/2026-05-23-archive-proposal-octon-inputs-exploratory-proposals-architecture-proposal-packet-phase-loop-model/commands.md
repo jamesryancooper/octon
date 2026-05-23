@@ -1,0 +1,4 @@
+# Stage Commands
+
+- validate proposal before archive | proposal_path=.octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model | validator_log=.octon/state/evidence/runs/workflows/2026-05-23-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-packet-phase-loop-model/standard-validator.log
+- archive proposal | from=.octon/inputs/exploratory/proposals/architecture/proposal-packet-phase-loop-model | to=.octon/inputs/exploratory/proposals/.archive/architecture/proposal-packet-phase-loop-model | disposition=implemented | promotion_evidence=.octon/state/evidence/runs/skills/closeout-change/proposal-packet-phase-loop-model-20260523T164511Z/change-receipt.json, .octon/state/evidence/runs/skills/closeout-change/proposal-packet-closeout-residue-20260523T182620Z/change-receipt.json, .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/proposal-packet-phase-loop-model/20260523T183020Z/summary.md

@@ -1,0 +1,85 @@
+adapter_support:
+  conformance_criteria:
+  - HOST-001
+  - HOST-002
+  - HOST-004
+  - MODEL-001
+  - MODEL-002
+  - MODEL-003
+  - MODEL-004
+  host_adapter: repo-shell
+  host_support_status: supported
+  model_adapter: repo-local-governed
+  model_support_status: supported
+authority_refs:
+  decision_artifact: .octon/state/evidence/control/execution/authority-decision-archive-proposal-1779561513972-2474-archive-proposal.yml
+  grant_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-archive-proposal-1779561513972-2474-archive-proposal.yml
+  retained_run_evidence: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/retained-run-evidence.yml
+  review_dispositions: .octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/authority/review-dispositions.yml
+  run_contract: .octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/run-contract.yml
+closeout_refs:
+  evidence_store_completeness: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/closeout/evidence-store-completeness.yml
+  journal_snapshot: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/run-journal/events.snapshot.ndjson
+  review_dispositions: .octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/authority/review-dispositions.yml
+  risk_disposition: .octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/authority/review-dispositions.yml
+  rollback_posture: .octon/state/control/execution/runs/archive-proposal-1779561513972-2474-archive-proposal/rollback-posture.yml
+generated_at: 2026-05-23T18:51:06.851694Z
+intervention_ref: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/interventions/log.yml
+known_limits:
+- Support posture remains bounded to the support-target declaration under .octon/instance/governance/support-targets.yml.
+measurement_ref: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/measurements/summary.yml
+proof_plane_refs:
+  behavioral: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/behavioral.yml
+  evaluator: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/evaluator.yml
+  functional: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/functional.yml
+  governance: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/governance.yml
+  maintainability: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/maintainability.yml
+  recovery: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/recovery.yml
+  structural: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/structural.yml
+recovery_ref: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/assurance/recovery.yml
+replay_ref: .octon/state/evidence/runs/archive-proposal-1779561513972-2474-archive-proposal/replay/manifest.yml
+requested_capability_packs:
+- repo
+- git
+- telemetry
+review_disposition:
+  outcome: approved
+  status: resolved
+risk_disposition:
+  status: resolved
+  unresolved_risk_count: 0
+run_id: archive-proposal-1779561513972-2474-archive-proposal
+runtime_artifact_depth:
+  checkpoints:
+    applicable: true
+    present: true
+  contamination:
+    applicable: true
+    present: true
+  continuity:
+    applicable: true
+    present: true
+  replay_integrity: pass
+  retries:
+    applicable: true
+    present: true
+  stage_attempts:
+    applicable: true
+    present: true
+  validation_status: pass
+runtime_service_refs:
+  replay_store: .octon/framework/engine/runtime/crates/replay_store
+  runtime_bus: .octon/framework/engine/runtime/crates/runtime_bus
+  telemetry_sink: .octon/framework/engine/runtime/crates/telemetry_sink
+schema_version: run-card-v2
+status: succeeded
+summary: Consequential run archive-proposal-1779561513972-2474-archive-proposal for target archive-proposal::archive-proposal completed with status succeeded under support tier repo-consequential.
+support_target_ref: .octon/instance/governance/support-targets.yml
+support_target_tuple:
+  language_resource_tier: reference-owned
+  locale_tier: english-primary
+  model_tier: repo-local-governed
+  support_status: supported
+  workload_tier: repo-consequential
+support_tier: repo-consequential
+workflow_mode: role-mediated
