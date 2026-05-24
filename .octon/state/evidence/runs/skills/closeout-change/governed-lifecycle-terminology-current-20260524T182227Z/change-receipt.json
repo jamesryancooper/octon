@@ -1,0 +1,160 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "governed-lifecycle-terminology",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the governed lifecycle terminology Change by landing the repaired current-origin/main branch through hosted no-PR branch landing and completing governed branch cleanup.",
+  "scope": {
+    "summary": "Retire Lifecycle Autopilot terminology in favor of governed lifecycle terminology, refresh governed publication outputs, and retain proposal lifecycle evidence.",
+    "diff_refs": [
+      "ea3fea82321378056fecb034170f8c46620b329e..ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+      "origin/chore/governed-lifecycle-terminology@33b572b2251fde41ccb1bdd5b1d08e550ba6392f retained outside repaired Change cleanup boundary"
+    ]
+  },
+  "source_branch_ref": "chore/governed-lifecycle-terminology-current",
+  "target_branch_ref": "origin/main@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+  "remote_branch_ref": "origin/chore/governed-lifecycle-terminology-current@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "target_ref": "origin/main@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-landing-authorization.json",
+      "hosted no-PR preflight passed at ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+      "exact source-SHA required checks passed at ed8478bf5d38823062e18a8c7aab149e4bc440ec"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/governed-lifecycle-terminology-current",
+    "source_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "target_pre_ref": "ea3fea82321378056fecb034170f8c46620b329e",
+    "target_post_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "validated_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+      "branch_naming_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+      "route_aware_autonomy_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+      "exact_source_sha_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "ed8478bf5d38823062e18a8c7aab149e4bc440ec:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/governed-lifecycle-terminology-current",
+    "source_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "landed_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "origin_main_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main contains chore/governed-lifecycle-terminology-current@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-cleanup-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "origin_main_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "landed_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin main after branch cleanup",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main after branch cleanup",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/final-sync-proof.json"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-cleanup-authorization.json",
+    ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/final-sync-proof.json",
+    "local branch chore/governed-lifecycle-terminology-current deleted",
+    "remote branch origin/chore/governed-lifecycle-terminology-current deleted"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/governed-lifecycle-terminology-current",
+    "remote_branch": "origin/chore/governed-lifecycle-terminology-current",
+    "worktree": "/private/tmp/octon-governed-lifecycle-terminology-current",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/final-sync-proof.json",
+      "git branch --list chore/governed-lifecycle-terminology-current produced no output",
+      "git ls-remote --heads origin chore/governed-lifecycle-terminology-current produced no output"
+    ]
+  },
+  "validation_evidence_refs": [
+    "validate-runtime-effective-route-bundle.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "validate-capability-publication-state.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "validate-extension-publication-state.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "validate-product-feature-catalog.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "validate-product-roadmap.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "test-validate-product-feature-catalog.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "test-validate-product-roadmap.sh@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "validate-proposal-standard.sh governed-lifecycle-terminology",
+    "validate-architecture-proposal.sh governed-lifecycle-terminology",
+    "validate-proposal-implementation-readiness.sh governed-lifecycle-terminology",
+    "validate-proposal-implementation-conformance.sh governed-lifecycle-terminology",
+    "validate-proposal-post-implementation-drift.sh governed-lifecycle-terminology",
+    "cargo test -p octon_lifecycle_executor workflow_",
+    "cargo test -p octon_kernel workflow_lifecycle_request_binds_missing_required_workflow_inputs_from_run_inputs",
+    "route_neutral_closeout_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "branch_naming_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "route_aware_autonomy_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "exact_source_sha_validation@ed8478bf5d38823062e18a8c7aab149e4bc440ec"
+  ],
+  "review_waiver_refs": [
+    "hosted no-PR branch landing allowed by live provider ruleset at origin/main"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "branch": "chore/governed-lifecycle-terminology-current"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "repaired branch chore/governed-lifecycle-terminology-current at ed8478bf5d38823062e18a8c7aab149e4bc440ec; original stale branch origin/chore/governed-lifecycle-terminology at 33b572b2251fde41ccb1bdd5b1d08e550ba6392f retained as rollback/discard evidence; revert landed commit if main mutation must be backed out",
+    "instructions": "Revert landed commit ed8478bf5d38823062e18a8c7aab149e4bc440ec from main if post-landing verification fails; the original stale branch is retained outside this repaired Change cleanup boundary as rollback/discard evidence."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch on repaired worktree before cleanup",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/run-log.md#retained-residue",
+    "phase_exit_refs": [
+      "read-in-and-constraints: closeout-change skill and Change closeout state machine loaded",
+      "inventory: repaired branch, main, origin/main, untracked evidence, and branch refs captured",
+      "route-and-target-lifecycle-resolution: selected branch-no-pr with target lifecycle outcome cleaned",
+      "validation: local validators and required hosted exact-SHA checks passed",
+      "hosted-no-pr-checks-and-landing: landing authorization emitted and origin/main updated",
+      "branch-cleanup: cleanup authorization emitted and local/remote repaired branch refs deleted",
+      "final-verification: local main, origin/main, and landed ref aligned"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/final-sync-proof.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh updated origin/main to ed8478bf5d38823062e18a8c7aab149e4bc440ec"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup.sh deleted local and remote chore/governed-lifecycle-terminology-current",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/final-sync-proof.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/final-sync-proof.json"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-24T18:27:10Z"
+}
