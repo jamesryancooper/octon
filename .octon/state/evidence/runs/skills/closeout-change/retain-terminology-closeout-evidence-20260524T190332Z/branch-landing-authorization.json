@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-retain-terminology-closeout-evidence-e1939b0b8369",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/retain-terminology-closeout-evidence",
+  "source_ref": "e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+  "remote_source_ref": "e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+  "target_pre_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+    "branch_naming_validation@e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+    "route_aware_autonomy_validation@e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+    "exact_source_sha_validation@e1939b0b83697cead9f3b228f11442dbb2ec9fe2"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "revert:e1939b0b83697cead9f3b228f11442dbb2ec9fe2; source branch chore/retain-terminology-closeout-evidence retained until cleanup; evidence-retention commit can be reverted from main if invalid",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-05-24T19:03:52Z"
+}

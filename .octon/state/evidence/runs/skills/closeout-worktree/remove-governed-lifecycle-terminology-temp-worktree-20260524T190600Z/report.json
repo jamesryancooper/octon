@@ -1,0 +1,154 @@
+{
+  "schema_version": "closeout-worktree-report-v1",
+  "wrapper_id": "closeout-worktree",
+  "run_id": "remove-governed-lifecycle-terminology-temp-worktree-20260524T190600Z",
+  "default_work_unit": "Change",
+  "read_only_classification": true,
+  "detection_is_deletion_authority": false,
+  "direct_material_actions_performed": false,
+  "repo_hygiene_cleanup_actions_performed": false,
+  "worktree_terminal_state": "disposition_complete_with_retained_residue",
+  "initial_inventory_ref": "git worktree list --porcelain showed primary main worktree and detached /private/tmp/octon-governed-lifecycle-terminology-current at ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+  "residue_classification_ref": "detached temp worktree had no staged or tracked changes and one untracked closeout evidence directory; diff -qr proved that directory matched the retained primary-workspace copy committed on main at e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+  "final_inventory_ref": "git worktree list --porcelain after cleanup showed only /Users/jamesryancooper/Projects/octon on refs/heads/main at e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+  "selected_candidate_id": "detached-temp-worktree-terminology-closeout-evidence",
+  "observed_change_set_count": 3,
+  "next_route_condition": "retained post-route closeout evidence remains in the primary workspace; detached temp worktree cleanup is complete",
+  "repo_hygiene_cleanup_outcome": "not-applicable",
+  "repo_hygiene_summary": {
+    "cleanup_candidates": 0,
+    "protected_referenced": 0,
+    "manual_review": 0
+  },
+  "candidates": [
+    {
+      "candidate_id": "detached-temp-worktree-terminology-closeout-evidence",
+      "disposition": "closed",
+      "ownership": "closeout-worktree delegated evidence-retention Change, then detached worktree cleanup after durable retention proof",
+      "route_hint": "closeout-change",
+      "target_lifecycle_outcome": "cleaned",
+      "rollback_or_discard_posture": "retained evidence was committed to origin/main at e1939b0b83697cead9f3b228f11442dbb2ec9fe2 before removing the detached temporary worktree",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/"
+        ],
+        "exclude_paths": [
+          ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/",
+          ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/"
+        ]
+      },
+      "closeout_change_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/change-receipt.json"
+    },
+    {
+      "candidate_id": "post-route-retain-closeout-evidence-run",
+      "disposition": "retained",
+      "ownership": "post-route closeout evidence generated after the prior evidence-retention Change landed",
+      "route_hint": "repo-hygiene-cleanup-or-evidence-retention",
+      "target_lifecycle_outcome": "retained",
+      "rollback_or_discard_posture": "not deleted by detached worktree cleanup; may be retained or closed separately",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/"
+        ],
+        "exclude_paths": [
+          ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/",
+          ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/"
+        ]
+      }
+    },
+    {
+      "candidate_id": "post-route-retain-terminology-closeout-evidence-run",
+      "disposition": "retained",
+      "ownership": "post-route closeout evidence for the current evidence-retention Change",
+      "route_hint": "repo-hygiene-cleanup-or-evidence-retention",
+      "target_lifecycle_outcome": "retained",
+      "rollback_or_discard_posture": "not deleted by detached worktree cleanup; may be retained or closed separately",
+      "boundaries": {
+        "include_paths": [
+          ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/"
+        ],
+        "exclude_paths": [
+          ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/",
+          ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/"
+        ]
+      }
+    }
+  ],
+  "retained_residue": [
+    {
+      "candidate_id": "post-route-retain-closeout-evidence-run",
+      "path": ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/",
+      "disposition": "retained post-route evidence outside the detached worktree cleanup boundary"
+    },
+    {
+      "candidate_id": "post-route-retain-terminology-closeout-evidence-run",
+      "path": ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/",
+      "disposition": "retained post-route evidence outside the detached worktree cleanup boundary"
+    }
+  ],
+  "blockers": [],
+  "final_candidate_dispositions": {
+    "detached-temp-worktree-terminology-closeout-evidence": {
+      "state": "closed",
+      "closeout_change_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/change-receipt.json"
+    },
+    "post-route-retain-closeout-evidence-run": {
+      "state": "retained"
+    },
+    "post-route-retain-terminology-closeout-evidence-run": {
+      "state": "retained"
+    }
+  },
+  "iterations": [
+    {
+      "iteration_id": "retain-terminology-closeout-evidence-change",
+      "pre_inventory_ref": "primary workspace on main with detached temp worktree present and unique untracked closeout evidence in the temp worktree",
+      "pre_classification_ref": "temp evidence was unique relative to primary workspace but byte-identical to the copy staged for retention",
+      "selected_candidate_id": "detached-temp-worktree-terminology-closeout-evidence",
+      "include_paths": [
+        ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/"
+      ],
+      "exclude_paths": [
+        ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/",
+        ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/"
+      ],
+      "closeout_change_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/change-receipt.json",
+      "closeout_change_outcome": "closed",
+      "post_inventory_ref": "origin/main and local main at e1939b0b83697cead9f3b228f11442dbb2ec9fe2 with source branch deleted locally and remotely",
+      "post_classification_ref": "detached worktree safety proof established: detached HEAD, no staged changes, no tracked changes, only already-retained untracked evidence, not current worktree, and temp HEAD contained in origin/main",
+      "next_selection_reason": "remove detached temp worktree after evidence-retention Change closed and proof established"
+    }
+  ],
+  "detached_worktree_cleanup": {
+    "path": "/private/tmp/octon-governed-lifecycle-terminology-current",
+    "head_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "detached_head": true,
+    "active_branch": false,
+    "not_current_worktree": true,
+    "tracked_changes": false,
+    "staged_changes": false,
+    "untracked_residue": [
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-current-20260524T182227Z/"
+    ],
+    "untracked_residue_durably_retained_on_main": true,
+    "retained_commit": "e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+    "head_contained_in_origin_main": true,
+    "removal_command": "git worktree remove --force /private/tmp/octon-governed-lifecycle-terminology-current",
+    "removal_result": "removed",
+    "post_removal_path_absent": true,
+    "post_removal_worktree_list_ref": "git worktree list --porcelain showed only /Users/jamesryancooper/Projects/octon"
+  },
+  "final_residue_classes": {
+    "staged": 0,
+    "unstaged_tracked": 0,
+    "untracked": 2,
+    "generated_effective_output": 0,
+    "host_projection": 0,
+    "retained_evidence": 2,
+    "state_control": 0,
+    "release_version": 0,
+    "input_surface": 0,
+    "ignored": 0
+  },
+  "created_at": "2026-05-24T19:06:00Z"
+}

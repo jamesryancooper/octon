@@ -1,0 +1,83 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: lifecycle-interaction-receipt-model-20260524T204714Z
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: nonterminal
+initial_inventory_ref: git-status://20260524T204527Z/post-implementation-publish
+residue_classification_ref: classify-proposal-worktree-hygiene://lifecycle-interaction-receipt-model-final
+final_inventory_ref: git-status://20260524T204527Z/manual-review-residue
+selected_candidate_id: lifecycle-interaction-change
+observed_change_set_count: 2
+next_route_condition: retain closeout evidence and route manual-review residue through repo-hygiene-cleanup or operator scope resolution before archive
+repo_hygiene_classification_ref: .octon/state/evidence/runs/skills/closeout-worktree/lifecycle-interaction-receipt-model-20260524T204714Z/report.yml
+repo_hygiene_cleanup_outcome: classification-only
+repo_hygiene_next_route_condition: manual-review residue remains; no cleanup candidates may be deleted without explicit target-owned authorization
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 12
+candidates:
+  - candidate_id: lifecycle-interaction-change
+    disposition: deferred
+    ownership: lifecycle-interaction-receipt-model implementation Change
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: source branch published; no main mutation; discard branch only through governed cleanup or explicit discard authorization
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-20260524T204527Z/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-20260524T204527Z/change-receipt.json
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/
+        - .octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/
+        - .octon/state/evidence/runs/skills/closeout-worktree/remove-governed-lifecycle-terminology-temp-worktree-20260524T190600Z/
+  - candidate_id: retained-local-evidence-residue
+    disposition: foreign
+    ownership: pre-existing or post-closeout retained local evidence outside this implementation Change
+    route_hint: repo-hygiene-cleanup
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: no deletion authority; classify-only route found zero cleanup candidates and twelve manual-review paths
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/
+        - .octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/
+        - .octon/state/evidence/runs/skills/closeout-worktree/remove-governed-lifecycle-terminology-temp-worktree-20260524T190600Z/
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-20260524T204527Z/change-receipt.json
+retained_residue:
+  - candidate_id: retained-local-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/
+    disposition: foreign manual-review retained evidence; no cleanup authorization
+  - candidate_id: retained-local-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-change/retain-terminology-closeout-evidence-20260524T190332Z/
+    disposition: foreign manual-review retained evidence; no cleanup authorization
+  - candidate_id: retained-local-evidence-residue
+    path: .octon/state/evidence/runs/skills/closeout-worktree/remove-governed-lifecycle-terminology-temp-worktree-20260524T190600Z/
+    disposition: foreign manual-review retained evidence; no cleanup authorization
+blockers:
+  - candidate_id: lifecycle-interaction-change
+    blocker: cleaned target is not proven because branch landing and branch cleanup authorization receipts are missing
+  - candidate_id: retained-local-evidence-residue
+    blocker: repo-hygiene dry-run reported zero cleanup candidates and twelve manual-review paths
+final_candidate_dispositions:
+  lifecycle-interaction-change:
+    state: deferred
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-20260524T204527Z/change-receipt.json
+  retained-local-evidence-residue:
+    state: foreign
+iterations: []
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 12
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 12
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+  ignored: 0

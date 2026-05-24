@@ -1,0 +1,159 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "retain-closeout-evidence",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Retain two manual-review closeout evidence directories as committed historical evidence without folding them back into their original Changes.",
+  "scope": {
+    "summary": "Commit the retained closeout evidence directories that repo-hygiene classified as manual-review retained evidence.",
+    "touched_paths": [
+      ".octon/state/evidence/runs/skills/closeout-change/archive-proposal-packet-phase-loop-model-20260523T210201Z/",
+      ".octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-20260524T180018Z/"
+    ],
+    "diff_refs": [
+      "ed8478bf5d38823062e18a8c7aab149e4bc440ec..f5dd999cbf619de291b1041c9db30b3e74805421"
+    ]
+  },
+  "source_branch_ref": "chore/retain-closeout-evidence",
+  "target_branch_ref": "origin/main@f5dd999cbf619de291b1041c9db30b3e74805421",
+  "remote_branch_ref": "origin/chore/retain-closeout-evidence@f5dd999cbf619de291b1041c9db30b3e74805421",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "target_ref": "origin/main@f5dd999cbf619de291b1041c9db30b3e74805421",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-landing-authorization.json",
+      "hosted no-PR preflight passed at f5dd999cbf619de291b1041c9db30b3e74805421",
+      "exact source-SHA required checks passed at f5dd999cbf619de291b1041c9db30b3e74805421"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/retain-closeout-evidence",
+    "source_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "target_pre_ref": "ed8478bf5d38823062e18a8c7aab149e4bc440ec",
+    "target_post_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "validated_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@f5dd999cbf619de291b1041c9db30b3e74805421",
+      "branch_naming_validation@f5dd999cbf619de291b1041c9db30b3e74805421",
+      "route_aware_autonomy_validation@f5dd999cbf619de291b1041c9db30b3e74805421",
+      "exact_source_sha_validation@f5dd999cbf619de291b1041c9db30b3e74805421"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "f5dd999cbf619de291b1041c9db30b3e74805421:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/retain-closeout-evidence",
+    "source_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "landed_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "origin_main_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      "origin/main contains chore/retain-closeout-evidence@f5dd999cbf619de291b1041c9db30b3e74805421",
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-cleanup-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "origin_main_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "landed_ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch origin main after branch cleanup",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main after branch cleanup",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/final-sync-proof.json"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-cleanup-authorization.json",
+    ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/final-sync-proof.json",
+    "local branch chore/retain-closeout-evidence deleted",
+    "remote branch origin/chore/retain-closeout-evidence deleted"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/retain-closeout-evidence",
+    "remote_branch": "origin/chore/retain-closeout-evidence",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/final-sync-proof.json",
+      "git branch --list chore/retain-closeout-evidence produced no output",
+      "git ls-remote --heads origin chore/retain-closeout-evidence produced no output"
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --check origin/main...HEAD",
+    "jq empty retained closeout JSON files",
+    "validate-change-closeout-state-machine.sh retained receipts",
+    "validate-change-closeout-lifecycle-alignment.sh governed-lifecycle retained blocked receipt",
+    "validate-change-closeout-lifecycle-alignment.sh",
+    "validate-hosted-no-pr-landing.sh --skip-live-remote",
+    "validate-git-github-workflow-alignment.sh",
+    "validate-github-projection-alignment.sh",
+    "route_neutral_closeout_validation@f5dd999cbf619de291b1041c9db30b3e74805421",
+    "branch_naming_validation@f5dd999cbf619de291b1041c9db30b3e74805421",
+    "route_aware_autonomy_validation@f5dd999cbf619de291b1041c9db30b3e74805421",
+    "exact_source_sha_validation@f5dd999cbf619de291b1041c9db30b3e74805421"
+  ],
+  "review_waiver_refs": [
+    "hosted no-PR branch landing allowed by live provider ruleset at origin/main",
+    "historical archive closeout receipt retained unchanged despite receipt-specific lifecycle alignment rollback-handle mismatch; not used as authority for this closeout"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "f5dd999cbf619de291b1041c9db30b3e74805421",
+    "branch": "chore/retain-closeout-evidence"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "revert:f5dd999cbf619de291b1041c9db30b3e74805421; source branch chore/retain-closeout-evidence retained until cleanup; evidence-retention commit can be reverted from main if invalid",
+    "instructions": "Revert landed commit f5dd999cbf619de291b1041c9db30b3e74805421 from main if the evidence-retention Change must be backed out."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch before evidence-retention branch creation",
+    "residue_classification_ref": "repo-hygiene-cleanup classified the two retained evidence directories as manual_review retained_evidence with zero cleanup candidates",
+    "phase_exit_refs": [
+      "read-in-and-constraints: closeout-change skill and Change closeout state machine loaded",
+      "inventory: retained evidence directories, main, origin/main, branch refs, and validation state captured",
+      "route-and-target-lifecycle-resolution: selected branch-no-pr with target lifecycle outcome cleaned",
+      "change-set-preparation: staged and committed only the two retained evidence directories",
+      "validation: local route-neutral validators and hosted exact-SHA checks passed",
+      "hosted-no-pr-checks-and-landing: landing authorization emitted and origin/main updated",
+      "branch-cleanup: cleanup authorization emitted and local/remote source branch refs deleted",
+      "final-verification: local main, origin/main, and landed ref aligned"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/final-sync-proof.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh updated origin/main to f5dd999cbf619de291b1041c9db30b3e74805421"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup.sh deleted local and remote chore/retain-closeout-evidence",
+      ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/final-sync-proof.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/retain-closeout-evidence-20260524T184400Z/final-sync-proof.json"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-24T18:45:50Z"
+}
