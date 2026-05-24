@@ -2,7 +2,7 @@
 
 - `proposal_id`: `lifecycle-interaction-receipt-model`
 - `proposal_kind`: `architecture`
-- `status`: `implemented`
+- `status`: `archived`
 - `created_at`: `2026-05-24T19:52:54Z`
 - `source_context`: `resources/source-context.md`
 - `repository_grounding`: `resources/repository-grounding-summary.md`

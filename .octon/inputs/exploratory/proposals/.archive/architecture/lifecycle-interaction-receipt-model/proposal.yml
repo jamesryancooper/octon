@@ -30,7 +30,16 @@ promotion_targets:
 - .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh
 - .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml
 - .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-05-24
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/lifecycle-interaction-receipt-model
+  promotion_evidence:
+  - .octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-20260524T204527Z/change-receipt.json
+  - .octon/state/evidence/runs/skills/closeout-worktree/lifecycle-interaction-receipt-model-20260524T204714Z/report.yml
+  - .octon/state/evidence/validation/publication/extensions/2026-05-24T20-09-59Z-extensions-e539e7c8b239.yml
 lifecycle:
   temporary: true
   exit_expectation: Review and accept this packet before durable implementation. If accepted, implementation may add only the declared typed receipt model, lifecycle metadata, runner visibility, non-authorizing executor context, validators, focused tests, documentation, and derived projection refreshes. Archive only after implementation conformance, drift, closeout, and archive gates pass.
