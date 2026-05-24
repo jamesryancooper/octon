@@ -130,6 +130,9 @@
     "program": {
       "$ref": "#/$defs/program"
     },
+    "lifecycle_interactions": {
+      "$ref": "#/$defs/lifecycleInteractions"
+    },
     "routes": {
       "type": "array",
       "items": {
@@ -549,6 +552,149 @@
           "const": true
         }
       }
+    },
+    "lifecycleInteractions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "emitted_profiles": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/lifecycleInteractionProfile" }
+        },
+        "accepted_profiles": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/lifecycleInteractionProfile" }
+        }
+      }
+    },
+    "lifecycleInteractionProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "profile_id",
+        "interaction_kind",
+        "receipt_schema",
+        "forbidden_transfer",
+        "non_authorizing"
+      ],
+      "properties": {
+        "profile_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "interaction_kind": {
+          "enum": [
+            "follow_on_work_required"
+          ]
+        },
+        "receipt_schema": {
+          "enum": [
+            "lifecycle-interaction-request-v1",
+            "lifecycle-interaction-return-v1"
+          ]
+        },
+        "requested_capabilities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "change-closeout",
+              "closeout-worktree",
+              "repo-hygiene-cleanup"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "requested_lifecycle_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "requested_route_surfaces": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "requested_atomic_unit_types": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "requested_target_outcomes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "uniqueItems": true
+        },
+        "evidence_acceptance_classes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/lifecycleInteractionEvidenceAcceptanceClass" },
+          "uniqueItems": true
+        },
+        "forbidden_transfer": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/lifecycleInteractionForbiddenTransfer" },
+          "uniqueItems": true,
+          "allOf": [
+            { "contains": { "const": "git-ref-mutation" } },
+            { "contains": { "const": "hosted-provider-authorization" } },
+            { "contains": { "const": "branch-cleanup-authorization" } },
+            { "contains": { "const": "archive-authorization" } },
+            { "contains": { "const": "promotion-authorization" } },
+            { "contains": { "const": "scope-expansion" } }
+          ]
+        },
+        "return_schema": {
+          "enum": [
+            "lifecycle-interaction-return-v1"
+          ]
+        },
+        "expected_return_evidence": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "target_gate_policy": {
+          "enum": [
+            "target-owned-independent-validation"
+          ]
+        },
+        "non_authorizing": {
+          "const": true
+        }
+      }
+    },
+    "lifecycleInteractionEvidenceAcceptanceClass": {
+      "enum": [
+        "advisory-context",
+        "validation-evidence",
+        "review-evidence",
+        "rollback-context",
+        "non-authority-only"
+      ]
+    },
+    "lifecycleInteractionForbiddenTransfer": {
+      "enum": [
+        "git-ref-mutation",
+        "hosted-provider-authorization",
+        "branch-cleanup-authorization",
+        "archive-authorization",
+        "promotion-authorization",
+        "scope-expansion"
+      ]
     },
     "validator": {
       "type": "object",

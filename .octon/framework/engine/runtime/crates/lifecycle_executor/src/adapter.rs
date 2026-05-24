@@ -488,6 +488,8 @@ mod tests {
             evidence_root: root.join(".octon/state/evidence/runs/workflows/run-1"),
             checkpoint_path: root
                 .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
             policy: LifecycleExecutionPolicy {
                 timeout_seconds: 30,
                 cancellation_token: None,

@@ -1,0 +1,49 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "governed-lifecycle-interaction"
+decision_type: "new-surface"
+title: "Lifecycle Interaction Receipt Model"
+target_state: >-
+  Governed lifecycles can emit schema-validated interaction request receipts
+  and consume interaction return receipts as durable evidence of cross-lifecycle
+  dependency handling. The interaction is runner-visible and target-gated, but
+  it never authorizes the target lifecycle, mutates Git refs, shares phase-loop
+  state, creates a bus, or expands scope.
+boundary_change: >-
+  The change adds a typed non-authorizing receipt family plus lifecycle
+  metadata and validation support. Authority remains with each target lifecycle,
+  executor adapters execute only already selected routes, and generated
+  projections remain derived publication artifacts.
+authoritative_targets_after_promotion:
+  - ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json"
+  - ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json"
+  - ".octon/framework/product/features/governed-lifecycle-orchestration.md"
+  - ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
+  - ".octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "navigation/source-of-truth-map.md"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+  - "architecture/validation-plan.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "PACKET_MANIFEST.md"
+  - "navigation/artifact-catalog.md"
+  - "architecture/current-state-gap-map.md"
+  - "architecture/file-change-map.md"
+  - "architecture/cutover-checklist.md"
+  - "architecture/rollback-plan.md"
+  - "resources/**"
+  - "support/**"
+placement_decision: "receipt-family-with-target-owned-authority"
+placement_rationale: >-
+  Existing repository authority already separates lifecycle planning,
+  execution, receipts, and closeout authority. A typed receipt family fits that
+  architecture better than a bus because it records cross-lifecycle dependency
+  context while preserving lifecycle-local phase state and target-owned gates.

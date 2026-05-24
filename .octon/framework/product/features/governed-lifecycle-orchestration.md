@@ -105,6 +105,32 @@ declared predecessor/successor and cutover constraints. This is a proposal
 readiness gate only; it does not require implementation receipts or prove that
 durable implementation exists.
 
+## Lifecycle Interaction Receipts
+
+Lifecycle-to-lifecycle dependency handling is modeled as durable interaction
+receipts, not as a lifecycle bus. A source lifecycle may emit a
+`lifecycle-interaction-request-v1` receipt when it discovers follow-on work
+owned by another lifecycle. The request carries scoped context, evidence refs,
+expected return evidence, and explicit forbidden authority-transfer rules. It
+does not authorize the target lifecycle, widen scope, satisfy target gates, or
+transfer Git, hosted-provider, promotion, archive, cleanup, or closeout
+authority.
+
+The target lifecycle may use the request as advisory context only. It must
+independently validate scope, authority, freshness, rollback posture, receipts,
+gates, hosted controls, delegation proof, and target-owned policy before any
+effectful route action. The Lifecycle Runner may record validated interaction
+request and return refs in checkpoints, event logs, and route execution
+requests so operators can see dependency context. The Lifecycle Executor
+Adapter receives those refs as non-authorizing context and must still enforce
+the selected route's delegation contract and required receipts.
+
+`handoff` is one interaction profile within this receipt model. It is not the
+whole abstraction. Source lifecycles cannot claim that an interaction
+dependency is resolved until a valid `lifecycle-interaction-return-v1` receipt
+cites fresh return evidence from the consumer lifecycle. Missing, stale,
+dangling, ambiguous, unsafe, or out-of-scope interaction evidence fails closed.
+
 ## Operator Entry Points
 
 - `octon lifecycle plan --lifecycle <id> --target <path>`

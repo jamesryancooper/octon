@@ -30,6 +30,10 @@ pub struct LifecycleRouteExecutionRequest {
     pub expected_target_change: bool,
     pub evidence_root: PathBuf,
     pub checkpoint_path: PathBuf,
+    #[serde(default)]
+    pub interaction_request_refs: Vec<String>,
+    #[serde(default)]
+    pub interaction_return_refs: Vec<String>,
     pub policy: LifecycleExecutionPolicy,
     #[serde(default)]
     pub human_boundary_context: Option<LifecycleHumanBoundaryContext>,

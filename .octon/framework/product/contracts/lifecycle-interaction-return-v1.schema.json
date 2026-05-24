@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/lifecycle-interaction-return-v1.schema.json",
+  "title": "Lifecycle Interaction Return",
+  "description": "A durable non-authorizing return receipt from the target lifecycle back to the source lifecycle.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "interaction_id",
+    "consumer",
+    "outcome",
+    "return_evidence_refs",
+    "remaining_residue"
+  ],
+  "properties": {
+    "schema_version": { "const": "lifecycle-interaction-return-v1" },
+    "interaction_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lifecycle_id", "run_id"],
+      "properties": {
+        "lifecycle_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "run_id": { "type": "string", "minLength": 1 }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["completed", "lifecycle_outcome", "blocker"],
+      "properties": {
+        "completed": { "type": "boolean" },
+        "lifecycle_outcome": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "blocker": { "type": ["string", "null"] }
+      }
+    },
+    "return_evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "digest"],
+        "properties": {
+          "ref": { "$ref": "#/$defs/repoRelativePath" },
+          "digest": { "$ref": "#/$defs/sha256" }
+        }
+      }
+    },
+    "remaining_residue": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/repoRelativePath" },
+      "uniqueItems": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "properties": {
+              "completed": { "const": true }
+            },
+            "required": ["completed"]
+          }
+        },
+        "required": ["outcome"]
+      },
+      "then": {
+        "properties": {
+          "return_evidence_refs": { "minItems": 1 }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    }
+  }
+}

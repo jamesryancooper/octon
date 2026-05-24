@@ -93,6 +93,16 @@
     "expected_paths": { "type": "array", "items": { "type": "string" } },
     "expected_manifest_status": { "type": ["string", "null"] },
     "expected_target_change": { "type": "boolean" },
+    "interaction_request_refs": {
+      "type": "array",
+      "description": "Validated lifecycle-interaction-request-v1 receipt refs carried as non-authorizing context.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "interaction_return_refs": {
+      "type": "array",
+      "description": "Validated lifecycle-interaction-return-v1 receipt refs carried as non-authorizing context.",
+      "items": { "type": "string", "minLength": 1 }
+    },
     "policy": {
       "type": "object",
       "required": ["timeout_seconds", "retry_attempt", "invocation_authority"],

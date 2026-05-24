@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.dev/schemas/lifecycle-interaction-request-v1.schema.json",
+  "title": "Lifecycle Interaction Request",
+  "description": "A durable non-authorizing request from one lifecycle to record follow-on work owned by another lifecycle.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "interaction_id",
+    "created_at",
+    "source",
+    "request",
+    "scope",
+    "evidence_offered",
+    "authority_boundary",
+    "stop_conditions",
+    "expected_return_evidence"
+  ],
+  "properties": {
+    "schema_version": { "const": "lifecycle-interaction-request-v1" },
+    "interaction_id": { "$ref": "#/$defs/identifier" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_id",
+        "run_id",
+        "atomic_unit_type",
+        "target_ref",
+        "phase_id"
+      ],
+      "properties": {
+        "lifecycle_id": { "$ref": "#/$defs/identifier" },
+        "run_id": { "type": "string", "minLength": 1 },
+        "atomic_unit_type": { "$ref": "#/$defs/identifier" },
+        "target_ref": { "$ref": "#/$defs/repoRelativePath" },
+        "phase_id": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "request": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "interaction_profile",
+        "interaction_kind",
+        "requested_capability",
+        "requested_lifecycle_id",
+        "requested_route_surface",
+        "requested_atomic_unit_type",
+        "requested_target_outcome"
+      ],
+      "properties": {
+        "interaction_profile": { "$ref": "#/$defs/identifier" },
+        "interaction_kind": { "const": "follow_on_work_required" },
+        "requested_capability": {
+          "enum": [
+            "change-closeout",
+            "closeout-worktree",
+            "repo-hygiene-cleanup"
+          ]
+        },
+        "requested_lifecycle_id": { "$ref": "#/$defs/identifier" },
+        "requested_route_surface": { "$ref": "#/$defs/identifier" },
+        "requested_atomic_unit_type": { "$ref": "#/$defs/identifier" },
+        "requested_target_outcome": { "$ref": "#/$defs/identifier" }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["include_paths", "exclude_paths", "boundary_digest"],
+      "properties": {
+        "include_paths": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repoRelativePath" },
+          "uniqueItems": true
+        },
+        "exclude_paths": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repoRelativePath" },
+          "uniqueItems": true
+        },
+        "boundary_digest": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "evidence_offered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ref", "digest", "acceptance_class"],
+        "properties": {
+          "ref": { "$ref": "#/$defs/repoRelativePath" },
+          "digest": { "$ref": "#/$defs/sha256" },
+          "acceptance_class": { "$ref": "#/$defs/evidenceAcceptanceClass" }
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["forbidden_transfer"],
+      "properties": {
+        "forbidden_transfer": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/forbiddenTransfer" },
+          "uniqueItems": true,
+          "allOf": [
+            { "contains": { "const": "git-ref-mutation" } },
+            { "contains": { "const": "hosted-provider-authorization" } },
+            { "contains": { "const": "branch-cleanup-authorization" } },
+            { "contains": { "const": "archive-authorization" } },
+            { "contains": { "const": "promotion-authorization" } },
+            { "contains": { "const": "scope-expansion" } }
+          ]
+        }
+      }
+    },
+    "stop_conditions": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "expected_return_evidence": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "evidenceAcceptanceClass": {
+      "enum": [
+        "advisory-context",
+        "validation-evidence",
+        "review-evidence",
+        "rollback-context",
+        "non-authority-only"
+      ]
+    },
+    "forbiddenTransfer": {
+      "enum": [
+        "git-ref-mutation",
+        "hosted-provider-authorization",
+        "branch-cleanup-authorization",
+        "archive-authorization",
+        "promotion-authorization",
+        "scope-expansion"
+      ]
+    }
+  }
+}

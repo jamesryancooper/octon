@@ -477,6 +477,151 @@ valid_authority_operation_class() {
   esac
 }
 
+valid_interaction_receipt_schema() {
+  case "$1" in
+    lifecycle-interaction-request-v1|lifecycle-interaction-return-v1)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_interaction_kind() {
+  case "$1" in
+    follow_on_work_required)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_interaction_capability() {
+  case "$1" in
+    change-closeout|closeout-worktree|repo-hygiene-cleanup)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_interaction_acceptance_class() {
+  case "$1" in
+    advisory-context|validation-evidence|review-evidence|rollback-context|non-authority-only)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+valid_interaction_forbidden_transfer() {
+  case "$1" in
+    git-ref-mutation|hosted-provider-authorization|branch-cleanup-authorization|archive-authorization|promotion-authorization|scope-expansion)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
+validate_interaction_profile() {
+  local contract="$1" expr="$2" label="$3"
+  local profile_id interaction_kind receipt_schema non_authorizing value
+
+  profile_id="$(yq -r "$expr.profile_id // \"\"" "$contract" 2>/dev/null || true)"
+  [[ "$profile_id" =~ ^[a-z][a-z0-9-]*$ ]] \
+    && pass "lifecycle interaction profile id valid: $label -> $profile_id" \
+    || fail "lifecycle interaction profile id invalid: $label -> $profile_id"
+
+  interaction_kind="$(yq -r "$expr.interaction_kind // \"\"" "$contract" 2>/dev/null || true)"
+  valid_interaction_kind "$interaction_kind" \
+    && pass "lifecycle interaction kind valid: $label -> $interaction_kind" \
+    || fail "lifecycle interaction kind invalid: $label -> $interaction_kind"
+
+  receipt_schema="$(yq -r "$expr.receipt_schema // \"\"" "$contract" 2>/dev/null || true)"
+  valid_interaction_receipt_schema "$receipt_schema" \
+    && pass "lifecycle interaction receipt schema valid: $label -> $receipt_schema" \
+    || fail "lifecycle interaction receipt schema invalid: $label -> $receipt_schema"
+
+  non_authorizing="$(yq -r "$expr.non_authorizing | tostring" "$contract" 2>/dev/null || true)"
+  [[ "$non_authorizing" == "true" ]] \
+    && pass "lifecycle interaction non-authorizing flag asserted: $label" \
+    || fail "lifecycle interaction non-authorizing flag must be true: $label"
+
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+    valid_interaction_capability "$value" \
+      && pass "lifecycle interaction capability valid: $label -> $value" \
+      || fail "lifecycle interaction capability invalid: $label -> $value"
+  done < <(yq -r "$expr.requested_capabilities[]? // \"\"" "$contract" 2>/dev/null || true)
+
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+    valid_interaction_acceptance_class "$value" \
+      && pass "lifecycle interaction evidence class valid: $label -> $value" \
+      || fail "lifecycle interaction evidence class invalid: $label -> $value"
+  done < <(yq -r "$expr.evidence_acceptance_classes[]? // \"\"" "$contract" 2>/dev/null || true)
+
+  local required_transfer
+  for required_transfer in git-ref-mutation hosted-provider-authorization branch-cleanup-authorization archive-authorization promotion-authorization scope-expansion; do
+    yq -r "$expr.forbidden_transfer[]? // \"\"" "$contract" 2>/dev/null | grep -Fx "$required_transfer" >/dev/null 2>&1 \
+      && pass "lifecycle interaction forbids transfer: $label -> $required_transfer" \
+      || fail "lifecycle interaction missing forbidden transfer: $label -> $required_transfer"
+  done
+
+  while IFS= read -r value; do
+    [[ -n "$value" ]] || continue
+    valid_interaction_forbidden_transfer "$value" \
+      && pass "lifecycle interaction forbidden transfer valid: $label -> $value" \
+      || fail "lifecycle interaction forbidden transfer invalid: $label -> $value"
+  done < <(yq -r "$expr.forbidden_transfer[]? // \"\"" "$contract" 2>/dev/null || true)
+
+  if yq -e "$expr.return_schema" "$contract" >/dev/null 2>&1; then
+    [[ "$(yq -r "$expr.return_schema // \"\"" "$contract" 2>/dev/null || true)" == "lifecycle-interaction-return-v1" ]] \
+      && pass "lifecycle interaction return schema valid: $label" \
+      || fail "lifecycle interaction return schema invalid: $label"
+  fi
+
+  if yq -e "$expr.target_gate_policy" "$contract" >/dev/null 2>&1; then
+    [[ "$(yq -r "$expr.target_gate_policy // \"\"" "$contract" 2>/dev/null || true)" == "target-owned-independent-validation" ]] \
+      && pass "lifecycle interaction target gate policy valid: $label" \
+      || fail "lifecycle interaction target gate policy invalid: $label"
+  fi
+}
+
+validate_lifecycle_interactions() {
+  local contract="$1" lifecycle_id="$2" count index
+
+  if ! yq -e '.lifecycle_interactions' "$contract" >/dev/null 2>&1; then
+    pass "lifecycle interaction metadata absent or not needed: $lifecycle_id"
+    return 0
+  fi
+
+  yq -e '.lifecycle_interactions | tag == "!!map"' "$contract" >/dev/null 2>&1 \
+    && pass "lifecycle interaction metadata is map: $lifecycle_id" \
+    || fail "lifecycle interaction metadata must be map: $lifecycle_id"
+
+  for profile_field in emitted_profiles accepted_profiles; do
+    if yq -e ".lifecycle_interactions.$profile_field" "$contract" >/dev/null 2>&1; then
+      yq -e ".lifecycle_interactions.$profile_field | tag == \"!!seq\"" "$contract" >/dev/null 2>&1 \
+        && pass "lifecycle interaction profile list valid: $lifecycle_id -> $profile_field" \
+        || fail "lifecycle interaction profile list invalid: $lifecycle_id -> $profile_field"
+      count="$(yq -r "(.lifecycle_interactions.$profile_field // []) | length" "$contract" 2>/dev/null || echo 0)"
+      for ((index=0; index<count; index++)); do
+        validate_interaction_profile "$contract" ".lifecycle_interactions.$profile_field[$index]" "$lifecycle_id $profile_field[$index]"
+      done
+    fi
+  done
+}
+
 validate_recovery_object_keys() {
   local contract="$1" expr="$2" label="$3"
   local key
@@ -1107,6 +1252,7 @@ validate_contract() {
   [[ "$(yq -r '.version // ""' "$contract")" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && pass "lifecycle version valid: $lifecycle_id" || fail "lifecycle version invalid: $lifecycle_id"
   validate_execution_strategy "$contract" "$lifecycle_id"
   validate_program_section "$contract" "$lifecycle_id"
+  validate_lifecycle_interactions "$contract" "$lifecycle_id"
 
   target_manifest="$(yq -r '.target.manifest_path // ""' "$contract")"
   allowed_statuses="$(load_ids "$contract" '.target.allowed_statuses[]?')"

@@ -610,6 +610,73 @@ YAML
     fail "runner event log records phase transition"
   fi
 
+  write_packet "$root" interaction-ready-packet accepted accepted yes
+  touch "$root/interaction-ready-packet/support/executable-implementation-prompt.md"
+  mkdir -p "$root/.octon/state/evidence/interaction" "$root/.octon/state/evidence/runs/workflows"
+  printf 'target gate evidence\n' >"$root/.octon/state/evidence/interaction/source.md"
+  local evidence_digest boundary_digest request_ref
+  evidence_digest="sha256:$(shasum -a 256 "$root/.octon/state/evidence/interaction/source.md" | awk '{print $1}')"
+  boundary_digest="sha256:$(printf '{"exclude_paths":[".octon/generated"],"include_paths":["interaction-ready-packet"]}' | shasum -a 256 | awk '{print $1}')"
+  request_ref=".octon/state/evidence/runs/workflows/interaction-request.json"
+  cat >"$root/$request_ref" <<JSON
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "runner-interaction",
+  "created_at": "2026-05-24T00:00:00Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "source-run",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": "interaction-ready-packet",
+    "phase_id": "closeout-and-hygiene"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "change-closeout",
+    "requested_lifecycle_id": "change-closeout",
+    "requested_route_surface": "closeout-change",
+    "requested_atomic_unit_type": "change",
+    "requested_target_outcome": "cleaned"
+  },
+  "scope": {
+    "include_paths": ["interaction-ready-packet"],
+    "exclude_paths": [".octon/generated"],
+    "boundary_digest": "$boundary_digest"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/state/evidence/interaction/source.md",
+      "digest": "$evidence_digest",
+      "acceptance_class": "validation-evidence"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": ["target-gate-missing"],
+  "expected_return_evidence": ["change-receipt-v1"]
+}
+JSON
+  output="$(octon_cli "$root" lifecycle run --lifecycle proposal-packet --target interaction-ready-packet --run-id interaction-run --executor codex --set interaction_request_ref="$request_ref")"
+  local interaction_checkpoint
+  interaction_checkpoint="$root/.octon/state/control/execution/runs/interaction-run/lifecycle-checkpoint.yml"
+  if yq -e '.final_verdict == "route-ready" and .interaction_request_refs[0] == "'"$request_ref"'"' "$interaction_checkpoint" >/dev/null \
+    && grep -q '"event_category":"interaction"' "$root/.octon/state/control/execution/runs/interaction-run/lifecycle-events.ndjson" \
+    && grep -q '"interaction_request_refs":"'"$request_ref"'"' "$root/.octon/state/control/execution/runs/interaction-run/lifecycle-events.ndjson"; then
+    pass "runner records interaction request context without self-authorizing dispatch"
+  else
+    printf '%s\n' "$output" >&2
+    fail "runner records interaction request context without self-authorizing dispatch"
+  fi
+
   output="$(octon_cli "$root" lifecycle resume --run-id runner-test)"
   if yq -e '.run_id == "runner-test" and .selected_route.route_id == "revise-packet" and .current_phase == "review-and-revision"' >/dev/null <<<"$output"; then
     pass "resume reconstructs target state from receipts"

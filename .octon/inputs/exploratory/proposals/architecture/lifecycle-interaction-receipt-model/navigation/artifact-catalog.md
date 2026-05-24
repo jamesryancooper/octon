@@ -1,0 +1,31 @@
+# Artifact Catalog
+
+- `proposal.yml` - Base proposal manifest and promotion target set.
+- `architecture-proposal.yml` - Architecture subtype manifest.
+- `README.md` - Packet summary.
+- `PACKET_MANIFEST.md` - Packet inventory and lifecycle boundary.
+- `navigation/artifact-catalog.md` - Visible file inventory.
+- `navigation/source-of-truth-map.md` - Source authority map.
+- `architecture/current-state-gap-map.md` - Current-state summary and gaps.
+- `architecture/target-architecture.md` - Target Lifecycle Interaction Receipt Model.
+- `architecture/implementation-plan.md` - Sequenced implementation plan.
+- `architecture/acceptance-criteria.md` - Implementation-grade readiness criteria.
+- `architecture/validation-plan.md` - Validators and negative tests.
+- `architecture/file-change-map.md` - Authored and generated impact map.
+- `architecture/rollback-plan.md` - Rollback and compatibility posture.
+- `architecture/cutover-checklist.md` - Promotion and publication checklist.
+- `resources/source-context.md` - Recommendation source context summary.
+- `resources/repository-grounding-summary.md` - Authored repository authority used.
+- `resources/evidence-plan.md` - Evidence and receipt plan.
+- `resources/traceability-map.md` - Requirement traceability.
+- `resources/non-changes.md` - Explicit non-changes.
+- `resources/risk-register.md` - Risks, edge cases, and fail-closed behavior.
+- `resources/assumptions-and-blockers.md` - Assumptions and current blockers.
+- `support/proposal-creation.md` - Creation and profile-selection receipt.
+- `support/implementation-grade-completeness-review.md` - Completeness gate receipt.
+- `support/proposal-review.md` - Accepted packet review and implementation authorization receipt.
+- `support/executable-implementation-prompt.md` - Packet-approved implementation prompt.
+- `support/implementation-run.md` - Implementation execution receipt.
+- `support/implementation-conformance-review.md` - Post-implementation conformance receipt.
+- `support/post-implementation-drift-churn-review.md` - Post-implementation drift and churn receipt.
+- `support/proposal-closeout.md` - Closeout and archive gate receipt.

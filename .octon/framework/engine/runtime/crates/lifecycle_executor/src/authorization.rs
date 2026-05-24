@@ -26,6 +26,7 @@ struct DelegationProof {
     evidence_gate_results: BTreeMap<String, String>,
     replay_idempotency_proof: BTreeMap<String, String>,
     expected_receipts: Vec<String>,
+    interaction_context: BTreeMap<String, String>,
     required_receipts_before_dispatch: BTreeMap<String, String>,
     failure_policy: String,
     authority_provenance: Vec<String>,
@@ -128,6 +129,7 @@ fn build_and_write_proof(
         evidence_gate_results: request.evidence_gate_results.clone(),
         replay_idempotency_proof: replay,
         expected_receipts: request.expected_receipts.clone(),
+        interaction_context: interaction_context(request),
         required_receipts_before_dispatch: required_receipts,
         failure_policy: fail_closed_policy(contract),
         authority_provenance: authority_provenance(request, contract),
@@ -450,7 +452,28 @@ fn authority_provenance(
     if let Some(authority_ref) = request.policy.invocation_authority.authority_ref.as_ref() {
         provenance.push(format!("authority_ref:{authority_ref}"));
     }
+    if !request.interaction_request_refs.is_empty() || !request.interaction_return_refs.is_empty() {
+        provenance.push("interaction_context:non-authorizing".to_string());
+    }
     provenance
+}
+
+fn interaction_context(request: &LifecycleRouteExecutionRequest) -> BTreeMap<String, String> {
+    let mut context = BTreeMap::new();
+    context.insert(
+        "authority".to_string(),
+        "non-authorizing-context".to_string(),
+    );
+    context.insert("target_gates_required".to_string(), "true".to_string());
+    context.insert(
+        "request_refs".to_string(),
+        request.interaction_request_refs.join(","),
+    );
+    context.insert(
+        "return_refs".to_string(),
+        request.interaction_return_refs.join(","),
+    );
+    context
 }
 
 fn sanitize_route_id(route_id: &str) -> Result<String, LifecycleExecutionError> {
@@ -477,4 +500,110 @@ pub fn now_rfc3339() -> String {
     OffsetDateTime::now_utc()
         .format(&time::format_description::well_known::Rfc3339)
         .unwrap_or_else(|_| "unknown".to_string())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::request::{
+        LifecycleExecutionPolicy, LifecycleInvocationAuthority, LifecycleRouteSpec,
+    };
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    fn temp_root(name: &str) -> PathBuf {
+        let nanos = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "octon-lifecycle-authorization-{name}-{}-{nanos}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        root
+    }
+
+    fn request_with_interaction_context(root: &Path) -> LifecycleRouteExecutionRequest {
+        LifecycleRouteExecutionRequest {
+            schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
+            run_id: "run-1".to_string(),
+            lifecycle_id: "proposal-packet".to_string(),
+            owner_extension: "test-extension".to_string(),
+            phase_id: Some("archival".to_string()),
+            target: root.join("packet"),
+            manifest_path: "proposal.yml".to_string(),
+            status_field: "status".to_string(),
+            executor: "mock".to_string(),
+            route: LifecycleRouteSpec {
+                route_id: "archive-proposal".to_string(),
+                route_type: "workflow".to_string(),
+                command_id: None,
+                skill_id: None,
+                prompt_set_id: None,
+                required_inputs: Vec::new(),
+                completion_replan_required: true,
+                delegation_contract: Some(LifecycleDelegationContract {
+                    decision_class: "delegated-execution".to_string(),
+                    safe_delegation: true,
+                    authority_zones_allowed: vec!["workspace-declared".to_string()],
+                    declared_write_scope_source: "route-completion-and-target".to_string(),
+                    required_evidence_gates: Vec::new(),
+                    required_receipts_before_dispatch: vec!["proposal-closeout".to_string()],
+                    required_receipts_before_completion: vec!["proposal-closeout".to_string()],
+                    replay_class: "no-op-safe".to_string(),
+                    automated_recovery_policy: "fail-closed".to_string(),
+                    human_only_boundaries: vec!["scope-expansion".to_string()],
+                }),
+            },
+            effective_extension_catalog: root
+                .join(".octon/generated/effective/extensions/catalog.effective.yml"),
+            runtime_route_bundle: root.join(".octon/generated/effective/runtime/route-bundle.yml"),
+            bound_inputs: BTreeMap::new(),
+            receipts: Vec::new(),
+            expected_receipts: vec!["proposal-closeout".to_string()],
+            expected_paths: Vec::new(),
+            expected_manifest_status: Some("archived".to_string()),
+            expected_target_change: true,
+            evidence_root: root.join(".octon/state/evidence/runs/workflows/run-1"),
+            checkpoint_path: root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            interaction_request_refs: vec![
+                ".octon/state/evidence/runs/workflows/run-0/interaction-request.json".to_string(),
+            ],
+            interaction_return_refs: Vec::new(),
+            policy: LifecycleExecutionPolicy {
+                timeout_seconds: 30,
+                cancellation_token: None,
+                retry_attempt: 0,
+                invocation_authority: LifecycleInvocationAuthority {
+                    mode: "unattended".to_string(),
+                    provenance: "test".to_string(),
+                    authority_ref: None,
+                },
+            },
+            human_boundary_context: None,
+            evidence_gate_results: BTreeMap::new(),
+        }
+    }
+
+    #[test]
+    fn interaction_context_cannot_satisfy_required_dispatch_receipts() {
+        let root = temp_root("interaction-context-no-authority");
+        fs::create_dir_all(root.join("packet")).unwrap();
+        fs::write(root.join("packet/proposal.yml"), "status: implemented\n").unwrap();
+        let request = request_with_interaction_context(&root);
+
+        let result =
+            authorize_before_dispatch(&root, &request, Some("implemented".to_string()), Vec::new());
+
+        assert!(result.is_err());
+        let blocked = result.err().unwrap();
+        assert_eq!(blocked.status, "authorization-proof-failed");
+        assert!(blocked
+            .error_message
+            .as_deref()
+            .unwrap_or_default()
+            .contains("required receipt proposal-closeout"));
+        let _ = fs::remove_dir_all(root);
+    }
 }

@@ -265,6 +265,12 @@ pub(crate) struct LifecycleRunResult {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub current_phase: Option<String>,
     pub terminal_outcome: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub interaction_request_refs: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub interaction_return_refs: Vec<String>,
     pub final_verdict: String,
 }
 
@@ -665,6 +671,10 @@ struct LifecycleCheckpoint {
     #[serde(default)]
     run_inputs: BTreeMap<String, String>,
     #[serde(default)]
+    interaction_request_refs: Vec<String>,
+    #[serde(default)]
+    interaction_return_refs: Vec<String>,
+    #[serde(default)]
     cancelled_at: Option<String>,
     #[serde(default)]
     cancel_reason: Option<String>,
@@ -1018,6 +1028,93 @@ fn normalize_lifecycle_run_inputs(
     Ok(inputs)
 }
 
+fn lifecycle_interaction_refs_from_run_inputs(
+    repo_root: &Path,
+    run_inputs: &BTreeMap<String, String>,
+) -> Result<(Vec<String>, Vec<String>)> {
+    let request_refs = lifecycle_interaction_refs_for_keys(
+        repo_root,
+        run_inputs,
+        &[
+            "interaction_request_ref",
+            "interaction_request_refs",
+            "lifecycle_interaction_request_ref",
+            "lifecycle_interaction_request_refs",
+        ],
+        "lifecycle-interaction-request-v1",
+    )?;
+    let return_refs = lifecycle_interaction_refs_for_keys(
+        repo_root,
+        run_inputs,
+        &[
+            "interaction_return_ref",
+            "interaction_return_refs",
+            "lifecycle_interaction_return_ref",
+            "lifecycle_interaction_return_refs",
+        ],
+        "lifecycle-interaction-return-v1",
+    )?;
+    Ok((request_refs, return_refs))
+}
+
+fn lifecycle_interaction_refs_for_keys(
+    repo_root: &Path,
+    run_inputs: &BTreeMap<String, String>,
+    keys: &[&str],
+    expected_schema_version: &str,
+) -> Result<Vec<String>> {
+    let mut refs = Vec::new();
+    for key in keys {
+        let Some(raw) = run_inputs.get(*key) else {
+            continue;
+        };
+        for value in raw
+            .split(|ch: char| ch == ',' || ch == '\n' || ch.is_whitespace())
+            .filter(|value| !value.trim().is_empty())
+        {
+            let rel = validate_lifecycle_interaction_ref(
+                repo_root,
+                value.trim(),
+                expected_schema_version,
+            )
+            .with_context(|| format!("invalid lifecycle interaction ref from run input {key}"))?;
+            if !refs.contains(&rel) {
+                refs.push(rel);
+            }
+        }
+    }
+    Ok(refs)
+}
+
+fn validate_lifecycle_interaction_ref(
+    repo_root: &Path,
+    raw_ref: &str,
+    expected_schema_version: &str,
+) -> Result<String> {
+    let path = resolve_user_repo_path(
+        repo_root,
+        Path::new(raw_ref),
+        "lifecycle interaction receipt ref",
+    )?;
+    if !path.is_file() {
+        bail!(
+            "lifecycle interaction receipt ref missing or not a file: {}",
+            raw_ref
+        );
+    }
+    let value: serde_json::Value = serde_json::from_slice(&fs::read(&path)?)
+        .with_context(|| format!("lifecycle interaction receipt ref must be JSON: {raw_ref}"))?;
+    let Some(schema_version) = value.get("schema_version").and_then(|value| value.as_str()) else {
+        bail!("lifecycle interaction receipt ref missing schema_version: {raw_ref}");
+    };
+    if schema_version != expected_schema_version {
+        bail!(
+            "lifecycle interaction receipt ref schema_version {schema_version} does not match {expected_schema_version}: {raw_ref}"
+        );
+    }
+    Ok(rel_display(repo_root, &path))
+}
+
 fn parse_run_input_pair<'a>(raw: &'a str, flag: &str) -> Result<(&'a str, &'a str)> {
     let Some((key, value)) = raw.split_once('=') else {
         bail!("{flag} must use key=value syntax");
@@ -1180,6 +1277,8 @@ fn lifecycle_cancelled_run_result(
         selected_route: None,
         current_phase: checkpoint.current_phase.clone(),
         terminal_outcome: Some("cancelled".to_string()),
+        interaction_request_refs: checkpoint.interaction_request_refs.clone(),
+        interaction_return_refs: checkpoint.interaction_return_refs.clone(),
         final_verdict: "cancelled".to_string(),
     }
 }
@@ -1326,6 +1425,8 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         }
         options.run_inputs.clone()
     };
+    let (interaction_request_refs, interaction_return_refs) =
+        lifecycle_interaction_refs_from_run_inputs(&repo_root, &run_inputs)?;
     let mut loop_counts = previous_checkpoint
         .as_ref()
         .map(|checkpoint| checkpoint.loop_counts.clone())
@@ -1448,6 +1549,8 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         receipt_digests: receipt_digest_map(&plan),
         last_validator_results: plan.gate_results.clone(),
         run_inputs,
+        interaction_request_refs: interaction_request_refs.clone(),
+        interaction_return_refs: interaction_return_refs.clone(),
         cancelled_at: previous_checkpoint
             .as_ref()
             .and_then(|checkpoint| checkpoint.cancelled_at.clone()),
@@ -1497,11 +1600,49 @@ pub(crate) fn run_lifecycle_from_octon_dir(
             phase_transition_event_data(phase_id, "phase-entered"),
         )?;
     }
+    if !interaction_request_refs.is_empty() || !interaction_return_refs.is_empty() {
+        let mut interaction_data = BTreeMap::new();
+        insert_interaction_event_context(
+            &mut interaction_data,
+            &interaction_request_refs,
+            &interaction_return_refs,
+        );
+        interaction_data.insert(
+            "authority".to_string(),
+            "non-authorizing-context".to_string(),
+        );
+        insert_phase_event_context(&mut interaction_data, plan.current_phase.as_deref());
+        append_lifecycle_event(
+            &control_root,
+            &evidence_root,
+            &sanitized_run_id,
+            &options.lifecycle_id,
+            execution_strategy.as_str(),
+            &target_abs,
+            "interaction-context-recorded",
+            "interaction",
+            "runtime",
+            None,
+            None,
+            None,
+            plan.next_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            None,
+            Some(&final_verdict),
+            interaction_data,
+        )?;
+    }
     let mut event_data = BTreeMap::new();
     event_data.insert("final_verdict".to_string(), final_verdict.clone());
     if let Some(route) = plan.next_route.as_ref() {
         event_data.insert("selected_route".to_string(), route.route_id.clone());
     }
+    insert_interaction_event_context(
+        &mut event_data,
+        &interaction_request_refs,
+        &interaction_return_refs,
+    );
     insert_phase_event_context(&mut event_data, plan.current_phase.as_deref());
     append_lifecycle_event(
         &control_root,
@@ -1525,6 +1666,11 @@ pub(crate) fn run_lifecycle_from_octon_dir(
     )?;
     if !options.execute_routes && plan.next_route.is_some() && final_verdict == "route-ready" {
         let mut event_data = BTreeMap::new();
+        insert_interaction_event_context(
+            &mut event_data,
+            &interaction_request_refs,
+            &interaction_return_refs,
+        );
         insert_phase_event_context(&mut event_data, plan.current_phase.as_deref());
         append_lifecycle_event(
             &control_root,
@@ -1548,6 +1694,11 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         )?;
     } else if classify_lifecycle_status(&final_verdict).is_terminal_or_blocked() {
         let mut status_event_data = BTreeMap::new();
+        insert_interaction_event_context(
+            &mut status_event_data,
+            &interaction_request_refs,
+            &interaction_return_refs,
+        );
         insert_phase_event_context(&mut status_event_data, plan.current_phase.as_deref());
         append_lifecycle_event(
             &control_root,
@@ -1621,6 +1772,8 @@ pub(crate) fn run_lifecycle_from_octon_dir(
         selected_route: plan.next_route,
         current_phase: plan.current_phase,
         terminal_outcome: plan.terminal_outcome,
+        interaction_request_refs,
+        interaction_return_refs,
         final_verdict,
     })
 }
@@ -1722,6 +1875,8 @@ pub(crate) fn resume_lifecycle_from_octon_dir(
         selected_route: plan.next_route,
         current_phase: plan.current_phase,
         terminal_outcome: plan.terminal_outcome,
+        interaction_request_refs: checkpoint.interaction_request_refs,
+        interaction_return_refs: checkpoint.interaction_return_refs,
         final_verdict: plan.final_verdict,
     })
 }
@@ -2246,6 +2401,22 @@ fn insert_phase_event_context(data: &mut BTreeMap<String, String>, phase_id: Opt
     }
 }
 
+fn insert_interaction_event_context(
+    data: &mut BTreeMap<String, String>,
+    request_refs: &[String],
+    return_refs: &[String],
+) {
+    if !request_refs.is_empty() {
+        data.insert(
+            "interaction_request_refs".to_string(),
+            request_refs.join(","),
+        );
+    }
+    if !return_refs.is_empty() {
+        data.insert("interaction_return_refs".to_string(), return_refs.join(","));
+    }
+}
+
 fn phase_transition_id(event_type: &str, phase_id: &str) -> String {
     format!("{event_type}:{phase_id}")
 }
@@ -2526,6 +2697,8 @@ fn lifecycle_execution_request_for_route(
                 .collect::<BTreeMap<_, _>>()
         })
         .unwrap_or_default();
+    let (interaction_request_refs, interaction_return_refs) =
+        lifecycle_interaction_refs_from_run_inputs(&repo_root, run_inputs)?;
     Ok(Some(LifecycleRouteExecutionRequest {
         schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
         run_id: run_id.to_string(),
@@ -2556,6 +2729,8 @@ fn lifecycle_execution_request_for_route(
         expected_target_change,
         evidence_root,
         checkpoint_path,
+        interaction_request_refs,
+        interaction_return_refs,
         policy: LifecycleExecutionPolicy {
             timeout_seconds,
             cancellation_token,

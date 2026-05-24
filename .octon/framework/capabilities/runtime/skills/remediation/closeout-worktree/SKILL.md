@@ -188,6 +188,11 @@ before claiming worktree closeout.
 - Do not use `.octon/inputs/**`, proposal-local files, generated outputs, host
   state, GitHub state, chat, model memory, or tool availability as closeout
   authority.
+- Treat `lifecycle-interaction-request-v1` receipts as advisory context only.
+  They may help classify a candidate boundary or next-route condition, but this
+  wrapper still must inventory, classify, partition, delegate, and validate
+  through its own report contract and target-owned gates before recording a
+  worktree outcome.
 - Do not continue when a candidate cannot be separated without touching
   ambiguous or user-owned work.
 - Do not claim full worktree closeout while any retained, blocked, ambiguous,

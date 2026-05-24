@@ -1,0 +1,39 @@
+schema_version: proposal-v1
+proposal_id: lifecycle-interaction-receipt-model
+title: Lifecycle Interaction Receipt Model
+summary: Define typed lifecycle interaction request and return receipts so one governed lifecycle can record follow-on work owned by another lifecycle without transferring authority, sharing phase-loop state, or creating a lifecycle bus.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json
+- .octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json
+- .octon/framework/product/features/governed-lifecycle-orchestration.md
+- .octon/framework/product/features/catalog.yml
+- .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json
+- .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/lifecycle-run-event.schema.json
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+- .octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs
+- .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-interaction-receipts.sh
+- .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-interaction-receipts.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-runner.sh
+- .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-executor-adapter.sh
+- .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycle.contract.yml
+- .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+status: implemented
+lifecycle:
+  temporary: true
+  exit_expectation: Review and accept this packet before durable implementation. If accepted, implementation may add only the declared typed receipt model, lifecycle metadata, runner visibility, non-authorizing executor context, validators, focused tests, documentation, and derived projection refreshes. Archive only after implementation conformance, drift, closeout, and archive gates pass.
+related_proposals:
+- proposal-packet-phase-loop-model
+- change-closeout-state-machine
