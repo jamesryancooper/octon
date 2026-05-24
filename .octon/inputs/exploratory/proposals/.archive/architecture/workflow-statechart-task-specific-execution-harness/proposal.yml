@@ -11,7 +11,16 @@ promotion_targets:
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/generated/cognition/projections/materialized/"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-05-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/workflow-statechart-task-specific-execution-harness/2026-05-15T00-49-28Z/child-specific-validator.yml"
+    - ".octon/state/evidence/validation/proposals/workflow-statechart-task-specific-execution-harness/2026-05-15T00-49-28Z/implementation-evidence.md"
+    - ".octon/state/evidence/validation/proposals/workflow-statechart-task-specific-execution-harness/2026-05-15T00-49-28Z/validation-summary.yml"
 lifecycle:
   temporary: true
   exit_expectation: >-
