@@ -18,7 +18,14 @@ promotion_targets:
 - .octon/framework/assurance/runtime/contracts/alignment-profiles.yml
 - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md
 - .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/patterns/proposal-program.md
-status: implemented
+status: archived
+archive:
+  archived_at: "2026-05-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/publication/extensions/2026-05-23T21-44-00Z-extensions-e539e7c8b239.yml"
 lifecycle:
   temporary: true
   exit_expectation: Review and accept this terminology packet before any implementation prompt or durable rename is generated. If accepted, implementation may update only declared durable targets, refresh generated projections as derived output, verify terminology and boundary behavior, close out the packet, and archive it after gates pass.
