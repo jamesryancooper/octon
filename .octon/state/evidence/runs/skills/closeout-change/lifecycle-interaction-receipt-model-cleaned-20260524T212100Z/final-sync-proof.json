@@ -1,0 +1,19 @@
+{
+  "schema_version": "closeout-final-sync-proof-v1",
+  "recorded_at": "2026-05-24T21:23:29Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "source_branch": "chore/lifecycle-interaction-receipts",
+  "landed_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "local_main_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "origin_main_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "head_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "local_main_equals_origin_main": true,
+  "head_equals_local_main": true,
+  "origin_main_contains_landed_ref": true,
+  "local_main_contains_landed_ref": true,
+  "local_source_branch_present": false,
+  "remote_source_branch_present": false,
+  "open_pr_count": 0,
+  "cleanup_completed": true
+}

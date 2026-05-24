@@ -1,0 +1,140 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-interaction-receipt-model",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Land and clean the branch-isolated Lifecycle Interaction Receipt Model implementation and proposal archive Change.",
+  "scope": {
+    "summary": "Lifecycle interaction receipt model implementation, proposal archive, generated registry refresh, and retained closeout evidence already present in the landed branch.",
+    "touched_paths": [
+      ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json",
+      ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json",
+      ".octon/framework/product/features/governed-lifecycle-orchestration.md",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/lifecycle-interaction-receipt-model",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/evidence/runs/skills/closeout-change",
+      ".octon/state/evidence/runs/skills/closeout-worktree"
+    ],
+    "diff_refs": [
+      "e1939b0b83697cead9f3b228f11442dbb2ec9fe2..4c303427af506f7ec91cad01c4ae9b49eceea2b6"
+    ]
+  },
+  "source_branch_ref": "chore/lifecycle-interaction-receipts@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "target_branch_ref": "origin/main@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "target_ref": "origin/main@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/run-log.md"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/lifecycle-interaction-receipts",
+    "source_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "target_pre_ref": "e1939b0b83697cead9f3b228f11442dbb2ec9fe2",
+    "target_post_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "validated_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+      "branch_naming_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+      "route_aware_autonomy_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+      "exact_source_sha_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "4c303427af506f7ec91cad01c4ae9b49eceea2b6:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/lifecycle-interaction-receipts@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "source_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "landed_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "origin_main_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "origin_main_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "landed_ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "aligned": true,
+    "origin_fetch_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/run-log.md",
+    "local_main_sync_evidence_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json"
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/cleanup-authorization.json",
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json"
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/lifecycle-interaction-receipts",
+    "remote_branch": "origin/chore/lifecycle-interaction-receipts",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json"
+    ]
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/run-log.md",
+    "residue_classification_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/run-log.md",
+    "phase_exit_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-interaction-receipt-model-cleaned-20260524T212100Z/final-sync-proof.json"
+  },
+  "validation_evidence_refs": [
+    "route_neutral_closeout_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "branch_naming_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "route_aware_autonomy_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "exact_source_sha_validation@4c303427af506f7ec91cad01c4ae9b49eceea2b6"
+  ],
+  "review_waiver_refs": [
+    "branch-no-pr selected: no PR-required predicate and provider rules allow route-neutral hosted landing"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "branch": "chore/lifecycle-interaction-receipts"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "4c303427af506f7ec91cad01c4ae9b49eceea2b6",
+    "instructions": "Revert landed commit 4c303427af506f7ec91cad01c4ae9b49eceea2b6 from main if rollback is required."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-24T21:23:29Z"
+}
