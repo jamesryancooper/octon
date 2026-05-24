@@ -9,7 +9,17 @@ promotion_targets:
 - .octon/framework/constitution/contracts/runtime/
 - .octon/framework/assurance/runtime/_ops/scripts/
 - .octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/
-status: implemented
+status: archived
+archive:
+  archived_at: "2026-05-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/child-specific-validator.yml"
+    - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/fixture-results.json"
+    - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/implementation-evidence.md"
+    - ".octon/state/evidence/validation/proposals/workflow-history-replay-idempotency-compensation/20260515T213817Z/validation-summary.yml"
 lifecycle:
   temporary: true
   exit_expectation: Promote only after child-owned review, implementation authorization where required, validation receipts, implementation-conformance evidence, post-implementation drift/churn review, and durable promotion evidence exist outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this child packet.

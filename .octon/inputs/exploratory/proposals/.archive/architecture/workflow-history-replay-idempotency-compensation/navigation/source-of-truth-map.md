@@ -1,6 +1,6 @@
 # Source Of Truth Map
 
-_Status: Draft child proposal navigation_
+_Status: Archived implemented child proposal navigation_
 
 ## Packet-Local Lifecycle Authority
 
