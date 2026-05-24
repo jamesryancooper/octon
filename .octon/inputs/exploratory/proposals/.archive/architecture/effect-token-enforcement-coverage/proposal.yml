@@ -11,7 +11,19 @@ promotion_targets:
   - ".octon/framework/engine/runtime/crates/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
   - ".octon/framework/assurance/runtime/_ops/tests/"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-05-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-18T01-04-27Z/command-summary.tsv"
+    - ".octon/state/evidence/validation/proposals/effect-token-enforcement-coverage/2026-05-18T01-04-27Z/validation.md"
+    - ".octon/state/evidence/validation/publication/capabilities/2026-05-24T23-21-08Z-capabilities-6198de5fe2a7.yml"
+    - ".octon/state/evidence/validation/publication/capabilities/2026-05-24T23-21-40Z-pack-routes-3d2cc4bb7870.yml"
+    - ".octon/state/evidence/validation/publication/runtime/2026-05-24T23-21-46Z-runtime-route-bundle-d832aab6f332.yml"
+    - ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
 lifecycle:
   temporary: true
   exit_expectation: >-

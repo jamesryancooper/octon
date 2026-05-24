@@ -32,10 +32,14 @@ This catalog lists visible files in the `effect-token-enforcement-coverage` prop
 
 ## Support Artifacts
 
+- `support/executable-implementation-prompt.md`
 - `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/implementation-run.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/proposal-creation.md`
 - `support/proposal-review.md`
 - `support/revisions/effect-token-enforcement-coverage-final-semantic-readiness-2026-05-12.md`
 - `support/revisions/effect-token-enforcement-coverage-implementation-readiness-2026-05-12.md`
+- `support/validation.md`
