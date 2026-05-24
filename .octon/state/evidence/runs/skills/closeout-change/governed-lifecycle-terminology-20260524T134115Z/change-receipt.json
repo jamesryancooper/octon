@@ -1,0 +1,95 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "governed-lifecycle-terminology",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the governed-lifecycle-terminology change after promotion by publishing the branch without opening a PR, while preserving governed lifecycle boundaries and recording remaining blockers.",
+  "scope": {
+    "summary": "Terminology update retiring Lifecycle Autopilot as the product capability name, proposal packet lifecycle evidence, publication/freshness outputs, and generic lifecycle runner/executor fixes required to promote the packet through the governed route.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs",
+      ".octon/framework/product/features/governed-lifecycle-orchestration.md",
+      ".octon/framework/product/roadmap/governed-lifecycle-orchestration.md",
+      ".octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology",
+      ".octon/generated/effective",
+      ".octon/state/control",
+      ".octon/state/evidence/validation"
+    ],
+    "diff_refs": [
+      "9c975577d8a9e32824e99af85b3b6bfea3f3db46..d6eb13055390e065a93eeb25e52ef4f2fc02f09b"
+    ]
+  },
+  "source_branch_ref": "chore/governed-lifecycle-terminology",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/governed-lifecycle-terminology",
+  "landing_evaluation": {
+    "status": "blocked",
+    "source_ref": "d6eb13055390e065a93eeb25e52ef4f2fc02f09b",
+    "target_ref": "origin/main",
+    "blocker_reason": "Hosted no-PR preflight, exact source-SHA hosted checks, and governed landing authorization were not completed in this closeout run.",
+    "evidence_refs": [
+      "git push via .octon/framework/execution-roles/_ops/scripts/git/git-branch-push.sh succeeded for origin/chore/governed-lifecycle-terminology at d6eb13055390e065a93eeb25e52ef4f2fc02f09b"
+    ]
+  },
+  "not_landed_reason": "The change is published on the branch but has not been landed to origin/main because hosted no-PR landing authorization and exact source-SHA checks were not performed.",
+  "not_cleaned_reason": "The branch is not landed and cleanup authorization cannot be issued; unrelated retained phase-loop closeout evidence also remains outside this change scope.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/governed-lifecycle-terminology",
+    "remote_branch": "origin/chore/governed-lifecycle-terminology",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Source branch remains active and unlanded; cleanup requires origin/main containment and governed cleanup authorization."
+  },
+  "external_blocker_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/archive-proposal-packet-phase-loop-model-20260523T210201Z"
+  ],
+  "validation_evidence_refs": [
+    "git diff --check",
+    "git diff --cached --check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-product-roadmap.sh",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-product-feature-catalog.sh",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-product-roadmap.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh",
+    "CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test -p octon_lifecycle_executor workflow_ -- --nocapture",
+    "CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test -p octon_kernel workflow_lifecycle_request_binds_missing_required_workflow_inputs_from_run_inputs -- --nocapture",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology --skip-registry-check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "origin/chore/governed-lifecycle-terminology",
+    "branch": "chore/governed-lifecycle-terminology"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "origin/chore/governed-lifecycle-terminology",
+    "instructions": "Do not delete until no downstream user depends on the branch. If rollback is needed before landing, leave origin/main unchanged and discard the source branch only through governed cleanup authorization."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Hosted no-PR preflight and exact source-SHA checks were not run.",
+    "Governed landing authorization was not emitted.",
+    "origin/main was not updated to contain the source branch.",
+    "Source branch cleanup authorization cannot be emitted until landing and containment are proven.",
+    "Unrelated retained phase-loop closeout evidence remains outside this change scope."
+  ],
+  "created_at": "2026-05-24T13:41:15Z",
+  "updated_at": "2026-05-24T13:41:15Z"
+}
