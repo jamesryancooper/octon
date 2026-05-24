@@ -176,23 +176,23 @@ main() {
 
     root="$(new_fixture_repo lifecycle-overclaim)"
     write_valid_catalog "$root"
-    cat >"$root/.octon/framework/product/features/lifecycle-autopilot.md" <<'MD'
-# Lifecycle Autopilot
+    cat >"$root/.octon/framework/product/features/governed-lifecycle-orchestration.md" <<'MD'
+# Governed Lifecycle Orchestration
 
-Lifecycle Autopilot program-atomic support provides universal transactionality.
+Governed Lifecycle Orchestration program-atomic support provides universal transactionality.
 MD
-    yq -i '.features[0].feature_id = "lifecycle-autopilot" | .features[0].related_docs[0].path = ".octon/framework/product/features/lifecycle-autopilot.md"' "$root/.octon/framework/product/features/catalog.yml"
-    assert_failure "lifecycle-autopilot overstated support claim fails" "$root"
+    yq -i '.features[0].feature_id = "governed-lifecycle-orchestration" | .features[0].related_docs[0].path = ".octon/framework/product/features/governed-lifecycle-orchestration.md"' "$root/.octon/framework/product/features/catalog.yml"
+    assert_failure "governed-lifecycle-orchestration overstated support claim fails" "$root"
 
     root="$(new_fixture_repo lifecycle-remain-overclaim)"
     write_valid_catalog "$root"
-    cat >"$root/.octon/framework/product/features/lifecycle-autopilot.md" <<'MD'
-# Lifecycle Autopilot
+    cat >"$root/.octon/framework/product/features/governed-lifecycle-orchestration.md" <<'MD'
+# Governed Lifecycle Orchestration
 
-Lifecycle Autopilot remains fully transactional for all program work.
+Governed Lifecycle Orchestration remains fully transactional for all program work.
 MD
-    yq -i '.features[0].feature_id = "lifecycle-autopilot" | .features[0].related_docs[0].path = ".octon/framework/product/features/lifecycle-autopilot.md"' "$root/.octon/framework/product/features/catalog.yml"
-    assert_failure "lifecycle-autopilot remain overclaim fails" "$root"
+    yq -i '.features[0].feature_id = "governed-lifecycle-orchestration" | .features[0].related_docs[0].path = ".octon/framework/product/features/governed-lifecycle-orchestration.md"' "$root/.octon/framework/product/features/catalog.yml"
+    assert_failure "governed-lifecycle-orchestration remain overclaim fails" "$root"
 
     if OCTON_ROOT_DIR="$REPO_ROOT" bash "$VALIDATOR" >/tmp/product-feature-catalog-real.out 2>&1; then
       pass "real product feature catalog passes"

@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/receipts/grant-bundle.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/rollback-posture.yml
+last_applied_event_id: evt-checkpoint-start-governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow
+last_applied_sequence: 20
+last_applied_event_hash: sha256:97ba55e4c40fb1d087054a6e1d0ba52b798ffd3f58d7c0d40dee906f87268253
+materialized_at: 2026-05-23T23:15:07.948737Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-05-23T23:15:06.932032Z
+updated_at: 2026-05-23T23:15:07.948737Z

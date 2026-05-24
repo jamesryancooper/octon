@@ -1,0 +1,24 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: governed-lifecycle-terminology-implementation-prompt
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology
+current_state: review-packet
+current_phase: review-and-revision
+completed_states: []
+last_route: review-packet
+loop_counts: {}
+phase_counts:
+  review-and-revision: 1
+last_phase_transition: phase-entered:review-and-revision
+phase_blockers: {}
+receipt_digests:
+  proposal-review: sha256:5d7fee9af8ce72ee536e599c74adfd092f9ab24b58ea1bee32826e5871e1d5ba
+last_validator_results: []
+run_inputs: {}
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: route-ready
+resume_instruction: octon lifecycle resume --run-id governed-lifecycle-terminology-implementation-prompt

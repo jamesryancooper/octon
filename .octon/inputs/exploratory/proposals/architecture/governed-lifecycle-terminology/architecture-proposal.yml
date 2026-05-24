@@ -1,0 +1,50 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "product-runtime-terminology"
+decision_type: "surface-refactor"
+title: "Governed Lifecycle Terminology"
+target_state: >-
+  Current product capability references use "Governed Lifecycle Orchestration"
+  instead of "Lifecycle Autopilot". The runtime component remains "Lifecycle
+  Runner", route execution remains "Lifecycle Executor Adapter", the lifecycle
+  contract primitive remains "Lifecycle Phase-Loop Model", and "Governed
+  Lifecycle Control Loop" is limited to explanatory behavior prose.
+boundary_change: >-
+  This is a semantic terminology refactor, not a runtime authority expansion.
+  It removes product naming that implies autonomous authority while preserving
+  the existing runner/executor separation, phase-loop contract semantics,
+  generated-output non-authority posture, and fail-closed lifecycle gates.
+authoritative_targets_after_promotion:
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/features/governed-lifecycle-orchestration.md"
+  - ".octon/framework/product/roadmap/governed-lifecycle-orchestration.md"
+  - ".octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-feature-catalog.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-product-roadmap.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-product-feature-catalog.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-validate-product-roadmap.sh"
+  - ".octon/framework/assurance/runtime/contracts/alignment-profiles.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "navigation/source-of-truth-map.md"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "PACKET_MANIFEST.md"
+  - "navigation/artifact-catalog.md"
+  - "architecture/current-state-gap-map.md"
+  - "architecture/file-change-map.md"
+  - "architecture/cutover-checklist.md"
+  - "architecture/rollback-plan.md"
+  - "resources/**"
+  - "support/**"
+placement_decision: "layered-terminology"
+placement_rationale: >-
+  The product capability name belongs in product docs and catalog metadata.
+  Component names belong in runtime and lifecycle documentation. The contract
+  primitive name belongs in lifecycle contract documentation. Behavioral prose
+  may use the control-loop term, but no schema, component, route, or file should
+  be renamed to "Governed Lifecycle Control Loop".

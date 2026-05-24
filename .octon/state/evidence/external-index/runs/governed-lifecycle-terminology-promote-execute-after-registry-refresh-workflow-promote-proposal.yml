@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:49c06c3a8ddddb5a8f5990d0986efb00f5f9975e3a823cef618f0a7abc3764fc
+  entry_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-05-23T23:47:14.950385Z
+  run_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:c3e386d1fdad3d01720279261777d5213aae44744d05d92581d966f24ed07178
+  entry_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-05-23T23:47:14.950385Z
+  run_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal
+  storage_class: external-immutable
+index_id: external-replay-governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal
+run_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-23T23:47:14.950385Z

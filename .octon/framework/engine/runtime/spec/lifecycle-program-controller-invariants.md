@@ -2,7 +2,7 @@
 
 Status: authored runtime spec
 
-This spec defines the closeout invariants for Lifecycle Autopilot
+This spec defines the closeout invariants for Governed Lifecycle Orchestration
 proposal-program orchestration and Program Controller behavior. It is a
 runtime-owned review and validation contract: implementation, schemas,
 lifecycle contracts, generated projections, product claims, and tests must

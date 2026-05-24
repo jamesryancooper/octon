@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+checkpoint_id: execution-complete
+stage_attempt_id: initial
+checkpoint_kind: execution-complete
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/checkpoints/execution-complete.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/checkpoints/execution-complete.yml
+notes: Execution outcome materialized under the canonical run root.
+created_at: 2026-05-23T23:28:47.570024Z
+updated_at: 2026-05-23T23:28:47.570024Z

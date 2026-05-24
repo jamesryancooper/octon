@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:4803033f68bef613f423e8071eb9f2c01a7c36ccd8f2365f43bae18cc38b5853
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:5c9b8a78a1c8dc6d4d2d7d53c429c831b9a77155775c6534c275abda8807c2ea
+receipt_sha256: sha256:9c6212f898118156461d2ba0190ac39cb310db1699968dcf400a563ed0f18f8e
+run_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-23T23:35:06.967959Z
+validity_state: valid

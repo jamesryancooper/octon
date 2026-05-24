@@ -1,0 +1,9 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: governed-lifecycle-terminology-promote-execute-after-routing-fix
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology
+reason: workflow-leaf-direct-invocation-stalled-with-fresh-runtime-handles
+cancelled_at: 2026-05-23T23:17:48.896195Z
+cancellation_token: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix/cancellation.yml
+checkpoint_path: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix/lifecycle-checkpoint.yml

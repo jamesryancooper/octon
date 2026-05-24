@@ -6,10 +6,10 @@ authority_note: >-
   authority, support commitments, runtime routes, generated-effective state,
   durable execution evidence, or a work queue.
 items:
-  - roadmap_item_id: "lifecycle-autopilot-live-provider-smoke-tests"
-    title: "Lifecycle Autopilot live provider smoke tests"
+  - roadmap_item_id: "governed-lifecycle-orchestration-live-provider-smoke-tests"
+    title: "Governed Lifecycle Orchestration live provider smoke tests"
     status: "suggested"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Add optional smoke coverage that exercises real codex, claude, and auto
       executor adapters against disposable lifecycle fixtures.
@@ -21,7 +21,7 @@ items:
       - "engine/runtime"
       - "assurance/runtime"
     source_refs:
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note describing the runner and executor adapter boundary"
         authority_class: "navigation-only"
       - path: ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs"
@@ -40,10 +40,10 @@ items:
       - "Live provider smoke evidence is validation evidence only."
       - "Smoke tests must remain optional unless a separate support target makes them mandatory."
 
-  - roadmap_item_id: "lifecycle-autopilot-operator-run-diagnostics"
-    title: "Lifecycle Autopilot operator run diagnostics"
+  - roadmap_item_id: "governed-lifecycle-orchestration-operator-run-diagnostics"
+    title: "Governed Lifecycle Orchestration operator run diagnostics"
     status: "suggested"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Add a concise explain/status surface for why a lifecycle stopped and what
       exact resume or remediation action is available.
@@ -58,7 +58,7 @@ items:
       - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs"
         role: "plan-execute-observe-replan driver"
         authority_class: "runtime-implementation"
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note describing operator entrypoints"
         authority_class: "navigation-only"
     acceptance_criteria:
@@ -73,10 +73,10 @@ items:
     authority_notes:
       - "Diagnostics explain existing runtime evidence; they do not become lifecycle authority."
 
-  - roadmap_item_id: "lifecycle-autopilot-approval-grant-ux"
-    title: "Lifecycle Autopilot approval grant UX"
+  - roadmap_item_id: "governed-lifecycle-orchestration-approval-grant-ux"
+    title: "Governed Lifecycle Orchestration approval grant UX"
     status: "suggested"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Improve the operator flow for issuing and reviewing resumable approval
       artifacts for durable lifecycle routes.
@@ -89,10 +89,10 @@ items:
       - "orchestration/workflows"
       - "product"
     source_refs:
-      - path: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/approval.rs"
+      - path: ".octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs"
         role: "current approval pause behavior"
         authority_class: "runtime-implementation"
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note describing approval boundary"
         authority_class: "navigation-only"
     acceptance_criteria:
@@ -107,10 +107,10 @@ items:
     authority_notes:
       - "Approval artifacts are evidence and control inputs, not product roadmap authority."
 
-  - roadmap_item_id: "lifecycle-autopilot-second-extension-pilot"
-    title: "Lifecycle Autopilot second extension pilot"
+  - roadmap_item_id: "governed-lifecycle-orchestration-second-extension-pilot"
+    title: "Governed Lifecycle Orchestration second extension pilot"
     status: "suggested"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Add a non-proposal lifecycle extension pilot to prove the generic
       lifecycle contract and executor adapter across a second domain.
@@ -126,7 +126,7 @@ items:
       - path: ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json"
         role: "generic lifecycle contract schema"
         authority_class: "runtime-spec"
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note describing proposal packets as the first pilot"
         authority_class: "navigation-only"
     acceptance_criteria:
@@ -144,10 +144,10 @@ items:
     authority_notes:
       - "A second pilot should remain extension-authored; shared runtime code must stay domain-neutral."
 
-  - roadmap_item_id: "lifecycle-autopilot-program-multi-target-support"
-    title: "Lifecycle Autopilot program and multi-target support"
+  - roadmap_item_id: "governed-lifecycle-orchestration-program-multi-target-support"
+    title: "Governed Lifecycle Orchestration program and multi-target support"
     status: "completed"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Extend lifecycle automation beyond one target per run for proposal
       programs that require coordinated multi-target planning, scheduling,
@@ -166,7 +166,7 @@ items:
       - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
         role: "program lifecycle planning, scheduling, checkpoint, and resume implementation"
         authority_class: "runtime-implementation"
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note describing implemented lifecycle scope and limitations"
         authority_class: "navigation-only"
       - path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
@@ -197,17 +197,17 @@ items:
       - "Multi-target support must not turn proposal-local receipts into durable runtime authority."
       - "Program-atomic execution is supported only through explicit v2 registry and route opt-in contracts."
 
-  - roadmap_item_id: "lifecycle-autopilot-program-controller-v2"
-    title: "Lifecycle Autopilot program controller v2"
+  - roadmap_item_id: "governed-lifecycle-orchestration-program-controller-v2"
+    title: "Governed Lifecycle Orchestration program controller v2"
     status: "completed"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Upgrade proposal-program automation with explicit-opt-in program-atomic
       execution, durable event replay, contract-declared recovery handlers,
       operator inspection/control commands, and stronger aggregate closeout
       checks.
     why_deferred: >-
-      Completed as a Lifecycle Autopilot controller upgrade. External workflow
+      Completed as a Governed Lifecycle Orchestration controller upgrade. External workflow
       engines, Durable Objects, MCP integration, workflow runtime statecharts,
       task-specific execution harnesses, and agent-node contracts remain out of
       scope.
@@ -244,10 +244,10 @@ items:
       - "Parent program evidence summarizes child work only; it cannot satisfy child receipts."
       - "Atomic eligibility is explicit opt-in only; inference-based atomic execution remains unsupported."
 
-  - roadmap_item_id: "lifecycle-autopilot-program-controller-v3"
-    title: "Lifecycle Autopilot program controller v3"
+  - roadmap_item_id: "governed-lifecycle-orchestration-program-controller-v3"
+    title: "Governed Lifecycle Orchestration program controller v3"
     status: "completed"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Upgrade proposal-program automation with replay-verifiable v2 event logs,
       non-authoritative status read models, complete aggregate closeout receipts,
@@ -301,7 +301,7 @@ items:
       - path: ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
         role: "completed program controller v3 runtime implementation"
         authority_class: "runtime-implementation"
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note updated with implemented v3 scope and limitations"
         authority_class: "navigation-only"
     authority_notes:
@@ -309,10 +309,10 @@ items:
       - "Mutation apply changes parent registry coordination only; child manifests, receipts, promotion targets, validation verdicts, and archive metadata remain child-owned."
       - "Atomic depth is barrier recovery, not universal transactionality."
 
-  - roadmap_item_id: "lifecycle-autopilot-state-evidence-hygiene"
-    title: "Lifecycle Autopilot state and evidence hygiene"
+  - roadmap_item_id: "governed-lifecycle-orchestration-state-evidence-hygiene"
+    title: "Governed Lifecycle Orchestration state and evidence hygiene"
     status: "suggested"
-    feature_id: "lifecycle-autopilot"
+    feature_id: "governed-lifecycle-orchestration"
     summary: >-
       Define retention, ignore, and cleanup guidance for untracked lifecycle,
       publication, validation, and executor evidence outputs.
@@ -331,7 +331,7 @@ items:
       - path_pattern: ".octon/state/control/execution/runs/<run-id>/lifecycle-checkpoint.yml"
         role: "lifecycle checkpoint pattern"
         authority_class: "retained-evidence-pattern"
-      - path: ".octon/framework/product/features/lifecycle-autopilot.md"
+      - path: ".octon/framework/product/features/governed-lifecycle-orchestration.md"
         role: "feature note describing evidence and checkpoint surfaces"
         authority_class: "navigation-only"
     acceptance_criteria:

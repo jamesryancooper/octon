@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+ledger_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:5d84b4ec94e04aaf929257c8b38f4f32ceba1dd1be366af11c5d367875736372
+event_count: 33
+first_event_ref:
+  event_id: evt-001-run-created-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  sequence: 1
+  event_hash: sha256:047c036360b2afe1e5ef1a97961de73ffb97743e326cf0935bc49ff5ef99620c
+last_event_ref:
+  event_id: evt-run-closed-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  sequence: 33
+  event_hash: sha256:68e5106fe4bfce427f054bd1a34bfccfd689f8fd72b13fc14503bd94eebd42d7
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:047c036360b2afe1e5ef1a97961de73ffb97743e326cf0935bc49ff5ef99620c
+  tail_event_hash: sha256:68e5106fe4bfce427f054bd1a34bfccfd689f8fd72b13fc14503bd94eebd42d7
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  context_pack_ref: evt-context-pack-bound-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  disclosure_ref: evt-run-closed-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-bfe27f239abf
+  run_contract_ref: evt-001-run-created-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  run_manifest_ref: evt-002-run-bound-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  runtime_state_ref: evt-run-closed-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  stage_attempt_ref: evt-stage-started-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  last_applied_sequence: 33
+  last_applied_event_hash: sha256:68e5106fe4bfce427f054bd1a34bfccfd689f8fd72b13fc14503bd94eebd42d7
+  materialized_at: 2026-05-23T23:28:46.979698Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-05-23T23:28:47.782962Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:d1b8b5a625a46a675342abe48cd7ee22ae7b4bc90108bec8ffa0123e592087f7
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:0881a9b1de2526829cf181cc96e738882ea90e249e9d04f5d3e0fcaf1d63afbc
+receipt_sha256: sha256:2495fce67e361775a6e0ea17866738770af49af5ab34de6e5c5472f5618fed72
+run_id: governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-23T23:15:08.201052Z
+validity_state: valid

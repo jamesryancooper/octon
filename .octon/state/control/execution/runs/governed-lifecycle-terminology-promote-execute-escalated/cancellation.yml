@@ -1,0 +1,9 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: governed-lifecycle-terminology-promote-execute-escalated
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology
+reason: promotion-executor-stalled-with-missing-workflow-input-binding
+cancelled_at: 2026-05-23T22:12:15.96477Z
+cancellation_token: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-escalated/cancellation.yml
+checkpoint_path: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-escalated/lifecycle-checkpoint.yml

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:ab4fdb61ec3df01383eccddf088974a6431217d9d584ede18bff0785ad4111c6
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:419f4f9634ff2dd977dcfed44f7814a70bc6e3815789a986738dd66c1e84c386
+receipt_sha256: sha256:cc1d2b51a3ea95bd783f9b6d06b35628433f67bde088aea7c97a9d4362cfc753
+run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-23T23:22:48.491101Z
+validity_state: valid

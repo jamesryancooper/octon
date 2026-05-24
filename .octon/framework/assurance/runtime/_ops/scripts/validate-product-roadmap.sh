@@ -166,15 +166,15 @@ validate_required_support_phrase() {
   fi
 }
 
-validate_lifecycle_autopilot_roadmap_claims() {
-  local doc="$OCTON_DIR/framework/product/roadmap/lifecycle-autopilot.md"
+validate_governed_lifecycle_orchestration_roadmap_claims() {
+  local doc="$OCTON_DIR/framework/product/roadmap/governed-lifecycle-orchestration.md"
   if [[ ! -f "$doc" ]]; then
     return
   fi
 
-  validate_required_support_phrase "$doc" "lifecycle-autopilot roadmap note" "planning-only"
-  validate_required_support_phrase "$doc" "lifecycle-autopilot roadmap note" "does not add runtime behavior"
-  validate_no_unqualified_support_claims "$doc" "lifecycle-autopilot roadmap note"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration roadmap note" "planning-only"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration roadmap note" "does not add runtime behavior"
+  validate_no_unqualified_support_claims "$doc" "governed-lifecycle-orchestration roadmap note"
 }
 
 require_yq() {
@@ -399,7 +399,7 @@ main() {
   for ((index=0; index<item_count; index++)); do
     validate_item "$index"
   done
-  validate_lifecycle_autopilot_roadmap_claims
+  validate_governed_lifecycle_orchestration_roadmap_claims
 
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then

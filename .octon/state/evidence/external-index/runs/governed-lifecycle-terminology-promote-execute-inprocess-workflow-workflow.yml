@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:f81667ee6d6545f4b5e04b406601b744ca0d52c5d1148409899c2fcc631a6d87
+  entry_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/replay/manifest.yml
+  recorded_at: 2026-05-23T23:28:46.979698Z
+  run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:3a1850cb41e42ecc29fc8a25ea54bef6b8697571b1310c722aa2563961d9a817
+  entry_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/replay/manifest.yml
+  recorded_at: 2026-05-23T23:28:46.979698Z
+  run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+  storage_class: external-immutable
+index_id: external-replay-governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-23T23:28:46.979698Z

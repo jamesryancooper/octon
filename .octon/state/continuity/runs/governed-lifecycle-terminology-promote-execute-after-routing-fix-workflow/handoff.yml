@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow
+status: running
+run_contract_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-routing-fix-workflow/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-05-23T23:15:07.948737Z

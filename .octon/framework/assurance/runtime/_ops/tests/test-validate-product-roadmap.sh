@@ -195,21 +195,21 @@ main() {
 
     root="$(new_fixture_repo lifecycle-roadmap-overclaim)"
     write_valid_roadmap "$root"
-    cat >"$root/.octon/framework/product/roadmap/lifecycle-autopilot.md" <<'MD'
-# Lifecycle Autopilot Roadmap
+    cat >"$root/.octon/framework/product/roadmap/governed-lifecycle-orchestration.md" <<'MD'
+# Governed Lifecycle Orchestration Roadmap
 
 The roadmap adds external workflow engines and Durable Objects support.
 MD
-    assert_failure "lifecycle-autopilot roadmap overstated support claim fails" "$root"
+    assert_failure "governed-lifecycle-orchestration roadmap overstated support claim fails" "$root"
 
     root="$(new_fixture_repo lifecycle-roadmap-remain-overclaim)"
     write_valid_roadmap "$root"
-    cat >"$root/.octon/framework/product/roadmap/lifecycle-autopilot.md" <<'MD'
-# Lifecycle Autopilot Roadmap
+    cat >"$root/.octon/framework/product/roadmap/governed-lifecycle-orchestration.md" <<'MD'
+# Governed Lifecycle Orchestration Roadmap
 
-Lifecycle Autopilot remains fully transactional across all program operations.
+Governed Lifecycle Orchestration remains fully transactional across all program operations.
 MD
-    assert_failure "lifecycle-autopilot roadmap remain overclaim fails" "$root"
+    assert_failure "governed-lifecycle-orchestration roadmap remain overclaim fails" "$root"
 
     if OCTON_ROOT_DIR="$REPO_ROOT" bash "$VALIDATOR" >/tmp/product-roadmap-real.out 2>&1; then
       pass "real product roadmap passes"

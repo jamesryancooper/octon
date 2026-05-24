@@ -3,10 +3,16 @@ use crate::lifecycle::{
     update_lifecycle_checkpoint_final_verdict, update_lifecycle_execution_summary,
     LifecycleExecutionStrategy, LifecycleRunResult, LifecycleStepBudget, RunLifecycleOptions,
 };
+use crate::pipeline::{self, RunPipelineOptions};
+use crate::workflow::ExecutorKind;
 use anyhow::{bail, Result};
 use octon_core::root::RootResolver;
-use octon_lifecycle_executor::{DefaultLifecycleRouteExecutor, LifecycleRouteExecutor};
-use std::collections::BTreeMap;
+use octon_lifecycle_executor::{
+    observer, DefaultLifecycleRouteExecutor, LifecycleErrorClass, LifecycleExecutionError,
+    LifecycleRouteExecutionRequest, LifecycleRouteExecutionResult, LifecycleRouteExecutor,
+};
+use std::collections::{BTreeMap, HashMap};
+use std::fs;
 use std::path::{Path, PathBuf};
 
 const DEFAULT_MAX_STEPS: u32 = 20;
@@ -22,7 +28,10 @@ pub(crate) fn run_lifecycle_execute_from_octon_dir(
         .unwrap_or_else(|| {
             RootResolver::resolve().unwrap_or_else(|_| Path::new(".octon").to_path_buf())
         });
-    let executor = DefaultLifecycleRouteExecutor::new(&repo_root);
+    let workflow_octon_dir = octon_dir.to_path_buf();
+    let executor = DefaultLifecycleRouteExecutor::new(&repo_root).with_workflow_runner(
+        move |_repo_root, request| execute_workflow_route_in_process(&workflow_octon_dir, request),
+    );
     let mut current_run_id = options.run_id.clone();
     let max_steps = options.max_steps.unwrap_or(DEFAULT_MAX_STEPS);
     let mut step_budget = LifecycleStepBudget::new(max_steps);
@@ -200,4 +209,201 @@ fn resolve_repo_path(repo_root: &Path, path: &Path) -> PathBuf {
     } else {
         repo_root.join(path)
     }
+}
+
+fn execute_workflow_route_in_process(
+    octon_dir: &Path,
+    request: &LifecycleRouteExecutionRequest,
+) -> std::result::Result<LifecycleRouteExecutionResult, LifecycleExecutionError> {
+    let started_at = now_rfc3339_lifecycle()?;
+    let before = observer::manifest_status(
+        &request.target,
+        &request.manifest_path,
+        &request.status_field,
+    )
+    .map_err(LifecycleExecutionError::from)?;
+    let retry_before_target_digest =
+        observer::target_digest(&request.target).map_err(LifecycleExecutionError::from)?;
+    let before_target_digest = request
+        .expected_target_change
+        .then(|| retry_before_target_digest.clone());
+    fs::create_dir_all(&request.evidence_root).map_err(LifecycleExecutionError::from)?;
+
+    let invocation_path = request.evidence_root.join(format!(
+        "{}-workflow-in-process-invocation.yml",
+        request.route.route_id
+    ));
+    let terminal_path = request.evidence_root.join(format!(
+        "{}-workflow-in-process-terminal.yml",
+        request.route.route_id
+    ));
+    let observation_path = request.evidence_root.join(format!(
+        "{}-completion-observation.yml",
+        request.route.route_id
+    ));
+    let workflow_run_id = format!("{}-workflow", request.run_id);
+    fs::write(
+        &invocation_path,
+        format!(
+            "schema_version: octon-lifecycle-workflow-in-process-invocation-v1\nrun_id: {}\nroute_id: {}\nworkflow_run_id: {}\nexecutor: {}\nstarted_at: {}\nbound_inputs:\n{}\n",
+            request.run_id,
+            request.route.route_id,
+            workflow_run_id,
+            request.executor,
+            started_at,
+            request
+                .bound_inputs
+                .iter()
+                .map(|(key, value)| format!("  {key}: {}", yaml_string(value)))
+                .collect::<Vec<_>>()
+                .join("\n")
+        ),
+    )
+    .map_err(LifecycleExecutionError::from)?;
+
+    let pipeline_result = pipeline::run_pipeline_from_octon_dir(
+        octon_dir,
+        RunPipelineOptions {
+            pipeline_id: request.route.route_id.clone(),
+            run_id: Some(workflow_run_id.clone()),
+            mission_id: None,
+            resume_existing: false,
+            executor: executor_kind_from_request(request.executor.as_str()),
+            executor_bin: None,
+            output_slug: None,
+            model: None,
+            prepare_only: false,
+            input_overrides: request
+                .bound_inputs
+                .iter()
+                .map(|(key, value)| (key.clone(), value.clone()))
+                .collect::<HashMap<_, _>>(),
+        },
+    );
+    let observation = observer::observe_completion(request, before.clone(), before_target_digest)
+        .map_err(LifecycleExecutionError::from)?;
+    fs::write(
+        &observation_path,
+        serde_yaml::to_string(&observation).map_err(LifecycleExecutionError::from)?,
+    )
+    .map_err(LifecycleExecutionError::from)?;
+    let retry_after_target_digest =
+        observer::target_digest(&request.target).map_err(LifecycleExecutionError::from)?;
+
+    let (status, error_class, error_message, workflow_bundle, workflow_summary, final_verdict) =
+        match pipeline_result {
+            Ok(result) if observation.completion_observed => (
+                "completed".to_string(),
+                None,
+                None,
+                Some(result.bundle_root),
+                Some(result.summary_report),
+                Some(result.final_verdict),
+            ),
+            Ok(result) => (
+                "failed".to_string(),
+                Some(LifecycleErrorClass::CompletionNotObserved),
+                Some("workflow completed but lifecycle completion was not observed".to_string()),
+                Some(result.bundle_root),
+                Some(result.summary_report),
+                Some(result.final_verdict),
+            ),
+            Err(error) => (
+                "failed".to_string(),
+                Some(LifecycleErrorClass::ExecutorFailed),
+                Some(error.to_string()),
+                None,
+                None,
+                None,
+            ),
+        };
+
+    let ended_at = now_rfc3339_lifecycle()?;
+    fs::write(
+        &terminal_path,
+        format!(
+            "schema_version: octon-lifecycle-workflow-in-process-terminal-v1\nrun_id: {}\nroute_id: {}\nworkflow_run_id: {}\nstatus: {}\nfinal_verdict: {}\nworkflow_bundle: {}\nworkflow_summary: {}\nended_at: {}\nerror_message: {}\n",
+            request.run_id,
+            request.route.route_id,
+            workflow_run_id,
+            status,
+            final_verdict.as_deref().unwrap_or("none"),
+            workflow_bundle
+                .as_ref()
+                .map(|path| path.display().to_string())
+                .unwrap_or_else(|| "none".to_string()),
+            workflow_summary
+                .as_ref()
+                .map(|path| path.display().to_string())
+                .unwrap_or_else(|| "none".to_string()),
+            ended_at,
+            error_message
+                .as_deref()
+                .map(yaml_string)
+                .unwrap_or_else(|| "null".to_string())
+        ),
+    )
+    .map_err(LifecycleExecutionError::from)?;
+
+    let retryable = matches!(
+        &error_class,
+        Some(LifecycleErrorClass::ExecutorFailed)
+            | Some(LifecycleErrorClass::ExecutorUnavailable)
+            | Some(LifecycleErrorClass::Timeout)
+    ) && before == observation.manifest_status_after
+        && retry_before_target_digest == retry_after_target_digest;
+    let mut evidence_paths = vec![invocation_path, terminal_path, observation_path];
+    if let Some(path) = workflow_bundle {
+        evidence_paths.push(path);
+    }
+    if let Some(path) = workflow_summary {
+        evidence_paths.push(path);
+    }
+
+    Ok(LifecycleRouteExecutionResult {
+        schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
+        run_id: request.run_id.clone(),
+        route_id: request.route.route_id.clone(),
+        phase_id: request.phase_id.clone(),
+        executor_used: "workflow-in-process".to_string(),
+        status: status.clone(),
+        started_at,
+        ended_at,
+        manifest_status_before: before,
+        manifest_status_after: observation.manifest_status_after,
+        receipts_observed: observation.receipts_observed,
+        evidence_paths,
+        stdout_path: None,
+        stderr_path: None,
+        prompt_packet_path: None,
+        retryable,
+        next_action: if status == "completed" {
+            "replan".to_string()
+        } else {
+            "manual-intervention".to_string()
+        },
+        error_class,
+        error_message,
+    })
+}
+
+fn executor_kind_from_request(raw: &str) -> ExecutorKind {
+    match raw {
+        "mock" => ExecutorKind::Mock,
+        "codex" => ExecutorKind::Codex,
+        "claude" => ExecutorKind::Claude,
+        _ => ExecutorKind::Auto,
+    }
+}
+
+fn now_rfc3339_lifecycle() -> std::result::Result<String, LifecycleExecutionError> {
+    time::OffsetDateTime::now_utc()
+        .format(&time::format_description::well_known::Rfc3339)
+        .map_err(|error| LifecycleExecutionError::new(LifecycleErrorClass::Io, error.to_string()))
+}
+
+fn yaml_string(value: &str) -> String {
+    serde_yaml::to_string(value)
+        .map(|value| value.trim().to_string())
+        .unwrap_or_else(|_| format!("{value:?}"))
 }

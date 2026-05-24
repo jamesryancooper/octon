@@ -92,7 +92,7 @@ child authority. It is evidence only.
 
 ## Controller Invariants
 
-Lifecycle Autopilot program runs are reviewed against the canonical controller
+Governed Lifecycle Orchestration program runs are reviewed against the canonical controller
 invariants in
 `.octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md`.
 Those invariants require parent/child authority separation, child-owned receipt

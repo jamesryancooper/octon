@@ -2464,6 +2464,13 @@ fn lifecycle_execution_request_for_route(
             );
         }
     }
+    if route.route_type == "workflow" {
+        for (name, value) in run_inputs {
+            bound_inputs
+                .entry(name.clone())
+                .or_insert_with(|| value.clone());
+        }
+    }
     let expected_receipts = route_spec
         .completion
         .as_ref()
@@ -3615,6 +3622,95 @@ routes:
                 .get("promotion_evidence")
                 .map(String::as_str),
             Some(".octon/state/evidence/example.md")
+        );
+    }
+
+    #[test]
+    fn workflow_lifecycle_request_binds_missing_required_workflow_inputs_from_run_inputs() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("workflow-run-input-fallback");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  proposal_path:
+    source: "lifecycle.target"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "promote" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "workflow"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: accepted\n");
+        let route = RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            "promotion_evidence".to_string(),
+            ".octon/framework/product/features/catalog.yml".to_string(),
+        );
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &run_inputs,
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("proposal_path")
+                .map(String::as_str),
+            Some("packet")
+        );
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(".octon/framework/product/features/catalog.yml")
         );
     }
 

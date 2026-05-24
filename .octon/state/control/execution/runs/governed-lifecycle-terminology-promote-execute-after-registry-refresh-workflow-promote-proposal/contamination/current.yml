@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-05-23T23:41:00.194945Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-after-registry-refresh-workflow-promote-proposal/checkpoints/bound.yml

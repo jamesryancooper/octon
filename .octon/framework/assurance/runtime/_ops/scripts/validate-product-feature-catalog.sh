@@ -160,23 +160,23 @@ validate_required_support_phrase() {
   fi
 }
 
-validate_lifecycle_autopilot_support_claims() {
-  local doc="$OCTON_DIR/framework/product/features/lifecycle-autopilot.md"
-  if ! yq -e '.features[]? | select(.feature_id == "lifecycle-autopilot")' "$CATALOG_PATH" >/dev/null 2>&1; then
+validate_governed_lifecycle_orchestration_support_claims() {
+  local doc="$OCTON_DIR/framework/product/features/governed-lifecycle-orchestration.md"
+  if ! yq -e '.features[]? | select(.feature_id == "governed-lifecycle-orchestration")' "$CATALOG_PATH" >/dev/null 2>&1; then
     return
   fi
 
   if [[ ! -f "$doc" ]]; then
-    fail "lifecycle-autopilot feature note missing for support-claim validation"
+    fail "governed-lifecycle-orchestration feature note missing for support-claim validation"
     return
   fi
 
-  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "not universal transactionality"
-  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "does not create the Governed Workflow Runtime transition"
-  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "generated effective projections"
-  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "proposal-local receipts remain evidence only"
-  validate_required_support_phrase "$doc" "lifecycle-autopilot feature note" "never self-approve"
-  validate_no_unqualified_support_claims "$doc" "lifecycle-autopilot feature note"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration feature note" "not universal transactionality"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration feature note" "does not create the Governed Workflow Runtime transition"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration feature note" "generated effective projections"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration feature note" "proposal-local receipts remain evidence only"
+  validate_required_support_phrase "$doc" "governed-lifecycle-orchestration feature note" "never self-approve"
+  validate_no_unqualified_support_claims "$doc" "governed-lifecycle-orchestration feature note"
 }
 
 require_yq() {
@@ -374,7 +374,7 @@ main() {
   for ((index=0; index<feature_count; index++)); do
     validate_feature "$index"
   done
-  validate_lifecycle_autopilot_support_claims
+  validate_governed_lifecycle_orchestration_support_claims
 
   echo "Validation summary: errors=$errors"
   if [[ "$errors" -gt 0 ]]; then

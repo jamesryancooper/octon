@@ -7,7 +7,7 @@ mod errors;
 mod generated;
 mod input_binding;
 mod mock;
-mod observer;
+pub mod observer;
 mod prompt_bundle;
 mod request;
 mod result;

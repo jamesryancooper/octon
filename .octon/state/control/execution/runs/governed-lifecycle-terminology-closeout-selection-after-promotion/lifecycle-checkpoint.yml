@@ -1,0 +1,24 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: governed-lifecycle-terminology-closeout-selection-after-promotion
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology
+current_state: closeout-packet
+current_phase: closeout-and-hygiene
+completed_states: []
+last_route: closeout-packet
+loop_counts: {}
+phase_counts:
+  closeout-and-hygiene: 1
+last_phase_transition: phase-entered:closeout-and-hygiene
+phase_blockers: {}
+receipt_digests:
+  proposal-review: sha256:aab6b9ba9ba1f05ee974cc8b793213ed25ad6a21b1886d61ebc315b9195dc9dd
+last_validator_results: []
+run_inputs: {}
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: route-ready
+resume_instruction: octon lifecycle resume --run-id governed-lifecycle-terminology-closeout-selection-after-promotion
