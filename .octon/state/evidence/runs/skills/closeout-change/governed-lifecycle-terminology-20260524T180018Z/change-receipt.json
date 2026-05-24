@@ -1,0 +1,91 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "governed-lifecycle-terminology",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Continue the governed-lifecycle-terminology Change closeout through the existing branch-no-pr route, attempting hosted no-PR landing and cleanup only when fresh governed evidence permits it.",
+  "scope": {
+    "summary": "Closeout continuation for the governed lifecycle terminology update. The branch remains published, exact source-SHA hosted checks pass, but hosted no-PR landing is blocked because origin/main advanced and is not an ancestor of the source ref.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs",
+      ".octon/framework/product/features/governed-lifecycle-orchestration.md",
+      ".octon/framework/product/roadmap/governed-lifecycle-orchestration.md",
+      ".octon/inputs/exploratory/proposals/architecture/governed-lifecycle-terminology",
+      ".octon/generated/effective",
+      ".octon/state/control",
+      ".octon/state/evidence/validation"
+    ],
+    "diff_refs": [
+      "9c975577d8a9e32824e99af85b3b6bfea3f3db46..33b572b2251fde41ccb1bdd5b1d08e550ba6392f"
+    ]
+  },
+  "source_branch_ref": "chore/governed-lifecycle-terminology",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/governed-lifecycle-terminology@33b572b2251fde41ccb1bdd5b1d08e550ba6392f",
+  "landing_evaluation": {
+    "status": "blocked",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "33b572b2251fde41ccb1bdd5b1d08e550ba6392f",
+    "target_ref": "ea3fea82321378056fecb034170f8c46620b329e",
+    "blocker_reason": "Hosted no-PR preflight failed because origin/main is not an ancestor of the source ref. Landing authorization was not emitted and origin/main was not mutated.",
+    "evidence_refs": [
+      "git fetch origin -> origin/main ea3fea82321378056fecb034170f8c46620b329e",
+      "bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-hosted-preflight.sh --target main --remote origin --receipt .octon/state/evidence/runs/skills/closeout-change/governed-lifecycle-terminology-20260524T134115Z/change-receipt.json --require-check route_neutral_closeout_validation --require-check branch_naming_validation --require-check route_aware_autonomy_validation --require-check exact_source_sha_validation -> blocked: source branch stale",
+      "bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh --ref 33b572b2251fde41ccb1bdd5b1d08e550ba6392f --remote origin --require-check route_neutral_closeout_validation --require-check branch_naming_validation --require-check route_aware_autonomy_validation --require-check exact_source_sha_validation -> passed"
+    ]
+  },
+  "not_landed_reason": "Hosted no-PR landing cannot proceed because the source branch is stale against origin/main. The required exact source-SHA checks pass, but the fast-forward precondition fails before governed landing authorization.",
+  "not_cleaned_reason": "The branch is not landed, so containment and branch cleanup authorization cannot be proven. Retained evidence residue also remains manual-review residue with no repo-hygiene cleanup candidates.",
+  "landing_stop_reason": "source_branch_stale",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/governed-lifecycle-terminology",
+    "remote_branch": "origin/chore/governed-lifecycle-terminology",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Source branch cleanup requires origin/main containment and branch-cleanup-authorization-v1; neither can be issued until hosted landing succeeds.",
+    "evidence_refs": [
+      "git merge-base --is-ancestor HEAD origin/main -> false",
+      "git merge-base --is-ancestor origin/main HEAD -> false"
+    ]
+  },
+  "external_blocker_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/archive-proposal-packet-phase-loop-model-20260523T210201Z"
+  ],
+  "validation_evidence_refs": [
+    "gh api repos/jamesryancooper/octon/rules/branches/main -> no pull_request rule; required_status_checks contexts route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, exact_source_sha_validation",
+    "gh api repos/jamesryancooper/octon/commits/33b572b2251fde41ccb1bdd5b1d08e550ba6392f/check-runs -> required hosted checks successful",
+    "bash .octon/framework/execution-roles/_ops/scripts/git/git-required-checks-at-ref.sh --ref 33b572b2251fde41ccb1bdd5b1d08e550ba6392f --remote origin --require-check route_neutral_closeout_validation --require-check branch_naming_validation --require-check route_aware_autonomy_validation --require-check exact_source_sha_validation",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only before writing this receipt -> cleanup_candidates 0, manual_review 4",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only after writing this receipt -> cleanup_candidates 0, manual_review 6"
+  ],
+  "durable_history": {
+    "kind": "branch",
+    "ref": "origin/chore/governed-lifecycle-terminology",
+    "branch": "chore/governed-lifecycle-terminology"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "origin/chore/governed-lifecycle-terminology",
+    "instructions": "Do not delete until no downstream user depends on the branch. If rollback is needed before landing, leave origin/main unchanged and discard the source branch only through governed cleanup authorization."
+  },
+  "closeout_outcome": "blocked",
+  "remaining_blockers": [
+    "origin/main is not an ancestor of source ref 33b572b2251fde41ccb1bdd5b1d08e550ba6392f, so hosted no-PR preflight fails as source_branch_stale.",
+    "Governed landing authorization was not emitted because preflight failed.",
+    "origin/main was not mutated.",
+    "Branch cleanup authorization cannot be emitted until landing and containment are proven.",
+    "Repo hygiene classification found no cleanup candidates and six manual-review retained-evidence files after writing this closeout evidence."
+  ],
+  "created_at": "2026-05-24T18:00:18Z",
+  "updated_at": "2026-05-24T18:00:18Z"
+}
