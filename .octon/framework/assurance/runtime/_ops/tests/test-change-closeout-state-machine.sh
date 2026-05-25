@@ -38,8 +38,41 @@ run_validator() {
   bash "$VALIDATOR" --receipt "$1" >/dev/null
 }
 
+write_state_machine_fixture() {
+  local file
+  file="$(mktemp)"
+  CLEANUP_FILES+=("$file")
+  cp "$ROOT_DIR/.octon/framework/product/contracts/change-closeout-state-machine.yml" "$file"
+  printf '%s\n' "$file"
+}
+
+run_static_validator_with_state_machine() {
+  CHANGE_CLOSEOUT_STATE_MACHINE_YML="$1" bash "$VALIDATOR" >/dev/null
+}
+
 case_live_repo_passes() {
   bash "$VALIDATOR" >/dev/null
+}
+
+case_extension_lifecycle_contract_schema_fails() {
+  local contract
+  contract="$(write_state_machine_fixture)"
+  yq -i '.schema_version = "octon-extension-lifecycle-contract-v2" | .lifecycle_id = "change-closeout"' "$contract"
+  ! run_static_validator_with_state_machine "$contract"
+}
+
+case_generic_phase_loop_fails() {
+  local contract
+  contract="$(write_state_machine_fixture)"
+  yq -i '.phase_loop = {"model_version": "phase-loop-v1", "phases": []}' "$contract"
+  ! run_static_validator_with_state_machine "$contract"
+}
+
+case_route_authority_drift_fails() {
+  local contract
+  contract="$(write_state_machine_fixture)"
+  yq -i '.relationship_to_default_work_unit.route_authority = ".octon/framework/product/contracts/change-closeout-state-machine.yml"' "$contract"
+  ! run_static_validator_with_state_machine "$contract"
 }
 
 case_classifier_is_read_only() {
@@ -244,6 +277,9 @@ JSON
 
 main() {
   assert_success "state-machine validator passes live repo" case_live_repo_passes
+  assert_success "extension lifecycle contract schema fails for Change closeout" case_extension_lifecycle_contract_schema_fails
+  assert_success "generic phase_loop fails for Change closeout" case_generic_phase_loop_fails
+  assert_success "route authority drift fails for Change closeout" case_route_authority_drift_fails
   assert_success "residue classifier is read-only" case_classifier_is_read_only
   assert_success "closeout-worktree wrapper exists and decomposes singular changes" case_closeout_worktree_wrapper_exists
   assert_success "unspecified closeout target defaults to cleaned" case_unspecified_closeout_defaults_to_cleaned

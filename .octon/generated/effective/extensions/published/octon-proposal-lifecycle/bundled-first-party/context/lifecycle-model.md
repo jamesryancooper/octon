@@ -106,6 +106,13 @@ receipts, gates, validators, loops, and terminal outcomes:
 12. `archival`
 13. `terminal-explanation-reporting`
 
+`closeout-and-hygiene` is a proposal-owned handoff and evidence phase only.
+It may record proposal closeout evidence and non-authorizing lifecycle
+interaction requests, but it never owns Git or worktree cleanup, branch
+cleanup, hosted landing, Change receipt completion, or repo-hygiene deletion.
+Those authorities remain with the target lifecycle, Change closeout,
+repo-hygiene cleanup, or the relevant archival route.
+
 The substrate validates phase references, finite phase and route-dispatch
 bounds, backward transitions, terminal phases, and status separation. At
 runtime the runner reports `current_phase`, phase counts, phase blockers, and

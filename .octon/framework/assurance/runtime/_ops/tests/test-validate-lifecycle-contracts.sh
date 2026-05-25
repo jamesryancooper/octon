@@ -202,6 +202,31 @@ add_valid_phase_loop() {
   ' "$contract"
 }
 
+add_fixture_route() {
+  local root="$1" route_id="$2" contract routing_contract
+  contract="$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  routing_contract="$root/.octon/inputs/additive/extensions/test-extension/context/routing.contract.yml"
+  yq -i ".routes += [(.routes[0] | .route_id = \"$route_id\")]" "$contract"
+  yq -i ".dispatchers[0].routes += [{\"route_id\": \"$route_id\"}]" "$routing_contract"
+}
+
+add_valid_proposal_packet_boundary_fixture() {
+  local root="$1" contract
+  contract="$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  add_valid_phase_loop "$root"
+  add_fixture_route "$root" "closeout-packet"
+  yq -i '
+    .lifecycle_id = "proposal-packet" |
+    .phase_loop.phases[0].phase_id = "closeout-and-hygiene" |
+    .phase_loop.phases[0].route_refs = ["closeout-packet"] |
+    .phase_loop.phases[0].receipt_refs = ["test-review"] |
+    .phase_loop.phases[0].exit_evidence_refs = ["test-review"] |
+    .phase_loop.phases[0].backward_transitions = [] |
+    .phase_loop.phases[1].phase_id = "terminal-explanation-reporting" |
+    .phase_loop.phases[1].backward_transitions = []
+  ' "$contract"
+}
+
 write_valid_program_contract() {
   local root="$1"
   cat >"$root/.octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml" <<'YAML'
@@ -467,6 +492,55 @@ main() {
   write_valid_contract "$root"
   add_valid_phase_loop "$root"
   assert_success "valid v2 phase-loop lifecycle contract passes" "$root"
+
+  root="$(new_fixture_repo valid-proposal-packet-boundary)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  assert_success "valid proposal-packet boundary contract passes" "$root"
+
+  root="$(new_fixture_repo invalid-proposal-target-lifecycle-outcome)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  yq -i '.target_lifecycle_outcome = "cleaned"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "proposal-packet target_lifecycle_outcome fails" "$root"
+
+  root="$(new_fixture_repo invalid-proposal-stateful-closeout)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  yq -i '.stateful_closeout = {}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "proposal-packet stateful_closeout fails" "$root"
+
+  root="$(new_fixture_repo invalid-proposal-hosted-landing-authorization)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  yq -i '.landing_authorization_ref = "evidence://landing"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "proposal-packet hosted landing authorization fails" "$root"
+
+  root="$(new_fixture_repo invalid-proposal-branch-cleanup-authorization)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  yq -i '.policy_refs.branch_cleanup_authorization_schema_ref = ".octon/framework/product/contracts/branch-cleanup-authorization-v1.schema.json"' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "proposal-packet branch cleanup authorization fails" "$root"
+
+  root="$(new_fixture_repo invalid-proposal-cleanup-authority-route)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  add_fixture_route "$root" "repo-hygiene-cleanup"
+  assert_failure "proposal-packet cleanup authority route fails" "$root"
+
+  root="$(new_fixture_repo invalid-proposal-closeout-route-ref)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  add_valid_proposal_packet_boundary_fixture "$root"
+  add_fixture_route "$root" "closeout-change"
+  yq -i '(.phase_loop.phases[] | select(.phase_id == "closeout-and-hygiene") | .route_refs) = ["closeout-change"]' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "proposal-packet closeout-and-hygiene route drift fails" "$root"
 
   root="$(new_fixture_repo invalid-v2-missing-phase-loop)"
   write_fixture_support "$root"

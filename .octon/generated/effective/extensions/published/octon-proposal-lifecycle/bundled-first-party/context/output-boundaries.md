@@ -25,7 +25,11 @@ support/
 ```
 
 `resources/**` preserves source lineage. `support/**` preserves operational
-aids. Neither location becomes authority.
+aids and evidence pointers. Neither location becomes authority.
+Packet-local `support/**` files cannot satisfy Change closeout, cleanup,
+landing, branch cleanup, Change receipt, or repo-hygiene authority. They may
+point to target-owned receipts, but the target lifecycle must validate and own
+those receipts independently.
 
 Packet directories should be directly usable as structured Markdown proposal
 packages. Do not create zip files, downloadable build products, or other

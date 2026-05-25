@@ -125,6 +125,14 @@ requests so operators can see dependency context. The Lifecycle Executor
 Adapter receives those refs as non-authorizing context and must still enforce
 the selected route's delegation contract and required receipts.
 
+Closeout-facing interactions follow the same boundary. A proposal lifecycle
+request to Change closeout, closeout-worktree, or repo-hygiene cleanup is
+advisory context only; target lifecycle ownership remains with the target
+lifecycle. Proposal phases, proposal-local receipts, generated projections,
+host state, and lifecycle events do not grant route selection, hosted landing,
+branch cleanup, cleanup deletion, receipt completion, or evidence-gate
+authority.
+
 `handoff` is one interaction profile within this receipt model. It is not the
 whole abstraction. Source lifecycles cannot claim that an interaction
 dependency is resolved until a valid `lifecycle-interaction-return-v1` receipt

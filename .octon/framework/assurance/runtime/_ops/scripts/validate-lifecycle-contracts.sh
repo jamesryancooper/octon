@@ -1215,6 +1215,109 @@ validate_phase_loop() {
   done
 }
 
+validate_no_yaml_path_leaf() {
+  local contract="$1" leaf="$2" label="$3"
+  local matches rendered
+
+  matches="$(yq -r ".. | select((path | length) > 0 and (path | .[-1]) == \"$leaf\") | path | join(\".\")" "$contract" 2>/dev/null || true)"
+  if [[ -z "$matches" ]]; then
+    pass "$label absent"
+  else
+    rendered="$(printf '%s\n' "$matches" | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+    fail "$label must not be declared: $rendered"
+  fi
+}
+
+validate_no_yaml_string_exact() {
+  local contract="$1" value="$2" label="$3"
+  local matches rendered
+
+  matches="$(yq -r ".. | select(tag == \"!!str\" and . == \"$value\") | path | join(\".\")" "$contract" 2>/dev/null || true)"
+  if [[ -z "$matches" ]]; then
+    pass "$label string absent"
+  else
+    rendered="$(printf '%s\n' "$matches" | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+    fail "$label string must not be declared: $rendered"
+  fi
+}
+
+validate_no_yaml_string_contains() {
+  local contract="$1" needle="$2" label="$3"
+  local matches rendered
+
+  matches="$(yq -r ".. | select(tag == \"!!str\" and contains(\"$needle\")) | path | join(\".\")" "$contract" 2>/dev/null || true)"
+  if [[ -z "$matches" ]]; then
+    pass "$label reference absent"
+  else
+    rendered="$(printf '%s\n' "$matches" | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+    fail "$label reference must not be declared: $rendered"
+  fi
+}
+
+validate_proposal_packet_boundary() {
+  local contract="$1" lifecycle_id="$2" schema_version="$3"
+  local model_version leaf value needle phase_count route_count route_refs cleanup_route_matches rendered
+
+  [[ "$lifecycle_id" == "proposal-packet" ]] || return 0
+
+  [[ "$schema_version" == "octon-extension-lifecycle-contract-v2" ]] \
+    && pass "proposal-packet lifecycle contract remains v2" \
+    || fail "proposal-packet lifecycle contract must remain octon-extension-lifecycle-contract-v2"
+
+  model_version="$(yq -r '.phase_loop.model_version // ""' "$contract" 2>/dev/null || true)"
+  [[ "$model_version" == "phase-loop-v1" ]] \
+    && pass "proposal-packet phase_loop model remains phase-loop-v1" \
+    || fail "proposal-packet phase_loop.model_version must remain phase-loop-v1"
+
+  for leaf in \
+    target_lifecycle_outcome \
+    stateful_closeout \
+    landing_authorization_ref \
+    branch_landing_authorization_schema_ref \
+    branch_landing_authorization_ref \
+    branch_cleanup_authorization_schema_ref \
+    branch_cleanup_authorization_ref \
+    cleanup_authority \
+    cleanup_authority_route \
+    cleanup_authority_routes \
+    hosted_landing_authorization \
+    branch_landing_authorization \
+    branch_cleanup_authorization
+  do
+    validate_no_yaml_path_leaf "$contract" "$leaf" "proposal-packet forbidden authority field $leaf"
+  done
+
+  for value in target_lifecycle_outcome stateful_closeout landing_authorization_ref; do
+    validate_no_yaml_string_exact "$contract" "$value" "proposal-packet forbidden authority token $value"
+  done
+
+  for needle in branch-landing-authorization-v1 branch-cleanup-authorization-v1; do
+    validate_no_yaml_string_contains "$contract" "$needle" "proposal-packet forbidden authorization schema $needle"
+  done
+
+  cleanup_route_matches="$(yq -r '.routes[]? | select(.route_id == "closeout-change" or .route_id == "closeout-worktree" or .route_id == "repo-hygiene-cleanup") | .route_id' "$contract" 2>/dev/null || true)"
+  if [[ -z "$cleanup_route_matches" ]]; then
+    pass "proposal-packet does not declare cleanup authority routes"
+  else
+    rendered="$(printf '%s\n' "$cleanup_route_matches" | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+    fail "proposal-packet routes must not declare cleanup authority routes: $rendered"
+  fi
+
+  phase_count="$(yq -r '[.phase_loop.phases[]? | select(.phase_id == "closeout-and-hygiene")] | length' "$contract" 2>/dev/null || echo 0)"
+  [[ "$phase_count" == "1" ]] \
+    && pass "proposal-packet declares exactly one closeout-and-hygiene phase" \
+    || fail "proposal-packet must declare exactly one closeout-and-hygiene phase"
+
+  route_count="$(yq -r '[.phase_loop.phases[]? | select(.phase_id == "closeout-and-hygiene") | .route_refs[]?] | length' "$contract" 2>/dev/null || echo 0)"
+  route_refs="$(yq -r '.phase_loop.phases[]? | select(.phase_id == "closeout-and-hygiene") | .route_refs[]? // ""' "$contract" 2>/dev/null | awk 'NF' || true)"
+  if [[ "$route_count" == "1" && "$route_refs" == "closeout-packet" ]]; then
+    pass "proposal-packet closeout-and-hygiene remains proposal-owned route closeout-packet"
+  else
+    rendered="$(printf '%s\n' "$route_refs" | tr '\n' ' ' | sed 's/[[:space:]]*$//')"
+    fail "proposal-packet closeout-and-hygiene.route_refs must be exactly closeout-packet: $rendered"
+  fi
+}
+
 validate_contract() {
   local contract="$1" rel pack_id owner lifecycle_id routing_contract command_manifest skill_manifest skill_registry workflows_manifest
   local route_ids contract_route_ids command_ids skill_ids prompt_set_ids workflow_ids validator_ids gate_ids receipt_ids input_binding_ids
@@ -1563,6 +1666,8 @@ validate_contract() {
   else
     pass "v1 phase_loop absent: $lifecycle_id"
   fi
+
+  validate_proposal_packet_boundary "$contract" "$lifecycle_id" "$schema_version"
 }
 
 main() {

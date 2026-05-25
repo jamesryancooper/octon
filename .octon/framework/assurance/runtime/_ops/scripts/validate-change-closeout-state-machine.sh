@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
-STATE_MACHINE_YML="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.yml"
+STATE_MACHINE_YML="${CHANGE_CLOSEOUT_STATE_MACHINE_YML:-$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.yml}"
 STATE_MACHINE_MD="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.md"
 DEFAULT_WORK_UNIT_YML="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 DEFAULT_WORK_UNIT_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
@@ -98,7 +98,10 @@ validate_static() {
   done
 
   require_yq "$STATE_MACHINE_YML" '.schema_version == "change-closeout-state-machine-v1"' "state machine schema version is v1" "state machine schema version must be v1"
+  require_yq "$STATE_MACHINE_YML" '.schema_version != "octon-extension-lifecycle-contract-v2"' "state machine is not an extension lifecycle contract" "state machine must not be declared as an extension lifecycle contract"
   require_yq "$STATE_MACHINE_YML" '.state_machine_id == "change-closeout-state-machine"' "state machine id is stable" "state machine id must be stable"
+  require_yq "$STATE_MACHINE_YML" 'has("lifecycle_id") | not' "state machine does not declare lifecycle_id" "state machine must not declare lifecycle_id"
+  require_yq "$STATE_MACHINE_YML" 'has("phase_loop") | not' "state machine does not declare generic phase_loop" "state machine must not be expressed as generic phase_loop"
   require_yq "$STATE_MACHINE_YML" '.default_work_unit == "change"' "state machine binds to Change" "state machine must bind to Change"
   require_yq "$STATE_MACHINE_YML" '.relationship_to_default_work_unit.route_authority == ".octon/framework/product/contracts/default-work-unit.yml"' "state machine preserves default-work-unit route authority" "state machine must preserve default-work-unit route authority"
   require_yq "$STATE_MACHINE_YML" '.policy_refs.closeout_worktree_wrapper_ref == ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md"' "state machine references closeout-worktree wrapper" "state machine must reference closeout-worktree wrapper"
