@@ -1,12 +1,12 @@
 schema_version: "octon-extension-effective-catalog-v7"
 generator_version: "extension-publication-v6"
 generation_id: "extensions-e539e7c8b239"
-published_at: "2026-05-24T20:09:59Z"
+published_at: "2026-05-25T00:25:21Z"
 publication_status: "published"
-publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-05-24T20-09-59Z-extensions-e539e7c8b239.yml"
+publication_receipt_path: ".octon/state/evidence/validation/publication/extensions/2026-05-25T00-25-21Z-extensions-e539e7c8b239.yml"
 compatibility_status: "compatible"
-compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-05-24T20-09-59Z-extensions-e539e7c8b239.yml"
-compatibility_receipt_sha256: "e85773d0121746df5b5795c5a64e0d83fb66502f911de6ac88db423b1d0b3f29"
+compatibility_receipt_path: ".octon/state/evidence/validation/compatibility/extensions/2026-05-25T00-25-21Z-extensions-e539e7c8b239.yml"
+compatibility_receipt_sha256: "37c97bd4cf37b6b8177b6e8a929a38157c5dcc16f3f7b4bf043ca20cd1913f6c"
 invalidation_conditions:
   - "desired-config-sha-changed"
   - "root-manifest-sha-changed"
@@ -633,13 +633,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-source-to-architecture-packet"
           display_name: "Source To Architecture Packet"
           summary: "Turn one source artifact into a verified architecture proposal packet."
@@ -655,13 +652,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-architecture-revision-packet"
           display_name: "Architecture Revision Packet"
           summary: "Turn one source artifact into an architecture revision proposal packet."
@@ -677,13 +671,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-constitutional-challenge-packet"
           display_name: "Constitutional Challenge Packet"
           summary: "Turn a source artifact, packet, or conflict map into a governed constitutional challenge packet."
@@ -699,13 +690,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-source-to-policy-packet"
           display_name: "Source To Policy Packet"
           summary: "Turn one source artifact into a verified policy proposal packet."
@@ -721,13 +709,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-source-to-migration-packet"
           display_name: "Source To Migration Packet"
           summary: "Turn one source artifact into a verified migration proposal packet."
@@ -743,13 +728,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-multi-source-synthesis-packet"
           display_name: "Multi-Source Synthesis Packet"
           summary: "Synthesize multiple source artifacts into one verified architecture proposal packet."
@@ -765,13 +747,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-packet-refresh-and-supersession"
           display_name: "Packet Refresh And Supersession"
           summary: "Refresh or supersede an existing proposal packet against the live repo."
@@ -787,13 +766,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-packet-to-implementation"
           display_name: "Packet To Implementation"
           summary: "Execute an existing proposal packet in the live repository."
@@ -809,13 +785,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-subsystem-targeted-integration"
           display_name: "Subsystem Targeted Integration"
           summary: "Turn one source artifact plus a subsystem scope into a verified architecture packet."
@@ -831,13 +804,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-repo-internal-concept-mining"
           display_name: "Repo Internal Concept Mining"
           summary: "Mine repo-native artifacts into a verified architecture proposal packet."
@@ -853,13 +823,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
       skills:
         - capability_id: "octon-concept-integration"
           display_name: "Octon Concept Integration"
@@ -875,13 +842,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-source-to-architecture-packet"
           display_name: "Source To Architecture Packet"
           summary: "Run the source-to-architecture-packet bundle."
@@ -896,13 +860,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-architecture-revision-packet"
           display_name: "Architecture Revision Packet"
           summary: "Run the architecture-revision-packet bundle."
@@ -917,13 +878,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-constitutional-challenge-packet"
           display_name: "Constitutional Challenge Packet"
           summary: "Run the constitutional-challenge-packet bundle."
@@ -938,13 +896,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-source-to-policy-packet"
           display_name: "Source To Policy Packet"
           summary: "Run the source-to-policy-packet bundle."
@@ -959,13 +914,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-source-to-migration-packet"
           display_name: "Source To Migration Packet"
           summary: "Run the source-to-migration-packet bundle."
@@ -980,13 +932,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-multi-source-synthesis-packet"
           display_name: "Multi-Source Synthesis Packet"
           summary: "Run the multi-source-synthesis-packet bundle."
@@ -1001,13 +950,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-packet-refresh-and-supersession"
           display_name: "Packet Refresh And Supersession"
           summary: "Run the packet-refresh-and-supersession bundle."
@@ -1022,13 +968,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-packet-to-implementation"
           display_name: "Packet To Implementation"
           summary: "Run the packet-to-implementation bundle."
@@ -1043,13 +986,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-subsystem-targeted-integration"
           display_name: "Subsystem Targeted Integration"
           summary: "Run the subsystem-targeted-integration bundle."
@@ -1064,13 +1004,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-concept-integration-repo-internal-concept-mining"
           display_name: "Repo Internal Concept Mining"
           summary: "Run the repo-internal-concept-mining bundle."
@@ -1085,13 +1022,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
     prompt_bundles:
       - prompt_set_id: "octon-concept-integration-architecture-revision-packet"
         schema_version: "octon-extension-prompt-set-v1"
@@ -2605,13 +2539,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-adr-update"
           display_name: "ADR Update Draft"
           summary: "Draft a non-authoritative ADR update or ADR patch suggestion from a diff plus retained evidence."
@@ -2627,13 +2558,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-migration-rationale"
           display_name: "Migration Rationale Draft"
           summary: "Draft a migration rationale section from a diff plus retained evidence and migration context."
@@ -2649,13 +2577,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-rollback-notes"
           display_name: "Rollback Notes Draft"
           summary: "Draft rollback notes from a diff plus rollback posture and retained execution evidence."
@@ -2671,13 +2596,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-change-receipt"
           display_name: "Change Receipt Draft"
           summary: "Draft a non-authoritative change receipt that cites existing retained receipts rather than creating new canonical receipt surfaces."
@@ -2693,13 +2615,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
       skills:
         - capability_id: "octon-decision-drafter"
           display_name: "Octon Decision Drafter"
@@ -2715,13 +2634,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-adr-update"
           display_name: "ADR Update Draft"
           summary: "Run the adr-update bundle."
@@ -2736,13 +2652,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-migration-rationale"
           display_name: "Migration Rationale Draft"
           summary: "Run the migration-rationale bundle."
@@ -2757,13 +2670,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-rollback-notes"
           display_name: "Rollback Notes Draft"
           summary: "Run the rollback-notes bundle."
@@ -2778,13 +2688,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-decision-drafter-change-receipt"
           display_name: "Change Receipt Draft"
           summary: "Run the change-receipt bundle."
@@ -2799,13 +2706,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
     prompt_bundles:
       - prompt_set_id: "octon-decision-drafter-adr-update"
         schema_version: "octon-extension-prompt-set-v1"
@@ -3248,13 +3152,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
       skills:
         - capability_id: "octon-drift-triage"
           display_name: "Octon Drift Triage"
@@ -3270,13 +3171,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
     prompt_bundles:
       - prompt_set_id: "octon-drift-triage-remediation-packet"
         schema_version: "octon-extension-prompt-set-v1"
@@ -3630,13 +3528,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-touched-paths"
           display_name: "Touched Paths Impact Map"
           summary: "Turn touched repo paths into an impact map, minimum credible validation set, and next-step routing."
@@ -3652,13 +3547,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-proposal-packet"
           display_name: "Proposal Packet Impact Map"
           summary: "Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing."
@@ -3674,13 +3566,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-refactor-target"
           display_name: "Refactor Target Impact Map"
           summary: "Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing."
@@ -3696,13 +3585,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-mixed-inputs"
           display_name: "Mixed Input Impact Map"
           summary: "Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor."
@@ -3718,13 +3604,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
       skills:
         - capability_id: "octon-impact-map-and-validation-selector"
           display_name: "Octon Impact Map And Validation Selector"
@@ -3740,13 +3623,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-touched-paths"
           display_name: "Touched Paths Impact Map"
           summary: "Turn touched repo paths into an impact map, validation floor, and next-step routing."
@@ -3761,13 +3641,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-proposal-packet"
           display_name: "Proposal Packet Impact Map"
           summary: "Turn one proposal packet into an impact map, packet-kind validation floor, and next-step routing."
@@ -3782,13 +3659,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-refactor-target"
           display_name: "Refactor Target Impact Map"
           summary: "Turn a rename, move, or restructure target into an impact map, validation floor, and next-step routing."
@@ -3803,13 +3677,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-impact-map-and-validation-selector-mixed-inputs"
           display_name: "Mixed Input Impact Map"
           summary: "Reconcile touched paths with proposal or refactor intent, surface drift, and select the minimum credible validation floor."
@@ -3824,13 +3695,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
     prompt_bundles:
       - prompt_set_id: "octon-impact-map-and-validation-selector-mixed-input-reconciliation"
         schema_version: "octon-extension-prompt-set-v1"
@@ -5513,13 +5381,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-create-packet"
           display_name: "Octon Proposal Lifecycle: Create Packet"
           summary: "Create a manifest-governed proposal packet from source context."
@@ -5535,13 +5400,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-explain-packet"
           display_name: "Octon Proposal Lifecycle: Explain Packet"
           summary: "Explain a proposal packet without widening its scope or authority."
@@ -5557,13 +5419,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-review-packet"
           display_name: "Octon Proposal Lifecycle: Review Packet"
           summary: "Review a proposal packet and record the review verdict receipt."
@@ -5579,13 +5438,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-revise-packet"
           display_name: "Octon Proposal Lifecycle: Revise Packet"
           summary: "Apply packet-local revisions for review findings and record the revision receipt."
@@ -5601,13 +5457,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-packet-implementation-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Implementation Prompt"
           summary: "Generate a packet-specific executable implementation prompt."
@@ -5623,13 +5476,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-run-packet-implementation"
           display_name: "Octon Proposal Lifecycle: Run Packet Implementation"
           summary: "Run implementation for one proposal packet from its executable implementation prompt."
@@ -5645,13 +5495,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-packet-verification-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Verification Prompt"
           summary: "Generate a packet-specific follow-up verification prompt."
@@ -5667,13 +5514,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-packet-correction-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Correction Prompt"
           summary: "Generate a targeted correction prompt from one unresolved finding."
@@ -5689,13 +5533,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-run-packet-verification-and-correction-loop"
           display_name: "Octon Proposal Lifecycle: Run Packet Verification And Correction Loop"
           summary: "Run packet verification and correction to a declared terminal state."
@@ -5711,13 +5552,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-packet-closeout-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Closeout Prompt"
           summary: "Generate a packet-specific closeout prompt."
@@ -5733,13 +5571,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-closeout-packet"
           display_name: "Octon Proposal Lifecycle: Closeout Packet"
           summary: "Execute gated closeout for one proposal packet."
@@ -5755,13 +5590,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-run-packet-lifecycle"
           display_name: "Octon Proposal Lifecycle: Run Packet Lifecycle"
           summary: "Run generic lifecycle orchestration for one proposal packet and emit route handoff evidence."
@@ -5777,13 +5609,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-create-program"
           display_name: "Octon Proposal Lifecycle: Create Program"
           summary: "Create a parent proposal program coordinating canonical child packets."
@@ -5799,13 +5628,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-explain-program"
           display_name: "Octon Proposal Lifecycle: Explain Program"
           summary: "Explain a parent proposal program without widening child authority."
@@ -5821,13 +5647,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-review-program"
           display_name: "Octon Proposal Lifecycle: Review Program"
           summary: "Review parent proposal program coordination without changing child authority."
@@ -5843,13 +5666,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-revise-program"
           display_name: "Octon Proposal Lifecycle: Revise Program"
           summary: "Apply parent-local proposal program coordination revisions and record a revision receipt."
@@ -5865,13 +5685,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-program-implementation-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Implementation Prompt"
           summary: "Generate aggregate implementation prompt for a proposal program."
@@ -5887,13 +5704,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-program-verification-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Verification Prompt"
           summary: "Generate aggregate verification prompt for a proposal program."
@@ -5909,13 +5723,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-program-correction-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Correction Prompt"
           summary: "Generate targeted correction prompt for a program-level or child finding."
@@ -5931,13 +5742,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-cleanup-lifecycle-residue"
           display_name: "Octon Proposal Lifecycle: Cleanup Lifecycle Residue"
           summary: "Classify and close out safe residual worktree artifacts for a proposal program lifecycle run."
@@ -5953,13 +5761,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-run-program-verification-and-correction-loop"
           display_name: "Octon Proposal Lifecycle: Run Program Verification And Correction Loop"
           summary: "Run program verification and correction to a declared terminal state."
@@ -5975,13 +5780,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-generate-program-closeout-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Closeout Prompt"
           summary: "Generate closeout prompt for a coherent proposal program."
@@ -5997,13 +5799,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-closeout-program"
           display_name: "Octon Proposal Lifecycle: Closeout Program"
           summary: "Execute gated closeout for a proposal program."
@@ -6019,13 +5818,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-run-program-lifecycle"
           display_name: "Octon Proposal Lifecycle: Run Program Lifecycle"
           summary: "Run generic lifecycle orchestration for one proposal program and emit route handoff evidence."
@@ -6041,13 +5837,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
       skills:
         - capability_id: "octon-proposal-lifecycle"
           display_name: "Octon Proposal Lifecycle"
@@ -6063,13 +5856,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-create-packet"
           display_name: "Octon Proposal Lifecycle: Create Packet"
           summary: "Run the create-packet bundle."
@@ -6084,13 +5874,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-explain-packet"
           display_name: "Octon Proposal Lifecycle: Explain Packet"
           summary: "Run the explain-packet bundle."
@@ -6105,13 +5892,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-review-packet"
           display_name: "Octon Proposal Lifecycle: Review Packet"
           summary: "Run the review-packet bundle."
@@ -6126,13 +5910,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-revise-packet"
           display_name: "Octon Proposal Lifecycle: Revise Packet"
           summary: "Run the revise-packet bundle."
@@ -6147,13 +5928,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-packet-implementation-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Implementation Prompt"
           summary: "Run the generate-packet-implementation-prompt bundle."
@@ -6168,13 +5946,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-run-packet-implementation"
           display_name: "Octon Proposal Lifecycle: Run Packet Implementation"
           summary: "Run the proposal packet implementation bundle."
@@ -6189,13 +5964,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-packet-verification-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Verification Prompt"
           summary: "Run the generate-packet-verification-prompt bundle."
@@ -6210,13 +5982,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-packet-correction-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Correction Prompt"
           summary: "Run the generate-packet-correction-prompt bundle."
@@ -6231,13 +6000,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-run-packet-verification-and-correction-loop"
           display_name: "Octon Proposal Lifecycle: Run Packet Verification And Correction Loop"
           summary: "Run the verification-and-correction convergence bundle."
@@ -6252,13 +6018,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-packet-closeout-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Packet Closeout Prompt"
           summary: "Run the generate-packet-closeout-prompt bundle."
@@ -6273,13 +6036,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-closeout-packet"
           display_name: "Octon Proposal Lifecycle: Closeout Packet"
           summary: "Run the closeout-packet bundle."
@@ -6294,13 +6054,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-run-packet-lifecycle"
           display_name: "Octon Proposal Lifecycle: Run Packet Lifecycle"
           summary: "Run the generic lifecycle runner against one proposal packet target."
@@ -6315,13 +6072,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-create-program"
           display_name: "Octon Proposal Lifecycle: Create Program"
           summary: "Run the create-program bundle."
@@ -6336,13 +6090,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-explain-program"
           display_name: "Octon Proposal Lifecycle: Explain Program"
           summary: "Run the explain-program bundle."
@@ -6357,13 +6108,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-review-program"
           display_name: "Octon Proposal Lifecycle: Review Program"
           summary: "Run the review-program bundle."
@@ -6378,13 +6126,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-revise-program"
           display_name: "Octon Proposal Lifecycle: Revise Program"
           summary: "Run the revise-program bundle."
@@ -6399,13 +6144,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-program-implementation-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Implementation Prompt"
           summary: "Run the generate-program-implementation-prompt bundle."
@@ -6420,13 +6162,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-program-verification-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Verification Prompt"
           summary: "Run the generate-program-verification-prompt bundle."
@@ -6441,13 +6180,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-program-correction-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Correction Prompt"
           summary: "Run the generate-program-correction-prompt bundle."
@@ -6462,13 +6198,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
           display_name: "Octon Proposal Lifecycle: Cleanup Lifecycle Residue"
           summary: "Run the cleanup-lifecycle-residue bundle."
@@ -6483,13 +6216,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-run-program-verification-and-correction-loop"
           display_name: "Octon Proposal Lifecycle: Run Program Verification And Correction Loop"
           summary: "Run the program verification-and-correction convergence bundle."
@@ -6504,13 +6234,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-generate-program-closeout-prompt"
           display_name: "Octon Proposal Lifecycle: Generate Program Closeout Prompt"
           summary: "Run the generate-program-closeout-prompt bundle."
@@ -6525,13 +6252,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-closeout-program"
           display_name: "Octon Proposal Lifecycle: Closeout Program"
           summary: "Run the closeout-program bundle."
@@ -6546,13 +6270,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
         - capability_id: "octon-proposal-lifecycle-run-program-lifecycle"
           display_name: "Octon Proposal Lifecycle: Run Program Lifecycle"
           summary: "Run the generic lifecycle runner against one proposal program target."
@@ -6567,13 +6288,10 @@ packs:
           selectors:
             include:
               - "**"
-            exclude:
-              []
+            exclude: []
           fingerprints:
-            tech_tags:
-              []
-            language_tags:
-              []
+            tech_tags: []
+            language_tags: []
     prompt_bundles:
       - prompt_set_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
         schema_version: "octon-extension-prompt-set-v1"
@@ -8022,4 +7740,4 @@ source:
   desired_config_path: ".octon/instance/extensions.yml"
   desired_config_sha256: "e539e7c8b239dc8d1fa7dcdd06aa43253ea2aa9c00518ee8c5451ecda65071a9"
   root_manifest_path: ".octon/octon.yml"
-  root_manifest_sha256: "cfc80b2746267448bcf84ce38b3ed2fde636c5d7db38dfccdd24982f89818534"
+  root_manifest_sha256: "798bc59c580d14d6a2a307d7ce0244de1865757b7d8bc3e725405fd9bc7749dc"
