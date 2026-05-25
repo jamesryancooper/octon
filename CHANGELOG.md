@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.79](https://github.com/jamesryancooper/octon/compare/octon-v0.6.78...octon-v0.6.79) (2026-05-25)
+
+
+### Features
+
+* **lifecycle:** add interaction receipt model ([38ad2d2](https://github.com/jamesryancooper/octon/commit/38ad2d26735ffe22e37fb9c88d4ef3844d2ba29b))
+
 ## [0.6.78](https://github.com/jamesryancooper/octon/compare/octon-v0.6.77...octon-v0.6.78) (2026-05-23)
 
 
