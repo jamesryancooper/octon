@@ -11,7 +11,19 @@ promotion_targets:
   - ".octon/framework/constitution/contracts/runtime/"
   - ".octon/instance/governance/policies/"
   - ".octon/framework/assurance/runtime/_ops/scripts/"
-status: "implemented"
+status: "archived"
+archive:
+  archived_at: "2026-05-24"
+  archived_from_status: "implemented"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract"
+  promotion_evidence:
+    - ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/2026-05-24T23-45-52Z/closeout-verification.md"
+    - ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/implementation-evidence.md"
+    - ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/agent-node-model-call/agent-node-positive.json"
+    - ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/agent-node-model-call/model-call-receipt-positive.json"
+    - ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/context-pack.json"
+    - ".octon/state/evidence/validation/proposals/agent-node-model-call-contract/20260515T211056Z/fixtures/context-pack-positive/context-pack-receipt.json"
 lifecycle:
   temporary: true
   exit_expectation: >-

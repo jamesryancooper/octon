@@ -32,10 +32,14 @@ This catalog lists visible files in the `agent-node-model-call-contract` proposa
 
 ## Support Artifacts
 
+- `support/executable-implementation-prompt.md`
 - `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/implementation-run.md`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/proposal-creation.md`
 - `support/proposal-review.md`
 - `support/revisions/agent-node-model-call-contract-final-semantic-readiness-2026-05-12.md`
 - `support/revisions/agent-node-model-call-contract-implementation-readiness-2026-05-12.md`
+- `support/validation.md`
