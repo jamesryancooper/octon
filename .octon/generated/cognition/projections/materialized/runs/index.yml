@@ -1,5 +1,5 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-05-25T01:36:26Z'
+generated_at: '2026-05-26T14:28:03Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
@@ -439,6 +439,9 @@ runs:
   status: stale
 - run_id: publish-1779664903716-18370
   health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779664903716-18370/health.yml
+  status: stale
+- run_id: publish-1779715413935-93885
+  health_ref: .octon/generated/cognition/projections/materialized/runs/publish-1779715413935-93885/health.yml
   status: stale
 - run_id: repo-consequential-preflight-workflow-20260413-v4
   health_ref: .octon/generated/cognition/projections/materialized/runs/repo-consequential-preflight-workflow-20260413-v4/health.yml
