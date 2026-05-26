@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.80](https://github.com/jamesryancooper/octon/compare/octon-v0.6.79...octon-v0.6.80) (2026-05-26)
+
+
+### Bug Fixes
+
+* **runtime:** refresh digest-bound publication handles ([f748edf](https://github.com/jamesryancooper/octon/commit/f748edf29e476db9e7b0517f8155bd90b4d63076)), closes [#451](https://github.com/jamesryancooper/octon/issues/451)
+* **runtime:** refresh run-health digests ([3499f92](https://github.com/jamesryancooper/octon/commit/3499f929a6c3a3d9e5b377a94315785b2df8f164)), closes [#451](https://github.com/jamesryancooper/octon/issues/451)
+
 ## [0.6.79](https://github.com/jamesryancooper/octon/compare/octon-v0.6.78...octon-v0.6.79) (2026-05-25)
 
 
