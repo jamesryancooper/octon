@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.81](https://github.com/jamesryancooper/octon/compare/octon-v0.6.80...octon-v0.6.81) (2026-05-26)
+
+
+### Bug Fixes
+
+* **runtime:** refresh generated health projections ([#461](https://github.com/jamesryancooper/octon/issues/461)) ([fd5f11b](https://github.com/jamesryancooper/octon/commit/fd5f11b79195f2fd46c52a1d1a6940dff3724449))
+
 ## [0.6.80](https://github.com/jamesryancooper/octon/compare/octon-v0.6.79...octon-v0.6.80) (2026-05-26)
 
 
