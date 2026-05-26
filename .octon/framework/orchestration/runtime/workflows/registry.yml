@@ -1335,7 +1335,7 @@ workflows:
     access: human
     depends_on: []
   process-incoming-intake:
-    version: "1.0.0"
+    version: "2.0.0"
     execution_profile: core
     commands: ["/process-incoming-intake"]
     parameters:
@@ -1346,11 +1346,15 @@ workflows:
       - name: requested_route
         type: text
         required: false
-        description: "Optional route hint; final classification must still be proven by the decision matrix"
+        description: "Optional route hint from the governed four-route set; final classification must still be proven by the decision matrix and mismatches fail closed"
       - name: stop_after_classification
         type: boolean
         required: false
         description: "Stop after writing the classification receipt without applying disposition"
+      - name: execute_handoff
+        type: boolean
+        required: false
+        description: "Execute only a target-owned admission handoff whose contract and preflight validators pass"
     access: human
     depends_on: []
     io:
@@ -1367,13 +1371,19 @@ workflows:
           kind: file
           format: markdown
           determinism: unique
-          description: "Route decision, rejected routes, provenance/trust findings, and selected disposition"
+          description: "Governed route decision, rejected routes, intake-envelope findings, provenance/trust findings, authority boundaries, and denial evidence"
+        - name: incoming_intake_handoff
+          path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/handoff.md"
+          kind: file
+          format: markdown
+          determinism: unique
+          description: "Advisory target-owned handoff context, target admission contract refs, target preflight results, and target return refs when present"
         - name: incoming_intake_validation
           path: "/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md"
           kind: file
           format: markdown
           determinism: unique
-          description: "Route-specific validation commands, outcomes, and cleanup evidence"
+          description: "Route decision, handoff, admission, target return validation commands, outcomes, and unresolved blockers"
   closeout:
     version: "2.0.0"
     execution_profile: core

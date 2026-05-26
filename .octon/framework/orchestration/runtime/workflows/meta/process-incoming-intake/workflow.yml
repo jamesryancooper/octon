@@ -108,7 +108,7 @@ stages:
     consumes:
       - stage:classify-route
     produces:
-      - stage:execute-handoff-or-denial
+      - stage:execute-disposition
     mutation_scope:
       - workflow-scope
     authorization:
@@ -206,7 +206,7 @@ done_gate:
     - "blocked-rejected-deferred performs no install, activation, publication, projection, target dispatch, closeout, worktree cleanup, or repo hygiene cleanup"
     - "target dispatch happens only when execute_handoff=true and the target-owned admission contract validates"
     - "intake does not claim implementation, closeout, cleanup, or archive completion without target-owned return evidence"
-    - "classification-only and advisory-handoff stops may leave raw intake in place when no final disposition has been applied"
+    - "final disposition leaves no `.incoming/<intake-id>/` copy; only `stop_after_classification=true` may leave raw intake in place"
     - "archive retention is safe, justified, and evidenced; unsafe retained material uses evidence-only pointers"
     - "route decision, handoff, admission, and target return validators pass or documented blockers stop the workflow fail-closed"
 constraints:

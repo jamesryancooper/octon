@@ -10,7 +10,7 @@ steps:
     description: "classify-route"
   - id: "execute-disposition"
     file: "stages/03-execute-disposition.md"
-    description: "execute-handoff-or-denial"
+    description: "execute-disposition"
   - id: "validate-closeout"
     file: "stages/04-validate-closeout.md"
     description: "validate-closeout"
@@ -79,7 +79,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] blocked-rejected-deferred performs no install, activation, publication, projection, target dispatch, closeout, worktree cleanup, or repo hygiene cleanup
 - [ ] target dispatch happens only when execute_handoff=true and the target-owned admission contract validates
 - [ ] intake does not claim implementation, closeout, cleanup, or archive completion without target-owned return evidence
-- [ ] classification-only and advisory-handoff stops may leave raw intake in place when no final disposition has been applied
+- [ ] final disposition leaves no `.incoming/<intake-id>/` copy; only `stop_after_classification=true` may leave raw intake in place
 - [ ] archive retention is safe, justified, and evidenced; unsafe retained material uses evidence-only pointers
 - [ ] route decision, handoff, admission, and target return validators pass or documented blockers stop the workflow fail-closed
 
@@ -92,5 +92,4 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 | Version | Changes |
 |---------|---------|
-| 2.0.0 | Governed Incoming Intake Routing target-owned handoff model |
-| 1.0.0 | Generated from canonical workflow `process-incoming-intake` |
+| 2.0.0 | Generated from canonical workflow `process-incoming-intake` |
