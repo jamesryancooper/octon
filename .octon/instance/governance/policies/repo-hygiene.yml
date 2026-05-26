@@ -226,6 +226,10 @@ local_artifact_hygiene:
         - "untracked runtime-agent-quorum checkpoint or evidence artifacts"
         - "no tracked file references the exact artifact path"
       action: "safe-to-delete through the dry-run-first local artifact helper"
+    local_stash_archive:
+      criteria:
+        - ".octon/state/evidence/cleanup/stash-archives/**"
+      action: "local retained cleanup evidence; ignored by default; retain with rationale or delete only by explicit operator cleanup decision; never restore as active control, authority, validation proof, generated freshness evidence, or restoration authorization"
     manual_review:
       criteria:
         - "untracked .octon/state/** file outside known local residue patterns"

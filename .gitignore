@@ -95,6 +95,12 @@ runs/
 !.octon/state/evidence/external-index/
 !.octon/state/evidence/external-index/**
 
+# Local stash cleanup archives are retained on the operator's machine, not
+# committed by default. Track only the convention surface.
+!.octon/state/evidence/cleanup/
+!.octon/state/evidence/cleanup/stash-archives/
+.octon/state/evidence/cleanup/stash-archives/*
+!.octon/state/evidence/cleanup/stash-archives/README.md
 
 # Additional local outputs and proposal workspaces
 out/

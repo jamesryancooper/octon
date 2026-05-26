@@ -82,6 +82,40 @@ Generated run-health projection pruning remains generator-owned. Use
 `.octon/generated/cognition/projections/materialized/runs/**` with the local
 artifact helper.
 
+## Local Stash Archive Hygiene
+
+When Git stash triage finds local-only evidence or mixed residue that should
+not remain on the stash stack but may need later review, archive it under:
+
+`/.octon/state/evidence/cleanup/stash-archives/<stash-short-sha>-<context-slug>/`
+
+Use a readable layout when practical:
+
+- `metadata.txt`
+- `stat.txt`
+- `name-status.txt`
+- `stash.patch`
+- `classification-receipt.yml`
+
+The archive root is ignored by Git by default because stash archives may
+contain arbitrary local patches, stale generated output, stale control state,
+retained evidence, proposal-local residue, or operator-specific context. Track
+the convention, not each local stash archive, unless a later governed review
+intentionally promotes a specific artifact.
+
+Each classification receipt must say that the archive is local cleanup evidence
+only. It is not authority, current control state, validation proof,
+generated-output freshness evidence, or a receipt authorizing restoration.
+Restoration or integration requires intentional review against current
+`origin/main`, current contracts, authority boundaries, receipt semantics, and
+cleanup-safety rules.
+
+Drop without archiving only when the stash is proven duplicate, obsolete,
+superseded by tracked commits, rebuildable generated output, build cache, or
+otherwise disposable, and no local evidence-retention need remains. Generated,
+control, evidence, proposal-local, host-state, or lifecycle-event residue from
+a stash archive must not be restored as current authority.
+
 ## Detector Stack
 
 - `cargo check`

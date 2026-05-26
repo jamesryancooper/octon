@@ -14,12 +14,19 @@
 | `state/evidence/decisions/**` | Historical lineage and capability-policy decision logs that no longer mint live per-run authority |
 | `state/evidence/validation/**` | Validation receipts and audit evidence |
 | `state/evidence/migration/**` | Migration provenance and rollback traceability |
+| `state/evidence/cleanup/**` | Local cleanup classifications and non-authorizing archive evidence for stash, run, control, generated, or evidence residue |
 
 `state/evidence/validation/publication/**` is the canonical machine-readable
 receipt family for locality, extension, and capability publication runs.
 
 Evidence is append-oriented and retention-governed. It must not be treated as
 active task state or rebuildable generated output.
+
+Local stash archives under `state/evidence/cleanup/stash-archives/**` are
+operator-local retained cleanup evidence and are ignored by Git by default.
+They preserve review context for dropped stashes without making stale
+generated, control, evidence, proposal-local, host-state, or lifecycle-event
+residue current authority.
 
 Packet evidence classes:
 

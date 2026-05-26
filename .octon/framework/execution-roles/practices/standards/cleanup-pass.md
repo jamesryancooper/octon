@@ -32,6 +32,34 @@ explicit confirmation and is allowed only for untracked, unreferenced cleanup
 candidates; referenced evidence, active control state, build-to-delete evidence,
 and manual-review artifacts must be retained or escalated.
 
+## Stash Archive Convention
+
+When triaging Git stashes, archive a stash before dropping it if it contains
+local-only evidence, control snapshots, generated-output residue, closeout
+residue, or mixed authored/evidence content whose future review value is
+plausible but whose restoration into the worktree would be unsafe or
+misleading.
+
+Durable local stash archives live under
+`.octon/state/evidence/cleanup/stash-archives/<stash-short-sha>-<context-slug>/`.
+Retain a readable layout when practical: `metadata.txt`, `stat.txt`,
+`name-status.txt`, `stash.patch`, and `classification-receipt.yml`. A compressed
+copy may be kept as convenience evidence, but not as the only evidence when a
+readable layout is practical.
+
+The classification receipt must state that the archive is local cleanup
+evidence only. It is not authority, current control state, validation proof,
+generated-output freshness evidence, or a receipt authorizing restoration.
+Restoration or integration requires intentional review against current
+`origin/main`, current contracts, authority boundaries, receipt semantics, and
+cleanup-safety rules.
+
+A stash may be dropped without archiving when it is proven duplicate, obsolete,
+superseded by tracked commits, rebuildable generated output, build cache, or
+otherwise disposable, and no local evidence-retention need remains. Generated,
+control, evidence, proposal-local, host-state, or lifecycle-event residue from
+a stash archive must never be restored as current authority.
+
 ## Receipt
 
 Record:
