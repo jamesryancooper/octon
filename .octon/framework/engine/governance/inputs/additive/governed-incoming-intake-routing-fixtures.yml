@@ -35,6 +35,8 @@ required_negative_controls:
   - "parent-program-evidence-as-child-receipt"
   - "proposal-handoff-authorizes-git"
   - "proposal-handoff-authorizes-cleanup"
+  - "proposal-handoff-authorizes-worktree-cleanup"
+  - "proposal-handoff-authorizes-repo-hygiene-deletion"
 
 forbidden_handoff_authorizations:
   - "git-ref-mutation"
@@ -45,6 +47,22 @@ forbidden_handoff_authorizations:
   - "promotion-authorization"
   - "archive-authorization"
   - "scope-expansion"
+
+contracts:
+  route_decision_schema: ".octon/framework/product/contracts/governed-incoming-intake-route-decision-v1.schema.json"
+  handoff_schema: ".octon/framework/product/contracts/governed-incoming-intake-handoff-v1.schema.json"
+  target_owned_intake_admission_schema: ".octon/framework/product/contracts/target-owned-intake-admission-contract-v1.schema.json"
+  lifecycle_interaction_request_schema: ".octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json"
+  lifecycle_interaction_return_schema: ".octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json"
+  proposal_packet_admission_contract: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-packet-intake-admission.contract.yml"
+  proposal_program_admission_contract: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-program-intake-admission.contract.yml"
+
+target_return_requirements:
+  completed_targets_require_return_evidence: true
+  target_return_evidence_must_be_fresh: true
+  target_return_evidence_authorizes_intake_completion_claim: false
+  lifecycle_interaction_receipts_authorize_target_action: false
+  parent_program_evidence_satisfies_child_receipts: false
 
 fixtures:
   - fixture_id: "real-rust-source-authority-invalid-envelope"
@@ -412,6 +430,190 @@ fixtures:
       - "authority-confusion-denial"
       - "rejected-routes"
 
+  - fixture_id: "stale-target-return"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "stale-target-return"
+    preclassification_validation: "expected-pass"
+    expected_route: "blocked-rejected-deferred"
+    expected_result: "route-selected"
+    expected_terminal_disposition: "blocked-rejected-deferred"
+    mutation_allowed: false
+    target_dispatch_allowed: false
+    rejected_routes:
+      - "single-work-unit-handoff"
+      - "coordinated-program-handoff"
+      - "target-owned-direct-handoff"
+    classification_signals:
+      coherent_work_unit: true
+      target_surfaces:
+        - "extension-pack"
+      child_sequencing_required: false
+      migration_or_cutover: false
+      cross_surface_dependency: false
+      governance_and_runtime: false
+      ambiguous_packet_vs_program: false
+      unsafe_provenance_or_license: false
+      contains_secret_or_private_data: false
+      malicious_authority_confusion: false
+      direct_target_requested: false
+      target_owned_intake_contract: "absent"
+      stale_target_return: true
+    denial_evidence:
+      - "stale-target-return"
+      - "target-return-digest-mismatch"
+    evidence_requirements:
+      - "envelope-validation-pass"
+      - "target-return-denial"
+      - "rejected-routes"
+
+  - fixture_id: "parent-program-evidence-used-for-child-receipt"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "parent-program-evidence-used-for-child-receipt"
+    preclassification_validation: "expected-pass"
+    expected_route: "blocked-rejected-deferred"
+    expected_result: "route-selected"
+    expected_terminal_disposition: "blocked-rejected-deferred"
+    mutation_allowed: false
+    target_dispatch_allowed: false
+    rejected_routes:
+      - "single-work-unit-handoff"
+      - "coordinated-program-handoff"
+      - "target-owned-direct-handoff"
+    classification_signals:
+      coherent_work_unit: false
+      target_surfaces:
+        - "core-skill"
+        - "runtime"
+      child_sequencing_required: true
+      migration_or_cutover: false
+      cross_surface_dependency: true
+      governance_and_runtime: false
+      ambiguous_packet_vs_program: false
+      unsafe_provenance_or_license: false
+      contains_secret_or_private_data: false
+      malicious_authority_confusion: false
+      direct_target_requested: false
+      target_owned_intake_contract: "absent"
+      parent_program_evidence_used_for_child_receipt: true
+    denial_evidence:
+      - "parent-program-evidence-as-child-receipt"
+      - "child-packet-receipt-missing"
+    evidence_requirements:
+      - "envelope-validation-pass"
+      - "child-receipt-isolation-denial"
+      - "rejected-routes"
+
+  - fixture_id: "lifecycle-receipt-as-authorization"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "lifecycle-receipt-as-authorization"
+    preclassification_validation: "expected-pass"
+    expected_route: "blocked-rejected-deferred"
+    expected_result: "route-selected"
+    expected_terminal_disposition: "blocked-rejected-deferred"
+    mutation_allowed: false
+    target_dispatch_allowed: false
+    rejected_routes:
+      - "single-work-unit-handoff"
+      - "coordinated-program-handoff"
+      - "target-owned-direct-handoff"
+    classification_signals:
+      coherent_work_unit: true
+      target_surfaces:
+        - "extension-pack"
+      child_sequencing_required: false
+      migration_or_cutover: false
+      cross_surface_dependency: false
+      governance_and_runtime: false
+      ambiguous_packet_vs_program: false
+      unsafe_provenance_or_license: false
+      contains_secret_or_private_data: false
+      malicious_authority_confusion: false
+      direct_target_requested: false
+      target_owned_intake_contract: "absent"
+      lifecycle_interaction_receipt_authorizes_target_action: true
+    denial_evidence:
+      - "lifecycle-interaction-as-authorization"
+      - "target-owned-independent-validation-missing"
+    evidence_requirements:
+      - "envelope-validation-pass"
+      - "authority-boundary-denial"
+      - "rejected-routes"
+
+  - fixture_id: "requested-route-mismatch"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "requested-route-mismatch"
+    preclassification_validation: "expected-pass"
+    expected_route: "blocked-rejected-deferred"
+    expected_result: "route-selected"
+    expected_terminal_disposition: "blocked-rejected-deferred"
+    mutation_allowed: false
+    target_dispatch_allowed: false
+    requested_route: "single-work-unit-handoff"
+    deterministic_route_without_request: "coordinated-program-handoff"
+    rejected_routes:
+      - "single-work-unit-handoff"
+      - "coordinated-program-handoff"
+      - "target-owned-direct-handoff"
+    classification_signals:
+      coherent_work_unit: false
+      target_surfaces:
+        - "governance"
+        - "runtime"
+      child_sequencing_required: true
+      migration_or_cutover: true
+      cross_surface_dependency: true
+      governance_and_runtime: true
+      ambiguous_packet_vs_program: false
+      unsafe_provenance_or_license: false
+      contains_secret_or_private_data: false
+      malicious_authority_confusion: false
+      direct_target_requested: false
+      target_owned_intake_contract: "absent"
+      requested_route_mismatch: true
+    denial_evidence:
+      - "requested-route-mismatch"
+      - "deterministic-route-disagrees"
+    evidence_requirements:
+      - "envelope-validation-pass"
+      - "requested-route-mismatch-denial"
+      - "rejected-routes"
+
+  - fixture_id: "scope-digest-drift"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "scope-digest-drift"
+    preclassification_validation: "expected-pass"
+    expected_route: "blocked-rejected-deferred"
+    expected_result: "route-selected"
+    expected_terminal_disposition: "blocked-rejected-deferred"
+    mutation_allowed: false
+    target_dispatch_allowed: false
+    rejected_routes:
+      - "single-work-unit-handoff"
+      - "coordinated-program-handoff"
+      - "target-owned-direct-handoff"
+    classification_signals:
+      coherent_work_unit: true
+      target_surfaces:
+        - "core-skill"
+      child_sequencing_required: false
+      migration_or_cutover: false
+      cross_surface_dependency: false
+      governance_and_runtime: false
+      ambiguous_packet_vs_program: false
+      unsafe_provenance_or_license: false
+      contains_secret_or_private_data: false
+      malicious_authority_confusion: false
+      direct_target_requested: false
+      target_owned_intake_contract: "absent"
+      scope_digest_drift: true
+    denial_evidence:
+      - "scope-digest-drift"
+      - "handoff-scope-not-replayable"
+    evidence_requirements:
+      - "envelope-validation-pass"
+      - "scope-drift-denial"
+      - "rejected-routes"
+
   - fixture_id: "direct-target-without-contract"
     fixture_type: "synthetic"
     synthetic_intake_id: "direct-target-without-contract"
@@ -446,4 +648,3 @@ fixtures:
       - "envelope-validation-pass"
       - "direct-target-denial"
       - "rejected-routes"
-

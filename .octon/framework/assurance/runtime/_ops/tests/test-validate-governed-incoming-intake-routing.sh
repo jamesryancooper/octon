@@ -40,6 +40,8 @@ create_fixture_repo() {
   CLEANUP_DIRS+=("$fixture_root")
   mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
   mkdir -p "$fixture_root/.octon/framework/engine/governance/inputs/additive"
+  mkdir -p "$fixture_root/.octon/framework/product/contracts"
+  mkdir -p "$fixture_root/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission"
   mkdir -p "$fixture_root/.octon/inputs/additive/.incoming"
   mkdir -p "$fixture_root/.octon/inputs/additive/.archive"
   mkdir -p "$fixture_root/.octon/inputs/additive/extensions"
@@ -50,6 +52,20 @@ create_fixture_repo() {
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh"
   cp "$REPO_ROOT/.octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing-fixtures.yml" \
     "$(spec_path "$fixture_root")"
+  cp "$REPO_ROOT/.octon/framework/product/contracts/governed-incoming-intake-route-decision-v1.schema.json" \
+    "$fixture_root/.octon/framework/product/contracts/governed-incoming-intake-route-decision-v1.schema.json"
+  cp "$REPO_ROOT/.octon/framework/product/contracts/governed-incoming-intake-handoff-v1.schema.json" \
+    "$fixture_root/.octon/framework/product/contracts/governed-incoming-intake-handoff-v1.schema.json"
+  cp "$REPO_ROOT/.octon/framework/product/contracts/target-owned-intake-admission-contract-v1.schema.json" \
+    "$fixture_root/.octon/framework/product/contracts/target-owned-intake-admission-contract-v1.schema.json"
+  cp "$REPO_ROOT/.octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json" \
+    "$fixture_root/.octon/framework/product/contracts/lifecycle-interaction-request-v1.schema.json"
+  cp "$REPO_ROOT/.octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json" \
+    "$fixture_root/.octon/framework/product/contracts/lifecycle-interaction-return-v1.schema.json"
+  cp "$REPO_ROOT/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-packet-intake-admission.contract.yml" \
+    "$fixture_root/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-packet-intake-admission.contract.yml"
+  cp "$REPO_ROOT/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-program-intake-admission.contract.yml" \
+    "$fixture_root/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-program-intake-admission.contract.yml"
   chmod +x "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh"
   chmod +x "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh"
 
@@ -156,6 +172,11 @@ write_synthetic_intakes() {
     "unsafe-provenance-or-license" \
     "secret-or-private-data" \
     "malicious-authority-confusion" \
+    "stale-target-return" \
+    "parent-program-evidence-used-for-child-receipt" \
+    "lifecycle-receipt-as-authorization" \
+    "requested-route-mismatch" \
+    "scope-digest-drift" \
     "direct-target-without-contract"; do
     case "$id" in
       unsafe-provenance-or-license)
@@ -219,10 +240,32 @@ case_missing_raw_authority_negative_control_fails() {
   ! run_routing_validator "$fixture_root" --require-synthetic-intakes
 }
 
+case_missing_packet_admission_contract_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  rm -f "$fixture_root/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-packet-intake-admission.contract.yml"
+  ! run_routing_validator "$fixture_root" --require-synthetic-intakes
+}
+
+case_weakened_target_admission_boundary_fails() {
+  local fixture_root contract
+  fixture_root="$(create_fixture_repo)"
+  contract="$fixture_root/.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/intake-admission/proposal-packet-intake-admission.contract.yml"
+  yq -i '(.authority_boundary.forbidden_transfer) |= map(select(. != "worktree-cleanup-authorization"))' "$contract"
+  ! run_routing_validator "$fixture_root" --require-synthetic-intakes
+}
+
 case_missing_blocked_denial_evidence_fails() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
   yq -i '(.fixtures[] | select(.fixture_id == "unsafe-provenance-or-license") | .denial_evidence) = []' "$(spec_path "$fixture_root")"
+  ! run_routing_validator "$fixture_root" --require-synthetic-intakes
+}
+
+case_missing_stale_return_denial_evidence_fails() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  yq -i '(.fixtures[] | select(.fixture_id == "stale-target-return") | .denial_evidence) |= map(select(. != "target-return-digest-mismatch"))' "$(spec_path "$fixture_root")"
   ! run_routing_validator "$fixture_root" --require-synthetic-intakes
 }
 
@@ -248,7 +291,10 @@ assert_success "fails when direct target claims a current target-owned contract"
 assert_success "fails when advisory handoff authorization boundary is weakened" case_missing_forbidden_handoff_authorization_fails
 assert_success "fails when parent program evidence can satisfy child packet receipts" case_parent_program_receipt_substitution_fails
 assert_success "fails when raw intake authority negative control is missing" case_missing_raw_authority_negative_control_fails
+assert_success "fails when proposal packet admission contract is missing" case_missing_packet_admission_contract_fails
+assert_success "fails when target admission authority boundary is weakened" case_weakened_target_admission_boundary_fails
 assert_success "fails when blocked route denial evidence is missing" case_missing_blocked_denial_evidence_fails
+assert_success "fails when stale target return denial evidence is missing" case_missing_stale_return_denial_evidence_fails
 assert_success "fails when malicious authority-confusion denied claim is missing" case_missing_malicious_denied_claim_fails
 assert_success "fails when observed invalid envelope unexpectedly passes validation" case_envelope_must_fail_before_classification
 

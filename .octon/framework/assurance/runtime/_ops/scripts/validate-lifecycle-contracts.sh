@@ -523,7 +523,7 @@ valid_interaction_acceptance_class() {
 
 valid_interaction_forbidden_transfer() {
   case "$1" in
-    git-ref-mutation|hosted-provider-authorization|branch-cleanup-authorization|archive-authorization|promotion-authorization|scope-expansion)
+    git-ref-mutation|hosted-provider-authorization|branch-cleanup-authorization|worktree-cleanup-authorization|repo-hygiene-deletion|archive-authorization|promotion-authorization|scope-expansion)
       return 0
       ;;
     *)
@@ -571,7 +571,7 @@ validate_interaction_profile() {
   done < <(yq -r "$expr.evidence_acceptance_classes[]? // \"\"" "$contract" 2>/dev/null || true)
 
   local required_transfer
-  for required_transfer in git-ref-mutation hosted-provider-authorization branch-cleanup-authorization archive-authorization promotion-authorization scope-expansion; do
+  for required_transfer in git-ref-mutation hosted-provider-authorization branch-cleanup-authorization worktree-cleanup-authorization repo-hygiene-deletion archive-authorization promotion-authorization scope-expansion; do
     yq -r "$expr.forbidden_transfer[]? // \"\"" "$contract" 2>/dev/null | grep -Fx "$required_transfer" >/dev/null 2>&1 \
       && pass "lifecycle interaction forbids transfer: $label -> $required_transfer" \
       || fail "lifecycle interaction missing forbidden transfer: $label -> $required_transfer"

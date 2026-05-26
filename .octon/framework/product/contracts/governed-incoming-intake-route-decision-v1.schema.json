@@ -1,0 +1,347 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/governed-incoming-intake-route-decision-v1.schema.json",
+  "title": "Governed Incoming Intake Route Decision v1",
+  "description": "Non-authorizing route decision evidence for one explicitly provided additive incoming intake unit.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision_id",
+    "created_at",
+    "explicit_invocation",
+    "intake",
+    "classification_ran",
+    "route",
+    "classification_facts",
+    "rejected_routes",
+    "denial_evidence",
+    "authority_boundary",
+    "replay"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "governed-incoming-intake-route-decision-v1"
+    },
+    "decision_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "explicit_invocation": {
+      "const": true
+    },
+    "intake": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intake_id",
+        "intake_path",
+        "envelope_digest",
+        "payload_inventory_digest"
+      ],
+      "properties": {
+        "intake_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "intake_path": {
+          "$ref": "#/$defs/incomingIntakePath"
+        },
+        "envelope_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "payload_inventory_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        }
+      }
+    },
+    "classification_ran": {
+      "type": "boolean"
+    },
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_route",
+        "result",
+        "terminal_disposition",
+        "rationale"
+      ],
+      "properties": {
+        "selected_route": {
+          "enum": [
+            null,
+            "single-work-unit-handoff",
+            "coordinated-program-handoff",
+            "target-owned-direct-handoff",
+            "blocked-rejected-deferred"
+          ]
+        },
+        "result": {
+          "enum": [
+            "block-before-route-classification",
+            "route-selected",
+            "rejected-no-target-owned-contract",
+            "denied"
+          ]
+        },
+        "terminal_disposition": {
+          "enum": [
+            "single-work-unit-handoff",
+            "coordinated-program-handoff",
+            "blocked-rejected-deferred"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "classification_facts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_surfaces",
+        "coherent_work_unit",
+        "child_sequencing_required",
+        "migration_or_cutover",
+        "cross_surface_dependency",
+        "governance_and_runtime",
+        "ambiguous_packet_vs_program",
+        "unsafe_provenance_or_license",
+        "contains_secret_or_private_data",
+        "malicious_authority_confusion",
+        "direct_target_requested"
+      ],
+      "properties": {
+        "target_surfaces": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identifier"
+          },
+          "uniqueItems": false
+        },
+        "coherent_work_unit": {
+          "type": "boolean"
+        },
+        "child_sequencing_required": {
+          "type": "boolean"
+        },
+        "migration_or_cutover": {
+          "type": "boolean"
+        },
+        "cross_surface_dependency": {
+          "type": "boolean"
+        },
+        "governance_and_runtime": {
+          "type": "boolean"
+        },
+        "ambiguous_packet_vs_program": {
+          "type": "boolean"
+        },
+        "unsafe_provenance_or_license": {
+          "type": "boolean"
+        },
+        "contains_secret_or_private_data": {
+          "type": "boolean"
+        },
+        "malicious_authority_confusion": {
+          "type": "boolean"
+        },
+        "direct_target_requested": {
+          "type": "boolean"
+        },
+        "requested_route": {
+          "$ref": "#/$defs/routeOrNull"
+        },
+        "requested_route_mismatch": {
+          "type": "boolean"
+        },
+        "scope_digest_drift": {
+          "type": "boolean"
+        },
+        "stale_target_return": {
+          "type": "boolean"
+        },
+        "lifecycle_interaction_receipt_authorizes_target_action": {
+          "type": "boolean"
+        },
+        "parent_program_evidence_used_for_child_receipt": {
+          "type": "boolean"
+        }
+      }
+    },
+    "rejected_routes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["route_id", "reason_codes"],
+        "properties": {
+          "route_id": {
+            "$ref": "#/$defs/route"
+          },
+          "reason_codes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "$ref": "#/$defs/identifier"
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    },
+    "denial_evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/identifier"
+      },
+      "uniqueItems": true
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_intake_is_authority",
+        "generated_output_is_authority",
+        "host_state_is_authority",
+        "chat_history_is_authority",
+        "model_memory_is_authority",
+        "tool_availability_is_authority",
+        "lifecycle_interaction_receipts_authorize_target_action",
+        "intake_route_claims_target_completion"
+      ],
+      "properties": {
+        "raw_intake_is_authority": { "const": false },
+        "generated_output_is_authority": { "const": false },
+        "host_state_is_authority": { "const": false },
+        "chat_history_is_authority": { "const": false },
+        "model_memory_is_authority": { "const": false },
+        "tool_availability_is_authority": { "const": false },
+        "lifecycle_interaction_receipts_authorize_target_action": { "const": false },
+        "intake_route_claims_target_completion": { "const": false }
+      }
+    },
+    "handoff_ref": {
+      "type": ["string", "null"],
+      "minLength": 1
+    },
+    "target_return_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "idempotency_class",
+        "decision_input_digest",
+        "safe_to_reclassify_without_mutation"
+      ],
+      "properties": {
+        "idempotency_class": {
+          "enum": ["inspect-only", "idempotent-classification"]
+        },
+        "decision_input_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "safe_to_reclassify_without_mutation": {
+          "const": true
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "classification_ran": { "const": false }
+        },
+        "required": ["classification_ran"]
+      },
+      "then": {
+        "properties": {
+          "route": {
+            "properties": {
+              "selected_route": { "const": null },
+              "result": { "const": "block-before-route-classification" },
+              "terminal_disposition": { "const": "blocked-rejected-deferred" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "route": {
+            "properties": {
+              "terminal_disposition": { "const": "blocked-rejected-deferred" }
+            },
+            "required": ["terminal_disposition"]
+          }
+        },
+        "required": ["route"]
+      },
+      "then": {
+        "properties": {
+          "denial_evidence": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "incomingIntakePath": {
+      "allOf": [
+        { "$ref": "#/$defs/repoRelativePath" },
+        { "pattern": "^\\.octon/inputs/additive/\\.incoming/[a-z][a-z0-9]*(-[a-z0-9]+)*/$" }
+      ]
+    },
+    "route": {
+      "enum": [
+        "single-work-unit-handoff",
+        "coordinated-program-handoff",
+        "target-owned-direct-handoff",
+        "blocked-rejected-deferred"
+      ]
+    },
+    "routeOrNull": {
+      "enum": [
+        null,
+        "single-work-unit-handoff",
+        "coordinated-program-handoff",
+        "target-owned-direct-handoff",
+        "blocked-rejected-deferred"
+      ]
+    }
+  }
+}
