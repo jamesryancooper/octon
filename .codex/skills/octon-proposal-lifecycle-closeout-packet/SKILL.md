@@ -52,3 +52,14 @@ least `verdict`, `closed_at`, and `archive_authorized`. Use `verdict: pass` and
 `archive_authorized: yes` only when the packet is ready for the separate
 `archive-proposal` lifecycle route. Closeout must not archive the packet
 directly.
+
+When closeout is blocked because follow-on work is owned by another lifecycle,
+emit a typed `lifecycle-interaction-request-v1` receipt only as dependency
+context. Use the `handoff` profile with `interaction_kind:
+follow_on_work_required`, bind the source run, phase, target, include/exclude
+scope, evidence refs, required forbidden authority-transfer entries, stop
+conditions, and expected return evidence. The request must not authorize Change
+Closeout, Worktree Closeout, Repo Hygiene, Git/ref mutation, hosted-provider
+actions, promotion, cleanup, or archive. The source packet cannot claim the
+dependency is resolved until a validating `lifecycle-interaction-return-v1`
+receipt cites fresh target-owned return evidence.

@@ -13,6 +13,23 @@ Default resolution:
 - `child_packet_paths` without `program_packet_path` defaults to
   `create-program`.
 
+Command surface taxonomy:
+
+- `octon-proposal` is the composite dispatcher. It resolves explicit bundle or
+  lifecycle-action inputs to the matching proposal leaf, or to read-only
+  explanation/creation defaults when the input is routeable but incomplete.
+- Packet route leaves such as `create-packet`, `review-packet`,
+  `revise-packet`, `run-packet-implementation`,
+  `run-packet-verification-and-correction-loop`, and `closeout-packet` own one
+  concrete packet action and its packet-local receipts.
+- Auxiliary packet prompt generators create operational prompts only. They do
+  not prove implementation, verification, closeout, or lifecycle completion.
+- Program coordination leaves own parent-program coordination surfaces only;
+  parent evidence never satisfies child packet receipts.
+- `octon-proposal-run-packet-lifecycle` and
+  `octon-proposal-run-program-lifecycle` are generic lifecycle runner wrappers.
+  They own governed orchestration, not leaf route semantics.
+
 Use `octon lifecycle plan|run|resume` for the generic end-to-end lifecycle
 orchestration surface. The proposal pack exposes
 `/octon-proposal-run-packet-lifecycle` and

@@ -97,3 +97,8 @@ This skill must not delete
 - Do not delete branches, tracked files, proposal inputs, generated run-health
   projections, durable evidence, active control state, detached Git worktrees,
   ignored paths, or user-owned paths.
+- Treat `lifecycle-interaction-request-v1` receipts as non-authorizing context.
+  They may identify why hygiene was requested, but deletion still requires
+  helper classification plus explicit confirmation or a validating
+  `repo-hygiene-cleanup-authorization-v1` receipt that matches the current
+  path set and proof bits.

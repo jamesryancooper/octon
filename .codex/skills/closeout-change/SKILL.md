@@ -212,6 +212,12 @@ approval denial, or cleanup outside a governed route.
 - Do not claim completed or cleaned closeout without `stateful_closeout`
   receipt evidence from the Change Closeout State Machine.
 - Do not use proposal-local packet paths as runtime or policy dependencies.
+- A `lifecycle-interaction-request-v1` may provide scoped advisory context for
+  why Change Closeout was requested, but it is not landing, cleanup, hosted,
+  rollback, scope, validation, or closeout authority. Continue to require the
+  Change receipt, landing authorization, cleanup authorization, hosted checks,
+  rollback posture, exact SHA evidence, final sync, and target-owned gates
+  before claiming any lifecycle outcome.
 
 ## References
 

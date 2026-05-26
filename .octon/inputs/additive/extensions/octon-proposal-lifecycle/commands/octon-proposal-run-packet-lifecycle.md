@@ -6,6 +6,11 @@ Run the generic lifecycle runner for one proposal packet target:
 octon lifecycle run --lifecycle proposal-packet --target <packet-path>
 ```
 
+By default this is orchestration-only: it emits gated `route-ready` handoff
+evidence and does not run the selected route. Add `--execute-routes` only when
+selected route execution should be delegated through the shared executor
+adapter and proof-gated before dispatch.
+
 Use `--run-id`, `--executor`, `--max-iterations`, `--set key=value`, and
 `--set-file key=path` when deterministic resume, mock execution, bounded loop
 testing, or creation input binding is required. For missing proposal targets,

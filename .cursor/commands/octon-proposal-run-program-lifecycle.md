@@ -6,6 +6,11 @@ Run the generic lifecycle runner for one proposal program target:
 octon lifecycle run --lifecycle proposal-program --target <program-packet-path>
 ```
 
+By default this is orchestration-only: it emits planned
+`program-route-handoff` evidence and does not run selected parent or child
+routes. Add `--execute-routes` only when selected route execution should be
+delegated through the shared executor adapter and proof-gated before dispatch.
+
 If `octon` is not installed on PATH, or if the packaged binary does not expose
 `lifecycle`, use the repo-local development launcher:
 
