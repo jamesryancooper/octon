@@ -1,66 +1,60 @@
-# Execute Disposition
+# Execute Handoff Or Denial
 
 Execute only the route selected by the classification receipt.
 
 The source under `.incoming/<intake-id>/` remains raw intake throughout this
-stage. Only reviewed material copied or rewritten into the selected destination
-by this stage can become a normalized candidate for later validation,
-activation, or publication.
+stage. Handoff context is advisory only. It does not install, normalize,
+activate, publish, archive, close out Changes, clean worktrees, delete repo
+hygiene residue, or authorize target lifecycle action.
 
-## Additive Extension Pack
+## Handoff Routes
 
-Normalize the reviewed intake into
-`.octon/inputs/additive/extensions/<extension-pack-id>/`.
+For `single-work-unit-handoff`, create
+`governed-incoming-intake-handoff-v1` advisory context for the
+`proposal-packet-intake-admission` target-owned contract.
 
-Required behavior:
-
-- create or verify `pack.yml`
-- create or verify `validation/compatibility.yml`
-- add required capability profiles, content fragments, provenance, and required
-  contracts
-- update `instance/extensions.yml` only when an explicit activation decision
-  exists
-- publish only with existing extension publication scripts
-- remove or archive the `.incoming/<intake-id>/` source only after evidence and
-  validation are captured; final disposition must leave no `.incoming/<intake-id>/`
-  copy
-
-## Core Octon Skill
-
-Install only reviewed skill payload into
-`.octon/framework/capabilities/runtime/skills/**`.
+For `coordinated-program-handoff`, create
+`governed-incoming-intake-handoff-v1` advisory context for the
+`proposal-program-intake-admission` target-owned contract.
 
 Required behavior:
 
-- merge manifest, registry, capability, and group fragments into existing
-  framework-owned skill surfaces
-- never replace shared manifest, registry, or capability files wholesale
-- validate allowed tools, triggers, skill id, skill family, and routing posture
-- publish capability routing and host projections only through existing scripts
-- remove or archive the `.incoming/<intake-id>/` source only after evidence and
-  validation are captured; final disposition must leave no `.incoming/<intake-id>/`
-  copy
+- validate the route decision receipt before creating handoff context
+- bind source intake digest, decision digest, payload inventory digest, and
+  scope digest into the handoff
+- include forbidden authority transfers for Git mutation, hosted provider
+  action, branch cleanup, worktree cleanup, repo hygiene deletion, promotion,
+  archive, and scope expansion
+- validate the target-owned intake admission contract
+- when `execute_handoff` is false, stop with retained handoff evidence and no
+  target dispatch
+- when `execute_handoff` is true, invoke only the target-owned admission/GLO
+  route whose contract validates
+- record target-owned preflight result, lifecycle run id, route execution
+  result, and target return refs when produced
 
-## Blocked / Proposal-Required
+## Direct Target Route
 
-Do not install, activate, publish, project, or expose the intake unit.
+`target-owned-direct-handoff` is recognized but denied unless a non-proposal
+target declares a valid `target-owned-intake-admission-contract-v1` contract.
+The current implementation must record `rejected-no-target-owned-contract` and
+terminal disposition `blocked-rejected-deferred`.
 
-Required behavior:
+## Blocked Route
 
-- record the blocker and route to proposal/design work
-- retain under `.octon/inputs/additive/.archive/<intake-id>/` when source
-  material must remain reviewable
-- otherwise leave only retained evidence under `state/evidence/**`
-- remove the `.incoming/<intake-id>/` source when blocked disposition is final
+For `blocked-rejected-deferred`, do not create target handoff context or invoke
+target routes. Record denial evidence and the stop reason. Retain or archive
+raw source only through a separately governed final disposition whose retention
+posture is safe and evidenced.
 
 Prohibited for every route:
 
 - direct writes to `.codex/skills`, `.claude/skills`, or `.cursor/skills`
 - direct generated/effective edits
 - root `.archive/**` or Downloads staging
-- validation, provenance, trust, compatibility, publication, or projection
-  bypasses
-- retaining `.incoming/<intake-id>/` after final disposition
-- treating `intake.yml` or any file under `payload/` as runtime, policy,
-  generated, retained evidence, state/control, publication, extension-pack,
-  skill, or host-projection authority
+- raw-intake installation or normalization
+- target dispatch without a target-owned intake admission contract
+- treating handoff context or lifecycle interaction receipts as target
+  authorization
+- allowing parent program evidence to satisfy child packet receipts
+- claiming target completion without target-owned return evidence

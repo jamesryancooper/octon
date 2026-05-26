@@ -1,0 +1,51 @@
+schema_version: "target-owned-intake-admission-contract-v1"
+contract_id: "proposal-packet-intake-admission"
+owner_extension: "octon-proposal-lifecycle"
+owner_lifecycle_id: "proposal-packet"
+contract_status: "active"
+accepted_intake_routes:
+  - "single-work-unit-handoff"
+target_route_surface: "create-packet"
+target_atomic_unit_type: "proposal-packet"
+dispatch_modes_allowed:
+  - "classification-only"
+  - "preflight-only"
+  - "supervised-dispatch"
+autonomous_dispatch_enabled: false
+input_bindings:
+  - "intake-id"
+  - "route-decision-ref"
+  - "handoff-ref"
+  - "source-context"
+required_preflight_validators:
+  - "validate-governed-incoming-intake-routing"
+  - "validate-proposal-standard"
+required_receipts_before_dispatch:
+  - "governed-incoming-intake-route-decision-v1"
+  - "governed-incoming-intake-handoff-v1"
+required_receipts_before_completion:
+  - "proposal-creation"
+expected_return_evidence:
+  - "proposal-creation"
+  - "proposal-packet-path"
+  - "lifecycle-route-execution-result-v1"
+target_owns:
+  authority_validation: true
+  scope_validation: true
+  mutation: true
+  receipts: true
+  completion_claims: true
+  rollback_or_correction: true
+authority_boundary:
+  handoff_context_is_advisory: true
+  lifecycle_interaction_receipts_authorize_target_action: false
+  forbidden_transfer:
+    - "git-ref-mutation"
+    - "hosted-provider-authorization"
+    - "branch-cleanup-authorization"
+    - "worktree-cleanup-authorization"
+    - "repo-hygiene-deletion"
+    - "archive-authorization"
+    - "promotion-authorization"
+    - "scope-expansion"
+rollback_posture: "No intake-owned mutation is authorized; proposal packet lifecycle owns target creation, receipts, correction, closeout handoffs, and rollback posture."

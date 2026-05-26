@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/governed-incoming-intake-handoff-v1.schema.json",
+  "title": "Governed Incoming Intake Handoff v1",
+  "description": "Non-authorizing advisory handoff from incoming intake routing to a target-owned intake admission route.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "handoff_id",
+    "created_at",
+    "source_decision",
+    "target",
+    "scope",
+    "advisory_context",
+    "authority_boundary",
+    "expected_target_return_evidence",
+    "replay"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "governed-incoming-intake-handoff-v1"
+    },
+    "handoff_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "intake_id",
+        "decision_ref",
+        "decision_digest",
+        "envelope_digest",
+        "payload_inventory_digest"
+      ],
+      "properties": {
+        "intake_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "decision_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "decision_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "envelope_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "payload_inventory_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "selected_route",
+        "requested_lifecycle_id",
+        "requested_route_surface",
+        "requested_atomic_unit_type",
+        "admission_contract_ref",
+        "dispatch_mode"
+      ],
+      "properties": {
+        "selected_route": {
+          "enum": [
+            "single-work-unit-handoff",
+            "coordinated-program-handoff",
+            "target-owned-direct-handoff"
+          ]
+        },
+        "requested_lifecycle_id": {
+          "$ref": "#/$defs/identifier"
+        },
+        "requested_route_surface": {
+          "$ref": "#/$defs/identifier"
+        },
+        "requested_atomic_unit_type": {
+          "$ref": "#/$defs/identifier"
+        },
+        "admission_contract_ref": {
+          "$ref": "#/$defs/repoRelativePath"
+        },
+        "dispatch_mode": {
+          "enum": [
+            "classification-only",
+            "preflight-only",
+            "supervised-dispatch"
+          ]
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["include_paths", "exclude_paths", "boundary_digest"],
+      "properties": {
+        "include_paths": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repoRelativePath" },
+          "uniqueItems": true
+        },
+        "exclude_paths": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repoRelativePath" },
+          "uniqueItems": true
+        },
+        "boundary_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        }
+      }
+    },
+    "advisory_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "context_is_advisory",
+        "authorizes_target_action",
+        "authorizes_scope_expansion",
+        "authorizes_completion_claim"
+      ],
+      "properties": {
+        "context_is_advisory": { "const": true },
+        "authorizes_target_action": { "const": false },
+        "authorizes_scope_expansion": { "const": false },
+        "authorizes_completion_claim": { "const": false }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["forbidden_transfer"],
+      "properties": {
+        "forbidden_transfer": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/forbiddenTransfer" },
+          "uniqueItems": true,
+          "allOf": [
+            { "contains": { "const": "git-ref-mutation" } },
+            { "contains": { "const": "hosted-provider-authorization" } },
+            { "contains": { "const": "branch-cleanup-authorization" } },
+            { "contains": { "const": "worktree-cleanup-authorization" } },
+            { "contains": { "const": "repo-hygiene-deletion" } },
+            { "contains": { "const": "archive-authorization" } },
+            { "contains": { "const": "promotion-authorization" } },
+            { "contains": { "const": "scope-expansion" } }
+          ]
+        }
+      }
+    },
+    "expected_target_return_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "target_return_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/repoRelativePath"
+      },
+      "uniqueItems": true
+    },
+    "replay": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "handoff_input_digest",
+        "duplicate_target_creation_allowed"
+      ],
+      "properties": {
+        "handoff_input_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "duplicate_target_creation_allowed": {
+          "const": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "repoRelativePath": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.($|/)" },
+          { "pattern": "(^|/)\\.\\.($|/)" }
+        ]
+      }
+    },
+    "forbiddenTransfer": {
+      "enum": [
+        "git-ref-mutation",
+        "hosted-provider-authorization",
+        "branch-cleanup-authorization",
+        "worktree-cleanup-authorization",
+        "repo-hygiene-deletion",
+        "archive-authorization",
+        "promotion-authorization",
+        "scope-expansion"
+      ]
+    }
+  }
+}

@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/contracts/target-owned-intake-admission-contract-v1.schema.json",
+  "title": "Target-Owned Intake Admission Contract v1",
+  "description": "Target-owned declaration for receiving Governed Incoming Intake Routing handoff context.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract_id",
+    "owner_extension",
+    "owner_lifecycle_id",
+    "contract_status",
+    "accepted_intake_routes",
+    "target_route_surface",
+    "target_atomic_unit_type",
+    "dispatch_modes_allowed",
+    "autonomous_dispatch_enabled",
+    "input_bindings",
+    "required_preflight_validators",
+    "required_receipts_before_dispatch",
+    "required_receipts_before_completion",
+    "expected_return_evidence",
+    "target_owns",
+    "authority_boundary",
+    "rollback_posture"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "target-owned-intake-admission-contract-v1"
+    },
+    "contract_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "owner_extension": {
+      "$ref": "#/$defs/identifier"
+    },
+    "owner_lifecycle_id": {
+      "$ref": "#/$defs/identifier"
+    },
+    "contract_status": {
+      "enum": ["active", "disabled"]
+    },
+    "accepted_intake_routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "single-work-unit-handoff",
+          "coordinated-program-handoff",
+          "target-owned-direct-handoff"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "target_route_surface": {
+      "$ref": "#/$defs/identifier"
+    },
+    "target_atomic_unit_type": {
+      "$ref": "#/$defs/identifier"
+    },
+    "dispatch_modes_allowed": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "classification-only",
+          "preflight-only",
+          "supervised-dispatch"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "autonomous_dispatch_enabled": {
+      "const": false
+    },
+    "input_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/identifier"
+      },
+      "uniqueItems": true
+    },
+    "required_preflight_validators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "required_receipts_before_dispatch": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "required_receipts_before_completion": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "expected_return_evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "target_owns": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority_validation",
+        "scope_validation",
+        "mutation",
+        "receipts",
+        "completion_claims",
+        "rollback_or_correction"
+      ],
+      "properties": {
+        "authority_validation": { "const": true },
+        "scope_validation": { "const": true },
+        "mutation": { "const": true },
+        "receipts": { "const": true },
+        "completion_claims": { "const": true },
+        "rollback_or_correction": { "const": true }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "handoff_context_is_advisory",
+        "lifecycle_interaction_receipts_authorize_target_action",
+        "forbidden_transfer"
+      ],
+      "properties": {
+        "handoff_context_is_advisory": { "const": true },
+        "lifecycle_interaction_receipts_authorize_target_action": { "const": false },
+        "forbidden_transfer": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/forbiddenTransfer" },
+          "uniqueItems": true,
+          "allOf": [
+            { "contains": { "const": "git-ref-mutation" } },
+            { "contains": { "const": "hosted-provider-authorization" } },
+            { "contains": { "const": "branch-cleanup-authorization" } },
+            { "contains": { "const": "worktree-cleanup-authorization" } },
+            { "contains": { "const": "repo-hygiene-deletion" } },
+            { "contains": { "const": "archive-authorization" } },
+            { "contains": { "const": "promotion-authorization" } },
+            { "contains": { "const": "scope-expansion" } }
+          ]
+        }
+      }
+    },
+    "rollback_posture": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]*$"
+    },
+    "forbiddenTransfer": {
+      "enum": [
+        "git-ref-mutation",
+        "hosted-provider-authorization",
+        "branch-cleanup-authorization",
+        "worktree-cleanup-authorization",
+        "repo-hygiene-deletion",
+        "archive-authorization",
+        "promotion-authorization",
+        "scope-expansion"
+      ]
+    }
+  }
+}

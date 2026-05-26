@@ -1,6 +1,6 @@
 ---
 name: "process-incoming-intake"
-description: "Classify and dispose an Octon intake unit staged under additive `.incoming` as a normalized additive extension, a core Octon skill, or a blocked/proposal-required input without letting raw intake become authority."
+description: "Classify one explicitly provided additive `.incoming` intake unit through Governed Incoming Intake Routing, producing a target-owned handoff or fail-closed denial without letting raw intake become authority."
 steps:
   - id: "validate-intake"
     file: "stages/01-validate-intake.md"
@@ -10,7 +10,7 @@ steps:
     description: "classify-route"
   - id: "execute-disposition"
     file: "stages/03-execute-disposition.md"
-    description: "execute-disposition"
+    description: "execute-handoff-or-denial"
   - id: "validate-closeout"
     file: "stages/04-validate-closeout.md"
     description: "validate-closeout"
@@ -28,7 +28,7 @@ _Generated README from canonical workflow `process-incoming-intake`._
 
 ## Purpose
 
-Classify and dispose an Octon intake unit staged under additive `.incoming` as a normalized additive extension, a core Octon skill, or a blocked/proposal-required input without letting raw intake become authority.
+Classify one explicitly provided additive `.incoming` intake unit through Governed Incoming Intake Routing, producing a target-owned handoff or fail-closed denial without letting raw intake become authority.
 
 ## Target
 
@@ -42,8 +42,9 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Parameters
 
 - `intake_id` (text, required=true): Incoming intake id under `.octon/inputs/additive/.incoming/<intake-id>/`; current units require `intake.yml` and `payload/`
-- `requested_route` (text, required=false): Optional route hint; final classification must still be proven by the decision matrix
+- `requested_route` (text, required=false): Optional route hint from the governed four-route set; final classification must still be proven by the decision matrix and mismatches fail closed
 - `stop_after_classification` (boolean, required=false): Stop after writing the classification receipt without applying disposition
+- `execute_handoff` (boolean, required=false): Execute only a target-owned admission handoff whose contract and preflight validators pass
 
 ## Failure Conditions
 
@@ -53,8 +54,9 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 ## Outputs
 
-- `incoming_intake_decision` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/decision.md`: Route decision, rejected routes, intake-envelope findings, provenance/trust findings, and selected disposition
-- `incoming_intake_validation` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md`: Route-specific validation commands, outcomes, and cleanup evidence
+- `incoming_intake_decision` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/decision.md`: Governed route decision, rejected routes, intake-envelope findings, provenance/trust findings, authority boundaries, and denial evidence
+- `incoming_intake_handoff` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/handoff.md`: Advisory target-owned handoff context, target admission contract refs, target preflight results, and target return refs when present
+- `incoming_intake_validation` -> `/.octon/state/evidence/runs/workflows/{{date}}-process-incoming-intake-{{intake_id}}/validation.md`: Route decision, handoff, admission, target return validation commands, outcomes, and unresolved blockers
 
 ## Steps
 
@@ -69,14 +71,17 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] intake unit has non-authoritative `intake.yml`, required `payload/`, and no top-level raw payload leakage
 - [ ] validate-incoming-intake-unit.sh passes and its deterministic payload inventory plus classification findings are preserved in workflow evidence
 - [ ] root `.archive/**`, Downloads paths, generated outputs, and host-specific skill directories are not used as staging
-- [ ] one and only one route is selected from additive extension, core Octon skill, or blocked/proposal-required
-- [ ] route decision evidence records criteria, rejected routes, envelope findings, provenance, trust posture, and compatibility findings
-- [ ] additive extension route normalizes into `inputs/additive/extensions/<extension-pack-id>/` and uses existing extension publication flows
-- [ ] core skill route installs only into `framework/capabilities/runtime/skills/**` and uses existing skill validation and projection flows
-- [ ] blocked route performs no install, activation, publication, projection, or runtime exposure
-- [ ] final disposition leaves no `.incoming/<intake-id>/` copy; only `stop_after_classification=true` may leave raw intake in place
+- [ ] one and only one route is selected from single-work-unit-handoff, coordinated-program-handoff, target-owned-direct-handoff, or blocked-rejected-deferred
+- [ ] route decision evidence records criteria, rejected routes, envelope findings, provenance, trust posture, authority boundaries, replay posture, and denial evidence
+- [ ] single-work-unit-handoff creates only advisory context for proposal packet admission
+- [ ] coordinated-program-handoff creates only advisory context for proposal program admission
+- [ ] target-owned-direct-handoff remains denied until a target-owned intake admission contract exists
+- [ ] blocked-rejected-deferred performs no install, activation, publication, projection, target dispatch, closeout, worktree cleanup, or repo hygiene cleanup
+- [ ] target dispatch happens only when execute_handoff=true and the target-owned admission contract validates
+- [ ] intake does not claim implementation, closeout, cleanup, or archive completion without target-owned return evidence
+- [ ] classification-only and advisory-handoff stops may leave raw intake in place when no final disposition has been applied
 - [ ] archive retention is safe, justified, and evidenced; unsafe retained material uses evidence-only pointers
-- [ ] route-specific validation commands pass or documented blockers stop the workflow fail-closed
+- [ ] route decision, handoff, admission, and target return validators pass or documented blockers stop the workflow fail-closed
 
 ## References
 
@@ -87,4 +92,5 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 
 | Version | Changes |
 |---------|---------|
+| 2.0.0 | Governed Incoming Intake Routing target-owned handoff model |
 | 1.0.0 | Generated from canonical workflow `process-incoming-intake` |

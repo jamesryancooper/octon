@@ -1,74 +1,44 @@
 # Governed Incoming Intake Routing
 
-This document defines the target route model and fixture expectations for
-Governed Incoming Intake Routing.
+Governed Incoming Intake Routing is the additive `.incoming/<intake-id>`
+admission layer inside `process-incoming-intake`.
 
-Governed Incoming Intake Routing applies only to an explicitly provided
-additive incoming intake unit under
-`inputs/additive/.incoming/<intake-id>/`. It is a non-mutating classification
-and handoff decision layer over the existing incoming intake envelope. It does
-not process intake, create proposals, dispatch Governed Lifecycle
-Orchestration, install skills, normalize extension packs, activate extensions,
-archive source material, close Changes, clean worktrees, or delete repository
-hygiene residue.
+It accepts only one explicitly provided raw additive intake unit, validates the
+existing non-authoritative intake envelope, classifies deterministic routing
+facts, selects exactly one target-owned route or fail-closed denial, and records
+replayable evidence. It is not a generic entry router and it does not make raw
+intake, intake workflow output, proposal handoff context, generated output,
+host state, chat history, model memory, tool availability, or lifecycle
+interaction receipts authoritative.
 
-The existing incoming intake envelope validation remains the first gate. Route
+The existing incoming intake envelope validator remains the first gate. Route
 classification starts only after
 `validate-incoming-intake-unit.sh --intake-id <intake-id>` succeeds. A malformed
 or unsafe raw intake envelope is blocked before route classification.
 
-Raw intake, generated output, host state, chat history, model memory, tool
-availability, lifecycle interaction receipts, and proposal handoff context are
-not runtime, policy, proposal, closeout, cleanup, retained-evidence, or Git
-authority.
-
-## Scope
-
-In scope:
-
-- explicitly provided `.incoming/<intake-id>` additive intake units
-- deterministic classification fixture facts
-- route decision receipts and denial rationale
-- advisory handoff context for a target-owned proposal packet or program route
-- proof that a future direct target route is denied until an explicit
-  target-owned intake admission contract exists
-
-Out of scope:
-
-- autonomous scanning of `.incoming/**`
-- direct installation or normalization of intake payloads
-- proposal packet or program creation
-- GLO dispatch
-- Change closeout
-- worktree closeout
-- repo hygiene cleanup
-- branch, hosted provider, archive, or Git mutation
-
-Existing direct additive extension and core skill dispositions remain current
-behavior until a later governed migration changes workflow semantics. This
-surface defines the fixture-backed target route model for that migration; it is
-not itself a behavior-changing runtime workflow.
-
-## Route Set
+## Mature Route Set
 
 Governed Incoming Intake Routing has exactly four route decisions.
 
-| Route | Current Status | Meaning |
-| --- | --- | --- |
-| `single-work-unit-handoff` | Enabled for fixture classification only | One coherent candidate addition becomes advisory proposal packet handoff context. |
-| `coordinated-program-handoff` | Enabled for fixture classification only | Multi-surface, staged, dependent, or complex intake becomes advisory proposal program handoff context. |
-| `target-owned-direct-handoff` | Recognized but denied | Reserved for future non-proposal targets with explicit target-owned intake admission contracts. |
-| `blocked-rejected-deferred` | Enabled | Intake is malformed, unsafe, ambiguous, unsupported, unverifiable, low-value, intentionally deferred, or authority-confused. |
+| Route | Meaning |
+| --- | --- |
+| `single-work-unit-handoff` | Target-owned proposal packet admission for straightforward extension packs, core skills, or coherent single-surface additions. |
+| `coordinated-program-handoff` | Target-owned proposal program admission for multi-surface, staged, dependent, migration, cutover, or governance-plus-runtime additions. |
+| `target-owned-direct-handoff` | Reserved for future non-proposal targets with explicit target-owned intake admission contracts; disabled until such a contract exists. |
+| `blocked-rejected-deferred` | Malformed, unsafe, ambiguous, unsupported, unverifiable, low-value, deferred, or authority-confused intake. |
 
-No route selected by this layer authorizes target mutation. The selected target
-owns its own validation, authority, receipt requirements, mutation, closeout,
-archive, and cleanup behavior.
+Direct additive extension and core-skill installation from raw intake is a
+legacy disposition model. Mature governed intake routes extension packs, core
+skills, and other core surfaces through proposal packet or proposal program
+admission by default. Any future non-proposal direct handoff must declare and
+validate a target-owned intake admission contract before dispatch can be
+enabled.
 
 ## Route Criteria
 
 Use `single-work-unit-handoff` only when all of these are true:
 
-- the incoming envelope has already passed validation
+- the intake envelope passed validation
 - the candidate has one coherent intent
 - the candidate has one primary target surface
 - no child sequencing is required
@@ -89,7 +59,7 @@ Use `coordinated-program-handoff` when any of these are true:
 
 Recognize `target-owned-direct-handoff` only when an intake attempts to route to
 a non-proposal target. In the current implementation, this route is always
-denied because no target-owned intake admission contract exists.
+denied because no non-proposal target-owned intake admission contract exists.
 
 Use `blocked-rejected-deferred` when any of these are true:
 
@@ -98,48 +68,143 @@ Use `blocked-rejected-deferred` when any of these are true:
 - source material contains secrets, private data, proprietary material, opaque
   binaries, or unsafe executable content
 - route classification is ambiguous
+- a requested route disagrees with deterministic classification
+- target return evidence is missing, stale, or digest-mismatched
+- scope digests drift between classification and handoff
 - the target surface is unsupported
+- parent program evidence is offered as a child packet receipt
+- lifecycle interaction receipts are treated as authorization
 - the intake claims authority to install, promote, mutate Git, close Changes,
   clean worktrees, delete hygiene residue, archive source material, widen
   scope, or authorize downstream lifecycle action
 - a direct target handoff is requested without a target-owned intake admission
   contract
 
+## Target-Owned Admission
+
+The intake workflow may package advisory context and request target admission.
+The selected target owns validation, authority, mutation, receipts, rollback or
+correction, completion claims, and return evidence.
+
+Target-owned contracts:
+
+- `governed-incoming-intake-route-decision-v1` records selected route, rejected
+  routes, classification facts, envelope and inventory digests, denial evidence,
+  authority boundaries, and replay posture.
+- `governed-incoming-intake-handoff-v1` records advisory target context, source
+  intake digest, decision digest, scope digest, forbidden authority transfers,
+  expected target return evidence, and duplicate-target prevention.
+- `target-owned-intake-admission-contract-v1` declares which target lifecycle
+  can receive a handoff route, what preflight validators and receipts are
+  required, and which target-owned boundaries are enforced.
+
+Proposal-owned admission contracts currently live under the
+`octon-proposal-lifecycle` extension context:
+
+- `proposal-packet-intake-admission` accepts `single-work-unit-handoff`
+  context and owns packet creation through the proposal packet lifecycle.
+- `proposal-program-intake-admission` accepts `coordinated-program-handoff`
+  context and owns parent program creation, child registry planning, and child
+  receipt isolation through the proposal program lifecycle.
+
+## Lifecycle Ownership
+
+Intake routing owns:
+
+- explicit intake binding
+- envelope validation invocation
+- deterministic classification
+- route decision receipt
+- denial evidence
+- advisory handoff packaging
+- target invocation bookkeeping
+- target return references
+
+Proposal packet lifecycle owns packet creation, review/revision,
+implementation readiness, implementation prompt/run, verification/correction,
+proposal closeout, archive, and packet-local receipts.
+
+Proposal program lifecycle owns parent program creation, child registry, child
+packet planning, dependency ordering, program checkpoints, program evidence,
+and child receipt isolation.
+
+Governed Lifecycle Orchestration owns lifecycle planning, gating, dispatch
+through lifecycle contracts, checkpoints, resume, return observation, and
+fail-closed lifecycle state.
+
+`closeout-change`, `closeout-worktree`, and `repo-hygiene-cleanup` own their
+respective closeout/cleanup validation, authority, mutation, receipts, and
+returns. Proposal lifecycle handoff receipts are advisory context only.
+
+Intake routing must never claim target completion unless target-owned return
+evidence is present, fresh, digest-bound, and within scope.
+
+## Handoff Boundaries
+
+Handoff context must forbid authorization transfer for:
+
+- Git mutation
+- hosted provider action
+- branch cleanup
+- worktree cleanup
+- repo hygiene deletion
+- promotion
+- archive
+- scope expansion
+
+Lifecycle interaction receipts are advisory context only and never authorize
+target action. Parent proposal-program evidence never satisfies child packet
+receipts.
+
+## Evidence And Replay
+
+Each routing run must retain:
+
+- explicit intake id and path
+- intake validator output
+- meaningful payload inventory and excluded noise
+- intake envelope digest
+- payload inventory digest
+- classification facts
+- selected route or denial
+- rejected routes and rationale
+- denial evidence
+- handoff scope digest when handoff context is created
+- target admission request and target-owned preflight result when invoked
+- target return references when a target lifecycle returns evidence
+
+Reclassification is idempotent: the same explicit intake plus the same
+authoritative state and payload digest must produce the same route decision.
+Re-running after target creation must resume or reference the existing
+digest-compatible target-owned run; it must not create duplicate proposal
+packets or programs.
+
+## Modes
+
+`/process-incoming-intake <intake-id>` supports these mature modes:
+
+- default: validate, classify, create target-owned handoff context, and stop if
+  target dispatch is unavailable
+- `--stop-after-classification`: write the decision receipt only
+- `--execute-handoff`: invoke only target-owned admission/GLO routes whose
+  contracts validate
+- `--requested-route <route>`: advisory hint only; fail closed if deterministic
+  classification disagrees
+
+Autonomous dispatch remains disabled until target contracts, receipts, rollback
+posture, and negative fixtures prove it safe.
+
 ## Fixture Matrix
 
 The authoritative fixture expectations for validators live in
 `governed-incoming-intake-routing-fixtures.yml`.
 
-| Fixture ID | Fixture Type | Expected Route | Expected Result |
-| --- | --- | --- | --- |
-| `real-rust-source-authority-invalid-envelope` | Real observed intake | none | Block before route classification because top-level `.DS_Store` and `intake-status.yml` violate the current intake envelope. |
-| `simple-extension-pack-single-unit` | Synthetic | `single-work-unit-handoff` | One coherent extension pack candidate becomes proposal packet handoff context. |
-| `simple-core-skill-single-unit` | Synthetic | `single-work-unit-handoff` | One coherent core skill candidate becomes proposal packet handoff context. |
-| `multi-skill-program` | Synthetic | `coordinated-program-handoff` | Multiple skills or surfaces require program coordination and child packet planning. |
-| `governance-plus-runtime-program` | Synthetic | `coordinated-program-handoff` | Governance and runtime-facing changes require program handoff. |
-| `ambiguous-packet-vs-program` | Synthetic | `blocked-rejected-deferred` | Classification records both candidates and blocks for missing discriminator. |
-| `unsafe-provenance-or-license` | Synthetic | `blocked-rejected-deferred` | Unsafe provenance or licensing prevents handoff and may require evidence-only retention. |
-| `secret-or-private-data` | Synthetic | `blocked-rejected-deferred` | Secrets or private data prevent archive-by-copy and proposal handoff. |
-| `malicious-authority-confusion` | Synthetic | `blocked-rejected-deferred` | Claims to authorize Git, cleanup, generated authority, or direct install are denied. |
-| `direct-target-without-contract` | Synthetic | `target-owned-direct-handoff` rejected | Direct target route is recognized but denied because no target contract exists. |
-
-## Evidence Expectations
-
-Each fixture expectation must preserve:
-
-- explicit intake id or observed intake path
-- preclassification envelope validation result
-- classification signals used to derive the route
-- selected route or denial
-- rejected route candidates when classification reaches route selection
-- rationale for every denial
-- proof that handoff context is advisory and cannot authorize target action
-- proof that parent program evidence cannot satisfy child packet receipts
-- proof that classification replay is idempotent and non-mutating
-
-Every mutating target action remains target-owned and must require a separate
-target-owned contract, validator, and receipt before any future implementation
-may dispatch it.
+The fixture matrix must cover positive packet/program handoff decisions and
+negative cases for invalid envelopes, ambiguous packet/program routing, unsafe
+provenance or licensing, secrets/private data, malicious authority confusion,
+direct target handoff without a contract, stale target return evidence, parent
+program evidence used for child packet receipts, lifecycle interaction receipts
+used as authorization, requested-route mismatch, and scope digest drift.
 
 ## Fail-Closed Rules
 
@@ -151,6 +216,11 @@ The validator must fail closed when:
   admission contract
 - a fixture selects more than one route or selects an unknown route
 - a non-blocked route omits rejected route evidence
+- blocked routes omit denial evidence
+- a required route decision, handoff, admission, or target return schema is
+  missing or invalid
+- proposal packet/program admission contracts are missing, disabled, or
+  authority-confused
 - handoff context attempts to authorize Git, branch cleanup, hosted provider
   action, worktree cleanup, repo hygiene deletion, promotion, archive, or scope
   expansion

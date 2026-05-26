@@ -42,30 +42,35 @@ host projection.
      secret/private-data, redistribution, size, candidate extension pack, and
      candidate core skill findings as classification inputs.
 2. **Classification**
-   - Apply the decision matrix below.
-   - Emit a decision receipt under `state/evidence/**` before any installation,
-     normalization, activation, publication, archive move, or cleanup.
-   - Select exactly one route: additive extension pack, core Octon skill, or
-     blocked/proposal-required.
-3. **Disposition**
-   - Additive extension route normalizes reviewed content into
-     `inputs/additive/extensions/<extension-pack-id>/` and keeps activation in
-     `instance/extensions.yml`.
-   - Core skill route installs only the reviewed skill payload under
-     `framework/capabilities/runtime/skills/**` and updates existing skill
-     manifests, registries, validations, and host projection flows.
-   - Blocked route retains or archives the intake copy without installing it and
-     routes missing contracts, unsafe posture, or ownership ambiguity to a
-     proposal or design update.
+   - Apply Governed Incoming Intake Routing.
+   - Emit a
+     `governed-incoming-intake-route-decision-v1` receipt under
+     `state/evidence/**` before any proposal admission handoff, installation,
+     normalization, activation, publication, archive move, closeout, or cleanup.
+   - Select exactly one route: `single-work-unit-handoff`,
+     `coordinated-program-handoff`, `target-owned-direct-handoff`, or
+     `blocked-rejected-deferred`.
+3. **Handoff Or Denial**
+   - `single-work-unit-handoff` creates only advisory context for target-owned
+     proposal packet admission.
+   - `coordinated-program-handoff` creates only advisory context for
+     target-owned proposal program admission.
+   - `target-owned-direct-handoff` is denied until a non-proposal target-owned
+     intake admission contract exists.
+   - `blocked-rejected-deferred` records denial evidence and performs no
+     install, activation, publication, projection, closeout, cleanup, or target
+     dispatch.
 4. **Validation**
-   - Run the route-specific validation floor before claiming success.
-   - Use existing extension, skill, publication, and host-projection pipelines.
+   - Run route-decision, handoff, target admission, and target return validators
+     before claiming a handoff or denial is complete.
+   - Use target-owned proposal lifecycle and GLO validation for proposal packet
+     or program admission.
    - Do not hand-create generated/effective or host-specific projection files.
 5. **Cleanup**
-   - Remove `.incoming/<intake-id>/` after every final route disposition and
-     evidence capture.
-   - Leave `.incoming/<intake-id>/` in place only when processing explicitly stops
-     after classification without applying disposition.
+   - Remove `.incoming/<intake-id>/` only through a governed final disposition
+     whose archive or evidence-only posture is safe and evidenced.
+   - Leave `.incoming/<intake-id>/` in place when processing stops after
+     classification or advisory handoff without applying final disposition.
    - Any current `.incoming/<intake-id>/` directory that remains in place must
      preserve its non-authoritative `intake.yml` envelope. Legacy directories
      with `intake-status.yml` remain non-authoritative raw intake until a
@@ -75,109 +80,46 @@ host projection.
      reviewable, justified, and evidenced.
    - Keep decision, validation, and cleanup evidence under `state/evidence/**`.
 
-## Decision Matrix
+## Governed Decision Matrix
 
-| Route | Required Criteria | Examples | Destination | Required Gates |
-| --- | --- | --- | --- | --- |
-| Additive extension pack | Optional, selectable, portable, trust-gated, externally sourced, or useful as a reusable pack outside the core harness | prompt bundles, optional language support packs, templates, portable commands, extension-owned skills | `inputs/additive/extensions/<extension-pack-id>/` | `pack.yml`, `validation/compatibility.yml`, capability profiles, provenance, trust decision, extension publication validation |
-| Core Octon skill | Always-on foundation capability required by Octon itself, framework-owned, not optional, not trust-selected, and needed by core orchestration or capability routing | canonical foundation skill, required governance support skill, built-in harness behavior skill | `framework/capabilities/runtime/skills/<family>/<skill-id>/` | skill manifest/registry integration, allowed-tool review, skill validation, capability routing, host projection validation when projections change |
-| Blocked / proposal-required | Ownership unclear, provenance missing, unsafe trust posture, invalid structure, schema mismatch, route ambiguity, risky payload, or no existing Octon contract fits | downloaded kit with no provenance, direct installer that tries to modify host-specific directories, source bundle requiring new authority surface, malformed extension with no compatible schema, opaque binary or secret-bearing payload | `inputs/additive/.archive/<intake-id>/` when safely retained; decision evidence under `state/evidence/**` | blocked decision receipt, proposal/design route, no activation, no publication, no runtime consumption |
+| Route | Required Criteria | Target Owner | Required Gates |
+| --- | --- | --- | --- |
+| `single-work-unit-handoff` | One coherent intent, one primary target surface, no child sequencing, no migration/cutover, no cross-surface dependency, reviewable provenance, bounded validation | proposal packet lifecycle | route decision receipt, advisory handoff receipt, proposal packet intake admission contract, target-owned proposal creation receipt |
+| `coordinated-program-handoff` | Multiple surfaces or candidate changes, dependency ordering, staged adoption, migration/cutover, governance plus runtime change, or child packet coordination | proposal program lifecycle | route decision receipt, advisory handoff receipt, proposal program intake admission contract, parent program creation receipt, child receipt isolation |
+| `target-owned-direct-handoff` | Future non-proposal target with a valid target-owned intake admission contract | future target lifecycle | denied until the target contract, validators, receipts, rollback posture, and fail-closed fixtures exist |
+| `blocked-rejected-deferred` | Malformed envelope, unsafe provenance/licensing, secrets/private data, proprietary or binary risk, unsupported target, ambiguity, stale evidence, requested-route mismatch, scope drift, or authority-confused claims | intake routing denial evidence | no handoff, no target dispatch, denial receipt, no install, no activation, no publication, no runtime exposure |
 
-## Additive Extension Route
+## Target-Owned Handoff Routes
 
-Use this route when the intake unit should become optional, selectable,
-portable, externally sourced, trust-gated, or reusable as an additive extension
-pack.
+`single-work-unit-handoff` and `coordinated-program-handoff` may create
+`governed-incoming-intake-handoff-v1` advisory context after the route decision
+is retained. The target proposal lifecycle must independently validate the
+handoff, scope, freshness, authority boundary, receipts, rollback posture, and
+target gates before creating any packet or program.
 
-Required implementation behavior:
+The handoff context may include source facts, payload inventory digests,
+classification rationale, and expected return evidence. It must not authorize
+Git mutation, hosted provider action, branch cleanup, worktree cleanup, repo
+hygiene deletion, promotion, archive, scope expansion, proposal completion,
+Change closeout, or target lifecycle mutation.
 
-- normalize reviewed content into
-  `inputs/additive/extensions/<extension-pack-id>/`
-- add or verify `pack.yml` with `schema_version: octon-extension-pack-v5`
-- add or verify `validation/compatibility.yml`
-- declare capability profiles and required contracts
-- carry provenance in `pack.yml`
-- update `instance/extensions.yml` only when there is an explicit activation
-  decision
-- publish only through existing extension publication pipelines
-- remove or archive the original `.incoming/<intake-id>/` copy after evidence is
-  captured; final disposition must leave no `.incoming/<intake-id>/` dependency
+Proposal packet lifecycle owns packet creation, review/revision,
+implementation readiness, implementation prompt/run, verification/correction,
+proposal closeout, archive, and packet-local receipts. Proposal program
+lifecycle owns parent program creation, child registry planning, dependency
+ordering, program checkpoints, program evidence, and child receipt isolation.
+Parent program evidence never satisfies child packet receipts.
 
-Validation floor:
+## Legacy Direct Dispositions
 
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-pack-contract.sh`
-- `bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh`
+The former direct additive extension pack and core Octon skill dispositions are
+legacy behavior until a governed migration removes them from runtime use. New
+mature intake routing should prefer proposal packet or proposal program
+admission for extension packs, core Octon skills, and other core surfaces.
 
-When extension contributions affect capabilities or host projections, also run:
-
-- `bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh`
-- `bash .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh`
-
-## Core Octon Skill Route
-
-Use this route only when the intake unit contains a framework-owned always-on
-skill required by Octon itself.
-
-Required implementation behavior:
-
-- install only reviewed skill files under
-  `framework/capabilities/runtime/skills/**`
-- merge fragments into existing skill manifests, registries, capability groups,
-  and routing surfaces; never replace shared files wholesale
-- validate allowed tools, triggers, skill family, and command exposure
-- publish routing and host projections only through existing scripts
-- move the consumed incoming copy to input `.archive/<intake-id>` when safely
-  retained as historical source material, or remove it after evidence captures
-  the necessary inventory; final disposition must leave no
-  `.incoming/<intake-id>/` dependency
-
-Validation floor:
-
-- `bash .octon/framework/capabilities/runtime/skills/_ops/scripts/validate-skills.sh <skill-id>`
-- `bash .octon/framework/capabilities/runtime/skills/_ops/scripts/validate-skills.sh --strict <skill-id>`
-- `bash .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh`
-
-When host projections change, also run:
-
-- `bash .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh`
-- `bash .octon/framework/assurance/runtime/_ops/scripts/validate-host-projections.sh`
-
-## Blocked Or Proposal-Required Route
-
-Use this route when the incoming intake unit cannot be safely installed or
-normalized under existing contracts.
-
-Blocking conditions include:
-
-- ambiguous ownership between `framework/**`, `instance/**`, and `inputs/**`
-- missing or unverifiable provenance
-- missing or invalid intake envelope or payload containment
-- trust posture requiring a human acknowledgement that has not been granted
-- schema mismatch or unsupported extension API version
-- opaque binaries, executables, secrets/private data, proprietary material,
-  redistribution risk, or oversized payloads without explicit disposition
-- installer instructions that bypass Octon manifests, registries, validation,
-  publication, or host projection flows
-- attempts to write directly to `.codex/skills`, `.claude/skills`,
-  `.cursor/skills`, generated/effective outputs, state/control truth, or root
-  `.archive/**`
-- no existing Octon contract fits the requested capability
-
-Required behavior:
-
-- do not install, activate, publish, project, or expose the intake unit
-- write a blocked decision receipt under `state/evidence/**`
-- retain the intake unit under `inputs/additive/.archive/<intake-id>/` only when
-  retention is safe and needed for review, or leave only evidence if retention
-  is unnecessary or unsafe
-- remove the source `.incoming/<intake-id>/` copy when blocked disposition is
-  final; leave it in `.incoming` only for explicit classification-only stops
-- route contract, schema, authority, or ownership gaps to an appropriate design,
-  migration, architecture, or policy proposal
+Do not install, normalize, activate, publish, project, archive, close out, clean
+worktrees, or delete repo hygiene residue from raw intake classification.
+Those effects belong to target-owned lifecycle routes and their receipts.
 
 ## Archive Retention Policy
 
@@ -207,15 +149,22 @@ Each processing run must retain:
 - route decision and rationale
 - rejected routes and why they were rejected
 - provenance, trust, and compatibility findings
-- exact file/path changes made
+- route decision receipt digest
+- advisory handoff receipt digest when handoff context is created
+- target admission contract reference when handoff is requested
+- target-owned preflight result when invoked
+- target return evidence refs when a target lifecycle returns evidence
 - validation commands and outcomes
-- cleanup disposition for `.incoming/<intake-id>/`
+- final disposition or stop point for `.incoming/<intake-id>/`
 - proof that `.incoming/<intake-id>/` is absent after final disposition, or proof
-  that processing stopped after classification before disposition
+  that processing stopped after classification or advisory handoff before final
+  disposition
 - archive retention decision, including evidence-only disposition when source
   retention is unsafe
-- final status: normalized-extension, installed-core-skill, blocked, rejected,
-  superseded, or historical
+- final route disposition: `single-work-unit-handoff`,
+  `coordinated-program-handoff`, or `blocked-rejected-deferred`; retained
+  archive metadata may separately explain blocked, rejected, deferred,
+  superseded, or historical handling without creating additional route outcomes
 
 Decision and validation evidence belongs under `state/evidence/**`; the intake
 copy itself is not evidence authority.
@@ -236,7 +185,11 @@ Do not:
 - widen allowed tools, trust posture, capability groups, support targets, or
   extension profiles just to make an intake unit install
 - bypass validation because the intake unit appears complete
-- leave `.incoming/<intake-id>/` after final disposition; only
-  `stop_after_classification` may leave raw intake in place
+- treat proposal handoff context or lifecycle interaction receipts as target
+  authorization
+- let parent program evidence satisfy child packet receipts
+- leave `.incoming/<intake-id>/` after final disposition; classification-only
+  and advisory-handoff stops may leave raw intake in place when no final
+  disposition has been applied
 - scan `.incoming/**` autonomously as an implicit installation trigger; future
   automation must enter through admitted workflow or run contracts
