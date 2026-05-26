@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.6.82](https://github.com/jamesryancooper/octon/compare/octon-v0.6.81...octon-v0.6.82) (2026-05-26)
+
+
+### Features
+
+* **intake:** add governed incoming intake routing ([0bf9058](https://github.com/jamesryancooper/octon/commit/0bf9058ba72663af73fffcf995e974fc5afb0c3f))
+* **intake:** add governed incoming routing fixtures ([930c429](https://github.com/jamesryancooper/octon/commit/930c42944f8eee62e7cd7b8b64fdb4357bde7c6f))
+
 ## [0.6.81](https://github.com/jamesryancooper/octon/compare/octon-v0.6.80...octon-v0.6.81) (2026-05-26)
 
 
