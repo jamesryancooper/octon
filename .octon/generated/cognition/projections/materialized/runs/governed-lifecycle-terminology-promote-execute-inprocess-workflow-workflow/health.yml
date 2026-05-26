@@ -1,6 +1,6 @@
 schema_version: run-health-read-model-v1
 run_id: governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow
-generated_at: '2026-05-26T21:49:18Z'
+generated_at: '2026-05-26T22:42:32Z'
 generator:
   id: generate-run-health-read-model.sh
   version: 1.0.0
@@ -23,8 +23,8 @@ freshness:
   mode: digest-bound
   status: stale
   source_digest_algorithm: sha256
-  combined_source_digest: sha256:f4f8d80d1dcd08a7989aad4b8eafa4ccee09300a2ff7106b9429e2cef3660a8e
-  checked_at: '2026-05-26T21:49:18Z'
+  combined_source_digest: sha256:94876493b72f4bb90decd327649d0cba1f95a62c606bedeee01330074b753c7f
+  checked_at: '2026-05-26T22:42:32Z'
   expires_at: null
   freshness_refs:
   - .octon/state/control/execution/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/events.manifest.yml
@@ -129,7 +129,7 @@ source_digests:
     status: present
   support_reconciliation:
     ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
-    digest: sha256:de7b2c0a0a26a6f91cb1b2e6674db6e8ee91d4ad10191a10d69d694cb9f68126
+    digest: sha256:f498a03242cdf2feb9df549100bebb50f2a7c8cc27186a176c25ed14bcae6951
     status: present
   run_continuity:
     ref: .octon/state/continuity/runs/governed-lifecycle-terminology-promote-execute-inprocess-workflow-workflow/handoff.yml
@@ -137,11 +137,11 @@ source_digests:
     status: present
   runtime_route_bundle:
     ref: .octon/generated/effective/runtime/route-bundle.yml
-    digest: sha256:a59cc41c4b9a6719f93315fd20ac4cc01f5e435a5b6ab17974165c04ee83a336
+    digest: sha256:e70d65fd6eb668b25cc64a4726ffcc1c14f8107c72d8de1771c607cfbc85d710
     status: present
   pack_routes:
     ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
-    digest: sha256:b66337fc70a6a055dde9a6061429e5bf8851cbbc64af4c72f9dfd5fcb7ddd661
+    digest: sha256:506c5b8b777040a1dc17a52d4bcd08f3c3f5f34a5c9d03a84197fd8bd69038fc
     status: present
   schema:
     ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
