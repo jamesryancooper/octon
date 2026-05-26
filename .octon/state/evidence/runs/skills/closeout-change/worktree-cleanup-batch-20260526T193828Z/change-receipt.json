@@ -1,0 +1,88 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "worktree-cleanup-batch-20260526T193828Z",
+  "selected_route": "direct-main",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "direct-main-landing",
+  "intent": "Close out the current authored worktree residue by retaining governed incoming intake routing work and durable local stash-archive handling documentation on main.",
+  "scope": {
+    "summary": "Governed incoming intake routing fixture validation plus local stash-archive convention, ignore policy, and cleanup documentation.",
+    "touched_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh",
+      ".octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing-fixtures.yml",
+      ".octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing.md",
+      ".gitignore",
+      ".octon/framework/execution-roles/practices/standards/cleanup-pass.md",
+      ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md",
+      ".octon/instance/governance/policies/repo-hygiene.yml",
+      ".octon/state/evidence/README.md",
+      ".octon/state/evidence/cleanup/stash-archives/README.md"
+    ],
+    "diff_refs": [
+      "3bf0cef9e75add2ddb795dccc516da8f17871807..5286fd5ac0420b922dd3cefb56f4c091bcff1572"
+    ]
+  },
+  "target_branch_ref": "main",
+  "landed_ref": "direct-main-worktree-closeout-commit",
+  "main_alignment": {
+    "local_main_ref": "direct-main-worktree-closeout-commit",
+    "origin_main_ref": "direct-main-worktree-closeout-commit",
+    "landed_ref": "direct-main-worktree-closeout-commit",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git fetch --prune origin before closeout kept local main and origin/main aligned at 3bf0cef9e75add2ddb795dccc516da8f17871807; final concrete sync is reported by the operator closeout result.",
+    "local_main_sync_evidence_ref": "direct-main closeout started from synchronized main and records final sync verification in the operator closeout result.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/worktree-cleanup-batch-20260526T193828Z/report.yml"
+  },
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh after source commits: staged=0 unstaged=0 untracked=0 ignored=3983 generated-effective-output=0 host-projection=0 retained-evidence=0 state-control=0 release-version=0 input-surface=0",
+    ".octon/state/evidence/cleanup/stash-archives/README.md documents ignored local stash archives as non-authority local cleanup evidence requiring intentional review before restoration or deletion"
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short before closeout showed five tracked stash-archive documentation/config changes, four untracked governed incoming intake routing files, and ignored local stash archive payload directories.",
+    "residue_classification_ref": "classify-change-closeout-residue before closeout reported staged=0 unstaged-tracked=5 untracked=5 ignored=3983 generated-effective-output=0 host-projection=0 retained-evidence=2 state-control=0 release-version=0 input-surface=0.",
+    "phase_exit_refs": [
+      "read-in-and-constraints: closeout-worktree and closeout-change skills, default-work-unit policy, change closeout state machine, git worktree autonomy contract, and commit standards were read.",
+      "inventory: local main, HEAD, and origin/main were aligned at 3bf0cef9e75add2ddb795dccc516da8f17871807 before source commits.",
+      "residue-classification: nonignored residue was authored source/documentation work; ignored stash archive payloads were retained local cleanup evidence only.",
+      "route-and-target-lifecycle-resolution: generic worktree closeout target resolved to cleaned; nonignored work was closed through direct-main commits; ignored local archive payloads were retained without becoming authority.",
+      "validation: governed incoming intake routing validator and tests, repo hygiene governance validation, change closeout state-machine validation, and git diff checks passed."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/cleanup/stash-archives/README.md",
+      ".octon/state/evidence/runs/skills/closeout-worktree/worktree-cleanup-batch-20260526T193828Z/report.yml"
+    ],
+    "safe_cleanup_evidence_class": "explicit-ignored-local-residue",
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/worktree-cleanup-batch-20260526T193828Z/report.yml"
+  },
+  "validation_evidence_refs": [
+    "git diff --check: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh: Governed incoming intake routing fixture validation passed: fixtures=10",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh: 10 governed incoming intake routing validator tests passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh: Validation summary: errors=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh: Validation summary: errors=0"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because this is a local direct-main worktree closeout on synchronized main with validation passing and no PR-required predicate identified."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "direct-main-worktree-closeout-commit",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main pre-closeout ref 3bf0cef9e75add2ddb795dccc516da8f17871807",
+    "instructions": "Use a governed follow-up Change to revert the direct-main closeout commits if the retained intake routing or stash-archive handling changes must be undone."
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-26T19:52:31Z"
+}

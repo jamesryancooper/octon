@@ -1,0 +1,140 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: worktree-cleanup-batch-20260526T193828Z
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: git-status before closeout showed authored governed incoming intake routing files, stash-archive documentation/config changes, and ignored local stash archive payload directories.
+residue_classification_ref: classify-change-closeout-residue before closeout reported staged=0 unstaged-tracked=5 untracked=5 ignored=3983 generated-effective-output=0 host-projection=0 retained-evidence=2 state-control=0 release-version=0 input-surface=0.
+final_inventory_ref: classify-change-closeout-residue after source commits reported staged=0 unstaged-tracked=0 untracked=0 ignored=3983 generated-effective-output=0 host-projection=0 retained-evidence=0 state-control=0 release-version=0 input-surface=0.
+selected_candidate_id: authored-worktree-changes
+observed_change_set_count: 2
+next_route_condition: none for nonignored worktree residue; ignored local stash archive payloads remain retained local cleanup evidence and require intentional review before restoration, integration, or deletion.
+repo_hygiene_cleanup_outcome: not-applicable
+candidates:
+  - candidate_id: authored-worktree-changes
+    disposition: closed
+    ownership: current authored worktree changes for governed incoming intake routing plus local stash-archive cleanup documentation
+    route_hint: closeout-change direct-main
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert the direct-main closeout commits through a governed follow-up Change if rollback is required
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/worktree-cleanup-batch-20260526T193828Z/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh
+        - .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing-fixtures.yml
+        - .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing.md
+        - .gitignore
+        - .octon/framework/execution-roles/practices/standards/cleanup-pass.md
+        - .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+        - .octon/instance/governance/policies/repo-hygiene.yml
+        - .octon/state/evidence/README.md
+        - .octon/state/evidence/cleanup/stash-archives/README.md
+      exclude_paths:
+        - .octon/state/evidence/cleanup/stash-archives/13b6878-codex-closeout-pr244-uec/
+        - .octon/state/evidence/cleanup/stash-archives/42f129b-proposal-lifecycle-command-boundaries-evidence/
+        - .octon/state/evidence/cleanup/stash-archives/78767a8-pre-origin-main-sync-proposal-lifecycle-command-boundaries/
+        - .octon/state/evidence/cleanup/stash-archives/953f7cc-pre-pr-issue-resolution-retained-closeout-evidence/
+        - .octon/state/evidence/cleanup/stash-archives/9f21a5d-proposal-packet-lifecycle-closeout-acp-runtime-log/
+        - .octon/state/evidence/cleanup/stash-archives/bad37cc-wave3-runtime-lifecycle-normalization/
+        - .octon/state/evidence/cleanup/stash-archives/f107965-uec-closeout-preserve-local-residue/
+  - candidate_id: retained-local-stash-archive-payloads
+    disposition: retained
+    ownership: local cleanup evidence retained outside current source/control authority
+    route_hint: intentional-review-or-repo-hygiene-cleanup
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: no deletion or restoration authority; archive payloads remain ignored and require intentional review before any future use
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/cleanup/stash-archives/13b6878-codex-closeout-pr244-uec/
+        - .octon/state/evidence/cleanup/stash-archives/42f129b-proposal-lifecycle-command-boundaries-evidence/
+        - .octon/state/evidence/cleanup/stash-archives/78767a8-pre-origin-main-sync-proposal-lifecycle-command-boundaries/
+        - .octon/state/evidence/cleanup/stash-archives/953f7cc-pre-pr-issue-resolution-retained-closeout-evidence/
+        - .octon/state/evidence/cleanup/stash-archives/9f21a5d-proposal-packet-lifecycle-closeout-acp-runtime-log/
+        - .octon/state/evidence/cleanup/stash-archives/bad37cc-wave3-runtime-lifecycle-normalization/
+        - .octon/state/evidence/cleanup/stash-archives/f107965-uec-closeout-preserve-local-residue/
+      exclude_paths:
+        - .octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh
+        - .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh
+        - .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing-fixtures.yml
+        - .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing.md
+        - .gitignore
+        - .octon/framework/execution-roles/practices/standards/cleanup-pass.md
+        - .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+        - .octon/instance/governance/policies/repo-hygiene.yml
+        - .octon/state/evidence/README.md
+        - .octon/state/evidence/cleanup/stash-archives/README.md
+retained_residue:
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/13b6878-codex-closeout-pr244-uec/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/42f129b-proposal-lifecycle-command-boundaries-evidence/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/78767a8-pre-origin-main-sync-proposal-lifecycle-command-boundaries/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/953f7cc-pre-pr-issue-resolution-retained-closeout-evidence/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/9f21a5d-proposal-packet-lifecycle-closeout-acp-runtime-log/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/bad37cc-wave3-runtime-lifecycle-normalization/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+  - candidate_id: retained-local-stash-archive-payloads
+    path: .octon/state/evidence/cleanup/stash-archives/f107965-uec-closeout-preserve-local-residue/
+    disposition: ignored local cleanup evidence only; not authority, control state, validation proof, freshness evidence, or restoration authorization
+blockers: []
+final_candidate_dispositions:
+  authored-worktree-changes:
+    state: closed
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/worktree-cleanup-batch-20260526T193828Z/change-receipt.json
+  retained-local-stash-archive-payloads:
+    state: retained
+iterations:
+  - iteration_id: direct-main-authored-worktree-changes
+    pre_inventory_ref: local main and origin/main aligned at 3bf0cef9e75add2ddb795dccc516da8f17871807 before source commits
+    pre_classification_ref: nonignored authored residue was separated from ignored local stash archive payloads
+    selected_candidate_id: authored-worktree-changes
+    include_paths:
+      - .octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh
+      - .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh
+      - .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing-fixtures.yml
+      - .octon/framework/engine/governance/inputs/additive/governed-incoming-intake-routing.md
+      - .gitignore
+      - .octon/framework/execution-roles/practices/standards/cleanup-pass.md
+      - .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+      - .octon/instance/governance/policies/repo-hygiene.yml
+      - .octon/state/evidence/README.md
+      - .octon/state/evidence/cleanup/stash-archives/README.md
+    exclude_paths:
+      - .octon/state/evidence/cleanup/stash-archives/13b6878-codex-closeout-pr244-uec/
+      - .octon/state/evidence/cleanup/stash-archives/42f129b-proposal-lifecycle-command-boundaries-evidence/
+      - .octon/state/evidence/cleanup/stash-archives/78767a8-pre-origin-main-sync-proposal-lifecycle-command-boundaries/
+      - .octon/state/evidence/cleanup/stash-archives/953f7cc-pre-pr-issue-resolution-retained-closeout-evidence/
+      - .octon/state/evidence/cleanup/stash-archives/9f21a5d-proposal-packet-lifecycle-closeout-acp-runtime-log/
+      - .octon/state/evidence/cleanup/stash-archives/bad37cc-wave3-runtime-lifecycle-normalization/
+      - .octon/state/evidence/cleanup/stash-archives/f107965-uec-closeout-preserve-local-residue/
+    closeout_change_ref: .octon/state/evidence/runs/skills/closeout-change/worktree-cleanup-batch-20260526T193828Z/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: nonignored residue closed in commits 930c42944f8eee62e7cd7b8b64fdb4357bde7c6f and 5286fd5ac0420b922dd3cefb56f4c091bcff1572
+    post_classification_ref: classify-change-closeout-residue after source commits reported no staged, unstaged, or untracked residue; ignored local archive payloads remain retained
+    next_selection_reason: no further nonignored candidate remained; ignored local stash archive payloads are retained local evidence
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+  ignored: 3983
+created_at: "2026-05-26T19:52:31Z"
