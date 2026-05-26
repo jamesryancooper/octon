@@ -1,6 +1,10 @@
 # Lifecycle Model
 
-## Packet State Machine
+## Packet Route/Receipt Lifecycle Flow
+
+This flow describes proposal-owned route and receipt progression. It is not the
+Change closeout state machine and does not own target-lifecycle route
+selection, cleanup, landing, receipt, or final outcome authority.
 
 ```text
 source-context
@@ -118,8 +122,8 @@ bounds, backward transitions, terminal phases, and status separation. At
 runtime the runner reports `current_phase`, phase counts, phase blockers, and
 phase transition events in plans, checkpoints, summaries, and
 `lifecycle-events.ndjson`. The runner does not use phases to mint authority or
-reinterpret route semantics; route selection remains governed by existing
-route conditions, receipts, gates, and delegation proof.
+reinterpret route semantics; source lifecycle route selection remains governed
+by existing proposal route conditions, receipts, gates, and delegation proof.
 
 Executor requests and results may carry `phase_id` as context. The executor
 must not select phases, advance phases, or treat phase context as approval.

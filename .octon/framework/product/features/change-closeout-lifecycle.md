@@ -50,6 +50,10 @@ that residue.
   evidence.
 - Source branch cleanup requires governed `branch-cleanup-authorization-v1`
   evidence.
+- Proposal lifecycle handoff receipts, phase context, and lifecycle events are
+  advisory context only; they cannot select a Change route, satisfy Change
+  receipt or evidence gates, authorize hosted landing or branch cleanup, or
+  report the final lifecycle outcome.
 - Generated outputs, raw inputs, host projections, control artifacts, chat
   state, tool availability, provider metadata, and ignored local files are not
   closeout authority.

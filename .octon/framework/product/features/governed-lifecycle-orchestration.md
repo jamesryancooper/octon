@@ -43,10 +43,13 @@ targets, validation verdicts, and archive metadata.
 
 ## Boundary
 
-The Lifecycle Runner owns governed lifecycle orchestration: planning, route
-selection, gates,
-receipt freshness and completeness, stale receipt detection, loop bounds,
-phase evaluation, evidence, checkpoints, resume, and idempotency.
+The Lifecycle Runner owns governed lifecycle orchestration for the source
+extension lifecycle: planning, source lifecycle route selection within
+extension-declared lifecycle contracts, gates, receipt freshness and
+completeness, stale receipt detection, loop bounds, phase evaluation, evidence,
+checkpoints, resume, and idempotency. It does not select routes for target
+lifecycles named by interaction receipts; Change closeout route authority
+remains with the default-work-unit policy.
 
 The Lifecycle Executor Adapter owns route execution: prompt or workflow
 invocation, generic input binding, completion observation, approval pauses,
