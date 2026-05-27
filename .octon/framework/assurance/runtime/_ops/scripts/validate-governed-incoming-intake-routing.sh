@@ -29,7 +29,8 @@ required_routes=(
 )
 
 required_fixtures=(
-  "real-rust-source-authority-invalid-envelope"
+  "invalid-envelope-block-before-route-classification"
+  "rust-source-authority-single-work-unit-handoff"
   "simple-extension-pack-single-unit"
   "simple-core-skill-single-unit"
   "multi-skill-program"
@@ -784,6 +785,9 @@ check_preclassification_validation() {
 
   case "$prevalidation" in
     expected-fail)
+      if [[ "$require_synthetic_intakes" != "true" && -n "$synthetic" ]]; then
+        return
+      fi
       run_intake_validator "$intake_id" output status
       if [[ "$status" == "0" ]]; then
         fail "$fixture_id expected envelope validation to fail before route classification"

@@ -14,35 +14,32 @@ This `.incoming/**` path is route-neutral raw additive intake. It is not
 runtime, policy, publication, generated, host-projection, or retained evidence
 authority.
 
-Treat this as governed intake processing, not a simple file copy. First
-classify the intake unit, then choose exactly one route: core framework skill
-install, additive extension-pack normalization, or blocked/proposal-required.
+Treat this as governed intake processing, not a simple file copy or direct
+installer. First validate the intake envelope, then classify the intake unit
+through Governed Incoming Intake Routing and choose exactly one route:
+`single-work-unit-handoff`, `coordinated-program-handoff`,
+`target-owned-direct-handoff`, or `blocked-rejected-deferred`.
 
 ## Known Intake Facts To Verify
 
-Initial inspection shows this is a direct skill install kit, not an
-`octon-extension-pack-v5` extension pack as-is.
+Initial inspection shows this is a candidate core-skill source bundle staged as
+raw additive intake, not an `octon-extension-pack-v5` extension pack as-is and
+not an installed skill.
 
 Observed contents:
 
 1. `README.md`
-2. `INSTALL.md`
-3. `tests/skill-acceptance-checklist.md`
-4. `install/manifest-entry.yml`
-5. `install/registry-entry.yml`
-6. `install/capabilities-entry.yml`
-7. `install/validation-commands.md`
-8. `install/host-projection-commands.md`
-9. `repo/.octon/framework/capabilities/runtime/skills/foundations/rust-source-authority/SKILL.md`
-10. `repo/.octon/framework/capabilities/runtime/skills/foundations/rust-source-authority/references/*.md`
-11. `.DS_Store` files that must not be installed
+2. `intake.yml`
+3. `payload/candidate-skill/foundations/rust-source-authority/SKILL.md`
+4. `payload/candidate-skill/foundations/rust-source-authority/references/*.md`
+5. `payload/notes/*.md`
 
 Important initial facts:
 
 1. the intake unit has no `pack.yml`
 2. the intake unit has no `validation/compatibility.yml`
-3. it provides shared `manifest.yml`, `registry.yml`, and `capabilities.yml`
-   fragments rather than full replacements
+3. it provides a candidate skill tree and intake notes, not shared manifest,
+   registry, or capabilities authority
 4. the target repo already has a `foundations/rust/` skill family, but no
    installed `rust-source-authority` skill found in shared skill manifests
 5. the current `.incoming/**` location is canonical raw intake, not a runtime,
@@ -62,16 +59,16 @@ the current repo state and record the difference.
 4. Post-decision retained intake units live under
    `.octon/inputs/additive/.archive/<intake-id>/`; decision and validation
    evidence belongs under `.octon/state/evidence/**`.
-5. If classified as an additive extension pack, normalize reviewed content into
-   `.octon/inputs/additive/extensions/<extension-pack-id>/`, including
-   `pack.yml`, `validation/compatibility.yml`, capability profiles,
-   provenance, and publication evidence.
-6. If classified as an always-on portable harness foundation skill, install
-   reviewed payload into
-   `.octon/framework/capabilities/runtime/skills/foundations/rust-source-authority/`
-   and merge only required shared manifest, registry, and group fragments.
-7. If neither route fits without changing contracts, stop and create or update
-   a design/spec-extension proposal.
+5. `single-work-unit-handoff` creates advisory context for target-owned
+   proposal packet admission only.
+6. `coordinated-program-handoff` creates advisory context for target-owned
+   proposal program admission only.
+7. `target-owned-direct-handoff` remains denied until a valid non-proposal
+   target-owned intake admission contract exists.
+8. `blocked-rejected-deferred` records denial evidence and performs no target
+   dispatch.
+9. Raw intake classification must not install, normalize, activate, publish, or
+   project the Rust candidate skill.
 
 ## Required Reading
 
@@ -98,10 +95,9 @@ Read these before implementation decisions:
 19. `.octon/framework/capabilities/runtime/skills/capabilities.yml`
 20. `.octon/framework/capabilities/runtime/skills/manifest.yml`
 21. `.octon/framework/capabilities/runtime/skills/registry.yml`
-22. `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/README.md`
-23. `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/INSTALL.md`
-24. every file under `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/install/`
-25. every file under `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/repo/.octon/framework/capabilities/runtime/skills/foundations/rust-source-authority/`
+22. `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/intake.yml`
+23. `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/README.md`
+24. every file under `.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority/payload/`
 
 ## Implementation Tasks
 
@@ -113,10 +109,13 @@ Read these before implementation decisions:
    classification if requested.
 3. Emit a decision receipt selecting exactly one route and rejecting the others
    with rationale.
-4. Execute the selected route only after the decision receipt exists.
-5. Use existing skill, extension publication, capability routing, and host
-   projection pipelines. Do not hand-create host projections.
-6. Cleanup `.incoming/<intake-id>/` only after route disposition and retained
+4. Create advisory handoff context only when the selected route and target-owned
+   intake admission contract allow it.
+5. Do not execute a target handoff unless `--execute-handoff` is explicitly set
+   and the target-owned contract validates.
+6. Do not directly install, normalize, activate, publish, or project any raw Rust
+   intake payload.
+7. Cleanup `.incoming/<intake-id>/` only after route disposition and retained
    evidence are complete.
 
 ## Prohibited Moves
@@ -139,11 +138,11 @@ Do not:
 The work is complete only when:
 
 1. the intake unit has a documented route decision
-2. the chosen route is implemented or the intake is explicitly blocked with a
-   precise reason
+2. the chosen route is handed off through target-owned admission or the intake
+   is explicitly blocked with a precise reason
 3. no runtime, policy, generated, host-projection, publication, or install
    guidance depends on root `.archive/**`, Downloads, or `.incoming/**` as a
    live source
-4. validation evidence proves the installed, normalized, or blocked outcome
+4. validation evidence proves the handoff or blocked outcome
 5. final disclosure lists changed surfaces, validation commands, retained
    evidence, unresolved governance decisions, and cleanup/residue handling

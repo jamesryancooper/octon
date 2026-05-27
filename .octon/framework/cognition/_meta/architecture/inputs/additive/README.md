@@ -12,15 +12,16 @@ publication.
   under `inputs/additive/.archive/<intake-id>/` when the source material must
   remain available.
 - Normalized extension packs live under
-  `inputs/additive/extensions/<extension-pack-id>/` only after classification
-  and normalization.
+  `inputs/additive/extensions/<extension-pack-id>/` only after target-owned
+  admission and normalization.
 - Raw additive inputs are non-authoritative source material only.
 - Runtime, policy, publication, generated, evidence, and host-projection
   consumers must never consume `.incoming/**`, `.archive/**`, or
   `extensions/**` as authority.
 - New `.incoming/<intake-id>/` directories require an `intake.yml` envelope and
-  `payload/` raw payload root. Legacy directories with `intake-status.yml`
-  remain non-authoritative raw intake until separately migrated or disposed.
+  `payload/` raw payload root. Legacy directories with `intake-status.yml` are
+  not current-envelope intake and must be migrated or disposed before governed
+  route classification.
 
 ## Canonical Intake Layout
 

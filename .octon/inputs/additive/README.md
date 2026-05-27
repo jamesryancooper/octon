@@ -33,8 +33,8 @@ looking tree, or host-projection-looking tree inside `payload/` remains raw
 intake until a later route explicitly admits it.
 
 Existing legacy incoming directories that still contain `intake-status.yml` are
-legacy raw intake only. They are not authority and are not rewritten by this
-contract without separate human governance approval.
+legacy raw intake only. They are not current-envelope intake, are not authority,
+and must be migrated or disposed before governed route classification.
 
 Canonical architecture:
 
