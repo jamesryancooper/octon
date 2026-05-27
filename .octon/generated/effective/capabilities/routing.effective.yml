@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-4a67ea746710
-published_at: 2026-05-26T22:29:26Z
+generation_id: capabilities-04ee6830ed53
+published_at: 2026-05-27T00:55:21Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-26T22-29-26Z-capabilities-4a67ea746710.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-27T00-55-21Z-capabilities-04ee6830ed53.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -15,7 +15,7 @@ source:
   root_manifest_path: .octon/octon.yml
   root_manifest_sha256: d917db122e00d57b5618d1c994a8cfd7d7693e206294b6e4dcda1d177322f932
   framework_commands_manifest_path: .octon/framework/capabilities/runtime/commands/manifest.yml
-  framework_commands_manifest_sha256: 332fd28d9ec458bb5a1e6e69a828260a5622372312d87ae5db789273ca96a2d3
+  framework_commands_manifest_sha256: 4a6da67bcad6d9b53448d8f2e318151dde5110a8fa19f4d5d61391010f6caf3f
   framework_skills_manifest_path: .octon/framework/capabilities/runtime/skills/manifest.yml
   framework_skills_manifest_sha256: ca46b7455f10601bdc19318e8b2a05f0f1e1eddf790aafa5e0fa5be2ffcec07b
   framework_skills_registry_path: .octon/framework/capabilities/runtime/skills/registry.yml
@@ -668,7 +668,7 @@ routing_candidates:
     capability_kind: command
     capability_id: process-incoming-intake
     display_name: Process Incoming Intake
-    summary: Manually trigger governed classification and disposition for a raw additive intake unit.
+    summary: Manually trigger governed routing and target-owned handoff or denial for one raw additive intake unit.
     status: active
     source_manifest: .octon/framework/capabilities/runtime/commands/manifest.yml
     capability_domain: command

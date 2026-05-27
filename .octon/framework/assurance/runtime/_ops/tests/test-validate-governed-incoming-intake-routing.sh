@@ -69,7 +69,8 @@ create_fixture_repo() {
   chmod +x "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-governed-incoming-intake-routing.sh"
   chmod +x "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh"
 
-  write_observed_invalid_rust_intake "$fixture_root"
+  write_invalid_envelope_intake "$fixture_root"
+  write_rust_source_authority_intake "$fixture_root"
   write_synthetic_intakes "$fixture_root"
   printf '%s\n' "$fixture_root"
 }
@@ -121,11 +122,17 @@ EOF
   printf '# Payload\n' >"$intake/payload/README.md"
 }
 
-write_observed_invalid_rust_intake() {
+write_invalid_envelope_intake() {
+  local fixture_root="$1"
+  write_intake_unit "$fixture_root" "invalid-envelope-block-before-route-classification"
+  printf '# Top-level raw payload leak\n' >"$fixture_root/.octon/inputs/additive/.incoming/invalid-envelope-block-before-route-classification/raw.md"
+}
+
+write_rust_source_authority_intake() {
   local fixture_root="$1"
   local intake_id="octon-rust-skill-pack-rust-source-authority"
   local intake="$fixture_root/.octon/inputs/additive/.incoming/$intake_id"
-  mkdir -p "$intake/payload/rust-source-authority"
+  mkdir -p "$intake/payload/candidate-skill/foundations/rust-source-authority"
   cat >"$intake/intake.yml" <<EOF
 schema_version: "octon-additive-incoming-intake-unit-v1"
 intake_id: "$intake_id"
@@ -135,7 +142,7 @@ staged_at: "2026-05-22T00:00:00Z"
 submitted_by:
   type: "human"
   name: "fixture"
-reason: "observed invalid envelope fixture"
+reason: "rust-source-authority clean-envelope routing fixture"
 next_step: "classify-route"
 route_hint: "unknown"
 payload:
@@ -155,9 +162,7 @@ risk:
   redistribution_risk: "unknown"
   size_class: "small"
 EOF
-  printf '# Rust Source Authority\n' >"$intake/payload/rust-source-authority/README.md"
-  printf 'staged\n' >"$intake/intake-status.yml"
-  printf 'noise\n' >"$intake/.DS_Store"
+  printf '# Rust Source Authority\n' >"$intake/payload/candidate-skill/foundations/rust-source-authority/README.md"
 }
 
 write_synthetic_intakes() {
@@ -276,11 +281,11 @@ case_missing_malicious_denied_claim_fails() {
   ! run_routing_validator "$fixture_root" --require-synthetic-intakes
 }
 
-case_envelope_must_fail_before_classification() {
+case_rust_fixture_requires_clean_current_envelope() {
   local fixture_root intake
   fixture_root="$(create_fixture_repo)"
   intake="$fixture_root/.octon/inputs/additive/.incoming/octon-rust-skill-pack-rust-source-authority"
-  rm -f "$intake/.DS_Store" "$intake/intake-status.yml"
+  printf 'legacy\n' >"$intake/intake-status.yml"
   ! run_routing_validator "$fixture_root" --require-synthetic-intakes
 }
 
@@ -296,7 +301,7 @@ assert_success "fails when target admission authority boundary is weakened" case
 assert_success "fails when blocked route denial evidence is missing" case_missing_blocked_denial_evidence_fails
 assert_success "fails when stale target return denial evidence is missing" case_missing_stale_return_denial_evidence_fails
 assert_success "fails when malicious authority-confusion denied claim is missing" case_missing_malicious_denied_claim_fails
-assert_success "fails when observed invalid envelope unexpectedly passes validation" case_envelope_must_fail_before_classification
+assert_success "fails when Rust fixture envelope regresses to legacy status residue" case_rust_fixture_requires_clean_current_envelope
 
 if [[ "$fail_count" -gt 0 ]]; then
   echo "$fail_count governed incoming intake routing validator tests failed" >&2

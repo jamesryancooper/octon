@@ -25,10 +25,14 @@ host projections, symlink or hardlink escapes, unsafe path controls, and nested
 Lifecycle:
 
 1. A human explicitly invokes `/process-incoming-intake`.
-2. The intake is validated and classified as additive extension, core skill, or
-   blocked/proposal-required.
-3. Final disposition removes the `.incoming/<intake-id>/` copy unless the run
-   explicitly stops after classification.
+2. The intake envelope is validated before route classification.
+3. Governed Incoming Intake Routing selects exactly one route:
+   `single-work-unit-handoff`, `coordinated-program-handoff`,
+   `target-owned-direct-handoff`, or `blocked-rejected-deferred`.
+4. Handoff routes create advisory target-owned context only; they do not install,
+   normalize, activate, publish, or project raw intake.
+5. Final disposition removes the `.incoming/<intake-id>/` copy unless the run
+   explicitly stops after classification or advisory handoff.
 
 `intake.yml` must include:
 
@@ -53,9 +57,10 @@ candidate core skills are classification findings. They do not make the intake
 unit authoritative and do not by themselves normalize, install, activate,
 publish, archive, migrate, or retain evidence.
 
-Existing legacy `.incoming/<intake-id>/` directories that still contain
-`intake-status.yml` remain non-authoritative raw intake until separately
-migrated or disposed with human governance approval.
+Legacy `.incoming/<intake-id>/` directories that still contain
+`intake-status.yml` are not current-envelope intake. They remain
+non-authoritative raw material until migrated to `intake.yml` plus `payload/` or
+disposed with human governance approval.
 
 Authority status: non-authoritative raw input only.
 

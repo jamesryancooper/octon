@@ -65,13 +65,12 @@ target_return_requirements:
   parent_program_evidence_satisfies_child_receipts: false
 
 fixtures:
-  - fixture_id: "real-rust-source-authority-invalid-envelope"
-    fixture_type: "real-observed"
-    observed_intake_id: "octon-rust-skill-pack-rust-source-authority"
+  - fixture_id: "invalid-envelope-block-before-route-classification"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "invalid-envelope-block-before-route-classification"
     preclassification_validation: "expected-fail"
     expected_validation_error_substrings:
-      - ".DS_Store"
-      - "intake-status.yml"
+      - "unexpected top-level entry"
     expected_route: null
     expected_result: "block-before-route-classification"
     expected_terminal_disposition: "blocked-rejected-deferred"
@@ -95,6 +94,50 @@ fixtures:
       - "incoming-envelope-validation-failure"
       - "classification-not-run"
       - "denial-rationale"
+
+  - fixture_id: "rust-source-authority-single-work-unit-handoff"
+    fixture_type: "synthetic"
+    synthetic_intake_id: "octon-rust-skill-pack-rust-source-authority"
+    preclassification_validation: "expected-pass"
+    expected_route: "single-work-unit-handoff"
+    expected_result: "route-selected"
+    expected_terminal_disposition: "single-work-unit-handoff"
+    mutation_allowed: false
+    target_dispatch_allowed: false
+    rejected_routes:
+      - "coordinated-program-handoff"
+      - "target-owned-direct-handoff"
+      - "blocked-rejected-deferred"
+    classification_signals:
+      coherent_work_unit: true
+      target_surfaces:
+        - "core-skill"
+      child_sequencing_required: false
+      migration_or_cutover: false
+      cross_surface_dependency: false
+      governance_and_runtime: false
+      ambiguous_packet_vs_program: false
+      unsafe_provenance_or_license: false
+      contains_secret_or_private_data: false
+      malicious_authority_confusion: false
+      direct_target_requested: false
+      target_owned_intake_contract: "absent"
+    authority_boundary:
+      handoff_context_is_advisory: true
+      forbidden_transfer:
+        - "git-ref-mutation"
+        - "hosted-provider-authorization"
+        - "branch-cleanup-authorization"
+        - "worktree-cleanup-authorization"
+        - "repo-hygiene-deletion"
+        - "promotion-authorization"
+        - "archive-authorization"
+        - "scope-expansion"
+    evidence_requirements:
+      - "envelope-validation-pass"
+      - "single-surface-classification"
+      - "selected-route"
+      - "advisory-proposal-packet-handoff-boundary"
 
   - fixture_id: "simple-extension-pack-single-unit"
     fixture_type: "synthetic"
