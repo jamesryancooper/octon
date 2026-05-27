@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.83](https://github.com/jamesryancooper/octon/compare/octon-v0.6.82...octon-v0.6.83) (2026-05-27)
+
+
+### Bug Fixes
+
+* **intake:** align governed incoming intake cleanup ([81f3959](https://github.com/jamesryancooper/octon/commit/81f39592e2168297880fe9cc63c8217b4c91e129))
+
 ## [0.6.82](https://github.com/jamesryancooper/octon/compare/octon-v0.6.81...octon-v0.6.82) (2026-05-26)
 
 
