@@ -1,5 +1,5 @@
 schema_version: run-health-read-model-index-v1
-generated_at: '2026-05-26T22:42:32Z'
+generated_at: '2026-05-27T16:09:16Z'
 authority:
   classification: generated_read_model_non_authoritative
   may_authorize: false
