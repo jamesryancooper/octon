@@ -2,9 +2,11 @@
   "schema_version": "change-receipt-v1",
   "change_id": "closeout-route-transition-authority-hardening-20260527T152045Z",
   "selected_route": "branch-no-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_authority": "none",
   "target_lifecycle_outcome": "cleaned",
-  "lifecycle_outcome": "published-branch",
-  "outcome_intent": "attempt-cleaned-closeout",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "cleaned-closeout",
   "intent": "Close out route-transition authority hardening without silently escalating the no-PR route to PR-backed handling.",
   "scope": {
     "summary": "Adds structured route transition authority fields, branch-pr predicate enforcement, silent-reroute negative tests, aligned closeout documentation, and retained evidence for PR #467 ambiguity.",
@@ -30,26 +32,71 @@
       ".octon/framework/product/contracts/examples/change-receipts/invalid-draft-pr-claimed-full-closeout.json",
       ".octon/framework/product/contracts/examples/change-receipts/valid-branch-pr-ready.json",
       ".octon/state/evidence/validation/analysis/2026-05-27-closeout-route-transition-authority-hardening.md",
+      ".octon/state/evidence/runs/skills/closeout-change/closeout-route-transition-authority-hardening-20260527T152045Z/branch-cleanup-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/closeout-route-transition-authority-hardening-20260527T152045Z/branch-landing-authorization.json",
       ".octon/state/evidence/runs/skills/closeout-change/closeout-route-transition-authority-hardening-20260527T152045Z/change-receipt.json"
     ],
     "diff_refs": [
-      "main@d5f99366811325146537658388d5bed0fa500f72..chore/closeout-route-transition-authority@route-transition-authority-hardening-commit"
+      "main@d5f99366811325146537658388d5bed0fa500f72..chore/closeout-route-transition-authority@closeout-route-transition-authority-cleaned-commit"
     ]
   },
   "source_branch_ref": "chore/closeout-route-transition-authority",
-  "remote_branch_ref": "origin/chore/closeout-route-transition-authority@route-transition-authority-hardening-commit",
-  "not_landed_reason": "The selected closeout route is branch-no-pr, and this run publishes the task branch without opening a PR or mutating origin/main.",
-  "landing_stop_reason": "operator_requested_local_only",
-  "not_cleaned_reason": "The Change is retained as a published branch handoff; origin/main landing and branch cleanup are intentionally not claimed in this closeout.",
-  "cleanup_stop_reason": "operator_requested_local_only",
+  "target_branch_ref": "origin/main@closeout-route-transition-authority-cleaned-commit",
+  "landed_ref": "closeout-route-transition-authority-cleaned-commit",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/closeout-route-transition-authority-hardening-20260527T152045Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/closeout-route-transition-authority-hardening-20260527T152045Z/branch-cleanup-authorization.json",
   "landing_evaluation": {
-    "status": "not_attempted",
-    "blocker_reason": "No hosted no-PR origin/main mutation was attempted for this route-transition hardening closeout."
+    "status": "authorized",
+    "route_guard": "branch-no-pr",
+    "method": "hosted fast-forward update without PR creation"
   },
-  "integration_method": "not-applicable",
-  "integration_status": "not_landed",
-  "publication_status": "pushed-branch",
-  "cleanup_status": "pending",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_ref": "closeout-route-transition-authority-cleaned-commit",
+    "validated_ref": "closeout-route-transition-authority-cleaned-commit",
+    "target_pre_ref": "d5f99366811325146537658388d5bed0fa500f72",
+    "target_post_ref": "closeout-route-transition-authority-cleaned-commit",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@closeout-route-transition-authority-cleaned-commit"
+    ],
+    "fast_forward_only": true
+  },
+  "source_branch_integration": {
+    "integrated": true,
+    "source_branch_ref": "chore/closeout-route-transition-authority",
+    "landed_ref": "closeout-route-transition-authority-cleaned-commit",
+    "origin_main_ref": "closeout-route-transition-authority-cleaned-commit",
+    "evidence_refs": [
+      "origin/main fast-forward landing of chore/closeout-route-transition-authority through governed branch-no-pr route"
+    ]
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "evidence_refs": [
+      "Remote source branch deleted after origin/main contained the landed ref",
+      "Local source branch deleted after local main synced to origin/main"
+    ]
+  },
+  "main_alignment": {
+    "aligned": true,
+    "landed_ref": "closeout-route-transition-authority-cleaned-commit",
+    "local_main_ref": "closeout-route-transition-authority-cleaned-commit",
+    "origin_main_ref": "closeout-route-transition-authority-cleaned-commit",
+    "origin_fetch_evidence_ref": "post-landing fetch origin main",
+    "local_main_sync_evidence_ref": "local main fast-forwarded to origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "governed cleanup authorization recorded before branch deletion",
+    "source branch cleanup completed after landed-ref containment was verified"
+  ],
   "validation_evidence_refs": [
     "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh: pass, 54 passed / 0 failed",
     "bash .octon/framework/assurance/runtime/_ops/tests/test-solo-route-selection.sh: pass, 4 passed / 0 failed",
@@ -62,18 +109,30 @@
   ],
   "durable_history": {
     "kind": "commit",
-    "ref": "route-transition-authority-hardening-commit",
-    "branch": "chore/closeout-route-transition-authority"
+    "ref": "closeout-route-transition-authority-cleaned-commit",
+    "branch": "main"
   },
   "rollback_handle": {
-    "kind": "discard-branch",
-    "ref": "chore/closeout-route-transition-authority",
-    "instructions": "Delete or reset the published branch if this no-PR handoff is abandoned before landing."
+    "kind": "revert-commit",
+    "ref": "closeout-route-transition-authority-cleaned-commit",
+    "instructions": "Revert the landed commit on main if this change must be backed out after cleanup."
   },
-  "closeout_outcome": "continued",
-  "remaining_blockers": [
-    "Branch is not landed on origin/main.",
-    "Source branch cleanup is pending until a later governed landing or explicit abandonment."
-  ],
+  "stateful_closeout": {
+    "initial_inventory_ref": "git status --branch --short before landing",
+    "residue_classification_ref": "source branch contained in origin/main before cleanup",
+    "phase_exit_refs": [
+      "validated",
+      "published-branch",
+      "landed",
+      "cleaned"
+    ],
+    "cleanup_decision_refs": [
+      "operator requested merged origin/main, unnecessary branches removed, and local/main synced with origin/main"
+    ],
+    "safe_cleanup_evidence_class": "branch-contained-in-origin-main",
+    "final_verification_ref": "post-cleanup git status and ref alignment",
+    "state_machine_version": "change-closeout-state-machine-v1"
+  },
+  "closeout_outcome": "completed",
   "created_at": "2026-05-27T15:20:45Z"
 }
