@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.84](https://github.com/jamesryancooper/octon/compare/octon-v0.6.83...octon-v0.6.84) (2026-05-27)
+
+
+### Bug Fixes
+
+* **closeout:** require authority for route transitions ([09b9cce](https://github.com/jamesryancooper/octon/commit/09b9cce64c09343b8129a6dd0c635db04da1d64d))
+
 ## [0.6.83](https://github.com/jamesryancooper/octon/compare/octon-v0.6.82...octon-v0.6.83) (2026-05-27)
 
 
