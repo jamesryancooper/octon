@@ -1,10 +1,10 @@
 {
   "schema_version": "change-receipt-v1",
   "change_id": "governed-incoming-intake-cleanup-20260527T020739Z",
-  "selected_route": "direct-main",
+  "selected_route": "branch-pr",
   "target_lifecycle_outcome": "cleaned",
-  "lifecycle_outcome": "cleaned",
-  "outcome_intent": "direct-main-landing",
+  "lifecycle_outcome": "published",
+  "outcome_intent": "pr-publication",
   "intent": "Resolve remaining incoming-intake cleanup after Governed Incoming Intake Routing by aligning active wording, migrating the Rust intake to the current raw envelope posture, updating governed-routing fixtures, refreshing generated capability routing through canonical publication, and retaining validation evidence without installing or projecting the raw intake.",
   "scope": {
     "summary": "Governed incoming intake cleanup for the Rust intake unit, active docs, routing fixtures, command and workflow summaries, generated capability routing, and retained publication evidence.",
@@ -27,50 +27,73 @@
       ".octon/state/evidence/validation/publication/capabilities/2026-05-27T00-55-21Z-capabilities-04ee6830ed53.yml"
     ],
     "diff_refs": [
-      "base main/origin/main a0a8f01c4e00038a19d7edcec2f170c6509fe945",
-      "direct-main closeout commit for governed incoming intake cleanup"
+      "base origin/main a0a8f01c4e00038a19d7edcec2f170c6509fe945",
+      "source branch chore/governed-incoming-intake-cleanup",
+      "draft PR https://github.com/jamesryancooper/octon/pull/467"
     ]
   },
+  "source_branch_ref": "chore/governed-incoming-intake-cleanup",
   "target_branch_ref": "main",
-  "landed_ref": "direct-main-governed-incoming-intake-cleanup-commit",
-  "main_alignment": {
-    "local_main_ref": "direct-main-governed-incoming-intake-cleanup-commit",
-    "origin_main_ref": "direct-main-governed-incoming-intake-cleanup-commit",
-    "landed_ref": "direct-main-governed-incoming-intake-cleanup-commit",
-    "aligned": true,
-    "origin_fetch_evidence_ref": "git fetch origin before closeout kept local main and origin/main aligned at a0a8f01c4e00038a19d7edcec2f170c6509fe945; final concrete post-push sync is reported by the operator closeout result.",
-    "local_main_sync_evidence_ref": "direct-main closeout started from synchronized main and records final sync verification in the operator closeout result.",
-    "origin_main_contains_landed_ref": true,
-    "local_main_contains_landed_ref": true,
-    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/governed-incoming-intake-cleanup-20260527T020739Z/change-receipt.json"
+  "remote_branch_ref": "origin/chore/governed-incoming-intake-cleanup",
+  "landing_evaluation": {
+    "status": "blocked",
+    "source_ref": "chore/governed-incoming-intake-cleanup",
+    "target_ref": "origin/main",
+    "blocker_reason": "Direct push to origin/main was denied by GitHub repository rules requiring four status checks, so publication moved to draft PR https://github.com/jamesryancooper/octon/pull/467.",
+    "evidence_refs": [
+      "git push origin main: remote rejected with GH013 repository rule violations; 4 of 4 required status checks are expected.",
+      "https://github.com/jamesryancooper/octon/pull/467"
+    ]
   },
-  "integration_method": "direct-commit",
-  "integration_status": "landed",
-  "publication_status": "hosted-main-updated",
-  "cleanup_status": "completed",
+  "not_landed_reason": "The change is published as a draft PR and is not merged into origin/main yet.",
+  "not_cleaned_reason": "Branch cleanup and final main synchronization are deferred until the PR is merged or explicitly closed.",
+  "landing_stop_reason": "provider_policy_blocked",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pr-opened",
+  "cleanup_status": "deferred",
   "cleanup_evidence_refs": [
     "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh: dry-run classified 53 unreferenced local publication-run residue files as cleanup candidates, retained the referenced capability publication receipt, and flagged the migration note for manual retention.",
     "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --confirm: removed 53 cleanup candidate files and retained protected/manual-review evidence.",
-    "git status after cleanup retained only the intended tracked change set, the migration evidence note, the referenced capability publication receipt, and ignored local raw Rust intake payload."
+    "source branch chore/governed-incoming-intake-cleanup remains intentionally published for PR review."
   ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/governed-incoming-intake-cleanup",
+    "remote_branch": "origin/chore/governed-incoming-intake-cleanup",
+    "blocker_reason": "Draft PR https://github.com/jamesryancooper/octon/pull/467 remains open.",
+    "evidence_refs": [
+      "https://github.com/jamesryancooper/octon/pull/467"
+    ]
+  },
   "stateful_closeout": {
     "state_machine_version": "change-closeout-state-machine-v1",
     "initial_inventory_ref": "git status --branch --short before closeout showed main aligned with origin/main plus the governed incoming intake cleanup change set and local publication-run residue.",
     "residue_classification_ref": "cleanup-local-run-artifacts dry-run summary: cleanup_candidates=53, protected_referenced=1, manual_review=1, classification_digest=sha256:438eb0538724514a4d1b891f6659df3bd30b57d44d525139980b1d78ef2fc0a0.",
     "phase_exit_refs": [
-      "read-in-and-constraints: AGENTS ingress, constitutional kernel, closeout-change skill, default work unit policy, change closeout state machine, git worktree autonomy contract, validation evidence guidance, cleanup guidance, and commit standards were read.",
+      "read-in-and-constraints: AGENTS ingress, constitutional kernel, closeout-change skill, default work unit policy, change closeout state machine, git worktree autonomy contract, validation evidence guidance, cleanup guidance, commit standards, and PR standards were read.",
       "inventory: local main and origin/main were aligned at a0a8f01c4e00038a19d7edcec2f170c6509fe945 after git fetch origin.",
-      "route-and-target-resolution: generic closeout target resolved to cleaned; current synchronized main with one coherent validated change selected direct-main.",
-      "validation: incoming intake, governed routing, raw input non-authority, workflow, host projection, publication-state, and targeted unit validation passed.",
-      "cleanup: unreferenced publication-run residue was removed through the canonical cleanup helper after explicit deletion approval; protected publication receipt and migration evidence were retained."
+      "route-and-target-resolution: direct-main was initially eligible locally, but GitHub rules rejected direct main publication; route moved to branch-pr with lifecycle outcome published.",
+      "validation: incoming intake, governed routing, raw input non-authority, workflow, host projection, publication-state, closeout receipt, and targeted unit validation passed.",
+      "cleanup: unreferenced publication-run residue was removed through the canonical cleanup helper after explicit deletion approval; protected publication receipt and migration evidence were retained.",
+      "publication: source branch chore/governed-incoming-intake-cleanup was pushed and draft PR https://github.com/jamesryancooper/octon/pull/467 was opened."
     ],
     "cleanup_decision_refs": [
       ".octon/state/evidence/migration/2026-05-26-governed-incoming-intake-cleanup.md",
       ".octon/state/evidence/validation/publication/capabilities/2026-05-27T00-55-21Z-capabilities-04ee6830ed53.yml",
-      "cleanup-local-run-artifacts classification_digest=sha256:438eb0538724514a4d1b891f6659df3bd30b57d44d525139980b1d78ef2fc0a0"
+      "cleanup-local-run-artifacts classification_digest=sha256:438eb0538724514a4d1b891f6659df3bd30b57d44d525139980b1d78ef2fc0a0",
+      "draft PR https://github.com/jamesryancooper/octon/pull/467"
     ],
     "safe_cleanup_evidence_class": "validator-proof",
-    "final_verification_ref": "git diff --check passed after cleanup and before staging; final git status, push, and sync proof are reported by the operator closeout result."
+    "hosted_landing_refs": [
+      "git push origin main rejected by GitHub repository rules requiring status checks",
+      "https://github.com/jamesryancooper/octon/pull/467"
+    ],
+    "branch_cleanup_refs": [
+      "source branch cleanup deferred while PR https://github.com/jamesryancooper/octon/pull/467 remains open"
+    ],
+    "final_verification_ref": "draft PR https://github.com/jamesryancooper/octon/pull/467 is the current publication surface; merge, post-merge sync, and branch cleanup remain deferred."
   },
   "validation_evidence_refs": [
     "bash .octon/framework/assurance/runtime/_ops/scripts/validate-incoming-intake-unit.sh --intake-id octon-rust-skill-pack-rust-source-authority: passed; meaningful_file_count=11; excluded_noise_count=0; findings included candidate-core-skill and provenance-partial.",
@@ -81,23 +104,34 @@
     "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh: passed; errors=0.",
     "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-incoming-intake-unit.sh: passed; 21 passed, 0 failed.",
     "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-governed-incoming-intake-routing.sh: passed; 13 tests passed.",
-    "git diff --check: passed after cleanup."
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-state-machine.sh --receipt .octon/state/evidence/runs/skills/closeout-change/governed-incoming-intake-cleanup-20260527T020739Z/change-receipt.json: passed; errors=0.",
+    "git diff --check: passed.",
+    "git diff --cached --check: passed before initial commit."
   ],
   "review_waiver_refs": [
-    "No PR was opened because this is a direct-main cleanup on synchronized main with targeted validation passing and no PR-required predicate identified.",
+    "The PR remains draft while required hosted checks run.",
     "The Rust intake remains ignored raw local intake; no extension normalization, activation, publication, host projection, or core skill installation was performed."
   ],
   "durable_history": {
-    "kind": "commit",
-    "ref": "direct-main-governed-incoming-intake-cleanup-commit",
-    "branch": "main"
+    "kind": "pr",
+    "ref": "https://github.com/jamesryancooper/octon/pull/467",
+    "pr_url": "https://github.com/jamesryancooper/octon/pull/467",
+    "branch": "chore/governed-incoming-intake-cleanup"
   },
   "rollback_handle": {
-    "kind": "manual-instructions",
-    "ref": "origin/main pre-closeout ref a0a8f01c4e00038a19d7edcec2f170c6509fe945",
-    "instructions": "Use a governed follow-up Change to revert the direct-main governed incoming intake cleanup commit if this cleanup must be undone. Do not reset published main without explicit operator approval."
+    "kind": "discard-branch",
+    "ref": "chore/governed-incoming-intake-cleanup",
+    "instructions": "Close PR https://github.com/jamesryancooper/octon/pull/467 and delete local/remote branch chore/governed-incoming-intake-cleanup if this cleanup should be abandoned before merge. If merged, revert the merge or squash commit through a governed follow-up Change."
   },
-  "closeout_outcome": "completed",
-  "remaining_blockers": [],
-  "created_at": "2026-05-27T02:07:39Z"
+  "external_blocker_refs": [
+    "GitHub repository rules blocked direct origin/main push: 4 of 4 required status checks are expected.",
+    "https://github.com/jamesryancooper/octon/pull/467"
+  ],
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "PR https://github.com/jamesryancooper/octon/pull/467 is draft and must pass required checks before merge.",
+    "Branch cleanup is deferred until the PR lands or is abandoned."
+  ],
+  "created_at": "2026-05-27T02:07:39Z",
+  "updated_at": "2026-05-27T02:22:00Z"
 }
