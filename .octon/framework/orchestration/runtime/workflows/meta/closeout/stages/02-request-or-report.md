@@ -11,7 +11,9 @@
      ready, landed, and cleaned as distinct outcomes
    - report stage-only or escalation blockers
    - report ready-status without another prompt
-2. Mention PR mutation only when the selected route is `branch-pr`.
+2. Mention PR mutation only when the selected route is `branch-pr` and the
+   Change receipt can record `branch_pr_predicate`. If `branch-pr` follows a
+   different initial route, record route transition authority first.
 3. Choose the report posture from evidence:
    - completed closeout only when the selected route, target outcome, actual
      outcome, state-machine receipt evidence, rollback, cleanup, and alignment
@@ -60,11 +62,13 @@
    report any remaining local residue separately from durable closeout
    evidence.
 11. When blockers include PR-required provider rules for requested no-PR hosted
-   landing, red required checks, failing jobs, failing scripts,
-   unresolved review conversations, missing validation evidence, missing
-   receipt, or missing rollback handle, report closeout as incomplete and
+    landing, red required checks, failing jobs, failing scripts,
+    unresolved review conversations, missing validation evidence, missing
+    receipt, or missing rollback handle, report closeout as incomplete and
    continue the route-appropriate remediation loop unless the blocker is
-   explicitly external.
+   explicitly external. Do not convert the blocker to `branch-pr` unless an
+   initial branch-pr predicate exists or an authority-backed route transition
+   is recorded.
 12. Never report a patch, checkpoint, branch-local commit, or pushed-only branch
    as landed.
 13. Never report `published-branch`, `branch-local-complete`, `published`, or

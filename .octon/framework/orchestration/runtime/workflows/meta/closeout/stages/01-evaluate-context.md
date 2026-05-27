@@ -31,12 +31,16 @@
    route-neutral fast-forward updates and whether a governed landing
    authorization can be emitted for the current source ref and `origin/main`
    pre-ref; a PR-required ruleset is a blocker, not permission to open a PR.
-8. If target outcome is `landed` or `cleaned` but evidence only supports
+8. If the selected route changes after initial route selection, record route
+   transition authority before taking route-specific actions. Blocked
+   direct-main push, GH013, required checks, or blocked hosted `branch-no-pr`
+   landing evidence is not itself a `branch-pr` predicate.
+9. If target outcome is `landed` or `cleaned` but evidence only supports
    `published-branch`, record landing evaluation evidence, `not_landed_reason`,
    and `closeout_outcome: continued` or a blocker state.
-9. Record the selected Change route, target lifecycle outcome, actual lifecycle
+10. Record the selected Change route, target lifecycle outcome, actual lifecycle
    outcome, and every blocking condition.
-10. For any completed or cleaned claim, require `stateful_closeout` receipt
+11. For any completed or cleaned claim, require `stateful_closeout` receipt
     evidence that identifies inventory, residue classification, phase exits,
     cleanup decisions, final verification, and applicable hosted landing or
     branch cleanup references.

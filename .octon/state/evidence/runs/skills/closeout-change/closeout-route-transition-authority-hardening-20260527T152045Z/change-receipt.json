@@ -1,0 +1,79 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "closeout-route-transition-authority-hardening-20260527T152045Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out route-transition authority hardening without silently escalating the no-PR route to PR-backed handling.",
+  "scope": {
+    "summary": "Adds structured route transition authority fields, branch-pr predicate enforcement, silent-reroute negative tests, aligned closeout documentation, and retained evidence for PR #467 ambiguity.",
+    "touched_paths": [
+      ".codex/skills/closeout-change/SKILL.md",
+      ".codex/skills/closeout-change/references/decisions.md",
+      ".codex/skills/closeout-change/references/safety.md",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/decisions.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/safety.md",
+      ".octon/framework/execution-roles/practices/change-lifecycle-routing-quickstart.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/README.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/stages/01-evaluate-context.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/stages/02-request-or-report.md",
+      ".octon/framework/orchestration/runtime/workflows/meta/closeout/workflow.yml",
+      ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+      ".octon/framework/product/contracts/default-work-unit.md",
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/examples/change-receipts/README.md",
+      ".octon/framework/product/contracts/examples/change-receipts/invalid-draft-pr-claimed-full-closeout.json",
+      ".octon/framework/product/contracts/examples/change-receipts/valid-branch-pr-ready.json",
+      ".octon/state/evidence/validation/analysis/2026-05-27-closeout-route-transition-authority-hardening.md",
+      ".octon/state/evidence/runs/skills/closeout-change/closeout-route-transition-authority-hardening-20260527T152045Z/change-receipt.json"
+    ],
+    "diff_refs": [
+      "main@d5f99366811325146537658388d5bed0fa500f72..chore/closeout-route-transition-authority@route-transition-authority-hardening-commit"
+    ]
+  },
+  "source_branch_ref": "chore/closeout-route-transition-authority",
+  "remote_branch_ref": "origin/chore/closeout-route-transition-authority@route-transition-authority-hardening-commit",
+  "not_landed_reason": "The selected closeout route is branch-no-pr, and this run publishes the task branch without opening a PR or mutating origin/main.",
+  "landing_stop_reason": "operator_requested_local_only",
+  "not_cleaned_reason": "The Change is retained as a published branch handoff; origin/main landing and branch cleanup are intentionally not claimed in this closeout.",
+  "cleanup_stop_reason": "operator_requested_local_only",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "blocker_reason": "No hosted no-PR origin/main mutation was attempted for this route-transition hardening closeout."
+  },
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh: pass, 54 passed / 0 failed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-solo-route-selection.sh: pass, 4 passed / 0 failed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh: pass, errors=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-git-github-workflow-alignment.sh: pass, errors=0",
+    "git diff --check: pass"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because branch-no-pr was selected and no branch-pr predicate or route-transition authority to branch-pr exists."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "route-transition-authority-hardening-commit",
+    "branch": "chore/closeout-route-transition-authority"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/closeout-route-transition-authority",
+    "instructions": "Delete or reset the published branch if this no-PR handoff is abandoned before landing."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Branch is not landed on origin/main.",
+    "Source branch cleanup is pending until a later governed landing or explicit abandonment."
+  ],
+  "created_at": "2026-05-27T15:20:45Z"
+}

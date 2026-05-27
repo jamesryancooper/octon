@@ -307,6 +307,7 @@ case_branch_pr_preserved_receipt_passes_without_pr_metadata() {
   "schema_version": "change-receipt-v1",
   "change_id": "change-pr-preserved",
   "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
   "target_lifecycle_outcome": "preserved",
   "lifecycle_outcome": "preserved",
   "outcome_intent": "preserve-only",
@@ -447,6 +448,7 @@ case_branch_pr_rejects_branch_only_lifecycle_outcome() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-published-branch",
   "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
   "target_lifecycle_outcome": "published-branch",
   "lifecycle_outcome": "published-branch",
   "outcome_intent": "handoff-only",
@@ -475,6 +477,7 @@ case_branch_pr_draft_not_full_closeout() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-draft",
   "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
   "target_lifecycle_outcome": "published",
   "lifecycle_outcome": "published",
   "outcome_intent": "pr-publication",
@@ -744,6 +747,7 @@ case_branch_pr_landed_completed_pending_cleanup_fails() {
   "schema_version": "change-receipt-v1",
   "change_id": "bad-pr-landed-cleanup-pending",
   "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
   "target_lifecycle_outcome": "landed",
   "lifecycle_outcome": "landed",
   "outcome_intent": "pr-landing",
@@ -771,6 +775,232 @@ case_branch_pr_landed_completed_pending_cleanup_fails() {
 JSON
 )"
   ! run_validator "$receipt"
+}
+
+case_direct_main_blocked_then_pr_without_transition_authority_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-direct-main-to-pr",
+  "selected_route": "branch-pr",
+  "initial_route": "direct-main",
+  "branch_pr_predicate": "hosted-review-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad silent reroute after direct push was blocked",
+  "scope": {"summary": "test", "diff_refs": ["GH013 direct push blocked by required checks"]},
+  "source_branch_ref": "feature/reroute",
+  "landing_evaluation": {
+    "status": "blocked",
+    "blocker_reason": "GH013 direct push blocked by required checks"
+  },
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/reroute", "branch": "feature/reroute"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/reroute"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_blocked_then_pr_without_transition_authority_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-no-pr-to-pr",
+  "selected_route": "branch-pr",
+  "initial_route": "branch-no-pr",
+  "branch_pr_predicate": "hosted-review-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad silent reroute after hosted no-PR landing was blocked",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/no-pr-reroute",
+  "landing_evaluation": {
+    "status": "blocked",
+    "blocker_reason": "hosted no-PR branch-no-pr landing blocked by required checks"
+  },
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/no-pr-reroute", "branch": "feature/no-pr-reroute"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/no-pr-reroute"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_explicit_operator_reroute_to_pr_passes() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "good-operator-reroute-to-pr",
+  "selected_route": "branch-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_reason": "Operator explicitly rerouted the blocked hosted no-PR landing to PR-backed review.",
+  "route_transition_authority": "explicit-operator-reroute",
+  "route_transition_authority_ref": "operator://chat/explicit-pr-reroute",
+  "route_transition_evidence_refs": ["chat://operator-requested-pr-after-blocker"],
+  "branch_pr_predicate": "explicit-operator-pr-request",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "valid explicit reroute to PR",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/operator-reroute",
+  "landing_evaluation": {
+    "status": "blocked",
+    "blocker_reason": "hosted no-PR branch-no-pr landing blocked before operator reroute"
+  },
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/operator-reroute", "branch": "feature/operator-reroute"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/operator-reroute"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  run_validator "$receipt"
+}
+
+case_policy_reroute_to_pr_after_new_evidence_passes() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "good-policy-reroute-to-pr",
+  "selected_route": "branch-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_reason": "New evidence showed hosted review is required for this Change.",
+  "route_transition_authority": "policy-reroute-after-new-evidence",
+  "route_transition_authority_ref": ".octon/framework/product/contracts/default-work-unit.yml#branch-pr",
+  "route_transition_evidence_refs": ["evidence://validation/analysis/hosted-review-required.md"],
+  "branch_pr_predicate": "hosted-review-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "valid policy reroute to PR",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/policy-reroute",
+  "landing_evaluation": {
+    "status": "blocked",
+    "blocker_reason": "branch-no-pr hosted landing blocked by new hosted review requirement"
+  },
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/policy-reroute", "branch": "feature/policy-reroute"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/policy-reroute"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  run_validator "$receipt"
+}
+
+case_branch_pr_selected_up_front_from_release_automation_passes() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "good-release-automation-pr",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "release-automation",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "valid PR route selected up front",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "release/example",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "release/example", "branch": "release/example"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "release/example"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  run_validator "$receipt"
+}
+
+case_transition_authority_none_changed_route_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-none-authority-changed-route",
+  "selected_route": "branch-no-pr",
+  "initial_route": "direct-main",
+  "route_transition_authority": "none",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad route transition authority",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/bad-none-authority",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/bad-none-authority", "branch": "feature/bad-none-authority"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/bad-none-authority"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_transition_authority_none_unchanged_route_passes() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "good-none-authority-unchanged-route",
+  "selected_route": "branch-no-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_authority": "none",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "valid unchanged route with explicit none authority",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/good-none-authority",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/good-none-authority", "branch": "feature/good-none-authority"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/good-none-authority"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  run_validator "$receipt"
 }
 
 main() {
@@ -821,6 +1051,13 @@ main() {
   assert_success "branch-no-pr landed rejects denied landing authorization" case_branch_no_pr_landed_rejects_denied_authorization
   assert_success "branch-no-pr landed rejects stale landing authorization" case_branch_no_pr_landed_rejects_stale_authorization
   assert_success "branch-pr landed completed closeout with pending cleanup fails" case_branch_pr_landed_completed_pending_cleanup_fails
+  assert_success "direct-main blocked then PR without transition authority fails" case_direct_main_blocked_then_pr_without_transition_authority_fails
+  assert_success "hosted branch-no-pr blocked then PR without transition authority fails" case_branch_no_pr_blocked_then_pr_without_transition_authority_fails
+  assert_success "explicit operator reroute to PR passes" case_explicit_operator_reroute_to_pr_passes
+  assert_success "policy reroute to PR after new evidence passes" case_policy_reroute_to_pr_after_new_evidence_passes
+  assert_success "branch-pr selected up front from release automation passes" case_branch_pr_selected_up_front_from_release_automation_passes
+  assert_success "route transition authority none fails when route changed" case_transition_authority_none_changed_route_fails
+  assert_success "route transition authority none passes when route unchanged" case_transition_authority_none_unchanged_route_passes
 
   echo
   echo "Passed: $pass_count"

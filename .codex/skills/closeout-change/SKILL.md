@@ -54,6 +54,11 @@ Execute the Change Closeout State Machine phase loop from
    `target_lifecycle_outcome: cleaned`.
    Select Outcome by recording the actual lifecycle outcome only after the
    route-specific evidence is available.
+   Route transition is separate from route selection: if the route changes
+   after initial selection, record `initial_route`,
+   `route_transition_reason`, `route_transition_authority`,
+   `route_transition_authority_ref`, and
+   `route_transition_evidence_refs` before taking route-specific actions.
 5. **Safe Cleanup** — Remove only evidence-backed residue. Escalate on
    ambiguous ownership, user-owned work, protected branches, active branches,
    unmerged branches, open-PR branches, or missing rollback posture.
@@ -203,8 +208,11 @@ approval denial, or cleanup outside a governed route.
   outcome, not `cleaned`.
 - If the provider ruleset requires PR for `main`, report a blocker for
   `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
-  `branch-pr`; PR mutation requires selected route `branch-pr` or explicit
-  operator reroute.
+  `branch-pr`; PR mutation requires selected route `branch-pr` with
+  `branch_pr_predicate`, or explicit operator/policy reroute recorded through
+  route transition authority.
+- A blocked direct-main push, GH013, required checks, or blocked hosted
+  no-PR landing is not itself a `branch-pr` predicate.
 - Do not claim `branch-pr` as full closeout when the PR is only draft, open, or
   ready; full PR-backed closeout requires merge evidence or a precise external
   blocker.

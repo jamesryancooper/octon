@@ -58,6 +58,8 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] hosted branch-no-pr landing requires provider route-neutral rules, pushed source branch, exact source SHA checks, fast-forward update, origin/main equality, rollback evidence, and cleanup disposition
 - [ ] branch-pr published, ready, landed, and cleaned outcomes are distinguished
 - [ ] PR-specific mechanics are selected only after branch-pr routing
+- [ ] branch-pr selection records branch_pr_predicate
+- [ ] route transition records authority before branch-pr reroute
 - [ ] landed and cleaned claims require route-appropriate evidence
 - [ ] completed and cleaned claims require stateful closeout evidence from the Change Closeout State Machine
 - [ ] published-branch handoff cannot be reported as completed closeout

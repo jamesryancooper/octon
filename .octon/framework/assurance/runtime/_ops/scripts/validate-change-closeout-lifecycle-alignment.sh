@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
 
+SELF_SCRIPT="$SCRIPT_DIR/validate-change-closeout-lifecycle-alignment.sh"
 POLICY="$OCTON_DIR/framework/product/contracts/default-work-unit.yml"
 POLICY_MD="$OCTON_DIR/framework/product/contracts/default-work-unit.md"
 STATE_MACHINE="$OCTON_DIR/framework/product/contracts/change-closeout-state-machine.yml"
@@ -105,6 +106,18 @@ json_bool_true() {
   jq -e "$expr == true" "$RECEIPT_PATH" >/dev/null 2>&1
 }
 
+receipt_text_blob() {
+  jq -r '[
+    .landing_evaluation.blocker_reason?,
+    (.landing_evaluation.evidence_refs[]?),
+    (.external_blocker_refs[]?),
+    (.remaining_blockers[]?),
+    (.stateful_closeout.phase_exit_refs[]?),
+    (.stateful_closeout.hosted_landing_refs[]?),
+    (.scope.diff_refs[]?)
+  ] | map(select(type == "string")) | join("\n")' "$RECEIPT_PATH"
+}
+
 looks_like_sha() {
   [[ "$1" =~ ^[0-9a-fA-F]{40}$ ]]
 }
@@ -161,6 +174,20 @@ validate_contracts() {
     require_jq "$RECEIPT_SCHEMA" ".required[] | select(. == \"$field\")" "receipt schema requires $field" "receipt schema missing required $field"
   done
   require_jq "$RECEIPT_SCHEMA" '.properties.outcome_intent.enum[] | select(. == "handoff-only")' "receipt schema models outcome intent" "receipt schema must model outcome intent"
+  for field in initial_route route_transition_reason route_transition_authority route_transition_authority_ref route_transition_evidence_refs branch_pr_predicate; do
+    require_jq "$RECEIPT_SCHEMA" ".properties.$field" "receipt schema models $field" "receipt schema must model $field"
+  done
+  for authority in explicit-operator-reroute policy-reroute-after-new-evidence none; do
+    require_jq "$RECEIPT_SCHEMA" ".properties.route_transition_authority.enum[] | select(. == \"$authority\")" "receipt schema accepts route transition authority $authority" "receipt schema missing route transition authority $authority"
+  done
+  for predicate in explicit-operator-pr-request existing-pr-context release-automation hosted-review-required external-signoff-required protected-or-high-impact-remote-review-required provider-ruleset-requires-pr-for-requested-pr-backed-landing; do
+    require_jq "$RECEIPT_SCHEMA" ".properties.branch_pr_predicate.enum[] | select(. == \"$predicate\")" "receipt schema accepts branch-pr predicate $predicate" "receipt schema missing branch-pr predicate $predicate"
+    require_yq "$POLICY" ".branch_pr_predicates[]? | select(. == \"$predicate\")" "policy defines branch-pr predicate $predicate" "policy missing branch-pr predicate $predicate"
+  done
+  for authority in explicit-operator-reroute policy-reroute-after-new-evidence none; do
+    require_yq "$POLICY" ".route_transition_authorities[]? | select(. == \"$authority\")" "policy defines route transition authority $authority" "policy missing route transition authority $authority"
+  done
+  require_literal "$SELF_SCRIPT" "branch-pr receipt requires branch_pr_predicate" "lifecycle validator requires branch_pr_predicate for branch-pr" "lifecycle validator must require branch_pr_predicate for branch-pr receipts"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_evaluation.properties.status.enum[] | select(. == "blocked")' "receipt schema models landing evaluation" "receipt schema must model landing evaluation"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured landing stop reason" "receipt schema must model landing_stop_reason"
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured cleanup stop reason" "receipt schema must model cleanup_stop_reason"
@@ -232,6 +259,9 @@ validate_contracts() {
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_source_branch_integration_evidence")' "policy fails closed on landed branch closeout without source branch integration evidence" "policy must fail closed on landed branch closeout without source branch integration evidence"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_post_landing_fetch_and_local_main_sync_evidence")' "policy fails closed on landed branch closeout without post-landing fetch/sync evidence" "policy must fail closed on landed branch closeout without post-landing fetch/sync evidence"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "published_branch_reported_as_completed_closeout")' "policy fails closed on pushed branch handoff reported as completed" "policy must fail closed on pushed branch handoff reported as completed"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_pr_receipt_missing_branch_pr_predicate")' "policy fails closed on branch-pr receipt without predicate" "policy must fail closed on branch-pr receipt without predicate"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "route_transition_missing_transition_authority")' "policy fails closed on route transition without authority" "policy must fail closed on route transition without authority"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr")' "policy fails closed on silent branch-pr reroute" "policy must fail closed on silent branch-pr reroute"
   require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "cleaned"' "policy defaults unspecified closeout target to cleaned" "policy must default unspecified closeout target to cleaned"
   require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_lifecycle_outcomes[]? | select(. == "published-branch")' "policy separates narrower lifecycle outcomes from route requests" "policy must separate narrower lifecycle outcomes from route requests"
   require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.explicit_narrower_route_requests[]? | select(. == "stage-only-escalate")' "policy treats stage-only-escalate as route request" "policy must treat stage-only-escalate as a route request"
@@ -266,6 +296,8 @@ validate_contracts() {
   require_literal "$POLICY_MD" "Do not delete protected branches, active work branches, unmerged branches" "policy docs protect unsafe branches from cleanup" "policy docs must protect unsafe branches from cleanup"
   require_literal "$POLICY_MD" 'local `main`, `origin/main`, and the recorded landed ref are aligned' "policy docs require final local main alignment" "policy docs must require final local main alignment"
   require_literal "$POLICY_MD" 'If a provider ruleset currently requires a pull request for `main`, hosted' "policy docs fail closed when provider requires PR" "policy docs must fail closed when provider ruleset requires PR"
+  require_literal "$POLICY_MD" "Route transition is a separate authority-backed event." "policy docs separate route selection from transition" "policy docs must separate route selection from transition"
+  require_literal "$POLICY_MD" 'A blocked direct-main push or blocked hosted `branch-no-pr` landing is not' "policy docs reject blocked landing as PR predicate" "policy docs must reject blocked landing as PR predicate"
   require_literal "$CLOSEOUT_CHANGE" 'Do not claim `branch-no-pr` as `landed`' "closeout-change blocks false no-PR landing claims" "closeout-change must block false no-PR landing claims"
   require_literal "$CLOSEOUT_CHANGE" "Resolve Target Outcome" "closeout-change resolves target outcome" "closeout-change must resolve target outcome"
   require_literal "$CLOSEOUT_CHANGE" "target_lifecycle_outcome: cleaned" "closeout-change defaults unspecified closeout target to cleaned" "closeout-change must default unspecified closeout target to cleaned"
@@ -286,6 +318,8 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "Eligible local Octon run/artifact residue" "closeout-change routes local artifact residue out of branch cleanup" "closeout-change must route local artifact residue out of branch cleanup"
   require_literal "$CLOSEOUT_CHANGE" "source branch changes are integrated into \`origin/main\`" "closeout-change requires source branch integration before full closeout" "closeout-change must require source branch integration before full closeout"
   require_literal "$CLOSEOUT_CHANGE" "recorded \`landed_ref\` is contained in both local \`main\`" "closeout-change requires landed-ref containment before full closeout" "closeout-change must require landed-ref containment before full closeout"
+  require_literal "$CLOSEOUT_CHANGE" "Route transition is separate from route selection" "closeout-change separates route selection from transition" "closeout-change must separate route selection from transition"
+  require_literal "$CLOSEOUT_CHANGE" "branch_pr_predicate" "closeout-change requires branch-pr predicate evidence" "closeout-change must require branch_pr_predicate evidence"
   require_literal "$CLOSEOUT_CHANGE" "Never delete protected" "closeout-change forbids unsafe branch cleanup" "closeout-change must forbid unsafe branch cleanup"
   require_literal "$CLOSEOUT_WORKTREE" 'singular `closeout-change` runs' "closeout-worktree delegates singular closeout-change runs" "closeout-worktree must delegate singular closeout-change runs"
   require_literal "$CLOSEOUT_WORKTREE" "partition autonomously" "closeout-worktree partitions unambiguous candidates autonomously" "closeout-worktree must partition unambiguous candidates autonomously"
@@ -466,6 +500,7 @@ validate_receipt() {
   jq -e '.' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt parses as JSON" || { fail "receipt parses as JSON"; return; }
 
   local route target outcome integration publication cleanup durable_kind durable_ref closeout_outcome integration_method outcome_intent
+  local initial_route transition_authority branch_pr_predicate transition_changed
   route="$(json_value '.selected_route')"
   target="$(json_value '.target_lifecycle_outcome')"
   outcome="$(json_value '.lifecycle_outcome')"
@@ -477,6 +512,10 @@ validate_receipt() {
   closeout_outcome="$(json_value '.closeout_outcome')"
   integration_method="$(json_value '.integration_method')"
   outcome_intent="$(json_value '.outcome_intent')"
+  initial_route="$(json_value '.initial_route')"
+  transition_authority="$(json_value '.route_transition_authority')"
+  branch_pr_predicate="$(json_value '.branch_pr_predicate')"
+  transition_changed=0
 
   [[ -n "$route" ]] && pass "receipt has selected route" || fail "receipt missing selected route"
   [[ -n "$target" ]] && pass "receipt has target lifecycle outcome" || fail "receipt missing target lifecycle outcome"
@@ -485,6 +524,75 @@ validate_receipt() {
   [[ -n "$integration" ]] && pass "receipt has integration status" || fail "receipt missing integration status"
   [[ -n "$publication" ]] && pass "receipt has publication status" || fail "receipt missing publication status"
   [[ -n "$cleanup" ]] && pass "receipt has cleanup status" || fail "receipt missing cleanup status"
+
+  if [[ -n "$initial_route" ]]; then
+    if [[ "$initial_route" != "$route" ]]; then
+      transition_changed=1
+      json_has_nonempty '.route_transition_reason' && pass "route transition records reason" || fail "route transition requires route_transition_reason"
+      json_has_nonempty '.route_transition_authority_ref' && pass "route transition records authority ref" || fail "route transition requires route_transition_authority_ref"
+      json_array_nonempty '.route_transition_evidence_refs' && pass "route transition records evidence refs" || fail "route transition requires route_transition_evidence_refs"
+      case "$transition_authority" in
+        explicit-operator-reroute|policy-reroute-after-new-evidence)
+          pass "route transition authority is explicit or policy-backed"
+          ;;
+        none|"")
+          fail "changed route requires explicit or policy route transition authority"
+          ;;
+        *)
+          fail "route_transition_authority is unsupported"
+          ;;
+      esac
+    else
+      pass "initial route matches selected route"
+      if [[ -n "$transition_authority" ]]; then
+        [[ "$transition_authority" == "none" ]] && pass "unchanged route records no transition authority" || fail "unchanged route must not record reroute authority"
+      fi
+    fi
+  elif [[ -n "$transition_authority" ]]; then
+    fail "route_transition_authority requires initial_route"
+  fi
+
+  if [[ "$transition_authority" == "none" ]]; then
+    [[ -n "$initial_route" && "$initial_route" == "$route" ]] && pass "route_transition_authority none matches unchanged route" || fail "route_transition_authority none requires initial_route to equal selected_route"
+  fi
+
+  if [[ "$route" == "branch-pr" ]]; then
+    json_has_nonempty '.branch_pr_predicate' && pass "branch-pr receipt records branch_pr_predicate" || fail "branch-pr receipt requires branch_pr_predicate"
+    case "$branch_pr_predicate" in
+      explicit-operator-pr-request|existing-pr-context|release-automation|hosted-review-required|external-signoff-required|protected-or-high-impact-remote-review-required|provider-ruleset-requires-pr-for-requested-pr-backed-landing)
+        pass "branch_pr_predicate is supported"
+        ;;
+      "")
+        ;;
+      *)
+        fail "branch_pr_predicate is unsupported"
+        ;;
+    esac
+    if [[ "$transition_changed" -eq 1 ]]; then
+      case "$transition_authority" in
+        explicit-operator-reroute|policy-reroute-after-new-evidence)
+          pass "branch-pr route transition is authority-backed"
+          ;;
+        *)
+          fail "branch-pr route transition requires explicit or policy authority"
+          ;;
+      esac
+    fi
+    if receipt_text_blob | grep -Eiq '(GH013|required checks|direct push|hosted no-PR|hosted no-pr|branch-no-pr).*block|block.*(GH013|required checks|direct push|hosted no-PR|hosted no-pr|branch-no-pr)'; then
+      if [[ -n "$initial_route" && "$initial_route" != "$route" ]]; then
+        case "$transition_authority" in
+          explicit-operator-reroute|policy-reroute-after-new-evidence)
+            pass "blocked landing evidence is paired with structured route transition authority"
+            ;;
+          *)
+            fail "blocked landing evidence cannot be the only basis for branch-pr reroute"
+            ;;
+        esac
+      else
+        [[ -n "$branch_pr_predicate" ]] && pass "blocked landing evidence is not the only branch-pr basis" || fail "blocked landing evidence cannot replace branch_pr_predicate"
+      fi
+    fi
+  fi
 
   case "$outcome" in
     preserved|branch-local-complete|published-branch|published|ready|deferred)

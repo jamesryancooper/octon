@@ -48,6 +48,48 @@
         "stage-only-escalate"
       ]
     },
+    "initial_route": {
+      "type": "string",
+      "description": "Initial route selected before any authority-backed route transition.",
+      "enum": [
+        "direct-main",
+        "branch-no-pr",
+        "branch-pr",
+        "stage-only-escalate"
+      ]
+    },
+    "route_transition_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "route_transition_authority": {
+      "type": "string",
+      "enum": [
+        "explicit-operator-reroute",
+        "policy-reroute-after-new-evidence",
+        "none"
+      ]
+    },
+    "route_transition_authority_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "route_transition_evidence_refs": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "branch_pr_predicate": {
+      "type": "string",
+      "enum": [
+        "explicit-operator-pr-request",
+        "existing-pr-context",
+        "release-automation",
+        "hosted-review-required",
+        "external-signoff-required",
+        "protected-or-high-impact-remote-review-required",
+        "provider-ruleset-requires-pr-for-requested-pr-backed-landing"
+      ]
+    },
     "target_lifecycle_outcome": {
       "type": "string",
       "default": "cleaned",

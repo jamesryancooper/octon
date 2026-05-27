@@ -94,11 +94,11 @@ deprecated_terms:
     compatibility_alias_allowed: false
 routes:
   - route_id: "branch-pr"
-    description: "PR-backed Change for hosted review, external signoff, unresolved review discussion, PR-required provider rules, release automation, collaboration, protected or high-impact work whose governing evidence requires hosted review or remote validation, or explicit operator request."
+    description: "PR-backed Change for a branch-pr predicate selected up front, or for an authority-backed route transition to branch-pr after new evidence. A blocked direct-main push or blocked hosted branch-no-pr landing is not itself a branch-pr predicate."
     precedence: 10
     selected_when_any:
       - "operator requests PR, hosted review, preview publication, or external signoff"
-      - "provider ruleset requires PR for the requested hosted landing"
+      - "provider ruleset requires PR for a requested PR-backed landing"
       - "release automation requires PR"
       - "work starts from an existing PR, PR review thread, release PR, Dependabot PR, or GitHub merge lane"
       - "declared risk, high-impact posture, or protected surface requires hosted review or remote validation"
@@ -109,12 +109,15 @@ routes:
       - "hosted_checks_when_required"
       - "review_or_solo_maintainer_exception_when_required"
       - "rollback_handle"
+      - "branch_pr_predicate"
+      - "route_transition_authority_when_selected_after_an_initial_different_route"
     required_validation:
       - "selected_validation_floor"
       - "hosted_required_checks_when_policy_requires"
     receipt_required_fields:
       - "change_id"
       - "selected_route"
+      - "branch_pr_predicate"
       - "lifecycle_outcome"
       - "intent"
       - "scope"
@@ -373,6 +376,18 @@ pr_required_predicates:
   - "provider_ruleset_requires_pr"
   - "release_automation_requires_pr"
   - "existing_pr_or_review_thread_context"
+route_transition_authorities:
+  - "explicit-operator-reroute"
+  - "policy-reroute-after-new-evidence"
+  - "none"
+branch_pr_predicates:
+  - "explicit-operator-pr-request"
+  - "existing-pr-context"
+  - "release-automation"
+  - "hosted-review-required"
+  - "external-signoff-required"
+  - "protected-or-high-impact-remote-review-required"
+  - "provider-ruleset-requires-pr-for-requested-pr-backed-landing"
 branch_required_predicates:
   - "route_is_branch-pr"
   - "route_is_branch-no-pr"
@@ -427,6 +442,9 @@ fail_closed_conditions:
   - "branch_local_commit_claims_landed_without_main_integration"
   - "branch_no_pr_contains_pr_metadata"
   - "branch_pr_claims_full_closeout_before_merge"
+  - "branch_pr_receipt_missing_branch_pr_predicate"
+  - "route_transition_missing_transition_authority"
+  - "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr"
   - "cleanup_claim_missing_cleanup_evidence"
   - "unsupported_support_claim"
   - "proposal_local_runtime_dependency"

@@ -101,6 +101,10 @@ main() {
   require_yq "$POLICY" '.routes[]? | select(.route_id == "direct-main")' "policy exposes direct-main route" "policy missing direct-main route"
   require_yq "$POLICY" '.routes[]? | select(.route_id == "branch-no-pr")' "policy exposes branch-no-pr route" "policy missing branch-no-pr route"
   require_yq "$POLICY" '.routes[]? | select(.route_id == "branch-pr")' "policy exposes branch-pr route" "policy missing branch-pr route"
+  require_yq "$POLICY" '.branch_pr_predicates[]? | select(. == "explicit-operator-pr-request")' "policy defines explicit operator branch-pr predicate" "policy must define explicit operator branch-pr predicate"
+  require_yq "$POLICY" '.branch_pr_predicates[]? | select(. == "existing-pr-context")' "policy defines existing PR branch-pr predicate" "policy must define existing PR branch-pr predicate"
+  require_yq "$POLICY" '.route_transition_authorities[]? | select(. == "explicit-operator-reroute")' "policy defines explicit operator route transition authority" "policy must define explicit operator route transition authority"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr")' "policy fails closed on silent branch-pr reroute" "policy must fail closed on silent branch-pr reroute"
   if yq -e '.routes[]? | select(.route_id == "branch-land-no-pr")' "$POLICY" >/dev/null 2>&1; then
     fail "policy must not add branch-land-no-pr top-level route"
   else
@@ -146,6 +150,8 @@ main() {
   require_yq "$MANIFEST" '.default_work_unit_policy_ref == ".octon/framework/product/contracts/default-work-unit.yml"' "ingress manifest references default work unit policy" "ingress manifest missing default work unit policy"
   require_literal "$INGRESS" "Ingress does not own Change closeout policy." "ingress delegates Change closeout policy" "ingress must delegate Change closeout policy"
   require_literal "$CLOSEOUT_CHANGE" 'Do not open a PR unless route selection returns `branch-pr`.' "closeout-change route-gates PR creation" "closeout-change must route-gate PR creation"
+  require_literal "$CLOSEOUT_CHANGE" 'branch_pr_predicate' "closeout-change requires branch-pr predicate" "closeout-change must require branch_pr_predicate"
+  require_literal "$CLOSEOUT_CHANGE" 'Route transition is separate from route selection' "closeout-change separates route transitions" "closeout-change must separate route transitions"
   require_literal "$CLOSEOUT_PR" 'selected route `branch-pr`' "closeout-pr requires branch-pr route" "closeout-pr must require branch-pr route"
   require_literal "$CLOSEOUT_PR" 'Autonomous draft completion is allowed only for' "closeout-pr carries autonomous draft completion policy" "closeout-pr must carry autonomous draft completion policy"
   require_literal "$CLOSEOUT_PR" 'high impact alone is not a' "closeout-pr rejects high-impact manual default" "closeout-pr must reject high-impact manual default"

@@ -8,6 +8,9 @@ title: Closeout Change Decisions
   publication, external signoff, unresolved review discussion, PR-required
   provider rules, release automation, collaboration, existing PR context, or
   high-risk hosted governance handling.
+- Record `branch_pr_predicate` whenever `branch-pr` is selected. If
+  `branch-pr` is reached after another initial route, record the route
+  transition fields before PR mutation.
 - Select `branch-no-pr` when isolation, pause/resume, multiple commits,
   uncertain scope, handoff, branch backup, or hosted no-PR landing is needed
   without PR-backed publication and no PR-required predicate applies.
@@ -22,6 +25,10 @@ After selecting a route, resolve target lifecycle outcome and then actual
 lifecycle outcome. Route selection answers which channel the Change uses;
 target outcome answers what the operator or agent is trying to achieve; actual
 outcome answers what the evidence proves.
+
+Route transition is a distinct decision. A blocked direct-main push, GH013,
+required checks, or blocked hosted `branch-no-pr` landing may be evidence for
+a blocker, but it is not authority to silently reroute to `branch-pr`.
 
 ## Hierarchical Decision Ladder
 

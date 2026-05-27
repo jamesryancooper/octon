@@ -323,6 +323,20 @@ If a provider ruleset currently requires a pull request for `main`, hosted
 blocker unless the operator explicitly selects a PR-backed route. Do not
 silently convert `branch-no-pr` to `branch-pr`.
 
+Route transition is a separate authority-backed event. If the selected route
+changes after initial route selection, the Change receipt must record
+`initial_route`, `route_transition_reason`, `route_transition_authority`,
+`route_transition_authority_ref`, and `route_transition_evidence_refs`.
+`route_transition_authority` must be `explicit-operator-reroute` or
+`policy-reroute-after-new-evidence`; `none` is valid only when
+`initial_route` equals `selected_route`.
+
+A blocked direct-main push or blocked hosted `branch-no-pr` landing is not
+itself a `branch-pr` predicate. A PR-backed closeout must either select
+`branch-pr` up front from a recorded `branch_pr_predicate`, or record an
+authority-backed transition to `branch-pr` plus the resulting
+`branch_pr_predicate`.
+
 Hosted `branch-no-pr` landing must fail closed unless a current governed
 landing authorization receipt validates immediately before mutation. The
 authorization must name the same source branch, source ref, target branch,
@@ -385,6 +399,12 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
 - Do not declare closeout complete until local `main`, `origin/main`, and the
   recorded landed ref are aligned after the final fetch/sync step.
 - Do not open a PR unless `branch-pr` is selected.
+- Do not select or transition to `branch-pr` without recording the
+  `branch_pr_predicate`.
+- Do not treat blocked direct-main pushes, GH013, required checks, or blocked
+  hosted no-PR landing as implicit authority to open a PR.
+- Do not change routes after initial selection without structured route
+  transition authority in the Change receipt.
 - Do not choose `branch-no-pr` solely because the provider can support
   route-neutral hosted landing; direct-main remains the faster safe route for
   eligible low-risk solo Changes.
