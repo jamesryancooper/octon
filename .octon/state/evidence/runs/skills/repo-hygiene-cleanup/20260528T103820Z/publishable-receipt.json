@@ -1,0 +1,58 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "disclosure_tier": "repo-publishable",
+  "evidence_id": "repo-hygiene-cleanup-20260528T103820Z",
+  "claim_scope": "Repo-hygiene cleanup completed for eligible local Octon run artifacts.",
+  "source_summary": {
+    "run_id": "20260528T103820Z",
+    "route": "receipt-backed cleanup via .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+    "authorization_schema": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+    "authorization_id": "repo-hygiene-cleanup-fd9b444add2634f5"
+  },
+  "scope_summary": {
+    "cleanup_candidates_initial": 1526,
+    "cleanup_candidates_deleted": 1526,
+    "protected_referenced_paths": 0,
+    "manual_review_paths_initial": 560,
+    "cleanup_candidates_after": 0,
+    "protected_referenced_paths_after": 0,
+    "manual_review_paths_after_retaining_run_log": 562
+  },
+  "validation_summary": {
+    "command": "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+    "result": "pass",
+    "errors": 0
+  },
+  "outcome": "completed",
+  "redactions": [
+    "Raw authorization path list is retained only under local-private evidence.",
+    "Raw run log is retained only under local-private evidence.",
+    "Machine-local cleanup payload details are not published."
+  ],
+  "limitations": [
+    "Manual-review residue was not deleted by the cleanup helper.",
+    "This receipt proves the delegated repo-hygiene cleanup candidate only; it does not claim whole-worktree cleanliness."
+  ],
+  "local_raw_evidence": {
+    "disclosure_tier": "local-raw",
+    "root": ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/20260528T103820Z/",
+    "git_behavior": "ignored-local-only",
+    "files": [
+      {
+        "path": ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/20260528T103820Z/authorization.json",
+        "sha256": "09ba54957d8164e6b29bbde8d1e1366ffbd9f512db3e9fe46f7d29cdc6a9b1e8",
+        "bytes": 1030838,
+        "lines": 25966
+      },
+      {
+        "path": ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/20260528T103820Z/run-log.md",
+        "sha256": "f6cd27c477cfe80d5ccb65fb3821f0895a34d321937eb205577023ca6f983a9b",
+        "bytes": 2340,
+        "lines": 53
+      }
+    ]
+  },
+  "rollback_or_discard": "Raw local evidence can be inspected from the local-private evidence root; the repo-publishable receipt can be reverted without deleting local raw evidence.",
+  "created_at": "2026-05-28T10:38:47Z",
+  "published_at": "2026-05-28T10:49:00Z"
+}

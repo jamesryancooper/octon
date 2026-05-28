@@ -102,6 +102,12 @@ runs/
 .octon/state/evidence/cleanup/stash-archives/*
 !.octon/state/evidence/cleanup/stash-archives/README.md
 
+# Local-private evidence is retained on the operator's machine and must not be
+# published by default. Track only the convention surface.
+!.octon/state/evidence/local/
+.octon/state/evidence/local/**
+!.octon/state/evidence/local/README.md
+
 # Additional local outputs and proposal workspaces
 out/
 .prompts/
