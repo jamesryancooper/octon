@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Review Program
+# Program - Review
 
 Run the `review-program` bundle for one parent proposal program path.
 

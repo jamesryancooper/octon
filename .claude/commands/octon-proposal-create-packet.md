@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Create Packet
+# Packet - Create
 
 Run the `create-packet` bundle.
 

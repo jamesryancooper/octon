@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Review Packet
+# Packet - Review
 
 Run the `review-packet` bundle for one packet path or proposal id.
 

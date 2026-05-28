@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Cleanup Lifecycle Residue
+# Program - Cleanup Lifecycle Residue
 
 Run the `cleanup-lifecycle-residue` bundle for a proposal program lifecycle
 target. This route is a dedicated unattended cleanup route for residual

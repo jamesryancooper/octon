@@ -11,6 +11,49 @@ Skills declare their **capabilities** (what they can do) and **skill sets** (cap
 
 ---
 
+## Capability Identity Layers
+
+Octon uses split-layer naming as a universal authority-boundary model. The
+model does not require every surface to use different strings; it requires each
+identity layer to keep its own authority role.
+
+| Layer | Authority Role |
+|-------|----------------|
+| Runtime route ID | Lifecycle, workflow, or orchestration contract identity |
+| Host command ID | Host-visible invocation or projection identity |
+| Skill ID | Capability discovery, packaging, and execution identity |
+| Prompt/content ID | Authored execution content identity |
+| Generated effective ID | Derived publication and traceability identity |
+| Display title | Operator read model only |
+
+Generated effective catalogs and host projections inherit names from authored
+sources. They may enforce freshness, traceability, collision, and readability
+checks, but they must not become authored authority or mint replacement names.
+
+Surface-specific conventions follow from authority class and collision domain:
+
+- Additive extension packs use full split-layer naming across routes, host
+  commands, skills, prompt sets, and display titles.
+- Native framework skills use one canonical skill token across manifest ID,
+  registry key, `SKILL.md` frontmatter, and slash command. Manifest-declared
+  filesystem paths may be grouped by domain and are location metadata, not a
+  separate identity authority.
+- Native framework commands keep direct authored command IDs. Wrapper commands
+  declare target or execution contracts separately from their command ID.
+- Instance commands and skills use concise repo-native or domain-purpose IDs.
+- Lifecycle runner wrappers use wrapper-purpose command IDs distinct from
+  selected route IDs, target IDs, and prompt set IDs.
+- Services, tools, workflows, and other non-skill capabilities stay outside
+  full split-layer naming unless projected through commands, skills, or route
+  bindings.
+
+Do not create long native IDs to simulate extension namespaces, and do not
+collapse runtime authority, projection identity, capability identity, prompt
+content, generated effective identity, and display labels into one authority
+layer.
+
+---
+
 ## Quick Reference
 
 | Concept | Description |

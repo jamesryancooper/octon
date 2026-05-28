@@ -22,7 +22,7 @@
     },
     "pack_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "version": {
       "type": "string",
@@ -121,7 +121,7 @@
       "properties": {
         "source_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "imported_from": {
           "type": [
@@ -147,7 +147,7 @@
           "items": {
             "type": "string",
             "minLength": 1
-          ]
+          }
         }
       }
     },
@@ -212,7 +212,7 @@
       "properties": {
         "contract_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "schema_version": {
           "type": "string",
@@ -230,7 +230,7 @@
       "properties": {
         "pack_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "version_range": {
           "type": "string",
@@ -243,11 +243,11 @@
         "string",
         "null"
       ],
-      "pattern": "^[a-z][a-z0-9-]*/$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*/$"
     },
     "requiredEntrypoint": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*/$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*/$"
     }
   }
 }

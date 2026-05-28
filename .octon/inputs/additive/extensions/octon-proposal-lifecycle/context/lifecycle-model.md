@@ -181,7 +181,7 @@ program-source-context
   -> child-packets-planned
   -> child-packets-created
   -> child-packets-validated
-  -> program-implementation-prompt-generated
+  -> program-implementation-orchestration-prompt-generated
   -> children-implemented
   -> program-verification-prompt-generated
   -> program-verified
@@ -218,7 +218,7 @@ parent manifest status to `accepted`, `rejected`, or `in-review`; revision may
 change only parent-local coordination files and must route back to
 `review-program`.
 
-Program implementation prompt generation requires a fresh accepted parent
+Program implementation orchestration prompt generation requires a fresh accepted parent
 review receipt validated by `validate-proposal-review-gate.sh`. It also has a
 separate child-readiness gate. For every required, non-deferred child, the
 child-readiness gate requires required child metadata including
@@ -230,8 +230,8 @@ only; it does not prove durable implementation has completed.
 
 Parent program promotion and archival use the existing `promote-proposal` and
 `archive-proposal` workflow ids. Promotion is allowed only after an accepted
-fresh parent review, generated program implementation prompt, and parent-local
-`support/implementation-run.md` with `verdict: pass` and
+fresh parent review, generated program implementation orchestration prompt, and parent-local
+`support/program-implementation-orchestration-run.md` with `verdict: pass` and
 `child_authority_preserved: yes`. Archival is allowed only after parent
 `implemented` status and parent-local `support/proposal-closeout.md` with
 `verdict: pass`, `archive_authorized: yes`, and

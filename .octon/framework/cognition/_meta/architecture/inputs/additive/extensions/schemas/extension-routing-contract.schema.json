@@ -26,11 +26,12 @@
     },
     "routeId": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "description": "Pack-local runtime route identifier for lifecycle and orchestration dispatch; it is not a host command, skill, prompt set, or display identity.",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "reasonCode": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "disambiguator": {
       "type": "object",
@@ -99,7 +100,7 @@
       "properties": {
         "matcher_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "reason_codes": {
           "type": "array",
@@ -138,7 +139,7 @@
         },
         "execution_binding_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "matchers": {
           "type": "array",
@@ -158,22 +159,26 @@
       "properties": {
         "binding_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Pack-local execution binding identifier that connects a resolved route to declared projection/content targets.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "route_id": {
           "$ref": "#/$defs/routeId"
         },
         "command_capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Namespaced host command projection identity declared by the pack command manifest.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "skill_capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Namespaced skill capability identity declared by the pack skill manifest and registry.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "prompt_set_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Namespaced authored prompt bundle identity declared by a pack prompt manifest.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         }
       },
       "anyOf": [
@@ -240,7 +245,7 @@
       "properties": {
         "dispatcher_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "default_route_id": {
           "$ref": "#/$defs/routeId"
@@ -261,7 +266,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           }
         },
         "routes": {

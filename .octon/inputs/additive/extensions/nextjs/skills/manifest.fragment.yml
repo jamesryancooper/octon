@@ -1,9 +1,9 @@
 schema_version: "extensions-skills-fragment-v1"
 skills:
-  - id: nextjs--app-router-runtime
+  - id: nextjs-app-router-runtime
     display_name: Nextjs App Router Runtime
     group: extensions
-    path: nextjs--app-router-runtime/
+    path: nextjs-app-router-runtime/
     skill_class: invocable
     summary: "Additive runtime guidance for Next.js App Router work."
     status: active

@@ -86,6 +86,15 @@ reviewed_file_inventory() {
       support/executable-implementation-prompt.md)
         continue
         ;;
+      support/program-implementation-orchestration-prompt.md)
+        continue
+        ;;
+      support/program-implementation-orchestration-run.md)
+        continue
+        ;;
+      support/program-implementation-orchestration-conformance-review.md|support/program-post-implementation-orchestration-drift-churn-review.md)
+        continue
+        ;;
       support/implementation-run.md)
         continue
         ;;

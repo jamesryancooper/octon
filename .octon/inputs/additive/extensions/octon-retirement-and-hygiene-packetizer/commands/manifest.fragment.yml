@@ -1,7 +1,7 @@
 schema_version: "extensions-commands-fragment-v1"
 commands:
   - id: octon-retirement-and-hygiene-packetizer
-    display_name: Octon Retirement And Hygiene Packetizer
+    display_name: Retirement And Hygiene Packetizer
     path: octon-retirement-and-hygiene-packetizer.md
     summary: "Resolve the requested retirement or hygiene planning flow and dispatch to the matching leaf capability."
     access: agent

@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder Create Command
+# Pack Scaffolder - Create Command
 
 Scaffold a pack-local command markdown entry and wire it into the pack-local
 commands manifest fragment.

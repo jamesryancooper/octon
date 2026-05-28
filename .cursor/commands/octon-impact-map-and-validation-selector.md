@@ -1,4 +1,4 @@
-# Octon Impact Map And Validation Selector
+# Impact Map And Validation Selector
 
 Run the `octon-impact-map-and-validation-selector` family dispatcher.
 

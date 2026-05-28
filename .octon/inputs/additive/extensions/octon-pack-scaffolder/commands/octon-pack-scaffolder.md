@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder
+# Pack Scaffolder
 
 Dispatch explicitly to one `octon-pack-scaffolder` leaf target.
 

@@ -6,7 +6,7 @@ parent correction override child `proposal.yml`, subtype manifests, acceptance
 criteria, validation verdicts, or promotion targets.
 
 If the correction changes aggregate verification posture, refresh only the
-parent-local `support/program-implementation-conformance-review.md` and
-`support/program-post-implementation-drift-churn-review.md` receipts. Do not
+parent-local `support/program-implementation-orchestration-conformance-review.md` and
+`support/program-post-implementation-orchestration-drift-churn-review.md` receipts. Do not
 rewrite child receipts, child promotion targets, child validation verdicts,
 child archive metadata, or child terminal outcomes from the parent program.

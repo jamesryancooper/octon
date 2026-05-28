@@ -44,11 +44,11 @@
         "properties": {
           "pack_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "source_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "bucket": {
             "type": "string",
@@ -91,11 +91,11 @@
         "properties": {
           "pack_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "source_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "profiles": {
             "type": "array",

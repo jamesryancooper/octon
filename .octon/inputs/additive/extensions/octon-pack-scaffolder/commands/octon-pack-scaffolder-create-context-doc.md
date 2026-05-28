@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder Create Context Doc
+# Pack Scaffolder - Create Context Doc
 
 Scaffold a pack-local context document under
 `/.octon/inputs/additive/extensions/<pack-id>/context/`.

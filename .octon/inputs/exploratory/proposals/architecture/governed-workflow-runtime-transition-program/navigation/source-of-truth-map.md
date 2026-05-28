@@ -24,8 +24,8 @@ _Status: Draft parent-program navigation_
 
 The parent uses the following source lineage as proposal-local input only:
 
-- `.octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md`
-- `.octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md`
+- `.octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md`
+- `.octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md`
 
 These resources do not prove the target architecture and do not become runtime,
 policy, support, evidence, or closeout authority.

@@ -224,6 +224,27 @@ verdict: pass
 implemented_at: 2026-05-07T00:00:00Z
 promotion_evidence_count: 1
 EOF
+  cat >"$(packet_dir "$root")/support/program-implementation-orchestration-prompt.md" <<'EOF'
+# Program Implementation Orchestration Prompt
+EOF
+  cat >"$(packet_dir "$root")/support/program-implementation-orchestration-run.md" <<'EOF'
+verdict: pass
+implemented_at: 2026-05-07T00:00:00Z
+promotion_evidence_count: 1
+child_authority_preserved: yes
+EOF
+  cat >"$(packet_dir "$root")/support/program-implementation-orchestration-conformance-review.md" <<'EOF'
+verdict: pass
+unresolved_items_count: 0
+child_receipt_summary_count: 1
+child_authority_preserved: yes
+EOF
+  cat >"$(packet_dir "$root")/support/program-post-implementation-orchestration-drift-churn-review.md" <<'EOF'
+verdict: pass
+unresolved_items_count: 0
+child_receipt_summary_count: 1
+child_authority_preserved: yes
+EOF
   cat >"$(packet_dir "$root")/support/implementation-conformance-review.md" <<'EOF'
 verdict: pass
 unresolved_items_count: 0
@@ -236,6 +257,18 @@ EOF
 verdict: pass
 closed_at: 2026-05-07T00:00:00Z
 archive_authorized: yes
+EOF
+  run_validator "$root" --require-implementation-authorization
+}
+
+case_old_program_prompt_file_stales_review() {
+  local root old_prompt_file
+  root="$(create_fixture_repo)"
+  write_packet "$root" accepted
+  write_review "$root" accepted yes 0
+  old_prompt_file="executable-program-implementation"
+  cat >"$(packet_dir "$root")/support/${old_prompt_file}-prompt.md" <<'EOF'
+# Old Program Prompt File
 EOF
   run_validator "$root" --require-implementation-authorization
 }
@@ -298,6 +331,10 @@ main() {
   assert_success \
     "accepted review remains fresh after post-review operational receipts" \
     case_accepted_review_survives_post_review_receipts
+  assert_failure_contains \
+    "old program prompt support file is not excluded from review digest" \
+    "reviewed packet digest is fresh" \
+    case_old_program_prompt_file_stales_review
   assert_failure_contains \
     "revision-required review blocks implementation authorization" \
     "proposal status is accepted for implementation authorization" \

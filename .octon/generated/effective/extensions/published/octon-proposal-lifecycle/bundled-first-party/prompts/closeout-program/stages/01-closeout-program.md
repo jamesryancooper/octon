@@ -7,8 +7,8 @@ child proposal path dependency; regenerate registry only when safe; archive the
 parent only after child lifecycle outcomes are coherent.
 
 Require passing parent-local aggregate verification receipts before writing
-closeout evidence: `support/program-implementation-conformance-review.md` and
-`support/program-post-implementation-drift-churn-review.md` must both record
+closeout evidence: `support/program-implementation-orchestration-conformance-review.md` and
+`support/program-post-implementation-orchestration-drift-churn-review.md` must both record
 `verdict: pass` and `child_authority_preserved: yes`.
 
 For PR, CI, review, merge, branch cleanup, and sync behavior, defer to the

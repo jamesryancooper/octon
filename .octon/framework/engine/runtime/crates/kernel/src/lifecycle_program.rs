@@ -45,7 +45,14 @@ const OPERATION_CLASS_CLOSEOUT_READINESS: &str = "closeout-readiness";
 const ROUTE_ID_PROMOTE_PROPOSAL: &str = "promote-proposal";
 const ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE: &str = "cleanup-lifecycle-residue";
 const RECEIPT_ID_PROPOSAL_REVIEW: &str = "proposal-review";
-const RECEIPT_ID_PROGRAM_IMPLEMENTATION_PROMPT: &str = "program-implementation-prompt";
+const RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_PROMPT: &str =
+    "program-implementation-orchestration-prompt";
+const RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN: &str =
+    "program-implementation-orchestration-run";
+const RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_CONFORMANCE: &str =
+    "program-implementation-orchestration-conformance";
+const RECEIPT_ID_PROGRAM_POST_IMPLEMENTATION_ORCHESTRATION_DRIFT: &str =
+    "program-post-implementation-orchestration-drift";
 const RECEIPT_ID_IMPLEMENTATION_RUN: &str = "implementation-run";
 const RECEIPT_ID_IMPLEMENTATION_CONFORMANCE: &str = "implementation-conformance";
 const RECEIPT_ID_POST_IMPLEMENTATION_DRIFT: &str = "post-implementation-drift";
@@ -7126,16 +7133,16 @@ fn parent_promotion_evidence_ready(plan: &ProgramLifecyclePlanResult) -> bool {
         )
         && receipt_complete_and_not_stale(
             plan.parent_receipt_states
-                .get(RECEIPT_ID_PROGRAM_IMPLEMENTATION_PROMPT),
+                .get(RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_PROMPT),
         )
         && receipt_verdict_eq(
             &plan.parent_receipt_states,
-            RECEIPT_ID_IMPLEMENTATION_RUN,
+            RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN,
             "pass",
         )
         && receipt_field_eq(
             &plan.parent_receipt_states,
-            RECEIPT_ID_IMPLEMENTATION_RUN,
+            RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN,
             FIELD_CHILD_AUTHORITY_PRESERVED,
             "yes",
         )
@@ -7158,7 +7165,7 @@ fn parent_route_delegation_contract_basis(
         return Ok(None);
     }
     Ok(Some(format!(
-        "{basis}; parent promotion evidence=accepted-review+passing-gates+implementation-run-pass+child_authority_preserved"
+            "{basis}; parent promotion evidence=accepted-review+passing-gates+program-implementation-orchestration-run-pass+child_authority_preserved"
     )))
 }
 
@@ -8195,7 +8202,8 @@ fn execute_parent_program_route(
                     "route-contract:delegation_contract.safe_delegation=true".to_string(),
                     "lifecycle-invocation:invocation_authority=unattended".to_string(),
                     "parent-gates:passing".to_string(),
-                    "implementation-run:child_authority_preserved=yes".to_string(),
+                    "program-implementation-orchestration-run:child_authority_preserved=yes"
+                        .to_string(),
                 ],
             )?;
             let mut data = program_step_event_data(
@@ -8476,7 +8484,10 @@ fn parent_promotion_required_receipt_verdicts(
     plan: &ProgramLifecyclePlanResult,
 ) -> BTreeMap<String, String> {
     let mut verdicts = BTreeMap::new();
-    for receipt_id in [RECEIPT_ID_PROPOSAL_REVIEW, RECEIPT_ID_IMPLEMENTATION_RUN] {
+    for receipt_id in [
+        RECEIPT_ID_PROPOSAL_REVIEW,
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN,
+    ] {
         if let Some(verdict) = plan
             .parent_receipt_states
             .get(receipt_id)
@@ -8487,11 +8498,13 @@ fn parent_promotion_required_receipt_verdicts(
     }
     if let Some(value) = plan
         .parent_receipt_states
-        .get(RECEIPT_ID_IMPLEMENTATION_RUN)
+        .get(RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN)
         .and_then(|receipt| receipt.fields.get(FIELD_CHILD_AUTHORITY_PRESERVED))
     {
         verdicts.insert(
-            format!("{RECEIPT_ID_IMPLEMENTATION_RUN}.{FIELD_CHILD_AUTHORITY_PRESERVED}"),
+            format!(
+                "{RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN}.{FIELD_CHILD_AUTHORITY_PRESERVED}"
+            ),
             value.clone(),
         );
     }
@@ -8506,8 +8519,8 @@ fn parent_promotion_required_receipt_digests(
     let mut digests = BTreeMap::new();
     for receipt_id in [
         RECEIPT_ID_PROPOSAL_REVIEW,
-        RECEIPT_ID_PROGRAM_IMPLEMENTATION_PROMPT,
-        RECEIPT_ID_IMPLEMENTATION_RUN,
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_PROMPT,
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN,
     ] {
         let Some(receipt) = plan.parent_receipt_states.get(receipt_id) else {
             continue;
@@ -13700,28 +13713,28 @@ fn verify_parent_program_closeout_receipts(
     verify_parent_receipt_field(
         repo_root,
         plan,
-        "program-implementation-conformance",
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_CONFORMANCE,
         "verdict",
         "pass",
     )?;
     verify_parent_receipt_field(
         repo_root,
         plan,
-        "program-implementation-conformance",
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_CONFORMANCE,
         "child_authority_preserved",
         "yes",
     )?;
     verify_parent_receipt_field(
         repo_root,
         plan,
-        "program-post-implementation-drift",
+        RECEIPT_ID_PROGRAM_POST_IMPLEMENTATION_ORCHESTRATION_DRIFT,
         "verdict",
         "pass",
     )?;
     verify_parent_receipt_field(
         repo_root,
         plan,
-        "program-post-implementation-drift",
+        RECEIPT_ID_PROGRAM_POST_IMPLEMENTATION_ORCHESTRATION_DRIFT,
         "child_authority_preserved",
         "yes",
     )?;
@@ -15942,7 +15955,7 @@ receipts:
   - receipt_id: "program-summary"
     path: "support/program-summary.md"
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -15951,7 +15964,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16000,7 +16013,7 @@ receipts:
   - receipt_id: "program-summary"
     path: "support/program-summary.md"
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16009,7 +16022,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16051,12 +16064,12 @@ validators:
 gates:
   - gate_id: "program-child-proposal-readiness"
     validator_id: "program-child-proposal-readiness"
-    required_before_routes: ["generate-program-implementation-prompt"]
+    required_before_routes: ["generate-program-implementation-orchestration-prompt"]
 receipts:
-  - receipt_id: "program-implementation-prompt"
-    path: "support/executable-program-implementation-prompt.md"
+  - receipt_id: "program-implementation-orchestration-prompt"
+    path: "support/program-implementation-orchestration-prompt.md"
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16065,14 +16078,14 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
     enter_when:
       all:
         - manifest_status: "accepted"
-        - receipt_absent: "program-implementation-prompt"
+        - receipt_absent: "program-implementation-orchestration-prompt"
 "#,
             );
         }
@@ -16105,7 +16118,7 @@ program:
     parent_coordinates_only: true
     child_receipts_remain_child_owned: true
     child_promotion_targets_remain_child_owned: true
-states: [{ state_id: "review-program" }, { state_id: "revise-program" }, { state_id: "generate-program-implementation-prompt" }]
+states: [{ state_id: "review-program" }, { state_id: "revise-program" }, { state_id: "generate-program-implementation-orchestration-prompt" }]
 terminal_outcomes:
   - outcome_id: "archived"
     when: { manifest_status: "archived" }
@@ -16121,14 +16134,14 @@ validators:
 gates:
   - gate_id: "program-review-authorization"
     validator_id: "proposal-review-strict"
-    required_before_routes: ["generate-program-implementation-prompt", "promote-proposal"]
+    required_before_routes: ["generate-program-implementation-orchestration-prompt", "promote-proposal"]
     on_fail_route_id: "review-proposal-program"
   - gate_id: "program-child-proposal-readiness"
     validator_id: "program-child-proposal-readiness"
-    required_before_routes: ["generate-program-implementation-prompt"]
+    required_before_routes: ["generate-program-implementation-orchestration-prompt"]
   - gate_id: "program-structure"
     validator_id: "program-structure"
-    required_before_routes: ["generate-program-implementation-prompt", "promote-proposal", "generate-program-verification-prompt", "generate-program-closeout-prompt", "closeout-proposal-program", "archive-proposal"]
+    required_before_routes: ["generate-program-implementation-orchestration-prompt", "promote-proposal", "generate-program-verification-prompt", "generate-program-closeout-prompt", "closeout-proposal-program", "archive-proposal"]
 receipts:
   - receipt_id: "program-creation"
     path: "support/program-creation.md"
@@ -16141,20 +16154,20 @@ receipts:
     freshness:
       digest_command: ["bash", ".octon/framework/assurance/runtime/_ops/scripts/program-digest.sh", "--package", "{{target}}"]
       digest_field: "reviewed_packet_digest"
-  - receipt_id: "program-implementation-prompt"
-    path: "support/executable-program-implementation-prompt.md"
-  - receipt_id: "implementation-run"
-    path: "support/implementation-run.md"
+  - receipt_id: "program-implementation-orchestration-prompt"
+    path: "support/program-implementation-orchestration-prompt.md"
+  - receipt_id: "program-implementation-orchestration-run"
+    path: "support/program-implementation-orchestration-run.md"
     required_fields: ["verdict", "implemented_at", "promotion_evidence_count", "child_authority_preserved"]
     verdict_field: "verdict"
   - receipt_id: "program-verification-prompt"
     path: "support/follow-up-program-verification-prompt.md"
-  - receipt_id: "program-implementation-conformance"
-    path: "support/program-implementation-conformance-review.md"
+  - receipt_id: "program-implementation-orchestration-conformance"
+    path: "support/program-implementation-orchestration-conformance-review.md"
     required_fields: ["verdict", "unresolved_items_count", "child_receipt_summary_count", "child_authority_preserved"]
     verdict_field: "verdict"
-  - receipt_id: "program-post-implementation-drift"
-    path: "support/program-post-implementation-drift-churn-review.md"
+  - receipt_id: "program-post-implementation-orchestration-drift"
+    path: "support/program-post-implementation-orchestration-drift-churn-review.md"
     required_fields: ["verdict", "unresolved_items_count", "child_receipt_summary_count", "child_authority_preserved"]
     verdict_field: "verdict"
   - receipt_id: "program-closeout-prompt"
@@ -16229,7 +16242,7 @@ routes:
       all:
         - receipt_complete: "proposal-review"
         - receipt_verdict: { receipt_id: "proposal-review", value: "revision-required" }
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16238,7 +16251,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16249,7 +16262,7 @@ routes:
         - receipt_verdict: { receipt_id: "proposal-review", value: "accepted" }
         - receipt_fresh: "proposal-review"
         - file_present: "resources/child-packet-index.yml"
-        - receipt_absent: "program-implementation-prompt"
+        - receipt_absent: "program-implementation-orchestration-prompt"
   - route_id: "promote-proposal"
     route_type: "workflow"
     delegation_contract:
@@ -16258,7 +16271,7 @@ routes:
       authority_zones_allowed: ["workspace-declared", "program-child-registry"]
       declared_write_scope_source: "program-child-registry"
       required_evidence_gates: []
-      required_receipts_before_dispatch: ["proposal-review", "implementation-run"]
+      required_receipts_before_dispatch: ["proposal-review", "program-implementation-orchestration-run"]
       required_receipts_before_completion: []
       replay_class: "no-op-safe"
       automated_recovery_policy: "fail-closed"
@@ -16269,11 +16282,11 @@ routes:
         - receipt_complete: "proposal-review"
         - receipt_verdict: { receipt_id: "proposal-review", value: "accepted" }
         - receipt_fresh: "proposal-review"
-        - receipt_complete: "program-implementation-prompt"
-        - file_present: "support/executable-program-implementation-prompt.md"
-        - receipt_complete: "implementation-run"
-        - receipt_field_equals: { receipt_id: "implementation-run", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "implementation-run", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-implementation-orchestration-prompt"
+        - file_present: "support/program-implementation-orchestration-prompt.md"
+        - receipt_complete: "program-implementation-orchestration-run"
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-run", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-run", field: "child_authority_preserved", value: "yes" }
   - route_id: "generate-program-verification-prompt"
     route_type: "extension"
     delegation_contract:
@@ -16301,19 +16314,19 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: ["program-verification-prompt"]
-      required_receipts_before_completion: ["program-implementation-conformance", "program-post-implementation-drift"]
+      required_receipts_before_completion: ["program-implementation-orchestration-conformance", "program-post-implementation-orchestration-drift"]
       replay_class: "bounded-retry"
       automated_recovery_policy: "bounded-automated-retry"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
     completion:
-      expected_receipts: ["program-implementation-conformance", "program-post-implementation-drift"]
+      expected_receipts: ["program-implementation-orchestration-conformance", "program-post-implementation-orchestration-drift"]
     enter_when:
       all:
         - manifest_status: "implemented"
         - receipt_complete: "program-verification-prompt"
         - any:
-            - receipt_absent: "program-implementation-conformance"
-            - receipt_absent: "program-post-implementation-drift"
+            - receipt_absent: "program-implementation-orchestration-conformance"
+            - receipt_absent: "program-post-implementation-orchestration-drift"
   - route_id: "generate-program-closeout-prompt"
     route_type: "extension"
     delegation_contract:
@@ -16322,7 +16335,7 @@ routes:
       authority_zones_allowed: ["workspace-declared"]
       declared_write_scope_source: "target"
       required_evidence_gates: []
-      required_receipts_before_dispatch: ["program-implementation-conformance", "program-post-implementation-drift"]
+      required_receipts_before_dispatch: ["program-implementation-orchestration-conformance", "program-post-implementation-orchestration-drift"]
       required_receipts_before_completion: ["program-closeout-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
@@ -16330,12 +16343,12 @@ routes:
     enter_when:
       all:
         - manifest_status: "implemented"
-        - receipt_complete: "program-implementation-conformance"
-        - receipt_field_equals: { receipt_id: "program-implementation-conformance", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "program-implementation-conformance", field: "child_authority_preserved", value: "yes" }
-        - receipt_complete: "program-post-implementation-drift"
-        - receipt_field_equals: { receipt_id: "program-post-implementation-drift", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "program-post-implementation-drift", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-implementation-orchestration-conformance"
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-conformance", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-conformance", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-post-implementation-orchestration-drift"
+        - receipt_field_equals: { receipt_id: "program-post-implementation-orchestration-drift", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-post-implementation-orchestration-drift", field: "child_authority_preserved", value: "yes" }
         - receipt_absent: "program-closeout-prompt"
   - route_id: "closeout-proposal-program"
     route_type: "extension"
@@ -16345,7 +16358,7 @@ routes:
       authority_zones_allowed: ["workspace-declared"]
       declared_write_scope_source: "target"
       required_evidence_gates: []
-      required_receipts_before_dispatch: ["program-implementation-conformance", "program-post-implementation-drift", "program-closeout-prompt"]
+      required_receipts_before_dispatch: ["program-implementation-orchestration-conformance", "program-post-implementation-orchestration-drift", "program-closeout-prompt"]
       required_receipts_before_completion: ["proposal-closeout"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
@@ -16353,12 +16366,12 @@ routes:
     enter_when:
       all:
         - manifest_status: "implemented"
-        - receipt_complete: "program-implementation-conformance"
-        - receipt_field_equals: { receipt_id: "program-implementation-conformance", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "program-implementation-conformance", field: "child_authority_preserved", value: "yes" }
-        - receipt_complete: "program-post-implementation-drift"
-        - receipt_field_equals: { receipt_id: "program-post-implementation-drift", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "program-post-implementation-drift", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-implementation-orchestration-conformance"
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-conformance", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-conformance", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-post-implementation-orchestration-drift"
+        - receipt_field_equals: { receipt_id: "program-post-implementation-orchestration-drift", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-post-implementation-orchestration-drift", field: "child_authority_preserved", value: "yes" }
         - receipt_complete: "program-closeout-prompt"
         - receipt_absent: "proposal-closeout"
   - route_id: "archive-proposal"
@@ -16377,12 +16390,12 @@ routes:
     enter_when:
       all:
         - manifest_status: "implemented"
-        - receipt_complete: "program-implementation-conformance"
-        - receipt_field_equals: { receipt_id: "program-implementation-conformance", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "program-implementation-conformance", field: "child_authority_preserved", value: "yes" }
-        - receipt_complete: "program-post-implementation-drift"
-        - receipt_field_equals: { receipt_id: "program-post-implementation-drift", field: "verdict", value: "pass" }
-        - receipt_field_equals: { receipt_id: "program-post-implementation-drift", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-implementation-orchestration-conformance"
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-conformance", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-implementation-orchestration-conformance", field: "child_authority_preserved", value: "yes" }
+        - receipt_complete: "program-post-implementation-orchestration-drift"
+        - receipt_field_equals: { receipt_id: "program-post-implementation-orchestration-drift", field: "verdict", value: "pass" }
+        - receipt_field_equals: { receipt_id: "program-post-implementation-orchestration-drift", field: "child_authority_preserved", value: "yes" }
         - receipt_complete: "proposal-closeout"
         - receipt_field_equals: { receipt_id: "proposal-closeout", field: "verdict", value: "pass" }
         - receipt_field_equals: { receipt_id: "proposal-closeout", field: "archive_authorized", value: "yes" }
@@ -16423,7 +16436,7 @@ terminal_outcomes:
   - outcome_id: "rejected"
     when: { manifest_status: "rejected" }
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16432,7 +16445,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16472,7 +16485,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16481,7 +16494,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16535,7 +16548,7 @@ receipts:
     required_fields: ["verdict", "cleaned_at", "cleanup_candidates", "manual_review_count", "worktree_hygiene_verdict", "remaining_blocker_class", "residue_fingerprint"]
     verdict_field: "verdict"
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16544,7 +16557,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16607,7 +16620,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16616,7 +16629,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16790,7 +16803,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16799,7 +16812,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16826,7 +16839,7 @@ routes:
         ) {
             let route = if declare_route {
                 r#"
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16835,7 +16848,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16861,7 +16874,7 @@ program:
     serialize_write_scope_conflicts: true
     recipes:
       - blocker_class: "unsupported-mode-authority"
-        recovery_route_id: "generate-program-implementation-prompt"
+        recovery_route_id: "generate-program-implementation-orchestration-prompt"
         {preconditions_line}
         idempotency_class: "{idempotency_class}"
         human_required: false
@@ -16912,7 +16925,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16921,7 +16934,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -16957,7 +16970,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -16966,7 +16979,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -17005,7 +17018,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -17014,7 +17027,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
@@ -17082,9 +17095,9 @@ routes:
             );
         }
 
-        fn write_program_implementation_prompt_receipt(&self) {
+        fn write_program_implementation_orchestration_prompt_receipt(&self) {
             self.write(
-                "parent/support/executable-program-implementation-prompt.md",
+                "parent/support/program-implementation-orchestration-prompt.md",
                 "prompt_id: program-implementation-001\n",
             );
         }
@@ -17112,18 +17125,18 @@ routes:
                 "verdict: {verdict}\nunresolved_items_count: 0\nchild_receipt_summary_count: 1\nchild_authority_preserved: {child_authority_preserved}\n"
             );
             self.write(
-                "parent/support/program-implementation-conformance-review.md",
+                "parent/support/program-implementation-orchestration-conformance-review.md",
                 &body,
             );
             self.write(
-                "parent/support/program-post-implementation-drift-churn-review.md",
+                "parent/support/program-post-implementation-orchestration-drift-churn-review.md",
                 &body,
             );
         }
 
         fn write_parent_implementation_run_receipt(&self, child_authority_preserved: &str) {
             self.write(
-                "parent/support/implementation-run.md",
+                "parent/support/program-implementation-orchestration-run.md",
                 &format!(
                     "verdict: pass\nimplemented_at: 2026-05-12T00:00:00Z\npromotion_evidence_count: 1\nchild_authority_preserved: {child_authority_preserved}\n"
                 ),
@@ -17349,7 +17362,7 @@ routes:
     }
 
     #[test]
-    fn program_level_route_gate_blocks_program_implementation_prompt() {
+    fn program_level_route_gate_blocks_program_implementation_orchestration_prompt() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("program-route-gate", true);
         fixture.write_program_contract_with_failing_program_gate();
@@ -17380,7 +17393,7 @@ routes:
             blocker.blocker_class == "recovery-route-unavailable"
                 && blocker
                     .message
-                    .contains("generate-program-implementation-prompt")
+                    .contains("generate-program-implementation-orchestration-prompt")
                 && blocker.message.contains("validation-failed")
         }));
     }
@@ -17417,7 +17430,7 @@ routes:
     }
 
     #[test]
-    fn program_review_workflow_routes_accepted_review_to_program_prompt() {
+    fn program_review_workflow_routes_accepted_review_to_program_orchestration_prompt() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-review-accepted", "accepted");
         fixture.write_parent_review_receipt("accepted", "sha256:live");
@@ -17429,7 +17442,10 @@ routes:
         )
         .unwrap();
 
-        assert_program_route(&plan, "generate-program-implementation-prompt");
+        assert_program_route(
+            &plan,
+            "generate-program-implementation-orchestration-prompt",
+        );
         assert!(plan
             .program_gate_results
             .iter()
@@ -17444,7 +17460,7 @@ routes:
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-review-promote", "accepted");
         fixture.write_parent_review_receipt("accepted", "sha256:live");
-        fixture.write_program_implementation_prompt_receipt();
+        fixture.write_program_implementation_orchestration_prompt_receipt();
         fixture.write_parent_implementation_run_receipt("yes");
 
         let plan = plan_program_lifecycle_from_octon_dir(
@@ -17466,7 +17482,7 @@ routes:
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-promote-unattended-safe", "accepted");
         fixture.write_parent_review_receipt("accepted", "sha256:live");
-        fixture.write_program_implementation_prompt_receipt();
+        fixture.write_program_implementation_orchestration_prompt_receipt();
         fixture.write_parent_implementation_run_receipt("yes");
 
         let result = run_program_lifecycle_from_octon_dir(
@@ -17501,7 +17517,9 @@ routes:
         let receipt = fs::read_to_string(&receipt_path).unwrap();
         assert!(receipt.contains("delegation_kind: machine-enforced-delegated-execution"));
         assert!(receipt.contains("human_exception_grant: false"));
-        assert!(receipt.contains("implementation-run.child_authority_preserved"));
+        assert!(
+            receipt.contains("program-implementation-orchestration-run.child_authority_preserved")
+        );
     }
 
     #[test]
@@ -17898,7 +17916,7 @@ routes:
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-review-promote-blocked", "accepted");
         fixture.write_parent_review_receipt("accepted", "sha256:live");
-        fixture.write_program_implementation_prompt_receipt();
+        fixture.write_program_implementation_orchestration_prompt_receipt();
         fixture.write_parent_implementation_run_receipt("no");
 
         let plan = plan_program_lifecycle_from_octon_dir(
@@ -19169,7 +19187,7 @@ routes:
 
         assert_eq!(
             selection.route.route_id,
-            "generate-program-implementation-prompt"
+            "generate-program-implementation-orchestration-prompt"
         );
         let basis = selection
             .validation
@@ -19348,7 +19366,7 @@ routes:
         let route_result = LifecycleRouteExecutionResult {
             schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
             run_id: "program-parent-post-validation".to_string(),
-            route_id: "generate-program-implementation-prompt".to_string(),
+            route_id: "generate-program-implementation-orchestration-prompt".to_string(),
             phase_id: None,
             executor_used: "mock".to_string(),
             status: "completed".to_string(),
@@ -19381,7 +19399,8 @@ routes:
             child_id: "program".to_string(),
             unsafe_condition: "unsafe blocker remains".to_string(),
             original_route_blocked_reason: "program route cannot continue as-is".to_string(),
-            selected_repair_route: "generate-program-implementation-prompt".to_string(),
+            selected_repair_route: "generate-program-implementation-orchestration-prompt"
+                .to_string(),
             agent_authority_basis:
                 "recovery recipe unsupported-mode-authority idempotency_class=idempotent"
                     .to_string(),
@@ -21182,7 +21201,10 @@ rationale: "prove overwrite guard"
         let fixture = ProgramFixture::new("closeout-authority", true);
         fixture.write_program_contract_with_atomic();
         fixture.write_child("a", "framework/a.md", "implemented");
-        fixture.write("parent/support/implementation-run.md", "receipt: parent\n");
+        fixture.write(
+            "parent/support/program-implementation-orchestration-run.md",
+            "receipt: parent\n",
+        );
         fixture.write(
             "parent/proposal.yml",
             "status: implemented\nchild_promotion_targets:\n  a:\n    - framework/a.md\n",
@@ -23258,7 +23280,7 @@ program:
     child_promotion_targets_remain_child_owned: true
 states: [{ state_id: "coordinate" }]
 routes:
-  - route_id: "generate-program-implementation-prompt"
+  - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
     delegation_contract:
       decision_class: "delegated-execution"
@@ -23267,7 +23289,7 @@ routes:
       declared_write_scope_source: "target"
       required_evidence_gates: []
       required_receipts_before_dispatch: []
-      required_receipts_before_completion: ["program-implementation-prompt"]
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
       replay_class: "idempotent"
       automated_recovery_policy: "fail-closed"
       human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]

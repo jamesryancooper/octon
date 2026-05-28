@@ -53,7 +53,7 @@
   "$defs": {
     "identifier": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "relative_path": {
       "type": "string",

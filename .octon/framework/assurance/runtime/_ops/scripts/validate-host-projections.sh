@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 OCTON_DIR="${OCTON_DIR_OVERRIDE:-$DEFAULT_OCTON_DIR}"
 ROOT_DIR="${OCTON_ROOT_DIR:-$(cd -- "$OCTON_DIR/.." && pwd)}"
+source "$OCTON_DIR/framework/orchestration/runtime/_ops/scripts/extensions-common.sh"
 
 ROUTING_FILE="$OCTON_DIR/generated/effective/capabilities/routing.effective.yml"
 ARTIFACT_MAP_FILE="$OCTON_DIR/generated/effective/capabilities/artifact-map.yml"
@@ -31,6 +32,10 @@ hash_file() {
   fi
 }
 
+command_title() {
+  awk '/^# / { sub(/^# /, ""); print; exit }' "$1"
+}
+
 expected_projection_rows() {
   local host="$1"
   local kind="$2"
@@ -49,6 +54,18 @@ extension_projection_source_path() {
   local kind="$3"
   local capability_id="$4"
   yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .routing_exports.${kind}s[]? | select(.capability_id == \"$capability_id\") | .projection_source_path // \"\"" "$EXTENSIONS_CATALOG" | head -n 1
+}
+
+is_extension_root_or_composite_command() {
+  local effective_id="$1" capability_id="$2"
+  local source_kind pack_id operator_family
+
+  source_kind="$(artifact_field_for_effective_id "$effective_id" '.source_kind')"
+  [[ "$source_kind" == "extension-export" ]] || return 1
+
+  pack_id="$(artifact_field_for_effective_id "$effective_id" '.extension_pack_id')"
+  operator_family="$(ext_command_operator_family_for_pack "$pack_id")"
+  [[ "$capability_id" == "$pack_id" || "$capability_id" == "$operator_family" ]]
 }
 
 verify_compiled_extension_projection_path() {
@@ -118,7 +135,7 @@ validate_host_kind() {
   local projection_dir="$ROOT_DIR/.${host}/${kind}s"
   local expected_names=()
   local existing_names
-  local effective_id capability_id source_rel projected_path
+  local effective_id capability_id source_rel projected_path title
 
   if [[ -d "$projection_dir" ]]; then
     pass "host projection directory exists: ${projection_dir#$ROOT_DIR/}"
@@ -149,6 +166,17 @@ validate_host_kind() {
         pass "projected command hash matches source: ${projected_path#$ROOT_DIR/}"
       else
         fail "projected command hash differs from source: ${projected_path#$ROOT_DIR/}"
+      fi
+      title="$(command_title "$projected_path")"
+      if [[ -n "$title" && "${#title}" -le 64 ]]; then
+        pass "projected command title is concise: ${projected_path#$ROOT_DIR/}"
+      else
+        fail "projected command title must be present and <=64 characters: ${projected_path#$ROOT_DIR/}"
+      fi
+      if [[ "$title" == "Octon "* ]] && ! is_extension_root_or_composite_command "$effective_id" "$capability_id"; then
+        fail "projected command title repeats redundant Octon namespace: ${projected_path#$ROOT_DIR/}"
+      else
+        pass "projected command title namespace usage is allowed: ${projected_path#$ROOT_DIR/}"
       fi
     else
       projected_path="$projection_dir/$capability_id"

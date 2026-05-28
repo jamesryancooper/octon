@@ -1,9 +1,9 @@
 schema_version: "extensions-skills-registry-fragment-v1"
 skills:
-  nextjs--app-router-runtime:
+  nextjs-app-router-runtime:
     version: "1.0.0"
     commands:
-      - /nextjs--app-router-runtime
+      - /nextjs-preview-readiness
     parameters:
       - name: focus
         type: text

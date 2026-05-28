@@ -900,7 +900,7 @@ main() {
     route_request_schema="$REPO_ROOT/.octon/framework/engine/runtime/spec/lifecycle-route-execution-request-v1.schema.json"
     route_result_schema="$REPO_ROOT/.octon/framework/engine/runtime/spec/lifecycle-route-execution-result-v1.schema.json"
 
-    assert_schema_query_equals "registry identifier definition matches runtime" "$registry_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "registry identifier definition matches runtime" "$registry_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'
     for query in \
       '."$defs".child.properties.child_id."$ref"' \
       '."$defs".child.properties.dependencies.items."$ref"' \
@@ -921,7 +921,7 @@ main() {
     assert_schema_query_equals "registry cutover predecessor ids use canonical identifier" "$registry_schema" '."$defs".cutover_constraints.properties.required_predecessor_child_ids.items."$ref"' '#/$defs/identifier'
     assert_schema_query_equals "registry cutover forbidden claims include compatibility retirement" "$registry_schema" '."$defs".cutover_constraints.properties.forbidden_claims_until_ready.items.enum[] | select(. == "compatibility-retired")' 'compatibility-retired'
 
-    assert_schema_query_equals "mutation identifier definition matches runtime" "$mutation_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "mutation identifier definition matches runtime" "$mutation_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'
     for query in \
       '.properties.child_id."$ref"' \
       '.properties.replacement_child_id."$ref"' \
@@ -933,7 +933,7 @@ main() {
     done
     assert_schema_query_equals "mutation rollback posture enum matches runtime" "$mutation_schema" '.properties.rollback_posture.enum[] | select(. == "rollback-route")' 'rollback-route'
 
-    assert_schema_query_equals "scaffold identifier definition matches runtime" "$scaffold_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "scaffold identifier definition matches runtime" "$scaffold_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'
     assert_schema_query_equals "scaffold program id uses canonical identifier" "$scaffold_schema" '.properties.program_id."$ref"' '#/$defs/identifier'
     for query in \
       '."$defs".scaffold_child.properties.child_id."$ref"' \
@@ -945,15 +945,15 @@ main() {
     assert_schema_query_equals "scaffold rollback posture enum matches runtime" "$scaffold_schema" '."$defs".scaffold_child.properties.rollback_posture.enum[] | select(. == "rollback-route")' 'rollback-route'
     assert_schema_query_equals "scaffold seed role enum matches runtime" "$scaffold_schema" '."$defs".scaffold_child.properties.seed_role.enum[] | select(. == "seed-reference")' 'seed-reference'
 
-    assert_schema_query_equals "event identifier definition matches runtime" "$event_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "event identifier definition matches runtime" "$event_schema" '."$defs".identifier.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'
     assert_schema_query_equals "event child id uses canonical identifier" "$event_schema" '.properties.child_id."$ref"' '#/$defs/identifier'
-    assert_schema_query_equals "event route id uses canonical identifier pattern" "$event_schema" '.properties.route_id.pattern' '^[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "event route id uses canonical identifier pattern" "$event_schema" '.properties.route_id.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'
     assert_schema_query_equals "packet lifecycle event schema version declared" "$packet_event_schema" '.properties.schema_version.const' 'octon-lifecycle-run-event-v1'
     assert_schema_query_equals "packet lifecycle event supports cancellation events" "$packet_event_schema" '.properties.final_verdict.enum[] | select(. == "cancelled")' 'cancelled'
     assert_schema_query_equals "packet lifecycle event step kind includes route dispatch" "$packet_event_schema" '.properties.step_kind.enum[] | select(. == "route-dispatch")' 'route-dispatch'
     assert_schema_query_equals "packet lifecycle event supports phase category" "$packet_event_schema" '.properties.event_category.enum[] | select(. == "phase")' 'phase'
-    assert_schema_query_equals "packet lifecycle event phase id uses lifecycle id pattern" "$packet_event_schema" '.properties.phase_id.pattern' '^[a-z][a-z0-9-]*$'
-    assert_schema_query_equals "packet lifecycle event transition id links event and phase" "$packet_event_schema" '.properties.transition_id.pattern' '^[a-z][a-z0-9-]*:[a-z][a-z0-9-]*$'
+    assert_schema_query_equals "packet lifecycle event phase id uses lifecycle id pattern" "$packet_event_schema" '.properties.phase_id.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*$'
+    assert_schema_query_equals "packet lifecycle event transition id links event and phase" "$packet_event_schema" '.properties.transition_id.pattern' '^[a-z][a-z0-9]*(-[a-z0-9]+)*:[a-z][a-z0-9]*(-[a-z0-9]+)*$'
     assert_schema_query_equals "lifecycle cancellation schema accepts shared cancellation marker" "$cancellation_schema" '.properties.schema_version.enum[] | select(. == "octon-lifecycle-cancellation-v1")' 'octon-lifecycle-cancellation-v1'
     assert_schema_query_equals "lifecycle cancellation schema accepts program cancellation evidence" "$cancellation_schema" '.properties.schema_version.enum[] | select(. == "octon-program-lifecycle-cancelled-v1")' 'octon-program-lifecycle-cancelled-v1'
     assert_schema_query_equals "human exception schema routes program child grants" "$approval_guidance_schema" '.properties.context_kind.enum[] | select(. == "program-child-route")' 'program-child-route'
@@ -988,31 +988,32 @@ main() {
     assert_schema_query_equals "program revise route declared" "$program_contract" '.routes[]?.route_id | select(. == "revise-program")' 'revise-program'
     assert_schema_query_equals "program review loop returns to revise" "$program_contract" '.loops[]? | select(.loop_id == "program-review-revision").repeat_route_id' 'revise-program'
     assert_schema_query_equals "program review gate uses strict review validator" "$program_contract" '.gates[]? | select(.gate_id == "program-review-authorization").validator_id' 'proposal-review-strict'
-    assert_schema_query_equals "program review gate protects implementation prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-review-authorization").required_before_routes[] | select(. == "generate-program-implementation-prompt")' 'generate-program-implementation-prompt'
+    assert_schema_query_equals "program review gate protects implementation orchestration prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-review-authorization").required_before_routes[] | select(. == "generate-program-implementation-orchestration-prompt")' 'generate-program-implementation-orchestration-prompt'
     assert_schema_query_equals "program child readiness remains separate gate" "$program_contract" '.gates[]? | select(.gate_id == "program-child-proposal-readiness").validator_id' 'program-child-proposal-readiness'
-    assert_schema_query_equals "program child readiness protects implementation prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-child-proposal-readiness").required_before_routes[] | select(. == "generate-program-implementation-prompt")' 'generate-program-implementation-prompt'
+    assert_schema_query_equals "program child readiness protects implementation orchestration prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-child-proposal-readiness").required_before_routes[] | select(. == "generate-program-implementation-orchestration-prompt")' 'generate-program-implementation-orchestration-prompt'
     assert_schema_query_equals "program structure validator declared" "$program_contract" '.validators[]? | select(.validator_id == "program-structure").argv[] | select(. == ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh")' '.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh'
-    assert_schema_query_equals "program structure gate protects implementation prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-structure").required_before_routes[] | select(. == "generate-program-implementation-prompt")' 'generate-program-implementation-prompt'
+    assert_schema_query_equals "program structure gate protects implementation orchestration prompt" "$program_contract" '.gates[]? | select(.gate_id == "program-structure").required_before_routes[] | select(. == "generate-program-implementation-orchestration-prompt")' 'generate-program-implementation-orchestration-prompt'
     assert_schema_query_equals "program creation receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-creation").path' 'support/program-creation.md'
     assert_schema_query_equals "program create expects creation receipt" "$program_contract" '.routes[]? | select(.route_id == "create-program").completion.expected_receipts[] | select(. == "program-creation")' 'program-creation'
-    assert_schema_query_equals "program conformance receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-implementation-conformance").path' 'support/program-implementation-conformance-review.md'
-    assert_schema_query_equals "program drift receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-post-implementation-drift").path' 'support/program-post-implementation-drift-churn-review.md'
-    assert_schema_query_equals "program verification loop expects conformance receipt" "$program_contract" '.routes[]? | select(.route_id == "run-program-verification-and-correction-loop").completion.expected_receipts[] | select(. == "program-implementation-conformance")' 'program-implementation-conformance'
-    assert_schema_query_equals "program verification loop expects drift receipt" "$program_contract" '.routes[]? | select(.route_id == "run-program-verification-and-correction-loop").completion.expected_receipts[] | select(. == "program-post-implementation-drift")' 'program-post-implementation-drift'
-    assert_schema_query_equals "program closeout prompt requires aggregate conformance pass" "$program_contract" '.routes[]? | select(.route_id == "generate-program-closeout-prompt").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-implementation-conformance" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
-    assert_schema_query_equals "program closeout prompt requires aggregate drift pass" "$program_contract" '.routes[]? | select(.route_id == "generate-program-closeout-prompt").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-post-implementation-drift" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
+    assert_schema_query_equals "program orchestration run receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-implementation-orchestration-run").path' 'support/program-implementation-orchestration-run.md'
+    assert_schema_query_equals "program conformance receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-implementation-orchestration-conformance").path' 'support/program-implementation-orchestration-conformance-review.md'
+    assert_schema_query_equals "program drift receipt declared" "$program_contract" '.receipts[]? | select(.receipt_id == "program-post-implementation-orchestration-drift").path' 'support/program-post-implementation-orchestration-drift-churn-review.md'
+    assert_schema_query_equals "program verification loop expects conformance receipt" "$program_contract" '.routes[]? | select(.route_id == "run-program-verification-and-correction-loop").completion.expected_receipts[] | select(. == "program-implementation-orchestration-conformance")' 'program-implementation-orchestration-conformance'
+    assert_schema_query_equals "program verification loop expects drift receipt" "$program_contract" '.routes[]? | select(.route_id == "run-program-verification-and-correction-loop").completion.expected_receipts[] | select(. == "program-post-implementation-orchestration-drift")' 'program-post-implementation-orchestration-drift'
+    assert_schema_query_equals "program closeout prompt requires aggregate conformance pass" "$program_contract" '.routes[]? | select(.route_id == "generate-program-closeout-prompt").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-implementation-orchestration-conformance" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
+    assert_schema_query_equals "program closeout prompt requires aggregate drift pass" "$program_contract" '.routes[]? | select(.route_id == "generate-program-closeout-prompt").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-post-implementation-orchestration-drift" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
     assert_schema_query_equals "program promote uses existing workflow route" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal").route_type' 'workflow'
     assert_schema_query_equals "program promote declares safe delegation contract" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal").delegation_contract.safe_delegation' 'true'
     assert_schema_query_equals "program promote has no command binding" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal" and has("command_id")).route_id' ''
     assert_schema_query_equals "program promote has no skill binding" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal" and has("skill_id")).route_id' ''
     assert_schema_query_equals "program promote has no prompt binding" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal" and has("prompt_set_id")).route_id' ''
-    assert_schema_query_equals "program promote preserves child authority" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "implementation-run" and .receipt_field_equals.field == "child_authority_preserved").receipt_field_equals.value' 'yes'
+    assert_schema_query_equals "program promote preserves child authority" "$program_contract" '.routes[]? | select(.route_id == "promote-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-implementation-orchestration-run" and .receipt_field_equals.field == "child_authority_preserved").receipt_field_equals.value' 'yes'
     assert_schema_query_equals "program archive uses existing workflow route" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").route_type' 'workflow'
     assert_schema_query_equals "program archive has no command binding" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal" and has("command_id")).route_id' ''
     assert_schema_query_equals "program archive has no skill binding" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal" and has("skill_id")).route_id' ''
     assert_schema_query_equals "program archive has no prompt binding" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal" and has("prompt_set_id")).route_id' ''
-    assert_schema_query_equals "program archive requires aggregate conformance pass" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-implementation-conformance" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
-    assert_schema_query_equals "program archive requires aggregate drift pass" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-post-implementation-drift" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
+    assert_schema_query_equals "program archive requires aggregate conformance pass" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-implementation-orchestration-conformance" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
+    assert_schema_query_equals "program archive requires aggregate drift pass" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-post-implementation-orchestration-drift" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
     assert_schema_query_equals "program archive preserves child authority" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "proposal-closeout" and .receipt_field_equals.field == "child_authority_preserved").receipt_field_equals.value' 'yes'
     assert_schema_query_equals "no direct run-program-implementation route" "$program_contract" '.routes[]?.route_id | select(. == "run-program-implementation")' ''
 

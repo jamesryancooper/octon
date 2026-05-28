@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Explain Packet
+# Packet - Explain
 
 Run the `explain-packet` bundle for one packet path or proposal id.
 

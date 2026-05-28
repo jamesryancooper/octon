@@ -17,7 +17,7 @@ support/
   follow-up-verification-prompt.md
   custom-closeout-prompt.md
   correction-prompts/
-  executable-program-implementation-prompt.md
+  program-implementation-orchestration-prompt.md
   follow-up-program-verification-prompt.md
   program-correction-prompts/
   custom-program-closeout-prompt.md

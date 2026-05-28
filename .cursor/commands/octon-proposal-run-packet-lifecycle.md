@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Run Packet Lifecycle
+# Packet - Run Lifecycle
 
 Run the generic lifecycle runner for one proposal packet target:
 

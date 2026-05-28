@@ -5,7 +5,7 @@ reviewed_at: 2026-05-13T12:37:40Z
 reviewer: octon-proposal-lifecycle-review-program
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:9e323e69fef7f3451f605227050c854496bdfcf6969b965df380957f8f7b4cfc
+reviewed_packet_digest: sha256:ffebf5db9344dd7d92d3763d95166400c695a6e00649bc85f7f0d8dbafb52098
 open_blocking_findings_count: 0
 
 ## Approved Promotion Targets
@@ -23,7 +23,7 @@ open_blocking_findings_count: 0
 
 ## Exclusions
 
-- Parent acceptance authorizes implementation prompt generation for the program
+- Parent acceptance authorizes implementation orchestration prompt generation for the program
   route only; it does not promote durable runtime behavior by itself.
 - Child packet promotion targets, validation verdicts, archive states, and
   implementation truth remain child-owned and must retain their own receipts.
@@ -45,9 +45,10 @@ None.
 - Parent-local `support/program-creation.md` is now present with
   `child_authority_preserved: yes`; it remains parent coordination evidence
   only and does not satisfy child-owned lifecycle truth.
-- Parent-local `support/executable-program-implementation-prompt.md` is now
-  present as generated program implementation guidance; it authorizes no
-  implementation by itself and does not satisfy child-owned lifecycle truth.
+- Parent-local `support/program-implementation-orchestration-prompt.md` is now
+  present as generated program implementation orchestration guidance; it
+  authorizes no implementation by itself and does not satisfy child-owned
+  lifecycle truth.
 - Required child packets are now accepted and implementation-prompt authorized
   through their own review gates.
 - Program implementation must preserve the parent as a coordination surface and
@@ -56,9 +57,9 @@ None.
 
 ## Final Route Recommendation
 
-Route to proposal program implementation using
-`support/executable-program-implementation-prompt.md`. The implementation route
-must require child-owned durable implementation evidence, validator receipts,
-implementation-conformance reviews, post-implementation drift/churn reviews,
-promotion evidence, and a final program closeout gate before claiming canonical
-Governed Workflow Runtime support.
+Route to proposal program implementation orchestration using
+`support/program-implementation-orchestration-prompt.md`. The orchestration
+route must require child-owned durable implementation evidence, validator
+receipts, implementation-conformance reviews, post-implementation drift/churn
+reviews, promotion evidence, and a final program closeout gate before claiming
+canonical Governed Workflow Runtime support.

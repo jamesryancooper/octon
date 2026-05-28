@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Revise Packet
+# Packet - Revise
 
 Run the `revise-packet` bundle for one packet path or proposal id.
 

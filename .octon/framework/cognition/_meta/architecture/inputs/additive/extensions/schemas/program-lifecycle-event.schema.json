@@ -37,7 +37,7 @@
     },
     "event_type": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "event_category": {
       "type": "string",
@@ -71,7 +71,7 @@
     },
     "route_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "atomic_phase": {
       "type": "string",
@@ -122,7 +122,7 @@
     },
     "identifier": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     }
   }
 }

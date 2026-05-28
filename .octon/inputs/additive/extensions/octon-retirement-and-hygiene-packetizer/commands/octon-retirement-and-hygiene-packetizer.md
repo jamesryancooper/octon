@@ -1,4 +1,4 @@
-# Octon Retirement And Hygiene Packetizer
+# Retirement And Hygiene Packetizer
 
 Run the `octon-retirement-and-hygiene-packetizer` family dispatcher.
 

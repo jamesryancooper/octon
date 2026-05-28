@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder Create Validation Fixture
+# Pack Scaffolder - Create Validation Fixture
 
 Scaffold a pack-local validation scenario fixture under
 `/.octon/inputs/additive/extensions/<pack-id>/validation/scenarios/`.

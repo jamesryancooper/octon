@@ -25,7 +25,7 @@
     },
     "child_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "human_only_boundary": {
       "type": "string",

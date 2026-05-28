@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Revise Program
+# Program - Revise
 
 Run the `revise-program` bundle for one parent proposal program path.
 

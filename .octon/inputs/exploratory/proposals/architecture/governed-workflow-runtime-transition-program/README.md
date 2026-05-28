@@ -16,7 +16,7 @@ non-authoritative proposal lineage.
 
 The seed/reference child is:
 
-- `.octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update`
+- `.octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update`
 
 The seed remains an entry-artifact framing packet. It does not prove or
 implement workflow statecharts, task-specific execution harnesses, agent-node
