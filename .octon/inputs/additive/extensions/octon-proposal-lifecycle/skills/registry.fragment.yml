@@ -240,9 +240,9 @@ skills:
         description: "Specific parent review finding id to address."
     requires:
       context: []
-  octon-proposal-lifecycle-generate-program-implementation-prompt:
+  octon-proposal-lifecycle-generate-program-orchestration-prompt:
     version: "1.0.0"
-    commands: ["/octon-proposal-generate-program-implementation-prompt"]
+    commands: ["/octon-proposal-generate-program-orchestration-prompt"]
     parameters:
       - name: program_packet_path
         type: text

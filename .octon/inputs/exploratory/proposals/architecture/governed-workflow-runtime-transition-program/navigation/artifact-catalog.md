@@ -34,4 +34,6 @@ _Status: Accepted parent-program catalog_
 ## Support Artifacts
 
 - `support/implementation-grade-completeness-review.md`
+- `support/program-creation.md`
+- `support/program-implementation-orchestration-prompt.md`
 - `support/proposal-review.md`

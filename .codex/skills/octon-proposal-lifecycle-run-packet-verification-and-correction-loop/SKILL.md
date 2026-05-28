@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Octon Proposal Lifecycle: Run Packet Verification And Correction Loop
+# Packet - Run Verification And Correction Loop
 
 Run verification, generate targeted corrections, re-verify, and stop only at
 `clean`, `blocked`, `needs-packet-revision`, `superseded`, or explicitly

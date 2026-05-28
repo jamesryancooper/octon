@@ -24,11 +24,11 @@
     },
     "lifecycle_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "owner_extension": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "version": {
       "type": "string",
@@ -77,7 +77,7 @@
         "properties": {
           "state_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "summary": {
             "type": "string"
@@ -168,7 +168,7 @@
       "properties": {
         "outcome_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "when": {
           "$ref": "#/$defs/conditionSet"
@@ -195,7 +195,7 @@
         },
         "child_lifecycle_id_default": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "supported_execution_modes": {
           "type": "array",
@@ -277,7 +277,7 @@
       "properties": {
         "recovery_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "max_attempts": {
           "type": "integer",
@@ -346,7 +346,7 @@
         },
         "recovery_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "recovery_action_id": {
           "type": "string",
@@ -518,7 +518,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -580,7 +580,7 @@
       "properties": {
         "profile_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "interaction_kind": {
           "enum": [
@@ -608,7 +608,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -616,7 +616,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -624,7 +624,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -632,7 +632,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -703,7 +703,7 @@
       "properties": {
         "validator_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "argv": {
           "$ref": "#/$defs/argv"
@@ -717,23 +717,23 @@
       "properties": {
         "gate_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "validator_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "required_before_routes": {
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "minItems": 1
         },
         "on_fail_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         }
       }
     },
@@ -744,7 +744,7 @@
       "properties": {
         "receipt_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "path": {
           "type": "string",
@@ -792,11 +792,11 @@
       "properties": {
         "loop_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "receipt_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "verdict_field": {
           "type": "string",
@@ -812,7 +812,7 @@
         },
         "repeat_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "terminal_values": {
           "type": "array",
@@ -871,7 +871,7 @@
       "properties": {
         "phase_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "mode": {
           "type": "string",
@@ -879,7 +879,7 @@
         },
         "owner_layer": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "route_refs": {
           "$ref": "#/$defs/lifecycleIdRefs"
@@ -912,7 +912,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -958,7 +958,7 @@
       "properties": {
         "to_phase_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "when": {
           "$ref": "#/$defs/conditionSet"
@@ -989,7 +989,7 @@
       "properties": {
         "stop_class": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "when": {
           "$ref": "#/$defs/conditionSet"
@@ -1000,7 +1000,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^[a-z][a-z0-9-]*$"
+        "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
       },
       "uniqueItems": true
     },
@@ -1011,7 +1011,7 @@
       "properties": {
         "route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "route_type": {
           "type": "string",
@@ -1019,15 +1019,15 @@
         },
         "command_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "skill_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "prompt_set_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "required_inputs": {
           "type": "array",
@@ -1057,19 +1057,19 @@
       "properties": {
         "stage_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "commit_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "rollback_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "compensation_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         }
       },
       "anyOf": [
@@ -1123,7 +1123,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -1131,7 +1131,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -1139,7 +1139,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "uniqueItems": true
         },
@@ -1187,7 +1187,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           }
         },
         "expected_paths": {

@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder Create Skill
+# Pack Scaffolder - Create Skill
 
 Scaffold a pack-local skill and wire it into the pack-local discovery
 fragments.

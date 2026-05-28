@@ -9,4 +9,4 @@ verdict: pass
 
 ## Notes
 
-This receipt records child packet creation as proposal-local evidence only. It does not approve implementation, promotion, or runtime behavior. Lifecycle Autopilot CLI planning was attempted through the source runtime but was blocked by effective extension catalog validation; packet creation proceeded from the canonical proposal templates and lifecycle skill contract, then through proposal validators.
+This receipt records child packet creation as proposal-local evidence only. It does not approve implementation, promotion, or runtime behavior. Proposal lifecycle CLI planning was attempted through the source runtime but was blocked by effective extension catalog validation; packet creation proceeded from the canonical proposal templates and lifecycle skill contract, then through proposal validators.

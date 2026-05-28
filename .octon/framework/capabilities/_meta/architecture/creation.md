@@ -332,7 +332,7 @@ Skills must follow action-oriented naming:
 | Characters | Lowercase letters, numbers, and hyphens only |
 | Hyphens | Must not start/end with hyphen |
 | Consecutive | Must not contain consecutive hyphens (`--`) |
-| Directory match | Must match the parent directory name exactly |
+| Identity match | `SKILL.md` `name`, manifest `id`, registry key, and slash command token must match |
 
 **Good:** `refine-prompt`, `analyze-codebase`, `generate-report`
 

@@ -62,10 +62,14 @@ Leaf routes are listed in `context/bundle-matrix.md` and governed by
 - Route IDs use packet/program-qualified action names, for example
   `create-packet`, `review-program`, `generate-packet-implementation-prompt`,
   or `run-program-verification-and-correction-loop`.
-- Leaf command IDs use `octon-proposal-<route-id>`.
-- Skill and prompt set IDs use `octon-proposal-lifecycle-<route-id>`.
-- Human labels use `Octon Proposal Lifecycle: <Action> Packet` or
-  `Octon Proposal Lifecycle: <Action> Program`.
+- Leaf command IDs usually use `octon-proposal-<route-id>`, with explicit
+  bundle-matrix exceptions for host-safe command names.
+- Skill IDs usually use `octon-proposal-lifecycle-<route-id>`, with explicit
+  bundle-matrix exceptions for host-safe skill names.
+- Prompt set IDs use `octon-proposal-lifecycle-<route-id>`.
+- Human-facing command labels omit the redundant namespace and use concise
+  forms such as `Packet - Review` or
+  `Program - Generate Implementation Orchestration Prompt`.
 
 `/octon-proposal-run-packet-lifecycle` uses the shared lifecycle runner for
 orchestration, gate checks, stale-review detection, evidence, checkpoints, and

@@ -98,7 +98,7 @@ support generates parent-program surfaces only, refuses to overwrite existing
 parent files, and does not create the Governed Workflow Runtime transition
 program.
 
-Program implementation prompt generation is fail-closed behind the program
+Program implementation orchestration prompt generation is fail-closed behind the program
 child-readiness gate. Required, non-deferred child packets must declare required
 metadata including `change_profile`, pass their child-owned
 implementation-grade completeness review, pass an accepted proposal-review gate

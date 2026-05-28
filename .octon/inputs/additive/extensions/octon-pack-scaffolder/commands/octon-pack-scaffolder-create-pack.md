@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder Create Pack
+# Pack Scaffolder - Create Pack
 
 Scaffold a new additive extension pack root under
 `/.octon/inputs/additive/extensions/<pack-id>/`.

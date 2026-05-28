@@ -321,7 +321,7 @@ Validate a skill manually:
 #### Structure
 
 - [ ] `SKILL.md` exists in skill directory
-- [ ] `name` in frontmatter matches directory name
+- [ ] `name` in frontmatter matches the manifest `id`
 - [ ] `description` is 1-1024 characters
 - [ ] Body is under 500 lines
 
@@ -345,7 +345,7 @@ Validate a skill manually:
 #### Manifest and Registry
 
 - [ ] Skill is listed in `.octon/framework/capabilities/runtime/skills/manifest.yml` (Tier 1 discovery)
-- [ ] `id` matches directory name and SKILL.md `name`
+- [ ] `id` matches the registry key and SKILL.md `name`
 - [ ] `display_name` is present (human-readable name)
 - [ ] `summary` is present for routing
 - [ ] `triggers` are defined (if using natural language activation)

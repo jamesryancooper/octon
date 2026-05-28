@@ -1,43 +1,43 @@
 schema_version: "extensions-commands-fragment-v1"
 commands:
   - id: octon-pack-scaffolder
-    display_name: Octon Pack Scaffolder
+    display_name: Pack Scaffolder
     path: octon-pack-scaffolder.md
     summary: "Dispatch explicitly to one pack-authoring scaffold target."
     access: agent
     argument_hint: "--target pack|prompt-bundle|skill|command|context-doc|validation-fixture --pack-id <id> [target-specific-args]"
   - id: octon-pack-scaffolder-create-pack
-    display_name: Octon Pack Scaffolder Create Pack
+    display_name: Pack Scaffolder - Create Pack
     path: octon-pack-scaffolder-create-pack.md
     summary: "Scaffold a new additive extension pack root."
     access: agent
     argument_hint: "--pack-id <id> [--display-name <name>] [--summary <text>] [--version <semver>] [--origin-class first_party_bundled|first_party_external|third_party]"
   - id: octon-pack-scaffolder-create-prompt-bundle
-    display_name: Octon Pack Scaffolder Create Prompt Bundle
+    display_name: Pack Scaffolder - Create Prompt Bundle
     path: octon-pack-scaffolder-create-prompt-bundle.md
     summary: "Scaffold a minimal manifest-governed prompt bundle inside an additive extension pack."
     access: agent
     argument_hint: "--pack-id <id> --bundle-id <id> [--summary <text>] [--stage-id <id>]"
   - id: octon-pack-scaffolder-create-skill
-    display_name: Octon Pack Scaffolder Create Skill
+    display_name: Pack Scaffolder - Create Skill
     path: octon-pack-scaffolder-create-skill.md
     summary: "Scaffold a pack-local skill plus matching manifest and registry entries."
     access: agent
     argument_hint: "--pack-id <id> --skill-id <id> [--display-name <name>] [--summary <text>]"
   - id: octon-pack-scaffolder-create-command
-    display_name: Octon Pack Scaffolder Create Command
+    display_name: Pack Scaffolder - Create Command
     path: octon-pack-scaffolder-create-command.md
     summary: "Scaffold a pack-local command markdown entry plus manifest fragment entry."
     access: agent
     argument_hint: "--pack-id <id> --command-id <id> [--display-name <name>] [--summary <text>] [--argument-hint <text>]"
   - id: octon-pack-scaffolder-create-context-doc
-    display_name: Octon Pack Scaffolder Create Context Doc
+    display_name: Pack Scaffolder - Create Context Doc
     path: octon-pack-scaffolder-create-context-doc.md
     summary: "Scaffold a pack-local context document."
     access: agent
     argument_hint: "--pack-id <id> --doc-id <id> [--title <title>] [--summary <text>]"
   - id: octon-pack-scaffolder-create-validation-fixture
-    display_name: Octon Pack Scaffolder Create Validation Fixture
+    display_name: Pack Scaffolder - Create Validation Fixture
     path: octon-pack-scaffolder-create-validation-fixture.md
     summary: "Scaffold a pack-local validation scenario fixture."
     access: agent

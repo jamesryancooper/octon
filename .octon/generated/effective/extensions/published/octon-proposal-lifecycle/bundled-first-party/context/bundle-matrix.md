@@ -24,7 +24,7 @@
 | `explain-program` | `octon-proposal-lifecycle-explain-program` | `octon-proposal-explain-program` | `octon-proposal-lifecycle-explain-program` |
 | `review-program` | `octon-proposal-lifecycle-review-program` | `octon-proposal-review-program` | `octon-proposal-lifecycle-review-program` |
 | `revise-program` | `octon-proposal-lifecycle-revise-program` | `octon-proposal-revise-program` | `octon-proposal-lifecycle-revise-program` |
-| `generate-program-implementation-prompt` | `octon-proposal-lifecycle-generate-program-implementation-prompt` | `octon-proposal-generate-program-implementation-prompt` | `octon-proposal-lifecycle-generate-program-implementation-prompt` |
+| `generate-program-implementation-orchestration-prompt` | `octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt` | `octon-proposal-generate-program-orchestration-prompt` | `octon-proposal-lifecycle-generate-program-orchestration-prompt` |
 | `generate-program-verification-prompt` | `octon-proposal-lifecycle-generate-program-verification-prompt` | `octon-proposal-generate-program-verification-prompt` | `octon-proposal-lifecycle-generate-program-verification-prompt` |
 | `generate-program-correction-prompt` | `octon-proposal-lifecycle-generate-program-correction-prompt` | `octon-proposal-generate-program-correction-prompt` | `octon-proposal-lifecycle-generate-program-correction-prompt` |
 | `cleanup-lifecycle-residue` | `octon-proposal-lifecycle-cleanup-lifecycle-residue` | `octon-proposal-cleanup-lifecycle-residue` | `octon-proposal-lifecycle-cleanup-lifecycle-residue` |

@@ -4,7 +4,7 @@
 
 A proposal program coordinates related proposal packets from one parent packet
 without nesting child packet directories. It supports initiatives where the
-parent owns sequence, dependency gates, aggregate implementation prompts,
+parent owns sequence, dependency gates, aggregate implementation orchestration prompts,
 aggregate verification, aggregate correction routing, aggregate closeout,
 cross-packet risk, deferral, supersession, rollback posture, and program
 evidence.
@@ -37,8 +37,8 @@ Invalid placement:
 - `architecture/child-packet-contract.md`
 - `architecture/program-closeout-plan.md`
 - `support/program-creation.md`
-- `support/program-implementation-conformance-review.md`
-- `support/program-post-implementation-drift-churn-review.md`
+- `support/program-implementation-orchestration-conformance-review.md`
+- `support/program-post-implementation-orchestration-drift-churn-review.md`
 - program-level risk, evidence, implementation, verification, correction, and
   closeout support prompts
 
@@ -102,7 +102,7 @@ aggregate closeout completeness, and honest support claims.
 
 ## Implementation Prompt Readiness
 
-Before `generate-program-implementation-prompt` may run, the parent program
+Before `generate-program-implementation-orchestration-prompt` may run, the parent program
 must have a fresh accepted parent review authorized with:
 
 ```sh
@@ -130,7 +130,7 @@ evidence that implementation has completed.
 
 Parent program promotion uses the existing `promote-proposal` workflow id. It
 enters only after an accepted fresh parent review, a generated program
-implementation prompt, and parent-local `support/implementation-run.md` with
+implementation prompt, and parent-local `support/program-implementation-orchestration-run.md` with
 `verdict: pass` and `child_authority_preserved: yes`. The parent program
 structure validator must also pass.
 
@@ -200,8 +200,8 @@ children:
 ## Closeout
 
 Program verification convergence writes parent-local
-`support/program-implementation-conformance-review.md` and
-`support/program-post-implementation-drift-churn-review.md`. These aggregate
+`support/program-implementation-orchestration-conformance-review.md` and
+`support/program-post-implementation-orchestration-drift-churn-review.md`. These aggregate
 receipts summarize parent coordination, child receipt posture, and drift
 posture. They must include `child_authority_preserved: yes` before parent
 closeout or archival may proceed, and they never replace child receipts,

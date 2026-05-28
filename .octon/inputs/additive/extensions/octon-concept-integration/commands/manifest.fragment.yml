@@ -1,7 +1,7 @@
 schema_version: "extensions-commands-fragment-v1"
 commands:
   - id: octon-concept-integration
-    display_name: Octon Concept Integration
+    display_name: Concept Integration
     path: octon-concept-integration.md
     summary: "Resolve the appropriate octon-concept-integration route and dispatch to the matching leaf bundle."
     access: agent

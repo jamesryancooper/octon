@@ -24,15 +24,15 @@
     },
     "pack_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "source_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "dispatcher_id": {
       "type": "string",
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "status": {
       "type": "string",
@@ -51,7 +51,7 @@
         "string",
         "null"
       ],
-      "pattern": "^[a-z][a-z0-9-]*$"
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
     },
     "selected_execution_binding": {
       "type": [
@@ -62,23 +62,23 @@
       "properties": {
         "binding_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "command_capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "skill_capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "prompt_set_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         }
       }
     },
@@ -86,7 +86,7 @@
       "type": "array",
       "items": {
         "type": "string",
-        "pattern": "^[a-z][a-z0-9-]*$"
+        "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
       }
     },
     "precedence_trace": {
@@ -102,11 +102,11 @@
         "properties": {
           "matcher_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "route_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "matched": {
             "type": "boolean"
@@ -130,17 +130,17 @@
         "properties": {
           "matcher_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "route_id": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           },
           "reason_codes": {
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^[a-z][a-z0-9-]*$"
+              "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
             }
           }
         }

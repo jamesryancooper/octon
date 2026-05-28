@@ -1,7 +1,7 @@
 schema_version: "extensions-commands-fragment-v1"
 commands:
   - id: octon-drift-triage
-    display_name: Octon Drift Triage
+    display_name: Drift Triage
     path: octon-drift-triage.md
     summary: "Turn changed paths into a ranked remediation packet using existing drift, alignment, and publication checks."
     access: agent

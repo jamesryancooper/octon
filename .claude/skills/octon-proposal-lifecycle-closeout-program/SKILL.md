@@ -25,8 +25,8 @@ program may aggregate child receipts, but it may not replace the packet-level
 post-implementation evidence.
 
 Program closeout also requires parent-local aggregate
-`support/program-implementation-conformance-review.md` and
-`support/program-post-implementation-drift-churn-review.md` receipts with
+`support/program-implementation-orchestration-conformance-review.md` and
+`support/program-post-implementation-orchestration-drift-churn-review.md` receipts with
 `child_authority_preserved: yes`. It then writes only parent-local
 `support/proposal-closeout.md`; that receipt never satisfies child receipts,
 child promotion targets, child validation verdicts, child archive metadata, or

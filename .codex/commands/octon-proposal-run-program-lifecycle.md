@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Run Program Lifecycle
+# Program - Run Lifecycle
 
 Run the generic lifecycle runner for one proposal program target:
 

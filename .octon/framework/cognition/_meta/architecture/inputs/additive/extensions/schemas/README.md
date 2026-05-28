@@ -16,3 +16,9 @@
 `octon-extension-pack-v5` requires explicit `capability_profiles` so validation
 can fail closed on missing command, skill, prompt, routing, lifecycle,
 template, or validation artifacts.
+
+Naming rules that depend on pack-relative ownership are enforced by extension
+pack validators, not by generated projections. Schemas define the wire shape
+and safe identifier syntax; validators enforce that command IDs, skill IDs, and
+prompt set IDs remain namespaced while runtime route IDs remain local
+orchestration contract identifiers.

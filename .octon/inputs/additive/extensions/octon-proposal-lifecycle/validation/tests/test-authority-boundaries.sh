@@ -61,8 +61,8 @@ main() {
     fail "program creation receipt boundary is missing"
   fi
 
-  if rg -n 'support/program-implementation-conformance-review\.md' "$PACK_ROOT/prompts" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
-    && rg -n 'support/program-post-implementation-drift-churn-review\.md' "$PACK_ROOT/prompts" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
+  if rg -n 'support/program-implementation-orchestration-conformance-review\.md' "$PACK_ROOT/prompts" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
+    && rg -n 'support/program-post-implementation-orchestration-drift-churn-review\.md' "$PACK_ROOT/prompts" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
     && rg -n 'never (replace|satisf(y|ies)) child receipts|never satisfies child receipts' "$PACK_ROOT/prompts" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
     && rg -n 'child promotion targets' "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/prompts/closeout-program" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \
     && rg -n 'child validation verdicts' "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/prompts/closeout-program" "$PACK_ROOT/context/patterns/proposal-program.md" >/dev/null \

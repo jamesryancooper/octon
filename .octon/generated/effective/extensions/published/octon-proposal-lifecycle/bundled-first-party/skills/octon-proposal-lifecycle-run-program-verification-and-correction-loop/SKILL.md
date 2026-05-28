@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Octon Proposal Lifecycle: Run Program Verification And Correction Loop
+# Program - Run Verification And Correction Loop
 
 The loop must include the implementation-grade completeness gate outcome and cannot close
 clean while any program packet lacks a passing completeness receipt.
@@ -27,8 +27,8 @@ Run parent and child verification, targeted corrections, and re-verification
 until the program reaches a declared terminal state.
 
 On aggregate pass, write parent-local
-`support/program-implementation-conformance-review.md` and
-`support/program-post-implementation-drift-churn-review.md` with `verdict:
+`support/program-implementation-orchestration-conformance-review.md` and
+`support/program-post-implementation-orchestration-drift-churn-review.md` with `verdict:
 pass` and `child_authority_preserved: yes` only when child manifests, receipts,
 promotion targets, validation verdicts, archive metadata, and terminal outcomes
 remain child-owned.

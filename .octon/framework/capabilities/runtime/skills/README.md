@@ -16,10 +16,10 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │  SKILL CREATION CHECKLIST                                                   │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│  1. SKILL DEFINITION (/.octon/framework/capabilities/runtime/skills/<skill-id>/)                          │
-│     □ Copy _scaffold/template/ to <skill-id>/                                        │
+│  1. SKILL DEFINITION (/.octon/framework/capabilities/runtime/skills/<group>/<purpose>/)                   │
+│     □ Copy _scaffold/template/ to the manifest-declared skill path                  │
 │     □ Edit SKILL.md:                                                        │
-│       - Set `name:` to match directory name (kebab-case)                    │
+│       - Set `name:` to match the skill id (kebab-case)                      │
 │       - Write `description:` (1-1024 chars, include keywords)               │
 │       - Set `allowed-tools:` (single source of truth for permissions)       │
 │       - Replace all {{placeholders}} with actual content                    │
@@ -27,9 +27,9 @@ Creating a new skill requires updating **4 files** across **2 locations**. Use t
 │                                                                             │
 │  2. SHARED MANIFEST (/.octon/framework/capabilities/runtime/skills/manifest.yml)                          │
 │     □ Add skill entry under `skills:`:                                      │
-│       - id: <skill-id>           # Must match directory and SKILL.md name   │
+│       - id: <skill-id>           # Must match registry key and SKILL.md name│
 │       - display_name: <Title Case>  # e.g., "Synthesize Research"           │
-│       - path: <group>/<skill-id>/                                           │
+│       - path: <group>/<purpose>/                                            │
 │       - summary: "<one-line description>"                                   │
 │       - status: experimental | active | deprecated                          │
 │       - tags: [<tag1>, <tag2>]                                              │
@@ -172,7 +172,7 @@ use skill: synthesize-research
 ├── registry.yml                    # Extended metadata and I/O paths (single source of truth)
 ├── composite-skills.md             # Canonical composition model for skills
 ├── _scaffold/template/                      # Scaffolding for new skills
-├── <group>/<skill-id>/SKILL.md     # Core instructions (<500 lines)
+├── <group>/<purpose>/SKILL.md      # Core instructions (<500 lines)
 ├── /.octon/state/control/skills/checkpoints/                           # Execution state (checkpoints) for session recovery
 ├── /.octon/instance/capabilities/runtime/skills/configs/                        # Per-skill configuration overrides
 ├── /.octon/instance/capabilities/runtime/skills/resources/                      # Per-skill input materials
@@ -279,8 +279,8 @@ Without tiktoken, word count approximation is used (±20% variance). CI environm
 
 ## Creating a Skill
 
-1. Copy `_scaffold/template/` to `{{group}}/{{skill_id}}/`
-2. Update `SKILL.md` frontmatter (`name` must match directory, set `allowed-tools`)
+1. Copy `_scaffold/template/` to the manifest-declared skill path
+2. Update `SKILL.md` frontmatter (`name` must match skill id, set `allowed-tools`)
 3. Replace all `{{placeholder}}` values with actual content
 4. Add entry to `manifest.yml` (id, display_name, path, skill_class, summary, triggers)
 5. Add entry to `.octon/framework/capabilities/runtime/skills/registry.yml` under `skills.<id>` (version, commands, parameters, composition when applicable)

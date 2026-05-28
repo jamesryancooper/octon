@@ -323,7 +323,7 @@ Skill templates (e.g., `_scaffold/template/SKILL.md`) use the same `{{snake_case
 
 | Template Placeholder | Purpose |
 |---------------------|---------|
-| `{{skill_name}}` | Skill identifier (matches directory name) |
+| `{{skill_name}}` | Skill identifier (matches manifest `id` and SKILL.md `name`) |
 | `{{skill_display_name}}` | Human-readable name (Title Case) |
 | `{{skill_description}}` | Full description for SKILL.md |
 | `{{skill_one_liner}}` | Single sentence value proposition |

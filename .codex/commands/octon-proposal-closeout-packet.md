@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Closeout Packet
+# Packet - Closeout
 
 Run the `closeout-packet` bundle. Refuse closeout when validation,
 evidence, staging, archive state, route-required review/check gates, or

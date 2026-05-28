@@ -6,8 +6,8 @@ regeneration, and proof that durable targets do not depend on parent or child
 proposal packet paths.
 
 Require passing parent-local aggregate verification receipts before closeout:
-`support/program-implementation-conformance-review.md` and
-`support/program-post-implementation-drift-churn-review.md` must both record
+`support/program-implementation-orchestration-conformance-review.md` and
+`support/program-post-implementation-orchestration-drift-churn-review.md` must both record
 `verdict: pass` and `child_authority_preserved: yes`.
 
 The prompt must delegate PR, CI, review, merge, branch cleanup, and sync

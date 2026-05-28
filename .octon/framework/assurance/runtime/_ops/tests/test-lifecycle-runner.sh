@@ -815,7 +815,7 @@ JSON
     fail "lifecycle runner keeps direct Codex and Claude execution out of lifecycle.rs"
   fi
 
-  if ! rg -n 'program-creation|program-implementation-conformance|program-post-implementation-drift|program-structure' \
+  if ! rg -n 'program-creation|program-implementation-orchestration-conformance|program-post-implementation-orchestration-drift|program-structure' \
     "$REPO_ROOT/.octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs" \
     "$REPO_ROOT/.octon/framework/engine/runtime/crates/kernel/src/lifecycle_driver.rs" \
     "$REPO_ROOT/.octon/framework/engine/runtime/crates/lifecycle_executor/src" >/dev/null; then

@@ -43,14 +43,14 @@ main() {
     explain-program
     review-program
     revise-program
-    generate-program-implementation-prompt
+    generate-program-implementation-orchestration-prompt
     generate-program-verification-prompt
     generate-program-correction-prompt
     run-program-verification-and-correction-loop
     generate-program-closeout-prompt
     closeout-program
   )
-  local route manifest_count scenario_count
+  local route manifest_count scenario_count program_command_id program_skill_id
 
   assert_file "pack.yml"
   assert_file "README.md"
@@ -79,7 +79,7 @@ main() {
   done
 
   manifest_count="$(find "$PACK_ROOT/prompts" -mindepth 2 -maxdepth 2 -name manifest.yml -type f | wc -l | tr -d ' ')"
-  [[ "$manifest_count" == "21" ]] && pass "21 prompt bundle manifests present" || fail "expected 21 prompt manifests, found $manifest_count"
+  [[ "$manifest_count" == "22" ]] && pass "22 prompt bundle manifests present" || fail "expected 22 prompt manifests, found $manifest_count"
 
   scenario_count="$(find "$PACK_ROOT/validation/scenarios" -name '*.md' -type f | wc -l | tr -d ' ')"
   [[ "$scenario_count" -ge 12 ]] && pass "manual and program scenario fixtures present" || fail "expected at least 12 scenarios, found $scenario_count"
@@ -88,6 +88,33 @@ main() {
     fail "legacy lifecycle-prefixed command files removed"
   else
     pass "legacy lifecycle-prefixed command files removed"
+  fi
+
+  program_command_id="$(yq -r '.routes[]? | select(.route_id == "generate-program-implementation-orchestration-prompt") | .command_id' "$PACK_ROOT/context/lifecycles/proposal-program.contract.yml")"
+  program_skill_id="$(yq -r '.routes[]? | select(.route_id == "generate-program-implementation-orchestration-prompt") | .skill_id' "$PACK_ROOT/context/lifecycles/proposal-program.contract.yml")"
+  if [[ "$program_command_id" == "octon-proposal-generate-program-orchestration-prompt" ]] \
+    && [[ ${#program_command_id} -le 64 ]] \
+    && [[ "$program_skill_id" == "octon-proposal-lifecycle-generate-program-orchestration-prompt" ]] \
+    && [[ ${#program_skill_id} -le 64 ]] \
+    && [[ -f "$PACK_ROOT/commands/$program_command_id.md" ]] \
+    && [[ -f "$PACK_ROOT/skills/$program_skill_id/SKILL.md" ]]; then
+    pass "program implementation orchestration host binding is host-visible"
+  else
+    fail "program implementation orchestration host binding is not host-visible"
+  fi
+  if ! yq -e '.commands[]? | select(.display_name | test("^Octon Proposal Lifecycle:?"))' "$PACK_ROOT/commands/manifest.fragment.yml" >/dev/null 2>&1 \
+    && ! rg -n '^# Octon Proposal Lifecycle:?' "$PACK_ROOT/commands" >/dev/null; then
+    pass "proposal lifecycle command labels omit redundant namespace"
+  else
+    fail "proposal lifecycle command labels still repeat redundant namespace"
+  fi
+  if ! rg -n 'octon-proposal-generate-program-implementation-orchestration-prompt|octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt' \
+    "$PACK_ROOT/commands" "$PACK_ROOT/skills" "$PACK_ROOT/commands/manifest.fragment.yml" "$PACK_ROOT/skills/manifest.fragment.yml" "$PACK_ROOT/skills/registry.fragment.yml" >/dev/null \
+    && ! yq -e '.routes[]? | select(.route_id == "generate-program-implementation-orchestration-prompt") | select(.command_id == "octon-proposal-generate-program-implementation-orchestration-prompt" or .skill_id == "octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt")' "$PACK_ROOT/context/lifecycles/proposal-program.contract.yml" >/dev/null 2>&1 \
+    && ! yq -e '.dispatchers[]?.execution_bindings[]? | select(.route_id == "generate-program-implementation-orchestration-prompt") | select(.command_capability_id == "octon-proposal-generate-program-implementation-orchestration-prompt" or .skill_capability_id == "octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt")' "$PACK_ROOT/context/routing.contract.yml" >/dev/null 2>&1; then
+    pass "oversized program implementation orchestration host names are absent"
+  else
+    fail "oversized program implementation orchestration host names remain active"
   fi
 
   if rg -n 'Invalid nested placement|nested child proposal packet directories|Reject nested' "$PACK_ROOT/context" "$PACK_ROOT/prompts" >/dev/null; then
@@ -153,8 +180,8 @@ main() {
     fail "program creation prompt is missing parent creation receipt requirements"
   fi
 
-  if rg -n 'support/program-implementation-conformance-review\.md' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/prompts/generate-program-correction-prompt" >/dev/null \
-    && rg -n 'support/program-post-implementation-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/prompts/generate-program-correction-prompt" >/dev/null \
+  if rg -n 'support/program-implementation-orchestration-conformance-review\.md' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/prompts/generate-program-correction-prompt" >/dev/null \
+    && rg -n 'support/program-post-implementation-orchestration-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" "$PACK_ROOT/prompts/generate-program-correction-prompt" >/dev/null \
     && rg -n 'child_receipt_summary_count' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" >/dev/null \
     && rg -n 'child_authority_preserved' "$PACK_ROOT/prompts/generate-program-verification-prompt" "$PACK_ROOT/prompts/run-program-verification-and-correction-loop" >/dev/null; then
     pass "program verification prompts require aggregate receipts"
@@ -162,8 +189,8 @@ main() {
     fail "program verification prompts are missing aggregate receipt requirements"
   fi
 
-  if rg -n 'support/program-implementation-conformance-review\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
-    && rg -n 'support/program-post-implementation-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
+  if rg -n 'support/program-implementation-orchestration-conformance-review\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
+    && rg -n 'support/program-post-implementation-orchestration-drift-churn-review\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
     && rg -n 'support/proposal-closeout\.md' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
     && rg -n 'archive_authorized' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null \
     && rg -n 'child_authority_preserved' "$PACK_ROOT/prompts/generate-program-closeout-prompt" "$PACK_ROOT/prompts/closeout-program" >/dev/null; then

@@ -262,6 +262,29 @@ main() {
         || fail "route_dispatchers must be empty when no authored routing contract exists for $pack_id"
     fi
 
+    local published_command_ids published_skill_ids published_prompt_set_ids binding_id route_id command_capability_id skill_capability_id binding_prompt_set_id
+    published_command_ids="$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .routing_exports.commands[]?.capability_id // \"\"" "$CATALOG_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u)"
+    published_skill_ids="$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .routing_exports.skills[]?.capability_id // \"\"" "$CATALOG_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u)"
+    published_prompt_set_ids="$(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .prompt_bundles[]?.prompt_set_id // \"\"" "$CATALOG_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u)"
+    while IFS=$'\t' read -r binding_id route_id command_capability_id skill_capability_id binding_prompt_set_id; do
+      [[ -n "$binding_id" ]] || continue
+      if [[ -n "$command_capability_id" && "$command_capability_id" != "null" ]]; then
+        ext_id_list_contains "$command_capability_id" "$published_command_ids" \
+          && pass "route dispatcher command target published: $pack_id/$route_id -> $command_capability_id" \
+          || fail "route dispatcher command target missing from routing_exports: $pack_id/$route_id -> $command_capability_id"
+      fi
+      if [[ -n "$skill_capability_id" && "$skill_capability_id" != "null" ]]; then
+        ext_id_list_contains "$skill_capability_id" "$published_skill_ids" \
+          && pass "route dispatcher skill target published: $pack_id/$route_id -> $skill_capability_id" \
+          || fail "route dispatcher skill target missing from routing_exports: $pack_id/$route_id -> $skill_capability_id"
+      fi
+      if [[ -n "$binding_prompt_set_id" && "$binding_prompt_set_id" != "null" ]]; then
+        ext_id_list_contains "$binding_prompt_set_id" "$published_prompt_set_ids" \
+          && pass "route dispatcher prompt target published: $pack_id/$route_id -> $binding_prompt_set_id" \
+          || fail "route dispatcher prompt target missing from prompt_bundles: $pack_id/$route_id -> $binding_prompt_set_id"
+      fi
+    done < <(yq -r ".packs[]? | select(.pack_id == \"$pack_id\" and .source_id == \"$source_id\") | .route_dispatchers[]?.execution_bindings[]? | [.binding_id, .route_id, (.command_capability_id // \"\"), (.skill_capability_id // \"\"), (.prompt_set_id // \"\")] | @tsv" "$CATALOG_FILE" 2>/dev/null || true)
+
     local lifecycle_contract_count lifecycle_contract_abs lifecycle_contract_rel lifecycle_id lifecycle_contract_sha published_lifecycle_sha published_lifecycle_path
     lifecycle_contract_count="$(ext_lifecycle_contract_abs_files_for_pack "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}/pack.yml" "$ROOT_DIR/.octon/inputs/additive/extensions/${pack_id}" | wc -l | tr -d ' ')"
     if [[ "$lifecycle_contract_count" -gt 0 ]]; then
@@ -409,6 +432,22 @@ main() {
       [[ -n "$capability_id" ]] || continue
       fail "extension publication collides with native ${kind} capability id: $capability_id"
     done <<<"$collision_lines"
+  fi
+
+  local extension_duplicate_lines
+  extension_duplicate_lines="$(
+    {
+      yq -r '.packs[]? as $pack | $pack.routing_exports.commands[]? | ["command", .capability_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true
+      yq -r '.packs[]? as $pack | $pack.routing_exports.skills[]? | ["skill", .capability_id] | @tsv' "$CATALOG_FILE" 2>/dev/null || true
+    } | awk 'NF' | LC_ALL=C sort | uniq -d
+  )"
+  if [[ -z "$extension_duplicate_lines" ]]; then
+    pass "extension publication capability ids are collision-free by kind"
+  else
+    while IFS=$'\t' read -r kind capability_id; do
+      [[ -n "$capability_id" ]] || continue
+      fail "duplicate extension ${kind} capability id published: $capability_id"
+    done <<<"$extension_duplicate_lines"
   fi
 
   local quarantine_count

@@ -92,6 +92,90 @@ ext_trim() {
   printf '%s' "$value"
 }
 
+ext_warn() {
+  printf '[WARN] %s\n' "$1" >&2
+}
+
+ext_is_kebab_id() {
+  local value="$1"
+  [[ "$value" =~ ^[a-z][a-z0-9]*(-[a-z0-9]+)*$ ]]
+}
+
+ext_validate_extension_id_value() {
+  local label="$1" value="$2"
+  local length
+  ext_is_kebab_id "$value" || {
+    EXT_LAST_ERROR_REASON="invalid-$label:$value"
+    return 1
+  }
+  length="${#value}"
+  if (( length > 96 )); then
+    EXT_LAST_ERROR_REASON="overlong-$label:$value"
+    return 1
+  fi
+  if (( length > 64 )); then
+    ext_warn "extension $label exceeds 64 chars under staged naming policy: $value ($length)"
+  fi
+}
+
+ext_id_list_contains() {
+  local needle="$1" haystack="$2"
+  grep -Fx "$needle" <<<"$haystack" >/dev/null 2>&1
+}
+
+ext_command_operator_family_for_pack() {
+  case "$1" in
+    octon-proposal-lifecycle)
+      printf 'octon-proposal'
+      ;;
+    *)
+      printf '%s' "$1"
+      ;;
+  esac
+}
+
+ext_is_root_or_composite_command_id() {
+  local pack_id="$1" command_id="$2"
+  local operator_family
+  operator_family="$(ext_command_operator_family_for_pack "$pack_id")"
+  [[ "$command_id" == "$pack_id" || "$command_id" == "$operator_family" ]]
+}
+
+ext_validate_extension_command_namespace() {
+  local pack_id="$1" command_id="$2"
+  local operator_family
+  operator_family="$(ext_command_operator_family_for_pack "$pack_id")"
+  if [[ "$command_id" == "$pack_id" || "$command_id" == "$pack_id"-* \
+    || "$command_id" == "$operator_family" || "$command_id" == "$operator_family"-* ]]; then
+    return 0
+  fi
+  EXT_LAST_ERROR_REASON="unnamespaced-command-id:$pack_id:$command_id"
+  return 1
+}
+
+ext_validate_extension_skill_namespace() {
+  local pack_id="$1" skill_id="$2"
+  if [[ "$skill_id" == "$pack_id" || "$skill_id" == "$pack_id"-* ]]; then
+    return 0
+  fi
+  EXT_LAST_ERROR_REASON="unnamespaced-skill-id:$pack_id:$skill_id"
+  return 1
+}
+
+ext_validate_extension_prompt_namespace() {
+  local pack_id="$1" prompt_set_id="$2"
+  if [[ "$prompt_set_id" == "$pack_id"-* ]]; then
+    return 0
+  fi
+  EXT_LAST_ERROR_REASON="unnamespaced-prompt-set-id:$pack_id:$prompt_set_id"
+  return 1
+}
+
+ext_command_heading() {
+  local file="$1"
+  awk '/^# / { sub(/^# +/, ""); print; exit }' "$file" 2>/dev/null || true
+}
+
 ext_sorted_unique_lines() {
   printf '%s\n' "$@" | awk 'NF' | LC_ALL=C sort -u
 }
@@ -487,6 +571,8 @@ ext_validate_capability_profiles() {
     return 1
   }
 
+  local declared_command_ids=""
+
   if ext_has_capability_profile "$manifest" "command-surface"; then
     rel="$(yq -r '.content_entrypoints.commands // ""' "$manifest")"
     [[ "$rel" == "commands/" ]] || {
@@ -497,13 +583,41 @@ ext_validate_capability_profiles() {
       EXT_LAST_ERROR_REASON="missing-command-manifest:$pack_id"
       return 1
     }
-    while IFS=$'\t' read -r command_id path; do
+    declare -A seen_command_ids=()
+    while IFS=$'\t' read -r command_id path display_name; do
       [[ -n "$command_id" ]] || continue
+      ext_validate_extension_id_value "command-id:$pack_id" "$command_id" || return 1
+      ext_validate_extension_command_namespace "$pack_id" "$command_id" || return 1
+      if [[ -n "${seen_command_ids["$command_id"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-command-id:$pack_id:$command_id"
+        return 1
+      fi
+      seen_command_ids["$command_id"]="1"
+      declared_command_ids+="$command_id"$'\n'
       [[ -n "$path" && -f "$pack_root/commands/$path" ]] || {
         EXT_LAST_ERROR_REASON="missing-command-file:$pack_id:$command_id"
         return 1
       }
-    done < <(yq -r '.commands[]? | [.id, .path] | @tsv' "$pack_root/commands/manifest.fragment.yml" 2>/dev/null || true)
+      display_name="$(ext_trim "$display_name")"
+      if [[ -z "$display_name" || "${#display_name}" -gt 64 ]]; then
+        EXT_LAST_ERROR_REASON="invalid-command-display-name:$pack_id:$command_id"
+        return 1
+      fi
+      if ! ext_is_root_or_composite_command_id "$pack_id" "$command_id" && [[ "$display_name" == "Octon "* ]]; then
+        EXT_LAST_ERROR_REASON="redundant-command-display-namespace:$pack_id:$command_id"
+        return 1
+      fi
+      local heading
+      heading="$(ext_trim "$(ext_command_heading "$pack_root/commands/$path")")"
+      if [[ -z "$heading" || "${#heading}" -gt 64 ]]; then
+        EXT_LAST_ERROR_REASON="invalid-command-heading:$pack_id:$command_id"
+        return 1
+      fi
+      if ! ext_is_root_or_composite_command_id "$pack_id" "$command_id" && [[ "$heading" == "Octon "* ]]; then
+        EXT_LAST_ERROR_REASON="redundant-command-heading-namespace:$pack_id:$command_id"
+        return 1
+      fi
+    done < <(yq -r '.commands[]? | [.id, .path, .display_name] | @tsv' "$pack_root/commands/manifest.fragment.yml" 2>/dev/null || true)
   elif [[ "$(yq -r '.content_entrypoints.commands // ""' "$manifest")" != "" && "$(yq -r '.content_entrypoints.commands // ""' "$manifest")" != "null" ]]; then
     EXT_LAST_ERROR_REASON="undeclared-capability-profile:command-surface"
     return 1
@@ -519,13 +633,65 @@ ext_validate_capability_profiles() {
       EXT_LAST_ERROR_REASON="missing-skill-manifest-or-registry:$pack_id"
       return 1
     }
+    declare -A seen_skill_manifest_ids=()
+    local manifest_skill_ids=""
     while IFS=$'\t' read -r skill_id path; do
       [[ -n "$skill_id" ]] || continue
+      ext_validate_extension_id_value "skill-id:$pack_id" "$skill_id" || return 1
+      ext_validate_extension_skill_namespace "$pack_id" "$skill_id" || return 1
+      if [[ -n "${seen_skill_manifest_ids["$skill_id"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-skill-id:$pack_id:$skill_id"
+        return 1
+      fi
+      seen_skill_manifest_ids["$skill_id"]="1"
+      manifest_skill_ids+="$skill_id"$'\n'
       [[ -n "$path" && -e "$pack_root/skills/${path%/}" ]] || {
         EXT_LAST_ERROR_REASON="missing-skill-path:$pack_id:$skill_id"
         return 1
       }
     done < <(yq -r '.skills[]? | [.id, .path] | @tsv' "$pack_root/skills/manifest.fragment.yml" 2>/dev/null || true)
+    declare -A seen_skill_registry_ids=()
+    local registry_id command_ref registry_command_id
+    while IFS= read -r registry_id; do
+      [[ -n "$registry_id" ]] || continue
+      ext_validate_extension_id_value "skill-registry-id:$pack_id" "$registry_id" || return 1
+      ext_validate_extension_skill_namespace "$pack_id" "$registry_id" || return 1
+      if [[ -n "${seen_skill_registry_ids["$registry_id"]:-}" ]]; then
+        EXT_LAST_ERROR_REASON="duplicate-skill-registry-id:$pack_id:$registry_id"
+        return 1
+      fi
+      seen_skill_registry_ids["$registry_id"]="1"
+      ext_id_list_contains "$registry_id" "$manifest_skill_ids" || {
+        EXT_LAST_ERROR_REASON="skill-registry-id-missing-from-manifest:$pack_id:$registry_id"
+        return 1
+      }
+      while IFS= read -r command_ref; do
+        [[ -n "$command_ref" ]] || continue
+        [[ "$command_ref" == /* ]] || {
+          EXT_LAST_ERROR_REASON="invalid-skill-registry-command-ref:$pack_id:$registry_id:$command_ref"
+          return 1
+        }
+        registry_command_id="${command_ref#/}"
+        ext_validate_extension_id_value "skill-registry-command-ref:$pack_id" "$registry_command_id" || return 1
+        ext_validate_extension_command_namespace "$pack_id" "$registry_command_id" || return 1
+        if ext_has_capability_profile "$manifest" "command-surface"; then
+          ext_id_list_contains "$registry_command_id" "$declared_command_ids" || {
+            EXT_LAST_ERROR_REASON="skill-registry-command-ref-missing-from-command-manifest:$pack_id:$registry_id:$command_ref"
+            return 1
+          }
+        elif [[ "$registry_command_id" != "$registry_id" ]]; then
+          EXT_LAST_ERROR_REASON="skill-registry-command-ref-must-match-skill-id-without-command-surface:$pack_id:$registry_id:$command_ref"
+          return 1
+        fi
+      done < <(yq -r ".skills.\"$registry_id\".commands[]? // \"\"" "$pack_root/skills/registry.fragment.yml" 2>/dev/null || true)
+    done < <(yq -r '.skills // {} | keys[]? // ""' "$pack_root/skills/registry.fragment.yml" 2>/dev/null || true)
+    while IFS= read -r skill_id; do
+      [[ -n "$skill_id" ]] || continue
+      [[ -n "${seen_skill_registry_ids["$skill_id"]:-}" ]] || {
+        EXT_LAST_ERROR_REASON="skill-manifest-id-missing-from-registry:$pack_id:$skill_id"
+        return 1
+      }
+    done <<<"$manifest_skill_ids"
   elif [[ "$(yq -r '.content_entrypoints.skills // ""' "$manifest")" != "" && "$(yq -r '.content_entrypoints.skills // ""' "$manifest")" != "null" ]]; then
     EXT_LAST_ERROR_REASON="undeclared-capability-profile:skill-surface"
     return 1
@@ -744,10 +910,7 @@ ext_validate_compatibility_profile_contract() {
       return 1
     fi
     seen_feature_ids["$feature_id"]="1"
-    [[ "$feature_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-      EXT_LAST_ERROR_REASON="invalid-optional-feature-id:$feature_id"
-      return 1
-    }
+    ext_validate_extension_id_value "optional-feature-id" "$feature_id" || return 1
   done < <(yq -r '.compatibility.optional_features[]?.feature_id // ""' "$profile_abs" 2>/dev/null || true)
 
   local index description
@@ -778,7 +941,7 @@ ext_validate_compatibility_profile_contract() {
 }
 
 ext_validate_prompt_set_manifest_if_present() {
-  local manifest="$1" pack_root="$2"
+  local pack_id="$1" manifest="$2" pack_root="$3"
   local prompts_root_rel prompts_root prompt_manifest prompt_set_id schema_version prompt_dir
   local stage_count companion_count
   declare -A seen_prompt_set_ids=()
@@ -817,10 +980,8 @@ ext_validate_prompt_set_manifest_if_present() {
     }
 
     prompt_set_id="$(yq -r '.prompt_set_id // ""' "$prompt_manifest")"
-    [[ "$prompt_set_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-      EXT_LAST_ERROR_REASON="invalid-prompt-set-id:$(basename "$(dirname "$prompt_manifest")")"
-      return 1
-    }
+    ext_validate_extension_id_value "prompt-set-id:$pack_id" "$prompt_set_id" || return 1
+    ext_validate_extension_prompt_namespace "$pack_id" "$prompt_set_id" || return 1
     if [[ -n "${seen_prompt_set_ids["$prompt_set_id"]:-}" ]]; then
       EXT_LAST_ERROR_REASON="duplicate-prompt-set-id:$prompt_set_id"
       return 1
@@ -1066,14 +1227,41 @@ ext_validate_lifecycle_contract_if_present() {
   done < <(ext_lifecycle_contract_abs_files_for_pack "$manifest" "$pack_root")
 }
 
+ext_command_ids_for_pack_root() {
+  local pack_root="$1"
+  yq -r '.commands[]?.id // ""' "$pack_root/commands/manifest.fragment.yml" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u
+}
+
+ext_skill_ids_for_pack_root() {
+  local pack_root="$1"
+  {
+    yq -r '.skills[]?.id // ""' "$pack_root/skills/manifest.fragment.yml" 2>/dev/null || true
+    yq -r '.skills // {} | keys[]? // ""' "$pack_root/skills/registry.fragment.yml" 2>/dev/null || true
+  } | awk 'NF' | LC_ALL=C sort -u
+}
+
+ext_prompt_set_ids_for_pack() {
+  local manifest="$1" pack_root="$2"
+  local prompt_manifest
+  while IFS= read -r prompt_manifest; do
+    [[ -n "$prompt_manifest" ]] || continue
+    yq -r '.prompt_set_id // ""' "$prompt_manifest" 2>/dev/null || true
+  done < <(ext_prompt_bundle_manifest_files_for_pack "$manifest" "$pack_root")
+}
+
 ext_validate_routing_contract_if_present() {
   local pack_id="$1" manifest="$2" pack_root="$3"
   local contract_abs dispatcher_count dispatcher_id default_route_id route_count
   local accepted_input input_name kind allowed_value matcher_id route_id status execution_binding_id binding_id binding_route_id predicate
+  local command_ids skill_ids prompt_set_ids
   declare -A seen_dispatchers=()
 
   contract_abs="$(ext_routing_contract_abs_for_pack "$manifest" "$pack_root" 2>/dev/null || true)"
   [[ -n "$contract_abs" ]] || return 0
+
+  command_ids="$(ext_command_ids_for_pack_root "$pack_root" 2>/dev/null || true)"
+  skill_ids="$(ext_skill_ids_for_pack_root "$pack_root" 2>/dev/null || true)"
+  prompt_set_ids="$(ext_prompt_set_ids_for_pack "$manifest" "$pack_root" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u || true)"
 
   yq -e '.' "$contract_abs" >/dev/null 2>&1 || {
     EXT_LAST_ERROR_REASON="invalid-routing-contract-yaml"
@@ -1099,10 +1287,7 @@ ext_validate_routing_contract_if_present() {
   local dispatcher_index
   for ((dispatcher_index=0; dispatcher_index<dispatcher_count; dispatcher_index++)); do
     dispatcher_id="$(yq -r ".dispatchers[$dispatcher_index].dispatcher_id // \"\"" "$contract_abs" 2>/dev/null || true)"
-    [[ "$dispatcher_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-      EXT_LAST_ERROR_REASON="invalid-routing-dispatcher-id:$dispatcher_index"
-      return 1
-    }
+    ext_validate_extension_id_value "routing-dispatcher-id:$dispatcher_index" "$dispatcher_id" || return 1
     if [[ -n "${seen_dispatchers["$dispatcher_id"]:-}" ]]; then
       EXT_LAST_ERROR_REASON="duplicate-routing-dispatcher-id:$dispatcher_id"
       return 1
@@ -1110,10 +1295,7 @@ ext_validate_routing_contract_if_present() {
     seen_dispatchers["$dispatcher_id"]="1"
 
     default_route_id="$(yq -r ".dispatchers[$dispatcher_index].default_route_id // \"\"" "$contract_abs" 2>/dev/null || true)"
-    [[ "$default_route_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-      EXT_LAST_ERROR_REASON="invalid-routing-default-route:$dispatcher_id"
-      return 1
-    }
+    ext_validate_extension_id_value "routing-default-route-id:$dispatcher_id" "$default_route_id" || return 1
 
     yq -e ".dispatchers[$dispatcher_index].accepted_inputs | tag == \"!!seq\"" "$contract_abs" >/dev/null 2>&1 || {
       EXT_LAST_ERROR_REASON="missing-routing-accepted-inputs:$dispatcher_id"
@@ -1164,10 +1346,7 @@ ext_validate_routing_contract_if_present() {
       }
       while IFS= read -r allowed_value; do
         [[ -n "$allowed_value" ]] || continue
-        if [[ "$kind" == "route-id" && ! "$allowed_value" =~ ^[a-z][a-z0-9-]*$ ]]; then
-          EXT_LAST_ERROR_REASON="invalid-routing-route-id-value:$dispatcher_id:$allowed_value"
-          return 1
-        fi
+        [[ "$kind" != "route-id" ]] || ext_validate_extension_id_value "routing-route-id-value:$dispatcher_id" "$allowed_value" || return 1
       done < <(yq -r ".dispatchers[$dispatcher_index].disambiguators[$disambiguator_index].allowed_values[]? // \"\"" "$contract_abs" 2>/dev/null || true)
       disambiguator_index=$((disambiguator_index + 1))
     done
@@ -1203,10 +1382,7 @@ ext_validate_routing_contract_if_present() {
       status="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].status // \"\"" "$contract_abs" 2>/dev/null || true)"
       execution_binding_id="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].execution_binding_id // \"\"" "$contract_abs" 2>/dev/null || true)"
 
-      [[ "$route_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-        EXT_LAST_ERROR_REASON="invalid-routing-route-id:$dispatcher_id:$route_index"
-        return 1
-      }
+      ext_validate_extension_id_value "routing-route-id:$dispatcher_id" "$route_id" || return 1
       if [[ -n "${seen_routes["$route_id"]:-}" ]]; then
         EXT_LAST_ERROR_REASON="duplicate-routing-route-id:$dispatcher_id:$route_id"
         return 1
@@ -1224,7 +1400,7 @@ ext_validate_routing_contract_if_present() {
       esac
 
       if [[ "$status" == "resolved" ]]; then
-        [[ "$execution_binding_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
+        ext_validate_extension_id_value "routing-execution-binding-id:$dispatcher_id:$route_id" "$execution_binding_id" || {
           EXT_LAST_ERROR_REASON="missing-routing-execution-binding:$dispatcher_id:$route_id"
           return 1
         }
@@ -1245,10 +1421,7 @@ ext_validate_routing_contract_if_present() {
       matcher_index=0
       while yq -e ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index]" "$contract_abs" >/dev/null 2>&1; do
         matcher_id="$(yq -r ".dispatchers[$dispatcher_index].routes[$route_index].matchers[$matcher_index].matcher_id // \"\"" "$contract_abs" 2>/dev/null || true)"
-        [[ "$matcher_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-          EXT_LAST_ERROR_REASON="invalid-routing-matcher-id:$dispatcher_id:$route_id:$matcher_index"
-          return 1
-        }
+        ext_validate_extension_id_value "routing-matcher-id:$dispatcher_id:$route_id" "$matcher_id" || return 1
         if [[ -n "${seen_matchers["$matcher_id"]:-}" ]]; then
           EXT_LAST_ERROR_REASON="duplicate-routing-matcher-id:$dispatcher_id:$matcher_id"
           return 1
@@ -1323,10 +1496,8 @@ ext_validate_routing_contract_if_present() {
     while yq -e ".dispatchers[$dispatcher_index].execution_bindings[$binding_index]" "$contract_abs" >/dev/null 2>&1; do
       binding_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].binding_id // \"\"" "$contract_abs" 2>/dev/null || true)"
       binding_route_id="$(yq -r ".dispatchers[$dispatcher_index].execution_bindings[$binding_index].route_id // \"\"" "$contract_abs" 2>/dev/null || true)"
-      [[ "$binding_id" =~ ^[a-z][a-z0-9-]*$ ]] || {
-        EXT_LAST_ERROR_REASON="invalid-routing-binding-id:$dispatcher_id:$binding_index"
-        return 1
-      }
+      ext_validate_extension_id_value "routing-binding-id:$dispatcher_id" "$binding_id" || return 1
+      ext_validate_extension_id_value "routing-binding-route-id:$dispatcher_id:$binding_id" "$binding_route_id" || return 1
       if [[ -n "${seen_bindings["$binding_id"]:-}" ]]; then
         EXT_LAST_ERROR_REASON="duplicate-routing-binding-id:$dispatcher_id:$binding_id"
         return 1
@@ -1347,6 +1518,27 @@ ext_validate_routing_contract_if_present() {
       if [[ -z "$command_capability_id" && -z "$skill_capability_id" && -z "$prompt_set_id" ]]; then
         EXT_LAST_ERROR_REASON="empty-routing-binding-targets:$dispatcher_id:$binding_id"
         return 1
+      fi
+      if [[ -n "$command_capability_id" ]]; then
+        ext_validate_extension_id_value "routing-command-capability-id:$dispatcher_id:$binding_id" "$command_capability_id" || return 1
+        ext_id_list_contains "$command_capability_id" "$command_ids" || {
+          EXT_LAST_ERROR_REASON="routing-binding-command-target-missing:$dispatcher_id:$binding_id:$command_capability_id"
+          return 1
+        }
+      fi
+      if [[ -n "$skill_capability_id" ]]; then
+        ext_validate_extension_id_value "routing-skill-capability-id:$dispatcher_id:$binding_id" "$skill_capability_id" || return 1
+        ext_id_list_contains "$skill_capability_id" "$skill_ids" || {
+          EXT_LAST_ERROR_REASON="routing-binding-skill-target-missing:$dispatcher_id:$binding_id:$skill_capability_id"
+          return 1
+        }
+      fi
+      if [[ -n "$prompt_set_id" ]]; then
+        ext_validate_extension_id_value "routing-prompt-set-id:$dispatcher_id:$binding_id" "$prompt_set_id" || return 1
+        ext_id_list_contains "$prompt_set_id" "$prompt_set_ids" || {
+          EXT_LAST_ERROR_REASON="routing-binding-prompt-target-missing:$dispatcher_id:$binding_id:$prompt_set_id"
+          return 1
+        }
       fi
       binding_route_by_id["$binding_id"]="$binding_route_id"
       binding_index=$((binding_index + 1))
@@ -1445,6 +1637,7 @@ ext_validate_pack_core_contract() {
     return 1
   }
   pack_root="$(ext_pack_root_abs "$pack_id")"
+  ext_validate_extension_id_value "pack-id" "$pack_id" || return 1
 
   [[ "$(yq -r '.schema_version // ""' "$manifest")" == "octon-extension-pack-v5" ]] || {
     EXT_LAST_ERROR_REASON="invalid-schema-version"
@@ -1457,6 +1650,7 @@ ext_validate_pack_core_contract() {
   octon_range="$(yq -r '.compatibility.octon_version // ""' "$manifest")"
   ext_api="$(yq -r '.compatibility.extensions_api_version // ""' "$manifest")"
 
+  ext_validate_extension_id_value "manifest-pack-id" "$manifest_id" || return 1
   [[ "$manifest_id" == "$pack_id" ]] || {
     EXT_LAST_ERROR_REASON="manifest-id-mismatch"
     return 1
@@ -1503,7 +1697,7 @@ ext_validate_pack_core_contract() {
   ext_pack_has_allowed_top_level_shape "$pack_root" || return 1
   ext_validate_content_entrypoints "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_capability_profiles "$pack_id" "$manifest" "$pack_root" || return 1
-  ext_validate_prompt_set_manifest_if_present "$manifest" "$pack_root" || return 1
+  ext_validate_prompt_set_manifest_if_present "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_routing_contract_if_present "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_lifecycle_contract_if_present "$pack_id" "$manifest" "$pack_root" || return 1
   ext_validate_compatibility_profile_contract "$manifest" "$pack_root" || return 1
@@ -1531,6 +1725,8 @@ ext_validate_pack_contract() {
   ext_validate_pack_core_contract "$pack_id" || return 1
   origin_class="$EXT_VALIDATED_ORIGIN_CLASS"
   manifest_source_id="$(ext_manifest_source_id "$manifest")"
+  ext_validate_extension_id_value "source-id:$pack_id" "$source_id" || return 1
+  ext_validate_extension_id_value "manifest-source-id:$pack_id" "$manifest_source_id" || return 1
 
   ext_source_exists "$source_id" || {
     EXT_LAST_ERROR_REASON="source-not-declared"

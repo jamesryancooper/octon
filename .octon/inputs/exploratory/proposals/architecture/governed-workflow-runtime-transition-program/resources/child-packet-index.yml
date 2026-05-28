@@ -3,7 +3,7 @@ execution_mode: "gated-parallel"
 default_child_lifecycle_id: "proposal-packet"
 children:
   - child_id: "foundational-entry-artifact-canonical-framing-update"
-    path: ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update"
     required: true
     deferred: false
     dependencies: []
@@ -21,7 +21,7 @@ children:
       - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
     seed_role: "seed-reference"
   - child_id: "framing-boundary-and-terminology-guardrails"
-    path: ".octon/inputs/exploratory/proposals/architecture/framing-boundary-and-terminology-guardrails"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/framing-boundary-and-terminology-guardrails"
     required: true
     deferred: false
     dependencies:
@@ -39,7 +39,7 @@ children:
       - ".octon/instance/ingress/AGENTS.md"
     seed_role: "first-child"
   - child_id: "workflow-statechart-task-specific-execution-harness"
-    path: ".octon/inputs/exploratory/proposals/architecture/workflow-statechart-task-specific-execution-harness"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/workflow-statechart-task-specific-execution-harness"
     required: true
     deferred: false
     dependencies:
@@ -55,7 +55,7 @@ children:
       - ".octon/generated/cognition/projections/materialized/"
     seed_role: "follow-on"
   - child_id: "agent-node-model-call-contract"
-    path: ".octon/inputs/exploratory/proposals/architecture/agent-node-model-call-contract"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/agent-node-model-call-contract"
     required: true
     deferred: false
     dependencies:
@@ -71,7 +71,7 @@ children:
       - ".octon/framework/assurance/runtime/_ops/scripts/"
     seed_role: "follow-on"
   - child_id: "workflow-history-replay-idempotency-compensation"
-    path: ".octon/inputs/exploratory/proposals/architecture/workflow-history-replay-idempotency-compensation"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/workflow-history-replay-idempotency-compensation"
     required: true
     deferred: false
     dependencies:
@@ -87,7 +87,7 @@ children:
       - ".octon/state/evidence/"
     seed_role: "follow-on"
   - child_id: "effect-token-enforcement-coverage"
-    path: ".octon/inputs/exploratory/proposals/architecture/effect-token-enforcement-coverage"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/effect-token-enforcement-coverage"
     required: true
     deferred: false
     dependencies:

@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Generate Packet Implementation Prompt
+# Packet - Generate Implementation Prompt
 
 Run the `generate-packet-implementation-prompt` bundle and retain the result under
 the target packet's `support/executable-implementation-prompt.md`.

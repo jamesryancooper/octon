@@ -24,10 +24,16 @@ ARTIFACT_MAP_FILE="$EFFECTIVE_DIR/artifact-map.yml"
 GENERATION_LOCK_FILE="$EFFECTIVE_DIR/generation.lock.yml"
 
 errors=0
+warnings=0
 
 fail() {
   echo "[ERROR] $1"
   errors=$((errors + 1))
+}
+
+warn() {
+  echo "[WARN] $1"
+  warnings=$((warnings + 1))
 }
 
 pass() {
@@ -57,6 +63,221 @@ require_yaml_file() {
   fi
 }
 
+is_kebab_id() {
+  [[ "$1" =~ ^[a-z][a-z0-9]*(-[a-z0-9]+)*$ ]]
+}
+
+valid_rel_path() {
+  local value="$1"
+  [[ -n "$value" \
+    && "$value" != /* \
+    && "$value" != "." \
+    && "$value" != ./* \
+    && "$value" != */./* \
+    && "$value" != */. \
+    && "$value" != *"../"* \
+    && "$value" != ../* \
+    && "$value" != *"/.." \
+    && "$value" != ".." ]]
+}
+
+id_list_contains() {
+  local needle="$1"
+  local haystack="$2"
+  grep -Fx "$needle" <<<"$haystack" >/dev/null 2>&1
+}
+
+validate_capability_id_value() {
+  local label="$1" value="$2"
+  if [[ -z "$value" || "$value" == "null" ]]; then
+    fail "$label id missing"
+    return
+  fi
+  is_kebab_id "$value" && pass "$label id syntax valid: $value" || fail "$label id syntax invalid: $value"
+  if [[ "${#value}" -le 64 ]]; then
+    pass "$label id length valid: $value"
+  else
+    fail "$label id exceeds 64 characters: $value"
+  fi
+}
+
+validate_display_value() {
+  local label="$1" display_name="$2"
+  if [[ -n "$display_name" && "$display_name" != "null" && "${#display_name}" -le 64 ]]; then
+    pass "$label display name concise"
+  else
+    fail "$label display name must be present and <=64 characters"
+  fi
+}
+
+validate_command_manifest_surface() {
+  local origin="$1" manifest="$2" base_dir="$3"
+  local ids duplicates id display_name path abs_path optional_ref optional_value
+
+  ids="$(yq -r '.commands[]?.id // ""' "$manifest" 2>/dev/null | awk 'NF')"
+  duplicates="$(printf '%s\n' "$ids" | LC_ALL=C sort | uniq -d | awk 'NF' || true)"
+  if [[ -z "$duplicates" ]]; then
+    pass "$origin command ids unique"
+  else
+    fail "$origin command ids duplicate: $duplicates"
+  fi
+
+  while IFS=$'\t' read -r id display_name path; do
+    [[ -n "$id" ]] || continue
+    validate_capability_id_value "$origin command" "$id"
+    validate_display_value "$origin command $id" "$display_name"
+    if valid_rel_path "$path"; then
+      pass "$origin command path is relative: $id"
+      abs_path="$base_dir/$path"
+      [[ -f "$abs_path" ]] && pass "$origin command path exists: $id" || fail "$origin command path missing: $id -> $path"
+    else
+      fail "$origin command path invalid: $id -> $path"
+    fi
+    for optional_ref in target_ref execution_contract_ref workflow_ref service_ref prompt_ref lifecycle_ref; do
+      optional_value="$(yq -r ".commands[]? | select(.id == \"$id\") | .$optional_ref // \"\"" "$manifest" 2>/dev/null || true)"
+      [[ -n "$optional_value" && "$optional_value" != "null" ]] || continue
+      if valid_rel_path "$optional_value"; then
+        pass "$origin command $optional_ref is relative: $id"
+        [[ -e "$ROOT_DIR/$optional_value" ]] && pass "$origin command $optional_ref exists: $id" || fail "$origin command $optional_ref missing: $id -> $optional_value"
+      else
+        fail "$origin command $optional_ref invalid: $id -> $optional_value"
+      fi
+    done
+  done < <(yq -r '.commands[]? | [.id, .display_name, .path] | @tsv' "$manifest" 2>/dev/null || true)
+}
+
+validate_skill_manifest_surface() {
+  local origin="$1" manifest="$2" base_dir="$3" registry="${4:-}"
+  local ids duplicates registry_ids id display_name path abs_path command
+
+  ids="$(yq -r '.skills[]?.id // ""' "$manifest" 2>/dev/null | awk 'NF')"
+  duplicates="$(printf '%s\n' "$ids" | LC_ALL=C sort | uniq -d | awk 'NF' || true)"
+  if [[ -z "$duplicates" ]]; then
+    pass "$origin skill ids unique"
+  else
+    fail "$origin skill ids duplicate: $duplicates"
+  fi
+
+  while IFS=$'\t' read -r id display_name path; do
+    [[ -n "$id" ]] || continue
+    validate_capability_id_value "$origin skill" "$id"
+    validate_display_value "$origin skill $id" "$display_name"
+    if valid_rel_path "$path"; then
+      pass "$origin skill path is relative: $id"
+      abs_path="$base_dir/$path"
+      [[ -d "$abs_path" ]] && pass "$origin skill path exists: $id" || fail "$origin skill path missing: $id -> $path"
+    else
+      fail "$origin skill path invalid: $id -> $path"
+    fi
+  done < <(yq -r '.skills[]? | [.id, .display_name, .path] | @tsv' "$manifest" 2>/dev/null || true)
+
+  if [[ -z "$registry" || ! -f "$registry" ]]; then
+    return 0
+  fi
+  registry_ids="$(yq -r '.skills | keys[]? // ""' "$registry" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u)"
+  while IFS= read -r id; do
+    [[ -n "$id" ]] || continue
+    id_list_contains "$id" "$ids" && pass "$origin skill registry id declared in manifest: $id" || fail "$origin skill registry id missing from manifest: $id"
+    validate_capability_id_value "$origin skill registry" "$id"
+    while IFS= read -r command; do
+      [[ -n "$command" ]] || continue
+      [[ "$command" == "/$id" ]] && pass "$origin skill command matches canonical token: $id" || fail "$origin skill command must equal /$id: $command"
+    done < <(yq -r ".skills.\"$id\".commands[]? // \"\"" "$registry" 2>/dev/null || true)
+  done <<<"$registry_ids"
+
+  while IFS= read -r id; do
+    [[ -n "$id" ]] || continue
+    id_list_contains "$id" "$registry_ids" && pass "$origin skill manifest id declared in registry: $id" || fail "$origin skill manifest id missing from registry: $id"
+  done <<<"$ids"
+}
+
+validate_native_source_surfaces() {
+  validate_command_manifest_surface "framework" "$COMMANDS_MANIFEST" "$OCTON_DIR/framework/capabilities/runtime/commands"
+  validate_command_manifest_surface "instance" "$INSTANCE_COMMANDS_MANIFEST" "$OCTON_DIR/instance/capabilities/runtime/commands"
+  validate_skill_manifest_surface "framework" "$SKILLS_MANIFEST" "$OCTON_DIR/framework/capabilities/runtime/skills" "$SKILLS_REGISTRY"
+  validate_skill_manifest_surface "instance" "$INSTANCE_SKILLS_MANIFEST" "$OCTON_DIR/instance/capabilities/runtime/skills"
+
+  local command_ids skill_ids duplicates
+  command_ids="$(
+    {
+      yq -r '.commands[]?.id // ""' "$COMMANDS_MANIFEST" 2>/dev/null || true
+      yq -r '.commands[]?.id // ""' "$INSTANCE_COMMANDS_MANIFEST" 2>/dev/null || true
+    } | awk 'NF'
+  )"
+  duplicates="$(printf '%s\n' "$command_ids" | LC_ALL=C sort | uniq -d | awk 'NF' || true)"
+  [[ -z "$duplicates" ]] && pass "native command ids collision-free across framework and instance" || fail "native command ids collide across framework and instance: $duplicates"
+
+  skill_ids="$(
+    {
+      yq -r '.skills[]?.id // ""' "$SKILLS_MANIFEST" 2>/dev/null || true
+      yq -r '.skills[]?.id // ""' "$INSTANCE_SKILLS_MANIFEST" 2>/dev/null || true
+    } | awk 'NF'
+  )"
+  duplicates="$(printf '%s\n' "$skill_ids" | LC_ALL=C sort | uniq -d | awk 'NF' || true)"
+  [[ -z "$duplicates" ]] && pass "native skill ids collision-free across framework and instance" || fail "native skill ids collide across framework and instance: $duplicates"
+}
+
+validate_effective_identity_layers() {
+  local actual_extension_ids duplicates display_hits expected_extension_ids extension_id_diff projection_duplicates malformed_native_ids
+
+  duplicates="$(yq -r '.routing_candidates[]?.effective_id // ""' "$ROUTING_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort | uniq -d || true)"
+  [[ -z "$duplicates" ]] && pass "routing effective ids unique" || fail "routing effective ids duplicate: $duplicates"
+
+  duplicates="$(yq -r '.routing_candidates[]?.artifact_map_id // ""' "$ROUTING_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort | uniq -d || true)"
+  [[ -z "$duplicates" ]] && pass "routing artifact map ids unique" || fail "routing artifact map ids duplicate: $duplicates"
+
+  malformed_native_ids="$(yq -r '.routing_candidates[]? | select(.origin_class != "extension") | select(.effective_id != (.origin_class + "." + .capability_kind + "." + .capability_id)) | [.effective_id, .origin_class, .capability_kind, .capability_id] | @tsv' "$ROUTING_FILE" 2>/dev/null || true)"
+  expected_extension_ids="$(
+    {
+      yq -r '.packs[]? as $pack | $pack.routing_exports.commands[]? | select((.status // "active") == "active") | ["extension.command", $pack.pack_id, .capability_id] | join(".")' "$EXTENSIONS_CATALOG" 2>/dev/null || true
+      yq -r '.packs[]? as $pack | $pack.routing_exports.skills[]? | select((.status // "active") == "active") | ["extension.skill", $pack.pack_id, .capability_id] | join(".")' "$EXTENSIONS_CATALOG" 2>/dev/null || true
+    } | awk 'NF' | LC_ALL=C sort -u
+  )"
+  actual_extension_ids="$(yq -r '.routing_candidates[]? | select(.origin_class == "extension") | select(.status == "active") | .effective_id // ""' "$ROUTING_FILE" 2>/dev/null | awk 'NF' | LC_ALL=C sort -u)"
+  extension_id_diff="$(
+    {
+      comm -23 <(printf '%s\n' "$expected_extension_ids") <(printf '%s\n' "$actual_extension_ids") | sed 's/^/missing-from-routing: /'
+      comm -13 <(printf '%s\n' "$expected_extension_ids") <(printf '%s\n' "$actual_extension_ids") | sed 's/^/unexpected-in-routing: /'
+    } | awk 'NF'
+  )"
+  if [[ -z "$malformed_native_ids" && -z "$extension_id_diff" ]]; then
+    pass "routing effective ids derive from surface-specific source identities"
+  else
+    fail "routing effective ids must derive from their surface-specific source identities: native=[$malformed_native_ids] extension=[$extension_id_diff]"
+  fi
+
+  projection_duplicates="$(yq -r '
+    .routing_candidates[]?
+    | select(.status == "active")
+    | select((.host_adapters // []) | length > 0)
+    | .host_adapters[] as $host
+    | [$host, .capability_kind, .projection_name] | @tsv
+  ' "$ROUTING_FILE" 2>/dev/null | LC_ALL=C sort | uniq -d || true)"
+  [[ -z "$projection_duplicates" ]] && pass "host projection names unique per host and kind" || fail "host projection names duplicate per host and kind: $projection_duplicates"
+
+  display_hits="$(yq -r '
+    .routing_candidates[]?
+    | select(.status == "active")
+    | select(.capability_kind == "command")
+    | select(((.display_name // "") == "") or ((.display_name // "") | length > 64))
+    | [.effective_id, (.display_name // "")] | @tsv
+  ' "$ROUTING_FILE" 2>/dev/null || true)"
+  [[ -z "$display_hits" ]] && pass "active command display names are concise in effective routing" || fail "active command display names must be present and <=64 characters: $display_hits"
+
+  display_hits="$(yq -r '
+    .routing_candidates[]?
+    | select(.status == "active")
+    | select(.capability_kind != "command")
+    | select(((.display_name // "") == "") or ((.display_name // "") | length > 64))
+    | [.effective_id, (.display_name // "")] | @tsv
+  ' "$ROUTING_FILE" 2>/dev/null || true)"
+  if [[ -z "$display_hits" ]]; then
+    pass "active non-command display names are concise in effective routing"
+  else
+    warn "active non-command display names should be present and <=64 characters: $display_hits"
+  fi
+}
+
 main() {
   echo "== Capability Publication State Validation =="
 
@@ -68,6 +289,8 @@ main() {
   require_yaml_file "$ROUTING_FILE"
   require_yaml_file "$ARTIFACT_MAP_FILE"
   require_yaml_file "$GENERATION_LOCK_FILE"
+
+  validate_native_source_surfaces
 
   [[ "$(yq -r '.schema_version // ""' "$ROUTING_FILE")" == "octon-capability-routing-effective-v3" ]] && pass "routing schema version valid" || fail "routing schema_version invalid"
   [[ "$(yq -r '.schema_version // ""' "$ARTIFACT_MAP_FILE")" == "octon-capability-routing-artifact-map-v3" ]] && pass "artifact map schema version valid" || fail "artifact map schema_version invalid"
@@ -178,6 +401,8 @@ main() {
   [[ "$candidate_count" == "$artifact_count" ]] && pass "artifact map count matches routing candidates" || fail "artifact map count mismatch"
   [[ "$candidate_count" == "$resolution_count" ]] && pass "resolution order count matches routing candidates" || fail "resolution order count mismatch"
 
+  validate_effective_identity_layers
+
   local artifact_ids_from_routing artifact_ids_from_map resolution_from_candidates resolution_order
   artifact_ids_from_routing="$(yq -r '.routing_candidates[]?.artifact_map_id // ""' "$ROUTING_FILE" | awk 'NF' | LC_ALL=C sort)"
   artifact_ids_from_map="$(yq -r '.artifacts[]?.artifact_map_id // ""' "$ARTIFACT_MAP_FILE" | awk 'NF' | LC_ALL=C sort)"
@@ -262,7 +487,7 @@ main() {
     fail "generation lock required inputs missing effective upstream locks"
   fi
 
-  echo "Validation summary: errors=$errors"
+  echo "Validation summary: errors=$errors warnings=$warnings"
   if [[ $errors -gt 0 ]]; then
     exit 1
   fi

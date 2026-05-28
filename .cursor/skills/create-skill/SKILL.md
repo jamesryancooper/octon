@@ -100,8 +100,8 @@ Outputs are written to:
 ## Verification Gate
 
 After Phase 5, verify:
-- Skill directory exists with all required files
-- SKILL.md frontmatter `name` matches directory name
+- Skill directory exists at the manifest-declared path with all required files
+- SKILL.md frontmatter `name` matches the skill id
 - Manifest entry exists with correct `id`
 - Registry entry exists with correct key
 - `skill_class` is present in manifest and placeholders resolve cleanly

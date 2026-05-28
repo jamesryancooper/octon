@@ -78,3 +78,35 @@ extension-pack substrate while making each surface explicit:
   lifecycle routes require `routing-contract`.
 - `template-surface`: requires `templates/catalog.fragment.yml` and referenced
   template paths.
+
+## Split-Layer Naming Contract
+
+Extension naming keeps runtime authority, host projection identity, authored
+execution content, and operator display separate:
+
+- Runtime route IDs are local lifecycle/orchestration contract identifiers.
+  They identify route-dispatch behavior inside the owning pack and do not need
+  a host namespace.
+- Slash command IDs are host projection identities. They must be namespaced by
+  the pack or an explicitly documented operator family, such as
+  `octon-proposal-*` for the `octon-proposal-lifecycle` pack.
+- Skill registry `commands` entries are also slash-command projection
+  references. When a pack declares a command surface, they must point at command
+  IDs declared in that pack's command manifest. When a pack exposes skills
+  without a command surface, they are direct skill invocation commands and must
+  equal `/<skill-id>`.
+- Skill IDs are capability identities. They must be namespaced by the owning
+  pack ID and must not depend on matching a route ID or slash command ID
+  exactly.
+- Prompt set IDs identify authored execution content. They must use the pack
+  namespace, either as `<pack-id>-<route-id>` when one bundle implements one
+  route or as `<pack-id>-<content-purpose>` when the bundle has a narrower or
+  content-specific purpose.
+- Dropdown and display titles are concise operator read models only. They do
+  not authorize execution, replace route IDs, or define command, skill, prompt,
+  lifecycle, or receipt authority.
+
+All command, skill, prompt-set, and routing binding IDs use lowercase kebab
+case without consecutive hyphens. Extension projection IDs should stay at or
+below 64 characters for host compatibility; existing longer first-party IDs are
+accepted under staged enforcement until a deliberate rename migration.

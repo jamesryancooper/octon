@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Closeout Program
+# Program - Closeout
 
 Run the `closeout-program` bundle. Refuse parent archival until child
 lifecycle outcomes are coherent or covered by an explicit deferred report

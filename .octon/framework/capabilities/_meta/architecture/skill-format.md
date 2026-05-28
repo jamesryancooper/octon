@@ -11,7 +11,9 @@ Every skill requires a `SKILL.md` file with YAML frontmatter and Markdown body. 
 
 ## Naming Convention
 
-Skills use **action-oriented names** following the verb-noun pattern per the [agentskills.io specification](https://agentskills.io/specification):
+Native framework and instance skills use **action-oriented names** following
+the verb-noun pattern per the
+[agentskills.io specification](https://agentskills.io/specification):
 
 | Pattern | Good Examples | Bad Examples |
 |---------|---------------|--------------|
@@ -26,7 +28,14 @@ Skills use **action-oriented names** following the verb-noun pattern per the [ag
 | Characters | Lowercase letters, numbers, and hyphens only |
 | Hyphens | Must not start/end with hyphen |
 | Consecutive | Must not contain consecutive hyphens (`--`) |
-| Directory match | **Must match the manifest `id`; grouped directories are allowed** |
+| Path authority | Manifest `path` points to the skill directory; grouped directory basenames may differ from `id` |
+
+Additive extension skills are projected capability identities. Their IDs must
+be namespaced by the owning pack ID and do not need to match runtime route IDs,
+slash command IDs, prompt set IDs, or display labels exactly. Extension skill
+IDs should target the 1-64 character range for host compatibility; current
+longer first-party extension IDs are accepted only under staged enforcement
+until a deliberate rename migration.
 
 ### Valid Examples
 

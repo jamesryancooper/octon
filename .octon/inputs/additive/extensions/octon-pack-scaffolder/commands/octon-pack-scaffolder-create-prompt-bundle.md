@@ -1,4 +1,4 @@
-# Octon Pack Scaffolder Create Prompt Bundle
+# Pack Scaffolder - Create Prompt Bundle
 
 Scaffold a minimal prompt bundle inside
 `/.octon/inputs/additive/extensions/<pack-id>/prompts/<bundle-id>/`.

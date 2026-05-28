@@ -1,7 +1,7 @@
 schema_version: "extensions-commands-fragment-v1"
 commands:
   - id: octon-decision-drafter
-    display_name: Octon Decision Drafter
+    display_name: Decision Drafter
     path: octon-decision-drafter.md
     summary: "Resolve the appropriate decision-drafting bundle and dispatch to the matching leaf bundle."
     access: agent

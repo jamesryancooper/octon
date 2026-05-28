@@ -30,6 +30,65 @@ When wrapped by a harness entry point, the command gains that harness's integrat
 
 ---
 
+## Host Display Labels
+
+Command IDs and filenames stay namespaced for deterministic routing, but host
+dropdown labels should be concise and scannable. Do not repeat the full product
+or extension namespace in every leaf command title. Put ownership and routing
+context in the command ID, summary, manifest metadata, or root dispatcher
+command instead.
+
+Preferred leaf labels use the smallest useful grouping prefix:
+
+- `Packet - Review`
+- `Program - Generate Implementation Orchestration Prompt`
+- `Pack Scaffolder - Create Prompt Bundle`
+
+Avoid redundant labels such as `Octon Proposal Lifecycle: Review Packet` when
+all commands in the family already share a namespaced command ID.
+
+Display labels are operator read models only. They do not authorize execution,
+replace route IDs, or change command, skill, prompt, lifecycle, or receipt
+authority.
+
+---
+
+## Extension Command IDs
+
+Extension command IDs are host projection identities, not runtime route
+authority. Leaf commands use a namespaced projection token:
+`<operator-family>-<route-or-command-purpose>`.
+
+The operator family is usually the pack ID. Packs may declare a shorter stable
+operator family when that family is unambiguous and documented, such as
+`octon-proposal-*` for `octon-proposal-lifecycle`. Root dispatcher or
+single-purpose commands may equal the pack ID or operator family.
+
+Do not require extension command IDs to match route IDs, skill IDs, prompt set
+IDs, or display labels exactly. The routing contract records those bindings.
+
+---
+
+## Native and Instance Command IDs
+
+Native framework commands are authored command contracts. Their command IDs stay
+concise, direct, and action-oriented; do not add long namespace prefixes merely
+to mirror extension naming. Instance commands follow the same pattern with
+repo-native or domain-purpose IDs such as `repo-hygiene`.
+
+Native and instance command IDs are still distinct from display labels and from
+generated effective IDs. Host projections copy the command surface from
+published capability routing; they do not authorize or rename the command.
+
+Commands that wrap another execution surface, such as a workflow, service,
+prompt, lifecycle runner, or external execution contract, must keep the wrapper
+command ID focused on the operator action and declare the target or execution
+contract separately in command metadata or command body. Do not force wrapper
+command IDs to equal selected route IDs, target IDs, prompt set IDs, or service
+operation names.
+
+---
+
 ## Frontmatter Requirements
 
 Harness command files require YAML frontmatter with the following fields:

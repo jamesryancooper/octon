@@ -134,6 +134,52 @@ require_review_mentions() {
   fi
 }
 
+child_is_archived_implemented() {
+  local manifest="$1"
+  [[ "$(yq -r '.status // ""' "$manifest" 2>/dev/null || true)" == "archived" \
+    && "$(yq -r '.archive.archived_from_status // ""' "$manifest" 2>/dev/null || true)" == "implemented" \
+    && "$(yq -r '.archive.disposition // ""' "$manifest" 2>/dev/null || true)" == "implemented" ]]
+}
+
+receipt_field_equals() {
+  local file="$1" field="$2" expected="$3"
+  [[ -f "$file" ]] && grep -Eq "^${field}:[[:space:]]*\"?${expected}\"?[[:space:]]*$" "$file"
+}
+
+validate_archived_implemented_child_ready() {
+  local child_id="$1" child_abs="$2" manifest="$child_abs/proposal.yml"
+  local promotion_evidence_count
+
+  if child_is_archived_implemented "$manifest"; then
+    pass "child $child_id archive metadata records implemented disposition"
+  else
+    fail "child $child_id archive metadata records implemented disposition"
+  fi
+
+  promotion_evidence_count="$(yq -r '(.archive.promotion_evidence // []) | length' "$manifest" 2>/dev/null || echo 0)"
+  if [[ "$promotion_evidence_count" =~ ^[1-9][0-9]*$ ]]; then
+    pass "child $child_id archive metadata records promotion evidence"
+  else
+    fail "child $child_id archive metadata records promotion evidence"
+  fi
+
+  receipt_field_equals "$child_abs/support/implementation-run.md" verdict pass \
+    && pass "child $child_id archived implementation-run receipt passes" \
+    || fail "child $child_id archived implementation-run receipt passes"
+  receipt_field_equals "$child_abs/support/implementation-conformance-review.md" verdict pass \
+    && pass "child $child_id archived implementation conformance receipt passes" \
+    || fail "child $child_id archived implementation conformance receipt passes"
+  receipt_field_equals "$child_abs/support/post-implementation-drift-churn-review.md" verdict pass \
+    && pass "child $child_id archived post-implementation drift receipt passes" \
+    || fail "child $child_id archived post-implementation drift receipt passes"
+  receipt_field_equals "$child_abs/support/proposal-closeout.md" verdict pass \
+    && pass "child $child_id archived closeout receipt passes" \
+    || fail "child $child_id archived closeout receipt passes"
+  receipt_field_equals "$child_abs/support/proposal-closeout.md" archive_authorized yes \
+    && pass "child $child_id archived closeout authorizes archive" \
+    || fail "child $child_id archived closeout authorizes archive"
+}
+
 validate_child_metadata() {
   local child_id="$1" child_abs="$2" manifest="$child_abs/proposal.yml"
   local change_profile transitional_note
@@ -143,7 +189,11 @@ validate_child_metadata() {
       pass "child $child_id declares change_profile"
       ;;
     "")
-      fail "child $child_id declares change_profile"
+      if child_is_archived_implemented "$manifest"; then
+        pass "child $child_id archived implemented child satisfies change_profile gate"
+      else
+        fail "child $child_id declares change_profile"
+      fi
       ;;
     *)
       fail "child $child_id change_profile is atomic or transitional"
@@ -179,16 +229,25 @@ validate_child_readiness() {
   run_child_validator \
     "child $child_id implementation-grade completeness review passes" \
     bash "$READINESS_SCRIPT" --package "$child_path"
-  run_child_validator \
-    "child $child_id accepted proposal-review gate is fresh" \
-    bash "$REVIEW_GATE_SCRIPT" --package "$child_path" --require-implementation-authorization
+  if child_is_archived_implemented "$manifest"; then
+    validate_archived_implemented_child_ready "$child_id" "$child_abs"
+  else
+    run_child_validator \
+      "child $child_id accepted proposal-review gate is fresh" \
+      bash "$REVIEW_GATE_SCRIPT" --package "$child_path" --require-implementation-authorization
+  fi
 
   required_metadata_count="$(yq -r "(.children[$index].required_metadata // []) | length" "$REGISTRY" 2>/dev/null || echo 0)"
   for ((metadata_index=0; metadata_index<required_metadata_count; metadata_index++)); do
     metadata="$(yq -r ".children[$index].required_metadata[$metadata_index] // \"\"" "$REGISTRY" 2>/dev/null || true)"
     case "$metadata" in
       change_profile)
-        pass "child $child_id declared required metadata is enforced: change_profile"
+        if [[ "$(yq -r '.change_profile // ""' "$manifest" 2>/dev/null || true)" == "" ]] \
+          && child_is_archived_implemented "$manifest"; then
+          pass "child $child_id required metadata satisfied by archived implemented terminal evidence: change_profile"
+        else
+          pass "child $child_id declared required metadata is enforced: change_profile"
+        fi
         ;;
       *)
         fail "child $child_id required_metadata is supported: $metadata"

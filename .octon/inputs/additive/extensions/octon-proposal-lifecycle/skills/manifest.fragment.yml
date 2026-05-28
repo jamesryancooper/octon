@@ -92,7 +92,7 @@ skills:
     tags: [octon, proposal, lifecycle, correction]
     triggers: ["generate packet correction prompt"]
   - id: octon-proposal-lifecycle-run-packet-verification-and-correction-loop
-    display_name: "Octon Proposal Lifecycle: Run Packet Verification And Correction Loop"
+    display_name: "Packet - Run Verification And Correction Loop"
     group: extensions
     path: octon-proposal-lifecycle-run-packet-verification-and-correction-loop/
     skill_class: invocable
@@ -163,15 +163,15 @@ skills:
     status: active
     tags: [octon, proposal, lifecycle, program, revision]
     triggers: ["revise proposal program"]
-  - id: octon-proposal-lifecycle-generate-program-implementation-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Program Implementation Prompt"
+  - id: octon-proposal-lifecycle-generate-program-orchestration-prompt
+    display_name: "Program - Generate Implementation Orchestration Prompt"
     group: extensions
-    path: octon-proposal-lifecycle-generate-program-implementation-prompt/
+    path: octon-proposal-lifecycle-generate-program-orchestration-prompt/
     skill_class: invocable
-    summary: "Run the generate-program-implementation-prompt bundle."
+    summary: "Run the generate-program-implementation-orchestration-prompt bundle."
     status: active
     tags: [octon, proposal, lifecycle, program]
-    triggers: ["generate program implementation prompt"]
+    triggers: ["generate program implementation orchestration prompt"]
   - id: octon-proposal-lifecycle-generate-program-verification-prompt
     display_name: "Octon Proposal Lifecycle: Generate Program Verification Prompt"
     group: extensions
@@ -200,7 +200,7 @@ skills:
     tags: [octon, proposal, lifecycle, program, cleanup]
     triggers: ["cleanup lifecycle residue", "proposal lifecycle residue cleanup"]
   - id: octon-proposal-lifecycle-run-program-verification-and-correction-loop
-    display_name: "Octon Proposal Lifecycle: Run Program Verification And Correction Loop"
+    display_name: "Program - Run Verification And Correction Loop"
     group: extensions
     path: octon-proposal-lifecycle-run-program-verification-and-correction-loop/
     skill_class: invocable

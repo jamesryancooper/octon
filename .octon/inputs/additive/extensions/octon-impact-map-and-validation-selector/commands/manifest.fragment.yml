@@ -1,7 +1,7 @@
 schema_version: "extensions-commands-fragment-v1"
 commands:
   - id: octon-impact-map-and-validation-selector
-    display_name: Octon Impact Map And Validation Selector
+    display_name: Impact Map And Validation Selector
     path: octon-impact-map-and-validation-selector.md
     summary: "Resolve the matching input family, build an impact map, and select the minimum credible validation set plus next-step routing."
     access: agent

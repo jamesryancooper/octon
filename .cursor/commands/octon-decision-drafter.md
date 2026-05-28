@@ -1,4 +1,4 @@
-# Octon Decision Drafter
+# Decision Drafter
 
 Run the `octon-decision-drafter` family dispatcher.
 

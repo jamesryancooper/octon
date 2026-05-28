@@ -136,11 +136,11 @@
       "properties": {
         "pack_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "source_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         }
       }
     },
@@ -361,7 +361,7 @@
       "properties": {
         "lifecycle_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "schema_version": {
           "const": "octon-extension-lifecycle-contract-v1"
@@ -372,7 +372,7 @@
         },
         "owner_extension": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "contract_path": {
           "type": "string",
@@ -460,7 +460,7 @@
             "properties": {
               "route_id": {
                 "type": "string",
-                "pattern": "^[a-z][a-z0-9-]*$"
+                "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
               },
               "route_type": {
                 "type": "string",
@@ -500,7 +500,7 @@
       "properties": {
         "capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "display_name": {
           "type": "string",
@@ -607,7 +607,8 @@
       "properties": {
         "prompt_set_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Published authored prompt bundle identity; validators enforce pack/content namespacing before publication.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "schema_version": {
           "type": "string",
@@ -713,7 +714,7 @@
       "properties": {
         "prompt_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "role_class": {
           "type": "string",
@@ -753,7 +754,7 @@
       "properties": {
         "ref_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "path": {
           "type": "string",
@@ -784,11 +785,11 @@
       "properties": {
         "dispatcher_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "default_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "accepted_inputs": {
           "type": "array",
@@ -807,7 +808,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           }
         },
         "routes": {
@@ -867,7 +868,7 @@
       "properties": {
         "route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "status": {
           "type": "string",
@@ -880,7 +881,7 @@
         },
         "execution_binding_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "matchers": {
           "type": "array",
@@ -901,13 +902,13 @@
       "properties": {
         "matcher_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "reason_codes": {
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           }
         },
         "all_of": {
@@ -957,23 +958,28 @@
       "properties": {
         "binding_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Published pack-local binding identifier copied from the authored routing contract.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Published pack-local runtime route identifier; this remains distinct from host command, skill, prompt, and display identities.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "command_capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Published namespaced host command projection identity.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "skill_capability_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Published namespaced skill capability identity.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "prompt_set_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "description": "Published namespaced authored prompt bundle identity.",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         }
       },
       "anyOf": [
@@ -1010,20 +1016,20 @@
         },
         "reroute_to_route_id": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9-]*$"
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
         },
         "allowed_source_route_ids": {
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           }
         },
         "trigger_reason_codes": {
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9-]*$"
+            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
           }
         }
       }

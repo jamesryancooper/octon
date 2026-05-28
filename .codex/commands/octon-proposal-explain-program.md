@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle: Explain Program
+# Program - Explain
 
 Run the `explain-program` bundle for one parent proposal program path.
 

@@ -19,5 +19,5 @@ _Status: Draft parent-program risk register_
 | Generated diagrams or read models become control truth | Medium | Generated projection validation must mark diagrams/read models derived-only. |
 | Conversation artifacts are mistaken for proof | Medium | Treat determinism conversations as non-authoritative source lineage only. |
 | Validators exist without runtime enforcement | High | Require implementation-conformance and drift/churn receipts for implemented child packets. |
-| Lifecycle Autopilot route execution is unavailable in current repo state | Medium | Record the blocker, create packets from canonical lifecycle/scaffolding conventions, and rely on proposal validators until the effective extension catalog issue is fixed. |
+| Proposal lifecycle route execution is unavailable in current repo state | Medium | Record the blocker, create packets from canonical lifecycle/scaffolding conventions, and rely on proposal validators until the effective extension catalog issue is fixed. |
 | Child packets are structurally valid but not implementation-ready | Medium | Keep child implementation-grade receipts failing until child-specific contracts, schemas, validators, and promotion evidence exist. |

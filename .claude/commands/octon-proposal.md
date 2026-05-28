@@ -1,4 +1,4 @@
-# Octon Proposal Lifecycle
+# Proposal Lifecycle
 
 Run the proposal lifecycle dispatcher for packet and program targets.
 
@@ -25,7 +25,7 @@ Leaf commands:
 - `/octon-proposal-explain-program`
 - `/octon-proposal-review-program`
 - `/octon-proposal-revise-program`
-- `/octon-proposal-generate-program-implementation-prompt`
+- `/octon-proposal-generate-program-orchestration-prompt`
 - `/octon-proposal-generate-program-verification-prompt`
 - `/octon-proposal-generate-program-correction-prompt`
 - `/octon-proposal-run-program-verification-and-correction-loop`

@@ -71,7 +71,7 @@ create-program	octon-proposal-create-program	octon-proposal-lifecycle-create-pro
 explain-program	octon-proposal-explain-program	octon-proposal-lifecycle-explain-program	octon-proposal-lifecycle-explain-program	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 review-program	octon-proposal-review-program	octon-proposal-lifecycle-review-program	octon-proposal-lifecycle-review-program	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 revise-program	octon-proposal-revise-program	octon-proposal-lifecycle-revise-program	octon-proposal-lifecycle-revise-program	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
-generate-program-implementation-prompt	octon-proposal-generate-program-implementation-prompt	octon-proposal-lifecycle-generate-program-implementation-prompt	octon-proposal-lifecycle-generate-program-implementation-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
+generate-program-implementation-orchestration-prompt	octon-proposal-generate-program-orchestration-prompt	octon-proposal-lifecycle-generate-program-orchestration-prompt	octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 generate-program-verification-prompt	octon-proposal-generate-program-verification-prompt	octon-proposal-lifecycle-generate-program-verification-prompt	octon-proposal-lifecycle-generate-program-verification-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
 generate-program-correction-prompt	octon-proposal-generate-program-correction-prompt	octon-proposal-lifecycle-generate-program-correction-prompt	octon-proposal-lifecycle-generate-program-correction-prompt	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program","finding_id":"FINDING-001"}
 cleanup-lifecycle-residue	octon-proposal-cleanup-lifecycle-residue	octon-proposal-lifecycle-cleanup-lifecycle-residue	octon-proposal-lifecycle-cleanup-lifecycle-residue	{"program_packet_path":".octon/inputs/exploratory/proposals/architecture/program"}
@@ -127,7 +127,7 @@ assert_source_and_published_binding_surfaces() {
 }
 
 main() {
-  local route command skill prompt extras json inputs bundle_inputs removed_finding_key
+  local route command skill prompt extras json inputs bundle_inputs removed_finding_key old_program_route
   publish_extensions
 
   while IFS=$'\t' read -r route command skill prompt extras; do
@@ -154,6 +154,18 @@ main() {
   assert_json "program-path-only default explains program" "$json" '.status == "resolved" and .selected_route_id == "explain-program" and (.reason_codes | index("program-packet-path-read-only-default")) != null'
 
   assert_route_failure "unsupported bundle denies" '{"bundle":"not-a-route"}' "unsupported-route-id" "unsupported-route-id"
+  old_program_route="generate-program-implementation"
+  old_program_route="${old_program_route}-prompt"
+  assert_route_failure \
+    "retired program implementation route bundle denies" \
+    "$(jq -cn --arg route "$old_program_route" '{bundle: $route, program_packet_path: ".octon/inputs/exploratory/proposals/architecture/program"}')" \
+    "unsupported-route-id" \
+    "unsupported-route-id"
+  assert_route_failure \
+    "retired program implementation route action denies" \
+    "$(jq -cn --arg route "$old_program_route" '{lifecycle_action: $route, program_packet_path: ".octon/inputs/exploratory/proposals/architecture/program"}')" \
+    "unsupported-route-id" \
+    "unsupported-route-id"
   assert_route_failure "missing inputs escalate" '{}' "missing-routeable-inputs" "missing-routeable-inputs"
   assert_route_failure "finding-only inputs escalate" '{"finding_id":"FINDING-001"}' "missing-routeable-inputs" "missing-routeable-inputs"
   removed_finding_key="$(printf '%s_%s_%s' verification finding id)"

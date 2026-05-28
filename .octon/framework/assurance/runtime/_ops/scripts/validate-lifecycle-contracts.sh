@@ -318,8 +318,12 @@ program_blocker_runtime_child_route() {
   esac
 }
 
+valid_kebab_id() {
+  [[ "$1" =~ ^[a-z][a-z0-9]*(-[a-z0-9]+)*$ ]]
+}
+
 valid_program_id() {
-  [[ "$1" =~ ^[a-z][a-z0-9-]*$ ]]
+  valid_kebab_id "$1"
 }
 
 valid_program_recovery_idempotency_class() {
@@ -537,7 +541,7 @@ validate_interaction_profile() {
   local profile_id interaction_kind receipt_schema non_authorizing value
 
   profile_id="$(yq -r "$expr.profile_id // \"\"" "$contract" 2>/dev/null || true)"
-  [[ "$profile_id" =~ ^[a-z][a-z0-9-]*$ ]] \
+  valid_kebab_id "$profile_id" \
     && pass "lifecycle interaction profile id valid: $label -> $profile_id" \
     || fail "lifecycle interaction profile id invalid: $label -> $profile_id"
 
@@ -1007,7 +1011,7 @@ validate_program_section() {
 
   child_default="$(yq -r '.program.child_lifecycle_id_default // ""' "$contract" 2>/dev/null || true)"
   if [[ -n "$child_default" && "$child_default" != "null" ]]; then
-    [[ "$child_default" =~ ^[a-z][a-z0-9-]*$ ]] \
+    valid_kebab_id "$child_default" \
       && pass "program child lifecycle default valid: $lifecycle_id -> $child_default" \
       || fail "program child lifecycle default invalid: $lifecycle_id -> $child_default"
   fi
@@ -1146,7 +1150,7 @@ validate_phase_loop() {
   for ((index=0; index<phase_count; index++)); do
     phase_id="$(yq -r ".phase_loop.phases[$index].phase_id // \"\"" "$contract" 2>/dev/null || true)"
     mode="$(yq -r ".phase_loop.phases[$index].mode // \"\"" "$contract" 2>/dev/null || true)"
-    [[ "$phase_id" =~ ^[a-z][a-z0-9-]*$ ]] \
+    valid_kebab_id "$phase_id" \
       && pass "phase id valid: $phase_id" \
       || fail "phase id invalid: $phase_id"
     if id_list_contains "$phase_id" "$allowed_statuses"; then
@@ -1351,7 +1355,7 @@ validate_contract() {
   owner="$(yq -r '.owner_extension // ""' "$contract")"
   lifecycle_id="$(yq -r '.lifecycle_id // ""' "$contract")"
   [[ "$owner" == "$pack_id" ]] && pass "owner_extension matches pack id: $pack_id" || fail "owner_extension must match pack id: $pack_id"
-  [[ "$lifecycle_id" =~ ^[a-z][a-z0-9-]*$ ]] && pass "lifecycle_id valid: $lifecycle_id" || fail "lifecycle_id invalid: $lifecycle_id"
+  valid_kebab_id "$lifecycle_id" && pass "lifecycle_id valid: $lifecycle_id" || fail "lifecycle_id invalid: $lifecycle_id"
   [[ "$(yq -r '.version // ""' "$contract")" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] && pass "lifecycle version valid: $lifecycle_id" || fail "lifecycle version invalid: $lifecycle_id"
   validate_execution_strategy "$contract" "$lifecycle_id"
   validate_program_section "$contract" "$lifecycle_id"

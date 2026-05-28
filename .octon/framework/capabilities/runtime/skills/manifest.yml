@@ -7,7 +7,7 @@
 # Token Budget: ~50 tokens/entry (see progressive-disclosure.md)
 #
 # Fields:
-#   id           - Unique identifier (matches directory name and SKILL.md name)
+#   id           - Unique identifier (matches registry key and SKILL.md name)
 #                  Format: lowercase, hyphens only (per agentskills.io spec)
 #                  Audit naming contract: audit-<objective> (e.g., audit-api-contract)
 #   display_name - Human-readable display name

@@ -11,25 +11,71 @@ This document defines cross-cutting design decisions that apply to all skills, p
 
 ## Skill Naming Contract
 
-**Decision:** Skill identifiers, runtime paths, and slash commands are a single canonical token.
+**Decision:** Native framework and instance skill identifiers, registry keys,
+`SKILL.md` frontmatter names, and slash commands use a single canonical token.
+Filesystem paths are manifest-declared location metadata and may be grouped by
+domain. Extension-projected skills use the split-layer extension naming contract
+because route IDs, command IDs, skill IDs, prompt set IDs, and display labels
+live in different collision and authority domains.
+
+This is a surface-specific convention under Octon's broader capability identity
+policy: runtime authority, host projection identity, capability identity,
+authored prompt/content identity, generated effective identity, and operator
+display labels remain distinct layers. Some native surfaces intentionally reuse
+the same token across layers when one authored artifact owns the whole
+capability contract; that reuse must not be generalized to extension routes,
+lifecycle wrappers, prompt bundles, generated catalogs, or host projections.
 
 ### Rules
+
+For native framework and instance skills:
 
 - Skill `id` MUST match:
   - `manifest.yml` entry `id`
   - `registry.yml` key
   - `SKILL.md` frontmatter `name`
-  - runtime directory name
 - Skill command MUST be exactly `/<skill-id>` (no alias commands).
-- Skill path MUST be `<group>/<skill-id>/`.
+- Skill path MUST be the manifest-declared directory containing that skill's
+  `SKILL.md`. Grouped paths such as `<domain>/<purpose>/` are allowed; the
+  path basename is not an authority layer.
 - Audit skill naming MUST follow `audit-<objective>` (for example, `audit-api-contract`, `audit-release-readiness`).
 - Do not append `-skill` to skill identifiers; artifact type is implied by placement under `capabilities/runtime/skills/`.
 
+For additive extension skills:
+
+- Skill IDs MUST remain namespaced by the owning pack ID.
+- Skill IDs do not need to match runtime route IDs or slash command IDs exactly.
+- Extension slash command IDs are host projection identities and may use a
+  documented operator-family namespace distinct from the skill namespace.
+- Prompt set IDs identify authored execution content and follow the extension
+  pack/content namespace.
+- Display labels are operator read models only.
+
+Exception policy:
+
+- Native framework and instance skills keep the single-token convention for
+  agent skill ergonomics and agentskills-compatible discovery.
+- Extension-projected skills never use native single-token naming unless the
+  pack itself is a documented single-purpose pack and the skill ID remains in
+  the pack namespace.
+- Lifecycle runner wrapper commands are not route IDs. Their skill or command
+  names describe the wrapper action; selected routes, targets, and prompt sets
+  remain separate bindings.
+- Services, tools, workflows, and support packs keep their native IDs and
+  operation names unless projected through command, skill, or route surfaces.
+- Generated effective catalogs and host projections remain derived read models;
+  validation may reject or warn on stale, colliding, or unreadable projections,
+  but generated names must not become source authority.
+
 ### Rationale
 
-- Eliminates ambiguity between skill identity, runtime location, and invocation command.
+- Eliminates ambiguity between skill identity and invocation command while
+  preserving grouped filesystem layout as location metadata.
 - Keeps audit skills visually distinct from workflows, which use the `-workflow` suffix.
 - Supports clean-break renames by removing multi-name drift.
+- Preserves extension authority boundaries by keeping runtime routing,
+  projected host commands, skill discovery, prompt content, and display labels
+  separate.
 
 ---
 

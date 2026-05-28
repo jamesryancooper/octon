@@ -1,4 +1,4 @@
-# Octon Drift Triage
+# Drift Triage
 
 Run the `octon-drift-triage` remediation bundle.
 

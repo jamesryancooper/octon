@@ -10,7 +10,7 @@ Expected packet support outputs include:
 - `support/follow-up-verification-prompt.md`
 - `support/custom-closeout-prompt.md`
 - `support/correction-prompts/<finding-id>.md`
-- `support/executable-program-implementation-prompt.md`
+- `support/program-implementation-orchestration-prompt.md`
 - `support/follow-up-program-verification-prompt.md`
 - `support/program-correction-prompts/<finding-id>.md`
 - `support/custom-program-closeout-prompt.md`

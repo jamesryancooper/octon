@@ -52,8 +52,8 @@ scope_statement: >-
 program_execution_mode: "gated-parallel"
 seed_reference_child: "foundational-entry-artifact-canonical-framing-update"
 source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
-  - ".octon/inputs/exploratory/proposals/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
+  - ".octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-1.md"
+  - ".octon/inputs/exploratory/proposals/.archive/architecture/foundational-entry-artifact-canonical-framing-update/resources/octon-determinism-conversation-2.md"
 authority_class_impact:
   framework: "May coordinate future child packets that propose durable framework runtime, terminology, schema, and validator changes."
   instance: "May coordinate future child packets that propose instance governance, support-target, and connector-admission changes."

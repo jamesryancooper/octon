@@ -83,7 +83,7 @@ default: refine-prompt
 
 | Field | Required | Description |
 |-------|----------|-------------|
-| `id` | Yes | Unique skill identifier (matches directory name and SKILL.md `name`) |
+| `id` | Yes | Unique skill identifier (matches registry key and SKILL.md `name`) |
 | `display_name` | Yes | Human-readable display name |
 | `group` | Yes | Skill group for directory organization |
 | `path` | Yes | Relative path to skill directory |

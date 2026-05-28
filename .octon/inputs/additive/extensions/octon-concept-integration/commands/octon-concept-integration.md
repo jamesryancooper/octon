@@ -1,4 +1,4 @@
-# Octon Concept Integration
+# Concept Integration
 
 Run the `octon-concept-integration` family dispatcher.
 

@@ -377,7 +377,7 @@ features:
         role: "lifecycle interaction request and return receipt validator"
         authority_class: "validation"
       - path: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
-        role: "proposal-program child readiness gate before program implementation prompt generation"
+        role: "proposal-program child readiness gate before program implementation orchestration prompt generation"
         authority_class: "validation"
       - path: ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
         role: "lifecycle contract validator tests"
