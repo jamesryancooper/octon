@@ -1,0 +1,21 @@
+schema_version: proposal-v1
+proposal_id: closeout-repo-hygiene-evidence-flow
+title: Closeout Repo Hygiene Evidence Flow
+summary: Update closeout and repo-hygiene evidence flows so raw cleanup logs stay local while hosted/shared closeout depends on publishable receipts.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+- .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+- .octon/framework/product/contracts/default-work-unit.yml
+- .octon/instance/governance/policies/repo-hygiene.yml
+- .octon/framework/assurance/runtime/_ops/scripts/
+status: implemented
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after child-owned implementation authorization, validation, conformance, post-implementation drift/churn review, and durable promotion evidence exist outside proposal-local inputs. Otherwise revise, reject, supersede, or archive this child packet.
+related_proposals:
+- evidence-disclosure-tier-contract-program
+- local-evidence-store-boundary
+- publishable-evidence-receipts
+- evidence-tier-validator-gates

@@ -1,0 +1,28 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Publishable Evidence Receipts"
+target_state: >-
+  Define concise publishable evidence receipt contracts that prove claims without publishing raw logs or local operational detail.
+boundary_change: >-
+  Proposal packet only. Durable boundary changes must be promoted into the
+  listed targets after accepted review, implementation authorization, validators,
+  retained evidence, and post-implementation receipts.
+authoritative_targets_after_promotion:
+  - ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+  - ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
+  - ".octon/framework/product/contracts/"
+  - ".octon/state/evidence/runs/README.md"
+  - ".octon/state/evidence/runs/skills/publishable-evidence-receipts/example-run/publishable-receipt.json"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "validation-plan.md"

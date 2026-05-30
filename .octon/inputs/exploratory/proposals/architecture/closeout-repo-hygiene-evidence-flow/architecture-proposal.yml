@@ -1,0 +1,28 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Closeout Repo Hygiene Evidence Flow"
+target_state: >-
+  Update closeout and repo-hygiene evidence flows so raw cleanup logs stay local while hosted/shared closeout depends on publishable receipts.
+boundary_change: >-
+  Proposal packet only. Durable boundary changes must be promoted into the
+  listed targets after accepted review, implementation authorization, validators,
+  retained evidence, and post-implementation receipts.
+authoritative_targets_after_promotion:
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  - ".octon/framework/product/contracts/default-work-unit.yml"
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "validation-plan.md"

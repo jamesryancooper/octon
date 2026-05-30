@@ -1,0 +1,26 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Evidence Tier Validator Gates"
+target_state: >-
+  Add validator gates for tier metadata, local-only path safety, publishable receipt concision, and hosted closeout independence from local-only evidence.
+boundary_change: >-
+  Proposal packet only. Durable boundary changes must be promoted into the
+  listed targets after accepted review, implementation authorization, validators,
+  retained evidence, and post-implementation receipts.
+authoritative_targets_after_promotion:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/constitution/contracts/retention/"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+  - "validation-plan.md"

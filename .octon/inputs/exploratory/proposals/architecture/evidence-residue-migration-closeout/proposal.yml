@@ -1,0 +1,81 @@
+schema_version: "proposal-v1"
+proposal_id: "evidence-residue-migration-closeout"
+title: "Evidence Residue Migration Closeout"
+summary: >-
+  Inventory and safely migrate, archive, replace, retain, or discard current evidence residue after the evidence disclosure tier architecture is validated.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/"
+  - ".octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/"
+  - ".octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780090167014-7a1ddc40-evidence-residue-migration-closeout/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-residue-migration-closeout.sh"
+status: implemented
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned implementation authorization, validation,
+    conformance, post-implementation drift/churn review, and durable promotion
+    evidence exist outside proposal-local inputs. Otherwise revise, reject,
+    supersede, or archive this child packet.
+related_proposals:
+  - "evidence-disclosure-tier-contract-program"
+  - "closeout-repo-hygiene-evidence-flow"
+  - "evidence-tier-validator-gates"
+program_parent: "evidence-disclosure-tier-contract-program"
+program_phase: "phase-6"
+program_group: "migration"
+dependencies:
+  - "closeout-repo-hygiene-evidence-flow"
+  - "evidence-tier-validator-gates"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contract-program/resources/source-context.md"
+  - "resources/source-context.md"
+selected_implementation_target: "Evidence Residue Migration Closeout"
+scope_statement: >-
+  Migration and closeout plan for existing raw cleanup evidence, local archives, publishable replacements, and final parent program closeout evidence.
+non_goals:
+  - "No durable implementation is performed by this proposal packet."
+  - "No proposal-local file becomes runtime, policy, support, evidence, or closeout authority."
+  - "No generated read model is allowed to satisfy evidence gates."
+authority_class_impact:
+  framework: "May propose durable framework changes only in listed promotion targets after validation and promotion."
+  instance: "May propose instance governance changes only where listed as promotion targets."
+  state_control: "No live control truth changes from this proposal packet."
+  state_evidence: "Future evidence changes must preserve tier separation and retained evidence obligations."
+  generated: "Generated outputs remain derived-only and may not become authority."
+  inputs: "This child packet and source lineage remain non-authoritative proposal inputs."
+runtime_behavior_impact: >-
+  None from this proposal packet. Runtime or closeout behavior changes only
+  after durable promotion into the listed targets and passing validation.
+generated_input_authority_impact: >-
+  Generated outputs, raw inputs, host state, chat history, model memory, tool
+  availability, and proposal-local files cannot authorize or satisfy evidence,
+  closeout, support, or policy gates.
+evidence_requirements:
+  - "Child-owned implementation-grade completeness receipt."
+  - "Fresh accepted proposal review authorizing implementation prompt generation."
+  - "Implementation conformance and post-implementation drift/churn receipts after durable changes land."
+  - "Retained validation evidence outside proposal-local inputs for any promoted behavior."
+validation_gates:
+  - "validate-proposal-standard.sh"
+  - "validate-architecture-proposal.sh"
+  - "future evidence residue migration validator"
+  - "validate-proposal-program-structure.sh"
+acceptance_criteria_summary: >-
+  Accepted when the packet fully covers its child scope, preserves the
+  parent/child authority boundary, includes validators and rollback posture,
+  and can generate an implementation prompt without unresolved product or
+  authority questions.
+rollback_summary: >-
+  Restore from local archive or retain old publishable evidence paths if migration produces weaker claim proof.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-28"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not make evidence tiering live. Durable contracts,
+  validators, policy updates, evidence migration, generated-output changes, and
+  closeout behavior require promoted implementation outside proposal-local
+  inputs.

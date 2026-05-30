@@ -1,0 +1,97 @@
+schema_version: "proposal-v1"
+proposal_id: "evidence-disclosure-tier-contract-program"
+title: "Evidence Disclosure Tier Contract Program"
+summary: >-
+  Parent proposal program coordinating the contract, storage, receipt,
+  disclosure, validator, closeout, and migration work needed to separate local
+  raw evidence from publishable claim evidence without weakening Octon's
+  retained-evidence model.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/constitution/contracts/retention/"
+  - ".octon/framework/engine/runtime/spec/evidence-disclosure-tiers-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate child packet creation, review, implementation, validation,
+    rejection, supersession, or archival; retain aggregate program evidence
+    outside proposal-local inputs; then archive this parent only after required
+    children reach allowed terminal outcomes with fresh child-owned receipts.
+related_proposals:
+  - "evidence-disclosure-tier-contracts"
+  - "local-evidence-store-boundary"
+  - "publishable-evidence-receipts"
+  - "disclosure-and-read-model-alignment"
+  - "evidence-tier-validator-gates"
+  - "closeout-repo-hygiene-evidence-flow"
+  - "evidence-residue-migration-closeout"
+selected_implementation_target: "Evidence disclosure tiers and publishable evidence receipts"
+scope_statement: >-
+  Proposal-program coordination only. The parent sequences and gates sibling
+  child packets for evidence tier contracts, local-only raw evidence storage,
+  publishable receipt schemas, disclosure/read-model boundaries, validators,
+  closeout/repo-hygiene behavior, and migration of existing residue. It does
+  not implement evidence storage, mutate retained evidence, change Git ignore
+  rules, or authorize hosted closeout behavior.
+program_execution_mode: "gated-parallel"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contract-program/resources/source-context.md"
+authority_class_impact:
+  framework: "May coordinate future child packets that propose retention contracts, runtime specs, validators, product contracts, and remediation skill updates."
+  instance: "May coordinate future child packets that propose repo-hygiene policy updates."
+  state_control: "No direct change from the parent packet."
+  state_evidence: "No retained evidence is created by this parent; future child packets must distinguish local-only raw evidence from publishable claim evidence."
+  generated: "Generated read models remain derived-only and never become authority through this program."
+  inputs: "This parent and child packet references remain non-authoritative exploratory proposal lineage."
+runtime_behavior_impact: "None from the parent program packet."
+generated_input_authority_impact: >-
+  Reinforces that raw inputs, chat history, generated read models, host UI
+  state, local raw logs, and proposal-local material cannot satisfy runtime,
+  policy, evidence, support, or closeout authority gates.
+evidence_requirements:
+  - "Parent program child registry and human child index."
+  - "Child-owned proposal creation and implementation-grade receipts."
+  - "Child-owned implementation, validation, conformance, drift/churn, and promotion receipts for every implemented child."
+  - "Aggregate program closeout evidence that summarizes child outcomes without satisfying child receipts."
+  - "Explicit resolution evidence for any rejected, deferred, superseded, or replaced child."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal-program structure validation"
+  - "proposal-program child readiness validation before implementation prompt generation"
+  - "evidence tier contract validation"
+  - "local evidence path and Git tracking validation"
+  - "publishable receipt schema validation"
+  - "disclosure/read-model non-authority validation"
+  - "closeout hosted/local evidence boundary validation"
+  - "repo-hygiene cleanup evidence flow validation"
+acceptance_criteria_summary: >-
+  Parent program is acceptable when it keeps raw evidence local by default,
+  keeps publishable evidence concise and claim-sufficient, preserves child
+  authority, defines validator coverage, and blocks hosted closeout from
+  depending on local-only artifacts.
+rollback_summary: >-
+  Reject, supersede, or archive this parent if it collapses local-only evidence
+  into publishable retained evidence, weakens existing evidence obligations,
+  makes generated read models authoritative, or lets parent evidence satisfy
+  child receipts.
+owner:
+  role: "Octon architecture proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-28"
+explicit_runtime_non_implementation_statement: >-
+  This parent program does not implement evidence tier contracts, create
+  evidence roots, change Git ignore behavior, migrate residue, or alter
+  closeout/repo-hygiene behavior. Durable changes require accepted child
+  packets and retained evidence outside proposal-local inputs.

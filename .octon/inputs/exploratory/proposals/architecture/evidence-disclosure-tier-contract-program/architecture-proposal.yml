@@ -1,0 +1,41 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "boundary-change"
+title: "Evidence Disclosure Tier Contract Program"
+target_state: >-
+  A parent proposal program coordinates child packets that define and promote a
+  disclosure-tier contract separating private raw evidence, publishable claim
+  evidence, operator/release disclosure, and generated read models while
+  preserving Octon's canonical retained-evidence roots.
+boundary_change: >-
+  Proposal-program coordination only. The parent does not change runtime
+  authority, evidence retention, Git tracking, generated output authority,
+  closeout policy, or child lifecycle ownership. Proposed durable boundary
+  changes must be owned by child packets and promoted outside proposal-local
+  inputs.
+authoritative_targets_after_promotion:
+  - ".octon/framework/constitution/contracts/retention/"
+  - ".octon/framework/engine/runtime/spec/evidence-disclosure-tiers-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/product/contracts/"
+  - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "resources/child-packet-index.yml"
+  - "architecture/packet-sequence.md"
+  - "architecture/child-packet-contract.md"
+  - "architecture/program-closeout-plan.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/child-packet-index.md"
+  - "resources/source-context.md"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "support/**"
