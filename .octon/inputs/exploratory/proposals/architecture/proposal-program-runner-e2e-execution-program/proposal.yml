@@ -1,0 +1,119 @@
+schema_version: "proposal-v1"
+proposal_id: "proposal-program-runner-e2e-execution-program"
+title: "Proposal Program Runner E2E Execution Program"
+summary: >-
+  Parent proposal program coordinating child packets required to improve the
+  Octon proposal-program lifecycle runner for durable end-to-end
+  `--execute-routes` execution while preserving route ownership, delegation,
+  workflow, recovery, cancellation, replay, checkpoint, lock, phase-loop,
+  disclosure-tier, and authority boundaries.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+release_state: "pre-1.0"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
+  - ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
+  - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+  - ".octon/framework/constitution/contracts/retention/"
+  - ".octon/framework/constitution/obligations/evidence.yml"
+  - ".octon/framework/engine/runtime/adapters/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/tests/"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
+  - ".octon/framework/engine/runtime/spec/"
+  - ".octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md"
+  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
+  - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
+  - ".octon/generated/effective/extensions/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-program/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-program-closeout-prompt/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-program-verification-and-correction-loop/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate child proposal packets through review, implementation-prompt
+    generation, later implementation, verification, correction, closeout, and
+    archive lifecycle routes. Parent program evidence remains coordination-only
+    and never satisfies child receipts.
+related_proposals:
+  - "proposal-program-runner-current-state-gap-map"
+  - "proposal-program-runner-planning-replan-loop"
+  - "proposal-program-runner-executor-delegation-gates"
+  - "proposal-program-runner-evidence-run-control"
+  - "proposal-program-runner-child-scheduling-recovery"
+  - "proposal-program-runner-verification-correction-routing"
+  - "proposal-program-runner-cleanup-hygiene"
+  - "proposal-program-runner-closeout-archive-policy"
+  - "proposal-program-runner-generated-state-publication"
+  - "proposal-program-runner-tests-fixtures"
+program_execution_mode: "gated-parallel"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+selected_implementation_target: "proposal-program lifecycle runner end-to-end execution"
+scope_statement: >-
+  Proposal-program coordination only. This parent creates and sequences child
+  packets for later lifecycle execution. It does not implement runner changes,
+  execute durable routes, promote, close out, archive, clean residue, mutate
+  generated effective state, or satisfy child-owned receipts.
+authority_class_impact:
+  framework: "Coordinates child packets that may later propose runtime, contract, prompt, validator, workflow, and test changes."
+  instance: "No direct instance mutation from this parent packet."
+  state_control: "No direct state-control mutation from this parent packet."
+  state_evidence: "Later lifecycle runs must retain controller and child evidence under canonical roots."
+  generated: "Generated state remains derived-only and refreshable only through canonical scripts."
+  inputs: "This parent and children remain non-authoritative proposal lineage."
+runtime_behavior_impact: "None in this creation task; later implementation routes may change runtime behavior only through child-owned packets."
+generated_input_authority_impact: >-
+  Reinforces that proposal artifacts, raw inputs, chat history, generated
+  projections, and host state do not authorize lifecycle execution or satisfy
+  route receipts.
+evidence_requirements:
+  - "Parent source traceability matrix"
+  - "Child-owned proposal review receipts"
+  - "Child-owned implementation prompts"
+  - "Parent program review receipt"
+  - "Parent orchestration prompt"
+  - "Final validation command results"
+validation_gates:
+  - "proposal standard validators for all child packets"
+  - "implementation readiness validators for all child packets"
+  - "strict review gates for all child packets and the parent"
+  - "proposal program structure validator"
+  - "proposal program child-readiness validator"
+  - "handoff-only proposal-program lifecycle run"
+acceptance_criteria_summary: >-
+  Parent and child proposal packets fully map the source requirements, all
+  child packets are accepted with implementation authorization, implementation
+  prompts exist, the parent is accepted, child readiness passes, and a
+  handoff-only lifecycle run succeeds without `--execute-routes`.
+rollback_summary: >-
+  Remove the parent and child proposal packet directories and rerun the
+  canonical proposal registry generator if this program is rejected before
+  implementation. Do not delete retained evidence without repo-hygiene
+  authority.
+owner:
+  role: "Octon proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-30"
+child_authority_preserved: "yes"
+explicit_runtime_non_implementation_statement: >-
+  This parent program does not implement runner changes or execute durable
+  implementation, promotion, closeout, archive, cleanup, publication, registry,
+  or generated-state routes.

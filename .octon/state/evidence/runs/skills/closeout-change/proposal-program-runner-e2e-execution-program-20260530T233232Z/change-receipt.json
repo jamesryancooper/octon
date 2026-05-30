@@ -1,0 +1,97 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-e2e-execution-program-20260530T233232Z",
+  "selected_route": "direct-main",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "direct-main-landing",
+  "intent": "Close out the proposal-program-runner-e2e-execution-program proposal program, its child proposal packets, generated proposal registry refresh, and retained handoff-only lifecycle run-control evidence on synchronized main.",
+  "scope": {
+    "summary": "Adds the coordinated proposal program for proof-gated end-to-end proposal-program runner execution and retains readiness validation evidence.",
+    "touched_paths": [
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-child-scheduling-recovery/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-cleanup-hygiene/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-closeout-archive-policy/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-evidence-run-control/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-generated-state-publication/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-tests-fixtures/",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-verification-correction-routing/",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780180170347-22c86d41/",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780180737655-eb7a8a9d/",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780181245439-741c0c1c/",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780181628812-109620dc/",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/change-receipt.json"
+    ],
+    "diff_refs": [
+      "aae13add22762646e08fbec3d946a6c4e4175fc6..direct-main-proposal-program-runner-e2e-execution-program-closeout-commit"
+    ]
+  },
+  "target_branch_ref": "main",
+  "landed_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+  "main_alignment": {
+    "local_main_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+    "origin_main_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+    "landed_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "post-push git fetch origin and git rev-parse main origin/main are reported in the operator closeout result",
+    "local_main_sync_evidence_ref": "direct-main closeout started from synchronized main at aae13add22762646e08fbec3d946a6c4e4175fc6 and final sync is reported in the operator closeout result",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/change-receipt.json"
+  },
+  "integration_method": "direct-commit",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh before closeout: staged=0 unstaged-tracked=1 untracked=15 ignored=4411 generated-effective-output=0 host-projection=0 retained-evidence=0 state-control=8 release-version=0 input-surface=161",
+    "Proposal input surfaces, generated proposal registry refresh, and lifecycle run-control directories are retained as the coherent Change; no deletion cleanup was performed."
+  ],
+  "validation_evidence_refs": [
+    "git diff --check: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program --require-implementation-authorization: Validation summary: errors=0 warnings=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program: Validation summary: errors=0 warnings=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program: Validation summary: errors=0 warnings=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check: Registry generation summary: errors=0",
+    ".octon/framework/engine/runtime/run lifecycle run --lifecycle proposal-program --target .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program: final_verdict planned; run_id lifecycle-proposal-program-1780181628812-109620dc"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because this is a low-risk direct-main proposal/evidence closeout on synchronized main with local proposal validators passing and no PR-required predicate identified."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "origin/main pre-closeout ref aae13add22762646e08fbec3d946a6c4e4175fc6",
+    "instructions": "Use a governed follow-up Change to revert the direct-main closeout commit from the landed ref back to aae13add22762646e08fbec3d946a6c4e4175fc6 if this proposal program or retained readiness evidence must be undone."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch before closeout showed current main aligned with origin/main at aae13add22762646e08fbec3d946a6c4e4175fc6, one generated registry modification, eleven untracked proposal directories, and four untracked lifecycle run-control directories.",
+    "residue_classification_ref": "classify-change-closeout-residue before closeout reported staged=0 unstaged-tracked=1 untracked=15 ignored=4411 generated-effective-output=0 host-projection=0 retained-evidence=0 state-control=8 release-version=0 input-surface=161.",
+    "phase_exit_refs": [
+      "read-in-and-constraints: repo ingress, closeout-change skill, default work unit policy, closeout state machine, git worktree autonomy contract, and commit standards were read.",
+      "inventory: local HEAD, main, and origin/main were aligned at aae13add22762646e08fbec3d946a6c4e4175fc6 before direct-main closeout.",
+      "residue-classification: nonignored residue is the authored proposal program package, child packet packages, generated proposal registry refresh, and route-run control evidence produced by the readiness validation loop.",
+      "route-and-target-lifecycle-resolution: selected direct-main with target lifecycle outcome cleaned; no PR predicate or branch isolation requirement was identified.",
+      "validation: git diff check, parent strict review gate, program structure validator, and child-readiness validator passed before closeout."
+    ],
+    "cleanup_decision_refs": [
+      "Retain the proposal input surfaces because they are the source artifacts for the requested proposal program.",
+      "Retain .octon/generated/proposals/registry.yml because it was refreshed through the canonical proposal registry script.",
+      "Retain lifecycle proposal-program run-control directories as readiness and fail-closed audit evidence for the handoff-only lifecycle runs."
+    ],
+    "safe_cleanup_evidence_class": "retained-proposal-and-run-control-evidence",
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/change-receipt.json"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-30T23:32:32Z"
+}

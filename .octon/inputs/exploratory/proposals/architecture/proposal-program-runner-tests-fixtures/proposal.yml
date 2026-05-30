@@ -1,0 +1,66 @@
+schema_version: "proposal-v1"
+proposal_id: "proposal-program-runner-tests-fixtures"
+title: "Proposal Program Runner Tests And Fixtures"
+summary: >-
+  Add comprehensive tests, fixtures, negative controls, and validation receipts for every acceptance criterion and edge case in the lifecycle improvement source text.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+release_state: "pre-1.0"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/engine/runtime/crates/kernel/tests/"
+  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Implement through the existing proposal-packet lifecycle only after this
+    packet is executed by a later proposal-program run. Close out or archive
+    only after child-owned implementation, conformance, drift/churn, closeout,
+    and archive gates pass.
+related_proposals:
+  - "proposal-program-runner-e2e-execution-program"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+selected_implementation_target: "tests, fixtures, negative controls, and validation coverage"
+scope_statement: >-
+  This child packet owns the tests, fixtures, negative controls, and validation coverage slice of the lifecycle-runner
+  improvement. It may update only its declared target surfaces during a later
+  implementation route and must preserve every route ownership boundary from
+  the source text.
+authority_class_impact:
+  framework: "May propose authored framework/runtime/validator/prompt changes in declared write scopes."
+  instance: "No direct instance mutation unless a declared target path names one."
+  state_control: "No direct state-control mutation from this proposal packet."
+  state_evidence: "Later implementation must retain route, validation, and review evidence under canonical evidence roots."
+  generated: "Generated outputs remain derived-only and may be refreshed only by canonical scripts."
+  inputs: "This proposal packet remains non-authoritative lineage."
+runtime_behavior_impact: >-
+  None until a later implementation route executes. The packet describes target
+  runtime behavior and validation only.
+generated_input_authority_impact: >-
+  Reinforces that generated projections, proposal artifacts, raw inputs, host
+  state, and chat history cannot authorize runtime behavior or satisfy route
+  receipts.
+evidence_requirements:
+  - "Test run receipts with command, result, and coverage class."
+  - "Fixture matrix mapping acceptance criteria and edge cases to positive and negative tests."
+  - "Final source-coverage check proving no material requirement remains unmapped."
+validation_gates:
+  - "Run relevant Rust tests for lifecycle program controller and lifecycle executor adapter changes."
+  - "Run proposal lifecycle validation shell tests and proposal validators."
+  - "Run canonical publication and registry checks when authored-source changes require generated refresh."
+acceptance_criteria_summary: >-
+  Tests cover handoff-only default behavior, `--execute-routes` delegation, contract-declared route inventory, phase-context non-authority, promotion ownership, recovery budgets, verification/correction sequencing, hygiene classification, evidence-tier separation, generated-state refresh, timeout handling, implemented-state review-gate behavior, cancellation, resume/replay safety, lock cleanup, no-new-status enforcement, closeout/archive policy, and blocked receipt generation.
+rollback_summary: >-
+  git-revert rollback. Revert this child slice or regenerate affected
+  derived outputs through canonical scripts if later implementation evidence
+  fails validation or authority-boundary checks.
+owner:
+  role: "Octon proposal packet author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-30"

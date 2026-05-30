@@ -1,0 +1,255 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "proposal-program-runner-current-state-gap-map"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map"
+    required: true
+    deferred: false
+    dependencies:
+      []
+    dependency_gate: "verification"
+    phase_id: "phase-0"
+    group_id: "audit"
+    rollback_posture: "manual"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+  - child_id: "proposal-program-runner-planning-replan-loop"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-current-state-gap-map"
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "controller"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/"
+  - child_id: "proposal-program-runner-executor-delegation-gates"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-current-state-gap-map"
+      - "proposal-program-runner-planning-replan-loop"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "executor"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/adapters/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+  - child_id: "proposal-program-runner-evidence-run-control"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-evidence-run-control"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-current-state-gap-map"
+      - "proposal-program-runner-planning-replan-loop"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "run-control"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/spec/"
+      - ".octon/framework/constitution/contracts/retention/"
+      - ".octon/framework/constitution/obligations/evidence.yml"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+  - child_id: "proposal-program-runner-child-scheduling-recovery"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-child-scheduling-recovery"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-planning-replan-loop"
+      - "proposal-program-runner-executor-delegation-gates"
+      - "proposal-program-runner-evidence-run-control"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "scheduler"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/crates/kernel/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/framework/engine/runtime/spec/"
+  - child_id: "proposal-program-runner-verification-correction-routing"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-verification-correction-routing"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-planning-replan-loop"
+      - "proposal-program-runner-child-scheduling-recovery"
+    dependency_gate: "verification"
+    phase_id: "phase-4"
+    group_id: "verification"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - child_id: "proposal-program-runner-cleanup-hygiene"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-cleanup-hygiene"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-child-scheduling-recovery"
+      - "proposal-program-runner-evidence-run-control"
+    dependency_gate: "verification"
+    phase_id: "phase-5"
+    group_id: "hygiene"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+      - ".octon/instance/governance/policies/repo-hygiene.yml"
+  - child_id: "proposal-program-runner-closeout-archive-policy"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-closeout-archive-policy"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-verification-correction-routing"
+      - "proposal-program-runner-cleanup-hygiene"
+      - "proposal-program-runner-evidence-run-control"
+    dependency_gate: "verification"
+    phase_id: "phase-6"
+    group_id: "terminal"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
+      - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+  - child_id: "proposal-program-runner-generated-state-publication"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-generated-state-publication"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-current-state-gap-map"
+      - "proposal-program-runner-planning-replan-loop"
+    dependency_gate: "verification"
+    phase_id: "phase-7"
+    group_id: "publication"
+    rollback_posture: "rollback-route"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+      - ".octon/framework/orchestration/runtime/_ops/scripts/"
+      - ".octon/framework/capabilities/_ops/scripts/"
+      - ".octon/framework/assurance/runtime/_ops/scripts/"
+      - ".octon/generated/effective/extensions/"
+      - ".octon/generated/effective/capabilities/"
+      - ".octon/generated/assurance/"
+  - child_id: "proposal-program-runner-tests-fixtures"
+    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-tests-fixtures"
+    required: true
+    deferred: false
+    dependencies:
+      - "proposal-program-runner-planning-replan-loop"
+      - "proposal-program-runner-executor-delegation-gates"
+      - "proposal-program-runner-evidence-run-control"
+      - "proposal-program-runner-child-scheduling-recovery"
+      - "proposal-program-runner-verification-correction-routing"
+      - "proposal-program-runner-cleanup-hygiene"
+      - "proposal-program-runner-closeout-archive-policy"
+      - "proposal-program-runner-generated-state-publication"
+    dependency_gate: "verification"
+    phase_id: "phase-8"
+    group_id: "assurance"
+    rollback_posture: "staged-commit"
+    required_metadata:
+      - "change_profile"
+    source_lineage_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
+    parent_contract_refs:
+      - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/architecture/child-packet-contract.md"
+    write_scopes:
+      - ".octon/framework/engine/runtime/crates/kernel/tests/"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
+      - ".octon/framework/assurance/runtime/_ops/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/"

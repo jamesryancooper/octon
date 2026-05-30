@@ -1,0 +1,18 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "proposal-program-runner-e2e-execution-program"
+title: "Proposal Program Runner E2E Execution Program"
+architecture_scope: "proposal-program lifecycle runner end-to-end execution"
+decision_type: "surface-refactor"
+status: "accepted"
+profile_selection_receipt:
+  release_state: "pre-1.0"
+  change_profile: "atomic"
+  rationale: >-
+    The repository is pre-1.0 and the program decomposes implementation into
+    bounded child packets without requiring long-lived transitional coexistence.
+program_execution_mode: "gated-parallel"
+child_authority_preserved: "yes"
+authority_boundary: >-
+  Parent coordination may sequence, validate, and summarize. It must never edit
+  child manifests, child receipts, child promotion targets, child validation
+  verdicts, child terminal outcomes, or child archive metadata.
