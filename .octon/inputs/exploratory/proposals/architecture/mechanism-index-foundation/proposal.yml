@@ -1,0 +1,80 @@
+schema_version: "proposal-v1"
+proposal_id: "mechanism-index-foundation"
+title: "Mechanism Index Foundation"
+summary: >-
+  Create the architecture/governance index foundation for governed
+  cross-surface mechanisms without making the index runtime, policy, support,
+  cleanup, closeout, generated-effective, or retained-evidence authority.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned implementation authorization, validation,
+    conformance, post-implementation drift/churn review, and durable promotion
+    evidence exist outside proposal-local inputs. Otherwise revise, reject,
+    supersede, or archive this child packet.
+related_proposals:
+  - "governed-cross-surface-mechanisms-documentation-architecture"
+program_parent: "governed-cross-surface-mechanisms-documentation-architecture"
+program_phase: "phase-1"
+program_group: "foundation"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/resources/source-context.md"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+selected_implementation_target: "Governed Cross-Surface Mechanisms Architecture Index Foundation"
+scope_statement: >-
+  Define the durable architecture index home, index purpose, non-authority
+  banner, mechanism entry shape, layered terminology guide, glossary, boundary
+  notes, and required surface map fields for governed cross-surface
+  mechanisms.
+non_goals:
+  - "No runtime behavior implementation."
+  - "No product feature catalog authority change."
+  - "No generated-effective or operator read-model publication."
+  - "No state/control or state/evidence mutation."
+dependencies: []
+authority_class_impact:
+  framework: "May propose architecture documentation and topology registry updates only in listed promotion targets."
+  instance: "No instance authority changes from this child packet."
+  state_control: "No mutable operational truth changes from this child packet."
+  state_evidence: "No retained evidence is created by this proposal-local child packet."
+  generated: "Generated outputs remain derived-only and are not created by this child packet."
+  inputs: "This child packet remains non-authoritative exploratory proposal input."
+runtime_behavior_impact: "None from this child packet."
+generated_input_authority_impact: >-
+  Reinforces that the future mechanism index is an authored architecture
+  read model and mechanism index not runtime authority; generated, raw, host,
+  chat, model memory, tool availability, proposal-local, and product catalog
+  surfaces remain non-authoritative unless a higher authority says otherwise.
+evidence_requirements:
+  - "Implementation receipt identifying the mechanism index files created."
+  - "Boundary evidence that the index is not runtime, policy, support, closeout, cleanup, or retained-evidence authority."
+  - "Source traceability from the index to product docs, runtime specs, workflows, policies, validators, generated/read-model docs, and evidence contracts."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "mechanism index non-authority validation"
+  - "path/authority-class consistency validation"
+acceptance_criteria_summary: >-
+  Accepted when the child packet is complete enough to implement a
+  non-authoritative governed cross-surface mechanisms index with required
+  surface maps, glossary, boundary notes, and source traceability.
+rollback_summary: >-
+  Revert or narrow the index files if they begin to claim runtime, policy,
+  support, closeout, cleanup, generated-effective, operator read-model, or
+  retained-evidence authority.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-27"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not implement durable architecture docs. The governed
+  cross-surface mechanisms index becomes durable only through validated
+  promotion outside proposal-local inputs.

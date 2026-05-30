@@ -1,0 +1,85 @@
+schema_version: "proposal-v1"
+proposal_id: "mechanism-detail-pages-and-operator-map"
+title: "Mechanism Detail Pages And Operator Map"
+summary: >-
+  Optional deferred child proposal for per-mechanism detail pages and generated
+  operator maps that remain navigation, visibility, and non-authority only.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/generated/cognition/projections/materialized/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only if this optional deferred child is intentionally selected and
+    after child-owned implementation authorization, validation, conformance,
+    post-implementation drift/churn review, and durable promotion evidence
+    exist outside proposal-local inputs. Otherwise keep deferred, reject,
+    supersede, or archive this child packet.
+related_proposals:
+  - "governed-cross-surface-mechanisms-documentation-architecture"
+  - "mechanism-index-foundation"
+  - "product-doc-boundary-crosslinks"
+program_parent: "governed-cross-surface-mechanisms-documentation-architecture"
+program_phase: "phase-6"
+program_group: "later-refinement"
+optional_child: true
+deferred: true
+dependencies:
+  - "mechanism-index-foundation"
+  - "product-doc-boundary-crosslinks"
+source_lineage:
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/resources/source-context.md"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+selected_implementation_target: "Optional Mechanism Detail Pages And Operator Map"
+scope_statement: >-
+  Propose optional detail pages and generated operator maps after the mandatory
+  index and product crosslinks are stable. Operator read models remain
+  navigation only, visibility only, and non-authority.
+non_goals:
+  - "No mandatory program closeout dependency."
+  - "No runtime behavior implementation."
+  - "No generated operator read model authority."
+  - "No generated-effective publication."
+authority_class_impact:
+  framework: "May propose optional detail pages under the mechanism index."
+  instance: "No instance authority changes from this child packet."
+  state_control: "No mutable operational truth changes."
+  state_evidence: "No retained evidence is created by this proposal-local packet."
+  generated: "May propose generated cognition operator maps as visibility-only non-authority outputs."
+  inputs: "This child packet remains non-authoritative exploratory proposal input."
+runtime_behavior_impact: "None from this child packet."
+generated_input_authority_impact: >-
+  Operator read models remain navigation only, visibility only, and
+  non-authority. Generated maps cannot be consumed as runtime, policy, support,
+  authority, or closure input.
+evidence_requirements:
+  - "Implementation receipt proving optional selection if implemented."
+  - "Operator read-model publication evidence with non-authority notice."
+  - "Traceability from generated operator maps to authored source refs."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "operator read-model validation"
+  - "generated non-authority validation"
+acceptance_criteria_summary: >-
+  Accepted as optional/deferred when the packet can add detail pages and
+  operator maps without becoming a mandatory program closeout dependency or
+  generated authority.
+rollback_summary: >-
+  Revert or skip optional generated maps if they lack source traceability,
+  freshness metadata, or explicit non-authority classification.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-27"
+explicit_runtime_non_implementation_statement: >-
+  This optional child packet does not implement durable detail pages or
+  generated maps. Durable optional work requires explicit selection and
+  validated promotion outside proposal-local inputs.

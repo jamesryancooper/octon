@@ -1,0 +1,122 @@
+schema_version: "proposal-v1"
+proposal_id: "governed-cross-surface-mechanisms-documentation-architecture"
+title: "Governed Cross-Surface Mechanisms Documentation Architecture"
+summary: >-
+  Parent proposal program coordinating documentation, contract, validator, and
+  terminology work needed to make Octon's governed cross-surface mechanisms
+  accessible to agents and humans without confusing product navigation,
+  architecture authority, runtime control, generated projections, raw inputs,
+  retained evidence, or operator read models.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/product/README.md"
+  - ".octon/framework/product/features/README.md"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
+  - ".octon/framework/orchestration/runtime/workflows/README.md"
+  - ".octon/framework/assurance/runtime/_ops/scripts/"
+  - ".octon/framework/assurance/runtime/_ops/tests/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate, create, review, implement, validate, close out, reject,
+    supersede, or archive child proposal packets; retain aggregate program
+    evidence outside proposal-local inputs; then archive this parent only after
+    required children reach terminal outcomes with fresh child-owned receipts.
+related_proposals:
+  - "mechanism-index-foundation"
+  - "authority-class-schema-alignment"
+  - "mechanism-index-validator-guards"
+  - "product-doc-boundary-crosslinks"
+  - "retired-terminology-guardrails"
+  - "program-closeout-coverage-evidence"
+  - "mechanism-detail-pages-and-operator-map"
+child_registry_posture: "canonical-child-packets"
+child_registry_revision_note: >-
+  The child registry now records canonical sibling child packets. Required
+  children have child-owned manifests and accepted child-owned proposal review
+  receipts. The optional detail/operator-map child also exists and remains
+  optional/deferred unless a later accepted parent mutation marks it required.
+selected_implementation_target: "Governed Cross-Surface Mechanisms Documentation Architecture"
+scope_statement: >-
+  Proposal-program coordination only. The parent sequences and gates child
+  packets for documentation architecture work. It does not implement runtime
+  behavior, mutate state/control truth, create retained evidence authority,
+  dispatch lifecycles, process intake, close Changes, clean worktrees, delete
+  residue, or authorize generated/read-model/input/host surfaces.
+program_execution_mode: "gated-parallel"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/resources/source-context.md"
+  - ".octon/framework/product/README.md"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md"
+  - ".octon/framework/engine/runtime/spec/workflow-statechart-v1.md"
+  - ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md"
+  - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+  - ".octon/framework/engine/runtime/spec/mission-runner-v1.md"
+  - ".octon/framework/engine/runtime/spec/mission-plan-v1.md"
+  - ".octon/framework/orchestration/runtime/workflows/README.md"
+  - ".octon/instance/governance/policies/repo-hygiene.yml"
+authority_class_impact:
+  framework: "May coordinate future child packets that propose architecture docs, product docs, schemas, and validators under framework authority."
+  instance: "May coordinate future child packets that reference instance governance policy, especially repo hygiene, without moving instance authority."
+  state_control: "No direct change from the parent packet."
+  state_evidence: "No parent evidence satisfies child receipts; aggregate evidence is required outside proposal-local inputs before closeout."
+  generated: "Generated-effective and operator read-model surfaces remain derived-only and never become authority through this program."
+  inputs: "This parent and child packet references remain non-authoritative exploratory proposal lineage until promoted through accepted child packets."
+runtime_behavior_impact: "None from the parent program packet."
+generated_input_authority_impact: >-
+  Reinforces that raw intake, exploratory proposals, generated outputs, host
+  state, chat history, model memory, tool availability, feature catalog entries,
+  and lifecycle interaction receipts are not runtime, policy, closeout, cleanup,
+  retained-evidence, or execution authority.
+evidence_requirements:
+  - "Parent program child registry and human child index reflecting canonical accepted child packet posture."
+  - "Child creation receipts for every required child packet before implementation prompt generation."
+  - "Child-owned accepted proposal reviews and implementation readiness receipts."
+  - "Child-owned implementation, validation, conformance, drift/churn, and promotion receipts."
+  - "Aggregate program closeout evidence that summarizes but never replaces child receipts."
+  - "Explicit deferral evidence for optional child work."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal-program structure validation"
+  - "proposal-program child readiness validation before implementation prompt generation"
+  - "product feature catalog navigation-only validation"
+  - "mechanism index non-authority validation"
+  - "path/authority-class consistency validation"
+  - "generated-effective non-authority validation"
+  - "operator read-model non-authority validation"
+  - "lifecycle interaction receipt non-authorization validation"
+  - "retired terminology validation"
+acceptance_criteria_summary: >-
+  Parent program is acceptable when it coordinates the required child packets,
+  keeps product features as navigation-only, establishes governed
+  cross-surface mechanisms as the architecture/governance term, preserves all
+  surface authority boundaries, and prevents parent evidence from satisfying
+  child-owned receipts.
+rollback_summary: >-
+  Reject, supersede, or archive this parent if it starts to own child
+  implementation truth, treats generated/read-model/input/host surfaces as
+  authority, collapses proposal lifecycle, Change closeout, worktree closeout,
+  and repo hygiene into one authority system, or creates a second runtime
+  control plane.
+owner:
+  role: "Octon architecture proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-27"
+explicit_runtime_non_implementation_statement: >-
+  This parent program does not implement the governed cross-surface mechanisms
+  documentation architecture. Durable docs, schema, validator, product catalog,
+  runtime spec, generated projection, and terminology changes require accepted
+  child packets and retained evidence outside proposal-local inputs.

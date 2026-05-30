@@ -1,0 +1,86 @@
+schema_version: "proposal-v1"
+proposal_id: "authority-class-schema-alignment"
+title: "Authority Class Schema Alignment"
+summary: >-
+  Align product feature catalog and governed cross-surface mechanism authority
+  vocabulary with the topology registry so documentation distinguishes
+  authored authority, product contracts, runtime specs, mutable operational
+  truth, retained evidence, generated-effective handles, operator read models,
+  raw inputs, publication inputs, navigation, and compatibility surfaces.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+  - ".octon/framework/product/features/catalog.yml"
+  - ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/"
+status: "accepted"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote only after child-owned implementation authorization, validation,
+    conformance, post-implementation drift/churn review, and durable promotion
+    evidence exist outside proposal-local inputs. Otherwise revise, reject,
+    supersede, or archive this child packet.
+related_proposals:
+  - "governed-cross-surface-mechanisms-documentation-architecture"
+  - "mechanism-index-foundation"
+program_parent: "governed-cross-surface-mechanisms-documentation-architecture"
+program_phase: "phase-2"
+program_group: "contracts"
+dependencies:
+  - "mechanism-index-foundation"
+source_lineage:
+  - ".octon/framework/cognition/_meta/architecture/contract-registry.yml"
+  - ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/resources/source-context.md"
+  - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/architecture/child-packet-contract.md"
+selected_implementation_target: "Authority Class Vocabulary Alignment"
+scope_statement: >-
+  Propose the schema and documentation vocabulary changes needed to keep
+  mechanism surface classifications layer-correct across product, architecture,
+  runtime, generated, input, control, evidence, and compatibility surfaces.
+non_goals:
+  - "No runtime behavior implementation."
+  - "No state/control or state/evidence mutation."
+  - "No generated-effective publication."
+  - "No proposal-local authority promotion."
+authority_class_impact:
+  framework: "May propose product contract/schema and architecture index vocabulary changes in listed promotion targets."
+  instance: "No instance authority changes from this child packet."
+  state_control: "No mutable operational truth changes; state/control remains mutable operational truth."
+  state_evidence: "No retained evidence created; state/evidence remains retained evidence."
+  generated: "Generated operator read model and generated-effective classes remain derived non-authority."
+  inputs: "This child packet remains non-authoritative exploratory proposal input."
+runtime_behavior_impact: "None from this child packet."
+generated_input_authority_impact: >-
+  Clarifies that generated operator read model surfaces are visibility-only,
+  generated-effective surfaces are non-authority runtime handles, raw inputs
+  are exploratory or publication input, and product feature catalog entries are
+  navigation-only.
+evidence_requirements:
+  - "Implementation receipt proving vocabulary alignment against the topology registry."
+  - "Negative-control validation showing state/control is mutable operational truth, not retained evidence."
+  - "Schema or documentation evidence distinguishing generated operator read model from generated-effective non-authority."
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "implementation-readiness validation"
+  - "product feature catalog schema validation"
+  - "path/authority-class consistency validation"
+acceptance_criteria_summary: >-
+  Accepted when the packet can implement authority-class vocabulary alignment
+  without making catalog entries, generated outputs, raw inputs, host state, or
+  proposal-local files authority.
+rollback_summary: >-
+  Revert schema or vocabulary changes if they blur state/control, retained
+  evidence, generated-effective, operator read-model, publication-input,
+  compatibility, or navigation-only authority classes.
+owner:
+  role: "Octon architecture child proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-05-27"
+explicit_runtime_non_implementation_statement: >-
+  This child packet does not implement durable schema or documentation changes.
+  Durable authority-class alignment requires validated promotion outside
+  proposal-local inputs.
