@@ -8,7 +8,7 @@
   "outcome_intent": "pr-publication",
   "intent": "Publish the closeout-worktree terminal completion hardening Change for hosted review without claiming landed or cleaned closeout.",
   "scope": {
-    "summary": "Closeout Worktree wrapper terminal-state hardening, residue routing classification, fail-closed receipt validation, tests, and framework/Codex projection docs.",
+    "summary": "Closeout Worktree wrapper terminal-state hardening, residue routing classification, fail-closed receipt validation, tests, framework/Codex projection docs, and generated freshness remediation for hosted validation.",
     "touched_paths": [
       ".codex/skills/closeout-change/SKILL.md",
       ".codex/skills/closeout-worktree/SKILL.md",
@@ -20,10 +20,26 @@
       ".octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh",
       ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md",
       ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md",
-      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md"
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md",
+      ".octon/generated/cognition/projections/materialized/runs",
+      ".octon/generated/effective/capabilities",
+      ".octon/generated/effective/extensions",
+      ".octon/generated/effective/governance/support-envelope-reconciliation.yml",
+      ".octon/generated/effective/runtime/route-bundle.lock.yml",
+      ".octon/generated/effective/runtime/route-bundle.yml",
+      ".octon/state/control/extensions/active.yml",
+      ".octon/state/control/extensions/quarantine.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/validation/compatibility/extensions/2026-05-30T18-12-05Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/validation/extensions/prompt-alignment",
+      ".octon/state/evidence/validation/publication/capabilities/2026-05-30T18-15-37Z-capabilities-c6a594126a7b.yml",
+      ".octon/state/evidence/validation/publication/extensions/2026-05-30T18-12-05Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/validation/publication/runtime/2026-05-30T18-15-48Z-runtime-route-bundle-d832aab6f332.yml",
+      ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health/generation.yml"
     ],
     "diff_refs": [
       "commit:bab4e777ec5fd2dd847eb339c8838864e57abfbc",
+      "commit:16f2fa8cd7b6ce58b49551a9fd32e7d5979b2bf9",
       "pr:https://github.com/jamesryancooper/octon/pull/481"
     ]
   },
@@ -31,16 +47,16 @@
   "target_branch_ref": "main",
   "landing_evaluation": {
     "status": "not_attempted",
-    "source_ref": "bab4e777ec5fd2dd847eb339c8838864e57abfbc",
+    "source_ref": "16f2fa8cd7b6ce58b49551a9fd32e7d5979b2bf9",
     "target_ref": "origin/main",
-    "blocker_reason": "Draft PR 481 is open; hosted review, required checks, merge, and post-merge cleanup have not completed.",
+    "blocker_reason": "Draft PR 481 is open; hosted review, ready gate, merge, and post-merge cleanup have not completed.",
     "evidence_refs": [
       "https://github.com/jamesryancooper/octon/pull/481"
     ]
   },
-  "not_landed_reason": "The selected branch-pr route has only published a draft PR. No merge to main has occurred, and hosted checks/review are still pending.",
+  "not_landed_reason": "The selected branch-pr route has published a draft PR. No merge to main has occurred, and the PR ready/review/merge gates are not completed.",
   "not_cleaned_reason": "The source branch and PR must remain until review, merge, final main sync, and governed branch cleanup complete.",
-  "landing_stop_reason": "hosted_checks_pending",
+  "landing_stop_reason": "draft_pr_open",
   "cleanup_stop_reason": "open_pr_exists",
   "integration_method": "not-applicable",
   "integration_status": "not_landed",
@@ -67,7 +83,17 @@
     "bash .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh: passed",
     "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh: passed",
     "bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh: passed",
-    "git diff --check: passed"
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-mission-autonomy-scenarios.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-state.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh: dry-run cleanup_candidates=0 manual_review=0",
+    "git diff --check: passed",
+    "git diff --cached --check before generated freshness commit: passed"
   ],
   "review_evidence_refs": [
     "Draft PR opened for hosted review: https://github.com/jamesryancooper/octon/pull/481"
@@ -86,12 +112,12 @@
   "closeout_outcome": "continued",
   "remaining_blockers": [
     "PR 481 is draft and not merged.",
-    "Hosted PR checks and review are not yet complete.",
+    "PR ready/review/merge gates are not complete.",
     "Post-merge local main sync and governed branch cleanup have not occurred."
   ],
   "external_blocker_refs": [
     "https://github.com/jamesryancooper/octon/pull/481"
   ],
   "created_at": "2026-05-30T17:57:29Z",
-  "updated_at": "2026-05-30T17:57:29Z"
+  "updated_at": "2026-05-30T18:24:55Z"
 }
