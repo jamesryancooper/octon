@@ -1,0 +1,97 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "closeout-worktree-terminal-hardening-20260530T175729Z",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "protected-or-high-impact-remote-review-required",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published",
+  "outcome_intent": "pr-publication",
+  "intent": "Publish the closeout-worktree terminal completion hardening Change for hosted review without claiming landed or cleaned closeout.",
+  "scope": {
+    "summary": "Closeout Worktree wrapper terminal-state hardening, residue routing classification, fail-closed receipt validation, tests, and framework/Codex projection docs.",
+    "touched_paths": [
+      ".codex/skills/closeout-change/SKILL.md",
+      ".codex/skills/closeout-worktree/SKILL.md",
+      ".codex/skills/closeout-worktree/references/io-contract.md",
+      ".codex/skills/closeout-worktree/references/validation.md",
+      ".codex/skills/repo-hygiene-cleanup/SKILL.md",
+      ".octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md"
+    ],
+    "diff_refs": [
+      "commit:bab4e777ec5fd2dd847eb339c8838864e57abfbc",
+      "pr:https://github.com/jamesryancooper/octon/pull/481"
+    ]
+  },
+  "source_branch_ref": "chore/OCTON-000-closeout-worktree-terminal-hardening",
+  "target_branch_ref": "main",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "bab4e777ec5fd2dd847eb339c8838864e57abfbc",
+    "target_ref": "origin/main",
+    "blocker_reason": "Draft PR 481 is open; hosted review, required checks, merge, and post-merge cleanup have not completed.",
+    "evidence_refs": [
+      "https://github.com/jamesryancooper/octon/pull/481"
+    ]
+  },
+  "not_landed_reason": "The selected branch-pr route has only published a draft PR. No merge to main has occurred, and hosted checks/review are still pending.",
+  "not_cleaned_reason": "The source branch and PR must remain until review, merge, final main sync, and governed branch cleanup complete.",
+  "landing_stop_reason": "hosted_checks_pending",
+  "cleanup_stop_reason": "open_pr_exists",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pr-opened",
+  "cleanup_status": "deferred",
+  "cleanup_evidence_refs": [
+    "Draft PR 481 is open; source branch cleanup is deferred until merge or explicit discard.",
+    "Remote branch origin/chore/OCTON-000-closeout-worktree-terminal-hardening is retained for draft PR 481."
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/OCTON-000-closeout-worktree-terminal-hardening",
+    "remote_branch": "origin/chore/OCTON-000-closeout-worktree-terminal-hardening",
+    "blocker_reason": "Open draft PR 481 requires retaining the source branch until review, merge, or explicit discard authority.",
+    "evidence_refs": [
+      "https://github.com/jamesryancooper/octon/pull/481"
+    ]
+  },
+  "validation_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh: 49 passed, 0 failed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-change-closeout-lifecycle-alignment.sh: 54 passed, 0 failed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-default-work-unit-alignment.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh: passed",
+    "git diff --check: passed"
+  ],
+  "review_evidence_refs": [
+    "Draft PR opened for hosted review: https://github.com/jamesryancooper/octon/pull/481"
+  ],
+  "durable_history": {
+    "kind": "pr",
+    "ref": "481",
+    "pr_url": "https://github.com/jamesryancooper/octon/pull/481",
+    "branch": "chore/OCTON-000-closeout-worktree-terminal-hardening"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/OCTON-000-closeout-worktree-terminal-hardening",
+    "instructions": "Before merge, close PR 481 and delete the local and remote source branch. After merge, revert the merge or squash commit on main instead of deleting retained evidence."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "PR 481 is draft and not merged.",
+    "Hosted PR checks and review are not yet complete.",
+    "Post-merge local main sync and governed branch cleanup have not occurred."
+  ],
+  "external_blocker_refs": [
+    "https://github.com/jamesryancooper/octon/pull/481"
+  ],
+  "created_at": "2026-05-30T17:57:29Z",
+  "updated_at": "2026-05-30T17:57:29Z"
+}
