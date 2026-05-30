@@ -73,21 +73,73 @@ rewrite_fixture_json() {
 
 write_closeout_change_fixture() {
   local suffix="$1"
+  local receipt_dir authorization_ref cleanup_authorization_ref
   ensure_fixture_root
+  receipt_dir="$(dirname "$suffix")"
+  authorization_ref=".octon/state/evidence/runs/skills/closeout-change/$receipt_dir/branch-landing-authorization.json"
+  cleanup_authorization_ref=".octon/state/evidence/runs/skills/closeout-change/$receipt_dir/branch-cleanup-authorization.json"
   mkdir -p "$(dirname "$fixture_root/.octon/state/evidence/runs/skills/closeout-change/$suffix")"
+  cat >"$fixture_root/$authorization_ref" <<JSON
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "fixture-${receipt_dir//\//-}-landing-authorization",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "fixture/source",
+  "source_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "remote_source_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "target_pre_ref": "9999999999999999999999999999999999999999",
+  "provider_ruleset_ref": "fixture-route-neutral-main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": ["ci@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
+  "allow_empty_check_set": false,
+  "rollback_handle": "revert fixture aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa if post-landing verification fails",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "fixture authorization preserves platform, sandbox, and host safety controls",
+  "created_at": "2026-05-21T00:00:00Z"
+}
+JSON
+  cat >"$fixture_root/$cleanup_authorization_ref" <<JSON
+{
+  "schema_version": "branch-cleanup-authorization-v1",
+  "authorization_id": "fixture-${receipt_dir//\//-}-cleanup-authorization",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "source_branch": "fixture/source",
+  "landed_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "origin_main_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "local_main_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "local_main_synced_to_origin_main": true,
+  "origin_main_contains_landed_ref": true,
+  "local_main_contains_landed_ref": true,
+  "source_branch_contained_in_origin_main": true,
+  "source_branch_protected": false,
+  "open_pr_count": 0,
+  "cleanup_policy_allowed": true,
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "fixture authorization preserves platform, sandbox, and host safety controls",
+  "created_at": "2026-05-21T00:00:00Z"
+}
+JSON
   cat >"$fixture_root/.octon/state/evidence/runs/skills/closeout-change/$suffix" <<JSON
 {
   "schema_version": "change-receipt-v1",
   "change_id": "fixture-${suffix//\//-}",
   "selected_route": "branch-no-pr",
-  "target_lifecycle_outcome": "landed",
-  "lifecycle_outcome": "landed",
-  "outcome_intent": "attempt-landing",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
   "intent": "fixture completed branch closeout",
   "scope": {"summary": "fixture"},
   "source_branch_ref": "fixture/source",
   "target_branch_ref": "origin/main@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
   "remote_branch_ref": "origin/fixture/source@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "landing_authorization_ref": "$authorization_ref",
   "hosted_landing": {
     "remote": "origin",
     "target_branch": "main",
@@ -132,14 +184,14 @@ write_closeout_change_fixture() {
   "integration_method": "fast-forward",
   "integration_status": "landed",
   "publication_status": "hosted-main-updated",
-  "cleanup_status": "deferred",
-  "cleanup_evidence_refs": ["fixture cleanup deferred with blocker evidence"],
+  "cleanup_status": "completed",
+  "cleanup_authorization_ref": "$cleanup_authorization_ref",
+  "cleanup_evidence_refs": ["fixture source branch cleanup completed"],
   "source_branch_cleanup": {
-    "status": "deferred",
+    "status": "completed",
     "local_branch": "fixture/source",
     "remote_branch": "origin/fixture/source",
-    "blocker_reason": "fixture keeps source branch for review",
-    "evidence_refs": ["fixture cleanup deferred with blocker evidence"]
+    "evidence_refs": ["fixture source branch cleanup completed"]
   },
   "validation_evidence_refs": ["fixture validation passed"],
   "review_waiver_refs": ["fixture no-pr waiver"],
@@ -228,6 +280,75 @@ run_validator_with_fixtures() {
   CLOSEOUT_WORKTREE_EVIDENCE_ROOT="$fixture_root" bash "$VALIDATOR" --report "$1"
 }
 
+write_valid_single_closed_report() {
+  local report="$1"
+  local run_id="$2"
+  local receipt_suffix="$3"
+  local terminal_state="${4:-git_clean_terminal}"
+  local next_route="${5:-none}"
+  local untracked_count="${6:-0}"
+
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: $run_id
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: $terminal_state
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    residue_routing_class: publishable_change
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: landed
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/$receipt_suffix
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/$receipt_suffix
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining closeout-worktree candidates after re-inventory
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/$receipt_suffix
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: $untracked_count
+  ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+next_route_condition: $next_route
+YAML
+}
+
 new_replay_repo() {
   local repo
   repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.replay.XXXXXX")"
@@ -308,6 +429,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
@@ -322,6 +444,7 @@ candidates:
         - .octon/generated/effective/capabilities/routing.effective.yml
   - candidate_id: candidate-runtime
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
@@ -418,6 +541,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: cleaned
@@ -486,6 +610,7 @@ selected_candidate_id: candidate-primary
 candidates:
   - candidate_id: candidate-primary
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: cleaned
@@ -498,6 +623,7 @@ candidates:
         - .octon/state/evidence/runs/skills/closeout-change/primary-candidate
   - candidate_id: candidate-closeout-evidence-retention
     disposition: delegated
+    residue_routing_class: publishable_closeout_evidence
     ownership: retained-closeout-evidence
     route_hint: closeout-change
     target_lifecycle_outcome: cleaned
@@ -581,6 +707,7 @@ selected_candidate_id: candidate-primary
 candidates:
   - candidate_id: candidate-primary
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: cleaned
@@ -593,13 +720,14 @@ candidates:
         - .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
   - candidate_id: candidate-closeout-evidence-residue
     disposition: retained
+    residue_routing_class: local_private_retained
     ownership: retained-closeout-evidence
     route_hint: none
     target_lifecycle_outcome: retained
     rollback_or_discard_posture: preserve retained closeout evidence until a later governed route supersedes it
     boundaries:
       include_paths:
-        - .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
+        - .octon/state/evidence/local/runs/skills/closeout-change/primary-retained-report-candidate
       exclude_paths:
         - src/runtime/kernel.rs
 iterations:
@@ -610,7 +738,7 @@ iterations:
     include_paths:
       - src/runtime/kernel.rs
     exclude_paths:
-      - .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
+      - .octon/state/evidence/local/runs/skills/closeout-change/primary-retained-report-candidate
     closeout_change_ref: evidence://runs/skills/closeout-change/primary-retained-report-candidate/change-receipt.json
     closeout_change_outcome: closed
     post_inventory_ref: evidence://worktree/inventory-002
@@ -625,8 +753,8 @@ final_candidate_dispositions:
     reason: closeout evidence remains retained and outside wrapper deletion authority
 retained_residue:
   - candidate_id: candidate-closeout-evidence-residue
-    path: .octon/state/evidence/runs/skills/closeout-change/primary-retained-report-candidate
-    disposition: retained closeout evidence
+    path: .octon/state/evidence/local/runs/skills/closeout-change/primary-retained-report-candidate
+    disposition: local private retained closeout evidence
 blockers: []
 final_inventory_ref: evidence://worktree/final
 final_residue_classes:
@@ -827,6 +955,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: cleaned
@@ -893,6 +1022,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: cleaned
@@ -1072,6 +1202,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: published-branch
@@ -1084,6 +1215,7 @@ candidates:
         - src/runtime/kernel.rs
   - candidate_id: candidate-runtime
     disposition: blocked
+    residue_routing_class: ambiguous
     ownership: ambiguous
     route_hint: stage-only-escalate
     target_lifecycle_outcome: blocked
@@ -1180,6 +1312,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: direct-main
     target_lifecycle_outcome: landed
@@ -1885,6 +2018,369 @@ YAML
   ! run_validator_with_fixtures "$report" >/dev/null
 }
 
+case_git_clean_terminal_with_landed_deferred_cleanup_fails() {
+  local report receipt
+  report="$(new_report)"
+  write_closeout_change_fixture "landed-deferred-cleanup-candidate/change-receipt.json"
+  receipt="$fixture_root/.octon/state/evidence/runs/skills/closeout-change/landed-deferred-cleanup-candidate/change-receipt.json"
+  rewrite_fixture_json "$receipt" '.target_lifecycle_outcome = "landed" | .lifecycle_outcome = "landed" | .outcome_intent = "attempt-landing" | .cleanup_status = "deferred" | .source_branch_cleanup.status = "deferred" | .source_branch_cleanup.blocker_reason = "fixture cleanup deferred" | .source_branch_cleanup.evidence_refs = ["fixture cleanup deferred"] | .cleanup_evidence_refs = ["fixture cleanup deferred"] | del(.cleanup_authorization_ref)'
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-landed-deferred-cleanup" "landed-deferred-cleanup-candidate/change-receipt.json"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_closed_stage_only_receipt_fails() {
+  local report receipt
+  report="$(new_report)"
+  write_closeout_change_fixture "stage-only-closed-candidate/change-receipt.json"
+  receipt="$fixture_root/.octon/state/evidence/runs/skills/closeout-change/stage-only-closed-candidate/change-receipt.json"
+  rewrite_fixture_json "$receipt" '.selected_route = "stage-only-escalate" | .lifecycle_outcome = "preserved" | .target_lifecycle_outcome = "preserved" | .integration_status = "not_landed" | .publication_status = "not-published" | .cleanup_status = "not-applicable"'
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-stage-only-closed" "stage-only-closed-candidate/change-receipt.json"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_closed_branch_no_pr_missing_landing_authorization_fails() {
+  local report receipt
+  report="$(new_report)"
+  write_closeout_change_fixture "missing-landing-authorization-candidate/change-receipt.json"
+  receipt="$fixture_root/.octon/state/evidence/runs/skills/closeout-change/missing-landing-authorization-candidate/change-receipt.json"
+  rewrite_fixture_json "$receipt" 'del(.landing_authorization_ref)'
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-missing-landing-authorization" "missing-landing-authorization-candidate/change-receipt.json"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_closed_branch_no_pr_missing_exact_sha_check_refs_fails() {
+  local report receipt authorization
+  report="$(new_report)"
+  write_closeout_change_fixture "missing-exact-sha-candidate/change-receipt.json"
+  receipt="$fixture_root/.octon/state/evidence/runs/skills/closeout-change/missing-exact-sha-candidate/change-receipt.json"
+  authorization="$fixture_root/.octon/state/evidence/runs/skills/closeout-change/missing-exact-sha-candidate/branch-landing-authorization.json"
+  rewrite_fixture_json "$receipt" '.hosted_landing.required_check_refs = ["ci"]'
+  rewrite_fixture_json "$authorization" '.required_check_refs = ["ci"]'
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-missing-exact-sha-checks" "missing-exact-sha-candidate/change-receipt.json"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_nonterminal_without_unresolved_condition_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "nonterminal-without-unresolved-candidate/change-receipt.json"
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-nonterminal-without-unresolved" "nonterminal-without-unresolved-candidate/change-receipt.json" "nonterminal" "continue closeout"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_retained_terminal_without_retained_candidate_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "retained-terminal-without-retained-candidate/change-receipt.json"
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-retained-terminal-without-retained-candidate" "retained-terminal-without-retained-candidate/change-receipt.json" "disposition_complete_with_retained_residue" "none" "1"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_retained_ordinary_untracked_residue_terminal_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "ordinary-retained-source-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-retained-ordinary-untracked
+default_work_unit: Change
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-docs
+candidates:
+  - candidate_id: candidate-docs
+    disposition: delegated
+    residue_routing_class: publishable_change
+    ownership: accepted-change
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: landed
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/ordinary-retained-source-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - docs/closeout.md
+      exclude_paths:
+        - docs/local-note.md
+  - candidate_id: candidate-local-note
+    disposition: retained
+    residue_routing_class: publishable_change
+    ownership: accepted-change
+    route_hint: none
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: preserve ordinary untracked source residue
+    boundaries:
+      include_paths:
+        - docs/local-note.md
+      exclude_paths:
+        - docs/closeout.md
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-docs
+    include_paths:
+      - docs/closeout.md
+    exclude_paths:
+      - docs/local-note.md
+    closeout_change_ref: evidence://runs/skills/closeout-change/ordinary-retained-source-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: ordinary untracked source residue remains
+final_candidate_dispositions:
+  candidate-docs:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/ordinary-retained-source-candidate/change-receipt.json
+  candidate-local-note:
+    state: retained
+retained_residue:
+  - candidate_id: candidate-local-note
+    path: docs/local-note.md
+    disposition: retained ordinary untracked source residue
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  untracked: 1
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_raw_state_as_publishable_closeout_evidence_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "raw-state-evidence-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-raw-state-publishable-evidence
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-raw-state
+candidates:
+  - candidate_id: candidate-raw-state
+    disposition: delegated
+    residue_routing_class: publishable_closeout_evidence
+    ownership: retained-closeout-evidence
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/raw-state-evidence-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/state/control/execution/runs/publish-fixture/runtime-state.yml
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-raw-state
+    include_paths:
+      - .octon/state/control/execution/runs/publish-fixture/runtime-state.yml
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/raw-state-evidence-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-raw-state:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/raw-state-evidence-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_engine_path_as_publishable_closeout_evidence_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "engine-path-evidence-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-engine-path-publishable-evidence
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-engine-path
+candidates:
+  - candidate_id: candidate-engine-path
+    disposition: delegated
+    residue_routing_class: publishable_closeout_evidence
+    ownership: retained-closeout-evidence
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/engine-path-evidence-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/engine/runtime-state.json
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-engine-path
+    include_paths:
+      - .octon/engine/runtime-state.json
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/engine-path-evidence-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after re-inventory
+final_candidate_dispositions:
+  candidate-engine-path:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/engine-path-evidence-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_recursive_final_evidence_publication_loop_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "recursive-final-evidence-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-recursive-final-evidence-loop
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-final-evidence-loop
+candidates:
+  - candidate_id: candidate-final-evidence-loop
+    disposition: delegated
+    residue_routing_class: publishable_closeout_evidence
+    ownership: retained-closeout-evidence
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/recursive-final-evidence-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/local/runs/skills/closeout-worktree/final/report.yml
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-final-evidence-loop
+    include_paths:
+      - .octon/state/evidence/local/runs/skills/closeout-worktree/final/report.yml
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/recursive-final-evidence-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after recursive final evidence publication
+final_candidate_dispositions:
+  candidate-final-evidence-loop:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/recursive-final-evidence-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_closeout_worktree_run_log_as_publishable_evidence_fails() {
+  local report
+  report="$(new_report)"
+  write_closeout_change_fixture "closeout-worktree-run-log-candidate/change-receipt.json"
+  cat >"$report" <<'YAML'
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-run-log-publishable-evidence
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+worktree_terminal_state: git_clean_terminal
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-run-log
+candidates:
+  - candidate_id: candidate-run-log
+    disposition: delegated
+    residue_routing_class: publishable_closeout_evidence
+    ownership: retained-closeout-evidence
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: rollback-handle-retained
+    closeout_change_ref: evidence://runs/skills/closeout-change/closeout-worktree-run-log-candidate/change-receipt.json
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-worktree/final-run/run-log.md
+      exclude_paths: []
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-run-log
+    include_paths:
+      - .octon/state/evidence/runs/skills/closeout-worktree/final-run/run-log.md
+    exclude_paths: []
+    closeout_change_ref: evidence://runs/skills/closeout-change/closeout-worktree-run-log-candidate/change-receipt.json
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining candidates after closeout-worktree run-log publication
+final_candidate_dispositions:
+  candidate-run-log:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/closeout-worktree-run-log-candidate/change-receipt.json
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  ignored: 0
+next_route_condition: none
+YAML
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 case_prior_candidate_without_reconciliation_fails() {
   local report
   report="$(new_report)"
@@ -2017,7 +2513,36 @@ case_classifier_counts_multi_residue_classes() {
   output="$(bash "$CLASSIFIER" --root "$repo")"
   grep -A1 'class: staged' <<<"$output" | grep -Fq 'count: 1' &&
     grep -A1 'class: unstaged-tracked' <<<"$output" | grep -Fq 'count: 1' &&
-    grep -A1 'class: untracked' <<<"$output" | grep -Fq 'count: 1'
+    grep -A1 'class: untracked' <<<"$output" | grep -Fq 'count: 1' &&
+    grep -Fq 'routing_classes:' <<<"$output" &&
+    grep -A1 'class: publishable_change' <<<"$output" | grep -Fq 'count: 3'
+}
+
+case_classifier_counts_routing_classes() {
+  local repo output
+  repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.routing-repo.XXXXXX")"
+  cleanup_paths+=("$repo")
+  git -C "$repo" init -q
+  git -C "$repo" config user.email "octon@example.invalid"
+  git -C "$repo" config user.name "Octon Test"
+  printf '%s\n' "seed" >"$repo/README.md"
+  git -C "$repo" add README.md
+  git -C "$repo" commit -q -m "seed"
+  mkdir -p \
+    "$repo/.octon/state/evidence/runs/skills/closeout-change/run-1" \
+    "$repo/.octon/state/evidence/local/run-1" \
+    "$repo/.octon/state/control/execution" \
+    "$repo/.octon/engine"
+  printf '%s\n' "receipt" >"$repo/.octon/state/evidence/runs/skills/closeout-change/run-1/change-receipt.json"
+  printf '%s\n' "local" >"$repo/.octon/state/evidence/local/run-1/transient.json"
+  printf '%s\n' "control" >"$repo/.octon/state/control/execution/runtime-state.yml"
+  printf '%s\n' "engine" >"$repo/.octon/engine/runtime-state.json"
+
+  output="$(bash "$CLASSIFIER" --root "$repo")"
+  grep -Fq 'routing_classes:' <<<"$output" &&
+    grep -A1 'class: publishable_closeout_evidence' <<<"$output" | grep -Fq 'count: 1' &&
+    grep -A1 'class: local_private_retained' <<<"$output" | grep -Fq 'count: 1' &&
+    grep -A1 'class: unsafe' <<<"$output" | grep -Fq 'count: 2'
 }
 
 case_replay_multi_candidate_loop_passes() {
@@ -2059,6 +2584,7 @@ selected_candidate_id: candidate-docs
 candidates:
   - candidate_id: candidate-docs
     disposition: delegated
+    residue_routing_class: publishable_change
     ownership: accepted-change
     route_hint: branch-no-pr
     target_lifecycle_outcome: landed
@@ -2071,6 +2597,7 @@ candidates:
         - src/runtime.txt
   - candidate_id: candidate-runtime
     disposition: blocked
+    residue_routing_class: ambiguous
     ownership: ambiguous
     route_hint: stage-only-escalate
     target_lifecycle_outcome: blocked
@@ -2502,9 +3029,21 @@ main() {
   assert_success "synthetic closeout-change ref for closed candidate fails" case_synthetic_closeout_change_ref_fails
   assert_success "closed candidate with continued closeout-change receipt fails" case_closed_candidate_with_continued_receipt_fails
   assert_success "closed candidate with cleaned deferred cleanup fails" case_closed_candidate_with_cleaned_deferred_cleanup_fails
+  assert_success "git-clean terminal with landed deferred cleanup fails" case_git_clean_terminal_with_landed_deferred_cleanup_fails
+  assert_success "closed stage-only receipt fails" case_closed_stage_only_receipt_fails
+  assert_success "closed branch-no-pr receipt missing landing authorization fails" case_closed_branch_no_pr_missing_landing_authorization_fails
+  assert_success "closed branch-no-pr receipt missing exact-SHA hosted check refs fails" case_closed_branch_no_pr_missing_exact_sha_check_refs_fails
+  assert_success "nonterminal report without unresolved condition fails" case_nonterminal_without_unresolved_condition_fails
+  assert_success "retained terminal without retained candidate evidence fails" case_retained_terminal_without_retained_candidate_fails
+  assert_success "retained ordinary untracked residue terminal claim fails" case_retained_ordinary_untracked_residue_terminal_fails
+  assert_success "raw state cannot be publishable closeout evidence" case_raw_state_as_publishable_closeout_evidence_fails
+  assert_success "engine path cannot be publishable closeout evidence" case_engine_path_as_publishable_closeout_evidence_fails
+  assert_success "recursive final evidence publication loop fails" case_recursive_final_evidence_publication_loop_fails
+  assert_success "closeout-worktree run log cannot be publishable evidence" case_closeout_worktree_run_log_as_publishable_evidence_fails
   assert_success "prior candidate omitted without reconciliation fails" case_prior_candidate_without_reconciliation_fails
   assert_success "ignored residue without foreign retained evidence fails" case_ignored_residue_without_foreign_coverage_fails
   assert_success "classifier detects staged unstaged and untracked residue" case_classifier_counts_multi_residue_classes
+  assert_success "classifier detects routing classes" case_classifier_counts_routing_classes
   assert_success "replay multi-candidate loop validates real re-inventory" case_replay_multi_candidate_loop_passes
   assert_success "replay missing post-closeout inventory fails" case_replay_skips_reinventory_fails
   assert_success "replay terminal report with unprocessed candidate fails" case_replay_terminal_with_unprocessed_candidate_fails

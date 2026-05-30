@@ -122,6 +122,9 @@ validate_static() {
   require_literal "$WRAPPER" "worktree_terminal_state" \
     "wrapper documents worktree terminal state" \
     "wrapper must document worktree_terminal_state"
+  require_literal "$WRAPPER" "residue_routing_class" \
+    "wrapper documents residue routing classes" \
+    "wrapper must document residue_routing_class"
   require_literal "$WRAPPER" "partition autonomously" \
     "wrapper documents autonomous unambiguous partitioning" \
     "wrapper must document autonomous unambiguous partitioning"
@@ -146,6 +149,9 @@ validate_static() {
   require_literal "$WRAPPER_IO" "git_clean_terminal" \
     "I/O contract documents Git-clean terminal state" \
     "I/O contract must document git_clean_terminal"
+  require_literal "$WRAPPER_IO" "residue_routing_class" \
+    "I/O contract documents residue routing classes" \
+    "I/O contract must document residue_routing_class"
   require_literal "$WRAPPER_VALIDATION" "selected candidate has explicit include and exclude path boundaries" \
     "wrapper validation requires explicit boundaries" \
     "wrapper validation must require explicit boundaries"
@@ -164,6 +170,12 @@ validate_static() {
   require_literal "$WRAPPER_VALIDATION" "worktree_terminal_state" \
     "wrapper validation documents terminal state checks" \
     "wrapper validation must document worktree_terminal_state checks"
+  require_literal "$WRAPPER_VALIDATION" "residue_routing_class" \
+    "wrapper validation documents residue routing-class checks" \
+    "wrapper validation must document residue_routing_class checks"
+  require_literal "$CODEX_WRAPPER" "residue_routing_class" \
+    "Codex host projection documents residue routing classes" \
+    "Codex host projection must document residue_routing_class"
   require_literal "$CODEX_WRAPPER" "name: closeout-worktree" \
     "Codex host projection exposes closeout-worktree" \
     "Codex host projection must expose closeout-worktree"
@@ -383,7 +395,133 @@ def validate_cleanup_authorization(receipt, field):
     return True
 
 
-def receipt_has_completed_full_closeout(ref, field):
+def validate_main_alignment(receipt, field):
+    landed_ref = receipt.get("landed_ref")
+    main_alignment = receipt.get("main_alignment") if isinstance(receipt.get("main_alignment"), dict) else {}
+    if not is_nonempty_string(landed_ref):
+        fail(f"{field} full closeout requires landed_ref")
+        return False
+
+    required_alignment = {
+        "local_main_ref": landed_ref,
+        "origin_main_ref": landed_ref,
+        "landed_ref": landed_ref,
+        "aligned": True,
+        "origin_main_contains_landed_ref": True,
+        "local_main_contains_landed_ref": True,
+    }
+    for key, expected in required_alignment.items():
+        if main_alignment.get(key) != expected:
+            fail(f"{field} main_alignment.{key} must prove local main, origin/main, and landed_ref alignment")
+            return False
+    for key in ("origin_fetch_evidence_ref", "local_main_sync_evidence_ref"):
+        if not is_nonempty_string(main_alignment.get(key)):
+            fail(f"{field} main_alignment.{key} must be present for full closeout")
+            return False
+    return True
+
+
+def validate_exact_sha_check_refs(required_check_refs, source_ref, field):
+    if not isinstance(required_check_refs, list) or not required_check_refs:
+        fail(f"{field}.required_check_refs must be a non-empty list of exact source-SHA check refs")
+        return False
+    if not is_nonempty_string(source_ref):
+        fail(f"{field}.source_ref must be present before validating exact source-SHA check refs")
+        return False
+    for index, ref in enumerate(required_check_refs):
+        if not is_nonempty_string(ref):
+            fail(f"{field}.required_check_refs[{index}] must be a non-empty string")
+            return False
+        if source_ref not in ref:
+            fail(f"{field}.required_check_refs[{index}] must bind to hosted_landing.source_ref")
+            return False
+    return True
+
+
+def validate_branch_no_pr_landing_authorization(receipt, field):
+    auth_ref = receipt.get("landing_authorization_ref")
+    if not is_nonempty_string(auth_ref):
+        fail(f"{field} branch-no-pr landed/cleaned receipt requires landing_authorization_ref")
+        return False
+    auth_path = resolve_receipt_ref(auth_ref, f"{field}.landing_authorization_ref")
+    if auth_path is None:
+        return False
+    if not auth_path.is_file():
+        fail(f"{field}.landing_authorization_ref must resolve to an existing branch landing authorization receipt")
+        return False
+    try:
+        auth = json.loads(auth_path.read_text())
+    except Exception as exc:
+        fail(f"{field}.landing_authorization_ref must parse as JSON: {exc}")
+        return False
+    if not isinstance(auth, dict):
+        fail(f"{field}.landing_authorization_ref must be a JSON object")
+        return False
+
+    hosted = receipt.get("hosted_landing")
+    if not isinstance(hosted, dict):
+        fail(f"{field} branch-no-pr landed/cleaned receipt requires hosted_landing evidence")
+        return False
+
+    expected = {
+        "schema_version": "branch-landing-authorization-v1",
+        "authorization_result": "approved",
+        "selected_route": "branch-no-pr",
+        "remote": hosted.get("remote"),
+        "target_branch": hosted.get("target_branch"),
+        "source_branch": receipt.get("source_branch_ref"),
+        "source_ref": hosted.get("source_ref"),
+        "remote_source_ref": hosted.get("source_ref"),
+        "target_pre_ref": hosted.get("target_pre_ref"),
+        "provider_ruleset_ref": hosted.get("provider_ruleset_ref"),
+        "no_pr_required": True,
+        "preflight_status": "passed",
+        "host_controls_not_bypassed": True,
+    }
+    for key, expected_value in expected.items():
+        if auth.get(key) != expected_value:
+            fail(f"{field}.landing_authorization_ref {key} must match hosted branch-no-pr landing evidence")
+            return False
+
+    if auth.get("target_lifecycle_outcome") not in {"landed", "cleaned"}:
+        fail(f"{field}.landing_authorization_ref target_lifecycle_outcome must be landed or cleaned")
+        return False
+    if not is_nonempty_string(auth.get("rollback_handle")):
+        fail(f"{field}.landing_authorization_ref must include rollback_handle")
+        return False
+    if not is_nonempty_string(auth.get("runtime_safety_boundary")):
+        fail(f"{field}.landing_authorization_ref must include runtime_safety_boundary")
+        return False
+
+    hosted_required_checks = hosted.get("required_check_refs")
+    auth_required_checks = auth.get("required_check_refs")
+    if sorted(auth_required_checks or []) != sorted(hosted_required_checks or []):
+        fail(f"{field}.landing_authorization_ref required_check_refs must match hosted_landing.required_check_refs")
+        return False
+    if not validate_exact_sha_check_refs(hosted_required_checks, hosted.get("source_ref"), f"{field}.hosted_landing"):
+        return False
+    if hosted.get("validated_ref") != hosted.get("source_ref"):
+        fail(f"{field}.hosted_landing.validated_ref must equal source_ref")
+        return False
+    if hosted.get("target_post_ref") != receipt.get("landed_ref"):
+        fail(f"{field}.hosted_landing.target_post_ref must equal landed_ref")
+        return False
+    if hosted.get("source_ref") != receipt.get("landed_ref"):
+        fail(f"{field}.hosted_landing.source_ref must equal landed_ref for exact fast-forward integration")
+        return False
+    if hosted.get("source_branch") != receipt.get("source_branch_ref"):
+        fail(f"{field}.hosted_landing.source_branch must equal source_branch_ref")
+        return False
+    if hosted.get("fast_forward_only") is not True:
+        fail(f"{field}.hosted_landing.fast_forward_only must be true")
+        return False
+    return True
+
+
+closed_receipt_cleanup_deferred_candidate_ids = set()
+
+
+def receipt_has_completed_full_closeout(ref, field, candidate_id=None):
     receipt = load_closeout_change_receipt(ref, field, require_receipt=True)
     if not isinstance(receipt, dict):
         return False
@@ -396,7 +534,6 @@ def receipt_has_completed_full_closeout(ref, field):
     lifecycle = receipt.get("lifecycle_outcome")
     integration = receipt.get("integration_status")
     landed_ref = receipt.get("landed_ref")
-    main_alignment = receipt.get("main_alignment") if isinstance(receipt.get("main_alignment"), dict) else {}
 
     if route in {"branch-no-pr", "branch-pr"}:
         if lifecycle not in {"landed", "cleaned"}:
@@ -423,22 +560,10 @@ def receipt_has_completed_full_closeout(ref, field):
             fail(f"{field} source_branch_integration.landed_ref must equal landed_ref")
             return False
 
-        required_alignment = {
-            "local_main_ref": landed_ref,
-            "origin_main_ref": landed_ref,
-            "landed_ref": landed_ref,
-            "aligned": True,
-            "origin_main_contains_landed_ref": True,
-            "local_main_contains_landed_ref": True,
-        }
-        for key, expected in required_alignment.items():
-            if main_alignment.get(key) != expected:
-                fail(f"{field} main_alignment.{key} must prove local main, origin/main, and landed_ref alignment")
-                return False
-        for key in ("origin_fetch_evidence_ref", "local_main_sync_evidence_ref"):
-            if not is_nonempty_string(main_alignment.get(key)):
-                fail(f"{field} main_alignment.{key} must be present for branch full closeout")
-                return False
+        if not validate_main_alignment(receipt, field):
+            return False
+        if route == "branch-no-pr" and not validate_branch_no_pr_landing_authorization(receipt, field):
+            return False
 
         cleanup_status = receipt.get("cleanup_status")
         if cleanup_status not in {"completed", "deferred"}:
@@ -469,8 +594,28 @@ def receipt_has_completed_full_closeout(ref, field):
             if not has_cleanup_evidence:
                 fail(f"{field} deferred source branch cleanup requires blocker evidence")
                 return False
+            if is_nonempty_string(candidate_id):
+                closed_receipt_cleanup_deferred_candidate_ids.add(candidate_id)
         if source_cleanup.get("status") == "completed" and not validate_cleanup_authorization(receipt, field):
             return False
+
+    elif route == "direct-main":
+        if lifecycle not in {"landed", "cleaned"}:
+            fail(f"{field} direct-main receipt must have landed or cleaned lifecycle_outcome for closed candidate")
+            return False
+        if integration != "landed":
+            fail(f"{field} direct-main receipt must have integration_status landed for closed candidate")
+            return False
+        durable_history = receipt.get("durable_history") if isinstance(receipt.get("durable_history"), dict) else {}
+        if durable_history.get("kind") != "commit" or durable_history.get("ref") != landed_ref:
+            fail(f"{field} direct-main full closeout requires durable_history commit ref equal to landed_ref")
+            return False
+        if not validate_main_alignment(receipt, field):
+            return False
+
+    else:
+        fail(f"{field} receipt selected_route must be direct-main, branch-no-pr, or branch-pr for a closed candidate")
+        return False
 
     return True
 
@@ -504,6 +649,108 @@ def path_covers_boundary(evidence_path, boundary_path):
     evidence = PurePosixPath(evidence_path)
     boundary = PurePosixPath(boundary_path)
     return evidence == boundary or evidence in boundary.parents or boundary in evidence.parents
+
+
+PUBLISHABLE_CLOSEOUT_EVIDENCE_PREFIXES = (
+    ".octon/state/evidence/runs/skills/closeout-change/",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/",
+    ".octon/state/evidence/validation/analysis/",
+)
+LOCAL_PRIVATE_RETAINED_PREFIXES = (
+    ".octon/state/evidence/local/",
+)
+RAW_PRIVATE_OR_UNSAFE_PREFIXES = (
+    ".octon/state/control/",
+    ".octon/engine/",
+    ".octon/generated/effective/",
+    ".octon/inputs/",
+)
+
+
+def path_text(value):
+    if not is_nonempty_string(value):
+        return ""
+    return str(PurePosixPath(value))
+
+
+def path_is_under(value, prefix):
+    text = path_text(value)
+    normalized_prefix = str(PurePosixPath(prefix.rstrip("/")))
+    return text == normalized_prefix or text.startswith(f"{normalized_prefix}/")
+
+
+def path_is_under_any(value, prefixes):
+    return any(path_is_under(value, prefix) for prefix in prefixes)
+
+
+def path_is_publishable_closeout_evidence(value):
+    return path_is_under_any(value, PUBLISHABLE_CLOSEOUT_EVIDENCE_PREFIXES) and not path_is_raw_private_or_unsafe(value)
+
+
+def path_is_local_private_retained(value):
+    return path_is_under_any(value, LOCAL_PRIVATE_RETAINED_PREFIXES)
+
+
+def path_is_raw_private_or_unsafe(value):
+    text = path_text(value)
+    lower = text.lower()
+    if path_is_under_any(text, RAW_PRIVATE_OR_UNSAFE_PREFIXES):
+        return True
+    if "transcript" in lower:
+        return True
+    if path_is_under(text, ".octon/state/"):
+        if path_is_under_any(text, PUBLISHABLE_CLOSEOUT_EVIDENCE_PREFIXES):
+            return False
+        if path_is_under_any(text, LOCAL_PRIVATE_RETAINED_PREFIXES):
+            return False
+        return True
+    return False
+
+
+def validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix):
+    if routing_class == "publishable_closeout_evidence":
+        for include_path in include_paths:
+            if not path_is_publishable_closeout_evidence(include_path):
+                fail(f"{prefix}.residue_routing_class publishable_closeout_evidence may include only approved closeout evidence paths: {include_path}")
+    elif routing_class == "publishable_change":
+        for include_path in include_paths:
+            if path_is_raw_private_or_unsafe(include_path) or path_is_under(include_path, ".octon/state/"):
+                fail(f"{prefix}.residue_routing_class publishable_change must not include raw/private state or generated authority paths: {include_path}")
+    elif routing_class == "local_private_retained":
+        for include_path in include_paths:
+            if not path_is_local_private_retained(include_path):
+                fail(f"{prefix}.residue_routing_class local_private_retained may include only local private retained evidence paths: {include_path}")
+    elif routing_class == "foreign_manual_review":
+        for include_path in include_paths:
+            if path_is_raw_private_or_unsafe(include_path):
+                fail(f"{prefix}.residue_routing_class foreign_manual_review must not mask raw/private Octon state or generated authority paths: {include_path}")
+
+
+def retained_evidence_matches_routing(candidate_id, routing_class, item, prefix):
+    item_path = item.get("path") if isinstance(item, dict) else None
+    disposition = str(item.get("disposition", "") if isinstance(item, dict) else "").lower()
+    evidence_text = " ".join(
+        str(value)
+        for value in (
+            candidate_id,
+            item_path,
+            disposition,
+        )
+        if value is not None
+    ).lower()
+
+    if routing_class == "local_private_retained":
+        if not path_is_local_private_retained(item_path):
+            fail(f"{prefix} local_private_retained residue evidence must cite .octon/state/evidence/local/ paths")
+            return False
+    elif routing_class == "foreign_manual_review":
+        if path_is_raw_private_or_unsafe(item_path):
+            fail(f"{prefix} foreign_manual_review residue evidence must not cite raw/private Octon state or generated authority paths")
+            return False
+        if not any(marker in evidence_text for marker in ("foreign", "manual", "user-owned", "user owned", "ignored", "local")):
+            fail(f"{prefix} foreign_manual_review residue evidence must identify foreign/manual ownership")
+            return False
+    return True
 
 
 def path_list(value, field, required=True):
@@ -626,9 +873,22 @@ retained_residue_dispositions = {"retained", "foreign"}
 deferred_dispositions = {"deferred"}
 blocker_dispositions = {"blocked", "escalated", "ambiguous"}
 unresolved_dispositions = retained_residue_dispositions | deferred_dispositions | blocker_dispositions
+valid_routing_classes = {
+    "publishable_change",
+    "publishable_closeout_evidence",
+    "local_private_retained",
+    "foreign_manual_review",
+    "unsafe",
+    "ambiguous",
+}
+publishable_routing_classes = {"publishable_change", "publishable_closeout_evidence"}
+retained_routing_classes = {"local_private_retained", "foreign_manual_review"}
+blocking_routing_classes = {"unsafe", "ambiguous"}
 unresolved_candidates = []
 candidates_by_id = {}
 candidate_boundaries = {}
+candidate_routing_classes = {}
+blocking_routing_candidate_ids = set()
 
 for index, candidate in enumerate(candidates):
     prefix = f"candidates[{index}]"
@@ -650,6 +910,18 @@ for index, candidate in enumerate(candidates):
     require(disposition in valid_dispositions, f"{prefix}.disposition must be one of {sorted(valid_dispositions)}")
     if disposition in unresolved_dispositions:
         unresolved_candidates.append(candidate)
+    routing_class = candidate.get("residue_routing_class")
+    require(routing_class in valid_routing_classes, f"{prefix}.residue_routing_class must be one of {sorted(valid_routing_classes)}")
+    if is_nonempty_string(candidate_id) and routing_class in valid_routing_classes:
+        candidate_routing_classes[candidate_id] = routing_class
+    if routing_class in blocking_routing_classes and is_nonempty_string(candidate_id):
+        blocking_routing_candidate_ids.add(candidate_id)
+    if disposition in delegated_dispositions and routing_class not in publishable_routing_classes:
+        fail(f"{prefix}.residue_routing_class must be publishable_change or publishable_closeout_evidence when disposition is delegated or closed")
+    if disposition in retained_residue_dispositions and routing_class not in retained_routing_classes:
+        fail(f"{prefix}.residue_routing_class must be local_private_retained or foreign_manual_review when disposition is retained or foreign")
+    if routing_class in blocking_routing_classes and disposition not in blocker_dispositions:
+        fail(f"{prefix}.residue_routing_class {routing_class} must use a blocked, escalated, or ambiguous disposition")
     require(is_nonempty_string(candidate.get("ownership")), f"{prefix}.ownership must be present")
     require(is_nonempty_string(candidate.get("route_hint")), f"{prefix}.route_hint must be present")
     require(is_nonempty_string(candidate.get("target_lifecycle_outcome")), f"{prefix}.target_lifecycle_outcome must be present")
@@ -663,6 +935,9 @@ for index, candidate in enumerate(candidates):
     else:
         include_paths = path_list(boundaries.get("include_paths"), f"{prefix}.boundaries.include_paths")
         exclude_paths = path_list(boundaries.get("exclude_paths", []), f"{prefix}.boundaries.exclude_paths", required=False)
+
+    if routing_class in valid_routing_classes:
+        validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix)
 
     if is_nonempty_string(candidate_id):
         candidate_boundaries[candidate_id] = {
@@ -740,6 +1015,9 @@ for candidate in unresolved_candidates:
         if not evidence_items:
             fail(f"{prefix} with disposition {disposition} must have retained_residue evidence")
         else:
+            routing_class = candidate_routing_classes.get(candidate_id)
+            for item in evidence_items:
+                retained_evidence_matches_routing(candidate_id, routing_class, item, f"{prefix}.retained_residue")
             for include_path in include_paths:
                 if not any(path_covers_boundary(item.get("path"), include_path) for item in evidence_items if is_nonempty_string(item.get("path"))):
                     fail(f"{prefix} retained_residue evidence must cover boundary path {include_path}")
@@ -782,13 +1060,20 @@ else:
             final_states[candidate_id] = state
 
         if state == "closed":
+            if candidate_routing_classes.get(candidate_id) not in publishable_routing_classes:
+                fail(f"{prefix}.state closed requires publishable_change or publishable_closeout_evidence residue_routing_class")
             ref = item.get("closeout_change_ref")
             require(is_nonempty_string(ref) and "closeout-change" in ref, f"{prefix}.closeout_change_ref must cite closeout-change")
             if is_nonempty_string(ref):
-                receipt_has_completed_full_closeout(ref, f"{prefix}.closeout_change_ref")
+                receipt_has_completed_full_closeout(ref, f"{prefix}.closeout_change_ref", candidate_id)
         elif state in retained_residue_dispositions:
+            if candidate_routing_classes.get(candidate_id) not in retained_routing_classes:
+                fail(f"{prefix}.state {state} requires local_private_retained or foreign_manual_review residue_routing_class")
             if not retained_by_candidate.get(candidate_id):
                 fail(f"{prefix} with state {state} must have retained_residue evidence")
+            else:
+                for retained_item in retained_by_candidate.get(candidate_id, []):
+                    retained_evidence_matches_routing(candidate_id, candidate_routing_classes.get(candidate_id), retained_item, f"{prefix}.retained_residue")
         elif state == "deferred":
             ref = item.get("closeout_change_ref")
             if retained_by_candidate.get(candidate_id) or blockers_by_candidate.get(candidate_id):
@@ -801,6 +1086,15 @@ else:
         elif state in {"blocked", "escalated"}:
             if not blockers_by_candidate.get(candidate_id):
                 fail(f"{prefix} with state {state} must have blocker evidence")
+
+if blocking_routing_candidate_ids:
+    if worktree_terminal_state != "nonterminal":
+        fail("unsafe or ambiguous residue_routing_class candidates require worktree_terminal_state: nonterminal")
+    for candidate_id in sorted(blocking_routing_candidate_ids):
+        if not blockers_by_candidate.get(candidate_id):
+            fail(f"candidate {candidate_id} with unsafe or ambiguous residue_routing_class must have blocker evidence")
+        if final_states.get(candidate_id) not in {"blocked", "escalated"}:
+            fail(f"candidate {candidate_id} with unsafe or ambiguous residue_routing_class must finish blocked or escalated")
 
 iterations = data.get("iterations")
 if not isinstance(iterations, list):
@@ -844,7 +1138,7 @@ for index, iteration in enumerate(iterations):
     if is_nonempty_string(ref):
         require_closeout_change_evidence(ref, f"{prefix}.closeout_change_ref")
         if iteration.get("closeout_change_outcome") == "closed":
-            receipt_has_completed_full_closeout(ref, f"{prefix}.closeout_change_ref")
+            receipt_has_completed_full_closeout(ref, f"{prefix}.closeout_change_ref", iteration_candidate_id)
 
     include_paths = path_list(iteration.get("include_paths"), f"{prefix}.include_paths")
     path_list(iteration.get("exclude_paths", []), f"{prefix}.exclude_paths", required=False)
@@ -1024,6 +1318,14 @@ if selected_candidate_disposition in {"blocked", "escalated", "ambiguous"} or se
             "because other candidates exist",
             "because multiple candidates exist",
             "operator confirmation of first singular closeout-change scope",
+            "operator must select first candidate",
+            "operator must choose first candidate",
+            "operator must pick first candidate",
+            "operator selects first candidate",
+            "operator chooses first candidate",
+            "manual candidate selection",
+            "manual selection of first candidate",
+            "requires operator candidate selection",
         )
         if any(marker in blocker_text for marker in partition_only_markers):
             fail("selected candidate must not be blocked only because other candidates exist; delegate safely separable candidates or record a candidate-specific blocker")
@@ -1031,6 +1333,20 @@ if selected_candidate_disposition in {"blocked", "escalated", "ambiguous"} or se
 non_closed_final_states = [
     candidate_id for candidate_id, state in final_states.items() if state != "closed"
 ]
+genuinely_unresolved_candidate_ids = {
+    candidate_id
+    for candidate_id, state in final_states.items()
+    if state in {"blocked", "escalated", "deferred"}
+}
+for candidate in unresolved_candidates:
+    candidate_id = candidate.get("candidate_id")
+    if candidate.get("disposition") in deferred_dispositions | blocker_dispositions and is_nonempty_string(candidate_id):
+        genuinely_unresolved_candidate_ids.add(candidate_id)
+for candidate_id, items in blockers_by_candidate.items():
+    if items:
+        genuinely_unresolved_candidate_ids.add(candidate_id)
+genuinely_unresolved_candidate_ids |= blocking_routing_candidate_ids
+genuinely_unresolved_candidate_ids |= closed_receipt_cleanup_deferred_candidate_ids
 terminal_next_route_values = {"none", "no-op", "noop", "n/a", "na", "closed", "complete", "completed", "done", "terminal"}
 next_route = data.get("next_route_condition")
 terminal_next_route = is_nonempty_string(next_route) and next_route.strip().lower() in terminal_next_route_values
@@ -1057,6 +1373,8 @@ def has_ignored_local_retained_evidence(candidate_id):
 if worktree_terminal_state == "nonterminal":
     if terminal_next_route:
         fail("next_route_condition must not be terminal when worktree_terminal_state is nonterminal")
+    if repo_hygiene_unresolved_count == 0 and not genuinely_unresolved_candidate_ids:
+        fail("worktree_terminal_state nonterminal requires an unresolved candidate, repo-hygiene residue, blocker, deferred state, escalation, unsafe residue, or ambiguity")
 elif worktree_terminal_state == "disposition_complete_with_retained_residue":
     bad_states = {
         candidate_id: state
@@ -1067,6 +1385,40 @@ elif worktree_terminal_state == "disposition_complete_with_retained_residue":
         fail("disposition_complete_with_retained_residue allows only closed, retained, or foreign final candidate states")
     if repo_hygiene_unresolved_count > 0:
         fail("disposition_complete_with_retained_residue is not allowed while repo-hygiene residue remains unresolved")
+    if closed_receipt_cleanup_deferred_candidate_ids:
+        fail("disposition_complete_with_retained_residue is not allowed while closed branch receipts still defer source branch cleanup")
+    retained_candidate_ids = [candidate_id for candidate_id, state in final_states.items() if state in {"retained", "foreign"}]
+    if not retained_candidate_ids and non_closed_final_states:
+        fail("disposition_complete_with_retained_residue requires retained or foreign final candidate evidence for non-closed residue")
+    if not retained_candidate_ids:
+        uncovered_retained_counts = {
+            key: final_residue_counts.get(key, 0)
+            for key in ("untracked", "ignored", "retained_evidence")
+            if final_residue_counts.get(key, 0) > 0
+        }
+        if uncovered_retained_counts:
+            fail(f"disposition_complete_with_retained_residue requires retained or foreign candidate evidence for retained residue counts: {uncovered_retained_counts}")
+    for candidate_id in retained_candidate_ids:
+        routing_class = candidate_routing_classes.get(candidate_id)
+        if routing_class not in retained_routing_classes:
+            fail(f"disposition_complete_with_retained_residue candidate {candidate_id} must be local_private_retained or foreign_manual_review")
+        for retained_item in retained_by_candidate.get(candidate_id, []):
+            retained_evidence_matches_routing(candidate_id, routing_class, retained_item, f"retained terminal candidate {candidate_id}")
+    forbidden_retained_counts = {
+        key: final_residue_counts.get(key, 0)
+        for key in (
+            "staged",
+            "unstaged_tracked",
+            "generated_effective_output",
+            "host_projection",
+            "state_control",
+            "release_version",
+            "input_surface",
+        )
+        if final_residue_counts.get(key, 0) > 0
+    }
+    if forbidden_retained_counts:
+        fail(f"disposition_complete_with_retained_residue cannot be satisfied by ordinary source, generated, control, or input residue: {forbidden_retained_counts}")
 elif worktree_terminal_state == "git_clean_terminal":
     dirty_counts = {
         key: value
@@ -1077,10 +1429,14 @@ elif worktree_terminal_state == "git_clean_terminal":
         fail(f"git_clean_terminal requires zero non-ignored residue counts, found {dirty_counts}")
     if repo_hygiene_unresolved_count > 0:
         fail("git_clean_terminal is not allowed while repo-hygiene residue remains unresolved")
+    if closed_receipt_cleanup_deferred_candidate_ids:
+        fail("git_clean_terminal is not allowed while closed branch receipts still defer source branch cleanup")
     for candidate_id in non_closed_final_states:
         state = final_states.get(candidate_id)
         if state != "foreign" or not has_ignored_local_retained_evidence(candidate_id):
             fail("git_clean_terminal allows non-closed candidates only for covered ignored/local foreign residue")
+        if candidate_routing_classes.get(candidate_id) != "foreign_manual_review":
+            fail("git_clean_terminal non-closed foreign residue must use foreign_manual_review residue_routing_class")
 
 if errors:
     for message in errors:

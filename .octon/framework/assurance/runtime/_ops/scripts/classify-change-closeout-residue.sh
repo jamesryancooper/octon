@@ -65,3 +65,90 @@ emit_count "retained-evidence" "$(git -C "$ROOT_DIR" ls-files --others --modifie
 emit_count "state-control" "$(git -C "$ROOT_DIR" ls-files --others --modified --exclude-standard -- .octon/state/control 2>/dev/null | wc -l | tr -d ' ')"
 emit_count "release-version" "$(git -C "$ROOT_DIR" ls-files --others --modified --exclude-standard -- VERSION CHANGELOG.md .octon/framework/**/VERSION 2>/dev/null | wc -l | tr -d ' ')"
 emit_count "input-surface" "$(git -C "$ROOT_DIR" ls-files --others --modified --exclude-standard -- .octon/inputs 2>/dev/null | wc -l | tr -d ' ')"
+
+path_has_prefix() {
+  local path="$1"
+  local prefix="${2%/}"
+  [[ "$path" == "$prefix" || "$path" == "$prefix/"* ]]
+}
+
+classify_routing_path() {
+  local path="$1"
+  case "$path" in
+    .octon/state/control/*|.octon/engine/*|.octon/generated/effective/*|.octon/inputs/*|*transcript*|*Transcript*)
+      printf '%s\n' "unsafe"
+      return
+      ;;
+  esac
+
+  if path_has_prefix "$path" ".octon/state/evidence/runs/skills/closeout-change" ||
+     path_has_prefix "$path" ".octon/state/evidence/runs/skills/repo-hygiene-cleanup" ||
+     path_has_prefix "$path" ".octon/state/evidence/validation/analysis"; then
+    printf '%s\n' "publishable_closeout_evidence"
+    return
+  fi
+
+  if path_has_prefix "$path" ".octon/state/evidence/local"; then
+    printf '%s\n' "local_private_retained"
+    return
+  fi
+
+  if path_has_prefix "$path" ".octon/state"; then
+    printf '%s\n' "unsafe"
+    return
+  fi
+
+  printf '%s\n' "publishable_change"
+}
+
+publishable_change_count=0
+publishable_closeout_evidence_count=0
+local_private_retained_count=0
+foreign_manual_review_count=0
+unsafe_count=0
+ambiguous_count=0
+
+changed_paths="$(
+  {
+    git -C "$ROOT_DIR" diff --name-only --cached
+    git -C "$ROOT_DIR" ls-files --others --modified --exclude-standard
+  } 2>/dev/null | sort -u
+)"
+ignored_paths="$(printf '%s\n' "$porcelain" | awk 'substr($0,1,2) == "!!" { path = substr($0,4); if (path != "") print path }')"
+
+while IFS= read -r path; do
+  [[ -n "$path" ]] || continue
+  case "$(classify_routing_path "$path")" in
+    publishable_change)
+      publishable_change_count=$((publishable_change_count + 1))
+      ;;
+    publishable_closeout_evidence)
+      publishable_closeout_evidence_count=$((publishable_closeout_evidence_count + 1))
+      ;;
+    local_private_retained)
+      local_private_retained_count=$((local_private_retained_count + 1))
+      ;;
+    unsafe)
+      unsafe_count=$((unsafe_count + 1))
+      ;;
+    ambiguous)
+      ambiguous_count=$((ambiguous_count + 1))
+      ;;
+    foreign_manual_review)
+      foreign_manual_review_count=$((foreign_manual_review_count + 1))
+      ;;
+  esac
+done <<<"$changed_paths"
+
+while IFS= read -r path; do
+  [[ -n "$path" ]] || continue
+  local_private_retained_count=$((local_private_retained_count + 1))
+done <<<"$ignored_paths"
+
+echo "routing_classes:"
+emit_count "publishable_change" "$publishable_change_count"
+emit_count "publishable_closeout_evidence" "$publishable_closeout_evidence_count"
+emit_count "local_private_retained" "$local_private_retained_count"
+emit_count "foreign_manual_review" "$foreign_manual_review_count"
+emit_count "unsafe" "$unsafe_count"
+emit_count "ambiguous" "$ambiguous_count"

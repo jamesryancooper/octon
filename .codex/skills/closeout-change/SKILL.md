@@ -81,7 +81,12 @@ Execute the Change Closeout State Machine phase loop from
     authorization, and local/remote cleanup status.
 11. **Receipt And Evidence** — Produce or update a Change receipt shaped by
     `.octon/framework/product/contracts/change-receipt-v1.schema.json`.
-    Completed or cleaned claims require `stateful_closeout` evidence.
+    Completed or cleaned claims require `stateful_closeout` evidence. Hosted or
+    shared closeout claims also require publishable evidence receipt refs under
+    `.octon/state/evidence/runs/skills/**`; local-private raw logs under
+    `.octon/state/evidence/local/**` may be cited only by digest-backed local
+    evidence refs inside a publishable receipt and do not satisfy the closeout
+    claim by themselves.
 12. **Final Verification** — Verify clean or documented retained residue and
     final local `main`, `origin/main`, and landed-ref alignment when claimed.
 13. **Final Report** — Report the actual lifecycle outcome, blockers,
@@ -219,6 +224,10 @@ approval denial, or cleanup outside a governed route.
 - Do not treat stage-only evidence as completed durable history.
 - Do not claim completed or cleaned closeout without `stateful_closeout`
   receipt evidence from the Change Closeout State Machine.
+- Do not claim hosted/shared closeout, including hosted `branch-no-pr`
+  `cleaned`, from raw repo-hygiene logs or local-private evidence. Require
+  publishable evidence receipt refs and keep raw local helper output outside
+  hosted/shared closeout payloads.
 - Do not use proposal-local packet paths as runtime or policy dependencies.
 - A `lifecycle-interaction-request-v1` may provide scoped advisory context for
   why Change Closeout was requested, but it is not landing, cleanup, hosted,
