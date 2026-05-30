@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.85](https://github.com/jamesryancooper/octon/compare/octon-v0.6.84...octon-v0.6.85) (2026-05-30)
+
+
+### Features
+
+* **capabilities:** enforce split-layer naming policy ([#470](https://github.com/jamesryancooper/octon/issues/470)) ([24ab0e2](https://github.com/jamesryancooper/octon/commit/24ab0e2f773bdf7f4656d76f356083b8597bfb21))
+* **evidence:** add disclosure tier contracts ([75a1964](https://github.com/jamesryancooper/octon/commit/75a196428e93a7d7d8f7748d573d5a02e8fe3bdc))
+
+
+### Bug Fixes
+
+* **closeout:** harden worktree terminal completion ([d6fc0af](https://github.com/jamesryancooper/octon/commit/d6fc0af618d1a820520c141ce70a538f50ff9e88))
+* **lifecycle:** scope hygiene cleanup routing ([664ea4c](https://github.com/jamesryancooper/octon/commit/664ea4cbd953a20f88bd8bbb6b22f897000e56de))
+
 ## [0.6.84](https://github.com/jamesryancooper/octon/compare/octon-v0.6.83...octon-v0.6.84) (2026-05-27)
 
 
