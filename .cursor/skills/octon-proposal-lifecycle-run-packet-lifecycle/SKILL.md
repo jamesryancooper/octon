@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Bash(octon lifecycle *) Write(/.octon/state/*)
 ---
 
-# Octon Proposal Lifecycle: Run Packet Lifecycle
+# Packet - Run Lifecycle
 
 Use the shared lifecycle runner for one proposal packet target:
 

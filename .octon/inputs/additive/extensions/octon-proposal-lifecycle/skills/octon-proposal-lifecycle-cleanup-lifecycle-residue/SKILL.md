@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Bash(git status) Bash(git diff) Bash(git fetch *) Bash(git checkout -b *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git merge *) Bash(.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh *) Bash(.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh *) Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Octon Proposal Lifecycle: Cleanup Lifecycle Residue
+# Program - Cleanup Lifecycle Residue
 
 This route is the dedicated cleanup authority for residual worktree artifacts
 left by a proposal program lifecycle run. It is separate from

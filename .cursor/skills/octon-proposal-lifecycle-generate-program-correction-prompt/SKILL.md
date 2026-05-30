@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Program Correction Prompt
+# Program - Generate Correction Prompt
 
 Generate targeted correction for a parent, child, child-group, or cross-packet
 finding without overriding child proposal authority.

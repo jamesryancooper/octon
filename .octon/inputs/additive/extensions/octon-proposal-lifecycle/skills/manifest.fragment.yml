@@ -1,7 +1,7 @@
 schema_version: "extensions-skills-fragment-v1"
 skills:
   - id: octon-proposal-lifecycle
-    display_name: "Octon Proposal Lifecycle"
+    display_name: "Proposal Lifecycle"
     group: extensions
     path: octon-proposal-lifecycle/
     skill_class: invocable
@@ -20,7 +20,7 @@ skills:
       - "run verification correction loop"
       - "generate closeout prompt"
   - id: octon-proposal-lifecycle-create-packet
-    display_name: "Octon Proposal Lifecycle: Create Packet"
+    display_name: "Packet - Create"
     group: extensions
     path: octon-proposal-lifecycle-create-packet/
     skill_class: invocable
@@ -29,7 +29,7 @@ skills:
     tags: [octon, proposal, lifecycle, create]
     triggers: ["create proposal packet"]
   - id: octon-proposal-lifecycle-explain-packet
-    display_name: "Octon Proposal Lifecycle: Explain Packet"
+    display_name: "Packet - Explain"
     group: extensions
     path: octon-proposal-lifecycle-explain-packet/
     skill_class: invocable
@@ -38,7 +38,7 @@ skills:
     tags: [octon, proposal, lifecycle, explain]
     triggers: ["explain proposal packet"]
   - id: octon-proposal-lifecycle-review-packet
-    display_name: "Octon Proposal Lifecycle: Review Packet"
+    display_name: "Packet - Review"
     group: extensions
     path: octon-proposal-lifecycle-review-packet/
     skill_class: invocable
@@ -47,7 +47,7 @@ skills:
     tags: [octon, proposal, lifecycle, review]
     triggers: ["review proposal packet"]
   - id: octon-proposal-lifecycle-revise-packet
-    display_name: "Octon Proposal Lifecycle: Revise Packet"
+    display_name: "Packet - Revise"
     group: extensions
     path: octon-proposal-lifecycle-revise-packet/
     skill_class: invocable
@@ -56,7 +56,7 @@ skills:
     tags: [octon, proposal, lifecycle, revision]
     triggers: ["revise proposal packet"]
   - id: octon-proposal-lifecycle-generate-packet-implementation-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Packet Implementation Prompt"
+    display_name: "Packet - Generate Implementation Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-packet-implementation-prompt/
     skill_class: invocable
@@ -65,7 +65,7 @@ skills:
     tags: [octon, proposal, lifecycle, implementation]
     triggers: ["generate packet implementation prompt"]
   - id: octon-proposal-lifecycle-run-packet-implementation
-    display_name: "Octon Proposal Lifecycle: Run Packet Implementation"
+    display_name: "Packet - Run Implementation"
     group: extensions
     path: octon-proposal-lifecycle-run-packet-implementation/
     skill_class: invocable
@@ -74,7 +74,7 @@ skills:
     tags: [octon, proposal, lifecycle, implementation]
     triggers: ["run proposal packet implementation", "implement proposal packet"]
   - id: octon-proposal-lifecycle-generate-packet-verification-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Packet Verification Prompt"
+    display_name: "Packet - Generate Verification Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-packet-verification-prompt/
     skill_class: invocable
@@ -83,7 +83,7 @@ skills:
     tags: [octon, proposal, lifecycle, verification]
     triggers: ["generate packet verification prompt"]
   - id: octon-proposal-lifecycle-generate-packet-correction-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Packet Correction Prompt"
+    display_name: "Packet - Generate Correction Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-packet-correction-prompt/
     skill_class: invocable
@@ -101,7 +101,7 @@ skills:
     tags: [octon, proposal, lifecycle, convergence]
     triggers: ["run packet verification correction loop"]
   - id: octon-proposal-lifecycle-generate-packet-closeout-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Packet Closeout Prompt"
+    display_name: "Packet - Generate Closeout Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-packet-closeout-prompt/
     skill_class: invocable
@@ -110,7 +110,7 @@ skills:
     tags: [octon, proposal, lifecycle, closeout]
     triggers: ["generate packet closeout prompt"]
   - id: octon-proposal-lifecycle-closeout-packet
-    display_name: "Octon Proposal Lifecycle: Closeout Packet"
+    display_name: "Packet - Closeout"
     group: extensions
     path: octon-proposal-lifecycle-closeout-packet/
     skill_class: invocable
@@ -119,7 +119,7 @@ skills:
     tags: [octon, proposal, lifecycle, closeout]
     triggers: ["closeout proposal packet"]
   - id: octon-proposal-lifecycle-run-packet-lifecycle
-    display_name: "Octon Proposal Lifecycle: Run Packet Lifecycle"
+    display_name: "Packet - Run Lifecycle"
     group: extensions
     path: octon-proposal-lifecycle-run-packet-lifecycle/
     skill_class: invocable
@@ -128,7 +128,7 @@ skills:
     tags: [octon, proposal, lifecycle, runner, orchestration]
     triggers: ["run proposal packet lifecycle", "automate proposal packet lifecycle"]
   - id: octon-proposal-lifecycle-create-program
-    display_name: "Octon Proposal Lifecycle: Create Program"
+    display_name: "Program - Create"
     group: extensions
     path: octon-proposal-lifecycle-create-program/
     skill_class: invocable
@@ -137,7 +137,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["create proposal program"]
   - id: octon-proposal-lifecycle-explain-program
-    display_name: "Octon Proposal Lifecycle: Explain Program"
+    display_name: "Program - Explain"
     group: extensions
     path: octon-proposal-lifecycle-explain-program/
     skill_class: invocable
@@ -146,7 +146,7 @@ skills:
     tags: [octon, proposal, lifecycle, program, explain]
     triggers: ["explain proposal program"]
   - id: octon-proposal-lifecycle-review-program
-    display_name: "Octon Proposal Lifecycle: Review Program"
+    display_name: "Program - Review"
     group: extensions
     path: octon-proposal-lifecycle-review-program/
     skill_class: invocable
@@ -155,7 +155,7 @@ skills:
     tags: [octon, proposal, lifecycle, program, review]
     triggers: ["review proposal program"]
   - id: octon-proposal-lifecycle-revise-program
-    display_name: "Octon Proposal Lifecycle: Revise Program"
+    display_name: "Program - Revise"
     group: extensions
     path: octon-proposal-lifecycle-revise-program/
     skill_class: invocable
@@ -173,7 +173,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["generate program implementation orchestration prompt"]
   - id: octon-proposal-lifecycle-generate-program-verification-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Program Verification Prompt"
+    display_name: "Program - Generate Verification Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-program-verification-prompt/
     skill_class: invocable
@@ -182,7 +182,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["generate program verification prompt"]
   - id: octon-proposal-lifecycle-generate-program-correction-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Program Correction Prompt"
+    display_name: "Program - Generate Correction Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-program-correction-prompt/
     skill_class: invocable
@@ -191,7 +191,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["generate program correction prompt"]
   - id: octon-proposal-lifecycle-cleanup-lifecycle-residue
-    display_name: "Octon Proposal Lifecycle: Cleanup Lifecycle Residue"
+    display_name: "Program - Cleanup Lifecycle Residue"
     group: extensions
     path: octon-proposal-lifecycle-cleanup-lifecycle-residue/
     skill_class: invocable
@@ -209,7 +209,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["run program verification correction loop"]
   - id: octon-proposal-lifecycle-generate-program-closeout-prompt
-    display_name: "Octon Proposal Lifecycle: Generate Program Closeout Prompt"
+    display_name: "Program - Generate Closeout Prompt"
     group: extensions
     path: octon-proposal-lifecycle-generate-program-closeout-prompt/
     skill_class: invocable
@@ -218,7 +218,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["generate program closeout prompt"]
   - id: octon-proposal-lifecycle-closeout-program
-    display_name: "Octon Proposal Lifecycle: Closeout Program"
+    display_name: "Program - Closeout"
     group: extensions
     path: octon-proposal-lifecycle-closeout-program/
     skill_class: invocable
@@ -227,7 +227,7 @@ skills:
     tags: [octon, proposal, lifecycle, program]
     triggers: ["closeout proposal program"]
   - id: octon-proposal-lifecycle-run-program-lifecycle
-    display_name: "Octon Proposal Lifecycle: Run Program Lifecycle"
+    display_name: "Program - Run Lifecycle"
     group: extensions
     path: octon-proposal-lifecycle-run-program-lifecycle/
     skill_class: invocable

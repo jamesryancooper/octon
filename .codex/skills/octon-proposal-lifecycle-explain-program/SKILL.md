@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep
 ---
 
-# Octon Proposal Lifecycle: Explain Program
+# Program - Explain
 
 Explain a parent proposal program's scope, child registry, sequencing,
 dependencies, gates, aggregate evidence posture, closeout posture, and child

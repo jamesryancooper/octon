@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Revise Packet
+# Packet - Revise
 
 Apply packet-local revisions for review findings and write
 `support/revisions/<revision-id>.md`.

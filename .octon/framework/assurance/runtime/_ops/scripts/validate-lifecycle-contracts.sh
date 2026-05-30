@@ -202,6 +202,98 @@ validate_condition_receipt_refs() {
   done
 }
 
+validate_condition_supported_keys() {
+  local contract="$1" expr="$2" label="$3" condition_json unsupported
+  condition_json="$(yq -o=json "$expr" "$contract" 2>/dev/null || printf 'null')"
+  unsupported="$(
+    CONDITION_JSON="$condition_json" CONDITION_EXPR="$expr" python3 - <<'PY'
+import json
+import os
+
+runtime_supported = {
+    "all",
+    "any",
+    "target_missing",
+    "manifest_status",
+    "blocker_present",
+    "cleanup_candidates_present",
+    "hygiene_preflight_required",
+    "receipt_absent",
+    "receipt_stale",
+    "receipt_fresh",
+    "receipt_complete",
+    "receipt_verdict",
+    "receipt_field_equals",
+    "file_absent",
+    "file_present",
+}
+phase_loop_supported = {
+    "route_refs_authoritative",
+    "gate_refs_authoritative",
+    "gate_refs_pass",
+    "validator_refs_authoritative",
+    "validator_refs_pass",
+    "receipt_refs_complete",
+    "terminal_or_blocked_verdict",
+    "final_report_emitted",
+    "loop_bound_exhausted",
+    "durable_binding_required",
+    "effective_lifecycle_handle_bound",
+    "source_context_missing",
+    "creation_receipt_missing",
+    "review_receipt_stale",
+    "completeness_receipt_stale",
+    "packet_revision_required",
+    "packet_structure_changed",
+    "implementation_receipt_missing",
+    "implementation_prompt_ready",
+    "implementation_scope_change_required",
+    "implementation_evidence_promoted",
+    "conformance_or_drift_receipt_missing",
+    "packet_error_requires_revision",
+    "hygiene_blocker_present",
+    "terminal_refs_reached",
+    "closeout_receipt_missing",
+}
+supported = set(runtime_supported)
+if ".phase_loop." in os.environ.get("CONDITION_EXPR", ""):
+    supported.update(phase_loop_supported)
+payload_keys = {"receipt_verdict", "receipt_field_equals"}
+
+try:
+    data = json.loads(os.environ.get("CONDITION_JSON", "null"))
+except json.JSONDecodeError:
+    data = None
+
+bad = []
+
+def walk(node, path):
+    if isinstance(node, list):
+        for index, item in enumerate(node):
+            walk(item, f"{path}[{index}]")
+        return
+    if not isinstance(node, dict):
+        return
+    for key, value in node.items():
+        if key not in supported:
+            bad.append(f"{path}.{key}")
+            continue
+        if key in ("all", "any"):
+            walk(value, f"{path}.{key}")
+        elif key in payload_keys:
+            continue
+
+walk(data, "condition")
+print("\n".join(bad))
+PY
+  )"
+  if [[ -z "$unsupported" ]]; then
+    pass "condition keys supported: $label"
+  else
+    fail "condition keys unsupported: $label -> $unsupported"
+  fi
+}
+
 validate_condition_path_refs() {
   local contract="$1" expr="$2" label="$3"
   local key path
@@ -213,6 +305,30 @@ validate_condition_path_refs() {
         && pass "condition path valid: $label $key -> $path" \
         || fail "condition path invalid: $label $key -> $path"
     done < <(yq -r "$expr | .. | select(tag == \"!!map\" and has(\"$key\")) | .$key // \"\"" "$contract" 2>/dev/null || true)
+  done
+}
+
+validate_condition_context_refs() {
+  local contract="$1" expr="$2" label="$3"
+  local blocker_class key is_bool
+
+  while IFS= read -r blocker_class; do
+    [[ -n "$blocker_class" && "$blocker_class" != "null" ]] || {
+      fail "condition blocker_present missing: $label"
+      continue
+    }
+    valid_program_blocker_class "$blocker_class" \
+      && pass "condition blocker_present valid: $label -> $blocker_class" \
+      || fail "condition blocker_present invalid: $label -> $blocker_class"
+  done < <(yq -r "$expr | .. | select(tag == \"!!map\" and has(\"blocker_present\")) | .blocker_present // \"\"" "$contract" 2>/dev/null || true)
+
+  for key in cleanup_candidates_present hygiene_preflight_required; do
+    while IFS= read -r is_bool; do
+      [[ -n "$is_bool" ]] || continue
+      [[ "$is_bool" == "true" ]] \
+        && pass "condition boolean valid: $label $key" \
+        || fail "condition boolean invalid: $label $key"
+    done < <(yq -r "$expr | .. | select(tag == \"!!map\" and has(\"$key\")) | (.$key | tag == \"!!bool\")" "$contract" 2>/dev/null || true)
   done
 }
 
@@ -1186,10 +1302,14 @@ validate_phase_loop() {
     validate_phase_ref_list "$contract" ".phase_loop.phases[$index].terminal_refs" "phase $phase_id terminal_refs" "$terminal_ids"
     validate_phase_ref_list "$contract" ".phase_loop.phases[$index].exit_evidence_refs" "phase $phase_id exit_evidence_refs" "$receipt_ids"
 
+    validate_condition_supported_keys "$contract" ".phase_loop.phases[$index].entry_when" "phase $phase_id entry_when"
     validate_condition_receipt_refs "$contract" ".phase_loop.phases[$index].entry_when" "phase $phase_id entry_when" "$receipt_ids"
     validate_condition_path_refs "$contract" ".phase_loop.phases[$index].entry_when" "phase $phase_id entry_when"
+    validate_condition_context_refs "$contract" ".phase_loop.phases[$index].entry_when" "phase $phase_id entry_when"
+    validate_condition_supported_keys "$contract" ".phase_loop.phases[$index].exit_when" "phase $phase_id exit_when"
     validate_condition_receipt_refs "$contract" ".phase_loop.phases[$index].exit_when" "phase $phase_id exit_when" "$receipt_ids"
     validate_condition_path_refs "$contract" ".phase_loop.phases[$index].exit_when" "phase $phase_id exit_when"
+    validate_condition_context_refs "$contract" ".phase_loop.phases[$index].exit_when" "phase $phase_id exit_when"
 
     route_ref_count="$(yq -r "(.phase_loop.phases[$index].route_refs // []) | length" "$contract" 2>/dev/null || echo 0)"
     if [[ "$mode" == "terminal" && "$route_ref_count" != "0" ]]; then
@@ -1213,8 +1333,10 @@ validate_phase_loop() {
       id_list_contains "$to_phase_id" "$phase_ids" \
         && pass "phase backward transition target exists: $phase_id -> $to_phase_id" \
         || fail "phase backward transition target missing: $phase_id -> $to_phase_id"
+      validate_condition_supported_keys "$contract" ".phase_loop.phases[$index].backward_transitions[$transition_index].when" "phase $phase_id backward_transition[$transition_index]"
       validate_condition_receipt_refs "$contract" ".phase_loop.phases[$index].backward_transitions[$transition_index].when" "phase $phase_id backward_transition[$transition_index]" "$receipt_ids"
       validate_condition_path_refs "$contract" ".phase_loop.phases[$index].backward_transitions[$transition_index].when" "phase $phase_id backward_transition[$transition_index]"
+      validate_condition_context_refs "$contract" ".phase_loop.phases[$index].backward_transitions[$transition_index].when" "phase $phase_id backward_transition[$transition_index]"
     done
   done
 }
@@ -1410,8 +1532,10 @@ validate_contract() {
   for ((index=0; index<terminal_count; index++)); do
     outcome_id="$(yq -r ".terminal_outcomes[$index].outcome_id // \"\"" "$contract" 2>/dev/null || true)"
     if yq -e ".terminal_outcomes[$index].when" "$contract" >/dev/null 2>&1; then
+      validate_condition_supported_keys "$contract" ".terminal_outcomes[$index].when" "terminal $outcome_id when"
       validate_condition_receipt_refs "$contract" ".terminal_outcomes[$index].when" "terminal $outcome_id when" "$receipt_ids"
       validate_condition_path_refs "$contract" ".terminal_outcomes[$index].when" "terminal $outcome_id when"
+      validate_condition_context_refs "$contract" ".terminal_outcomes[$index].when" "terminal $outcome_id when"
     fi
   done
 
@@ -1443,8 +1567,10 @@ validate_contract() {
       id_list_contains "$prompt_set_id" "$prompt_set_ids" && pass "route prompt set exists: $route_id -> $prompt_set_id" || fail "route prompt set missing: $route_id -> $prompt_set_id"
     fi
     if yq -e ".routes[$index].enter_when" "$contract" >/dev/null 2>&1; then
+      validate_condition_supported_keys "$contract" ".routes[$index].enter_when" "route $route_id enter_when"
       validate_condition_receipt_refs "$contract" ".routes[$index].enter_when" "route $route_id enter_when" "$receipt_ids"
       validate_condition_path_refs "$contract" ".routes[$index].enter_when" "route $route_id enter_when"
+      validate_condition_context_refs "$contract" ".routes[$index].enter_when" "route $route_id enter_when"
     fi
     while IFS= read -r input_id; do
       [[ -n "$input_id" ]] || continue

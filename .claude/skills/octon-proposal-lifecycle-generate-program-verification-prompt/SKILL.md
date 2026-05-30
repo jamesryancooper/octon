@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Program Verification Prompt
+# Program - Generate Verification Prompt
 
 Generate aggregate verification across parent sequence, dependency, risk,
 evidence, and child packet acceptance criteria.

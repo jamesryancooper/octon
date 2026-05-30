@@ -110,6 +110,10 @@ run_default_work_unit() {
   run_step \
     "Validate Change closeout lifecycle outcome alignment" \
     bash "$SCRIPT_DIR/validate-change-closeout-lifecycle-alignment.sh"
+
+  run_step \
+    "Validate evidence disclosure tier gates" \
+    bash "$SCRIPT_DIR/validate-evidence-disclosure-tiers.sh"
 }
 
 run_product_features() {
@@ -204,6 +208,10 @@ run_harness() {
   run_step \
     "Validate Change closeout lifecycle outcome alignment" \
     bash "$SCRIPT_DIR/validate-change-closeout-lifecycle-alignment.sh"
+
+  run_step \
+    "Validate evidence disclosure tier gates" \
+    bash "$SCRIPT_DIR/validate-evidence-disclosure-tiers.sh"
 
   run_step \
     "Validate audit-subsystem-health drift alignment" \

@@ -761,6 +761,36 @@ main() {
   yq -i '.routes[0].enter_when = {"file_present": "../escape"}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
   assert_failure "invalid file_present condition path fails" "$root"
 
+  root="$(new_fixture_repo valid-context-condition-predicates)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  yq -i '.routes[0].enter_when = {"all": [{"blocker_present": "lifecycle-residue-cleanup-needed"}, {"cleanup_candidates_present": true}, {"hygiene_preflight_required": false}]}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_success "valid context condition predicates pass" "$root"
+
+  root="$(new_fixture_repo invalid-context-condition-bool)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  yq -i '.routes[0].enter_when = {"cleanup_candidates_present": "yes"}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "invalid cleanup_candidates_present condition type fails" "$root"
+
+  root="$(new_fixture_repo invalid-context-condition-blocker)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  yq -i '.routes[0].enter_when = {"blocker_present": "not-a-blocker"}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "invalid blocker_present condition class fails" "$root"
+
+  root="$(new_fixture_repo invalid-unsupported-condition-key)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  yq -i '.routes[0].enter_when = {"magic_condition": true}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "unsupported condition key fails" "$root"
+
+  root="$(new_fixture_repo invalid-phase-only-route-condition)"
+  write_fixture_support "$root"
+  write_valid_contract "$root"
+  yq -i '.routes[0].enter_when = {"route_refs_authoritative": true}' "$root/.octon/inputs/additive/extensions/test-extension/context/lifecycle.contract.yml"
+  assert_failure "phase-only route condition key fails" "$root"
+
   root="$(new_fixture_repo invalid-completion-status)"
   write_fixture_support "$root"
   write_valid_contract "$root"
@@ -1016,6 +1046,16 @@ main() {
     assert_schema_query_equals "program archive requires aggregate drift pass" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "program-post-implementation-orchestration-drift" and .receipt_field_equals.field == "verdict").receipt_field_equals.value' 'pass'
     assert_schema_query_equals "program archive preserves child authority" "$program_contract" '.routes[]? | select(.route_id == "archive-proposal").enter_when.all[] | select(has("receipt_field_equals") and .receipt_field_equals.receipt_id == "proposal-closeout" and .receipt_field_equals.field == "child_authority_preserved").receipt_field_equals.value' 'yes'
     assert_schema_query_equals "no direct run-program-implementation route" "$program_contract" '.routes[]?.route_id | select(. == "run-program-implementation")' ''
+    assert_schema_query_equals "program cleanup route is not accepted status-triggered" "$program_contract" '.routes[]? | select(.route_id == "cleanup-lifecycle-residue").enter_when.all[]?.any[]? | select(has("manifest_status") and .manifest_status == "accepted").manifest_status' ''
+    assert_schema_query_equals "program cleanup route is not implemented status-triggered" "$program_contract" '.routes[]? | select(.route_id == "cleanup-lifecycle-residue").enter_when.all[]?.any[]? | select(has("manifest_status") and .manifest_status == "implemented").manifest_status' ''
+    assert_schema_query_equals "program cleanup route can trigger from lifecycle residue blocker" "$program_contract" '.routes[]? | select(.route_id == "cleanup-lifecycle-residue").enter_when.all[]?.any[]? | select(has("blocker_present") and .blocker_present == "lifecycle-residue-cleanup-needed").blocker_present' 'lifecycle-residue-cleanup-needed
+lifecycle-residue-cleanup-needed'
+    assert_schema_query_equals "program cleanup route can trigger from cleanup candidates" "$program_contract" '.routes[]? | select(.route_id == "cleanup-lifecycle-residue").enter_when.all[]?.any[]? | select(has("cleanup_candidates_present")).cleanup_candidates_present' 'true
+true'
+    assert_schema_query_equals "program cleanup route can trigger from hygiene preflight" "$program_contract" '.routes[]? | select(.route_id == "cleanup-lifecycle-residue").enter_when.all[]?.any[]? | select(has("hygiene_preflight_required")).hygiene_preflight_required' 'true'
+    assert_schema_query_equals "program cleanup receipt tracks implementation blocking" "$program_contract" '.receipts[]? | select(.receipt_id == "lifecycle-residue-cleanup").required_fields[] | select(. == "implementation_blocking")' 'implementation_blocking'
+    assert_schema_query_equals "program cleanup receipt tracks closeout blocking" "$program_contract" '.receipts[]? | select(.receipt_id == "lifecycle-residue-cleanup").required_fields[] | select(. == "closeout_blocking")' 'closeout_blocking'
+    assert_schema_query_equals "program cleanup receipt tracks archive blocking" "$program_contract" '.receipts[]? | select(.receipt_id == "lifecycle-residue-cleanup").required_fields[] | select(. == "archive_blocking")' 'archive_blocking'
 
     printf '\nPassed: %s\nFailed: %s\n' "$pass_count" "$fail_count"
   [[ "$fail_count" -eq 0 ]]

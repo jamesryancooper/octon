@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Packet Closeout Prompt
+# Packet - Generate Closeout Prompt
 
 Generate `support/custom-closeout-prompt.md` with proposal archival,
 validation, evidence, final hygiene, and route-required PR/CI/review, merge,

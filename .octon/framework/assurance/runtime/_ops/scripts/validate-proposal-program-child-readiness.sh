@@ -141,9 +141,28 @@ child_is_archived_implemented() {
     && "$(yq -r '.archive.disposition // ""' "$manifest" 2>/dev/null || true)" == "implemented" ]]
 }
 
+child_is_implemented() {
+  local manifest="$1"
+  [[ "$(yq -r '.status // ""' "$manifest" 2>/dev/null || true)" == "implemented" ]]
+}
+
 receipt_field_equals() {
   local file="$1" field="$2" expected="$3"
   [[ -f "$file" ]] && grep -Eq "^${field}:[[:space:]]*\"?${expected}\"?[[:space:]]*$" "$file"
+}
+
+validate_implemented_child_ready() {
+  local child_id="$1" child_abs="$2"
+
+  receipt_field_equals "$child_abs/support/implementation-run.md" verdict pass \
+    && pass "child $child_id implemented implementation-run receipt passes" \
+    || fail "child $child_id implemented implementation-run receipt passes"
+  receipt_field_equals "$child_abs/support/implementation-conformance-review.md" verdict pass \
+    && pass "child $child_id implemented conformance receipt passes" \
+    || fail "child $child_id implemented conformance receipt passes"
+  receipt_field_equals "$child_abs/support/post-implementation-drift-churn-review.md" verdict pass \
+    && pass "child $child_id implemented post-implementation drift receipt passes" \
+    || fail "child $child_id implemented post-implementation drift receipt passes"
 }
 
 validate_archived_implemented_child_ready() {
@@ -191,6 +210,8 @@ validate_child_metadata() {
     "")
       if child_is_archived_implemented "$manifest"; then
         pass "child $child_id archived implemented child satisfies change_profile gate"
+      elif child_is_implemented "$manifest"; then
+        pass "child $child_id implemented child satisfies change_profile gate"
       else
         fail "child $child_id declares change_profile"
       fi
@@ -231,6 +252,11 @@ validate_child_readiness() {
     bash "$READINESS_SCRIPT" --package "$child_path"
   if child_is_archived_implemented "$manifest"; then
     validate_archived_implemented_child_ready "$child_id" "$child_abs"
+  elif child_is_implemented "$manifest"; then
+    run_child_validator \
+      "child $child_id implemented proposal-review evidence is preserved" \
+      bash "$REVIEW_GATE_SCRIPT" --package "$child_path"
+    validate_implemented_child_ready "$child_id" "$child_abs"
   else
     run_child_validator \
       "child $child_id accepted proposal-review gate is fresh" \
@@ -245,6 +271,9 @@ validate_child_readiness() {
         if [[ "$(yq -r '.change_profile // ""' "$manifest" 2>/dev/null || true)" == "" ]] \
           && child_is_archived_implemented "$manifest"; then
           pass "child $child_id required metadata satisfied by archived implemented terminal evidence: change_profile"
+        elif [[ "$(yq -r '.change_profile // ""' "$manifest" 2>/dev/null || true)" == "" ]] \
+          && child_is_implemented "$manifest"; then
+          pass "child $child_id required metadata satisfied by implemented evidence: change_profile"
         else
           pass "child $child_id declared required metadata is enforced: change_profile"
         fi

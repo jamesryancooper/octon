@@ -45,6 +45,12 @@ Write `support/lifecycle-residue-cleanup.md` with:
 - `verdict`
 - `cleaned_at`
 - `cleanup_candidates`
+- `active_implementation_work_intact`
+- `implementation_blocking`
+- `closeout_blocking`
+- `archive_blocking`
+- `implementation_hygiene_verdict`
+- `publication_hygiene_verdict`
 - `manual_review_count`
 - `worktree_hygiene_verdict`
 - `remaining_blocker_class`
@@ -53,6 +59,28 @@ Write `support/lifecycle-residue-cleanup.md` with:
 The receipt must also name remaining manual-review classes and rationale, state
 whether local main is synced with origin/main, and confirm active
 implementation work remains intact.
+
+Use phase-specific blocking semantics. If cleanup candidates are zero, active
+implementation work is intact, and only foreign, protected, ambiguous, or
+manual-review residue remains, record the cleanup as implementation-safe and
+publication-blocking:
+
+```yaml
+verdict: blocked-retained
+cleanup_candidates: 0
+active_implementation_work_intact: yes
+implementation_blocking: false
+closeout_blocking: true
+archive_blocking: true
+implementation_hygiene_verdict: pass
+publication_hygiene_verdict: blocked
+remaining_blocker_class: worktree-hygiene-blocked
+```
+
+Do not collapse these fields into `worktree_hygiene_verdict`. The legacy
+worktree hygiene verdict remains compatibility evidence; the phase-specific
+fields decide whether child implementation may proceed while closeout/archive
+remain blocked.
 
 ## Stop Conditions
 

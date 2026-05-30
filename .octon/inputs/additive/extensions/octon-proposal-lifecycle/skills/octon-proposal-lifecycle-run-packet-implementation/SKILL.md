@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/framework/*) Write(/.octon/instance/*) Write(/.octon/state/*) Write(/.octon/generated/*)
 ---
 
-# Octon Proposal Lifecycle: Run Packet Implementation
+# Packet - Run Implementation
 
 Run implementation for one accepted proposal packet by executing the packet's
 `support/executable-implementation-prompt.md` against durable repository

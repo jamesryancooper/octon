@@ -217,6 +217,21 @@ remove_child_change_profile() {
   yq -i 'del(.change_profile)' "$(packet_dir "$root" "$child_id")/proposal.yml"
 }
 
+write_implementation_receipts() {
+  local root="$1" child_id="$2"
+  local dir
+  dir="$(packet_dir "$root" "$child_id")/support"
+  cat >"$dir/implementation-run.md" <<'EOF'
+verdict: pass
+EOF
+  cat >"$dir/implementation-conformance-review.md" <<'EOF'
+verdict: pass
+EOF
+  cat >"$dir/post-implementation-drift-churn-review.md" <<'EOF'
+verdict: pass
+EOF
+}
+
 packet_digest() {
   local root="$1" child_id="$2"
   (
@@ -357,6 +372,17 @@ case_stale_proposal_review_fails() {
   run_validator "$root"
 }
 
+case_implemented_child_with_receipts_passes() {
+  local root
+  root="$(create_fixture_repo)"
+  write_valid_fixture "$root"
+  yq -i '.status = "implemented"' "$(packet_dir "$root" "base-child")/proposal.yml"
+  remove_child_change_profile "$root" "base-child"
+  printf '\nChanged by promotion after review.\n' >>"$(packet_dir "$root" "base-child")/README.md"
+  write_implementation_receipts "$root" "base-child"
+  run_validator "$root"
+}
+
 case_missing_packet_specific_requirement_fails() {
   local root
   root="$(create_fixture_repo)"
@@ -378,6 +404,7 @@ assert_failure_contains "missing child change_profile fails" "child base-child d
 assert_failure_contains "missing implementation-grade completeness review fails" "implementation-grade completeness review exists" case_missing_completeness_review_fails
 assert_failure_contains "absent accepted proposal-review digest fails" "proposal review receipt authorizes implementation" case_absent_proposal_review_fails
 assert_failure_contains "stale accepted proposal-review digest fails" "reviewed packet digest is fresh" case_stale_proposal_review_fails
+assert_success "implemented child with receipts remains child-ready" case_implemented_child_with_receipts_passes
 assert_failure_contains "missing packet-specific completeness requirement fails" "child base-child readiness evidence mentions: connector operation fields" case_missing_packet_specific_requirement_fails
 assert_failure_contains "premature cutover retirement fails" "child cutover-child cutover constraints declare predecessor evidence" case_premature_cutover_fails
 

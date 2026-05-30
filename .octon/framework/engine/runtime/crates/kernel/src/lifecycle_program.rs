@@ -1312,11 +1312,26 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     let parent_receipt_states = receipt_plan_states(&repo_root, &loaded.contract, &target_state);
     let terminal_outcome = select_terminal_outcome(&loaded.contract, &target_state)?;
     let mut program_blockers = Vec::new();
-    let (mut program_route, mut program_gate_results, blocked_by_program_gate) =
+    let cleanup_candidates_present = lifecycle_residue_cleanup_candidates_present(&repo_root)?;
+    let initial_condition_context = LifecycleConditionContext {
+        blockers: Vec::new(),
+        cleanup_candidates_present,
+        hygiene_preflight_required: Some(program_hygiene_preflight_required_for_target(
+            &repo_root,
+            &parent_context.loaded.contract,
+            &parent_context.target_rel,
+        )?),
+    };
+    let (mut program_route, mut program_gate_results, mut blocked_by_program_gate) =
         if terminal_outcome.is_some() {
             (None, Vec::new(), None)
         } else {
-            plan_program_level_route(&repo_root, &parent_context, &mut program_blockers)?
+            plan_program_level_route(
+                &repo_root,
+                &parent_context,
+                &mut program_blockers,
+                &initial_condition_context,
+            )?
         };
 
     if !parent_context.registry_abs.is_file() {
@@ -1444,10 +1459,10 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     };
     let context = ProgramContext {
         loaded: loaded.clone(),
-        target_abs: parent_context.target_abs,
-        target_rel: parent_context.target_rel,
-        parent_manifest_status: parent_context.parent_manifest_status,
-        registry_rel: parent_context.registry_rel,
+        target_abs: parent_context.target_abs.clone(),
+        target_rel: parent_context.target_rel.clone(),
+        parent_manifest_status: parent_context.parent_manifest_status.clone(),
+        registry_rel: parent_context.registry_rel.clone(),
         registry_digest,
         registry,
     };
@@ -1768,6 +1783,39 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 program,
                 &program_blockers,
             );
+        }
+        if program_route.is_none() {
+            let condition_context = LifecycleConditionContext {
+                blockers: program_blockers
+                    .iter()
+                    .map(|blocker| blocker.blocker_class.clone())
+                    .collect(),
+                cleanup_candidates_present,
+                hygiene_preflight_required: Some(
+                    !closeout_hygiene_suppressions.is_empty()
+                        || program_hygiene_preflight_required_for_target(
+                            &repo_root,
+                            &context.loaded.contract,
+                            &context.target_rel,
+                        )?,
+                ),
+            };
+            let (context_route, context_gate_results, context_blocked_gate) =
+                plan_program_level_route(
+                    &repo_root,
+                    &parent_context,
+                    &mut program_blockers,
+                    &condition_context,
+                )?;
+            if context_route.is_some() {
+                program_route = context_route;
+                program_gate_results.extend(context_gate_results);
+            }
+            if blocked_by_program_gate.is_none() {
+                if let Some(failed_gate) = context_blocked_gate {
+                    blocked_by_program_gate = Some(failed_gate);
+                }
+            }
         }
     }
 
@@ -5020,17 +5068,125 @@ fn run_program_gate_by_id(
     )?])
 }
 
+#[derive(Default, Deserialize)]
+struct CleanupLocalRunArtifactsOutput {
+    summary: Option<CleanupLocalRunArtifactsSummary>,
+}
+
+#[derive(Default, Deserialize)]
+struct CleanupLocalRunArtifactsSummary {
+    cleanup_candidates: Option<u64>,
+}
+
+fn lifecycle_residue_cleanup_candidates_present(repo_root: &Path) -> Result<Option<bool>> {
+    let script = ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh";
+    if !repo_root.join(script).is_file() {
+        return Ok(None);
+    }
+    let octon_dir = repo_root.join(".octon");
+    let output = Command::new("bash")
+        .arg(script)
+        .arg("--summary-only")
+        .arg("--root")
+        .arg(repo_root)
+        .arg("--octon-dir")
+        .arg(&octon_dir)
+        .current_dir(repo_root)
+        .env("OCTON_ROOT_DIR", repo_root)
+        .output()?;
+    if !output.status.success() {
+        return Ok(None);
+    }
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    let summary_yaml = stdout
+        .lines()
+        .take_while(|line| !line.starts_with('['))
+        .collect::<Vec<_>>()
+        .join("\n");
+    let parsed =
+        serde_yaml::from_str::<CleanupLocalRunArtifactsOutput>(&summary_yaml).unwrap_or_default();
+    Ok(parsed
+        .summary
+        .and_then(|summary| summary.cleanup_candidates)
+        .map(|count| count > 0))
+}
+
+fn program_hygiene_preflight_required_for_target(
+    repo_root: &Path,
+    contract: &LifecycleContract,
+    target_rel: &str,
+) -> Result<bool> {
+    let target_abs = resolve_lifecycle_target_path(repo_root, Path::new(target_rel))?;
+    let target_state = build_target_state(repo_root, contract, &target_abs)?;
+    let condition_context = LifecycleConditionContext::default();
+    for route in &contract.routes {
+        if !program_route_has_hygiene_preflight(route.route_id.as_str()) {
+            continue;
+        }
+        if route_matches_with_context(route, contract, &target_state, &condition_context)? {
+            return Ok(true);
+        }
+    }
+    Ok(false)
+}
+
+fn program_route_has_hygiene_preflight(route_id: &str) -> bool {
+    matches!(
+        route_id,
+        "generate-program-closeout-prompt" | "closeout-program" | "archive-proposal"
+    )
+}
+
+fn lifecycle_residue_blocks_program_route(target_state: &TargetState, route_id: &str) -> bool {
+    let Some(receipt) = target_state.receipts.get("lifecycle-residue-cleanup") else {
+        return false;
+    };
+    match route_id {
+        "generate-program-closeout-prompt" | "closeout-program" => receipt
+            .fields
+            .get("closeout_blocking")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false),
+        "archive-proposal" => receipt
+            .fields
+            .get("archive_blocking")
+            .map(|value| receipt_bool_is_true(value))
+            .unwrap_or(false),
+        _ => false,
+    }
+}
+
+fn receipt_bool_is_true(value: &str) -> bool {
+    matches!(
+        value.trim().to_ascii_lowercase().as_str(),
+        "true" | "yes" | "y" | "1"
+    )
+}
+
 fn plan_program_level_route(
     repo_root: &Path,
     context: &ProgramParentContext,
     program_blockers: &mut Vec<ProgramBlocker>,
+    condition_context: &LifecycleConditionContext,
 ) -> Result<(Option<RoutePlanState>, Vec<GatePlanResult>, Option<String>)> {
     let target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&context.target_rel))?;
     let target_state = build_target_state(repo_root, &context.loaded.contract, &target_abs)?;
-    let Some(route) = select_route(&context.loaded.contract, &target_state)? else {
+    let Some(route) =
+        select_route_with_context(&context.loaded.contract, &target_state, condition_context)?
+    else {
         return Ok((None, Vec::new(), None));
     };
     let route_id = route.route_id.clone();
+    if lifecycle_residue_blocks_program_route(&target_state, &route_id) {
+        program_blockers.push(ProgramBlocker {
+            blocker_class: "worktree-hygiene-blocked".to_string(),
+            message: format!(
+                "program route {route_id} is blocked by lifecycle residue cleanup receipt phase semantics"
+            ),
+            recovery_route: Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE.to_string()),
+        });
+        return Ok((None, Vec::new(), None));
+    }
     let gate_results =
         run_required_gates(repo_root, &context.loaded.contract, &target_abs, &route_id)?;
     if let Some(failed_gate_id) = gate_results
@@ -6889,21 +7045,53 @@ fn gated_parallel_candidates(
             phases.push(phase);
         }
     }
-    for phase in phases {
+    for (phase_index, phase) in phases.iter().enumerate() {
         let candidates = registry
             .children
             .iter()
-            .filter(|child| child_phase_key(child) == phase)
+            .filter(|child| child_phase_key(child) == *phase)
             .filter_map(|child| {
                 runnable_child(program, child_states, &child.child_id)
                     .then(|| child.child_id.clone())
             })
             .collect::<Vec<_>>();
         if !candidates.is_empty() {
+            if candidates
+                .iter()
+                .all(|child_id| child_selected_route_is_closeout_or_archive(child_states, child_id))
+                && phases.iter().skip(phase_index + 1).any(|later_phase| {
+                    registry.children.iter().any(|child| {
+                        child_phase_key(child) == *later_phase
+                            && runnable_child(program, child_states, &child.child_id)
+                            && !child_selected_route_is_closeout_or_archive(
+                                child_states,
+                                &child.child_id,
+                            )
+                    })
+                })
+            {
+                continue;
+            }
             return candidates;
         }
     }
     Vec::new()
+}
+
+fn child_selected_route_is_closeout_or_archive(
+    child_states: &BTreeMap<String, ProgramChildPlanState>,
+    child_id: &str,
+) -> bool {
+    child_states
+        .get(child_id)
+        .and_then(|state| state.selected_route.as_ref())
+        .map(|route| {
+            matches!(
+                route.route_id.as_str(),
+                "closeout-packet" | "archive-proposal"
+            )
+        })
+        .unwrap_or(false)
 }
 
 fn child_phase_key(child: &ProgramChildSpec) -> String {
@@ -16504,6 +16692,10 @@ routes:
 
         fn write_program_contract_with_residue_cleanup_route(&self) {
             self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh",
+                "#!/usr/bin/env bash\nprintf 'mock\\n'\n",
+            );
+            self.write(
                 ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
                 r#"
 schema_version: "octon-extension-lifecycle-contract-v1"
@@ -16545,8 +16737,11 @@ states: [{ state_id: "coordinate" }]
 receipts:
   - receipt_id: "lifecycle-residue-cleanup"
     path: "support/lifecycle-residue-cleanup.md"
-    required_fields: ["verdict", "cleaned_at", "cleanup_candidates", "manual_review_count", "worktree_hygiene_verdict", "remaining_blocker_class", "residue_fingerprint"]
+    required_fields: ["verdict", "cleaned_at", "cleanup_candidates", "active_implementation_work_intact", "implementation_blocking", "closeout_blocking", "archive_blocking", "implementation_hygiene_verdict", "publication_hygiene_verdict", "manual_review_count", "worktree_hygiene_verdict", "remaining_blocker_class", "residue_fingerprint"]
     verdict_field: "verdict"
+    freshness:
+      digest_command: ["bash", ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh", "--target", "{{target}}", "--lifecycle", "proposal-program"]
+      digest_field: "residue_fingerprint"
 routes:
   - route_id: "generate-program-implementation-orchestration-prompt"
     route_type: "extension"
@@ -16581,6 +16776,29 @@ routes:
       expected_receipts: ["lifecycle-residue-cleanup"]
       expected_paths: ["support/lifecycle-residue-cleanup.md"]
       replan_required: true
+    enter_when:
+      all:
+        - any:
+            - hygiene_preflight_required: true
+            - blocker_present: "lifecycle-residue-cleanup-needed"
+            - cleanup_candidates_present: true
+        - any:
+            - receipt_absent: "lifecycle-residue-cleanup"
+            - receipt_stale: "lifecycle-residue-cleanup"
+            - blocker_present: "lifecycle-residue-cleanup-needed"
+            - cleanup_candidates_present: true
+  - route_id: "closeout-program"
+    route_type: "extension"
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "lifecycle-residue-cleanup"
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "lifecycle-residue-cleanup"
 "#,
             );
         }
@@ -17148,6 +17366,39 @@ routes:
                 "parent/support/proposal-closeout.md",
                 &format!(
                     "verdict: pass\nclosed_at: 2026-05-12T00:00:00Z\narchive_authorized: yes\nchild_authority_preserved: {child_authority_preserved}\n"
+                ),
+            );
+        }
+
+        fn write_residue_fingerprint_script(&self, fingerprint: &str) {
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh",
+                &format!("#!/usr/bin/env bash\nprintf '{fingerprint}\\n'\n"),
+            );
+        }
+
+        fn write_cleanup_candidates_helper(&self, cleanup_candidates: u64) {
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+                &format!(
+                    "#!/usr/bin/env bash\ncat <<'YAML'\nsummary:\n  cleanup_candidates: {cleanup_candidates}\n[OK] dry-run complete\nYAML\n"
+                ),
+            );
+        }
+
+        fn write_lifecycle_residue_cleanup_receipt(
+            &self,
+            verdict: &str,
+            cleanup_candidates: u64,
+            implementation_blocking: bool,
+            closeout_blocking: bool,
+            archive_blocking: bool,
+            fingerprint: &str,
+        ) {
+            self.write(
+                "parent/support/lifecycle-residue-cleanup.md",
+                &format!(
+                    "verdict: {verdict}\ncleaned_at: 2026-05-12T00:00:00Z\ncleanup_candidates: {cleanup_candidates}\nactive_implementation_work_intact: yes\nimplementation_blocking: {implementation_blocking}\ncloseout_blocking: {closeout_blocking}\narchive_blocking: {archive_blocking}\nimplementation_hygiene_verdict: pass\npublication_hygiene_verdict: blocked\nmanual_review_count: 1\nworktree_hygiene_verdict: blocked\nremaining_blocker_class: worktree-hygiene-blocked\nresidue_fingerprint: {fingerprint}\n"
                 ),
             );
         }
@@ -18215,6 +18466,62 @@ routes:
             .skipped_blocked_children
             .iter()
             .any(|child| child == "a"));
+    }
+
+    #[test]
+    fn gated_parallel_prefers_downstream_implementation_over_prior_phase_closeout() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("gated-parallel-prefers-implementation", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_child("b", "framework/b.md", "accepted");
+        fixture.write_registry(
+            "gated-parallel",
+            r#"  - child_id: "a"
+    path: "children/a"
+    phase_id: "phase-1"
+  - child_id: "b"
+    path: "children/b"
+    dependencies: ["a"]
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_eq!(plan.runnable_batch, vec!["b".to_string()]);
+        assert_eq!(plan.scheduler_phase.as_deref(), Some("phase-2"));
+        assert_eq!(
+            plan.child_states
+                .get("a")
+                .and_then(|state| state.selected_route.as_ref())
+                .map(|route| route.route_id.as_str()),
+            Some("closeout-packet")
+        );
+        assert!(plan
+            .child_states
+            .get("b")
+            .and_then(|state| state.selected_route.as_ref())
+            .map(|route| route.route_id.as_str())
+            .is_some_and(|route| route != "closeout-packet" && route != "archive-proposal"));
     }
 
     #[test]
@@ -22713,6 +23020,199 @@ rationale: "prove overwrite guard"
             .root
             .join("parent/support/lifecycle-residue-cleanup.md")
             .is_file());
+    }
+
+    #[test]
+    fn blocked_retained_cleanup_receipt_does_not_preempt_runnable_child() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-child-progress", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_residue_fingerprint_script("mock");
+        fixture.write_lifecycle_residue_cleanup_receipt(
+            "blocked-retained",
+            0,
+            false,
+            true,
+            true,
+            "mock",
+        );
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "prompt_id: a\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+        assert_eq!(
+            plan.child_states
+                .get("a")
+                .and_then(|state| state.selected_route.as_ref())
+                .map(|route| route.route_id.as_str()),
+            Some("run-packet-implementation")
+        );
+    }
+
+    #[test]
+    fn blocked_retained_cleanup_receipt_blocks_closeout_phase() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-blocks-closeout", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("mock");
+        fixture.write_lifecycle_residue_cleanup_receipt(
+            "blocked-retained",
+            0,
+            false,
+            true,
+            true,
+            "mock",
+        );
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        assert_eq!(plan.final_verdict, "blocked-human");
+        assert!(plan
+            .program_blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "worktree-hygiene-blocked"));
+    }
+
+    #[test]
+    fn archive_blocking_cleanup_receipt_blocks_archive_route() {
+        let target_state = TargetState {
+            target_abs: PathBuf::from("parent"),
+            target_exists: true,
+            manifest_status: Some("implemented".to_string()),
+            receipts: BTreeMap::from([(
+                "lifecycle-residue-cleanup".to_string(),
+                ReceiptState {
+                    path_abs: PathBuf::from("parent/support/lifecycle-residue-cleanup.md"),
+                    exists: true,
+                    fields: BTreeMap::from([("archive_blocking".to_string(), "true".to_string())]),
+                    missing_required_fields: Vec::new(),
+                    stale: Some(false),
+                    stored_digest: Some("mock".to_string()),
+                    current_digest: Some("mock".to_string()),
+                },
+            )]),
+        };
+
+        assert!(lifecycle_residue_blocks_program_route(
+            &target_state,
+            "archive-proposal"
+        ));
+        assert!(!lifecycle_residue_blocks_program_route(
+            &target_state,
+            "closeout-program"
+        ));
+    }
+
+    #[test]
+    fn stale_cleanup_receipt_selects_cleanup_during_hygiene_preflight() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-stale-preflight", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_residue_fingerprint_script("current");
+        fixture.write_lifecycle_residue_cleanup_receipt("pass", 0, false, false, false, "old");
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_eq!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        );
+    }
+
+    #[test]
+    fn cleanup_candidates_trigger_cleanup_then_resume_child_work_after_zero() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-candidates-resume", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_residue_fingerprint_script("mock");
+        fixture.write_cleanup_candidates_helper(1);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "prompt_id: a\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let cleanup_plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        assert_eq!(
+            cleanup_plan
+                .program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some(ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE)
+        );
+        assert!(cleanup_plan.runnable_batch.is_empty());
+
+        fixture.write_cleanup_candidates_helper(0);
+        fixture.write_lifecycle_residue_cleanup_receipt("pass", 0, false, false, false, "mock");
+        let resumed_plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        assert!(resumed_plan.program_route.is_none());
+        assert_eq!(resumed_plan.runnable_batch, vec!["a".to_string()]);
     }
 
     #[test]

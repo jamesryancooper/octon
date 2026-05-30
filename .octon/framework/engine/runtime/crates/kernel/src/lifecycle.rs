@@ -632,6 +632,13 @@ struct TargetState {
     receipts: BTreeMap<String, ReceiptState>,
 }
 
+#[derive(Clone, Debug, Default)]
+struct LifecycleConditionContext {
+    blockers: Vec<String>,
+    cleanup_candidates_present: Option<bool>,
+    hygiene_preflight_required: Option<bool>,
+}
+
 #[derive(Clone, Debug)]
 struct ReceiptState {
     path_abs: PathBuf,
@@ -2109,16 +2116,38 @@ fn select_route(
     contract: &LifecycleContract,
     target_state: &TargetState,
 ) -> Result<Option<RouteSpec>> {
+    select_route_with_context(
+        contract,
+        target_state,
+        &LifecycleConditionContext::default(),
+    )
+}
+
+fn select_route_with_context(
+    contract: &LifecycleContract,
+    target_state: &TargetState,
+    condition_context: &LifecycleConditionContext,
+) -> Result<Option<RouteSpec>> {
     for route in &contract.routes {
-        let matches = match route.enter_when.as_ref() {
-            Some(condition) => eval_condition(condition, contract, target_state)?,
-            None => false,
-        };
-        if matches {
+        if route_matches_with_context(route, contract, target_state, condition_context)? {
             return Ok(Some(route.clone()));
         }
     }
     Ok(None)
+}
+
+fn route_matches_with_context(
+    route: &RouteSpec,
+    contract: &LifecycleContract,
+    target_state: &TargetState,
+    condition_context: &LifecycleConditionContext,
+) -> Result<bool> {
+    match route.enter_when.as_ref() {
+        Some(condition) => {
+            eval_condition_with_context(condition, contract, target_state, condition_context)
+        }
+        None => Ok(false),
+    }
 }
 
 fn select_terminal_outcome(
@@ -2142,6 +2171,20 @@ fn eval_condition(
     contract: &LifecycleContract,
     target_state: &TargetState,
 ) -> Result<bool> {
+    eval_condition_with_context(
+        condition,
+        contract,
+        target_state,
+        &LifecycleConditionContext::default(),
+    )
+}
+
+fn eval_condition_with_context(
+    condition: &Value,
+    contract: &LifecycleContract,
+    target_state: &TargetState,
+    condition_context: &LifecycleConditionContext,
+) -> Result<bool> {
     let Some(mapping) = condition.as_mapping() else {
         bail!("lifecycle conditions must be mappings");
     };
@@ -2154,7 +2197,9 @@ fn eval_condition(
                 .as_sequence()
                 .context("all condition must be a sequence")?
                 .iter()
-                .map(|item| eval_condition(item, contract, target_state))
+                .map(|item| {
+                    eval_condition_with_context(item, contract, target_state, condition_context)
+                })
                 .collect::<Result<Vec<_>>>()?
                 .into_iter()
                 .all(|item| item),
@@ -2162,12 +2207,35 @@ fn eval_condition(
                 .as_sequence()
                 .context("any condition must be a sequence")?
                 .iter()
-                .map(|item| eval_condition(item, contract, target_state))
+                .map(|item| {
+                    eval_condition_with_context(item, contract, target_state, condition_context)
+                })
                 .collect::<Result<Vec<_>>>()?
                 .into_iter()
                 .any(|item| item),
             "target_missing" => value.as_bool().unwrap_or(false) == !target_state.target_exists,
             "manifest_status" => scalar_str(Some(value)) == target_state.manifest_status.as_deref(),
+            "blocker_present" => {
+                let Some(blocker_class) = scalar_str(Some(value)) else {
+                    bail!("blocker_present condition must be a blocker class string");
+                };
+                condition_context
+                    .blockers
+                    .iter()
+                    .any(|candidate| candidate == blocker_class)
+            }
+            "cleanup_candidates_present" => {
+                let expected = value
+                    .as_bool()
+                    .context("cleanup_candidates_present condition must be boolean")?;
+                condition_context.cleanup_candidates_present == Some(expected)
+            }
+            "hygiene_preflight_required" => {
+                let expected = value
+                    .as_bool()
+                    .context("hygiene_preflight_required condition must be boolean")?;
+                condition_context.hygiene_preflight_required == Some(expected)
+            }
             "receipt_absent" => scalar_str(Some(value))
                 .and_then(|id| target_state.receipts.get(id))
                 .map(|receipt| !receipt.exists)

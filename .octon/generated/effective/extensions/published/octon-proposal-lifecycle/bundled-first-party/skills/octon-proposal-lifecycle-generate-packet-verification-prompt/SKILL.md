@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Packet Verification Prompt
+# Packet - Generate Verification Prompt
 
 Generate `support/follow-up-verification-prompt.md` with stable finding
 identity, evidence requirements, correction scope, acceptance criteria,

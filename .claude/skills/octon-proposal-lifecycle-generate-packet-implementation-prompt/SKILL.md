@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Packet Implementation Prompt
+# Packet - Generate Implementation Prompt
 
 Generate `support/executable-implementation-prompt.md` from the packet's
 manifests, promotion targets, acceptance criteria, validation plan, evidence

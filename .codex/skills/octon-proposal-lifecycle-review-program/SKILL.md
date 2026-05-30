@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Review Program
+# Program - Review
 
 Review one parent proposal program and write the parent-local
 `support/proposal-review.md` review receipt.

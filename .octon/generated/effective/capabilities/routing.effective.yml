@@ -1,9 +1,9 @@
 schema_version: octon-capability-routing-effective-v3
 generator_version: capability-routing-publication-v3
-generation_id: capabilities-4944ae6987f6
-published_at: 2026-05-28T03:16:09Z
+generation_id: capabilities-f69348490be0
+published_at: 2026-05-28T15:20:46Z
 publication_status: published
-publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-28T03-16-09Z-capabilities-4944ae6987f6.yml
+publication_receipt_path: .octon/state/evidence/validation/publication/capabilities/2026-05-28T15-20-46Z-capabilities-f69348490be0.yml
 invalidation_conditions:
   - root-manifest-sha-changed
   - native-capability-manifest-changed
@@ -34,9 +34,9 @@ source:
   locality_generation_lock_sha256: ac17b1575e7ad10b664e990b4fa3eef7a77bd7cbcc7904f347bb69630c240eba
   locality_generation_id: locality-e08a88ec3dda
   extensions_catalog_path: .octon/generated/effective/extensions/catalog.effective.yml
-  extensions_catalog_sha256: 95a50ad9502fa779f40457555b5a179523975c5e79abd080cc3dd0b31b30e002
+  extensions_catalog_sha256: ccf53b9d551af1f2c1dd66b0bcfc49cc4c7c628f7e217e8df89efba7f621ab44
   extensions_generation_lock_path: .octon/generated/effective/extensions/generation.lock.yml
-  extensions_generation_lock_sha256: 0da44348fede6909653ca5db6fbbd67be9a54ba5029c48cd892beb55425a9031
+  extensions_generation_lock_sha256: 3f392eefdc6c86c65eec99c8cbae4eb927dc9e31a83649777a9e37c35c3dc246
   extensions_generation_id: extensions-e539e7c8b239
 routing_context:
   selector_schema_version: octon-capability-routing-selectors-v1
@@ -5681,7 +5681,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle
-    display_name: Octon Proposal Lifecycle
+    display_name: Proposal Lifecycle
     summary: Resolve the appropriate proposal lifecycle route for packet or program targets and dispatch to the matching leaf bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5712,7 +5712,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-cleanup-lifecycle-residue
-    display_name: 'Octon Proposal Lifecycle: Cleanup Lifecycle Residue'
+    display_name: Program - Cleanup Lifecycle Residue
     summary: Run the cleanup-lifecycle-residue bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5743,7 +5743,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-closeout-packet
-    display_name: 'Octon Proposal Lifecycle: Closeout Packet'
+    display_name: Packet - Closeout
     summary: Run the closeout-packet bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5774,7 +5774,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-closeout-program
-    display_name: 'Octon Proposal Lifecycle: Closeout Program'
+    display_name: Program - Closeout
     summary: Run the closeout-program bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5805,7 +5805,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-create-packet
-    display_name: 'Octon Proposal Lifecycle: Create Packet'
+    display_name: Packet - Create
     summary: Run the create-packet bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5836,7 +5836,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-create-program
-    display_name: 'Octon Proposal Lifecycle: Create Program'
+    display_name: Program - Create
     summary: Run the create-program bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5867,7 +5867,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-explain-packet
-    display_name: 'Octon Proposal Lifecycle: Explain Packet'
+    display_name: Packet - Explain
     summary: Run the explain-packet bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5898,7 +5898,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-explain-program
-    display_name: 'Octon Proposal Lifecycle: Explain Program'
+    display_name: Program - Explain
     summary: Run the explain-program bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5929,7 +5929,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-packet-closeout-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Packet Closeout Prompt'
+    display_name: Packet - Generate Closeout Prompt
     summary: Run the generate-packet-closeout-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5960,7 +5960,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-packet-correction-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Packet Correction Prompt'
+    display_name: Packet - Generate Correction Prompt
     summary: Run the generate-packet-correction-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -5991,7 +5991,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-packet-implementation-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Packet Implementation Prompt'
+    display_name: Packet - Generate Implementation Prompt
     summary: Run the generate-packet-implementation-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6022,7 +6022,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-packet-verification-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Packet Verification Prompt'
+    display_name: Packet - Generate Verification Prompt
     summary: Run the generate-packet-verification-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6053,7 +6053,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-program-closeout-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Program Closeout Prompt'
+    display_name: Program - Generate Closeout Prompt
     summary: Run the generate-program-closeout-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6084,7 +6084,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-program-correction-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Program Correction Prompt'
+    display_name: Program - Generate Correction Prompt
     summary: Run the generate-program-correction-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6146,7 +6146,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-generate-program-verification-prompt
-    display_name: 'Octon Proposal Lifecycle: Generate Program Verification Prompt'
+    display_name: Program - Generate Verification Prompt
     summary: Run the generate-program-verification-prompt bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6177,7 +6177,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-review-packet
-    display_name: 'Octon Proposal Lifecycle: Review Packet'
+    display_name: Packet - Review
     summary: Run the review-packet bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6208,7 +6208,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-review-program
-    display_name: 'Octon Proposal Lifecycle: Review Program'
+    display_name: Program - Review
     summary: Run the review-program bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6239,7 +6239,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-revise-packet
-    display_name: 'Octon Proposal Lifecycle: Revise Packet'
+    display_name: Packet - Revise
     summary: Run the revise-packet bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6270,7 +6270,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-revise-program
-    display_name: 'Octon Proposal Lifecycle: Revise Program'
+    display_name: Program - Revise
     summary: Run the revise-program bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6301,7 +6301,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-run-packet-implementation
-    display_name: 'Octon Proposal Lifecycle: Run Packet Implementation'
+    display_name: Packet - Run Implementation
     summary: Run the proposal packet implementation bundle.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6332,7 +6332,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-run-packet-lifecycle
-    display_name: 'Octon Proposal Lifecycle: Run Packet Lifecycle'
+    display_name: Packet - Run Lifecycle
     summary: Run the generic lifecycle runner against one proposal packet target.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml
@@ -6394,7 +6394,7 @@ routing_candidates:
     origin_class: extension
     capability_kind: skill
     capability_id: octon-proposal-lifecycle-run-program-lifecycle
-    display_name: 'Octon Proposal Lifecycle: Run Program Lifecycle'
+    display_name: Program - Run Lifecycle
     summary: Run the generic lifecycle runner against one proposal program target.
     status: active
     source_manifest: .octon/generated/effective/extensions/catalog.effective.yml

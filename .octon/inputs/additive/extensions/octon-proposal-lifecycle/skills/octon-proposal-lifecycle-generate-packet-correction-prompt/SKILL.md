@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Packet Correction Prompt
+# Packet - Generate Correction Prompt
 
 Generate one targeted correction prompt under
 `support/correction-prompts/<finding-id>.md` for an unresolved verification

@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/control/skills/checkpoints/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Octon Proposal Lifecycle
+# Proposal Lifecycle
 
 Resolve `bundle` or `lifecycle_action` through
 `context/routing.contract.yml`, then dispatch to the matching leaf bundle.

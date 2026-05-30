@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Bash(git status) Bash(git diff) Bash(gh pr) Bash(.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh *) Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Octon Proposal Lifecycle: Closeout Program
+# Program - Closeout
 
 Program closeout must refuse final or implementation-ready claims unless every
 required packet-level completeness receipt passes or the program records an

@@ -511,11 +511,26 @@ receipts:
       - "verdict"
       - "cleaned_at"
       - "cleanup_candidates"
+      - "active_implementation_work_intact"
+      - "implementation_blocking"
+      - "closeout_blocking"
+      - "archive_blocking"
+      - "implementation_hygiene_verdict"
+      - "publication_hygiene_verdict"
       - "manual_review_count"
       - "worktree_hygiene_verdict"
       - "remaining_blocker_class"
       - "residue_fingerprint"
     verdict_field: "verdict"
+    freshness:
+      digest_command:
+        - "bash"
+        - ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh"
+        - "--target"
+        - "{{target}}"
+        - "--lifecycle"
+        - "proposal-program"
+      digest_field: "residue_fingerprint"
 
 loops:
   - loop_id: "program-review-revision"
@@ -869,9 +884,16 @@ routes:
         - "support/lifecycle-residue-cleanup.md"
       replan_required: true
     enter_when:
-      any:
-        - manifest_status: "accepted"
-        - manifest_status: "implemented"
+      all:
+        - any:
+            - hygiene_preflight_required: true
+            - blocker_present: "lifecycle-residue-cleanup-needed"
+            - cleanup_candidates_present: true
+        - any:
+            - receipt_absent: "lifecycle-residue-cleanup"
+            - receipt_stale: "lifecycle-residue-cleanup"
+            - blocker_present: "lifecycle-residue-cleanup-needed"
+            - cleanup_candidates_present: true
   - route_id: "generate-program-closeout-prompt"
     route_type: "extension"
     delegation_contract:

@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep
 ---
 
-# Octon Proposal Lifecycle: Explain Packet
+# Packet - Explain
 
 Explain a packet's problem, target state, durable promoted outcome, affected
 surfaces, and follow-on work without widening scope or promoting proposal-local

@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Create Program
+# Program - Create
 
 Program packets inherit the implementation-grade completeness gate. Do not
 present a program as final or implementation-ready until its packet-level or

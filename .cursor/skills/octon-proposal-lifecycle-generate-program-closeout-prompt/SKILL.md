@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*)
 ---
 
-# Octon Proposal Lifecycle: Generate Program Closeout Prompt
+# Program - Generate Closeout Prompt
 
 Generate closeout guidance for coherent child closeout and parent archival.
 

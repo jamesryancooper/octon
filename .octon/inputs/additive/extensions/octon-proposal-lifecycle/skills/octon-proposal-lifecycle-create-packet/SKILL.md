@@ -12,7 +12,7 @@ capabilities: [self-validating]
 allowed-tools: Read Glob Grep Write(/.octon/inputs/exploratory/proposals/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Octon Proposal Lifecycle: Create Packet
+# Packet - Create
 
 Normalize source context, classify the scenario, create a standard proposal
 packet at the canonical active path, and validate it. Store source lineage in

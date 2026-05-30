@@ -139,12 +139,18 @@ fn execute_mock_program_route(request: &LifecycleRouteExecutionRequest) -> Resul
             write_receipt(
                 request.target.join("support/lifecycle-residue-cleanup.md"),
                 &[
-                    ("verdict", "blocked"),
+                    ("verdict", "blocked-retained"),
                     ("cleaned_at", cleaned_at.as_str()),
                     ("cleanup_candidates", "0"),
+                    ("active_implementation_work_intact", "yes"),
+                    ("implementation_blocking", "false"),
+                    ("closeout_blocking", "true"),
+                    ("archive_blocking", "true"),
+                    ("implementation_hygiene_verdict", "pass"),
+                    ("publication_hygiene_verdict", "blocked"),
                     ("manual_review_count", "1"),
                     ("worktree_hygiene_verdict", "blocked"),
-                    ("remaining_blocker_class", "artifact-ownership-unclear"),
+                    ("remaining_blocker_class", "worktree-hygiene-blocked"),
                     ("residue_fingerprint", "mock"),
                 ],
             )
