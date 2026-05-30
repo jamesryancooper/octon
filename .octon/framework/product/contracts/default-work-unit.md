@@ -18,10 +18,12 @@ itself.
 
 Pull Requests are optional publication and review outputs. They are selected
 when a Change needs hosted review, external signoff, unresolved review
-discussion, PR-required provider rules, collaboration, preview publication,
-release automation, protected or high-impact work whose governing evidence
-requires hosted review or remote validation, or when the operator explicitly
-requests a PR.
+discussion, PR-required provider rules, preview publication, release automation,
+protected or high-impact work whose governing evidence requires hosted review or
+remote validation, or when the operator explicitly requests a PR. Branch
+isolation, high-impact scope, protected-surface scope, provider caution, blocked
+direct-main landing, or blocked hosted no-PR landing is not enough by itself to
+select a PR.
 
 Branches are isolation mechanisms. They are selected when a Change needs
 isolation from `main`, pause/resume safety, multiple commits, handoff,
@@ -53,8 +55,12 @@ For solo work, select the fastest safe route. Consider `direct-main` first
 when the Change is low-risk, the operator is on clean current `main`, local
 validation is sufficient, rollback is straightforward from the resulting
 commit, durable history and Change receipt evidence can be recorded, and no
-policy, repository protection, collaboration need, branch-isolation need, or
+policy, repository protection, documented review/signoff need, branch-isolation need, or
 operator instruction requires a branch or PR.
+
+If `direct-main` is not eligible and the Change needs branch isolation, select
+`branch-no-pr` unless a concrete PR predicate is independently proven and
+recorded with `branch_pr_predicate_evidence`.
 
 Provider route-neutral capability is not itself a reason to choose
 `branch-no-pr`. It is a hosted landing precondition after `branch-no-pr` is
@@ -167,10 +173,11 @@ record `not_cleaned_reason` and structured `cleanup_stop_reason`.
   updates, and clean up only when the receipt records evidence for that
   lifecycle outcome.
 - `branch-pr`: PR-backed Change selected for hosted review, external signoff,
-  unresolved review discussion, PR-required provider rules, publication, release
-  automation, collaboration, protected or high-impact work whose governing
-  evidence requires hosted review or remote validation, existing PR context, or
-  explicit operator request.
+  unresolved review discussion, PR-required provider rules, preview publication,
+  release automation, protected or high-impact work whose governing evidence
+  requires hosted review or remote validation, existing PR context, or explicit
+  operator request. Each selection must record `branch_pr_predicate` and
+  `branch_pr_predicate_evidence`.
 - `stage-only-escalate`: blocked Change that preserves state and records the
   missing decision, validation, rollback, authorization, review, or ownership
   condition.
@@ -342,7 +349,22 @@ A blocked direct-main push or blocked hosted `branch-no-pr` landing is not
 itself a `branch-pr` predicate. A PR-backed closeout must either select
 `branch-pr` up front from a recorded `branch_pr_predicate`, or record an
 authority-backed transition to `branch-pr` plus the resulting
-`branch_pr_predicate`.
+`branch_pr_predicate`. In both cases, the receipt must include
+`branch_pr_predicate_evidence` proving the independent PR requirement and
+explaining why `branch-no-pr` was not policy-valid.
+
+Branch-PR predicate evidence requirements:
+
+| `branch_pr_predicate` | additional required evidence |
+| --- | --- |
+| `explicit-operator-pr-request` | `operator_request_ref` |
+| `existing-pr-context` | `existing_pr_or_review_ref` |
+| `release-automation` | release or automation requirement in `requirement_ref` |
+| `preview-publication-required` | preview-publication requirement in `requirement_ref` |
+| `hosted-review-required` | hosted-review requirement in `requirement_ref` |
+| `external-signoff-required` | external-signoff requirement in `requirement_ref` |
+| `protected-or-high-impact-remote-review-required` | `scope_classification_ref` plus `governing_review_requirement_ref`; high-impact or protected scope alone is insufficient |
+| `provider-ruleset-requires-pr-for-requested-pr-backed-landing` | `provider_ruleset_ref` proving PR-backed landing is required |
 
 Hosted `branch-no-pr` landing must fail closed unless a current governed
 landing authorization receipt validates immediately before mutation. The
@@ -407,7 +429,7 @@ The route-neutral hosted check set is `route_neutral_closeout_validation`,
   recorded landed ref are aligned after the final fetch/sync step.
 - Do not open a PR unless `branch-pr` is selected.
 - Do not select or transition to `branch-pr` without recording the
-  `branch_pr_predicate`.
+  `branch_pr_predicate` and `branch_pr_predicate_evidence`.
 - Do not treat blocked direct-main pushes, GH013, required checks, or blocked
   hosted no-PR landing as implicit authority to open a PR.
 - Do not change routes after initial selection without structured route

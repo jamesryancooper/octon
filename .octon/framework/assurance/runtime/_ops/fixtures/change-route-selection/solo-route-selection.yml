@@ -78,3 +78,65 @@ cases:
       existing_pr_context: false
     expected_route: "branch-no-pr"
     expected_reason: "high-impact alone is not a PR predicate"
+  - id: "protected-surface-alone-does-not-force-branch-pr"
+    description: "Protected-surface branch-isolated work stays branch-no-pr when no governing PR requirement applies."
+    facts:
+      change_identity_resolved: true
+      current_branch_main: true
+      main_clean_current: true
+      no_unrelated_changes: true
+      solo_low_risk: false
+      protected_surface: true
+      local_validation_sufficient: true
+      straightforward_rollback: true
+      change_receipt_available: true
+      branch_isolation_needed: true
+      explicit_operator_pr_request: false
+      hosted_review_required: false
+      external_signoff_required: false
+      provider_ruleset_requires_pr: false
+      release_automation_requires_pr: false
+      existing_pr_context: false
+    expected_route: "branch-no-pr"
+    expected_reason: "protected surface alone is not a PR predicate"
+  - id: "protected-high-impact-governing-review-selects-branch-pr"
+    description: "Protected or high-impact work selects branch-pr only when governing evidence requires hosted review or remote validation."
+    facts:
+      change_identity_resolved: true
+      current_branch_main: true
+      main_clean_current: true
+      no_unrelated_changes: true
+      solo_low_risk: false
+      high_impact: true
+      protected_surface: true
+      governing_review_requirement_ref: "policy://governing-review-required"
+      hosted_review_required: true
+      local_validation_sufficient: true
+      straightforward_rollback: true
+      change_receipt_available: true
+      branch_isolation_needed: true
+      explicit_operator_pr_request: false
+      external_signoff_required: false
+      provider_ruleset_requires_pr: false
+      release_automation_requires_pr: false
+      existing_pr_context: false
+    expected_route: "branch-pr"
+    expected_reason: "governing evidence requires hosted review or remote validation"
+  - id: "provider-pr-required-with-explicit-pr-request-selects-branch-pr"
+    description: "Provider PR-required landing can select branch-pr only when an explicit PR route is requested or otherwise independently required."
+    facts:
+      change_identity_resolved: true
+      requested_hosted_no_pr_landing: false
+      requested_pr_backed_landing: true
+      branch_isolation_needed: true
+      explicit_operator_pr_request: true
+      hosted_review_required: false
+      external_signoff_required: false
+      provider_ruleset_requires_pr: true
+      release_automation_requires_pr: false
+      existing_pr_context: false
+      local_validation_sufficient: true
+      straightforward_rollback: true
+      change_receipt_available: true
+    expected_route: "branch-pr"
+    expected_reason: "explicit PR route plus provider PR-required evidence"

@@ -112,11 +112,11 @@ routes:
     description: "PR-backed Change for a branch-pr predicate selected up front, or for an authority-backed route transition to branch-pr after new evidence. A blocked direct-main push or blocked hosted branch-no-pr landing is not itself a branch-pr predicate."
     precedence: 10
     selected_when_any:
-      - "operator requests PR, hosted review, preview publication, or external signoff"
+      - "operator explicitly requests PR, or a documented requirement requires hosted review, preview publication, or external signoff"
       - "provider ruleset requires PR for a requested PR-backed landing"
       - "release automation requires PR"
       - "work starts from an existing PR, PR review thread, release PR, Dependabot PR, or GitHub merge lane"
-      - "declared risk, high-impact posture, or protected surface requires hosted review or remote validation"
+      - "protected or high-impact work has governing evidence that specifically requires hosted review or remote validation"
     required_evidence:
       - "change_receipt"
       - "branch_identity"
@@ -126,6 +126,7 @@ routes:
       - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "rollback_handle"
       - "branch_pr_predicate"
+      - "branch_pr_predicate_evidence"
       - "route_transition_authority_when_selected_after_an_initial_different_route"
     required_validation:
       - "selected_validation_floor"
@@ -134,6 +135,7 @@ routes:
       - "change_id"
       - "selected_route"
       - "branch_pr_predicate"
+      - "branch_pr_predicate_evidence"
       - "lifecycle_outcome"
       - "intent"
       - "scope"
@@ -189,7 +191,7 @@ routes:
       - "change is low risk and locally understandable"
       - "validation can run locally at the selected floor"
       - "rollback is straightforward from the resulting commit"
-      - "no policy, repository protection, collaboration need, or operator instruction requires branch or PR"
+      - "no policy, repository protection, documented review/signoff need, or operator instruction requires branch or PR"
     required_evidence:
       - "change_receipt"
       - "landed_commit"
@@ -238,6 +240,7 @@ solo_route_selection:
     - "direct_main_predicates_not_all_satisfied"
   provider_route_neutral_capability: "hosted branch-no-pr landing precondition, not an independent reason to choose branch-no-pr"
   high_impact_rule: "high-impact increases caution and evidence requirements but does not by itself force branch-pr"
+  branch_no_pr_preference_rule: "when direct-main is ineligible and no concrete PR predicate is proven with evidence, prefer branch-no-pr for branch-isolated work"
 route_lifecycle_outcomes:
   direct-main:
     allowed_outcomes:
@@ -398,6 +401,7 @@ pr_required_predicates:
   - "provider_ruleset_requires_pr"
   - "release_automation_requires_pr"
   - "existing_pr_or_review_thread_context"
+  - "protected_or_high_impact_remote_review_required"
 route_transition_authorities:
   - "explicit-operator-reroute"
   - "policy-reroute-after-new-evidence"
@@ -406,10 +410,36 @@ branch_pr_predicates:
   - "explicit-operator-pr-request"
   - "existing-pr-context"
   - "release-automation"
+  - "preview-publication-required"
   - "hosted-review-required"
   - "external-signoff-required"
   - "protected-or-high-impact-remote-review-required"
   - "provider-ruleset-requires-pr-for-requested-pr-backed-landing"
+branch_pr_predicate_evidence_requirements:
+  common:
+    - "predicate_matches_branch_pr_predicate"
+    - "requirement_ref"
+    - "evidence_refs"
+    - "branch_no_pr_rejection_reason"
+  explicit-operator-pr-request:
+    - "operator_request_ref"
+  existing-pr-context:
+    - "existing_pr_or_review_ref"
+  release-automation:
+    - "requirement_ref_cites_release_or_automation_requirement"
+  preview-publication-required:
+    - "requirement_ref_cites_preview_publication_requirement"
+  hosted-review-required:
+    - "requirement_ref_cites_hosted_review_requirement"
+  external-signoff-required:
+    - "requirement_ref_cites_external_signoff_requirement"
+  protected-or-high-impact-remote-review-required:
+    - "scope_classification_ref"
+    - "governing_review_requirement_ref"
+    - "high_impact_or_protected_scope_alone_is_not_sufficient"
+  provider-ruleset-requires-pr-for-requested-pr-backed-landing:
+    - "provider_ruleset_ref"
+    - "provider_ruleset_proves_pr_backed_landing_required"
 branch_required_predicates:
   - "route_is_branch-pr"
   - "route_is_branch-no-pr"
@@ -465,6 +495,8 @@ fail_closed_conditions:
   - "branch_no_pr_contains_pr_metadata"
   - "branch_pr_claims_full_closeout_before_merge"
   - "branch_pr_receipt_missing_branch_pr_predicate"
+  - "branch_pr_receipt_missing_branch_pr_predicate_evidence"
+  - "branch_pr_predicate_evidence_does_not_prove_independent_pr_requirement"
   - "route_transition_missing_transition_authority"
   - "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr"
   - "cleanup_claim_missing_cleanup_evidence"

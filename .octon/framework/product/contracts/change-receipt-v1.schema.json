@@ -84,10 +84,118 @@
         "explicit-operator-pr-request",
         "existing-pr-context",
         "release-automation",
+        "preview-publication-required",
         "hosted-review-required",
         "external-signoff-required",
         "protected-or-high-impact-remote-review-required",
         "provider-ruleset-requires-pr-for-requested-pr-backed-landing"
+      ]
+    },
+    "branch_pr_predicate_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "predicate",
+        "requirement_ref",
+        "evidence_refs",
+        "branch_no_pr_rejection_reason"
+      ],
+      "properties": {
+        "predicate": {
+          "type": "string",
+          "enum": [
+            "explicit-operator-pr-request",
+            "existing-pr-context",
+            "release-automation",
+            "preview-publication-required",
+            "hosted-review-required",
+            "external-signoff-required",
+            "protected-or-high-impact-remote-review-required",
+            "provider-ruleset-requires-pr-for-requested-pr-backed-landing"
+          ]
+        },
+        "requirement_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "branch_no_pr_rejection_reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operator_request_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "provider_ruleset_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "existing_pr_or_review_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope_classification_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "governing_review_requirement_ref": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "predicate": { "const": "explicit-operator-pr-request" }
+            },
+            "required": ["predicate"]
+          },
+          "then": {
+            "required": ["operator_request_ref"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "predicate": { "const": "existing-pr-context" }
+            },
+            "required": ["predicate"]
+          },
+          "then": {
+            "required": ["existing_pr_or_review_ref"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "predicate": { "const": "provider-ruleset-requires-pr-for-requested-pr-backed-landing" }
+            },
+            "required": ["predicate"]
+          },
+          "then": {
+            "required": ["provider_ruleset_ref"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "predicate": { "const": "protected-or-high-impact-remote-review-required" }
+            },
+            "required": ["predicate"]
+          },
+          "then": {
+            "required": [
+              "scope_classification_ref",
+              "governing_review_requirement_ref"
+            ]
+          }
+        }
       ]
     },
     "target_lifecycle_outcome": {
@@ -599,7 +707,11 @@
     {
       "if": { "properties": { "selected_route": { "const": "branch-pr" } } },
       "then": {
-        "required": ["source_branch_ref"],
+        "required": [
+          "source_branch_ref",
+          "branch_pr_predicate",
+          "branch_pr_predicate_evidence"
+        ],
         "properties": {
           "target_lifecycle_outcome": {
             "enum": ["preserved", "published", "ready", "landed", "cleaned", "blocked", "escalated", "denied"]

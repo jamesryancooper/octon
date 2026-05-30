@@ -17,7 +17,8 @@ prove that a live GitHub ruleset has been migrated.
   directly on clean current `main`. It uses `integration_method:
   direct-commit`, `integration_status: landed`, and no PR metadata.
 - `valid-branch-pr-ready.json` demonstrates a `branch-pr` Change that has
-  reached `ready`. It records `branch_pr_predicate`, uses
+  reached `ready`. It records `branch_pr_predicate` and
+  `branch_pr_predicate_evidence`, uses
   `publication_status: pr-ready`,
   `integration_status: not_landed`, and `closeout_outcome: continued`.
 - `valid-branch-no-pr-branch-local-complete.json` demonstrates branch-local

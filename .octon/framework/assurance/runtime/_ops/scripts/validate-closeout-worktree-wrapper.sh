@@ -297,6 +297,68 @@ def load_closeout_change_receipt(ref, field, require_receipt=False):
     return loaded
 
 
+def validate_branch_pr_predicate_evidence(receipt, field):
+    predicate = receipt.get("branch_pr_predicate")
+    evidence = receipt.get("branch_pr_predicate_evidence")
+    if not is_nonempty_string(predicate):
+        fail(f"{field} branch-pr receipt requires branch_pr_predicate")
+        return False
+    if not isinstance(evidence, dict):
+        fail(f"{field} branch-pr receipt requires branch_pr_predicate_evidence")
+        return False
+    if evidence.get("predicate") != predicate:
+        fail(f"{field} branch_pr_predicate_evidence.predicate must match branch_pr_predicate")
+        return False
+    for key in ("requirement_ref", "branch_no_pr_rejection_reason"):
+        if not is_nonempty_string(evidence.get(key)):
+            fail(f"{field} branch_pr_predicate_evidence.{key} must be non-empty")
+            return False
+    if not isinstance(evidence.get("evidence_refs"), list) or not evidence.get("evidence_refs"):
+        fail(f"{field} branch_pr_predicate_evidence.evidence_refs must be non-empty")
+        return False
+    evidence_blob = "\n".join(
+        str(value)
+        for value in [
+            evidence.get("requirement_ref"),
+            evidence.get("branch_no_pr_rejection_reason"),
+            evidence.get("operator_request_ref"),
+            evidence.get("provider_ruleset_ref"),
+            evidence.get("existing_pr_or_review_ref"),
+            evidence.get("scope_classification_ref"),
+            evidence.get("governing_review_requirement_ref"),
+            *evidence.get("evidence_refs", []),
+        ]
+        if isinstance(value, str)
+    ).lower()
+    if any(term in evidence_blob for term in ("branch isolation", "high-impact alone", "protected surface alone", "provider caution")):
+        fail(f"{field} branch_pr_predicate_evidence cannot rely on branch isolation, high-impact/protected-surface scope, or provider caution alone")
+        return False
+    requirement_ref = str(evidence.get("requirement_ref", "")).lower()
+    if (
+        ("block" in requirement_ref)
+        and any(term in requirement_ref for term in ("gh013", "required checks", "direct push", "hosted no-pr", "branch-no-pr"))
+    ):
+        fail(f"{field} branch_pr_predicate_evidence.requirement_ref cannot be blocked landing evidence")
+        return False
+    if predicate == "explicit-operator-pr-request" and not is_nonempty_string(evidence.get("operator_request_ref")):
+        fail(f"{field} explicit operator PR predicate requires operator_request_ref")
+        return False
+    if predicate == "existing-pr-context" and not is_nonempty_string(evidence.get("existing_pr_or_review_ref")):
+        fail(f"{field} existing PR context predicate requires existing_pr_or_review_ref")
+        return False
+    if predicate == "provider-ruleset-requires-pr-for-requested-pr-backed-landing" and not is_nonempty_string(evidence.get("provider_ruleset_ref")):
+        fail(f"{field} provider PR predicate requires provider_ruleset_ref")
+        return False
+    if predicate == "protected-or-high-impact-remote-review-required":
+        if not is_nonempty_string(evidence.get("scope_classification_ref")):
+            fail(f"{field} protected/high-impact PR predicate requires scope_classification_ref")
+            return False
+        if not is_nonempty_string(evidence.get("governing_review_requirement_ref")):
+            fail(f"{field} protected/high-impact PR predicate requires governing_review_requirement_ref")
+            return False
+    return True
+
+
 def resolve_receipt_ref(ref, field):
     if not is_nonempty_string(ref):
         fail(f"{field} must be a non-empty evidence ref")
@@ -563,6 +625,8 @@ def receipt_has_completed_full_closeout(ref, field, candidate_id=None):
         if not validate_main_alignment(receipt, field):
             return False
         if route == "branch-no-pr" and not validate_branch_no_pr_landing_authorization(receipt, field):
+            return False
+        if route == "branch-pr" and not validate_branch_pr_predicate_evidence(receipt, field):
             return False
 
         cleanup_status = receipt.get("cleanup_status")

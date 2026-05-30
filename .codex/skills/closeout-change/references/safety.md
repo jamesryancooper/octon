@@ -25,9 +25,12 @@ title: Closeout Change Safety
 - Do not silently convert a blocked `branch-no-pr` hosted landing into
   `branch-pr`.
 - Do not treat a blocked direct-main push, GH013, required checks, or blocked
-  hosted no-PR landing as a `branch-pr` predicate. Record `branch_pr_predicate`
-  for initial `branch-pr` selection, or record route transition authority
-  before changing routes.
+  hosted no-PR landing as a `branch-pr` predicate. Record
+  `branch_pr_predicate` and matching `branch_pr_predicate_evidence` for initial
+  `branch-pr` selection, or record route transition authority before changing
+  routes.
+- Do not infer `branch-pr` from branch isolation, high-impact scope,
+  protected-surface scope, or provider caution alone.
 - Do not report hosted no-PR landing unless exact source SHA checks passed and
   `origin/main` equals the recorded landed ref after the fast-forward push.
 - Do not mutate hosted `origin/main` for no-PR landing unless a retained

@@ -6,14 +6,17 @@ title: Closeout Change Decisions
 
 - Select `branch-pr` when the operator requests a PR, hosted review, preview
   publication, external signoff, unresolved review discussion, PR-required
-  provider rules, release automation, collaboration, existing PR context, or
-  high-risk hosted governance handling.
-- Record `branch_pr_predicate` whenever `branch-pr` is selected. If
-  `branch-pr` is reached after another initial route, record the route
-  transition fields before PR mutation.
+  provider rules, release automation, existing PR context, or protected or
+  high-impact work whose governing evidence requires hosted review or remote
+  validation.
+- Record `branch_pr_predicate` and matching `branch_pr_predicate_evidence`
+  whenever `branch-pr` is selected. If `branch-pr` is reached after another
+  initial route, record the route transition fields before PR mutation.
 - Select `branch-no-pr` when isolation, pause/resume, multiple commits,
   uncertain scope, handoff, branch backup, or hosted no-PR landing is needed
-  without PR-backed publication and no PR-required predicate applies.
+  without PR-backed publication and no concrete PR predicate applies. Branch
+  isolation, high-impact scope, protected-surface scope, provider caution, or
+  blocked landing evidence alone is not a PR predicate.
 - Select `direct-main` only on clean current `main` for low-risk solo Changes
   with local validation, receipt, durable history, and rollback ready.
 - Provider route-neutral capability is a hosted no-PR landing precondition, not

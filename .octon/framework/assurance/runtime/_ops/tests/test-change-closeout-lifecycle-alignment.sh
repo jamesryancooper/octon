@@ -52,6 +52,32 @@ rewrite_json_file() {
   mv "$tmp" "$file"
 }
 
+add_branch_pr_evidence() {
+  local receipt="$1"
+  local predicate="${2:-hosted-review-required}"
+  local tmp filter
+  case "$predicate" in
+    explicit-operator-pr-request)
+      filter='.branch_pr_predicate_evidence = {predicate: $predicate, requirement_ref: "operator://chat/explicit-pr-request", evidence_refs: ["operator requested PR-backed route"], branch_no_pr_rejection_reason: "The operator explicitly requested PR-backed routing.", operator_request_ref: "operator://chat/explicit-pr-request"}'
+      ;;
+    existing-pr-context)
+      filter='.branch_pr_predicate_evidence = {predicate: $predicate, requirement_ref: "github-pr:https://example.invalid/pr/1", evidence_refs: ["existing PR context"], branch_no_pr_rejection_reason: "The Change already has PR review context.", existing_pr_or_review_ref: "github-pr:https://example.invalid/pr/1"}'
+      ;;
+    protected-or-high-impact-remote-review-required)
+      filter='.branch_pr_predicate_evidence = {predicate: $predicate, requirement_ref: "policy://governing-review-required", evidence_refs: ["governing evidence requires hosted review"], branch_no_pr_rejection_reason: "Governing evidence requires hosted review or remote validation.", scope_classification_ref: "evidence://scope/high-impact", governing_review_requirement_ref: "policy://governing-review-required"}'
+      ;;
+    provider-ruleset-requires-pr-for-requested-pr-backed-landing)
+      filter='.branch_pr_predicate_evidence = {predicate: $predicate, requirement_ref: "github-ruleset://requires-pr", evidence_refs: ["provider ruleset requires PR-backed landing"], branch_no_pr_rejection_reason: "Provider ruleset requires PR-backed landing for the requested route.", provider_ruleset_ref: "github-ruleset://requires-pr"}'
+      ;;
+    *)
+      filter='.branch_pr_predicate_evidence = {predicate: $predicate, requirement_ref: ("policy://" + $predicate), evidence_refs: ["predicate requirement proven"], branch_no_pr_rejection_reason: "A documented PR predicate makes branch-no-pr not policy-valid."}'
+      ;;
+  esac
+  tmp="$(mktemp)"
+  jq --arg predicate "$predicate" "$filter" "$receipt" >"$tmp"
+  mv "$tmp" "$receipt"
+}
+
 attach_valid_landing_authorization() {
   local receipt="$1"
   local auth tmp
@@ -326,6 +352,7 @@ case_branch_pr_preserved_receipt_passes_without_pr_metadata() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   run_validator "$receipt"
 }
 
@@ -467,6 +494,7 @@ case_branch_pr_rejects_branch_only_lifecycle_outcome() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   ! run_validator "$receipt"
 }
 
@@ -495,6 +523,7 @@ case_branch_pr_draft_not_full_closeout() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   ! run_validator "$receipt"
 }
 
@@ -774,6 +803,7 @@ case_branch_pr_landed_completed_pending_cleanup_fails() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   ! run_validator "$receipt"
 }
 
@@ -807,6 +837,7 @@ case_direct_main_blocked_then_pr_without_transition_authority_fails() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   ! run_validator "$receipt"
 }
 
@@ -840,6 +871,7 @@ case_branch_no_pr_blocked_then_pr_without_transition_authority_fails() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   ! run_validator "$receipt"
 }
 
@@ -877,6 +909,7 @@ case_explicit_operator_reroute_to_pr_passes() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "explicit-operator-pr-request"
   run_validator "$receipt"
 }
 
@@ -914,6 +947,7 @@ case_policy_reroute_to_pr_after_new_evidence_passes() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "hosted-review-required"
   run_validator "$receipt"
 }
 
@@ -942,6 +976,272 @@ case_branch_pr_selected_up_front_from_release_automation_passes() {
 }
 JSON
 )"
+  add_branch_pr_evidence "$receipt" "release-automation"
+  run_validator "$receipt"
+}
+
+case_branch_pr_selected_up_front_from_preview_publication_passes() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "good-preview-publication-pr",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "preview-publication-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "valid PR route selected for preview publication",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "preview/example",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "preview/example", "branch": "preview/example"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "preview/example"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  add_branch_pr_evidence "$receipt" "preview-publication-required"
+  run_validator "$receipt"
+}
+
+case_branch_pr_protected_high_impact_governing_review_passes() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "good-protected-high-impact-pr",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "protected-or-high-impact-remote-review-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "valid PR route selected by governing review requirement",
+  "scope": {"summary": "test", "touched_paths": [".octon/framework/product/contracts/default-work-unit.yml"]},
+  "source_branch_ref": "feature/governed-review",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/governed-review", "branch": "feature/governed-review"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/governed-review"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  add_branch_pr_evidence "$receipt" "protected-or-high-impact-remote-review-required"
+  run_validator "$receipt"
+}
+
+case_branch_pr_missing_predicate_evidence_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-missing-predicate-evidence",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad missing predicate evidence",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/missing-evidence",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/missing-evidence", "branch": "feature/missing-evidence"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/missing-evidence"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_branch_pr_predicate_evidence_mismatch_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-predicate-evidence-mismatch",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad mismatched predicate evidence",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/mismatched-evidence",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/mismatched-evidence", "branch": "feature/mismatched-evidence"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/mismatched-evidence"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  add_branch_pr_evidence "$receipt" "release-automation"
+  ! run_validator "$receipt"
+}
+
+case_branch_pr_high_impact_only_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-high-impact-only-pr",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "protected-or-high-impact-remote-review-required",
+  "branch_pr_predicate_evidence": {
+    "predicate": "protected-or-high-impact-remote-review-required",
+    "requirement_ref": "scope://high-impact",
+    "evidence_refs": ["high-impact alone"],
+    "branch_no_pr_rejection_reason": "high-impact alone"
+  },
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad high-impact-only PR route",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/high-impact-only",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/high-impact-only", "branch": "feature/high-impact-only"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/high-impact-only"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_branch_pr_branch_isolation_only_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-branch-isolation-only-pr",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
+  "branch_pr_predicate_evidence": {
+    "predicate": "hosted-review-required",
+    "requirement_ref": "scope://branch-isolation",
+    "evidence_refs": ["branch isolation"],
+    "branch_no_pr_rejection_reason": "branch isolation"
+  },
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad branch-isolation-only PR route",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/branch-isolation-only",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/branch-isolation-only", "branch": "feature/branch-isolation-only"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/branch-isolation-only"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_branch_pr_provider_caution_only_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-provider-caution-pr",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "provider-ruleset-requires-pr-for-requested-pr-backed-landing",
+  "branch_pr_predicate_evidence": {
+    "predicate": "provider-ruleset-requires-pr-for-requested-pr-backed-landing",
+    "requirement_ref": "provider-caution://main",
+    "evidence_refs": ["provider caution"],
+    "branch_no_pr_rejection_reason": "provider caution"
+  },
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad provider-caution-only PR route",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/provider-caution",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/provider-caution", "branch": "feature/provider-caution"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/provider-caution"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_branch_pr_blocked_no_pr_landing_inference_fails() {
+  local receipt
+  receipt="$(write_receipt <<'JSON'
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "bad-blocked-no-pr-inference",
+  "selected_route": "branch-pr",
+  "branch_pr_predicate": "hosted-review-required",
+  "branch_pr_predicate_evidence": {
+    "predicate": "hosted-review-required",
+    "requirement_ref": "hosted no-PR branch-no-pr landing blocked by required checks",
+    "evidence_refs": ["hosted no-PR landing blocked"],
+    "branch_no_pr_rejection_reason": "hosted no-PR landing blocked"
+  },
+  "target_lifecycle_outcome": "preserved",
+  "lifecycle_outcome": "preserved",
+  "outcome_intent": "preserve-only",
+  "intent": "bad blocked no-PR landing PR inference",
+  "scope": {"summary": "test"},
+  "source_branch_ref": "feature/blocked-no-pr",
+  "integration_status": "not_landed",
+  "publication_status": "none",
+  "cleanup_status": "pending",
+  "validation_evidence_refs": ["validator passed"],
+  "durable_history": {"kind": "branch", "ref": "feature/blocked-no-pr", "branch": "feature/blocked-no-pr"},
+  "rollback_handle": {"kind": "discard-branch", "ref": "feature/blocked-no-pr"},
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-01T00:00:00Z"
+}
+JSON
+)"
+  ! run_validator "$receipt"
+}
+
+case_branch_no_pr_high_impact_branch_isolation_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-branch-local-complete.json)"
+  rewrite_json_file "$receipt" '.scope.summary = "High-impact branch-isolated work without a PR predicate stays branch-no-pr." | .scope.touched_paths = [".octon/framework/product/contracts/default-work-unit.yml"] | .review_waiver_refs = ["high-impact alone is not a PR predicate"]'
+  run_validator "$receipt"
+}
+
+case_branch_no_pr_blocked_missing_landing_authorization_passes() {
+  local receipt
+  receipt="$(copy_example_receipt valid-branch-no-pr-published-branch.json)"
+  rewrite_json_file "$receipt" '.target_lifecycle_outcome = "cleaned" | .outcome_intent = "attempt-cleaned-closeout" | .not_landed_reason = "Governed hosted no-PR landing authorization is missing." | .landing_stop_reason = "governance_authorization_missing" | .not_cleaned_reason = "Landing did not complete, so cleanup could not run." | .cleanup_stop_reason = "landing_not_completed" | .landing_evaluation = {"status":"blocked","provider_ruleset_ref":"route-neutral-main","source_ref":.durable_history.ref,"blocker_reason":"Governed hosted no-PR landing authorization is missing."} | .external_blocker_refs = ["missing branch-landing-authorization-v1"] | .remaining_blockers = ["Governed hosted no-PR landing authorization is missing."]'
   run_validator "$receipt"
 }
 
@@ -1056,6 +1356,16 @@ main() {
   assert_success "explicit operator reroute to PR passes" case_explicit_operator_reroute_to_pr_passes
   assert_success "policy reroute to PR after new evidence passes" case_policy_reroute_to_pr_after_new_evidence_passes
   assert_success "branch-pr selected up front from release automation passes" case_branch_pr_selected_up_front_from_release_automation_passes
+  assert_success "branch-pr selected up front from preview publication passes" case_branch_pr_selected_up_front_from_preview_publication_passes
+  assert_success "branch-pr protected/high-impact governing review evidence passes" case_branch_pr_protected_high_impact_governing_review_passes
+  assert_success "branch-pr missing predicate evidence fails" case_branch_pr_missing_predicate_evidence_fails
+  assert_success "branch-pr predicate evidence mismatch fails" case_branch_pr_predicate_evidence_mismatch_fails
+  assert_success "branch-pr high-impact alone fails" case_branch_pr_high_impact_only_fails
+  assert_success "branch-pr branch isolation alone fails" case_branch_pr_branch_isolation_only_fails
+  assert_success "branch-pr provider caution alone fails" case_branch_pr_provider_caution_only_fails
+  assert_success "branch-pr blocked no-PR landing inference fails" case_branch_pr_blocked_no_pr_landing_inference_fails
+  assert_success "branch-no-pr high-impact branch isolation passes" case_branch_no_pr_high_impact_branch_isolation_passes
+  assert_success "branch-no-pr missing landing authorization blocks without PR reroute" case_branch_no_pr_blocked_missing_landing_authorization_passes
   assert_success "route transition authority none fails when route changed" case_transition_authority_none_changed_route_fails
   assert_success "route transition authority none passes when route unchanged" case_transition_authority_none_unchanged_route_passes
 

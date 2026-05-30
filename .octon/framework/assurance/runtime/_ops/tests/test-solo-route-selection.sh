@@ -38,7 +38,7 @@ selected_route_for_case() {
     return
   fi
 
-  if [[ "$(fact "$idx" explicit_operator_pr_request)" == "true" || "$(fact "$idx" hosted_review_required)" == "true" || "$(fact "$idx" external_signoff_required)" == "true" || "$(fact "$idx" provider_ruleset_requires_pr)" == "true" || "$(fact "$idx" release_automation_requires_pr)" == "true" || "$(fact "$idx" existing_pr_context)" == "true" ]]; then
+  if [[ "$(fact "$idx" explicit_operator_pr_request)" == "true" || "$(fact "$idx" hosted_review_required)" == "true" || "$(fact "$idx" preview_publication_required)" == "true" || "$(fact "$idx" external_signoff_required)" == "true" || "$(fact "$idx" provider_ruleset_requires_pr)" == "true" || "$(fact "$idx" release_automation_requires_pr)" == "true" || "$(fact "$idx" existing_pr_context)" == "true" ]]; then
     printf 'branch-pr\n'
     return
   fi
@@ -61,6 +61,7 @@ case_static_contracts_match_solo_rule() {
     yq -e '.solo_route_selection.direct_main_first_when_all[] | select(. == "clean_current_main")' "$POLICY" >/dev/null &&
     yq -e '.solo_route_selection.provider_route_neutral_capability == "hosted branch-no-pr landing precondition, not an independent reason to choose branch-no-pr"' "$POLICY" >/dev/null &&
     yq -e '.solo_route_selection.high_impact_rule == "high-impact increases caution and evidence requirements but does not by itself force branch-pr"' "$POLICY" >/dev/null &&
+    yq -e '.solo_route_selection.branch_no_pr_preference_rule == "when direct-main is ineligible and no concrete PR predicate is proven with evidence, prefer branch-no-pr for branch-isolated work"' "$POLICY" >/dev/null &&
     grep -Fq "## Fastest Safe Solo Route" "$QUICKSTART" &&
     grep -Fq "Provider route-neutral capability is a hosted \`branch-no-pr\` landing" "$QUICKSTART"
 }

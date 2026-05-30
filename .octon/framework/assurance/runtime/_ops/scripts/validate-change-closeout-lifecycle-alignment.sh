@@ -119,6 +119,19 @@ receipt_text_blob() {
   ] | map(select(type == "string")) | join("\n")' "$RECEIPT_PATH"
 }
 
+predicate_evidence_blob() {
+  jq -r '[
+    .branch_pr_predicate_evidence.requirement_ref?,
+    .branch_pr_predicate_evidence.branch_no_pr_rejection_reason?,
+    .branch_pr_predicate_evidence.operator_request_ref?,
+    .branch_pr_predicate_evidence.provider_ruleset_ref?,
+    .branch_pr_predicate_evidence.existing_pr_or_review_ref?,
+    .branch_pr_predicate_evidence.scope_classification_ref?,
+    .branch_pr_predicate_evidence.governing_review_requirement_ref?,
+    (.branch_pr_predicate_evidence.evidence_refs[]?)
+  ] | map(select(type == "string")) | join("\n")' "$RECEIPT_PATH"
+}
+
 looks_like_sha() {
   [[ "$1" =~ ^[0-9a-fA-F]{40}$ ]]
 }
@@ -175,20 +188,24 @@ validate_contracts() {
     require_jq "$RECEIPT_SCHEMA" ".required[] | select(. == \"$field\")" "receipt schema requires $field" "receipt schema missing required $field"
   done
   require_jq "$RECEIPT_SCHEMA" '.properties.outcome_intent.enum[] | select(. == "handoff-only")' "receipt schema models outcome intent" "receipt schema must model outcome intent"
-  for field in initial_route route_transition_reason route_transition_authority route_transition_authority_ref route_transition_evidence_refs branch_pr_predicate; do
+  for field in initial_route route_transition_reason route_transition_authority route_transition_authority_ref route_transition_evidence_refs branch_pr_predicate branch_pr_predicate_evidence; do
     require_jq "$RECEIPT_SCHEMA" ".properties.$field" "receipt schema models $field" "receipt schema must model $field"
   done
   for authority in explicit-operator-reroute policy-reroute-after-new-evidence none; do
     require_jq "$RECEIPT_SCHEMA" ".properties.route_transition_authority.enum[] | select(. == \"$authority\")" "receipt schema accepts route transition authority $authority" "receipt schema missing route transition authority $authority"
   done
-  for predicate in explicit-operator-pr-request existing-pr-context release-automation hosted-review-required external-signoff-required protected-or-high-impact-remote-review-required provider-ruleset-requires-pr-for-requested-pr-backed-landing; do
+  for predicate in explicit-operator-pr-request existing-pr-context release-automation preview-publication-required hosted-review-required external-signoff-required protected-or-high-impact-remote-review-required provider-ruleset-requires-pr-for-requested-pr-backed-landing; do
     require_jq "$RECEIPT_SCHEMA" ".properties.branch_pr_predicate.enum[] | select(. == \"$predicate\")" "receipt schema accepts branch-pr predicate $predicate" "receipt schema missing branch-pr predicate $predicate"
     require_yq "$POLICY" ".branch_pr_predicates[]? | select(. == \"$predicate\")" "policy defines branch-pr predicate $predicate" "policy missing branch-pr predicate $predicate"
   done
+  require_jq "$RECEIPT_SCHEMA" '.allOf[]? | select(.then.required[]? == "branch_pr_predicate_evidence")' "receipt schema requires branch-pr predicate evidence for branch-pr" "receipt schema must require branch_pr_predicate_evidence for branch-pr receipts"
+  require_jq "$RECEIPT_SCHEMA" '.properties.branch_pr_predicate_evidence.required[] | select(. == "branch_no_pr_rejection_reason")' "receipt schema requires branch-no-pr rejection reason for branch-pr predicate evidence" "receipt schema must require branch_no_pr_rejection_reason"
+  require_yq "$POLICY" '.branch_pr_predicate_evidence_requirements.common[]? | select(. == "predicate_matches_branch_pr_predicate")' "policy defines branch-pr predicate evidence requirements" "policy must define branch_pr_predicate_evidence requirements"
   for authority in explicit-operator-reroute policy-reroute-after-new-evidence none; do
     require_yq "$POLICY" ".route_transition_authorities[]? | select(. == \"$authority\")" "policy defines route transition authority $authority" "policy missing route transition authority $authority"
   done
   require_literal "$SELF_SCRIPT" "branch-pr receipt requires branch_pr_predicate" "lifecycle validator requires branch_pr_predicate for branch-pr" "lifecycle validator must require branch_pr_predicate for branch-pr receipts"
+  require_literal "$SELF_SCRIPT" "branch-pr receipt requires branch_pr_predicate_evidence" "lifecycle validator requires branch_pr_predicate_evidence for branch-pr" "lifecycle validator must require branch_pr_predicate_evidence for branch-pr receipts"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_evaluation.properties.status.enum[] | select(. == "blocked")' "receipt schema models landing evaluation" "receipt schema must model landing evaluation"
   require_jq "$RECEIPT_SCHEMA" '.properties.landing_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured landing stop reason" "receipt schema must model landing_stop_reason"
   require_jq "$RECEIPT_SCHEMA" '.properties.cleanup_stop_reason.enum[] | select(. == "runtime_approval_denied")' "receipt schema models structured cleanup stop reason" "receipt schema must model cleanup_stop_reason"
@@ -262,6 +279,8 @@ validate_contracts() {
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "landed_branch_closeout_without_post_landing_fetch_and_local_main_sync_evidence")' "policy fails closed on landed branch closeout without post-landing fetch/sync evidence" "policy must fail closed on landed branch closeout without post-landing fetch/sync evidence"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "published_branch_reported_as_completed_closeout")' "policy fails closed on pushed branch handoff reported as completed" "policy must fail closed on pushed branch handoff reported as completed"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_pr_receipt_missing_branch_pr_predicate")' "policy fails closed on branch-pr receipt without predicate" "policy must fail closed on branch-pr receipt without predicate"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_pr_receipt_missing_branch_pr_predicate_evidence")' "policy fails closed on branch-pr receipt without predicate evidence" "policy must fail closed on branch-pr receipt without predicate evidence"
+  require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "branch_pr_predicate_evidence_does_not_prove_independent_pr_requirement")' "policy fails closed when branch-pr evidence lacks independent PR requirement" "policy must fail closed when branch-pr evidence lacks independent PR requirement"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "route_transition_missing_transition_authority")' "policy fails closed on route transition without authority" "policy must fail closed on route transition without authority"
   require_yq "$POLICY" '.fail_closed_conditions[]? | select(. == "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr")' "policy fails closed on silent branch-pr reroute" "policy must fail closed on silent branch-pr reroute"
   require_yq "$POLICY" '.closeout_defaults.target_lifecycle_outcome.unspecified_closeout_request == "cleaned"' "policy defaults unspecified closeout target to cleaned" "policy must default unspecified closeout target to cleaned"
@@ -321,7 +340,7 @@ validate_contracts() {
   require_literal "$CLOSEOUT_CHANGE" "source branch changes are integrated into \`origin/main\`" "closeout-change requires source branch integration before full closeout" "closeout-change must require source branch integration before full closeout"
   require_literal "$CLOSEOUT_CHANGE" "recorded \`landed_ref\` is contained in both local \`main\`" "closeout-change requires landed-ref containment before full closeout" "closeout-change must require landed-ref containment before full closeout"
   require_literal "$CLOSEOUT_CHANGE" "Route transition is separate from route selection" "closeout-change separates route selection from transition" "closeout-change must separate route selection from transition"
-  require_literal "$CLOSEOUT_CHANGE" "branch_pr_predicate" "closeout-change requires branch-pr predicate evidence" "closeout-change must require branch_pr_predicate evidence"
+  require_literal "$CLOSEOUT_CHANGE" "branch_pr_predicate_evidence" "closeout-change requires branch-pr predicate evidence" "closeout-change must require branch_pr_predicate_evidence"
   require_literal "$CLOSEOUT_CHANGE" "Never delete protected" "closeout-change forbids unsafe branch cleanup" "closeout-change must forbid unsafe branch cleanup"
   require_literal "$CLOSEOUT_WORKTREE" 'singular `closeout-change` runs' "closeout-worktree delegates singular closeout-change runs" "closeout-worktree must delegate singular closeout-change runs"
   require_literal "$CLOSEOUT_WORKTREE" "partition autonomously" "closeout-worktree partitions unambiguous candidates autonomously" "closeout-worktree must partition unambiguous candidates autonomously"
@@ -502,7 +521,7 @@ validate_receipt() {
   jq -e '.' "$RECEIPT_PATH" >/dev/null 2>&1 && pass "receipt parses as JSON" || { fail "receipt parses as JSON"; return; }
 
   local route target outcome integration publication cleanup durable_kind durable_ref closeout_outcome integration_method outcome_intent
-  local initial_route transition_authority branch_pr_predicate transition_changed
+  local initial_route transition_authority branch_pr_predicate branch_pr_evidence_predicate transition_changed
   route="$(json_value '.selected_route')"
   target="$(json_value '.target_lifecycle_outcome')"
   outcome="$(json_value '.lifecycle_outcome')"
@@ -517,6 +536,7 @@ validate_receipt() {
   initial_route="$(json_value '.initial_route')"
   transition_authority="$(json_value '.route_transition_authority')"
   branch_pr_predicate="$(json_value '.branch_pr_predicate')"
+  branch_pr_evidence_predicate="$(json_value '.branch_pr_predicate_evidence.predicate')"
   transition_changed=0
 
   if bash "$EVIDENCE_TIER_VALIDATOR" --change-receipt "$RECEIPT_PATH" >/dev/null; then
@@ -567,7 +587,7 @@ validate_receipt() {
   if [[ "$route" == "branch-pr" ]]; then
     json_has_nonempty '.branch_pr_predicate' && pass "branch-pr receipt records branch_pr_predicate" || fail "branch-pr receipt requires branch_pr_predicate"
     case "$branch_pr_predicate" in
-      explicit-operator-pr-request|existing-pr-context|release-automation|hosted-review-required|external-signoff-required|protected-or-high-impact-remote-review-required|provider-ruleset-requires-pr-for-requested-pr-backed-landing)
+      explicit-operator-pr-request|existing-pr-context|release-automation|preview-publication-required|hosted-review-required|external-signoff-required|protected-or-high-impact-remote-review-required|provider-ruleset-requires-pr-for-requested-pr-backed-landing)
         pass "branch_pr_predicate is supported"
         ;;
       "")
@@ -576,6 +596,42 @@ validate_receipt() {
         fail "branch_pr_predicate is unsupported"
         ;;
     esac
+    if jq -e '.branch_pr_predicate_evidence | type == "object"' "$RECEIPT_PATH" >/dev/null 2>&1; then
+      pass "branch-pr receipt records branch_pr_predicate_evidence"
+      [[ "$branch_pr_evidence_predicate" == "$branch_pr_predicate" ]] && pass "branch_pr_predicate_evidence predicate matches branch_pr_predicate" || fail "branch_pr_predicate_evidence predicate must match branch_pr_predicate"
+      json_has_nonempty '.branch_pr_predicate_evidence.requirement_ref' && pass "branch_pr_predicate_evidence records requirement ref" || fail "branch_pr_predicate_evidence requires requirement_ref"
+      json_array_nonempty '.branch_pr_predicate_evidence.evidence_refs' && pass "branch_pr_predicate_evidence records evidence refs" || fail "branch_pr_predicate_evidence requires evidence_refs"
+      json_has_nonempty '.branch_pr_predicate_evidence.branch_no_pr_rejection_reason' && pass "branch_pr_predicate_evidence records branch-no-pr rejection reason" || fail "branch_pr_predicate_evidence requires branch_no_pr_rejection_reason"
+
+      if predicate_evidence_blob | grep -Eiq '(^|[^a-z])(branch isolation|high-impact alone|protected surface alone|provider caution)([^a-z]|$)'; then
+        fail "branch_pr_predicate_evidence cannot rely on branch isolation, high-impact/protected-surface scope, or provider caution alone"
+      else
+        pass "branch_pr_predicate_evidence avoids route inference from isolation, impact, protected scope, or provider caution alone"
+      fi
+      if json_has_nonempty '.branch_pr_predicate_evidence.requirement_ref' && jq -er '.branch_pr_predicate_evidence.requirement_ref' "$RECEIPT_PATH" | grep -Eiq '(GH013|required checks|direct push|hosted no-PR|hosted no-pr|branch-no-pr).*block|block.*(GH013|required checks|direct push|hosted no-PR|hosted no-pr|branch-no-pr)'; then
+        fail "branch_pr_predicate_evidence requirement_ref cannot be blocked landing evidence"
+      else
+        pass "branch_pr_predicate_evidence requirement ref is independent of blocked landing evidence"
+      fi
+
+      case "$branch_pr_predicate" in
+        explicit-operator-pr-request)
+          json_has_nonempty '.branch_pr_predicate_evidence.operator_request_ref' && pass "explicit operator PR predicate records operator request ref" || fail "explicit operator PR predicate requires operator_request_ref"
+          ;;
+        existing-pr-context)
+          json_has_nonempty '.branch_pr_predicate_evidence.existing_pr_or_review_ref' && pass "existing PR context predicate records PR or review ref" || fail "existing PR context predicate requires existing_pr_or_review_ref"
+          ;;
+        protected-or-high-impact-remote-review-required)
+          json_has_nonempty '.branch_pr_predicate_evidence.scope_classification_ref' && pass "protected/high-impact PR predicate records scope classification" || fail "protected/high-impact PR predicate requires scope_classification_ref"
+          json_has_nonempty '.branch_pr_predicate_evidence.governing_review_requirement_ref' && pass "protected/high-impact PR predicate records governing review requirement" || fail "protected/high-impact PR predicate requires governing_review_requirement_ref"
+          ;;
+        provider-ruleset-requires-pr-for-requested-pr-backed-landing)
+          json_has_nonempty '.branch_pr_predicate_evidence.provider_ruleset_ref' && pass "provider PR predicate records provider ruleset ref" || fail "provider PR predicate requires provider_ruleset_ref"
+          ;;
+      esac
+    else
+      fail "branch-pr receipt requires branch_pr_predicate_evidence"
+    fi
     if [[ "$transition_changed" -eq 1 ]]; then
       case "$transition_authority" in
         explicit-operator-reroute|policy-reroute-after-new-evidence)

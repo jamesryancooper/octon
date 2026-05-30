@@ -52,6 +52,11 @@ Execute the Change Closeout State Machine phase loop from
    target lifecycle outcome separately from the route. When the operator asks to
    close out the Change without naming a narrower target, set
    `target_lifecycle_outcome: cleaned`.
+   If direct-main is not eligible and the Change needs branch isolation, select
+   `branch-no-pr` unless a concrete PR predicate is independently proven. Never
+   infer `branch-pr` from branch isolation, high-impact scope,
+   protected-surface scope, provider caution, blocked direct-main landing, or
+   blocked hosted no-PR landing alone.
    Select Outcome by recording the actual lifecycle outcome only after the
    route-specific evidence is available.
    Route transition is separate from route selection: if the route changes
@@ -75,7 +80,8 @@ Execute the Change Closeout State Machine phase loop from
    governed landing authorization, fast-forward/update proof,
    `origin/main == landed_ref`, rollback handle, and final local sync.
 9. **PR-Backed Delegation** — Invoke `closeout-pr` only when selected route is
-   `branch-pr`.
+   `branch-pr` and the receipt records matching
+   `branch_pr_predicate_evidence`.
 10. **Branch Cleanup** — For landed branch routes, prove `origin/main`
     containment, no-open-PR status, rollback/discard posture, governed cleanup
     authorization, and local/remote cleanup status.
@@ -111,6 +117,9 @@ approval denial, or cleanup outside a governed route.
 ## Boundaries
 
 - Do not open a PR unless route selection returns `branch-pr`.
+- Do not select `branch-pr` unless a concrete PR predicate is recorded with
+  matching `branch_pr_predicate_evidence`; high-impact or protected scope alone
+  is not a predicate.
 - Do not create a branch merely because a Change exists.
 - Do not choose `branch-no-pr` solely because the provider can support
   route-neutral hosted landing; provider support is a hosted landing
@@ -214,8 +223,8 @@ approval denial, or cleanup outside a governed route.
 - If the provider ruleset requires PR for `main`, report a blocker for
   `branch-no-pr` hosted landing. Do not silently convert `branch-no-pr` to
   `branch-pr`; PR mutation requires selected route `branch-pr` with
-  `branch_pr_predicate`, or explicit operator/policy reroute recorded through
-  route transition authority.
+  `branch_pr_predicate` and `branch_pr_predicate_evidence`, or explicit
+  operator/policy reroute recorded through route transition authority.
 - A blocked direct-main push, GH013, required checks, or blocked hosted
   no-PR landing is not itself a `branch-pr` predicate.
 - Do not claim `branch-pr` as full closeout when the PR is only draft, open, or

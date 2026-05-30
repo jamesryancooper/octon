@@ -167,7 +167,10 @@ case_policy_defines_solo_route_selection() {
   local policy="$ROOT_DIR/.octon/framework/product/contracts/default-work-unit.yml"
   yq -e '.solo_route_selection.rule == "Choose the fastest safe route that satisfies evidence, validation, rollback, cleanup, and protected-main controls."' "$policy" >/dev/null &&
     yq -e '.solo_route_selection.provider_route_neutral_capability == "hosted branch-no-pr landing precondition, not an independent reason to choose branch-no-pr"' "$policy" >/dev/null &&
-    yq -e '.solo_route_selection.high_impact_rule == "high-impact increases caution and evidence requirements but does not by itself force branch-pr"' "$policy" >/dev/null
+    yq -e '.solo_route_selection.high_impact_rule == "high-impact increases caution and evidence requirements but does not by itself force branch-pr"' "$policy" >/dev/null &&
+    yq -e '.solo_route_selection.branch_no_pr_preference_rule == "when direct-main is ineligible and no concrete PR predicate is proven with evidence, prefer branch-no-pr for branch-isolated work"' "$policy" >/dev/null &&
+    yq -e '.branch_pr_predicates[] | select(. == "preview-publication-required")' "$policy" >/dev/null &&
+    yq -e '.branch_pr_predicate_evidence_requirements."protected-or-high-impact-remote-review-required"[] | select(. == "governing_review_requirement_ref")' "$policy" >/dev/null
 }
 
 case_receipt_examples_cover_solo_routes() {

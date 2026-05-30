@@ -3,6 +3,14 @@
   "change_id": "example-invalid-draft-pr-claimed-full-closeout",
   "selected_route": "branch-pr",
   "branch_pr_predicate": "hosted-review-required",
+  "branch_pr_predicate_evidence": {
+    "predicate": "hosted-review-required",
+    "requirement_ref": ".octon/framework/product/contracts/default-work-unit.yml#branch-pr",
+    "evidence_refs": [
+      "policy:hosted review required for invalid full-closeout example"
+    ],
+    "branch_no_pr_rejection_reason": "Hosted review is required for this example, so branch-no-pr is not policy-valid."
+  },
   "target_lifecycle_outcome": "ready",
   "lifecycle_outcome": "ready",
   "outcome_intent": "pr-ready",
