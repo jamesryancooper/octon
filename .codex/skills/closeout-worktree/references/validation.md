@@ -11,6 +11,7 @@ Successful wrapper execution proves:
   candidate delegation;
 - residue classification was read-only and retained or summarized;
 - every observed item has exactly one disposition;
+- every candidate declares exactly one `residue_routing_class`;
 - each delegated unit was one coherent Change;
 - each delegated unit routed through `closeout-change`;
 - the selected candidate has explicit include and exclude path boundaries;
@@ -27,15 +28,29 @@ Successful wrapper execution proves:
   `final_candidate_dispositions`;
 - `worktree_terminal_state` distinguishes `git_clean_terminal`,
   `disposition_complete_with_retained_residue`, and `nonterminal`;
+- `nonterminal` is reported only when at least one candidate, repo-hygiene
+  summary, blocker, deferred state, escalation, unsafe residue, or ambiguity is
+  genuinely unresolved;
+- terminal wrapper states are rejected while any closed branch receipt still
+  defers source branch cleanup;
+- `disposition_complete_with_retained_residue` is supported only by
+  `local_private_retained` or `foreign_manual_review` candidates with
+  candidate-keyed retained evidence;
+- `publishable_change` and `publishable_closeout_evidence` are the only
+  routing classes delegated to `closeout-change`;
+- `unsafe` and `ambiguous` routing classes force `nonterminal` with
+  candidate-keyed blocker evidence;
 - each closed candidate cites the singular `closeout-change` receipt JSON used
   for that iteration, that ref resolves under
   `.octon/state/evidence/runs/skills/closeout-change/`, and the receipt records
   `closeout_outcome: completed`;
 - branch-based closed candidates prove source-branch integration into
   `origin/main`, governed landing authorization for hosted no-PR landing,
-  post-landing fetch, local `main` sync to `origin/main`, landed-ref
-  containment in both refs, and cleanup completed with governed cleanup
-  authorization when the singular receipt reports `cleaned`;
+  hosted landing evidence, exact source-SHA required check refs, post-landing
+  fetch, local `main` sync to `origin/main`, landed-ref containment in both
+  refs, local `main`/`origin/main`/`landed_ref` alignment, and cleanup
+  completed with governed cleanup authorization when the singular receipt
+  reports `cleaned`;
 - no direct wrapper stage, commit, push, PR, landing, merge, reset, restore,
   overwrite, delete, or branch cleanup action occurred;
 - repo-hygiene cleanup, when needed, was delegated to the
@@ -70,6 +85,10 @@ Negative controls:
   continued handoff receipt as `closed` fails.
 - A wrapper report whose closed branch receipt claims completed cleanup without
   `branch-cleanup-authorization-v1` evidence fails.
+- A wrapper report whose closed branch-no-pr receipt lacks
+  `landing_authorization_ref` fails.
+- A wrapper report whose closed branch-no-pr receipt lacks exact source-SHA
+  hosted check refs fails.
 - A wrapper report with a synthetic or non-resolving `closeout-change`
   reference for a delegated or closed candidate fails.
 - A wrapper report that references a prior wrapper report but omits a prior
@@ -91,10 +110,25 @@ Negative controls:
   no matching candidate-keyed blocker evidence fails.
 - A wrapper report that carries unresolved candidates while claiming terminal
   `next_route_condition: none` fails.
+- A wrapper report with `worktree_terminal_state: nonterminal` but no
+  unresolved candidate, repo-hygiene residue, blocker, deferred state,
+  escalation, unsafe residue, or ambiguity fails.
 - A wrapper report that claims `worktree_terminal_state: git_clean_terminal`
   while untracked retained evidence or other non-ignored residue remains fails.
 - A wrapper report that claims terminal retained-residue disposition without
   `worktree_terminal_state: disposition_complete_with_retained_residue` fails.
+- A wrapper report that claims terminal retained-residue disposition for
+  ordinary untracked/source, generated, control, input, raw/private state, or
+  host-projection residue fails.
+- A wrapper report that counts broad raw/private state, `.octon/engine/**`,
+  generated authority, transcripts, or input surfaces as publishable closeout
+  evidence fails.
+- A wrapper report that routes recursive final-branch operational evidence as
+  another publishable closeout-evidence publication fails; it must be retained
+  locally or reported as nonterminal with blocker evidence.
+- A wrapper report that classifies `closeout-worktree` skill run logs under
+  `.octon/state/evidence/runs/skills/closeout-worktree/**` as publishable
+  closeout evidence fails.
 - A wrapper report that claims terminal completion while any candidate lacks a
   terminal final disposition fails.
 - A wrapper report that claims cleanup from detection-only evidence fails.

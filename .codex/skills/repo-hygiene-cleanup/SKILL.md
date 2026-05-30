@@ -13,7 +13,7 @@ metadata:
   updated: "2026-05-21"
 skill_sets: [executor, guardian]
 capabilities: [external-dependent, stateful, safety-bounded, self-validating]
-allowed-tools: Read Glob Grep Bash(git status *) Bash(git ls-files *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh *) Write(/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/*) Write(/.octon/state/evidence/validation/analysis/*)
+allowed-tools: Read Glob Grep Bash(git status *) Bash(git ls-files *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh *) Bash(bash .octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh *) Write(/.octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/*) Write(/.octon/state/evidence/runs/skills/repo-hygiene-cleanup/*) Write(/.octon/state/evidence/validation/analysis/*)
 ---
 
 # Repo Hygiene Cleanup
@@ -44,10 +44,11 @@ rewrite durable framework or instance authority.
    any operator-provided include or exclude intent. Treat generated outputs,
    host state, proposal-local files, chat, memory, and tool availability as
    evidence at most, never cleanup authority.
-3. **Classify First** - Run the helper without mutation. Retain its summary,
-   cleanup candidate count, protected referenced count, manual-review count,
-   status digest, classification digest, cleanup path-set digest, protected
-   paths digest, and manual-review paths digest.
+3. **Classify First** - Run the helper without mutation. Retain raw helper
+   output, local-only path details, and sensitive debugging context under
+   `.octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/<run-id>/`.
+   Publish only summary counts and digests unless a later receipt explicitly
+   redacts and promotes a shareable summary.
 4. **Select Route** - Use one of two delete routes only:
    `--confirm` for explicit operator action, or `--authorize <receipt.json>`
    followed by `--authorization <receipt.json>` for receipt-backed cleanup.
@@ -62,11 +63,15 @@ rewrite durable framework or instance authority.
    then invoke the helper with `--authorization`. The helper must revalidate
    current git refs, status digest, classification digest, path-set digest,
    protected digest, manual-review digest, proof bits, and exact path set
-   before deleting anything.
-6. **Record Evidence** - Write a run log under
+   before deleting anything. Raw receipt-generation logs stay local-private
+   when they include local paths or operator-sensitive details.
+6. **Record Evidence** - Write a concise publishable receipt under
    `.octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/` with the
-   helper output, receipt ref when one exists, deleted path list, retained
-   protected paths, retained manual-review paths, and any blocker.
+   route, helper summary, digest set, redaction posture, authorization receipt
+   ref when one exists, local evidence ref plus digest, deleted count, retained
+   protected count, retained manual-review count, and any blocker. Do not embed
+   raw helper output, raw deleted path lists, raw retained path lists, or
+   `.octon/state/evidence/local/**` payloads in the publishable receipt.
 7. **Validate** - Run
    `.octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh`
    after any durable policy, helper, schema, or skill-surface change.
@@ -94,6 +99,10 @@ This skill must not delete
   safety controls.
 - Do not claim full worktree closeout; this skill only handles repo-hygiene
   cleanup candidates within the helper's current scope.
+- Do not use local-private raw logs under `.octon/state/evidence/local/**` as
+  hosted/shared closeout evidence; hosted/shared claims require concise
+  publishable receipts under
+  `.octon/state/evidence/runs/skills/repo-hygiene-cleanup/<run-id>/`.
 - Do not delete branches, tracked files, proposal inputs, generated run-health
   projections, durable evidence, active control state, detached Git worktrees,
   ignored paths, or user-owned paths.

@@ -26,7 +26,8 @@ Outputs:
 
 The report must list each candidate Change, disposition, delegated
 `closeout-change` run or handoff reference, orchestration iteration, retained
-residue, blocker, final disposition, and next route condition.
+residue, blocker, final disposition, `residue_routing_class`, and next route
+condition.
 
 The wrapper does not emit a replacement Change receipt. Each completed,
 continued, blocked, escalated, or denied candidate must rely on the singular
@@ -96,20 +97,33 @@ include:
 - `git_clean_terminal`: no non-ignored staged, unstaged, untracked,
   retained-evidence, generated-effective, host-projection, state-control,
   release-version, or input-surface residue remains; ignored local residue may
-  remain only with foreign or retained evidence.
+  remain only with foreign or retained evidence. Closed branch candidates must
+  prove local `main` equals `origin/main` equals `landed_ref`, and source
+  branch cleanup is completed with governed cleanup authorization.
 - `disposition_complete_with_retained_residue`: every candidate is `closed`,
   `retained`, or `foreign` with authority-backed evidence, but Git-clean is not
   claimed.
 - `nonterminal`: blocked, deferred, escalated, ambiguous, or unresolved
-  delegated residue remains.
+  delegated residue remains. `nonterminal` requires a genuinely unresolved
+  candidate, repo-hygiene summary, blocker, deferred state, escalation, unsafe
+  residue, deferred branch cleanup, or ambiguity.
 
-Each candidate record must include `candidate_id`, `disposition`, `ownership`,
-`route_hint`, `target_lifecycle_outcome`, `rollback_or_discard_posture`, and
-`boundaries.include_paths` plus `boundaries.exclude_paths`. Delegated and
-closed candidates must include `closeout_change_ref` pointing to the singular
-`closeout-change` run, receipt, or blocker handoff. A selected candidate may
-stop before delegation only when candidate-keyed blocker evidence explains why
-the selected candidate itself cannot safely run through `closeout-change`.
+Each candidate record must include `candidate_id`, `disposition`,
+`residue_routing_class`, `ownership`, `route_hint`,
+`target_lifecycle_outcome`, `rollback_or_discard_posture`, and
+`boundaries.include_paths` plus `boundaries.exclude_paths`.
+`residue_routing_class` must be one of `publishable_change`,
+`publishable_closeout_evidence`, `local_private_retained`,
+`foreign_manual_review`, `unsafe`, or `ambiguous`. Delegated and closed
+candidates must be `publishable_change` or `publishable_closeout_evidence` and
+must include `closeout_change_ref` pointing to the singular `closeout-change`
+run, receipt, or blocker handoff. `local_private_retained` and
+`foreign_manual_review` may support retained-residue completion only with
+candidate-keyed retained evidence. `unsafe` and `ambiguous` force
+`worktree_terminal_state: nonterminal` with candidate-keyed blocker evidence.
+A selected candidate may stop before delegation only when candidate-keyed
+blocker evidence explains why the selected candidate itself cannot safely run
+through `closeout-change`.
 
 `iterations` is required for every new report and must be non-empty when any
 candidate is delegated or closed. Each iteration must include:
@@ -134,6 +148,11 @@ orchestration iteration, resolves under
 `/.octon/state/evidence/runs/skills/closeout-change/`, and records
 `closeout_outcome: completed`. A branch receipt with `branch-local-complete` or
 `published-branch` is a continued handoff, not closed wrapper disposition.
+For branch-no-pr `landed` or `cleaned` receipts, the singular receipt must
+prove `landing_authorization_ref`, hosted landing evidence, exact source-SHA
+required check refs, source-branch integration, local `main` sync,
+`origin/main` fetch evidence, and equality of local `main`, `origin/main`, and
+`landed_ref`.
 When the receipt claims completed source branch cleanup, it must also cite a
 validating `branch-cleanup-authorization-v1` receipt. A cleanup-deferred landed
 receipt may be closed as landed only when it is not reported as cleaned and
@@ -165,6 +184,17 @@ Unresolved candidates must carry candidate-keyed evidence:
   `final_residue_classes`; if fresh repo-local closeout evidence remains after
   the final delegated candidate, use
   `disposition_complete_with_retained_residue`.
+- Reports with `worktree_terminal_state:
+  disposition_complete_with_retained_residue` may retain only
+  `local_private_retained` or `foreign_manual_review` residue with
+  candidate-keyed evidence; ordinary untracked/source, generated, control,
+  input, raw/private state, or host-projection residue cannot satisfy terminal
+  completion.
+- Recursive final-branch operational evidence is local-private retained
+  evidence; it must not be routed as another publishable closeout-evidence
+  candidate. `closeout-worktree` skill run logs under
+  `.octon/state/evidence/runs/skills/closeout-worktree/**` are operational
+  evidence, not publishable closeout-evidence candidates.
 - A report must not mark a safely separable selected candidate as blocked only
   because other candidates exist; multiple candidates trigger wrapper
   orchestration, not partition-only completion.

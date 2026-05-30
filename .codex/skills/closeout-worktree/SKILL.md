@@ -47,7 +47,10 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    scopes by intent, touched paths, branch identity, receipt references,
    validation requirements, and operator instructions. When grouping is
    unambiguous, partition autonomously; do not ask the operator to name the
-   first candidate merely because multiple candidates exist.
+   first candidate merely because multiple candidates exist. Assign every
+   candidate a `residue_routing_class`: `publishable_change`,
+   `publishable_closeout_evidence`, `local_private_retained`,
+   `foreign_manual_review`, `unsafe`, or `ambiguous`.
 5. **Resolve Ambiguity** — Ask or stop when ownership, grouping, target
    outcome, route, validation floor, cleanup authority, or destructive action
    would be ambiguous.
@@ -78,7 +81,14 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
    another candidate. When the generic target is `cleaned` and the only new
    non-ignored residue is unambiguous closeout evidence under retained evidence
    roots, create the next candidate with `route_hint: closeout-change`,
-   `target_lifecycle_outcome: cleaned`, and explicit include/exclude paths.
+   `target_lifecycle_outcome: cleaned`,
+   `residue_routing_class: publishable_closeout_evidence`, and explicit
+   include/exclude paths. Recursive final-branch operational evidence created
+   by closeout itself is retained locally under local-private evidence and must
+   not create another publishable closeout-evidence loop. Do not classify
+   `closeout-worktree` skill run logs under
+   `.octon/state/evidence/runs/skills/closeout-worktree/**` as publishable
+   closeout evidence.
 10. **Repeat Or Stop** — Continue selecting and delegating one candidate at a
    time while coherent candidates remain. Stop only when every candidate is
    closed, retained, blocked, escalated, deferred, or foreign with evidence and
@@ -100,17 +110,35 @@ orchestration iterations, delegated `closeout-change` evidence, retained
 residue, blockers, final candidate dispositions, final inventory,
 `worktree_terminal_state`, and next-route condition.
 
+Every candidate must include `residue_routing_class` with exactly one of:
+`publishable_change`, `publishable_closeout_evidence`,
+`local_private_retained`, `foreign_manual_review`, `unsafe`, or `ambiguous`.
+Only `publishable_change` and `publishable_closeout_evidence` may be delegated
+to `closeout-change`. Only `local_private_retained` and
+`foreign_manual_review` may support
+`disposition_complete_with_retained_residue`, and only with candidate-keyed
+retained evidence. `unsafe` and `ambiguous` always force
+`worktree_terminal_state: nonterminal` with candidate-keyed blocker evidence.
+
 `worktree_terminal_state` must be one of:
 
 - `git_clean_terminal`: no non-ignored staged, unstaged, untracked,
   retained-evidence, generated-effective, host-projection, state-control,
   release-version, or input-surface residue remains. Ignored local residue may
-  remain only with foreign or retained evidence.
+  remain only with foreign or retained evidence. Closed branch candidates must
+  prove local `main` equals `origin/main` equals `landed_ref`, and source
+  branch cleanup is completed with governed cleanup authorization.
 - `disposition_complete_with_retained_residue`: every candidate is `closed`,
-  `retained`, or `foreign` with authority-backed evidence, but Git-clean is not
-  claimed.
+  `retained`, or `foreign` with authority-backed evidence, retained/foreign
+  residue is classified as `local_private_retained` or
+  `foreign_manual_review`, and Git-clean is not claimed. Ordinary untracked,
+  source, generated, control, input, raw/private state, or host-projection
+  residue cannot satisfy this terminal state.
 - `nonterminal`: blocked, deferred, escalated, ambiguous, or unresolved
-  delegated residue remains.
+  delegated residue remains. A report must not claim `nonterminal` unless at
+  least one candidate, repo-hygiene summary, blocker, deferred state,
+  escalation, unsafe residue, deferred branch cleanup, or ambiguity is
+  genuinely unresolved.
 
 When repo-hygiene residue is present, the report should include
 `repo_hygiene_classification_ref`,
@@ -148,6 +176,10 @@ candidates must cite a singular `closeout-change` receipt under
 `closeout_outcome` is `completed`. A `published-branch` or
 `branch-local-complete` receipt is a continued handoff and must not be reported
 as `closed`; use `deferred`, `blocked`, or retained evidence instead.
+For branch-no-pr `landed` or `cleaned` receipts, the singular receipt must
+also prove governed `landing_authorization_ref`, hosted landing evidence,
+exact source-SHA required check refs, source-branch integration, and local
+`main`/`origin/main`/`landed_ref` alignment.
 When a closed branch candidate claims completed source branch cleanup, the
 singular receipt must cite a validating `branch-cleanup-authorization-v1`
 receipt; cleanup-deferred landed branches must not be reported as cleaned.
