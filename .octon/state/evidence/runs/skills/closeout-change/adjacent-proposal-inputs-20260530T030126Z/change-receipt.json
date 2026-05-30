@@ -1,0 +1,126 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "adjacent-proposal-inputs-20260530T030126Z",
+  "selected_route": "branch-no-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_authority": "none",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "cleaned-closeout",
+  "intent": "Close out adjacent proposal input surfaces through the governed branch-no-pr route.",
+  "scope": {
+    "summary": "Adds adjacent exploratory proposal packets and one governed workflow orchestration prompt artifact.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/authority-class-schema-alignment",
+      ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture",
+      ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-prompt.md",
+      ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map",
+      ".octon/inputs/exploratory/proposals/architecture/mechanism-index-foundation",
+      ".octon/inputs/exploratory/proposals/architecture/mechanism-index-validator-guards",
+      ".octon/inputs/exploratory/proposals/architecture/product-doc-boundary-crosslinks",
+      ".octon/inputs/exploratory/proposals/architecture/program-closeout-coverage-evidence",
+      ".octon/inputs/exploratory/proposals/architecture/retired-terminology-guardrails"
+    ],
+    "diff_refs": [
+      "origin/main@0025a7917a415e02a52bbb93b5e683f15e694f49..chore/adjacent-proposal-inputs@3bac2cf06a50b6cca401e9537e8182d3418461c6"
+    ]
+  },
+  "source_branch_ref": "chore/adjacent-proposal-inputs",
+  "target_branch_ref": "origin/main@3bac2cf06a50b6cca401e9537e8182d3418461c6",
+  "landed_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/adjacent-proposal-inputs-20260530T030126Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/adjacent-proposal-inputs-20260530T030126Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "authorized",
+    "route_guard": "branch-no-pr",
+    "method": "hosted fast-forward update without PR creation"
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "validated_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "target_pre_ref": "0025a7917a415e02a52bbb93b5e683f15e694f49",
+    "target_post_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@3bac2cf06a50b6cca401e9537e8182d3418461c6",
+      "branch_naming_validation@3bac2cf06a50b6cca401e9537e8182d3418461c6",
+      "route_aware_autonomy_validation@3bac2cf06a50b6cca401e9537e8182d3418461c6",
+      "exact_source_sha_validation@3bac2cf06a50b6cca401e9537e8182d3418461c6"
+    ],
+    "fast_forward_only": true
+  },
+  "source_branch_integration": {
+    "integrated": true,
+    "source_branch_ref": "chore/adjacent-proposal-inputs",
+    "landed_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "origin_main_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "evidence_refs": [
+      "origin/main fast-forward landing of chore/adjacent-proposal-inputs through governed branch-no-pr route",
+      "origin/main contains 3bac2cf06a50b6cca401e9537e8182d3418461c6"
+    ]
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "evidence_refs": [
+      "Remote source branch deleted after origin/main contained the landed ref",
+      "Local source branch deleted after local main synced to origin/main"
+    ]
+  },
+  "main_alignment": {
+    "aligned": true,
+    "landed_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "local_main_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "origin_main_ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "origin_fetch_evidence_ref": "post-landing fetch origin main",
+    "local_main_sync_evidence_ref": "local main fast-forwarded to origin/main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "governed cleanup authorization recorded before branch deletion",
+    "source branch cleanup completed after landed-ref containment was verified"
+  ],
+  "validation_evidence_refs": [
+    "route_neutral_closeout_validation: success at 3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "branch_naming_validation: success at 3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "route_aware_autonomy_validation: success at 3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "exact_source_sha_validation: success at 3bac2cf06a50b6cca401e9537e8182d3418461c6"
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because branch-no-pr was explicitly requested and selected."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "branch": "main"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "3bac2cf06a50b6cca401e9537e8182d3418461c6",
+    "instructions": "Revert the landed commit on main if this proposal input state must be backed out after cleanup."
+  },
+  "stateful_closeout": {
+    "initial_inventory_ref": "git status --branch --short before landing",
+    "residue_classification_ref": "source branch contained in origin/main before cleanup",
+    "phase_exit_refs": [
+      "validated",
+      "published-branch",
+      "landed",
+      "cleaned"
+    ],
+    "cleanup_decision_refs": [
+      "operator requested branch-no-pr for each change set, origin/main integration, local main sync, and cleaned outcome"
+    ],
+    "safe_cleanup_evidence_class": "branch-contained-in-origin-main",
+    "final_verification_ref": "post-cleanup git status and ref alignment",
+    "state_machine_version": "change-closeout-state-machine-v1"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-05-30T03:27:19Z"
+}

@@ -1,0 +1,15 @@
+schema_version: closeout-worktree-inventory-summary-v1
+run_id: 20260530T030126Z
+captured_at: "2026-05-30T03:01:26Z"
+branch: main
+head_ref: 91775e60da22d4be79bf9cd8415a8b7e9cbc0b91
+main_ref: 91775e60da22d4be79bf9cd8415a8b7e9cbc0b91
+origin_main_ref: 91775e60da22d4be79bf9cd8415a8b7e9cbc0b91
+status_summary_before_report:
+  staged: 0
+  unstaged_tracked: 161
+  untracked: 1879
+  total_porcelain_rows: 2040
+notes:
+  - "Inventory was captured read-only from git status and git refs."
+  - "The worktree is dirty on main with multiple separable change families."

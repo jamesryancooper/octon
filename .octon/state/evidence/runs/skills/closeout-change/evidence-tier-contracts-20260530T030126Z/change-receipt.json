@@ -1,0 +1,80 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "evidence-tier-contracts-20260530T030126Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "closeout_outcome": "completed",
+  "intent": "Add the disclosure-tier evidence contract, publishable receipt schema, validator gates, and evidence-store policy surfaces.",
+  "scope": {
+    "include_paths": [
+      ".octon/framework/constitution/contracts/disclosure/",
+      ".octon/framework/constitution/contracts/retention/",
+      ".octon/framework/constitution/obligations/evidence.yml",
+      ".octon/framework/engine/runtime/spec/evidence-disclosure-tiers-v1.md",
+      ".octon/framework/engine/runtime/spec/evidence-store-v1.md",
+      ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+      ".octon/framework/product/contracts/",
+      ".octon/instance/governance/policies/repo-hygiene.yml",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-residue-migration-closeout.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+      ".octon/framework/assurance/runtime/_ops/scripts/validate-retired-terminology-guardrails.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-evidence-disclosure-tiers.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-retired-terminology-guardrails.sh",
+      ".octon/state/evidence/.gitignore",
+      ".octon/state/evidence/runs/README.md",
+      ".octon/state/evidence/local/README.md",
+      ".octon/state/evidence/disclosure/README.md",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+    ],
+    "exclude_paths": [
+      ".octon/inputs/exploratory/proposals/",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/",
+      ".octon/generated/effective/",
+      ".octon/state/control/"
+    ]
+  },
+  "source_branch_ref": "chore/evidence-tier-contracts",
+  "source_ref": "75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+  "landed_ref": "75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+  "integration_status": "landed",
+  "publication_status": "landed-on-origin-main",
+  "cleanup_status": "completed",
+  "branch_landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/branch-cleanup-authorization.json",
+  "validation_evidence_refs": [
+    "route_neutral_closeout_validation@75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "branch_naming_validation@75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "route_aware_autonomy_validation@75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "exact_source_sha_validation@75a196428e93a7d7d8f7748d573d5a02e8fe3bdc"
+  ],
+  "source_branch_integration": {
+    "integrated": true,
+    "source_branch_ref": "chore/evidence-tier-contracts",
+    "landed_ref": "75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/branch-landing-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "origin_main_ref": "75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "landed_ref": "75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+    "aligned": true,
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "origin_fetch_evidence_ref": "git fetch origin during branch cleanup",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main during branch cleanup"
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch_deleted": true,
+    "remote_branch_deleted": true,
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/branch-cleanup-authorization.json"
+    ]
+  },
+  "rollback_handle": "revert-75a196428e93a7d7d8f7748d573d5a02e8fe3bdc",
+  "created_at": "2026-05-30T03:01:26Z"
+}

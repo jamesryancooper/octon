@@ -1,0 +1,277 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: 20260530T030126Z
+created_at: "2026-05-30T03:30:00Z"
+default_work_unit: Change
+target_lifecycle_outcome: cleaned
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+worktree_terminal_state: disposition_complete_with_retained_residue
+initial_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/initial-inventory.yml"
+residue_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/residue-classification.yml"
+final_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+selected_candidate_id: "c-001-evidence-tier-contracts"
+observed_change_set_count: 5
+next_route_condition: "complete"
+candidates:
+  - candidate_id: "c-001-evidence-tier-contracts"
+    disposition: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/change-receipt.json"
+    ownership: "authored disclosure-tier contract implementation sources"
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Revert 75a196428e93a7d7d8f7748d573d5a02e8fe3bdc from main if this change must be backed out."
+    boundaries:
+      include_paths:
+        - ".octon/framework/constitution/contracts/disclosure"
+        - ".octon/framework/constitution/contracts/retention"
+        - ".octon/framework/constitution/obligations/evidence.yml"
+        - ".octon/framework/engine/runtime/spec/evidence-disclosure-tiers-v1.md"
+        - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+        - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+        - ".octon/framework/product/contracts/change-closeout-state-machine.md"
+        - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+        - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+        - ".octon/framework/product/contracts/default-work-unit.md"
+        - ".octon/framework/product/contracts/default-work-unit.yml"
+        - ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+        - ".octon/instance/governance/policies/repo-hygiene.yml"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-residue-migration-closeout.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-retired-terminology-guardrails.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-evidence-disclosure-tiers.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-retired-terminology-guardrails.sh"
+        - ".octon/state/evidence/.gitignore"
+        - ".octon/state/evidence/runs/README.md"
+        - ".octon/state/evidence/local/README.md"
+        - ".octon/state/evidence/disclosure/README.md"
+        - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+      exclude_paths:
+        - ".octon/state/evidence/local/"
+  - candidate_id: "c-002-lifecycle-hygiene-routing"
+    disposition: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/change-receipt.json"
+    ownership: "durable lifecycle hygiene scheduler/runtime fix"
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Revert 664ea4cbd953a20f88bd8bbb6b22f897000e56de from main if this change must be backed out."
+    boundaries:
+      include_paths:
+        - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+        - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+        - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/mock.rs"
+        - ".octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+        - ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+        - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh"
+        - ".octon/inputs/additive/extensions/octon-proposal-lifecycle"
+        - ".octon/generated/effective"
+        - ".claude/skills/octon-proposal-lifecycle"
+        - ".codex/skills/octon-proposal-lifecycle"
+        - ".cursor/skills/octon-proposal-lifecycle"
+        - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+        - ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
+        - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+        - ".codex/skills/closeout-pr/SKILL.md"
+      exclude_paths:
+        - ".octon/state/evidence/local/"
+  - candidate_id: "c-003-evidence-tier-proposals"
+    disposition: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-proposals-20260530T030126Z/change-receipt.json"
+    ownership: "evidence disclosure tier proposal program and child packet surfaces"
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Revert 0025a7917a415e02a52bbb93b5e683f15e694f49 from main if this proposal state must be backed out."
+    boundaries:
+      include_paths:
+        - ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contract-program"
+        - ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contracts"
+        - ".octon/inputs/exploratory/proposals/architecture/local-evidence-store-boundary"
+        - ".octon/inputs/exploratory/proposals/architecture/publishable-evidence-receipts"
+        - ".octon/inputs/exploratory/proposals/architecture/disclosure-and-read-model-alignment"
+        - ".octon/inputs/exploratory/proposals/architecture/evidence-tier-validator-gates"
+        - ".octon/inputs/exploratory/proposals/architecture/closeout-repo-hygiene-evidence-flow"
+        - ".octon/inputs/exploratory/proposals/architecture/evidence-residue-migration-closeout"
+        - ".octon/generated/proposals/registry.yml"
+      exclude_paths:
+        - ".octon/state/evidence/local/"
+  - candidate_id: "c-004-adjacent-proposal-inputs"
+    disposition: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/adjacent-proposal-inputs-20260530T030126Z/change-receipt.json"
+    ownership: "adjacent proposal input surfaces present in the dirty worktree"
+    route_hint: branch-no-pr
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Revert 3bac2cf06a50b6cca401e9537e8182d3418461c6 from main if this proposal input state must be backed out."
+    boundaries:
+      include_paths:
+        - ".octon/inputs/exploratory/proposals/architecture/authority-class-schema-alignment"
+        - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture"
+        - ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-prompt.md"
+        - ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map"
+        - ".octon/inputs/exploratory/proposals/architecture/mechanism-index-foundation"
+        - ".octon/inputs/exploratory/proposals/architecture/mechanism-index-validator-guards"
+        - ".octon/inputs/exploratory/proposals/architecture/product-doc-boundary-crosslinks"
+        - ".octon/inputs/exploratory/proposals/architecture/program-closeout-coverage-evidence"
+        - ".octon/inputs/exploratory/proposals/architecture/retired-terminology-guardrails"
+      exclude_paths:
+        - ".octon/state/evidence/local/"
+  - candidate_id: "c-005-local-private-residue"
+    disposition: retained
+    ownership: "ignored local-only residue retained under local-private evidence rules"
+    route_hint: retained-local
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Do not publish raw local control, continuity, runtime, or transcript state; use local-only retention or explicit cleanup authority."
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence/local/"
+      exclude_paths:
+        - ".octon/state/evidence/runs/"
+retained_residue:
+  - candidate_id: "c-005-local-private-residue"
+    path: ".octon/state/evidence/local/"
+    disposition: "ignored local-only evidence retained outside hosted publication"
+blockers: []
+iterations:
+  - iteration_id: "i-001-evidence-tier-contracts"
+    pre_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/initial-inventory.yml"
+    pre_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/residue-classification.yml"
+    selected_candidate_id: "c-001-evidence-tier-contracts"
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    post_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    next_selection_reason: "Continue with remaining independently closeable change set."
+    include_paths:
+      - ".octon/framework/constitution/contracts/disclosure"
+      - ".octon/framework/constitution/contracts/retention"
+      - ".octon/framework/constitution/obligations/evidence.yml"
+      - ".octon/framework/engine/runtime/spec/evidence-disclosure-tiers-v1.md"
+      - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+      - ".octon/framework/engine/runtime/spec/operator-read-models-v1.md"
+      - ".octon/framework/product/contracts/change-closeout-state-machine.md"
+      - ".octon/framework/product/contracts/change-closeout-state-machine.yml"
+      - ".octon/framework/product/contracts/change-receipt-v1.schema.json"
+      - ".octon/framework/product/contracts/default-work-unit.md"
+      - ".octon/framework/product/contracts/default-work-unit.yml"
+      - ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+      - ".octon/instance/governance/policies/repo-hygiene.yml"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-residue-migration-closeout.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-retired-terminology-guardrails.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-evidence-disclosure-tiers.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-retired-terminology-guardrails.sh"
+      - ".octon/state/evidence/.gitignore"
+      - ".octon/state/evidence/runs/README.md"
+      - ".octon/state/evidence/local/README.md"
+      - ".octon/state/evidence/disclosure/README.md"
+      - ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl"
+    exclude_paths:
+      - ".octon/state/evidence/local/"
+  - iteration_id: "i-002-lifecycle-hygiene-routing"
+    pre_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    pre_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    selected_candidate_id: "c-002-lifecycle-hygiene-routing"
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    post_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    next_selection_reason: "Continue with remaining independently closeable change set."
+    include_paths:
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
+      - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/mock.rs"
+      - ".octon/framework/assurance/runtime/_ops/scripts/alignment-check.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh"
+      - ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle"
+      - ".octon/generated/effective"
+      - ".claude/skills/octon-proposal-lifecycle"
+      - ".codex/skills/octon-proposal-lifecycle"
+      - ".cursor/skills/octon-proposal-lifecycle"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md"
+      - ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
+      - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
+      - ".codex/skills/closeout-pr/SKILL.md"
+    exclude_paths:
+      - ".octon/state/evidence/local/"
+  - iteration_id: "i-003-evidence-tier-proposals"
+    pre_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    pre_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    selected_candidate_id: "c-003-evidence-tier-proposals"
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-proposals-20260530T030126Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    post_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    next_selection_reason: "Continue with remaining independently closeable change set."
+    include_paths:
+      - ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contract-program"
+      - ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contracts"
+      - ".octon/inputs/exploratory/proposals/architecture/local-evidence-store-boundary"
+      - ".octon/inputs/exploratory/proposals/architecture/publishable-evidence-receipts"
+      - ".octon/inputs/exploratory/proposals/architecture/disclosure-and-read-model-alignment"
+      - ".octon/inputs/exploratory/proposals/architecture/evidence-tier-validator-gates"
+      - ".octon/inputs/exploratory/proposals/architecture/closeout-repo-hygiene-evidence-flow"
+      - ".octon/inputs/exploratory/proposals/architecture/evidence-residue-migration-closeout"
+      - ".octon/generated/proposals/registry.yml"
+    exclude_paths:
+      - ".octon/state/evidence/local/"
+  - iteration_id: "i-004-adjacent-proposal-inputs"
+    pre_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    pre_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    selected_candidate_id: "c-004-adjacent-proposal-inputs"
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/adjacent-proposal-inputs-20260530T030126Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    post_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/20260530T030126Z/wrapper-report.yml"
+    next_selection_reason: "No further publishable branch-no-pr source branch remains; raw local/private residue is retained outside hosted publication."
+    include_paths:
+      - ".octon/inputs/exploratory/proposals/architecture/authority-class-schema-alignment"
+      - ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture"
+      - ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program/support/program-implementation-orchestration-prompt.md"
+      - ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map"
+      - ".octon/inputs/exploratory/proposals/architecture/mechanism-index-foundation"
+      - ".octon/inputs/exploratory/proposals/architecture/mechanism-index-validator-guards"
+      - ".octon/inputs/exploratory/proposals/architecture/product-doc-boundary-crosslinks"
+      - ".octon/inputs/exploratory/proposals/architecture/program-closeout-coverage-evidence"
+      - ".octon/inputs/exploratory/proposals/architecture/retired-terminology-guardrails"
+    exclude_paths:
+      - ".octon/state/evidence/local/"
+final_candidate_dispositions:
+  c-001-evidence-tier-contracts:
+    state: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-contracts-20260530T030126Z/change-receipt.json"
+  c-002-lifecycle-hygiene-routing:
+    state: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/change-receipt.json"
+  c-003-evidence-tier-proposals:
+    state: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/evidence-tier-proposals-20260530T030126Z/change-receipt.json"
+  c-004-adjacent-proposal-inputs:
+    state: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/adjacent-proposal-inputs-20260530T030126Z/change-receipt.json"
+  c-005-local-private-residue:
+    state: retained
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 4359
+  local_branch: 0
+  remote_branch: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0

@@ -1,0 +1,71 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-hygiene-routing-20260530T030126Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "closeout_outcome": "completed",
+  "intent": "Make proposal-program lifecycle cleanup route condition-driven and phase-scoped so runnable child work is not starved.",
+  "scope": {
+    "include_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/mock.rs",
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/framework/assurance/runtime/_ops/tests/",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/",
+      ".octon/generated/effective/",
+      ".claude/skills/octon-proposal-lifecycle*/",
+      ".codex/skills/octon-proposal-lifecycle*/",
+      ".cursor/skills/octon-proposal-lifecycle*/",
+      ".octon/framework/capabilities/runtime/skills/remediation/",
+      ".codex/skills/closeout-pr/SKILL.md"
+    ],
+    "exclude_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/evidence-disclosure-tier-contract-program/",
+      ".octon/state/"
+    ]
+  },
+  "source_branch_ref": "chore/lifecycle-hygiene-routing",
+  "source_ref": "664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+  "landed_ref": "664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+  "integration_status": "landed",
+  "publication_status": "landed-on-origin-main",
+  "cleanup_status": "completed",
+  "branch_landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/branch-cleanup-authorization.json",
+  "validation_evidence_refs": [
+    "route_neutral_closeout_validation@664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "branch_naming_validation@664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "route_aware_autonomy_validation@664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "exact_source_sha_validation@664ea4cbd953a20f88bd8bbb6b22f897000e56de"
+  ],
+  "source_branch_integration": {
+    "integrated": true,
+    "source_branch_ref": "chore/lifecycle-hygiene-routing",
+    "landed_ref": "664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/branch-landing-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "origin_main_ref": "664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "landed_ref": "664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+    "aligned": true,
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "origin_fetch_evidence_ref": "git fetch origin during branch cleanup",
+    "local_main_sync_evidence_ref": "git merge --ff-only origin/main during branch cleanup"
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch_deleted": true,
+    "remote_branch_deleted": true,
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/lifecycle-hygiene-routing-20260530T030126Z/branch-cleanup-authorization.json"
+    ]
+  },
+  "rollback_handle": "revert-664ea4cbd953a20f88bd8bbb6b22f897000e56de",
+  "created_at": "2026-05-30T03:01:26Z"
+}

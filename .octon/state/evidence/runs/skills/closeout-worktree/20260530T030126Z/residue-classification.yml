@@ -1,0 +1,40 @@
+schema_version: closeout-worktree-classification-summary-v1
+run_id: 20260530T030126Z
+captured_at: "2026-05-30T03:01:26Z"
+classifier_ref: ".octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh"
+read_only: true
+detection_is_deletion_authority: false
+classes_before_report:
+  staged: 0
+  unstaged_tracked: 161
+  untracked: 450
+  ignored: 4359
+  local_branch: 1
+  remote_branch: 3
+  generated_effective_output: 32
+  host_projection: 45
+  retained_evidence: 399
+  state_control: 1093
+  release_version: 0
+  input_surface: 344
+classes_after_report:
+  staged: 0
+  unstaged_tracked: 161
+  untracked: 451
+  ignored: 4359
+  local_branch: 1
+  remote_branch: 3
+  generated_effective_output: 32
+  host_projection: 45
+  retained_evidence: 402
+  state_control: 1093
+  release_version: 0
+  input_surface: 344
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 47
+  manual_review: 1497
+  cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+notes:
+  - "Repo-hygiene cleanup candidates are zero; remaining repo-hygiene residue is protected/manual-review."
+  - "Manual-review residue requires operator scope resolution or a singular closeout-change route."
