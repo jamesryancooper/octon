@@ -1,11 +1,20 @@
 {
   "schema_version": "change-receipt-v1",
   "change_id": "proposal-program-runner-e2e-execution-program-20260530T233232Z",
-  "selected_route": "direct-main",
+  "selected_route": "branch-no-pr",
+  "initial_route": "direct-main",
+  "route_transition_reason": "origin/main rejected the direct-main push because the active main branch ruleset requires exact-source status checks. Live ruleset evidence shows required_status_checks, non_fast_forward, and required_linear_history rules, with no pull_request rule, so closeout rerouted to branch-no-pr hosted landing rather than branch-pr.",
+  "route_transition_authority": "policy-reroute-after-new-evidence",
+  "route_transition_authority_ref": ".octon/framework/product/contracts/default-work-unit.yml branch_no_pr_preference_rule and route transition requirements",
+  "route_transition_evidence_refs": [
+    "git push origin main rejected with GH013 and required status checks expected",
+    "gh api repos/jamesryancooper/octon/rulesets/12881449: active Main Branch Guardrails ruleset contains required_status_checks and no pull_request rule",
+    "gh api repos/jamesryancooper/octon/commits/41436296b31b23ce5cb7fa2c267e0b67e6f697b2/check-runs: required checks passed on the pushed source branch before receipt correction"
+  ],
   "target_lifecycle_outcome": "cleaned",
   "lifecycle_outcome": "cleaned",
-  "outcome_intent": "direct-main-landing",
-  "intent": "Close out the proposal-program-runner-e2e-execution-program proposal program, its child proposal packets, generated proposal registry refresh, and retained handoff-only lifecycle run-control evidence on synchronized main.",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the proposal-program-runner-e2e-execution-program proposal program, its child proposal packets, generated proposal registry refresh, and retained handoff-only lifecycle run-control evidence through branch-no-pr hosted landing after direct-main was denied by exact-source check rules.",
   "scope": {
     "summary": "Adds the coordinated proposal program for proof-gated end-to-end proposal-program runner execution and retains readiness validation evidence.",
     "touched_paths": [
@@ -28,70 +37,138 @@
       ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/change-receipt.json"
     ],
     "diff_refs": [
-      "aae13add22762646e08fbec3d946a6c4e4175fc6..direct-main-proposal-program-runner-e2e-execution-program-closeout-commit"
+      "aae13add22762646e08fbec3d946a6c4e4175fc6..branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source"
     ]
   },
+  "source_branch_ref": "chore/proposal-program-runner-e2e-execution-program",
   "target_branch_ref": "main",
-  "landed_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-e2e-execution-program",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "gh api repos/jamesryancooper/octon/rulesets/12881449",
+    "source_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "target_ref": "origin/main",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh with required checks: route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, exact_source_sha_validation",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1",
+      "git-branch-land-hosted-no-pr.sh completed fast-forward hosted landing"
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/proposal-program-runner-e2e-execution-program",
+    "source_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "target_pre_ref": "aae13add22762646e08fbec3d946a6c4e4175fc6",
+    "target_post_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "validated_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+      "branch_naming_validation@branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+      "route_aware_autonomy_validation@branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+      "exact_source_sha_validation@branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source"
+    ],
+    "provider_ruleset_ref": "gh api repos/jamesryancooper/octon/rulesets/12881449",
+    "push_refspec": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/proposal-program-runner-e2e-execution-program",
+    "source_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "landed_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "origin_main_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "origin/main equals landed_ref after git-branch-land-hosted-no-pr.sh",
+      "source branch refs are contained in origin/main before cleanup"
+    ]
+  },
   "main_alignment": {
-    "local_main_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
-    "origin_main_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
-    "landed_ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
+    "local_main_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "origin_main_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "landed_ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
     "aligned": true,
-    "origin_fetch_evidence_ref": "post-push git fetch origin and git rev-parse main origin/main are reported in the operator closeout result",
-    "local_main_sync_evidence_ref": "direct-main closeout started from synchronized main at aae13add22762646e08fbec3d946a6c4e4175fc6 and final sync is reported in the operator closeout result",
+    "origin_fetch_evidence_ref": "post-landing git fetch origin and branch cleanup helper output are reported in the operator closeout result",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh syncs local main to origin/main after cleanup",
     "origin_main_contains_landed_ref": true,
     "local_main_contains_landed_ref": true,
     "verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/change-receipt.json"
   },
-  "integration_method": "direct-commit",
+  "integration_method": "fast-forward",
   "integration_status": "landed",
   "publication_status": "hosted-main-updated",
   "cleanup_status": "completed",
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/proposal-program-runner-e2e-execution-program",
+    "remote_branch": "origin/chore/proposal-program-runner-e2e-execution-program",
+    "evidence_refs": [
+      "git-branch-authorize-cleanup.sh emitted branch-cleanup-authorization-v1",
+      "git-branch-cleanup.sh deleted local and remote source branches only after origin/main containment and no-open-PR checks"
+    ]
+  },
   "cleanup_evidence_refs": [
-    "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh before closeout: staged=0 unstaged-tracked=1 untracked=15 ignored=4411 generated-effective-output=0 host-projection=0 retained-evidence=0 state-control=8 release-version=0 input-surface=161",
-    "Proposal input surfaces, generated proposal registry refresh, and lifecycle run-control directories are retained as the coherent Change; no deletion cleanup was performed."
+    "Proposal input surfaces, generated proposal registry refresh, lifecycle run-control directories, and closeout receipt are retained as the coherent Change; no proposal artifact deletion was performed.",
+    "Source branch cleanup is governed by branch-cleanup-authorization-v1 after origin/main contains the landed ref."
   ],
   "validation_evidence_refs": [
     "git diff --check: passed",
-    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program --require-implementation-authorization: Validation summary: errors=0 warnings=0",
-    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program: Validation summary: errors=0 warnings=0",
-    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program: Validation summary: errors=0 warnings=0",
+    "git diff --cached --check: passed",
+    "proposal-review-gate-validation: passed with errors=0 warnings=0",
+    "proposal-program-structure-validation: passed with errors=0 warnings=0",
+    "proposal-program-child-readiness-validation: passed with errors=0 warnings=0",
     "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check: Registry generation summary: errors=0",
-    ".octon/framework/engine/runtime/run lifecycle run --lifecycle proposal-program --target .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program: final_verdict planned; run_id lifecycle-proposal-program-1780181628812-109620dc"
+    "handoff-only-proposal-program-lifecycle-run: final_verdict planned; run_id lifecycle-proposal-program-1780181628812-109620dc",
+    "gh api repos/jamesryancooper/octon/commits/41436296b31b23ce5cb7fa2c267e0b67e6f697b2/check-runs: required branch-no-pr checks passed before receipt correction; final source SHA checks are reported in the operator closeout result"
   ],
   "review_waiver_refs": [
-    "No PR was opened because this is a low-risk direct-main proposal/evidence closeout on synchronized main with local proposal validators passing and no PR-required predicate identified."
+    "No PR was opened because live provider ruleset evidence did not contain a pull_request rule; closeout used branch-no-pr hosted landing with exact-source required checks."
   ],
   "durable_history": {
     "kind": "commit",
-    "ref": "direct-main-proposal-program-runner-e2e-execution-program-closeout-commit",
-    "branch": "main"
+    "ref": "branch-no-pr-proposal-program-runner-e2e-execution-program-closeout-source",
+    "branch": "chore/proposal-program-runner-e2e-execution-program"
   },
   "rollback_handle": {
     "kind": "manual-instructions",
     "ref": "origin/main pre-closeout ref aae13add22762646e08fbec3d946a6c4e4175fc6",
-    "instructions": "Use a governed follow-up Change to revert the direct-main closeout commit from the landed ref back to aae13add22762646e08fbec3d946a6c4e4175fc6 if this proposal program or retained readiness evidence must be undone."
+    "instructions": "Use a governed follow-up Change to revert the branch-no-pr landed closeout commit from origin/main back to aae13add22762646e08fbec3d946a6c4e4175fc6 if this proposal program or retained readiness evidence must be undone."
   },
   "stateful_closeout": {
     "state_machine_version": "change-closeout-state-machine-v1",
-    "initial_inventory_ref": "git status --short --branch before closeout showed current main aligned with origin/main at aae13add22762646e08fbec3d946a6c4e4175fc6, one generated registry modification, eleven untracked proposal directories, and four untracked lifecycle run-control directories.",
+    "initial_inventory_ref": "git status --short --branch before closeout showed current main aligned with origin/main at aae13add22762646e08fbec3d946a6c4e4175fc6, one generated registry modification, eleven untracked proposal directories, four untracked lifecycle run-control directories, and later a retained closeout receipt.",
     "residue_classification_ref": "classify-change-closeout-residue before closeout reported staged=0 unstaged-tracked=1 untracked=15 ignored=4411 generated-effective-output=0 host-projection=0 retained-evidence=0 state-control=8 release-version=0 input-surface=161.",
     "phase_exit_refs": [
       "read-in-and-constraints: repo ingress, closeout-change skill, default work unit policy, closeout state machine, git worktree autonomy contract, and commit standards were read.",
-      "inventory: local HEAD, main, and origin/main were aligned at aae13add22762646e08fbec3d946a6c4e4175fc6 before direct-main closeout.",
-      "residue-classification: nonignored residue is the authored proposal program package, child packet packages, generated proposal registry refresh, and route-run control evidence produced by the readiness validation loop.",
-      "route-and-target-lifecycle-resolution: selected direct-main with target lifecycle outcome cleaned; no PR predicate or branch isolation requirement was identified.",
-      "validation: git diff check, parent strict review gate, program structure validator, and child-readiness validator passed before closeout."
+      "inventory: local HEAD, main, and origin/main were aligned at aae13add22762646e08fbec3d946a6c4e4175fc6 before closeout.",
+      "residue-classification: nonignored residue is the authored proposal program package, child packet packages, generated proposal registry refresh, retained closeout receipt, and route-run control evidence produced by the readiness validation loop.",
+      "route-and-target-lifecycle-resolution: selected direct-main first, then rerouted to branch-no-pr when the active hosted main ruleset denied direct push and live ruleset evidence showed no PR-required predicate.",
+      "validation: git diff checks, parent strict review gate, program structure validator, child-readiness validator, proposal registry check, and exact-source hosted checks passed.",
+      "hosted-landing: branch-no-pr preflight, landing authorization, and fast-forward landing were run through the governed helper boundary.",
+      "branch-cleanup: branch cleanup authorization and cleanup were run only after origin/main containment and no-open-PR checks."
     ],
     "cleanup_decision_refs": [
       "Retain the proposal input surfaces because they are the source artifacts for the requested proposal program.",
-      "Retain .octon/generated/proposals/registry.yml because it was refreshed through the canonical proposal registry script.",
-      "Retain lifecycle proposal-program run-control directories as readiness and fail-closed audit evidence for the handoff-only lifecycle runs."
+      "Retain the generated proposal registry refresh because it was produced by the canonical proposal registry script.",
+      "Retain lifecycle proposal-program run-control directories as readiness and fail-closed audit evidence for the handoff-only lifecycle runs.",
+      "Clean the source branch only after branch cleanup authorization proves origin/main containment, no open PR, rollback posture, and host controls preserved."
     ],
-    "safe_cleanup_evidence_class": "retained-proposal-and-run-control-evidence",
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh output reported in operator closeout result"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup.sh output reported in operator closeout result"
+    ],
     "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-e2e-execution-program-20260530T233232Z/change-receipt.json"
   },
   "closeout_outcome": "completed",
-  "created_at": "2026-05-30T23:32:32Z"
+  "created_at": "2026-05-30T23:32:32Z",
+  "updated_at": "2026-05-30T23:47:00Z"
 }
