@@ -1,0 +1,96 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "repo-hygiene-cleanup-20260530T200300Z",
+  "receipt_mode": "claim",
+  "created_at": "2026-05-30T20:03:00Z",
+  "issuer_ref": "skill://repo-hygiene-cleanup",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "repo-hygiene-cleanup-20260530T200300Z",
+    "claim_type": "repo-hygiene",
+    "statement": "Repo-hygiene dry-run classification completed without deletion and found no cleanup candidates for the bounded local run.",
+    "applies_to": [
+      ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+      ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/20260530T200300Z/helper-dry-run.md"
+    ]
+  },
+  "source_summary": {
+    "summary": "The local raw helper output reported cleanup_candidates=0, protected_referenced_paths=0, manual_review_paths=0, retained_protected_count=0, and retained_manual_review_count=0. No cleanup authorization receipt was needed because no deletion was proposed.",
+    "source_refs": [
+      ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+      ".octon/instance/governance/policies/repo-hygiene.yml",
+      ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only"
+    ],
+    "evidence_refs": [
+      ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/20260530T200300Z/helper-dry-run.md"
+    ]
+  },
+  "redactions": {
+    "status": "applied",
+    "summary": "The publishable receipt includes only bounded counts, refs, and digests; raw helper output and raw path lists remain local-private.",
+    "redacted_fields": [
+      "raw_helper_output",
+      "raw_deleted_path_lists",
+      "raw_retained_path_lists",
+      "raw_local_evidence"
+    ]
+  },
+  "limitations": [
+    {
+      "limitation_id": "bounded-run-only",
+      "description": "This receipt proves only the delegated repo-hygiene dry-run classification.",
+      "impact": "It does not claim whole-worktree closeout or validate unrelated local residue."
+    },
+    {
+      "limitation_id": "no-deletion",
+      "description": "No cleanup authorization receipt was produced because the helper found no cleanup candidates.",
+      "impact": "The receipt cannot authorize or prove deletion of any local path."
+    },
+    {
+      "limitation_id": "local-raw-evidence-retained",
+      "description": "The raw helper output remains local-private and is referenced only by digest.",
+      "impact": "Reviewers can verify the bounded claim from the digest without publishing raw local evidence."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "repo-relative-path",
+      "ref": ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/20260530T200300Z/helper-dry-run.md",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:3969f794c3fb3b8f16d87edf1d36172def9d8637982ea487c3a2c05c77461c88",
+      "raw_evidence_not_published": true,
+      "description": "Local raw dry-run output retained on the operator machine."
+    }
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "Repo-hygiene classification completed without deletion; cleanup_candidates=0, protected_referenced=0, and manual_review=0.",
+    "decided_at": "2026-05-30T20:03:00Z"
+  },
+  "rollback_or_discard": {
+    "posture": "reversible",
+    "trigger": "Receipt found inaccurate, stale, or unnecessary.",
+    "instructions": "Revert this publishable receipt without deleting local-private raw evidence."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4215,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}
