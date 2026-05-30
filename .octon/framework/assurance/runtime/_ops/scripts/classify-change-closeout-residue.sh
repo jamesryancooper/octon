@@ -142,7 +142,23 @@ done <<<"$changed_paths"
 
 while IFS= read -r path; do
   [[ -n "$path" ]] || continue
-  local_private_retained_count=$((local_private_retained_count + 1))
+  case "$(classify_routing_path "$path")" in
+    publishable_closeout_evidence)
+      publishable_closeout_evidence_count=$((publishable_closeout_evidence_count + 1))
+      ;;
+    unsafe)
+      unsafe_count=$((unsafe_count + 1))
+      ;;
+    ambiguous)
+      ambiguous_count=$((ambiguous_count + 1))
+      ;;
+    foreign_manual_review)
+      foreign_manual_review_count=$((foreign_manual_review_count + 1))
+      ;;
+    publishable_change|local_private_retained)
+      local_private_retained_count=$((local_private_retained_count + 1))
+      ;;
+  esac
 done <<<"$ignored_paths"
 
 echo "routing_classes:"

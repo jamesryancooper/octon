@@ -2068,6 +2068,26 @@ case_nonterminal_without_unresolved_condition_fails() {
   ! run_validator_with_fixtures "$report" >/dev/null
 }
 
+case_nonterminal_with_unknown_candidate_blocker_fails() {
+  local report tmp
+  report="$(new_report)"
+  tmp="$(new_report)"
+  write_closeout_change_fixture "nonterminal-unknown-blocker-candidate/change-receipt.json"
+  write_valid_single_closed_report "$report" "closeout-worktree-fixture-nonterminal-unknown-blocker" "nonterminal-unknown-blocker-candidate/change-receipt.json" "nonterminal" "continue closeout"
+  awk '
+    $0 == "blockers: []" {
+      print "blockers:"
+      print "  - candidate_id: candidate-unknown"
+      print "    reason: stray blocker must not satisfy nonterminal proof"
+      print "    evidence_refs: [fixture-stray-blocker]"
+      next
+    }
+    { print }
+  ' "$report" >"$tmp"
+  mv "$tmp" "$report"
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 case_retained_terminal_without_retained_candidate_fails() {
   local report
   report="$(new_report)"
@@ -2543,6 +2563,29 @@ case_classifier_counts_routing_classes() {
     grep -A1 'class: publishable_closeout_evidence' <<<"$output" | grep -Fq 'count: 1' &&
     grep -A1 'class: local_private_retained' <<<"$output" | grep -Fq 'count: 1' &&
     grep -A1 'class: unsafe' <<<"$output" | grep -Fq 'count: 2'
+}
+
+case_classifier_counts_ignored_unsafe_routing_classes() {
+  local repo output
+  repo="$(mktemp -d "${TMPDIR:-/tmp}/closeout-worktree-wrapper.ignored-routing-repo.XXXXXX")"
+  cleanup_paths+=("$repo")
+  git -C "$repo" init -q
+  git -C "$repo" config user.email "octon@example.invalid"
+  git -C "$repo" config user.name "Octon Test"
+  mkdir -p "$repo/.octon/engine" "$repo/.octon/state/control"
+  printf '%s\n' ".octon/engine/ignored-runtime-state.json" ".octon/state/control/ignored-runtime-state.yml" >"$repo/.gitignore"
+  printf '%s\n' "seed" >"$repo/README.md"
+  printf '%s\n' "keep" >"$repo/.octon/engine/.keep"
+  printf '%s\n' "keep" >"$repo/.octon/state/control/.keep"
+  git -C "$repo" add README.md .gitignore .octon/engine/.keep .octon/state/control/.keep
+  git -C "$repo" commit -q -m "seed ignored routing repo"
+  printf '%s\n' "engine" >"$repo/.octon/engine/ignored-runtime-state.json"
+  printf '%s\n' "control" >"$repo/.octon/state/control/ignored-runtime-state.yml"
+
+  output="$(bash "$CLASSIFIER" --root "$repo")"
+  grep -A1 'class: ignored' <<<"$output" | grep -Fq 'count: 2' &&
+    grep -A1 'class: unsafe' <<<"$output" | grep -Fq 'count: 2' &&
+    grep -A1 'class: local_private_retained' <<<"$output" | grep -Fq 'count: 0'
 }
 
 case_replay_multi_candidate_loop_passes() {
@@ -3034,6 +3077,7 @@ main() {
   assert_success "closed branch-no-pr receipt missing landing authorization fails" case_closed_branch_no_pr_missing_landing_authorization_fails
   assert_success "closed branch-no-pr receipt missing exact-SHA hosted check refs fails" case_closed_branch_no_pr_missing_exact_sha_check_refs_fails
   assert_success "nonterminal report without unresolved condition fails" case_nonterminal_without_unresolved_condition_fails
+  assert_success "nonterminal report with unknown-candidate blocker fails" case_nonterminal_with_unknown_candidate_blocker_fails
   assert_success "retained terminal without retained candidate evidence fails" case_retained_terminal_without_retained_candidate_fails
   assert_success "retained ordinary untracked residue terminal claim fails" case_retained_ordinary_untracked_residue_terminal_fails
   assert_success "raw state cannot be publishable closeout evidence" case_raw_state_as_publishable_closeout_evidence_fails
@@ -3044,6 +3088,7 @@ main() {
   assert_success "ignored residue without foreign retained evidence fails" case_ignored_residue_without_foreign_coverage_fails
   assert_success "classifier detects staged unstaged and untracked residue" case_classifier_counts_multi_residue_classes
   assert_success "classifier detects routing classes" case_classifier_counts_routing_classes
+  assert_success "classifier counts ignored unsafe routing classes" case_classifier_counts_ignored_unsafe_routing_classes
   assert_success "replay multi-candidate loop validates real re-inventory" case_replay_multi_candidate_loop_passes
   assert_success "replay missing post-closeout inventory fails" case_replay_skips_reinventory_fails
   assert_success "replay terminal report with unprocessed candidate fails" case_replay_terminal_with_unprocessed_candidate_fails

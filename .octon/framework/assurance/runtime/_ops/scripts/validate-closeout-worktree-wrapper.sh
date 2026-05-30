@@ -980,11 +980,13 @@ if isinstance(data.get("blockers"), list):
         if isinstance(item, dict):
             candidate_id = item.get("candidate_id")
             require(is_nonempty_string(candidate_id), f"blockers[{index}].candidate_id must be present")
+            if is_nonempty_string(candidate_id) and candidate_id not in candidate_ids:
+                fail(f"blockers[{index}].candidate_id must match a candidate")
             require(
                 is_nonempty_string(item.get("blocker")) or is_nonempty_string(item.get("reason")),
                 f"blockers[{index}] must include blocker or reason text",
             )
-            if is_nonempty_string(candidate_id):
+            if is_nonempty_string(candidate_id) and candidate_id in candidate_ids:
                 blockers_by_candidate.setdefault(candidate_id, []).append(item)
         else:
             fail(f"blockers[{index}] must be a mapping")
