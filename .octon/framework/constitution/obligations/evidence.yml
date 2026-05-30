@@ -6,9 +6,10 @@ obligation_contract:
   stability_policy: "append-only"
   owner: "Octon governance"
   validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-obligation-ids.sh"
-  evidence_refs:
-    - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
-    - ".octon/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json"
+evidence_refs:
+  - ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+  - ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
+  - ".octon/framework/constitution/contracts/assurance/support-target-proof-bundle-v1.schema.json"
 retained_evidence_roots:
   - ".octon/state/evidence/runs/**"
   - ".octon/state/evidence/disclosure/**"
@@ -216,4 +217,12 @@ obligations:
       retain evidence under state/evidence/trust/** and never substitute for
       local registry authority, control state, run contracts, execution
       authorization, support-target admission, rollback posture, or run evidence.
+    adoption_status: "active"
+  - id: "EVI-034"
+    requirement: >-
+      Claim-bearing evidence records that support publication, closeout,
+      support proof, release disclosure, or archive readiness retain evidence
+      disclosure tier classification and preserve the private raw evidence,
+      repo-publishable evidence, operator/release disclosure, and generated
+      read-model boundaries.
     adoption_status: "active"

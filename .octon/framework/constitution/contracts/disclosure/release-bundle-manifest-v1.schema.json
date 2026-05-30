@@ -38,9 +38,18 @@
     "proof_bundle_runs": {
       "type": "array"
     },
+    "publishable_evidence_receipt_refs": {
+      "type": "array",
+      "description": "Repo-publishable receipts that support release-facing claims without publishing private raw evidence.",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "local_evidence_limitations": {
+      "type": "array",
+      "description": "Release-facing limitations for local-only evidence that is represented by digest, pointer, or publishable receipt.",
+      "items": { "type": "string" }
+    },
     "bundle_contents": {
       "type": "array"
     }
   }
 }
-

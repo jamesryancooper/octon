@@ -70,6 +70,38 @@
     "intervention_ref": { "type": "string", "minLength": 1 },
     "replay_ref": { "type": "string", "minLength": 1 },
     "recovery_ref": { "type": "string", "minLength": 1 },
+    "publishable_evidence_receipt_refs": {
+      "type": "array",
+      "description": "Repo-publishable receipts that summarize or attest local/private evidence supporting a hosted, shared, closeout, or release-facing run claim without publishing raw evidence.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "receipt_ref",
+          "schema_ref",
+          "disclosure_tier",
+          "raw_evidence_not_published"
+        ],
+        "properties": {
+          "receipt_ref": { "type": "string", "minLength": 1 },
+          "schema_ref": {
+            "const": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+          },
+          "disclosure_tier": { "const": "repo-publishable" },
+          "claim_scope_ref": { "type": "string", "minLength": 1 },
+          "receipt_digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "raw_evidence_not_published": { "const": true }
+        }
+      }
+    },
+    "local_evidence_limitations": {
+      "type": "array",
+      "description": "Operator-facing limitations for local-only evidence that is cited by digest or receipt but not published as raw payload.",
+      "items": { "type": "string" }
+    },
     "known_limits": {
       "type": "array",
       "items": { "type": "string" }

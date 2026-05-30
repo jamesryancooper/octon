@@ -120,6 +120,43 @@
     "runtime_safety_boundary": {
       "type": "string",
       "minLength": 1
+    },
+    "publishable_evidence_receipt_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "receipt_ref",
+        "schema_ref",
+        "disclosure_tier",
+        "claim_scope_ref",
+        "receipt_digest",
+        "raw_evidence_not_published"
+      ],
+      "properties": {
+        "receipt_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema_ref": {
+          "const": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+        },
+        "disclosure_tier": {
+          "const": "repo-publishable"
+        },
+        "claim_scope_ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "receipt_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        },
+        "raw_evidence_not_published": {
+          "const": true
+        },
+        "cleanup_path_set_digest": {
+          "$ref": "#/$defs/sha256Digest"
+        }
+      }
     }
   },
   "allOf": [

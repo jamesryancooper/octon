@@ -1,0 +1,206 @@
+schema_version: "octon-evidence-disclosure-tiers-v1"
+contract_id: "evidence-disclosure-tiers"
+owner: "Octon governance"
+status: "active"
+release_state: "pre-1.0"
+change_profile: "atomic"
+profile_selection_receipt_ref: ".octon/instance/cognition/context/shared/migrations/2026-04-18-octon-frontier-governance-target-state/plan.md"
+purpose: >-
+  Classify retained evidence and derived disclosure surfaces by their
+  publication and authority posture without replacing the canonical retained
+  evidence roots.
+authority_mode: "framework-authority"
+retained_evidence_store_ref: ".octon/framework/engine/runtime/spec/evidence-store-v1.md"
+evidence_obligations_ref: ".octon/framework/constitution/obligations/evidence.yml"
+
+tiers:
+  - tier_id: "private_raw_evidence"
+    label: "Private Raw Evidence"
+    purpose: >-
+      Preserve raw or sensitive evidence needed for replay, debugging,
+      auditability, or proof construction without making that raw payload
+      publishable by default.
+    allowed_roots:
+      - ".octon/state/evidence/runs/**"
+      - ".octon/state/evidence/lab/**"
+      - ".octon/state/evidence/connectors/**"
+      - ".octon/state/evidence/trust/**"
+      - ".octon/state/evidence/external-index/**"
+    git_posture:
+      default_storage: "git-pointer-or-external-immutable"
+      inline_allowed_when: >-
+        The artifact is explicitly classified as non-sensitive, size-safe,
+        and required inline by the applicable evidence contract.
+      raw_copy_to_publishable: "forbidden"
+    authority_roles:
+      producer: "model executor or runtime tool within granted run scope"
+      classifier: "validator_plane"
+      retention_owner: "harness"
+      disclosure_owner: "disclosure_assembler"
+    forbidden_consumers:
+      - "generated/effective runtime authority handles"
+      - "operator read models as sole evidence"
+      - "release disclosure payloads without redaction or pointer mediation"
+      - "support or closeout gates that require publishable evidence"
+
+  - tier_id: "repo_publishable_evidence"
+    label: "Repo-Publishable Evidence"
+    purpose: >-
+      Retain claim-bearing receipts, digests, summaries, redacted excerpts,
+      and stable pointers that can travel with the repository and support
+      validation, closeout, and disclosure claims.
+    allowed_roots:
+      - ".octon/state/evidence/runs/**"
+      - ".octon/state/evidence/control/execution/**"
+      - ".octon/state/evidence/validation/**"
+      - ".octon/state/evidence/disclosure/**"
+      - ".octon/state/evidence/external-index/**"
+      - ".octon/state/evidence/evolution/**"
+      - ".octon/state/evidence/trust/**"
+    git_posture:
+      default_storage: "git-inline-or-git-pointer"
+      inline_allowed_when: >-
+        The artifact contains no raw private payload and records enough
+        provenance, digest, or locator information to rebind to retained raw
+        evidence when that raw evidence is allowed to be inspected.
+      raw_copy_to_publishable: "forbidden"
+    publishable_receipt_contract:
+      schema_ref: ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+      receipt_tier_id: "repo-publishable"
+      required_for:
+        - "hosted/shared closeout claims"
+        - "repo-hygiene cleanup claims intended to leave the local machine"
+        - "release or operator disclosure claims that summarize private raw evidence"
+      required_fields:
+        - "claim_scope"
+        - "disclosure_tier"
+        - "source_summary"
+        - "validation_summary"
+        - "redactions"
+        - "limitations"
+        - "local_evidence_refs"
+        - "outcome"
+        - "rollback_or_discard"
+        - "authority_boundaries"
+        - "concision"
+      local_reference_requirements:
+        - "Each unpublished raw evidence reference must include a repo-relative path, logical id, or external-index id."
+        - "Each unpublished raw evidence reference must include a sha256 digest."
+        - "A path-only local reference is insufficient when a raw evidence digest is available."
+      concision_policy:
+        warning_threshold_bytes: 65536
+        failure_threshold_bytes: 262144
+        exception_field: "concision.size_exception_authorized"
+    authority_roles:
+      producer: "harness enforcement or validator plane"
+      classifier: "validator_plane"
+      retention_owner: "harness"
+      disclosure_owner: "disclosure_assembler"
+    forbidden_consumers:
+      - "runtime authority without the corresponding control artifact"
+      - "support widening outside admitted support-target tuples"
+      - "generated read models as proof of freshness without canonical refs"
+
+  - tier_id: "operator_release_disclosure"
+    label: "Operator And Release Disclosure"
+    purpose: >-
+      Publish operator-facing and release-facing disclosure artifacts that
+      summarize retained evidence while remaining subordinate to canonical
+      authority, control, and evidence roots.
+    allowed_roots:
+      - ".octon/instance/governance/disclosure/**"
+      - ".octon/state/evidence/disclosure/runs/**"
+      - ".octon/state/evidence/disclosure/releases/**"
+      - ".octon/state/evidence/validation/publication/**"
+    git_posture:
+      default_storage: "git-inline"
+      inline_allowed_when: >-
+        The disclosure cites retained repo-publishable evidence and does not
+        embed private raw evidence unless a stricter disclosure contract
+        explicitly permits the redacted excerpt.
+      raw_copy_to_publishable: "forbidden"
+    authority_roles:
+      producer: "disclosure_assembler"
+      classifier: "validator_plane"
+      retention_owner: "harness"
+      disclosure_owner: "Octon governance"
+    forbidden_consumers:
+      - "runtime authorization"
+      - "mutable control truth"
+      - "evidence completeness gates without retained evidence refs"
+      - "support-target admission without proof-bundle evidence"
+
+  - tier_id: "generated_read_model"
+    label: "Generated Read Model"
+    purpose: >-
+      Provide generated operator views, summaries, and projections that help
+      humans inspect status while staying derived-only and non-authoritative.
+    allowed_roots:
+      - ".octon/generated/**"
+    git_posture:
+      default_storage: "derived-generated"
+      inline_allowed_when: >-
+        The generated artifact carries source traceability, freshness metadata,
+        and explicit non-authority classification required by its publication
+        contract.
+      raw_copy_to_publishable: "forbidden"
+    authority_roles:
+      producer: "publication or projection tooling"
+      classifier: "validator_plane"
+      retention_owner: "none; generated outputs are derived"
+      disclosure_owner: "disclosure_assembler when cited by disclosure"
+    forbidden_consumers:
+      - "runtime authorization"
+      - "policy authority"
+      - "mutable control truth"
+      - "retained evidence completeness"
+      - "support-target proof"
+      - "closeout or archive gates"
+
+promotion_rules:
+  - rule_id: "EDT-001"
+    from_tier: "private_raw_evidence"
+    to_tier: "repo_publishable_evidence"
+    rule: >-
+      A private raw artifact may be represented as repo-publishable evidence
+      only by an intentional redaction, minimization, digest, locator, or
+      summary step that preserves provenance and forbids raw-copy promotion.
+  - rule_id: "EDT-002"
+    from_tier: "private_raw_evidence"
+    to_tier: "operator_release_disclosure"
+    rule: >-
+      Direct promotion is forbidden; operator and release disclosure must cite
+      repo-publishable evidence or an allowed redacted excerpt.
+  - rule_id: "EDT-003"
+    from_tier: "repo_publishable_evidence"
+    to_tier: "operator_release_disclosure"
+    rule: >-
+      Disclosure may summarize repo-publishable evidence when canonical refs,
+      receipt refs, and freshness posture remain visible.
+  - rule_id: "EDT-004"
+    from_tier: "generated_read_model"
+    to_tier: "repo_publishable_evidence"
+    rule: >-
+      Forbidden. Generated read models may point to retained evidence but never
+      become retained evidence or satisfy evidence gates by themselves.
+  - rule_id: "EDT-005"
+    from_tier: "generated_read_model"
+    to_tier: "operator_release_disclosure"
+    rule: >-
+      A generated read model may be cited as operator context only when the
+      disclosure also cites the canonical retained evidence or authority roots
+      behind the generated fact.
+
+classification_requirements:
+  - "Claim-bearing evidence records must declare a tier when publication, closeout, release disclosure, support proof, or archive readiness depends on the record."
+  - "Hosted/shared closeout claims and repo-hygiene cleanup claims intended to leave the local machine must cite a publishable evidence receipt rather than private raw evidence or local-only paths."
+  - "Publishable evidence receipts must include claim_scope, disclosure_tier, validation summary, redaction declaration, limitations, outcome, rollback or discard posture, and local evidence references with digests."
+  - "Tier classification must preserve the existing Class A/B/C storage class where that class is already required."
+  - "Missing tier classification blocks publication or closeout claims that depend on the affected evidence."
+  - "Generated read models must carry explicit forbidden-consumer posture and must not be used as retained evidence."
+
+boundary_rules:
+  - "The tier contract does not create new retained evidence roots."
+  - "The tier contract does not make private raw evidence publishable."
+  - "The tier contract does not make generated outputs authoritative."
+  - "The tier contract narrows disclosure and closeout use; it does not weaken existing evidence-store completeness requirements."

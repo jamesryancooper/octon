@@ -20,6 +20,8 @@ policy_refs:
   closeout_pr_subflow_ref: ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md"
   repo_hygiene_cleanup_skill_ref: ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md"
   repo_hygiene_cleanup_authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  publishable_evidence_receipt_schema_ref: ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+  evidence_disclosure_tiers_ref: ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
   run_health_generator_ref: ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
   git_worktree_autonomy_ref: ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml"
 relationship_to_default_work_unit:
@@ -349,6 +351,7 @@ evidence_gates:
       - "validation evidence"
       - "rollback handle"
       - "hosted or origin evidence"
+      - "publishable_evidence_receipt_refs when the closeout claim is hosted/shared or leaves the local machine"
       - "governed landing authorization evidence when route is branch-no-pr hosted landing"
       - "post-landing fetch and local main sync evidence"
       - "origin/main and local main containment of landed_ref"
@@ -360,6 +363,7 @@ evidence_gates:
       - "branch cleanup and worktree cleanup completed when claiming cleaned"
       - "governed branch cleanup authorization evidence when cleanup mutates local or remote refs"
       - "cleanup safety evidence"
+      - "publishable_evidence_receipt_refs when cleanup evidence is summarized for hosted/shared closeout"
       - "post-landing fetch and local main sync evidence when landed"
       - "origin/main and local main containment of landed_ref when landed"
       - "final main alignment when landed"
@@ -431,6 +435,16 @@ non_authority_boundaries:
   - "chat"
   - "model memory"
   - "tool availability"
+publishable_evidence:
+  receipt_schema_ref: ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+  disclosure_tier: "repo-publishable"
+  applies_when:
+    - "A closeout claim is hosted/shared or intended to leave the local machine."
+    - "A repo-hygiene cleanup claim summarizes local run/control/evidence residue without publishing raw local evidence."
+  receipt_ref_fields:
+    - "publishable_evidence_receipt_refs"
+    - "publishable_evidence_receipt_ref"
+  raw_evidence_rule: "Private raw evidence and local-only paths may be cited only through digest-backed local_evidence_refs in the publishable receipt; raw payloads are not published."
 forbidden_actions:
   - "force-push"
   - "reset ambiguous or user-owned work"

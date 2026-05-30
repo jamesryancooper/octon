@@ -33,3 +33,16 @@ measurement, intervention, and pointer families above from the run evidence
 root. Canonical RunCards now live under
 `state/evidence/disclosure/runs/<run-id>/`; any run-local disclosure directory
 is historical mirror material only.
+
+Publishable evidence receipts that summarize local or private run evidence use
+the schema at
+`/.octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json`
+and live beside the relevant retained run evidence, for example:
+
+```text
+state/evidence/runs/skills/<skill>/<run-id>/publishable-receipt.json
+```
+
+These receipts are repo-publishable summaries with digest-backed local evidence
+references. They do not publish raw private evidence, make local-only paths
+authoritative, or replace the retained run evidence root.

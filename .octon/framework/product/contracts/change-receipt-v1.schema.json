@@ -380,6 +380,50 @@
       "type": "array",
       "items": { "type": "string", "minLength": 1 }
     },
+    "publishable_evidence_receipt_refs": {
+      "type": "array",
+      "description": "Repo-publishable receipts that summarize or attest the local evidence supporting a hosted/shared closeout claim without publishing private raw evidence.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "receipt_ref",
+          "schema_ref",
+          "disclosure_tier",
+          "claim_scope_ref",
+          "receipt_digest",
+          "raw_evidence_not_published"
+        ],
+        "properties": {
+          "receipt_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "schema_ref": {
+            "const": ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+          },
+          "disclosure_tier": {
+            "const": "repo-publishable"
+          },
+          "claim_scope_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "receipt_digest": {
+            "$ref": "#/$defs/sha256Digest"
+          },
+          "raw_evidence_not_published": {
+            "const": true
+          },
+          "local_evidence_digest_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/sha256Digest"
+            }
+          }
+        }
+      }
+    },
     "source_branch_cleanup": {
       "type": "object",
       "additionalProperties": false,
@@ -521,6 +565,12 @@
     "updated_at": {
       "type": "string",
       "minLength": 1
+    }
+  },
+  "$defs": {
+    "sha256Digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
     }
   },
   "allOf": [

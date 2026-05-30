@@ -5,6 +5,21 @@ status: "active"
 default_work_unit: "change"
 internal_execution_bundle: "change-package"
 run_authority_unit: "run-contract"
+closeout_evidence_boundaries:
+  local_private_raw_evidence: >-
+    Raw cleanup logs and sensitive local path details under
+    .octon/state/evidence/local/** are local debugging material, not runtime
+    policy, retained publishable evidence, hosted/shared closeout proof, or
+    closeout truth.
+  publishable_closeout_evidence: >-
+    Hosted or shared closeout claims require concise
+    publishable_evidence_receipt_refs under .octon/state/evidence/runs/skills/**
+    and may cite local-private raw evidence only through digest-backed
+    local_evidence_refs inside those receipts.
+  branch_no_pr_cleaned_rule: >-
+    Hosted branch-no-pr cleaned claims must not require or publish
+    local-private raw evidence; they require stateful_closeout plus publishable
+    receipt refs when cleanup evidence is hosted or shared.
 worktree_wrapper:
   id: "closeout-worktree"
   display_name: "Closeout Worktree"
@@ -108,6 +123,7 @@ routes:
       - "pr_url_or_number"
       - "hosted_checks_when_required"
       - "review_or_solo_maintainer_exception_when_required"
+      - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "rollback_handle"
       - "branch_pr_predicate"
       - "route_transition_authority_when_selected_after_an_initial_different_route"
@@ -148,6 +164,7 @@ routes:
       - "governed_landing_authorization_receipt_when_landed"
       - "governed_branch_cleanup_authorization_receipt_when_cleanup_mutates_refs"
       - "hosted_landing_evidence_when_landed"
+      - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "lifecycle_outcome"
       - "integration_status"
       - "publication_status"
@@ -161,6 +178,7 @@ routes:
       - "pr_metadata"
       - "host_projection_claims_authority"
       - "hosted_landed_claim_without_origin_main_equality"
+      - "local_private_raw_evidence_refs_as_hosted_or_shared_closeout_proof"
   - route_id: "direct-main"
     description: "Low-risk solo Change landed directly on current clean main and pushed to origin during closeout unless explicitly blocked or explicitly local-only."
     precedence: 20
@@ -284,6 +302,7 @@ route_lifecycle_outcomes:
       - "target_branch_ref"
       - "landed_ref"
       - "hosted_landing_evidence"
+      - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "origin_main_equals_landed_ref_after_push"
       - "required_post_landing_checks_and_closeout_evidence_complete"
       - "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_landed_ref"
@@ -307,6 +326,7 @@ route_lifecycle_outcomes:
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
+      - "publishable_evidence_receipt_refs_when_cleanup_evidence_is_hosted_or_shared"
   branch-pr:
     allowed_outcomes:
       - "preserved"
@@ -343,6 +363,7 @@ route_lifecycle_outcomes:
       - "merge_ref_or_landed_ref"
       - "source_branch_changes_integrated_into_origin_main"
       - "origin_main_contains_merged_result"
+      - "publishable_evidence_receipt_refs_when_closeout_claim_leaves_local_machine"
       - "required_post_landing_checks_and_closeout_evidence_complete"
       - "safe_branch_cleanup_completed_or_deferred_after_origin_main_contains_merged_result"
       - "post_landing_fetch_origin_completed"
@@ -361,6 +382,7 @@ route_lifecycle_outcomes:
       - "branch_cleanup_skips_protected_active_unmerged_open_pr_or_unretained_rollback_refs"
       - "local_main_synced_to_origin_main_after_cleanup"
       - "stateful_closeout_evidence"
+      - "publishable_evidence_receipt_refs_when_cleanup_evidence_is_hosted_or_shared"
   stage-only-escalate:
     allowed_outcomes:
       - "preserved"
@@ -446,6 +468,8 @@ fail_closed_conditions:
   - "route_transition_missing_transition_authority"
   - "blocked_direct_or_hosted_no_pr_landing_silently_rerouted_to_branch_pr"
   - "cleanup_claim_missing_cleanup_evidence"
+  - "hosted_or_shared_closeout_claim_missing_publishable_evidence_receipt"
+  - "repo_hygiene_claim_publishes_local_raw_evidence"
   - "unsupported_support_claim"
   - "proposal_local_runtime_dependency"
   - "host_projection_claims_authority"

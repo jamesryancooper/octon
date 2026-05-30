@@ -78,6 +78,13 @@ alignment when landed, and `stateful_closeout` receipt evidence. Deferred
 cleanup is valid blocker evidence for a lower actual outcome such as `landed`,
 `deferred`, or `blocked`; it is not a truthful `cleaned` outcome.
 
+Hosted/shared closeout claims, and closeout claims intended to leave the local
+machine, must cite repo-publishable evidence receipts conforming to
+`.octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json`.
+Those receipts summarize or attest local evidence with digest-backed local
+references; they do not publish private raw evidence and do not let local-only
+paths satisfy closeout gates by themselves.
+
 `deferred` requires preserved state plus the exact pending proof, authority,
 hosted check, sync, cleanup, or next-route condition. `blocked` requires
 preserved state plus the exact missing condition. `preserved` requires a
@@ -122,6 +129,9 @@ a retained `branch-cleanup-authorization-v1` receipt that validates before the
 cleanup mutation and matches the source branch, landed ref, local `main`,
 `origin/main`, no-open-PR proof, and rollback/discard posture used by the
 cleanup helper.
+Repo-hygiene cleanup receipts that become hosted/shared claim evidence must
+also cite a `publishable-evidence-receipt-v1` summary receipt instead of
+publishing local raw evidence or relying on local-only paths alone.
 
 Receipts must reject `published-branch`, `published`, or `ready` as completed
 closeout. They must also reject force-push, ambiguous deletion, reset,

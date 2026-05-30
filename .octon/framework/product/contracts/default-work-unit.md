@@ -94,6 +94,9 @@ phase loop, residue classification, cleanup safety, stateful receipt evidence,
 rollback posture, and final verification required to prove those lifecycle
 claims. It operationalizes this policy; it does not replace route selection or
 create a competing closeout authority.
+Hosted/shared closeout claims, and claims intended to leave the local machine,
+also require digest-backed repo-publishable receipt references rather than raw
+local evidence or local-only paths.
 
 `Closeout Worktree` is the optional wrapper for dirty worktrees. It decomposes
 multiple local residue groups into singular `Closeout Change` executions. It
@@ -133,6 +136,10 @@ the current worktree. Tracked files, proposal inputs, durable evidence, active
 control state, generated authority, ignored or user-owned paths, and ambiguous
 residue are retained or blocked with precise evidence unless a singular
 authorized route owns the cleanup.
+Repo-hygiene cleanup claims that are shared outside the local machine must cite
+a `publishable-evidence-receipt-v1` summary receipt; the raw cleanup evidence
+remains retained or local-only according to the evidence disclosure tier
+contract.
 
 When the operator asks for `branch-no-pr` closeout and does not name a target
 outcome, resolve the target to `cleaned` and attempt the full route lifecycle

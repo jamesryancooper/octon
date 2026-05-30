@@ -1,0 +1,5 @@
+# Local-private evidence is retained on the operator's machine and must not be
+# published by default. Track only the convention surface.
+local/**
+!local/
+!local/README.md

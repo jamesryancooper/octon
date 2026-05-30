@@ -4,6 +4,12 @@ This contract defines the canonical retained evidence store required for
 consequential run closeout, replayability, support proofing, and release
 disclosure.
 
+Retained evidence and publishable evidence are related but not identical.
+`/.octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml`
+defines the disclosure tiers used to distinguish private raw evidence,
+repo-publishable evidence, operator/release disclosure, and generated read
+models while preserving the canonical roots below.
+
 ## Canonical Roots
 
 Retained evidence lives under these roots:
@@ -47,6 +53,15 @@ CI uploads, caches, local previews, stdout captures, and other transport
 artifacts are not canonical evidence unless they are reindexed into the
 retained roots above. A transport artifact may support debugging, but it does
 not satisfy disclosure, replay, or closure requirements on its own.
+
+Canonical retention does not by itself make an artifact safe to publish or
+eligible for release disclosure. Raw transcripts, model I/O, traces, browser
+artifacts, local operator captures, and similar private raw evidence may remain
+necessary for replay or auditability while being represented in repo-publishable
+evidence only through redacted summaries, digests, stable locators, or retained
+pointers. A raw-copy move from private local evidence into publishable evidence
+is forbidden unless a stricter contract explicitly classifies the artifact as
+publishable.
 
 ## Local Run Residue
 
@@ -104,6 +119,13 @@ The claim-bearing run disclosure root is
 `/.octon/state/evidence/disclosure/runs/<run-id>/run-card.yml`. Run-local
 mirrors under `/.octon/state/evidence/runs/<run-id>/disclosure/**` may remain
 for lineage or convenience only.
+
+When a RunCard, closeout receipt, support proof, or release disclosure depends
+on evidence that is not itself publishable, the retained bundle must include a
+repo-publishable representation with a digest, locator, or pointer back to the
+private raw evidence. Generated read models may help operators inspect the run,
+but they do not satisfy run evidence, disclosure, or closeout completeness by
+themselves.
 
 ## Run Journal Snapshot Rule
 
@@ -183,15 +205,21 @@ models.
 Run or release closeout is valid only when:
 
 - all required retained artifacts are present in canonical roots
+- claim-bearing artifacts that support publication, closeout, support proof,
+  release disclosure, or archive readiness carry the applicable evidence
+  disclosure tier classification
 - the retained journal snapshot matches the live control journal at closeout
 - disclosure artifacts are generated from retained evidence, not from transport
   artifacts or chat/operator summaries
+- generated read models are cited only as derived operator context and never as
+  authority, policy, support proof, or evidence completeness inputs
 - external immutable payloads are reachable through a retained content-addressed
   index entry
 - missing required evidence blocks closure, promotion, or live claim activation
 
 ## Related Contracts
 
+- `/.octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml`
 - `/.octon/framework/constitution/contracts/retention/evidence-store-v1.schema.json`
 - `/.octon/framework/constitution/contracts/retention/run-evidence-classification-v2.schema.json`
 - `/.octon/framework/constitution/contracts/disclosure/run-card-v2.schema.json`

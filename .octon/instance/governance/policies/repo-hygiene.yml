@@ -174,9 +174,31 @@ protected_surfaces:
       description: "The current governance review receipt is claim-adjacent evidence and must stay protected."
       forced_action: "never-delete"
 local_artifact_hygiene:
-  scope: "Untracked local artifacts under .octon/state/**, rebuildable scratch output under .octon/generated/.tmp/**, and generated run-health projections that must be routed away from generic cleanup."
+  scope: "Untracked local artifacts under .octon/state/**, local-private raw evidence under .octon/state/evidence/local/**, rebuildable scratch output under .octon/generated/.tmp/**, and generated run-health projections that must be routed away from generic cleanup."
   classifier_ref: ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
   authorization_schema_ref: ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json"
+  local_private_evidence:
+    root: ".octon/state/evidence/local/**"
+    convention_ref: ".octon/state/evidence/local/README.md"
+    ignore_rule_ref: ".octon/state/evidence/.gitignore"
+    authority_posture: "local-only raw debugging material; not authority, runtime policy, support proof, retained publishable evidence, closeout truth, archive truth, or generated-output freshness evidence"
+    hosted_closeout_eligible: false
+    protected_from_generic_cleanup: true
+    operator_retention_rule: >-
+      Retain local raw archives only while they are useful for local debugging,
+      redaction, or operator audit. Discard them only by explicit operator
+      cleanup decision or a policy-backed cleanup route that keeps
+      local-private evidence excluded from generic cleanup candidates and
+      publishable closeout claims.
+  publishable_closeout_receipts:
+    root: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/**"
+    required_for_hosted_or_shared_claims: true
+    authority_posture: "retained publishable cleanup summary evidence; not deletion authority, policy authority, generated-output freshness evidence, or a substitute for closeout-change receipts"
+    raw_payload_rule: >-
+      Publish summary counts, digests, receipt refs, redaction posture, and
+      local evidence refs only; do not embed raw local logs, raw path lists, or
+      `.octon/state/evidence/local/**` payloads in hosted/shared closeout
+      evidence.
   delegated_closeout_route: "closeout-worktree may delegate eligible local residue to repo-hygiene-cleanup, but the wrapper itself must not delete or claim cleanup authority."
   default_mode: "dry-run"
   autonomous_receipt_route:
@@ -230,6 +252,10 @@ local_artifact_hygiene:
       criteria:
         - ".octon/state/evidence/cleanup/stash-archives/**"
       action: "local retained cleanup evidence; ignored by default; retain with rationale or delete only by explicit operator cleanup decision; never restore as active control, authority, validation proof, generated freshness evidence, or restoration authorization"
+    local_private_evidence:
+      criteria:
+        - ".octon/state/evidence/local/**"
+      action: "local-only operator evidence; protected from generic cleanup and excluded from hosted/shared closeout evidence gates unless a separate publishable summary receipt is promoted outside the local root"
     manual_review:
       criteria:
         - "untracked .octon/state/** file outside known local residue patterns"

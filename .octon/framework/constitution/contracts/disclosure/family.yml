@@ -9,6 +9,8 @@ activation_lineage_refs:
   - ".octon/instance/cognition/context/shared/migrations/2026-03-29-unified-execution-constitution-phase4-proof-evaluation-lab-expansion/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-06-target-state-closure-provable-closure/plan.md"
   - ".octon/instance/cognition/context/shared/migrations/2026-04-09-octon-uec-hardening-recertification/plan.md"
+evidence_disclosure_tiers_ref: ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
+publishable_evidence_receipt_schema_ref: ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
 authority_rules:
   subordinate_to:
     - ".octon/state/control/execution/runs/<run-id>/run-contract.yml"
@@ -36,6 +38,8 @@ run_card:
     - "replay"
     - "recovery"
     - "runtime-services"
+    - "publishable-evidence-receipt-when-claim-leaves-local-machine"
+    - "local-evidence-limitations-when-raw-evidence-is-not-published"
 harness_card:
   schema_ref: ".octon/framework/constitution/contracts/disclosure/harness-card-v2.schema.json"
   authored_source_ref: ".octon/instance/governance/disclosure/harness-card.yml"
@@ -51,6 +55,8 @@ harness_card:
     - "support-universe-coverage"
     - "proof-bundle"
     - "known-limits"
+    - "publishable-evidence-receipt-when-claim-leaves-local-machine"
+    - "local-evidence-limitations-when-raw-evidence-is-not-published"
 gating:
   behavioral_claims_require_any:
     - "lab-scenario"
@@ -59,3 +65,5 @@ gating:
     - "shadow-run"
   support_claims_require_support_target_ref: true
   live_claim_requires_release_lineage_registry: true
+  hosted_or_shared_claims_require_publishable_receipt: true
+  generated_read_models_satisfy_evidence_gates: false

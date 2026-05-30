@@ -42,10 +42,16 @@ schemas:
   evidence_classification: ".octon/framework/constitution/contracts/retention/evidence-classification-v2.schema.json"
   external_replay_index: ".octon/framework/constitution/contracts/retention/external-replay-index-v1.schema.json"
   replay_storage_class: ".octon/framework/constitution/contracts/retention/replay-storage-class-v1.schema.json"
+  evidence_disclosure_tiers: ".octon/framework/constitution/contracts/retention/evidence-disclosure-tiers-v1.yml"
+  publishable_evidence_receipt: ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json"
+validators:
+  evidence_disclosure_tiers: ".octon/framework/assurance/runtime/_ops/scripts/validate-evidence-disclosure-tiers.sh"
 rules:
   - "Run continuity must remain distinct from retained evidence."
   - "Replay-heavy external payloads require a content-addressed retained index entry."
   - "Canonical run evidence must declare the packet evidence class plus storage class for each replay-bearing artifact."
+  - "Tracked local-only raw evidence is forbidden except explicit convention marker files."
+  - "Hosted or shared closeout claims must not depend directly on local-only evidence, generated outputs, or input/proposal paths."
 self_evolution_retention:
   evidence_root: ".octon/state/evidence/evolution/**"
   retained_families:

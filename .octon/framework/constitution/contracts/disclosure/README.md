@@ -13,6 +13,12 @@ subordinate to durable authority and retained evidence.
   references
 - HarnessCards summarize one system-level support, benchmark, or release claim
   from support-target declarations plus retained proof bundles
+- RunCards, HarnessCards, and release summaries may cite
+  `publishable-evidence-receipt-v1` records when a hosted, shared, or
+  release-facing claim summarizes private or local-only evidence
+- local-only raw evidence remains represented by digest-backed local evidence
+  refs inside publishable evidence receipts or by explicit disclosure
+  limitations; raw payloads are not copied into disclosure artifacts
 - disclosure never mints authority, widens support, or overrides the bound run
   contract
 
@@ -43,6 +49,10 @@ for supported live disclosure.
 Generated effective closure views, run-local disclosure mirrors, and
 historical lab-local HarnessCards remain derived or historical surfaces only.
 They must not override authored disclosure or the active release bundle.
+
+Generated read models may point at disclosure artifacts and publishable
+evidence receipts as operator context only. They do not satisfy retained
+evidence, support-proof, closeout, archive, policy, or authority gates.
 
 ## Validator Obligations
 

@@ -84,6 +84,8 @@ classification, and diagnostics for uncertainty or input disagreement.
   authority routing, or claim validation.
 - Operator read models may never be consumed as authorization, policy,
   support-target, or state-reconstruction input.
+- Operator read models may never satisfy retained evidence, support-proof,
+  closeout, archive, release, or implementation evidence gates.
 - journal and retained evidence roots remain the only valid sources for those
   paths.
 - Generated summaries, mission views, and operator digests may mirror current
@@ -91,6 +93,24 @@ classification, and diagnostics for uncertainty or input disagreement.
   v2, or HarnessCard v2.
 - If freshness or traceability cannot be established, the read model must be
   marked stale or withheld rather than silently published.
+
+## Evidence Gate Boundary
+
+Operator read models may cite RunCards, HarnessCards, publishable evidence
+receipts, generated/effective handles, and retained evidence refs as source
+traceability. The gate still resolves against the cited canonical authority,
+control, retained evidence, disclosure, or publication receipt, not against the
+generated read model itself.
+
+Negative examples:
+
+- A run health view under `/.octon/generated/**` is not an
+  `evidence_classification_ref`, retained evidence receipt, or closeout proof.
+- A generated/effective route bundle or generated report is not proof that a
+  release claim is publishable unless the disclosure also cites the
+  corresponding retained publication or publishable evidence receipt.
+- A stale operator digest must not be used to prove support admission,
+  implementation conformance, archive readiness, or release status.
 
 ## Support And Closure Views
 
