@@ -1,0 +1,82 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-runtime-closeout-20260531T145242Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Resolve the active proposal-program-runner implementation candidate into an owned Change boundary without landing to main or claiming parent closeout/archive readiness.",
+  "scope": {
+    "summary": "Committed and published the proposal-program-runner end-to-end execution implementation, lifecycle receipts, generated publication refreshes, runtime control evidence, and retained validation evidence on an isolated branch.",
+    "touched_paths": [
+      ".claude/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+      ".codex/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+      ".cursor/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+      ".octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-residue-fingerprint.sh",
+      ".octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/kernel/tests/proposal_program_cli.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs",
+      ".octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md",
+      ".octon/generated/effective/",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/",
+      ".octon/state/control/",
+      ".octon/state/continuity/",
+      ".octon/state/evidence/"
+    ],
+    "diff_refs": [
+      "bc658d058490c1647366ba454fde823168a26137..a1736b1ecc547cafe4cf31b1bc4d5499f0221d24"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-runtime-closeout",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-runtime-closeout",
+  "publication_status": "source-branch-published",
+  "integration_status": "not-landed",
+  "cleanup_status": "deferred",
+  "not_landed_reason": "Source branch was published for handoff. No hosted no-PR landing authorization, exact-source hosted checks, or main mutation were run in this step.",
+  "not_cleaned_reason": "The source branch remains active and parent closeout/archive hygiene remains blocked by retained cleanup evidence and ignored/local residue ownership.",
+  "landing_stop_reason": "handoff-after-branch-publication",
+  "cleanup_stop_reason": "source-branch-active-parent-closeout-blocked",
+  "validation_evidence_refs": [
+    "git diff --check: passed before commit",
+    "git diff --cached --check: passed before commit",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh: Passed 188, Failed 0",
+    "bash .octon/framework/assurance/runtime/_ops/tests/test-proposal-lifecycle-residue-fingerprint.sh: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check: Registry generation summary errors=0",
+    "cargo test -p octon_kernel -p octon_lifecycle_executor: passed",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh: Validation summary errors=0",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-artifact-handles.sh: Validation summary errors=0"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "a1736b1ecc547cafe4cf31b1bc4d5499f0221d24",
+    "branch": "chore/proposal-program-runner-runtime-closeout",
+    "remote_ref": "origin/chore/proposal-program-runner-runtime-closeout"
+  },
+  "rollback_handle": {
+    "kind": "branch-discard",
+    "ref": "chore/proposal-program-runner-runtime-closeout",
+    "instructions": "Because this receipt did not land to main, rollback is to retain, replace, or delete the published source branch only through governed branch cleanup after ownership and open-PR checks pass."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": ".octon/state/evidence/validation/analysis/2026-05-31-closeout-worktree-20260531T143145Z.md",
+    "residue_classification_ref": "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root /Users/jamesryancooper/Projects/octon",
+    "phase_exit_refs": [
+      "read-in-and-constraints: closeout-worktree and closeout-change contracts were applied.",
+      "inventory: the active mixed implementation candidate was staged on an isolated branch.",
+      "validation: the staged tree passed whitespace checks and the retained implementation validation floor had already passed.",
+      "publication: git push published source branch chore/proposal-program-runner-runtime-closeout to origin.",
+      "handoff: main was not mutated; parent closeout/archive readiness remains blocked."
+    ],
+    "final_verification_ref": ".octon/state/evidence/validation/analysis/2026-05-31-closeout-worktree-20260531T145242Z.md"
+  },
+  "external_blocker_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/support/lifecycle-residue-cleanup.md"
+  ],
+  "closeout_outcome": "continued",
+  "created_at": "2026-05-31T14:52:42Z",
+  "updated_at": "2026-05-31T14:52:42Z"
+}
