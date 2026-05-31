@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:876432d9c6fd8c7df522c385aab14b16a9ed4fe5609ed74ac0363e3198b4849f
+  entry_id: lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T13:45:54.751003Z
+  run_id: lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:2561f98c0bf9b5d7c90f4d78ed1337a2e6f60a5918fcf1770da76eb645b58b9d
+  entry_id: lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T13:45:54.751003Z
+  run_id: lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
+run_id: lifecycle-proposal-program-1780234304673-15c0d1d9-proposal-program-runner-verification-correction-routing-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-31T13:45:54.751003Z

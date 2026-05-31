@@ -913,6 +913,154 @@ fn extension_route_ids_dispatch_when_delegation_contract_passes() {
 }
 
 #[test]
+fn required_receipts_before_dispatch_are_enforced_before_executor_dispatch() {
+    let root = temp_root("required-receipt-before-dispatch");
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "run-packet-implementation",
+        "extension",
+        "unattended",
+    );
+    let contract = request.route.delegation_contract.as_mut().unwrap();
+    contract.required_receipts_before_dispatch = vec!["proposal-review".to_string()];
+    contract.required_receipts_before_completion = vec!["implementation-run".to_string()];
+    request.receipts = vec![
+        LifecycleReceiptSpec {
+            receipt_id: "proposal-review".to_string(),
+            path: "support/proposal-review.md".to_string(),
+            required_fields: vec![
+                "review_id".to_string(),
+                "reviewed_at".to_string(),
+                "reviewer".to_string(),
+                "verdict".to_string(),
+                "implementation_prompt_authorized".to_string(),
+                "reviewed_packet_digest".to_string(),
+                "open_blocking_findings_count".to_string(),
+            ],
+            verdict_field: Some("verdict".to_string()),
+        },
+        LifecycleReceiptSpec {
+            receipt_id: "implementation-run".to_string(),
+            path: "support/implementation-run.md".to_string(),
+            required_fields: vec![
+                "verdict".to_string(),
+                "implemented_at".to_string(),
+                "promotion_evidence_count".to_string(),
+            ],
+            verdict_field: Some("verdict".to_string()),
+        },
+    ];
+    request.expected_receipts = vec!["implementation-run".to_string()];
+
+    let blocked = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(blocked.status, "authorization-proof-failed");
+    assert_eq!(
+        blocked.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::AuthorizationProofFailed)
+    );
+    assert!(blocked
+        .error_message
+        .as_deref()
+        .unwrap_or_default()
+        .contains("required receipt proposal-review is missing or incomplete"));
+    assert!(!request
+        .evidence_root
+        .join("run-packet-implementation-mock.log")
+        .exists());
+
+    write_file(
+        &request.target.join("support/proposal-review.md"),
+        "review_id: mock-review-1\nreviewed_at: 2026-05-31T00:00:00Z\nreviewer: test\nverdict: accepted\nimplementation_prompt_authorized: yes\nreviewed_packet_digest: sha256:test\nopen_blocking_findings_count: 0\n",
+    );
+
+    let completed = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(completed.status, "completed");
+    assert!(request
+        .evidence_root
+        .join("run-packet-implementation-mock.log")
+        .is_file());
+    let proof = fs::read_to_string(
+        root.join(".octon/state/evidence/runs/test-run/authorization/run-packet-implementation-delegation-proof.yml"),
+    )
+    .unwrap();
+    assert!(proof.contains("proposal-review: accepted"));
+}
+
+#[test]
+fn required_evidence_gates_are_enforced_before_executor_dispatch() {
+    let root = temp_root("required-evidence-gate");
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "run-packet-implementation",
+        "extension",
+        "unattended",
+    );
+    let contract = request.route.delegation_contract.as_mut().unwrap();
+    contract.required_evidence_gates = vec!["strict-review".to_string()];
+    contract.required_receipts_before_completion = vec!["implementation-run".to_string()];
+    request.receipts = vec![LifecycleReceiptSpec {
+        receipt_id: "implementation-run".to_string(),
+        path: "support/implementation-run.md".to_string(),
+        required_fields: vec![
+            "verdict".to_string(),
+            "implemented_at".to_string(),
+            "promotion_evidence_count".to_string(),
+        ],
+        verdict_field: Some("verdict".to_string()),
+    }];
+    request.expected_receipts = vec!["implementation-run".to_string()];
+
+    let missing = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(missing.status, "authorization-proof-failed");
+    assert!(missing
+        .error_message
+        .as_deref()
+        .unwrap_or_default()
+        .contains("required evidence gate strict-review missing from invocation proof"));
+    assert!(!request
+        .evidence_root
+        .join("run-packet-implementation-mock.log")
+        .exists());
+
+    request
+        .evidence_gate_results
+        .insert("strict-review".to_string(), "fail".to_string());
+    let failing = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(failing.status, "authorization-proof-failed");
+    assert!(failing
+        .error_message
+        .as_deref()
+        .unwrap_or_default()
+        .contains("required evidence gate strict-review did not pass: fail"));
+    assert!(!request
+        .evidence_root
+        .join("run-packet-implementation-mock.log")
+        .exists());
+
+    request
+        .evidence_gate_results
+        .insert("strict-review".to_string(), "pass".to_string());
+    let completed = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(completed.status, "completed");
+    assert!(request
+        .evidence_root
+        .join("run-packet-implementation-mock.log")
+        .is_file());
+    let proof = fs::read_to_string(
+        root.join(".octon/state/evidence/runs/test-run/authorization/run-packet-implementation-delegation-proof.yml"),
+    )
+    .unwrap();
+    assert!(proof.contains("strict-review: pass"));
+}
+
+#[test]
 fn failed_real_executor_is_not_retryable_after_target_mutation() {
     let _guard = env_lock().lock().unwrap();
     let root = temp_root("failed-mutating-agent");

@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-promote-proposal
+checkpoint_id: execution-complete
+stage_attempt_id: promote-proposal--initial
+checkpoint_kind: execution-complete
+status: materialized
+control_ref: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-promote-proposal/checkpoints/execution-complete.yml
+evidence_ref: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-closeout-archive-policy-workflow-promote-proposal/checkpoints/execution-complete.yml
+notes: Execution outcome materialized under the canonical run root.
+created_at: 2026-05-31T08:06:20.61584Z
+updated_at: 2026-05-31T08:06:20.61584Z

@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-proposal-program-runner-e2e-execution-program-270de0d21bee",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/proposal-program-runner-e2e-execution-program",
+  "source_ref": "270de0d21beedca39840c89bc5a09a73e3567031",
+  "remote_source_ref": "270de0d21beedca39840c89bc5a09a73e3567031",
+  "target_pre_ref": "aae13add22762646e08fbec3d946a6c4e4175fc6",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@270de0d21beedca39840c89bc5a09a73e3567031",
+    "branch_naming_validation@270de0d21beedca39840c89bc5a09a73e3567031",
+    "route_aware_autonomy_validation@270de0d21beedca39840c89bc5a09a73e3567031",
+    "exact_source_sha_validation@270de0d21beedca39840c89bc5a09a73e3567031"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "origin/main pre-closeout ref aae13add22762646e08fbec3d946a6c4e4175fc6",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-05-30T23:46:25Z"
+}

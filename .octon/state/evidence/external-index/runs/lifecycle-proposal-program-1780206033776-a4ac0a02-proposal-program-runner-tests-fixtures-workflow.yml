@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:838ba96438aef093290ef03322476cdf2ee639de5fc8793a406f892733bd5a4f
+  entry_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T09:26:31.239831Z
+  run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:2372333f1aa88ee8f3ff4a5b8acfdccc096319eeb930c8e8ceece6124bb220de
+  entry_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T09:26:31.239831Z
+  run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow
+run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-tests-fixtures-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-31T09:26:31.239831Z

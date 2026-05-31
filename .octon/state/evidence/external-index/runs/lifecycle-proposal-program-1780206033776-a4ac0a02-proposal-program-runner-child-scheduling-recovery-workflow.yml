@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:9a8d754e6ecc0480dc6d283bb9abd13dcafd2e0b8c10bc5380bc56926884e879
+  entry_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T06:08:02.865078Z
+  run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a8cffa0f995932b27840580ddaabe9fe1b352b7efc285d2e6198970bd0b02e0f
+  entry_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T06:08:02.865078Z
+  run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow
+run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-31T06:08:02.865078Z

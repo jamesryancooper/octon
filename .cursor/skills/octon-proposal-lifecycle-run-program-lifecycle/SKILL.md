@@ -28,7 +28,8 @@ If `octon` is not installed on PATH, or if the packaged binary does not expose
 ```
 
 The runner resolves `proposal-program` from the published effective extension
-catalog, reconstructs parent program state from `proposal.yml`,
+catalog and lifecycle contract, never from skill or prompt bundle discovery. It
+reconstructs parent program state from `proposal.yml`,
 `resources/child-packet-index.yml`, and parent-local support receipts, evaluates
 parent review and child-readiness gates, selects the next route, and writes run
 evidence plus a resumable checkpoint. Its contract declares
@@ -43,9 +44,10 @@ Executor behavior:
 - With `--execute-routes`, the runner performs a bounded plan-execute-replan
   loop. Each iteration plans from live repository state, dispatches either one
   selected parent route or one runnable child batch through the shared lifecycle
-  executor adapter, replans from child-owned manifests and receipts, and
-  continues until terminal completion, blocked state, approval pause, failure,
-  timeout, cancellation, or max-step exhaustion.
+  executor adapter, replans from parent and child manifests, child-owned
+  receipts, gates, and checkpoints, and continues until terminal completion,
+  blocked state, approval pause, failure, timeout, cancellation, or max-step
+  exhaustion.
 - Use `--max-steps` to bound adapter dispatch attempts. One step is one parent
   route dispatch or one runnable child batch dispatch; pure planning and
   non-execute handoffs do not consume steps. Use `--max-child-concurrency` to

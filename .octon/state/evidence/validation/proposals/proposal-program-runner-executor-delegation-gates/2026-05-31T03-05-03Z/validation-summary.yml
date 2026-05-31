@@ -1,0 +1,48 @@
+schema_version: validation-summary-v1
+proposal_id: proposal-program-runner-executor-delegation-gates
+proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+validation_run_id: 2026-05-31T03-05-03Z
+recorded_at: 2026-05-31T03:05:03Z
+verdict: pass
+commands:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates --require-implementation-authorization
+    result: pass
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+    errors: 0
+  - command: CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test -p octon_lifecycle_executor --test adapter
+    result: pass
+    passed_tests: 29
+    failed_tests: 0
+  - command: focused CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test -p octon_kernel lifecycle::lifecycle_program::<filters> -- --nocapture
+    result: pass
+    passed_tests: 7
+    failed_tests: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates --skip-registry-check
+    result: pass
+    errors: 0
+    warnings: 1
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check
+    result: pass
+    errors: 0
+  - command: git diff --check -- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates/support .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T03-05-03Z
+    result: pass
+  - command: rg -n "\\.octon/inputs/exploratory/proposals/.*/proposal-program-runner-executor-delegation-gates" <promotion-targets>
+    result: pass
+    matches: 0
+notes:
+  - Durable promotion targets already contained the accepted implementation; this route retained packet receipts and validation evidence.
+  - Cargo validation used /private/tmp/octon-cargo-target because the default generated target directory had an existing lockfile permissions error.
+  - proposal.yml status remains accepted; promote-proposal owns implemented status and archive movement.
+  - The target-scoped proposal standard warning is limited to packet-local artifact-catalog coverage after digest-excluded implementation receipts were added.
+  - A fresh direct registry synchronization check after receipt finalization passed with errors=0.

@@ -1,68 +1,20 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-program-runner-current-state-gap-map"
-title: "Proposal Program Runner Current-State Gap Map"
-summary: >-
-  Audit the existing proposal-program runner, lifecycle contracts, generated projections, route prompts, validators, executor adapter, run-control machinery, and tests before any implementation work is attempted.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
-release_state: "pre-1.0"
-change_profile: "atomic"
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-current-state-gap-map
+title: Proposal Program Runner Current-State Gap Map
+summary: Audit the existing proposal-program runner, lifecycle contracts, generated projections, route prompts, validators, executor adapter, run-control machinery, and tests before any implementation work is attempted.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
-  - ".octon/framework/engine/runtime/crates/lifecycle_executor/src"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/"
-  - ".octon/framework/assurance/runtime/_ops/scripts/"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
-status: "accepted"
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Implement through the existing proposal-packet lifecycle only after this
-    packet is executed by a later proposal-program run. Close out or archive
-    only after child-owned implementation, conformance, drift/churn, closeout,
-    and archive gates pass.
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
 related_proposals:
-  - "proposal-program-runner-e2e-execution-program"
-source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
-selected_implementation_target: "current-state audit and gap map"
-scope_statement: >-
-  This child packet owns the current-state audit and gap map slice of the lifecycle-runner
-  improvement. It may update only its declared target surfaces during a later
-  implementation route and must preserve every route ownership boundary from
-  the source text.
-authority_class_impact:
-  framework: "May propose authored framework/runtime/validator/prompt changes in declared write scopes."
-  instance: "No direct instance mutation unless a declared target path names one."
-  state_control: "No direct state-control mutation from this proposal packet."
-  state_evidence: "Later implementation must retain route, validation, and review evidence under canonical evidence roots."
-  generated: "Generated outputs remain derived-only and may be refreshed only by canonical scripts."
-  inputs: "This proposal packet remains non-authoritative lineage."
-runtime_behavior_impact: >-
-  None until a later implementation route executes. The packet describes target
-  runtime behavior and validation only.
-generated_input_authority_impact: >-
-  Reinforces that generated projections, proposal artifacts, raw inputs, host
-  state, and chat history cannot authorize runtime behavior or satisfy route
-  receipts.
-evidence_requirements:
-  - "Audit receipt under child support or retained run evidence when implemented."
-  - "Gap classification table with source requirement ids and owner surfaces."
-  - "Test-selection rationale for preserved existing behavior."
-validation_gates:
-  - "Run targeted grep and semantic read-through over lifecycle contracts, runtime controller, executor adapter, prompts, validators, publication scripts, registry scripts, and workflow routes."
-  - "Validate that proposed downstream child work maps only to authored sources, existing runtime/controller surfaces, executor integration, validators, prompts, tests, or canonical generated publication routes."
-  - "Record source coverage against the lifecycle improvement text before implementation prompts are used."
-acceptance_criteria_summary: >-
-  A retained gap map inventories existing authored contracts, generated effective projections, runtime controller behavior, executor adapter support, route prompts, workflow routes, validators, hygiene tooling, publication tooling, registry tooling, evidence tiers, run lifecycle controls, and tests.
-rollback_summary: >-
-  manual rollback. Revert this child slice or regenerate affected
-  derived outputs through canonical scripts if later implementation evidence
-  fails validation or authority-boundary checks.
-owner:
-  role: "Octon proposal packet author"
-  accountable_role: "human operator / repository owner"
-created_date: "2026-05-30"
+- proposal-program-runner-e2e-execution-program

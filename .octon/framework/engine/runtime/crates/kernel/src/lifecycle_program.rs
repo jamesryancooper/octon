@@ -3,9 +3,14 @@ use octon_lifecycle_executor::{
     DefaultLifecycleRouteExecutor, LifecycleErrorClass, LifecycleExecutionError,
     LifecycleRouteExecutionRequest, LifecycleRouteExecutionResult, LifecycleRouteExecutor,
 };
+#[cfg(test)]
+use octon_lifecycle_executor::{
+    LifecycleDelegationContract, LifecycleExecutionPolicy, LifecycleInvocationAuthority,
+    LifecycleRouteSpec,
+};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::{BTreeMap, BTreeSet, VecDeque};
 use std::fs;
 use std::fs::OpenOptions;
 use std::io::Write;
@@ -6826,23 +6831,22 @@ fn select_runnable_batch(
     registry: &ProgramChildRegistry,
     child_states: &mut BTreeMap<String, ProgramChildPlanState>,
 ) -> Vec<String> {
+    let ordered_child_ids = dependency_ordered_child_ids(registry);
     let mut candidates = match registry.execution_mode.as_str() {
-        "sequential" => registry
-            .children
+        "sequential" => ordered_child_ids
             .iter()
-            .filter_map(|child| {
-                runnable_child(program, child_states, &child.child_id)
-                    .then(|| child.child_id.clone())
+            .filter_map(|child_id| {
+                runnable_child(program, child_states, child_id).then(|| child_id.clone())
             })
             .take(1)
             .collect::<Vec<_>>(),
-        "gated-parallel" => gated_parallel_candidates(program, registry, child_states),
-        "approval-gated" | "parallel-independent" | "program-atomic" => registry
-            .children
+        "gated-parallel" => {
+            gated_parallel_candidates(program, registry, child_states, &ordered_child_ids)
+        }
+        "approval-gated" | "parallel-independent" | "program-atomic" => ordered_child_ids
             .iter()
-            .filter_map(|child| {
-                runnable_child(program, child_states, &child.child_id)
-                    .then(|| child.child_id.clone())
+            .filter_map(|child_id| {
+                runnable_child(program, child_states, child_id).then(|| child_id.clone())
             })
             .collect::<Vec<_>>(),
         _ => Vec::new(),
@@ -6855,6 +6859,39 @@ fn select_runnable_batch(
         );
     }
     candidates
+}
+
+fn dependency_ordered_child_ids(registry: &ProgramChildRegistry) -> Vec<String> {
+    let mut remaining = registry
+        .children
+        .iter()
+        .map(|child| child.child_id.clone())
+        .collect::<BTreeSet<_>>();
+    let mut ordered = Vec::new();
+    while !remaining.is_empty() {
+        let before = remaining.len();
+        for child in &registry.children {
+            if !remaining.contains(&child.child_id) {
+                continue;
+            }
+            if child
+                .dependencies
+                .iter()
+                .all(|dependency| !remaining.contains(dependency))
+            {
+                remaining.remove(&child.child_id);
+                ordered.push(child.child_id.clone());
+            }
+        }
+        if remaining.len() == before {
+            for child in &registry.children {
+                if remaining.remove(&child.child_id) {
+                    ordered.push(child.child_id.clone());
+                }
+            }
+        }
+    }
+    ordered
 }
 
 fn runnable_child(
@@ -7037,6 +7074,7 @@ fn gated_parallel_candidates(
     program: &ProgramSpec,
     registry: &ProgramChildRegistry,
     child_states: &BTreeMap<String, ProgramChildPlanState>,
+    ordered_child_ids: &[String],
 ) -> Vec<String> {
     let mut phases = Vec::new();
     for child in &registry.children {
@@ -7046,13 +7084,13 @@ fn gated_parallel_candidates(
         }
     }
     for (phase_index, phase) in phases.iter().enumerate() {
-        let candidates = registry
-            .children
+        let candidates = ordered_child_ids
             .iter()
-            .filter(|child| child_phase_key(child) == *phase)
-            .filter_map(|child| {
-                runnable_child(program, child_states, &child.child_id)
-                    .then(|| child.child_id.clone())
+            .filter_map(|child_id| {
+                let child = registry_child(registry, child_id)?;
+                (child_phase_key(child) == *phase
+                    && runnable_child(program, child_states, child_id))
+                .then(|| child_id.clone())
             })
             .collect::<Vec<_>>();
         if !candidates.is_empty() {
@@ -7076,6 +7114,16 @@ fn gated_parallel_candidates(
         }
     }
     Vec::new()
+}
+
+fn registry_child<'a>(
+    registry: &'a ProgramChildRegistry,
+    child_id: &str,
+) -> Option<&'a ProgramChildSpec> {
+    registry
+        .children
+        .iter()
+        .find(|child| child.child_id == child_id)
 }
 
 fn child_selected_route_is_closeout_or_archive(
@@ -11884,11 +11932,10 @@ fn execute_child_jobs(
 ) -> Result<Vec<ProgramChildExecutionSummary>> {
     let executor = DefaultLifecycleRouteExecutor::new(repo_root.to_path_buf());
     let mut summaries = Vec::new();
-    let mut pending = jobs.into_iter();
-    loop {
-        let chunk = pending
-            .by_ref()
-            .take(max_concurrency)
+    let mut pending = jobs.into_iter().collect::<VecDeque<_>>();
+    while !pending.is_empty() {
+        let chunk = (0..max_concurrency)
+            .filter_map(|_| pending.pop_front())
             .collect::<Vec<ChildExecutionJob>>();
         if chunk.is_empty() {
             break;
@@ -11989,10 +12036,69 @@ fn execute_child_jobs(
                 outcome,
                 step_context,
             )?;
+            let child_cancelled = summary.status == "cancelled";
             summaries.push(summary);
+            if child_cancelled {
+                release_pending_child_locks_after_cancellation(
+                    control_root,
+                    evidence_root,
+                    program_run_id,
+                    pending,
+                    step_context,
+                )?;
+                append_program_event(
+                    control_root,
+                    evidence_root,
+                    program_run_id,
+                    "cancelled",
+                    Some(&child_id),
+                    Some(&route_id),
+                    "program lifecycle cancellation observed during child route dispatch",
+                    program_step_event_data(
+                        step_context.as_ref(),
+                        "child-batch-dispatch",
+                        [("final_verdict", "cancelled")],
+                    ),
+                )?;
+                return Ok(summaries);
+            }
         }
     }
     Ok(summaries)
+}
+
+fn release_pending_child_locks_after_cancellation(
+    control_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    pending: VecDeque<ChildExecutionJob>,
+    step_context: Option<ProgramExecutionStepContext>,
+) -> Result<()> {
+    for job in pending {
+        append_program_event(
+            control_root,
+            evidence_root,
+            program_run_id,
+            "child-route-skipped-cancelled",
+            Some(&job.child_id),
+            Some(&job.route_id),
+            "program child route skipped because cancellation was observed before dispatch",
+            program_step_event_data(
+                step_context.as_ref(),
+                "child-batch-dispatch",
+                [("final_verdict", "cancelled")],
+            ),
+        )?;
+        release_child_lock(
+            control_root,
+            evidence_root,
+            program_run_id,
+            &job.child_id,
+            &job.route_id,
+            &job.lock_path,
+        )?;
+    }
+    Ok(())
 }
 
 fn finish_child_execution(
@@ -16515,6 +16621,28 @@ routes:
         - any:
             - receipt_absent: "program-implementation-orchestration-conformance"
             - receipt_absent: "program-post-implementation-orchestration-drift"
+  - route_id: "generate-program-correction-prompt"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: ["program-verification-prompt"]
+      required_receipts_before_completion: []
+      replay_class: "idempotent"
+      automated_recovery_policy: "bounded-automated-retry"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+    required_inputs: ["finding_id"]
+    enter_when:
+      all:
+        - manifest_status: "implemented"
+        - receipt_complete: "program-verification-prompt"
+        - any:
+            - blocker_present: "validation-failed"
+            - blocker_present: "stale-receipt"
+            - blocker_present: "missing-evidence"
   - route_id: "generate-program-closeout-prompt"
     route_type: "extension"
     delegation_contract:
@@ -17365,8 +17493,15 @@ routes:
             self.write(
                 "parent/support/proposal-closeout.md",
                 &format!(
-                    "verdict: pass\nclosed_at: 2026-05-12T00:00:00Z\narchive_authorized: yes\nchild_authority_preserved: {child_authority_preserved}\n"
+                    "verdict: pass\nclosed_at: 2026-05-12T00:00:00Z\narchive_authorized: yes\nchild_authority_preserved: {child_authority_preserved}\nselected_git_route: none-closeout-only\nworktree_hygiene_verdict: pass\nworktree_hygiene_blocker_class: none\nworktree_hygiene_owned_path_count: 0\nworktree_hygiene_in_scope_path_count: 0\nworktree_hygiene_foreign_path_count: 0\nworktree_hygiene_foreign_fingerprint: sha256:clean\nworktree_hygiene_evidence: not-applicable\ncleanup_summary: none\nnext_route_condition: archive-proposal lifecycle route\n"
                 ),
+            );
+        }
+
+        fn write_parent_blocked_closeout_receipt(&self) {
+            self.write(
+                "parent/support/proposal-closeout.md",
+                "verdict: blocked\nclosed_at: 2026-05-12T00:00:00Z\narchive_authorized: no\nchild_authority_preserved: yes\nselected_git_route: stage-only-escalate\nworktree_hygiene_verdict: blocked\nworktree_hygiene_blocker_class: worktree-hygiene-blocked\nworktree_hygiene_owned_path_count: 0\nworktree_hygiene_in_scope_path_count: 2\nworktree_hygiene_foreign_path_count: 1\nworktree_hygiene_foreign_fingerprint: sha256:dirty\nworktree_hygiene_evidence: classifier-output\ncleanup_summary: foreign or ambiguous paths remain outside closeout route ownership\nnext_route_condition: closeout-change or operator scope resolution\n",
             );
         }
 
@@ -17729,6 +17864,60 @@ routes:
     }
 
     #[test]
+    fn program_planner_uses_generated_effective_contract_not_raw_additive_or_skills() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = program_review_fixture("program-generated-effective-source", "draft");
+        fixture.write(
+            ".octon/inputs/additive/extensions/test-extension/context/lifecycles/proposal-program.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["draft"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy: { max_recovery_attempts: 1, serialize_write_scope_conflicts: true }
+states: [{ state_id: "raw-additive" }]
+routes:
+  - route_id: "raw-additive-route"
+    route_type: "extension"
+    enter_when: { manifest_status: "draft" }
+"#,
+        );
+        fixture.write(
+            ".codex/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+            "route_id: skill-discovered-route\n",
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_program_route(&plan, "review-proposal-program");
+        assert!(plan.contract_path.starts_with(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/"
+        ));
+        assert!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str())
+                != Some("raw-additive-route")
+        );
+        assert!(
+            plan.program_route
+                .as_ref()
+                .map(|route| route.route_id.as_str())
+                != Some("skill-discovered-route")
+        );
+    }
+
+    #[test]
     fn unattended_parent_promotion_dispatches_with_child_authority_preserved() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-promote-unattended-safe", "accepted");
@@ -17762,6 +17951,26 @@ routes:
                 .map(|route| route.status.as_str()),
             Some("completed")
         );
+        assert_eq!(
+            result
+                .parent_route_result
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("promote-proposal")
+        );
+        assert_eq!(result.final_verdict, "step-budget-exhausted-continuable");
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "program-promote-unattended-safe")
+                .unwrap()
+                .unwrap();
+        let replanned = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+        )
+        .unwrap();
+        assert_program_route(&replanned, "generate-program-verification-prompt");
         let receipt_path = fixture.octon_dir.join(
             "state/evidence/runs/workflows/program-promote-unattended-safe/parent/delegated-promotion-parent-promote-proposal.yml",
         );
@@ -18200,6 +18409,43 @@ routes:
     }
 
     #[test]
+    fn program_review_workflow_blocks_archive_on_blocked_closeout_receipt() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture =
+            program_review_fixture("program-review-archive-blocked-receipt", "implemented");
+        fixture.write_program_verification_prompt_receipt();
+        fixture.write_parent_aggregate_verification_receipts("pass", "yes");
+        fixture.write_program_closeout_prompt_receipt();
+        fixture.write_parent_blocked_closeout_receipt();
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        let closeout = plan.parent_receipt_states.get("proposal-closeout").unwrap();
+        assert!(closeout.exists);
+        assert!(closeout.missing_required_fields.is_empty());
+        assert_eq!(
+            closeout
+                .fields
+                .get("selected_git_route")
+                .map(String::as_str),
+            Some("stage-only-escalate")
+        );
+        assert_eq!(
+            closeout
+                .fields
+                .get("next_route_condition")
+                .map(String::as_str),
+            Some("closeout-change or operator scope resolution")
+        );
+    }
+
+    #[test]
     fn sequential_selects_only_first_runnable_child() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("sequential", true);
@@ -18299,6 +18545,51 @@ routes:
             .blockers
             .iter()
             .any(|blocker| blocker.blocker_class == "dependency-gate-unsatisfied"));
+    }
+
+    #[test]
+    fn runnable_batch_is_dependency_ordered_even_when_registry_is_not() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("dependency-ordered-batch", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_child("b", "framework/b.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "b"
+    path: "children/b"
+    dependencies: ["a"]
+    dependency_gate: "verification"
+  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_eq!(plan.runnable_batch, vec!["a".to_string(), "b".to_string()]);
+        assert!(plan
+            .child_states
+            .get("b")
+            .and_then(|state| state.dependency_gate_status.get("a"))
+            .is_some_and(|status| status.satisfied));
     }
 
     #[test]
@@ -20535,6 +20826,157 @@ routes:
     }
 
     #[test]
+    fn child_batch_cancellation_stops_later_dispatch_and_releases_locks() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("child-batch-cancel-stops-dispatch", true);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_child("b", "framework/b.md", "accepted");
+        let program_run_id = "child-batch-cancel-stops-dispatch";
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        fs::create_dir_all(&control_root).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let cancellation_token = control_root.join("cancellation.yml");
+        fs::write(
+            &cancellation_token,
+            "schema_version: octon-lifecycle-cancellation-v1\n",
+        )
+        .unwrap();
+
+        let jobs = ["a", "b"]
+            .into_iter()
+            .map(|child_id| {
+                let lock_path = acquire_child_lock(&control_root, child_id).unwrap();
+                let child_evidence_root = evidence_root.join("children").join(child_id);
+                fs::create_dir_all(&child_evidence_root).unwrap();
+                ChildExecutionJob {
+                    child_id: child_id.to_string(),
+                    child_run_id: format!("{program_run_id}-{child_id}"),
+                    route_id: "run-implementation".to_string(),
+                    request: LifecycleRouteExecutionRequest {
+                        schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
+                        run_id: format!("{program_run_id}-{child_id}"),
+                        lifecycle_id: "proposal-packet".to_string(),
+                        owner_extension: "test-extension".to_string(),
+                        phase_id: None,
+                        target: fixture.root.join("children").join(child_id),
+                        manifest_path: "proposal.yml".to_string(),
+                        status_field: "status".to_string(),
+                        executor: "mock".to_string(),
+                        route: LifecycleRouteSpec {
+                            route_id: "run-implementation".to_string(),
+                            route_type: "extension".to_string(),
+                            command_id: None,
+                            skill_id: None,
+                            prompt_set_id: None,
+                            required_inputs: Vec::new(),
+                            completion_replan_required: false,
+                            delegation_contract: Some(LifecycleDelegationContract {
+                                decision_class: "delegated-execution".to_string(),
+                                safe_delegation: true,
+                                authority_zones_allowed: vec!["workspace-declared".to_string()],
+                                declared_write_scope_source: "target".to_string(),
+                                required_evidence_gates: Vec::new(),
+                                required_receipts_before_dispatch: Vec::new(),
+                                required_receipts_before_completion: Vec::new(),
+                                replay_class: "idempotent".to_string(),
+                                automated_recovery_policy: "fail-closed".to_string(),
+                                human_only_boundaries: vec!["scope-expansion".to_string()],
+                            }),
+                        },
+                        effective_extension_catalog: fixture
+                            .octon_dir
+                            .join("generated/effective/extensions/catalog.effective.yml"),
+                        runtime_route_bundle: fixture
+                            .octon_dir
+                            .join("generated/effective/runtime/route-bundle.yml"),
+                        bound_inputs: BTreeMap::new(),
+                        receipts: Vec::new(),
+                        expected_receipts: Vec::new(),
+                        expected_paths: Vec::new(),
+                        expected_manifest_status: None,
+                        expected_target_change: false,
+                        evidence_root: child_evidence_root,
+                        checkpoint_path: control_root
+                            .join("children")
+                            .join(child_id)
+                            .join("lifecycle-checkpoint.yml"),
+                        interaction_request_refs: Vec::new(),
+                        interaction_return_refs: Vec::new(),
+                        policy: LifecycleExecutionPolicy {
+                            timeout_seconds: 60,
+                            cancellation_token: Some(cancellation_token.clone()),
+                            retry_attempt: 0,
+                            invocation_authority: LifecycleInvocationAuthority {
+                                mode: "unattended".to_string(),
+                                provenance: "unit-test".to_string(),
+                                authority_ref: None,
+                            },
+                        },
+                        human_boundary_context: None,
+                        evidence_gate_results: BTreeMap::new(),
+                    },
+                    lock_path,
+                    max_attempts: 1,
+                    blocker_class: None,
+                    unsafe_repair: None,
+                }
+            })
+            .collect::<Vec<_>>();
+
+        let result = execute_child_jobs(
+            &fixture.root,
+            program_run_id,
+            &control_root,
+            &evidence_root,
+            jobs,
+            1,
+            Some(ProgramExecutionStepContext::from_steps_used(0)),
+        )
+        .unwrap();
+
+        assert_eq!(result.len(), 1);
+        assert_eq!(result[0].child_id, "a");
+        assert_eq!(result[0].status, "cancelled");
+        assert!(!control_root.join("locks/a.lock").exists());
+        assert!(!control_root.join("locks/b.lock").exists());
+        assert!(!fixture
+            .root
+            .join("children/a/support/implementation-run.md")
+            .exists());
+        assert!(!fixture
+            .root
+            .join("children/b/support/implementation-run.md")
+            .exists());
+
+        let events = read_program_events(&control_root).unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .filter(|event| event.event_type == "child-route-started")
+                .map(|event| event.child_id.as_deref().unwrap_or_default())
+                .collect::<Vec<_>>(),
+            vec!["a"]
+        );
+        assert!(events.iter().any(|event| {
+            event.event_type == "child-route-skipped-cancelled"
+                && event.child_id.as_deref() == Some("b")
+        }));
+        assert!(
+            events
+                .iter()
+                .any(|event| event.event_type == "cancelled"
+                    && event.child_id.as_deref() == Some("a"))
+        );
+    }
+
+    #[test]
     fn program_cancel_after_plan_checkpoint_records_stale_locks() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("cancel-after-plan-checkpoint", true);
@@ -20635,6 +21077,8 @@ routes:
         .unwrap();
 
         assert_eq!(result.route_execution_mode, "program-route-handoff");
+        assert_eq!(result.final_verdict, "planned");
+        assert!(result.terminal_outcome.is_none());
         assert_eq!(result.selected_children, vec!["a".to_string()]);
         assert!(result.child_results.is_empty());
         assert!(!fixture

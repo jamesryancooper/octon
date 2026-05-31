@@ -4,6 +4,10 @@ owner_extension: "octon-proposal-lifecycle"
 version: "1.0.0"
 execution_strategy: "orchestrated-replan-loop"
 
+# Program route inventory is resolved from this published lifecycle contract
+# through the generated effective extension catalog. Skill files, prompt
+# bundles, proposal-local receipts, and raw additive inputs are not scheduler
+# route authority.
 target:
   input: "program_packet_path"
   manifest_path: "proposal.yml"
@@ -25,6 +29,10 @@ program:
     - "gated-parallel"
     - "approval-gated"
     - "program-atomic"
+  # Scheduler contract: runnable child batches are ordered by declared child
+  # dependencies, then by registry order for peers. `max_child_concurrency`
+  # limits simultaneous executors inside the selected batch without creating
+  # extra replan steps.
   atomic_policy:
     eligibility: "explicit-route-opt-in"
     require_declared_write_scopes: true
@@ -504,6 +512,16 @@ receipts:
       - "closed_at"
       - "archive_authorized"
       - "child_authority_preserved"
+      - "selected_git_route"
+      - "worktree_hygiene_verdict"
+      - "worktree_hygiene_blocker_class"
+      - "worktree_hygiene_owned_path_count"
+      - "worktree_hygiene_in_scope_path_count"
+      - "worktree_hygiene_foreign_path_count"
+      - "worktree_hygiene_foreign_fingerprint"
+      - "worktree_hygiene_evidence"
+      - "cleanup_summary"
+      - "next_route_condition"
     verdict_field: "verdict"
   - receipt_id: "lifecycle-residue-cleanup"
     path: "support/lifecycle-residue-cleanup.md"
@@ -852,6 +870,10 @@ routes:
       all:
         - manifest_status: "implemented"
         - receipt_complete: "program-verification-prompt"
+        - any:
+            - blocker_present: "validation-failed"
+            - blocker_present: "stale-receipt"
+            - blocker_present: "missing-evidence"
   - route_id: "cleanup-lifecycle-residue"
     route_type: "extension"
     delegation_contract:

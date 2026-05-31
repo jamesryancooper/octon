@@ -1,0 +1,51 @@
+schema_version: octon-validation-summary-v1
+validation_run_id: 2026-05-31T01-46-41Z
+proposal_id: proposal-program-runner-planning-replan-loop
+proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+route_id: run-packet-implementation
+verdict: pass
+commands:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop --require-implementation-authorization
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+    verdict: pass
+    errors: 0
+  - command: CARGO_TARGET_DIR=/private/tmp/octon-runtime-crates-target cargo test -p octon_kernel lifecycle::lifecycle_program -- --nocapture
+    verdict: pass
+    tests_passed: 153
+    tests_failed: 0
+  - command: bash .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
+    verdict: pass
+    publication_id: extensions-e539e7c8b239
+    publication_receipt: .octon/state/evidence/validation/publication/extensions/2026-05-31T01-42-30Z-extensions-e539e7c8b239.yml
+    compatibility_receipt: .octon/state/evidence/validation/compatibility/extensions/2026-05-31T01-42-30Z-extensions-e539e7c8b239.yml
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+    verdict: pass
+    errors: 0
+    warnings: 1
+    warning_summary: packet-local artifact catalog omits post-review support receipt files
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+    verdict: pass
+    errors: 0
+    warnings: 0
+  - command: git diff --check -- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md .octon/generated/effective/extensions
+    verdict: pass
+target_digests:
+  .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs: e5e9667c882a6bd6a4efbacd1f874d4f9de045ee9d5da99d56fed5db1a23e367
+  .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md: 7954dc790db1b6cc1d84228a6dd7abc8aec6149221f7ff76a06d49f7068d6480
+  .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml: f7e65362ee0dd625371d9e6e05888f4a85f0cc64197ad77ed5aa3cf446f07878
+  .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md: fd1165d20978652ae0028ef45929aac2b2e70329686367f6755ec32ac61b5224
+notes:
+  - proposal_status_left_accepted_for_promote_proposal_route
+  - rust_validation_used_private_tmp_target_dir_due_sandbox_cargo_lock_permission
+  - extension_publication_emitted_existing_long_identifier_warnings_outside_packet_scope

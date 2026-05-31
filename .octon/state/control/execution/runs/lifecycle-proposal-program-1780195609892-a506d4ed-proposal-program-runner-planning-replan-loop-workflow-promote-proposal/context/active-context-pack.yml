@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-promote-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-promote-proposal/context/context-pack.json
+context_pack_sha256: sha256:6eb411db770848caf29ecdf3cd9bd97250a7bc18c416db2e1cf92d0601af91cd
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-promote-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:936190a86de77cbbb47555d6246a318815e1a0ab7fdd2a140738e8ac4c389c74
+receipt_sha256: sha256:10a45603d9d30ebbbbc017dd7524be010fed5e9de8c26d6c74817d7a320e0b6b
+run_id: lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-promote-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-31T02:53:03.853872Z
+validity_state: valid

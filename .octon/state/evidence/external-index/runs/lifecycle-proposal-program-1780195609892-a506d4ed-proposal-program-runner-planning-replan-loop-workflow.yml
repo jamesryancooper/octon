@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:c15a2c4b02651cbe789a2e743c238da9f9f5eb477914e20bdca7076074d66835
+  entry_id: lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T02:58:51.755306Z
+  run_id: lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:40f98a4a485834c31aa09c6e0e0e8659bac43e4dba0e1a79e1410497e641d5b7
+  entry_id: lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T02:58:51.755306Z
+  run_id: lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow
+run_id: lifecycle-proposal-program-1780195609892-a506d4ed-proposal-program-runner-planning-replan-loop-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-31T02:58:51.755306Z

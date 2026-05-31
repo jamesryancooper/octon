@@ -1,0 +1,752 @@
+schema_version: octon-program-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-program-1780206033776-a4ac0a02
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program
+executor: auto
+invocation_authority: unattended
+timeout_seconds: null
+max_child_concurrency: 2
+child_registry_digest: sha256:6fb80ac36ddcb0b9883fbdb290da33bf33d5086d75e6b91d524155593c445f24
+execution_mode: gated-parallel
+run_inputs:
+  promotion_evidence: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-child-scheduling-recovery/support/implementation-run.md
+scheduler_decision: []
+child_states:
+  proposal-program-runner-child-scheduling-recovery:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-child-scheduling-recovery
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:daefbb85d1b4a4d0640ce5b726f9e3ddd48790038bc8ad46981d42c17e07e19f
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-evidence-run-control:
+        dependency_id: proposal-program-runner-evidence-run-control
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-executor-delegation-gates:
+        dependency_id: proposal-program-runner-executor-delegation-gates
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-planning-replan-loop:
+        dependency_id: proposal-program-runner-planning-replan-loop
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/engine/runtime/crates/kernel/tests/
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-child-scheduling-recovery
+  proposal-program-runner-cleanup-hygiene:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-cleanup-hygiene
+    current_state: promote-proposal
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:a4c473b88ac8f93cad22f551f434be41832c0c96f24d36d46d997da65faa30d6
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-child-scheduling-recovery:
+        dependency_id: proposal-program-runner-child-scheduling-recovery
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-evidence-run-control:
+        dependency_id: proposal-program-runner-evidence-run-control
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-cleanup-hygiene
+    - .octon/instance/governance/policies/repo-hygiene.yml
+  proposal-program-runner-closeout-archive-policy:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-closeout-archive-policy
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:3fbc1b4df6e3ce6b7415233ec6d7ac75dd17dc708e03b83bb3d3354ce2104fec
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-cleanup-hygiene:
+        dependency_id: proposal-program-runner-cleanup-hygiene
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-evidence-run-control:
+        dependency_id: proposal-program-runner-evidence-run-control
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-verification-correction-routing:
+        dependency_id: proposal-program-runner-verification-correction-routing
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-closeout-archive-policy
+  proposal-program-runner-current-state-gap-map:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:f75cd9f32353162d4750e847c8e6fe49b86d7a06200a3f04f1ce8a772ecdc129
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status: {}
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/src
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map
+  proposal-program-runner-evidence-run-control:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-evidence-run-control
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:0493d9788dc18a9e90ab93ca34038520cc4faa13875fddaf6d426348df9ed2fc
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-current-state-gap-map:
+        dependency_id: proposal-program-runner-current-state-gap-map
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-planning-replan-loop:
+        dependency_id: proposal-program-runner-planning-replan-loop
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/constitution/contracts/retention/
+    - .octon/framework/constitution/obligations/evidence.yml
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-evidence-run-control
+  proposal-program-runner-executor-delegation-gates:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:626d69d7e3d7651f6bb1b41b799ffc9259b336b4440f9b370076e7e079497566
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-current-state-gap-map:
+        dependency_id: proposal-program-runner-current-state-gap-map
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-planning-replan-loop:
+        dependency_id: proposal-program-runner-planning-replan-loop
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/engine/runtime/adapters/
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/src
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/tests/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+  proposal-program-runner-generated-state-publication:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-generated-state-publication
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:daa20af7441eb862b86cd9039d6d7d9403008d5585616332b593f1d7ef9db1fb
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-current-state-gap-map:
+        dependency_id: proposal-program-runner-current-state-gap-map
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-planning-replan-loop:
+        dependency_id: proposal-program-runner-planning-replan-loop
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/capabilities/_ops/scripts/
+    - .octon/framework/orchestration/runtime/_ops/scripts/
+    - .octon/generated/assurance/
+    - .octon/generated/effective/capabilities/
+    - .octon/generated/effective/extensions/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-generated-state-publication
+  proposal-program-runner-planning-replan-loop:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:3e61e6a89b3bcf92e230811f704fc66be9f9e92202275c8eee228c148d4e5703
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-current-state-gap-map:
+        dependency_id: proposal-program-runner-current-state-gap-map
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/framework/engine/runtime/spec/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-planning-replan-loop
+  proposal-program-runner-tests-fixtures:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-tests-fixtures
+    current_state: closeout-packet
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:c986c5b553061ec88c5c99a6d3c2979499699c338d8744c758dc837525c52d48
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-child-scheduling-recovery:
+        dependency_id: proposal-program-runner-child-scheduling-recovery
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-cleanup-hygiene:
+        dependency_id: proposal-program-runner-cleanup-hygiene
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-closeout-archive-policy:
+        dependency_id: proposal-program-runner-closeout-archive-policy
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-evidence-run-control:
+        dependency_id: proposal-program-runner-evidence-run-control
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-executor-delegation-gates:
+        dependency_id: proposal-program-runner-executor-delegation-gates
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-generated-state-publication:
+        dependency_id: proposal-program-runner-generated-state-publication
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-planning-replan-loop:
+        dependency_id: proposal-program-runner-planning-replan-loop
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-verification-correction-routing:
+        dependency_id: proposal-program-runner-verification-correction-routing
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/kernel/tests/
+    - .octon/framework/engine/runtime/crates/lifecycle_executor/tests/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-tests-fixtures
+  proposal-program-runner-verification-correction-routing:
+    child_lifecycle_id: proposal-packet
+    target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-verification-correction-routing
+    current_state: promote-proposal
+    final_verdict: route-ready
+    receipt_digests:
+      proposal-review: sha256:867db630cda7ec597552a3ee6a43075365099569628374b26a12d20771edd809
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    dependency_gate_status:
+      proposal-program-runner-child-scheduling-recovery:
+        dependency_id: proposal-program-runner-child-scheduling-recovery
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+      proposal-program-runner-planning-replan-loop:
+        dependency_id: proposal-program-runner-planning-replan-loop
+        required_gate: verification
+        satisfied: true
+        observed_gate: verification
+        reason: observed verification
+    write_scopes:
+    - .octon/framework/assurance/runtime/_ops/scripts/
+    - .octon/framework/assurance/runtime/_ops/tests/
+    - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+    - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+    - .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-verification-correction-routing
+recovery_attempts:
+  proposal-program-runner-child-scheduling-recovery: 1
+  proposal-program-runner-child-scheduling-recovery:artifact-ownership-unclear: 0
+  proposal-program-runner-child-scheduling-recovery:route: 1
+  proposal-program-runner-cleanup-hygiene: 3
+  proposal-program-runner-cleanup-hygiene:executor-failed: 2
+  proposal-program-runner-cleanup-hygiene:route: 1
+  proposal-program-runner-closeout-archive-policy: 2
+  proposal-program-runner-closeout-archive-policy:artifact-ownership-unclear: 0
+  proposal-program-runner-closeout-archive-policy:route: 2
+  proposal-program-runner-current-state-gap-map: 0
+  proposal-program-runner-current-state-gap-map:artifact-ownership-unclear: 0
+  proposal-program-runner-evidence-run-control: 0
+  proposal-program-runner-evidence-run-control:artifact-ownership-unclear: 0
+  proposal-program-runner-executor-delegation-gates: 0
+  proposal-program-runner-executor-delegation-gates:artifact-ownership-unclear: 0
+  proposal-program-runner-generated-state-publication: 2
+  proposal-program-runner-generated-state-publication:artifact-ownership-unclear: 0
+  proposal-program-runner-generated-state-publication:route: 2
+  proposal-program-runner-planning-replan-loop: 0
+  proposal-program-runner-planning-replan-loop:artifact-ownership-unclear: 0
+  proposal-program-runner-tests-fixtures: 2
+  proposal-program-runner-tests-fixtures:artifact-ownership-unclear: 0
+  proposal-program-runner-tests-fixtures:route: 2
+  proposal-program-runner-verification-correction-routing: 3
+  proposal-program-runner-verification-correction-routing:executor-failed: 2
+  proposal-program-runner-verification-correction-routing:route: 1
+program_recovery_action_attempts: {}
+recovery_progress_fingerprints:
+  proposal-program-runner-child-scheduling-recovery:promote-proposal:route:
+    child_id: proposal-program-runner-child-scheduling-recovery
+    route_id: promote-proposal
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:daefbb85d1b4a4d0640ce5b726f9e3ddd48790038bc8ad46981d42c17e07e19f
+    selected_route_id: closeout-packet
+  proposal-program-runner-cleanup-hygiene:promote-proposal:executor-failed:
+    child_id: proposal-program-runner-cleanup-hygiene
+    route_id: promote-proposal
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:a4c473b88ac8f93cad22f551f434be41832c0c96f24d36d46d997da65faa30d6
+    selected_route_id: promote-proposal
+  proposal-program-runner-cleanup-hygiene:run-packet-implementation:route:
+    child_id: proposal-program-runner-cleanup-hygiene
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:a4c473b88ac8f93cad22f551f434be41832c0c96f24d36d46d997da65faa30d6
+    selected_route_id: promote-proposal
+  proposal-program-runner-closeout-archive-policy:promote-proposal:route:
+    child_id: proposal-program-runner-closeout-archive-policy
+    route_id: promote-proposal
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:3fbc1b4df6e3ce6b7415233ec6d7ac75dd17dc708e03b83bb3d3354ce2104fec
+    selected_route_id: closeout-packet
+  proposal-program-runner-closeout-archive-policy:run-packet-implementation:route:
+    child_id: proposal-program-runner-closeout-archive-policy
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:13562bf647d064a5616b58405d81550a9b042074ad1a90691299bc0302030eb7
+    selected_route_id: promote-proposal
+  proposal-program-runner-generated-state-publication:promote-proposal:route:
+    child_id: proposal-program-runner-generated-state-publication
+    route_id: promote-proposal
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:daa20af7441eb862b86cd9039d6d7d9403008d5585616332b593f1d7ef9db1fb
+    selected_route_id: closeout-packet
+  proposal-program-runner-generated-state-publication:run-packet-implementation:route:
+    child_id: proposal-program-runner-generated-state-publication
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:cd233bc2898c0fb62ca75313a2d2872e0459b80f1810ed95c2db10200db84504
+    selected_route_id: promote-proposal
+  proposal-program-runner-tests-fixtures:promote-proposal:route:
+    child_id: proposal-program-runner-tests-fixtures
+    route_id: promote-proposal
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:c986c5b553061ec88c5c99a6d3c2979499699c338d8744c758dc837525c52d48
+    selected_route_id: closeout-packet
+  proposal-program-runner-tests-fixtures:run-packet-implementation:route:
+    child_id: proposal-program-runner-tests-fixtures
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:000c421cda95c51ab9f3b24c5c32f13e55c10753741cd953f6ab7f7394a029f1
+    selected_route_id: promote-proposal
+  proposal-program-runner-verification-correction-routing:promote-proposal:executor-failed:
+    child_id: proposal-program-runner-verification-correction-routing
+    route_id: promote-proposal
+    blocker_class: executor-failed
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:867db630cda7ec597552a3ee6a43075365099569628374b26a12d20771edd809
+    selected_route_id: promote-proposal
+  proposal-program-runner-verification-correction-routing:run-packet-implementation:route:
+    child_id: proposal-program-runner-verification-correction-routing
+    route_id: run-packet-implementation
+    blocker_class: route
+    final_verdict: route-ready
+    terminal_outcome: null
+    gate_status:
+      terminal: false
+      verification: true
+      closeout: false
+    receipt_digests:
+      proposal-review: sha256:867db630cda7ec597552a3ee6a43075365099569628374b26a12d20771edd809
+    selected_route_id: promote-proposal
+closeout_hygiene_suppressions:
+  proposal-program-runner-child-scheduling-recovery:closeout-packet:
+    child_id: proposal-program-runner-child-scheduling-recovery
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-child-scheduling-recovery/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-child-scheduling-recovery/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:503c1601532966736bbad4f72ed2fb75358e90a3a0f8273ea321739424024157
+  proposal-program-runner-closeout-archive-policy:closeout-packet:
+    child_id: proposal-program-runner-closeout-archive-policy
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-closeout-archive-policy/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-closeout-archive-policy/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:dc89bf895ddc4a7726809e05cadf0a8c74c91ed753ecd25c68030e9fff54c6d9
+  proposal-program-runner-current-state-gap-map:closeout-packet:
+    child_id: proposal-program-runner-current-state-gap-map
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-current-state-gap-map/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-current-state-gap-map/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:469f0533172a8b2d79b3c14b973ea094d4633de7bbcf340f6b3c5d762572058c
+  proposal-program-runner-evidence-run-control:closeout-packet:
+    child_id: proposal-program-runner-evidence-run-control
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-evidence-run-control/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-evidence-run-control/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:2d40124d5613a7575dd3e27ffc3005c983a0d63e1885c472403b7e7ae953b566
+  proposal-program-runner-executor-delegation-gates:closeout-packet:
+    child_id: proposal-program-runner-executor-delegation-gates
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-executor-delegation-gates/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-executor-delegation-gates/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:c521b0cf0fdceba821b1b4eba1d9d6671328af9774fba20e63f1bd97b9e02c62
+  proposal-program-runner-generated-state-publication:closeout-packet:
+    child_id: proposal-program-runner-generated-state-publication
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-generated-state-publication/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-generated-state-publication/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:d2ea03974f8b8a36e2cd1a8a38e16f3bbd7c83d06243ca15e8e2b6909d4641b0
+  proposal-program-runner-planning-replan-loop:closeout-packet:
+    child_id: proposal-program-runner-planning-replan-loop
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-planning-replan-loop/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-planning-replan-loop/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:af3ece707793b5893d19d43da0058f246b798ec518807eab4caa339d29d01f06
+  proposal-program-runner-tests-fixtures:closeout-packet:
+    child_id: proposal-program-runner-tests-fixtures
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    message: closeout/archive blocked by foreign or ambiguous worktree hygiene
+    evidence_paths:
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-tests-fixtures/worktree-hygiene-preflight.stdout.yml
+    - .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/children/proposal-program-runner-tests-fixtures/worktree-hygiene-preflight.stderr.log
+    worktree_hygiene_foreign_fingerprint: sha256:7751c8600fe583bf16e68627b73aa66d8312e7c983a2d7701d461ebd4d7bfcab
+residue_cleanup_attempts:
+  ? proposal-program-runner-child-scheduling-recovery:closeout-packet:artifact-ownership-unclear:sha256:503c1601532966736bbad4f72ed2fb75358e90a3a0f8273ea321739424024157
+  : child_id: proposal-program-runner-child-scheduling-recovery
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:503c1601532966736bbad4f72ed2fb75358e90a3a0f8273ea321739424024157
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-closeout-archive-policy:closeout-packet:artifact-ownership-unclear:sha256:dc89bf895ddc4a7726809e05cadf0a8c74c91ed753ecd25c68030e9fff54c6d9
+  : child_id: proposal-program-runner-closeout-archive-policy
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:dc89bf895ddc4a7726809e05cadf0a8c74c91ed753ecd25c68030e9fff54c6d9
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-current-state-gap-map:closeout-packet:artifact-ownership-unclear:sha256:469f0533172a8b2d79b3c14b973ea094d4633de7bbcf340f6b3c5d762572058c
+  : child_id: proposal-program-runner-current-state-gap-map
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:469f0533172a8b2d79b3c14b973ea094d4633de7bbcf340f6b3c5d762572058c
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-evidence-run-control:closeout-packet:artifact-ownership-unclear:sha256:2d40124d5613a7575dd3e27ffc3005c983a0d63e1885c472403b7e7ae953b566
+  : child_id: proposal-program-runner-evidence-run-control
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:2d40124d5613a7575dd3e27ffc3005c983a0d63e1885c472403b7e7ae953b566
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-executor-delegation-gates:closeout-packet:artifact-ownership-unclear:sha256:c521b0cf0fdceba821b1b4eba1d9d6671328af9774fba20e63f1bd97b9e02c62
+  : child_id: proposal-program-runner-executor-delegation-gates
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:c521b0cf0fdceba821b1b4eba1d9d6671328af9774fba20e63f1bd97b9e02c62
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-generated-state-publication:closeout-packet:artifact-ownership-unclear:sha256:d2ea03974f8b8a36e2cd1a8a38e16f3bbd7c83d06243ca15e8e2b6909d4641b0
+  : child_id: proposal-program-runner-generated-state-publication
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:d2ea03974f8b8a36e2cd1a8a38e16f3bbd7c83d06243ca15e8e2b6909d4641b0
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-planning-replan-loop:closeout-packet:artifact-ownership-unclear:sha256:af3ece707793b5893d19d43da0058f246b798ec518807eab4caa339d29d01f06
+  : child_id: proposal-program-runner-planning-replan-loop
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:af3ece707793b5893d19d43da0058f246b798ec518807eab4caa339d29d01f06
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+  ? proposal-program-runner-tests-fixtures:closeout-packet:artifact-ownership-unclear:sha256:7751c8600fe583bf16e68627b73aa66d8312e7c983a2d7701d461ebd4d7bfcab
+  : child_id: proposal-program-runner-tests-fixtures
+    route_id: closeout-packet
+    blocker_class: artifact-ownership-unclear
+    residue_fingerprint: sha256:7751c8600fe583bf16e68627b73aa66d8312e7c983a2d7701d461ebd4d7bfcab
+    cleanup_route_id: cleanup-lifecycle-residue
+    status: completed
+    evidence_paths:
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02/authorization/cleanup-lifecycle-residue-delegation-proof.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-prompt.md
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stdout.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-stderr.log
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-start.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-observation.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-executor-terminal.yml
+    - /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780206033776-a4ac0a02/parent/cleanup-lifecycle-residue-completion-observation.yml
+approvals: []
+program_recovery_recipe_validation_status: null
+program_recovery_recipe_validation_failures: []
+program_recovery_recipe_blocker_class: null
+program_recovery_recipe_route_id: null
+program_recovery_recipe_delegation_contract_basis: null
+latest_event_offset: 161
+latest_event_index: 161
+latest_event_sha256: sha256:99801dbc0e60bde6222fe3d536275469812ed1ff7137645e48ec28e33d0c2acd
+event_log_sha256: sha256:29c7623d418ff104b74b94a81c51d721775e7161dc0bde2b107911b239724e97
+derived_from_event_index: 161
+atomic_barrier_state: null
+cancelled_at: null
+cancel_reason: null
+cancellation_evidence_path: null
+terminal_outcome: null
+final_verdict: blocked-unsafe
+resume_instruction: octon lifecycle resume --run-id lifecycle-proposal-program-1780206033776-a4ac0a02

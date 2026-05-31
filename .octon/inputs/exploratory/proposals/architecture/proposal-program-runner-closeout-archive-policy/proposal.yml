@@ -1,66 +1,18 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-program-runner-closeout-archive-policy"
-title: "Proposal Program Runner Closeout And Archive Policy"
-summary: >-
-  Enforce active program closeout policy, child terminal outcome requirements, child archive workflow delegation when required, blocked closeout/archive receipts, and workflow-owned parent archival.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
-release_state: "pre-1.0"
-change_profile: "atomic"
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-closeout-archive-policy
+title: Proposal Program Runner Closeout And Archive Policy
+summary: Enforce active program closeout policy, child terminal outcome requirements, child archive workflow delegation when required, blocked closeout/archive receipts, and workflow-owned parent archival.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-program/"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-program-closeout-prompt/"
-  - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
-  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
-status: "accepted"
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-program/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-program-closeout-prompt/
+- .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Implement through the existing proposal-packet lifecycle only after this
-    packet is executed by a later proposal-program run. Close out or archive
-    only after child-owned implementation, conformance, drift/churn, closeout,
-    and archive gates pass.
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
 related_proposals:
-  - "proposal-program-runner-e2e-execution-program"
-source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
-selected_implementation_target: "closeout and archive policy enforcement"
-scope_statement: >-
-  This child packet owns the closeout and archive policy enforcement slice of the lifecycle-runner
-  improvement. It may update only its declared target surfaces during a later
-  implementation route and must preserve every route ownership boundary from
-  the source text.
-authority_class_impact:
-  framework: "May propose authored framework/runtime/validator/prompt changes in declared write scopes."
-  instance: "No direct instance mutation unless a declared target path names one."
-  state_control: "No direct state-control mutation from this proposal packet."
-  state_evidence: "Later implementation must retain route, validation, and review evidence under canonical evidence roots."
-  generated: "Generated outputs remain derived-only and may be refreshed only by canonical scripts."
-  inputs: "This proposal packet remains non-authoritative lineage."
-runtime_behavior_impact: >-
-  None until a later implementation route executes. The packet describes target
-  runtime behavior and validation only.
-generated_input_authority_impact: >-
-  Reinforces that generated projections, proposal artifacts, raw inputs, host
-  state, and chat history cannot authorize runtime behavior or satisfy route
-  receipts.
-evidence_requirements:
-  - "Child closeout and archive authorization receipts remain child-owned."
-  - "Parent closeout receipts summarize child outcomes without satisfying child receipts."
-  - "Blocked closeout/archive receipts with route guidance and hygiene evidence."
-validation_gates:
-  - "Tests cover current policy enforcement for archived/rejected child outcomes and receipt-level requirements."
-  - "Tests cover child archive before parent terminal closeout when required by policy and no forced child archival when a future policy explicitly accepts implemented children."
-  - "Tests cover blocked closeout receipts containing verdict, archive_authorized, selected git route, blocker class, counts, hygiene fingerprint, cleanup summary, and next route condition."
-acceptance_criteria_summary: >-
-  Parent closeout reads and enforces the active `program.closeout_policy` from the lifecycle contract.
-rollback_summary: >-
-  git-revert rollback. Revert this child slice or regenerate affected
-  derived outputs through canonical scripts if later implementation evidence
-  fails validation or authority-boundary checks.
-owner:
-  role: "Octon proposal packet author"
-  accountable_role: "human operator / repository owner"
-created_date: "2026-05-30"
+- proposal-program-runner-e2e-execution-program

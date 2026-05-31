@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:bf429875b8f6bbfd2587b8fd12526152271c5e096c0d273627058760fd9952c2
+  entry_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T14:00:48.371645Z
+  run_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:bea892b07de4fe1ef98df92b586cce7b169a0e5ebfd0446448a7db370613ef87
+  entry_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow/replay/manifest.yml
+  recorded_at: 2026-05-31T14:00:48.371645Z
+  run_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow
+run_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-05-31T14:00:48.371645Z

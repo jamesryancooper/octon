@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:1eef778a476cecce9bf4216b577c60bacfb4c6ef23ed04cb987a84331383c8bb
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:96e7f8359673a19c822928cf5dd273251b06445a58e832772a17714afec19724
+receipt_sha256: sha256:a6a8c89467b4f8118834441e8f64b048f5dff6685aa49135dd9459a6d00ca6ad
+run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-child-scheduling-recovery-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-31T05:56:28.895724Z
+validity_state: valid

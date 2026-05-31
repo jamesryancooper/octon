@@ -1,0 +1,11 @@
+schema_version: run-checkpoint-v1
+run_id: lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow
+checkpoint_id: bound
+stage_attempt_id: initial
+checkpoint_kind: binding
+status: materialized
+control_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow/checkpoints/bound.yml
+evidence_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780206033776-a4ac0a02-proposal-program-runner-generated-state-publication-workflow/checkpoints/bound.yml
+notes: Canonical run root bound before consequential side effects.
+created_at: 2026-05-31T08:39:46.742955Z
+updated_at: 2026-05-31T08:39:46.742955Z

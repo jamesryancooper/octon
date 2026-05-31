@@ -20,8 +20,19 @@ gate remains unresolved unless the outcome is explicitly reported as blocked or
 deferred.
 
 Write parent-local `support/proposal-closeout.md` with `verdict`, `closed_at`,
-`archive_authorized`, and `child_authority_preserved`. Use `verdict: pass`,
-`archive_authorized: yes`, and `child_authority_preserved: yes` only when the
-parent closeout is complete and child manifests, child receipts, child
-promotion targets, child validation verdicts, child archive metadata, and child
-terminal outcomes remain child-owned.
+`archive_authorized`, `child_authority_preserved`, `selected_git_route`,
+`worktree_hygiene_verdict`, `worktree_hygiene_blocker_class`,
+`worktree_hygiene_owned_path_count`, `worktree_hygiene_in_scope_path_count`,
+`worktree_hygiene_foreign_path_count`,
+`worktree_hygiene_foreign_fingerprint`, `worktree_hygiene_evidence`,
+`cleanup_summary`, and `next_route_condition`.
+
+Use `verdict: pass`, `archive_authorized: yes`, and
+`child_authority_preserved: yes` only when the active `program.closeout_policy`
+passes, the parent closeout is complete, and child manifests, child receipts,
+child promotion targets, child validation verdicts, child archive metadata, and
+child terminal outcomes remain child-owned. If closeout or archive readiness is
+blocked, write `verdict: blocked`, `archive_authorized: no`,
+`selected_git_route: stage-only-escalate`, the blocker class and hygiene counts
+reported by the read-only classifier, a cleanup summary, and a nonterminal
+`next_route_condition` such as `closeout-change or operator scope resolution`.

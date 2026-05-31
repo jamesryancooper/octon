@@ -7,4 +7,6 @@ an explicit deferral, supersession, or rejection receipt.
 Closeout writes only parent-local `support/proposal-closeout.md`; it may
 summarize child outcomes but never satisfies child receipts, child promotion
 targets, child validation verdicts, child archive metadata, or child terminal
-outcomes.
+outcomes. Blocked closeout or archive readiness must be recorded in that
+receipt with machine-readable route guidance, hygiene counts, blocker class,
+cleanup summary, and next route condition.

@@ -1,67 +1,19 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-program-runner-generated-state-publication"
-title: "Proposal Program Runner Generated State Publication"
-summary: >-
-  Route generated effective lifecycle projection, capability routing, host projection, and proposal registry refreshes through canonical publication scripts while keeping generated state non-authoritative.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
-release_state: "pre-1.0"
-change_profile: "atomic"
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-generated-state-publication
+title: Proposal Program Runner Generated State Publication
+summary: Route generated effective lifecycle projection, capability routing, host projection, and proposal registry refreshes through canonical publication scripts while keeping generated state non-authoritative.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
-  - ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
-  - ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
-  - ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh"
-  - ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
-  - ".octon/generated/effective/extensions/"
-status: "accepted"
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+- .octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh
+- .octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh
+- .octon/framework/capabilities/_ops/scripts/publish-host-projections.sh
+- .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+- .octon/generated/effective/extensions/
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Implement through the existing proposal-packet lifecycle only after this
-    packet is executed by a later proposal-program run. Close out or archive
-    only after child-owned implementation, conformance, drift/churn, closeout,
-    and archive gates pass.
+  exit_expectation: Implement through the existing proposal-packet lifecycle only after this packet is executed by a later proposal-program run. Close out or archive only after child-owned implementation, conformance, drift/churn, closeout, and archive gates pass.
 related_proposals:
-  - "proposal-program-runner-e2e-execution-program"
-source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-lifecycle-improvement.md"
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/resources/source-traceability-matrix.md"
-selected_implementation_target: "generated state, publication, registry refresh, and non-authority boundaries"
-scope_statement: >-
-  This child packet owns the generated state, publication, registry refresh, and non-authority boundaries slice of the lifecycle-runner
-  improvement. It may update only its declared target surfaces during a later
-  implementation route and must preserve every route ownership boundary from
-  the source text.
-authority_class_impact:
-  framework: "May propose authored framework/runtime/validator/prompt changes in declared write scopes."
-  instance: "No direct instance mutation unless a declared target path names one."
-  state_control: "No direct state-control mutation from this proposal packet."
-  state_evidence: "Later implementation must retain route, validation, and review evidence under canonical evidence roots."
-  generated: "Generated outputs remain derived-only and may be refreshed only by canonical scripts."
-  inputs: "This proposal packet remains non-authoritative lineage."
-runtime_behavior_impact: >-
-  None until a later implementation route executes. The packet describes target
-  runtime behavior and validation only.
-generated_input_authority_impact: >-
-  Reinforces that generated projections, proposal artifacts, raw inputs, host
-  state, and chat history cannot authorize runtime behavior or satisfy route
-  receipts.
-evidence_requirements:
-  - "Publication receipts under retained validation evidence roots."
-  - "Proposal registry generation output and drift checks."
-  - "Source digest links from generated projections to authored inputs."
-validation_gates:
-  - "Tests or validation receipts prove generated effective state freshness after authored-source changes."
-  - "Negative checks reject hand edits to `.octon/generated/effective/**` and generated read models satisfying route receipts, closeout evidence, or archive authorization."
-  - "Publication-state validation runs only when declared by route prompt, validator registry, program evidence, or extension publication contract."
-acceptance_criteria_summary: >-
-  Authored extension and proposal sources are updated first; generated effective state is never hand-edited.
-rollback_summary: >-
-  regenerate-or-revert rollback. Revert this child slice or regenerate affected
-  derived outputs through canonical scripts if later implementation evidence
-  fails validation or authority-boundary checks.
-owner:
-  role: "Octon proposal packet author"
-  accountable_role: "human operator / repository owner"
-created_date: "2026-05-30"
+- proposal-program-runner-e2e-execution-program

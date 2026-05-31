@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:5264afbdb7f0d29c02e7c34d9bd55e96c4d2455b696ae0c37d237a1bab8eaa68
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:9016bba2e3ff72a1212e36e55bad6cece763ed36a4e7a61842c5dd1b58d4e817
+receipt_sha256: sha256:08b93ec6e0262724433011979329590969430172b3a5eb0a211ea41e48bd04d3
+run_id: lifecycle-proposal-program-1780235219490-0532e377-proposal-program-runner-cleanup-hygiene-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-05-31T13:47:42.260758Z
+validity_state: valid
