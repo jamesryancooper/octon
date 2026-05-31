@@ -1,0 +1,28 @@
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' manifest exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' manifest parses as YAML
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' schema_version is proposal-v1
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' proposal_id matches format
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' kind valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' scope valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' status valid
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' README exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' artifact catalog exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' source-of-truth map exists
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' has exactly one subtype manifest
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' artifact catalog references only on-disk files
+[WARN] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' artifact catalog omits some visible files; regenerate inventory for full coverage
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' lifecycle.temporary remains true
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' lifecycle.exit_expectation present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' top-level exit_expectation is absent
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' id matches directory name
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' active path matches kind/id
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' promotion_targets present
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' active proposals stay in active paths
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' non-archived proposal omits archive block
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' octon-internal targets stay under .octon/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' avoids mixed target families
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' promotion target avoids proposal-path backreferences: .octon/framework/engine/runtime/crates/lifecycle_executor/src
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' promotion target avoids proposal-path backreferences: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' promotion target avoids proposal-path backreferences: .octon/framework/engine/runtime/adapters/
+[OK] proposal '.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates' promotion target avoids proposal-path backreferences: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+Validation summary: errors=0 warnings=1

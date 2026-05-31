@@ -1,0 +1,66 @@
+schema_version: validation-summary-v1
+proposal_id: proposal-program-runner-executor-delegation-gates
+proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+validation_run_id: 2026-05-31T21-57-04Z-closeout
+recorded_at: 2026-05-31T22:04:30Z
+verdict: pass
+commands:
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/validate-proposal-implementation-readiness.txt
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/validate-architecture-proposal.txt
+    errors: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates --skip-registry-check
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/validate-proposal-standard-skip-registry.txt
+    errors: 0
+    warnings: 1
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/validate-proposal-implementation-conformance.txt
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/validate-proposal-post-implementation-drift.txt
+    errors: 0
+    warnings: 0
+  - command: bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/generate-proposal-registry-check.txt
+    errors: 0
+  - command: CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_lifecycle_executor --test adapter
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/cargo-octon-lifecycle-executor-adapter.txt
+    passed_tests: 31
+    failed_tests: 0
+  - command: CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel unattended_ -- --nocapture
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/cargo-octon-kernel-unattended-filter.txt
+    passed_tests: 11
+    failed_tests: 0
+  - command: CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel workflow_promotion_safe_basis_rejects -- --nocapture
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/cargo-octon-kernel-workflow-promotion-safe-basis.txt
+    passed_tests: 1
+    failed_tests: 0
+  - command: CARGO_TARGET_DIR=/private/tmp/octon-cargo-target cargo test --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -p octon_kernel parent_evidence_cannot_satisfy_child -- --nocapture
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/cargo-octon-kernel-parent-evidence-child-authority.txt
+    passed_tests: 1
+    failed_tests: 0
+  - command: git diff --check -- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-executor-delegation-gates .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/git-diff-check.txt
+  - command: rg -n "\\.octon/inputs/exploratory/proposals/.*/proposal-program-runner-executor-delegation-gates" .octon/framework/engine/runtime/crates/lifecycle_executor/src .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs .octon/framework/engine/runtime/adapters .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+    result: pass
+    evidence: .octon/state/evidence/validation/proposals/proposal-program-runner-executor-delegation-gates/2026-05-31T21-57-04Z-closeout/promotion-target-backreference-scan.txt
+    matches: 0
+notes:
+  - The target-scoped proposal standard validator retains one nonblocking artifact-catalog coverage warning.
+  - A direct strict review-gate run with --require-implementation-authorization is not retained as closeout evidence because that mode requires pre-promotion status accepted; the implementation-readiness validator's embedded review gate passed for implemented status.
+  - Current generated effective extension publication evidence is retained at .octon/state/evidence/validation/publication/extensions/2026-05-31T13-17-13Z-extensions-e539e7c8b239.yml and .octon/state/evidence/validation/compatibility/extensions/2026-05-31T13-17-13Z-extensions-e539e7c8b239.yml.

@@ -1,0 +1,25 @@
+   Compiling octon_kernel v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.22s
+     Running unittests src/main.rs (/private/tmp/octon-cargo-target/debug/deps/octon-d8868bf55f59305c)
+
+running 11 tests
+test lifecycle::lifecycle_program::tests::program_execute_loop_continues_recoverable_or_unattended_pending_dispatch ... ok
+test lifecycle::lifecycle_program::tests::program_resume_preserves_checkpointed_unattended_invocation_authority ... ok
+test lifecycle::lifecycle_program::tests::approval_grant_is_consumed_by_resume_without_unattended_cli_policy ... ok
+test lifecycle::lifecycle_program::tests::unattended_approval_auto_grants_only_safe_contract_routes ... ok
+test lifecycle::lifecycle_program::tests::approval_grant_is_consumed_by_retry_without_unattended_cli_policy ... ok
+test lifecycle::lifecycle_program::tests::unattended_child_promotion_blocks_failed_drift_receipt ... ok
+test lifecycle::lifecycle_program::tests::unattended_parent_promotion_dispatches_with_child_authority_preserved ... ok
+test lifecycle::lifecycle_program::tests::unattended_child_promotion_requires_conformance_and_drift_receipts ... ok
+test lifecycle::lifecycle_program::tests::unattended_policy_blocks_workflow_promotion_without_safe_basis ... ok
+test lifecycle::lifecycle_program::tests::unattended_policy_dispatches_workflow_promotion_with_safe_evidence ... ok
+test lifecycle::lifecycle_program::tests::unattended_recovery_approval_runs_without_human_block ... ok
+
+test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 232 filtered out; finished in 1.21s
+
+     Running tests/proposal_program_cli.rs (/private/tmp/octon-cargo-target/debug/deps/proposal_program_cli-f6e692008f4d74c6)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 3 filtered out; finished in 0.00s
+

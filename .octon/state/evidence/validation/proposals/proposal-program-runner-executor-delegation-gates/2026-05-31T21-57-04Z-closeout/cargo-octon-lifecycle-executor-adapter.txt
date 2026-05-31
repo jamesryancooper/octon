@@ -1,0 +1,39 @@
+   Compiling octon_lifecycle_executor v1.0.0 (/Users/jamesryancooper/Projects/octon/.octon/framework/engine/runtime/crates/lifecycle_executor)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.12s
+     Running tests/adapter.rs (/private/tmp/octon-cargo-target/debug/deps/adapter-b7a87de4251e1224)
+
+running 31 tests
+test prompt_bundle_resolution_fails_closed_on_missing_projection_path ... ok
+test prompt_bundle_resolution_rejects_traversal_and_non_generated_assets ... ok
+test adapter_rejects_symlink_escape_for_expected_paths_before_execution ... ok
+test executor_errors_are_recorded_as_structured_failed_results ... ok
+test human_boundary_block_writes_typed_exception_failure_when_contract_is_not_delegable ... ok
+test missing_required_input_blocks_before_executor_dispatch ... ok
+test prompt_bundle_resolution_is_scoped_to_owner_extension ... ok
+test missing_delegation_contract_fails_closed_before_extension_dispatch ... ok
+test prompt_bundle_resolution_requires_generated_effective_catalog_path ... ok
+test extension_route_ids_dispatch_when_delegation_contract_passes ... ok
+test cancellation_token_returns_cancelled_before_executor_dispatch ... ok
+test mock_executor_writes_structured_result_and_receipt_observation ... ok
+test workflow_manifest_resolution_rejects_non_runtime_source_ref ... ok
+test workflow_manifest_resolution_rejects_traversal_source_ref ... ok
+test workflow_manifest_resolution_requires_generated_route_bundle_reference ... ok
+test unsupported_invocation_authority_fails_closed_without_dispatch ... ok
+test route_specific_target_change_can_satisfy_completion ... ok
+test workflow_manifest_resolution_rejects_traversal_workflow_path ... ok
+test adapter_rejects_unsafe_manifest_receipt_and_completion_paths_before_execution ... ok
+test mock_executor_creates_draft_proposal_packet_from_bound_source ... ok
+test unrelated_receipts_do_not_satisfy_route_completion ... ok
+test required_receipts_before_dispatch_are_enforced_before_executor_dispatch ... ok
+test required_evidence_gates_are_enforced_before_executor_dispatch ... ok
+test workflow_manifest_resolution_requires_generated_runtime_route_bundle_path ... ok
+test workflow_manifest_resolves_through_generated_route_bundle_source_ref ... ok
+test workflow_routes_dispatch_by_delegation_contract_not_route_type ... ok
+test failed_real_executor_is_not_retryable_after_target_mutation ... ok
+test real_executor_cancellation_during_dispatch_writes_cancelled_result ... ok
+test real_executor_modes_invoke_prompt_bundle_through_adapter_boundary ... ok
+test real_executor_timeout_writes_logs_and_route_result ... ok
+test timeout_terminates_descendant_process_group ... ok
+
+test result: ok. 31 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.42s
+
