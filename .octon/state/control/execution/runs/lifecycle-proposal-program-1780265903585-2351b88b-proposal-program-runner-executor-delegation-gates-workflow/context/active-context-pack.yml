@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/context/context-pack.json
+context_pack_sha256: sha256:427bdf5115c47257985e7612e4295e661c600ae074ed8ae080777c0657e56f54
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:5a5fbbc57db7df7fd2449c7845ad15545d1fa353e430257b43d1a27c4e36a9a2
+receipt_sha256: sha256:10778465b66d675c4814fa470b7bdb08b8cafc99f0732ed94c860431e28ab3ec
+run_id: lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-05-31T22:18:37.114441Z
+validity_state: valid

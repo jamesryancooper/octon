@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow
+status: running
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780265903585-2351b88b-proposal-program-runner-executor-delegation-gates-workflow/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-05-31T22:18:38.108074Z
