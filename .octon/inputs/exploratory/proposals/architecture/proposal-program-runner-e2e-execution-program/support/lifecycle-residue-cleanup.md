@@ -123,7 +123,7 @@ manual_review_count: 251
 ## Publication And Sync Disposition
 
 local_main_synced_with_origin_main: yes
-publication_branch: `cleanup/lifecycle-residue-1780198168477-d1604281`
+publication_branch: `docs/lifecycle-residue-cleanup`
 publication_route: `branch-no-pr`
 publication_scope: this push-safe disposition receipt only
 
@@ -134,6 +134,11 @@ helper-approved deletion set to publish. The only publishable lifecycle
 progress is this receipt, isolated from active implementation work and raw
 `.octon/state/**` residue. Remaining raw control and evidence records are
 preserved locally and remain closeout/archive blockers.
+
+The initial `cleanup/lifecycle-residue-1780198168477-d1604281` branch ref was
+removed after repo branch standards required a `<type>/<slug>` branch shape for
+hosted checks. The landed branch-no-pr cleanup ref used the compliant docs
+branch named above.
 
 local_only_recovery_branch: none
 local_only_recovery_commit: none
