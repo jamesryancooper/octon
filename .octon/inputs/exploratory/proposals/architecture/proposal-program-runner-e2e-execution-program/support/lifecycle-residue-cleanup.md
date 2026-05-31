@@ -1,7 +1,7 @@
 # Lifecycle Residue Cleanup Receipt
 
 verdict: blocked-retained
-cleaned_at: 2026-05-31T03:35:19Z
+cleaned_at: 2026-05-31T04:07:15Z
 run_id: lifecycle-proposal-program-1780198168477-d1604281
 program_packet_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program
 cleanup_candidates: 0
@@ -23,7 +23,7 @@ residue_fingerprint: sha256:57e21e3c772ba1cbf7063c62c3286131d39e5a7d8809a2a83f4c
 - `target`: `.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program`
 - `release_state`: `pre-1.0`
 - `change_profile`: `atomic`
-- `route_authority`: cleanup lifecycle residue only; packet closeout,
+- `route_authority`: cleanup lifecycle residue only. Packet closeout,
   program closeout, archive authorization, generated-state publication, and
   raw state/evidence retention authority were not widened.
 
@@ -32,6 +32,9 @@ residue_fingerprint: sha256:57e21e3c772ba1cbf7063c62c3286131d39e5a7d8809a2a83f4c
 The cleanup helper was run first:
 
 - `.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only`
+
+The helper was also run in normal dry-run classification mode. No deletion
+mode was used because the helper-approved cleanup set is empty.
 
 Helper classification for this route:
 
@@ -62,7 +65,7 @@ Post-cleanup proposal-program hygiene classifier:
 - `worktree_hygiene_verdict`: `blocked`
 - `worktree_hygiene_blocker_class`: `worktree-hygiene-blocked`
 - `worktree_hygiene_owned_path_count`: `2`
-- `worktree_hygiene_in_scope_path_count`: `30`
+- `worktree_hygiene_in_scope_path_count`: `34`
 - `worktree_hygiene_foreign_path_count`: `306`
 - `worktree_hygiene_foreign_fingerprint`: `sha256:8ffc47e938faa99c10b6208af2bbbed3a3df75abab4a07dc29f295920575ea20`
 - `next_route_condition`: route through closeout-change or operator scope
@@ -72,8 +75,8 @@ Classification by route disposition:
 
 - `active_implementation_work`: tracked runtime, lifecycle contract,
   generated-effective, additive extension, extension-control, decision-state,
-  and host skill projection changes remain intact and were not included in the
-  cleanup commit.
+  and host skill projection changes remain intact and were not included in a
+  cleanup deletion set.
 - `valid_lifecycle_or_proposal_progress`: declared in-scope parent and child
   proposal changes remain intact.
 - `cleanup_safe_local_residue`: zero helper-classified cleanup candidates.
@@ -124,11 +127,13 @@ publication_branch: `cleanup/lifecycle-residue-1780198168477-d1604281`
 publication_route: `branch-no-pr`
 publication_scope: this push-safe disposition receipt only
 
-The cleanup route had no helper-approved deletion set to publish. The only
-publishable lifecycle progress is this receipt, isolated from active
-implementation work and raw `.octon/state/**` residue. Remaining raw control
-and evidence records are preserved locally and remain closeout/archive
-blockers.
+At cleanup classification time before this receipt refresh was committed,
+local `main` and `origin/main` both resolved to
+`752b68f892833c294d6702ae1cddb87eda68346b`. The cleanup route has no
+helper-approved deletion set to publish. The only publishable lifecycle
+progress is this receipt, isolated from active implementation work and raw
+`.octon/state/**` residue. Remaining raw control and evidence records are
+preserved locally and remain closeout/archive blockers.
 
 local_only_recovery_branch: none
 local_only_recovery_commit: none
