@@ -1,0 +1,62 @@
+{
+  "schema_version": "lifecycle-interaction-request-v1",
+  "interaction_id": "proposal-program-runner-current-state-gap-map-closeout-handoff",
+  "created_at": "2026-05-31T15:23:25Z",
+  "source": {
+    "lifecycle_id": "proposal-packet",
+    "run_id": "lifecycle-proposal-program-1780240428497-584121b8-proposal-program-runner-current-state-gap-map",
+    "atomic_unit_type": "proposal-packet",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map",
+    "phase_id": "closeout-packet"
+  },
+  "request": {
+    "interaction_profile": "handoff",
+    "interaction_kind": "follow_on_work_required",
+    "requested_capability": "change-closeout",
+    "requested_lifecycle_id": "change-closeout",
+    "requested_route_surface": "closeout-change",
+    "requested_atomic_unit_type": "change",
+    "requested_target_outcome": "cleaned"
+  },
+  "scope": {
+    "include_paths": [
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780240428497-584121b8/locks/proposal-program-runner-current-state-gap-map.lock",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780240428497-584121b8/program-events.ndjson",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780240428497-584121b8/program-lifecycle-checkpoint.yml"
+    ],
+    "exclude_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map"
+    ],
+    "boundary_digest": "sha256:779bd57447f7ccf2bb27ea92a0f6f1751cf91c8f5433e7ecb401cd30f5c75980"
+  },
+  "evidence_offered": [
+    {
+      "ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-current-state-gap-map/support/proposal-closeout.md",
+      "digest": "sha256:82615ac5308d2f604b58859b69cc807cf0b07e063b4a22fe04d5027d2d1356b4",
+      "acceptance_class": "validation-evidence"
+    }
+  ],
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "stop_conditions": [
+    "worktree-hygiene-blocked",
+    "target-gate-missing",
+    "authority-boundary-unresolved"
+  ],
+  "expected_return_evidence": [
+    "change-receipt-v1",
+    "lifecycle-interaction-return-v1",
+    "fresh-worktree-hygiene-classifier-pass"
+  ]
+}
