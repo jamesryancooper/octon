@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:8cbb0e447211eb7328a14fa89917d22fd240fde69cc73590e617c1ee5d7157ba
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  sequence: 1
+  event_hash: sha256:952323acb68de1c740d6ccd0b4aaea0a4e0ebe13b9bcbe6d08383e723edf0b8c
+last_event_ref:
+  event_id: evt-checkpoint-start-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  sequence: 20
+  event_hash: sha256:927cca1eaea5de9a7d0b064bf5f3fc4766f7094e61e7e5a5890a4587bade33ab
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:952323acb68de1c740d6ccd0b4aaea0a4e0ebe13b9bcbe6d08383e723edf0b8c
+  tail_event_hash: sha256:927cca1eaea5de9a7d0b064bf5f3fc4766f7094e61e7e5a5890a4587bade33ab
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-37efe42ce73d
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  runtime_state_ref: evt-capability-authorized-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-lifecycle-proposal-program-1780265555408-0308c44a-proposal-program-runner-executor-delegation-gates-workflow
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:927cca1eaea5de9a7d0b064bf5f3fc4766f7094e61e7e5a5890a4587bade33ab
+  materialized_at: 2026-05-31T22:12:49.680888Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-05-31T22:12:49.680888Z
