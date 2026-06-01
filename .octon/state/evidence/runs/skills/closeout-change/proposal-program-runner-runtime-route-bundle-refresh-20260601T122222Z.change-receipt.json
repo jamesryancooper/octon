@@ -1,0 +1,86 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-runtime-route-bundle-refresh-closeout-20260601T122222Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the runtime route-bundle publication refresh needed to clear proposal-program archive route catalog digest drift.",
+  "scope": {
+    "summary": "Runtime route-bundle publication refresh plus lifecycle retry control evidence and cleanup residue receipt.",
+    "touched_paths": [
+      ".octon/generated/effective/runtime/route-bundle.yml",
+      ".octon/generated/effective/runtime/route-bundle.lock.yml",
+      ".octon/state/evidence/validation/publication/runtime/2026-06-01T12-16-53Z-runtime-route-bundle-d832aab6f332.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780316118793-e7df5f0c/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780316239983-6712708c/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780316269815-b189cf65/**"
+    ],
+    "diff_refs": [
+      "87539b10414000c533465f165461893487a84836..495e7170683aae17fa41cbcc79d77d0cac28875d"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-closeout-change",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-closeout-change@495e7170683aae17fa41cbcc79d77d0cac28875d",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "495e7170683aae17fa41cbcc79d77d0cac28875d",
+    "target_ref": "origin/main",
+    "blocker_reason": "The current task is branch publication closeout for lifecycle continuation evidence. No hosted no-PR landing authorization receipt was created.",
+    "evidence_refs": [
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780316269815-b189cf65/program-lifecycle-checkpoint.yml"
+    ]
+  },
+  "not_landed_reason": "The closeout published the isolated branch but did not land it to origin/main because no hosted no-PR landing authorization was requested or produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "external_blocker_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md"
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-closeout-change",
+    "remote_branch": "origin/chore/proposal-program-runner-closeout-change",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch has not landed to origin/main; cleanup would remove the published lifecycle continuation handoff.",
+    "evidence_refs": [
+      "git status --short",
+      "git push"
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --cached --check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-runtime-effective-route-bundle.sh",
+    ".octon/framework/engine/runtime/run lifecycle run --lifecycle proposal-program --target .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening --execute-routes --max-steps 1 --timeout-seconds 1800 --max-child-concurrency 1 --invocation-authority unattended"
+  ],
+  "review_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md",
+    ".octon/state/evidence/validation/analysis/2026-06-01-change-closeout-proposal-program-runner-runtime-route-bundle-refresh-20260601T122222Z.md"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "495e7170683aae17fa41cbcc79d77d0cac28875d",
+    "branch": "chore/proposal-program-runner-closeout-change"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/proposal-program-runner-closeout-change",
+    "instructions": "Discard or reset the local and remote source branch if the published lifecycle continuation handoff is rejected; do not delete while consumer lifecycle runs depend on it."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard.",
+    "Parent proposal-program lifecycle remains continuable rather than terminal."
+  ],
+  "created_at": "2026-06-01T12:22:22Z",
+  "updated_at": "2026-06-01T12:22:22Z"
+}
