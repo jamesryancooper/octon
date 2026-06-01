@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+status: running
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-06-01T12:31:14.718558Z

@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/context/context-pack.json
+context_pack_sha256: sha256:34bda83fb79c43058837782a6a288f2cf79115b1ac77dfd4e59a81bf3fe5b60f
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:b3414798f14811b3fea79273417e940e257af65162a79a19be30e76c127b7195
+receipt_sha256: sha256:ca80ece4f563dba184a4a2ac1248753fb0c4407cdff8932f19e01fa129a610da
+run_id: lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-06-01T12:31:13.821235Z
+validity_state: valid

@@ -4,6 +4,7 @@ verdict: pass
 closed_at: 2026-06-01T11:24:43Z
 archive_authorized: yes
 archive_disposition: implemented
+promotion_evidence: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml,.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml,.octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/io-contract.md,.octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md,.octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
 
 ## Archive Route
 

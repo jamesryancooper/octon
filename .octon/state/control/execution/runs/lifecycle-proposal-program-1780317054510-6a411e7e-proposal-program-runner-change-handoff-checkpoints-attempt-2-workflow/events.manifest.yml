@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:4f4077c6aa02e76256b806c50a4510e843daedddbb77784ebb8c6c6b2894983e
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  sequence: 1
+  event_hash: sha256:558c12f5f042cc387d9b51bd2b559a153515d760ff8948136d8efe979bc31fd2
+last_event_ref:
+  event_id: evt-checkpoint-start-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  sequence: 20
+  event_hash: sha256:e0dd2348f788f0b570fe2d3d900edde026a3fb850a73e8b160505de39379e04e
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:558c12f5f042cc387d9b51bd2b559a153515d760ff8948136d8efe979bc31fd2
+  tail_event_hash: sha256:e0dd2348f788f0b570fe2d3d900edde026a3fb850a73e8b160505de39379e04e
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-65c4c2a0d287
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  runtime_state_ref: evt-capability-authorized-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-lifecycle-proposal-program-1780317054510-6a411e7e-proposal-program-runner-change-handoff-checkpoints-attempt-2-workflow
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:e0dd2348f788f0b570fe2d3d900edde026a3fb850a73e8b160505de39379e04e
+  materialized_at: 2026-06-01T12:31:14.642262Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-01T12:31:14.642262Z
