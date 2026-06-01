@@ -431,6 +431,8 @@ struct ProposalManifest {
     archive: Option<ProposalArchiveMetadata>,
     lifecycle: ProposalLifecycle,
     related_proposals: Vec<String>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml::Value>,
 }
 
 #[derive(Clone, Debug)]
@@ -6465,6 +6467,47 @@ mod tests {
             fs::create_dir_all(parent).expect("parent directory should exist");
         }
         fs::write(path, contents).expect("file should be written");
+    }
+
+    #[test]
+    fn proposal_manifest_round_trip_preserves_extra_fields() {
+        let root = make_temp_root("manifest-extra-fields");
+        let proposal_root = root.join("proposal");
+        write_file(
+            &proposal_root.join("proposal.yml"),
+            r#"
+schema_version: proposal-v1
+proposal_id: extra-field-proposal
+title: Extra Field Proposal
+summary: Preserve extra fields when workflow status writers round-trip manifests.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+  - framework/a.md
+status: accepted
+lifecycle:
+  temporary: true
+  exit_expectation: Keep metadata.
+related_proposals:
+  - parent-proposal
+release_state: pre-1.0
+change_profile: atomic
+source_lineage:
+  - resources/source.md
+rollback_summary: Patch reversal.
+"#,
+        );
+
+        let mut manifest = load_proposal_manifest(&proposal_root).unwrap();
+        manifest.status = "implemented".to_string();
+        write_proposal_manifest(&proposal_root, &manifest).unwrap();
+
+        let raw = fs::read_to_string(proposal_root.join("proposal.yml")).unwrap();
+        assert!(raw.contains("status: implemented"));
+        assert!(raw.contains("release_state: pre-1.0"));
+        assert!(raw.contains("change_profile: atomic"));
+        assert!(raw.contains("source_lineage:"));
+        assert!(raw.contains("rollback_summary: Patch reversal."));
     }
 
     fn seed_pipeline_fixture(root: &Path) -> (PathBuf, PathBuf) {

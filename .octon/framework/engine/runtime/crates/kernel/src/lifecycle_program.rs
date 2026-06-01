@@ -63,6 +63,7 @@ const RECEIPT_ID_IMPLEMENTATION_RUN: &str = "implementation-run";
 const RECEIPT_ID_IMPLEMENTATION_CONFORMANCE: &str = "implementation-conformance";
 const RECEIPT_ID_POST_IMPLEMENTATION_DRIFT: &str = "post-implementation-drift";
 const FIELD_CHILD_AUTHORITY_PRESERVED: &str = "child_authority_preserved";
+const INPUT_PROMOTION_EVIDENCE: &str = "promotion_evidence";
 const PROGRAM_HANDOFF_PROFILE_ID: &str = "program-child-batch-handoff";
 const LIFECYCLE_INTERACTION_REQUEST_SCHEMA: &str = "lifecycle-interaction-request-v1";
 const LIFECYCLE_INTERACTION_RETURN_SCHEMA: &str = "lifecycle-interaction-return-v1";
@@ -7600,6 +7601,36 @@ fn child_route_delegation_contract_basis(
     })
 }
 
+fn child_route_run_inputs(
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    route_id: &str,
+) -> BTreeMap<String, String> {
+    let mut route_run_inputs = run_inputs.clone();
+    if route_id == ROUTE_ID_PROMOTE_PROPOSAL
+        && !route_run_inputs.contains_key(INPUT_PROMOTION_EVIDENCE)
+    {
+        if let Some(promotion_evidence) = child_promotion_evidence_from_write_scopes(state) {
+            route_run_inputs.insert(INPUT_PROMOTION_EVIDENCE.to_string(), promotion_evidence);
+        }
+    }
+    route_run_inputs
+}
+
+fn child_promotion_evidence_from_write_scopes(state: &ProgramChildPlanState) -> Option<String> {
+    let target = state.target.trim_end_matches('/');
+    let target_prefix = format!("{target}/");
+    let mut evidence = BTreeSet::new();
+    for scope in &state.write_scopes {
+        let scope = scope.trim().trim_end_matches('/');
+        if scope.is_empty() || scope == target || scope.starts_with(&target_prefix) {
+            continue;
+        }
+        evidence.insert(scope.to_string());
+    }
+    (!evidence.is_empty()).then(|| evidence.into_iter().collect::<Vec<_>>().join(","))
+}
+
 fn lifecycle_route_delegation_contract_basis_for_child(
     octon_dir: &Path,
     program: &ProgramSpec,
@@ -9242,6 +9273,7 @@ fn build_child_execution_jobs(
                     )?;
                 }
             }
+            let child_run_inputs = child_route_run_inputs(run_inputs, state, &route.route_id);
             let request = lifecycle_execution_request_for_route(
                 octon_dir,
                 &child_run_id,
@@ -9253,7 +9285,7 @@ fn build_child_execution_jobs(
                 options.timeout_seconds.unwrap_or(1800),
                 &invocation_authority,
                 0,
-                run_inputs,
+                &child_run_inputs,
                 child_evidence_root,
                 child_control_root.join("lifecycle-checkpoint.yml"),
                 Some(lifecycle_cancellation_token_path(control_root)),
@@ -15830,6 +15862,41 @@ mod tests {
             blockers,
             final_verdict: "route-ready".to_string(),
         }
+    }
+
+    #[test]
+    fn child_promotion_run_inputs_use_non_proposal_write_scopes() {
+        let mut state = child_state("a", Vec::new());
+        state.write_scopes = vec![
+            "children/a".to_string(),
+            "framework/a.md".to_string(),
+            "framework/spec/".to_string(),
+        ];
+
+        let inputs = child_route_run_inputs(&BTreeMap::new(), &state, ROUTE_ID_PROMOTE_PROPOSAL);
+
+        assert_eq!(
+            inputs.get(INPUT_PROMOTION_EVIDENCE).map(String::as_str),
+            Some("framework/a.md,framework/spec")
+        );
+    }
+
+    #[test]
+    fn child_promotion_run_inputs_preserve_explicit_promotion_evidence() {
+        let mut state = child_state("a", Vec::new());
+        state.write_scopes = vec!["children/a".to_string(), "framework/a.md".to_string()];
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            INPUT_PROMOTION_EVIDENCE.to_string(),
+            "operator/evidence.md".to_string(),
+        );
+
+        let inputs = child_route_run_inputs(&run_inputs, &state, ROUTE_ID_PROMOTE_PROPOSAL);
+
+        assert_eq!(
+            inputs.get(INPUT_PROMOTION_EVIDENCE).map(String::as_str),
+            Some("operator/evidence.md")
+        );
     }
 
     fn program_plan_with_children(

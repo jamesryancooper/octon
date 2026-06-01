@@ -11,7 +11,7 @@ promotion_targets:
   - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
   - ".octon/framework/engine/runtime/spec/"
   - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
-status: "accepted"
+status: "implemented"
 lifecycle:
   temporary: true
   exit_expectation: >-

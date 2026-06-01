@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/context/context-pack.json
+context_pack_sha256: sha256:9c56cc12ddb3c331940e8e593f78d8f28aa92ab2cf64471de8131916078c3d96
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:5abbaf5fc54ab532402e11ef90f2c614a6ebbdc049c53345f0b1bb87a772ff04
+receipt_sha256: sha256:cdcf17c9037d9b1bf6844117f86519e1301fccd3d75844a68266e3ef4f9fb769
+run_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-06-01T13:05:07.979602Z
+validity_state: valid

@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:4f523c18122058d0c8a89dc8d4a66b478cbaadd232e318a287bc447c66f774f6
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  sequence: 1
+  event_hash: sha256:276396c0e0e3a85553486aa900e00de4096a7c0beb7dd8d8f4784a6d8b771307
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  sequence: 29
+  event_hash: sha256:55cdc0d8e9e03f399ff053ccbe437b8b3aeae3e0a03fc4500f78b94ca23fbaed
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:276396c0e0e3a85553486aa900e00de4096a7c0beb7dd8d8f4784a6d8b771307
+  tail_event_hash: sha256:55cdc0d8e9e03f399ff053ccbe437b8b3aeae3e0a03fc4500f78b94ca23fbaed
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  disclosure_ref: evt-run-closed-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-74da78a2f182
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  runtime_state_ref: evt-run-closed-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:55cdc0d8e9e03f399ff053ccbe437b8b3aeae3e0a03fc4500f78b94ca23fbaed
+  materialized_at: 2026-06-01T13:18:16.474375Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-01T13:18:17.293728Z

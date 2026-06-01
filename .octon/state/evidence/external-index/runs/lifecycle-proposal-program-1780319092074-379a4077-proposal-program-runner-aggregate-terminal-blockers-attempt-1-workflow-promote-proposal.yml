@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:ecdea9029010046f6ba7a7612f129b10574f17c71fe26b26ef7b9dd81028513f
+  entry_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-06-01T13:18:16.474375Z
+  run_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:852d9444f7b33226c2e6ec6df09dd0c302db9dbca8246b5b4621c3e86a8fbebb
+  entry_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-06-01T13:18:16.474375Z
+  run_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+run_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-01T13:18:16.474375Z

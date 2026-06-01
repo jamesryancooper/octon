@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-01T13:11:36.564794Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal-baseline
+route_taken: allow
+run_id: lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal
+schema_version: run-retry-record-v1
+stage_attempt_id: promote-proposal--initial
+triggering_artifact_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780319092074-379a4077-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-promote-proposal/stage-attempts/promote-proposal--initial.yml
