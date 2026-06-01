@@ -11,5 +11,6 @@
 - `navigation/source-of-truth-map.md`
 - `resources/source-lineage.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/executable-implementation-prompt.md`
 - `support/proposal-creation.md`
 - `support/proposal-review.md`

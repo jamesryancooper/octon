@@ -19,6 +19,7 @@ use std::process::Command;
 use std::thread;
 
 const PROGRAM_CHECKPOINT_FILE: &str = "program-lifecycle-checkpoint.yml";
+const AGGREGATE_TERMINAL_BLOCKERS_FILE: &str = "aggregate-terminal-blockers.yml";
 const DEFAULT_CHILD_LIFECYCLE_ID: &str = "proposal-packet";
 const DEFAULT_PROGRAM_MAX_STEPS: u32 = 20;
 const DEFAULT_MAX_CHILD_CONCURRENCY: usize = 2;
@@ -265,6 +266,9 @@ pub(crate) struct ProgramLifecyclePlanResult {
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub required_child_completion: BTreeMap<String, ProgramRequiredChildCompletion>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aggregate_terminal_blockers: Option<ProgramAggregateTerminalBlockersReference>,
+    #[serde(default)]
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub closeout_hygiene_suppressions: BTreeMap<String, ProgramCloseoutHygieneSuppression>,
     #[serde(default)]
@@ -373,6 +377,47 @@ pub(crate) struct ProgramRequiredChildCompletion {
     pub selected_route: Option<String>,
     #[serde(default)]
     pub blockers: Vec<ProgramBlocker>,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub(crate) struct ProgramAggregateTerminalBlockersReference {
+    pub path: String,
+    pub digest: String,
+    pub blocked_required_child_count: usize,
+    pub authority_boundary: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramAggregateTerminalBlockersReceipt {
+    schema_version: String,
+    schema_ref: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    execution_mode: String,
+    child_registry_digest: String,
+    generated_at: String,
+    declared_evidence_path: String,
+    required_when: String,
+    blocked_required_child_count: usize,
+    blocked_required_children: Vec<ProgramAggregateTerminalBlockerEntry>,
+    authority_boundary: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramAggregateTerminalBlockerEntry {
+    child_id: String,
+    child_lifecycle_id: String,
+    child_target: String,
+    selected_or_required_route_id: String,
+    blocker_class: String,
+    blocker_message: String,
+    child_receipt_freshness_status: String,
+    terminal_policy_status: String,
+    worktree_or_hygiene_state: String,
+    retry_or_recovery_state: String,
+    next_route_condition: String,
+    authority_boundary_notice: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -818,6 +863,9 @@ struct ProgramLifecycleCheckpoint {
     #[serde(default)]
     closeout_hygiene_suppressions: BTreeMap<String, ProgramCloseoutHygieneSuppression>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    aggregate_terminal_blockers: Option<ProgramAggregateTerminalBlockersReference>,
+    #[serde(default)]
     residue_cleanup_attempts: BTreeMap<String, ProgramResidueCleanupAttempt>,
     #[serde(default)]
     interaction_request_refs: Vec<String>,
@@ -1078,6 +1126,9 @@ pub(crate) struct ProgramLifecycleBlockerExplanation {
     pub program_blockers: Vec<ProgramBlocker>,
     #[serde(default)]
     pub child_blockers: BTreeMap<String, Vec<ProgramBlocker>>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aggregate_terminal_blockers: Option<ProgramAggregateTerminalBlockersReference>,
     pub retry_instruction: String,
 }
 
@@ -1158,6 +1209,9 @@ pub(crate) struct ProgramLifecycleStatusReadModel {
     pub normalized_program_blockers: Vec<ProgramTaxonomyEvidence>,
     #[serde(default)]
     pub child_blockers: BTreeMap<String, Vec<ProgramBlocker>>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub aggregate_terminal_blockers: Option<ProgramAggregateTerminalBlockersReference>,
     #[serde(default)]
     pub normalized_child_blockers: BTreeMap<String, Vec<ProgramTaxonomyEvidence>>,
     #[serde(default)]
@@ -1414,6 +1468,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             scheduler_phase: None,
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            aggregate_terminal_blockers: None,
             closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
@@ -1474,6 +1529,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 scheduler_phase: None,
                 skipped_blocked_children: Vec::new(),
                 required_child_completion: BTreeMap::new(),
+                aggregate_terminal_blockers: None,
                 closeout_hygiene_suppressions: BTreeMap::new(),
                 safe_repair_candidates: Vec::new(),
                 program_recovery_recipe_validation_status: None,
@@ -1534,6 +1590,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             scheduler_phase: None,
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            aggregate_terminal_blockers: None,
             closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
@@ -1958,6 +2015,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         scheduler_phase,
         skipped_blocked_children,
         required_child_completion,
+        aggregate_terminal_blockers: None,
         closeout_hygiene_suppressions,
         safe_repair_candidates,
         program_recovery_recipe_validation_status: program_recovery_recipe_validation.status,
@@ -2672,6 +2730,34 @@ fn run_program_lifecycle_single_step(
         }
     }
 
+    if let Some(program) = parent_context.loaded.contract.program.as_ref() {
+        plan.aggregate_terminal_blockers = write_program_aggregate_terminal_blockers_if_needed(
+            octon_dir,
+            repo_root,
+            evidence_root,
+            sanitized_run_id,
+            program,
+            &plan,
+        )?;
+        if let Some(reference) = plan.aggregate_terminal_blockers.as_ref() {
+            let blocker_count = reference.blocked_required_child_count.to_string();
+            append_program_event(
+                control_root,
+                evidence_root,
+                sanitized_run_id,
+                "aggregate-terminal-blockers",
+                None,
+                None,
+                "program lifecycle aggregate terminal blocker evidence written",
+                program_event_data([
+                    ("evidence_path", reference.path.as_str()),
+                    ("evidence_digest", reference.digest.as_str()),
+                    ("blocked_required_child_count", blocker_count.as_str()),
+                ]),
+            )?;
+        }
+    }
+
     let mut checkpoint = write_program_checkpoint_snapshot(
         octon_dir,
         control_root,
@@ -3084,6 +3170,7 @@ pub(crate) fn explain_program_lifecycle_blockers(
         parent_receipt_states: plan.parent_receipt_states,
         program_blockers: plan.program_blockers,
         child_blockers,
+        aggregate_terminal_blockers: checkpoint.aggregate_terminal_blockers,
         retry_instruction: format!("octon lifecycle program retry --run-id {run_id}"),
     })
 }
@@ -3529,6 +3616,7 @@ pub(crate) fn status_program_lifecycle_run(
 ) -> Result<ProgramLifecycleStatusReadModel> {
     let checkpoint = read_program_checkpoint_for_run(octon_dir, run_id)?
         .with_context(|| format!("missing program lifecycle checkpoint for run {run_id}"))?;
+    let repo_root = repo_root_for_octon(octon_dir)?;
     let sanitized_run_id = sanitize_run_id(run_id)?;
     let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint(
         octon_dir,
@@ -3596,6 +3684,11 @@ pub(crate) fn status_program_lifecycle_run(
         program_blockers: plan.program_blockers,
         normalized_program_blockers: plan.normalized_program_blockers,
         child_blockers,
+        aggregate_terminal_blockers: aggregate_terminal_blockers_reference_for_existing_file(
+            &repo_root,
+            &evidence_root,
+        )?
+        .or(checkpoint.aggregate_terminal_blockers),
         normalized_child_blockers: plan.normalized_child_blockers,
         normalized_approval_blockers: plan.normalized_approval_blockers,
         approvals: checkpoint.approvals,
@@ -13522,6 +13615,7 @@ fn checkpoint_from_plan(
         program_recovery_action_attempts: previous_program_recovery_action_attempts,
         recovery_progress_fingerprints: previous_progress_fingerprints,
         closeout_hygiene_suppressions,
+        aggregate_terminal_blockers: plan.aggregate_terminal_blockers.clone(),
         residue_cleanup_attempts: BTreeMap::new(),
         interaction_request_refs: Vec::new(),
         interaction_return_refs: Vec::new(),
@@ -14175,6 +14269,12 @@ fn evidence_completeness(evidence_root: &Path, control_root: &Path) -> BTreeMap<
                 .join("aggregate-closeout-receipt.yml")
                 .is_file(),
         ),
+        (
+            "aggregate_terminal_blockers".to_string(),
+            evidence_root
+                .join(AGGREGATE_TERMINAL_BLOCKERS_FILE)
+                .is_file(),
+        ),
     ])
 }
 
@@ -14254,6 +14354,307 @@ fn program_step_kind_for_plan(
     } else {
         "no-dispatch"
     }
+}
+
+fn write_program_aggregate_terminal_blockers_if_needed(
+    octon_dir: &Path,
+    repo_root: &Path,
+    evidence_root: &Path,
+    run_id: &str,
+    program: &ProgramSpec,
+    plan: &ProgramLifecyclePlanResult,
+) -> Result<Option<ProgramAggregateTerminalBlockersReference>> {
+    let Some(receipt) =
+        build_program_aggregate_terminal_blockers_receipt(octon_dir, program, plan, run_id)?
+    else {
+        return Ok(None);
+    };
+    let path = evidence_root.join(AGGREGATE_TERMINAL_BLOCKERS_FILE);
+    fs::write(&path, serde_yaml::to_string(&receipt)?)?;
+    Ok(Some(ProgramAggregateTerminalBlockersReference {
+        path: rel_display(repo_root, &path),
+        digest: file_digest(&path)?,
+        blocked_required_child_count: receipt.blocked_required_child_count,
+        authority_boundary: receipt.authority_boundary,
+    }))
+}
+
+fn build_program_aggregate_terminal_blockers_receipt(
+    octon_dir: &Path,
+    program: &ProgramSpec,
+    plan: &ProgramLifecyclePlanResult,
+    run_id: &str,
+) -> Result<Option<ProgramAggregateTerminalBlockersReceipt>> {
+    let Some(policy) = program.closeout_policy.as_ref() else {
+        return Ok(None);
+    };
+    if !policy.require_aggregate_evidence {
+        return Ok(None);
+    }
+    let authority_boundary = aggregate_terminal_blocker_authority_boundary(policy);
+    let mut blocked_required_children = Vec::new();
+    for state in plan.child_states.values() {
+        if let Some(entry) = aggregate_terminal_blocker_entry_for_child(
+            octon_dir,
+            policy,
+            state,
+            authority_boundary.as_str(),
+        )? {
+            blocked_required_children.push(entry);
+        }
+    }
+    Ok(Some(ProgramAggregateTerminalBlockersReceipt {
+        schema_version: "octon-program-aggregate-terminal-blockers-v1".to_string(),
+        schema_ref: aggregate_terminal_blocker_schema_ref(policy),
+        run_id: run_id.to_string(),
+        lifecycle_id: plan.lifecycle_id.clone(),
+        target: plan.target.clone(),
+        execution_mode: plan.execution_mode.clone(),
+        child_registry_digest: plan.child_registry_digest.clone(),
+        generated_at: now_rfc3339()?,
+        declared_evidence_path: aggregate_terminal_blocker_declared_path(policy),
+        required_when: aggregate_terminal_blocker_required_when(policy),
+        blocked_required_child_count: blocked_required_children.len(),
+        blocked_required_children,
+        authority_boundary,
+    }))
+}
+
+fn aggregate_terminal_blocker_entry_for_child(
+    octon_dir: &Path,
+    policy: &ProgramCloseoutPolicySpec,
+    state: &ProgramChildPlanState,
+    authority_boundary: &str,
+) -> Result<Option<ProgramAggregateTerminalBlockerEntry>> {
+    if !state.required || state.deferred {
+        return Ok(None);
+    }
+    let mut blocker_class = None;
+    let mut messages = Vec::new();
+    let mut terminal_policy_statuses = Vec::new();
+
+    match state.terminal_outcome.as_deref() {
+        Some(outcome)
+            if !policy.required_child_terminal_outcomes.is_empty()
+                && !policy
+                    .required_child_terminal_outcomes
+                    .iter()
+                    .any(|allowed| allowed == outcome) =>
+        {
+            blocker_class = Some("validation-failed".to_string());
+            messages.push(format!(
+                "terminal outcome {outcome} is not allowed by program closeout policy"
+            ));
+            terminal_policy_statuses.push(format!("disallowed-terminal-outcome:{outcome}"));
+        }
+        Some(outcome) => {
+            terminal_policy_statuses.push(format!("terminal-outcome:{outcome}"));
+            if policy.require_child_receipts_fresh {
+                if let Err(error) = child_closeout_receipts_ready(
+                    octon_dir,
+                    &repo_root_for_octon(octon_dir)?,
+                    policy,
+                    state,
+                ) {
+                    let message = error.to_string();
+                    let receipt_blocker = receipt_error_blocker_class(&message);
+                    blocker_class = Some(receipt_blocker.to_string());
+                    messages.push(format!("child receipt readiness failed: {message}"));
+                    terminal_policy_statuses.push("receipt-not-closeout-ready".to_string());
+                }
+            }
+        }
+        None => {
+            blocker_class = Some("missing-evidence".to_string());
+            messages.push("child has no terminal outcome".to_string());
+            terminal_policy_statuses.push("missing-terminal-outcome".to_string());
+        }
+    }
+
+    for blocker in &state.blockers {
+        if blocker.blocker_class == "deferred" {
+            continue;
+        }
+        if blocker_class.is_none() {
+            blocker_class = Some(blocker.blocker_class.clone());
+        }
+        messages.push(format!("{}: {}", blocker.blocker_class, blocker.message));
+        terminal_policy_statuses.push("unresolved-child-blocker".to_string());
+    }
+
+    if messages.is_empty() {
+        return Ok(None);
+    }
+
+    terminal_policy_statuses.sort();
+    terminal_policy_statuses.dedup();
+    Ok(Some(ProgramAggregateTerminalBlockerEntry {
+        child_id: state.child_id.clone(),
+        child_lifecycle_id: state.child_lifecycle_id.clone(),
+        child_target: state.target.clone(),
+        selected_or_required_route_id: selected_or_required_route_id(state),
+        blocker_class: blocker_class.unwrap_or_else(|| "missing-evidence".to_string()),
+        blocker_message: messages.join("; "),
+        child_receipt_freshness_status: child_receipt_freshness_status(octon_dir, policy, state),
+        terminal_policy_status: terminal_policy_statuses.join(";"),
+        worktree_or_hygiene_state: worktree_or_hygiene_state(state),
+        retry_or_recovery_state: retry_or_recovery_state(state),
+        next_route_condition: next_route_condition(state),
+        authority_boundary_notice: authority_boundary.to_string(),
+    }))
+}
+
+fn aggregate_terminal_blocker_authority_boundary(_policy: &ProgramCloseoutPolicySpec) -> String {
+    "parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned"
+        .to_string()
+}
+
+fn aggregate_terminal_blocker_schema_ref(_policy: &ProgramCloseoutPolicySpec) -> String {
+    ".octon/framework/engine/runtime/spec/program-aggregate-terminal-blockers-v1.schema.json"
+        .to_string()
+}
+
+fn aggregate_terminal_blocker_declared_path(_policy: &ProgramCloseoutPolicySpec) -> String {
+    ".octon/state/evidence/runs/workflows/<program-run-id>/aggregate-terminal-blockers.yml"
+        .to_string()
+}
+
+fn aggregate_terminal_blocker_required_when(_policy: &ProgramCloseoutPolicySpec) -> String {
+    "required child is blocked from satisfying the active program closeout policy".to_string()
+}
+
+fn selected_or_required_route_id(state: &ProgramChildPlanState) -> String {
+    state
+        .selected_route
+        .as_ref()
+        .map(|route| route.route_id.clone())
+        .or_else(|| {
+            state
+                .blockers
+                .iter()
+                .find_map(|blocker| blocker.recovery_route.clone())
+        })
+        .unwrap_or_else(|| "none".to_string())
+}
+
+fn receipt_error_blocker_class(message: &str) -> &'static str {
+    if message.contains("stale") {
+        "stale-receipt"
+    } else if message.contains("missing") {
+        "missing-evidence"
+    } else {
+        "receipt-recovery-unavailable"
+    }
+}
+
+fn child_receipt_freshness_status(
+    octon_dir: &Path,
+    policy: &ProgramCloseoutPolicySpec,
+    state: &ProgramChildPlanState,
+) -> String {
+    let Some(outcome) = state.terminal_outcome.as_deref() else {
+        return "not-terminal".to_string();
+    };
+    let child_contract = match load_lifecycle_contract(octon_dir, &state.child_lifecycle_id) {
+        Ok(contract) => contract,
+        Err(error) => return format!("unavailable: {error}"),
+    };
+    if child_contract.contract.receipts.is_empty() {
+        return "no-receipts-declared".to_string();
+    }
+    let live_plan = match plan_lifecycle_from_octon_dir(
+        octon_dir,
+        &state.child_lifecycle_id,
+        Path::new(&state.target),
+    ) {
+        Ok(plan) => plan,
+        Err(error) => return format!("unavailable: {error}"),
+    };
+    let required_receipts =
+        child_closeout_required_receipt_ids(policy, &child_contract.contract, outcome);
+    if required_receipts.is_empty() {
+        return "no-required-receipts".to_string();
+    }
+    let mut statuses = Vec::new();
+    for receipt_id in required_receipts {
+        let Some(receipt) = live_plan.receipt_states.get(&receipt_id) else {
+            statuses.push(format!("missing-live-state:{receipt_id}"));
+            continue;
+        };
+        if !receipt.exists {
+            statuses.push(format!("missing:{receipt_id}"));
+        } else if !receipt.missing_required_fields.is_empty() {
+            statuses.push(format!(
+                "missing-required-fields:{}:{}",
+                receipt_id,
+                receipt.missing_required_fields.join(",")
+            ));
+        } else if receipt.stale == Some(true) {
+            statuses.push(format!("stale:{receipt_id}"));
+        } else {
+            statuses.push(format!("fresh:{receipt_id}"));
+        }
+    }
+    if statuses.iter().all(|status| status.starts_with("fresh:")) {
+        "fresh".to_string()
+    } else {
+        statuses.join(";")
+    }
+}
+
+fn worktree_or_hygiene_state(state: &ProgramChildPlanState) -> String {
+    if state.blockers.iter().any(|blocker| {
+        matches!(
+            blocker.blocker_class.as_str(),
+            "artifact-ownership-unclear" | "worktree-hygiene-blocked"
+        ) || blocker.message.contains("hygiene")
+    }) {
+        "blocked".to_string()
+    } else {
+        "not-blocked".to_string()
+    }
+}
+
+fn retry_or_recovery_state(state: &ProgramChildPlanState) -> String {
+    if let Some(route) = state
+        .blockers
+        .iter()
+        .find_map(|blocker| blocker.recovery_route.as_deref())
+    {
+        format!("recovery-route:{route}")
+    } else if let Some(route) = state.selected_route.as_ref() {
+        format!("selected-route:{}", route.route_id)
+    } else {
+        "none".to_string()
+    }
+}
+
+fn next_route_condition(state: &ProgramChildPlanState) -> String {
+    if let Some(route) = state.selected_route.as_ref() {
+        format!("selected-route:{}", route.route_id)
+    } else if let Some(outcome) = state.terminal_outcome.as_deref() {
+        format!("terminal:{outcome}")
+    } else {
+        "missing-next-route".to_string()
+    }
+}
+
+fn aggregate_terminal_blockers_reference_for_existing_file(
+    repo_root: &Path,
+    evidence_root: &Path,
+) -> Result<Option<ProgramAggregateTerminalBlockersReference>> {
+    let path = evidence_root.join(AGGREGATE_TERMINAL_BLOCKERS_FILE);
+    if !path.is_file() {
+        return Ok(None);
+    }
+    let receipt: ProgramAggregateTerminalBlockersReceipt =
+        serde_yaml::from_slice(&fs::read(&path)?)?;
+    Ok(Some(ProgramAggregateTerminalBlockersReference {
+        path: rel_display(repo_root, &path),
+        digest: file_digest(&path)?,
+        blocked_required_child_count: receipt.blocked_required_child_count,
+        authority_boundary: receipt.authority_boundary,
+    }))
 }
 
 fn write_program_aggregate_closeout(
@@ -14407,11 +14808,36 @@ fn verify_program_closeout(
             ),
             ("summary", evidence_root.join("summary.md")),
             ("recovery-log", evidence_root.join("recovery-log.yml")),
+            (
+                "aggregate-terminal-blockers",
+                evidence_root.join(AGGREGATE_TERMINAL_BLOCKERS_FILE),
+            ),
         ] {
             if !path.is_file() {
                 bail!("program closeout blocked: missing aggregate evidence {label}");
             }
             checks.insert(format!("aggregate:{label}"), "present".to_string());
+        }
+        if let Some(reference) = plan.aggregate_terminal_blockers.as_ref() {
+            let aggregate_path = repo_root.join(&reference.path);
+            if !aggregate_path.is_file() {
+                bail!(
+                    "program closeout blocked: aggregate terminal blocker evidence missing at {}",
+                    reference.path
+                );
+            }
+            let current_digest = file_digest(&aggregate_path)?;
+            if current_digest != reference.digest {
+                bail!(
+                    "program closeout blocked: aggregate terminal blocker evidence digest drifted from {} to {}",
+                    reference.digest,
+                    current_digest
+                );
+            }
+            checks.insert(
+                "aggregate:aggregate-terminal-blockers-digest".to_string(),
+                "fresh".to_string(),
+            );
         }
     }
     checks.insert(
@@ -14870,11 +15296,12 @@ fn program_lifecycle_summary(
         plan.skipped_blocked_children.join(", ")
     };
     let completion_summary = program_required_child_completion_summary(plan);
+    let aggregate_terminal_blockers_summary = program_aggregate_terminal_blockers_summary(plan);
     let taxonomy_summary = program_lifecycle_taxonomy_summary(plan);
     let unsafe_summary = program_unsafe_continuation_summary(plan);
     let recovery_validation_summary = program_recovery_recipe_validation_summary(plan);
     format!(
-        "# Program Lifecycle Run\n\nrun_id: {run_id}\nrecorded_at: {}\nlifecycle_id: {}\nexecution_strategy: {}\ntarget: {}\nexecutor: {}\nexecution_mode: {}\nrunnable_children: {}\nscheduler_phase: {scheduler_phase}\nskipped_blocked_children: {skipped}\naggregate_state: {}\nfinal_verdict: {final_verdict}\nstop_reason: {stop_reason}\n{completion_summary}{blocker_summary}{taxonomy_summary}{recovery_validation_summary}{unsafe_summary}\nProgram evidence coordinates child lifecycle work only. Child packet manifests, receipts, promotion targets, validation verdicts, and archive metadata remain child-owned.\n",
+        "# Program Lifecycle Run\n\nrun_id: {run_id}\nrecorded_at: {}\nlifecycle_id: {}\nexecution_strategy: {}\ntarget: {}\nexecutor: {}\nexecution_mode: {}\nrunnable_children: {}\nscheduler_phase: {scheduler_phase}\nskipped_blocked_children: {skipped}\naggregate_state: {}\nfinal_verdict: {final_verdict}\nstop_reason: {stop_reason}\n{completion_summary}{aggregate_terminal_blockers_summary}{blocker_summary}{taxonomy_summary}{recovery_validation_summary}{unsafe_summary}\nProgram evidence coordinates child lifecycle work only. Child packet manifests, receipts, promotion targets, validation verdicts, and archive metadata remain child-owned.\n",
         now_rfc3339().unwrap_or_else(|_| "unknown".to_string()),
         plan.lifecycle_id,
         plan.execution_strategy,
@@ -14883,6 +15310,19 @@ fn program_lifecycle_summary(
         plan.execution_mode,
         plan.runnable_batch.join(", "),
         plan.aggregate_state,
+    )
+}
+
+fn program_aggregate_terminal_blockers_summary(plan: &ProgramLifecyclePlanResult) -> String {
+    let Some(reference) = plan.aggregate_terminal_blockers.as_ref() else {
+        return String::new();
+    };
+    format!(
+        "\nAggregate Terminal Blockers:\npath: {}\ndigest: {}\nblocked_required_child_count: {}\nauthority_boundary: {}\n",
+        reference.path,
+        reference.digest,
+        reference.blocked_required_child_count,
+        reference.authority_boundary,
     )
 }
 
@@ -15427,6 +15867,7 @@ mod tests {
             scheduler_phase: Some("default".to_string()),
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            aggregate_terminal_blockers: None,
             closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,
@@ -22618,6 +23059,200 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn aggregate_terminal_blockers_evidence_lists_all_blocked_required_children() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("aggregate-terminal-blockers", true);
+        fixture.write_child_contract_with_closeout_outcomes();
+        fixture.write_program_contract_with_canonical_closeout_policy();
+        fixture.write_parent_status("accepted");
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_child("b", "framework/b.md", "accepted");
+        fixture.write_v2_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+  - child_id: "b"
+    path: "children/b"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("aggregate-terminal-blockers".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.route_execution_mode, "program-route-handoff");
+        let evidence_path = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/aggregate-terminal-blockers/aggregate-terminal-blockers.yml",
+        );
+        let receipt: ProgramAggregateTerminalBlockersReceipt =
+            serde_yaml::from_slice(&fs::read(&evidence_path).unwrap()).unwrap();
+        assert_eq!(receipt.blocked_required_child_count, 2);
+        assert_eq!(
+            receipt
+                .blocked_required_children
+                .iter()
+                .map(|entry| entry.child_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["a", "b"]
+        );
+        assert!(receipt.blocked_required_children.iter().all(|entry| {
+            entry
+                .terminal_policy_status
+                .contains("missing-terminal-outcome")
+                && entry.authority_boundary_notice.contains("child manifests")
+        }));
+
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "aggregate-terminal-blockers")
+                .unwrap()
+                .unwrap();
+        assert_eq!(
+            checkpoint
+                .aggregate_terminal_blockers
+                .as_ref()
+                .map(|reference| reference.blocked_required_child_count),
+            Some(2)
+        );
+        let status =
+            status_program_lifecycle_run(&fixture.octon_dir, "aggregate-terminal-blockers")
+                .unwrap();
+        assert_eq!(
+            status
+                .aggregate_terminal_blockers
+                .as_ref()
+                .map(|reference| reference.blocked_required_child_count),
+            Some(2)
+        );
+        let summary = fs::read_to_string(
+            fixture
+                .octon_dir
+                .join("state/evidence/runs/workflows/aggregate-terminal-blockers/summary.md"),
+        )
+        .unwrap();
+        assert!(summary.contains("Aggregate Terminal Blockers"));
+        assert!(summary.contains("aggregate-terminal-blockers.yml"));
+    }
+
+    #[test]
+    fn aggregate_terminal_blockers_do_not_authorize_child_closeout() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("aggregate-terminal-blockers-mixed", true);
+        fixture.write_child_contract_with_closeout_outcomes();
+        fixture.write_program_contract_with_canonical_closeout_policy();
+        fixture.write_parent_status("accepted");
+        fixture.write_child("a", "framework/a.md", "archived");
+        fixture.write("children/a/support/decision.md", "decision: archived\n");
+        fixture.write_child("b", "framework/b.md", "rejected");
+        fixture.write_child("c", "framework/c.md", "accepted");
+        fixture.write_child("d", "framework/d.md", "accepted");
+        fixture.write_v2_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+  - child_id: "b"
+    path: "children/b"
+  - child_id: "c"
+    path: "children/c"
+  - child_id: "d"
+    path: "children/d"
+    deferred: true
+    seed_role: "reference"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("aggregate-terminal-blockers-mixed".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let receipt: ProgramAggregateTerminalBlockersReceipt = serde_yaml::from_slice(
+            &fs::read(fixture.octon_dir.join(
+                "state/evidence/runs/workflows/aggregate-terminal-blockers-mixed/aggregate-terminal-blockers.yml",
+            ))
+            .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(
+            receipt
+                .blocked_required_children
+                .iter()
+                .map(|entry| entry.child_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["b", "c"]
+        );
+        assert!(receipt.blocked_required_children.iter().any(|entry| {
+            entry.child_id == "b"
+                && entry
+                    .child_receipt_freshness_status
+                    .contains("missing:decision")
+        }));
+        assert!(receipt.blocked_required_children.iter().any(|entry| {
+            entry.child_id == "c"
+                && entry
+                    .terminal_policy_status
+                    .contains("missing-terminal-outcome")
+        }));
+
+        fixture.write_parent_status("archived");
+        let blocked = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("aggregate-terminal-blockers-closeout-denied".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+        assert_eq!(blocked.final_verdict, "blocked-human");
+        assert!(fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/aggregate-terminal-blockers-closeout-denied/aggregate-terminal-blockers.yml")
+            .is_file());
+        assert!(!fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/aggregate-terminal-blockers-closeout-denied/aggregate-closeout-receipt.yml")
+            .is_file());
+    }
+
+    #[test]
     fn aggregate_closeout_receipt_requires_child_owned_receipts() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("closeout", true);
@@ -25268,6 +25903,7 @@ routes:
             scheduler_phase: Some("default".to_string()),
             skipped_blocked_children: Vec::new(),
             required_child_completion: BTreeMap::new(),
+            aggregate_terminal_blockers: None,
             closeout_hygiene_suppressions: BTreeMap::new(),
             safe_repair_candidates: Vec::new(),
             program_recovery_recipe_validation_status: None,

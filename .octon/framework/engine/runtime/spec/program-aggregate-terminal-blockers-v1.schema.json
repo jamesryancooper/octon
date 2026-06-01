@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon-program-aggregate-terminal-blockers-v1",
+  "title": "Octon Program Aggregate Terminal Blockers",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_ref",
+    "run_id",
+    "lifecycle_id",
+    "target",
+    "execution_mode",
+    "child_registry_digest",
+    "generated_at",
+    "declared_evidence_path",
+    "required_when",
+    "blocked_required_child_count",
+    "blocked_required_children",
+    "authority_boundary"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "octon-program-aggregate-terminal-blockers-v1"
+    },
+    "schema_ref": {
+      "const": ".octon/framework/engine/runtime/spec/program-aggregate-terminal-blockers-v1.schema.json"
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "lifecycle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1
+    },
+    "execution_mode": {
+      "type": "string",
+      "minLength": 1
+    },
+    "child_registry_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "declared_evidence_path": {
+      "const": ".octon/state/evidence/runs/workflows/<program-run-id>/aggregate-terminal-blockers.yml"
+    },
+    "required_when": {
+      "type": "string",
+      "minLength": 1
+    },
+    "blocked_required_child_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "blocked_required_children": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/blocked_required_child"
+      }
+    },
+    "authority_boundary": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "$defs": {
+    "blocked_required_child": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "child_id",
+        "child_lifecycle_id",
+        "child_target",
+        "selected_or_required_route_id",
+        "blocker_class",
+        "blocker_message",
+        "child_receipt_freshness_status",
+        "terminal_policy_status",
+        "worktree_or_hygiene_state",
+        "retry_or_recovery_state",
+        "next_route_condition",
+        "authority_boundary_notice"
+      ],
+      "properties": {
+        "child_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "child_lifecycle_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "child_target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selected_or_required_route_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocker_class": {
+          "type": "string",
+          "minLength": 1
+        },
+        "blocker_message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "child_receipt_freshness_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "terminal_policy_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "worktree_or_hygiene_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "retry_or_recovery_state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "next_route_condition": {
+          "type": "string",
+          "minLength": 1
+        },
+        "authority_boundary_notice": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

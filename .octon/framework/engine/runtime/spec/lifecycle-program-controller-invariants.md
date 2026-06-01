@@ -44,6 +44,7 @@ hold before proposal-program support can be treated as closeout-ready.
 | `LA-PC-025` | Handoff-only default: proposal-program runs without `--execute-routes` must stop after planning, write `program-route-handoff`, and avoid parent-route or child-route dispatch. |
 | `LA-PC-026` | Replan-step accounting: proposal-program `--execute-routes` must consume one step for one selected parent route or one runnable child batch, then re-read live parent/child state, receipts, gates, and checkpoints before selecting more work. |
 | `LA-PC-027` | Nonterminal planning states: `planned`, `route-ready`, and `program-route-handoff` are planning or handoff states only and must never satisfy child implementation, parent closeout, completion, promotion, or archive evidence. |
+| `LA-PC-028` | Aggregate terminal blocker evidence: when the closeout policy requires aggregate evidence, the controller must write `aggregate-terminal-blockers.yml` under the current workflow evidence root. The file is parent-owned diagnostic evidence, must list all required non-deferred children that do not satisfy the active terminal policy in one pass, must carry a digestable reference in plan/checkpoint/status outputs, and must never satisfy child-owned receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, or terminal lifecycle outcomes. |
 
 ## Enforcement Contract
 

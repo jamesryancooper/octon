@@ -337,6 +337,11 @@ program:
             value: "rejected"
     require_child_receipts_fresh: true
     require_aggregate_evidence: true
+    aggregate_terminal_blocker_evidence:
+      path: ".octon/state/evidence/runs/workflows/<program-run-id>/aggregate-terminal-blockers.yml"
+      schema_ref: ".octon/framework/engine/runtime/spec/program-aggregate-terminal-blockers-v1.schema.json"
+      required_when: "required child is blocked from satisfying the active program closeout policy"
+      authority_boundary: "parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned"
     enforce_authority_boundaries: true
   authority_boundaries:
     parent_coordinates_only: true
