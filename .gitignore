@@ -161,6 +161,8 @@ Icon?
 !.octon/inputs/exploratory/proposals/.archive/architecture/self-audit-and-release-hardening/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-system-integrity-and-archive-normalization/
 !.octon/inputs/exploratory/proposals/.archive/architecture/proposal-system-integrity-and-archive-normalization/**
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-change-handoff-checkpoints/
+!.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-change-handoff-checkpoints/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-completion-cutover/
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-completion-cutover/**
 !.octon/inputs/exploratory/proposals/.archive/architecture/mission-scoped-reversible-autonomy-steady-state-cutover/

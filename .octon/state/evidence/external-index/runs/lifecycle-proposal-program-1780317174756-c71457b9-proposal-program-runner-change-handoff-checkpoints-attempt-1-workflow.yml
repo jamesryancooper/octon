@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:d697f77d32f8765b0071bd8430daff3fc2a7f803b42c8bc9c90ef55283d05c92
+  entry_id: lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-01T12:46:00.065935Z
+  run_id: lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:af176ab3922ecab18be84887cf6adb373002cd361a8eb9235e6e8486655fbde2
+  entry_id: lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-01T12:46:00.065935Z
+  run_id: lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow
+run_id: lifecycle-proposal-program-1780317174756-c71457b9-proposal-program-runner-change-handoff-checkpoints-attempt-1-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-01T12:46:00.065935Z
