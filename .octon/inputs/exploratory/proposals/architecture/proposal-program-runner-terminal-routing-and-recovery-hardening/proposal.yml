@@ -28,7 +28,7 @@ promotion_targets:
   - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
   - ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/"
   - ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/"
-status: "in-review"
+status: "accepted"
 lifecycle:
   temporary: true
   exit_expectation: >-

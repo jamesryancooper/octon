@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/context/model-visible-context.json
+run_id: lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-01T16:47:55.086068Z
+validity_state: valid

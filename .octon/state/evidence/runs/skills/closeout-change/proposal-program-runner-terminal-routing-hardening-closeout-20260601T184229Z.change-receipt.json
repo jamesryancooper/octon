@@ -1,0 +1,130 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-terminal-routing-hardening-closeout-20260601T184229Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the proposal-program terminal-routing recovery checkpoint and retained lifecycle evidence after promotion-evidence-binding route execution.",
+  "scope": {
+    "summary": "Parent proposal-program review and registry updates, promoted child packet metadata, ACP decision evidence, lifecycle run-control records, nested executor handoffs, and validation evidence produced by the proposal-program lifecycle family.",
+    "touched_paths": [
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding/proposal.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/architecture/packet-sequence.md",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/proposal.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/child-packet-index.md",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/child-packet-index.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/proposal-review.md",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow*/handoff.yml",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780331844276-6d60dcfc/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780331871878-797284be/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780331909022-a205ee37/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780332106495-e12892f0/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow*/**",
+      ".octon/state/evidence/control/execution/authority-*-lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow*.yml",
+      ".octon/state/evidence/external-index/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow*.yml",
+      ".octon/state/evidence/validation/analysis/2026-06-01-promote-proposal-1.md",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-terminal-routing-hardening-closeout-20260601T184229Z.change-receipt.json"
+    ],
+    "diff_refs": [
+      "0603146d483af6a1c16d9cfade7a8a055815f986..branch-publication-commit"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-terminal-routing-closeout",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-terminal-routing-closeout@branch-publication-commit",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "branch-publication-commit",
+    "target_ref": "origin/main",
+    "blocker_reason": "The current closeout publishes the isolated lifecycle evidence branch only. No hosted no-PR landing authorization receipt was requested or produced.",
+    "evidence_refs": [
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout",
+      "git rev-parse origin/chore/proposal-program-runner-terminal-routing-closeout",
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/summary.md"
+    ]
+  },
+  "not_landed_reason": "The closeout published the isolated branch but did not land it to origin/main because no hosted no-PR landing authorization was requested or produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "external_blocker_refs": [
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/children/proposal-program-runner-promotion-evidence-binding/worktree-hygiene-preflight.stdout.yml",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/cleanup-lifecycle-residue-route-execution.yml"
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-terminal-routing-closeout",
+    "remote_branch": "origin/chore/proposal-program-runner-terminal-routing-closeout",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch has not landed to origin/main; cleanup would remove the published lifecycle recovery handoff.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout"
+    ]
+  },
+  "cleanup_evidence_refs": [
+    "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md"
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all",
+    "residue_classification_ref": "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh",
+    "phase_exit_refs": [
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      "git commit branch-publication-commit",
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/children/proposal-program-runner-promotion-evidence-binding/worktree-hygiene-preflight.stdout.yml",
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/cleanup-lifecycle-residue-route-execution.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md"
+    ],
+    "safe_cleanup_evidence_class": "not-applicable",
+    "final_verification_ref": "git rev-parse origin/chore/proposal-program-runner-terminal-routing-closeout == branch-publication-commit"
+  },
+  "validation_evidence_refs": [
+    "git diff --check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding --skip-registry-check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening --require-implementation-authorization",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check",
+    "git diff --cached --check",
+    "git rev-parse origin/chore/proposal-program-runner-terminal-routing-closeout"
+  ],
+  "review_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/summary.md",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780332106495-e12892f0/children/proposal-program-runner-promotion-evidence-binding/worktree-hygiene-preflight.stdout.yml"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "branch-publication-commit",
+    "branch": "chore/proposal-program-runner-terminal-routing-closeout"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/proposal-program-runner-terminal-routing-closeout",
+    "instructions": "Discard or reset the local and remote source branch if the published lifecycle recovery handoff is rejected; do not delete while consumer lifecycle runs depend on it."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard.",
+    "Parent proposal-program lifecycle remains continuable from the clean published branch."
+  ],
+  "created_at": "2026-06-01T18:42:29Z",
+  "updated_at": "2026-06-01T18:42:29Z"
+}

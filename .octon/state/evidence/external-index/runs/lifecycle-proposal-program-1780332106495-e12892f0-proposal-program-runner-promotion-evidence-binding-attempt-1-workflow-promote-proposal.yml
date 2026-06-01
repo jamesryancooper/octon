@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:bd588b00f3cb05be4d522a3c17414e4b6db60da395c2159df39cdcd98f75d306
+  entry_id: lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-06-01T17:01:25.019835Z
+  run_id: lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:8e78e91e83f0ff1e383afd7cfa5a07c59b8249a88e4f0619fdae4d2bcf62e496
+  entry_id: lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal/replay/manifest.yml
+  recorded_at: 2026-06-01T17:01:25.019835Z
+  run_id: lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal
+run_id: lifecycle-proposal-program-1780332106495-e12892f0-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-promote-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-01T17:01:25.019835Z

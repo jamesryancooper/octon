@@ -41,7 +41,7 @@ children:
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
   - child_id: "proposal-program-runner-change-handoff-checkpoints"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-change-handoff-checkpoints"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-change-handoff-checkpoints"
     required: true
     deferred: false
     dependencies: ["proposal-program-runner-terminal-gap-map"]

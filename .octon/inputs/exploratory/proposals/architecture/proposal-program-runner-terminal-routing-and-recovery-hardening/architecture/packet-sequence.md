@@ -14,3 +14,9 @@ The gap map gates implementation. Workflow retry, change handoff, aggregate
 blockers, promotion evidence binding, publication freshness, review freshness,
 and archive observation can proceed after the gap map. The tests packet depends
 on all behavior packets.
+
+The current registry path for `proposal-program-runner-change-handoff-checkpoints`
+is the child-owned archive packet path. This parent sequence preserves the
+original ordering while using the registry path for lookup only; it does not
+replace child-owned receipts, archive metadata, validation verdicts, promotion
+targets, or terminal outcomes.
