@@ -1,0 +1,8 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-proposal-program-1780324558232-747e4d06
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening
+reason: nested-codex-usage-limit-until-10-57am
+cancelled_at: 2026-06-01T14:55:40.607384Z
+evidence_path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780324558232-747e4d06/program-cancelled.yml
