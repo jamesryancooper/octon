@@ -1,0 +1,8 @@
+schema_version: octon-lifecycle-executor-observation-v1
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-publication-freshness-preflight
+route_id: run-packet-implementation
+executor_name: codex
+pid: 94503
+elapsed_ms: 1674131
+state: running
+observed_at: 2026-06-01T19:51:58.956038Z

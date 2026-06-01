@@ -1,0 +1,40 @@
+schema_version: octon-lifecycle-route-delegation-proof-v1
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-publication-freshness-preflight
+lifecycle_id: proposal-packet
+route_id: run-packet-implementation
+contract_opt_in: true
+invocation_authority:
+  mode: unattended
+  provenance: lifecycle-invocation
+target: /Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight
+declared_write_scope:
+- /Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight
+- receipt:implementation-run
+declared_write_scope_source: route-completion-and-target
+authority_zone_decision:
+  allowed_zones: workspace-declared,octon-run-bound
+  generated_outputs_are_authority: 'false'
+  status: allowed-by-contract
+evidence_gate_results:
+  implementation-authorization: pass
+  implementation-grade-readiness: pass
+replay_idempotency_proof:
+  basis: delegation_contract.replay_class is dispatch-safe
+  dispatch_safe: 'true'
+  replay_class: bounded-retry
+expected_receipts:
+- implementation-run
+interaction_context:
+  authority: non-authorizing-context
+  request_refs: ''
+  return_refs: ''
+  target_gates_required: 'true'
+required_receipts_before_dispatch:
+  proposal-review: accepted
+failure_policy: fail-closed; recovery=bounded-retry; human_only_boundaries=scope-expansion,policy-override,unresolved-risk-acceptance,governance-mutation,external-irreversible-effect
+authority_provenance:
+- route.delegation_contract
+- invocation_authority:unattended
+- decision_class:delegated-execution
+- replay_class:bounded-retry
+recorded_at: 2026-06-01T19:24:04.767921Z

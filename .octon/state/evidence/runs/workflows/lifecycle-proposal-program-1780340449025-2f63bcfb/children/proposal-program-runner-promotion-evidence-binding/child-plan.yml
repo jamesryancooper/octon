@@ -1,0 +1,44 @@
+child_id: proposal-program-runner-promotion-evidence-binding
+child_lifecycle_id: proposal-packet
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+required: true
+deferred: false
+dependencies:
+- proposal-program-runner-terminal-gap-map
+dependency_gate: verification
+phase_id: phase-3
+group_id: promotion
+seed_role: null
+rollback_posture: staged-commit
+recovery_profile: null
+phase_commit_barrier: null
+selected_route:
+  route_id: archive-proposal
+  route_type: workflow
+  command_id: null
+  skill_id: null
+  prompt_set_id: null
+terminal_outcome: null
+receipt_digests:
+  proposal-review: sha256:bbffd8d082ecf2745138d5eb55c827375a97ba6e87d6e033da6bf1ea9dbd0bce
+gate_status:
+  terminal: false
+  verification: true
+  closeout: true
+dependency_gate_status:
+  proposal-program-runner-terminal-gap-map:
+    dependency_id: proposal-program-runner-terminal-gap-map
+    required_gate: verification
+    satisfied: true
+    observed_gate: verification
+    reason: observed verification
+write_scopes:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/orchestration/runtime/workflows/meta/promote-proposal/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+blockers:
+- blocker_class: stale-receipt
+  message: one or more child receipts are stale
+  recovery_route: archive-proposal
+final_verdict: route-ready

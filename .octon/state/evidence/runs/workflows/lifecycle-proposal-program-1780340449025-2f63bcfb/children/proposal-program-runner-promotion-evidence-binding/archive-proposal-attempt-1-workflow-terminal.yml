@@ -1,0 +1,17 @@
+schema_version: octon-lifecycle-workflow-leaf-terminal-v1
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding
+route_id: archive-proposal
+retry_attempt: 0
+attempt_ordinal: 1
+workflow_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow
+success: true
+timed_out: false
+cancelled: false
+exit_code: '0'
+human_boundary_context:
+  context_kind: program-child-route
+  program_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+  child_id: proposal-program-runner-promotion-evidence-binding
+  human_exception_instruction: record typed human exception grant for program child route proposal-program-runner-promotion-evidence-binding:archive-proposal
+  retry_instruction: octon lifecycle program retry --run-id lifecycle-proposal-program-1780340449025-2f63bcfb --child proposal-program-runner-promotion-evidence-binding
+ended_at: 2026-06-01T19:18:02.191319Z

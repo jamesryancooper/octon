@@ -240,6 +240,7 @@ write_valid_packet2_fixture() {
   mkdir -p \
     "$fixture_root/.octon/framework/overlay-points" \
     "$fixture_root/.octon/framework/cognition/_meta/architecture" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation" \
     "$fixture_root/.octon/framework/engine/runtime/crates/core/src" \
     "$fixture_root/.octon/framework/engine/runtime/crates/kernel/src" \
     "$fixture_root/.octon/framework/engine/runtime/crates/wasm_host/src" \
@@ -268,7 +269,8 @@ write_valid_packet2_fixture() {
     "$fixture_root/.octon/inputs/additive/.incoming" \
     "$fixture_root/.octon/inputs/additive/.archive" \
     "$fixture_root/.octon/inputs/exploratory/proposals" \
-    "$fixture_root/.octon/inputs/exploratory/ideation" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/projects/_scaffold/template" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/scratchpad/inbox" \
     "$fixture_root/.octon/inputs/exploratory/plans" \
     "$fixture_root/.octon/inputs/exploratory/syntheses" \
     "$fixture_root/.octon/inputs/exploratory/reports" \
@@ -303,6 +305,24 @@ EOF
 
 Reports are non-authoritative source material.
 EOF
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/exploratory/README.md" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/README.md"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/projects.md" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/projects.md"
+  cp "$REPO_ROOT/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/scratchpad.md" \
+    "$fixture_root/.octon/framework/cognition/_meta/architecture/inputs/exploratory/ideation/scratchpad.md"
+  cp "$REPO_ROOT/.octon/inputs/exploratory/ideation/projects/README.md" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/projects/README.md"
+  cp "$REPO_ROOT/.octon/inputs/exploratory/ideation/projects/registry.md" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/projects/registry.md"
+  cp "$REPO_ROOT/.octon/inputs/exploratory/ideation/projects/_scaffold/template/project.md" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/projects/_scaffold/template/project.md"
+  cp "$REPO_ROOT/.octon/inputs/exploratory/ideation/projects/_scaffold/template/resources.md" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/projects/_scaffold/template/resources.md"
+  cp "$REPO_ROOT/.octon/inputs/exploratory/ideation/scratchpad/README.md" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/scratchpad/README.md"
+  cp "$REPO_ROOT/.octon/inputs/exploratory/ideation/scratchpad/inbox/README.md" \
+    "$fixture_root/.octon/inputs/exploratory/ideation/scratchpad/inbox/README.md"
   touch "$fixture_root/.octon/inputs/exploratory/syntheses/.gitkeep"
   touch "$fixture_root/.octon/inputs/additive/.archive/.gitkeep"
 

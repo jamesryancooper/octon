@@ -1,0 +1,10 @@
+schema_version: octon-lifecycle-executor-terminal-v1
+executor_name: codex
+pid: 13770
+elapsed_ms: 123456
+state: completed-observed
+exit_status: 'exit status: 0'
+process_exit_observed: true
+used_force_kill: false
+termination_error: none
+recorded_at: 2026-06-01T19:54:35.485034Z

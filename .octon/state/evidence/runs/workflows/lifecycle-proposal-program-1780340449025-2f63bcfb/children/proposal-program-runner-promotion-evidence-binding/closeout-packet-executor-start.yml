@@ -1,0 +1,11 @@
+schema_version: octon-lifecycle-executor-start-v1
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding
+route_id: closeout-packet
+executor_name: codex
+executor_bin: /Users/jamesryancooper/.homebrew/bin/codex
+command_line: /Users/jamesryancooper/.homebrew/bin/codex exec --ephemeral --skip-git-repo-check --cd /Users/jamesryancooper/Projects/octon
+timeout_seconds: 1800
+retry_attempt: 0
+invocation_authority: unattended
+cancellation_token: /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb/cancellation.yml
+started_at: 2026-06-01T19:01:04.657381Z

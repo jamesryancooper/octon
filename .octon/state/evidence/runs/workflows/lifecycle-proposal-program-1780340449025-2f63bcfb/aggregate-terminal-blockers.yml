@@ -1,0 +1,97 @@
+schema_version: octon-program-aggregate-terminal-blockers-v1
+schema_ref: .octon/framework/engine/runtime/spec/program-aggregate-terminal-blockers-v1.schema.json
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+lifecycle_id: proposal-program
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening
+execution_mode: gated-parallel
+child_registry_digest: sha256:d5152929cf75a7b0f6f91194873ae7344f580a2b44926bd915025fe17c1d6dd9
+generated_at: 2026-06-01T19:54:52.257699Z
+declared_evidence_path: .octon/state/evidence/runs/workflows/<program-run-id>/aggregate-terminal-blockers.yml
+required_when: required child is blocked from satisfying the active program closeout policy
+blocked_required_child_count: 7
+blocked_required_children:
+- child_id: proposal-program-runner-aggregate-terminal-blockers
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-aggregate-terminal-blockers
+  selected_or_required_route_id: closeout-packet
+  blocker_class: missing-evidence
+  blocker_message: 'child has no terminal outcome; stale-receipt: one or more child receipts are stale'
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome;unresolved-child-blocker
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: recovery-route:closeout-packet
+  next_route_condition: selected-route:closeout-packet
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+- child_id: proposal-program-runner-archive-observation-recovery
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-archive-observation-recovery
+  selected_or_required_route_id: generate-packet-implementation-prompt
+  blocker_class: missing-evidence
+  blocker_message: child has no terminal outcome
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: selected-route:generate-packet-implementation-prompt
+  next_route_condition: selected-route:generate-packet-implementation-prompt
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+- child_id: proposal-program-runner-parent-review-churn
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-parent-review-churn
+  selected_or_required_route_id: generate-packet-implementation-prompt
+  blocker_class: missing-evidence
+  blocker_message: child has no terminal outcome
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: selected-route:generate-packet-implementation-prompt
+  next_route_condition: selected-route:generate-packet-implementation-prompt
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+- child_id: proposal-program-runner-publication-freshness-preflight
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight
+  selected_or_required_route_id: promote-proposal
+  blocker_class: missing-evidence
+  blocker_message: child has no terminal outcome
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: selected-route:promote-proposal
+  next_route_condition: selected-route:promote-proposal
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+- child_id: proposal-program-runner-terminal-gap-map
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-gap-map
+  selected_or_required_route_id: closeout-packet
+  blocker_class: missing-evidence
+  blocker_message: 'child has no terminal outcome; stale-receipt: one or more child receipts are stale'
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome;unresolved-child-blocker
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: recovery-route:closeout-packet
+  next_route_condition: selected-route:closeout-packet
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+- child_id: proposal-program-runner-terminal-routing-tests
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-tests
+  selected_or_required_route_id: generate-packet-implementation-prompt
+  blocker_class: missing-evidence
+  blocker_message: 'child has no terminal outcome; dependency-gate-unsatisfied: dependency proposal-program-runner-parent-review-churn has not satisfied verification gate: observed none; dependency-gate-unsatisfied: dependency proposal-program-runner-archive-observation-recovery has not satisfied verification gate: observed none'
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome;unresolved-child-blocker
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: selected-route:generate-packet-implementation-prompt
+  next_route_condition: selected-route:generate-packet-implementation-prompt
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+- child_id: proposal-program-runner-workflow-retry-ids
+  child_lifecycle_id: proposal-packet
+  child_target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-workflow-retry-ids
+  selected_or_required_route_id: closeout-packet
+  blocker_class: missing-evidence
+  blocker_message: 'child has no terminal outcome; stale-receipt: one or more child receipts are stale'
+  child_receipt_freshness_status: not-terminal
+  terminal_policy_status: missing-terminal-outcome;unresolved-child-blocker
+  worktree_or_hygiene_state: not-blocked
+  retry_or_recovery_state: recovery-route:closeout-packet
+  next_route_condition: selected-route:closeout-packet
+  authority_boundary_notice: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned
+authority_boundary: parent evidence summarizes only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned

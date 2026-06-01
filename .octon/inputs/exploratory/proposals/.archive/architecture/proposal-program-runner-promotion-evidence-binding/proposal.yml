@@ -8,7 +8,16 @@ promotion_targets:
 - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
 - .octon/framework/orchestration/runtime/workflows/meta/promote-proposal/
 - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-01
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+  promotion_evidence:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/orchestration/runtime/workflows/meta/promote-proposal
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
 lifecycle:
   temporary: true
   exit_expectation: Implement only through the proposal-packet lifecycle after review and implementation prompt authorization.

@@ -28,6 +28,15 @@ const INVALID_CHILD_REGISTRY_DIGEST: &str = "invalid-child-registry";
 const REFRESH_PUBLICATION_PROJECTIONS_ACTION: &str = "refresh-publication-projections";
 const REBASELINE_CHECKPOINT_ACTION: &str = "rebaseline-checkpoint";
 const CLEANUP_CURRENT_RUN_ARTIFACTS_ACTION: &str = "cleanup-current-run-artifacts";
+const VALIDATE_PUBLICATION_FRESHNESS_GATES_COMMAND: &str =
+    ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh";
+const CANONICAL_PUBLICATION_RECOVERY_COMMANDS: &[&str] = &[
+    ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh",
+    ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/publish-pack-routes.sh",
+    ".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh",
+    VALIDATE_PUBLICATION_FRESHNESS_GATES_COMMAND,
+];
 const AUTHORITY_ZONE_RUN_BOUND: &str = "octon-run-bound";
 const AUTHORITY_ZONE_GENERATED_DERIVED: &str = "octon-generated-derived";
 const AUTHORITY_ZONE_AUTHORED_GOVERNANCE: &str = "octon-authored-governance";
@@ -2364,6 +2373,20 @@ fn run_program_lifecycle_single_step(
             interaction_data,
         )?;
     }
+    let mut publication_preflight_blocked = false;
+    if options.execute_routes {
+        if let Some(program) = parent_context.loaded.contract.program.as_ref() {
+            publication_preflight_blocked = apply_publication_freshness_preflight(
+                repo_root,
+                control_root,
+                evidence_root,
+                sanitized_run_id,
+                program,
+                &mut plan,
+                step_context,
+            )?;
+        }
+    }
     let mut child_results = Vec::new();
     let mut final_verdict = plan.final_verdict.clone();
     let mut terminal_outcome = plan.terminal_outcome.clone();
@@ -2574,6 +2597,9 @@ fn run_program_lifecycle_single_step(
                     plan.runnable_batch.clear();
                 }
             }
+        }
+        if publication_preflight_blocked && !program_recovery_action_attempted {
+            plan.runnable_batch.clear();
         }
     }
 
@@ -2896,6 +2922,127 @@ fn run_program_lifecycle_single_step(
             final_verdict,
         },
     })
+}
+
+fn apply_publication_freshness_preflight(
+    repo_root: &Path,
+    control_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    program: &ProgramSpec,
+    plan: &mut ProgramLifecyclePlanResult,
+    step_context: Option<ProgramExecutionStepContext>,
+) -> Result<bool> {
+    if plan.program_route.is_some()
+        || plan.runnable_batch.is_empty()
+        || !program_declares_publication_recovery(program)
+    {
+        return Ok(false);
+    }
+
+    let preflight_root = evidence_root.join("publication-freshness-preflight");
+    fs::create_dir_all(&preflight_root)?;
+    let stdout_path = preflight_root.join("validate-publication-freshness-gates.stdout.log");
+    let stderr_path = preflight_root.join("validate-publication-freshness-gates.stderr.log");
+    let argv = vec![VALIDATE_PUBLICATION_FRESHNESS_GATES_COMMAND.to_string()];
+    let extra_env: Vec<(&str, String)> = Vec::new();
+    let output = run_program_recovery_command(
+        repo_root,
+        &repo_root.join(".octon"),
+        &argv,
+        &extra_env,
+        &stdout_path,
+        &stderr_path,
+    )?;
+    let passed = output.status.success();
+    let status = if passed { "pass" } else { "blocked" };
+    let blocker_class = if passed { "none" } else { "publication-drift" };
+    let evidence_path = preflight_root.join("summary.yml");
+    let exit_code = output.status.code().unwrap_or(-1);
+    fs::write(
+        &evidence_path,
+        format!(
+            "schema_version: \"octon-program-publication-freshness-preflight-v1\"\nstatus: \"{status}\"\nblocker_class: \"{blocker_class}\"\nrecovery_action_id: \"{REFRESH_PUBLICATION_PROJECTIONS_ACTION}\"\ncanonical_recovery_commands:\n{}selected_children:\n{}stdout_path: {}\nstderr_path: {}\nexit_code: {exit_code}\ngenerated_outputs_authority: \"derived-only\"\n",
+            yaml_list(&canonical_publication_recovery_commands()),
+            yaml_list(&plan.runnable_batch),
+            yaml_scalar(&rel_display(repo_root, &stdout_path)),
+            yaml_scalar(&rel_display(repo_root, &stderr_path)),
+        ),
+    )?;
+
+    if passed {
+        append_program_event(
+            control_root,
+            evidence_root,
+            program_run_id,
+            "publication-freshness-preflight-passed",
+            None,
+            None,
+            "publication freshness preflight passed before child dispatch",
+            program_step_event_data(
+                step_context.as_ref(),
+                "publication-freshness-preflight",
+                [(
+                    "evidence_path",
+                    rel_display(repo_root, &evidence_path).as_str(),
+                )],
+            ),
+        )?;
+        return Ok(false);
+    }
+
+    if !plan_has_publication_drift_blocker(plan) {
+        plan.program_blockers.push(ProgramBlocker {
+            blocker_class: "publication-drift".to_string(),
+            message: publication_drift_blocker_message(),
+            recovery_route: None,
+        });
+    }
+    plan.final_verdict = "blocked-recoverable".to_string();
+    plan.stop_reason = Some(
+        "publication freshness preflight detected stale runtime-facing generated effective state before child dispatch"
+            .to_string(),
+    );
+    append_program_event(
+        control_root,
+        evidence_root,
+        program_run_id,
+        "publication-freshness-preflight-blocked",
+        None,
+        None,
+        "publication freshness preflight blocked child dispatch",
+        program_step_event_data(
+            step_context.as_ref(),
+            "publication-freshness-preflight",
+            [
+                ("blocker_class", "publication-drift"),
+                ("recovery_action_id", REFRESH_PUBLICATION_PROJECTIONS_ACTION),
+                (
+                    "evidence_path",
+                    rel_display(repo_root, &evidence_path).as_str(),
+                ),
+            ],
+        ),
+    )?;
+    Ok(true)
+}
+
+fn program_declares_publication_recovery(program: &ProgramSpec) -> bool {
+    recovery_action_id(program, "publication-drift")
+        .map(|action_id| action_id == REFRESH_PUBLICATION_PROJECTIONS_ACTION)
+        .unwrap_or(false)
+}
+
+fn plan_has_publication_drift_blocker(plan: &ProgramLifecyclePlanResult) -> bool {
+    plan.program_blockers
+        .iter()
+        .any(|blocker| blocker.blocker_class == "publication-drift")
+        || plan.child_states.values().any(|state| {
+            state
+                .blockers
+                .iter()
+                .any(|blocker| blocker.blocker_class == "publication-drift")
+        })
 }
 
 fn append_program_run_started_if_needed(
@@ -6052,15 +6199,26 @@ fn child_implementation_blocker_class(
 
 fn child_implementation_blocker_message(blocker_class: &str) -> String {
     match blocker_class {
-        "publication-drift" => {
-            "child implementation is blocked by generated/effective or read-model projection drift"
-                .to_string()
-        }
+        "publication-drift" => publication_drift_blocker_message(),
         "implementation-blocked" => {
             "child implementation receipt reports a blocked implementation run".to_string()
         }
         _ => "child implementation validation failed".to_string(),
     }
+}
+
+fn canonical_publication_recovery_commands() -> Vec<String> {
+    CANONICAL_PUBLICATION_RECOVERY_COMMANDS
+        .iter()
+        .map(|command| (*command).to_string())
+        .collect()
+}
+
+fn publication_drift_blocker_message() -> String {
+    format!(
+        "runtime-facing generated effective publication drift blocks child dispatch; run declared recovery action {REFRESH_PUBLICATION_PROJECTIONS_ACTION} or canonical commands: {}",
+        CANONICAL_PUBLICATION_RECOVERY_COMMANDS.join(", ")
+    )
 }
 
 fn receipt_verdict_matches(
@@ -11632,47 +11790,40 @@ fn execute_program_recovery_action(
 
     let commands: Vec<(&str, Vec<String>, Vec<(&str, String)>)> = vec![
         (
-            "generate-support-envelope-reconciliation",
+            "publish-extension-state",
             vec![
-                ".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh".to_string(),
-            ],
-            Vec::new(),
-        ),
-        (
-            "generate-run-health-read-model",
-            vec![
-                ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh".to_string(),
-                "--all-runs".to_string(),
-                "--evidence-root".to_string(),
-                action_root.join("run-health").to_string_lossy().to_string(),
-            ],
-            Vec::new(),
-        ),
-        (
-            "validate-support-envelope-reconciliation",
-            vec![
-                ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh".to_string(),
-            ],
-            vec![(
-                "OCTON_SUPPORT_ENVELOPE_EVIDENCE_DIR",
-                action_root
-                    .join("support-envelope-validation")
-                    .to_string_lossy()
+                ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh"
                     .to_string(),
-            )],
-        ),
-        (
-            "validate-run-health-read-model",
-            vec![
-                ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh".to_string(),
             ],
             Vec::new(),
         ),
         (
-            "validate-architecture-conformance",
+            "publish-capability-routing",
             vec![
-                ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh".to_string(),
+                ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
+                    .to_string(),
             ],
+            Vec::new(),
+        ),
+        (
+            "publish-pack-routes",
+            vec![
+                ".octon/framework/assurance/runtime/_ops/scripts/publish-pack-routes.sh"
+                    .to_string(),
+            ],
+            Vec::new(),
+        ),
+        (
+            "publish-runtime-route-bundle",
+            vec![
+                ".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh"
+                    .to_string(),
+            ],
+            Vec::new(),
+        ),
+        (
+            "validate-publication-freshness-gates",
+            vec![VALIDATE_PUBLICATION_FRESHNESS_GATES_COMMAND.to_string()],
             Vec::new(),
         ),
     ];
@@ -11957,20 +12108,29 @@ fn write_program_recovery_changed_paths(repo_root: &Path, action_root: &Path) ->
         .arg("--")
         .arg(".octon/generated")
         .arg(PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL)
+        .arg(".octon/state/evidence/validation/publication")
         .output()?;
     let stdout = String::from_utf8_lossy(&output.stdout);
     let mut changed_paths = stdout
         .lines()
         .filter_map(parse_git_status_path)
         .filter(|path| {
-            path.ends_with("support-envelope-reconciliation.yml")
+            rel_path_under(path, ".octon/generated")
+                || rel_path_under(path, ".octon/state/evidence/validation/publication")
+                || path.ends_with("support-envelope-reconciliation.yml")
                 || rel_path_under(path, PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL)
         })
         .collect::<BTreeSet<_>>();
-    changed_paths.extend(read_program_recovery_run_health_changed_paths(
-        repo_root,
-        action_root,
-    )?);
+    if action_root
+        .join("run-health")
+        .join("generation.yml")
+        .is_file()
+    {
+        changed_paths.extend(read_program_recovery_run_health_changed_paths(
+            repo_root,
+            action_root,
+        )?);
+    }
     let changed_paths = if changed_paths.is_empty() {
         String::new()
     } else {
@@ -18482,7 +18642,7 @@ routes:
         }
 
         fn write_publication_recovery_scripts(&self, pass: bool, clear_child_blocker: bool) {
-            let generate_support = if pass {
+            let publish_extension = if pass {
                 if clear_child_blocker {
                     r#"#!/usr/bin/env bash
 set -euo pipefail
@@ -18499,70 +18659,42 @@ EOF
 printf 'support envelope refreshed\n'
 "#
                 } else {
-                    "#!/usr/bin/env bash\nprintf 'support envelope refreshed\\n'\n"
+                    "#!/usr/bin/env bash\nprintf 'extension state refreshed\\n'\n"
                 }
             } else {
-                "#!/usr/bin/env bash\nprintf 'support envelope failed\\n' >&2\nexit 3\n"
+                "#!/usr/bin/env bash\nprintf 'extension state refresh failed\\n' >&2\nexit 3\n"
             };
             self.write(
-                ".octon/framework/assurance/runtime/_ops/scripts/generate-support-envelope-reconciliation.sh",
-                generate_support,
+                ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh",
+                publish_extension,
             );
             self.write(
-                ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh",
-                r#"#!/usr/bin/env bash
-set -euo pipefail
-evidence_root=""
-while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --evidence-root)
-      shift
-      evidence_root="${1:-}"
-      ;;
-  esac
-  shift || true
-done
-[[ -n "$evidence_root" ]] || { printf 'missing --evidence-root\n' >&2; exit 2; }
-generated_root=".octon/generated"
-generated_root="${generated_root}/cognition/projections/materialized/runs"
-health_rel="${generated_root}/test-run/health.yml"
-index_rel="${generated_root}/index.yml"
-mkdir -p "${health_rel%/*}" "$evidence_root"
-printf 'schema_version: run-health-read-model-v1\n' >"$health_rel"
-printf 'schema_version: run-health-read-model-index-v1\n' >"$index_rel"
-cat >"$evidence_root/generation.yml" <<EOF
-schema_version: "run-health-generation-receipt-v1"
-generated_at: "2026-05-21T00:00:00Z"
-generator_ref: ".octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh"
-schema_ref: ".octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json"
-validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh"
-authority:
-  classification: "generated_read_model_non_authoritative"
-  may_authorize: false
-  may_widen_support: false
-published_paths:
-  - "$index_rel"
-  - "$health_rel"
-pruned_paths: []
-outputs:
-  - run_id: "test-run"
-    health_ref: "$health_rel"
-    status: "healthy"
-EOF
-printf 'run health refreshed\n'
-"#,
+                ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh",
+                "#!/usr/bin/env bash\nprintf 'capability routing refreshed\\n'\n",
             );
             self.write(
-                ".octon/framework/assurance/runtime/_ops/scripts/validate-support-envelope-reconciliation.sh",
-                "#!/usr/bin/env bash\nprintf 'support envelope valid\\n'\n",
+                ".octon/framework/assurance/runtime/_ops/scripts/publish-pack-routes.sh",
+                "#!/usr/bin/env bash\nprintf 'pack routes refreshed\\n'\n",
             );
             self.write(
-                ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh",
-                "#!/usr/bin/env bash\nprintf 'run health valid\\n'\n",
+                ".octon/framework/assurance/runtime/_ops/scripts/publish-runtime-route-bundle.sh",
+                "#!/usr/bin/env bash\nprintf 'runtime route bundle refreshed\\n'\n",
             );
             self.write(
-                ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh",
-                "#!/usr/bin/env bash\nprintf 'architecture valid\\n'\n",
+                ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh",
+                "#!/usr/bin/env bash\nprintf 'publication freshness valid\\n'\n",
+            );
+        }
+
+        fn write_publication_freshness_validator(&self, pass: bool) {
+            let body = if pass {
+                "#!/usr/bin/env bash\nprintf 'publication freshness valid\\n'\n"
+            } else {
+                "#!/usr/bin/env bash\nprintf 'publication freshness stale\\n' >&2\nexit 4\n"
+            };
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh",
+                body,
             );
         }
 
@@ -19267,7 +19399,7 @@ packs:
     }
 
     #[test]
-    fn program_recovery_changed_paths_fail_closed_when_run_health_receipt_missing() {
+    fn program_recovery_changed_paths_allows_missing_optional_run_health_receipt() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("program-recovery-changed-paths-missing", true);
         let action_root = fixture.octon_dir.join(
@@ -19275,8 +19407,9 @@ packs:
         );
         fs::create_dir_all(&action_root).unwrap();
 
-        let error = write_program_recovery_changed_paths(&fixture.root, &action_root).unwrap_err();
-        assert!(error.to_string().contains("generation receipt missing"));
+        write_program_recovery_changed_paths(&fixture.root, &action_root).unwrap();
+        let changed = fs::read_to_string(action_root.join("changed-paths.txt")).unwrap();
+        assert!(changed.is_empty());
     }
 
     #[test]
@@ -25213,6 +25346,220 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn stale_publication_freshness_blocks_before_child_dispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("publication-preflight-blocks", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_publication_recovery_action();
+        fixture.write_publication_recovery_scripts(true, false);
+        fixture.write_publication_freshness_validator(false);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("publication-preflight-blocks".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-recoverable");
+        assert!(result.child_results.is_empty());
+        let preflight_summary = fs::read_to_string(fixture.octon_dir.join(
+            "state/evidence/runs/workflows/publication-preflight-blocks/publication-freshness-preflight/summary.yml",
+        ))
+        .unwrap();
+        assert!(preflight_summary.contains("blocker_class: \"publication-drift\""));
+        assert!(preflight_summary.contains("publish-extension-state.sh"));
+        assert!(preflight_summary.contains(REFRESH_PUBLICATION_PROJECTIONS_ACTION));
+        let recovery_summary = fs::read_to_string(fixture.octon_dir.join(
+            "state/evidence/runs/workflows/publication-preflight-blocks/program-recovery-actions/refresh-publication-projections/attempt-1/summary.yml",
+        ))
+        .unwrap();
+        assert!(
+            recovery_summary.contains("failed_command: \"validate-publication-freshness-gates\"")
+        );
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/publication-preflight-blocks"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "publication-freshness-preflight-blocked"));
+        assert!(!events
+            .iter()
+            .any(|event| event.event_type == "child-route-started"));
+    }
+
+    #[test]
+    fn stale_publication_freshness_blocks_when_recovery_budget_exhausted() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("publication-preflight-budget-exhausted", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_publication_recovery_action();
+        fixture.write_publication_recovery_scripts(true, false);
+        fixture.write_publication_freshness_validator(false);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let mut program_recovery_action_attempts = BTreeMap::new();
+        program_recovery_action_attempts.insert(
+            program_recovery_action_attempt_key(
+                "publication-drift",
+                REFRESH_PUBLICATION_PROJECTIONS_ACTION,
+            ),
+            1,
+        );
+        let checkpoint = checkpoint_from_plan(
+            "publication-preflight-budget-exhausted",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &[],
+            "planned",
+            None,
+            0,
+            BTreeMap::new(),
+            program_recovery_action_attempts,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        let checkpoint_path = fixture.octon_dir.join(
+            "state/control/execution/runs/publication-preflight-budget-exhausted/program-lifecycle-checkpoint.yml",
+        );
+        fs::create_dir_all(checkpoint_path.parent().unwrap()).unwrap();
+        fs::write(
+            &checkpoint_path,
+            serde_yaml::to_string(&checkpoint).unwrap(),
+        )
+        .unwrap();
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("publication-preflight-budget-exhausted".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "blocked-recoverable");
+        assert!(result.child_results.is_empty());
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/publication-preflight-budget-exhausted"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "publication-freshness-preflight-blocked"));
+        assert!(!events
+            .iter()
+            .any(|event| event.event_type == "child-route-started"));
+    }
+
+    #[test]
+    fn fresh_publication_freshness_allows_child_dispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("publication-preflight-fresh", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_publication_recovery_action();
+        fixture.write_publication_recovery_scripts(true, false);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("publication-preflight-fresh".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert!(result
+            .child_results
+            .iter()
+            .any(|summary| summary.route_id == "run-packet-implementation"));
+        let preflight_summary = fs::read_to_string(fixture.octon_dir.join(
+            "state/evidence/runs/workflows/publication-preflight-fresh/publication-freshness-preflight/summary.yml",
+        ))
+        .unwrap();
+        assert!(preflight_summary.contains("status: \"pass\""));
+    }
+
+    #[test]
     fn publication_drift_runs_parent_refresh_then_resumes_child_execution() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("publication-recovery-resume", true);
@@ -25341,7 +25688,7 @@ rationale: "prove overwrite guard"
         );
         let summary = fs::read_to_string(summary_path).unwrap();
         assert!(summary.contains("status: \"failed\""));
-        assert!(summary.contains("failed_command: \"generate-support-envelope-reconciliation\""));
+        assert!(summary.contains("failed_command: \"publish-extension-state\""));
         let events = read_program_events(
             &fixture
                 .octon_dir

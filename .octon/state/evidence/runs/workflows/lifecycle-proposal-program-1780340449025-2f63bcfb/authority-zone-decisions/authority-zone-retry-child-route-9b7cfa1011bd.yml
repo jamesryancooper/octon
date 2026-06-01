@@ -1,0 +1,29 @@
+schema_version: octon-authority-zone-decision-v1
+decision_id: authority-zone-retry-child-route-9b7cfa1011bd
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+child_id: proposal-program-runner-promotion-evidence-binding
+route_id: archive-proposal
+operation_class: retry-child-route
+authority_zone: workspace-declared
+artifact_class: workspace-source
+approval_posture: authority-ambiguity
+autonomous_allowed: false
+fail_closed_blocker: scope-expansion
+path_refs:
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+declared_write_scopes:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/orchestration/runtime/workflows/meta/promote-proposal/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+workspace_contained: true
+declared_scope_contained: true
+run_bound_current: false
+generated_non_authority: false
+write_scope_digest: sha256:49b8ebd30b0412b62e3a405533088e5486ae4504cf75f8332269ff2d1de3ca51
+evidence_requirement: authority-zone-decision
+basis:
+- path is a declared manifest-governed proposal packet lifecycle target
+- operation_class=retry-child-route
+- operation_allowed=true
+decided_at: 2026-06-01T19:05:33.658151Z

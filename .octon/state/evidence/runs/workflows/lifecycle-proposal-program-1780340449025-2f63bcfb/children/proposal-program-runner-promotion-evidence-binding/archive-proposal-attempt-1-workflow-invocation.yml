@@ -1,0 +1,37 @@
+schema_version: octon-lifecycle-workflow-leaf-invocation-v1
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding
+route_id: archive-proposal
+retry_attempt: 0
+attempt_ordinal: 1
+workflow_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow
+executable: /Users/jamesryancooper/Projects/octon/.octon/generated/.tmp/engine/build/runtime-crates-target/debug/octon
+argv:
+- workflow
+- run
+- archive-proposal
+- --run-id
+- lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow
+- --executor
+- auto
+- --set
+- disposition=implemented
+- --set
+- promotion_evidence=.octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs,.octon/framework/orchestration/runtime/workflows/meta/promote-proposal,.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+- --set
+- proposal_path=.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+- --set
+- target=.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+target: /Users/jamesryancooper/Projects/octon/.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+bound_inputs:
+  disposition: implemented
+  promotion_evidence: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs,.octon/framework/orchestration/runtime/workflows/meta/promote-proposal,.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml
+  proposal_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+  target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding
+invocation_authority: unattended
+human_boundary_context:
+  context_kind: program-child-route
+  program_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+  child_id: proposal-program-runner-promotion-evidence-binding
+  human_exception_instruction: record typed human exception grant for program child route proposal-program-runner-promotion-evidence-binding:archive-proposal
+  retry_instruction: octon lifecycle program retry --run-id lifecycle-proposal-program-1780340449025-2f63bcfb --child proposal-program-runner-promotion-evidence-binding
+started_at: 2026-06-01T19:05:33.75067Z

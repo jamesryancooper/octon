@@ -1,0 +1,34 @@
+schema_version: octon-authority-zone-decision-v1
+decision_id: authority-zone-cleanup-current-run-artifact-ad38284899cb
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+child_id: proposal-program-runner-publication-freshness-preflight
+route_id: review-packet
+operation_class: cleanup-current-run-artifact
+authority_zone: current-run-agent-artifact
+artifact_class: current-run-generated
+approval_posture: pre-granted
+autonomous_allowed: true
+fail_closed_blocker: artifact-ownership-unclear
+path_refs:
+- .octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb/locks/proposal-program-runner-publication-freshness-preflight.lock
+declared_write_scopes:
+- .octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb
+workspace_contained: true
+declared_scope_contained: true
+run_bound_current: true
+generated_non_authority: true
+write_scope_digest: sha256:f09d589420553d01faa4c2f1ed3c5ee1cbb5a63722c2c4eb72cb13900b34a9f0
+evidence_requirement: authority-zone-decision
+basis:
+- path is current-run lock/tmp/scratch artifact
+- operation_class=cleanup-current-run-artifact
+- operation_allowed=true
+forbidden_authority_consumers:
+- approval
+- child-receipt
+- child-validation
+- child-promotion
+- child-archive
+- terminal-truth
+- closeout-truth
+decided_at: 2026-06-01T19:54:35.490007Z

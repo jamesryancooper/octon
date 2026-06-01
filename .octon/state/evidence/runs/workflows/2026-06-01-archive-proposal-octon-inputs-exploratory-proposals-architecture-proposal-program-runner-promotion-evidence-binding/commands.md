@@ -1,0 +1,4 @@
+# Stage Commands
+
+- validate proposal before archive | proposal_path=.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding | validator_log=.octon/state/evidence/runs/workflows/2026-06-01-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-runner-promotion-evidence-binding/standard-validator.log
+- archive proposal | from=.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding | to=.octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-promotion-evidence-binding | disposition=implemented | promotion_evidence=.octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs, .octon/framework/orchestration/runtime/workflows/meta/promote-proposal, .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml

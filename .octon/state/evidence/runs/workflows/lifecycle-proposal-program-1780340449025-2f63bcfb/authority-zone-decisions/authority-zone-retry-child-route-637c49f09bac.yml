@@ -1,0 +1,30 @@
+schema_version: octon-authority-zone-decision-v1
+decision_id: authority-zone-retry-child-route-637c49f09bac
+run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+child_id: proposal-program-runner-publication-freshness-preflight
+route_id: review-packet
+operation_class: retry-child-route
+authority_zone: workspace-declared
+artifact_class: workspace-source
+approval_posture: authority-ambiguity
+autonomous_allowed: false
+fail_closed_blocker: scope-expansion
+path_refs:
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight
+declared_write_scopes:
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight
+workspace_contained: true
+declared_scope_contained: true
+run_bound_current: false
+generated_non_authority: false
+write_scope_digest: sha256:2b8e3fc60f186b00260237a544f2211ea84272c81c1960fd8c6b9d4541b6d1b1
+evidence_requirement: authority-zone-decision
+basis:
+- path is a declared manifest-governed proposal packet lifecycle target
+- operation_class=retry-child-route
+- operation_allowed=true
+decided_at: 2026-06-01T19:52:31.899097Z

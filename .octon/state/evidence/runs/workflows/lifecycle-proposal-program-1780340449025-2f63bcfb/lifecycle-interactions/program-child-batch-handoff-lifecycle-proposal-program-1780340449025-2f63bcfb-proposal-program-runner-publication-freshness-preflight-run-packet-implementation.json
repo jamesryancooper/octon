@@ -1,0 +1,105 @@
+{
+  "authority_boundary": {
+    "forbidden_transfer": [
+      "git-ref-mutation",
+      "hosted-provider-authorization",
+      "branch-cleanup-authorization",
+      "worktree-cleanup-authorization",
+      "repo-hygiene-deletion",
+      "archive-authorization",
+      "promotion-authorization",
+      "scope-expansion"
+    ]
+  },
+  "created_at": "2026-06-01T19:52:00.383182Z",
+  "evidence_offered": [
+    {
+      "acceptance_class": "advisory-context",
+      "digest": "sha256:e5a16a9d15db541f6ddc65a6b4c2e94c33831958de6e8f613e6392de64e95029",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/lifecycle-interactions/program-child-batch-handoff-lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-publication-freshness-preflight-run-packet-implementation-basis.yml"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:5f8b0fce17656e5611a09474475dc2773cc1b8a3a0230d7731feea011c69197c",
+      "ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-publication-freshness-preflight/authorization/run-packet-implementation-delegation-proof.yml"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:1da418a4475c7a7af630e5e71017f0bebde9ce87fe1075784535ed9862d82670",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-prompt.md"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-stdout.log"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:3e375bbd39794b74fc2de95b06d4d8a917643ce882a32991b778f4abec67117a",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-stderr.log"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:b17fee8b5112411d72e0f72c076bfeda0ef3622180f0b51fb4ab0df0a6abedb5",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-executor-start.yml"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:80fe13dcd06c568dcd197752ced45d6a798db9e878a7c340f9eb1b12bdacce12",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-executor-observation.yml"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:0341ea475cddcc4f67fb563474365a2b658eadcf1b88bf5efbf074928e048886",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-executor-terminal.yml"
+    },
+    {
+      "acceptance_class": "validation-evidence",
+      "digest": "sha256:09ee55b5a47ac27bc8817ed86176cd757cc32261b79ad9ac1a5561a9d9d8fff2",
+      "ref": ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/children/proposal-program-runner-publication-freshness-preflight/run-packet-implementation-completion-observation.yml"
+    }
+  ],
+  "expected_return_evidence": [
+    "change-receipt-v1"
+  ],
+  "interaction_id": "program-child-batch-handoff-lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-publication-freshness-preflight-run-packet-implementation",
+  "request": {
+    "interaction_kind": "follow_on_work_required",
+    "interaction_profile": "program-child-batch-handoff",
+    "requested_atomic_unit_type": "change",
+    "requested_capability": "change-closeout",
+    "requested_lifecycle_id": "change-closeout",
+    "requested_route_surface": "closeout-change",
+    "requested_target_outcome": "cleaned"
+  },
+  "schema_version": "lifecycle-interaction-request-v1",
+  "scope": {
+    "boundary_digest": "sha256:b3cbb223fbb1735167e81be05ab68c897ca8ff29d85094cacef5fbd4343c0fac",
+    "exclude_paths": [
+      ".git",
+      ".octon/generated",
+      ".octon/state/control",
+      ".octon/state/evidence"
+    ],
+    "include_paths": [
+      ".octon/framework/assurance/runtime/_ops/scripts/",
+      ".octon/framework/assurance/runtime/_ops/tests/",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight"
+    ]
+  },
+  "source": {
+    "atomic_unit_type": "proposal-program",
+    "lifecycle_id": "proposal-program",
+    "phase_id": "child-batch-dispatch",
+    "run_id": "lifecycle-proposal-program-1780340449025-2f63bcfb",
+    "target_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening"
+  },
+  "stop_conditions": [
+    "target-gate-missing",
+    "boundary-digest-mismatch",
+    "authority-transfer-attempt",
+    "returned-evidence-missing"
+  ]
+}

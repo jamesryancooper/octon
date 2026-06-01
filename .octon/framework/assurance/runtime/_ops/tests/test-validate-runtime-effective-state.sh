@@ -57,11 +57,9 @@ case_raw_input_dependency_violation_fails() {
   CLEANUP_DIRS+=("$fixture_root")
   prepare_fixture "$fixture_root"
 
-  mkdir -p "$fixture_root/.octon/framework/engine/runtime"
-  cat >"$fixture_root/.octon/framework/engine/runtime/raw-input-leak.md" <<'EOF'
-# invalid
-
-Reads from .octon/inputs/additive/extensions/demo/pack.yml at runtime.
+  mkdir -p "$fixture_root/.octon/framework/engine/runtime/crates/core/src"
+  cat >"$fixture_root/.octon/framework/engine/runtime/crates/core/src/raw_input_leak.rs" <<'EOF'
+const RUNTIME_SOURCE: &str = ".octon/inputs/exploratory/plans/demo.md";
 EOF
 
   ! run_validator "$fixture_root"

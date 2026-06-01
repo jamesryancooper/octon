@@ -81,7 +81,7 @@ children:
       - ".octon/framework/engine/runtime/spec/"
       - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
   - child_id: "proposal-program-runner-promotion-evidence-binding"
-    path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding"
+    path: ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-promotion-evidence-binding"
     required: true
     deferred: false
     dependencies: ["proposal-program-runner-terminal-gap-map"]

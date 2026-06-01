@@ -1,0 +1,11 @@
+schema_version: octon-program-lifecycle-interaction-basis-v1
+program_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+child_id: proposal-program-runner-publication-freshness-preflight
+child_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-publication-freshness-preflight
+source_lifecycle_id: proposal-program
+child_lifecycle_id: proposal-packet
+route_id: run-packet-implementation
+route_status: completed
+non_authorizing: true
+boundary_digest: sha256:b3cbb223fbb1735167e81be05ab68c897ca8ff29d85094cacef5fbd4343c0fac
+recorded_at: 2026-06-01T19:52:00.112118Z

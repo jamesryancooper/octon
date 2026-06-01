@@ -1,11 +1,11 @@
 # Proposal Review Receipt
 
-review_id: proposal-program-runner-publication-freshness-preflight-review-20260601T020727Z
-reviewed_at: 2026-06-01T02:07:27Z
+review_id: proposal-program-runner-publication-freshness-preflight-review-20260601T195413Z
+reviewed_at: 2026-06-01T19:54:13Z
 reviewer: codex-orchestrator-proposal-review
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:36ca4ad938af3f9d700aae3b4bb091cdc090a3dcd399f514dd49c4d2b5ec2a74
+reviewed_packet_digest: sha256:46d51212274efbc3c58c84f4a2be5b11b97b4ad128b965228ef0e5bb7d4d149a
 open_blocking_findings_count: 0
 
 ## Review Basis
@@ -13,6 +13,7 @@ open_blocking_findings_count: 0
 - reviewed packet: `.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight`
 - status after review: `accepted`
 - implementation-grade completeness review: pass
+- review-gate refresh: stale recorded digest corrected to current reviewed packet digest
 - review boundary: proposal-local evidence only; this does not implement, promote, close out, archive, or mutate generated state
 
 ## Approved Promotion Targets

@@ -1,0 +1,37 @@
+{
+  "touched_scope": [
+    ".octon/state/evidence/runs/workflows/2026-06-01-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-runner-promotion-evidence-binding/standard-validator.log"
+  ],
+  "shell_commands": [],
+  "network_targets": [],
+  "publications": [],
+  "branch_mutations": [],
+  "executor_profile": "read_only_analysis",
+  "dangerous_flags_blocked": [],
+  "authorized_effects": [
+    {
+      "token_id": "effect-token-evidence-mutation-47e9bf3fec13",
+      "token_type": "AuthorizedEffect<EvidenceMutation>",
+      "effect_kind": "evidence-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-01-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-runner-promotion-evidence-binding/stages/validate-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/effect-tokens/effect-token-evidence-mutation-47e9bf3fec13.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/receipts/effect-tokens/effect-token-evidence-mutation-47e9bf3fec13/consumption-8b7e561a9fc4.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-evidence-mutation-47e9bf3fec13",
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/events.ndjson#evt-effect-token-consumed-effect-token-evidence-mutation-47e9bf3fec13"
+      ]
+    },
+    {
+      "token_id": "effect-token-state-control-mutation-97205d02f548",
+      "token_type": "AuthorizedEffect<StateControlMutation>",
+      "effect_kind": "state-control-mutation",
+      "scope_ref": "/Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/2026-06-01-archive-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-runner-promotion-evidence-binding/stages/validate-proposal",
+      "token_record_ref": ".octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/effect-tokens/effect-token-state-control-mutation-97205d02f548.json",
+      "consumption_receipt_ref": ".octon/state/evidence/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/receipts/effect-tokens/effect-token-state-control-mutation-97205d02f548/consumption-1138134e4074.json",
+      "journal_event_refs": [
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/events.ndjson#evt-effect-token-consumption-requested-effect-token-state-control-mutation-97205d02f548",
+        ".octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb-proposal-program-runner-promotion-evidence-binding-attempt-1-workflow-validate-proposal/events.ndjson#evt-effect-token-consumed-effect-token-state-control-mutation-97205d02f548"
+      ]
+    }
+  ]
+}

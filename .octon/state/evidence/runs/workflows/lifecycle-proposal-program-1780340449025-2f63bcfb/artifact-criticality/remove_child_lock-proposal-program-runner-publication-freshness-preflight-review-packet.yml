@@ -1,0 +1,36 @@
+schema_version: octon-program-artifact-criticality-decision-v1
+program_run_id: lifecycle-proposal-program-1780340449025-2f63bcfb
+classification_policy_version: octon-program-artifact-criticality-policy-v2
+operation_id: remove_child_lock-proposal-program-runner-publication-freshness-preflight-review-packet
+child_id: proposal-program-runner-publication-freshness-preflight
+route_id: review-packet
+operation: remove_child_lock
+destructive_operation: remove_file
+artifact_paths:
+- /Users/jamesryancooper/Projects/octon/.octon/state/control/execution/runs/lifecycle-proposal-program-1780340449025-2f63bcfb/locks/proposal-program-runner-publication-freshness-preflight.lock
+classification_inputs:
+- path_matches_child_lock=true
+- under_current_run_lock_root=true
+- under_current_run_generated_root=false
+- workspace_contained=true
+- declared_scope_contained=true
+- authority_surface=current-run-control-lock
+- operation_supported=true
+artifact_owner: current-run
+authority_surface: current-run-control-lock
+authority_zone: current-run-agent-artifact
+artifact_class: current-run-generated
+authority_zone_decision: /Users/jamesryancooper/Projects/octon/.octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780340449025-2f63bcfb/authority-zone-decisions/authority-zone-cleanup-current-run-artifact-ad38284899cb.yml
+criticality: non-critical
+ownership: current-run-child-lock
+workspace_contained: true
+declared_scope_contained: true
+human_input_required: false
+autonomous_allowed: true
+rationale: lock is a current-run coordination artifact, is named for the selected child, and is safe to remove after route completion or abandoned job construction
+command_or_operation: fs::remove_file
+before_validation: exists=true; is_file=true; is_dir=false; under_current_run_lock_root=true; under_current_run_generated_root=false; path_matches_child_lock=true; authority_surface=current-run-control-lock; operation_supported=true
+after_validation: lock artifact absent after autonomous cleanup
+operation_supported: true
+mutation_performed: true
+mutation_status: completed
