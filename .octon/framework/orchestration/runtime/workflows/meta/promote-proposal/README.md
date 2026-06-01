@@ -1,6 +1,6 @@
 ---
 name: "promote-proposal"
-description: "Promote an accepted proposal to implemented status after proving that its durable targets exist, are proposal-independent, and the committed proposal registry rebuilds cleanly."
+description: "Promote an accepted proposal to implemented status after proving that its durable targets and child-bound promotion evidence exist, are proposal-independent, and the committed proposal registry rebuilds cleanly."
 steps:
   - id: "validate-proposal"
     file: "stages/01-validate-proposal.md"
@@ -25,7 +25,7 @@ _Generated README from canonical workflow `promote-proposal`._
 
 ## Purpose
 
-Promote an accepted proposal to implemented status after proving that its durable targets exist, are proposal-independent, and the committed proposal registry rebuilds cleanly.
+Promote an accepted proposal to implemented status after proving that its durable targets and child-bound promotion evidence exist, are proposal-independent, and the committed proposal registry rebuilds cleanly.
 
 ## Target
 
@@ -39,7 +39,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 ## Parameters
 
 - `proposal_path` (folder, required=true): Root active proposal directory to promote
-- `promotion_evidence` (text, required=true): Comma-separated repo-relative paths that prove the durable promotion landed
+- `promotion_evidence` (text, required=true): Comma-separated repo-relative paths that prove the durable promotion landed; program child invocations must supply selected-child-bound, existing, durable-target evidence after implementation-run, conformance, and drift/churn receipts pass.
 
 ## Failure Conditions
 
@@ -67,6 +67,7 @@ This README summarizes the canonical workflow unit at `.octon/framework/orchestr
 - [ ] the source proposal has a fresh accepted proposal-review receipt authorizing implementation
 - [ ] the source proposal starts from the active path with `status: accepted`
 - [ ] every promotion target exists and contains no proposal-path backreferences
+- [ ] promotion_evidence paths are repo-relative, existing, durable-target-bound, proposal-independent, and not parent-owned or wrong-child evidence
 - [ ] `support/implementation-conformance-review.md` passes after durable promotion
 - [ ] `support/post-implementation-drift-churn-review.md` passes after conformance
 - [ ] `proposal.yml` is rewritten to `status: implemented`

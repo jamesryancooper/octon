@@ -24,4 +24,9 @@ description: Confirm that the proposal is structurally valid and eligible for pr
    `support/implementation-conformance-review.md` and
    `support/post-implementation-drift-churn-review.md`; do not claim
    implemented closeout until their validators pass after durable changes land.
-10. Persist the validator transcript as `standard-validator.log`.
+10. When invoked from a proposal program child route, fail closed unless
+    `promotion_evidence` was bound by the program runner to the selected child,
+    not the parent target, and the child-owned implementation-run,
+    implementation-conformance, and post-implementation-drift receipts are
+    complete and passing.
+11. Persist the validator transcript as `standard-validator.log`.

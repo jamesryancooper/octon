@@ -646,6 +646,52 @@ struct ProgramDelegatedPromotionReceipt {
     recorded_at: String,
 }
 
+#[derive(Clone, Debug)]
+struct ChildPromotionEvidenceBinding {
+    run_inputs: BTreeMap<String, String>,
+    normalized_evidence: String,
+    normalized_paths: Vec<String>,
+    observed_receipt_digests: BTreeMap<String, String>,
+}
+
+#[derive(Clone, Debug)]
+enum ChildPromotionEvidencePreflight {
+    Bound(ChildPromotionEvidenceBinding),
+    Blocked(ProgramChildExecutionSummary),
+}
+
+#[derive(Clone, Debug)]
+struct PromotionEvidenceBindingFailure {
+    blocker_class: String,
+    message: String,
+    rejected_paths: Vec<String>,
+    normalized_paths: Vec<String>,
+    observed_receipt_digests: BTreeMap<String, String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ChildPromotionEvidenceBlockerEvidence {
+    schema_version: String,
+    program_run_id: String,
+    child_id: String,
+    child_target: String,
+    parent_target: String,
+    route_id: String,
+    blocker_class: String,
+    message: String,
+    rejected_paths: Vec<String>,
+    normalized_paths: Vec<String>,
+    required_receipt_digests: BTreeMap<String, String>,
+    observed_receipt_digests: BTreeMap<String, String>,
+    registry_digest: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    write_scope_digest: Option<String>,
+    authority_zone_decision_ref: String,
+    authority_boundary: String,
+    recorded_at: String,
+}
+
 #[derive(Clone, Debug, Default)]
 struct ProgramRecoveryRecipeValidationEvidence {
     status: Option<String>,
@@ -7601,22 +7647,6 @@ fn child_route_delegation_contract_basis(
     })
 }
 
-fn child_route_run_inputs(
-    run_inputs: &BTreeMap<String, String>,
-    state: &ProgramChildPlanState,
-    route_id: &str,
-) -> BTreeMap<String, String> {
-    let mut route_run_inputs = run_inputs.clone();
-    if route_id == ROUTE_ID_PROMOTE_PROPOSAL
-        && !route_run_inputs.contains_key(INPUT_PROMOTION_EVIDENCE)
-    {
-        if let Some(promotion_evidence) = child_promotion_evidence_from_write_scopes(state) {
-            route_run_inputs.insert(INPUT_PROMOTION_EVIDENCE.to_string(), promotion_evidence);
-        }
-    }
-    route_run_inputs
-}
-
 fn child_promotion_evidence_from_write_scopes(state: &ProgramChildPlanState) -> Option<String> {
     let target = state.target.trim_end_matches('/');
     let target_prefix = format!("{target}/");
@@ -7629,6 +7659,475 @@ fn child_promotion_evidence_from_write_scopes(state: &ProgramChildPlanState) -> 
         evidence.insert(scope.to_string());
     }
     (!evidence.is_empty()).then(|| evidence.into_iter().collect::<Vec<_>>().join(","))
+}
+
+fn child_promotion_evidence_preflight(
+    octon_dir: &Path,
+    repo_root: &Path,
+    program_run_id: &str,
+    parent_target: &str,
+    run_inputs: &BTreeMap<String, String>,
+    state: &ProgramChildPlanState,
+    child_evidence_root: &Path,
+    route_id: &str,
+    registry_digest: &str,
+    write_scope_digest: Option<&str>,
+    authority_decision_path: &str,
+) -> Result<ChildPromotionEvidencePreflight> {
+    let required_receipt_digests = child_promotion_required_receipt_digests(state);
+    let raw_evidence = run_inputs
+        .get(INPUT_PROMOTION_EVIDENCE)
+        .cloned()
+        .or_else(|| child_promotion_evidence_from_write_scopes(state));
+    let Some(raw_evidence) = raw_evidence else {
+        let failure = PromotionEvidenceBindingFailure {
+            blocker_class: "missing-promotion-evidence".to_string(),
+            message: "child promote-proposal requires selected-child-bound promotion_evidence"
+                .to_string(),
+            rejected_paths: Vec::new(),
+            normalized_paths: Vec::new(),
+            observed_receipt_digests: BTreeMap::new(),
+        };
+        return Ok(ChildPromotionEvidencePreflight::Blocked(
+            write_child_promotion_evidence_blocker(
+                repo_root,
+                program_run_id,
+                parent_target,
+                state,
+                child_evidence_root,
+                route_id,
+                registry_digest,
+                write_scope_digest,
+                authority_decision_path,
+                &required_receipt_digests,
+                failure,
+            )?,
+        ));
+    };
+
+    let normalized_paths = match normalize_child_promotion_evidence_paths(&raw_evidence) {
+        Ok(paths) => paths,
+        Err(failure) => {
+            return Ok(ChildPromotionEvidencePreflight::Blocked(
+                write_child_promotion_evidence_blocker(
+                    repo_root,
+                    program_run_id,
+                    parent_target,
+                    state,
+                    child_evidence_root,
+                    route_id,
+                    registry_digest,
+                    write_scope_digest,
+                    authority_decision_path,
+                    &required_receipt_digests,
+                    failure,
+                )?,
+            ));
+        }
+    };
+
+    if let Err(failure) =
+        validate_child_promotion_evidence_paths(repo_root, parent_target, state, &normalized_paths)
+    {
+        return Ok(ChildPromotionEvidencePreflight::Blocked(
+            write_child_promotion_evidence_blocker(
+                repo_root,
+                program_run_id,
+                parent_target,
+                state,
+                child_evidence_root,
+                route_id,
+                registry_digest,
+                write_scope_digest,
+                authority_decision_path,
+                &required_receipt_digests,
+                failure,
+            )?,
+        ));
+    }
+
+    let observed_receipt_digests =
+        match validate_child_promotion_receipts(octon_dir, repo_root, state, &normalized_paths)? {
+            Ok(digests) => digests,
+            Err(failure) => {
+                return Ok(ChildPromotionEvidencePreflight::Blocked(
+                    write_child_promotion_evidence_blocker(
+                        repo_root,
+                        program_run_id,
+                        parent_target,
+                        state,
+                        child_evidence_root,
+                        route_id,
+                        registry_digest,
+                        write_scope_digest,
+                        authority_decision_path,
+                        &required_receipt_digests,
+                        failure,
+                    )?,
+                ));
+            }
+        };
+
+    let normalized_evidence = normalized_paths.join(",");
+    let mut route_run_inputs = run_inputs.clone();
+    route_run_inputs.insert(
+        INPUT_PROMOTION_EVIDENCE.to_string(),
+        normalized_evidence.clone(),
+    );
+    Ok(ChildPromotionEvidencePreflight::Bound(
+        ChildPromotionEvidenceBinding {
+            run_inputs: route_run_inputs,
+            normalized_evidence,
+            normalized_paths,
+            observed_receipt_digests,
+        },
+    ))
+}
+
+fn normalize_child_promotion_evidence_paths(
+    raw_evidence: &str,
+) -> std::result::Result<Vec<String>, PromotionEvidenceBindingFailure> {
+    let mut paths = Vec::new();
+    let mut seen = BTreeSet::new();
+    for raw in raw_evidence.split(',') {
+        let normalized = raw.trim().trim_end_matches('/').to_string();
+        if normalized.is_empty() {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "missing-promotion-evidence".to_string(),
+                message: "promotion_evidence contains an empty path entry".to_string(),
+                rejected_paths: vec![raw.to_string()],
+                normalized_paths: paths,
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        if normalized.contains('\\') || !is_safe_repo_relative(&normalized) {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "wrong-child-promotion-evidence".to_string(),
+                message: format!(
+                    "promotion_evidence path must be repo-relative without traversal: {normalized}"
+                ),
+                rejected_paths: vec![normalized],
+                normalized_paths: paths,
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        if !seen.insert(normalized.clone()) {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "ambiguous-promotion-evidence".to_string(),
+                message: format!("promotion_evidence repeats path: {normalized}"),
+                rejected_paths: vec![normalized],
+                normalized_paths: paths,
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        paths.push(normalized);
+    }
+    if paths.is_empty() {
+        return Err(PromotionEvidenceBindingFailure {
+            blocker_class: "missing-promotion-evidence".to_string(),
+            message: "promotion_evidence is empty".to_string(),
+            rejected_paths: Vec::new(),
+            normalized_paths: Vec::new(),
+            observed_receipt_digests: BTreeMap::new(),
+        });
+    }
+    Ok(paths)
+}
+
+fn validate_child_promotion_evidence_paths(
+    repo_root: &Path,
+    parent_target: &str,
+    state: &ProgramChildPlanState,
+    paths: &[String],
+) -> std::result::Result<(), PromotionEvidenceBindingFailure> {
+    let child_target = state.target.trim_end_matches('/');
+    let child_target_prefix = format!("{child_target}/");
+    let parent_target = parent_target.trim_end_matches('/');
+    let parent_target_prefix = format!("{parent_target}/");
+    let allowed_scopes = state
+        .write_scopes
+        .iter()
+        .map(|scope| scope.trim().trim_end_matches('/').to_string())
+        .filter(|scope| {
+            !scope.is_empty() && scope != child_target && !scope.starts_with(&child_target_prefix)
+        })
+        .collect::<Vec<_>>();
+    if allowed_scopes.is_empty() {
+        return Err(PromotionEvidenceBindingFailure {
+            blocker_class: "missing-promotion-evidence".to_string(),
+            message:
+                "selected child has no durable non-proposal write scope for promotion evidence"
+                    .to_string(),
+            rejected_paths: paths.to_vec(),
+            normalized_paths: paths.to_vec(),
+            observed_receipt_digests: BTreeMap::new(),
+        });
+    }
+
+    for path in paths {
+        if path == parent_target || path.starts_with(&parent_target_prefix) {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "parent-owned-promotion-evidence".to_string(),
+                message: format!(
+                    "promotion_evidence path belongs to the parent program target: {path}"
+                ),
+                rejected_paths: vec![path.clone()],
+                normalized_paths: paths.to_vec(),
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        if path == child_target || path.starts_with(&child_target_prefix) {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "wrong-child-promotion-evidence".to_string(),
+                message: format!(
+                    "promotion_evidence path is proposal-local to the selected child, not durable evidence: {path}"
+                ),
+                rejected_paths: vec![path.clone()],
+                normalized_paths: paths.to_vec(),
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        if path == ".octon/generated" || path.starts_with(".octon/generated/") {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "wrong-child-promotion-evidence".to_string(),
+                message: format!(
+                    "promotion_evidence path is generated-only and cannot be authority: {path}"
+                ),
+                rejected_paths: vec![path.clone()],
+                normalized_paths: paths.to_vec(),
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        let evidence_abs = match resolve_lifecycle_target_path(repo_root, Path::new(path)) {
+            Ok(path) => path,
+            Err(error) => {
+                return Err(PromotionEvidenceBindingFailure {
+                    blocker_class: "wrong-child-promotion-evidence".to_string(),
+                    message: format!("promotion_evidence path is not safely resolvable: {error}"),
+                    rejected_paths: vec![path.clone()],
+                    normalized_paths: paths.to_vec(),
+                    observed_receipt_digests: BTreeMap::new(),
+                });
+            }
+        };
+        if !evidence_abs.exists() {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "missing-promotion-evidence".to_string(),
+                message: format!("promotion_evidence path does not exist: {path}"),
+                rejected_paths: vec![path.clone()],
+                normalized_paths: paths.to_vec(),
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+        if !allowed_scopes
+            .iter()
+            .any(|scope| promotion_scope_allows_path(repo_root, scope, path))
+        {
+            return Err(PromotionEvidenceBindingFailure {
+                blocker_class: "wrong-child-promotion-evidence".to_string(),
+                message: format!(
+                    "promotion_evidence path is outside selected child durable write scopes: {path}"
+                ),
+                rejected_paths: vec![path.clone()],
+                normalized_paths: paths.to_vec(),
+                observed_receipt_digests: BTreeMap::new(),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn promotion_scope_allows_path(repo_root: &Path, scope: &str, path: &str) -> bool {
+    if path == scope {
+        return true;
+    }
+    let scope_abs = repo_root.join(scope);
+    if scope_abs.is_file() {
+        return false;
+    }
+    path.starts_with(&format!("{scope}/"))
+}
+
+fn validate_child_promotion_receipts(
+    octon_dir: &Path,
+    repo_root: &Path,
+    state: &ProgramChildPlanState,
+    normalized_paths: &[String],
+) -> Result<std::result::Result<BTreeMap<String, String>, PromotionEvidenceBindingFailure>> {
+    let live_plan = plan_lifecycle_from_octon_dir(
+        octon_dir,
+        &state.child_lifecycle_id,
+        Path::new(&state.target),
+    )?;
+    let child_contract = load_lifecycle_contract(octon_dir, &state.child_lifecycle_id)?;
+    let receipt_paths = child_contract
+        .contract
+        .receipts
+        .iter()
+        .map(|receipt| (receipt.receipt_id.as_str(), receipt.path.as_str()))
+        .collect::<BTreeMap<_, _>>();
+    let child_target_abs = resolve_lifecycle_target_path(repo_root, Path::new(&state.target))?;
+    let required_receipts = [
+        RECEIPT_ID_IMPLEMENTATION_RUN,
+        RECEIPT_ID_IMPLEMENTATION_CONFORMANCE,
+        RECEIPT_ID_POST_IMPLEMENTATION_DRIFT,
+    ];
+    let mut observed = BTreeMap::new();
+    for receipt_id in required_receipts {
+        let Some(receipt) = live_plan.receipt_states.get(receipt_id) else {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "missing-promotion-evidence".to_string(),
+                message: format!("child promotion requires receipt {receipt_id}"),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        };
+        if !receipt.exists {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "missing-promotion-evidence".to_string(),
+                message: format!("child promotion receipt is missing: {receipt_id}"),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        }
+        if !receipt.missing_required_fields.is_empty() {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "missing-promotion-evidence".to_string(),
+                message: format!(
+                    "child promotion receipt {receipt_id} missing required fields: {}",
+                    receipt.missing_required_fields.join(",")
+                ),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        }
+        if receipt.stale == Some(true) {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "stale-promotion-evidence".to_string(),
+                message: format!("child promotion receipt is stale: {receipt_id}"),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        }
+        if receipt.verdict.as_deref() != Some("pass") {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "stale-promotion-evidence".to_string(),
+                message: format!(
+                    "child promotion receipt {receipt_id} does not record verdict pass"
+                ),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        }
+        let receipt_local_path = receipt_paths
+            .get(receipt_id)
+            .copied()
+            .unwrap_or(receipt.path.as_str());
+        let receipt_path = resolve_target_local_path(
+            &child_target_abs,
+            receipt_local_path,
+            "child promotion receipt",
+        )?;
+        if !receipt_path.starts_with(&child_target_abs) {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "wrong-child-promotion-evidence".to_string(),
+                message: format!("child promotion receipt {receipt_id} is not child-owned"),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        }
+        if !receipt_path.is_file() {
+            return Ok(Err(PromotionEvidenceBindingFailure {
+                blocker_class: "missing-promotion-evidence".to_string(),
+                message: format!("child promotion receipt file is missing: {receipt_id}"),
+                rejected_paths: Vec::new(),
+                normalized_paths: normalized_paths.to_vec(),
+                observed_receipt_digests: observed,
+            }));
+        }
+        let observed_digest = receipt
+            .current_digest
+            .as_ref()
+            .or(receipt.stored_digest.as_ref())
+            .cloned()
+            .unwrap_or(file_digest(&receipt_path)?);
+        observed.insert(receipt_id.to_string(), observed_digest.clone());
+        if let Some(expected_digest) = state.receipt_digests.get(receipt_id) {
+            if expected_digest != &observed_digest {
+                return Ok(Err(PromotionEvidenceBindingFailure {
+                    blocker_class: "stale-promotion-evidence".to_string(),
+                    message: format!(
+                        "child promotion receipt {receipt_id} digest drifted from {expected_digest} to {observed_digest}"
+                    ),
+                    rejected_paths: Vec::new(),
+                    normalized_paths: normalized_paths.to_vec(),
+                    observed_receipt_digests: observed,
+                }));
+            }
+        }
+    }
+    Ok(Ok(observed))
+}
+
+fn write_child_promotion_evidence_blocker(
+    repo_root: &Path,
+    program_run_id: &str,
+    parent_target: &str,
+    state: &ProgramChildPlanState,
+    child_evidence_root: &Path,
+    route_id: &str,
+    registry_digest: &str,
+    write_scope_digest: Option<&str>,
+    authority_decision_path: &str,
+    required_receipt_digests: &BTreeMap<String, String>,
+    failure: PromotionEvidenceBindingFailure,
+) -> Result<ProgramChildExecutionSummary> {
+    fs::create_dir_all(child_evidence_root)?;
+    let evidence_path = child_evidence_root.join("promotion-evidence-binding-blocker.yml");
+    let evidence = ChildPromotionEvidenceBlockerEvidence {
+        schema_version: "octon-program-child-promotion-evidence-blocker-v1".to_string(),
+        program_run_id: program_run_id.to_string(),
+        child_id: state.child_id.clone(),
+        child_target: state.target.clone(),
+        parent_target: parent_target.to_string(),
+        route_id: route_id.to_string(),
+        blocker_class: failure.blocker_class.clone(),
+        message: failure.message.clone(),
+        rejected_paths: failure.rejected_paths,
+        normalized_paths: failure.normalized_paths,
+        required_receipt_digests: required_receipt_digests.clone(),
+        observed_receipt_digests: failure.observed_receipt_digests,
+        registry_digest: registry_digest.to_string(),
+        write_scope_digest: write_scope_digest.map(str::to_string),
+        authority_zone_decision_ref: authority_decision_path.to_string(),
+        authority_boundary:
+            "promotion_evidence must be selected-child-bound before workflow dispatch".to_string(),
+        recorded_at: now_rfc3339()?,
+    };
+    fs::write(&evidence_path, serde_yaml::to_string(&evidence)?)?;
+    let evidence_ref = rel_display(repo_root, &evidence_path);
+    Ok(ProgramChildExecutionSummary {
+        child_id: state.child_id.clone(),
+        child_run_id: format!(
+            "{program_run_id}-{}-promotion-evidence-preflight",
+            state.child_id
+        ),
+        route_id: route_id.to_string(),
+        status: "human-boundary-blocked".to_string(),
+        attempts: 0,
+        retryable: false,
+        blocker_class: Some(failure.blocker_class),
+        error_message: Some(failure.message),
+        error_class: Some("input-binding".to_string()),
+        evidence_paths: vec![evidence_ref],
+        worktree_hygiene_foreign_fingerprint: None,
+    })
 }
 
 fn lifecycle_route_delegation_contract_basis_for_child(
@@ -9129,6 +9628,65 @@ fn build_child_execution_jobs(
             );
             let authority_decision_path =
                 write_authority_zone_decision(evidence_root, &authority_decision)?;
+            let mut child_run_inputs = run_inputs.clone();
+            if route.route_id == ROUTE_ID_PROMOTE_PROPOSAL {
+                match child_promotion_evidence_preflight(
+                    octon_dir,
+                    repo_root,
+                    program_run_id,
+                    &plan.target,
+                    run_inputs,
+                    state,
+                    &child_evidence_root,
+                    &route.route_id,
+                    &plan.child_registry_digest,
+                    authority_decision.write_scope_digest.as_deref(),
+                    &authority_decision_path,
+                )? {
+                    ChildPromotionEvidencePreflight::Bound(binding) => {
+                        let promotion_evidence_count = binding.normalized_paths.len().to_string();
+                        let observed_receipt_digests =
+                            serde_json::to_string(&binding.observed_receipt_digests)?;
+                        append_program_event(
+                            control_root,
+                            evidence_root,
+                            program_run_id,
+                            "child-promotion-evidence-bound",
+                            Some(child_id),
+                            Some(&route.route_id),
+                            "child promotion evidence bound to selected child before workflow dispatch",
+                            event_data([
+                                ("promotion_evidence", binding.normalized_evidence.as_str()),
+                                ("promotion_evidence_count", promotion_evidence_count.as_str()),
+                                ("authority_decision", authority_decision_path.as_str()),
+                                ("observed_receipt_digests", observed_receipt_digests.as_str()),
+                            ]),
+                        )?;
+                        child_run_inputs = binding.run_inputs;
+                    }
+                    ChildPromotionEvidencePreflight::Blocked(summary) => {
+                        let blocker_class = summary.blocker_class.clone().unwrap_or_default();
+                        let evidence_ref =
+                            summary.evidence_paths.first().cloned().unwrap_or_default();
+                        append_program_event(
+                            control_root,
+                            evidence_root,
+                            program_run_id,
+                            "child-promotion-evidence-blocked",
+                            Some(child_id),
+                            Some(&route.route_id),
+                            "child promotion evidence failed selected-child binding before workflow dispatch",
+                            event_data([
+                                ("blocker_class", blocker_class.as_str()),
+                                ("evidence_path", evidence_ref.as_str()),
+                                ("authority_decision", authority_decision_path.as_str()),
+                            ]),
+                        )?;
+                        preflight_summaries.push(summary);
+                        continue;
+                    }
+                }
+            }
             let route_contract_allows_unapproved_workspace =
                 route.route_type != "workflow" && blocker_class.is_none();
             let authority_dispatch_allowed = invocation_authority == "grant-consumption"
@@ -9273,7 +9831,6 @@ fn build_child_execution_jobs(
                     )?;
                 }
             }
-            let child_run_inputs = child_route_run_inputs(run_inputs, state, &route.route_id);
             let request = lifecycle_execution_request_for_route(
                 octon_dir,
                 &child_run_id,
@@ -15865,7 +16422,7 @@ mod tests {
     }
 
     #[test]
-    fn child_promotion_run_inputs_use_non_proposal_write_scopes() {
+    fn child_promotion_evidence_uses_non_proposal_write_scopes() {
         let mut state = child_state("a", Vec::new());
         state.write_scopes = vec![
             "children/a".to_string(),
@@ -15873,30 +16430,17 @@ mod tests {
             "framework/spec/".to_string(),
         ];
 
-        let inputs = child_route_run_inputs(&BTreeMap::new(), &state, ROUTE_ID_PROMOTE_PROPOSAL);
-
         assert_eq!(
-            inputs.get(INPUT_PROMOTION_EVIDENCE).map(String::as_str),
+            child_promotion_evidence_from_write_scopes(&state).as_deref(),
             Some("framework/a.md,framework/spec")
         );
     }
 
     #[test]
-    fn child_promotion_run_inputs_preserve_explicit_promotion_evidence() {
-        let mut state = child_state("a", Vec::new());
-        state.write_scopes = vec!["children/a".to_string(), "framework/a.md".to_string()];
-        let mut run_inputs = BTreeMap::new();
-        run_inputs.insert(
-            INPUT_PROMOTION_EVIDENCE.to_string(),
-            "operator/evidence.md".to_string(),
-        );
+    fn child_promotion_evidence_normalizes_explicit_inputs() {
+        let paths = normalize_child_promotion_evidence_paths(" framework/a.md/ ").unwrap();
 
-        let inputs = child_route_run_inputs(&run_inputs, &state, ROUTE_ID_PROMOTE_PROPOSAL);
-
-        assert_eq!(
-            inputs.get(INPUT_PROMOTION_EVIDENCE).map(String::as_str),
-            Some("operator/evidence.md")
-        );
+        assert_eq!(paths, vec!["framework/a.md"]);
     }
 
     fn program_plan_with_children(
@@ -18497,6 +19041,30 @@ routes:
                 &format!("children/{id}/proposal.yml"),
                 &format!("status: {status}\npromotion_targets:\n  - \"{promotion_target}\"\n"),
             );
+            if is_safe_repo_relative(promotion_target) {
+                let target = self.root.join(promotion_target.trim_end_matches('/'));
+                fs::create_dir_all(target.parent().unwrap()).unwrap();
+                if promotion_target.ends_with('/') {
+                    fs::create_dir_all(target).unwrap();
+                } else if !target.exists() {
+                    fs::write(target, "mock durable promotion target\n").unwrap();
+                }
+            }
+        }
+
+        fn write_passing_child_promotion_receipts(&self, id: &str) {
+            self.write(
+                &format!("children/{id}/support/implementation-run.md"),
+                "verdict: pass\nimplemented_at: 2026-05-12T00:00:00Z\npromotion_evidence_count: 1\n",
+            );
+            self.write(
+                &format!("children/{id}/support/implementation-conformance-review.md"),
+                "verdict: pass\nunresolved_items_count: 0\n",
+            );
+            self.write(
+                &format!("children/{id}/support/post-implementation-drift-churn-review.md"),
+                "verdict: pass\nunresolved_items_count: 0\n",
+            );
         }
 
         fn write_registry(&self, execution_mode: &str, children: &str) {
@@ -20046,6 +20614,288 @@ routes:
         assert!(receipt.contains("human_exception_grant: false"));
         assert!(receipt.contains("implementation-conformance"));
         assert!(receipt.contains("post-implementation-drift"));
+    }
+
+    #[test]
+    fn child_promotion_blocks_explicit_wrong_child_evidence_before_dispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("promotion-wrong-child-evidence", true);
+        fixture.write_child_contract_with_safe_workflow_promotion();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write("framework/b.md", "wrong child durable target\n");
+        fixture.write_passing_child_promotion_receipts("a");
+        fixture.write_registry(
+            "approval-gated",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            INPUT_PROMOTION_EVIDENCE.to_string(),
+            "framework/b.md".to_string(),
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("promotion-wrong-child-evidence".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: run_inputs.clone(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let summary = result
+            .child_results
+            .iter()
+            .find(|summary| summary.route_id == ROUTE_ID_PROMOTE_PROPOSAL)
+            .unwrap();
+        assert_eq!(summary.attempts, 0);
+        assert_eq!(
+            summary.blocker_class.as_deref(),
+            Some("wrong-child-promotion-evidence")
+        );
+        assert_eq!(
+            proposal_status_at_target(&fixture.root.join("children/a"))
+                .unwrap()
+                .as_deref(),
+            Some("accepted")
+        );
+        assert!(!fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/promotion-wrong-child-evidence/children/a/promote-proposal-mock.log")
+            .exists());
+        let blocker = fs::read_to_string(fixture.octon_dir.join(
+            "state/evidence/runs/workflows/promotion-wrong-child-evidence/children/a/promotion-evidence-binding-blocker.yml",
+        ))
+        .unwrap();
+        assert!(blocker.contains("wrong-child-promotion-evidence"));
+        assert!(blocker.contains("framework/b.md"));
+    }
+
+    #[test]
+    fn child_promotion_blocks_parent_owned_evidence_before_dispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("promotion-parent-owned-evidence", true);
+        fixture.write_child_contract_with_safe_workflow_promotion();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write("parent/support/promotion.md", "parent-owned evidence\n");
+        fixture.write_passing_child_promotion_receipts("a");
+        fixture.write_registry(
+            "approval-gated",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            INPUT_PROMOTION_EVIDENCE.to_string(),
+            "parent/support/promotion.md".to_string(),
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("promotion-parent-owned-evidence".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: run_inputs.clone(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let summary = result
+            .child_results
+            .iter()
+            .find(|summary| summary.route_id == ROUTE_ID_PROMOTE_PROPOSAL)
+            .unwrap();
+        assert_eq!(summary.attempts, 0);
+        assert_eq!(
+            summary.blocker_class.as_deref(),
+            Some("parent-owned-promotion-evidence")
+        );
+        assert_eq!(
+            proposal_status_at_target(&fixture.root.join("children/a"))
+                .unwrap()
+                .as_deref(),
+            Some("accepted")
+        );
+    }
+
+    #[test]
+    fn child_promotion_blocks_missing_evidence_before_dispatch() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("promotion-missing-evidence", true);
+        fixture.write_child_contract_with_safe_workflow_promotion();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_passing_child_promotion_receipts("a");
+        fixture.write_registry(
+            "approval-gated",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            INPUT_PROMOTION_EVIDENCE.to_string(),
+            "framework/missing.md".to_string(),
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("promotion-missing-evidence".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let summary = result
+            .child_results
+            .iter()
+            .find(|summary| summary.route_id == ROUTE_ID_PROMOTE_PROPOSAL)
+            .unwrap();
+        assert_eq!(summary.attempts, 0);
+        assert_eq!(
+            summary.blocker_class.as_deref(),
+            Some("missing-promotion-evidence")
+        );
+        assert_eq!(
+            proposal_status_at_target(&fixture.root.join("children/a"))
+                .unwrap()
+                .as_deref(),
+            Some("accepted")
+        );
+    }
+
+    #[test]
+    fn child_promotion_request_carries_normalized_selected_child_evidence() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("promotion-normalized-evidence", true);
+        fixture.write_child_contract_with_safe_workflow_promotion();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_passing_child_promotion_receipts("a");
+        fixture.write_registry(
+            "approval-gated",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/promotion-normalized-evidence");
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/promotion-normalized-evidence");
+        fs::create_dir_all(&control_root).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            INPUT_PROMOTION_EVIDENCE.to_string(),
+            " framework/a.md/ ".to_string(),
+        );
+
+        let (jobs, preflight_summaries) = build_child_execution_jobs(
+            &fixture.octon_dir,
+            &fixture.root,
+            "promotion-normalized-evidence",
+            &run_inputs,
+            &RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("promotion-normalized-evidence".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: run_inputs.clone(),
+                program_child_filter: None,
+            },
+            &plan,
+            &evidence_root,
+            &control_root,
+            None,
+            None,
+        )
+        .unwrap();
+
+        assert!(preflight_summaries.is_empty(), "{preflight_summaries:#?}");
+        assert_eq!(jobs.len(), 1);
+        assert_eq!(
+            jobs[0]
+                .request
+                .bound_inputs
+                .get(INPUT_PROMOTION_EVIDENCE)
+                .map(String::as_str),
+            Some("framework/a.md")
+        );
+    }
+
+    #[test]
+    fn child_promotion_receipt_digest_drift_blocks_preflight() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("promotion-stale-receipt-digest", true);
+        fixture.write_child_contract_with_safe_workflow_promotion();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_passing_child_promotion_receipts("a");
+        let mut state = child_state("a", Vec::new());
+        state.write_scopes = vec!["children/a".to_string(), "framework/a.md".to_string()];
+        state.receipt_digests.insert(
+            RECEIPT_ID_IMPLEMENTATION_RUN.to_string(),
+            "sha256:stale".to_string(),
+        );
+        let result = validate_child_promotion_receipts(
+            &fixture.octon_dir,
+            &fixture.root,
+            &state,
+            &["framework/a.md".to_string()],
+        )
+        .unwrap();
+
+        let failure = result.expect_err("stale digest should block promotion evidence");
+        assert_eq!(
+            failure.blocker_class, "stale-promotion-evidence",
+            "{}",
+            failure.message
+        );
+        assert!(failure.message.contains(RECEIPT_ID_IMPLEMENTATION_RUN));
     }
 
     #[test]

@@ -1,7 +1,7 @@
 ---
 schema_version: workflow-contract-v2
 name: promote-proposal
-description: Promote an accepted proposal to implemented status after proving that its durable targets exist, are proposal-independent, and the committed proposal registry rebuilds cleanly.
+description: Promote an accepted proposal to implemented status after proving that its durable targets and child-bound promotion evidence exist, are proposal-independent, and the committed proposal registry rebuilds cleanly.
 version: 1.0.0
 entry_mode: human
 execution_profile: core
@@ -23,7 +23,7 @@ inputs:
   - name: promotion_evidence
     type: text
     required: true
-    description: Comma-separated repo-relative paths that prove the durable promotion landed
+    description: Comma-separated repo-relative paths that prove the durable promotion landed; program child invocations must supply selected-child-bound, existing, durable-target evidence after implementation-run, conformance, and drift/churn receipts pass.
 stages:
   - id: validate-proposal
     asset: stages/01-validate-proposal.md
@@ -150,6 +150,7 @@ done_gate:
     - "the source proposal has a fresh accepted proposal-review receipt authorizing implementation"
     - "the source proposal starts from the active path with `status: accepted`"
     - "every promotion target exists and contains no proposal-path backreferences"
+    - "promotion_evidence paths are repo-relative, existing, durable-target-bound, proposal-independent, and not parent-owned or wrong-child evidence"
     - "`support/implementation-conformance-review.md` passes after durable promotion"
     - "`support/post-implementation-drift-churn-review.md` passes after conformance"
     - "`proposal.yml` is rewritten to `status: implemented`"

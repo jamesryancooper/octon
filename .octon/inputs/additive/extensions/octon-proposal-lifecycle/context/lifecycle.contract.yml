@@ -554,6 +554,8 @@ phase_loop:
         - "promote-proposal"
       receipt_refs:
         - "implementation-run"
+        - "implementation-conformance"
+        - "post-implementation-drift"
         - "proposal-review"
       gate_refs:
         - "implementation-grade-readiness"
@@ -953,6 +955,8 @@ routes:
                 value: "fail"
   - route_id: "promote-proposal"
     route_type: "workflow"
+    required_inputs:
+      - "promotion_evidence"
     delegation_contract:
       decision_class: "delegated-execution"
       safe_delegation: true
@@ -967,6 +971,8 @@ routes:
       required_receipts_before_dispatch:
         - "proposal-review"
         - "implementation-run"
+        - "implementation-conformance"
+        - "post-implementation-drift"
       required_receipts_before_completion: []
       replay_class: "no-op-safe"
       automated_recovery_policy: "fail-closed"
@@ -992,6 +998,16 @@ routes:
         - receipt_complete: "implementation-run"
         - receipt_field_equals:
             receipt_id: "implementation-run"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "implementation-conformance"
+        - receipt_field_equals:
+            receipt_id: "implementation-conformance"
+            field: "verdict"
+            value: "pass"
+        - receipt_complete: "post-implementation-drift"
+        - receipt_field_equals:
+            receipt_id: "post-implementation-drift"
             field: "verdict"
             value: "pass"
   - route_id: "run-packet-verification-and-correction-loop"
