@@ -46,6 +46,8 @@ pub struct ReceiptObservation {
 pub struct LifecycleRouteCompletionObservation {
     pub schema_version: String,
     pub route_id: String,
+    #[serde(default)]
+    pub observation_target: PathBuf,
     pub manifest_status_before: Option<String>,
     pub manifest_status_after: Option<String>,
     pub expected_manifest_status: Option<String>,

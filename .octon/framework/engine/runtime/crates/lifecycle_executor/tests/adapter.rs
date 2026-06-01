@@ -146,13 +146,19 @@ fn write_fake_workflow_runtime(root: &Path) {
     );
     write_file(
         &root.join(".octon/framework/orchestration/runtime/workflows/manifest.yml"),
-        "workflows:\n  - id: promote-proposal\n    path: meta/promote-proposal/\n",
+        "workflows:\n  - id: promote-proposal\n    path: meta/promote-proposal/\n  - id: archive-proposal\n    path: meta/archive-proposal/\n",
     );
     write_file(
         &root.join(
             ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/workflow.yml",
         ),
         "schema_version: workflow-contract-v2\nname: promote-proposal\ninputs:\n  - name: proposal_path\n    required: true\n",
+    );
+    write_file(
+        &root.join(
+            ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/workflow.yml",
+        ),
+        "schema_version: workflow-contract-v2\nname: archive-proposal\ninputs:\n  - name: proposal_path\n    required: true\n  - name: disposition\n    required: true\n",
     );
     write_file(
         &root.join(".octon/framework/engine/runtime/run"),
@@ -1105,6 +1111,98 @@ fn workflow_leaf_existing_attempt_run_id_fails_closed_without_resume_proof() {
     assert!(denial.contains("resume_decision: denied"));
     assert!(denial.contains("replay_safe_proof: absent"));
     assert!(denial.contains("same-input, same-authority, same-target"));
+}
+
+#[test]
+fn archive_workflow_existing_attempt_run_id_emits_blocked_archive_evidence() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("archive-workflow-existing-run-denied");
+    write_fake_workflow_runtime(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "archive-proposal", "workflow", "unattended");
+    request.executor = "codex".to_string();
+    request.expected_manifest_status = Some("archived".to_string());
+    request
+        .bound_inputs
+        .insert("disposition".to_string(), "implemented".to_string());
+    request.route.delegation_contract = Some(LifecycleDelegationContract {
+        required_receipts_before_dispatch: vec!["proposal-closeout".to_string()],
+        ..default_delegation_contract()
+    });
+    request.receipts = vec![LifecycleReceiptSpec {
+        receipt_id: "proposal-closeout".to_string(),
+        path: "support/proposal-closeout.md".to_string(),
+        required_fields: vec!["verdict".to_string(), "archive_authorized".to_string()],
+        verdict_field: Some("verdict".to_string()),
+    }];
+    request.expected_receipts = Vec::new();
+    write_file(
+        &request.target.join("support/proposal-closeout.md"),
+        "verdict: pass\narchive_authorized: yes\n",
+    );
+    fs::create_dir_all(
+        root.join(".octon/state/control/execution/runs/test-run-attempt-1-workflow"),
+    )
+    .unwrap();
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "failed");
+    let blocked = fs::read_to_string(
+        request
+            .evidence_root
+            .join("archive-proposal-attempt-1-archive-blocked.yml"),
+    )
+    .unwrap();
+    assert!(blocked.contains("schema_version: octon-lifecycle-archive-blocked-evidence-v1"));
+    assert!(blocked.contains("blocker_class: duplicate-workflow-run-id"));
+    assert!(blocked.contains("completion_observed: false"));
+}
+
+#[test]
+fn archive_workflow_success_without_terminal_observation_emits_blocked_evidence() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("archive-success-not-observed");
+    write_fake_workflow_runtime(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "archive-proposal", "workflow", "unattended");
+    request.executor = "codex".to_string();
+    request.expected_manifest_status = Some("archived".to_string());
+    request
+        .bound_inputs
+        .insert("disposition".to_string(), "implemented".to_string());
+    request.route.delegation_contract = Some(LifecycleDelegationContract {
+        required_receipts_before_dispatch: vec!["proposal-closeout".to_string()],
+        ..default_delegation_contract()
+    });
+    request.receipts = vec![LifecycleReceiptSpec {
+        receipt_id: "proposal-closeout".to_string(),
+        path: "support/proposal-closeout.md".to_string(),
+        required_fields: vec!["verdict".to_string(), "archive_authorized".to_string()],
+        verdict_field: Some("verdict".to_string()),
+    }];
+    request.expected_receipts = Vec::new();
+    write_file(
+        &request.target.join("support/proposal-closeout.md"),
+        "verdict: pass\narchive_authorized: yes\n",
+    );
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "failed");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::CompletionNotObserved)
+    );
+    let blocked = fs::read_to_string(
+        request
+            .evidence_root
+            .join("archive-proposal-attempt-1-archive-blocked.yml"),
+    )
+    .unwrap();
+    assert!(blocked.contains("blocker_class: archive-completion-not-observed"));
+    assert!(blocked.contains("completion_observed: false"));
+    assert!(blocked.contains("observation_target:"));
 }
 
 #[test]

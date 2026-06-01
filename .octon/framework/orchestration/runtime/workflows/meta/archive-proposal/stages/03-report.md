@@ -10,3 +10,6 @@ description: Summarize the archival result and persist the workflow bundle recei
 1. Write a top-level summary with source path, archive path, kind, validator result, and disposition.
 2. Persist `summary.md`, `commands.md`, `inventory.md`, `validation.md`, and `bundle.yml`.
 3. Emit an explicit final verdict.
+4. When the lifecycle executor cannot observe archived-target completion, rely
+   on the executor-owned `octon-lifecycle-archive-blocked-evidence-v1`
+   receipt as retained fail-closed route evidence instead of parent summaries.

@@ -112,6 +112,7 @@ pub fn observe_completion(
     Ok(LifecycleRouteCompletionObservation {
         schema_version: "octon-lifecycle-route-completion-observation-v1".to_string(),
         route_id: request.route.route_id.clone(),
+        observation_target,
         manifest_status_before: before_status,
         manifest_status_after: after_status,
         expected_manifest_status: request.expected_manifest_status.clone(),
@@ -127,7 +128,7 @@ pub fn observe_completion(
     })
 }
 
-fn completion_observation_target(request: &LifecycleRouteExecutionRequest) -> PathBuf {
+pub fn completion_observation_target(request: &LifecycleRouteExecutionRequest) -> PathBuf {
     if request.route.route_id != "archive-proposal"
         || request.expected_manifest_status.as_deref() != Some("archived")
         || request.target.join(&request.manifest_path).is_file()
@@ -442,6 +443,7 @@ mod tests {
 
         assert!(observed.completion_observed);
         assert_eq!(observed.manifest_status_after.as_deref(), Some("archived"));
+        assert_eq!(observed.observation_target, archive_target);
         assert!(observed
             .receipts_observed
             .iter()

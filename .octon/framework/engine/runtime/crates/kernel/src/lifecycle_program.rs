@@ -58,6 +58,7 @@ const OPERATION_CLASS_EXECUTE_CHILD_ROUTE: &str = "execute-child-route";
 const OPERATION_CLASS_PROGRAM_RECOVERY_ACTION: &str = "program-recovery-action";
 const OPERATION_CLASS_CLOSEOUT_READINESS: &str = "closeout-readiness";
 const ROUTE_ID_PROMOTE_PROPOSAL: &str = "promote-proposal";
+const ROUTE_ID_ARCHIVE_PROPOSAL: &str = "archive-proposal";
 const ROUTE_ID_CLEANUP_LIFECYCLE_RESIDUE: &str = "cleanup-lifecycle-residue";
 const RECEIPT_ID_PROPOSAL_REVIEW: &str = "proposal-review";
 const RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_PROMPT: &str =
@@ -842,6 +843,18 @@ pub(crate) struct ProgramChildExecutionSummary {
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub worktree_hygiene_foreign_fingerprint: Option<String>,
+}
+
+#[derive(Clone, Debug, Deserialize)]
+struct ArchiveBlockedEvidenceSummary {
+    #[serde(default)]
+    schema_version: Option<String>,
+    #[serde(default)]
+    blocker_class: Option<String>,
+    #[serde(default)]
+    reason: Option<String>,
+    #[serde(default)]
+    completion_observed: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
@@ -1822,6 +1835,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     }
 
     apply_checkpoint_child_drift(&repo_root, &mut child_states, checkpoint);
+    apply_archive_route_evidence_blockers(octon_dir, &repo_root, &mut child_states, checkpoint)?;
     apply_dependency_blockers(&mut child_states);
     let closeout_hygiene_suppressions =
         apply_closeout_hygiene_suppressions(&repo_root, checkpoint, &mut child_states)?;
@@ -6617,6 +6631,119 @@ fn apply_checkpoint_child_drift(
     }
 }
 
+fn apply_archive_route_evidence_blockers(
+    octon_dir: &Path,
+    repo_root: &Path,
+    child_states: &mut BTreeMap<String, ProgramChildPlanState>,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+) -> Result<()> {
+    let Some(checkpoint) = checkpoint else {
+        return Ok(());
+    };
+    let evidence_root = octon_dir
+        .join(WORKFLOW_EVIDENCE_ROOT_REL)
+        .join(sanitize_run_id(&checkpoint.run_id)?);
+    let recovery_log = evidence_root.join("recovery-log.yml");
+    if !recovery_log.is_file() {
+        return Ok(());
+    }
+    let child_results: Vec<ProgramChildExecutionSummary> =
+        serde_yaml::from_slice(&fs::read(&recovery_log)?)?;
+    let mut latest_archive_results = BTreeMap::new();
+    for result in child_results
+        .into_iter()
+        .filter(|result| result.route_id == ROUTE_ID_ARCHIVE_PROPOSAL)
+    {
+        latest_archive_results.insert(result.child_id.clone(), result);
+    }
+    for (child_id, result) in latest_archive_results {
+        if result.status == "completed" {
+            continue;
+        }
+        let Some(state) = child_states.get_mut(&child_id) else {
+            continue;
+        };
+        let evidence = archive_blocked_evidence_from_summary(repo_root, &result);
+        let blocker_class = evidence
+            .as_ref()
+            .and_then(|(_, evidence)| evidence.blocker_class.clone())
+            .or_else(|| result.blocker_class.clone())
+            .unwrap_or_else(|| "archive-route-failed".to_string());
+        if evidence.is_none() && !is_archive_route_blocker_class(&blocker_class) {
+            continue;
+        }
+        let reason = evidence
+            .as_ref()
+            .and_then(|(_, evidence)| evidence.reason.clone())
+            .or_else(|| result.error_message.clone())
+            .unwrap_or_else(|| {
+                format!(
+                    "latest child archive route ended with status {} without archive completion",
+                    result.status
+                )
+            });
+        let evidence_ref = evidence
+            .map(|(path, _)| format!("; evidence: {}", rel_display(repo_root, &path)))
+            .unwrap_or_default();
+        if !state
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == blocker_class)
+        {
+            state.blockers.push(ProgramBlocker {
+                blocker_class: blocker_class.clone(),
+                message: format!(
+                    "child archive route did not converge: {reason}{evidence_ref}; child manifest, receipts, validation verdicts, promotion evidence, and archive metadata remain child-owned"
+                ),
+                recovery_route: Some(ROUTE_ID_ARCHIVE_PROPOSAL.to_string()),
+            });
+        }
+        if state.terminal_outcome.as_deref() == Some("archived") {
+            state.terminal_outcome = None;
+            state.gate_status.terminal = false;
+            state.final_verdict = "blocked-recoverable".to_string();
+        }
+    }
+    Ok(())
+}
+
+fn archive_blocked_evidence_from_summary(
+    repo_root: &Path,
+    result: &ProgramChildExecutionSummary,
+) -> Option<(PathBuf, ArchiveBlockedEvidenceSummary)> {
+    for raw_path in &result.evidence_paths {
+        let path = Path::new(raw_path);
+        let absolute = if path.is_absolute() {
+            path.to_path_buf()
+        } else {
+            repo_root.join(path)
+        };
+        if let Some(evidence) = archive_blocked_evidence_at_path(&absolute) {
+            return Some((absolute, evidence));
+        }
+    }
+    None
+}
+
+fn archive_blocked_evidence_at_path(path: &Path) -> Option<ArchiveBlockedEvidenceSummary> {
+    if !path.is_file() {
+        return None;
+    }
+    let evidence: ArchiveBlockedEvidenceSummary =
+        serde_yaml::from_slice(&fs::read(path).ok()?).ok()?;
+    if evidence.schema_version.as_deref() != Some("octon-lifecycle-archive-blocked-evidence-v1") {
+        return None;
+    }
+    if evidence.completion_observed == Some(true) {
+        return None;
+    }
+    Some(evidence)
+}
+
+fn is_archive_route_blocker_class(blocker_class: &str) -> bool {
+    blocker_class.starts_with("archive-") || blocker_class == "duplicate-workflow-run-id"
+}
+
 fn child_drift_has_current_run_route_evidence(
     repo_root: &Path,
     checkpoint: &ProgramLifecycleCheckpoint,
@@ -8654,6 +8781,19 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
             "executor-timed-out",
             ProgramNormalizedCategory::Recoverable,
             "executor timeout may recover through a safe alternate route or retry budget",
+        ),
+        "archive-authorization-missing"
+        | "archive-authorization-incomplete"
+        | "archive-authorization-non-authorizing"
+        | "archive-completion-not-observed"
+        | "archive-route-failed"
+        | "archive-workflow-cancelled"
+        | "archive-workflow-failed"
+        | "archive-workflow-timeout"
+        | "duplicate-workflow-run-id" => (
+            blocker_class,
+            ProgramNormalizedCategory::Recoverable,
+            "archive convergence failure is child-owned and must recover from retained archive route evidence",
         ),
         "executor-preflight-blocked" => (
             "executor-preflight-blocked",
@@ -13552,6 +13692,25 @@ fn write_child_adapter_error_evidence(
 }
 
 fn execution_result_blocker_class(result: &LifecycleRouteExecutionResult) -> Option<String> {
+    if result.route_id == ROUTE_ID_ARCHIVE_PROPOSAL {
+        if let Some(evidence) = result
+            .evidence_paths
+            .iter()
+            .find_map(|path| archive_blocked_evidence_at_path(path))
+        {
+            return evidence
+                .blocker_class
+                .or_else(|| Some("archive-route-failed".to_string()));
+        }
+        if result.executor_used == "workflow-leaf"
+            && matches!(
+                result.status.as_str(),
+                "failed" | "timed-out" | "blocked" | "cancelled"
+            )
+        {
+            return Some("archive-route-failed".to_string());
+        }
+    }
     if result.status == "executor-preflight-blocked" {
         return Some("executor-preflight-blocked".to_string());
     }
@@ -19983,6 +20142,98 @@ routes:
     }
 
     #[test]
+    fn blocked_archive_evidence_prevents_parent_from_accepting_child_archived_terminal() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("blocked-archive-evidence", true);
+        fixture.write_full_child_contract();
+        fixture.write(
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a/proposal.yml",
+            "status: archived\npromotion_targets:\n  - \"framework/a.md\"\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: ".octon/inputs/exploratory/proposals/architecture/a"
+"#,
+        );
+        let run_id = "blocked-archive-evidence";
+        let evidence_ref = ".octon/state/evidence/runs/workflows/blocked-archive-evidence/children/a/archive-proposal-attempt-1-archive-blocked.yml";
+        fixture.write(
+            evidence_ref,
+            r#"schema_version: octon-lifecycle-archive-blocked-evidence-v1
+blocker_class: archive-completion-not-observed
+reason: archive workflow exited successfully but archived target completion was not observed
+completion_observed: false
+"#,
+        );
+        fixture.write(
+            ".octon/state/evidence/runs/workflows/blocked-archive-evidence/recovery-log.yml",
+            &format!(
+                r#"- child_id: a
+  child_run_id: blocked-archive-evidence-a
+  route_id: archive-proposal
+  status: failed
+  attempts: 1
+  retryable: false
+  blocker_class: archive-completion-not-observed
+  error_message: archive completion was not observed
+  evidence_paths:
+    - {evidence_ref}
+"#
+            ),
+        );
+        let checkpoint = ProgramLifecycleCheckpoint {
+            schema_version: "octon-program-lifecycle-checkpoint-v1".to_string(),
+            run_id: run_id.to_string(),
+            lifecycle_id: "proposal-program".to_string(),
+            execution_strategy: LifecycleExecutionStrategy::OrchestratedReplanLoop
+                .as_str()
+                .to_string(),
+            target: "parent".to_string(),
+            child_registry_digest: "sha256:test".to_string(),
+            execution_mode: "parallel-independent".to_string(),
+            child_states: BTreeMap::from([(
+                "a".to_string(),
+                ProgramChildCheckpointState {
+                    child_lifecycle_id: "proposal-packet".to_string(),
+                    target: ".octon/inputs/exploratory/proposals/architecture/a".to_string(),
+                    current_state: Some("archive-proposal".to_string()),
+                    final_verdict: "blocked-recoverable".to_string(),
+                    write_scopes: vec![
+                        ".octon/inputs/exploratory/proposals/architecture/a".to_string()
+                    ],
+                    ..ProgramChildCheckpointState::default()
+                },
+            )]),
+            final_verdict: "blocked-recoverable".to_string(),
+            resume_instruction: format!("octon lifecycle resume --run-id {run_id}"),
+            ..ProgramLifecycleCheckpoint::default()
+        };
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+        )
+        .unwrap();
+
+        let child = plan.child_states.get("a").unwrap();
+        assert_eq!(
+            child.target,
+            ".octon/inputs/exploratory/proposals/.archive/architecture/a"
+        );
+        assert_eq!(child.terminal_outcome, None);
+        assert_eq!(child.final_verdict, "blocked-recoverable");
+        assert!(child.blockers.iter().any(|blocker| {
+            blocker.blocker_class == "archive-completion-not-observed"
+                && blocker
+                    .message
+                    .contains("archive metadata remain child-owned")
+        }));
+    }
+
+    #[test]
     fn program_verification_prompt_with_missing_aggregate_receipts_routes_to_loop() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-verification-loop", "implemented");
@@ -22357,14 +22608,14 @@ routes:
         .unwrap();
 
         assert_eq!(result.final_verdict, "completed");
-        assert_eq!(result.child_results.len(), 12);
+        assert_eq!(result.child_results.len(), 10);
         assert_eq!(
             result
                 .child_results
                 .iter()
                 .filter(|summary| summary.child_id == "a")
                 .count(),
-            6
+            5
         );
         assert_eq!(
             result
@@ -22372,7 +22623,7 @@ routes:
                 .iter()
                 .filter(|summary| summary.child_id == "b")
                 .count(),
-            6
+            5
         );
         assert!(fixture
             .root
@@ -22522,10 +22773,10 @@ routes:
             .root
             .join("children/a/support/implementation-run.md")
             .is_file());
-        assert!(!fixture
+        assert!(fixture
             .root
             .join("children/a/support/implementation-conformance-review.md")
-            .exists());
+            .is_file());
         assert!(
             fs::read_to_string(fixture.root.join("children/a/proposal.yml"))
                 .unwrap()

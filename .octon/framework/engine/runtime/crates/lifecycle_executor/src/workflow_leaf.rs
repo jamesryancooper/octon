@@ -1,6 +1,8 @@
 use crate::generated::resolve_workflow_manifest;
 use crate::request::LifecycleRouteExecutionRequest;
-use crate::result::LifecycleRouteExecutionResult;
+use crate::result::{
+    LifecycleRouteCompletionObservation, LifecycleRouteExecutionResult, ReceiptObservation,
+};
 use crate::{authorization::now_rfc3339, observer};
 use serde::Serialize;
 use serde_yaml::Value;
@@ -96,6 +98,57 @@ pub fn execute_workflow_leaf(
         .evidence_root
         .join(format!("{evidence_stem}-completion-observation.yml"));
 
+    let dispatch_receipts = observer::observe_receipts(&request.target, &request.receipts)
+        .map_err(crate::LifecycleExecutionError::from)?;
+    if let Some((blocker_class, reason)) = archive_pre_dispatch_blocker(request, &dispatch_receipts)
+    {
+        let blocked_at = now_rfc3339();
+        let observation =
+            observer::observe_completion(request, before.clone(), before_target_digest.clone())
+                .map_err(crate::LifecycleExecutionError::from)?;
+        fs::write(
+            &observation_path,
+            serde_yaml::to_string(&observation).map_err(crate::LifecycleExecutionError::from)?,
+        )
+        .map_err(crate::LifecycleExecutionError::from)?;
+        let blocked_path = write_archive_blocked_evidence(
+            request,
+            &workflow_run_id,
+            attempt_ordinal,
+            &evidence_stem,
+            blocker_class,
+            reason,
+            &observation,
+            dispatch_receipts.clone(),
+            vec![observation_path.clone()],
+            "manual-intervention",
+        )?;
+        return Ok(LifecycleRouteExecutionResult {
+            schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
+            run_id: request.run_id.clone(),
+            route_id: request.route.route_id.clone(),
+            phase_id: request.phase_id.clone(),
+            executor_used: "workflow-leaf".to_string(),
+            status: "blocked".to_string(),
+            started_at,
+            ended_at: blocked_at,
+            manifest_status_before: before,
+            manifest_status_after: observation.manifest_status_after,
+            receipts_observed: observation.receipts_observed,
+            evidence_paths: vec![observation_path, blocked_path],
+            stdout_path: None,
+            stderr_path: None,
+            prompt_packet_path: None,
+            retryable: false,
+            next_action: "manual-intervention".to_string(),
+            error_class: Some(crate::LifecycleErrorClass::ReceiptInvalid),
+            error_message: Some(
+                "archive workflow dispatch blocked by non-authorizing archive receipt state"
+                    .to_string(),
+            ),
+        });
+    }
+
     let existing_state_paths = existing_workflow_run_state_paths(repo_root, &workflow_run_id);
     if !existing_state_paths.is_empty() {
         let denied_path = request
@@ -136,6 +189,24 @@ pub fn execute_workflow_leaf(
             serde_yaml::to_string(&observation).map_err(crate::LifecycleExecutionError::from)?,
         )
         .map_err(crate::LifecycleExecutionError::from)?;
+        let mut evidence_paths = vec![denied_path, observation_path.clone()];
+        if archive_route_requires_blocked_evidence(request) {
+            let blocked_path = write_archive_blocked_evidence(
+                request,
+                &workflow_run_id,
+                attempt_ordinal,
+                &evidence_stem,
+                "duplicate-workflow-run-id",
+                format!(
+                    "workflow run id {workflow_run_id} already has canonical execution artifacts and replay-safe resume proof is absent"
+                ),
+                &observation,
+                observation.receipts_observed.clone(),
+                evidence_paths.clone(),
+                "manual-intervention",
+            )?;
+            evidence_paths.push(blocked_path);
+        }
         return Ok(LifecycleRouteExecutionResult {
             schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
             run_id: request.run_id.clone(),
@@ -148,7 +219,7 @@ pub fn execute_workflow_leaf(
             manifest_status_before: before,
             manifest_status_after: observation.manifest_status_after,
             receipts_observed: observation.receipts_observed,
-            evidence_paths: vec![denied_path, observation_path],
+            evidence_paths,
             stdout_path: None,
             stderr_path: None,
             prompt_packet_path: None,
@@ -246,6 +317,30 @@ pub fn execute_workflow_leaf(
         serde_yaml::to_string(&observation).map_err(crate::LifecycleExecutionError::from)?,
     )
     .map_err(crate::LifecycleExecutionError::from)?;
+    let mut evidence_paths = vec![
+        invocation_path,
+        stdout_path.clone(),
+        stderr_path.clone(),
+        terminal_path,
+        observation_path.clone(),
+    ];
+    if let Some((blocker_class, reason, next_action)) =
+        archive_post_execution_blocker(request, &output, &observation)
+    {
+        let blocked_path = write_archive_blocked_evidence(
+            request,
+            &workflow_run_id,
+            attempt_ordinal,
+            &evidence_stem,
+            blocker_class,
+            reason,
+            &observation,
+            observation.receipts_observed.clone(),
+            evidence_paths.clone(),
+            next_action,
+        )?;
+        evidence_paths.push(blocked_path);
+    }
     Ok(LifecycleRouteExecutionResult {
         schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
         run_id: request.run_id.clone(),
@@ -258,13 +353,7 @@ pub fn execute_workflow_leaf(
         manifest_status_before: before,
         manifest_status_after: observation.manifest_status_after,
         receipts_observed: observation.receipts_observed,
-        evidence_paths: vec![
-            invocation_path,
-            stdout_path.clone(),
-            stderr_path.clone(),
-            terminal_path,
-            observation_path,
-        ],
+        evidence_paths,
         stdout_path: Some(stdout_path),
         stderr_path: Some(stderr_path),
         prompt_packet_path: None,
@@ -453,6 +542,25 @@ struct WorkflowResumeDeniedEvidence<'a> {
 }
 
 #[derive(Serialize)]
+struct ArchiveBlockedEvidence {
+    schema_version: &'static str,
+    run_id: String,
+    route_id: String,
+    workflow_run_id: String,
+    attempt_ordinal: u32,
+    blocker_class: String,
+    reason: String,
+    target: String,
+    observation_target: String,
+    completion_observed: bool,
+    receipt_summaries: Vec<ReceiptObservation>,
+    next_action: String,
+    authority_boundary: &'static str,
+    source_evidence_paths: Vec<String>,
+    recorded_at: String,
+}
+
+#[derive(Serialize)]
 struct WorkflowContextEvidence<'a> {
     context_kind: &'a str,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -526,6 +634,156 @@ fn existing_workflow_run_state_paths(repo_root: &Path, workflow_run_id: &str) ->
     .collect()
 }
 
+fn archive_route_requires_blocked_evidence(request: &LifecycleRouteExecutionRequest) -> bool {
+    request.route.route_id == "archive-proposal"
+        && request.expected_manifest_status.as_deref() == Some("archived")
+}
+
+fn archive_pre_dispatch_blocker(
+    request: &LifecycleRouteExecutionRequest,
+    receipts: &[ReceiptObservation],
+) -> Option<(&'static str, String)> {
+    if !archive_route_requires_blocked_evidence(request) {
+        return None;
+    }
+    let required = request
+        .route
+        .delegation_contract
+        .as_ref()
+        .map(|contract| contract.required_receipts_before_dispatch.as_slice())
+        .unwrap_or(&[]);
+    for receipt_id in required {
+        let Some(receipt) = receipts
+            .iter()
+            .find(|receipt| &receipt.receipt_id == receipt_id)
+        else {
+            return Some((
+                "archive-authorization-missing",
+                format!("required archive dispatch receipt {receipt_id} was not observed"),
+            ));
+        };
+        if !receipt.exists {
+            return Some((
+                "archive-authorization-missing",
+                format!("required archive dispatch receipt {receipt_id} does not exist"),
+            ));
+        }
+        if !receipt.missing_required_fields.is_empty() {
+            return Some((
+                "archive-authorization-incomplete",
+                format!(
+                    "required archive dispatch receipt {receipt_id} is missing required fields: {}",
+                    receipt.missing_required_fields.join(",")
+                ),
+            ));
+        }
+        if receipt
+            .verdict
+            .as_deref()
+            .is_some_and(|verdict| verdict != "pass")
+        {
+            return Some((
+                "archive-authorization-non-authorizing",
+                format!("required archive dispatch receipt {receipt_id} verdict is not pass"),
+            ));
+        }
+        if receipt.fields.contains_key("archive_authorized")
+            && receipt.fields.get("archive_authorized").map(String::as_str) != Some("yes")
+        {
+            return Some((
+                "archive-authorization-non-authorizing",
+                format!(
+                    "required archive dispatch receipt {receipt_id} does not authorize archive"
+                ),
+            ));
+        }
+    }
+    None
+}
+
+fn archive_post_execution_blocker(
+    request: &LifecycleRouteExecutionRequest,
+    output: &WorkflowCommandOutput,
+    observation: &LifecycleRouteCompletionObservation,
+) -> Option<(&'static str, String, &'static str)> {
+    if !archive_route_requires_blocked_evidence(request) || observation.completion_observed {
+        return None;
+    }
+    if output.cancelled {
+        return Some((
+            "archive-workflow-cancelled",
+            "archive workflow execution was cancelled before archive completion was observed"
+                .to_string(),
+            "manual-intervention",
+        ));
+    }
+    if output.timed_out {
+        return Some((
+            "archive-workflow-timeout",
+            "archive workflow execution timed out before archive completion was observed"
+                .to_string(),
+            "manual-intervention",
+        ));
+    }
+    if output.success {
+        return Some((
+            "archive-completion-not-observed",
+            "archive workflow exited successfully but archived target completion was not observed"
+                .to_string(),
+            "manual-intervention",
+        ));
+    }
+    Some((
+        "archive-workflow-failed",
+        "archive workflow executor exited with non-zero status before archive completion was observed"
+            .to_string(),
+        "manual-intervention",
+    ))
+}
+
+fn write_archive_blocked_evidence(
+    request: &LifecycleRouteExecutionRequest,
+    workflow_run_id: &str,
+    attempt_ordinal: u32,
+    evidence_stem: &str,
+    blocker_class: &str,
+    reason: String,
+    observation: &LifecycleRouteCompletionObservation,
+    receipt_summaries: Vec<ReceiptObservation>,
+    source_evidence_paths: Vec<PathBuf>,
+    next_action: &str,
+) -> std::result::Result<PathBuf, crate::LifecycleExecutionError> {
+    let path = request
+        .evidence_root
+        .join(format!("{evidence_stem}-archive-blocked.yml"));
+    let evidence = ArchiveBlockedEvidence {
+        schema_version: "octon-lifecycle-archive-blocked-evidence-v1",
+        run_id: request.run_id.clone(),
+        route_id: request.route.route_id.clone(),
+        workflow_run_id: workflow_run_id.to_string(),
+        attempt_ordinal,
+        blocker_class: blocker_class.to_string(),
+        reason,
+        target: request.target.display().to_string(),
+        observation_target: observation.observation_target.display().to_string(),
+        completion_observed: observation.completion_observed,
+        receipt_summaries,
+        next_action: next_action.to_string(),
+        authority_boundary: "archive mutation remains workflow-owned; lifecycle executor records observation and fail-closed blocked evidence only",
+        source_evidence_paths: source_evidence_paths
+            .iter()
+            .map(|path| path.display().to_string())
+            .collect(),
+        recorded_at: now_rfc3339(),
+    };
+    fs::write(
+        &path,
+        serde_yaml::to_string(&evidence).map_err(crate::LifecycleExecutionError::from)?,
+    )
+    .map_err(crate::LifecycleExecutionError::from)?;
+    Ok(path)
+}
+
 fn workflow_route_status(
     output: &WorkflowCommandOutput,
     completion_observed: bool,
@@ -584,4 +842,120 @@ fn scalar(value: Option<&Value>) -> Option<&str> {
         Value::String(raw) => Some(raw.as_str()),
         _ => None,
     })
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::request::{
+        LifecycleDelegationContract, LifecycleExecutionPolicy, LifecycleInvocationAuthority,
+        LifecycleReceiptSpec, LifecycleRouteSpec,
+    };
+    use std::collections::BTreeMap;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    fn temp_root(name: &str) -> PathBuf {
+        let nanos = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_nanos();
+        let root = std::env::temp_dir().join(format!(
+            "octon-workflow-leaf-{name}-{}-{nanos}",
+            std::process::id()
+        ));
+        fs::create_dir_all(&root).unwrap();
+        root
+    }
+
+    fn archive_request(root: &Path) -> LifecycleRouteExecutionRequest {
+        let target = root.join(".octon/inputs/exploratory/proposals/architecture/fixture");
+        fs::create_dir_all(&target).unwrap();
+        fs::write(target.join("proposal.yml"), "status: implemented\n").unwrap();
+        LifecycleRouteExecutionRequest {
+            schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
+            run_id: "test-run".to_string(),
+            lifecycle_id: "proposal-packet".to_string(),
+            owner_extension: "test-extension".to_string(),
+            phase_id: Some("archive".to_string()),
+            target: target.clone(),
+            manifest_path: "proposal.yml".to_string(),
+            status_field: "status".to_string(),
+            executor: "codex".to_string(),
+            route: LifecycleRouteSpec {
+                route_id: "archive-proposal".to_string(),
+                route_type: "workflow".to_string(),
+                command_id: None,
+                skill_id: None,
+                prompt_set_id: None,
+                required_inputs: Vec::new(),
+                completion_replan_required: true,
+                delegation_contract: Some(LifecycleDelegationContract {
+                    decision_class: "delegated-execution".to_string(),
+                    safe_delegation: true,
+                    authority_zones_allowed: vec!["workspace-declared".to_string()],
+                    declared_write_scope_source: "target".to_string(),
+                    required_evidence_gates: Vec::new(),
+                    required_receipts_before_dispatch: vec!["proposal-closeout".to_string()],
+                    required_receipts_before_completion: Vec::new(),
+                    replay_class: "no-op-safe".to_string(),
+                    automated_recovery_policy: "fail-closed".to_string(),
+                    human_only_boundaries: vec!["stale-evidence-acceptance".to_string()],
+                }),
+            },
+            effective_extension_catalog: root
+                .join(".octon/generated/effective/extensions/catalog.effective.yml"),
+            runtime_route_bundle: root.join(".octon/generated/effective/runtime/route-bundle.yml"),
+            bound_inputs: BTreeMap::from([
+                ("proposal_path".to_string(), target.display().to_string()),
+                ("disposition".to_string(), "implemented".to_string()),
+            ]),
+            receipts: vec![LifecycleReceiptSpec {
+                receipt_id: "proposal-closeout".to_string(),
+                path: "support/proposal-closeout.md".to_string(),
+                required_fields: vec!["verdict".to_string(), "archive_authorized".to_string()],
+                verdict_field: Some("verdict".to_string()),
+            }],
+            expected_receipts: Vec::new(),
+            expected_paths: Vec::new(),
+            expected_manifest_status: Some("archived".to_string()),
+            expected_target_change: false,
+            evidence_root: root.join(".octon/state/evidence/runs/workflows/test-run"),
+            checkpoint_path: root
+                .join(".octon/state/control/execution/runs/test-run/lifecycle-checkpoint.yml"),
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
+            policy: LifecycleExecutionPolicy {
+                timeout_seconds: 30,
+                cancellation_token: None,
+                retry_attempt: 0,
+                invocation_authority: LifecycleInvocationAuthority {
+                    mode: "unattended".to_string(),
+                    provenance: "test".to_string(),
+                    authority_ref: None,
+                },
+            },
+            human_boundary_context: None,
+            evidence_gate_results: BTreeMap::new(),
+        }
+    }
+
+    #[test]
+    fn archive_missing_authorization_writes_blocked_evidence_before_dispatch() {
+        let root = temp_root("missing-archive-authorization");
+        let request = archive_request(&root);
+
+        let result = execute_workflow_leaf(&root, &request).unwrap();
+
+        assert_eq!(result.status, "blocked");
+        assert!(!root.join(".octon/framework/engine/runtime/run").exists());
+        let blocked = fs::read_to_string(
+            request
+                .evidence_root
+                .join("archive-proposal-attempt-1-archive-blocked.yml"),
+        )
+        .unwrap();
+        assert!(blocked.contains("schema_version: octon-lifecycle-archive-blocked-evidence-v1"));
+        assert!(blocked.contains("blocker_class: archive-authorization-missing"));
+        assert!(blocked.contains("completion_observed: false"));
+    }
 }
