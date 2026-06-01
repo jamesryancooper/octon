@@ -116,6 +116,10 @@ pub fn execute_agent(
         .evidence_root
         .join(format!("{}-executor-terminal.yml", request.route.route_id));
     fs::write(&prompt_path, &prompt)?;
+    let completion_before_dispatch =
+        observer::observe_completion(request, before.clone(), before_target_digest.clone())
+            .map(|observation| observation.completion_observed)
+            .unwrap_or(false);
 
     let output = run_with_timeout(
         repo_root,
@@ -123,6 +127,10 @@ pub fn execute_agent(
         executor_name,
         &prompt,
         request,
+        before.clone(),
+        before_target_digest.clone(),
+        retry_before_target_digest.clone(),
+        completion_before_dispatch,
         &stdout_path,
         &stderr_path,
         &executor_start_path,
@@ -218,6 +226,10 @@ fn run_with_timeout(
     executor_name: &str,
     prompt: &str,
     request: &LifecycleRouteExecutionRequest,
+    before_status: Option<String>,
+    before_target_digest: Option<String>,
+    initial_target_digest: String,
+    completion_before_dispatch: bool,
     stdout_path: &Path,
     stderr_path: &Path,
     executor_start_path: &Path,
@@ -329,6 +341,32 @@ fn run_with_timeout(
             });
         }
         if last_observation.elapsed() >= OBSERVATION_INTERVAL {
+            if running_route_completion_observed(
+                request,
+                before_status.clone(),
+                before_target_digest.clone(),
+                &initial_target_digest,
+                completion_before_dispatch,
+            ) {
+                let termination = terminate_child(&mut child);
+                let exit_observed = termination.status.is_some();
+                write_executor_terminal(
+                    executor_terminal_path,
+                    executor_name,
+                    child.id(),
+                    "completed-observed",
+                    start.elapsed(),
+                    termination.status,
+                    exit_observed,
+                    termination.used_force_kill,
+                    termination.error.as_deref(),
+                )?;
+                return Ok(AgentOutput {
+                    success: true,
+                    timed_out: false,
+                    cancelled: false,
+                });
+            }
             write_executor_observation(
                 executor_observation_path,
                 executor_name,
@@ -341,6 +379,29 @@ fn run_with_timeout(
         }
         thread::sleep(Duration::from_millis(100));
     }
+}
+
+fn running_route_completion_observed(
+    request: &LifecycleRouteExecutionRequest,
+    before_status: Option<String>,
+    before_target_digest: Option<String>,
+    initial_target_digest: &str,
+    completion_before_dispatch: bool,
+) -> bool {
+    let Ok(observation) =
+        observer::observe_completion(request, before_status, before_target_digest)
+    else {
+        return false;
+    };
+    if !observation.completion_observed {
+        return false;
+    }
+    if !completion_before_dispatch {
+        return true;
+    }
+    observer::target_digest(&request.target)
+        .map(|digest| digest != initial_target_digest)
+        .unwrap_or(false)
 }
 
 fn timeout_terminal_state(success: Option<bool>) -> &'static str {

@@ -1,0 +1,9 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-proposal-packet-1780278333695-b544297b
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-gap-map
+reason: stuck-broad-registry-validation-after-target-revision-passed
+cancelled_at: 2026-06-01T01:59:51.735343Z
+cancellation_token: .octon/state/control/execution/runs/lifecycle-proposal-packet-1780278333695-b544297b/cancellation.yml
+checkpoint_path: .octon/state/control/execution/runs/lifecycle-proposal-packet-1780278333695-b544297b/lifecycle-checkpoint.yml

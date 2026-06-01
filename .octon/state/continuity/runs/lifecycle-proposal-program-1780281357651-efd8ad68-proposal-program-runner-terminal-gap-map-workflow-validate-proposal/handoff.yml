@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+status: running
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/receipts/grant-bundle.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/checkpoints/execution-start.yml
+resume_from_stage_attempt_id: validate-proposal--initial
+mission_id: null
+parent_run_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow/run-contract.yml
+next_action: Resume from the current stage attempt using the retained receipt and checkpoint roots.
+updated_at: 2026-06-01T02:36:10.447684Z

@@ -2,10 +2,11 @@ use crate::generated::resolve_workflow_manifest;
 use crate::request::LifecycleRouteExecutionRequest;
 use crate::result::LifecycleRouteExecutionResult;
 use crate::{authorization::now_rfc3339, observer};
+use serde::Serialize;
 use serde_yaml::Value;
 use std::fs;
 use std::fs::File;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::process::{Command, ExitStatus, Stdio};
 use std::thread;
 use std::time::{Duration, Instant};
@@ -76,20 +77,90 @@ pub fn execute_workflow_leaf(
         .then(|| retry_before_target_digest.clone());
     fs::create_dir_all(&request.evidence_root).map_err(crate::LifecycleExecutionError::from)?;
 
-    let invocation_path = request.evidence_root.join(format!(
-        "{}-workflow-invocation.yml",
-        request.route.route_id
-    ));
+    let attempt_ordinal = workflow_attempt_ordinal(request);
+    let evidence_stem = workflow_attempt_evidence_stem(request, attempt_ordinal);
+    let workflow_run_id = workflow_run_id(request, attempt_ordinal);
+    let invocation_path = request
+        .evidence_root
+        .join(format!("{evidence_stem}-workflow-invocation.yml"));
     let stdout_path = request
         .evidence_root
-        .join(format!("{}-stdout.log", request.route.route_id));
+        .join(format!("{evidence_stem}-stdout.log"));
     let stderr_path = request
         .evidence_root
-        .join(format!("{}-stderr.log", request.route.route_id));
+        .join(format!("{evidence_stem}-stderr.log"));
     let terminal_path = request
         .evidence_root
-        .join(format!("{}-workflow-terminal.yml", request.route.route_id));
-    let workflow_run_id = format!("{}-workflow", request.run_id);
+        .join(format!("{evidence_stem}-workflow-terminal.yml"));
+    let observation_path = request
+        .evidence_root
+        .join(format!("{evidence_stem}-completion-observation.yml"));
+
+    let existing_state_paths = existing_workflow_run_state_paths(repo_root, &workflow_run_id);
+    if !existing_state_paths.is_empty() {
+        let denied_path = request
+            .evidence_root
+            .join(format!("{evidence_stem}-workflow-resume-denied.yml"));
+        let denied_at = now_rfc3339();
+        let evidence = WorkflowResumeDeniedEvidence {
+            schema_version: "octon-lifecycle-workflow-leaf-resume-denied-v1",
+            run_id: &request.run_id,
+            route_id: &request.route.route_id,
+            retry_attempt: request.policy.retry_attempt,
+            attempt_ordinal,
+            workflow_run_id: &workflow_run_id,
+            status: "failed",
+            resume_decision: "denied",
+            replay_safe_proof: "absent",
+            reason: "workflow run id already has canonical execution artifacts; same-input, same-authority, same-target replay-safe resume proof was not provided",
+            existing_state_paths: existing_state_paths
+                .iter()
+                .map(|path| path.display().to_string())
+                .collect(),
+            target: request.target.display().to_string(),
+            bound_inputs: &request.bound_inputs,
+            invocation_authority: &request.policy.invocation_authority.mode,
+            human_boundary_context: workflow_context_evidence(request),
+            recorded_at: denied_at.clone(),
+        };
+        fs::write(
+            &denied_path,
+            serde_yaml::to_string(&evidence).map_err(crate::LifecycleExecutionError::from)?,
+        )
+        .map_err(crate::LifecycleExecutionError::from)?;
+        let observation =
+            observer::observe_completion(request, before.clone(), before_target_digest.clone())
+                .map_err(crate::LifecycleExecutionError::from)?;
+        fs::write(
+            &observation_path,
+            serde_yaml::to_string(&observation).map_err(crate::LifecycleExecutionError::from)?,
+        )
+        .map_err(crate::LifecycleExecutionError::from)?;
+        return Ok(LifecycleRouteExecutionResult {
+            schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
+            run_id: request.run_id.clone(),
+            route_id: request.route.route_id.clone(),
+            phase_id: request.phase_id.clone(),
+            executor_used: "workflow-leaf".to_string(),
+            status: "failed".to_string(),
+            started_at,
+            ended_at: denied_at,
+            manifest_status_before: before,
+            manifest_status_after: observation.manifest_status_after,
+            receipts_observed: observation.receipts_observed,
+            evidence_paths: vec![denied_path, observation_path],
+            stdout_path: None,
+            stderr_path: None,
+            prompt_packet_path: None,
+            retryable: true,
+            next_action: "manual-intervention".to_string(),
+            error_class: Some(crate::LifecycleErrorClass::ExecutorFailed),
+            error_message: Some(format!(
+                "workflow run id {workflow_run_id} already exists and replay-safe resume proof is absent"
+            )),
+        });
+    }
+
     let executable = workflow_executable(repo_root);
     let mut argv = vec![
         "workflow".to_string(),
@@ -104,20 +175,24 @@ pub fn execute_workflow_leaf(
         argv.push("--set".to_string());
         argv.push(format!("{key}={value}"));
     }
+    let invocation = WorkflowInvocationEvidence {
+        schema_version: "octon-lifecycle-workflow-leaf-invocation-v1",
+        run_id: &request.run_id,
+        route_id: &request.route.route_id,
+        retry_attempt: request.policy.retry_attempt,
+        attempt_ordinal,
+        workflow_run_id: &workflow_run_id,
+        executable: executable.display().to_string(),
+        argv: &argv,
+        target: request.target.display().to_string(),
+        bound_inputs: &request.bound_inputs,
+        invocation_authority: &request.policy.invocation_authority.mode,
+        human_boundary_context: workflow_context_evidence(request),
+        started_at: &started_at,
+    };
     fs::write(
         &invocation_path,
-        format!(
-            "schema_version: octon-lifecycle-workflow-leaf-invocation-v1\nrun_id: {}\nroute_id: {}\nworkflow_run_id: {}\nexecutable: {}\nargv:\n{}\nstarted_at: {}\n",
-            request.run_id,
-            request.route.route_id,
-            workflow_run_id,
-            executable.display(),
-            argv.iter()
-                .map(|arg| format!("  - {}", yaml_string(arg)))
-                .collect::<Vec<_>>()
-                .join("\n"),
-            started_at
-        ),
+        serde_yaml::to_string(&invocation).map_err(crate::LifecycleExecutionError::from)?,
     )
     .map_err(crate::LifecycleExecutionError::from)?;
 
@@ -129,24 +204,28 @@ pub fn execute_workflow_leaf(
         &stdout_path,
         &stderr_path,
     )?;
+    let terminal = WorkflowTerminalEvidence {
+        schema_version: "octon-lifecycle-workflow-leaf-terminal-v1",
+        run_id: &request.run_id,
+        route_id: &request.route.route_id,
+        retry_attempt: request.policy.retry_attempt,
+        attempt_ordinal,
+        workflow_run_id: &workflow_run_id,
+        success: output.success,
+        timed_out: output.timed_out,
+        cancelled: output.cancelled,
+        exit_code: output
+            .status
+            .as_ref()
+            .and_then(ExitStatus::code)
+            .map(|code| code.to_string())
+            .unwrap_or_else(|| "none".to_string()),
+        human_boundary_context: workflow_context_evidence(request),
+        ended_at: now_rfc3339(),
+    };
     fs::write(
         &terminal_path,
-        format!(
-            "schema_version: octon-lifecycle-workflow-leaf-terminal-v1\nrun_id: {}\nroute_id: {}\nworkflow_run_id: {}\nsuccess: {}\ntimed_out: {}\ncancelled: {}\nexit_code: {}\nended_at: {}\n",
-            request.run_id,
-            request.route.route_id,
-            workflow_run_id,
-            output.success,
-            output.timed_out,
-            output.cancelled,
-            output
-                .status
-                .as_ref()
-                .and_then(ExitStatus::code)
-                .map(|code| code.to_string())
-                .unwrap_or_else(|| "none".to_string()),
-            now_rfc3339()
-        ),
+        serde_yaml::to_string(&terminal).map_err(crate::LifecycleExecutionError::from)?,
     )
     .map_err(crate::LifecycleExecutionError::from)?;
     let observation = observer::observe_completion(request, before.clone(), before_target_digest)
@@ -162,10 +241,6 @@ pub fn execute_workflow_leaf(
             | Some(crate::LifecycleErrorClass::Timeout)
     ) && before == observation.manifest_status_after
         && retry_before_target_digest == retry_after_target_digest;
-    let observation_path = request.evidence_root.join(format!(
-        "{}-completion-observation.yml",
-        request.route.route_id
-    ));
     fs::write(
         &observation_path,
         serde_yaml::to_string(&observation).map_err(crate::LifecycleExecutionError::from)?,
@@ -321,6 +396,136 @@ fn run_workflow_command(
     }
 }
 
+#[derive(Serialize)]
+struct WorkflowInvocationEvidence<'a> {
+    schema_version: &'static str,
+    run_id: &'a str,
+    route_id: &'a str,
+    retry_attempt: u32,
+    attempt_ordinal: u32,
+    workflow_run_id: &'a str,
+    executable: String,
+    argv: &'a [String],
+    target: String,
+    bound_inputs: &'a std::collections::BTreeMap<String, String>,
+    invocation_authority: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    human_boundary_context: Option<WorkflowContextEvidence<'a>>,
+    started_at: &'a str,
+}
+
+#[derive(Serialize)]
+struct WorkflowTerminalEvidence<'a> {
+    schema_version: &'static str,
+    run_id: &'a str,
+    route_id: &'a str,
+    retry_attempt: u32,
+    attempt_ordinal: u32,
+    workflow_run_id: &'a str,
+    success: bool,
+    timed_out: bool,
+    cancelled: bool,
+    exit_code: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    human_boundary_context: Option<WorkflowContextEvidence<'a>>,
+    ended_at: String,
+}
+
+#[derive(Serialize)]
+struct WorkflowResumeDeniedEvidence<'a> {
+    schema_version: &'static str,
+    run_id: &'a str,
+    route_id: &'a str,
+    retry_attempt: u32,
+    attempt_ordinal: u32,
+    workflow_run_id: &'a str,
+    status: &'static str,
+    resume_decision: &'static str,
+    replay_safe_proof: &'static str,
+    reason: &'static str,
+    existing_state_paths: Vec<String>,
+    target: String,
+    bound_inputs: &'a std::collections::BTreeMap<String, String>,
+    invocation_authority: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    human_boundary_context: Option<WorkflowContextEvidence<'a>>,
+    recorded_at: String,
+}
+
+#[derive(Serialize)]
+struct WorkflowContextEvidence<'a> {
+    context_kind: &'a str,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    program_run_id: Option<&'a str>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<&'a str>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    human_exception_instruction: Option<&'a str>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    retry_instruction: Option<&'a str>,
+}
+
+fn workflow_context_evidence(
+    request: &LifecycleRouteExecutionRequest,
+) -> Option<WorkflowContextEvidence<'_>> {
+    request
+        .human_boundary_context
+        .as_ref()
+        .map(|context| WorkflowContextEvidence {
+            context_kind: &context.context_kind,
+            program_run_id: context.program_run_id.as_deref(),
+            child_id: context.child_id.as_deref(),
+            human_exception_instruction: context.human_exception_instruction.as_deref(),
+            retry_instruction: context.retry_instruction.as_deref(),
+        })
+}
+
+fn workflow_attempt_ordinal(request: &LifecycleRouteExecutionRequest) -> u32 {
+    request.policy.retry_attempt.saturating_add(1)
+}
+
+fn workflow_attempt_evidence_stem(
+    request: &LifecycleRouteExecutionRequest,
+    attempt_ordinal: u32,
+) -> String {
+    format!("{}-attempt-{attempt_ordinal}", request.route.route_id)
+}
+
+fn workflow_run_id(request: &LifecycleRouteExecutionRequest, attempt_ordinal: u32) -> String {
+    format!("{}-attempt-{attempt_ordinal}-workflow", request.run_id)
+}
+
+fn existing_workflow_run_state_paths(repo_root: &Path, workflow_run_id: &str) -> Vec<PathBuf> {
+    let octon_dir = repo_root.join(".octon");
+    [
+        octon_dir
+            .join("state/control/execution/runs")
+            .join(workflow_run_id),
+        octon_dir.join("state/evidence/runs").join(workflow_run_id),
+        octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(workflow_run_id),
+        octon_dir
+            .join("state/continuity/runs")
+            .join(workflow_run_id),
+        octon_dir
+            .join("state/control/execution/approvals/requests")
+            .join(format!("{workflow_run_id}.yml")),
+        octon_dir
+            .join("state/control/execution/approvals/grants")
+            .join(format!("grant-{workflow_run_id}.yml")),
+        octon_dir
+            .join("state/evidence/control/execution")
+            .join(format!("authority-decision-{workflow_run_id}.yml")),
+        octon_dir
+            .join("state/evidence/control/execution")
+            .join(format!("authority-grant-bundle-{workflow_run_id}.yml")),
+    ]
+    .into_iter()
+    .filter(|path| path.exists())
+    .collect()
+}
+
 fn workflow_route_status(
     output: &WorkflowCommandOutput,
     completion_observed: bool,
@@ -372,12 +577,6 @@ fn workflow_executable(repo_root: &Path) -> std::path::PathBuf {
         }
     }
     repo_root.join(".octon/framework/engine/runtime/run")
-}
-
-fn yaml_string(value: &str) -> String {
-    serde_yaml::to_string(value)
-        .map(|value| value.trim().to_string())
-        .unwrap_or_else(|_| format!("{value:?}"))
 }
 
 fn scalar(value: Option<&Value>) -> Option<&str> {

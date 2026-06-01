@@ -1,0 +1,24 @@
+# Artifact Catalog
+
+- `README.md`
+- `architecture-proposal.yml`
+- `proposal.yml`
+- `validation-plan.md`
+- `architecture/acceptance-criteria.md`
+- `architecture/current-state-gap-map.md`
+- `architecture/cutover-checklist.md`
+- `architecture/file-change-map.md`
+- `architecture/implementation-plan.md`
+- `architecture/operator-disclosure.md`
+- `architecture/rollback-plan.md`
+- `architecture/target-architecture.md`
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `resources/assumptions-and-blockers.md`
+- `resources/evidence-plan.md`
+- `resources/risk-register.md`
+- `resources/source-lineage.md`
+- `support/implementation-grade-completeness-review.md`
+- `support/proposal-creation.md`
+- `support/proposal-review.md`
+- `support/revisions/proposal-program-runner-terminal-gap-map-revision-20260601T015030Z.md`

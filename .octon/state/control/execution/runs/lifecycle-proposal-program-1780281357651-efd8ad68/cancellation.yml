@@ -1,0 +1,8 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-proposal-program-1780281357651-efd8ad68
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening
+reason: stuck-promote-workflow-after-input-bound-before-stage-body
+cancelled_at: 2026-06-01T02:38:37.882913Z
+evidence_path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780281357651-efd8ad68/program-cancelled.yml

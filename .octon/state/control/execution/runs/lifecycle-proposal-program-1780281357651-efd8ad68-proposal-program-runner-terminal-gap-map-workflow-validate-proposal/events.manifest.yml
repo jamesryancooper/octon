@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:bda5cfe6ba9645da95e62d9e0c5c90c8f59b942eedd4e8c8772dc30d0aae4968
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  sequence: 1
+  event_hash: sha256:e770e0f752b29192d8bf308b957b1dc3bac72807a1629b8265dfbe8163826e45
+last_event_ref:
+  event_id: evt-checkpoint-start-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  sequence: 20
+  event_hash: sha256:38a476130527022aaa37e13bfbf839010c7258c75c871dc7678d014f850da9e4
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:e770e0f752b29192d8bf308b957b1dc3bac72807a1629b8265dfbe8163826e45
+  tail_event_hash: sha256:38a476130527022aaa37e13bfbf839010c7258c75c871dc7678d014f850da9e4
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-1ac44bc4a0b5
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  runtime_state_ref: evt-capability-authorized-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-lifecycle-proposal-program-1780281357651-efd8ad68-proposal-program-runner-terminal-gap-map-workflow-validate-proposal
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:38a476130527022aaa37e13bfbf839010c7258c75c871dc7678d014f850da9e4
+  materialized_at: 2026-06-01T02:36:10.368383Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-01T02:36:10.368383Z

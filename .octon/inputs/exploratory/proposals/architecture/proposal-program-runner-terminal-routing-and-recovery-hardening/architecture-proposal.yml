@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "proposal-program-runner-terminal-routing-and-recovery-hardening"
+title: "Proposal Program Runner Terminal Routing And Recovery Hardening"
+architecture_scope: "proposal-program runner terminal routing and recovery hardening"
+decision_type: "surface-refactor"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  The end-to-end proposal-program execution attempt proved that many lifecycle
+  runner hardening surfaces are now covered, but remaining terminal routing
+  gaps still require coordinated changes across workflow retry, route-owned
+  change handoff checkpoints, aggregate blockers, promotion evidence binding,
+  generated-state freshness, parent review freshness, archive observation, and
+  tests.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+child_registry_ref: "resources/child-packet-index.yml"
+source_traceability_ref: "resources/source-traceability-matrix.md"
+rollback_posture: "parent-coordination-only"
+authority_boundaries:
+  runner_role: "orchestrator"
+  promotion_owner: "workflow route"
+  archive_owner: "workflow route"
+  cleanup_owner: "cleanup lifecycle route or repo hygiene helper"
+  change_closeout_owner: "closeout-change / closeout-worktree lifecycle interactions"
+  publication_owner: "canonical publication scripts"
+  child_receipt_owner: "child packet lifecycle"

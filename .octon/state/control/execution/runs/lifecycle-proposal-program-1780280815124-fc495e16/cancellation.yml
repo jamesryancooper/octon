@@ -1,0 +1,8 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-proposal-program-1780280815124-fc495e16
+lifecycle_id: proposal-program
+execution_strategy: orchestrated-replan-loop
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening
+reason: stuck-child-implementation-after-preflight-without-receipts
+cancelled_at: 2026-06-01T02:31:38.597846Z
+evidence_path: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780280815124-fc495e16/program-cancelled.yml

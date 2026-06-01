@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/context/context-pack.json
+context_pack_sha256: sha256:36b0aa027232d505fd31f49c200ca9219fd3c9d81599be4198c5e553d0c5da5a
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/context/model-visible-context.json
+model_visible_context_sha256: sha256:981863d8960ebcd6a958a95c52e985fed03daf5f1b9fef2c0f8ce3c1f6bd333c
+receipt_sha256: sha256:b57699be6012df7ce03f409aab3210a2d8d2626589f06552c74a8533e52e9ef4
+run_id: lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow
+schema_version: active-context-pack-v1
+updated_at: 2026-06-01T04:19:40.871618Z
+validity_state: valid

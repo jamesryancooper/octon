@@ -1,0 +1,40 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:45c1de75c24ec3d9751c130ae046cfdc8944c9405881fe699ec3e79d03600fe5
+event_count: 20
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  sequence: 1
+  event_hash: sha256:4b97d512a93efee40e9d1cad534abfada659eb284e412a238fbf1e9bb336d703
+last_event_ref:
+  event_id: evt-checkpoint-start-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  sequence: 20
+  event_hash: sha256:e0eaf284ca589d601fb1be27f74ea6f78ab5cd5fcf2f60f4c18b10a72530db8a
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:4b97d512a93efee40e9d1cad534abfada659eb284e412a238fbf1e9bb336d703
+  tail_event_hash: sha256:e0eaf284ca589d601fb1be27f74ea6f78ab5cd5fcf2f60f4c18b10a72530db8a
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-start-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-e9a8e8fff37f
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  runtime_state_ref: evt-capability-authorized-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+snapshot_refs: {}
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-checkpoint-start-lifecycle-proposal-program-1780287571677-ce65fb7e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  last_applied_sequence: 20
+  last_applied_event_hash: sha256:e0eaf284ca589d601fb1be27f74ea6f78ab5cd5fcf2f60f4c18b10a72530db8a
+  materialized_at: 2026-06-01T04:19:42.81646Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-01T04:19:42.81646Z

@@ -1,0 +1,27 @@
+schema_version: octon-lifecycle-checkpoint-v1
+run_id: lifecycle-proposal-packet-1780279225456-dde204dd
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-gap-map
+current_state: review-packet
+current_phase: review-and-revision
+completed_states: []
+last_route: review-packet
+loop_counts: {}
+phase_counts:
+  review-and-revision: 1
+last_phase_transition: phase-entered:review-and-revision
+phase_blockers:
+  final_verdict: cancelled
+receipt_digests:
+  proposal-review: sha256:d90c30ebd4f92da6bda838b4b19e8434ac13cd2dcbc5e2c87beb97f0a2793c20
+last_validator_results: []
+run_inputs: {}
+interaction_request_refs: []
+interaction_return_refs: []
+cancelled_at: 2026-06-01T02:06:16.757366Z
+cancel_reason: stuck-broad-validation-after-accepted-review-and-strict-gate-pass
+cancellation_evidence_path: .octon/state/evidence/runs/workflows/lifecycle-proposal-packet-1780279225456-dde204dd/lifecycle-cancelled.yml
+terminal_outcome: cancelled
+final_verdict: cancelled
+resume_instruction: cancelled lifecycle runs cannot resume dispatch

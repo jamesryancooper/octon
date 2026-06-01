@@ -14,12 +14,18 @@ Inputs:
 - Optional `include_paths`
 - Optional `exclude_paths`
 - Optional `receipt_ref`
+- Optional `lifecycle_interaction_request_ref`; advisory context only
 
 When `include_paths` and `exclude_paths` come from `closeout-worktree`, they
 are candidate boundaries, not optional hints. `closeout-change` must stage and
 commit only the included boundary paths, preserve excluded paths, and create or
 select a task branch for branch-isolated candidates when the selected route
 requires branch identity and none exists.
+
+When boundaries come from a `lifecycle-interaction-request-v1`, the request is
+handoff context only. `closeout-change` must still inventory, validate route
+eligibility, prove landing or cleanup authorization when applicable, and emit
+its own Change receipt before any lifecycle outcome is claimed.
 
 Outputs:
 
@@ -29,6 +35,9 @@ Outputs:
   `/.octon/state/evidence/runs/skills/closeout-change/{{run_id}}.md`
 - Change receipt conforming to
   `.octon/framework/product/contracts/change-receipt-v1.schema.json`
+- Optional `lifecycle-interaction-return-v1` evidence that cites the
+  target-owned Change receipt or blocker evidence without transferring cleanup,
+  Git, hosted-provider, promotion, archive, rollback, or scope authority
 
 Receipt outputs must record selected route, target lifecycle outcome, actual
 lifecycle outcome, integration status, publication status, cleanup status,

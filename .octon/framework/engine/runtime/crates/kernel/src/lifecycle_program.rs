@@ -62,6 +62,9 @@ const RECEIPT_ID_IMPLEMENTATION_RUN: &str = "implementation-run";
 const RECEIPT_ID_IMPLEMENTATION_CONFORMANCE: &str = "implementation-conformance";
 const RECEIPT_ID_POST_IMPLEMENTATION_DRIFT: &str = "post-implementation-drift";
 const FIELD_CHILD_AUTHORITY_PRESERVED: &str = "child_authority_preserved";
+const PROGRAM_HANDOFF_PROFILE_ID: &str = "program-child-batch-handoff";
+const LIFECYCLE_INTERACTION_REQUEST_SCHEMA: &str = "lifecycle-interaction-request-v1";
+const LIFECYCLE_INTERACTION_RETURN_SCHEMA: &str = "lifecycle-interaction-return-v1";
 const PROGRAM_RECOVERY_RUN_HEALTH_EVIDENCE_ROOT_REL: &str =
     ".octon/state/evidence/validation/runtime/governed-runtime-materialization-v1/run-health";
 const APPROVAL_POSTURE_PRE_GRANTED: &str = "pre-granted";
@@ -73,6 +76,22 @@ const BLOCKER_DURABLE_AUTHORITY_APPROVAL_REQUIRED: &str = "scope-expansion";
 const BLOCKER_PROTECTED_ARTIFACT_APPROVAL_REQUIRED: &str = "scope-expansion";
 const BLOCKER_LIFECYCLE_RESIDUE_CLEANUP_NEEDED: &str = "lifecycle-residue-cleanup-needed";
 const UNKNOWN_RESIDUE_FINGERPRINT: &str = "unknown";
+const PROGRAM_HANDOFF_EXCLUDE_PATHS: &[&str] = &[
+    ".git",
+    ".octon/generated",
+    ".octon/state/control",
+    ".octon/state/evidence",
+];
+const PROGRAM_HANDOFF_FORBIDDEN_TRANSFERS: &[&str] = &[
+    "git-ref-mutation",
+    "hosted-provider-authorization",
+    "branch-cleanup-authorization",
+    "worktree-cleanup-authorization",
+    "repo-hygiene-deletion",
+    "archive-authorization",
+    "promotion-authorization",
+    "scope-expansion",
+];
 
 fn default_orchestrated_replan_loop_execution_strategy() -> String {
     LifecycleExecutionStrategy::OrchestratedReplanLoop
@@ -690,6 +709,12 @@ pub(crate) struct ProgramLifecycleRunResult {
     #[serde(default)]
     pub child_results: Vec<ProgramChildExecutionSummary>,
     #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub interaction_request_refs: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub interaction_return_refs: Vec<String>,
+    #[serde(default)]
     pub terminal_outcome: Option<String>,
     pub final_verdict: String,
 }
@@ -794,6 +819,10 @@ struct ProgramLifecycleCheckpoint {
     closeout_hygiene_suppressions: BTreeMap<String, ProgramCloseoutHygieneSuppression>,
     #[serde(default)]
     residue_cleanup_attempts: BTreeMap<String, ProgramResidueCleanupAttempt>,
+    #[serde(default)]
+    interaction_request_refs: Vec<String>,
+    #[serde(default)]
+    interaction_return_refs: Vec<String>,
     #[serde(default)]
     approvals: Vec<ProgramApprovalGrant>,
     #[serde(default)]
@@ -2205,6 +2234,31 @@ fn run_program_lifecycle_single_step(
             [("final_verdict", plan.final_verdict.as_str())],
         ),
     )?;
+    let (incoming_interaction_request_refs, incoming_interaction_return_refs) =
+        lifecycle_interaction_refs_from_run_inputs(repo_root, run_inputs)?;
+    if !incoming_interaction_request_refs.is_empty() || !incoming_interaction_return_refs.is_empty()
+    {
+        let mut interaction_data = program_step_event_data(
+            step_context.as_ref(),
+            step_kind,
+            [("authority", "non-authorizing-context")],
+        );
+        insert_program_interaction_event_context(
+            &mut interaction_data,
+            &incoming_interaction_request_refs,
+            &incoming_interaction_return_refs,
+        );
+        append_program_event(
+            control_root,
+            evidence_root,
+            sanitized_run_id,
+            "interaction-context-recorded",
+            None,
+            None,
+            "program lifecycle interaction refs recorded as non-authorizing context",
+            interaction_data,
+        )?;
+    }
     let mut child_results = Vec::new();
     let mut final_verdict = plan.final_verdict.clone();
     let mut terminal_outcome = plan.terminal_outcome.clone();
@@ -2480,6 +2534,17 @@ fn run_program_lifecycle_single_step(
             preflight_results.append(&mut executed_results);
             preflight_results
         };
+        emit_program_child_handoff_requests(
+            repo_root,
+            evidence_root,
+            control_root,
+            sanitized_run_id,
+            &options.lifecycle_id,
+            target_rel,
+            &before_child_dispatch_plan,
+            &mut child_results,
+            step_context,
+        )?;
         let replan_checkpoint = checkpoint_for_post_execution_replan(previous_checkpoint);
         plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             octon_dir,
@@ -2692,6 +2757,8 @@ fn run_program_lifecycle_single_step(
             parent_route_result,
             selected_children: plan.runnable_batch,
             child_results,
+            interaction_request_refs: checkpoint.interaction_request_refs.clone(),
+            interaction_return_refs: checkpoint.interaction_return_refs.clone(),
             terminal_outcome,
             final_verdict,
         },
@@ -12236,6 +12303,369 @@ fn execute_child_job(
     })
 }
 
+#[derive(Clone, Copy)]
+struct ProgramHandoffRequestSpec {
+    requested_capability: &'static str,
+    requested_lifecycle_id: &'static str,
+    requested_route_surface: &'static str,
+    requested_atomic_unit_type: &'static str,
+    requested_target_outcome: &'static str,
+    expected_return_evidence: &'static [&'static str],
+    phase_id: &'static str,
+}
+
+fn emit_program_child_handoff_requests(
+    repo_root: &Path,
+    evidence_root: &Path,
+    control_root: &Path,
+    program_run_id: &str,
+    lifecycle_id: &str,
+    target_rel: &str,
+    plan: &ProgramLifecyclePlanResult,
+    child_results: &mut [ProgramChildExecutionSummary],
+    step_context: Option<ProgramExecutionStepContext>,
+) -> Result<Vec<String>> {
+    let mut request_refs = Vec::new();
+    for result in child_results.iter_mut() {
+        let Some(spec) = program_handoff_request_spec(&result.route_id, &result.status) else {
+            continue;
+        };
+        let Some(state) = plan.child_states.get(&result.child_id) else {
+            continue;
+        };
+        let request_ref = write_program_child_handoff_request(
+            repo_root,
+            evidence_root,
+            program_run_id,
+            lifecycle_id,
+            target_rel,
+            state,
+            result,
+            spec,
+        )?;
+        result.evidence_paths.push(request_ref.clone());
+        push_unique_string(&mut request_refs, request_ref.clone());
+        let mut data = program_step_event_data(
+            step_context.as_ref(),
+            spec.phase_id,
+            [
+                ("interaction_request_ref", request_ref.as_str()),
+                ("interaction_profile", PROGRAM_HANDOFF_PROFILE_ID),
+                ("requested_route_surface", spec.requested_route_surface),
+                (
+                    "requested_atomic_unit_type",
+                    spec.requested_atomic_unit_type,
+                ),
+                ("authority", "non-authorizing-request"),
+            ],
+        );
+        data.insert(
+            "forbidden_transfer".to_string(),
+            PROGRAM_HANDOFF_FORBIDDEN_TRANSFERS.join(","),
+        );
+        append_program_event(
+            control_root,
+            evidence_root,
+            program_run_id,
+            "lifecycle-interaction-requested",
+            Some(&result.child_id),
+            Some(&result.route_id),
+            "program lifecycle requested target-owned closeout handoff evidence",
+            data,
+        )?;
+    }
+    Ok(request_refs)
+}
+
+fn program_handoff_request_spec(route_id: &str, status: &str) -> Option<ProgramHandoffRequestSpec> {
+    if status != "completed" {
+        return None;
+    }
+    match route_id {
+        "run-packet-implementation"
+        | "run-program-implementation-orchestration"
+        | "run-implementation" => Some(ProgramHandoffRequestSpec {
+            requested_capability: "change-closeout",
+            requested_lifecycle_id: "change-closeout",
+            requested_route_surface: "closeout-change",
+            requested_atomic_unit_type: "change",
+            requested_target_outcome: "cleaned",
+            expected_return_evidence: &["change-receipt-v1"],
+            phase_id: "child-batch-dispatch",
+        }),
+        ROUTE_ID_PROMOTE_PROPOSAL => Some(ProgramHandoffRequestSpec {
+            requested_capability: "closeout-worktree",
+            requested_lifecycle_id: "closeout-worktree",
+            requested_route_surface: "closeout-worktree",
+            requested_atomic_unit_type: "worktree",
+            requested_target_outcome: "cleaned",
+            expected_return_evidence: &["closeout-worktree-report-v1"],
+            phase_id: "promotion-evidence-convergence",
+        }),
+        _ => None,
+    }
+}
+
+fn write_program_child_handoff_request(
+    repo_root: &Path,
+    evidence_root: &Path,
+    program_run_id: &str,
+    lifecycle_id: &str,
+    target_rel: &str,
+    state: &ProgramChildPlanState,
+    result: &ProgramChildExecutionSummary,
+    spec: ProgramHandoffRequestSpec,
+) -> Result<String> {
+    let include_paths = program_handoff_include_paths(state)?;
+    let exclude_paths = program_handoff_exclude_paths(&include_paths);
+    let boundary_digest = lifecycle_interaction_boundary_digest(&include_paths, &exclude_paths)?;
+    let interaction_id = lifecycle_interaction_id(&format!(
+        "{PROGRAM_HANDOFF_PROFILE_ID}-{program_run_id}-{}-{}",
+        result.child_id, result.route_id
+    ));
+    let interaction_root = evidence_root.join("lifecycle-interactions");
+    fs::create_dir_all(&interaction_root)?;
+    let basis_path = interaction_root.join(format!("{interaction_id}-basis.yml"));
+    fs::write(
+        &basis_path,
+        format!(
+            "schema_version: octon-program-lifecycle-interaction-basis-v1\nprogram_run_id: {}\nchild_id: {}\nchild_run_id: {}\nsource_lifecycle_id: {}\nchild_lifecycle_id: {}\nroute_id: {}\nroute_status: {}\nnon_authorizing: true\nboundary_digest: {}\nrecorded_at: {}\n",
+            yaml_scalar(program_run_id),
+            yaml_scalar(&result.child_id),
+            yaml_scalar(&result.child_run_id),
+            yaml_scalar(lifecycle_id),
+            yaml_scalar(&state.child_lifecycle_id),
+            yaml_scalar(&result.route_id),
+            yaml_scalar(&result.status),
+            yaml_scalar(&boundary_digest),
+            yaml_scalar(&now_rfc3339()?),
+        ),
+    )?;
+    let evidence_offered =
+        program_handoff_evidence_offered(repo_root, result, &basis_path, &interaction_root)?;
+    let request_path = interaction_root.join(format!("{interaction_id}.json"));
+    let request = serde_json::json!({
+        "schema_version": LIFECYCLE_INTERACTION_REQUEST_SCHEMA,
+        "interaction_id": interaction_id,
+        "created_at": now_rfc3339()?,
+        "source": {
+            "lifecycle_id": lifecycle_id,
+            "run_id": program_run_id,
+            "atomic_unit_type": "proposal-program",
+            "target_ref": target_rel,
+            "phase_id": spec.phase_id,
+        },
+        "request": {
+            "interaction_profile": PROGRAM_HANDOFF_PROFILE_ID,
+            "interaction_kind": "follow_on_work_required",
+            "requested_capability": spec.requested_capability,
+            "requested_lifecycle_id": spec.requested_lifecycle_id,
+            "requested_route_surface": spec.requested_route_surface,
+            "requested_atomic_unit_type": spec.requested_atomic_unit_type,
+            "requested_target_outcome": spec.requested_target_outcome,
+        },
+        "scope": {
+            "include_paths": include_paths,
+            "exclude_paths": exclude_paths,
+            "boundary_digest": boundary_digest,
+        },
+        "evidence_offered": evidence_offered,
+        "authority_boundary": {
+            "forbidden_transfer": PROGRAM_HANDOFF_FORBIDDEN_TRANSFERS,
+        },
+        "stop_conditions": [
+            "target-gate-missing",
+            "boundary-digest-mismatch",
+            "authority-transfer-attempt",
+            "returned-evidence-missing",
+        ],
+        "expected_return_evidence": spec.expected_return_evidence,
+    });
+    fs::write(
+        &request_path,
+        format!("{}\n", serde_json::to_string_pretty(&request)?),
+    )?;
+    Ok(rel_display(repo_root, &request_path))
+}
+
+fn program_handoff_include_paths(state: &ProgramChildPlanState) -> Result<Vec<String>> {
+    let mut paths = BTreeSet::new();
+    if !is_safe_repo_relative(&state.target) {
+        bail!(
+            "program handoff child target is not repo-relative: {}",
+            state.target
+        );
+    }
+    paths.insert(state.target.clone());
+    for scope in &state.write_scopes {
+        if !is_safe_repo_relative(scope) {
+            bail!("program handoff write scope is not repo-relative: {scope}");
+        }
+        paths.insert(scope.clone());
+    }
+    Ok(paths.into_iter().collect())
+}
+
+fn program_handoff_exclude_paths(include_paths: &[String]) -> Vec<String> {
+    PROGRAM_HANDOFF_EXCLUDE_PATHS
+        .iter()
+        .filter(|path| !include_paths.iter().any(|include| include == **path))
+        .map(|path| (*path).to_string())
+        .collect()
+}
+
+fn lifecycle_interaction_boundary_digest(
+    include_paths: &[String],
+    exclude_paths: &[String],
+) -> Result<String> {
+    let mut payload = BTreeMap::new();
+    payload.insert("exclude_paths", exclude_paths);
+    payload.insert("include_paths", include_paths);
+    Ok(sha256_digest(&serde_json::to_vec(&payload)?))
+}
+
+fn program_handoff_evidence_offered(
+    repo_root: &Path,
+    result: &ProgramChildExecutionSummary,
+    basis_path: &Path,
+    interaction_root: &Path,
+) -> Result<Vec<serde_json::Value>> {
+    let mut offered = Vec::new();
+    let basis_ref = rel_display(repo_root, basis_path);
+    offered.push(serde_json::json!({
+        "ref": basis_ref,
+        "digest": file_digest(basis_path)?,
+        "acceptance_class": "advisory-context",
+    }));
+    let mut seen = BTreeSet::from([rel_display(repo_root, basis_path)]);
+    for raw_path in &result.evidence_paths {
+        let Some((evidence_ref, evidence_abs)) =
+            normalize_existing_program_evidence_ref(repo_root, raw_path)
+        else {
+            continue;
+        };
+        if evidence_abs.starts_with(interaction_root) {
+            continue;
+        }
+        if seen.insert(evidence_ref.clone()) {
+            offered.push(serde_json::json!({
+                "ref": evidence_ref,
+                "digest": file_digest(&evidence_abs)?,
+                "acceptance_class": "validation-evidence",
+            }));
+        }
+    }
+    Ok(offered)
+}
+
+fn normalize_existing_program_evidence_ref(
+    repo_root: &Path,
+    raw_path: &str,
+) -> Option<(String, PathBuf)> {
+    let path = Path::new(raw_path);
+    let absolute = if path.is_absolute() {
+        path.to_path_buf()
+    } else {
+        repo_root.join(path)
+    };
+    if !absolute.is_file() {
+        return None;
+    }
+    let rel = rel_display(repo_root, &absolute);
+    if is_safe_repo_relative(&rel) {
+        Some((rel, absolute))
+    } else {
+        None
+    }
+}
+
+fn lifecycle_interaction_id(raw: &str) -> String {
+    let mut id = String::new();
+    let mut previous_hyphen = false;
+    for ch in raw.chars() {
+        let next = if ch.is_ascii_alphanumeric() {
+            ch.to_ascii_lowercase()
+        } else {
+            '-'
+        };
+        if next == '-' {
+            if !previous_hyphen {
+                id.push(next);
+            }
+            previous_hyphen = true;
+        } else {
+            id.push(next);
+            previous_hyphen = false;
+        }
+    }
+    let id = id.trim_matches('-');
+    if id
+        .chars()
+        .next()
+        .map(|ch| ch.is_ascii_lowercase())
+        .unwrap_or(false)
+    {
+        id.to_string()
+    } else {
+        format!("program-handoff-{id}")
+    }
+}
+
+fn child_result_interaction_request_refs(
+    repo_root: &Path,
+    child_results: &[ProgramChildExecutionSummary],
+) -> Result<Vec<String>> {
+    let mut refs = Vec::new();
+    for result in child_results {
+        for raw_path in &result.evidence_paths {
+            let Some((request_ref, request_abs)) =
+                normalize_existing_program_evidence_ref(repo_root, raw_path)
+            else {
+                continue;
+            };
+            if !request_ref.contains("/lifecycle-interactions/") || !request_ref.ends_with(".json")
+            {
+                continue;
+            }
+            let value: serde_json::Value = serde_json::from_slice(&fs::read(&request_abs)?)?;
+            if value
+                .get("schema_version")
+                .and_then(|schema| schema.as_str())
+                == Some(LIFECYCLE_INTERACTION_REQUEST_SCHEMA)
+            {
+                push_unique_string(&mut refs, request_ref);
+            }
+        }
+    }
+    Ok(refs)
+}
+
+fn push_unique_string(values: &mut Vec<String>, value: String) {
+    if !values.iter().any(|existing| existing == &value) {
+        values.push(value);
+    }
+}
+
+fn insert_program_interaction_event_context(
+    data: &mut BTreeMap<String, String>,
+    request_refs: &[String],
+    return_refs: &[String],
+) {
+    if !request_refs.is_empty() {
+        data.insert(
+            "interaction_request_refs".to_string(),
+            request_refs.join(","),
+        );
+    }
+    if !return_refs.is_empty() {
+        data.insert("interaction_return_refs".to_string(), return_refs.join(","));
+        data.insert(
+            "interaction_return_schema".to_string(),
+            LIFECYCLE_INTERACTION_RETURN_SCHEMA.to_string(),
+        );
+    }
+}
+
 fn adapter_error_blocker_class(error: &LifecycleExecutionError) -> (String, bool) {
     match &error.class {
         LifecycleErrorClass::Timeout => ("executor-timed-out".to_string(), true),
@@ -13093,6 +13523,8 @@ fn checkpoint_from_plan(
         recovery_progress_fingerprints: previous_progress_fingerprints,
         closeout_hygiene_suppressions,
         residue_cleanup_attempts: BTreeMap::new(),
+        interaction_request_refs: Vec::new(),
+        interaction_return_refs: Vec::new(),
         approvals,
         program_recovery_recipe_validation_status: plan
             .program_recovery_recipe_validation_status
@@ -13177,6 +13609,14 @@ fn write_program_checkpoint_snapshot(
             previous_checkpoint.map(|checkpoint| checkpoint.residue_cleanup_attempts.clone())
         })
         .unwrap_or_default();
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let (mut interaction_request_refs, interaction_return_refs) =
+        lifecycle_interaction_refs_from_run_inputs(&repo_root, run_inputs)?;
+    for emitted_ref in child_result_interaction_request_refs(&repo_root, child_results)? {
+        push_unique_string(&mut interaction_request_refs, emitted_ref);
+    }
+    checkpoint.interaction_request_refs = interaction_request_refs;
+    checkpoint.interaction_return_refs = interaction_return_refs;
     checkpoint.timeout_seconds = options.timeout_seconds;
     checkpoint.max_child_concurrency = options.max_child_concurrency;
     if final_verdict == "cancelled" {
@@ -13239,6 +13679,8 @@ fn program_cancelled_run_result(
         parent_route_result: None,
         selected_children: Vec::new(),
         child_results: Vec::new(),
+        interaction_request_refs: checkpoint.interaction_request_refs.clone(),
+        interaction_return_refs: checkpoint.interaction_return_refs.clone(),
         terminal_outcome: Some("cancelled".to_string()),
         final_verdict: "cancelled".to_string(),
     }
@@ -14619,6 +15061,8 @@ fn program_cancelled_summary(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(unix)]
+    use std::os::unix::fs::PermissionsExt;
     use std::time::{SystemTime, UNIX_EPOCH};
 
     fn blocker(class: &str) -> ProgramBlocker {
@@ -15576,6 +16020,8 @@ worktree_hygiene_blocker_class: "worktree-hygiene-blocked"
             parent_route_result: None,
             selected_children: vec!["a".to_string()],
             child_results: Vec::new(),
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
             terminal_outcome: None,
             final_verdict: "blocked-gate".to_string(),
         };
@@ -17568,6 +18014,65 @@ routes:
         fn drop(&mut self) {
             let _ = fs::remove_dir_all(&self.root);
         }
+    }
+
+    struct TestPathGuard {
+        original: Option<std::ffi::OsString>,
+    }
+
+    impl Drop for TestPathGuard {
+        fn drop(&mut self) {
+            if let Some(value) = self.original.as_ref() {
+                std::env::set_var("PATH", value);
+            } else {
+                std::env::remove_var("PATH");
+            }
+        }
+    }
+
+    fn prepend_test_path(bin_dir: &Path) -> TestPathGuard {
+        let original = std::env::var_os("PATH");
+        let mut paths = vec![bin_dir.to_path_buf()];
+        if let Some(existing) = original.as_ref() {
+            paths.extend(std::env::split_paths(existing));
+        }
+        std::env::set_var("PATH", std::env::join_paths(paths).unwrap());
+        TestPathGuard { original }
+    }
+
+    fn write_failing_codex_binary(path: &Path) {
+        fs::create_dir_all(path.parent().unwrap()).unwrap();
+        fs::write(
+            path,
+            "#!/usr/bin/env bash\nset -euo pipefail\ncat >/dev/null\necho synthetic codex failure >&2\nexit 7\n",
+        )
+        .unwrap();
+        #[cfg(unix)]
+        {
+            let mut permissions = fs::metadata(path).unwrap().permissions();
+            permissions.set_mode(0o755);
+            fs::set_permissions(path, permissions).unwrap();
+        }
+    }
+
+    fn write_retry_prompt_catalog(fixture: &ProgramFixture) {
+        fixture.write(
+            ".octon/generated/effective/extensions/catalog.effective.yml",
+            r#"
+schema_version: "test"
+packs:
+  - pack_id: "test-extension"
+    capability_profiles: ["prompt-bundle"]
+    prompt_bundles:
+      - prompt_set_id: "test-extension-retry"
+        prompt_assets:
+          - projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/retry/stages/01.md"
+"#,
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/retry/stages/01.md",
+            "Retry attempt propagation fixture for {{target}}.\n",
+        );
     }
 
     fn assert_program_route(plan: &ProgramLifecyclePlanResult, expected: &str) {
@@ -20826,6 +21331,419 @@ routes:
     }
 
     #[test]
+    fn child_retry_dispatch_passes_distinct_retry_attempts_to_executor() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("child-retry-attempt-propagation", true);
+        write_retry_prompt_catalog(&fixture);
+        fixture.write_child("a", "framework/a.md", "accepted");
+        let bin_dir = fixture.root.join("bin");
+        write_failing_codex_binary(&bin_dir.join("codex"));
+        let _path_guard = prepend_test_path(&bin_dir);
+        let program_run_id = "child-retry-attempt-propagation";
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        fs::create_dir_all(&control_root).unwrap();
+        fs::create_dir_all(&evidence_root).unwrap();
+        let child_evidence_root = evidence_root.join("children/a");
+        fs::create_dir_all(&child_evidence_root).unwrap();
+        let lock_path = acquire_child_lock(&control_root, "a").unwrap();
+        let request = LifecycleRouteExecutionRequest {
+            schema_version: "octon-lifecycle-route-execution-request-v1".to_string(),
+            run_id: format!("{program_run_id}-a"),
+            lifecycle_id: "proposal-packet".to_string(),
+            owner_extension: "test-extension".to_string(),
+            phase_id: None,
+            target: fixture.root.join("children/a"),
+            manifest_path: "proposal.yml".to_string(),
+            status_field: "status".to_string(),
+            executor: "codex".to_string(),
+            route: LifecycleRouteSpec {
+                route_id: "run-implementation".to_string(),
+                route_type: "extension".to_string(),
+                command_id: None,
+                skill_id: None,
+                prompt_set_id: Some("test-extension-retry".to_string()),
+                required_inputs: Vec::new(),
+                completion_replan_required: false,
+                delegation_contract: Some(LifecycleDelegationContract {
+                    decision_class: "delegated-execution".to_string(),
+                    safe_delegation: true,
+                    authority_zones_allowed: vec!["workspace-declared".to_string()],
+                    declared_write_scope_source: "target".to_string(),
+                    required_evidence_gates: Vec::new(),
+                    required_receipts_before_dispatch: Vec::new(),
+                    required_receipts_before_completion: Vec::new(),
+                    replay_class: "bounded-retry".to_string(),
+                    automated_recovery_policy: "bounded-automated-retry".to_string(),
+                    human_only_boundaries: vec!["scope-expansion".to_string()],
+                }),
+            },
+            effective_extension_catalog: fixture
+                .octon_dir
+                .join("generated/effective/extensions/catalog.effective.yml"),
+            runtime_route_bundle: fixture
+                .octon_dir
+                .join("generated/effective/runtime/route-bundle.yml"),
+            bound_inputs: BTreeMap::new(),
+            receipts: Vec::new(),
+            expected_receipts: Vec::new(),
+            expected_paths: Vec::new(),
+            expected_manifest_status: None,
+            expected_target_change: false,
+            evidence_root: child_evidence_root.clone(),
+            checkpoint_path: control_root.join("children/a/lifecycle-checkpoint.yml"),
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
+            policy: LifecycleExecutionPolicy {
+                timeout_seconds: 10,
+                cancellation_token: None,
+                retry_attempt: 0,
+                invocation_authority: LifecycleInvocationAuthority {
+                    mode: "unattended".to_string(),
+                    provenance: "unit-test".to_string(),
+                    authority_ref: None,
+                },
+            },
+            human_boundary_context: None,
+            evidence_gate_results: BTreeMap::new(),
+        };
+        let outcome = execute_child_job(
+            DefaultLifecycleRouteExecutor::new(fixture.root.clone()),
+            ChildExecutionJob {
+                child_id: "a".to_string(),
+                child_run_id: format!("{program_run_id}-a"),
+                route_id: "run-implementation".to_string(),
+                request,
+                lock_path,
+                max_attempts: 2,
+                blocker_class: None,
+                unsafe_repair: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(outcome.summary.attempts, 2);
+        assert_eq!(outcome.summary.status, "failed");
+        assert!(outcome.summary.retryable);
+        let start =
+            fs::read_to_string(child_evidence_root.join("run-implementation-executor-start.yml"))
+                .unwrap();
+        assert!(start.contains("retry_attempt: 1"));
+    }
+
+    #[test]
+    fn mutating_child_batch_emits_non_authorizing_handoff_request() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("handoff-mutating-child-batch", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("handoff-mutating-child-batch".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.interaction_request_refs.len(), 1);
+        let request_ref = result.interaction_request_refs.first().unwrap();
+        let request_path = fixture.root.join(request_ref);
+        assert!(request_path.is_file());
+        assert!(result.child_results.iter().any(|summary| {
+            summary.route_id == "run-packet-implementation"
+                && summary
+                    .evidence_paths
+                    .iter()
+                    .any(|path| path == request_ref)
+        }));
+
+        let request: serde_json::Value =
+            serde_json::from_slice(&fs::read(&request_path).unwrap()).unwrap();
+        assert_eq!(
+            request
+                .get("schema_version")
+                .and_then(|value| value.as_str()),
+            Some(LIFECYCLE_INTERACTION_REQUEST_SCHEMA)
+        );
+        assert_eq!(
+            request
+                .get("request")
+                .and_then(|value| value.get("requested_route_surface"))
+                .and_then(|value| value.as_str()),
+            Some("closeout-change")
+        );
+        let include_paths = request
+            .get("scope")
+            .and_then(|value| value.get("include_paths"))
+            .and_then(|value| value.as_array())
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.as_str())
+            .collect::<Vec<_>>();
+        assert!(include_paths.contains(&"children/a"));
+        assert!(include_paths.contains(&"framework/a.md"));
+        let forbidden = request
+            .get("authority_boundary")
+            .and_then(|value| value.get("forbidden_transfer"))
+            .and_then(|value| value.as_array())
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.as_str())
+            .collect::<BTreeSet<_>>();
+        for expected in PROGRAM_HANDOFF_FORBIDDEN_TRANSFERS {
+            assert!(forbidden.contains(expected));
+        }
+
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "handoff-mutating-child-batch")
+                .unwrap()
+                .unwrap();
+        assert!(checkpoint
+            .interaction_request_refs
+            .iter()
+            .any(|path| path == request_ref));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/handoff-mutating-child-batch"),
+        )
+        .unwrap();
+        assert!(events.iter().any(|event| {
+            event.event_type == "lifecycle-interaction-requested"
+                && event.child_id.as_deref() == Some("a")
+                && event.route_id.as_deref() == Some("run-packet-implementation")
+                && event.data.get("authority").map(String::as_str)
+                    == Some("non-authorizing-request")
+        }));
+    }
+
+    #[test]
+    fn inspect_only_child_route_does_not_emit_handoff_request() {
+        let fixture = ProgramFixture::new("handoff-inspect-only", true);
+        let mut child_states = BTreeMap::new();
+        child_states.insert("a".to_string(), child_state("a", Vec::new()));
+        let plan = program_plan_with_children(child_states, vec!["a"]);
+        let program_run_id = "handoff-inspect-only";
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        let mut results = vec![ProgramChildExecutionSummary {
+            child_id: "a".to_string(),
+            child_run_id: "handoff-inspect-only-a".to_string(),
+            route_id: "review-packet".to_string(),
+            status: "completed".to_string(),
+            attempts: 1,
+            retryable: false,
+            blocker_class: None,
+            error_message: None,
+            error_class: None,
+            evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
+        }];
+
+        let refs = emit_program_child_handoff_requests(
+            &fixture.root,
+            &evidence_root,
+            &control_root,
+            program_run_id,
+            "proposal-program",
+            "parent",
+            &plan,
+            &mut results,
+            None,
+        )
+        .unwrap();
+
+        assert!(refs.is_empty());
+        assert!(!evidence_root.join("lifecycle-interactions").exists());
+    }
+
+    #[test]
+    fn no_op_mutating_child_route_does_not_emit_handoff_request() {
+        let fixture = ProgramFixture::new("handoff-no-op-mutating-route", true);
+        let mut child_states = BTreeMap::new();
+        child_states.insert("a".to_string(), child_state("a", Vec::new()));
+        let plan = program_plan_with_children(child_states, vec!["a"]);
+        let program_run_id = "handoff-no-op-mutating-route";
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs")
+            .join(program_run_id);
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows")
+            .join(program_run_id);
+        let mut results = vec![ProgramChildExecutionSummary {
+            child_id: "a".to_string(),
+            child_run_id: "handoff-no-op-mutating-route-a".to_string(),
+            route_id: "run-packet-implementation".to_string(),
+            status: "no-op".to_string(),
+            attempts: 1,
+            retryable: false,
+            blocker_class: None,
+            error_message: None,
+            error_class: None,
+            evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
+        }];
+
+        let refs = emit_program_child_handoff_requests(
+            &fixture.root,
+            &evidence_root,
+            &control_root,
+            program_run_id,
+            "proposal-program",
+            "parent",
+            &plan,
+            &mut results,
+            None,
+        )
+        .unwrap();
+
+        assert!(refs.is_empty());
+        assert!(!evidence_root.join("lifecycle-interactions").exists());
+    }
+
+    #[test]
+    fn returned_handoff_evidence_does_not_satisfy_child_receipts() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("handoff-return-non-authorizing", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let return_evidence = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/handoff-return-non-authorizing/return-evidence.txt",
+        );
+        fs::create_dir_all(return_evidence.parent().unwrap()).unwrap();
+        fs::write(&return_evidence, "target-owned closeout evidence\n").unwrap();
+        let return_receipt = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/handoff-return-non-authorizing/return.json");
+        fs::write(
+            &return_receipt,
+            format!(
+                "{}\n",
+                serde_json::to_string_pretty(&serde_json::json!({
+                    "schema_version": LIFECYCLE_INTERACTION_RETURN_SCHEMA,
+                    "interaction_id": "handoff-return-non-authorizing",
+                    "consumer": {
+                        "lifecycle_id": "closeout-change",
+                        "run_id": "closeout-run",
+                    },
+                    "outcome": {
+                        "completed": true,
+                        "lifecycle_outcome": "cleaned",
+                        "blocker": null,
+                    },
+                    "return_evidence_refs": [{
+                        "ref": rel_display(&fixture.root, &return_evidence),
+                        "digest": file_digest(&return_evidence).unwrap(),
+                    }],
+                    "remaining_residue": [],
+                }))
+                .unwrap()
+            ),
+        )
+        .unwrap();
+        let mut run_inputs = BTreeMap::new();
+        run_inputs.insert(
+            "lifecycle_interaction_return_refs".to_string(),
+            rel_display(&fixture.root, &return_receipt),
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("handoff-return-non-authorizing".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs,
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.selected_children, vec!["a".to_string()]);
+        assert!(result
+            .interaction_return_refs
+            .iter()
+            .any(|path| path.ends_with("return.json")));
+        assert!(!fixture
+            .root
+            .join("children/a/support/implementation-run.md")
+            .exists());
+
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "handoff-return-non-authorizing")
+                .unwrap()
+                .unwrap();
+        let child = checkpoint.child_states.get("a").unwrap();
+        assert!(!child.gate_status.verification);
+        assert!(checkpoint
+            .interaction_return_refs
+            .iter()
+            .any(|path| path.ends_with("return.json")));
+        let events = read_program_events(
+            &fixture
+                .octon_dir
+                .join("state/control/execution/runs/handoff-return-non-authorizing"),
+        )
+        .unwrap();
+        assert!(events
+            .iter()
+            .any(|event| event.event_type == "interaction-context-recorded"));
+    }
+
+    #[test]
     fn child_batch_cancellation_stops_later_dispatch_and_releases_locks() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("child-batch-cancel-stops-dispatch", true);
@@ -23976,6 +24894,8 @@ rationale: "prove overwrite guard"
             parent_route_result: None,
             selected_children: vec!["a".to_string()],
             child_results: Vec::new(),
+            interaction_request_refs: Vec::new(),
+            interaction_return_refs: Vec::new(),
             terminal_outcome: None,
             final_verdict: "blocked-recoverable".to_string(),
         };

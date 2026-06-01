@@ -139,6 +139,137 @@ done
     }
 }
 
+fn write_fake_workflow_runtime(root: &Path) {
+    write_file(
+        &root.join(".octon/generated/effective/runtime/route-bundle.yml"),
+        "schema_version: \"octon-runtime-effective-route-bundle-v1\"\ngeneration_id: \"fixture\"\nsource_refs:\n  workflow_manifest_ref: \".octon/framework/orchestration/runtime/workflows/manifest.yml\"\nroutes: []\n",
+    );
+    write_file(
+        &root.join(".octon/framework/orchestration/runtime/workflows/manifest.yml"),
+        "workflows:\n  - id: promote-proposal\n    path: meta/promote-proposal/\n",
+    );
+    write_file(
+        &root.join(
+            ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/workflow.yml",
+        ),
+        "schema_version: workflow-contract-v2\nname: promote-proposal\ninputs:\n  - name: proposal_path\n    required: true\n",
+    );
+    write_file(
+        &root.join(".octon/framework/engine/runtime/run"),
+        r#"#!/usr/bin/env bash
+set -euo pipefail
+if [[ "${1:-}" != "workflow" || "${2:-}" != "run" ]]; then
+  echo "unexpected workflow command" >&2
+  exit 64
+fi
+route_id="${3:-}"
+shift 3
+run_id=""
+proposal_path=""
+while (($#)); do
+  case "$1" in
+    --run-id)
+      run_id="$2"
+      shift 2
+      ;;
+    --set)
+      value="$2"
+      if [[ "$value" == proposal_path=* ]]; then
+        proposal_path="${value#proposal_path=}"
+      fi
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+if [[ -z "$run_id" ]]; then
+  echo "missing run id" >&2
+  exit 65
+fi
+mkdir -p ".octon/state/control/execution/runs/$run_id"
+mkdir -p ".octon/state/evidence/runs/workflows/$run_id"
+printf 'run_id: %s\nroute_id: %s\n' "$run_id" "$route_id" > ".octon/state/control/execution/runs/$run_id/run-manifest.yml"
+printf 'run_id: %s\nroute_id: %s\n' "$run_id" "$route_id" > ".octon/state/evidence/runs/workflows/$run_id/bundle.yml"
+if [[ -n "$proposal_path" ]]; then
+  printf 'status: implemented\n' > "$proposal_path/proposal.yml"
+fi
+"#,
+    );
+    #[cfg(unix)]
+    {
+        let run = root.join(".octon/framework/engine/runtime/run");
+        let mut permissions = fs::metadata(&run).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(run, permissions).unwrap();
+    }
+}
+
+fn write_completion_then_hanging_agent_binary(path: &Path) {
+    write_file(
+        path,
+        r#"#!/usr/bin/env bash
+set -euo pipefail
+prompt="$(cat)"
+target="$(printf '%s\n' "$prompt" | sed -n 's/^- target: `\(.*\)`/\1/p' | head -n 1)"
+if [[ -z "$target" ]]; then
+  echo "target binding missing" >&2
+  exit 3
+fi
+mkdir -p "$target/support"
+printf '# Executable Implementation Prompt\n\ncompletion before model exit\n' > "$target/support/executable-implementation-prompt.md"
+echo "completion artifact written"
+trap '' TERM
+while true; do
+  sleep 60
+done
+"#,
+    );
+    #[cfg(unix)]
+    {
+        let mut permissions = fs::metadata(path).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(path, permissions).unwrap();
+    }
+}
+
+fn write_delayed_receipt_refresh_then_hanging_agent_binary(path: &Path) {
+    write_file(
+        path,
+        r#"#!/usr/bin/env bash
+set -euo pipefail
+prompt="$(cat)"
+target="$(printf '%s\n' "$prompt" | sed -n 's/^- target: `\(.*\)`/\1/p' | head -n 1)"
+if [[ -z "$target" ]]; then
+  echo "target binding missing" >&2
+  exit 3
+fi
+sleep 2
+mkdir -p "$target/support"
+cat > "$target/support/proposal-review.md" <<'REVIEW'
+review_id: refreshed-review
+reviewed_at: 2026-06-01T00:00:00Z
+reviewer: fake-agent
+verdict: accepted
+implementation_prompt_authorized: yes
+reviewed_packet_digest: sha256:1111111111111111111111111111111111111111111111111111111111111111
+open_blocking_findings_count: 0
+REVIEW
+trap '' TERM
+while true; do
+  sleep 60
+done
+"#,
+    );
+    #[cfg(unix)]
+    {
+        let mut permissions = fs::metadata(path).unwrap().permissions();
+        permissions.set_mode(0o755);
+        fs::set_permissions(path, permissions).unwrap();
+    }
+}
+
 fn write_descendant_hanging_agent_binary(path: &Path, marker: &Path) {
     write_file(
         path,
@@ -405,6 +536,85 @@ fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
             .join("packet/support/executable-implementation-prompt.md")
             .is_file());
     }
+}
+
+#[test]
+fn real_executor_waits_for_target_change_when_expected_receipt_already_exists() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("existing-receipt-refresh-agent");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_delayed_receipt_refresh_then_hanging_agent_binary(&bin_dir.join("codex"));
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "review-packet", "extension", "unattended");
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = vec!["proposal-review".to_string()];
+    request.policy.timeout_seconds = 30;
+    write_file(
+        &request.target.join("support/proposal-review.md"),
+        "review_id: stale-review\nreviewed_at: 2026-05-31T00:00:00Z\nreviewer: fake-agent\nverdict: accepted\nimplementation_prompt_authorized: yes\nreviewed_packet_digest: sha256:0000000000000000000000000000000000000000000000000000000000000000\nopen_blocking_findings_count: 0\n",
+    );
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "completed");
+    let refreshed = fs::read_to_string(request.target.join("support/proposal-review.md")).unwrap();
+    assert!(refreshed.contains("review_id: refreshed-review"));
+    let terminal = fs::read_to_string(
+        request
+            .evidence_root
+            .join("review-packet-executor-terminal.yml"),
+    )
+    .unwrap();
+    assert!(terminal.contains("state: completed-observed"));
+}
+
+#[test]
+fn real_executor_completes_when_route_evidence_appears_before_process_exit() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("completion-before-exit-agent");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_completion_then_hanging_agent_binary(&bin_dir.join("codex"));
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+    request.policy.timeout_seconds = 30;
+
+    let started = Instant::now();
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert!(
+        started.elapsed() < Duration::from_secs(8),
+        "route should complete from observed evidence before executor timeout"
+    );
+    assert_eq!(result.status, "completed");
+    assert_eq!(result.error_class, None);
+    assert_eq!(result.next_action, "replan");
+    assert!(request
+        .target
+        .join("support/executable-implementation-prompt.md")
+        .is_file());
+    let terminal = fs::read_to_string(
+        request
+            .evidence_root
+            .join("generate-packet-implementation-prompt-executor-terminal.yml"),
+    )
+    .unwrap();
+    assert!(terminal.contains("state: completed-observed"));
 }
 
 #[test]
@@ -796,6 +1006,105 @@ fn mock_executor_creates_draft_proposal_packet_from_bound_source() {
             .unwrap()
             .contains("mock source context")
     );
+}
+
+#[test]
+fn workflow_leaf_retry_attempts_use_distinct_workflow_run_ids_and_evidence() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("workflow-retry-run-ids");
+    write_fake_workflow_runtime(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut first = request(&root, "promote-proposal", "workflow", "unattended");
+    first.executor = "codex".to_string();
+    first.receipts = Vec::new();
+    first.expected_receipts = Vec::new();
+    first.expected_manifest_status = Some("implemented".to_string());
+    first.expected_target_change = false;
+
+    let first_result = executor.execute_route(first.clone()).unwrap();
+    let mut second = first.clone();
+    second.policy.retry_attempt = 1;
+    let second_result = executor.execute_route(second).unwrap();
+
+    assert_eq!(first_result.status, "completed");
+    assert_eq!(second_result.status, "completed");
+    assert_ne!(first_result.stdout_path, second_result.stdout_path);
+    assert!(root
+        .join(".octon/state/control/execution/runs/test-run-attempt-1-workflow")
+        .is_dir());
+    assert!(root
+        .join(".octon/state/control/execution/runs/test-run-attempt-2-workflow")
+        .is_dir());
+
+    let first_invocation = fs::read_to_string(
+        first
+            .evidence_root
+            .join("promote-proposal-attempt-1-workflow-invocation.yml"),
+    )
+    .unwrap();
+    let second_invocation = fs::read_to_string(
+        first
+            .evidence_root
+            .join("promote-proposal-attempt-2-workflow-invocation.yml"),
+    )
+    .unwrap();
+    assert!(first_invocation.contains("workflow_run_id: test-run-attempt-1-workflow"));
+    assert!(first_invocation.contains("retry_attempt: 0"));
+    assert!(first_invocation.contains("attempt_ordinal: 1"));
+    assert!(second_invocation.contains("workflow_run_id: test-run-attempt-2-workflow"));
+    assert!(second_invocation.contains("retry_attempt: 1"));
+    assert!(second_invocation.contains("attempt_ordinal: 2"));
+    assert!(first
+        .evidence_root
+        .join("promote-proposal-attempt-1-workflow-terminal.yml")
+        .is_file());
+    assert!(first
+        .evidence_root
+        .join("promote-proposal-attempt-2-workflow-terminal.yml")
+        .is_file());
+}
+
+#[test]
+fn workflow_leaf_existing_attempt_run_id_fails_closed_without_resume_proof() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("workflow-existing-run-denied");
+    write_fake_workflow_runtime(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "promote-proposal", "workflow", "unattended");
+    request.executor = "codex".to_string();
+    request.receipts = Vec::new();
+    request.expected_receipts = Vec::new();
+    request.expected_manifest_status = Some("implemented".to_string());
+    request.expected_target_change = false;
+    fs::create_dir_all(
+        root.join(".octon/state/control/execution/runs/test-run-attempt-1-workflow"),
+    )
+    .unwrap();
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "failed");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::ExecutorFailed)
+    );
+    assert!(result.retryable);
+    assert!(!request
+        .evidence_root
+        .join("promote-proposal-attempt-1-stdout.log")
+        .exists());
+    assert!(!root
+        .join(".octon/state/evidence/runs/workflows/test-run-attempt-1-workflow/bundle.yml")
+        .exists());
+    let denial = fs::read_to_string(
+        request
+            .evidence_root
+            .join("promote-proposal-attempt-1-workflow-resume-denied.yml"),
+    )
+    .unwrap();
+    assert!(denial.contains("resume_decision: denied"));
+    assert!(denial.contains("replay_safe_proof: absent"));
+    assert!(denial.contains("same-input, same-authority, same-target"));
 }
 
 #[test]

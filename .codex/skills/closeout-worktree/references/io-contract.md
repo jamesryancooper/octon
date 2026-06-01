@@ -14,6 +14,7 @@ Inputs:
 - Optional `exclude_paths`
 - Optional `receipt_refs`
 - Optional `stop_after_first`
+- Optional `lifecycle_interaction_request_ref`; advisory context only
 
 Outputs:
 
@@ -23,11 +24,20 @@ Outputs:
   `/.octon/state/evidence/runs/skills/closeout-worktree/{{run_id}}.md`
 - Optional wrapper index under
   `/.octon/state/evidence/runs/skills/closeout-worktree/index.yml`
+- Optional `lifecycle-interaction-return-v1` evidence that cites the
+  target-owned wrapper report, delegated Change receipt, retained-residue
+  evidence, or blocker evidence without transferring cleanup, Git,
+  hosted-provider, promotion, archive, rollback, or scope authority
 
 The report must list each candidate Change, disposition, delegated
 `closeout-change` run or handoff reference, orchestration iteration, retained
 residue, blocker, final disposition, `residue_routing_class`, and next route
 condition.
+
+When candidate boundaries come from a `lifecycle-interaction-request-v1`, the
+request may inform classification and partitioning only. The wrapper must still
+perform its own inventory, classification, partitioning, delegation, report
+validation, and target-owned gates before recording any worktree outcome.
 
 The wrapper does not emit a replacement Change receipt. Each completed,
 continued, blocked, escalated, or denied candidate must rely on the singular

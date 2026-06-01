@@ -1,0 +1,9 @@
+schema_version: octon-lifecycle-cancellation-v1
+run_id: lifecycle-proposal-packet-1780279225456-dde204dd
+lifecycle_id: proposal-packet
+execution_strategy: route-progression
+target: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-gap-map
+reason: stuck-broad-validation-after-accepted-review-and-strict-gate-pass
+cancelled_at: 2026-06-01T02:06:16.757366Z
+cancellation_token: .octon/state/control/execution/runs/lifecycle-proposal-packet-1780279225456-dde204dd/cancellation.yml
+checkpoint_path: .octon/state/control/execution/runs/lifecycle-proposal-packet-1780279225456-dde204dd/lifecycle-checkpoint.yml
