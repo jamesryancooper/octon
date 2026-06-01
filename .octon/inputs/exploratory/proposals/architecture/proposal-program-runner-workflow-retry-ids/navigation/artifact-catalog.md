@@ -14,7 +14,9 @@
 - `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
 - `support/implementation-run.md`
+- `support/lifecycle-interaction-request-closeout-worktree.json`
 - `support/post-implementation-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/proposal-creation.md`
 - `support/proposal-review.md`
 - `support/validation.md`
