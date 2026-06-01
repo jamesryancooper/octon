@@ -1,11 +1,11 @@
 # Proposal Review Receipt
 
-review_id: proposal-program-runner-terminal-routing-and-recovery-hardening-review-20260601T060414Z
-reviewed_at: 2026-06-01T06:04:14Z
+review_id: proposal-program-runner-terminal-routing-and-recovery-hardening-review-20260601T122606Z
+reviewed_at: 2026-06-01T12:26:06Z
 reviewer: octon-proposal-lifecycle-review-program
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:6728423254d66ce826898959e5cf6cc07020bcd87493be65271717806438db11
+reviewed_packet_digest: sha256:910e1f40d010d6614d3c52a1940917253d18b1b98b29316d9c420dab573c7081
 open_blocking_findings_count: 0
 
 ## Review Basis
@@ -13,12 +13,12 @@ open_blocking_findings_count: 0
 - reviewed packet: `.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening`
 - review scope: parent proposal-program coordination only
 - parent status after review: `accepted`
-- reviewed packet digest: `sha256:6728423254d66ce826898959e5cf6cc07020bcd87493be65271717806438db11`
-- stale prior digest replaced: `sha256:53a812da64a9d9938a76b66460999e2ac81601f16157fb9ae6e36c6af71d8e82`
-- proposal-program structure validation: passed with `errors=0 warnings=0`
+- reviewed packet digest: `sha256:910e1f40d010d6614d3c52a1940917253d18b1b98b29316d9c420dab573c7081`
+- stale prior digest replaced: `sha256:6728423254d66ce826898959e5cf6cc07020bcd87493be65271717806438db11`
+- parent structural validation: passed with `errors=0 warnings=0`
 - baseline parent review gate before refresh: failed only on stale digest with `errors=1 warnings=0`
-- proposal standard validation with registry check skipped: passed with `errors=0 warnings=1`
-- architecture proposal validation before refresh: failed only on stale digest with `errors=1 warnings=0`
+- proposal standard validation with registry and promotion-target checks skipped: passed with `errors=0 warnings=1`
+- architecture proposal validation before refresh: failed only because it delegates to the stale review gate
 - child-readiness validation: passed with `errors=0 warnings=0`
 - child authority preservation: explicit in `proposal.yml`, `architecture/child-packet-contract.md`, `architecture/program-closeout-plan.md`, `resources/child-packet-index.yml`, `resources/child-packet-index.md`, and this receipt
 
@@ -61,13 +61,13 @@ None.
 ## Nonblocking Findings
 
 - Parent structure is coherent: `related_proposals`, the YAML child registry, human child index, packet sequence, and no-nested-child rule pass validation.
-- Parent promotion targets are coherent with `promotion_scope: octon-internal` and all declared targets avoid proposal-path backreferences in the live proposal standard validator run.
+- Parent promotion targets are coherent with `promotion_scope: octon-internal` and all declared targets are covered by this review receipt.
 - The child contract and closeout plan preserve child authority and state that the parent may coordinate readiness and aggregate evidence without synthesizing child-owned receipts or terminal outcomes.
-- Current child posture is mixed and child-owned: `proposal-program-runner-terminal-gap-map`, `proposal-program-runner-workflow-retry-ids`, and `proposal-program-runner-change-handoff-checkpoints` are `implemented`; the other six registry children are `accepted`.
+- Current child posture remains child-owned and mixed: `proposal-program-runner-terminal-gap-map`, `proposal-program-runner-workflow-retry-ids`, and `proposal-program-runner-change-handoff-checkpoints` are implemented; the other six registry children are accepted.
 - Child-readiness validation currently passes. Parent review evidence remains parent-local and does not replace any child-owned implementation, conformance, drift, closeout, archive, or terminal evidence.
-- `support/program-implementation-orchestration-prompt.md` already exists and is an operational prompt, not authority or a child receipt.
+- `support/program-implementation-orchestration-prompt.md` already exists and remains an operational prompt, not authority or a child receipt.
 - `support/lifecycle-residue-cleanup.md` records implementation-safe cleanup with closeout/archive hygiene still blocked. That is not a parent review authorization blocker, but it remains a blocker for closeout and archive routes.
-- The proposal standard validator warned that the artifact catalog omits some visible files; this is not blocking for parent review because required parent coordination artifacts are present and validator errors are zero.
+- The proposal standard validator warned that the artifact catalog omits some visible files. This is not blocking for parent review because required parent coordination artifacts are present and validator errors are zero.
 - `architecture-proposal.yml#status` remains `draft` because this route may update only parent `proposal.yml#status`.
 
 ## Final Route Recommendation
@@ -77,7 +77,7 @@ packet digest. Re-enter the proposal-program controller with a live-state
 replan; implementation orchestration may continue only through the lifecycle
 gates and child-owned receipts that remain applicable at dispatch time.
 
-Closeout and archive should remain blocked until the retained hygiene and
+Closeout and archive remain blocked until the retained hygiene and
 lifecycle-residue blockers recorded in `support/lifecycle-residue-cleanup.md`
 are resolved by the appropriate route. Parent review evidence remains
 parent-local and does not satisfy child receipts, child validation verdicts,
