@@ -1,0 +1,129 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-promotion-evidence-preflight-closeout-20260601T143416Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the proposal-program promotion-evidence preflight implementation and its ambiguous publication residue as a branch-published lifecycle handoff.",
+  "scope": {
+    "summary": "Runtime selected-child promotion evidence preflight, promote-proposal workflow hardening, proposal lifecycle contract updates, generated extension and capability publications, proposal implementation evidence, lifecycle run checkpoint, and repo-hygiene cleanup authorizations.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/**",
+      ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml",
+      ".octon/generated/effective/extensions/**",
+      ".octon/generated/effective/capabilities/**",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding/support/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780321705620-548c2eb3/**",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-*-residue-20260601T*.authorization.json",
+      ".octon/state/evidence/validation/proposals/proposal-program-runner-promotion-evidence-binding/2026-06-01T141422Z-implementation-route.yml",
+      ".octon/state/evidence/validation/publication/extensions/2026-06-01T14-21-35Z-extensions-e539e7c8b239.yml",
+      ".octon/state/evidence/validation/publication/capabilities/2026-06-01T14-30-58Z-capabilities-680c4550e713.yml"
+    ],
+    "diff_refs": [
+      "577fc4ea3..aad73610635ce8e5733bf82a9d32583d665c7a54"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-closeout-change",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-closeout-change@aad73610635ce8e5733bf82a9d32583d665c7a54",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "aad73610635ce8e5733bf82a9d32583d665c7a54",
+    "target_ref": "origin/main",
+    "blocker_reason": "The current closeout published the branch handoff only. No hosted no-PR landing authorization receipt was requested or produced.",
+    "evidence_refs": [
+      "git push origin chore/proposal-program-runner-closeout-change",
+      "git rev-parse origin/chore/proposal-program-runner-closeout-change"
+    ]
+  },
+  "not_landed_reason": "The closeout published the isolated branch but did not land it to origin/main because no hosted no-PR landing authorization was requested or produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "external_blocker_refs": [
+    ".octon/state/control/execution/runs/lifecycle-proposal-program-1780321705620-548c2eb3/program-lifecycle-checkpoint.yml"
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-closeout-change",
+    "remote_branch": "origin/chore/proposal-program-runner-closeout-change",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch has not landed to origin/main; cleanup would remove the published lifecycle handoff.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      "git push origin chore/proposal-program-runner-closeout-change"
+    ]
+  },
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-publication-residue-20260601T142723Z.authorization.json",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-capability-refresh-residue-20260601T143200Z.authorization.json",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only"
+  ],
+  "publishable_evidence_receipt_refs": [
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-publication-residue-20260601T142723Z.authorization.json",
+    ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-capability-refresh-residue-20260601T143200Z.authorization.json"
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all",
+    "residue_classification_ref": "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only",
+    "phase_exit_refs": [
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      "git commit aad73610635ce8e5733bf82a9d32583d665c7a54",
+      "git push origin chore/proposal-program-runner-closeout-change"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-publication-residue-20260601T142723Z.authorization.json",
+      ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/proposal-program-runner-capability-refresh-residue-20260601T143200Z.authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "validator-proof",
+    "final_verification_ref": "git rev-parse origin/chore/proposal-program-runner-closeout-change == aad73610635ce8e5733bf82a9d32583d665c7a54"
+  },
+  "validation_evidence_refs": [
+    "cargo fmt --all --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml --check",
+    "CARGO_TARGET_DIR=/private/tmp/octon-runtime-crates-target cargo test -p octon_kernel --bin octon child_promotion --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -- --nocapture",
+    "CARGO_TARGET_DIR=/private/tmp/octon-runtime-crates-target cargo test -p octon_kernel --bin octon promotion_evidence --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -- --nocapture",
+    "CARGO_TARGET_DIR=/private/tmp/octon-runtime-crates-target cargo test -p octon_kernel --bin octon unattended_policy --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -- --nocapture",
+    "CARGO_TARGET_DIR=/private/tmp/octon-runtime-crates-target cargo test -p octon_kernel --test proposal_program_cli --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml -- --nocapture",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-promote-proposal-workflow.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh --contract .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-extension-publication-state.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding --skip-registry-check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh --package .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only",
+    "git diff --cached --check",
+    "git rev-parse origin/chore/proposal-program-runner-closeout-change"
+  ],
+  "review_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding/support/implementation-conformance-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-promotion-evidence-binding/support/post-implementation-drift-churn-review.md",
+    ".octon/state/evidence/validation/proposals/proposal-program-runner-promotion-evidence-binding/2026-06-01T141422Z-implementation-route.yml"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "aad73610635ce8e5733bf82a9d32583d665c7a54",
+    "branch": "chore/proposal-program-runner-closeout-change"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/proposal-program-runner-closeout-change",
+    "instructions": "Discard or reset the local and remote source branch if the published lifecycle handoff is rejected; if the lifecycle contract source is reverted, regenerate extension and capability projections through the publication scripts."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard.",
+    "Parent proposal-program lifecycle remains continuable; next route is expected to promote proposal-program-runner-promotion-evidence-binding."
+  ],
+  "created_at": "2026-06-01T14:34:16Z",
+  "updated_at": "2026-06-01T14:34:16Z"
+}
