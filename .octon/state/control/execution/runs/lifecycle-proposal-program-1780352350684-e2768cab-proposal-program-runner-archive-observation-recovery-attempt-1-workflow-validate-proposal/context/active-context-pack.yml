@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:e827781d9f98a757ebe0a6f7e3a4f574125228a0d6dfb69ccc36e6a1c81e6f8c
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:293bd88c3767698605ea14a0a420c8ee1860a5c17f86e9e51312a691d6b48645
+receipt_sha256: sha256:145e982d7b0183e2e8607e44f703ea871a3d63e005d7d179325f0483dd256569
+run_id: lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-01T22:20:03.3844Z
+validity_state: valid

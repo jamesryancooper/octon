@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:f6aab4bd498e08618b5240b7d1b6c3a70abb0d01f8e93f330e708be2a75808a2
+  entry_id: lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-01T22:26:59.213Z
+  run_id: lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:b8507d6bb0f4dc88e86103074a8ecbf2d8c78b90c21aaee5de17aca0f7d54cf3
+  entry_id: lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-01T22:26:59.213Z
+  run_id: lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+run_id: lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-01T22:26:59.213Z

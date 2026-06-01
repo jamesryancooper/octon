@@ -379,7 +379,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-archive-observation-recovery"
     title: "Proposal Program Runner Archive Observation Recovery"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs"
       - ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs"
