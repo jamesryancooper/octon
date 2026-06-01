@@ -20086,6 +20086,26 @@ routes:
     }
 
     #[test]
+    fn program_review_workflow_implemented_state_ignores_accepted_review_churn() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = program_review_fixture("program-review-implemented-churn", "implemented");
+        fixture.write_parent_review_receipt("accepted", "sha256:old");
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert_program_route(&plan, "generate-program-verification-prompt");
+        assert!(plan
+            .program_gate_results
+            .iter()
+            .all(|result| result.gate_id != "program-review-authorization"));
+    }
+
+    #[test]
     fn program_review_workflow_blocks_promote_without_child_authority_preservation() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = program_review_fixture("program-review-promote-blocked", "accepted");

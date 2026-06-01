@@ -83,6 +83,72 @@ reviewed_file_inventory() {
       support/proposal-creation.md)
         continue
         ;;
+      support/proposal-packet-creation-prompt.md)
+        continue
+        ;;
+      support/executable-implementation-prompt.md)
+        continue
+        ;;
+      support/follow-up-verification-prompt.md|support/custom-closeout-prompt.md)
+        continue
+        ;;
+      support/correction-prompts|support/correction-prompts/*)
+        continue
+        ;;
+      support/program-implementation-orchestration-prompt.md)
+        continue
+        ;;
+      support/follow-up-program-verification-prompt.md|support/custom-program-closeout-prompt.md)
+        continue
+        ;;
+      support/program-correction-prompts|support/program-correction-prompts/*)
+        continue
+        ;;
+      support/child-closeout-prompts|support/child-closeout-prompts/*)
+        continue
+        ;;
+      support/program-implementation-orchestration-run.md)
+        continue
+        ;;
+      support/program-implementation-orchestration-conformance-review.md|support/program-post-implementation-orchestration-drift-churn-review.md)
+        continue
+        ;;
+      support/implementation-run.md)
+        continue
+        ;;
+      support/implementation-conformance-review.md|support/post-implementation-drift-churn-review.md)
+        continue
+        ;;
+      support/proposal-closeout.md)
+        continue
+        ;;
+      support/lifecycle-residue-cleanup.md)
+        continue
+        ;;
+      support/validation.md|support/validation/*|support/.tmp/*)
+        continue
+        ;;
+    esac
+    printf '%s\n' "$rel"
+  done | LC_ALL=C sort
+}
+
+legacy_reviewed_file_inventory() {
+  find "$PROPOSAL_DIR" -type f | while IFS= read -r file; do
+    local rel="${file#$PROPOSAL_DIR/}"
+    case "$rel" in
+      .*|*/.*)
+        continue
+        ;;
+      SHA256SUMS.txt|support/SHA256SUMS.txt)
+        continue
+        ;;
+      support/proposal-review.md|support/revisions/*)
+        continue
+        ;;
+      support/proposal-creation.md)
+        continue
+        ;;
       support/executable-implementation-prompt.md)
         continue
         ;;
@@ -112,12 +178,13 @@ reviewed_file_inventory() {
   done | LC_ALL=C sort
 }
 
-reviewed_packet_digest() {
+packet_digest_for_inventory() {
+  local inventory_command="$1"
   local tmp_dir inventory hashes
   tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/proposal-review-digest.XXXXXX")"
   inventory="$tmp_dir/inventory.txt"
   hashes="$tmp_dir/hashes.txt"
-  reviewed_file_inventory >"$inventory"
+  "$inventory_command" >"$inventory"
   if [[ ! -s "$inventory" ]]; then
     printf 'sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\n'
   else
@@ -127,6 +194,14 @@ reviewed_packet_digest() {
     shasum -a 256 "$hashes" | awk '{print "sha256:" $1}'
   fi
   rm -r "$tmp_dir"
+}
+
+reviewed_packet_digest() {
+  packet_digest_for_inventory reviewed_file_inventory
+}
+
+legacy_reviewed_packet_digest() {
+  packet_digest_for_inventory legacy_reviewed_file_inventory
 }
 
 extract_field() {
@@ -193,14 +268,18 @@ validate_review_shape() {
 }
 
 validate_digest_fresh() {
-  local current_digest
+  local current_digest legacy_digest
   current_digest="$(reviewed_packet_digest)"
   if [[ "$recorded_digest" == "$current_digest" ]]; then
     pass "reviewed packet digest is fresh"
+  elif legacy_digest="$(legacy_reviewed_packet_digest)" && [[ "$recorded_digest" == "$legacy_digest" ]]; then
+    pass "reviewed packet digest is fresh"
+    warn "reviewed packet digest matches legacy support inventory scope"
   else
     fail "reviewed packet digest is fresh"
     echo "recorded: $recorded_digest"
     echo "current:  $current_digest"
+    echo "legacy:   $legacy_digest"
   fi
 }
 

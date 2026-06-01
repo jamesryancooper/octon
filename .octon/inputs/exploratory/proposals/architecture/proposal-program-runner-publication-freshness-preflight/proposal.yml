@@ -1,27 +1,22 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-program-runner-publication-freshness-preflight"
-title: "Proposal Program Runner Publication Freshness Preflight"
-summary: >-
-  Classify generated-state and runtime route-bundle freshness drift before
-  workflow dispatch where possible, and route recovery through canonical
-  publication scripts or declared recovery routes.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-publication-freshness-preflight
+title: Proposal Program Runner Publication Freshness Preflight
+summary: Classify generated-state and runtime route-bundle freshness drift before workflow dispatch where possible, and route recovery through canonical publication scripts or declared recovery routes.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
-  - ".octon/framework/assurance/runtime/_ops/scripts/"
-  - ".octon/framework/assurance/runtime/_ops/tests/"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
-status: "accepted"
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Implement only through the proposal-packet lifecycle after review and
-    implementation prompt authorization.
+  exit_expectation: Implement only through the proposal-packet lifecycle after review and implementation prompt authorization.
 related_proposals:
-  - "proposal-program-runner-terminal-routing-and-recovery-hardening"
-release_state: "pre-1.0"
-change_profile: "atomic"
+- proposal-program-runner-terminal-routing-and-recovery-hardening
+change_profile: atomic
+release_state: pre-1.0
+rollback_summary: Patch reversal of freshness preflight and recovery guidance changes.
 source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-rollback_summary: "Patch reversal of freshness preflight and recovery guidance changes."
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md

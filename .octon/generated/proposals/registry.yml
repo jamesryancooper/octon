@@ -533,7 +533,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight"
     title: "Proposal Program Runner Publication Freshness Preflight"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/assurance/runtime/_ops/scripts/"
