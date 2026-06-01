@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.6.86](https://github.com/jamesryancooper/octon/compare/octon-v0.6.85...octon-v0.6.86) (2026-06-01)
+
+
+### Features
+
+* **lifecycle:** emit aggregate terminal blocker evidence ([aeebc7f](https://github.com/jamesryancooper/octon/commit/aeebc7fb776cf0d64b65db083b6568ab5e3c8d0d))
+* **lifecycle:** execute proposal-program runner lifecycle ([a1736b1](https://github.com/jamesryancooper/octon/commit/a1736b1ecc547cafe4cf31b1bc4d5499f0221d24))
+
+
+### Bug Fixes
+
+* **closeout:** harden branch-pr route selection ([c35b3fc](https://github.com/jamesryancooper/octon/commit/c35b3fc45d24a69da31daee51aeaae896b6468a6))
+* **lifecycle:** bind child archive promotion evidence ([23b2371](https://github.com/jamesryancooper/octon/commit/23b23711069283eedf4c128a47013a275fe6d9fd))
+* **lifecycle:** bind child promotion evidence ([a93a387](https://github.com/jamesryancooper/octon/commit/a93a387bd5e3714cdf38cc8713b953f635de7b70))
+* **lifecycle:** harden child promotion evidence preflight ([aad7361](https://github.com/jamesryancooper/octon/commit/aad73610635ce8e5733bf82a9d32583d665c7a54))
+* **lifecycle:** harden proposal program closeout ([0b8d90c](https://github.com/jamesryancooper/octon/commit/0b8d90cdd73a700f9d6e23a8be07a7df47e347bd))
+* **lifecycle:** refresh capability routing publication ([c662afa](https://github.com/jamesryancooper/octon/commit/c662afae58637044dd1acae22e058c4274507bba))
+* **lifecycle:** refresh runtime route bundle publication ([495e717](https://github.com/jamesryancooper/octon/commit/495e7170683aae17fa41cbcc79d77d0cac28875d))
+
 ## [0.6.85](https://github.com/jamesryancooper/octon/compare/octon-v0.6.84...octon-v0.6.85) (2026-05-30)
 
 
