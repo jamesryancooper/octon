@@ -1,0 +1,92 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-closeout-change-20260601T111146Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the proposal-program runner creation and recovery batch that was blocking child closeout hygiene as foreign or ambiguous worktree state.",
+  "scope": {
+    "summary": "Proposal-program runner creation and recovery batch, including runtime terminal recovery fixes, child proposal packets, generated projections, and retained lifecycle evidence.",
+    "touched_paths": [
+      ".codex/skills/closeout-change/references/io-contract.md",
+      ".codex/skills/closeout-worktree/references/io-contract.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/io-contract.md",
+      ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md",
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/codex.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-*",
+      ".octon/generated/effective/**",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/state/control/**",
+      ".octon/state/evidence/**"
+    ],
+    "diff_refs": [
+      "aaf8d08a6..0b8d90cdd73a700f9d6e23a8be07a7df47e347bd"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-closeout-change",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-closeout-change@0b8d90cdd73a700f9d6e23a8be07a7df47e347bd",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "0b8d90cdd73a700f9d6e23a8be07a7df47e347bd",
+    "target_ref": "origin/main",
+    "blocker_reason": "The user requested closeout-change for a foreign or ambiguous worktree batch, not hosted no-PR landing to main. No branch landing authorization receipt was created.",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780293956738-c2295d32/children/proposal-program-runner-change-handoff-checkpoints/worktree-hygiene-preflight.stdout.yml"
+    ]
+  },
+  "not_landed_reason": "The closeout published the isolated branch but did not land it to origin/main because no hosted no-PR landing authorization was requested or produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "external_blocker_refs": [
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780293956738-c2295d32/children/proposal-program-runner-change-handoff-checkpoints/worktree-hygiene-preflight.stdout.yml"
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-closeout-change",
+    "remote_branch": "origin/chore/proposal-program-runner-closeout-change",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch has not landed to origin/main; cleanup would remove the published closeout handoff.",
+    "evidence_refs": [
+      "git status --short",
+      "git push -u origin chore/proposal-program-runner-closeout-change"
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --cached --check",
+    "CARGO_TARGET_DIR=/private/tmp/octon-runtime-cargo-target cargo test -p octon_lifecycle_executor --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml",
+    "CARGO_TARGET_DIR=/private/tmp/octon-runtime-cargo-target cargo test -p octon_kernel --bin octon lifecycle_program --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check",
+    "git rev-parse origin/chore/proposal-program-runner-closeout-change"
+  ],
+  "review_evidence_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-change-handoff-checkpoints/support/proposal-review.md"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "0b8d90cdd73a700f9d6e23a8be07a7df47e347bd",
+    "branch": "chore/proposal-program-runner-closeout-change"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/proposal-program-runner-closeout-change",
+    "instructions": "Discard the local and remote source branch if the published closeout handoff is rejected; do not delete until any consumer lifecycle runs no longer depend on it."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard."
+  ],
+  "created_at": "2026-06-01T11:11:46Z",
+  "updated_at": "2026-06-01T11:11:46Z"
+}
