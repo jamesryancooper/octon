@@ -1,0 +1,92 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-change-handoff-archive-closeout-20260601T125748Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the foreign or ambiguous proposal-program archive residue produced while archiving proposal-program-runner-change-handoff-checkpoints.",
+  "scope": {
+    "summary": "Proposal-program child archive checkpoint, including the archived packet, archive allowlist, generated proposal registry update, lifecycle run-control evidence, authority decisions, external indexes, and archive validation summary.",
+    "touched_paths": [
+      ".gitignore",
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-change-handoff-checkpoints/**",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-change-handoff-checkpoints/**",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780317174756-c71457b9-*",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780317174756-c71457b9/**",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780317174756-c71457b9-*",
+      ".octon/state/evidence/control/execution/authority-*-lifecycle-proposal-program-1780317174756-c71457b9-*.yml",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/evidence/external-index/runs/lifecycle-proposal-program-1780317174756-c71457b9-*.yml",
+      ".octon/state/evidence/validation/analysis/2026-06-01-archive-proposal.md"
+    ],
+    "diff_refs": [
+      "23b23711069283eedf4c128a47013a275fe6d9fd..62d0276466d48d3f71658d211429ea0d0ed1ec6e"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-closeout-change",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-closeout-change@62d0276466d48d3f71658d211429ea0d0ed1ec6e",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "62d0276466d48d3f71658d211429ea0d0ed1ec6e",
+    "target_ref": "origin/main",
+    "blocker_reason": "The current task is branch publication closeout for lifecycle archive residue. No hosted no-PR landing authorization receipt was created.",
+    "evidence_refs": [
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780317174756-c71457b9/program-lifecycle-checkpoint.yml",
+      ".octon/state/evidence/validation/analysis/2026-06-01-archive-proposal.md"
+    ]
+  },
+  "not_landed_reason": "The closeout published the isolated branch but did not land it to origin/main because no hosted no-PR landing authorization was requested or produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "external_blocker_refs": [
+    ".octon/state/control/execution/runs/lifecycle-proposal-program-1780317174756-c71457b9/program-lifecycle-checkpoint.yml"
+  ],
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-closeout-change",
+    "remote_branch": "origin/chore/proposal-program-runner-closeout-change",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch has not landed to origin/main; cleanup would remove the published archive closeout handoff.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      "git push origin chore/proposal-program-runner-closeout-change"
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --check",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh --summary-only",
+    "git diff --cached --check",
+    "git rev-parse origin/chore/proposal-program-runner-closeout-change"
+  ],
+  "review_evidence_refs": [
+    ".octon/state/evidence/validation/analysis/2026-06-01-archive-proposal.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-change-handoff-checkpoints/support/proposal-closeout.md"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "62d0276466d48d3f71658d211429ea0d0ed1ec6e",
+    "branch": "chore/proposal-program-runner-closeout-change"
+  },
+  "rollback_handle": {
+    "kind": "discard-branch",
+    "ref": "chore/proposal-program-runner-closeout-change",
+    "instructions": "Discard or reset the local and remote source branch if the published archive closeout handoff is rejected; do not delete while consumer lifecycle runs depend on it."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard.",
+    "Parent proposal-program lifecycle remains continuable rather than terminal."
+  ],
+  "created_at": "2026-06-01T12:57:48Z",
+  "updated_at": "2026-06-01T12:57:48Z"
+}
