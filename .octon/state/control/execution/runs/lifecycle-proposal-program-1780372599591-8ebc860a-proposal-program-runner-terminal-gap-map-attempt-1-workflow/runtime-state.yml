@@ -1,0 +1,28 @@
+schema_version: runtime-state-v2
+run_id: lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+state: running
+workflow_mode: role-mediated
+decision_state: allow
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/run-manifest.yml
+current_stage_attempt_id: initial
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/checkpoints/execution-start.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/receipts/grant-bundle.json
+mission_id: null
+parent_run_ref: null
+source_ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/events.ndjson
+source_ledger_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/events.manifest.yml
+support_target_tuple_ref: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/context/context-pack.json
+rollback_posture_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow/rollback-posture.yml
+last_applied_event_id: evt-checkpoint-start-lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+last_applied_sequence: 20
+last_applied_event_hash: sha256:b849b492eefd27d4b89795daeaf84a8a06c14289707e9223fdcc56ced18abc51
+materialized_at: 2026-06-02T03:57:27.423468Z
+materialized_by:
+  actor_class: runtime
+  actor_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+drift_ref: null
+created_at: 2026-06-02T03:57:26.442219Z
+updated_at: 2026-06-02T03:57:27.423468Z

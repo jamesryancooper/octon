@@ -5,7 +5,7 @@ closed_at: 2026-06-02T02:20:19Z
 evaluated_at: 2026-06-02T02:20:19Z
 archive_authorized: yes
 archive_disposition: implemented
-promotion_evidence: support/implementation-run.md; support/implementation-conformance-review.md; support/post-implementation-drift-churn-review.md
+promotion_evidence: support/implementation-run.md,support/implementation-conformance-review.md,support/post-implementation-drift-churn-review.md
 selected_git_route: none
 worktree_hygiene_verdict: pass
 worktree_hygiene_blocker_class: none
@@ -64,7 +64,7 @@ foreign_or_ambiguous:
 ## Archive Inputs
 
 - `archive_disposition`: `implemented`
-- `promotion_evidence`: `support/implementation-run.md`; `support/implementation-conformance-review.md`; `support/post-implementation-drift-churn-review.md`
+- `promotion_evidence`: `support/implementation-run.md`, `support/implementation-conformance-review.md`, `support/post-implementation-drift-churn-review.md`
 
 ## Cleanup Pass
 

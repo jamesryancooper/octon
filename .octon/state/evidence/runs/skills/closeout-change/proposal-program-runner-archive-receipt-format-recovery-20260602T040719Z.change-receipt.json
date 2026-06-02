@@ -1,0 +1,125 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-archive-receipt-format-recovery-20260602T040719Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the lifecycle checkpoint that exposed archive-proposal receipt parsing failure, refreshed parent cleanup residue evidence, and corrected packet closeout promotion_evidence formatting so archive routes can retry.",
+  "scope": {
+    "summary": "Program lifecycle run lifecycle-proposal-program-1780372599591-8ebc860a retried terminal-gap-map archive-proposal and failed because the packet closeout receipt used a semicolon-delimited promotion_evidence field that the archive workflow resolved as one path. The run then refreshed parent lifecycle-residue cleanup evidence and produced retained run-control and authority evidence. This checkpoint fixes terminal-gap-map and workflow-retry-ids closeout receipts to comma-separated promotion_evidence values and preserves the run evidence before rerunning archive routing.",
+    "touched_paths": [
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-gap-map/support/proposal-closeout.md",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-workflow-retry-ids/support/proposal-closeout.md",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-2-workflow",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-2-workflow",
+      ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow.yml",
+      ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-2-workflow.yml",
+      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-1-workflow.yml",
+      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780372599591-8ebc860a-proposal-program-runner-terminal-gap-map-attempt-2-workflow.yml",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-archive-receipt-format-recovery-20260602T040719Z.change-receipt.json"
+    ],
+    "program_run_id": "lifecycle-proposal-program-1780372599591-8ebc860a",
+    "completed_parent_routes": [
+      "cleanup-lifecycle-residue"
+    ],
+    "blocked_child_routes": [
+      "proposal-program-runner-terminal-gap-map:archive-proposal",
+      "proposal-program-runner-workflow-retry-ids:archive-proposal"
+    ],
+    "blocker_root_cause": "archive-proposal attempted to resolve the semicolon-delimited closeout receipt field 'support/implementation-run.md; support/implementation-conformance-review.md; support/post-implementation-drift-churn-review.md' as a single path",
+    "fix_summary": "Changed terminal-gap-map and workflow-retry-ids proposal-closeout promotion_evidence fields to comma-separated path lists matching the archive-proposal workflow contract.",
+    "retained_residue_disposition": "run-control, continuity, authority decision, authority grant, and ACP decision evidence retained as lifecycle evidence; no cleanup-safe deletion candidate"
+  },
+  "source_branch_ref": "chore/proposal-program-runner-terminal-routing-closeout",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-terminal-routing-closeout@branch-archive-receipt-format-recovery-commit",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "branch-archive-receipt-format-recovery-commit",
+    "target_ref": "origin/main",
+    "blocker_reason": "The selected route is branch-no-pr for active lifecycle continuation; no governed hosted no-PR landing authorization receipt was produced for this intermediate archive recovery checkpoint.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/summary.md"
+    ]
+  },
+  "not_landed_reason": "This closeout publishes the active lifecycle branch checkpoint but does not land it to origin/main because governed branch-no-pr landing authorization was not produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-terminal-routing-closeout",
+    "remote_branch": "origin/chore/proposal-program-runner-terminal-routing-closeout",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch remains active for proposal-program lifecycle continuation and has not landed to origin/main.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout"
+    ]
+  },
+  "cleanup_evidence_refs": [
+    "git status --short --branch --untracked-files=all",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/summary.md",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/aggregate-terminal-blockers.yml",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/children/proposal-program-runner-workflow-retry-ids/worktree-hygiene-preflight.stdout.yml"
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all",
+    "residue_classification_ref": "closeout-change classification: coherent archive failure evidence, parent cleanup receipt refresh, packet closeout receipt-format fix, and retained lifecycle control/evidence",
+    "phase_exit_refs": [
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      "git commit branch-archive-receipt-format-recovery-commit",
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/children/proposal-program-runner-terminal-gap-map/archive-proposal-attempt-2-archive-blocked.yml",
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/children/proposal-program-runner-workflow-retry-ids/worktree-hygiene-preflight.stdout.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md"
+    ],
+    "safe_cleanup_evidence_class": "not-applicable",
+    "final_verification_ref": "git rev-parse origin/chore/proposal-program-runner-terminal-routing-closeout == branch-archive-receipt-format-recovery-commit"
+  },
+  "validation_evidence_refs": [
+    "jq empty .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-archive-receipt-format-recovery-20260602T040719Z.change-receipt.json",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-archive-receipt-format-recovery-20260602T040719Z.change-receipt.json",
+    "git diff --check",
+    "git diff --cached --check"
+  ],
+  "review_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/summary.md",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780372599591-8ebc860a/children/proposal-program-runner-terminal-gap-map/archive-proposal-attempt-2-archive-blocked.yml"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "branch-archive-receipt-format-recovery-commit",
+    "branch": "chore/proposal-program-runner-terminal-routing-closeout"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "branch-archive-receipt-format-recovery-commit",
+    "instructions": "Revert the branch checkpoint commit to restore the prior terminal-gap-map and workflow-retry-ids closeout receipts plus the parent cleanup receipt if archive recovery rejects this batch."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard.",
+    "Rerun the proposal-program lifecycle so terminal-gap-map and workflow-retry-ids archive-proposal can consume corrected promotion_evidence formatting and retry."
+  ],
+  "created_at": "2026-06-02T04:07:19Z",
+  "updated_at": "2026-06-02T04:07:19Z"
+}
