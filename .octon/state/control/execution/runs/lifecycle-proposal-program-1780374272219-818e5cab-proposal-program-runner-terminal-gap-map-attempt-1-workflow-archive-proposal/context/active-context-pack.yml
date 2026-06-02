@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-archive-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-archive-proposal/context/context-pack.json
+context_pack_sha256: sha256:0f58e505ac52cf70a3cbd7b17f79021f3386e8f3fc3e6a4d6fc7f6adc52d1a6d
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-archive-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:db3f74dc1858e184bc3329142e73fe0445593474e8884b76f28d409d2e234ff3
+receipt_sha256: sha256:68c86503de4e7a2109f77edf7e262b01dba2a463c458cc3bcf600e8f18962aa9
+run_id: lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow-archive-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-02T04:25:22.25513Z
+validity_state: valid

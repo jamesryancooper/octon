@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:b0baa4b20e5f675782bde2121176595901245fd75b9307f629c298a05bd1fe38
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  sequence: 1
+  event_hash: sha256:28fb07a506c57700601d1b8ebc19d01cdb2162ad618e5e97a2e69226504a93a8
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  sequence: 29
+  event_hash: sha256:7c048cde64350302059cd5bfb6c53a420b3eff9f1667907cd8f9b016a30ed201
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:28fb07a506c57700601d1b8ebc19d01cdb2162ad618e5e97a2e69226504a93a8
+  tail_event_hash: sha256:7c048cde64350302059cd5bfb6c53a420b3eff9f1667907cd8f9b016a30ed201
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  disclosure_ref: evt-run-closed-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-2f7500a9cba7
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  runtime_state_ref: evt-run-closed-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-proposal-program-1780374272219-818e5cab-proposal-program-runner-terminal-gap-map-attempt-1-workflow
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:7c048cde64350302059cd5bfb6c53a420b3eff9f1667907cd8f9b016a30ed201
+  materialized_at: 2026-06-02T04:32:05.476406Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-02T04:32:06.233297Z
