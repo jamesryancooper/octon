@@ -1,0 +1,138 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-workflow-retry-ids-archive-closeout-20260602T045715Z",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "published-branch",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the workflow-retry-ids archive route effects and retained lifecycle evidence so the proposal program can continue stale-receipt closeout recovery for parent-review-churn and terminal-routing-tests.",
+  "scope": {
+    "summary": "Program lifecycle run lifecycle-proposal-program-1780375451665-3ac47e1e completed proposal-program-runner-workflow-retry-ids archive-proposal, moved the packet out of the active proposal registry, refreshed parent cleanup evidence, recorded ACP authorization decisions, and then blocked proposal-program-runner-parent-review-churn at worktree hygiene because those archive effects were still dirty. The dirty set is coherent lifecycle/proposal/archive progress and is routed through closeout-change by default. The lifecycle process wrote its final summary evidence with final_verdict partial; after the summary showed no further route execution was possible against the dirty worktree, the stuck terminal process was terminated.",
+    "touched_paths": [
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-workflow-retry-ids",
+      ".octon/inputs/exploratory/proposals/.archive/architecture/proposal-program-runner-workflow-retry-ids",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md",
+      ".octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal",
+      ".octon/state/continuity/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal",
+      ".octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal",
+      ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow.yml",
+      ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal.yml",
+      ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal.yml",
+      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow.yml",
+      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal.yml",
+      ".octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal.yml",
+      ".octon/state/evidence/external-index/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow.yml",
+      ".octon/state/evidence/external-index/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-archive-proposal.yml",
+      ".octon/state/evidence/external-index/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal.yml",
+      ".octon/state/evidence/validation/analysis/2026-06-02-archive-proposal-4.md",
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-workflow-retry-ids-archive-closeout-20260602T045715Z.change-receipt.json"
+    ],
+    "program_run_id": "lifecycle-proposal-program-1780375451665-3ac47e1e",
+    "completed_parent_routes": [
+      "cleanup-lifecycle-residue"
+    ],
+    "completed_child_routes": [
+      "proposal-program-runner-workflow-retry-ids:archive-proposal"
+    ],
+    "blocked_child_routes": [
+      "proposal-program-runner-parent-review-churn:closeout-packet",
+      "proposal-program-runner-terminal-routing-tests:closeout-packet"
+    ],
+    "blocker_root_cause": "proposal-program-runner-parent-review-churn closeout routing was blocked by dirty workflow-retry-ids archive effects from the same program lifecycle run.",
+    "fix_summary": "Preserve workflow-retry-ids archive progress, registry archival entry, parent cleanup residue evidence, ACP authorization decisions, and retained workflow/control/evidence records on the active lifecycle branch.",
+    "retained_residue_disposition": "Archive copies under .octon/inputs/exploratory/proposals/.archive/** are ignored local archive material; active packet deletion, registry movement, state-control, continuity, authority, external-index, validation analysis, and ACP decision evidence are retained as lifecycle evidence. No cleanup-safe deletion candidate was identified."
+  },
+  "source_branch_ref": "chore/proposal-program-runner-terminal-routing-closeout",
+  "target_branch_ref": "origin/main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-terminal-routing-closeout@branch-workflow-retry-ids-archive-closeout-commit",
+  "landing_evaluation": {
+    "status": "not_attempted",
+    "source_ref": "branch-workflow-retry-ids-archive-closeout-commit",
+    "target_ref": "origin/main",
+    "blocker_reason": "The selected route is branch-no-pr for active lifecycle continuation; no governed hosted no-PR landing authorization receipt was produced for this intermediate archive checkpoint.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/summary.md"
+    ]
+  },
+  "not_landed_reason": "This closeout publishes the active lifecycle branch checkpoint but does not land it to origin/main because governed branch-no-pr landing authorization was not produced.",
+  "landing_stop_reason": "governance_authorization_missing",
+  "not_cleaned_reason": "The source branch remains active and no branch cleanup authorization was produced because the change has not landed to origin/main.",
+  "cleanup_stop_reason": "landing_not_completed",
+  "integration_method": "not-applicable",
+  "integration_status": "not_landed",
+  "publication_status": "pushed-branch",
+  "cleanup_status": "deferred",
+  "source_branch_cleanup": {
+    "status": "deferred",
+    "local_branch": "chore/proposal-program-runner-terminal-routing-closeout",
+    "remote_branch": "origin/chore/proposal-program-runner-terminal-routing-closeout",
+    "worktree": "/Users/jamesryancooper/Projects/octon",
+    "blocker_reason": "Branch remains active for proposal-program lifecycle continuation and has not landed to origin/main.",
+    "evidence_refs": [
+      "git status --short --branch --untracked-files=all",
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout"
+    ]
+  },
+  "cleanup_evidence_refs": [
+    "git status --short --branch --untracked-files=all",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/summary.md",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/children/proposal-program-runner-workflow-retry-ids/archive-proposal-route-execution.yml",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/children/proposal-program-runner-parent-review-churn/worktree-hygiene-preflight.stdout.yml"
+  ],
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all",
+    "residue_classification_ref": "closeout-change classification: coherent workflow-retry-ids archive route effects, generated registry archival movement, parent cleanup residue receipt refresh, ACP authorization decisions, and retained lifecycle control/evidence",
+    "phase_exit_refs": [
+      ".octon/framework/product/contracts/default-work-unit.yml",
+      ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+      "git commit branch-workflow-retry-ids-archive-closeout-commit",
+      "git push origin chore/proposal-program-runner-terminal-routing-closeout"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/children/proposal-program-runner-workflow-retry-ids/archive-proposal-route-execution.yml",
+      ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/children/proposal-program-runner-parent-review-churn/worktree-hygiene-preflight.stdout.yml",
+      ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/support/lifecycle-residue-cleanup.md"
+    ],
+    "safe_cleanup_evidence_class": "not-applicable",
+    "final_verification_ref": "git rev-parse origin/chore/proposal-program-runner-terminal-routing-closeout == branch-workflow-retry-ids-archive-closeout-commit"
+  },
+  "validation_evidence_refs": [
+    "jq empty .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-workflow-retry-ids-archive-closeout-20260602T045715Z.change-receipt.json",
+    "bash .octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --receipt .octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-workflow-retry-ids-archive-closeout-20260602T045715Z.change-receipt.json",
+    "git diff --check",
+    "git diff --cached --check"
+  ],
+  "review_evidence_refs": [
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/summary.md",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/children/proposal-program-runner-workflow-retry-ids/archive-proposal-route-execution.yml",
+    ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780375451665-3ac47e1e/children/proposal-program-runner-parent-review-churn/worktree-hygiene-preflight.stdout.yml"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "branch-workflow-retry-ids-archive-closeout-commit",
+    "branch": "chore/proposal-program-runner-terminal-routing-closeout"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "branch-workflow-retry-ids-archive-closeout-commit",
+    "instructions": "Revert the branch checkpoint commit to restore workflow-retry-ids to the active proposal registry and restore the pre-archive parent cleanup and lifecycle evidence if archive continuation rejects this batch."
+  },
+  "closeout_outcome": "continued",
+  "remaining_blockers": [
+    "Not landed to origin/main.",
+    "Source branch cleanup deferred until landing or explicit discard.",
+    "Rerun the proposal-program lifecycle so parent-review-churn and terminal-routing-tests closeout-packet routes can proceed after workflow-retry-ids archive effects are published."
+  ],
+  "created_at": "2026-06-02T04:57:15Z",
+  "updated_at": "2026-06-02T04:57:15Z"
+}

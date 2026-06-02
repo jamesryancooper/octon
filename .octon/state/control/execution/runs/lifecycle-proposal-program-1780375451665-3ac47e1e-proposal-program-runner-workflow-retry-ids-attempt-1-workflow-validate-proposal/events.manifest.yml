@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:920e6599555908ca862bd557314859ca88fdf113f959215f57fdcc09c17bdb76
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  sequence: 1
+  event_hash: sha256:25b92c8385bba96d9798d9cdd575daeb5f3b50a7b86d12534773682ef5a9e46d
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  sequence: 29
+  event_hash: sha256:7dd37dcd47f8ad5bf16cfe3af7355f0b8121994eb2111e5fe877da3d52e75696
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:25b92c8385bba96d9798d9cdd575daeb5f3b50a7b86d12534773682ef5a9e46d
+  tail_event_hash: sha256:7dd37dcd47f8ad5bf16cfe3af7355f0b8121994eb2111e5fe877da3d52e75696
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  disclosure_ref: evt-run-closed-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-f574e2ae36b9
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  runtime_state_ref: evt-run-closed-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:7dd37dcd47f8ad5bf16cfe3af7355f0b8121994eb2111e5fe877da3d52e75696
+  materialized_at: 2026-06-02T04:45:00.38408Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-02T04:45:01.138902Z

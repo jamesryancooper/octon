@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:1e51a20847563fcc107bad0eaa2a9d9e7a0feaa84108af856d83fe28579326ac
+  entry_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T04:45:00.38408Z
+  run_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:abc7589d4436a97756d8c3697acaa15ff8219f270e09f1156ae879a1f2bf9d43
+  entry_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T04:45:00.38408Z
+  run_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+run_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-02T04:45:00.38408Z

@@ -1,0 +1,12 @@
+approved_by: null
+contamination_class: none
+contamination_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-current
+contamination_state: clean
+invalidated_artifacts: []
+notes: No contamination or reset event was recorded for the retained run bundle.
+recorded_at: 2026-06-02T04:44:57.938216Z
+replay_continuity: preserved
+reset_action: No reset required; canonical run evidence remained coherent.
+run_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow
+schema_version: run-contamination-record-v1
+subject_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/checkpoints/bound.yml

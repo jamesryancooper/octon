@@ -1,0 +1,12 @@
+attempt_counter: 1
+attempt_limit: 1
+notes: The initial stage attempt completed without requiring a retry.
+recorded_at: 2026-06-02T04:44:57.938216Z
+result: not-needed
+retry_class: manual_review_required
+retry_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow-baseline
+route_taken: allow
+run_id: lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow
+schema_version: run-retry-record-v1
+stage_attempt_id: initial
+triggering_artifact_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780375451665-3ac47e1e-proposal-program-runner-workflow-retry-ids-attempt-1-workflow/stage-attempts/initial.yml

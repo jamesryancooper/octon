@@ -2,8 +2,8 @@
 
 ```yaml
 verdict: blocked-retained
-cleaned_at: "2026-06-02T04:39:10Z"
-run_id: "lifecycle-proposal-program-1780374272219-818e5cab"
+cleaned_at: "2026-06-02T04:54:28Z"
+run_id: "lifecycle-proposal-program-1780375451665-3ac47e1e"
 lifecycle_id: "proposal-program"
 route_id: "cleanup-lifecycle-residue"
 target: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening"
@@ -23,29 +23,29 @@ manual_review_classes:
   active_control_state: 56
   retained_evidence: 10
 protected_referenced_count: 0
-valid_lifecycle_or_proposal_progress_count: 31
+valid_lifecycle_or_proposal_progress_count: 23
 active_implementation_work_count: 0
 cleanup_safe_local_residue_count: 0
 foreign_or_ambiguous_count: 66
 worktree_hygiene_verdict: blocked
 remaining_blocker_class: worktree-hygiene-blocked
-residue_fingerprint: "sha256:683b3d95225ec272c82de1034ff7b5152dc1a1f4ceae2a82d61cf5be99a65217"
-helper_git_status_digest: "sha256:873a9780b32e826f97fd21df4f4660452734265e916c6c9796ce69ce1b2ae033"
-helper_classification_digest: "sha256:6aa0a7d648f4cf091356b256f5cc5bb0fdab9474ee114b910a326a9de907d4b5"
+residue_fingerprint: "sha256:ffdc280c648ed1fbbcabae9c535f9993a06f169cd03203af794f43eaef0846dd"
+helper_git_status_digest: "sha256:03bbede6115cea0e52c67e160b4d4007b1afdd3b03d9ca8b75199094985e412e"
+helper_classification_digest: "sha256:bc937940026d584b2a22f6b1c642f8c9fbecc18f79d8f377f462ec4726b358da"
 helper_cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 helper_protected_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-helper_manual_review_paths_digest: "sha256:683b3d95225ec272c82de1034ff7b5152dc1a1f4ceae2a82d61cf5be99a65217"
+helper_manual_review_paths_digest: "sha256:ce6a8fb7c66b300ea5bcf0a405855c4cb367bb68b21070b384aa72fdfce75156"
 worktree_hygiene_owned_path_count: 2
-worktree_hygiene_in_scope_path_count: 29
+worktree_hygiene_in_scope_path_count: 21
 worktree_hygiene_foreign_path_count: 66
-worktree_hygiene_foreign_fingerprint: "sha256:70093430e6118e4f18fc70944e8f92436e838f633d1e1040584b2d48adae29e6"
-worktree_dirty_path_count_before_receipt_refresh: 97
-worktree_dirty_path_count_after_receipt_refresh: 97
+worktree_hygiene_foreign_fingerprint: "sha256:f48f3342f5fca668c256d3afe999d7a127d1bd4b2741a814cb66c93095e74669"
+worktree_dirty_path_count_before_receipt_refresh: 88
+worktree_dirty_path_count_after_receipt_refresh: 89
 local_main_synced_with_origin_main: yes
-local_main_sync_basis: "Local main and origin/main are 0/0 divergent and remote refs/heads/main resolves to 0603146d483af6a1c16d9cfade7a8a055815f986."
+local_main_sync_basis: "Local main and origin/main are 0/0 divergent in current remote-tracking refs and both resolve to 0603146d483af6a1c16d9cfade7a8a055815f986."
 current_branch: "chore/proposal-program-runner-terminal-routing-closeout"
-current_branch_head_at_cleanup: "0cf0f223d70383c955acd7f1f0c6df0cc0994179"
-current_branch_upstream_at_cleanup: "0cf0f223d70383c955acd7f1f0c6df0cc0994179"
+current_branch_head_at_cleanup: "10eeccc700ccb3b3a536f47f4bead54abd742cfd"
+current_branch_upstream_at_cleanup: "10eeccc700ccb3b3a536f47f4bead54abd742cfd"
 cleanup_authorization_receipt: "none"
 local_only_recovery_branch_or_commit_refs: "none"
 published_cleanup_branch_refs: "none"
@@ -67,19 +67,19 @@ manual_review: 66
 manual_review_class_counts:
   active_control_state: 56
   retained_evidence: 10
-git_status_digest: "sha256:873a9780b32e826f97fd21df4f4660452734265e916c6c9796ce69ce1b2ae033"
-classification_digest: "sha256:6aa0a7d648f4cf091356b256f5cc5bb0fdab9474ee114b910a326a9de907d4b5"
+git_status_digest: "sha256:03bbede6115cea0e52c67e160b4d4007b1afdd3b03d9ca8b75199094985e412e"
+classification_digest: "sha256:bc937940026d584b2a22f6b1c642f8c9fbecc18f79d8f377f462ec4726b358da"
 cleanup_path_set_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
 protected_paths_digest: "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-manual_review_paths_digest: "sha256:683b3d95225ec272c82de1034ff7b5152dc1a1f4ceae2a82d61cf5be99a65217"
+manual_review_paths_digest: "sha256:ce6a8fb7c66b300ea5bcf0a405855c4cb367bb68b21070b384aa72fdfce75156"
 removal_route: "not applicable; helper found zero cleanup candidates"
 ```
 
 ## Remaining Classification
 
-Active implementation work remains intact. This cleanup route changed only this
-packet-local cleanup receipt and left implementation, child packet, generated
-registry, control, continuity, and evidence paths untouched.
+Active implementation work remains intact. This cleanup route changed only
+this packet-local cleanup receipt and left implementation, child packet,
+generated registry, control, continuity, and evidence paths untouched.
 
 The remaining residue is not cleanup-safe local residue. The helper classified
 the untracked state paths as manual review. The proposal worktree hygiene
@@ -91,7 +91,7 @@ outside this cleanup route's deletion authority.
 | Class | Disposition | Count | Rationale |
 | --- | --- | ---: | --- |
 | active implementation work | intact | 0 | No runtime source, validator, script, or implementation target was changed by this cleanup route. |
-| valid lifecycle or proposal progress | retain | 31 | The 28 child packet deletion paths and this cleanup receipt are declared in the program scope by the proposal hygiene classifier, and 2 parent-run control files belong to this lifecycle run. |
+| valid lifecycle or proposal progress | retain | 23 | The 20 child packet deletion paths and this cleanup receipt are declared in the program scope by the proposal hygiene classifier; 2 parent-run control files belong to this lifecycle run. |
 | cleanup-safe local residue | none | 0 | The cleanup helper returned an empty cleanup candidate set. |
 | manual-review active control state | retain/block | 56 | Untracked `.octon/state/control/**` and `.octon/state/continuity/**` workflow, validate, archive, and parent program records need an owning route or operator classification. |
 | manual-review retained evidence | retain/block | 10 | Untracked authority, grant-bundle, external-index, and archive-analysis evidence files need explicit retention or publication routing. |
@@ -126,13 +126,13 @@ cleanup result is implementation-safe and publication-blocking.
 classifier: ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
 target: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening"
 lifecycle: "proposal-program"
-run_id: "lifecycle-proposal-program-1780374272219-818e5cab"
+run_id: "lifecycle-proposal-program-1780375451665-3ac47e1e"
 worktree_hygiene_verdict: "blocked"
 worktree_hygiene_blocker_class: "worktree-hygiene-blocked"
 worktree_hygiene_owned_path_count: 2
-worktree_hygiene_in_scope_path_count: 29
+worktree_hygiene_in_scope_path_count: 21
 worktree_hygiene_foreign_path_count: 66
-worktree_hygiene_foreign_fingerprint: "sha256:70093430e6118e4f18fc70944e8f92436e838f633d1e1040584b2d48adae29e6"
+worktree_hygiene_foreign_fingerprint: "sha256:f48f3342f5fca668c256d3afe999d7a127d1bd4b2741a814cb66c93095e74669"
 worktree_hygiene_evidence: "git status --porcelain=v1 --untracked-files=all classified without mutation"
 next_route_condition: "route through closeout-change or operator scope resolution before proposal archive authorization"
 ```
@@ -147,11 +147,11 @@ local-only manual-review residue unless an owning route explicitly publishes,
 archives, retires, or disposes them.
 
 Local `main` sync was checked without relying on generated or proposal state:
-`main...origin/main` is `0 0`, and remote `refs/heads/main` resolves to
-`0603146d483af6a1c16d9cfade7a8a055815f986`.
+`main...origin/main` is `0 0`, and local remote-tracking `origin/main` resolves
+to `0603146d483af6a1c16d9cfade7a8a055815f986`.
 
 Closeout and archive remain blocked by worktree hygiene until the retained
-run-control, continuity, evidence, generated registry, and ACP-decision residue
-is routed through its owning lifecycle or an explicit operator scope-resolution
-route. Child implementation may proceed because there are zero cleanup
-candidates and active implementation work remains intact.
+run-control, continuity, evidence, generated registry, and ACP-decision
+residue is routed through its owning lifecycle or an explicit operator
+scope-resolution route. Child implementation may proceed because there are
+zero cleanup candidates and active implementation work remains intact.
