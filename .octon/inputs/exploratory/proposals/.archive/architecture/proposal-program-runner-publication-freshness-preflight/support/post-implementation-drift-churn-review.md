@@ -88,6 +88,13 @@ Pre-existing dirty changes and run residue for
 `proposal-program-runner-promotion-evidence-binding` are outside this route's
 target. They were observed only as unrelated worktree context.
 
+Work Package naming drift scanner and test literals under
+`.octon/framework/assurance/runtime/_ops/scripts/` and
+`.octon/framework/assurance/runtime/_ops/tests/` are intentional validator and
+negative-control text. They do not describe the current default work unit, do
+not create runtime or policy terminology, and are excluded from promoted-target
+naming drift findings for this packet.
+
 ## Final Closeout Recommendation
 
 The post-implementation drift/churn gate is satisfied for this packet. Continue

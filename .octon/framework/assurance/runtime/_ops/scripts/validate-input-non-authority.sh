@@ -354,6 +354,7 @@ is_allowed_input_reference() {
     .octon/framework/engine/runtime/crates/kernel/src/workflow.rs|\
     .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs|\
     .octon/framework/engine/runtime/crates/runtime_bus/src/lib.rs|\
+    .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs|\
     .octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs|\
     .octon/framework/engine/runtime/crates/authority_engine/src/implementation/runtime_state.rs)
       [[ "$line" == *"inputs/exploratory/proposals/"* || "$line" == *"\"exclusions\""* ]]

@@ -9,7 +9,14 @@ promotion_targets:
 - .octon/framework/assurance/runtime/_ops/scripts/
 - .octon/framework/assurance/runtime/_ops/tests/
 - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-02
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-publication-freshness-preflight
+  promotion_evidence:
+  - .octon/state/evidence/runs/workflows/2026-06-01-promote-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-runner-publication-freshness-preflight/summary.md
 lifecycle:
   temporary: true
   exit_expectation: Implement only through the proposal-packet lifecycle after review and implementation prompt authorization.
