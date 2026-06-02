@@ -1,0 +1,9 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal/context/context-pack.json
+freshness_status: valid
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal/context/model-visible-context.json
+run_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-promote-proposal
+schema_version: context-pack-status-v1
+status: bound
+updated_at: 2026-06-02T03:40:44.41247Z
+validity_state: valid

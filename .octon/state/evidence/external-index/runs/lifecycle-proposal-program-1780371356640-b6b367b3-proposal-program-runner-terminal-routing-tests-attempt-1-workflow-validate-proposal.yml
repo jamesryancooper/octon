@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:5a23b19eb47017087b692ee3db1f32086c8cae61cc517fb64fa88308ed9b5f2e
+  entry_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T03:40:43.348957Z
+  run_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:369f5a1fab9514f9ca199d8d8419ca7d7091cd2cbaa98ad6ec9b696bf573fe17
+  entry_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T03:40:43.348957Z
+  run_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal
+run_id: lifecycle-proposal-program-1780371356640-b6b367b3-proposal-program-runner-terminal-routing-tests-attempt-1-workflow-validate-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-02T03:40:43.348957Z

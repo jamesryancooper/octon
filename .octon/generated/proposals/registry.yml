@@ -544,7 +544,7 @@ active:
     scope: "octon-internal"
     path: ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-tests"
     title: "Proposal Program Runner Terminal Routing Tests"
-    status: "accepted"
+    status: "implemented"
     promotion_targets:
       - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
       - ".octon/framework/engine/runtime/crates/kernel/tests/"

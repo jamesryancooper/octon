@@ -1,29 +1,23 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-program-runner-terminal-routing-tests"
-title: "Proposal Program Runner Terminal Routing Tests"
-summary: >-
-  Add end-to-end regression fixtures and negative controls for workflow retry,
-  change handoff checkpoints, aggregate blockers, promotion evidence binding,
-  publication freshness preflight, parent review churn, archive observation,
-  replay, locks, and authority boundaries.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-terminal-routing-tests
+title: Proposal Program Runner Terminal Routing Tests
+summary: Add end-to-end regression fixtures and negative controls for workflow retry, change handoff checkpoints, aggregate blockers, promotion evidence binding, publication freshness preflight, parent review churn, archive observation, replay, locks, and authority boundaries.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
-  - ".octon/framework/engine/runtime/crates/kernel/tests/"
-  - ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/"
-  - ".octon/framework/assurance/runtime/_ops/tests/"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/"
-status: "accepted"
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/kernel/tests/
+- .octon/framework/engine/runtime/crates/lifecycle_executor/tests/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Implement only through the proposal-packet lifecycle after review and
-    implementation prompt authorization.
+  exit_expectation: Implement only through the proposal-packet lifecycle after review and implementation prompt authorization.
 related_proposals:
-  - "proposal-program-runner-terminal-routing-and-recovery-hardening"
-release_state: "pre-1.0"
-change_profile: "atomic"
+- proposal-program-runner-terminal-routing-and-recovery-hardening
+change_profile: atomic
+release_state: pre-1.0
+rollback_summary: Patch reversal of test and fixture additions.
 source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-rollback_summary: "Patch reversal of test and fixture additions."
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md
