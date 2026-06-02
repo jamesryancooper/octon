@@ -1,7 +1,7 @@
 schema_version: octon-capability-routing-artifact-map-v3
 generator_version: capability-routing-publication-v3
 generation_id: capabilities-1b6aec86bf0f
-published_at: 2026-06-02T03:32:42Z
+published_at: 2026-06-02T12:11:42Z
 artifacts:
   - artifact_map_id: extension-command-octon-concept-integration-octon-concept-integration
     effective_id: extension.command.octon-concept-integration.octon-concept-integration
@@ -1808,7 +1808,7 @@ artifacts:
     source_manifest_path: .octon/framework/capabilities/runtime/services/manifest.yml
     source_manifest_sha256: ea57989879070329d20570ceffa0d21e1023b9c19f0f95b29edc5220ec72e069
     source_path: .octon/framework/capabilities/runtime/services/execution/flow/SERVICE.md
-    source_sha256: e3569c3178ff684d1a9931ab8156c5c731c91c254c3e4b3ed06385929c9eee9d
+    source_sha256: f2be93d9daffcfaedcd726fef2fa8aef18cb61a81f8a561eb3bd08d90c21ec91
   - artifact_map_id: framework-service-guard
     effective_id: framework.service.guard
     origin_class: framework
