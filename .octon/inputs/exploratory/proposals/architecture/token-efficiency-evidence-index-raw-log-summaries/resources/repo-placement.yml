@@ -1,0 +1,16 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-evidence-index-raw-log-summaries
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/engine/runtime/spec/evidence-store-v1.md
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+produced_artifacts:
+- evidence-index.yml
+- raw-log-summary.yml
+- failing-slice-manifest.yml
+default_model_route: deterministic; medium only for ambiguous failure classification
+token_ceiling: 2k for failure summary; raw log body handle-only by default
+escalation: summary hash mismatch, failing slice cannot be found, validator dispute, replay audit request
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

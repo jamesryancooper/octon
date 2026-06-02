@@ -1,0 +1,99 @@
+schema_version: octon-prompt-capsule-schema-catalog-v1
+schemas:
+  prompt-pack-capsule-v1:
+    purpose: Digest-bound handle for a prompt set and its prompt/reference/shared-reference assets.
+    required_fields:
+    - schema_version
+    - capsule_id
+    - prompt_set_id
+    - route_id
+    - source_assets
+    - policy_digest
+    - visible_short_rules
+    - expansion_rules
+    - stale_behavior
+    - retained_full_prompt_packet_ref
+    - model_visible_context_sha256
+    - audit_replay_refs
+    stale_behavior: fail-closed or rebuild only through authorized capsule compiler
+  route-instruction-capsule-v1:
+    purpose: Short model-visible route instructions with source digests and exact expansion conditions.
+    required_fields:
+    - schema_version
+    - capsule_id
+    - route_id
+    - lifecycle_id
+    - target
+    - invocation_authority
+    - policy_digest
+    - visible_route_rules
+    - budget
+    - escalation_triggers
+    - audit_replay_refs
+  compiled-governance-capsule-v1:
+    purpose: Short rule capsule for stable governance instructions such as authority boundary, proposal non-authority, deny-by-default,
+      and evidence requirements.
+    required_fields:
+    - schema_version
+    - capsule_id
+    - source_authority_refs
+    - source_digests
+    - visible_rules
+    - valid_until
+    - invalidation_triggers
+    - audit_replay_refs
+  prompt-expansion-policy-v1:
+    purpose: Policy that controls when full prompt text may be expanded into model-visible context.
+    required_fields:
+    - schema_version
+    - policy_id
+    - default_mode
+    - expand_full_when
+    - deny_full_when
+    - retention_requirements
+    - replay_requirements
+    - failure_behavior
+instruction_classification:
+  mandatory_every_run:
+  - single super-root
+  - proposal/generated non-authority
+  - deny-by-default
+  - engine-owned authorization boundary
+  - support-proof preservation
+  mandatory_every_lifecycle_stage:
+  - current route objective
+  - current target
+  - context-pack hash
+  - evidence refs
+  - omission policy
+  mandatory_gate_transitions:
+  - ACP/gate conditions
+  - authorization refs
+  - rollback refs
+  - child receipt requirements
+  - freshness status
+  mandatory_implementation_planning:
+  - promotion targets
+  - write scopes
+  - validators
+  - rollback plan
+  - conformance/drift gates
+  mandatory_conformance_closeout:
+  - conformance evidence
+  - drift/churn evidence
+  - closeout refusal criteria
+  - archive disposition rules
+  replaceable_by_capsule_id_digest:
+  - full proposal standard
+  - full subtype standard
+  - stable closeout policy
+  - stable shared references
+  replaceable_by_short_rule_capsule:
+  - constitutional invariants
+  - proposal non-authority
+  - generated non-authority
+  - raw input non-authority
+  unnecessary_or_redundant:
+  - repeated full source lineage after digest-stable summary
+  - full sibling packet bodies in ordinary child dispatch
+  - raw prompt echo in logs

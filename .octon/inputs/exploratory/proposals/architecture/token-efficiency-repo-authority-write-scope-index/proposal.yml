@@ -1,0 +1,59 @@
+schema_version: proposal-v1
+proposal_id: token-efficiency-repo-authority-write-scope-index
+title: Repo Authority Graph And Write Scope Index
+summary: Precompute advisory repo authority graph and promotion-target/write-scope index to avoid repeated repo re-learning.
+proposal_kind: architecture
+promotion_scope: octon-internal
+release_state: pre-1.0
+change_profile: atomic
+token_efficiency_surface: repo-graph
+promotion_targets:
+- .octon/framework/cognition/_meta/architecture/
+- .octon/framework/engine/runtime/spec/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+status: accepted
+lifecycle:
+  temporary: true
+  exit_expectation: After durable implementation and validation, promoted targets must stand without depending on this proposal
+    packet. Child evidence, conformance, drift/churn, rollback, closeout, and archive receipts remain child-owned.
+related_proposals:
+- token-efficient-proposal-program-controller
+parent_program: token-efficient-proposal-program-controller
+program_phase: phase-5
+program_group: repo-graph
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+selected_implementation_target: Repo Authority Graph And Write Scope Index
+scope_statement: Precompute advisory repo authority graph and promotion-target/write-scope index to avoid repeated repo re-learning.
+authority_class_impact:
+  framework: May add or update durable framework specs/code/tests listed in promotion targets.
+  instance: May add or update instance policies only when listed in promotion targets.
+  state_control: May define compact derived control/read state but cannot replace canonical control journal/checkpoints.
+  state_evidence: May define retained evidence artifacts but cannot delete raw evidence.
+  generated: May define derived/read-model outputs but cannot make them authority.
+  inputs: This proposal remains non-authoritative input lineage.
+evidence_requirements:
+- implementation-grade completeness review
+- implementation conformance receipt after promotion
+- post-implementation drift/churn receipt after promotion
+- validator result manifests
+- token-budget ledger delta
+- rollback evidence
+- context-pack and model-visible hash evidence where consequential
+validation_gates:
+- repo authority graph source digest test
+- target-family boundary validation
+- stale graph fail-closed negative control
+- promotion-target/write-scope index coverage test
+acceptance_criteria_summary: Accepted only when Repo Authority Graph And Write Scope Index reduces model-visible repeated
+  context for its surface while preserving evidence, replay, rollback, and authorization invariants.
+rollback_summary: Medium; graph is useful only if advisory and invalidated on source drift.
+owner:
+  role: Octon proposal-program child author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-02'
+child_authority_preserved: 'yes'
+explicit_runtime_non_implementation_statement: This child packet does not itself mutate runtime or authorize implementation.

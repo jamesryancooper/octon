@@ -1,0 +1,17 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-proposal-artifact-index-spine
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+generated_outputs:
+- .octon/generated/proposals/
+produced_artifacts:
+- proposal-artifact-index.yml
+- proposal-program-spine.yml
+- child-handoff-capsule.yml
+default_model_route: deterministic generation; small model optional for short descriptions
+token_ceiling: 2k summary; indexes generated without LLM
+escalation: manifest mismatch, source digest drift, proposal path treated as authority, missing required lifecycle source
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets; generated proposal registry outputs are read-model artifacts only

@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: token-efficiency-lifecycle-context-pack-integration
+title: Lifecycle Executor Context Pack Integration
+summary: Apply Context Pack Builder inclusion modes to lifecycle, skill, bootstrap, generated, evidence, raw-log, and proposal
+  context.
+proposal_kind: architecture
+promotion_scope: octon-internal
+release_state: pre-1.0
+change_profile: atomic
+token_efficiency_surface: context-runtime
+promotion_targets:
+- .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/instance/governance/policies/context-packing.yml
+status: accepted
+lifecycle:
+  temporary: true
+  exit_expectation: After durable implementation and validation, promoted targets must stand without depending on this proposal
+    packet. Child evidence, conformance, drift/churn, rollback, closeout, and archive receipts remain child-owned.
+related_proposals:
+- token-efficient-proposal-program-controller
+parent_program: token-efficient-proposal-program-controller
+program_phase: phase-2
+program_group: context-runtime
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+selected_implementation_target: Lifecycle Executor Context Pack Integration
+scope_statement: Apply Context Pack Builder inclusion modes to lifecycle, skill, bootstrap, generated, evidence, raw-log,
+  and proposal context.
+authority_class_impact:
+  framework: May add or update durable framework specs/code/tests listed in promotion targets.
+  instance: May add or update instance policies only when listed in promotion targets.
+  state_control: May define compact derived control/read state but cannot replace canonical control journal/checkpoints.
+  state_evidence: May define retained evidence artifacts but cannot delete raw evidence.
+  generated: May define derived/read-model outputs but cannot make them authority.
+  inputs: This proposal remains non-authoritative input lineage.
+evidence_requirements:
+- implementation-grade completeness review
+- implementation conformance receipt after promotion
+- post-implementation drift/churn receipt after promotion
+- validator result manifests
+- token-budget ledger delta
+- rollback evidence
+- context-pack and model-visible hash evidence where consequential
+validation_gates:
+- test-context-pack-builder.sh
+- context omission manifest test
+- raw/generated authority negative control
+- invalid context-pack blocks authorization test
+acceptance_criteria_summary: Accepted only when Lifecycle Executor Context Pack Integration reduces model-visible repeated
+  context for its surface while preserving evidence, replay, rollback, and authorization invariants.
+rollback_summary: Medium; executor integration must preserve authorization bindings and replay.
+owner:
+  role: Octon proposal-program child author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-02'
+child_authority_preserved: 'yes'
+explicit_runtime_non_implementation_statement: This child packet does not itself mutate runtime or authorize implementation.

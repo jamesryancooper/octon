@@ -1,0 +1,20 @@
+schema_version: architecture-proposal-v1
+proposal_id: token-efficiency-structured-receipts-concise-publication
+title: Structured Receipts And Concise Publication
+architecture_scope: repo-architecture
+decision_type: surface-refactor
+status: accepted
+release_state: pre-1.0
+change_profile: atomic
+problem_statement: Move evidence to machine-readable receipts, concise closeout projections, compact publication summaries,
+  and on-demand expanded reports.
+target_architecture_ref: architecture/target-architecture.md
+implementation_plan_ref: architecture/implementation-plan.md
+acceptance_criteria_ref: architecture/acceptance-criteria.md
+rollback_posture_ref: architecture/rollback-posture.md
+parent_program_ref: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller
+authority_boundaries:
+  proposal_inputs: non-authoritative
+  generated_outputs: derived/read-model only
+  runtime_authorization: engine-owned
+  child_receipts: child-owned

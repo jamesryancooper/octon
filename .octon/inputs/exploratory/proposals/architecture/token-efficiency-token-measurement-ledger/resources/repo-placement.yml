@@ -1,0 +1,17 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-token-measurement-ledger
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/engine/runtime/spec/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+produced_artifacts:
+- token-budget-ledger.json
+- token-regression-baseline.yml
+- model-usage-summary.yml
+default_model_route: deterministic-first; small model only for human summary
+token_ceiling: 4k model-visible tokens for summary; 0 LLM tokens for ledger generation
+escalation: provider usage mismatch, missing model accounting, source-token ledger cannot reconstruct context totals
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

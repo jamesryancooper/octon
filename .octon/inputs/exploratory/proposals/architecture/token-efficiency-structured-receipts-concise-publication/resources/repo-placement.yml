@@ -1,0 +1,17 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-structured-receipts-concise-publication
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/engine/runtime/spec/evidence-store-v1.md
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/assurance/runtime/_ops/scripts/
+produced_artifacts:
+- closeout-projection.yml
+- publication-summary.yml
+- structured-receipt.yml
+- expanded-report-request.yml
+default_model_route: small/medium summary; deterministic schema and evidence ref validation
+token_ceiling: closeout projection ≤4k; expanded report generated only on demand
+escalation: missing evidence ref, closeout authorization ambiguity, rollback evidence missing, support-proof claim conflict
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

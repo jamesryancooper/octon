@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: token-efficiency-structured-receipts-concise-publication
+title: Structured Receipts And Concise Publication
+summary: Move evidence to machine-readable receipts, concise closeout projections, compact publication summaries, and on-demand
+  expanded reports.
+proposal_kind: architecture
+promotion_scope: octon-internal
+release_state: pre-1.0
+change_profile: atomic
+token_efficiency_surface: receipts-output
+promotion_targets:
+- .octon/framework/engine/runtime/spec/evidence-store-v1.md
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/assurance/runtime/_ops/scripts/
+status: accepted
+lifecycle:
+  temporary: true
+  exit_expectation: After durable implementation and validation, promoted targets must stand without depending on this proposal
+    packet. Child evidence, conformance, drift/churn, rollback, closeout, and archive receipts remain child-owned.
+related_proposals:
+- token-efficient-proposal-program-controller
+parent_program: token-efficient-proposal-program-controller
+program_phase: phase-3
+program_group: receipts-output
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+selected_implementation_target: Structured Receipts And Concise Publication
+scope_statement: Move evidence to machine-readable receipts, concise closeout projections, compact publication summaries,
+  and on-demand expanded reports.
+authority_class_impact:
+  framework: May add or update durable framework specs/code/tests listed in promotion targets.
+  instance: May add or update instance policies only when listed in promotion targets.
+  state_control: May define compact derived control/read state but cannot replace canonical control journal/checkpoints.
+  state_evidence: May define retained evidence artifacts but cannot delete raw evidence.
+  generated: May define derived/read-model outputs but cannot make them authority.
+  inputs: This proposal remains non-authoritative input lineage.
+evidence_requirements:
+- implementation-grade completeness review
+- implementation conformance receipt after promotion
+- post-implementation drift/churn receipt after promotion
+- validator result manifests
+- token-budget ledger delta
+- rollback evidence
+- context-pack and model-visible hash evidence where consequential
+validation_gates:
+- closeout-change lifecycle alignment validation
+- closeout worktree wrapper tests
+- structured receipt schema validation
+- expanded report reconstruction test
+acceptance_criteria_summary: Accepted only when Structured Receipts And Concise Publication reduces model-visible repeated
+  context for its surface while preserving evidence, replay, rollback, and authorization invariants.
+rollback_summary: Low-medium; must retain enough human-visible context for operator decisions when required.
+owner:
+  role: Octon proposal-program child author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-02'
+child_authority_preserved: 'yes'
+explicit_runtime_non_implementation_statement: This child packet does not itself mutate runtime or authorize implementation.

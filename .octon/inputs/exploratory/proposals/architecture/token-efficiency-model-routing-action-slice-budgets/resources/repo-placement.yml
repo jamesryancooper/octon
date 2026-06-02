@@ -1,0 +1,17 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-model-routing-action-slice-budgets
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/instance/governance/policies/model-routing.yml
+- .octon/instance/governance/policies/token-budgets.yml
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+produced_artifacts:
+- route-decision-receipt.yml
+- model-routing-receipt.yml
+- action-slice-ledger.yml
+default_model_route: deterministic-first; high-reasoning only on escalation
+token_ceiling: slice-specific; final completion ≤8k, child dispatch ≤12k base, architecture exception ≤40k
+escalation: authority ambiguity, architecture decision, rollback conflict, support-proof interpretation, promotion evidence
+  conflict, archive/recovery failure, unexplained test failure
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

@@ -1,0 +1,154 @@
+schema_version: octon-model-routing-matrix-v1
+routes:
+- stage_or_child_type: proposal_manifest_validation
+  default_route: deterministic
+  token_ceiling: '0'
+  escalation_triggers:
+  - schema conflict
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - validator-result-manifest.yml
+- stage_or_child_type: parent_spine_generation
+  default_route: deterministic
+  token_ceiling: '0'
+  escalation_triggers:
+  - inconsistent manifests
+  fallback_behavior: medium review
+  evidence_receipt_requirements:
+  - proposal-program-spine.yml
+- stage_or_child_type: child_registry_parsing
+  default_route: deterministic
+  token_ceiling: '0'
+  escalation_triggers:
+  - invalid dependencies
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - dependency-vector.yml
+- stage_or_child_type: terminal_gap_mapping
+  default_route: high-reasoning
+  token_ceiling: 40k
+  escalation_triggers:
+  - architecture conflict
+  fallback_behavior: human review
+  evidence_receipt_requirements:
+  - gap-map receipt
+- stage_or_child_type: workflow_retry_id_safety
+  default_route: medium/high
+  token_ceiling: 30k
+  escalation_triggers:
+  - runtime safety ambiguity
+  fallback_behavior: high-reasoning
+  evidence_receipt_requirements:
+  - implementation receipt
+- stage_or_child_type: change_handoff_checkpoint_design
+  default_route: medium/high
+  token_ceiling: 25k
+  escalation_triggers:
+  - authorization cleanup ambiguity
+  fallback_behavior: high-reasoning
+  evidence_receipt_requirements:
+  - handoff receipt
+- stage_or_child_type: aggregate_terminal_blockers
+  default_route: deterministic/small
+  token_ceiling: 2k zero; 8k nonzero
+  escalation_triggers:
+  - blocker conflict
+  fallback_behavior: medium
+  evidence_receipt_requirements:
+  - blocker-ledger.yml
+- stage_or_child_type: promotion_evidence_binding
+  default_route: high-on-escalation
+  token_ceiling: 30k
+  escalation_triggers:
+  - evidence ownership conflict
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - promotion binding receipt
+- stage_or_child_type: publication_freshness
+  default_route: deterministic
+  token_ceiling: 0-3k
+  escalation_triggers:
+  - stale generated handle
+  fallback_behavior: medium on failure
+  evidence_receipt_requirements:
+  - publication-freshness-manifest.yml
+- stage_or_child_type: parent_review_churn
+  default_route: deterministic/small
+  token_ceiling: 2k-8k
+  escalation_triggers:
+  - digest stable but semantic drift suspected
+  fallback_behavior: medium
+  evidence_receipt_requirements:
+  - churn receipt
+- stage_or_child_type: archive_observation_recovery
+  default_route: deterministic/high-on-failure
+  token_ceiling: 30k
+  escalation_triggers:
+  - archive convergence failure
+  fallback_behavior: high-reasoning
+  evidence_receipt_requirements:
+  - archive recovery receipt
+- stage_or_child_type: terminal_routing_tests
+  default_route: deterministic/medium-on-failure
+  token_ceiling: 8k
+  escalation_triggers:
+  - unexplained test failure
+  fallback_behavior: medium/high
+  evidence_receipt_requirements:
+  - test manifest
+- stage_or_child_type: final_parent_completion
+  default_route: deterministic/small
+  token_ceiling: 8k
+  escalation_triggers:
+  - missing child evidence
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - completion capsule
+- stage_or_child_type: closeout_summary
+  default_route: small/medium
+  token_ceiling: 10k
+  escalation_triggers:
+  - cleanup authorization ambiguity
+  fallback_behavior: high-reasoning
+  evidence_receipt_requirements:
+  - closeout-projection.yml
+- stage_or_child_type: raw_log_indexing
+  default_route: deterministic
+  token_ceiling: '0'
+  escalation_triggers:
+  - hash mismatch
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - raw-log-summary.yml
+- stage_or_child_type: validator_failure_classification
+  default_route: medium
+  token_ceiling: 8k
+  escalation_triggers:
+  - authority/rollback impact
+  fallback_behavior: high-reasoning
+  evidence_receipt_requirements:
+  - validator-result-manifest.yml
+- stage_or_child_type: generated_freshness_classification
+  default_route: deterministic
+  token_ceiling: '0'
+  escalation_triggers:
+  - stale handle
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - publication-freshness-manifest.yml
+- stage_or_child_type: proposal_artifact_indexing
+  default_route: deterministic
+  token_ceiling: '0'
+  escalation_triggers:
+  - manifest mismatch
+  fallback_behavior: fail closed
+  evidence_receipt_requirements:
+  - proposal-artifact-index.yml
+- stage_or_child_type: repo_authority_graph_generation
+  default_route: deterministic/medium
+  token_ceiling: 6k
+  escalation_triggers:
+  - source-of-truth ambiguity
+  fallback_behavior: medium/high
+  evidence_receipt_requirements:
+  - repo-authority-graph.yml

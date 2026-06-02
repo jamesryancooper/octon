@@ -1,0 +1,107 @@
+schema_version: proposal-v1
+proposal_id: token-efficient-proposal-program-controller
+title: Token-Efficient Proposal Program Controller
+summary: Coordinated architecture proposal program to reduce Octon proposal lifecycle token consumption by introducing digest-bound
+  prompt capsules, compact lifecycle state, structured evidence indexes, context-pack-backed lifecycle prompts, token ledgers,
+  model routing, and cache invalidation while preserving Octon governance, replay, rollback, evidence, and authorization invariants.
+proposal_kind: architecture
+promotion_scope: octon-internal
+release_state: pre-1.0
+change_profile: atomic
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+- .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+- .octon/framework/cognition/_meta/architecture/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+- .octon/framework/engine/runtime/spec/
+- .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+- .octon/framework/engine/runtime/spec/evidence-store-v1.md
+- .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+- .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+- .octon/instance/governance/policies/context-packing.yml
+- .octon/instance/governance/policies/model-routing.yml
+- .octon/instance/governance/policies/token-budgets.yml
+status: accepted
+lifecycle:
+  temporary: true
+  exit_expectation: After child packets are reviewed, accepted, implemented, verified, and archived, durable changes must
+    live in framework, instance policy, runtime spec, assurance, lifecycle contract, or generated-read-model producer surfaces
+    outside the proposal workspace. This parent and child packets remain temporary non-authoritative proposal lineage.
+related_proposals:
+- token-efficiency-token-measurement-ledger
+- token-efficiency-evidence-index-raw-log-summaries
+- token-efficiency-planner-state-program-context-capsule
+- token-efficiency-blocker-ledger-recovery-deltas
+- token-efficiency-validator-manifests-generated-freshness
+- token-efficiency-prompt-pack-instruction-capsules
+- token-efficiency-lifecycle-context-pack-integration
+- token-efficiency-proposal-artifact-index-spine
+- token-efficiency-repo-authority-write-scope-index
+- token-efficiency-model-routing-action-slice-budgets
+- token-efficiency-structured-receipts-concise-publication
+- token-efficiency-semantic-cache-context-reuse
+program_execution_mode: gated-parallel
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml
+selected_implementation_target: Token-Efficient Proposal Program Controller layered on Octon's existing governed runtime
+scope_statement: Proposal-program coordination only. This packet proposes durable runtime, evidence, context, prompt, routing,
+  validation, and cache surfaces; it does not itself authorize execution, mutate runtime authority, publish generated state,
+  satisfy child-owned receipts, or bypass Octon's engine-owned authorization boundary.
+authority_class_impact:
+  framework: Adds or refactors runtime specs, lifecycle executor behavior, kernel program state handling, assurance scripts/tests,
+    evidence contracts, and generated-read-model producers.
+  instance: Adds or updates governed policies such as context-packing, model-routing, and token-budget policies where accepted.
+  state_control: Defines compact planner/control views but keeps canonical lifecycle state journal/checkpoint owned by state/control.
+  state_evidence: Adds retained evidence indexes, token ledgers, raw-log summaries, validator manifests, and replay refs.
+  generated: Adds derived indexes, spines, graphs, and freshness handles as generated/read-model projections only.
+  inputs: This proposal and children remain non-authoritative proposal inputs and must not become runtime authority.
+runtime_behavior_impact: Material runtime behavior changes are proposed only through child packets and require lifecycle authorization,
+  context-pack evidence, tests, and rollback posture before implementation.
+generated_input_authority_impact: Generated spines, indexes, graphs, summaries, and read models are advisory/derived only
+  and must fail closed if treated as canonical authority.
+evidence_requirements:
+- Token-budget ledger for lifecycle/parent/child/stage/source/model accounting.
+- Evidence index, raw-log summary, and failing-slice manifests for retained raw evidence.
+- Planner-state and program-context capsule receipts derived from checkpoint and event head.
+- Prompt-pack capsule receipts with retained full prompt packet refs and model-visible hashes.
+- Context-pack source, omission, invalidation, and model-visible hash receipts.
+- Validator result manifests and generated freshness handles.
+- Model-routing and route-decision receipts for every action slice.
+- Closeout projection and publication summary refs backed by retained evidence.
+validation_gates:
+- proposal standard validators for parent and all child packets
+- architecture proposal validators for parent and all child packets
+- implementation-grade completeness gate for parent and children
+- context-pack builder tests and negative controls
+- lifecycle runner and lifecycle interaction receipt tests
+- publication freshness and run-health read-model tests
+- closeout-change and closeout-worktree validation
+- schema validation for every new compact artifact
+- proposal-program mock run proving governance, replay, rollback, and token regression behavior
+acceptance_criteria_summary: Program is successful only when prompt asset expansion, raw-log rereads, generated-tree rereads,
+  full program-plan consumption, blocker history replay, closeout narrative duplication, and high-reasoning calls are reduced
+  by policy and measurement without weakening evidence completeness, replay, rollback, ACP gates, authorization, generated/read-model
+  boundaries, or proposal non-authority.
+rollback_summary: Before implementation, rollback is removal of this parent and child proposal packets plus regenerated proposal
+  registry if required. After implementation, each child owns rollback posture for its durable targets, including reverting
+  schema/spec/code/policy changes, invalidating generated projections, and preserving evidence refs.
+owner:
+  role: Octon proposal-program author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-02'
+child_authority_preserved: 'yes'
+explicit_runtime_non_implementation_statement: This proposal program does not itself perform runtime mutation, promotion,
+  closeout, archive, cleanup, publication, registry refresh, or generated-state mutation. It describes a governed implementation
+  program.

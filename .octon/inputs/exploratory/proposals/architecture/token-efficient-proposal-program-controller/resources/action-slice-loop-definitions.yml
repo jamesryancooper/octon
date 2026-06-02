@@ -1,0 +1,73 @@
+schema_version: octon-action-slice-loop-definitions-v1
+program_id: token-efficient-proposal-program-controller
+slices:
+- slice_id: load_program_spine
+  input_context_pack: proposal-program-spine + child registry digest
+  model_route: deterministic
+  token_ceiling: '0'
+  deterministic_prechecks: manifest and digest validation
+  output_artifact: planner-state.yml
+  evidence_refs: source manifest, spine digest
+  failure_behavior: fail closed on stale spine
+  escalation_trigger: manifest mismatch
+  replay_requirement: spine can be regenerated from manifests and checkpoint
+- slice_id: evaluate_dependency_vector
+  input_context_pack: planner-state + child receipt digests
+  model_route: deterministic
+  token_ceiling: '0'
+  deterministic_prechecks: receipt and gate status validation
+  output_artifact: dependency-vector.yml
+  evidence_refs: child refs, event head
+  failure_behavior: block dispatch if dependency unsatisfied
+  escalation_trigger: conflicting child status
+  replay_requirement: dependency vector bound to child receipt digests
+- slice_id: select_runnable_children
+  input_context_pack: dependency-vector + child registry
+  model_route: deterministic/small
+  token_ceiling: 2k
+  deterministic_prechecks: required/deferred/dependency checks
+  output_artifact: route-decision-receipt.yml
+  evidence_refs: registry digest, decision reason
+  failure_behavior: no-dispatch or fail closed
+  escalation_trigger: scheduler ambiguity
+  replay_requirement: decision receipt binds input digests
+- slice_id: dispatch_child_or_no_dispatch
+  input_context_pack: child-handoff capsule
+  model_route: deterministic/high-on-escalation
+  token_ceiling: 8k base
+  deterministic_prechecks: context-pack validation
+  output_artifact: child-handoff-capsule.yml
+  evidence_refs: context-pack hash, prompt capsule digest
+  failure_behavior: deny if context invalid
+  escalation_trigger: authority conflict or mutation-sensitive work
+  replay_requirement: retained model-visible context hash
+- slice_id: summarize_terminal_blockers
+  input_context_pack: blocker-ledger + child status table
+  model_route: deterministic/small
+  token_ceiling: 2k zero, 8k nonzero
+  deterministic_prechecks: blocker fingerprint validation
+  output_artifact: aggregate-terminal-blockers.yml
+  evidence_refs: blocker IDs, child refs
+  failure_behavior: block completion if unresolved blockers
+  escalation_trigger: fingerprint drift
+  replay_requirement: ledger points to child evidence
+- slice_id: validate_completion
+  input_context_pack: planner-state + aggregate blockers + event head
+  model_route: deterministic
+  token_ceiling: 0-3k
+  deterministic_prechecks: completion invariants
+  output_artifact: completion-capsule.yml
+  evidence_refs: event log head, checkpoint digest
+  failure_behavior: fail closed if missing child receipt
+  escalation_trigger: checkpoint/event drift
+  replay_requirement: event head and checkpoint digest retained
+- slice_id: emit_closeout_capsule
+  input_context_pack: completion capsule + closeout projection
+  model_route: small/medium
+  token_ceiling: 4k-10k
+  deterministic_prechecks: closeout schema validation
+  output_artifact: closeout-projection.yml
+  evidence_refs: rollback refs, validation refs
+  failure_behavior: defer closeout on missing evidence
+  escalation_trigger: cleanup authorization ambiguity
+  replay_requirement: projection points to full receipt

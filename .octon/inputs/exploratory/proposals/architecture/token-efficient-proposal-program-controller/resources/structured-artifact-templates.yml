@@ -1,0 +1,582 @@
+schema_version: octon-structured-artifact-template-catalog-v1
+artifacts:
+  evidence-index.yml:
+    purpose: Inventory retained evidence with roles, byte sizes, digests, token estimates, default visibility, and raw-read
+      escalation hints.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  raw-log-summary.yml:
+    purpose: Compact deterministic summary of raw stdout/stderr logs with prompt echo detection and byte ranges.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  failing-slice-manifest.yml:
+    purpose: Machine-readable failing slices extracted from raw logs and validator output.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  planner-state.yml:
+    purpose: Compact current planner state derived from checkpoints, event heads, child status, and blocker refs.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  program-context-capsule.yml:
+    purpose: Parent program context handoff with child status table, runnable batch, blockers, route decision, digests, and
+      evidence refs.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  blocker-ledger.yml:
+    purpose: Stable blocker IDs, latest transitions, prior/current fingerprints, recovery budget, and child evidence refs.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  validator-result-manifest.yml:
+    purpose: Pass/fail counts, failing slices, contract refs, negative controls, stdout/stderr refs, and evidence digests.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  publication-freshness-manifest.yml:
+    purpose: Generated/read-model freshness handles and stale path classification.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  run-health-compact-manifest.yml:
+    purpose: Compact run-health facts and failing slices without broad generated tree listing.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  proposal-artifact-index.yml:
+    purpose: Per proposal/program artifact index with role, digest, bytes, estimated tokens, inclusion mode, and stage relevance.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  proposal-program-spine.yml:
+    purpose: Compact generated/read-model proposal/program state with child status, gate states, blockers, receipts, and evidence
+      refs.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  child-handoff-capsule.yml:
+    purpose: Compact parent-to-child capsule for scope, dependency vector, write-scope map, validator matrix, evidence refs,
+      and context hash.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  dependency-vector.yml:
+    purpose: Deterministic dependency satisfaction table for child selection and dispatch.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  route-decision-receipt.yml:
+    purpose: Retained decision record for selected/no-dispatch route with input digests and reason codes.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  model-routing-receipt.yml:
+    purpose: Retained routing record showing deterministic/small/medium/high route, ceiling, triggers, and escalation basis.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  token-budget-ledger.json:
+    purpose: Lifecycle token accounting by parent/child/stage/source/model and prompt/context/completion/tool-output split.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  closeout-projection.yml:
+    purpose: Concise closeout view backed by full closeout receipt and evidence refs.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed
+  publication-summary.yml:
+    purpose: Compact publication artifact with refs to retained evidence and on-demand expanded report handle.
+    authority_status: non-authoritative retained evidence or generated/read-model projection; never source of truth
+    source_of_truth: canonical manifests, runtime control journals, retained evidence, durable validators, or authored framework/instance
+      authority as applicable
+    schema_fields:
+    - schema_version
+    - run_id_or_proposal_id
+    - source_refs
+    - source_digests
+    - producer
+    - consumer
+    - validation
+    - freshness
+    - evidence_refs
+    - failure_behavior
+    path_placement:
+      runtime_evidence: .octon/state/evidence/runs/<run-id>/**
+      control_pointer_when_needed: .octon/state/control/execution/runs/<run-id>/**
+      generated_projection_when_needed: .octon/generated/**
+      proposal_spec_or_template: durable spec/template under declared promotion targets
+    producer: lifecycle controller, context pack builder, validator wrapper, evidence indexer, prompt compiler, or generated-read-model
+      publisher
+    consumer: planner, recovery loop, lifecycle executor, closeout skill, validator, reviewer, or disclosure generator
+    validation: schema validation, digest verification, source-class checks, freshness checks, replay reconstruction, negative
+      controls
+    replay_use: points to retained raw evidence or model-visible context hash required to reconstruct decision context
+    rollback_use: identifies changed targets, evidence refs, revert/compensation refs, and stale generated/read-model invalidation
+    token_saving_mechanism: default compact model-visible fields with raw/full material retained by handle and expanded only
+      on escalation
+    failure_behavior: fail closed when source refs are missing, digest mismatch occurs, freshness is stale, authority class
+      is invalid, or replay hash cannot be reconstructed

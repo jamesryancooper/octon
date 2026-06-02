@@ -1,0 +1,16 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-validator-manifests-generated-freshness
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+- .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+produced_artifacts:
+- validator-result-manifest.yml
+- publication-freshness-manifest.yml
+- run-health-compact-manifest.yml
+default_model_route: deterministic; medium only on failing validator classification
+token_ceiling: 3k for failing-slice explanation; 0 LLM for pass manifests
+escalation: stale generated handle, failing negative control, validator stdout cannot be mapped to manifest
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

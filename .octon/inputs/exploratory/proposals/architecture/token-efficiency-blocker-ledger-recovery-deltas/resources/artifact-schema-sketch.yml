@@ -1,0 +1,45 @@
+schema_version: octon-child-artifact-schema-sketch-v1
+child_id: token-efficiency-blocker-ledger-recovery-deltas
+artifacts:
+- name: blocker-ledger.yml
+  purpose: Stable blocker IDs, latest transitions, prior/current fingerprints, recovery budget, and child evidence refs.
+  authority_status: non-authoritative evidence/read-model unless implemented as durable spec/template; never replaces source
+    of truth
+  required_fields:
+  - schema_version
+  - source_refs
+  - source_digests
+  - producer
+  - consumer
+  - validation
+  - evidence_refs
+  - failure_behavior
+  failure_behavior: fail closed on missing source, digest mismatch, stale freshness, or authority-boundary violation
+- name: recovery-delta-summary.yml
+  purpose: recovery-delta-summary.yml compact artifact for this child
+  authority_status: non-authoritative evidence/read-model unless implemented as durable spec/template; never replaces source
+    of truth
+  required_fields:
+  - schema_version
+  - source_refs
+  - source_digests
+  - producer
+  - consumer
+  - validation
+  - evidence_refs
+  - failure_behavior
+  failure_behavior: fail closed on missing source, digest mismatch, stale freshness, or authority-boundary violation
+- name: aggregate-terminal-blockers.yml
+  purpose: aggregate-terminal-blockers.yml compact artifact for this child
+  authority_status: non-authoritative evidence/read-model unless implemented as durable spec/template; never replaces source
+    of truth
+  required_fields:
+  - schema_version
+  - source_refs
+  - source_digests
+  - producer
+  - consumer
+  - validation
+  - evidence_refs
+  - failure_behavior
+  failure_behavior: fail closed on missing source, digest mismatch, stale freshness, or authority-boundary violation

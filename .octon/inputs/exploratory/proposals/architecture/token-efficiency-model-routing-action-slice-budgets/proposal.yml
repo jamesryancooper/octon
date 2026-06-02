@@ -1,0 +1,61 @@
+schema_version: proposal-v1
+proposal_id: token-efficiency-model-routing-action-slice-budgets
+title: Model Routing And Action Slice Budgets
+summary: Add deterministic-first routing, token ceilings, route decision receipts, escalation triggers, fallback behavior,
+  and short action-slice loops.
+proposal_kind: architecture
+promotion_scope: octon-internal
+release_state: pre-1.0
+change_profile: atomic
+token_efficiency_surface: routing-loop
+promotion_targets:
+- .octon/instance/governance/policies/model-routing.yml
+- .octon/instance/governance/policies/token-budgets.yml
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+status: accepted
+lifecycle:
+  temporary: true
+  exit_expectation: After durable implementation and validation, promoted targets must stand without depending on this proposal
+    packet. Child evidence, conformance, drift/churn, rollback, closeout, and archive receipts remain child-owned.
+related_proposals:
+- token-efficient-proposal-program-controller
+parent_program: token-efficient-proposal-program-controller
+program_phase: phase-4
+program_group: routing-loop
+source_lineage:
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+- .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+selected_implementation_target: Model Routing And Action Slice Budgets
+scope_statement: Add deterministic-first routing, token ceilings, route decision receipts, escalation triggers, fallback behavior,
+  and short action-slice loops.
+authority_class_impact:
+  framework: May add or update durable framework specs/code/tests listed in promotion targets.
+  instance: May add or update instance policies only when listed in promotion targets.
+  state_control: May define compact derived control/read state but cannot replace canonical control journal/checkpoints.
+  state_evidence: May define retained evidence artifacts but cannot delete raw evidence.
+  generated: May define derived/read-model outputs but cannot make them authority.
+  inputs: This proposal remains non-authoritative input lineage.
+evidence_requirements:
+- implementation-grade completeness review
+- implementation conformance receipt after promotion
+- post-implementation drift/churn receipt after promotion
+- validator result manifests
+- token-budget ledger delta
+- rollback evidence
+- context-pack and model-visible hash evidence where consequential
+validation_gates:
+- model-routing receipt emission test
+- route bypass negative control
+- action-slice budget regression test
+- deterministic preflight fixture tests
+acceptance_criteria_summary: Accepted only when Model Routing And Action Slice Budgets reduces model-visible repeated context
+  for its surface while preserving evidence, replay, rollback, and authorization invariants.
+rollback_summary: Medium; under-routing must not hide high-risk architecture or governance decisions.
+owner:
+  role: Octon proposal-program child author
+  accountable_role: human operator / repository owner
+created_date: '2026-06-02'
+child_authority_preserved: 'yes'
+explicit_runtime_non_implementation_statement: This child packet does not itself mutate runtime or authorize implementation.

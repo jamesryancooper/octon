@@ -1,0 +1,20 @@
+schema_version: architecture-proposal-v1
+proposal_id: token-efficiency-evidence-index-raw-log-summaries
+title: Evidence Index And Raw Log Summaries
+architecture_scope: repo-architecture
+decision_type: new-surface
+status: accepted
+release_state: pre-1.0
+change_profile: atomic
+problem_statement: Add per-run evidence indexes, raw-log summaries, failing-slice manifests, and evidence readers that prefer
+  compact refs over raw logs.
+target_architecture_ref: architecture/target-architecture.md
+implementation_plan_ref: architecture/implementation-plan.md
+acceptance_criteria_ref: architecture/acceptance-criteria.md
+rollback_posture_ref: architecture/rollback-posture.md
+parent_program_ref: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller
+authority_boundaries:
+  proposal_inputs: non-authoritative
+  generated_outputs: derived/read-model only
+  runtime_authorization: engine-owned
+  child_receipts: child-owned

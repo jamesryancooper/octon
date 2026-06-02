@@ -1,0 +1,18 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-prompt-pack-instruction-capsules
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+produced_artifacts:
+- prompt-pack-capsule.yml
+- route-instruction-capsule.yml
+- compiled-governance-capsule.yml
+- prompt-expansion-policy.yml
+default_model_route: high-reasoning only for architecture review; runtime capsule generation deterministic
+token_ceiling: route prompt header plus capsules ≤4k before stage context
+escalation: digest drift, mutation-sensitive work, gate dispute, authority conflict, audit request
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

@@ -1,0 +1,305 @@
+schema_version: octon-proposal-program-child-registry-v2
+program_id: token-efficient-proposal-program-controller
+execution_mode: gated-parallel
+default_child_lifecycle_id: proposal-packet
+children:
+- child_id: token-efficiency-token-measurement-ledger
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger
+  required: true
+  deferred: false
+  dependencies: []
+  dependency_gate: verification
+  phase_id: phase-0
+  group_id: measurement
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/spec/
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  model_route_default: deterministic-first; small model only for human summary
+  token_ceiling: 4k model-visible tokens for summary; 0 LLM tokens for ledger generation
+- child_id: token-efficiency-evidence-index-raw-log-summaries
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-token-measurement-ledger
+  dependency_gate: verification
+  phase_id: phase-1
+  group_id: evidence
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  model_route_default: deterministic; medium only for ambiguous failure classification
+  token_ceiling: 2k for failure summary; raw log body handle-only by default
+- child_id: token-efficiency-planner-state-program-context-capsule
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-token-measurement-ledger
+  dependency_gate: verification
+  phase_id: phase-1
+  group_id: planner-state
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  model_route_default: deterministic; small model for operator summary only
+  token_ceiling: 3k for final parent completion; 0 LLM for state generation
+- child_id: token-efficiency-blocker-ledger-recovery-deltas
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-evidence-index-raw-log-summaries
+  - token-efficiency-planner-state-program-context-capsule
+  dependency_gate: verification
+  phase_id: phase-3
+  group_id: recovery
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/engine/runtime/spec/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  model_route_default: deterministic aggregator; medium only on nonzero or conflicting blockers
+  token_ceiling: 2k for zero-blocker runs; 8k for nonzero-blocker recovery summary
+- child_id: token-efficiency-validator-manifests-generated-freshness
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-evidence-index-raw-log-summaries
+  - token-efficiency-planner-state-program-context-capsule
+  dependency_gate: verification
+  phase_id: phase-3
+  group_id: validation-freshness
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+  model_route_default: deterministic; medium only on failing validator classification
+  token_ceiling: 3k for failing-slice explanation; 0 LLM for pass manifests
+- child_id: token-efficiency-prompt-pack-instruction-capsules
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-token-measurement-ledger
+  dependency_gate: verification
+  phase_id: phase-2
+  group_id: prompt-runtime
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+  model_route_default: high-reasoning only for architecture review; runtime capsule generation deterministic
+  token_ceiling: route prompt header plus capsules ≤4k before stage context
+- child_id: token-efficiency-lifecycle-context-pack-integration
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-prompt-pack-instruction-capsules
+  - token-efficiency-token-measurement-ledger
+  dependency_gate: verification
+  phase_id: phase-2
+  group_id: context-runtime
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/instance/governance/policies/context-packing.yml
+  model_route_default: deterministic policy enforcement; high-reasoning only on context authority conflict
+  token_ceiling: stage-specific; default proposal-program child dispatch ≤12k before target file excerpts
+- child_id: token-efficiency-proposal-artifact-index-spine
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-token-measurement-ledger
+  - token-efficiency-lifecycle-context-pack-integration
+  dependency_gate: verification
+  phase_id: phase-2
+  group_id: proposal-index
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+  generated_outputs:
+  - .octon/generated/proposals/
+  model_route_default: deterministic generation; small model optional for short descriptions
+  token_ceiling: 2k summary; indexes generated without LLM
+- child_id: token-efficiency-repo-authority-write-scope-index
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-proposal-artifact-index-spine
+  dependency_gate: verification
+  phase_id: phase-5
+  group_id: repo-graph
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/cognition/_meta/architecture/
+  - .octon/framework/engine/runtime/spec/
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  model_route_default: deterministic graph generation; medium for ambiguous ownership descriptions
+  token_ceiling: 6k for ambiguity report; graph generated without LLM
+- child_id: token-efficiency-model-routing-action-slice-budgets
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-token-measurement-ledger
+  - token-efficiency-planner-state-program-context-capsule
+  - token-efficiency-blocker-ledger-recovery-deltas
+  - token-efficiency-validator-manifests-generated-freshness
+  dependency_gate: verification
+  phase_id: phase-4
+  group_id: routing-loop
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/instance/governance/policies/model-routing.yml
+  - .octon/instance/governance/policies/token-budgets.yml
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  model_route_default: deterministic-first; high-reasoning only on escalation
+  token_ceiling: slice-specific; final completion ≤8k, child dispatch ≤12k base, architecture exception ≤40k
+- child_id: token-efficiency-structured-receipts-concise-publication
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-evidence-index-raw-log-summaries
+  - token-efficiency-blocker-ledger-recovery-deltas
+  - token-efficiency-validator-manifests-generated-freshness
+  dependency_gate: verification
+  phase_id: phase-3
+  group_id: receipts-output
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/spec/evidence-store-v1.md
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+  - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  model_route_default: small/medium summary; deterministic schema and evidence ref validation
+  token_ceiling: closeout projection ≤4k; expanded report generated only on demand
+- child_id: token-efficiency-semantic-cache-context-reuse
+  path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse
+  required: true
+  deferred: false
+  dependencies:
+  - token-efficiency-lifecycle-context-pack-integration
+  - token-efficiency-proposal-artifact-index-spine
+  - token-efficiency-repo-authority-write-scope-index
+  - token-efficiency-model-routing-action-slice-budgets
+  dependency_gate: verification
+  phase_id: phase-5
+  group_id: mature-scale
+  rollback_posture: staged-commit-or-revert-per-target
+  required_metadata:
+  - change_profile
+  source_lineage_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+  parent_contract_refs:
+  - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+  write_scopes:
+  - .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+  - .octon/framework/engine/runtime/spec/
+  - .octon/framework/assurance/runtime/_ops/scripts/
+  - .octon/framework/assurance/runtime/_ops/tests/
+  model_route_default: deterministic cache lookup; medium only for summary regeneration; high only on authority conflict
+  token_ceiling: cache hit context overhead ≤2k; regenerated summaries stage-specific

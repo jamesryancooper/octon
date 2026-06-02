@@ -1,0 +1,29 @@
+schema_version: architecture-proposal-v1
+proposal_id: token-efficient-proposal-program-controller
+title: Token-Efficient Proposal Program Controller
+architecture_scope: cross-domain-architecture
+decision_type: surface-refactor
+status: accepted
+release_state: pre-1.0
+change_profile: atomic
+problem_statement: Completed proposal-program lifecycle evidence shows repeated replay of full prompts, raw logs, full program
+  plans, broad generated/read-model listings, repeated policy text, child dependency state, validation output, closeout/archive
+  language, and generated summaries. Octon needs token efficiency through digest-bound, evidence-preserving indirection rather
+  than reduced governance.
+target_architecture_ref: architecture/target-architecture.md
+implementation_plan_ref: architecture/implementation-plan.md
+acceptance_criteria_ref: architecture/acceptance-criteria.md
+rollback_posture_ref: architecture/rollback-posture.md
+evidence_model_ref: architecture/evidence-and-replay-model.md
+context_pack_policy_ref: architecture/context-pack-policy.md
+model_routing_policy_ref: architecture/model-routing-policy.md
+token_budget_policy_ref: architecture/token-budget-policy.md
+child_registry_ref: resources/child-packet-index.yml
+source_findings_ref: resources/source-findings-summary.md
+source_evidence_map_ref: resources/run-analysis-evidence-map.md
+authority_boundaries:
+  proposal_inputs: non-authoritative implementation aids
+  generated_indexes: derived/read-model only
+  runtime_authorization: engine-owned boundary remains mandatory
+  child_receipt_boundary: child-owned and never satisfied by parent summaries
+  context_compaction: legal only when retained model-visible serialization and hashes are preserved

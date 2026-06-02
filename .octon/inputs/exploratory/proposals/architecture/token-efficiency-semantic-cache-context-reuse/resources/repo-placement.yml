@@ -1,0 +1,16 @@
+schema_version: octon-child-repo-placement-v1
+child_id: token-efficiency-semantic-cache-context-reuse
+parent_program: token-efficient-proposal-program-controller
+promotion_targets:
+- .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+- .octon/framework/engine/runtime/spec/
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+produced_artifacts:
+- proposal-semantic-cache.yml
+- context-pack-layer-cache.yml
+- cache-invalidation-events.yml
+default_model_route: deterministic cache lookup; medium only for summary regeneration; high only on authority conflict
+token_ceiling: cache hit context overhead ≤2k; regenerated summaries stage-specific
+escalation: source digest drift, policy digest drift, summary/source contradiction, missing retained model-visible hash
+authority_status: proposal inputs are non-authoritative; durable outputs land only in promotion targets

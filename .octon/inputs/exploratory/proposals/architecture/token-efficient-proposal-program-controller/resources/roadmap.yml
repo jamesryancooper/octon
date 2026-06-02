@@ -1,0 +1,91 @@
+schema_version: octon-token-efficiency-roadmap-v1
+program_id: token-efficient-proposal-program-controller
+phases:
+- phase_id: phase-0
+  title: Measurement and token ledger
+  children:
+  - token-efficiency-token-measurement-ledger
+  repository_changes:
+  - token-budget-ledger.json schema and emission
+  - provider usage capture where available
+  - source-token and repeated-source accounting
+  - CI token regression fixtures
+  expected_impact: Creates baseline and regression enforcement; no behavior change.
+  risk: low
+  acceptance: Every lifecycle parent/child/stage emits token ledger or explicit unavailable-provider note.
+- phase_id: phase-1
+  title: Quick wins
+  children:
+  - token-efficiency-evidence-index-raw-log-summaries
+  - token-efficiency-planner-state-program-context-capsule
+  repository_changes:
+  - evidence-index.yml
+  - raw-log-summary.yml
+  - failing-slice-manifest.yml
+  - planner-state.yml
+  - program-context-capsule.yml
+  - concise closeout projection
+  expected_impact: High reduction in recovery, debug, closeout, and no-dispatch completion prompts.
+  risk: low-medium
+  acceptance: Planner/recovery reads compact artifacts by default while raw logs and full program plans remain retained.
+- phase_id: phase-2
+  title: Context-pack and instruction capsules
+  children:
+  - token-efficiency-prompt-pack-instruction-capsules
+  - token-efficiency-lifecycle-context-pack-integration
+  - token-efficiency-proposal-artifact-index-spine
+  repository_changes:
+  - prompt-pack handles
+  - route capsules
+  - compiled governance capsules
+  - context-pack-backed lifecycle prompts
+  - omission/source manifests
+  - proposal artifact index and spine
+  expected_impact: Very high reduction in repeated prompt and proposal context.
+  risk: medium-high
+  acceptance: Full prompt expansion occurs only with policy trigger; model-visible context hash remains replayable.
+- phase_id: phase-3
+  title: Structured evidence and output
+  children:
+  - token-efficiency-blocker-ledger-recovery-deltas
+  - token-efficiency-validator-manifests-generated-freshness
+  - token-efficiency-structured-receipts-concise-publication
+  repository_changes:
+  - blocker-ledger.yml
+  - validator-result-manifest.yml
+  - publication-freshness-manifest.yml
+  - run-health compact manifest
+  - structured receipt templates
+  - concise final reports
+  expected_impact: High reduction in blocker history, generated-state, validation, and closeout output tokens.
+  risk: medium
+  acceptance: Raw evidence and full receipts retained; compact structured refs consumed by default.
+- phase_id: phase-4
+  title: Routing and child-loop changes
+  children:
+  - token-efficiency-model-routing-action-slice-budgets
+  repository_changes:
+  - model-routing policy
+  - token ceilings
+  - route decision receipts
+  - action-slice loops
+  - deterministic preflights
+  - high-reasoning escalation triggers
+  expected_impact: Medium-high recurring reduction and bounded agent loops.
+  risk: medium
+  acceptance: High-reasoning calls are justified by routing receipts; deterministic gates cannot bypass authorization.
+- phase_id: phase-5
+  title: Mature architecture
+  children:
+  - token-efficiency-repo-authority-write-scope-index
+  - token-efficiency-semantic-cache-context-reuse
+  repository_changes:
+  - repo authority graph
+  - promotion-target/write-scope graph
+  - semantic cache
+  - context-pack layer reuse
+  - generated graph/index reuse
+  - lifecycle-level token budgets at scale
+  expected_impact: Highest scale reduction across repeated proposal lifecycle runs.
+  risk: medium-deep
+  acceptance: Source-hash invalidation and replay tests prove cache/index reuse cannot replace authority.
