@@ -2757,7 +2757,7 @@ pub fn run_promote_proposal_from_octon_dir(
         None,
         None,
     )?;
-    let validator_log = match run_proposal_validator_stack(
+    let validator_log = match run_promote_proposal_validator_stack(
         &repo_root,
         &proposal_root,
         &bundle_root,
@@ -5818,6 +5818,21 @@ fn run_proposal_validator_stack(
 }
 
 fn run_archive_proposal_validator_stack(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    proposal_kind: &str,
+) -> Result<PathBuf> {
+    run_proposal_validator_stack_with_standard_args(
+        repo_root,
+        proposal_root,
+        bundle_root,
+        proposal_kind,
+        &["--skip-registry-check"],
+    )
+}
+
+fn run_promote_proposal_validator_stack(
     repo_root: &Path,
     proposal_root: &Path,
     bundle_root: &Path,

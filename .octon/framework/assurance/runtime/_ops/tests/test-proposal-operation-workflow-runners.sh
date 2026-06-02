@@ -298,6 +298,7 @@ case_promote_passes() {
   manifest="$fixture_root/.octon/inputs/exploratory/proposals/architecture/fixture-proposal/proposal.yml"
   registry="$fixture_root/.octon/generated/proposals/registry.yml"
   assert_file_exists "$bundle_root/summary.md" || return 1
+  grep -Fq -- '--skip-registry-check' "$bundle_root/standard-validator.log" || return 1
   [[ "$(yq -r '.status' "$manifest")" == "implemented" ]] || return 1
   grep -Fq 'status: "implemented"' "$registry" || return 1
 }

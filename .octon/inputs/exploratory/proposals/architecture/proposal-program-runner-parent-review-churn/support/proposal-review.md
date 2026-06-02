@@ -1,11 +1,11 @@
 # Proposal Review Receipt
 
-review_id: proposal-program-runner-parent-review-churn-review-20260601T020727Z
-reviewed_at: 2026-06-01T02:07:27Z
+review_id: proposal-program-runner-parent-review-churn-review-20260602T023014Z
+reviewed_at: 2026-06-02T02:30:14Z
 reviewer: codex-orchestrator-proposal-review
 verdict: accepted
 implementation_prompt_authorized: yes
-reviewed_packet_digest: sha256:b778a28302c1c4f661d834833e3ab030fb4f857503df338a4cb808468b2d4167
+reviewed_packet_digest: sha256:1f9de8c2762e833d0b997fa4db2e2f69e79259bb3975e65da7a3b8edebd3dc69
 open_blocking_findings_count: 0
 
 ## Review Basis
@@ -13,6 +13,7 @@ open_blocking_findings_count: 0
 - reviewed packet: `.octon/inputs/exploratory/proposals/architecture/proposal-program-runner-parent-review-churn`
 - status after review: `accepted`
 - implementation-grade completeness review: pass
+- route retry basis: refreshed stale review digest without changing verdict or proposal status
 - review boundary: proposal-local evidence only; this does not implement, promote, close out, archive, or mutate generated state
 
 ## Approved Promotion Targets
