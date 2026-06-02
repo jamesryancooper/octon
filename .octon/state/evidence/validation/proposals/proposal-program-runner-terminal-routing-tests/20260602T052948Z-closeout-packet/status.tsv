@@ -1,0 +1,6 @@
+validate-proposal-standard	0	.octon/state/evidence/validation/proposals/proposal-program-runner-terminal-routing-tests/20260602T052948Z-closeout-packet/logs/validate-proposal-standard.log
+validate-architecture-proposal	0	.octon/state/evidence/validation/proposals/proposal-program-runner-terminal-routing-tests/20260602T052948Z-closeout-packet/logs/validate-architecture-proposal.log
+validate-proposal-implementation-readiness	0	.octon/state/evidence/validation/proposals/proposal-program-runner-terminal-routing-tests/20260602T052948Z-closeout-packet/logs/validate-proposal-implementation-readiness.log
+validate-proposal-implementation-conformance	0	.octon/state/evidence/validation/proposals/proposal-program-runner-terminal-routing-tests/20260602T052948Z-closeout-packet/logs/validate-proposal-implementation-conformance.log
+validate-proposal-post-implementation-drift	0	.octon/state/evidence/validation/proposals/proposal-program-runner-terminal-routing-tests/20260602T052948Z-closeout-packet/logs/validate-proposal-post-implementation-drift.log
+classify-proposal-worktree-hygiene	0	.octon/state/evidence/validation/proposals/proposal-program-runner-terminal-routing-tests/20260602T052948Z-closeout-packet/logs/classify-proposal-worktree-hygiene.log
