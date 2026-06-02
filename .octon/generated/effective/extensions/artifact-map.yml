@@ -1,7 +1,7 @@
 schema_version: "octon-extension-artifact-map-v5"
 generator_version: "extension-publication-v6"
 generation_id: "extensions-e539e7c8b239"
-published_at: "2026-06-02T12:11:48Z"
+published_at: "2026-06-02T12:19:21Z"
 capability_profiles:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
