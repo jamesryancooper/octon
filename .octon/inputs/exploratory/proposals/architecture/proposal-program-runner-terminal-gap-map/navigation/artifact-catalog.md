@@ -18,7 +18,13 @@
 - `resources/evidence-plan.md`
 - `resources/risk-register.md`
 - `resources/source-lineage.md`
+- `support/executable-implementation-prompt.md`
+- `support/implementation-conformance-review.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/implementation-run.md`
+- `support/post-implementation-drift-churn-review.md`
+- `support/proposal-closeout.md`
 - `support/proposal-creation.md`
 - `support/proposal-review.md`
 - `support/revisions/proposal-program-runner-terminal-gap-map-revision-20260601T015030Z.md`
+- `support/validation.md`
