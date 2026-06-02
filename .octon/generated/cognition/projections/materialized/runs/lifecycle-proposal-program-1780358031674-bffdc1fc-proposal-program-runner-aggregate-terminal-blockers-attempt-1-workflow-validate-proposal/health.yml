@@ -1,0 +1,205 @@
+schema_version: run-health-read-model-v1
+run_id: lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal
+generated_at: '2026-06-01T16:20:59Z'
+generator:
+  id: generate-run-health-read-model.sh
+  version: 1.0.0
+  validator_ref: .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+authority:
+  classification: generated_read_model_non_authoritative
+  may_authorize: false
+  may_widen_support: false
+  allowed_consumers:
+  - operators
+  - validators
+  forbidden_consumers:
+  - runtime
+  - policy
+  - authority
+  - support-claim-evaluation
+  - state-reconstruction
+  - direct-runtime-reads
+freshness:
+  mode: digest-bound
+  status: stale
+  source_digest_algorithm: sha256
+  combined_source_digest: sha256:845df526a625cd091ac13b9219689564e9d48626f377f01f0866662f8dba41a7
+  checked_at: '2026-06-01T16:20:59Z'
+  expires_at: null
+  freshness_refs:
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.manifest.yml
+canonical_refs:
+  run_contract: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/run-contract.yml
+  run_manifest: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/run-manifest.yml
+  events_journal: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.ndjson
+  events_manifest: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.manifest.yml
+  runtime_state: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/runtime-state.yml
+  authority_decision: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal.yml
+  authority_bundle: .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal.yml
+  approval_request: null
+  approval_grants: []
+  exception_leases: []
+  revocations: []
+  rollback_posture: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/rollback-posture.yml
+  evidence_root: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal
+  evidence_classification: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/evidence-classification.yml
+  retained_evidence: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/retained-run-evidence.yml
+  replay_pointers: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/replay-pointers.yml
+  intervention_log: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/interventions/log.yml
+  disclosure_run_card: .octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/run-card.yml
+  support_targets: .octon/instance/governance/support-targets.yml
+  support_reconciliation: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+  run_continuity: .octon/state/continuity/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/handoff.yml
+source_digests:
+  run_contract:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/run-contract.yml
+    digest: sha256:426c95ac20514d8cd2e00b28ea42bb6d35f407473ea1395b3e75b332dd78c877
+    status: present
+  run_manifest:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/run-manifest.yml
+    digest: sha256:b07d6d4dead559e95349409d9c38b186e76151adaaef717be770176dd7941561
+    status: present
+  events_journal:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.ndjson
+    digest: sha256:b21a6caff9b5ff3dc5e5d0b4a9fa148b9fba88fef8cd9326bf4d6947c7a7c672
+    status: present
+  events_manifest:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.manifest.yml
+    digest: sha256:ee0e442849263e06e4b0a21f4e78aa88f1232e4ba6d071e850dd5ba19bd82107
+    status: present
+  runtime_state:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/runtime-state.yml
+    digest: sha256:c1b1a264bcec1485c5b85b83e5108d95ea06bb2c29e54d6d8acf57e7376a7b81
+    status: present
+  authority_decision:
+    ref: .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal.yml
+    digest: sha256:63375fb1db1080579e08a8054141fa1e5eedd9f6af71b8500fef694078d63161
+    status: present
+  authority_bundle:
+    ref: .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal.yml
+    digest: sha256:c627e90acb98838cb6a1d307df468f14b0218a9d0876626946c5ee6fe0737d98
+    status: present
+  approval_request:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  approval_grants:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  exception_leases:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  revocations:
+    ref: null
+    digest: not-applicable
+    status: not-applicable
+  rollback_posture:
+    ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/rollback-posture.yml
+    digest: sha256:f74995d4641bada123c7a496d3253bde8f154e60c63d5c9b0f5b01a78350e5b1
+    status: present
+  evidence_root:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal
+    digest: missing
+    status: missing
+  evidence_classification:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/evidence-classification.yml
+    digest: missing
+    status: missing
+  retained_evidence:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/retained-run-evidence.yml
+    digest: missing
+    status: missing
+  replay_pointers:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/replay-pointers.yml
+    digest: missing
+    status: missing
+  intervention_log:
+    ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/interventions/log.yml
+    digest: missing
+    status: missing
+  disclosure_run_card:
+    ref: .octon/state/evidence/disclosure/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/run-card.yml
+    digest: missing
+    status: missing
+  support_targets:
+    ref: .octon/instance/governance/support-targets.yml
+    digest: sha256:3d2cc4bb787060de01f36e486121983bbf04e4eb771a4d374248bc9e9cccfff9
+    status: present
+  support_reconciliation:
+    ref: .octon/generated/effective/governance/support-envelope-reconciliation.yml
+    digest: sha256:7ec71bf25dde6d34e396f842b7b5aaf44c96b97e5d36da8cb30dbcec64261018
+    status: present
+  run_continuity:
+    ref: .octon/state/continuity/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/handoff.yml
+    digest: sha256:d21e7cea6aa4bf449a55d91382c0e0007ce915d2355c4aac4399e717ee5e9337
+    status: present
+  runtime_route_bundle:
+    ref: .octon/generated/effective/runtime/route-bundle.yml
+    digest: sha256:7210d30276b4dd79d6be1af3581e43dc6114d91d312b81d7c2f1cf560c8b03db
+    status: present
+  pack_routes:
+    ref: .octon/generated/effective/capabilities/pack-routes.effective.yml
+    digest: sha256:ff89070390e0e3bb46e042988451893f025b9c114d52369f68559338fc7ef5b4
+    status: present
+  schema:
+    ref: .octon/framework/engine/runtime/spec/run-health-read-model-v1.schema.json
+    digest: sha256:b127f4c9cea33652eaf02f304afb559467116a34663051acb8f5770398cdd8ff
+    status: present
+  operator_read_model_contract:
+    ref: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+    digest: sha256:f8ae18c2553b3a7eb5e80c11935fdc83eb84c4a49497ba76943d5e2bc3b5972f
+    status: present
+health:
+  status: stale
+  summary: Run-health sources are stale relative to their digest-bound freshness checks.
+  next_required_action: regenerate from current canonical sources
+lifecycle:
+  state: closed
+  decision_state: allow
+  drift_status: in-sync
+  latest_event_hash: sha256:b7878415cd6802d64c7eaf4e982aa475b9571f4a22f9243d7135c07c93930b15
+  latest_sequence: 29
+support:
+  tuple: tuple://repo-local-governed/repo-consequential/reference-owned/english-primary/repo-shell
+  route_status: allow
+  pack_status: allow
+  support_status: supported
+  requested_capability_packs:
+  - repo
+  - shell
+  - telemetry
+authorization:
+  status: authorized
+  active_grants:
+  - .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal.yml
+  open_approvals: []
+  active_exceptions: []
+  active_revocations: []
+evidence:
+  completeness: incomplete
+  missing_required:
+  - evidence_classification
+  - retained_evidence
+  - replay_pointers
+  - journal_snapshot
+  - journal_manifest_snapshot
+rollback:
+  status: ready
+  hard_reset_required: false
+intervention:
+  status: unknown
+  undisclosed_count: 0
+  records: []
+disclosure:
+  status: incomplete
+closure:
+  status: not-ready
+diagnostics:
+- severity: error
+  code: journal-ledger-digest-stale
+  message: events.manifest.yml ledger_digest does not match events.ndjson.
+  refs:
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.manifest.yml
+  - .octon/state/control/execution/runs/lifecycle-proposal-program-1780358031674-bffdc1fc-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-validate-proposal/events.ndjson
