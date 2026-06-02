@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:482df521680993f62009923d44de7cc5384a01d4f0b2d297dd13a72619399c3c
+  entry_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-02T02:00:25.5868Z
+  run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:9d773040ec2460635e418ca4f50cf4c337a6fe5a4707f06f14d280cf938620cb
+  entry_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-02T02:00:25.5868Z
+  run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow
+run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-02T02:00:25.5868Z

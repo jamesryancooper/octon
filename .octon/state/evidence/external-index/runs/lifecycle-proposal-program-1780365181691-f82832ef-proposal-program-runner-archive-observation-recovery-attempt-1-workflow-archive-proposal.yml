@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:dc86ef48dda91ec137c8d01b59e4a39edb72e12d784786e19331bb9b2470f65c
+  entry_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T02:00:24.755086Z
+  run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:a1032672c2186fa66d73872d7c6c75ab045b1daef1f2f72a49ae6cc6be3873c7
+  entry_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T02:00:24.755086Z
+  run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal
+run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-archive-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-02T02:00:24.755086Z

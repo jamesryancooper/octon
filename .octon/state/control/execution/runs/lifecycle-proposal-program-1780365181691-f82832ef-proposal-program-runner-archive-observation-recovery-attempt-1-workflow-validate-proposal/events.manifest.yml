@@ -1,0 +1,46 @@
+schema_version: run-event-ledger-v2
+run_id: lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+ledger_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/events.ndjson
+manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/events.manifest.yml
+event_schema_ref: .octon/framework/constitution/contracts/runtime/run-event-v2.schema.json
+runtime_state_schema_ref: .octon/framework/constitution/contracts/runtime/runtime-state-v2.schema.json
+state_reconstruction_ref: .octon/framework/constitution/contracts/runtime/state-reconstruction-v2.md
+ledger_digest: sha256:6826f65c32db48788b5ef4f68649988666a9e02d3db429ef06af17362a4678ad
+event_count: 29
+first_event_ref:
+  event_id: evt-001-run-created-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  sequence: 1
+  event_hash: sha256:2aff5ba297470f4e2d6b94a6d92d858a0e266df54f81d736a5458a8bf5875991
+last_event_ref:
+  event_id: evt-run-closed-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  sequence: 29
+  event_hash: sha256:e4ad3c5b87726a2703a380c01ea78750c66bb3d96ca097e72a141098971388fc
+hash_chain:
+  hash_algorithm: sha256
+  chain_status: verified
+  head_event_hash: sha256:2aff5ba297470f4e2d6b94a6d92d858a0e266df54f81d736a5458a8bf5875991
+  tail_event_hash: sha256:e4ad3c5b87726a2703a380c01ea78750c66bb3d96ca097e72a141098971388fc
+governing_event_refs:
+  checkpoint_ref: evt-checkpoint-complete-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  context_pack_ref: evt-context-pack-bound-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  disclosure_ref: evt-run-closed-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  evidence_snapshot_ref: evt-evidence-snapshot-created-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  grant_bundle_ref: evt-effect-token-consumed-effect-token-state-control-mutation-2519969c3661
+  run_contract_ref: evt-001-run-created-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  run_manifest_ref: evt-002-run-bound-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  runtime_state_ref: evt-run-closed-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  stage_attempt_ref: evt-stage-started-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+snapshot_refs:
+  control_snapshot_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/events.ndjson
+  evidence_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/run-journal/events.snapshot.ndjson
+  evidence_manifest_snapshot_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/run-journal/events.manifest.snapshot.yml
+  redaction_record_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/run-journal/redactions.yml
+last_materialization:
+  runtime_state_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal/runtime-state.yml
+  last_applied_event_id: evt-run-closed-lifecycle-proposal-program-1780365181691-f82832ef-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-validate-proposal
+  last_applied_sequence: 29
+  last_applied_event_hash: sha256:e4ad3c5b87726a2703a380c01ea78750c66bb3d96ca097e72a141098971388fc
+  materialized_at: 2026-06-02T01:53:50.748519Z
+  materialized_by_ref: .octon/framework/engine/runtime/crates/runtime_bus
+drift_status: in-sync
+updated_at: 2026-06-02T01:53:51.538017Z

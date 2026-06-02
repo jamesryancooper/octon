@@ -9,7 +9,17 @@ promotion_targets:
 - .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs
 - .octon/framework/orchestration/runtime/workflows/meta/archive-proposal/
 - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
-status: implemented
+status: archived
+archive:
+  archived_at: 2026-06-02
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-archive-observation-recovery
+  promotion_evidence:
+  - .octon/state/evidence/validation/publication/runtime/2026-06-01T22-06-22Z-runtime-route-bundle-d832aab6f332.yml
+  - .octon/state/evidence/validation/analysis/2026-06-01-promote-proposal-3.md
+  - .octon/state/evidence/runs/workflows/2026-06-01-promote-proposal-octon-inputs-exploratory-proposals-architecture-proposal-program-runner-archive-observation-recovery
+  - .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1780352350684-e2768cab-proposal-program-runner-archive-observation-recovery-attempt-1-workflow-promote-proposal.yml
 lifecycle:
   temporary: true
   exit_expectation: Implement only through the proposal-packet lifecycle after review and implementation prompt authorization.
