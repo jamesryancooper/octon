@@ -1,0 +1,83 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "evidence-residue-migration-closeout-20260529T213346Z",
+  "receipt_mode": "claim",
+  "created_at": "2026-05-29T21:33:46Z",
+  "issuer_ref": "octon-codex",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "evidence-residue-migration-closeout-closeout",
+    "claim_type": "repo-hygiene",
+    "statement": "Evidence residue migration inventory was preserved in local evidence and represented by repo-publishable closeout receipts without publishing raw evidence.",
+    "applies_to": [
+      ".octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/",
+      ".octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/"
+    ]
+  },
+  "source_summary": {
+    "summary": "The local archive manifest records 67 copied raw-like evidence files and this receipt provides the publishable claim proof for the migration closeout packet.",
+    "source_refs": [
+      ".octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/archive-manifest.yml",
+      ".octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/inventory-summary.yml"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "pass",
+    "commands_or_checks": [
+      "validate-evidence-residue-migration-closeout.sh",
+      "proposal implementation conformance prerequisite sweep"
+    ],
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/inventory-summary.yml",
+      ".octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/migration-decision-table.yml",
+      ".octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/parent-closeout-aggregate.yml"
+    ]
+  },
+  "redactions": {
+    "status": "not-required",
+    "summary": "Raw-like evidence remains in local-private evidence; this receipt publishes only bounded refs, digests, and summaries.",
+    "redacted_fields": []
+  },
+  "limitations": [
+    {
+      "limitation_id": "local-archive-not-published",
+      "description": "The copied raw-like evidence files are intentionally not repo-publishable.",
+      "impact": "Auditors must use the local archive reference and digest when raw-file inspection is required."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "repo-relative-path",
+      "ref": ".octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/archive-manifest.yml",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:23e1f64ddb6359afb3e37ac83a5d09f46d2ca3ef2cb8712534c7423defe90916",
+      "raw_evidence_not_published": true,
+      "description": "Local-private archive manifest for the evidence residue migration closeout."
+    }
+  ],
+  "outcome": {
+    "result": "pass",
+    "summary": "Evidence residue migration closeout has publishable claim proof while preserving raw evidence locally.",
+    "decided_at": "2026-05-29T21:33:46Z"
+  },
+  "rollback_or_discard": {
+    "posture": "discard-publishable-replacement-if-weaker",
+    "trigger": "Use if the local archive manifest or raw path list no longer supports the bounded claim.",
+    "instructions": "Keep the local archive and regenerate this publishable receipt from fresh inventory evidence."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 4029,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}

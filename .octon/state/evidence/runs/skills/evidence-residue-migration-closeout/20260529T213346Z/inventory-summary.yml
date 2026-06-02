@@ -1,0 +1,14 @@
+schema_version: evidence-residue-migration-inventory-summary-v1
+generated_at: 2026-05-29T21:33:46Z
+proposal_id: evidence-residue-migration-closeout
+verdict: pass
+source_scope: .octon/state/evidence/runs/skills cleanup and closeout evidence
+local_archive_ref: .octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/archive-manifest.yml
+raw_path_list_ref: .octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/raw-like-paths.txt
+raw_like_path_count: 67
+copied_raw_like_count: 67
+raw_evidence_published: false
+publishable_replacement_ref: .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/publishable-receipt.json
+notes:
+  - Raw-like evidence was copied to a local-private archive without deletion.
+  - Repo-publishable closeout evidence is represented by this summary, the migration decision table, the publishable receipt, and the parent closeout aggregate.

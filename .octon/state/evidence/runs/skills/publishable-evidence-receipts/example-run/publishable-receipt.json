@@ -1,0 +1,79 @@
+{
+  "schema_version": "publishable-evidence-receipt-v1",
+  "receipt_id": "publishable-evidence-receipts-example-run",
+  "receipt_mode": "example_fixture",
+  "created_at": "2026-05-29T00:00:00Z",
+  "issuer_ref": "octon-example-fixture",
+  "disclosure_tier": "repo-publishable",
+  "evidence_tier_ref": "repo_publishable_evidence",
+  "claim_scope": {
+    "claim_id": "publishable-evidence-receipts-example",
+    "claim_type": "example",
+    "statement": "Example fixture demonstrating the publishable evidence receipt schema shape without asserting an operational claim.",
+    "applies_to": [
+      ".octon/framework/constitution/contracts/retention/publishable-evidence-receipt-v1.schema.json",
+      ".octon/state/evidence/runs/README.md"
+    ]
+  },
+  "source_summary": {
+    "summary": "Fixture data uses repo-publishable references only and does not expose raw operational evidence.",
+    "source_refs": [
+      ".octon/state/evidence/runs/README.md"
+    ],
+    "raw_evidence_published": false
+  },
+  "validation_summary": {
+    "verdict": "example-only",
+    "commands_or_checks": [
+      "schema example fixture review"
+    ],
+    "evidence_refs": [
+      ".octon/state/evidence/runs/README.md"
+    ]
+  },
+  "redactions": {
+    "status": "not-applicable",
+    "summary": "The fixture contains no raw or private evidence fields.",
+    "redacted_fields": []
+  },
+  "limitations": [
+    {
+      "limitation_id": "example-only",
+      "description": "This receipt is a schema fixture and not an operational validation receipt.",
+      "impact": "Do not use this fixture as proof of any non-example claim."
+    }
+  ],
+  "local_evidence_refs": [
+    {
+      "ref_kind": "repo-relative-path",
+      "ref": ".octon/state/evidence/runs/README.md",
+      "digest_algorithm": "sha256",
+      "digest": "sha256:5894ed46647b230ea824f8a1e718c891715e0e05094b7ebc4d8138a11e330ef7",
+      "raw_evidence_not_published": true,
+      "description": "Repo-publishable evidence run README used as a stable example reference."
+    }
+  ],
+  "outcome": {
+    "result": "example-only",
+    "summary": "Fixture demonstrates the receipt contract shape only.",
+    "decided_at": "2026-05-29T00:00:00Z"
+  },
+  "rollback_or_discard": {
+    "posture": "discard-fixture-if-schema-changes",
+    "trigger": "Use if the publishable evidence receipt schema changes incompatibly.",
+    "instructions": "Regenerate this example fixture from the current schema and update the digest reference."
+  },
+  "authority_boundaries": {
+    "raw_inputs_not_authority": true,
+    "generated_outputs_not_authority": true,
+    "proposal_paths_not_authority": true,
+    "host_state_not_authority": true,
+    "parent_program_evidence_not_substitute": true
+  },
+  "concision": {
+    "declared_receipt_size_bytes": 2632,
+    "warning_threshold_bytes": 65536,
+    "failure_threshold_bytes": 262144,
+    "size_exception_authorized": false
+  }
+}

@@ -1,0 +1,188 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260602T211544Z
+default_work_unit: Change
+requested_route: branch-no-pr
+requested_target_lifecycle_outcome: cleaned
+observed_change_set_count: 4
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/validation/analysis/2026-06-02-closeout-worktree-20260602T211544Z.yml"
+residue_classification_ref: "bash .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh --root /Users/jamesryancooper/Projects/octon"
+repo_hygiene_classification_ref: ".octon/state/evidence/validation/analysis/2026-06-02-closeout-worktree-20260602T211544Z.yml"
+repo_hygiene_cleanup_outcome: classification-only
+repo_hygiene_next_route_condition: "Route local run/control/continuity, generated-effective, and retained-evidence residue through their owning runtime, publication, evidence-tier, proposal lifecycle, or repo-hygiene routes before claiming terminal worktree hygiene."
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 4
+  manual_review: 1
+initial_inventory:
+  branch: main
+  head: feca3cfe383eed210d99bc39e4119eb7afe43bd5
+  main: feca3cfe383eed210d99bc39e4119eb7afe43bd5
+  origin_main: feca3cfe383eed210d99bc39e4119eb7afe43bd5
+  staged: 0
+  unstaged_tracked: 368
+  untracked: 51
+  ignored: 5116
+  local_branch_count: 1
+  remote_branch_count: 2
+initial_residue_classes:
+  staged: 0
+  unstaged_tracked: 368
+  untracked: 51
+  ignored: 5116
+  generated_effective_output: 3
+  host_projection: 0
+  retained_evidence: 52
+  state_control: 26
+  release_version: 0
+  input_surface: 362
+initial_residue_routing_summary:
+  publishable_change: 1
+  publishable_closeout_evidence: 0
+  local_private_retained: 20
+  foreign_manual_review: 0
+  unsafe: 5540
+  ambiguous: 0
+selected_candidate_id: proposal-archive-input-surface
+candidates:
+  - candidate_id: proposal-archive-input-surface
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "Proposal lifecycle archive input-surface and generated proposal registry residue from the implemented proposal packet/program archive batch."
+    route_hint: "branch-no-pr requested; blocked before closeout-change delegation"
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Retain. Do not reset, delete, restore, or overwrite proposal input archive state from the wrapper. The proposal lifecycle archive route owns the input-surface mutation evidence."
+    boundaries:
+      include_paths:
+        - ".octon/inputs/exploratory/proposals"
+        - ".octon/generated/proposals/registry.yml"
+      exclude_paths:
+        - ".octon/generated/effective"
+        - ".octon/state/control"
+        - ".octon/state/continuity"
+        - ".octon/state/evidence"
+  - candidate_id: generated-effective-and-control-state
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "Generated effective extension projections plus active control and continuity run state created by validation/publication side effects."
+    route_hint: "publication generator, runtime control-state owner, or repo-hygiene route"
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "Retain until the owning generator, runtime control-state route, or repo-hygiene route classifies stale, protected, active, or cleanup-safe state with receipt-backed authority."
+    boundaries:
+      include_paths:
+        - ".octon/generated/effective"
+        - ".octon/state/control"
+        - ".octon/state/continuity"
+      exclude_paths:
+        - ".octon/inputs"
+        - ".octon/generated/proposals/registry.yml"
+        - ".octon/state/evidence"
+  - candidate_id: retained-evidence-and-validation-artifacts
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "Mixed retained evidence, authority grant, external index, proposal validation, extension validation, and skill-run evidence."
+    route_hint: "evidence-tier retention, publishable receipt binding, or repo-hygiene owner route"
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "Retain publishable receipts and validation evidence. Do not publish local-private/raw evidence as hosted closeout proof and do not delete evidence from detection alone."
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence"
+      exclude_paths:
+        - ".octon/inputs"
+        - ".octon/generated/effective"
+        - ".octon/state/control"
+        - ".octon/state/continuity"
+  - candidate_id: ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "Ignored local residue outside wrapper deletion authority; retained as foreign/manual-review residue."
+    route_hint: "manual-review or owner-specific ignored-residue cleanup"
+    target_lifecycle_outcome: blocked
+    rollback_or_discard_posture: "Retain ignored local residue unless an owning cleanup route proves deletion safety."
+    boundaries:
+      include_paths:
+        - ".archive"
+        - ".octon/generated/.tmp"
+        - ".octon/generated/cognition"
+        - ".octon/framework/engine"
+        - ".octon/framework/cognition"
+        - ".octon/framework/orchestration"
+        - ".envrc"
+        - ".prompts"
+        - ".vscode"
+      exclude_paths:
+        - ".octon/inputs"
+        - ".octon/generated/effective"
+        - ".octon/state"
+iterations: []
+retained_residue:
+  - candidate_id: ignored-local-residue
+    path: ".archive"
+    disposition: "foreign ignored local residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".octon/generated/.tmp"
+    disposition: "foreign ignored local build residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".octon/generated/cognition"
+    disposition: "foreign ignored local generated cognition residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".octon/framework/engine"
+    disposition: "foreign ignored local runtime build residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".octon/framework/cognition"
+    disposition: "foreign ignored local cognition residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".octon/framework/orchestration"
+    disposition: "foreign ignored local orchestration residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".envrc"
+    disposition: "foreign ignored local environment residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".prompts"
+    disposition: "foreign ignored local prompt residue retained for manual review"
+  - candidate_id: ignored-local-residue
+    path: ".vscode"
+    disposition: "foreign ignored local editor residue retained for manual review"
+blockers:
+  - candidate_id: proposal-archive-input-surface
+    blocker: "The requested branch-no-pr cleaned wrapper closeout cannot be delegated: the selected archive candidate includes .octon/inputs/** proposal input-surface residue, which the closeout-worktree validator classifies as unsafe for a publishable_change candidate. Closing only .octon/generated/proposals/registry.yml would split the archive batch across incoherent authority boundaries."
+    next_route_condition: "Route the proposal input archive batch through its owning proposal lifecycle or direct singular closeout-change authority, or establish an owner-approved Change boundary that the wrapper validator can classify as publishable before rerunning closeout-worktree."
+  - candidate_id: generated-effective-and-control-state
+    blocker: "Generated effective extension projections and raw .octon/state/control/.octon/state/continuity run state remain unresolved. Generated authority and active control state require their owning publisher/runtime route or governed hygiene evidence; detection alone is not cleanup authority."
+    next_route_condition: "Regenerate or retain generated-effective projections through the owning publisher and route stale run/control/continuity residue through runtime control-state or repo-hygiene cleanup authority."
+  - candidate_id: retained-evidence-and-validation-artifacts
+    blocker: "Mixed .octon/state/evidence residue remains, including validation evidence, authority artifacts, external index evidence, and skill-run evidence. The wrapper cannot promote, delete, or treat raw/private evidence as hosted closeout proof."
+    next_route_condition: "Bind publishable receipts through the evidence-tier route and send cleanup-safe local residue through repo-hygiene-cleanup with authorization."
+final_candidate_dispositions:
+  proposal-archive-input-surface:
+    state: blocked
+  generated-effective-and-control-state:
+    state: blocked
+  retained-evidence-and-validation-artifacts:
+    state: blocked
+  ignored-local-residue:
+    state: foreign
+final_inventory_ref: ".octon/state/evidence/validation/analysis/2026-06-02-closeout-worktree-20260602T211544Z.yml"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 368
+  untracked: 52
+  ignored: 5116
+  generated_effective_output: 3
+  host_projection: 0
+  retained_evidence: 53
+  state_control: 26
+  release_version: 0
+  input_surface: 362
+  routing_publishable_change: 1
+  routing_publishable_closeout_evidence: 1
+  routing_local_private_retained: 20
+  routing_foreign_manual_review: 0
+  routing_unsafe: 5540
+  routing_ambiguous: 0
+worktree_terminal_state: nonterminal
+next_route_condition: "Resolve the selected proposal archive input-surface candidate and the generated/control/evidence residue through their owning proposal lifecycle, direct closeout-change, publication, runtime, evidence-tier, repo-hygiene, or manual-review routes before rerunning closeout-worktree for a Git-clean terminal claim."

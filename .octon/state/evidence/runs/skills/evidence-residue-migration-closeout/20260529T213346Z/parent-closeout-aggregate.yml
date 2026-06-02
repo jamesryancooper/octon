@@ -1,0 +1,15 @@
+schema_version: evidence-residue-parent-closeout-aggregate-v1
+generated_at: 2026-05-29T21:33:46Z
+proposal_id: evidence-residue-migration-closeout
+program_parent: evidence-disclosure-tier-contract-program
+verdict: pass
+unresolved_items_count: 0
+child_authority_preserved: yes
+parent_receipt_not_child_authority: yes
+raw_evidence_published: false
+evidence_refs:
+  - .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/inventory-summary.yml
+  - .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/migration-decision-table.yml
+  - .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/publishable-receipt.json
+  - .octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/archive-manifest.yml
+final_recommendation: Evidence residue migration closeout evidence is sufficient for child packet archive once standard proposal archive prerequisites pass.

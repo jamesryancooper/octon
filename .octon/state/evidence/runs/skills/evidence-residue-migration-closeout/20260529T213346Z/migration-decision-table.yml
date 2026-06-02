@@ -1,0 +1,28 @@
+schema_version: evidence-residue-migration-decision-table-v1
+generated_at: 2026-05-29T21:33:46Z
+proposal_id: evidence-residue-migration-closeout
+verdict: pass
+decisions:
+  - decision_id: local-private-archive
+    action: copy-to-local-archive
+    source_scope: .octon/state/evidence/runs/skills cleanup and closeout evidence
+    target_ref: .octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/
+    raw_evidence_published: false
+    rationale: Preserve raw-like cleanup evidence outside repo-publishable receipts.
+  - decision_id: publishable-replacement
+    action: replace-with-publishable-receipt
+    source_ref: .octon/state/evidence/local/evidence-residue-migration-closeout/20260529T213346Z/archive-manifest.yml
+    target_ref: .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/publishable-receipt.json
+    raw_evidence_published: false
+    rationale: Prove the bounded closeout claim without publishing copied raw-like files.
+  - decision_id: retained-inventory
+    action: retain-publishable-summary
+    target_refs:
+      - .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/inventory-summary.yml
+      - .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/migration-decision-table.yml
+      - .octon/state/evidence/runs/skills/evidence-residue-migration-closeout/20260529T213346Z/parent-closeout-aggregate.yml
+    rationale: Keep closeout-readable evidence for validators and future audits.
+  - decision_id: no-delete
+    action: no-deletion-performed
+    rollback_posture: Original raw-like files and the local archive remain available; discard the publishable replacement if it is weaker or stale.
+    rationale: Avoid destructive cleanup in the proposal closeout path.
