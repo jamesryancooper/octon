@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.6.87](https://github.com/jamesryancooper/octon/compare/octon-v0.6.86...octon-v0.6.87) (2026-06-02)
+
+
+### Bug Fixes
+
+* **lifecycle:** normalize archive promotion evidence ([2520dce](https://github.com/jamesryancooper/octon/commit/2520dce7c48f1af2e4c73935046fd2c5f31eaf5a))
+* **lifecycle:** repair parent review closeout ([27eca3a](https://github.com/jamesryancooper/octon/commit/27eca3a852bd3fa36cf50f948dc4fe1f74508f0c))
+* **lifecycle:** scope promote validation registry check ([ff96250](https://github.com/jamesryancooper/octon/commit/ff9625021ad0987b768fcacf64b6902b41b40671))
+* **lifecycle:** skip registry check before archive ([76e2c7c](https://github.com/jamesryancooper/octon/commit/76e2c7c92073d9196d705e7c25f6fddd2a0bbeca))
+* **lifecycle:** use repo-relative archive evidence ([0cf0f22](https://github.com/jamesryancooper/octon/commit/0cf0f223d70383c955acd7f1f0c6df0cc0994179))
+
 ## [0.6.86](https://github.com/jamesryancooper/octon/compare/octon-v0.6.85...octon-v0.6.86) (2026-06-01)
 
 
