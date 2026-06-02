@@ -2,7 +2,7 @@
 name: flow
 description: >
   Workflow execution service with a native Octon runtime default and optional
-  LangGraph HTTP adapter path.
+  external HTTP adapter path.
 interface_type: mcp
 version: "1.0.0"
 metadata:
@@ -49,5 +49,5 @@ allowed-tools: Read Glob Grep Write(/.octon/state/evidence/runs/services/flow/*)
 
 Native-first runtime service that validates manifest/prompt inputs, executes
 workflow steps deterministically, writes stable run records, and optionally
-forwards to an external LangGraph-compatible `/flows/run` endpoint when the
-`langgraph-http` adapter is selected under repo-owned network-egress policy.
+forwards to an external `/flows/run` endpoint when an HTTP adapter is selected
+under repo-owned network-egress policy.

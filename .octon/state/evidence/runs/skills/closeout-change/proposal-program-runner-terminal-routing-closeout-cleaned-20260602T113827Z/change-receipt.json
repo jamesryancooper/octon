@@ -1,0 +1,147 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Land and clean up the proposal program runner terminal routing closeout branch without opening a PR.",
+  "scope": {
+    "summary": "Branch-no-PR closeout for the completed proposal-program-runner terminal routing and recovery hardening lifecycle branch.",
+    "touched_paths": [
+      ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+      ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs",
+      ".octon/framework/engine/runtime/crates/kernel/tests/proposal_program_cli.rs",
+      ".octon/framework/assurance/runtime/_ops/tests/test-proposal-operation-workflow-runners.sh",
+      ".octon/generated/proposals/registry.yml"
+    ],
+    "diff_refs": [
+      "0603146d483af6a1c16d9cfade7a8a055815f986..c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68"
+    ]
+  },
+  "source_branch_ref": "chore/proposal-program-runner-terminal-routing-closeout",
+  "target_branch_ref": "main",
+  "remote_branch_ref": "origin/chore/proposal-program-runner-terminal-routing-closeout@c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68 before governed cleanup deletion",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z/branch-cleanup-authorization.json",
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "target_ref": "origin/main@c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "evidence_refs": [
+      "git-branch-hosted-preflight.sh passed for source c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68 and target pre-ref 0603146d483af6a1c16d9cfade7a8a055815f986.",
+      "git-branch-authorize-hosted-no-pr.sh emitted branch-landing-authorization-v1 for source c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68.",
+      "git-branch-land-hosted-no-pr.sh fast-forwarded origin/main to c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68."
+    ]
+  },
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/proposal-program-runner-terminal-routing-closeout",
+    "source_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "target_pre_ref": "0603146d483af6a1c16d9cfade7a8a055815f986",
+    "target_post_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "validated_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+      "branch_naming_validation@c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+      "route_aware_autonomy_validation@c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+      "exact_source_sha_validation@c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landed_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+  "source_branch_integration": {
+    "source_branch_ref": "chore/proposal-program-runner-terminal-routing-closeout",
+    "source_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "landed_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "origin_main_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "integrated": true,
+    "method": "fast-forward hosted no-PR landing",
+    "evidence_refs": [
+      "git-branch-land-hosted-no-pr.sh reported origin/main equals landed_ref after push.",
+      "git merge-base --is-ancestor origin/chore/proposal-program-runner-terminal-routing-closeout origin/main passed before cleanup.",
+      "git ls-remote --heads origin chore/proposal-program-runner-terminal-routing-closeout returned no ref after cleanup."
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "origin_main_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "landed_ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh fetched origin and validated origin/main before branch cleanup.",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh switched to main and reported local main is synced to origin/main at c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68.",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git rev-parse HEAD main origin/main returned c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68 for all refs after cleanup."
+  },
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "cleanup_evidence_refs": [
+    "git-branch-authorize-cleanup.sh approved cleanup for local and remote branch refs at c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68.",
+    "git-branch-cleanup.sh deleted local branch chore/proposal-program-runner-terminal-routing-closeout.",
+    "git-branch-cleanup.sh deleted remote branch origin/chore/proposal-program-runner-terminal-routing-closeout.",
+    "git status --short --branch --untracked-files=all reported clean main tracking origin/main after cleanup."
+  ],
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/proposal-program-runner-terminal-routing-closeout",
+    "remote_branch": "origin/chore/proposal-program-runner-terminal-routing-closeout",
+    "evidence_refs": [
+      "Deleted branch chore/proposal-program-runner-terminal-routing-closeout (was c8c5f8a7a).",
+      "git push origin --delete chore/proposal-program-runner-terminal-routing-closeout completed.",
+      "git ls-remote --heads origin chore/proposal-program-runner-terminal-routing-closeout returned no ref."
+    ]
+  },
+  "validation_evidence_refs": [
+    "git diff --check: passed before branch landing.",
+    "git-branch-hosted-preflight.sh --allow-empty-check-set: passed for exact source SHA c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68.",
+    "git-required-checks-at-ref.sh passed for route_neutral_closeout_validation, branch_naming_validation, route_aware_autonomy_validation, and exact_source_sha_validation at c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68.",
+    "git-branch-authorize-cleanup.sh: passed and emitted branch-cleanup-authorization-v1.",
+    "git-branch-cleanup.sh --confirm --delete-remote: passed.",
+    "classify-change-closeout-residue.sh after cleanup: staged=0 unstaged-tracked=0 untracked=0 retained-evidence=0."
+  ],
+  "review_waiver_refs": [
+    "No PR was opened because the operator explicitly requested branch-no-pr closeout and live provider rules allowed route-neutral hosted no-PR landing."
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68",
+    "branch": "chore/proposal-program-runner-terminal-routing-closeout"
+  },
+  "rollback_handle": {
+    "kind": "manual-instructions",
+    "ref": "governed revert of main range 0603146d483af6a1c16d9cfade7a8a055815f986..c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68; do not force-push",
+    "instructions": "Use a governed follow-up Change to revert the main range 0603146d483af6a1c16d9cfade7a8a055815f986..c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68 if rollback is required; do not force-push main."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "git status --short --branch --untracked-files=all before landing showed a clean chore/proposal-program-runner-terminal-routing-closeout branch tracking origin/chore/proposal-program-runner-terminal-routing-closeout.",
+    "residue_classification_ref": "classify-change-closeout-residue.sh before landing reported staged=0 unstaged-tracked=0 untracked=0 retained-evidence=0 with ignored local residue retained outside the branch candidate.",
+    "phase_exit_refs": [
+      "inventory: source branch and origin/source branch aligned at c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68; local main and origin/main aligned at 0603146d483af6a1c16d9cfade7a8a055815f986 before landing.",
+      "hosted-no-pr-checks-and-landing: provider rules allowed route-neutral no-PR landing and origin/main fast-forwarded to c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68.",
+      "branch-cleanup: cleanup authorization proved containment, no open PR, rollback posture, and source branch non-protection before local and remote branch deletion.",
+      "final-verification: local main, origin/main, and landed_ref aligned at c8c5f8a7a7cda76edb453ffe6a5bb7cd22324b68 after cleanup."
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": ".octon/state/evidence/runs/skills/closeout-worktree/proposal-program-runner-terminal-routing-closeout-cleaned-20260602T113827Z/report.yml"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-02T11:38:27Z"
+}
