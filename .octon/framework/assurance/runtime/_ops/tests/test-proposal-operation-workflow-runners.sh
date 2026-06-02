@@ -343,6 +343,7 @@ case_archive_passes() {
   archived_manifest="$fixture_root/.octon/inputs/exploratory/proposals/.archive/architecture/fixture-proposal/proposal.yml"
   registry="$fixture_root/.octon/generated/proposals/registry.yml"
   assert_file_exists "$bundle_root/summary.md" || return 1
+  grep -Fq -- '--skip-registry-check' "$bundle_root/standard-validator.log" || return 1
   assert_file_exists "$archived_manifest" || return 1
   [[ "$(yq -r '.status' "$archived_manifest")" == "archived" ]] || return 1
   grep -Fq '.archive/architecture/fixture-proposal' "$registry" || return 1

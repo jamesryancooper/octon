@@ -3191,7 +3191,7 @@ pub fn run_archive_proposal_from_octon_dir(
         None,
         None,
     )?;
-    let validator_log = match run_proposal_validator_stack(
+    let validator_log = match run_archive_proposal_validator_stack(
         &repo_root,
         &proposal_root,
         &bundle_root,
@@ -5808,15 +5808,49 @@ fn run_proposal_validator_stack(
     bundle_root: &Path,
     proposal_kind: &str,
 ) -> Result<PathBuf> {
-    run_validator_stack(
+    run_proposal_validator_stack_with_standard_args(
         repo_root,
         proposal_root,
         bundle_root,
-        &[
-            ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
-            proposal_validator_rel(proposal_kind)?,
-        ],
+        proposal_kind,
+        &[],
     )
+}
+
+fn run_archive_proposal_validator_stack(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    proposal_kind: &str,
+) -> Result<PathBuf> {
+    run_proposal_validator_stack_with_standard_args(
+        repo_root,
+        proposal_root,
+        bundle_root,
+        proposal_kind,
+        &["--skip-registry-check"],
+    )
+}
+
+fn run_proposal_validator_stack_with_standard_args(
+    repo_root: &Path,
+    proposal_root: &Path,
+    bundle_root: &Path,
+    proposal_kind: &str,
+    standard_validator_extra_args: &[&str],
+) -> Result<PathBuf> {
+    let kind_validator_rel = proposal_validator_rel(proposal_kind)?;
+    let validators = [
+        ProposalValidatorInvocation {
+            rel: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh",
+            extra_args: standard_validator_extra_args,
+        },
+        ProposalValidatorInvocation {
+            rel: kind_validator_rel,
+            extra_args: &[],
+        },
+    ];
+    run_validator_stack(repo_root, proposal_root, bundle_root, &validators)
 }
 
 fn run_proposal_review_gate_validator(
@@ -5885,37 +5919,48 @@ fn run_proposal_review_gate_validator(
     Ok(log_path)
 }
 
+#[derive(Clone, Copy, Debug)]
+struct ProposalValidatorInvocation<'a> {
+    rel: &'a str,
+    extra_args: &'a [&'a str],
+}
+
 fn run_validator_stack(
     repo_root: &Path,
     proposal_root: &Path,
     bundle_root: &Path,
-    validators: &[&str],
+    validators: &[ProposalValidatorInvocation<'_>],
 ) -> Result<PathBuf> {
     let proposal_rel = rel_path(repo_root, proposal_root);
     let log_path = bundle_root.join("standard-validator.log");
     let mut log = String::from("# Proposal Validator Stack\n\n");
 
-    for validator_rel in validators {
-        let script = repo_root.join(validator_rel);
+    for validator in validators {
+        let script = repo_root.join(validator.rel);
         if !script.is_file() {
             bail!("missing proposal validator: {}", script.display());
         }
-        let output = Command::new("bash")
-            .arg(&script)
-            .arg("--package")
-            .arg(&proposal_rel)
-            .current_dir(repo_root)
-            .output()
-            .with_context(|| {
-                format!(
-                    "run validator {} for {}",
-                    validator_rel,
-                    proposal_root.display()
-                )
-            })?;
+        let mut command = Command::new("bash");
+        command.arg(&script).arg("--package").arg(&proposal_rel);
+        for extra_arg in validator.extra_args {
+            command.arg(extra_arg);
+        }
+        let output = command.current_dir(repo_root).output().with_context(|| {
+            format!(
+                "run validator {} for {}",
+                validator.rel,
+                proposal_root.display()
+            )
+        })?;
+        let extra_args = if validator.extra_args.is_empty() {
+            String::new()
+        } else {
+            format!(" {}", validator.extra_args.join(" "))
+        };
         log.push_str(&format!(
-            "## `{}`\n\n- proposal: `{}`\n- status: `{}`\n\n### stdout\n\n```\n{}\n```\n\n### stderr\n\n```\n{}\n```\n\n",
-            validator_rel,
+            "## `{}`{}\n\n- proposal: `{}`\n- status: `{}`\n\n### stdout\n\n```\n{}\n```\n\n### stderr\n\n```\n{}\n```\n\n",
+            validator.rel,
+            extra_args,
             proposal_rel,
             output.status,
             String::from_utf8_lossy(&output.stdout),
@@ -5926,7 +5971,7 @@ fn run_validator_stack(
             bail!(
                 "proposal validator failed for {} via {} (see {})",
                 proposal_rel,
-                validator_rel,
+                validator.rel,
                 log_path.display()
             );
         }
