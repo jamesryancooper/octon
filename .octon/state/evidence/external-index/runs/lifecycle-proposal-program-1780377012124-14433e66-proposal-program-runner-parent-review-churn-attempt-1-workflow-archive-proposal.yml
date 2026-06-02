@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:978f21bc15fab12b816882d3c093af2e1cb93e6ac0b7462523941e0ed7788a04
+  entry_id: lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T05:17:36.925231Z
+  run_id: lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:31588f8e427a6ec6800ddb130af964c5182165ece53d0fcd1806a1fa396bcb37
+  entry_id: lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal/replay/manifest.yml
+  recorded_at: 2026-06-02T05:17:36.925231Z
+  run_id: lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal
+run_id: lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-archive-proposal
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-02T05:17:36.925231Z

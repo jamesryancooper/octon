@@ -1,0 +1,11 @@
+context_pack_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal/context/context-pack-receipt.json
+context_pack_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal/context/context-pack.json
+context_pack_sha256: sha256:8378fefadeeb01eeb761b75db8bc0e227fc61042ce3dc3c0792d49af6d8865cf
+context_policy_ref: .octon/instance/governance/policies/context-packing.yml
+model_visible_context_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal/context/model-visible-context.json
+model_visible_context_sha256: sha256:0e89373fb21cf31adf40316f1249231cf089f9ea421b591a4090fc21a84c37fd
+receipt_sha256: sha256:5dfa5354fb375eea924d7393c8691eb35392f8e45b5008bf9959f894a1165f8e
+run_id: lifecycle-proposal-program-1780377012124-14433e66-proposal-program-runner-parent-review-churn-attempt-1-workflow-validate-proposal
+schema_version: active-context-pack-v1
+updated_at: 2026-06-02T05:10:59.490532Z
+validity_state: valid
