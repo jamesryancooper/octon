@@ -1,0 +1,24 @@
+entries:
+- artifact_kind: replay-payload
+  content_digest: sha256:ef7dfacd0b72d59733baa3c17f2d147bdf7cc479ae4e266b495146ad28ed579e
+  entry_id: lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-replay-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/bundle.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-02T00:31:31.965457Z
+  run_id: lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow
+  storage_class: external-immutable
+- artifact_kind: trace-payload
+  content_digest: sha256:0421ff55e6fe724dee5f19452ad920cb20df2f627716ca58fc73e33a72c56b4e
+  entry_id: lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow-trace-payload
+  evidence_class: C
+  locator: immutable://octon/replays/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/trace.jsonl
+  manifest_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow/replay/manifest.yml
+  recorded_at: 2026-06-02T00:31:31.965457Z
+  run_id: lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow
+  storage_class: external-immutable
+index_id: external-replay-lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow
+run_id: lifecycle-proposal-program-1780359861667-024a957f-proposal-program-runner-aggregate-terminal-blockers-attempt-1-workflow
+schema_version: external-replay-index-v1
+scope: run
+updated_at: 2026-06-02T00:31:31.965457Z
