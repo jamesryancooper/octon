@@ -1,7 +1,7 @@
 schema_version: "octon-extension-artifact-map-v5"
 generator_version: "extension-publication-v6"
 generation_id: "extensions-e539e7c8b239"
-published_at: "2026-06-01T21:01:51Z"
+published_at: "2026-06-02T03:14:21Z"
 capability_profiles:
   - pack_id: "octon-concept-integration"
     source_id: "bundled-first-party"
@@ -3289,7 +3289,7 @@ artifacts:
     bucket: "validation"
     relative_path: "validation/tests/test-proposal-program-runner-fixture-matrix.sh"
     source_path: ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-proposal-program-runner-fixture-matrix.sh"
-    sha256: "8b780c7eeab6b009a4827e07b0ff5929eafe06a7d9f1f2b87f1391a800d2c62f"
+    sha256: "9fd921123e297d40409b053b772c69b2942d53d0f071f610cb48826e9e8f961e"
   - pack_id: "octon-proposal-lifecycle"
     source_id: "bundled-first-party"
     bucket: "validation"

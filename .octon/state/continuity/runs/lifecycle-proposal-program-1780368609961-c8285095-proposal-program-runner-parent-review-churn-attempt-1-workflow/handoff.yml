@@ -1,0 +1,15 @@
+schema_version: run-continuity-v1
+run_id: lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow
+status: closed
+run_contract_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/run-contract.yml
+run_manifest_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/run-manifest.yml
+retained_evidence_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/retained-run-evidence.yml
+replay_pointers_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/replay-pointers.yml
+evidence_classification_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/evidence-classification.yml
+last_receipt_ref: .octon/state/evidence/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/receipts/execution-receipt.json
+last_checkpoint_ref: .octon/state/control/execution/runs/lifecycle-proposal-program-1780368609961-c8285095-proposal-program-runner-parent-review-churn-attempt-1-workflow/checkpoints/execution-complete.yml
+resume_from_stage_attempt_id: initial
+mission_id: null
+parent_run_ref: null
+next_action: null
+updated_at: 2026-06-02T02:57:36.361364Z

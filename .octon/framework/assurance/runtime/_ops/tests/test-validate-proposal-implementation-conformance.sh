@@ -10,6 +10,7 @@ OCTON_DIR="$(cd "$FRAMEWORK_DIR/.." && pwd)"
 REPO_ROOT="$(cd "$OCTON_DIR/.." && pwd)"
 VALIDATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-conformance.sh"
 READINESS_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+REVIEW_GATE_SCRIPT=".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
 
 pass_count=0
 fail_count=0
@@ -54,6 +55,7 @@ create_fixture_repo() {
   mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
   cp "$REPO_ROOT/$VALIDATE_SCRIPT" "$fixture_root/$VALIDATE_SCRIPT"
   cp "$REPO_ROOT/$READINESS_SCRIPT" "$fixture_root/$READINESS_SCRIPT"
+  cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
   printf '%s\n' "$fixture_root"
 }
 

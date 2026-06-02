@@ -315,3 +315,84 @@ fn program_plan_keeps_child_phase_metadata_from_replacing_contract_route() {
     assert!(stdout.contains("route_id: run-packet-implementation"));
     assert!(!stdout.contains("route_id: promote-proposal"));
 }
+
+#[test]
+fn program_handoff_fixture_covers_terminal_routing_matrix_without_child_side_effects() {
+    let repo = FixtureRepo::new("terminal-routing-matrix", Some("phase-6"));
+    repo.write(
+        "children/child-b/proposal.yml",
+        "status: accepted\npromotion_targets:\n  - \"framework/child-b.md\"\n",
+    );
+    repo.write(
+        "children/child-b/support/executable-implementation-prompt.md",
+        "# Executable Implementation Prompt\n\nMock-ready sibling child prompt.\n",
+    );
+    repo.write(
+        "parent/resources/child-packet-index.yml",
+        r#"schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "parallel-independent"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "child-a"
+    path: "children/child-a"
+    phase_id: "phase-6"
+    group_id: "tests"
+    write_scopes:
+      - "framework/child-a.md"
+  - child_id: "child-b"
+    path: "children/child-b"
+    phase_id: "phase-6"
+    group_id: "tests"
+    write_scopes:
+      - "framework/child-b.md"
+"#,
+    );
+
+    let output = run_octon(
+        &repo,
+        &[
+            "lifecycle",
+            "run",
+            "--lifecycle",
+            "proposal-program",
+            "--target",
+            "parent",
+            "--run-id",
+            "program-terminal-routing-matrix",
+            "--executor",
+            "codex",
+        ],
+    );
+
+    assert_success(&output);
+    let stdout = stdout(&output);
+    assert!(stdout.contains("route_execution_mode: program-route-handoff"));
+    assert!(stdout.contains("- child-a"));
+    assert!(stdout.contains("- child-b"));
+    assert!(!repo
+        .root
+        .join("children/child-a/support/implementation-run.md")
+        .exists());
+    assert!(!repo
+        .root
+        .join("children/child-b/support/implementation-run.md")
+        .exists());
+    assert_file_contains(
+        &repo.root.join(
+            ".octon/state/evidence/runs/workflows/program-terminal-routing-matrix/summary.md",
+        ),
+        "final_verdict: planned",
+    );
+    assert_file_contains(
+        &repo.root.join(
+            ".octon/state/evidence/runs/workflows/program-terminal-routing-matrix/summary.md",
+        ),
+        "selected_route: run-packet-implementation",
+    );
+    assert_file_contains(
+        &repo.root.join(
+            ".octon/state/evidence/runs/workflows/program-terminal-routing-matrix/summary.md",
+        ),
+        "Child packet manifests, receipts, promotion targets, validation verdicts, and archive metadata remain child-owned.",
+    );
+}

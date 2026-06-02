@@ -70,6 +70,15 @@ main() {
   assert_contains "matrix declares non-authority status" "not Octon authority"
   assert_contains "matrix guards phase metadata boundary" "phase_id"
   assert_contains "matrix guards pre-dispatch failures" "block before executor dispatch"
+  assert_contains "matrix covers execute-routes dispatch" "execute-routes dispatch"
+  assert_contains "matrix covers replay observations" "resume/replay"
+  assert_contains "matrix covers lock cleanup" "lock handling"
+  assert_contains "matrix covers archive observation" "closeout/archive behavior"
+  assert_contains "matrix covers parent receipt boundary" "parent receipts"
+  assert_contains "matrix covers child promotion ownership" "child promotion ownership"
+  assert_contains "matrix covers generated freshness proof" "generated-output freshness proof"
+  assert_contains "matrix covers lifecycle residue" "lifecycle residue"
+  assert_contains "matrix covers evidence-gate authorization" "pre-dispatch receipt and evidence-gate authorization"
 
   printf '\nPassed: %s\nFailed: %s\n' "$pass_count" "$fail_count"
   [[ "$fail_count" -eq 0 ]]

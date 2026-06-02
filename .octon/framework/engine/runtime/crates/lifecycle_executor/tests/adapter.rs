@@ -1397,6 +1397,60 @@ fn required_receipts_before_dispatch_are_enforced_before_executor_dispatch() {
 }
 
 #[test]
+fn parent_receipt_cannot_satisfy_child_pre_dispatch_requirement() {
+    let root = temp_root("parent-receipt-boundary");
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "promote-proposal", "extension", "unattended");
+    request.expected_receipts = Vec::new();
+    request.expected_manifest_status = Some("implemented".to_string());
+    let contract = request.route.delegation_contract.as_mut().unwrap();
+    contract.required_receipts_before_dispatch = vec!["implementation-run".to_string()];
+    request.receipts = vec![LifecycleReceiptSpec {
+        receipt_id: "implementation-run".to_string(),
+        path: "support/implementation-run.md".to_string(),
+        required_fields: vec![
+            "verdict".to_string(),
+            "implemented_at".to_string(),
+            "promotion_evidence_count".to_string(),
+        ],
+        verdict_field: Some("verdict".to_string()),
+    }];
+    write_file(
+        &root.join("parent/support/implementation-run.md"),
+        "verdict: pass\nimplemented_at: 2026-06-02T00:00:00Z\npromotion_evidence_count: 1\n",
+    );
+
+    let blocked = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(blocked.status, "authorization-proof-failed");
+    assert!(blocked
+        .error_message
+        .as_deref()
+        .unwrap_or_default()
+        .contains("required receipt implementation-run is missing or incomplete"));
+    assert!(!request
+        .evidence_root
+        .join("promote-proposal-mock.log")
+        .exists());
+
+    write_file(
+        &request.target.join("support/implementation-run.md"),
+        "verdict: pass\nimplemented_at: 2026-06-02T00:00:00Z\npromotion_evidence_count: 1\n",
+    );
+    let completed = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(completed.status, "completed");
+    assert_eq!(
+        completed.manifest_status_after.as_deref(),
+        Some("implemented")
+    );
+    assert!(request
+        .evidence_root
+        .join("promote-proposal-mock.log")
+        .is_file());
+}
+
+#[test]
 fn required_evidence_gates_are_enforced_before_executor_dispatch() {
     let root = temp_root("required-evidence-gate");
     let executor = DefaultLifecycleRouteExecutor::new(&root);
@@ -1465,6 +1519,55 @@ fn required_evidence_gates_are_enforced_before_executor_dispatch() {
     )
     .unwrap();
     assert!(proof.contains("strict-review: pass"));
+}
+
+#[test]
+fn archive_workflow_non_authorizing_closeout_receipt_blocks_before_dispatch() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("archive-closeout-not-authorized");
+    write_fake_workflow_runtime(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(&root, "archive-proposal", "workflow", "unattended");
+    request.executor = "codex".to_string();
+    request.expected_manifest_status = Some("archived".to_string());
+    request
+        .bound_inputs
+        .insert("disposition".to_string(), "implemented".to_string());
+    request.route.delegation_contract = Some(LifecycleDelegationContract {
+        required_receipts_before_dispatch: vec!["proposal-closeout".to_string()],
+        ..default_delegation_contract()
+    });
+    request.receipts = vec![LifecycleReceiptSpec {
+        receipt_id: "proposal-closeout".to_string(),
+        path: "support/proposal-closeout.md".to_string(),
+        required_fields: vec!["verdict".to_string(), "archive_authorized".to_string()],
+        verdict_field: Some("verdict".to_string()),
+    }];
+    request.expected_receipts = Vec::new();
+    write_file(
+        &request.target.join("support/proposal-closeout.md"),
+        "verdict: pass\narchive_authorized: no\n",
+    );
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "blocked");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::ReceiptInvalid)
+    );
+    assert!(result.stdout_path.is_none());
+    assert!(!root
+        .join(".octon/state/control/execution/runs/test-run-attempt-1-workflow")
+        .exists());
+    let blocked = fs::read_to_string(
+        request
+            .evidence_root
+            .join("archive-proposal-attempt-1-archive-blocked.yml"),
+    )
+    .unwrap();
+    assert!(blocked.contains("blocker_class: archive-authorization-non-authorizing"));
+    assert!(blocked.contains("completion_observed: false"));
 }
 
 #[test]

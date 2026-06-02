@@ -1,26 +1,21 @@
-schema_version: "proposal-v1"
-proposal_id: "proposal-program-runner-parent-review-churn"
-title: "Proposal Program Runner Parent Review Churn"
-summary: >-
-  Suppress unnecessary parent review refresh churn caused by volatile
-  run-control or route-created evidence that does not change the reviewed
-  parent-authored coordination surface.
-proposal_kind: "architecture"
-promotion_scope: "octon-internal"
+schema_version: proposal-v1
+proposal_id: proposal-program-runner-parent-review-churn
+title: Proposal Program Runner Parent Review Churn
+summary: Suppress unnecessary parent review refresh churn caused by volatile run-control or route-created evidence that does not change the reviewed parent-authored coordination surface.
+proposal_kind: architecture
+promotion_scope: octon-internal
 promotion_targets:
-  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs"
-  - ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
-  - ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml"
-status: "accepted"
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+status: implemented
 lifecycle:
   temporary: true
-  exit_expectation: >-
-    Implement only through the proposal-packet lifecycle after review and
-    implementation prompt authorization.
+  exit_expectation: Implement only through the proposal-packet lifecycle after review and implementation prompt authorization.
 related_proposals:
-  - "proposal-program-runner-terminal-routing-and-recovery-hardening"
-release_state: "pre-1.0"
-change_profile: "atomic"
+- proposal-program-runner-terminal-routing-and-recovery-hardening
+change_profile: atomic
+release_state: pre-1.0
+rollback_summary: Patch reversal of parent review freshness and digest-scope changes.
 source_lineage:
-  - ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md"
-rollback_summary: "Patch reversal of parent review freshness and digest-scope changes."
+- .octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/resources/source-postmortem-recommendations.md
