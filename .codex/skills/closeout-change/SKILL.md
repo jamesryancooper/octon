@@ -92,11 +92,32 @@ Execute the Change Closeout State Machine phase loop from
     `.octon/state/evidence/runs/skills/**`; local-private raw logs under
     `.octon/state/evidence/local/**` may be cited only by digest-backed local
     evidence refs inside a publishable receipt and do not satisfy the closeout
-    claim by themselves.
+    claim by themselves. Also retain compact structured views when evidence is
+    available: `structured-receipt.yml`, `closeout-projection.yml`, optional
+    `publication-summary.yml`, and `expanded-report-request.yml`. These views
+    must source the canonical Change receipt and retained evidence by digest;
+    they are compact evidence aids only and must not replace the receipt,
+    rollback handle, authorization refs, or raw/full evidence.
 12. **Final Verification** — Verify clean or documented retained residue and
     final local `main`, `origin/main`, and landed-ref alignment when claimed.
 13. **Final Report** — Report the actual lifecycle outcome, blockers,
     validation, receipt, cleanup, rollback handle, and final sync.
+
+## Compact Reporting
+
+Default model-visible closeout context should use `closeout-projection.yml`
+when the projection validates under
+`.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`.
+The projection must declare `model_visible_token_estimate <= 4000`, source refs
+and source digests, evidence refs, rollback refs, gate state, unresolved
+questions, blockers, exclusions, freshness, and fail-closed behavior.
+
+Use the canonical Change receipt and raw/full evidence only when the compact
+projection is missing, stale, digest-mismatched, has an authority-boundary
+conflict, lacks rollback or authorization evidence, or an explicit audit,
+replay, support-proof, or operator escalation requires expanded context.
+Expanded narrative output is generated on demand from
+`expanded-report-request.yml`; it is not stored or consumed as authority.
 
 ## Routine Autonomy
 
@@ -237,6 +258,12 @@ approval denial, or cleanup outside a governed route.
   `cleaned`, from raw repo-hygiene logs or local-private evidence. Require
   publishable evidence receipt refs and keep raw local helper output outside
   hosted/shared closeout payloads.
+- Do not treat `closeout-projection.yml`, `publication-summary.yml`,
+  `structured-receipt.yml`, or `expanded-report-request.yml` as the Change
+  receipt, runtime authority, policy, support proof, or closure proof. Missing,
+  stale, digest-mismatched, or authority-conflicting compact views fail closed
+  and require canonical evidence inspection or correction before a concise
+  closeout claim can be reported.
 - Do not use proposal-local packet paths as runtime or policy dependencies.
 - A `lifecycle-interaction-request-v1` may provide scoped advisory context for
   why Change Closeout was requested, but it is not landing, cleanup, hosted,

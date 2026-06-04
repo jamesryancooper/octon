@@ -1,0 +1,191 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260604T000000Z-lifecycle-program-closeout
+created_at: "2026-06-04T12:03:48Z"
+updated_at: "2026-06-04T12:04:30Z"
+default_work_unit: Change
+target_lifecycle_outcome: cleaned
+operator_requested_route: direct-main
+observed_change_set_count: 4
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-20260604T000000Z-lifecycle-program-closeout/initial-nonignored-status-porcelain.log"
+residue_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-20260604T000000Z-lifecycle-program-closeout/final-residue-classification.yml"
+selected_candidate_id: c-lifecycle-program-implementation-archive-publication
+candidates:
+  - candidate_id: c-lifecycle-program-implementation-archive-publication
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "Prior proposal-program lifecycle run lifecycle-proposal-program-1780477570859-e14a1cfe; material implementation, archive, publication, and proposal input-surface changes remain child-owned where child packet lifecycle state is involved."
+    route_hint: "direct-main/cleaned rejected by closeout-worktree classifier because the candidate includes .octon/inputs/**, .octon/generated/effective/**, and .octon/state/control/** paths."
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "No commit was created; rollback remains ordinary working-tree review or route-policy repair before any publishable closeout."
+    boundaries:
+      include_paths:
+        - .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+        - .claude/skills/octon-proposal-lifecycle-closeout-packet/
+        - .codex/skills/closeout-change/
+        - .codex/skills/closeout-worktree/
+        - .codex/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+        - .codex/skills/octon-proposal-lifecycle-closeout-packet/
+        - .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/
+        - .cursor/skills/octon-proposal-lifecycle-closeout-packet/
+        - .octon/framework/assurance/runtime/_ops/scripts/
+        - .octon/framework/assurance/runtime/_ops/tests/
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+        - .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+        - .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json
+        - .octon/framework/engine/runtime/
+        - .octon/generated/effective/
+        - .octon/generated/proposals/
+        - .octon/inputs/additive/extensions/octon-proposal-lifecycle/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-blocker-ledger-recovery-deltas/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-evidence-index-raw-log-summaries/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-lifecycle-context-pack-integration/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-model-routing-action-slice-budgets/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-planner-state-program-context-capsule/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-prompt-pack-instruction-capsules/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-proposal-artifact-index-spine/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-repo-authority-write-scope-index/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-semantic-cache-context-reuse/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-structured-receipts-concise-publication/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-token-measurement-ledger/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-validator-manifests-generated-freshness/
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/
+        - .octon/state/evidence/validation/analysis/20260604T000000Z-closeout-worktree-lifecycle-program-closeout.yml
+  - candidate_id: c-local-run-state-and-hygiene-residue
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "Local runner control state, authority decisions, continuity packets, external index output, workflow summaries, and closeout-worktree run logs."
+    route_hint: "repo-hygiene-cleanup only; closeout-worktree detection is not deletion authority."
+    target_lifecycle_outcome: retained-or-cleaned-by-receipt
+    rollback_or_discard_posture: "No cleanup performed by this wrapper; only receipt-backed repo-hygiene cleanup may delete or retain these paths."
+    boundaries:
+      include_paths:
+        - .octon/state/control/
+        - .octon/state/continuity/
+        - .octon/state/evidence/control/
+        - .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+        - .octon/state/evidence/external-index/
+        - .octon/state/evidence/runs/skills/closeout-worktree/
+        - .octon/state/evidence/runs/workflows/
+        - .octon/state/evidence/validation/
+      exclude_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/
+        - .octon/state/evidence/validation/analysis/
+  - candidate_id: c-publishable-closeout-evidence
+    disposition: deferred
+    residue_routing_class: publishable_closeout_evidence
+    ownership: "Proposal-local closeout validation and closeout-change evidence produced during this closeout attempt."
+    route_hint: "publish only after the primary lifecycle candidate has a wrapper-safe closeout route."
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Retain as evidence; do not publish evidence-only commits while the material Change is blocked."
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/lifecycle-program-closeout-direct-main-20260604T000000Z/
+        - .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780477570859-e14a1cfe/
+        - .octon/state/evidence/validation/analysis/20260604T000000Z-closeout-worktree-lifecycle-program-closeout.yml
+        - .octon/state/evidence/validation/analysis/20260604T000000Z-closeout-worktree-wrapper-validation.log
+      exclude_paths:
+        - .octon/state/control/
+        - .octon/state/evidence/runs/skills/closeout-worktree/
+  - candidate_id: c-ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "Ignored local/manual residue outside the selected lifecycle candidate."
+    route_hint: "retain as ignored local/manual residue; wrapper has no deletion authority."
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "No mutation performed; ignored local residue remains in place."
+    boundaries:
+      include_paths:
+        - .archive/
+        - .claude/settings.local.json
+        - .codex/config.toml
+        - .envrc
+        - .octon/generated/.tmp/
+      exclude_paths:
+        - .octon/inputs/
+        - .octon/generated/effective/
+        - .octon/state/
+iterations: []
+final_candidate_dispositions:
+  c-lifecycle-program-implementation-archive-publication:
+    state: blocked
+    reason: "The selected candidate includes raw proposal input surfaces, generated effective outputs, and state-control residue. The closeout-worktree classifier and validator classify those path families as unsafe for publishable_change, so direct-main/cleaned is not confirmed."
+  c-local-run-state-and-hygiene-residue:
+    state: blocked
+    reason: "Repo-hygiene residue remains under raw/private state paths. The wrapper did not perform cleanup and has no deletion authority."
+  c-publishable-closeout-evidence:
+    state: deferred
+    reason: "Closeout evidence is retained but not published separately because the material lifecycle Change is blocked."
+  c-ignored-local-residue:
+    state: foreign
+    reason: "Ignored local residue remains foreign/manual and is retained with candidate-keyed evidence."
+retained_residue:
+  - candidate_id: c-ignored-local-residue
+    path: .archive/
+    disposition: "ignored local/manual residue retained; detection is not deletion authority"
+  - candidate_id: c-ignored-local-residue
+    path: .claude/settings.local.json
+    disposition: "ignored local/manual residue retained; detection is not deletion authority"
+  - candidate_id: c-ignored-local-residue
+    path: .codex/config.toml
+    disposition: "ignored local/manual residue retained; detection is not deletion authority"
+  - candidate_id: c-ignored-local-residue
+    path: .envrc
+    disposition: "ignored local/manual residue retained; detection is not deletion authority"
+  - candidate_id: c-ignored-local-residue
+    path: .octon/generated/.tmp/
+    disposition: "ignored local/manual residue retained; detection is not deletion authority"
+blockers:
+  - candidate_id: c-lifecycle-program-implementation-archive-publication
+    blocker: "Direct-main/cleaned cannot be selected because the selected lifecycle candidate includes .octon/inputs/**, .octon/generated/effective/**, and .octon/state/control/**. The closeout-worktree validator defines these path families as raw/private or unsafe for publishable_change routing."
+  - candidate_id: c-local-run-state-and-hygiene-residue
+    blocker: "Local run-state and evidence residue remains under raw/private Octon state paths. Cleanup requires repo-hygiene-cleanup authorization and evidence; the wrapper did not perform deletion or retention cleanup actions."
+  - candidate_id: c-publishable-closeout-evidence
+    reason: "The evidence candidate is deferred until the material lifecycle candidate has a wrapper-safe closeout route; publishing evidence alone would not close the dirty worktree."
+final_inventory_ref: ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-20260604T000000Z-lifecycle-program-closeout/final-nonignored-status-porcelain.log"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 247
+  untracked: 654
+  ignored: 5780
+  generated_effective_output: 20
+  host_projection: 10
+  retained_evidence: 429
+  state_control: 1866
+  release_version: 0
+  input_surface: 188
+repo_hygiene_cleanup_outcome: classification-only
+repo_hygiene_classification_ref: ".octon/state/evidence/runs/skills/closeout-worktree/closeout-worktree-20260604T000000Z-lifecycle-program-closeout/final-residue-classification.yml"
+repo_hygiene_next_route_condition: "Route local run-state residue through repo-hygiene-cleanup with explicit authorization, or define a wrapper-safe retained-residue policy before rerunning closeout-worktree."
+repo_hygiene_summary:
+  cleanup_candidates: 1
+  protected_referenced: 1
+  manual_review: 0
+prior_repo_hygiene_cleanup_refs:
+  - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780477570859-e14a1cfe/cleanup-authorization.json"
+  - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780477570859-e14a1cfe/host-projection-publish-residue-cleanup.yml"
+worktree_terminal_state: nonterminal
+next_route_condition: "Resolve the wrapper route-policy mismatch for lifecycle-owned input/generated/control surfaces, then rerun closeout-worktree; local run-state residue must be handled only through repo-hygiene-cleanup authority."
+child_authority_preserved: true
+authority_boundary: "No parent summary was treated as a child receipt, no child-owned lifecycle receipt was overwritten, and no local-private lifecycle residue was published or deleted."

@@ -1,0 +1,20 @@
+schema_version: "octon-compiled-governance-capsule-contract-v1"
+artifact_id: "compiled-governance-capsule"
+owner_extension: "octon-proposal-lifecycle"
+artifact_class: "compact-governance-boundary-summary"
+authority_status: "source-pack contract; does not replace constitutional, ingress, proposal, or lifecycle authority"
+producer: "octon_lifecycle_executor::prompt_bundle"
+default_visibility: "model-visible-compact"
+required_fields:
+  - "schema_version"
+  - "authority_boundary_rules"
+  - "required_repo_anchors"
+authority_boundary_rules:
+  - "proposal packets, generated prompts, generated registries, host state, chat, and raw inputs do not become authority"
+  - "durable authority, control, evidence, generated projections, and instance enablement must land in their declared repository classes"
+  - "generated effective prompt assets are consumed only through freshness-checked handles and remain derived-only"
+  - "full prompt expansion requires an explicit allowed trigger and retained replay evidence"
+freshness_requirements:
+  - "required repo anchors must match catalog sha256 values before rendering"
+  - "anchor drift blocks compact rendering in auto mode"
+failure_behavior: "fail closed on missing anchor, anchor digest drift, or authority-boundary conflict"

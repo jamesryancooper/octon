@@ -1,0 +1,208 @@
+[OK] program child registry parses
+[OK] program child registry declares children
+[OK] child id valid: token-efficiency-token-measurement-ledger
+[OK] child id unique: token-efficiency-token-measurement-ledger
+[OK] child token-efficiency-token-measurement-ledger path is repo-relative
+[OK] child id valid: token-efficiency-evidence-index-raw-log-summaries
+[OK] child id unique: token-efficiency-evidence-index-raw-log-summaries
+[OK] child token-efficiency-evidence-index-raw-log-summaries path is repo-relative
+[OK] child id valid: token-efficiency-planner-state-program-context-capsule
+[OK] child id unique: token-efficiency-planner-state-program-context-capsule
+[OK] child token-efficiency-planner-state-program-context-capsule path is repo-relative
+[OK] child id valid: token-efficiency-blocker-ledger-recovery-deltas
+[OK] child id unique: token-efficiency-blocker-ledger-recovery-deltas
+[OK] child token-efficiency-blocker-ledger-recovery-deltas path is repo-relative
+[OK] child id valid: token-efficiency-validator-manifests-generated-freshness
+[OK] child id unique: token-efficiency-validator-manifests-generated-freshness
+[OK] child token-efficiency-validator-manifests-generated-freshness path is repo-relative
+[OK] child id valid: token-efficiency-prompt-pack-instruction-capsules
+[OK] child id unique: token-efficiency-prompt-pack-instruction-capsules
+[OK] child token-efficiency-prompt-pack-instruction-capsules path is repo-relative
+[OK] child id valid: token-efficiency-lifecycle-context-pack-integration
+[OK] child id unique: token-efficiency-lifecycle-context-pack-integration
+[OK] child token-efficiency-lifecycle-context-pack-integration path is repo-relative
+[OK] child id valid: token-efficiency-proposal-artifact-index-spine
+[OK] child id unique: token-efficiency-proposal-artifact-index-spine
+[OK] child token-efficiency-proposal-artifact-index-spine path is repo-relative
+[OK] child id valid: token-efficiency-repo-authority-write-scope-index
+[OK] child id unique: token-efficiency-repo-authority-write-scope-index
+[OK] child token-efficiency-repo-authority-write-scope-index path is repo-relative
+[OK] child id valid: token-efficiency-model-routing-action-slice-budgets
+[OK] child id unique: token-efficiency-model-routing-action-slice-budgets
+[OK] child token-efficiency-model-routing-action-slice-budgets path is repo-relative
+[OK] child id valid: token-efficiency-structured-receipts-concise-publication
+[OK] child id unique: token-efficiency-structured-receipts-concise-publication
+[OK] child token-efficiency-structured-receipts-concise-publication path is repo-relative
+[OK] child id valid: token-efficiency-semantic-cache-context-reuse
+[OK] child id unique: token-efficiency-semantic-cache-context-reuse
+[OK] child token-efficiency-semantic-cache-context-reuse path is repo-relative
+[OK] child token-efficiency-token-measurement-ledger proposal standard passes
+[OK] child token-efficiency-token-measurement-ledger declares change_profile
+[OK] child token-efficiency-token-measurement-ledger implementation-grade completeness review passes
+[OK] child token-efficiency-token-measurement-ledger archive metadata records implemented disposition
+[OK] child token-efficiency-token-measurement-ledger archive metadata records promotion evidence
+[OK] child token-efficiency-token-measurement-ledger archived implementation-run receipt passes
+[OK] child token-efficiency-token-measurement-ledger archived implementation conformance receipt passes
+[OK] child token-efficiency-token-measurement-ledger archived post-implementation drift receipt passes
+[OK] child token-efficiency-token-measurement-ledger archived closeout receipt passes
+[OK] child token-efficiency-token-measurement-ledger archived closeout authorizes archive
+[OK] child token-efficiency-token-measurement-ledger declared required metadata is enforced: change_profile
+[OK] child token-efficiency-token-measurement-ledger source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-token-measurement-ledger source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-token-measurement-ledger parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-evidence-index-raw-log-summaries proposal standard passes
+[OK] child token-efficiency-evidence-index-raw-log-summaries declares change_profile
+[OK] child token-efficiency-evidence-index-raw-log-summaries implementation-grade completeness review passes
+[OK] child token-efficiency-evidence-index-raw-log-summaries archive metadata records implemented disposition
+[OK] child token-efficiency-evidence-index-raw-log-summaries archive metadata records promotion evidence
+[OK] child token-efficiency-evidence-index-raw-log-summaries archived implementation-run receipt passes
+[OK] child token-efficiency-evidence-index-raw-log-summaries archived implementation conformance receipt passes
+[OK] child token-efficiency-evidence-index-raw-log-summaries archived post-implementation drift receipt passes
+[OK] child token-efficiency-evidence-index-raw-log-summaries archived closeout receipt passes
+[OK] child token-efficiency-evidence-index-raw-log-summaries archived closeout authorizes archive
+[OK] child token-efficiency-evidence-index-raw-log-summaries declared required metadata is enforced: change_profile
+[OK] child token-efficiency-evidence-index-raw-log-summaries source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-evidence-index-raw-log-summaries source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-evidence-index-raw-log-summaries parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-planner-state-program-context-capsule proposal standard passes
+[OK] child token-efficiency-planner-state-program-context-capsule declares change_profile
+[OK] child token-efficiency-planner-state-program-context-capsule implementation-grade completeness review passes
+[OK] child token-efficiency-planner-state-program-context-capsule archive metadata records implemented disposition
+[OK] child token-efficiency-planner-state-program-context-capsule archive metadata records promotion evidence
+[OK] child token-efficiency-planner-state-program-context-capsule archived implementation-run receipt passes
+[OK] child token-efficiency-planner-state-program-context-capsule archived implementation conformance receipt passes
+[OK] child token-efficiency-planner-state-program-context-capsule archived post-implementation drift receipt passes
+[OK] child token-efficiency-planner-state-program-context-capsule archived closeout receipt passes
+[OK] child token-efficiency-planner-state-program-context-capsule archived closeout authorizes archive
+[OK] child token-efficiency-planner-state-program-context-capsule declared required metadata is enforced: change_profile
+[OK] child token-efficiency-planner-state-program-context-capsule source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-planner-state-program-context-capsule source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-planner-state-program-context-capsule parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-blocker-ledger-recovery-deltas proposal standard passes
+[OK] child token-efficiency-blocker-ledger-recovery-deltas declares change_profile
+[OK] child token-efficiency-blocker-ledger-recovery-deltas implementation-grade completeness review passes
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archive metadata records implemented disposition
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archive metadata records promotion evidence
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archived implementation-run receipt passes
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archived implementation conformance receipt passes
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archived post-implementation drift receipt passes
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archived closeout receipt passes
+[OK] child token-efficiency-blocker-ledger-recovery-deltas archived closeout authorizes archive
+[OK] child token-efficiency-blocker-ledger-recovery-deltas declared required metadata is enforced: change_profile
+[OK] child token-efficiency-blocker-ledger-recovery-deltas source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-blocker-ledger-recovery-deltas source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-blocker-ledger-recovery-deltas parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-validator-manifests-generated-freshness proposal standard passes
+[OK] child token-efficiency-validator-manifests-generated-freshness declares change_profile
+[OK] child token-efficiency-validator-manifests-generated-freshness implementation-grade completeness review passes
+[OK] child token-efficiency-validator-manifests-generated-freshness archive metadata records implemented disposition
+[OK] child token-efficiency-validator-manifests-generated-freshness archive metadata records promotion evidence
+[OK] child token-efficiency-validator-manifests-generated-freshness archived implementation-run receipt passes
+[OK] child token-efficiency-validator-manifests-generated-freshness archived implementation conformance receipt passes
+[OK] child token-efficiency-validator-manifests-generated-freshness archived post-implementation drift receipt passes
+[OK] child token-efficiency-validator-manifests-generated-freshness archived closeout receipt passes
+[OK] child token-efficiency-validator-manifests-generated-freshness archived closeout authorizes archive
+[OK] child token-efficiency-validator-manifests-generated-freshness declared required metadata is enforced: change_profile
+[OK] child token-efficiency-validator-manifests-generated-freshness source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-validator-manifests-generated-freshness source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-validator-manifests-generated-freshness parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-prompt-pack-instruction-capsules proposal standard passes
+[OK] child token-efficiency-prompt-pack-instruction-capsules declares change_profile
+[OK] child token-efficiency-prompt-pack-instruction-capsules implementation-grade completeness review passes
+[OK] child token-efficiency-prompt-pack-instruction-capsules archive metadata records implemented disposition
+[OK] child token-efficiency-prompt-pack-instruction-capsules archive metadata records promotion evidence
+[OK] child token-efficiency-prompt-pack-instruction-capsules archived implementation-run receipt passes
+[OK] child token-efficiency-prompt-pack-instruction-capsules archived implementation conformance receipt passes
+[OK] child token-efficiency-prompt-pack-instruction-capsules archived post-implementation drift receipt passes
+[OK] child token-efficiency-prompt-pack-instruction-capsules archived closeout receipt passes
+[OK] child token-efficiency-prompt-pack-instruction-capsules archived closeout authorizes archive
+[OK] child token-efficiency-prompt-pack-instruction-capsules declared required metadata is enforced: change_profile
+[OK] child token-efficiency-prompt-pack-instruction-capsules source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-prompt-pack-instruction-capsules source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-prompt-pack-instruction-capsules parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-lifecycle-context-pack-integration proposal standard passes
+[OK] child token-efficiency-lifecycle-context-pack-integration declares change_profile
+[OK] child token-efficiency-lifecycle-context-pack-integration implementation-grade completeness review passes
+[OK] child token-efficiency-lifecycle-context-pack-integration archive metadata records implemented disposition
+[OK] child token-efficiency-lifecycle-context-pack-integration archive metadata records promotion evidence
+[OK] child token-efficiency-lifecycle-context-pack-integration archived implementation-run receipt passes
+[OK] child token-efficiency-lifecycle-context-pack-integration archived implementation conformance receipt passes
+[OK] child token-efficiency-lifecycle-context-pack-integration archived post-implementation drift receipt passes
+[OK] child token-efficiency-lifecycle-context-pack-integration archived closeout receipt passes
+[OK] child token-efficiency-lifecycle-context-pack-integration archived closeout authorizes archive
+[OK] child token-efficiency-lifecycle-context-pack-integration declared required metadata is enforced: change_profile
+[OK] child token-efficiency-lifecycle-context-pack-integration source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-lifecycle-context-pack-integration source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-lifecycle-context-pack-integration parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-proposal-artifact-index-spine proposal standard passes
+[OK] child token-efficiency-proposal-artifact-index-spine declares change_profile
+[OK] child token-efficiency-proposal-artifact-index-spine implementation-grade completeness review passes
+[OK] child token-efficiency-proposal-artifact-index-spine archive metadata records implemented disposition
+[OK] child token-efficiency-proposal-artifact-index-spine archive metadata records promotion evidence
+[OK] child token-efficiency-proposal-artifact-index-spine archived implementation-run receipt passes
+[OK] child token-efficiency-proposal-artifact-index-spine archived implementation conformance receipt passes
+[OK] child token-efficiency-proposal-artifact-index-spine archived post-implementation drift receipt passes
+[OK] child token-efficiency-proposal-artifact-index-spine archived closeout receipt passes
+[OK] child token-efficiency-proposal-artifact-index-spine archived closeout authorizes archive
+[OK] child token-efficiency-proposal-artifact-index-spine declared required metadata is enforced: change_profile
+[OK] child token-efficiency-proposal-artifact-index-spine source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-proposal-artifact-index-spine source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-proposal-artifact-index-spine parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-repo-authority-write-scope-index proposal standard passes
+[OK] child token-efficiency-repo-authority-write-scope-index declares change_profile
+[OK] child token-efficiency-repo-authority-write-scope-index implementation-grade completeness review passes
+[OK] child token-efficiency-repo-authority-write-scope-index archive metadata records implemented disposition
+[OK] child token-efficiency-repo-authority-write-scope-index archive metadata records promotion evidence
+[OK] child token-efficiency-repo-authority-write-scope-index archived implementation-run receipt passes
+[OK] child token-efficiency-repo-authority-write-scope-index archived implementation conformance receipt passes
+[OK] child token-efficiency-repo-authority-write-scope-index archived post-implementation drift receipt passes
+[OK] child token-efficiency-repo-authority-write-scope-index archived closeout receipt passes
+[OK] child token-efficiency-repo-authority-write-scope-index archived closeout authorizes archive
+[OK] child token-efficiency-repo-authority-write-scope-index declared required metadata is enforced: change_profile
+[OK] child token-efficiency-repo-authority-write-scope-index source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-repo-authority-write-scope-index source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-repo-authority-write-scope-index parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-model-routing-action-slice-budgets proposal standard passes
+[OK] child token-efficiency-model-routing-action-slice-budgets declares change_profile
+[OK] child token-efficiency-model-routing-action-slice-budgets implementation-grade completeness review passes
+[OK] child token-efficiency-model-routing-action-slice-budgets archive metadata records implemented disposition
+[OK] child token-efficiency-model-routing-action-slice-budgets archive metadata records promotion evidence
+[OK] child token-efficiency-model-routing-action-slice-budgets archived implementation-run receipt passes
+[OK] child token-efficiency-model-routing-action-slice-budgets archived implementation conformance receipt passes
+[OK] child token-efficiency-model-routing-action-slice-budgets archived post-implementation drift receipt passes
+[OK] child token-efficiency-model-routing-action-slice-budgets archived closeout receipt passes
+[OK] child token-efficiency-model-routing-action-slice-budgets archived closeout authorizes archive
+[OK] child token-efficiency-model-routing-action-slice-budgets declared required metadata is enforced: change_profile
+[OK] child token-efficiency-model-routing-action-slice-budgets source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-model-routing-action-slice-budgets source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-model-routing-action-slice-budgets parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-structured-receipts-concise-publication proposal standard passes
+[OK] child token-efficiency-structured-receipts-concise-publication declares change_profile
+[OK] child token-efficiency-structured-receipts-concise-publication implementation-grade completeness review passes
+[OK] child token-efficiency-structured-receipts-concise-publication archive metadata records implemented disposition
+[OK] child token-efficiency-structured-receipts-concise-publication archive metadata records promotion evidence
+[OK] child token-efficiency-structured-receipts-concise-publication archived implementation-run receipt passes
+[OK] child token-efficiency-structured-receipts-concise-publication archived implementation conformance receipt passes
+[OK] child token-efficiency-structured-receipts-concise-publication archived post-implementation drift receipt passes
+[OK] child token-efficiency-structured-receipts-concise-publication archived closeout receipt passes
+[OK] child token-efficiency-structured-receipts-concise-publication archived closeout authorizes archive
+[OK] child token-efficiency-structured-receipts-concise-publication declared required metadata is enforced: change_profile
+[OK] child token-efficiency-structured-receipts-concise-publication source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-structured-receipts-concise-publication source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-structured-receipts-concise-publication parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] child token-efficiency-semantic-cache-context-reuse proposal standard passes
+[OK] child token-efficiency-semantic-cache-context-reuse declares change_profile
+[OK] child token-efficiency-semantic-cache-context-reuse implementation-grade completeness review passes
+[OK] child token-efficiency-semantic-cache-context-reuse archive metadata records implemented disposition
+[OK] child token-efficiency-semantic-cache-context-reuse archive metadata records promotion evidence
+[OK] child token-efficiency-semantic-cache-context-reuse archived implementation-run receipt passes
+[OK] child token-efficiency-semantic-cache-context-reuse archived implementation conformance receipt passes
+[OK] child token-efficiency-semantic-cache-context-reuse archived post-implementation drift receipt passes
+[OK] child token-efficiency-semantic-cache-context-reuse archived closeout receipt passes
+[OK] child token-efficiency-semantic-cache-context-reuse archived closeout authorizes archive
+[OK] child token-efficiency-semantic-cache-context-reuse declared required metadata is enforced: change_profile
+[OK] child token-efficiency-semantic-cache-context-reuse source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md
+[OK] child token-efficiency-semantic-cache-context-reuse source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md
+[OK] child token-efficiency-semantic-cache-context-reuse parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md
+[OK] proposal readiness check does not require implementation receipts
+Validation summary: errors=0 warnings=0

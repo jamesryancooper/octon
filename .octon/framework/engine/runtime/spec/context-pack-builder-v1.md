@@ -26,6 +26,16 @@ derived, and proposal-local or raw-input planning material remains
 non-authoritative. A planning context-pack request is not a receipt and cannot
 satisfy authorization until the builder emits retained run context evidence.
 
+Lifecycle route execution also builds context-pack evidence before dispatch
+authorization. The lifecycle executor emits a route-scoped context pack under
+`/.octon/state/evidence/runs/<run-id>/context/` and mutable pointers under
+`/.octon/state/control/execution/runs/<run-id>/context/` before writing the
+delegation proof for the selected lifecycle route. This pack is authorization
+evidence only: it can bind prompt bundle handles, generated route handles,
+bootstrap ingress digests, observed receipt digests, and proposal-local target
+digests, but it cannot make proposal-local, generated, raw, skill, host, or
+chat context authoritative.
+
 ## Required Boundary
 
 For any consequential or boundary-sensitive Run, authorization must fail closed
@@ -131,6 +141,32 @@ only the digest and classification metadata. If source body bytes are not
 embedded in the retained model-visible serialization, the source must not be
 marked `full` and `bytes_included` must be `0`.
 
+Lifecycle route context uses the policy's stage-specific defaults:
+
+- lifecycle authority, bootstrap ingress, and durable route contracts:
+  `digest-only`
+- skill and prompt source material: `digest-only` unless an explicit full
+  expansion policy trigger is present
+- generated route bundles, generated extension catalogs, and generated prompt
+  projections: `handle-only`
+- retained evidence, control pointers, and raw logs: `handle-only`
+- proposal-local target files and proposal-local receipts:
+  `digest-only` with `non_authoritative` authority label
+
+When a lifecycle proposal-program route needs repo authority, promotion-target,
+or child write-scope orientation, it should prefer the validated derived bundle
+under `/.octon/generated/proposals/repo-authority/` before reading the full
+structural topology registry, active proposal manifests, or proposal-program
+child registry. The bundle artifacts are `repo-authority-graph.yml`,
+`promotion-target-index.yml`, and `write-scope-index.yml`; they remain
+generated read models and must validate with
+`validate-repo-authority-write-scope-index.sh` before use. Missing, stale,
+digest-mismatched, or authority-conflicting bundle state fails closed and must
+not be repaired from generated output.
+
+Any lifecycle context source that cannot be classified into one of those modes
+is omitted with an omission reason or blocks authorization when required.
+
 ## Omission Taxonomy
 
 Every omitted or excluded candidate records one of:
@@ -182,6 +218,45 @@ new receipt records rebuild refs and the prior pack remains retained evidence.
 Compaction is legal only when the compacted model-visible serialization is
 retained, hashed, and referenced. Both actions are journaled through the Run
 Journal as canonical `context-pack-rebuilt` or `context-pack-compacted` events.
+
+## Semantic Cache And Layer Reuse
+
+Lifecycle route context may use digest-bound semantic cache and context layer
+artifacts to avoid repeated model-visible full text. These artifacts are
+retained evidence or generated/read-model projections only; they never replace
+raw evidence, context-pack receipts, run contracts, execution authorization,
+proposal review receipts, or durable authority sources.
+
+The reusable artifact family is governed by
+`semantic-cache-context-reuse-v1.schema.json`, emitted by
+`generate-semantic-cache-context-reuse.sh`, and validated by
+`validate-semantic-cache-context-reuse.sh`:
+
+- `proposal-semantic-cache.yml` records source summaries keyed by source
+  digest, policy digest, route purpose, trust class, and request binding.
+- `context-pack-layer-cache.yml` records reusable context-pack layers for
+  stable governance, prompt capsules, generated freshness handles, and
+  parent-to-child handoff capsules.
+- `cache-invalidation-events.yml` records invalidation triggers and
+  fail-closed decisions.
+
+Readers may prefer a compact artifact only when all of the following hold:
+
+- source refs are reachable or explicitly handle-only, and recorded SHA-256
+  digests still match reachable sources;
+- policy ref and policy digest still match the active context-packing policy;
+- route purpose, trust class, and request binding match the current request;
+- freshness state is `fresh`, no active invalidation event is present, and
+  retained evidence refs remain reachable by the owning evidence contract;
+- generated and raw/proposal-local sources keep derived or non-authoritative
+  labels and are not treated as policy, support, runtime, or closure authority;
+- the retained model-visible hash and token estimate for a cache hit are
+  present, and cache-hit overhead is at or below 2000 estimated tokens.
+
+Fail closed on source digest drift, policy digest drift, request binding
+mismatch, expired freshness, missing retained evidence, trust downgrade,
+explicit governance invalidation, model-visible hash absence, replay ref
+absence, or any authority-boundary violation.
 
 ## Canonical Model-Visible Serialization
 
@@ -312,3 +387,5 @@ model-visible serialization.
 - `execution-authorization-v1.md`
 - `authorization-boundary-coverage-v1.md`
 - `policy-receipt-v2.schema.json`
+- `semantic-cache-context-reuse-v1.schema.json`
+- `token-budget-ledger-v1.md`

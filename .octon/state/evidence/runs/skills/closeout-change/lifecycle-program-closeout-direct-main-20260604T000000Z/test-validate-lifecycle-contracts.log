@@ -1,0 +1,192 @@
+PASS: valid lifecycle contract passes
+PASS: valid explicit route-progression lifecycle contract passes
+PASS: valid v2 phase-loop lifecycle contract passes
+PASS: valid proposal-packet boundary contract passes
+PASS: proposal-packet target_lifecycle_outcome fails
+PASS: proposal-packet stateful_closeout fails
+PASS: proposal-packet hosted landing authorization fails
+PASS: proposal-packet branch cleanup authorization fails
+PASS: proposal-packet cleanup authority route fails
+PASS: proposal-packet closeout-and-hygiene route drift fails
+PASS: v2 lifecycle without phase_loop fails
+PASS: missing phase route ref fails
+PASS: missing phase receipt ref fails
+PASS: missing phase backward transition target fails
+PASS: terminal phase route dispatch fails
+PASS: phase id duplicating manifest status fails
+PASS: valid program lifecycle contract passes from lifecycles directory
+PASS: valid explicit orchestrated program lifecycle contract passes
+PASS: valid program-atomic lifecycle contract passes with explicit atomic policy
+PASS: invalid lifecycle execution strategy fails
+PASS: program lifecycle with route-progression fails
+PASS: orchestrated lifecycle without program section fails
+PASS: program-atomic without explicit atomic policy fails
+PASS: missing atomic route reference fails
+PASS: atomic self-reference fails
+PASS: invalid program child registry path fails
+PASS: program authority boundary false fails
+PASS: invalid schema version fails
+PASS: duplicate state id fails
+PASS: duplicate route id fails
+PASS: duplicate receipt id fails
+PASS: duplicate validator id fails
+PASS: missing route reference fails
+PASS: absolute validator path fails
+PASS: invalid target manifest path fails
+PASS: invalid receipt path fails
+PASS: missing gate fallback route fails
+PASS: missing receipt_verdict receipt fails
+PASS: missing receipt_absent receipt fails
+PASS: missing receipt_stale receipt fails
+PASS: missing receipt_fresh receipt fails
+PASS: missing receipt_complete receipt fails
+PASS: missing receipt_field_equals receipt fails
+PASS: missing completion expected receipt fails
+PASS: invalid completion expected path fails
+PASS: invalid file_present condition path fails
+PASS: valid context condition predicates pass
+PASS: invalid cleanup_candidates_present condition type fails
+PASS: invalid blocker_present condition class fails
+PASS: unsupported condition key fails
+PASS: phase-only route condition key fails
+PASS: invalid completion expected manifest status fails
+PASS: invalid freshness digest command path fails
+PASS: route without delegation contract fails
+PASS: legacy route approval primitive fails
+PASS: invalid lifecycle input binding source fails
+PASS: missing required input binding fails
+PASS: invalid route required input reference fails
+PASS: invalid recovery handler blocker class fails
+PASS: invalid recovery handler retry budget fails
+PASS: invalid recovery handler approval flag fails
+PASS: recovery recipe missing required field fails
+PASS: invalid recovery recipe idempotency fails
+PASS: invalid recovery recipe post-attempt validation fails
+PASS: invalid recovery recipe replan behavior fails
+PASS: missing recovery recipe route fails
+PASS: recoverable recovery recipe without route action or wait fails
+PASS: unsupported recovery recipe action fails
+PASS: non-recoverable recovery route fails
+PASS: approval-free durable authority zone recovery fails
+PASS: unsupported authority operation recovery fails
+PASS: source authority-zone policy passes
+PASS: authored governance pregrant policy fails
+PASS: registry identifier definition matches runtime
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.child_id."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.dependencies.items."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.phase_id."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.group_id."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.replacement_child_id."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.replacement_for."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.recovery_profile."$ref"
+PASS: registry identifier field uses canonical identifier: ."$defs".child.properties.phase_commit_barrier."$ref"
+PASS: registry rollback posture enum matches runtime
+PASS: registry seed role enum matches runtime
+PASS: registry required metadata supports change_profile
+PASS: registry readiness requirement id uses canonical identifier
+PASS: registry predecessor constraint uses canonical identifier
+PASS: registry successor constraint uses canonical identifier
+PASS: registry cutover predecessor ids use canonical identifier
+PASS: registry cutover forbidden claims include compatibility retirement
+PASS: mutation identifier definition matches runtime
+PASS: mutation identifier field uses canonical identifier: .properties.child_id."$ref"
+PASS: mutation identifier field uses canonical identifier: .properties.replacement_child_id."$ref"
+PASS: mutation identifier field uses canonical identifier: .properties.dependencies.items."$ref"
+PASS: mutation identifier field uses canonical identifier: .properties.phase_id."$ref"
+PASS: mutation identifier field uses canonical identifier: .properties.group_id."$ref"
+PASS: mutation identifier field uses canonical identifier: .properties.recovery_profile."$ref"
+PASS: mutation rollback posture enum matches runtime
+PASS: scaffold identifier definition matches runtime
+PASS: scaffold program id uses canonical identifier
+PASS: scaffold identifier field uses canonical identifier: ."$defs".scaffold_child.properties.child_id."$ref"
+PASS: scaffold identifier field uses canonical identifier: ."$defs".scaffold_child.properties.dependencies.items."$ref"
+PASS: scaffold identifier field uses canonical identifier: ."$defs".scaffold_child.properties.phase_id."$ref"
+PASS: scaffold identifier field uses canonical identifier: ."$defs".scaffold_child.properties.group_id."$ref"
+PASS: scaffold rollback posture enum matches runtime
+PASS: scaffold seed role enum matches runtime
+PASS: event identifier definition matches runtime
+PASS: event child id uses canonical identifier
+PASS: event route id uses canonical identifier pattern
+PASS: packet lifecycle event schema version declared
+PASS: packet lifecycle event supports cancellation events
+PASS: packet lifecycle event step kind includes route dispatch
+PASS: packet lifecycle event supports phase category
+PASS: packet lifecycle event phase id uses lifecycle id pattern
+PASS: packet lifecycle event transition id links event and phase
+PASS: lifecycle cancellation schema accepts shared cancellation marker
+PASS: lifecycle cancellation schema accepts program cancellation evidence
+PASS: human exception schema routes program child grants
+PASS: human exception schema requires typed boundary
+PASS: lifecycle execution strategy accepts route-progression
+PASS: lifecycle contract schema accepts v2
+PASS: lifecycle contract schema declares phase_loop
+PASS: phase loop model version declared
+PASS: phase loop terminal mode declared
+PASS: lifecycle execution strategy accepts orchestrated-replan-loop
+PASS: lifecycle recovery idempotency accepts non-recoverable
+PASS: lifecycle recovery replan behavior supports after-attempt
+PASS: lifecycle recovery supports authority zone metadata
+PASS: lifecycle recovery supports authority operation metadata
+PASS: lifecycle recovery preconditions support authority-zone-allowed
+PASS: lifecycle recovery preconditions support hygiene receipt stale after live pass
+PASS: lifecycle recovery actions support cleanup-current-run-artifacts
+PASS: lifecycle recovery blockers support authority-zone-denied
+PASS: route execution request carries phase id context
+PASS: route execution result carries phase id context
+PASS: source proposal-packet lifecycle contract passes
+PASS: source proposal-packet lifecycle contract uses v2
+PASS: source proposal-packet phase loop model declared
+PASS: source proposal-packet implementation execution phase declared
+PASS: source proposal-packet terminal phase does not dispatch
+PASS: packet promote declares safe delegation contract
+PASS: source proposal-program lifecycle contract passes
+PASS: program review route declared
+PASS: program revise route declared
+PASS: program review loop returns to revise
+PASS: program review gate uses strict review validator
+PASS: program review gate protects implementation orchestration prompt
+PASS: program child readiness remains separate gate
+PASS: program child readiness protects implementation orchestration prompt
+PASS: program structure validator declared
+PASS: program structure gate protects implementation orchestration prompt
+PASS: program creation receipt declared
+PASS: program create expects creation receipt
+PASS: program orchestration run receipt declared
+PASS: program conformance receipt declared
+PASS: program drift receipt declared
+PASS: program verification loop expects conformance receipt
+PASS: program verification loop expects drift receipt
+PASS: program correction route requires finding blocker
+PASS: program closeout prompt requires aggregate conformance pass
+PASS: program closeout prompt requires aggregate drift pass
+PASS: program promote uses existing workflow route
+PASS: program promote declares safe delegation contract
+PASS: program promote has no command binding
+PASS: program promote has no skill binding
+PASS: program promote has no prompt binding
+PASS: program promote preserves child authority
+PASS: program archive uses existing workflow route
+PASS: program archive has no command binding
+PASS: program archive has no skill binding
+PASS: program archive has no prompt binding
+PASS: program archive requires aggregate conformance pass
+PASS: program archive requires aggregate drift pass
+PASS: program archive preserves child authority
+PASS: program closeout receipt requires selected git route
+PASS: program closeout receipt requires hygiene blocker class
+PASS: program closeout receipt requires hygiene foreign path count
+PASS: program closeout receipt requires hygiene fingerprint
+PASS: program closeout receipt requires cleanup summary
+PASS: program closeout receipt requires next route condition
+PASS: no direct run-program-implementation route
+PASS: program cleanup route is not accepted status-triggered
+PASS: program cleanup route is not implemented status-triggered
+PASS: program cleanup route can trigger from lifecycle residue blocker
+PASS: program cleanup route can trigger from cleanup candidates
+PASS: program cleanup route can trigger from hygiene preflight
+PASS: program cleanup receipt tracks implementation blocking
+PASS: program cleanup receipt tracks closeout blocking
+PASS: program cleanup receipt tracks archive blocking
+
+Passed: 189
+Failed: 0

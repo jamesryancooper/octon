@@ -4212,6 +4212,7 @@ dependencies = [
  "libc",
  "octon_runtime_resolver",
  "serde",
+ "serde_json",
  "serde_yaml",
  "sha2",
  "thiserror 1.0.69",

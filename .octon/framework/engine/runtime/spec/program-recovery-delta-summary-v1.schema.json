@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "octon-program-recovery-delta-summary-v1",
+  "title": "Octon Program Recovery Delta Summary",
+  "description": "Digest-bound compact recovery delta summary for proposal-program recovery. It points readers at latest blocker deltas and failing slices before raw history replay.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_ref",
+    "run_id",
+    "lifecycle_id",
+    "target",
+    "producer",
+    "generated_at",
+    "authority_boundary",
+    "default_reader_preference",
+    "model_route",
+    "token_ceiling",
+    "blocker_ledger_ref",
+    "failing_slice_manifest_ref",
+    "delta_count",
+    "deltas",
+    "source_refs",
+    "validation_binding",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-program-recovery-delta-summary-v1" },
+    "schema_ref": {
+      "const": ".octon/framework/engine/runtime/spec/program-recovery-delta-summary-v1.schema.json"
+    },
+    "run_id": { "type": "string", "minLength": 1 },
+    "lifecycle_id": { "type": "string", "minLength": 1 },
+    "target": { "type": "string", "minLength": 1 },
+    "producer": { "const": "lifecycle-program-controller" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "authority_boundary": { "$ref": "#/$defs/authority_boundary" },
+    "default_reader_preference": { "type": "string", "minLength": 1 },
+    "model_route": { "type": "string", "minLength": 1 },
+    "token_ceiling": { "type": "integer", "minimum": 0 },
+    "blocker_ledger_ref": { "$ref": "#/$defs/artifact_ref" },
+    "failing_slice_manifest_ref": { "$ref": "#/$defs/artifact_ref" },
+    "delta_count": { "type": "integer", "minimum": 0 },
+    "deltas": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/delta" }
+    },
+    "source_refs": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source_ref" }
+    },
+    "validation_binding": { "$ref": "#/$defs/validation_binding" },
+    "failure_behavior": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    }
+  },
+  "$defs": {
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replaces_source_evidence",
+        "authorizes_execution",
+        "proposal_input_authority",
+        "generated_output_authority",
+        "raw_evidence_retained"
+      ],
+      "properties": {
+        "replaces_source_evidence": { "const": false },
+        "authorizes_execution": { "const": false },
+        "proposal_input_authority": { "const": "non-authoritative" },
+        "generated_output_authority": { "const": "derived-only" },
+        "raw_evidence_retained": { "const": true }
+      }
+    },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_ref", "sha256"],
+      "properties": {
+        "artifact_ref": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_role", "artifact_ref", "sha256", "required"],
+      "properties": {
+        "artifact_role": { "type": "string", "minLength": 1 },
+        "artifact_ref": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "required": { "type": "boolean" }
+      }
+    },
+    "validation_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "source_event_index",
+        "child_registry_digest",
+        "failure_behavior"
+      ],
+      "properties": {
+        "status": { "const": "digest-bound" },
+        "source_event_index": { "type": "integer", "minimum": 0 },
+        "source_event_sha256": { "type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$" },
+        "source_event_log_sha256": { "type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$" },
+        "child_registry_digest": { "type": "string", "minLength": 1 },
+        "failure_behavior": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "delta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blocker_id",
+        "scope",
+        "route_id",
+        "blocker_class",
+        "progress_state",
+        "prior_fingerprint",
+        "current_fingerprint",
+        "latest_transition",
+        "recovery_budget_remaining",
+        "recovery_budget_exhausted",
+        "recovery_route",
+        "read_before_raw_history",
+        "escalation_required_when"
+      ],
+      "properties": {
+        "blocker_id": { "type": "string", "pattern": "^blocker-[0-9a-f]{16}$" },
+        "scope": { "enum": ["program", "child"] },
+        "child_id": { "type": "string", "minLength": 1 },
+        "route_id": { "type": "string", "minLength": 1 },
+        "blocker_class": { "type": "string", "minLength": 1 },
+        "progress_state": { "enum": ["new", "changed", "unchanged"] },
+        "prior_fingerprint": {
+          "anyOf": [
+            { "const": "none" },
+            { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+          ]
+        },
+        "current_fingerprint": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "latest_transition": { "type": "string", "minLength": 1 },
+        "recovery_budget_remaining": { "type": "integer", "minimum": 0 },
+        "recovery_budget_exhausted": { "type": "boolean" },
+        "recovery_route": { "type": "string", "minLength": 1 },
+        "read_before_raw_history": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        },
+        "escalation_required_when": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

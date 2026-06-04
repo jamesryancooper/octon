@@ -1,0 +1,379 @@
+ M .claude/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+ M .claude/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+ M .codex/skills/closeout-change/SKILL.md
+ M .codex/skills/closeout-change/references/io-contract.md
+ M .codex/skills/closeout-change/references/validation.md
+ M .codex/skills/closeout-worktree/SKILL.md
+ M .codex/skills/closeout-worktree/references/io-contract.md
+ M .codex/skills/closeout-worktree/references/validation.md
+ M .codex/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+ M .codex/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+ M .cursor/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+ M .cursor/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+ M .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/generate-run-health-read-model.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-post-implementation-drift.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh
+ M .octon/framework/assurance/runtime/_ops/scripts/validator-result-common.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-classify-proposal-worktree-hygiene.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-closeout-worktree-wrapper.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-generate-proposal-registry.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-run-health-read-model.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-lifecycle-contracts.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-proposal-program-child-readiness.sh
+ M .octon/framework/assurance/runtime/_ops/tests/test-validate-publication-freshness-gates.sh
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/io-contract.md
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-change/references/validation.md
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/io-contract.md
+ M .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/references/validation.md
+ M .octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json
+ M .octon/framework/engine/runtime/crates/Cargo.lock
+ M .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+ M .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/Cargo.toml
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/adapter.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/authorization.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/lib.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs
+ M .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs
+ M .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+ M .octon/framework/engine/runtime/spec/evidence-store-v1.md
+ M .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md
+ M .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+ M .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+ M .octon/framework/product/contracts/change-closeout-state-machine.yml
+ M .octon/framework/product/contracts/default-work-unit.yml
+ M .octon/generated/effective/capabilities/artifact-map.yml
+ M .octon/generated/effective/capabilities/generation.lock.yml
+ M .octon/generated/effective/capabilities/pack-routes.effective.yml
+ M .octon/generated/effective/capabilities/pack-routes.lock.yml
+ M .octon/generated/effective/capabilities/routing.effective.yml
+ M .octon/generated/effective/extensions/artifact-map.yml
+ M .octon/generated/effective/extensions/catalog.effective.yml
+ M .octon/generated/effective/extensions/generation.lock.yml
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/lifecycles/proposal-program.contract.yml
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/prompts/cleanup-lifecycle-residue/stages/01-cleanup-lifecycle-residue.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/prompts/closeout-packet/stages/01-closeout-packet.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+ M .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+ M .octon/generated/effective/runtime/route-bundle.lock.yml
+ M .octon/generated/effective/runtime/route-bundle.yml
+ M .octon/generated/proposals/registry.yml
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/stages/01-cleanup-lifecycle-residue.md
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-packet/stages/01-closeout-packet.md
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+ M .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/support/proposal-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/README.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/architecture-proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/architecture/acceptance-criteria.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/architecture/implementation-plan.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/architecture/rollback-posture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/architecture/target-architecture.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/navigation/artifact-catalog.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/navigation/source-of-truth-map.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/proposal.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/resources/artifact-schema-sketch.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/resources/repo-placement.yml
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/support/executable-implementation-prompt.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/support/implementation-grade-completeness-review.md
+ D .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/support/proposal-review.md
+ M .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/navigation/artifact-catalog.md
+ M .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/proposal.yml
+ M .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml
+ M .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/support/executable-implementation-prompt.md
+ M .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/support/proposal-review.md
+ M .octon/instance/governance/policies/context-packing.yml
+ M .octon/instance/governance/policies/repo-hygiene.yml
+ M .octon/state/control/extensions/active.yml
+ M .octon/state/control/extensions/quarantine.yml
+ M .octon/state/evidence/decisions/repo/capabilities/acp-decisions.jsonl
+?? .octon/framework/assurance/runtime/_ops/scripts/generate-expanded-report-from-structured-receipt.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/generate-repo-authority-write-scope-index.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/generate-semantic-cache-context-reuse.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/validate-evidence-index-compact-artifacts.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/validate-repo-authority-write-scope-index.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/validate-semantic-cache-context-reuse.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh
+?? .octon/framework/assurance/runtime/_ops/scripts/validate-token-budget-ledger.sh
+?? .octon/framework/assurance/runtime/_ops/tests/fixtures/
+?? .octon/framework/assurance/runtime/_ops/tests/test-evidence-index-compact-artifacts.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-proposal-artifact-index-spine.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-repo-authority-write-scope-index.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-semantic-cache-context-reuse.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-token-budget-ledger.sh
+?? .octon/framework/assurance/runtime/_ops/tests/test-validator-result-manifest.sh
+?? .octon/framework/cognition/_meta/architecture/repo-authority-write-scope-index.md
+?? .octon/framework/engine/runtime/crates/lifecycle_executor/src/context_pack.rs
+?? .octon/framework/engine/runtime/crates/lifecycle_executor/src/token_budget.rs
+?? .octon/framework/engine/runtime/spec/program-blocker-ledger-v1.schema.json
+?? .octon/framework/engine/runtime/spec/program-recovery-delta-summary-v1.schema.json
+?? .octon/framework/engine/runtime/spec/promotion-target-index-v1.schema.json
+?? .octon/framework/engine/runtime/spec/repo-authority-graph-v1.schema.json
+?? .octon/framework/engine/runtime/spec/repo-authority-write-scope-index-v1.md
+?? .octon/framework/engine/runtime/spec/semantic-cache-context-reuse-v1.schema.json
+?? .octon/framework/engine/runtime/spec/token-budget-ledger-v1.md
+?? .octon/framework/engine/runtime/spec/token-budget-ledger-v1.schema.json
+?? .octon/framework/engine/runtime/spec/write-scope-index-v1.schema.json
+?? .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/prompt-runtime/
+?? .octon/generated/effective/extensions/published/octon-proposal-lifecycle/bundled-first-party/context/proposal-artifact-index-spine.contract.yml
+?? .octon/generated/proposals/artifacts/
+?? .octon/generated/proposals/repo-authority/
+?? .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/prompt-runtime/
+?? .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/proposal-artifact-index-spine.contract.yml
+?? .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/test-compact-validation-manifests.sh
+?? .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/support/lifecycle-residue-cleanup.md
+?? .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/support/program-implementation-orchestration-prompt.md
+?? .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/support/program-run-kickoff-prompt.md
+?? .octon/instance/governance/policies/model-routing.yml
+?? .octon/instance/governance/policies/token-budgets.yml
+?? .octon/state/evidence/runs/skills/closeout-change/lifecycle-program-closeout-direct-main-20260604T000000Z/
+?? .octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/
+?? .octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T120500Z/
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z/
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z/
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T132000Z/
+?? .octon/state/evidence/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780477570859-e14a1cfe/
+?? .octon/state/evidence/validation/analysis/2026-06-03-archive-proposal-1.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-archive-proposal-2.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-archive-proposal.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-1.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-2.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-3.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-4.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-5.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-6.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-7.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-8.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal-9.md
+?? .octon/state/evidence/validation/analysis/2026-06-03-promote-proposal.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-1.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-2.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-3.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-4.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-5.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal-6.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-archive-proposal.md
+?? .octon/state/evidence/validation/analysis/2026-06-04-promote-proposal.md
+?? .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+?? .octon/state/evidence/validation/analysis/20260602T225947Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+?? .octon/state/evidence/validation/analysis/20260604T000000Z-closeout-worktree-lifecycle-program-closeout.yml
+?? .octon/state/evidence/validation/analysis/20260604T121000Z-route-policy-correction-residue-classification.yml
+?? .octon/state/evidence/validation/analysis/20260604T122000Z-post-repo-hygiene-residue-classification.yml
+?? .octon/state/evidence/validation/analysis/20260604T124500Z-post-publication-refresh-residue-classification.yml
+?? .octon/state/evidence/validation/analysis/20260604T130000Z-post-publication-cleanup-residue-classification.yml
+?? .octon/state/evidence/validation/analysis/20260604T133000Z-final-pre-stage-residue-classification.yml
+?? .octon/state/evidence/validation/compatibility/extensions/2026-06-04T12-48-51Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-architecture-revision-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-constitutional-challenge-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-multi-source-synthesis-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-packet-refresh-and-supersession.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-packet-to-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-repo-internal-concept-mining.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-source-to-architecture-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-source-to-migration-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-source-to-policy-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-concept-integration-octon-concept-integration-subsystem-targeted-integration.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-decision-drafter-octon-decision-drafter-adr-update.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-decision-drafter-octon-decision-drafter-change-receipt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-decision-drafter-octon-decision-drafter-migration-rationale.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-decision-drafter-octon-decision-drafter-rollback-notes.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-drift-triage-octon-drift-triage-remediation-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-mixed-input-reconciliation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-proposal-packet-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-refactor-target-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-impact-map-and-validation-selector-octon-impact-map-and-validation-selector-touched-paths-impact-map.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-cleanup-lifecycle-residue.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-closeout-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-create-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-explain-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-implementation-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-packet-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-closeout-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-correction-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-implementation-orchestration-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-generate-program-verification-prompt.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-review-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-packet.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-revise-program.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-implementation.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-packet-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/extensions/prompt-alignment/2026-06-04T12-48-51Z-octon-proposal-lifecycle-octon-proposal-lifecycle-run-program-verification-and-correction-loop.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-06-04T06-43-56Z-pack-routes-3d2cc4bb7870.yml
+?? .octon/state/evidence/validation/publication/capabilities/2026-06-04T12-52-01Z-capabilities-ba2582f40a45.yml
+?? .octon/state/evidence/validation/publication/extensions/2026-06-04T12-48-51Z-extensions-e539e7c8b239.yml
+?? .octon/state/evidence/validation/publication/runtime/2026-06-04T12-52-10Z-runtime-route-bundle-d832aab6f332.yml

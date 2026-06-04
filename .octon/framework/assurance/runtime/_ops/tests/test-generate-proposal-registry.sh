@@ -275,6 +275,71 @@ EOF
 EOF
 }
 
+write_archived_design_projection_fixture() {
+  local root="$1"
+  local proposal_dir="$root/.octon/inputs/exploratory/proposals/.archive/design/archived-design-projection"
+  mkdir -p "$proposal_dir/navigation"
+
+  write_file "$proposal_dir/proposal.yml" <<'EOF'
+schema_version: "proposal-v1"
+proposal_id: "archived-design-projection"
+title: "Archived Design Projection"
+summary: "Historical design packet retained for registry projection."
+proposal_kind: "design"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/README.md"
+status: "archived"
+archive:
+  archived_at: "2026-03-24"
+  archived_from_status: "accepted"
+  disposition: "implemented"
+  original_path: ".octon/inputs/exploratory/proposals/design/archived-design-projection"
+  promotion_evidence:
+    - ".octon/README.md"
+lifecycle:
+  temporary: true
+  exit_expectation: "Retain historical lineage only."
+related_proposals: []
+EOF
+
+  write_file "$proposal_dir/design-proposal.yml" <<'EOF'
+schema_version: "design-proposal-v1"
+design_class: "historical-shape-no-longer-validated-for-projection"
+selected_modules: []
+validation:
+  default_audit_mode: "rigorous"
+  design_validator_path: null
+  conformance_validator_path: null
+EOF
+
+  write_file "$proposal_dir/README.md" <<'EOF'
+# Archived Design Projection
+EOF
+  write_file "$proposal_dir/navigation/source-of-truth-map.md" <<'EOF'
+# Sources
+EOF
+  write_file "$proposal_dir/navigation/artifact-catalog.md" <<'EOF'
+# Artifact Catalog
+
+## Proposal
+
+- `proposal_id`: `archived-design-projection`
+- `proposal_kind`: `design`
+- `proposal_path`: `.octon/inputs/exploratory/proposals/.archive/design/archived-design-projection`
+
+## Files
+
+| Path | Role |
+| --- | --- |
+| `README.md` | Generated inventory entry |
+| `proposal.yml` | Generated inventory entry |
+| `design-proposal.yml` | Generated inventory entry |
+| `navigation/artifact-catalog.md` | Generated inventory entry |
+| `navigation/source-of-truth-map.md` | Generated inventory entry |
+EOF
+}
+
 write_active_malformed_legacy_design_import() {
   local root="$1"
   local proposal_dir="$root/.octon/inputs/exploratory/proposals/design/legacy-design-import"
@@ -382,6 +447,16 @@ case_write_excludes_legacy_unknown_design_imports() {
   ! grep -Fq 'legacy-design-import' "$fixture_root/.octon/generated/proposals/registry.yml"
 }
 
+case_write_projects_archived_design_without_subtype_validation() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p "$fixture_root/.octon/generated"
+  touch "$fixture_root/.octon/README.md"
+  write_archived_design_projection_fixture "$fixture_root"
+  run_generator_in_fixture "$fixture_root" --write >/dev/null
+  grep -Fq 'archived-design-projection' "$fixture_root/.octon/generated/proposals/registry.yml"
+}
+
 case_check_fails_on_active_legacy_unknown_design_import() {
   local fixture_root
   fixture_root="$(create_fixture_repo)"
@@ -410,6 +485,9 @@ main() {
   assert_success \
     "proposal registry generator excludes legacy-unknown design imports from the main projection" \
     case_write_excludes_legacy_unknown_design_imports
+  assert_success \
+    "proposal registry generator projects archived designs without subtype validation" \
+    case_write_projects_archived_design_without_subtype_validation
   assert_failure_contains \
     "proposal registry generator still validates active packets with legacy metadata" \
     "non-archived proposal must not contain archive block" \

@@ -1,0 +1,11 @@
+PASS: fixture statuses validate
+PASS: generation receipt includes published paths and index
+PASS: generation receipt includes compact manifest
+PASS: non-authority mutation fails closed
+PASS: source digest mutation fails closed
+PASS: generation receipt invalid published paths fail closed
+PASS: compact manifest receipt digest mutation fails closed
+PASS: compact manifest source digest mutation fails closed
+PASS: all-runs pruning records pruned paths
+
+test-run-health-read-model.sh: passed=9 failed=0

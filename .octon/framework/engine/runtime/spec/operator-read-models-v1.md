@@ -76,6 +76,31 @@ Every run health view must include canonical refs, source digests, freshness
 metadata, explicit non-authority classification, forbidden consumer
 classification, and diagnostics for uncertainty or input disagreement.
 
+## Compact Manifest Preference
+
+When a generator emits both broad read-model files and a compact manifest,
+operator, validator, planner, closeout, and recovery consumers should read the
+compact manifest first and follow its digest-bound refs only when deeper
+inspection is needed.
+
+The run-health compact manifest is
+`/.octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml`.
+It must retain:
+
+- `schema_version: run-health-compact-manifest-v1`
+- producer and validator refs
+- allowed and forbidden consumer posture
+- explicit generated-read-model non-authority classification
+- source refs and SHA-256 source digests for the index and per-run health files
+- status counts, failing-slice refs, and compact run-status entries
+- retained generation receipt linkage
+- fail-closed behavior for missing sources, digest mismatch, stale freshness,
+  and authority-boundary violations
+
+The compact manifest is a token-efficiency handle and diagnostic entry point.
+It is not authority, runtime policy, support proof, retained run evidence, or
+state reconstruction input.
+
 ## Non-Authority Rules
 
 - Operator read models may summarize status, support posture, closure state,

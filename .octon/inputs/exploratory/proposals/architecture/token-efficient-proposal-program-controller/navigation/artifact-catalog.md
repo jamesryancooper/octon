@@ -28,5 +28,7 @@ This catalog is generated for proposal packet navigation. It is inventory, not s
 - `resources/structured-artifact-templates.yml`: resource / structured planning aid
 - `support/executable-implementation-prompt.md`: support receipt or implementation support
 - `support/implementation-grade-completeness-review.md`: support receipt or implementation support
+- `support/program-implementation-orchestration-prompt.md`: support receipt or implementation support
+- `support/program-run-kickoff-prompt.md`: support receipt or implementation support
 - `support/proposal-review.md`: support receipt or implementation support
 - `validation-plan.md`: proposal artifact

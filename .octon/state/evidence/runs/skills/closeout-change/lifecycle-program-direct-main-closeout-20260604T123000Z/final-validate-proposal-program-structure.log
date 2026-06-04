@@ -1,0 +1,109 @@
+[OK] parent proposal.yml exists
+[OK] program child registry exists
+[OK] human child index exists
+[OK] packet sequence exists
+[OK] child packet contract exists
+[OK] program closeout plan exists
+[OK] parent proposal.yml parses
+[OK] program child registry parses
+[OK] program has no nested children directory
+[OK] program child registry declares children
+[OK] child id valid: token-efficiency-token-measurement-ledger
+[OK] child id unique: token-efficiency-token-measurement-ledger
+[OK] child token-efficiency-token-measurement-ledger path is repo-relative
+[OK] child token-efficiency-token-measurement-ledger path is not nested under parent program
+[OK] child id valid: token-efficiency-evidence-index-raw-log-summaries
+[OK] child id unique: token-efficiency-evidence-index-raw-log-summaries
+[OK] child token-efficiency-evidence-index-raw-log-summaries path is repo-relative
+[OK] child token-efficiency-evidence-index-raw-log-summaries path is not nested under parent program
+[OK] child token-efficiency-evidence-index-raw-log-summaries dependency references registry child: token-efficiency-token-measurement-ledger
+[OK] child id valid: token-efficiency-planner-state-program-context-capsule
+[OK] child id unique: token-efficiency-planner-state-program-context-capsule
+[OK] child token-efficiency-planner-state-program-context-capsule path is repo-relative
+[OK] child token-efficiency-planner-state-program-context-capsule path is not nested under parent program
+[OK] child token-efficiency-planner-state-program-context-capsule dependency references registry child: token-efficiency-token-measurement-ledger
+[OK] child id valid: token-efficiency-blocker-ledger-recovery-deltas
+[OK] child id unique: token-efficiency-blocker-ledger-recovery-deltas
+[OK] child token-efficiency-blocker-ledger-recovery-deltas path is repo-relative
+[OK] child token-efficiency-blocker-ledger-recovery-deltas path is not nested under parent program
+[OK] child token-efficiency-blocker-ledger-recovery-deltas dependency references registry child: token-efficiency-evidence-index-raw-log-summaries
+[OK] child token-efficiency-blocker-ledger-recovery-deltas dependency references registry child: token-efficiency-planner-state-program-context-capsule
+[OK] child id valid: token-efficiency-validator-manifests-generated-freshness
+[OK] child id unique: token-efficiency-validator-manifests-generated-freshness
+[OK] child token-efficiency-validator-manifests-generated-freshness path is repo-relative
+[OK] child token-efficiency-validator-manifests-generated-freshness path is not nested under parent program
+[OK] child token-efficiency-validator-manifests-generated-freshness dependency references registry child: token-efficiency-evidence-index-raw-log-summaries
+[OK] child token-efficiency-validator-manifests-generated-freshness dependency references registry child: token-efficiency-planner-state-program-context-capsule
+[OK] child id valid: token-efficiency-prompt-pack-instruction-capsules
+[OK] child id unique: token-efficiency-prompt-pack-instruction-capsules
+[OK] child token-efficiency-prompt-pack-instruction-capsules path is repo-relative
+[OK] child token-efficiency-prompt-pack-instruction-capsules path is not nested under parent program
+[OK] child token-efficiency-prompt-pack-instruction-capsules dependency references registry child: token-efficiency-token-measurement-ledger
+[OK] child id valid: token-efficiency-lifecycle-context-pack-integration
+[OK] child id unique: token-efficiency-lifecycle-context-pack-integration
+[OK] child token-efficiency-lifecycle-context-pack-integration path is repo-relative
+[OK] child token-efficiency-lifecycle-context-pack-integration path is not nested under parent program
+[OK] child token-efficiency-lifecycle-context-pack-integration dependency references registry child: token-efficiency-prompt-pack-instruction-capsules
+[OK] child token-efficiency-lifecycle-context-pack-integration dependency references registry child: token-efficiency-token-measurement-ledger
+[OK] child id valid: token-efficiency-proposal-artifact-index-spine
+[OK] child id unique: token-efficiency-proposal-artifact-index-spine
+[OK] child token-efficiency-proposal-artifact-index-spine path is repo-relative
+[OK] child token-efficiency-proposal-artifact-index-spine path is not nested under parent program
+[OK] child token-efficiency-proposal-artifact-index-spine dependency references registry child: token-efficiency-token-measurement-ledger
+[OK] child token-efficiency-proposal-artifact-index-spine dependency references registry child: token-efficiency-lifecycle-context-pack-integration
+[OK] child id valid: token-efficiency-repo-authority-write-scope-index
+[OK] child id unique: token-efficiency-repo-authority-write-scope-index
+[OK] child token-efficiency-repo-authority-write-scope-index path is repo-relative
+[OK] child token-efficiency-repo-authority-write-scope-index path is not nested under parent program
+[OK] child token-efficiency-repo-authority-write-scope-index dependency references registry child: token-efficiency-proposal-artifact-index-spine
+[OK] child id valid: token-efficiency-model-routing-action-slice-budgets
+[OK] child id unique: token-efficiency-model-routing-action-slice-budgets
+[OK] child token-efficiency-model-routing-action-slice-budgets path is repo-relative
+[OK] child token-efficiency-model-routing-action-slice-budgets path is not nested under parent program
+[OK] child token-efficiency-model-routing-action-slice-budgets dependency references registry child: token-efficiency-token-measurement-ledger
+[OK] child token-efficiency-model-routing-action-slice-budgets dependency references registry child: token-efficiency-planner-state-program-context-capsule
+[OK] child token-efficiency-model-routing-action-slice-budgets dependency references registry child: token-efficiency-blocker-ledger-recovery-deltas
+[OK] child token-efficiency-model-routing-action-slice-budgets dependency references registry child: token-efficiency-validator-manifests-generated-freshness
+[OK] child id valid: token-efficiency-structured-receipts-concise-publication
+[OK] child id unique: token-efficiency-structured-receipts-concise-publication
+[OK] child token-efficiency-structured-receipts-concise-publication path is repo-relative
+[OK] child token-efficiency-structured-receipts-concise-publication path is not nested under parent program
+[OK] child token-efficiency-structured-receipts-concise-publication dependency references registry child: token-efficiency-evidence-index-raw-log-summaries
+[OK] child token-efficiency-structured-receipts-concise-publication dependency references registry child: token-efficiency-blocker-ledger-recovery-deltas
+[OK] child token-efficiency-structured-receipts-concise-publication dependency references registry child: token-efficiency-validator-manifests-generated-freshness
+[OK] child id valid: token-efficiency-semantic-cache-context-reuse
+[OK] child id unique: token-efficiency-semantic-cache-context-reuse
+[OK] child token-efficiency-semantic-cache-context-reuse path is repo-relative
+[OK] child token-efficiency-semantic-cache-context-reuse path is not nested under parent program
+[OK] child token-efficiency-semantic-cache-context-reuse dependency references registry child: token-efficiency-lifecycle-context-pack-integration
+[OK] child token-efficiency-semantic-cache-context-reuse dependency references registry child: token-efficiency-proposal-artifact-index-spine
+[OK] child token-efficiency-semantic-cache-context-reuse dependency references registry child: token-efficiency-repo-authority-write-scope-index
+[OK] child token-efficiency-semantic-cache-context-reuse dependency references registry child: token-efficiency-model-routing-action-slice-budgets
+[OK] related_proposals covers registry children
+[OK] related_proposals contains no extra child ids
+[OK] human child index mentions child id: token-efficiency-blocker-ledger-recovery-deltas
+[OK] human child index mentions child id: token-efficiency-evidence-index-raw-log-summaries
+[OK] human child index mentions child id: token-efficiency-lifecycle-context-pack-integration
+[OK] human child index mentions child id: token-efficiency-model-routing-action-slice-budgets
+[OK] human child index mentions child id: token-efficiency-planner-state-program-context-capsule
+[OK] human child index mentions child id: token-efficiency-prompt-pack-instruction-capsules
+[OK] human child index mentions child id: token-efficiency-proposal-artifact-index-spine
+[OK] human child index mentions child id: token-efficiency-repo-authority-write-scope-index
+[OK] human child index mentions child id: token-efficiency-semantic-cache-context-reuse
+[OK] human child index mentions child id: token-efficiency-structured-receipts-concise-publication
+[OK] human child index mentions child id: token-efficiency-token-measurement-ledger
+[OK] human child index mentions child id: token-efficiency-validator-manifests-generated-freshness
+[OK] packet sequence mentions child id: token-efficiency-blocker-ledger-recovery-deltas
+[OK] packet sequence mentions child id: token-efficiency-evidence-index-raw-log-summaries
+[OK] packet sequence mentions child id: token-efficiency-lifecycle-context-pack-integration
+[OK] packet sequence mentions child id: token-efficiency-model-routing-action-slice-budgets
+[OK] packet sequence mentions child id: token-efficiency-planner-state-program-context-capsule
+[OK] packet sequence mentions child id: token-efficiency-prompt-pack-instruction-capsules
+[OK] packet sequence mentions child id: token-efficiency-proposal-artifact-index-spine
+[OK] packet sequence mentions child id: token-efficiency-repo-authority-write-scope-index
+[OK] packet sequence mentions child id: token-efficiency-semantic-cache-context-reuse
+[OK] packet sequence mentions child id: token-efficiency-structured-receipts-concise-publication
+[OK] packet sequence mentions child id: token-efficiency-token-measurement-ledger
+[OK] packet sequence mentions child id: token-efficiency-validator-manifests-generated-freshness
+[OK] parent package contains no child-owned authority surfaces
+Validation summary: errors=0 warnings=0

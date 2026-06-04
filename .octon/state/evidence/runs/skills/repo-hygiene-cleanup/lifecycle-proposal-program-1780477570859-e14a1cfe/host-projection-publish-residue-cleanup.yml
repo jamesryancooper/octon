@@ -1,0 +1,39 @@
+schema_version: repo-hygiene-cleanup-summary-v1
+run_id: lifecycle-proposal-program-1780477570859-e14a1cfe
+cleanup_id: host-projection-publish-residue-cleanup
+route: receipt-backed-authorization
+cleaned_at: "2026-06-04T05:15:00Z"
+redaction_posture: summary-only
+raw_path_payloads_published: false
+authorization_receipt_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780477570859-e14a1cfe/repo-hygiene-cleanup-authorization-host-projections.json
+authorization_receipt_digest: sha256:2c4ea5f1e69125eed998fec5044becd073eb57ad0b9ab48c3d21d68c2bce984c
+additional_authorization_receipts:
+  - authorization_receipt_ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/lifecycle-proposal-program-1780477570859-e14a1cfe/repo-hygiene-cleanup-authorization-publication-refresh.json
+    authorization_receipt_digest: sha256:1ae292524f94fc32c41009baebf54e5a0f6bc8405e87d9c5fe801a2da7f1c3a7
+    deleted_count: 125
+    cleanup_path_set_digest: sha256:02ae5d091983a08ae3d0da958aba0b80de05a8a20763a97af5eb14b2cd258cb6
+pre_cleanup:
+  cleanup_candidates: 27
+  protected_referenced: 46
+  manual_review: 1981
+  git_status_digest: sha256:489dd1b132e94be99b47f6d0337df85a7f9bdc938fb64dfe546393b7d3dcdd4c
+  classification_digest: sha256:e8673e4b7cad8b605dbca91e5e13a2a4ad59a3e926d6b185a878b76a17c28bd0
+  cleanup_path_set_digest: sha256:73dbe015185b174cd184594f8c0f116ade00dba29bdacef6a1d43f7aa0b0a8fc
+  protected_paths_digest: sha256:f7b0d56d2b2899010da77963ae613b83bf804df509dcfbb511b61d77fdc17c66
+  manual_review_paths_digest: sha256:5956e445a71c930ea26f3c833b68b1360df43c80aa554fff72d8a32a16a74edf
+post_cleanup:
+  cleanup_candidates: 0
+  protected_referenced: 46
+  manual_review: 1982
+  git_status_digest: sha256:6de8af91b6e6773bcd0a6cd4d523461bf985982c5f11cd4d0fecc71fc8793e07
+  classification_digest: sha256:7b9897f1fa5f32bdd62edbc8d5910c95f2df85886580f4ff0c7d45946fa2da4d
+  cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+  protected_paths_digest: sha256:9c1a1ee2db34c598d624747de5935b686b0c6777a537cfd3a2ed163e741e0a88
+  manual_review_paths_digest: sha256:d90b49171a3acdefff786338e76f8cfffa0aea1845973e7b4b41d4ca9953f682
+deleted_count: 152
+retained_protected_count: 46
+retained_manual_review_count: 1982
+blocker: none
+claim_scope_ref: host projection publish-run residue produced while resolving proposal-program worktree hygiene
+generated_outputs_authority: derived-only
+proposal_input_authority: non-authority

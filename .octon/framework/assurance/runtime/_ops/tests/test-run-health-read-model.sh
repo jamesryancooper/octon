@@ -109,6 +109,22 @@ case_generation_receipt_includes_published_paths_and_index() {
   yq -e '.published_paths[] | select(. == ".octon/generated/cognition/projections/materialized/runs/healthy/health.yml")' "$receipt" >/dev/null
 }
 
+case_generation_receipt_includes_compact_manifest() {
+  local tmp receipt compact_ref compact_file
+  tmp="$(create_fixture_repo)"
+  run_fixture_generator "$tmp"
+  receipt="$(fixture_evidence_root "$tmp")/generation.yml"
+  compact_ref=".octon/generated/cognition/projections/materialized/runs/run-health-compact-manifest.yml"
+  compact_file="$tmp/$compact_ref"
+  yq -e ".published_paths[] | select(. == \"$compact_ref\")" "$receipt" >/dev/null
+  [[ "$(yq -r '.compact_manifest_ref // ""' "$receipt")" == "$compact_ref" ]]
+  yq -e '.compact_manifest_digest | test("^sha256:[0-9a-f]{64}$")' "$receipt" >/dev/null
+  yq -e '.schema_version == "run-health-compact-manifest-v1"' "$compact_file" >/dev/null
+  yq -e '.consumer.forbidden_consumers[] | select(. == "runtime")' "$compact_file" >/dev/null
+  yq -e '.failure_behavior.fail_closed_on[] | select(. == "source-digest-mismatch")' "$compact_file" >/dev/null
+  yq -e '.validation.failing_slice_count > 0' "$compact_file" >/dev/null
+}
+
 case_non_authority_mutation_fails() {
   local tmp
   tmp="$(create_fixture_repo)"
@@ -133,6 +149,24 @@ case_generation_receipt_invalid_published_paths_fail() {
   run_fixture_generator "$tmp"
   receipt="$(fixture_evidence_root "$tmp")/generation.yml"
   yq -i '.published_paths[0] = "/tmp/not-allowed.yml"' "$receipt"
+  ! run_fixture_validator "$tmp"
+}
+
+case_compact_manifest_receipt_digest_mutation_fails() {
+  local tmp receipt
+  tmp="$(create_fixture_repo)"
+  run_fixture_generator "$tmp"
+  receipt="$(fixture_evidence_root "$tmp")/generation.yml"
+  yq -i '.compact_manifest_digest = "sha256:0000000000000000000000000000000000000000000000000000000000000000"' "$receipt"
+  ! run_fixture_validator "$tmp"
+}
+
+case_compact_manifest_source_digest_mutation_fails() {
+  local tmp compact_file
+  tmp="$(create_fixture_repo)"
+  run_fixture_generator "$tmp"
+  compact_file="$(fixture_output_root "$tmp")/run-health-compact-manifest.yml"
+  yq -i '.source_digests[0].sha256 = "sha256:0000000000000000000000000000000000000000000000000000000000000000"' "$compact_file"
   ! run_fixture_validator "$tmp"
 }
 
@@ -169,9 +203,12 @@ EOF
 main() {
   assert_success "fixture statuses validate" case_fixture_statuses_validate
   assert_success "generation receipt includes published paths and index" case_generation_receipt_includes_published_paths_and_index
+  assert_success "generation receipt includes compact manifest" case_generation_receipt_includes_compact_manifest
   assert_success "non-authority mutation fails closed" case_non_authority_mutation_fails
   assert_success "source digest mutation fails closed" case_digest_mutation_fails
   assert_success "generation receipt invalid published paths fail closed" case_generation_receipt_invalid_published_paths_fail
+  assert_success "compact manifest receipt digest mutation fails closed" case_compact_manifest_receipt_digest_mutation_fails
+  assert_success "compact manifest source digest mutation fails closed" case_compact_manifest_source_digest_mutation_fails
   assert_success "all-runs pruning records pruned paths" case_all_runs_pruning_records_pruned_paths
 
   echo

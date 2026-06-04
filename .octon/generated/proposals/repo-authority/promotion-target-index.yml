@@ -1,0 +1,3146 @@
+{
+  "artifact_kind": "promotion-target-index",
+  "artifact_ref": ".octon/generated/proposals/repo-authority/promotion-target-index.yml",
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "engine_authorization_preserved": true,
+    "generated_output_authority": "derived-only",
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "authority_status": "generated-derived-read-model-not-authority",
+  "failure_behavior": [
+    "fail-closed-on-missing-source",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-proposal-body"
+  ],
+  "freshness": {
+    "mode": "source-digest-bound",
+    "source_digest_bound": true
+  },
+  "generated_at": "deterministic-from-source-digests:sha256:227df4d45d32777e37d3b574ac983bdc19148359d9a8b776e3b0cb4c4cf7a9af",
+  "producer": {
+    "name": "generate-repo-authority-write-scope-index.sh",
+    "version": "repo-authority-write-scope-index-v1"
+  },
+  "proposal_count": 39,
+  "proposals": [
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "authority-class-schema-alignment",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/authority-class-schema-alignment/proposal.yml",
+      "proposal_sha256": "sha256:e3e1d69fb10fcae07754334aa7e4896a0c77d682f1a10964a82111a5f8642614",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/catalog.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "authority-engine-typed-exception-grants",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants/proposal.yml",
+      "proposal_sha256": "sha256:8eb4da893f1dde2ed43252e1b2000c532dbea865e97ec78627df3cf6016dc52b",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/authority_engine/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "change-closeout-state-machine",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/proposal.yml",
+      "proposal_sha256": "sha256:00b1a089883e19853a939a6fff5e227c1b0d1567f4553b26cb15b68d56682a22",
+      "status": "accepted",
+      "target_count": 12,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/change-closeout-state-machine.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/change-closeout-state-machine.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/default-work-unit.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/default-work-unit.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/change-receipt-v1.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/runtime/workflows/meta/closeout/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-pr/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/execution-roles/practices/standards/git-worktree-autonomy-contract.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "connector-external-effect-delegation-boundaries",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/connector-external-effect-delegation-boundaries/proposal.yml",
+      "proposal_sha256": "sha256:c3abe06d7219832b73ff7005e48b1eeedad9e0a5a4ca7c9d9933f81d6dca0ee2",
+      "status": "accepted",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/connectors/",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/adapters/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "connector-operation-admission",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/connector-operation-admission/proposal.yml",
+      "proposal_sha256": "sha256:efc87827954fc8fcd063bba66441b37e93935ed4916b53eb1ea4475385f66ebe",
+      "status": "accepted",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/connector-admissions/",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/connectors/",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/adapters/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "delegated-governance-cutover-closeout",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/delegated-governance-cutover-closeout/proposal.yml",
+      "proposal_sha256": "sha256:e07caf86f48ab548a204e05a5feda328b7fa84eb524cbd225779e5c29b421a0d",
+      "status": "accepted",
+      "target_count": 6,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/lifecycle-autopilot.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "delegated-governance-inventory-and-vocabulary",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary/proposal.yml",
+      "proposal_sha256": "sha256:43d230165321a2e6d9b56be85b4c42b352726a5868b748145e20ffa9b96e82e9",
+      "status": "accepted",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/governance/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/governance/policy/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "delegated-governance-shared-contract-model",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model/proposal.yml",
+      "proposal_sha256": "sha256:172428b7dbc46d2f96d933e18920d46df3193bb42586e65a688eb411ea79f99d",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "evidence-provenance-hardening",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening/proposal.yml",
+      "proposal_sha256": "sha256:59d66dd8ee8ce6dd681ceee7f93b91258b35d771b1b3fecd8f98777caf206cb7",
+      "status": "accepted",
+      "target_count": 5,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/obligations/evidence.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/retention/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/disclosure/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "governance-validator-negative-controls",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/governance-validator-negative-controls/proposal.yml",
+      "proposal_sha256": "sha256:17afd44d26c74d7c78b4c1a6ed7e769107da6036664f615128d6eea952191502",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "governed-cross-surface-mechanisms-documentation-architecture",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/proposal.yml",
+      "proposal_sha256": "sha256:287af1babf962ee73e85e2abda2ea75ea9e4cdef3c5021a24931eb27e2e8872c",
+      "status": "accepted",
+      "target_count": 11,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/README.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/README.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/catalog.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/runtime-resolution-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/runtime/workflows/README.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "governed-workflow-runtime-transition-program",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program/proposal.yml",
+      "proposal_sha256": "sha256:3b87237b142d3666cfe4090a8a2de2aa87a7470401687e832ba359dcd6916a61",
+      "status": "accepted",
+      "target_count": 10,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/terminology/naming-constitution.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/terminology/glossary.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/specification.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/obligations/fail-closed.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/obligations/evidence.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/support-targets.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/connector-admissions/",
+          "risk_flags": [],
+          "target_family": "instance"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "mechanism-detail-pages-and-operator-map",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map/proposal.yml",
+      "proposal_sha256": "sha256:9a30f2750413b9556a3529e4b380ce357f8ea6be7078ca0edbcb65707448465c",
+      "status": "accepted",
+      "target_count": 2,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "derived-projection",
+          "boundary_status": "derived-generated-target",
+          "path": ".octon/generated/cognition/projections/materialized/",
+          "risk_flags": [
+            "generated-target-derived-only"
+          ],
+          "target_family": "generated"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "mechanism-index-foundation",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/mechanism-index-foundation/proposal.yml",
+      "proposal_sha256": "sha256:7ba73702655dbba4c79c887cbd4d9185b73cb7818763ca37248b588150358c99",
+      "status": "accepted",
+      "target_count": 2,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "mechanism-index-validator-guards",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/mechanism-index-validator-guards/proposal.yml",
+      "proposal_sha256": "sha256:066d13a7cb59bb03d0034e05437a4e7c540693391c1edfd77c304201b1da9c13",
+      "status": "accepted",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/product-feature-catalog-v1.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "migration-cutover-compatibility-retirement",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement/proposal.yml",
+      "proposal_sha256": "sha256:a8b4f8f3649a891dee0a8a911e8d9c335675c7df407fafb6c31f61419d6abd4f",
+      "status": "accepted",
+      "target_count": 7,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/terminology/naming-constitution.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/terminology/glossary.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/specification.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "repo-local-surface",
+          "boundary_status": "repo-local-target",
+          "path": ".octon/README.md",
+          "risk_flags": [],
+          "target_family": "repo-local"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "repo-local-surface",
+          "boundary_status": "repo-local-target",
+          "path": ".octon/AGENTS.md",
+          "risk_flags": [],
+          "target_family": "repo-local"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/ingress/AGENTS.md",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/bootstrap/START.md",
+          "risk_flags": [],
+          "target_family": "instance"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "mission-runtime-proof-first-posture",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/mission-runtime-proof-first-posture/proposal.yml",
+      "proposal_sha256": "sha256:ce35db9b19c1ae25f3b63d25a39a18f60ff2e63c29d3d21218f1e06feadb32fc",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "octon-instruction-layer-execution-envelope-hardening",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml",
+      "proposal_sha256": "sha256:aa60a2412f313f0d563b520965bf6e9115758f3620b625512e56727a4efe868f",
+      "status": "draft",
+      "target_count": 14,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/instruction-layer-manifest-v2.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/execution-roles/runtime/tool-output-budgets.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/execution-request-v2.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/execution-grant-v1.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/execution-receipt-v2.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/repo-shell-execution-classes.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/packs/shell/manifest.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/packs/repo/manifest.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/capability-packs/shell.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/capabilities/runtime/packs/admissions/shell.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-instruction-layer-manifest-depth.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-envelope-normalization.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/test-instruction-layer-manifest-depth.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/test-capability-envelope-normalization.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "octon-wide-delegated-governance-architecture",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture/proposal.yml",
+      "proposal_sha256": "sha256:ed7f6b79eb425a9415067531ab119758f1189198f1601784d224e07c9cf58c54",
+      "status": "accepted",
+      "target_count": 10,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/authority_engine/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/governance/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/governance/policy/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/lifecycle-autopilot.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "octon-wide-delegated-governance-migration",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration/proposal.yml",
+      "proposal_sha256": "sha256:c0587b59a34f04521db6df47f2ee851fc291ed82d9b742ee2fdce32818a7a024",
+      "status": "accepted",
+      "target_count": 12,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/authority/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/runtime/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/adapters/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/authority_engine/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/governance/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/governance/policy/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/connectors/",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "derived-projection",
+          "boundary_status": "derived-generated-target",
+          "path": ".octon/generated/cognition/projections/materialized/",
+          "risk_flags": [
+            "generated-target-derived-only"
+          ],
+          "target_family": "generated"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "product-doc-boundary-crosslinks",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/product-doc-boundary-crosslinks/proposal.yml",
+      "proposal_sha256": "sha256:ab6083e6743a4a811a8da5ff6d890e66df49113edd88b56d991466a1ce86e614",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/README.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "program-closeout-coverage-evidence",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/program-closeout-coverage-evidence/proposal.yml",
+      "proposal_sha256": "sha256:35600d661deeca3b34015b13deb63d37cdcd14d0bfbeae50c57c3bd50dfa6fe8",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/governed-cross-surface-mechanisms/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "proposal-program-runner-e2e-execution-program",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/proposal.yml",
+      "proposal_sha256": "sha256:0f681d06600c75630f8833e8d41c5bd53ce1c22a291359c1c08d30e3a373456e",
+      "status": "accepted",
+      "target_count": 31,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/_ops/scripts/publish-host-projections.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/contracts/retention/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/constitution/obligations/evidence.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/adapters/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/runtime/_ops/scripts/publish-extension-state.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "derived-runtime-handle",
+          "boundary_status": "derived-generated-target",
+          "path": ".octon/generated/effective/extensions/",
+          "risk_flags": [
+            "generated-target-derived-only",
+            "requires-publication-freshness"
+          ],
+          "target_family": "generated-effective"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/closeout-program/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/generate-program-closeout-prompt/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/run-program-verification-and-correction-loop/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/SKILL.md",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/scenarios/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/repo-hygiene.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "proposal-program-runner-terminal-routing-and-recovery-hardening",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/proposal.yml",
+      "proposal_sha256": "sha256:1f906e3db6f6fd0abde98abd22383dd19a57200904783ed9425da540182156fa",
+      "status": "accepted",
+      "target_count": 15,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/workflow_leaf.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/observer.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/runtime/workflows/meta/promote-proposal/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/runtime/workflows/meta/archive-proposal/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "repo-hygiene-cleanup-authorization-receipts",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/proposal.yml",
+      "proposal_sha256": "sha256:5b7a86325057eb43381be883304573f256d2f75049761fdfc89a8907e19c6dc4",
+      "status": "accepted",
+      "target_count": 13,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/repo-hygiene.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/contracts/repo-hygiene-cleanup-authorization-v1.schema.json",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/test-cleanup-local-run-artifacts.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-repo-hygiene-governance.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/capabilities/runtime/commands/repo-hygiene/README.md",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/manifest.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/registry.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/capabilities.yml",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "retired-terminology-guardrails",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/retired-terminology-guardrails/proposal.yml",
+      "proposal_sha256": "sha256:ee66ae4841f5560adb1461f69f474f79d96cf86edb92aaf2f72bf1c0f909071e",
+      "status": "accepted",
+      "target_count": 5,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/features/lifecycle-autopilot.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/product/roadmap/lifecycle-autopilot.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "run-health-proof-state-read-models",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/run-health-proof-state-read-models/proposal.yml",
+      "proposal_sha256": "sha256:6407ecb18d04269ef9a421e222b6cd7ee69a48aa958d0438f42a4a36dc396ffd",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "derived-projection",
+          "boundary_status": "derived-generated-target",
+          "path": ".octon/generated/cognition/projections/materialized/",
+          "risk_flags": [
+            "generated-target-derived-only"
+          ],
+          "target_family": "generated"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-blocker-ledger-recovery-deltas",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/proposal.yml",
+      "proposal_sha256": "sha256:6431fad9391ecf37707e47653d893dba90744a65f38b2fd804ce23d83f410a7d",
+      "status": "implemented",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-lifecycle-context-pack-integration",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/proposal.yml",
+      "proposal_sha256": "sha256:44dad17e4c9fedcf264b0e4dd139bc0b175f5be5c6e9ed25ef08b6aa803d38af",
+      "status": "implemented",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/context-packing.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-model-routing-action-slice-budgets",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/proposal.yml",
+      "proposal_sha256": "sha256:5b8bb15c71ff912ad76db297f0bad3e96fa939da5e9c3fe89d8f2c5ce0b3ce07",
+      "status": "implemented",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/model-routing.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/token-budgets.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-prompt-pack-instruction-capsules",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/proposal.yml",
+      "proposal_sha256": "sha256:5f236ada040eea474eaed3865cf0f730616f81485d514074b570967e8f94d7ee",
+      "status": "implemented",
+      "target_count": 6,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-proposal-artifact-index-spine",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/proposal.yml",
+      "proposal_sha256": "sha256:89d5e2599768338677af8771bb3536009814fbd69dc9af0611b9be4ef907cff7",
+      "status": "implemented",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-repo-authority-write-scope-index",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/proposal.yml",
+      "proposal_sha256": "sha256:9a98a976fca65a5602fed9bc3f3829bda41a286e548fe1b24d34aefb1495c1f4",
+      "status": "implemented",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-semantic-cache-context-reuse",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/proposal.yml",
+      "proposal_sha256": "sha256:e0769149a545d65c79cbe2a21b706367640628b3068ee0344ec2eb0f67ae086b",
+      "status": "accepted",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficiency-validator-manifests-generated-freshness",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/proposal.yml",
+      "proposal_sha256": "sha256:aee6980754fa4c1b55bbf636c5c25f1e5c214667c736b37a1a2b2797e1ab2093",
+      "status": "implemented",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "token-efficient-proposal-program-controller",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/proposal.yml",
+      "proposal_sha256": "sha256:f9cb5ab2f6dad6203c45ef486c0efdef3dbbeb80673683edb6a6fb24c3fa9a85",
+      "status": "accepted",
+      "target_count": 24,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/scripts/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/assurance/runtime/_ops/tests/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-change/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/cognition/_meta/architecture/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/evidence-store-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/operator-read-models-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/run-lifecycle-v1.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "untrusted-additive-input",
+          "boundary_status": "non-authoritative-input-target",
+          "path": ".octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/",
+          "risk_flags": [
+            "input-target-non-authority",
+            "publication-required-before-runtime-use"
+          ],
+          "target_family": "inputs-additive"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/context-packing.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/model-routing.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/governance/policies/token-budgets.yml",
+          "risk_flags": [],
+          "target_family": "instance"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "workflow-capability-human-boundary-classification",
+      "proposal_kind": "architecture",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/architecture/workflow-capability-human-boundary-classification/proposal.yml",
+      "proposal_sha256": "sha256:d3042d00110bfafcbcd64cf3c5ca2ba89e5d01686c73089b8be14bcef685e9fd",
+      "status": "accepted",
+      "target_count": 3,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/orchestration/governance/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/governance/policy/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/spec/",
+          "risk_flags": [],
+          "target_family": "framework"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "octon-internal",
+      "proposal_id": "studio-graph-ux-design-package",
+      "proposal_kind": "design",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/design/studio-graph-ux-design-package/proposal.yml",
+      "proposal_sha256": "sha256:15c289cc22ac1cb1cf39693b8493bb55ec33d1fc49bf94da171ec32881ec96ee",
+      "status": "accepted",
+      "target_count": 4,
+      "targets": [
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/crates/studio/",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/engine/runtime/run",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "portable-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/framework/capabilities/runtime/commands/studio.md",
+          "risk_flags": [],
+          "target_family": "framework"
+        },
+        {
+          "authored_authority": true,
+          "authority_posture": "repo-specific-authored-authority",
+          "boundary_status": "authored-authority-target",
+          "path": ".octon/instance/bootstrap/catalog.md",
+          "risk_flags": [],
+          "target_family": "instance"
+        }
+      ]
+    },
+    {
+      "promotion_scope": "repo-local",
+      "proposal_id": "octon-change-first-github-projection-policy",
+      "proposal_kind": "policy",
+      "proposal_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/proposal.yml",
+      "proposal_sha256": "sha256:3b461266d9c1002c9bdc5db30eb8b19484df4e4795937fc823e8b6920f1174f6",
+      "status": "draft",
+      "target_count": 16,
+      "targets": [
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/main-pr-first-guard.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/main-push-safety.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/commit-and-branch-standards.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/pr-quality.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/PULL_REQUEST_TEMPLATE.md",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/PULL_REQUEST_TEMPLATE/kaizen.md",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/PULL_REQUEST_TEMPLATE/orchestration-domain-implementation.md",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/pr-autonomy-policy.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/pr-auto-merge.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/pr-triage.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/pr-clean-state-enforcer.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/pr-stale-close.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/ai-review-gate.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/codex-pr-review.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/alignment-check.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        },
+        {
+          "authored_authority": false,
+          "authority_posture": "host-projection",
+          "boundary_status": "repo-local-projection-target",
+          "path": ".github/workflows/harness-self-containment.yml",
+          "risk_flags": [
+            "host-projection-not-authority"
+          ],
+          "target_family": "github-projection"
+        }
+      ]
+    }
+  ],
+  "reader_preferences": {
+    "default_reader": "compact-graph-first",
+    "raw_body_allowed_when": [
+      "source-digest-mismatch",
+      "stale-compact-artifact",
+      "authority-ambiguity",
+      "validator-dispute",
+      "context-pack-audit"
+    ],
+    "raw_body_escalation_required": true
+  },
+  "schema_ref": ".octon/framework/engine/runtime/spec/promotion-target-index-v1.schema.json",
+  "schema_version": "octon-promotion-target-index-v1",
+  "source_refs": [
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/authority-class-schema-alignment/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:e3e1d69fb10fcae07754334aa7e4896a0c77d682f1a10964a82111a5f8642614",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/authority-engine-typed-exception-grants/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:8eb4da893f1dde2ed43252e1b2000c532dbea865e97ec78627df3cf6016dc52b",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/change-closeout-state-machine/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:00b1a089883e19853a939a6fff5e227c1b0d1567f4553b26cb15b68d56682a22",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/connector-external-effect-delegation-boundaries/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:c3abe06d7219832b73ff7005e48b1eeedad9e0a5a4ca7c9d9933f81d6dca0ee2",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/connector-operation-admission/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:efc87827954fc8fcd063bba66441b37e93935ed4916b53eb1ea4475385f66ebe",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/delegated-governance-cutover-closeout/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:e07caf86f48ab548a204e05a5feda328b7fa84eb524cbd225779e5c29b421a0d",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/delegated-governance-inventory-and-vocabulary/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:43d230165321a2e6d9b56be85b4c42b352726a5868b748145e20ffa9b96e82e9",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/delegated-governance-shared-contract-model/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:172428b7dbc46d2f96d933e18920d46df3193bb42586e65a688eb411ea79f99d",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/evidence-provenance-hardening/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:59d66dd8ee8ce6dd681ceee7f93b91258b35d771b1b3fecd8f98777caf206cb7",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/governance-validator-negative-controls/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:17afd44d26c74d7c78b4c1a6ed7e769107da6036664f615128d6eea952191502",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/governed-cross-surface-mechanisms-documentation-architecture/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:287af1babf962ee73e85e2abda2ea75ea9e4cdef3c5021a24931eb27e2e8872c",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/governed-workflow-runtime-transition-program/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:3b87237b142d3666cfe4090a8a2de2aa87a7470401687e832ba359dcd6916a61",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/mechanism-detail-pages-and-operator-map/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:9a30f2750413b9556a3529e4b380ce357f8ea6be7078ca0edbcb65707448465c",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/mechanism-index-foundation/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:7ba73702655dbba4c79c887cbd4d9185b73cb7818763ca37248b588150358c99",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/mechanism-index-validator-guards/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:066d13a7cb59bb03d0034e05437a4e7c540693391c1edfd77c304201b1da9c13",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/migration-cutover-compatibility-retirement/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:a8b4f8f3649a891dee0a8a911e8d9c335675c7df407fafb6c31f61419d6abd4f",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/mission-runtime-proof-first-posture/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:ce35db9b19c1ae25f3b63d25a39a18f60ff2e63c29d3d21218f1e06feadb32fc",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-instruction-layer-execution-envelope-hardening/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:aa60a2412f313f0d563b520965bf6e9115758f3620b625512e56727a4efe868f",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-architecture/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:ed7f6b79eb425a9415067531ab119758f1189198f1601784d224e07c9cf58c54",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/octon-wide-delegated-governance-migration/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:c0587b59a34f04521db6df47f2ee851fc291ed82d9b742ee2fdce32818a7a024",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/product-doc-boundary-crosslinks/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:ab6083e6743a4a811a8da5ff6d890e66df49113edd88b56d991466a1ce86e614",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/program-closeout-coverage-evidence/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:35600d661deeca3b34015b13deb63d37cdcd14d0bfbeae50c57c3bd50dfa6fe8",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-e2e-execution-program/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:0f681d06600c75630f8833e8d41c5bd53ce1c22a291359c1c08d30e3a373456e",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/proposal-program-runner-terminal-routing-and-recovery-hardening/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:1f906e3db6f6fd0abde98abd22383dd19a57200904783ed9425da540182156fa",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/repo-hygiene-cleanup-authorization-receipts/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:5b7a86325057eb43381be883304573f256d2f75049761fdfc89a8907e19c6dc4",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/retired-terminology-guardrails/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:ee66ae4841f5560adb1461f69f474f79d96cf86edb92aaf2f72bf1c0f909071e",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/run-health-proof-state-read-models/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:6407ecb18d04269ef9a421e222b6cd7ee69a48aa958d0438f42a4a36dc396ffd",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:6431fad9391ecf37707e47653d893dba90744a65f38b2fd804ce23d83f410a7d",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:44dad17e4c9fedcf264b0e4dd139bc0b175f5be5c6e9ed25ef08b6aa803d38af",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:5b8bb15c71ff912ad76db297f0bad3e96fa939da5e9c3fe89d8f2c5ce0b3ce07",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:5f236ada040eea474eaed3865cf0f730616f81485d514074b570967e8f94d7ee",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:89d5e2599768338677af8771bb3536009814fbd69dc9af0611b9be4ef907cff7",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:9a98a976fca65a5602fed9bc3f3829bda41a286e548fe1b24d34aefb1495c1f4",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:e0769149a545d65c79cbe2a21b706367640628b3068ee0344ec2eb0f67ae086b",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:aee6980754fa4c1b55bbf636c5c25f1e5c214667c736b37a1a2b2797e1ab2093",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:f9cb5ab2f6dad6203c45ef486c0efdef3dbbeb80673683edb6a6fb24c3fa9a85",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/workflow-capability-human-boundary-classification/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:d3042d00110bfafcbcd64cf3c5ca2ba89e5d01686c73089b8be14bcef685e9fd",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/design/studio-graph-ux-design-package/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:15c289cc22ac1cb1cf39693b8493bb55ec33d1fc49bf94da171ec32881ec96ee",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/policy/octon-change-first-github-projection-policy/proposal.yml",
+      "artifact_role": "active-proposal-manifest",
+      "required": false,
+      "sha256": "sha256:3b461266d9c1002c9bdc5db30eb8b19484df4e4795937fc823e8b6920f1174f6",
+      "source_class": "non-authoritative-proposal-input"
+    },
+    {
+      "artifact_ref": ".octon/framework/cognition/_meta/architecture/contract-registry.yml",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:d174a4a0f5023d49e3b06c87de34c6229ab20b19f1dc6192bc2f7349b39da385",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/constitution/obligations/evidence.yml",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:ed49e0cc1506e9b91cddf42fa04ecc6355b9c344acf2ac68142c43f05e0417a4",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/constitution/obligations/fail-closed.yml",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:017ca8b00c20eda1e8e00ef68a42cbbc356314cf66cb9fef031e6386d31ffda2",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/constitution/precedence/epistemic.yml",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:1993b52e866a9c4427951a7ee63d7e2e6b80245d6a03dd7de576949ae1491780",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/constitution/precedence/normative.yml",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:b9af36ac62218fec56555a7f2f70be1afeda522a1a60fbb5a4738497afb7d6f6",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:1ec18f89f6b1674e6a3459052e85435b48cb4d94dd84b10275f305c275449da1",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/engine/runtime/spec/promotion-target-index-v1.schema.json",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:b38db58ae1c2d10ecf2808c0b9e32f46c819790daf4c4f697cb9ee7baf0101d7",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/engine/runtime/spec/repo-authority-graph-v1.schema.json",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:0ce485f5680547e3944e526227ebdd61a50833a1094dfa542169acd81bde776f",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/engine/runtime/spec/repo-authority-write-scope-index-v1.md",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:a9b2dca4bd6cc3a5c202e2b030fbdf88553ceea28d9e590843da76bb33ef3c0d",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/framework/engine/runtime/spec/write-scope-index-v1.schema.json",
+      "artifact_role": "durable-authority",
+      "required": true,
+      "sha256": "sha256:a7f86a70180a1701d20e98e0ec8fd802b475ed1c8b05045be850a60d52e09346",
+      "source_class": "authored-authority"
+    },
+    {
+      "artifact_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml",
+      "artifact_role": "proposal-program-child-registry",
+      "required": false,
+      "sha256": "sha256:82391d79cc13ba68d86a021b393841d73d5a58c70598e5e433a4adfafe566860",
+      "source_class": "non-authoritative-proposal-input"
+    }
+  ],
+  "target_family_summary": {
+    "framework": 204,
+    "generated": 3,
+    "generated-effective": 1,
+    "github-projection": 16,
+    "inputs-additive": 26,
+    "instance": 22,
+    "repo-local": 2
+  }
+}

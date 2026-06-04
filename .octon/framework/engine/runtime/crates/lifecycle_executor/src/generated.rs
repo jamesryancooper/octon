@@ -4,6 +4,7 @@ use octon_runtime_resolver::{
     generated_effective_extension_catalog_path, runtime_effective_route_bundle_path,
 };
 use serde_yaml::Value;
+use sha2::{Digest, Sha256};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
 
@@ -12,14 +13,32 @@ const WORKFLOW_RUNTIME_ROOT_REL: &str = ".octon/framework/orchestration/runtime/
 
 #[derive(Clone, Debug)]
 pub struct PromptBundleAsset {
+    pub id: String,
     pub role: String,
+    pub role_class: Option<String>,
+    pub bundle_path: String,
     pub path: PathBuf,
+    pub source_path: PathBuf,
+    pub sha256: String,
     pub content: String,
+}
+
+#[derive(Clone, Debug)]
+pub struct PromptBundleRepoAnchor {
+    pub path: String,
+    pub sha256: String,
 }
 
 #[derive(Clone, Debug)]
 pub struct PromptBundle {
     pub prompt_set_id: String,
+    pub manifest_path: String,
+    pub manifest_sha256: String,
+    pub bundle_sha256: String,
+    pub publication_status: String,
+    pub alignment_status: Option<String>,
+    pub alignment_receipt_path: Option<String>,
+    pub required_repo_anchors: Vec<PromptBundleRepoAnchor>,
     pub assets: Vec<PromptBundleAsset>,
 }
 
@@ -72,13 +91,77 @@ pub fn resolve_prompt_bundle(
             if scalar(bundle.get("prompt_set_id")) != Some(prompt_set_id) {
                 continue;
             }
+            let publication_status =
+                required_scalar(bundle, "publication_status", "prompt bundle")?.to_string();
+            if !matches!(
+                publication_status.as_str(),
+                "published" | "published_with_quarantine"
+            ) {
+                return Err(LifecycleExecutionError::new(
+                    LifecycleErrorClass::Discovery,
+                    format!("prompt bundle {prompt_set_id} is not published: {publication_status}"),
+                ));
+            }
+            let alignment_status = scalar(bundle.get("alignment_status")).map(str::to_string);
+            if let Some(status) = alignment_status.as_deref() {
+                if status != "fresh" {
+                    return Err(LifecycleExecutionError::new(
+                        LifecycleErrorClass::Discovery,
+                        format!("prompt bundle {prompt_set_id} alignment is not fresh: {status}"),
+                    ));
+                }
+            }
+            let manifest_path =
+                required_scalar(bundle, "manifest_path", "prompt bundle")?.to_string();
+            let manifest_sha256 = normalized_required_sha256(
+                required_scalar(bundle, "manifest_sha256", "prompt bundle")?,
+                "manifest_sha256",
+            )?;
+            let bundle_sha256 = normalized_required_sha256(
+                required_scalar(bundle, "bundle_sha256", "prompt bundle")?,
+                "bundle_sha256",
+            )?;
+            let manifest_abs = resolve_existing_repo_path_under(
+                repo_root,
+                &manifest_path,
+                ".octon/inputs/additive/extensions/",
+                "prompt bundle manifest",
+            )?;
+            verify_file_sha256(&manifest_abs, &manifest_sha256, "prompt bundle manifest")?;
+            let manifest_dir = manifest_abs.parent().ok_or_else(|| {
+                LifecycleExecutionError::new(
+                    LifecycleErrorClass::Discovery,
+                    format!(
+                        "prompt bundle manifest has no parent: {}",
+                        manifest_abs.display()
+                    ),
+                )
+            })?;
+            let prompt_root = manifest_dir.parent().ok_or_else(|| {
+                LifecycleExecutionError::new(
+                    LifecycleErrorClass::Discovery,
+                    format!(
+                        "prompt bundle manifest has no prompt root: {}",
+                        manifest_abs.display()
+                    ),
+                )
+            })?;
+            let required_repo_anchors = collect_repo_anchors(repo_root, bundle)?;
             let mut assets = Vec::new();
-            collect_assets(repo_root, bundle, "prompt_assets", "prompt", &mut assets)?;
+            collect_assets(
+                repo_root,
+                bundle,
+                "prompt_assets",
+                "prompt",
+                manifest_dir,
+                &mut assets,
+            )?;
             collect_assets(
                 repo_root,
                 bundle,
                 "reference_assets",
                 "reference",
+                manifest_dir,
                 &mut assets,
             )?;
             collect_assets(
@@ -86,10 +169,19 @@ pub fn resolve_prompt_bundle(
                 bundle,
                 "shared_reference_assets",
                 "shared-reference",
+                prompt_root,
                 &mut assets,
             )?;
             return Ok(PromptBundle {
                 prompt_set_id: prompt_set_id.to_string(),
+                manifest_path,
+                manifest_sha256,
+                bundle_sha256,
+                publication_status,
+                alignment_status,
+                alignment_receipt_path: scalar(bundle.get("alignment_receipt_path"))
+                    .map(str::to_string),
+                required_repo_anchors,
                 assets,
             });
         }
@@ -201,6 +293,7 @@ fn collect_assets(
     bundle: &Value,
     key: &str,
     role: &str,
+    source_root: &Path,
     assets: &mut Vec<PromptBundleAsset>,
 ) -> Result<(), LifecycleExecutionError> {
     let Some(items) = bundle.get(key).and_then(Value::as_sequence) else {
@@ -219,16 +312,63 @@ fn collect_assets(
             PUBLISHED_EXTENSION_PREFIX,
             "prompt asset projection",
         )?;
+        let id = scalar(item.get("prompt_id"))
+            .or_else(|| scalar(item.get("ref_id")))
+            .unwrap_or(role)
+            .to_string();
+        let Some(bundle_path) = scalar(item.get("path")) else {
+            return Err(LifecycleExecutionError::new(
+                LifecycleErrorClass::Discovery,
+                format!("{key} asset is missing path"),
+            ));
+        };
+        let expected_sha256 = normalized_required_sha256(
+            required_scalar(item, "sha256", key)?,
+            &format!("{key} sha256"),
+        )?;
+        let source_path =
+            resolve_existing_child_path_under(source_root, bundle_path, "prompt source asset")?;
+        verify_file_sha256(&source_path, &expected_sha256, "prompt source asset")?;
+        verify_file_sha256(&path, &expected_sha256, "prompt asset projection")?;
         let content = fs::read_to_string(&path)
             .with_context(|| format!("read prompt asset {}", path.display()))
             .map_err(LifecycleExecutionError::from)?;
         assets.push(PromptBundleAsset {
+            id,
             role: role.to_string(),
+            role_class: scalar(item.get("role_class")).map(str::to_string),
+            bundle_path: bundle_path.to_string(),
             path,
+            source_path,
+            sha256: expected_sha256,
             content,
         });
     }
     Ok(())
+}
+
+fn collect_repo_anchors(
+    repo_root: &Path,
+    bundle: &Value,
+) -> Result<Vec<PromptBundleRepoAnchor>, LifecycleExecutionError> {
+    let mut anchors = Vec::new();
+    let Some(items) = bundle
+        .get("required_repo_anchors")
+        .and_then(Value::as_sequence)
+    else {
+        return Ok(anchors);
+    };
+    for item in items {
+        let path = required_scalar(item, "path", "required repo anchor")?.to_string();
+        let sha256 = normalized_required_sha256(
+            required_scalar(item, "sha256", "required repo anchor")?,
+            "required repo anchor sha256",
+        )?;
+        let anchor_path = resolve_existing_repo_path(repo_root, &path, "required repo anchor")?;
+        verify_file_sha256(&anchor_path, &sha256, "required repo anchor")?;
+        anchors.push(PromptBundleRepoAnchor { path, sha256 });
+    }
+    Ok(anchors)
 }
 
 fn ensure_exact_generated_file(
@@ -308,6 +448,75 @@ fn resolve_existing_repo_path_under(
     Ok(path)
 }
 
+fn resolve_existing_repo_path(
+    repo_root: &Path,
+    raw: &str,
+    label: &str,
+) -> Result<PathBuf, LifecycleExecutionError> {
+    if !is_safe_repo_relative(raw) {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} must be repo-relative without traversal: {raw}"),
+        ));
+    }
+    let root = repo_root.canonicalize().map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!(
+                "{label} repo root is missing: {}: {error}",
+                repo_root.display()
+            ),
+        )
+    })?;
+    let path = repo_root.join(raw);
+    let canonical = path.canonicalize().map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} missing or unreadable: {}: {error}", path.display()),
+        )
+    })?;
+    if !canonical.starts_with(&root) {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} escapes repo root: {raw}"),
+        ));
+    }
+    Ok(path)
+}
+
+fn resolve_existing_child_path_under(
+    root: &Path,
+    raw: &str,
+    label: &str,
+) -> Result<PathBuf, LifecycleExecutionError> {
+    if !is_safe_repo_relative(raw) {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} must be repo-relative without traversal: {raw}"),
+        ));
+    }
+    let root_canonical = root.canonicalize().map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} root is missing: {}: {error}", root.display()),
+        )
+    })?;
+    let path = root.join(raw);
+    let canonical = path.canonicalize().map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} missing or unreadable: {}: {error}", path.display()),
+        )
+    })?;
+    if !canonical.starts_with(&root_canonical) {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} escapes source root: {raw}"),
+        ));
+    }
+    Ok(path)
+}
+
 fn resolve_existing_child_file_under(
     root: &Path,
     raw: &str,
@@ -355,6 +564,54 @@ fn scalar(value: Option<&Value>) -> Option<&str> {
         Value::String(raw) => Some(raw.as_str()),
         _ => None,
     })
+}
+
+fn required_scalar<'a>(
+    value: &'a Value,
+    key: &str,
+    label: &str,
+) -> Result<&'a str, LifecycleExecutionError> {
+    scalar(value.get(key)).ok_or_else(|| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} is missing {key}"),
+        )
+    })
+}
+
+fn normalized_required_sha256(raw: &str, label: &str) -> Result<String, LifecycleExecutionError> {
+    let value = raw.strip_prefix("sha256:").unwrap_or(raw);
+    if value.len() != 64 || !value.chars().all(|char| char.is_ascii_hexdigit()) {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} must be a sha256 digest"),
+        ));
+    }
+    Ok(value.to_ascii_lowercase())
+}
+
+fn verify_file_sha256(
+    path: &Path,
+    expected_sha256: &str,
+    label: &str,
+) -> Result<(), LifecycleExecutionError> {
+    let bytes = fs::read(path).map_err(|error| {
+        LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!("{label} unreadable: {}: {error}", path.display()),
+        )
+    })?;
+    let actual = hex::encode(Sha256::digest(&bytes));
+    if actual != expected_sha256 {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::Discovery,
+            format!(
+                "{label} digest mismatch for {}: expected sha256:{expected_sha256} actual sha256:{actual}",
+                path.display()
+            ),
+        ));
+    }
+    Ok(())
 }
 
 fn value_sequence_contains(value: Option<&Value>, expected: &str) -> bool {

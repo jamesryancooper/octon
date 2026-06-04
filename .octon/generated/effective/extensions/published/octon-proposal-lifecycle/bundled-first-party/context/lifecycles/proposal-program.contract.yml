@@ -33,6 +33,93 @@ program:
   # dependencies, then by registry order for peers. `max_child_concurrency`
   # limits simultaneous executors inside the selected batch without creating
   # extra replan steps.
+  planner_state:
+    evidence_root: ".octon/state/evidence/runs/workflows/<program-run-id>/"
+    compact_artifacts:
+      planner_state: "planner-state.yml"
+      program_context_capsule: "program-context-capsule.yml"
+      compact_completion_capsule: "compact-completion-capsule.yml"
+      blocker_ledger: "blocker-ledger.yml"
+      recovery_delta_summary: "recovery-delta-summary.yml"
+      route_decision_receipt: "route-decision-receipt.yml"
+      model_routing_receipt: "model-routing-receipt.yml"
+      action_slice_ledger: "action-slice-ledger.yml"
+    default_reader_preference:
+      - "read planner-state.yml, program-context-capsule.yml, and blocker-ledger.yml before full program-plan.yml"
+      - "read route-decision-receipt.yml, model-routing-receipt.yml, and action-slice-ledger.yml before dispatch or recovery prompt expansion"
+      - "read recovery-delta-summary.yml, blocker-ledger.yml, failing-slice-manifest.yml, and raw-log-summary.yml before stale receipt/archive history"
+      - "read compact-completion-capsule.yml only for no-dispatch terminal parent runs"
+      - "treat program-plan.yml as handle-only-by-default retained audit evidence"
+    model_route: "deterministic-first; high-on-escalation-only"
+    token_ceiling: 3000
+    token_ceilings:
+      final_completion: 8000
+      child_dispatch_base: 12000
+      architecture_exception: 40000
+    action_slices:
+      - "load_program_spine"
+      - "evaluate_dependency_vector"
+      - "select_runnable_children"
+      - "dispatch_child_or_no_dispatch"
+      - "summarize_terminal_blockers"
+      - "validate_completion"
+      - "emit_closeout_capsule"
+    deterministic_preflights:
+      - "publication-freshness"
+      - "generated-freshness"
+      - "blocker-aggregation-zero-state"
+      - "dependency-vector"
+      - "manifest-completeness"
+      - "registry-projection"
+      - "raw-log-indexing"
+      - "closeout-schema-validation"
+      - "worktree-cleanliness"
+    escalation_triggers:
+      - "authority ambiguity"
+      - "architecture decision"
+      - "rollback conflict"
+      - "support-proof interpretation"
+      - "promotion evidence conflict"
+      - "archive/recovery failure"
+      - "unexplained test failure"
+    source_ref_requirements:
+      - "program-lifecycle-checkpoint.yml"
+      - "program-events.ndjson"
+      - "resources/child-packet-index.yml"
+      - "program-plan.yml"
+      - "scheduler-decision.yml"
+      - "run-inputs.yml"
+      - "summary.md"
+      - "recovery-log.yml"
+      - "token-budget-ledger.json"
+      - "raw-log-summary.yml"
+      - "failing-slice-manifest.yml"
+      - "blocker-ledger.yml"
+      - "recovery-delta-summary.yml"
+      - "route-decision-receipt.yml"
+      - "model-routing-receipt.yml"
+      - "action-slice-ledger.yml"
+    validation_binding:
+      checkpoint_event_head: "required"
+      event_log_sha256: "required"
+      child_registry_digest: "required"
+      source_ref_sha256: "required"
+      model_visible_context_sha256: "required"
+    fail_closed_on:
+      - "source-missing"
+      - "source-digest-mismatch"
+      - "stale-event-head"
+      - "child-registry-digest-mismatch"
+      - "authority-boundary-conflict"
+      - "blocker-fingerprint-drift-without-recorded-delta"
+      - "recovery-loop-repeats-without-progress"
+      - "high-route-without-escalation-trigger"
+      - "token-ceiling-exceeded-without-stage-only-route"
+    authority_boundary:
+      replaces_source_evidence: false
+      authorizes_execution: false
+      generated_output_authority: "derived-only"
+      raw_evidence_retained: true
   atomic_policy:
     eligibility: "explicit-route-opt-in"
     require_declared_write_scopes: true
@@ -46,7 +133,16 @@ program:
       target-drift-explained:
         max_attempts: 1
         replan_after_attempt: true
+      recovery-integrity-risk:
+        max_attempts: 1
+        replan_after_attempt: true
+        human_required: false
       validation-failed:
+        recovery_route_id: "generate-program-correction-prompt"
+        max_attempts: 1
+        replan_after_attempt: true
+        human_required: false
+      invalid-child-registry:
         recovery_route_id: "generate-program-correction-prompt"
         max_attempts: 1
         replan_after_attempt: true
@@ -64,8 +160,9 @@ program:
         max_attempts: 2
         replan_after_attempt: true
       executor-preflight-blocked:
-        max_attempts: 0
-        human_required: true
+        max_attempts: 1
+        replan_after_attempt: false
+        human_required: false
       unsupported-mode-config:
         max_attempts: 0
         human_required: true
@@ -86,6 +183,7 @@ program:
           - "live-state-readable"
           - "selected-route-present"
           - "receipt-stale"
+          - "hygiene-receipt-stale-after-live-pass"
         idempotency_class: "idempotent-rerun"
         human_required: false
         retry_budget: 2
@@ -107,6 +205,56 @@ program:
           - "live-state-readable"
           - "target-path-unchanged"
           - "write-scope-unchanged"
+          - "current-run-child-owned-drift-evidence"
+          - "authority-zone-allowed"
+          - "run-bound-current"
+        idempotency_class: "inspect-only"
+        human_required: false
+        retry_budget: 1
+        dependent_handling: "pause-dependent"
+        post_attempt_validation:
+          - "replan-live-state"
+          - "authority-boundary-check"
+          - "replay-verify"
+        replan_behavior: "after-attempt"
+        allowed_authority_zones:
+          - "octon-run-bound"
+        allowed_artifact_classes:
+          - "run-control"
+          - "run-evidence"
+        operation_class: "program-recovery-action"
+        requires_run_binding: true
+        requires_zone_evidence: true
+      - blocker_class: "recovery-integrity-risk"
+        recovery_action_id: "rebaseline-checkpoint"
+        preconditions:
+          - "live-state-readable"
+          - "selected-route-present"
+          - "current-run-child-owned-drift-evidence"
+          - "authority-zone-allowed"
+          - "run-bound-current"
+        idempotency_class: "inspect-only"
+        human_required: false
+        retry_budget: 1
+        dependent_handling: "pause-dependent"
+        post_attempt_validation:
+          - "replan-live-state"
+          - "authority-boundary-check"
+          - "replay-verify"
+        replan_behavior: "after-attempt"
+        allowed_authority_zones:
+          - "octon-run-bound"
+        allowed_artifact_classes:
+          - "run-control"
+          - "run-evidence"
+        operation_class: "program-recovery-action"
+        requires_run_binding: true
+        requires_zone_evidence: true
+      - blocker_class: "recovery-budget-override-required"
+        recovery_action_id: "rebaseline-checkpoint"
+        preconditions:
+          - "live-state-readable"
+          - "selected-route-present"
           - "current-run-child-owned-drift-evidence"
           - "authority-zone-allowed"
           - "run-bound-current"
@@ -940,6 +1088,7 @@ routes:
         - receipt_complete: "program-verification-prompt"
         - any:
             - blocker_present: "validation-failed"
+            - blocker_present: "invalid-child-registry"
             - blocker_present: "stale-receipt"
             - blocker_present: "missing-evidence"
   - route_id: "cleanup-lifecycle-residue"

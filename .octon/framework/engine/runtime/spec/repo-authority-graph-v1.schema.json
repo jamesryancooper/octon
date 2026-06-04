@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/repo-authority-graph-v1.schema.json",
+  "title": "Repo Authority Graph v1",
+  "description": "Generated advisory path authority graph for repo orientation. It is derived-only and never authorizes execution or replaces source evidence.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_ref",
+    "artifact_kind",
+    "artifact_ref",
+    "authority_status",
+    "producer",
+    "generated_at",
+    "source_refs",
+    "authority_boundary",
+    "freshness",
+    "reader_preferences",
+    "path_rules",
+    "class_roots",
+    "surface_classes",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-repo-authority-graph-v1" },
+    "schema_ref": { "const": ".octon/framework/engine/runtime/spec/repo-authority-graph-v1.schema.json" },
+    "artifact_kind": { "const": "repo-authority-graph" },
+    "artifact_ref": { "type": "string", "minLength": 1 },
+    "authority_status": { "const": "generated-derived-read-model-not-authority" },
+    "producer": { "$ref": "#/$defs/producer" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "source_refs": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/source_ref" } },
+    "authority_boundary": { "$ref": "#/$defs/authority_boundary" },
+    "freshness": { "$ref": "#/$defs/freshness" },
+    "reader_preferences": { "$ref": "#/$defs/reader_preferences" },
+    "path_rules": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/path_rule" } },
+    "class_roots": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/class_root" } },
+    "surface_classes": { "type": "array", "items": { "$ref": "#/$defs/surface_class" } },
+    "failure_behavior": { "$ref": "#/$defs/failure_behavior" }
+  },
+  "$defs": {
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "const": "generate-repo-authority-write-scope-index.sh" },
+        "version": { "const": "repo-authority-write-scope-index-v1" }
+      }
+    },
+    "source_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_role", "artifact_ref", "sha256", "source_class", "required"],
+      "properties": {
+        "artifact_role": { "type": "string", "minLength": 1 },
+        "artifact_ref": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "source_class": { "type": "string", "minLength": 1 },
+        "required": { "type": "boolean" }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replaces_source_evidence",
+        "authorizes_execution",
+        "proposal_input_authority",
+        "generated_output_authority",
+        "raw_evidence_retained",
+        "engine_authorization_preserved"
+      ],
+      "properties": {
+        "replaces_source_evidence": { "const": false },
+        "authorizes_execution": { "const": false },
+        "proposal_input_authority": { "const": "non-authoritative" },
+        "generated_output_authority": { "const": "derived-only" },
+        "raw_evidence_retained": { "const": true },
+        "engine_authorization_preserved": { "const": true }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "source_digest_bound"],
+      "properties": {
+        "mode": { "const": "source-digest-bound" },
+        "source_digest_bound": { "const": true }
+      }
+    },
+    "reader_preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["default_reader", "raw_body_escalation_required", "raw_body_allowed_when"],
+      "properties": {
+        "default_reader": { "const": "compact-graph-first" },
+        "raw_body_escalation_required": { "const": true },
+        "raw_body_allowed_when": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "path_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path_prefix", "target_family", "authority_posture", "authored_authority"],
+      "properties": {
+        "path_prefix": { "type": "string", "minLength": 1 },
+        "target_family": { "type": "string", "minLength": 1 },
+        "authority_posture": { "type": "string", "minLength": 1 },
+        "authored_authority": { "type": "boolean" }
+      }
+    },
+    "class_root": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class_id", "root", "authority_class", "authored_authority"],
+      "properties": {
+        "class_id": { "type": "string", "minLength": 1 },
+        "root": { "type": "string", "minLength": 1 },
+        "authority_class": { "type": "string", "minLength": 1 },
+        "authored_authority": { "type": "boolean" }
+      }
+    },
+    "surface_class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["surface_class", "authority_posture", "canonical_roots"],
+      "properties": {
+        "surface_class": { "type": "string", "minLength": 1 },
+        "authority_posture": { "type": "string", "minLength": 1 },
+        "canonical_roots": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "failure_behavior": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    }
+  }
+}

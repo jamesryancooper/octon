@@ -1,0 +1,98 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260602T215600Z-branch-no-pr-cleaned
+default_work_unit: Change
+target_lifecycle_outcome: cleaned
+operator_requested_route: branch-no-pr
+observed_change_set_count: 2
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: "inline: 20260602T215600Z inventory; branch main, HEAD/main/origin/main all 7af1d6ff54d2b04b717a027c56f79aab3fa8b83c; staged 0; unstaged tracked 0; untracked input proposal directories 13; ignored entries 5116"
+residue_classification_ref: "inline: change-closeout-residue-classification-v1; untracked 13; input-surface 194; ignored 5116; routing unsafe 5290 before report emission"
+selected_candidate_id: c-unsafe-input-proposals
+candidates:
+  - candidate_id: c-unsafe-input-proposals
+    disposition: blocked
+    residue_routing_class: unsafe
+    ownership: "input-surface proposal residue under .octon/inputs/**; proposal lifecycle or explicitly scoped human authority required"
+    route_hint: "branch-no-pr requested; blocked before closeout-change delegation"
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "No mutation performed; untracked input-surface files remain in place on main"
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+      exclude_paths:
+        - .archive/
+        - .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+  - candidate_id: c-ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "ignored local residue outside the selected branch-no-pr candidate"
+    route_hint: "retain as ignored local/manual residue; wrapper has no deletion authority"
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "No mutation performed; ignored local residue remains in place"
+    boundaries:
+      include_paths:
+        - .archive/
+      exclude_paths:
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+iterations: []
+final_candidate_dispositions:
+  c-unsafe-input-proposals:
+    state: blocked
+    reason: "input-surface residue is unsafe for closeout-change delegation and cannot be staged, committed, pushed, landed, or deleted by closeout-worktree"
+  c-ignored-local-residue:
+    state: foreign
+    reason: "ignored local residue retained with candidate-keyed evidence"
+retained_residue:
+  - candidate_id: c-ignored-local-residue
+    path: .archive/
+    disposition: "ignored local residue retained for manual/foreign review; detection is not deletion authority"
+blockers:
+  - candidate_id: c-unsafe-input-proposals
+    blocker: "Selected candidate includes .octon/inputs/** input-surface proposal files. The closeout classifier marks input-surface residue unsafe; only a proposal lifecycle/archive route or explicit scoped authority can resolve it. closeout-worktree cannot delegate this candidate to closeout-change or perform branch-no-pr landing/cleanup."
+final_inventory_ref: "inline: post-report final inventory includes prior untracked input proposal directories plus this report as retained validation analysis evidence; no staged or unstaged tracked changes"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 14
+  ignored: 5116
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 1
+  state_control: 0
+  release_version: 0
+  input_surface: 194
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+worktree_terminal_state: nonterminal
+next_route_condition: "Route the untracked .octon/inputs/exploratory/proposals/architecture/token-efficiency-* proposal packets through proposal lifecycle/archive authority, or explicitly scope an input-surface handling instruction before retrying branch-no-pr cleaned closeout."

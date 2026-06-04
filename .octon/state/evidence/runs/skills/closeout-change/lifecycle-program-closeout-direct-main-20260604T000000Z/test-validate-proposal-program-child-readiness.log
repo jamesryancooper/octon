@@ -1,0 +1,108 @@
+[OK] program child registry parses
+[OK] program child registry declares children
+[OK] child id valid: base-child
+[OK] child id unique: base-child
+[OK] child base-child path is repo-relative
+[OK] child id valid: cutover-child
+[OK] child id unique: cutover-child
+[OK] child cutover-child path is repo-relative
+[OK] child base-child proposal standard passes
+[OK] child base-child declares change_profile
+[OK] child base-child implementation-grade completeness review passes
+[OK] child base-child accepted proposal-review gate is fresh
+[OK] child base-child declared required metadata is enforced: change_profile
+[OK] child base-child source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/program-fixture/resources/source.md
+[OK] child base-child parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/program-fixture/architecture/child-packet-contract.md
+[OK] child base-child readiness requirement id valid: harness-envelope-completeness
+[OK] child base-child readiness evidence mentions: task-specific harness envelope
+[OK] child cutover-child proposal standard passes
+[OK] child cutover-child declares change_profile
+[OK] child cutover-child implementation-grade completeness review passes
+[OK] child cutover-child accepted proposal-review gate is fresh
+[OK] child cutover-child declared required metadata is enforced: change_profile
+[OK] child cutover-child readiness requirement id valid: cutover-readiness
+[OK] child cutover-child readiness evidence mentions: compatibility retirement
+[OK] child cutover-child readiness evidence mentions: canonical runtime support
+[OK] child cutover-child predecessor constraint is reflected in dependencies: base-child
+[OK] child cutover-child cutover predecessor is proposal-ready: base-child
+[OK] proposal readiness check does not require implementation receipts
+Validation summary: errors=0 warnings=0
+PASS: valid program child readiness passes
+PASS: missing child change_profile fails
+PASS: missing implementation-grade completeness review fails
+PASS: absent accepted proposal-review digest fails
+PASS: stale accepted proposal-review digest fails
+[OK] program child registry parses
+[OK] program child registry declares children
+[OK] child id valid: base-child
+[OK] child id unique: base-child
+[OK] child base-child path is repo-relative
+[OK] child id valid: cutover-child
+[OK] child id unique: cutover-child
+[OK] child cutover-child path is repo-relative
+[OK] child base-child proposal standard passes
+[OK] child base-child implemented child satisfies change_profile gate
+[OK] child base-child implementation-grade completeness review passes
+[OK] child base-child implemented proposal-review evidence is preserved
+[OK] child base-child implemented implementation-run receipt passes
+[OK] child base-child implemented conformance receipt passes
+[OK] child base-child implemented post-implementation drift receipt passes
+[OK] child base-child required metadata satisfied by implemented evidence: change_profile
+[OK] child base-child source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/program-fixture/resources/source.md
+[OK] child base-child parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/program-fixture/architecture/child-packet-contract.md
+[OK] child base-child readiness requirement id valid: harness-envelope-completeness
+[OK] child base-child readiness evidence mentions: task-specific harness envelope
+[OK] child cutover-child proposal standard passes
+[OK] child cutover-child declares change_profile
+[OK] child cutover-child implementation-grade completeness review passes
+[OK] child cutover-child accepted proposal-review gate is fresh
+[OK] child cutover-child declared required metadata is enforced: change_profile
+[OK] child cutover-child readiness requirement id valid: cutover-readiness
+[OK] child cutover-child readiness evidence mentions: compatibility retirement
+[OK] child cutover-child readiness evidence mentions: canonical runtime support
+[OK] child cutover-child predecessor constraint is reflected in dependencies: base-child
+[OK] child cutover-child cutover predecessor is proposal-ready: base-child
+[OK] proposal readiness check does not require implementation receipts
+Validation summary: errors=0 warnings=0
+PASS: implemented child with receipts remains child-ready
+[OK] program child registry parses
+[OK] program child registry declares children
+[OK] child id valid: base-child
+[OK] child id unique: base-child
+[OK] child base-child path is repo-relative
+[OK] child id valid: cutover-child
+[OK] child id unique: cutover-child
+[OK] child cutover-child path is repo-relative
+[OK] child base-child proposal standard passes
+[OK] child base-child declares change_profile
+[OK] child base-child implementation-grade completeness review passes
+[OK] child base-child archive metadata records implemented disposition
+[OK] child base-child archive metadata records promotion evidence
+[OK] child base-child archived implementation-run receipt passes
+[OK] child base-child archived implementation conformance receipt passes
+[OK] child base-child archived post-implementation drift receipt passes
+[OK] child base-child archived closeout receipt passes
+[OK] child base-child archived closeout authorizes archive
+[OK] child base-child declared required metadata is enforced: change_profile
+[OK] child base-child source lineage ref exists: .octon/inputs/exploratory/proposals/architecture/program-fixture/resources/source.md
+[OK] child base-child parent contract ref exists: .octon/inputs/exploratory/proposals/architecture/program-fixture/architecture/child-packet-contract.md
+[OK] child base-child readiness requirement id valid: harness-envelope-completeness
+[OK] child base-child readiness evidence mentions: task-specific harness envelope
+[OK] child cutover-child proposal standard passes
+[OK] child cutover-child declares change_profile
+[OK] child cutover-child implementation-grade completeness review passes
+[OK] child cutover-child accepted proposal-review gate is fresh
+[OK] child cutover-child declared required metadata is enforced: change_profile
+[OK] child cutover-child readiness requirement id valid: cutover-readiness
+[OK] child cutover-child readiness evidence mentions: compatibility retirement
+[OK] child cutover-child readiness evidence mentions: canonical runtime support
+[OK] child cutover-child predecessor constraint is reflected in dependencies: base-child
+[OK] child cutover-child cutover predecessor is proposal-ready: base-child
+[OK] proposal readiness check does not require implementation receipts
+Validation summary: errors=0 warnings=0
+PASS: archived implemented child with receipts remains child-ready
+PASS: missing packet-specific completeness requirement fails
+PASS: premature cutover retirement fails
+
+Passed: 9
+Failed: 0

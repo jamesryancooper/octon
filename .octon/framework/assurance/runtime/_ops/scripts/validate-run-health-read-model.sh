@@ -56,7 +56,7 @@ REQUIRED_STATUSES = {
     "stale",
     "unsupported",
     "revoked",
-    "approval-required",
+    "authority-ambiguity",
     "review-required",
     "evidence-incomplete",
     "rollback-required",
@@ -71,6 +71,12 @@ FORBIDDEN_CONSUMERS = {
     "support-claim-evaluation",
 }
 GENERATED_RUN_HEALTH_ROOT = ".octon/generated/cognition/projections/materialized/runs/"
+
+
+def normalize_fixture_status(value):
+    if value == "approval-required":
+        return "authority-ambiguity"
+    return value
 
 
 def parse_args():
@@ -281,7 +287,7 @@ def validate_schema_or_fallback(schema, data, context):
         failures.append(f"{context}: schema validation failed: support.requested_capability_packs must be a unique string list")
 
     authorization = require_object(data, "authorization", failures, context)
-    if authorization.get("status") not in {"authorized", "approval-required", "revoked", "denied", "review-required", "unknown"}:
+    if authorization.get("status") not in {"authorized", "authority-ambiguity", "revoked", "denied", "review-required", "unknown"}:
         failures.append(f"{context}: schema validation failed: authorization.status is invalid")
     for key in ("active_grants", "open_approvals", "active_exceptions", "active_revocations"):
         if not is_ref_array(authorization.get(key)):
@@ -451,6 +457,123 @@ def health_files_from(root):
     return sorted(path for path in root.glob("*/health.yml") if path.is_file())
 
 
+def validate_compact_manifest(path):
+    failures = []
+    data = load_yaml(path)
+    context = str(path)
+    if not isinstance(data, dict):
+        return [f"{context}: compact manifest must be a YAML object"]
+    if data.get("schema_version") != "run-health-compact-manifest-v1":
+        failures.append(f"{context}: schema_version must be run-health-compact-manifest-v1")
+
+    producer = data.get("producer")
+    if not isinstance(producer, dict):
+        failures.append(f"{context}: producer must be an object")
+        producer = {}
+    if producer.get("id") != "generate-run-health-read-model.sh":
+        failures.append(f"{context}: producer.id is invalid")
+    if producer.get("validator_ref") != ".octon/framework/assurance/runtime/_ops/scripts/validate-run-health-read-model.sh":
+        failures.append(f"{context}: producer.validator_ref is invalid")
+
+    consumer = data.get("consumer")
+    if not isinstance(consumer, dict):
+        failures.append(f"{context}: consumer must be an object")
+        consumer = {}
+    if "validators" not in set(consumer.get("allowed_consumers") or []):
+        failures.append(f"{context}: consumer.allowed_consumers must include validators")
+    if not FORBIDDEN_CONSUMERS.issubset(set(consumer.get("forbidden_consumers") or [])):
+        failures.append(f"{context}: consumer.forbidden_consumers is incomplete")
+
+    authority = data.get("authority")
+    if not isinstance(authority, dict):
+        failures.append(f"{context}: authority must be an object")
+        authority = {}
+    if authority.get("classification") != "generated_read_model_non_authoritative":
+        failures.append(f"{context}: authority.classification is invalid")
+    if authority.get("may_authorize") is not False:
+        failures.append(f"{context}: authority.may_authorize must be false")
+    if authority.get("may_widen_support") is not False:
+        failures.append(f"{context}: authority.may_widen_support must be false")
+
+    source_refs = data.get("source_refs")
+    if not is_ref_array(source_refs):
+        failures.append(f"{context}: source_refs must be a unique string list")
+        source_refs = []
+    for ref in source_refs:
+        if ".octon/inputs/" in ref:
+            failures.append(f"{context}: input-path ref is forbidden in compact manifest: {ref}")
+
+    source_digests = data.get("source_digests")
+    if not isinstance(source_digests, list) or not source_digests:
+        failures.append(f"{context}: source_digests must be a non-empty list")
+        source_digests = []
+    digest_refs = set()
+    for index, item in enumerate(source_digests):
+        if not isinstance(item, dict):
+            failures.append(f"{context}: source_digests[{index}] must be an object")
+            continue
+        ref = item.get("ref")
+        digest_refs.add(ref)
+        if ref not in source_refs:
+            failures.append(f"{context}: source_digests[{index}].ref must appear in source_refs")
+        if item.get("status") == "present":
+            actual = sha256_path(resolve_ref(ref))
+            if actual is None:
+                failures.append(f"{context}: compact digest source missing: {ref}")
+            elif actual != item.get("sha256"):
+                failures.append(f"{context}: compact digest drift for {ref}: expected {item.get('sha256')}, got {actual}")
+        elif item.get("status") == "missing":
+            if item.get("sha256") != "missing":
+                failures.append(f"{context}: missing compact source must carry sha256=missing: {ref}")
+        else:
+            failures.append(f"{context}: source_digests[{index}].status is invalid")
+    for ref in source_refs:
+        if ref not in digest_refs:
+            failures.append(f"{context}: source ref lacks digest entry: {ref}")
+
+    validation = data.get("validation")
+    if not isinstance(validation, dict):
+        failures.append(f"{context}: validation must be an object")
+        validation = {}
+    run_health = data.get("run_health")
+    if not isinstance(run_health, list):
+        failures.append(f"{context}: run_health must be a list")
+        run_health = []
+    failing_slices = data.get("failing_slices")
+    if not isinstance(failing_slices, list):
+        failures.append(f"{context}: failing_slices must be a list")
+        failing_slices = []
+    if validation.get("health_count") != len(run_health):
+        failures.append(f"{context}: validation.health_count must match run_health length")
+    if validation.get("failing_slice_count") != len(failing_slices):
+        failures.append(f"{context}: validation.failing_slice_count must match failing_slices length")
+    if not is_ref_array(validation.get("failing_slice_refs", [])):
+        failures.append(f"{context}: validation.failing_slice_refs must be a unique string list")
+
+    for index, item in enumerate(run_health):
+        if not isinstance(item, dict):
+            failures.append(f"{context}: run_health[{index}] must be an object")
+            continue
+        health_ref = item.get("health_ref")
+        if not is_repo_relative_generated_run_health_ref(health_ref):
+            failures.append(f"{context}: run_health[{index}].health_ref must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}")
+        if health_ref and health_ref not in source_refs:
+            failures.append(f"{context}: run_health[{index}].health_ref must appear in source_refs")
+        actual = sha256_path(resolve_ref(health_ref)) if health_ref else None
+        if item.get("health_sha256") not in {"missing", actual}:
+            failures.append(f"{context}: run_health[{index}].health_sha256 drift for {health_ref}")
+
+    fail_closed = set(((data.get("failure_behavior") or {}).get("fail_closed_on") or []))
+    for required in ("missing-source", "source-digest-mismatch", "stale-freshness", "authority-boundary-violation"):
+        if required not in fail_closed:
+            failures.append(f"{context}: failure_behavior must include {required}")
+
+    if not is_ref_array(data.get("evidence_refs")):
+        failures.append(f"{context}: evidence_refs must be a unique string list")
+
+    return failures
+
+
 def validate_generation_receipt(evidence_root):
     evidence_root = Path(evidence_root)
     receipt_path = evidence_root / "generation.yml"
@@ -519,6 +642,22 @@ def validate_generation_receipt(evidence_root):
         pruned_set.add(item)
     if published_set & pruned_set:
         failures.append(f"{context}: published_paths and pruned_paths must be disjoint")
+
+    compact_manifest_ref = data.get("compact_manifest_ref")
+    compact_manifest_digest = data.get("compact_manifest_digest")
+    if compact_manifest_ref:
+        if not is_repo_relative_generated_run_health_ref(compact_manifest_ref):
+            failures.append(f"{context}: compact_manifest_ref must be repo-relative under {GENERATED_RUN_HEALTH_ROOT}")
+        elif compact_manifest_ref not in published_set:
+            failures.append(f"{context}: compact_manifest_ref must appear in published_paths")
+        compact_path = resolve_ref(compact_manifest_ref)
+        if compact_path is None or not compact_path.is_file():
+            failures.append(f"{context}: compact manifest missing on disk: {compact_manifest_ref}")
+        else:
+            actual = sha256_path(compact_path)
+            if compact_manifest_digest != actual:
+                failures.append(f"{context}: compact_manifest_digest drift for {compact_manifest_ref}")
+            failures.extend(validate_compact_manifest(compact_path))
 
     outputs = data.get("outputs")
     if not isinstance(outputs, list) or not outputs:
@@ -602,8 +741,8 @@ def validate_one(schema, path):
     diagnostics = data.get("diagnostics", [])
     if status == "review-required" and not diagnostics:
         failures.append(f"{context}: review-required health must explain uncertainty in diagnostics")
-    if status == "approval-required" and data["authorization"]["status"] != "approval-required":
-        failures.append(f"{context}: approval-required health must match authorization status")
+    if status == "authority-ambiguity" and data["authorization"]["status"] != "authority-ambiguity":
+        failures.append(f"{context}: authority-ambiguity health must match authorization status")
     if status == "revoked" and data["authorization"]["status"] != "revoked" and data["lifecycle"]["state"] != "revoked":
         failures.append(f"{context}: revoked health must cite revoked authorization or lifecycle state")
     if status == "unsupported" and data["support"]["support_status"] != "unsupported":
@@ -654,7 +793,7 @@ def validate_fixture_contract(fixtures_root, fixture_output_root, schema):
         failures.append(f"missing fixture set: {fixture_set_path}")
         return failures
     fixture_set = load_yaml(fixture_set_path)
-    expected_statuses = {case.get("expected_status") for case in fixture_set.get("cases", [])}
+    expected_statuses = {normalize_fixture_status(case.get("expected_status")) for case in fixture_set.get("cases", [])}
     missing = REQUIRED_STATUSES - expected_statuses
     extra = expected_statuses - REQUIRED_STATUSES
     if missing:
@@ -664,7 +803,7 @@ def validate_fixture_contract(fixtures_root, fixture_output_root, schema):
 
     output_root = Path(fixture_output_root) if fixture_output_root else Path(fixtures_root) / "generated"
     if output_root.exists():
-        by_case = {case["case_id"]: case.get("expected_status") for case in fixture_set.get("cases", [])}
+        by_case = {case["case_id"]: normalize_fixture_status(case.get("expected_status")) for case in fixture_set.get("cases", [])}
         for health_file in health_files_from(output_root):
             file_failures, data = validate_one(schema, health_file)
             failures.extend(file_failures)

@@ -357,7 +357,7 @@ valid_lifecycle_execution_strategy() {
 valid_program_blocker_class() {
   case "$1" in
     policy-override|authority-ambiguity|authority-ambiguity|\
-stale-receipt|validation-failed|missing-evidence|executor-failed|executor-timed-out|executor-preflight-blocked|\
+stale-receipt|validation-failed|invalid-child-registry|missing-evidence|executor-failed|executor-timed-out|executor-preflight-blocked|\
 publication-drift|\
 unsupported-mode|unsupported-mode-config|unsupported-mode-authority|\
 write-scope-conflict|write-scope-serialization-required|atomic-write-scope-conflict|\
@@ -402,7 +402,7 @@ program_blocker_human_required() {
   case "$1" in
     authority-ambiguity|authority-ambiguity|executor-preflight-blocked|unsupported-mode-config|target-drift|target-drift-unclear|\
 critical-artifact-cleanup-required|artifact-cleanup-required|worktree-hygiene-blocked|artifact-ownership-unclear|\
-recovery-budget-override-required|recovery-route-unavailable|receipt-recovery-unavailable|finding-binding-unavailable|\
+recovery-route-unavailable|receipt-recovery-unavailable|finding-binding-unavailable|\
 deferred-evidence-missing|aggregate-closeout-readiness-missing|authority-zone-denied|scope-expansion|protected-artifact-authority-ambiguity)
       return 0
       ;;
@@ -510,7 +510,7 @@ valid_human_only_boundary() {
 
 valid_program_recovery_precondition() {
   case "$1" in
-    live-state-readable|selected-route-present|receipt-stale|missing-evidence|target-path-unchanged|write-scope-unchanged|current-run-child-owned-drift-evidence|\
+    live-state-readable|selected-route-present|receipt-stale|hygiene-receipt-stale-after-live-pass|missing-evidence|target-path-unchanged|write-scope-unchanged|current-run-child-owned-drift-evidence|\
 authority-zone-allowed|artifact-ownership-known|declared-write-scope-contained|run-bound-current|source-authority-digest-unchanged|generated-non-authority)
       return 0
       ;;

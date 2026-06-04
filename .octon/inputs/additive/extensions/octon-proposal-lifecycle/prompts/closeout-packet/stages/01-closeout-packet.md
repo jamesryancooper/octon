@@ -12,6 +12,26 @@ and local skill logs belong in the final changeset. Remove only unnecessary
 temporary generated artifacts; preserve required generated outputs and required
 evidence outputs.
 
+Before claiming archive readiness, run the read-only worktree hygiene
+classifier and retain its output as closeout evidence. For ordinary packet
+closeout, classify the target packet with `--lifecycle proposal-packet`; pass
+the packet lifecycle run id when available. For a program-child closeout route,
+the route prompt includes `Program Context` with `program_run_id`; in that case
+classify hygiene with `--lifecycle proposal-program --run-id <program_run_id>`
+so sibling child evidence and parent program lifecycle artifacts from the same
+retained program run are not treated as foreign worktree residue. Do not use
+the child route run id as the classifier run id for program-child hygiene
+classification. This hygiene scope does not transfer child authority: the
+closeout receipt, archive authorization, promotion evidence, validation
+verdicts, and terminal lifecycle outcome remain child-owned.
+
+If the correctly scoped classifier still reports foreign or ambiguous paths,
+write or refresh `support/proposal-closeout.md` with `verdict: blocked`,
+`archive_authorized: no`, the hygiene counts and evidence path, and
+`next_route_condition: closeout-change or operator scope resolution`. Do not
+stage, commit, push, delete, reset, archive, or otherwise clean worktree paths
+from this route.
+
 Stage only intended files when the selected route requires staging. Commit,
 push, and open or update a PR only when the selected implementation route uses a
 branch/PR lane. For PR, CI, review, merge, branch cleanup, and sync behavior,
@@ -42,7 +62,8 @@ least `verdict`, `closed_at`, and `archive_authorized`. When
 `archive_authorized: yes`, also record explicit workflow inputs
 `archive_disposition` and `promotion_evidence`; for implemented packets,
 `archive_disposition` must be `implemented` and `promotion_evidence` must name
-durable evidence outside the proposal packet. Use `verdict: pass` and
-`archive_authorized: yes` only when the packet is ready for the separate
-`archive-proposal` lifecycle route. Do not archive the packet directly from
-this route.
+durable repo-relative evidence paths outside the proposal packet. Do not list
+validation commands in `promotion_evidence`; record them in the validation
+summary instead. Use `verdict: pass` and `archive_authorized: yes` only when
+the packet is ready for the separate `archive-proposal` lifecycle route. Do not
+archive the packet directly from this route.

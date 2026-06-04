@@ -1,0 +1,130 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "[]",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": true,
+    "registry_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml",
+    "sha256": "sha256:82391d79cc13ba68d86a021b393841d73d5a58c70598e5e433a4adfafe566860"
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:be631c9ee94b064bdfc1ca6b6c4cce30e17c37a39d393cf1d9abb096e3b3e028",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "After durable implementation and validation, promoted targets must stand without depending on this proposal packet. Child evidence, conformance, drift/churn, rollback, closeout, and archive receipts remain child-owned.",
+    "status": "accepted",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/token-efficiency-proposal-artifact-index-spine/proposal-program-spine.yml",
+  "parent_program": "token-efficient-proposal-program-controller",
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/"
+  ],
+  "proposal_id": "token-efficiency-proposal-artifact-index-spine",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2093,
+      "estimated_tokens": 524,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/executable-implementation-prompt.md",
+      "sha256": "sha256:b56b3eb68075fc91e1ab0d51b030002cba22357583ae2d8a2f7b8fbe0d4cbbc1"
+    },
+    {
+      "byte_size": 2156,
+      "estimated_tokens": 539,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:9f5c74193b47c158ca0f277a1db409b77e97003eb365d921a35dd1f0c8536ac0"
+    },
+    {
+      "byte_size": 2593,
+      "estimated_tokens": 649,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/proposal-review.md",
+      "sha256": "sha256:9e7c87d544cddd6edb0a508c5986205c10480a990f900acb6283f492c089efc0"
+    }
+  ],
+  "related_proposals": [
+    "token-efficient-proposal-program-controller"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture-proposal.yml": "sha256:59e7b7ef0388cb9782f7038acd89118e1fd78d22ebb8d62bd6e693791b31a47b",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/acceptance-criteria.md": "sha256:b95214d3276cccb2cf5f5d5ee7aa1ab293af607919025af252fdff8ac9215ff0",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/implementation-plan.md": "sha256:f3a5ceddea41d6f0365f430245dfee404c4e357f603fc22f45fc319c05ff57bc",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/navigation/artifact-catalog.md": "sha256:b9b821511b41c4c8e72328ae55839e76e5f50f8217b35652def8f24449118abd",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/navigation/source-of-truth-map.md": "sha256:b65604a3268f2eb810dd6bdceb95ac8089bb56443fe549df66a6c39ed1eccefd",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/proposal.yml": "sha256:146d98abe86e3790930da6d5aac34cefc4bcf7d8babe76ccb89cb56bed3ff191",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/executable-implementation-prompt.md": "sha256:b56b3eb68075fc91e1ab0d51b030002cba22357583ae2d8a2f7b8fbe0d4cbbc1",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/implementation-grade-completeness-review.md": "sha256:9f5c74193b47c158ca0f277a1db409b77e97003eb365d921a35dd1f0c8536ac0",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/proposal-review.md": "sha256:9e7c87d544cddd6edb0a508c5986205c10480a990f900acb6283f492c089efc0",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml": "sha256:82391d79cc13ba68d86a021b393841d73d5a58c70598e5e433a4adfafe566860"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/source-findings-summary.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/run-analysis-evidence-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/architecture/child-packet-contract.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/proposal.yml",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/executable-implementation-prompt.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/support/proposal-review.md",
+    ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/resources/child-packet-index.yml"
+  ],
+  "status": "accepted"
+}

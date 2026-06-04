@@ -56,14 +56,36 @@ Write `support/lifecycle-residue-cleanup.md` with:
 - `remaining_blocker_class`
 - `residue_fingerprint`
 
+Place every required field in the opening YAML receipt block; completion
+observers read top-level YAML fields from that block.
+
 The receipt must also name remaining manual-review classes and rationale, state
 whether local main is synced with origin/main, and confirm active
 implementation work remains intact.
 
 Use phase-specific blocking semantics. If cleanup candidates are zero, active
-implementation work is intact, and only foreign, protected, ambiguous, or
-manual-review residue remains, record the cleanup as implementation-safe and
-publication-blocking:
+implementation work is intact, the post-cleanup proposal worktree classifier
+reports `worktree_hygiene_verdict: pass`, and
+`worktree_hygiene_foreign_path_count: 0`, retained protected or helper
+manual-review state is not a human blocker. Record the cleanup as retained but
+passing:
+
+```yaml
+verdict: pass-retained
+cleanup_candidates: 0
+active_implementation_work_intact: yes
+implementation_blocking: false
+closeout_blocking: false
+archive_blocking: false
+implementation_hygiene_verdict: pass
+publication_hygiene_verdict: pass
+remaining_blocker_class: none
+```
+
+If cleanup candidates are zero and active implementation work is intact, but
+the proposal worktree classifier reports blocked hygiene, nonzero foreign
+paths, or unresolved ambiguous ownership outside the lifecycle target scope,
+record the cleanup as implementation-safe and publication-blocking:
 
 ```yaml
 verdict: blocked-retained
@@ -79,8 +101,10 @@ remaining_blocker_class: worktree-hygiene-blocked
 
 Do not collapse these fields into `worktree_hygiene_verdict`. The legacy
 worktree hygiene verdict remains compatibility evidence; the phase-specific
-fields decide whether child implementation may proceed while closeout/archive
-remain blocked.
+fields decide whether child implementation, closeout, and archive may proceed.
+Retained helper manual-review counts alone do not require human intervention
+when the proposal worktree classifier has already classified the live worktree
+as owned or in scope for the bound program run.
 
 ## Stop Conditions
 

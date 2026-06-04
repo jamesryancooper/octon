@@ -119,6 +119,64 @@ model_visible_rules:
     - "Expose uncertainty, staleness, omissions, and redactions inside the model-visible pack."
     - "Keep final model-visible instructions separable from supporting context."
 
+lifecycle_route_context:
+  producer: "octon_lifecycle_executor::context_pack"
+  required_before_authorization: true
+  retained_evidence_root: ".octon/state/evidence/runs/<run-id>/context/"
+  active_control_root: ".octon/state/control/execution/runs/<run-id>/context/"
+  produced_artifacts:
+    - "context-pack.json"
+    - "context-pack-receipt.json"
+    - "model-visible-context.json"
+    - "model-visible-context.sha256"
+    - "source-manifest.json"
+    - "omissions.json"
+    - "redactions.json"
+    - "invalidation-events.json"
+  stage_specific_inclusion_modes:
+    lifecycle:
+      authored_authority: "digest-only"
+      route_contracts: "digest-only"
+      delegation_proof_inputs: "digest-only"
+    skill:
+      skill_manifests: "digest-only"
+      prompt_source_assets: "digest-only"
+      full_expansion_requires_reason_code:
+        - "digest-drift"
+        - "mutation-sensitive-work"
+        - "gate-dispute"
+        - "authority-conflict"
+        - "audit-request"
+    bootstrap:
+      ingress_and_workspace_charter: "digest-only"
+      optional_orientation: "handle-only"
+    generated:
+      runtime_route_bundle: "handle-only"
+      extension_catalog: "handle-only"
+      prompt_asset_projection: "handle-only"
+      authority_label: "derived"
+    evidence:
+      retained_receipts: "handle-only"
+      route_ledgers: "handle-only"
+      model_visible_hashes: "digest-only"
+    raw_log:
+      stdout_stderr_logs: "handle-only"
+      raw_body_escalation_required: true
+    proposal:
+      target_manifest: "digest-only"
+      proposal_local_receipts: "digest-only"
+      authority_label: "non_authoritative"
+  authorization_binding:
+    context_pack_receipt_required: true
+    delegation_proof_must_bind_context_pack: true
+    invalid_or_missing_context_pack_route: "deny"
+  failure_behavior:
+    - "fail closed on missing required lifecycle context source"
+    - "fail closed on source digest mismatch"
+    - "fail closed on generated/read-model source marked authoritative"
+    - "fail closed on proposal-local source marked authoritative"
+    - "fail closed when model-visible hash cannot be reconstructed"
+
 generated_and_raw_input_treatment:
   generated:
     allowed_uses:

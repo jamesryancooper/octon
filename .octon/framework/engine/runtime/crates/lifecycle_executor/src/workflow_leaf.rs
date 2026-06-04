@@ -79,9 +79,9 @@ pub fn execute_workflow_leaf(
         .then(|| retry_before_target_digest.clone());
     fs::create_dir_all(&request.evidence_root).map_err(crate::LifecycleExecutionError::from)?;
 
-    let attempt_ordinal = workflow_attempt_ordinal(request);
+    let (attempt_ordinal, workflow_run_id, existing_state_paths) =
+        next_available_workflow_attempt(repo_root, request, workflow_attempt_ordinal(request));
     let evidence_stem = workflow_attempt_evidence_stem(request, attempt_ordinal);
-    let workflow_run_id = workflow_run_id(request, attempt_ordinal);
     let invocation_path = request
         .evidence_root
         .join(format!("{evidence_stem}-workflow-invocation.yml"));
@@ -149,7 +149,6 @@ pub fn execute_workflow_leaf(
         });
     }
 
-    let existing_state_paths = existing_workflow_run_state_paths(repo_root, &workflow_run_id);
     if !existing_state_paths.is_empty() {
         let denied_path = request
             .evidence_root
@@ -198,7 +197,7 @@ pub fn execute_workflow_leaf(
                 &evidence_stem,
                 "duplicate-workflow-run-id",
                 format!(
-                    "workflow run id {workflow_run_id} already has canonical execution artifacts and replay-safe resume proof is absent"
+                "workflow run id {workflow_run_id} already has canonical execution artifacts and replay-safe resume proof is absent"
                 ),
                 &observation,
                 observation.receipts_observed.clone(),
@@ -603,6 +602,26 @@ fn workflow_run_id(request: &LifecycleRouteExecutionRequest, attempt_ordinal: u3
     format!("{}-attempt-{attempt_ordinal}-workflow", request.run_id)
 }
 
+fn next_available_workflow_attempt(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+    initial_attempt_ordinal: u32,
+) -> (u32, String, Vec<PathBuf>) {
+    let mut attempt_ordinal = initial_attempt_ordinal.max(1);
+    for _ in 0..100 {
+        let run_id = workflow_run_id(request, attempt_ordinal);
+        let existing = existing_workflow_run_state_paths(repo_root, &run_id);
+        if existing.is_empty() {
+            return (attempt_ordinal, run_id, existing);
+        }
+        attempt_ordinal = attempt_ordinal.saturating_add(1);
+    }
+
+    let run_id = workflow_run_id(request, attempt_ordinal);
+    let existing = existing_workflow_run_state_paths(repo_root, &run_id);
+    (attempt_ordinal, run_id, existing)
+}
+
 fn existing_workflow_run_state_paths(repo_root: &Path, workflow_run_id: &str) -> Vec<PathBuf> {
     let octon_dir = repo_root.join(".octon");
     [
@@ -957,5 +976,24 @@ mod tests {
         assert!(blocked.contains("schema_version: octon-lifecycle-archive-blocked-evidence-v1"));
         assert!(blocked.contains("blocker_class: archive-authorization-missing"));
         assert!(blocked.contains("completion_observed: false"));
+    }
+
+    #[test]
+    fn workflow_leaf_selects_next_unused_attempt_ordinal() {
+        let root = temp_root("next-unused-attempt");
+        let mut request = archive_request(&root);
+        request.run_id = "program-child-route".to_string();
+        request.policy.retry_attempt = 1;
+        fs::create_dir_all(
+            root.join(".octon/state/control/execution/runs/program-child-route-attempt-2-workflow"),
+        )
+        .unwrap();
+
+        let (attempt_ordinal, run_id, existing) =
+            next_available_workflow_attempt(&root, &request, workflow_attempt_ordinal(&request));
+
+        assert_eq!(attempt_ordinal, 3);
+        assert_eq!(run_id, "program-child-route-attempt-3-workflow");
+        assert!(existing.is_empty());
     }
 }

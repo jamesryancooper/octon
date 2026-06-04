@@ -4,6 +4,7 @@ use octon_lifecycle_executor::{
     LifecycleHumanBoundaryContext, LifecycleInvocationAuthority, LifecycleReceiptSpec,
     LifecycleRouteExecutionRequest, LifecycleRouteExecutor, LifecycleRouteSpec,
 };
+use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 use std::env;
 use std::fs;
@@ -38,6 +39,22 @@ fn write_file(path: &Path, content: &str) {
         fs::create_dir_all(parent).unwrap();
     }
     fs::write(path, content).unwrap();
+}
+
+fn read_archive_blocked_evidence(evidence_root: &Path) -> String {
+    let matches = fs::read_dir(evidence_root)
+        .unwrap()
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .filter(|path| {
+            path.file_name()
+                .and_then(|name| name.to_str())
+                .map(|name| name.ends_with("-archive-blocked.yml"))
+                .unwrap_or(false)
+        })
+        .collect::<Vec<_>>();
+    assert_eq!(matches.len(), 1, "expected one archive blocked evidence");
+    fs::read_to_string(&matches[0]).unwrap()
 }
 
 fn env_lock() -> &'static Mutex<()> {
@@ -212,6 +229,21 @@ fi
     }
 }
 
+fn write_context_pack_contracts(root: &Path) {
+    write_file(
+        &root.join(".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"),
+        "# Context Pack Builder v1\n\nLifecycle executor test fixture.\n",
+    );
+    write_file(
+        &root.join(".octon/instance/governance/policies/context-packing.yml"),
+        "schema_version: \"context-packing-policy-v1\"\npolicy_id: \"fixture-context-packing\"\nstatus: \"active\"\nlifecycle_route_context:\n  required_before_authorization: true\n",
+    );
+    write_file(
+        &root.join(".octon/instance/ingress/AGENTS.md"),
+        "# Fixture Ingress\n",
+    );
+}
+
 fn write_completion_then_hanging_agent_binary(path: &Path) {
     write_file(
         path,
@@ -306,7 +338,17 @@ wait
 }
 
 fn write_fake_prompt_catalog(root: &Path) {
+    let manifest_rel = ".octon/inputs/additive/extensions/test-extension/prompts/fake/manifest.yml";
+    let source_asset_rel =
+        ".octon/inputs/additive/extensions/test-extension/prompts/fake/stages/01.md";
     let asset_rel = ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/fake/stages/01.md";
+    let asset_body = "Write support/executable-implementation-prompt.md for {{target}}.\n";
+    let manifest_body = "schema_version: \"octon-extension-prompt-set-v1\"\nprompt_set_id: \"test-extension-fake-route\"\nstages:\n  - stage_id: \"fake\"\n    prompt_id: \"test-extension-fake-route-run\"\n    path: \"stages/01.md\"\n    role_class: \"stage\"\n    order: 1\n";
+    let asset_sha = sha256_hex(asset_body.as_bytes());
+    let manifest_sha = sha256_hex(manifest_body.as_bytes());
+    let bundle_sha = sha256_hex(format!("{manifest_sha}:{asset_sha}").as_bytes());
+    write_file(&root.join(manifest_rel), manifest_body);
+    write_file(&root.join(source_asset_rel), asset_body);
     write_file(
         &root.join(".octon/generated/effective/extensions/catalog.effective.yml"),
         &format!(
@@ -319,15 +361,25 @@ packs:
       - "prompt-bundle"
     prompt_bundles:
       - prompt_set_id: "test-extension-fake-route"
+        manifest_path: "{manifest_rel}"
+        manifest_sha256: "{manifest_sha}"
+        bundle_sha256: "{bundle_sha}"
+        publication_status: "published"
+        alignment_status: "fresh"
         prompt_assets:
-          - projection_source_path: "{asset_rel}"
+          - prompt_id: "test-extension-fake-route-run"
+            role_class: "stage"
+            path: "stages/01.md"
+            sha256: "{asset_sha}"
+            projection_source_path: "{asset_rel}"
 "#
         ),
     );
-    write_file(
-        &root.join(asset_rel),
-        "Write support/executable-implementation-prompt.md for {{target}}.\n",
-    );
+    write_file(&root.join(asset_rel), asset_body);
+}
+
+fn sha256_hex(bytes: &[u8]) -> String {
+    hex::encode(Sha256::digest(bytes))
 }
 
 fn write_prompt_catalog(root: &Path, body: &str) {
@@ -343,6 +395,7 @@ fn request(
     route_type: &str,
     invocation_authority: &str,
 ) -> LifecycleRouteExecutionRequest {
+    write_context_pack_contracts(root);
     let target = root.join("packet");
     write_file(&target.join("proposal.yml"), "status: draft\n");
     write_file(&target.join("README.md"), "# Mock Packet\n");
@@ -497,6 +550,106 @@ fn cancellation_token_returns_cancelled_before_executor_dispatch() {
 }
 
 #[test]
+fn lifecycle_route_context_pack_is_built_before_executor_dispatch() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("route-context-pack");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_fake_agent_binary(&bin_dir.join("codex"), "codex");
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "completed");
+    let context_root = request.evidence_root.join("context");
+    let pack_path = context_root.join("context-pack.json");
+    let receipt_path = context_root.join("context-pack-receipt.json");
+    let model_path = context_root.join("model-visible-context.json");
+    let model_hash_path = context_root.join("model-visible-context.sha256");
+    assert!(pack_path.is_file());
+    assert!(receipt_path.is_file());
+    assert!(model_path.is_file());
+    assert!(model_hash_path.is_file());
+    assert!(result.evidence_paths.iter().any(|path| path == &pack_path));
+    assert!(result
+        .evidence_paths
+        .iter()
+        .any(|path| path == &receipt_path));
+    let pack: serde_json::Value = serde_json::from_slice(&fs::read(&pack_path).unwrap()).unwrap();
+    assert_eq!(
+        pack["context_policy_ref"].as_str(),
+        Some(".octon/instance/governance/policies/context-packing.yml")
+    );
+    assert!(pack["derived_sources"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(
+            |source| source["inclusion_mode"].as_str() == Some("handle-only")
+                && source["authority_label"].as_str() == Some("derived")
+        ));
+    assert!(pack["non_authoritative_inputs"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|source| source["authority_label"].as_str() == Some("non_authoritative")));
+    let model_sha = format!("sha256:{}", sha256_hex(&fs::read(&model_path).unwrap()));
+    assert_eq!(
+        fs::read_to_string(&model_hash_path).unwrap().trim(),
+        model_sha
+    );
+    let proof = fs::read_to_string(root.join(
+        ".octon/state/evidence/runs/test-run/authorization/generate-packet-implementation-prompt-delegation-proof.yml",
+    ))
+    .unwrap();
+    assert!(proof.contains("context_evidence_binding:"));
+    assert!(proof.contains("context_pack_ref:"));
+    assert!(proof.contains("model_visible_context_sha256:"));
+}
+
+#[test]
+fn missing_context_packing_policy_blocks_before_mock_dispatch() {
+    let root = temp_root("route-context-policy-missing");
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let request = request(
+        &root,
+        "run-packet-implementation",
+        "extension",
+        "unattended",
+    );
+    fs::remove_file(root.join(".octon/instance/governance/policies/context-packing.yml")).unwrap();
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "authorization-proof-failed");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::AuthorizationProofFailed)
+    );
+    assert!(!request
+        .evidence_root
+        .join("run-packet-implementation-mock.log")
+        .exists());
+    let failure = fs::read_to_string(root.join(
+        ".octon/state/evidence/runs/test-run/authorization/run-packet-implementation-delegation-proof-failed.yml",
+    ))
+    .unwrap();
+    assert!(failure.contains("context packing policy is missing"));
+}
+
+#[test]
 fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
     let _guard = env_lock().lock().unwrap();
     for (mode, expected_executor) in [("codex", "codex"), ("claude", "claude"), ("auto", "codex")] {
@@ -538,10 +691,161 @@ fn real_executor_modes_invoke_prompt_bundle_through_adapter_boundary() {
         let prompt = fs::read_to_string(result.prompt_packet_path.as_ref().unwrap()).unwrap();
         assert!(prompt.contains("## Bound Inputs"));
         assert!(prompt.contains("- `proposal_path`: `packet`"));
+        assert!(prompt.contains("## prompt-pack-capsule.yml"));
+        assert!(prompt.contains("## route-instruction-capsule.yml"));
+        assert!(prompt.contains("## compiled-governance-capsule.yml"));
+        assert!(prompt.contains("## prompt-expansion-policy.yml"));
+        assert!(!prompt.contains("Write support/executable-implementation-prompt.md"));
         assert!(case_root
             .join("packet/support/executable-implementation-prompt.md")
             .is_file());
     }
+}
+
+#[test]
+fn prompt_pack_capsule_generation_records_model_visible_hash_in_token_ledger() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("prompt-capsule-model-visible-hash");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_fake_agent_binary(&bin_dir.join("codex"), "codex");
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+
+    let result = executor.execute_route(request.clone()).unwrap();
+
+    assert_eq!(result.status, "completed");
+    let prompt_path = result.prompt_packet_path.as_ref().unwrap();
+    let prompt_bytes = fs::read(prompt_path).unwrap();
+    let prompt_sha = format!("sha256:{}", sha256_hex(&prompt_bytes));
+    let ledger: serde_json::Value = serde_json::from_str(
+        &fs::read_to_string(request.evidence_root.join("token-budget-ledger.json")).unwrap(),
+    )
+    .unwrap();
+    let recorded_prompt_sha = ledger["source_records"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|record| record["source_class"].as_str() == Some("prompt"))
+        .and_then(|record| record["sha256"].as_str())
+        .unwrap();
+    assert_eq!(recorded_prompt_sha, prompt_sha);
+}
+
+#[test]
+fn stale_prompt_pack_capsule_fails_closed_on_source_digest_mismatch() {
+    let root = temp_root("prompt-capsule-source-digest-mismatch");
+    write_fake_prompt_catalog(&root);
+    write_file(
+        &root.join(".octon/inputs/additive/extensions/test-extension/prompts/fake/stages/01.md"),
+        "changed without republishing\n",
+    );
+
+    let error = resolve_prompt_bundle(
+        &root,
+        &root.join(".octon/generated/effective/extensions/catalog.effective.yml"),
+        "test-extension",
+        "test-extension-fake-route",
+    )
+    .unwrap_err();
+
+    assert_eq!(
+        error.class,
+        octon_lifecycle_executor::LifecycleErrorClass::Discovery
+    );
+    assert!(error.message.contains("digest mismatch"));
+}
+
+#[test]
+fn full_prompt_expansion_requires_allowed_policy_trigger() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("prompt-full-expansion");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_fake_agent_binary(&bin_dir.join("codex"), "codex");
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+    request.bound_inputs.insert(
+        "prompt_expansion_mode".to_string(),
+        "full-expansion".to_string(),
+    );
+    request.bound_inputs.insert(
+        "prompt_expansion_reason_code".to_string(),
+        "audit-request".to_string(),
+    );
+
+    let result = executor.execute_route(request).unwrap();
+
+    assert_eq!(result.status, "completed");
+    let prompt = fs::read_to_string(result.prompt_packet_path.as_ref().unwrap()).unwrap();
+    assert!(prompt.contains("expansion_mode: `full-expansion`"));
+    assert!(prompt.contains("reason_code: `audit-request`"));
+    assert!(prompt.contains("Write support/executable-implementation-prompt.md"));
+}
+
+#[test]
+fn unsupported_full_prompt_expansion_trigger_fails_closed() {
+    let _guard = env_lock().lock().unwrap();
+    let root = temp_root("prompt-full-expansion-denied");
+    let bin_dir = root.join("bin");
+    fs::create_dir_all(&bin_dir).unwrap();
+    write_fake_agent_binary(&bin_dir.join("codex"), "codex");
+    let _path_guard = prepend_path(&bin_dir);
+    write_fake_prompt_catalog(&root);
+    let executor = DefaultLifecycleRouteExecutor::new(&root);
+    let mut request = request(
+        &root,
+        "generate-packet-implementation-prompt",
+        "extension",
+        "unattended",
+    );
+    request.executor = "codex".to_string();
+    request.route.prompt_set_id = Some("test-extension-fake-route".to_string());
+    request.expected_receipts = Vec::new();
+    request.expected_paths = vec!["support/executable-implementation-prompt.md".to_string()];
+    request.bound_inputs.insert(
+        "prompt_expansion_mode".to_string(),
+        "full-expansion".to_string(),
+    );
+    request.bound_inputs.insert(
+        "prompt_expansion_reason_code".to_string(),
+        "curiosity".to_string(),
+    );
+
+    let result = executor.execute_route(request).unwrap();
+
+    assert_eq!(result.status, "failed");
+    assert_eq!(
+        result.error_class,
+        Some(octon_lifecycle_executor::LifecycleErrorClass::Discovery)
+    );
+    assert!(result
+        .error_message
+        .as_deref()
+        .unwrap_or("")
+        .contains("full prompt expansion reason is not allowed"));
 }
 
 #[test]
@@ -766,10 +1070,22 @@ fn timeout_terminates_descendant_process_group() {
 #[test]
 fn prompt_bundle_resolution_is_scoped_to_owner_extension() {
     let root = temp_root("owner-scoped-prompt");
+    let other_manifest =
+        ".octon/inputs/additive/extensions/other-extension/prompts/fake/manifest.yml";
+    let owner_manifest =
+        ".octon/inputs/additive/extensions/test-extension/prompts/fake/manifest.yml";
+    let other_source = ".octon/inputs/additive/extensions/other-extension/prompts/fake/fake.md";
+    let owner_source = ".octon/inputs/additive/extensions/test-extension/prompts/fake/fake.md";
     let other_asset =
         ".octon/generated/effective/extensions/published/other-extension/bundled/prompts/fake.md";
     let owner_asset =
         ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/fake.md";
+    let manifest_body = "schema_version: \"octon-extension-prompt-set-v1\"\nprompt_set_id: \"duplicate-route\"\nstages:\n  - path: \"fake.md\"\n";
+    let manifest_sha = sha256_hex(manifest_body.as_bytes());
+    let other_sha = sha256_hex(b"wrong owner\n");
+    let owner_sha = sha256_hex(b"right owner\n");
+    let other_bundle_sha = sha256_hex(format!("{manifest_sha}:{other_sha}").as_bytes());
+    let owner_bundle_sha = sha256_hex(format!("{manifest_sha}:{owner_sha}").as_bytes());
     write_prompt_catalog(
         &root,
         &format!(
@@ -782,8 +1098,17 @@ packs:
       - "prompt-bundle"
     prompt_bundles:
       - prompt_set_id: "duplicate-route"
+        manifest_path: "{other_manifest}"
+        manifest_sha256: "{manifest_sha}"
+        bundle_sha256: "{other_bundle_sha}"
+        publication_status: "published"
+        alignment_status: "fresh"
         prompt_assets:
-          - projection_source_path: "{other_asset}"
+          - prompt_id: "other-duplicate-route-run"
+            role_class: "stage"
+            path: "fake.md"
+            sha256: "{other_sha}"
+            projection_source_path: "{other_asset}"
   - pack_id: "test-extension"
     source_id: "bundled"
     capability_profiles:
@@ -791,11 +1116,24 @@ packs:
       - "prompt-bundle"
     prompt_bundles:
       - prompt_set_id: "duplicate-route"
+        manifest_path: "{owner_manifest}"
+        manifest_sha256: "{manifest_sha}"
+        bundle_sha256: "{owner_bundle_sha}"
+        publication_status: "published"
+        alignment_status: "fresh"
         prompt_assets:
-          - projection_source_path: "{owner_asset}"
+          - prompt_id: "owner-duplicate-route-run"
+            role_class: "stage"
+            path: "fake.md"
+            sha256: "{owner_sha}"
+            projection_source_path: "{owner_asset}"
 "#
         ),
     );
+    write_file(&root.join(other_manifest), manifest_body);
+    write_file(&root.join(owner_manifest), manifest_body);
+    write_file(&root.join(other_source), "wrong owner\n");
+    write_file(&root.join(owner_source), "right owner\n");
     write_file(&root.join(other_asset), "wrong owner\n");
     write_file(&root.join(owner_asset), "right owner\n");
 
@@ -826,9 +1164,15 @@ packs:
 #[test]
 fn prompt_bundle_resolution_fails_closed_on_missing_projection_path() {
     let root = temp_root("missing-projection-source-path");
+    let manifest_rel = ".octon/inputs/additive/extensions/test-extension/prompts/bad/manifest.yml";
+    let manifest_body = "schema_version: \"octon-extension-prompt-set-v1\"\nprompt_set_id: \"bad-route\"\nstages:\n  - path: \"bad.md\"\n";
+    let manifest_sha = sha256_hex(manifest_body.as_bytes());
+    let bundle_sha = sha256_hex(format!("{manifest_sha}:missing-projection").as_bytes());
+    write_file(&root.join(manifest_rel), manifest_body);
     write_prompt_catalog(
         &root,
-        r#"schema_version: "octon-extension-effective-catalog-v7"
+        &format!(
+            r#"schema_version: "octon-extension-effective-catalog-v7"
 packs:
   - pack_id: "test-extension"
     source_id: "bundled"
@@ -837,9 +1181,15 @@ packs:
       - "prompt-bundle"
     prompt_bundles:
       - prompt_set_id: "bad-route"
+        manifest_path: "{manifest_rel}"
+        manifest_sha256: "{manifest_sha}"
+        bundle_sha256: "{bundle_sha}"
+        publication_status: "published"
+        alignment_status: "fresh"
         prompt_assets:
           - source_path: ".octon/inputs/additive/extensions/test-extension/prompts/bad.md"
-"#,
+"#
+        ),
     );
 
     let error = resolve_prompt_bundle(
@@ -870,6 +1220,12 @@ fn prompt_bundle_resolution_rejects_traversal_and_non_generated_assets() {
         ),
     ] {
         let root = temp_root(name);
+        let manifest_rel =
+            ".octon/inputs/additive/extensions/test-extension/prompts/bad/manifest.yml";
+        let manifest_body = "schema_version: \"octon-extension-prompt-set-v1\"\nprompt_set_id: \"bad-route\"\nstages:\n  - path: \"bad.md\"\n";
+        let manifest_sha = sha256_hex(manifest_body.as_bytes());
+        let bundle_sha = sha256_hex(format!("{manifest_sha}:{name}").as_bytes());
+        write_file(&root.join(manifest_rel), manifest_body);
         write_prompt_catalog(
             &root,
             &format!(
@@ -882,6 +1238,11 @@ packs:
       - "prompt-bundle"
     prompt_bundles:
       - prompt_set_id: "bad-route"
+        manifest_path: "{manifest_rel}"
+        manifest_sha256: "{manifest_sha}"
+        bundle_sha256: "{bundle_sha}"
+        publication_status: "published"
+        alignment_status: "fresh"
         prompt_assets:
           - projection_source_path: "{raw}"
 "#
@@ -1089,28 +1450,27 @@ fn workflow_leaf_existing_attempt_run_id_fails_closed_without_resume_proof() {
 
     let result = executor.execute_route(request.clone()).unwrap();
 
-    assert_eq!(result.status, "failed");
-    assert_eq!(
-        result.error_class,
-        Some(octon_lifecycle_executor::LifecycleErrorClass::ExecutorFailed)
-    );
-    assert!(result.retryable);
+    assert_eq!(result.status, "completed");
+    assert_eq!(result.error_class, None);
+    assert!(!result.retryable);
     assert!(!request
         .evidence_root
         .join("promote-proposal-attempt-1-stdout.log")
         .exists());
-    assert!(!root
-        .join(".octon/state/evidence/runs/workflows/test-run-attempt-1-workflow/bundle.yml")
+    assert!(root
+        .join(".octon/state/control/execution/runs/test-run-attempt-2-workflow")
+        .is_dir());
+    assert!(root
+        .join(".octon/state/evidence/runs/workflows/test-run-attempt-2-workflow/bundle.yml")
         .exists());
-    let denial = fs::read_to_string(
+    let invocation = fs::read_to_string(
         request
             .evidence_root
-            .join("promote-proposal-attempt-1-workflow-resume-denied.yml"),
+            .join("promote-proposal-attempt-2-workflow-invocation.yml"),
     )
     .unwrap();
-    assert!(denial.contains("resume_decision: denied"));
-    assert!(denial.contains("replay_safe_proof: absent"));
-    assert!(denial.contains("same-input, same-authority, same-target"));
+    assert!(invocation.contains("workflow_run_id: test-run-attempt-2-workflow"));
+    assert!(invocation.contains("attempt_ordinal: 2"));
 }
 
 #[test]
@@ -1148,14 +1508,11 @@ fn archive_workflow_existing_attempt_run_id_emits_blocked_archive_evidence() {
     let result = executor.execute_route(request.clone()).unwrap();
 
     assert_eq!(result.status, "failed");
-    let blocked = fs::read_to_string(
-        request
-            .evidence_root
-            .join("archive-proposal-attempt-1-archive-blocked.yml"),
-    )
-    .unwrap();
+    let blocked = read_archive_blocked_evidence(&request.evidence_root);
     assert!(blocked.contains("schema_version: octon-lifecycle-archive-blocked-evidence-v1"));
-    assert!(blocked.contains("blocker_class: duplicate-workflow-run-id"));
+    assert!(blocked.contains("workflow_run_id: test-run-attempt-2-workflow"));
+    assert!(blocked.contains("attempt_ordinal: 2"));
+    assert!(blocked.contains("blocker_class: archive-completion-not-observed"));
     assert!(blocked.contains("completion_observed: false"));
 }
 
@@ -1194,12 +1551,7 @@ fn archive_workflow_success_without_terminal_observation_emits_blocked_evidence(
         result.error_class,
         Some(octon_lifecycle_executor::LifecycleErrorClass::CompletionNotObserved)
     );
-    let blocked = fs::read_to_string(
-        request
-            .evidence_root
-            .join("archive-proposal-attempt-1-archive-blocked.yml"),
-    )
-    .unwrap();
+    let blocked = read_archive_blocked_evidence(&request.evidence_root);
     assert!(blocked.contains("blocker_class: archive-completion-not-observed"));
     assert!(blocked.contains("completion_observed: false"));
     assert!(blocked.contains("observation_target:"));

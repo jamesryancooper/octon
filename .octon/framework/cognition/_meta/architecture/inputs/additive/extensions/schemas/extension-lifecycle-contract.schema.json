@@ -364,6 +364,7 @@
               "live-state-readable",
               "selected-route-present",
               "receipt-stale",
+              "hygiene-receipt-stale-after-live-pass",
               "missing-evidence",
               "target-path-unchanged",
               "write-scope-unchanged",

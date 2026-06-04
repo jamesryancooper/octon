@@ -20,3 +20,8 @@ if [[ "$recognized_count" -le 0 ]]; then
   echo "expected publication validators to record recognized negative controls" >&2
   exit 1
 fi
+
+yq -e 'select(.validator_id == "validate-publication-freshness-gates.sh") | .manifest_schema_version == "octon-validator-result-manifest-v1"' "$RESULT_FILE" >/dev/null
+yq -e 'select(.validator_id == "validate-publication-freshness-gates.sh") | .source_digests[] | select(.ref == ".octon/state/evidence/validation/architecture/10of10-target-transition/publication/freshness.yml" and .status == "present" and (.sha256 | test("^sha256:[0-9a-f]{64}$")))' "$RESULT_FILE" >/dev/null
+yq -e 'select(.validator_id == "validate-publication-freshness-gates.sh") | .consumer.forbidden_consumers[] | select(. == "runtime")' "$RESULT_FILE" >/dev/null
+yq -e 'select(.validator_id == "validate-publication-freshness-gates.sh") | .failure_behavior.fail_closed_on[] | select(. == "stale-freshness")' "$RESULT_FILE" >/dev/null

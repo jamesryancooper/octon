@@ -1,3 +1,4 @@
+use crate::context_pack::LifecycleContextPackBinding;
 use crate::errors::{LifecycleErrorClass, LifecycleExecutionError};
 use crate::observer;
 use crate::request::{LifecycleDelegationContract, LifecycleRouteExecutionRequest};
@@ -24,6 +25,7 @@ struct DelegationProof {
     declared_write_scope_source: String,
     authority_zone_decision: BTreeMap<String, String>,
     evidence_gate_results: BTreeMap<String, String>,
+    context_evidence_binding: BTreeMap<String, String>,
     replay_idempotency_proof: BTreeMap<String, String>,
     expected_receipts: Vec<String>,
     interaction_context: BTreeMap<String, String>,
@@ -38,18 +40,14 @@ pub fn authorize_before_dispatch(
     request: &LifecycleRouteExecutionRequest,
     manifest_status_before: Option<String>,
     receipts: Vec<ReceiptObservation>,
+    context_binding: &LifecycleContextPackBinding,
 ) -> Result<PathBuf, LifecycleRouteExecutionResult> {
-    match build_and_write_proof(repo_root, request, &receipts) {
+    match build_and_write_proof(repo_root, request, &receipts, context_binding) {
         Ok(path) => Ok(path),
         Err(error) => {
-            let result = authorization_blocked_result(
-                repo_root,
-                request,
-                manifest_status_before,
-                receipts,
-                error,
-            )
-            .unwrap_or_else(|fallback| fallback);
+            let result =
+                blocked_result(repo_root, request, manifest_status_before, receipts, error)
+                    .unwrap_or_else(|fallback| fallback);
             Err(result)
         }
     }
@@ -59,6 +57,7 @@ fn build_and_write_proof(
     repo_root: &Path,
     request: &LifecycleRouteExecutionRequest,
     receipts: &[ReceiptObservation],
+    context_binding: &LifecycleContextPackBinding,
 ) -> Result<PathBuf, LifecycleExecutionError> {
     let contract = request.route.delegation_contract.as_ref().ok_or_else(|| {
         LifecycleExecutionError::new(
@@ -70,6 +69,7 @@ fn build_and_write_proof(
     let grant_consumption = request.policy.invocation_authority.mode == "grant-consumption";
     validate_contract(contract, grant_consumption)?;
     validate_evidence_gates(request, contract)?;
+    validate_context_binding(context_binding)?;
     let required_receipts = validate_required_receipts(receipts, contract)?;
     let declared_scope = declared_write_scope(request)?;
     let proof_root = repo_root
@@ -127,6 +127,7 @@ fn build_and_write_proof(
         declared_write_scope_source: contract.declared_write_scope_source.clone(),
         authority_zone_decision,
         evidence_gate_results: request.evidence_gate_results.clone(),
+        context_evidence_binding: context_binding.proof_fields(),
         replay_idempotency_proof: replay,
         expected_receipts: request.expected_receipts.clone(),
         interaction_context: interaction_context(request),
@@ -144,6 +145,16 @@ fn build_and_write_proof(
         ));
     }
     Ok(proof_path)
+}
+
+pub fn blocked_result(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+    manifest_status_before: Option<String>,
+    receipts: Vec<ReceiptObservation>,
+    error: LifecycleExecutionError,
+) -> Result<LifecycleRouteExecutionResult, LifecycleRouteExecutionResult> {
+    authorization_blocked_result(repo_root, request, manifest_status_before, receipts, error)
 }
 
 fn validate_contract(
@@ -237,6 +248,56 @@ fn validate_evidence_gates(
                 ));
             }
         }
+    }
+    Ok(())
+}
+
+fn validate_context_binding(
+    binding: &LifecycleContextPackBinding,
+) -> Result<(), LifecycleExecutionError> {
+    if binding.verification_status != "valid" {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            format!(
+                "context pack verification status is not valid: {}",
+                binding.verification_status
+            ),
+        ));
+    }
+    for (label, value) in [
+        ("context_pack_ref", binding.context_pack_ref.as_str()),
+        (
+            "context_pack_receipt_ref",
+            binding.context_pack_receipt_ref.as_str(),
+        ),
+        (
+            "model_visible_context_ref",
+            binding.model_visible_context_ref.as_str(),
+        ),
+        ("context_pack_sha256", binding.context_pack_sha256.as_str()),
+        (
+            "model_visible_context_sha256",
+            binding.model_visible_context_sha256.as_str(),
+        ),
+    ] {
+        if value.trim().is_empty() {
+            return Err(LifecycleExecutionError::new(
+                LifecycleErrorClass::AuthorizationProofFailed,
+                format!("context evidence binding is missing {label}"),
+            ));
+        }
+    }
+    if binding.context_policy_ref != ".octon/instance/governance/policies/context-packing.yml" {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            "context evidence binding does not use the active context packing policy",
+        ));
+    }
+    if binding.builder_version != "context-pack-builder-v1" {
+        return Err(LifecycleExecutionError::new(
+            LifecycleErrorClass::AuthorizationProofFailed,
+            "context evidence binding does not use Context Pack Builder v1",
+        ));
     }
     Ok(())
 }
@@ -592,9 +653,44 @@ mod tests {
         fs::create_dir_all(root.join("packet")).unwrap();
         fs::write(root.join("packet/proposal.yml"), "status: implemented\n").unwrap();
         let request = request_with_interaction_context(&root);
+        let context_binding = LifecycleContextPackBinding {
+            context_pack_ref: ".octon/state/evidence/runs/run-1/context/context-pack.json"
+                .to_string(),
+            context_pack_receipt_ref:
+                ".octon/state/evidence/runs/run-1/context/context-pack-receipt.json".to_string(),
+            context_pack_sha256:
+                "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+                    .to_string(),
+            context_pack_receipt_sha256:
+                "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+                    .to_string(),
+            model_visible_context_ref:
+                ".octon/state/evidence/runs/run-1/context/model-visible-context.json".to_string(),
+            model_visible_context_sha256:
+                "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+                    .to_string(),
+            source_manifest_ref: ".octon/state/evidence/runs/run-1/context/source-manifest.json"
+                .to_string(),
+            omissions_ref: ".octon/state/evidence/runs/run-1/context/omissions.json".to_string(),
+            redactions_ref: ".octon/state/evidence/runs/run-1/context/redactions.json".to_string(),
+            invalidation_events_ref:
+                ".octon/state/evidence/runs/run-1/context/invalidation-events.json".to_string(),
+            context_policy_ref: ".octon/instance/governance/policies/context-packing.yml"
+                .to_string(),
+            builder_spec_ref: ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md"
+                .to_string(),
+            builder_version: "context-pack-builder-v1".to_string(),
+            verification_status: "valid".to_string(),
+            evidence_paths: Vec::new(),
+        };
 
-        let result =
-            authorize_before_dispatch(&root, &request, Some("implemented".to_string()), Vec::new());
+        let result = authorize_before_dispatch(
+            &root,
+            &request,
+            Some("implemented".to_string()),
+            Vec::new(),
+            &context_binding,
+        );
 
         assert!(result.is_err());
         let blocked = result.err().unwrap();

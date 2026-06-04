@@ -2858,15 +2858,25 @@ fn lifecycle_receipt_field_value(
 fn parse_receipt_fields(path: &Path) -> Result<BTreeMap<String, String>> {
     let mut fields = BTreeMap::new();
     let content = fs::read_to_string(path)?;
-    for line in content.lines() {
+    let lines = content.lines().collect::<Vec<_>>();
+    let mut index = 0;
+    while index < lines.len() {
+        let line = lines[index];
         let trimmed = line.trim();
         if trimmed.is_empty() || trimmed.starts_with('#') {
+            index += 1;
             continue;
         }
         if let Some((key, value)) = trimmed.split_once(':') {
             let key = key.trim();
             if is_receipt_key(key) {
-                fields.insert(key.to_string(), clean_scalar(value.trim()));
+                let scalar = clean_scalar(value.trim());
+                if scalar.is_empty() {
+                    let list_value = receipt_sequence_value(&lines, index + 1);
+                    fields.insert(key.to_string(), list_value.unwrap_or(scalar));
+                } else {
+                    fields.insert(key.to_string(), scalar);
+                }
             }
         } else if trimmed.starts_with('|') && trimmed.ends_with('|') {
             let cells = trimmed
@@ -2878,8 +2888,27 @@ fn parse_receipt_fields(path: &Path) -> Result<BTreeMap<String, String>> {
                 fields.insert(cells[0].to_string(), clean_scalar(cells[1]));
             }
         }
+        index += 1;
     }
     Ok(fields)
+}
+
+fn receipt_sequence_value(lines: &[&str], start_index: usize) -> Option<String> {
+    let mut values = Vec::new();
+    for line in lines.iter().skip(start_index) {
+        if line.trim().is_empty() {
+            continue;
+        }
+        if !line.starts_with(char::is_whitespace) {
+            break;
+        }
+        let trimmed = line.trim();
+        let Some(value) = trimmed.strip_prefix("- ") else {
+            break;
+        };
+        values.push(clean_scalar(value.trim()));
+    }
+    (!values.is_empty()).then(|| values.join(","))
 }
 
 fn is_receipt_key(value: &str) -> bool {
@@ -3865,6 +3894,87 @@ routes:
                 .get("promotion_evidence")
                 .map(String::as_str),
             Some(".octon/state/evidence/example.md")
+        );
+    }
+
+    #[test]
+    fn lifecycle_execution_request_binds_list_inputs_from_receipt_fields() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("receipt-list-input-binding");
+        fixture.write_catalog(
+            "proposal-packet",
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["implemented"] }
+input_bindings:
+  target:
+    source: "lifecycle.target"
+  disposition:
+    source: "receipt.proposal-closeout.archive_disposition"
+  promotion_evidence:
+    source: "receipt.proposal-closeout.promotion_evidence"
+states: [{ state_id: "archive" }]
+terminal_outcomes: []
+receipts:
+  - receipt_id: "proposal-closeout"
+    path: "support/proposal-closeout.md"
+    required_fields: ["verdict", "closed_at", "archive_authorized"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "archive-proposal"
+    route_type: "workflow"
+"#,
+        );
+        fixture.write("packet/proposal.yml", "status: implemented\n");
+        fixture.write(
+            "packet/support/proposal-closeout.md",
+            "verdict: pass\nclosed_at: 2026-05-14T00:00:00Z\narchive_authorized: yes\narchive_disposition: implemented\npromotion_evidence:\n  - .octon/state/evidence/example-one.md\n  - \".octon/state/evidence/example-two.md\"\n",
+        );
+        let route = RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        };
+
+        let request = lifecycle_execution_request_for_route(
+            &fixture.octon_dir,
+            "run-1",
+            "proposal-packet",
+            "packet",
+            None,
+            &route,
+            ExecutorKind::Codex,
+            60,
+            "unattended",
+            0,
+            &BTreeMap::new(),
+            fixture
+                .root
+                .join(".octon/state/evidence/runs/workflows/run-1"),
+            fixture
+                .root
+                .join(".octon/state/control/execution/runs/run-1/lifecycle-checkpoint.yml"),
+            None,
+            None,
+        )
+        .unwrap()
+        .unwrap();
+
+        assert_eq!(
+            request
+                .bound_inputs
+                .get("promotion_evidence")
+                .map(String::as_str),
+            Some(".octon/state/evidence/example-one.md,.octon/state/evidence/example-two.md")
         );
     }
 

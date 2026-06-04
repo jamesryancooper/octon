@@ -47,10 +47,25 @@ Write `support/lifecycle-residue-cleanup.md` with at least:
 - `verdict`
 - `cleaned_at`
 - `cleanup_candidates`
+- `active_implementation_work_intact`
+- `implementation_blocking`
+- `closeout_blocking`
+- `archive_blocking`
+- `implementation_hygiene_verdict`
+- `publication_hygiene_verdict`
 - `manual_review_count`
 - `worktree_hygiene_verdict`
 - `remaining_blocker_class`
 - `residue_fingerprint`
+
+Place these fields in the opening YAML receipt block. If cleanup candidates are
+zero, active implementation work is intact, the proposal worktree classifier
+reports `worktree_hygiene_verdict: pass`, and
+`worktree_hygiene_foreign_path_count: 0`, retained protected or helper
+manual-review state is local evidence and not a human approval pause. Record
+`implementation_blocking: false`, `closeout_blocking: false`,
+`archive_blocking: false`, `implementation_hygiene_verdict: pass`,
+`publication_hygiene_verdict: pass`, and `remaining_blocker_class: none`.
 
 The receipt must record retained rationale, local-only recovery refs when raw
 private artifacts are retained locally, and any remaining blocker class.

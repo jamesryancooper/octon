@@ -24,6 +24,13 @@ Outputs:
   `/.octon/state/evidence/runs/skills/closeout-worktree/{{run_id}}.md`
 - Optional wrapper index under
   `/.octon/state/evidence/runs/skills/closeout-worktree/index.yml`
+- Compact wrapper views under
+  `/.octon/state/evidence/runs/skills/closeout-worktree/{{run_id}}/` when
+  source evidence exists:
+  - `structured-receipt.yml`
+  - `closeout-projection.yml`
+  - optional `publication-summary.yml`
+  - `expanded-report-request.yml`
 - Optional `lifecycle-interaction-return-v1` evidence that cites the
   target-owned wrapper report, delegated Change receipt, retained-residue
   evidence, or blocker evidence without transferring cleanup, Git,
@@ -50,6 +57,18 @@ When a delegated candidate cleans up a local or remote source branch, that
 singular receipt must carry the governed cleanup authorization reference
 required by `closeout-change`; the wrapper report may cite it only through the
 singular receipt and must not authorize branch deletion itself.
+
+Compact wrapper outputs must source the canonical wrapper report, delegated
+Change receipts, and retained evidence by `source_refs` and `source_digests`.
+`closeout-projection.yml` is the default model-visible wrapper view and must
+declare `model_visible_token_estimate <= 4000`. Raw/full wrapper reports and
+delegated receipts are dereferenced only for stale or missing compact views,
+digest mismatch, candidate ambiguity, authorization ambiguity, rollback gaps,
+support-proof conflict, replay audit, or equivalent escalation.
+`expanded-report-request.yml` enables on-demand narrative reconstruction after
+digest validation and remains non-authoritative. Validate compact view shape and
+digests with
+`.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`.
 
 Repo-hygiene cleanup is a delegated subroute, not a wrapper action. The wrapper
 may cite `repo_hygiene_cleanup_ref`,
@@ -134,6 +153,19 @@ candidate-keyed retained evidence. `unsafe` and `ambiguous` force
 A selected candidate may stop before delegation only when candidate-keyed
 blocker evidence explains why the selected candidate itself cannot safely run
 through `closeout-change`.
+
+When a `publishable_change` candidate includes lifecycle-owned proposal input
+surfaces, archived proposal inputs, generated effective publication outputs,
+proposal registry artifacts, publication evidence, or tracked extension control
+files produced by a completed proposal-program lifecycle run, the candidate
+must include `lifecycle_closeout_authority` with
+`completed_program_run_id`, `program_target`,
+`completed_program_summary_ref`, non-empty `proof_refs`,
+`child_authority_preserved: true`,
+`parent_summary_not_child_receipt: true`, and
+`local_run_state_excluded: true`. This record authorizes only wrapper-safe
+closeout classification; it does not make proposal inputs authoritative and
+does not authorize publishing local execution run state.
 
 `iterations` is required for every new report and must be non-empty when any
 candidate is delegated or closed. Each iteration must include:

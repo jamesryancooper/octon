@@ -34,6 +34,7 @@ make_fixture() {
   local root="$tmp_root/fixture-$fixture_index"
   mkdir -p "$root"
   git -C "$root" init >/dev/null
+  git -C "$root" config core.excludesFile /dev/null
 
   mkdir -p "$root/.octon/generated/effective/capabilities"
   cat >"$root/.octon/generated/effective/capabilities/generation.lock.yml" <<'LOCK'
@@ -55,6 +56,25 @@ LOCK
 
   mkdir -p "$root/.octon/state/control/engine/agent/checkpoints"
   printf '{}\n' >"$root/.octon/state/control/engine/agent/checkpoints/runtime-agent-quorum-allow-1.json"
+
+  mkdir -p "$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1"
+  printf 'checkpoint: local\n' >"$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+
+  mkdir -p "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow"
+  printf 'handoff: local\n' >"$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml"
+
+  mkdir -p "$root/.octon/state/evidence/control/execution"
+  printf 'decision: local\n' >"$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
+  printf 'grant: local\n' >"$root/.octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1.yml"
+
+  mkdir -p "$root/.octon/state/evidence/external-index/runs"
+  printf 'external-index: local\n' >"$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
+
+  mkdir -p "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1"
+  printf 'wrapper-log: local\n' >"$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
+
+  mkdir -p "$root/.octon/inputs/exploratory/proposals/fixture-local"
+  printf 'local finder metadata\n' >"$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
 
   mkdir -p "$root/.octon/state/evidence/validation/analysis"
   printf 'manual: true\n' >"$root/.octon/state/evidence/validation/analysis/manual.yml"
@@ -119,6 +139,9 @@ root="$(make_fixture)"
 dry_run_output="$(bash "$HELPER" --root "$root")"
 printf '%s\n' "$dry_run_output" | grep -F "cleanup_candidate" >/dev/null || fail "dry-run did not report cleanup candidates"
 printf '%s\n' "$dry_run_output" | grep -F ".octon/state/evidence/validation/publication/capabilities/stale.yml" >/dev/null || fail "dry-run did not classify stale receipt"
+printf '%s\n' "$dry_run_output" | grep -F "proposal lifecycle runner residue" >/dev/null || fail "dry-run did not classify lifecycle runner residue"
+printf '%s\n' "$dry_run_output" | grep -F "closeout skill run residue" >/dev/null || fail "dry-run did not classify closeout skill run residue"
+printf '%s\n' "$dry_run_output" | grep -F "local_filesystem_metadata" | grep -F ".octon/inputs/exploratory/proposals/fixture-local/.DS_Store" >/dev/null || fail "dry-run did not classify local filesystem metadata"
 printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/evidence/validation/publication/capabilities/final.yml" >/dev/null || fail "dry-run did not protect referenced receipt"
 printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/validation/analysis/manual.yml" >/dev/null || fail "dry-run did not surface manual-review artifact"
 printf '%s\n' "$dry_run_output" | grep -F "generated_run_health_projection" >/dev/null || fail "dry-run did not route generated run-health projection to manual review"
@@ -130,6 +153,13 @@ assert_missing "$root/.octon/state/evidence/validation/publication/capabilities/
 assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
 assert_missing "$root/.octon/state/continuity/runs/service-build-1/state.yml"
 assert_missing "$root/.octon/state/control/engine/agent/checkpoints/runtime-agent-quorum-allow-1.json"
+assert_missing "$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+assert_missing "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
+assert_missing "$root/.octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-program-1.yml"
+assert_missing "$root/.octon/state/evidence/external-index/runs/lifecycle-proposal-program-1.yml"
+assert_missing "$root/.octon/state/evidence/runs/skills/closeout-worktree/run-1/log.yml"
+assert_missing "$root/.octon/inputs/exploratory/proposals/fixture-local/.DS_Store"
 assert_exists "$root/.octon/state/evidence/validation/publication/capabilities/final.yml"
 assert_exists "$root/.octon/state/evidence/validation/analysis/manual.yml"
 assert_exists "$root/.octon/generated/cognition/projections/materialized/runs/publish-1/index.yml"

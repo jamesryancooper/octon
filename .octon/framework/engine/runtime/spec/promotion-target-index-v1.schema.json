@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/promotion-target-index-v1.schema.json",
+  "title": "Promotion Target Index v1",
+  "description": "Generated advisory index of active proposal promotion targets and target-family classifications.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_ref",
+    "artifact_kind",
+    "artifact_ref",
+    "authority_status",
+    "producer",
+    "generated_at",
+    "source_refs",
+    "authority_boundary",
+    "freshness",
+    "reader_preferences",
+    "proposal_count",
+    "proposals",
+    "target_family_summary",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": { "const": "octon-promotion-target-index-v1" },
+    "schema_ref": { "const": ".octon/framework/engine/runtime/spec/promotion-target-index-v1.schema.json" },
+    "artifact_kind": { "const": "promotion-target-index" },
+    "artifact_ref": { "type": "string", "minLength": 1 },
+    "authority_status": { "const": "generated-derived-read-model-not-authority" },
+    "producer": { "$ref": "repo-authority-graph-v1.schema.json#/$defs/producer" },
+    "generated_at": { "type": "string", "minLength": 1 },
+    "source_refs": { "type": "array", "minItems": 1, "items": { "$ref": "repo-authority-graph-v1.schema.json#/$defs/source_ref" } },
+    "authority_boundary": { "$ref": "repo-authority-graph-v1.schema.json#/$defs/authority_boundary" },
+    "freshness": { "$ref": "repo-authority-graph-v1.schema.json#/$defs/freshness" },
+    "reader_preferences": { "$ref": "repo-authority-graph-v1.schema.json#/$defs/reader_preferences" },
+    "proposal_count": { "type": "integer", "minimum": 0 },
+    "proposals": { "type": "array", "items": { "$ref": "#/$defs/proposal_entry" } },
+    "target_family_summary": {
+      "type": "object",
+      "additionalProperties": { "type": "integer", "minimum": 0 }
+    },
+    "failure_behavior": { "$ref": "repo-authority-graph-v1.schema.json#/$defs/failure_behavior" }
+  },
+  "$defs": {
+    "proposal_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "proposal_id",
+        "proposal_kind",
+        "status",
+        "proposal_ref",
+        "proposal_sha256",
+        "promotion_scope",
+        "target_count",
+        "targets"
+      ],
+      "properties": {
+        "proposal_id": { "type": "string", "minLength": 1 },
+        "proposal_kind": { "type": "string", "minLength": 1 },
+        "status": { "type": "string", "minLength": 1 },
+        "proposal_ref": { "type": "string", "minLength": 1 },
+        "proposal_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "promotion_scope": { "type": "string", "minLength": 1 },
+        "target_count": { "type": "integer", "minimum": 0 },
+        "targets": { "type": "array", "items": { "$ref": "#/$defs/target_entry" } }
+      }
+    },
+    "target_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "path",
+        "target_family",
+        "authority_posture",
+        "authored_authority",
+        "boundary_status",
+        "risk_flags"
+      ],
+      "properties": {
+        "path": { "type": "string", "minLength": 1 },
+        "target_family": { "type": "string", "minLength": 1 },
+        "authority_posture": { "type": "string", "minLength": 1 },
+        "authored_authority": { "type": "boolean" },
+        "boundary_status": { "type": "string", "minLength": 1 },
+        "risk_flags": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    }
+  }
+}

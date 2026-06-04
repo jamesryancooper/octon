@@ -1,0 +1,69 @@
+
+running 10 tests
+test codex::tests::timeout_boundary_success_with_completion_is_completed ... ok
+test codex::tests::timeout_boundary_without_completion_remains_timeout ... ok
+test codex::tests::codex_runtime_preflight_reports_readonly_state_db ... ok
+test workflow_leaf::tests::workflow_leaf_selects_next_unused_attempt_ordinal ... ok
+test observer::tests::archive_completion_observes_archived_target_after_active_target_moves ... ok
+test workflow_leaf::tests::archive_missing_authorization_writes_blocked_evidence_before_dispatch ... ok
+test authorization::tests::interaction_context_cannot_satisfy_required_dispatch_receipts ... ok
+test adapter::tests::workflow_routes_use_injected_runner_when_available ... ok
+test adapter::tests::workflow_declared_required_inputs_are_checked_before_dispatch ... ok
+test adapter::tests::workflow_declared_required_inputs_accept_bound_run_inputs ... ok
+
+test result: ok. 10 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+running 45 tests
+test missing_context_packing_policy_blocks_before_mock_dispatch ... ok
+test adapter_rejects_symlink_escape_for_expected_paths_before_execution ... ok
+test cancellation_token_returns_cancelled_before_executor_dispatch ... ok
+test missing_required_input_blocks_before_executor_dispatch ... ok
+test human_boundary_block_writes_typed_exception_failure_when_contract_is_not_delegable ... ok
+test missing_delegation_contract_fails_closed_before_extension_dispatch ... ok
+test executor_errors_are_recorded_as_structured_failed_results ... ok
+test extension_route_ids_dispatch_when_delegation_contract_passes ... ok
+test prompt_bundle_resolution_fails_closed_on_missing_projection_path ... ok
+test adapter_rejects_unsafe_manifest_receipt_and_completion_paths_before_execution ... ok
+test prompt_bundle_resolution_requires_generated_effective_catalog_path ... ok
+test prompt_bundle_resolution_rejects_traversal_and_non_generated_assets ... ok
+test prompt_bundle_resolution_is_scoped_to_owner_extension ... ok
+test mock_executor_writes_structured_result_and_receipt_observation ... ok
+test mock_executor_creates_draft_proposal_packet_from_bound_source ... ok
+test parent_receipt_cannot_satisfy_child_pre_dispatch_requirement ... ok
+test required_evidence_gates_are_enforced_before_executor_dispatch ... ok
+test required_receipts_before_dispatch_are_enforced_before_executor_dispatch ... ok
+test stale_prompt_pack_capsule_fails_closed_on_source_digest_mismatch ... ok
+test route_specific_target_change_can_satisfy_completion ... ok
+test unrelated_receipts_do_not_satisfy_route_completion ... ok
+test archive_workflow_existing_attempt_run_id_emits_blocked_archive_evidence ... ok
+test unsupported_invocation_authority_fails_closed_without_dispatch ... ok
+test archive_workflow_success_without_terminal_observation_emits_blocked_evidence ... ok
+test archive_workflow_non_authorizing_closeout_receipt_blocks_before_dispatch ... ok
+test workflow_manifest_resolution_rejects_non_runtime_source_ref ... ok
+test workflow_manifest_resolution_rejects_traversal_source_ref ... ok
+test workflow_manifest_resolution_rejects_traversal_workflow_path ... ok
+test workflow_manifest_resolution_requires_generated_route_bundle_reference ... ok
+test workflow_manifest_resolution_requires_generated_runtime_route_bundle_path ... ok
+test workflow_manifest_resolves_through_generated_route_bundle_source_ref ... ok
+test workflow_routes_dispatch_by_delegation_contract_not_route_type ... ok
+test failed_real_executor_is_not_retryable_after_target_mutation ... ok
+test full_prompt_expansion_requires_allowed_policy_trigger ... ok
+test lifecycle_route_context_pack_is_built_before_executor_dispatch ... ok
+test prompt_pack_capsule_generation_records_model_visible_hash_in_token_ledger ... ok
+test real_executor_cancellation_during_dispatch_writes_cancelled_result ... ok
+test real_executor_completes_when_route_evidence_appears_before_process_exit ... ok
+test real_executor_modes_invoke_prompt_bundle_through_adapter_boundary ... ok
+test real_executor_timeout_writes_logs_and_route_result ... ok
+test real_executor_waits_for_target_change_when_expected_receipt_already_exists ... ok
+test timeout_terminates_descendant_process_group ... ok
+test unsupported_full_prompt_expansion_trigger_fails_closed ... ok
+test workflow_leaf_existing_attempt_run_id_fails_closed_without_resume_proof ... ok
+test workflow_leaf_retry_attempts_use_distinct_workflow_run_ids_and_evidence ... ok
+
+test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 23.67s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

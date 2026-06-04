@@ -96,7 +96,37 @@ contains_id() {
 
 child_abs_path() {
   local rel="$1"
-  printf '%s/%s\n' "$ROOT_DIR" "$rel"
+  local active="$ROOT_DIR/$rel"
+  if [[ -d "$active" ]]; then
+    printf '%s\n' "$active"
+    return 0
+  fi
+  case "$rel" in
+    .octon/inputs/exploratory/proposals/*/*)
+      local suffix archive manifest original_path
+      suffix="${rel#.octon/inputs/exploratory/proposals/}"
+      archive="$ROOT_DIR/.octon/inputs/exploratory/proposals/.archive/$suffix"
+      manifest="$archive/proposal.yml"
+      original_path="$(yq -r '.archive.original_path // ""' "$manifest" 2>/dev/null || true)"
+      if [[ -d "$archive" && "$original_path" == "$rel" ]]; then
+        printf '%s\n' "$archive"
+        return 0
+      fi
+      ;;
+  esac
+  printf '%s\n' "$active"
+}
+
+repo_rel_path() {
+  local abs="$1"
+  case "$abs" in
+    "$ROOT_DIR"/*)
+      printf '%s\n' "${abs#$ROOT_DIR/}"
+      ;;
+    *)
+      printf '%s\n' "$abs"
+      ;;
+  esac
 }
 
 run_child_validator() {
@@ -230,8 +260,9 @@ validate_child_metadata() {
 
 validate_child_readiness() {
   local index="$1" child_id="$2" child_path="$3"
-  local child_abs manifest required_metadata_count metadata requirement_count requirement_id mention_count mention
+  local child_abs child_validation_path manifest required_metadata_count metadata requirement_count requirement_id mention_count mention
   child_abs="$(child_abs_path "$child_path")"
+  child_validation_path="$(repo_rel_path "$child_abs")"
   manifest="$child_abs/proposal.yml"
 
   if [[ ! -d "$child_abs" ]]; then
@@ -245,22 +276,22 @@ validate_child_readiness() {
 
   run_child_validator \
     "child $child_id proposal standard passes" \
-    bash "$STANDARD_SCRIPT" --package "$child_path" --skip-registry-check --skip-promotion-target-checks
+    bash "$STANDARD_SCRIPT" --package "$child_validation_path" --skip-registry-check --skip-promotion-target-checks
   validate_child_metadata "$child_id" "$child_abs"
   run_child_validator \
     "child $child_id implementation-grade completeness review passes" \
-    bash "$READINESS_SCRIPT" --package "$child_path"
+    bash "$READINESS_SCRIPT" --package "$child_validation_path"
   if child_is_archived_implemented "$manifest"; then
     validate_archived_implemented_child_ready "$child_id" "$child_abs"
   elif child_is_implemented "$manifest"; then
     run_child_validator \
       "child $child_id implemented proposal-review evidence is preserved" \
-      bash "$REVIEW_GATE_SCRIPT" --package "$child_path"
+      bash "$REVIEW_GATE_SCRIPT" --package "$child_validation_path"
     validate_implemented_child_ready "$child_id" "$child_abs"
   else
     run_child_validator \
       "child $child_id accepted proposal-review gate is fresh" \
-      bash "$REVIEW_GATE_SCRIPT" --package "$child_path" --require-implementation-authorization
+      bash "$REVIEW_GATE_SCRIPT" --package "$child_validation_path" --require-implementation-authorization
   fi
 
   required_metadata_count="$(yq -r "(.children[$index].required_metadata // []) | length" "$REGISTRY" 2>/dev/null || echo 0)"

@@ -38,6 +38,11 @@ Successful wrapper execution proves:
   candidate-keyed retained evidence;
 - `publishable_change` and `publishable_closeout_evidence` are the only
   routing classes delegated to `closeout-change`;
+- lifecycle-owned proposal input, generated effective, publication evidence,
+  or tracked extension control surfaces are accepted as `publishable_change`
+  only when the candidate records completed proposal-program proof,
+  child-authority preservation, parent-summary non-substitution, and local
+  run-state exclusion in `lifecycle_closeout_authority`;
 - `unsafe` and `ambiguous` routing classes force `nonterminal` with
   candidate-keyed blocker evidence;
 - each closed candidate cites the singular `closeout-change` receipt JSON used
@@ -67,6 +72,17 @@ Successful wrapper execution proves:
   worktree residue.
 - terminal reporting distinguishes a truly Git-clean worktree from a fully
   dispositioned worktree that still retains evidence residue.
+- compact wrapper artifacts cite the wrapper report, delegated
+  `closeout-change` receipts, and retained evidence by source refs and source
+  digests;
+- `closeout-projection.yml` declares `model_visible_token_estimate <= 4000`
+  and validates with
+  `.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`;
+- missing, stale, digest-mismatched, or authority-conflicting compact wrapper
+  artifacts fail closed instead of replacing wrapper reports, delegated
+  receipts, raw evidence, rollback, authorization, support, or closure proof;
+- expanded wrapper reports are reconstructed on demand from
+  `expanded-report-request.yml` after digest validation.
 
 Negative controls:
 
@@ -123,6 +139,9 @@ Negative controls:
 - A wrapper report that counts broad raw/private state, `.octon/engine/**`,
   generated authority, transcripts, or input surfaces as publishable closeout
   evidence fails.
+- A wrapper report that classifies lifecycle-owned proposal input/generated
+  publication/control surfaces as `publishable_change` without
+  `lifecycle_closeout_authority` proof fails.
 - A wrapper report that routes recursive final-branch operational evidence as
   another publishable closeout-evidence publication fails; it must be retained
   locally or reported as nonterminal with blocker evidence.
@@ -134,6 +153,9 @@ Negative controls:
 - A wrapper report that claims cleanup from detection-only evidence fails.
 - A wrapper report that introduces `Closeout Changes` as a canonical model
   fails.
+- A compact wrapper view that claims authority, omits source digests, exceeds
+  the closeout projection token ceiling, or points to proposal-local inputs as
+  evidence fails.
 
 Run
 `.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --report <path>`

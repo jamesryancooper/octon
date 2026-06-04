@@ -1,0 +1,27 @@
+PASS: owned current-run control and evidence paths do not block
+PASS: target support and promotion targets are in scope
+PASS: unrelated tracked dirty file blocks
+PASS: unrelated untracked file blocks
+PASS: mixed paths produce accurate bucket counts
+PASS: program child write scopes and promotion targets are in scope
+PASS: program archived child promotion targets are in scope
+PASS: program checkpoint scope applies to child target
+PASS: program checkpoint scope applies to archived child target
+PASS: program checkpoint scope applies to packet child target
+PASS: current program run-derived artifacts do not block
+PASS: current program run closeout-packet evidence does not block
+PASS: target lifecycle closeout-packet evidence does not block
+PASS: other lifecycle closeout-packet evidence still blocks
+PASS: current program run repo-hygiene cleanup evidence does not block
+PASS: same-scope lifecycle run artifacts do not block
+PASS: same-scope lifecycle evidence artifacts do not block
+PASS: same program lifecycle artifacts do not block packet child target
+PASS: program generated projections do not block
+PASS: program generated projection scope applies to packet child target
+PASS: program retained evidence does not block
+PASS: program host projection mirrors do not block
+PASS: program host projection drift still blocks
+PASS: local OS metadata does not block
+PASS: untracked raw input files still block
+
+test-classify-proposal-worktree-hygiene.sh: passed=25 failed=0

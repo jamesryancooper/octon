@@ -1,0 +1,77 @@
+schema_version: "octon-token-budgets-policy-v1"
+policy_id: "proposal-program-token-budgets"
+owner: "Octon governance"
+status: "active"
+scope: >-
+  Token ceilings and retained measurement rules for proposal-program lifecycle
+  action slices, child dispatch, final completion, and architecture exceptions.
+
+authority_refs:
+  execution_budgets: ".octon/instance/governance/policies/execution-budgets.yml"
+  model_routing: ".octon/instance/governance/policies/model-routing.yml"
+  model_call_routing: ".octon/instance/governance/policies/model-call-routing.yml"
+  token_budget_ledger_schema: ".octon/framework/engine/runtime/spec/token-budget-ledger-v1.schema.json"
+  evidence_obligations: ".octon/framework/constitution/obligations/evidence.yml"
+
+budget_classes:
+  planner_state:
+    artifact_ref: "planner-state.yml"
+    max_model_visible_tokens: 3000
+    route: "deterministic"
+  program_context_capsule:
+    artifact_ref: "program-context-capsule.yml"
+    max_model_visible_tokens: 3000
+    route: "deterministic"
+  blocker_zero_state:
+    artifact_ref: "recovery-delta-summary.yml"
+    max_model_visible_tokens: 2000
+    route: "deterministic"
+  blocker_nonzero_state:
+    artifact_ref: "recovery-delta-summary.yml"
+    max_model_visible_tokens: 8000
+    route: "medium"
+  child_dispatch_base:
+    artifact_ref: "model-routing-receipt.yml"
+    max_model_visible_tokens: 12000
+    route: "small"
+  final_completion:
+    artifact_ref: "compact-completion-capsule.yml"
+    max_model_visible_tokens: 8000
+    route: "deterministic"
+  architecture_exception:
+    artifact_ref: "model-routing-receipt.yml"
+    max_model_visible_tokens: 40000
+    route: "high-on-escalation"
+    escalation_required: true
+
+measurement_rules:
+  token_budget_ledger_required: true
+  ledger_file: "token-budget-ledger.json"
+  provider_usage_preferred: true
+  deterministic_byte_estimate_allowed: true
+  prompt_context_completion_tool_output_attribution_required: true
+  source_digest_required: true
+  model_visible_hash_required_when_consequential: true
+  before_after_delta_required_for_rollout_claim: true
+  raw_full_evidence_model_visible_by_default: false
+
+regression_guards:
+  minimum_reduction_target_percent: 30
+  avoidable_regression_route: "stage_only"
+  missing_delta_route: "stage_only"
+  unverifiable_delta_route: "deny"
+
+failure_behavior:
+  missing_ledger: "fail_closed"
+  stale_ledger: "fail_closed"
+  missing_source_digest: "fail_closed"
+  context_hash_unreconstructable: "fail_closed"
+  child_dispatch_base_ceiling_exceeded: "stage_only"
+  final_completion_ceiling_exceeded: "stage_only"
+  architecture_exception_without_escalation: "deny"
+
+non_authority_boundaries:
+  token_budget_ledger_authorizes_execution: false
+  token_budget_policy_replaces_execution_budget_policy: false
+  proposal_input_authority: "none"
+  generated_output_authority: "derived-only"

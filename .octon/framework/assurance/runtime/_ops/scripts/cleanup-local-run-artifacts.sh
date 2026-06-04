@@ -236,6 +236,7 @@ git -C "$ROOT_DIR" ls-files --others --exclude-standard -- \
   .octon/state \
   .octon/generated/.tmp \
   .octon/generated/cognition/projections/materialized/runs \
+  ':(glob)**/.DS_Store' \
   | sort -u \
   | filter_excluded_paths >"$UNTRACKED_PATHS"
 
@@ -250,6 +251,7 @@ git -C "$ROOT_DIR" status --porcelain=v1 -uall -- \
   .octon/state \
   .octon/generated/.tmp \
   .octon/generated/cognition/projections/materialized/runs \
+  ':(glob)**/.DS_Store' \
   | sort -u \
   | filter_status_rows >"$STATUS_ROWS"
 
@@ -294,6 +296,9 @@ classify_path() {
   fi
 
   case "$rel" in
+    .DS_Store|*/.DS_Store)
+      set_classification "local_filesystem_metadata" "cleanup_candidate" "unreferenced local filesystem metadata"
+      ;;
     .octon/generated/cognition/projections/materialized/runs/*)
       set_classification "generated_run_health_projection" "manual_review" "generated run-health pruning is generator-owned; run $RUN_HEALTH_GENERATOR_REF --all-runs"
       ;;
@@ -323,6 +328,19 @@ classify_path() {
     .octon/state/control/engine/agent/checkpoints/runtime-agent-quorum-*.json|\
     .octon/state/evidence/runs/engine/agent/runtime-agent-quorum-*.json)
       set_classification "local_run_residue" "cleanup_candidate" "unreferenced local runtime agent quorum residue"
+      ;;
+    .octon/state/control/execution/runs/lifecycle-proposal-*/*|\
+    .octon/state/continuity/runs/lifecycle-proposal-*/*|\
+    .octon/state/control/execution/approvals/requests/lifecycle-proposal-*.yml|\
+    .octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-*.yml|\
+    .octon/state/evidence/control/execution/authority-grant-bundle-lifecycle-proposal-*.yml|\
+    .octon/state/evidence/external-index/runs/lifecycle-proposal-*.yml)
+      set_classification "local_run_residue" "cleanup_candidate" "unreferenced local proposal lifecycle runner residue"
+      ;;
+    .octon/state/evidence/runs/skills/closeout-worktree/*|\
+    .octon/state/evidence/runs/skills/closeout-packet/*|\
+    .octon/state/evidence/runs/skills/octon-proposal-lifecycle-closeout-packet/*)
+      set_classification "local_run_residue" "cleanup_candidate" "unreferenced local closeout skill run residue"
       ;;
     .octon/state/evidence/validation/publication/capabilities/*.yml|\
     .octon/state/evidence/validation/publication/runtime/*.yml|\
@@ -646,13 +664,15 @@ for index, item in enumerate(authorized):
     parsed = PurePosixPath(path)
     if parsed.is_absolute() or ".." in parsed.parts:
         fail(f"authorized path must be repo-relative and safe: {path}")
-    if path.startswith(".octon/inputs/"):
+    item_class = item.get("class")
+    is_local_filesystem_metadata = item_class == "local_filesystem_metadata" and path.endswith("/.DS_Store")
+    if path.startswith(".octon/inputs/") and not is_local_filesystem_metadata:
         fail(f"input-surface path cannot be authorized: {path}")
     if path.startswith(".octon/generated/effective/"):
         fail(f"generated authority path cannot be authorized: {path}")
     if path.startswith(".octon/generated/cognition/projections/materialized/runs/"):
         fail(f"generated run-health path must route to generator-owned pruning: {path}")
-    if not isinstance(item.get("class"), str) or not item["class"]:
+    if not isinstance(item_class, str) or not item_class:
         fail(f"authorized_paths[{index}].class must be non-empty")
     if not isinstance(item.get("pattern_id"), str) or not item["pattern_id"]:
         fail(f"authorized_paths[{index}].pattern_id must be non-empty")

@@ -729,6 +729,20 @@ RAW_PRIVATE_OR_UNSAFE_PREFIXES = (
     ".octon/generated/effective/",
     ".octon/inputs/",
 )
+LIFECYCLE_CLOSEOUT_PUBLISHABLE_PREFIXES = (
+    ".octon/inputs/additive/extensions/",
+    ".octon/inputs/exploratory/proposals/architecture/",
+    ".octon/inputs/exploratory/proposals/.archive/",
+    ".octon/generated/effective/",
+    ".octon/generated/proposals/",
+    ".octon/state/evidence/decisions/",
+    ".octon/state/evidence/validation/extensions/",
+    ".octon/state/evidence/validation/publication/",
+)
+LIFECYCLE_CLOSEOUT_PUBLISHABLE_EXACT_PATHS = {
+    ".octon/state/control/extensions/active.yml",
+    ".octon/state/control/extensions/quarantine.yml",
+}
 
 
 def path_text(value):
@@ -751,6 +765,37 @@ def path_is_publishable_closeout_evidence(value):
     return path_is_under_any(value, PUBLISHABLE_CLOSEOUT_EVIDENCE_PREFIXES) and not path_is_raw_private_or_unsafe(value)
 
 
+def path_is_lifecycle_closeout_publishable_surface(value):
+    text = path_text(value)
+    return text in LIFECYCLE_CLOSEOUT_PUBLISHABLE_EXACT_PATHS or path_is_under_any(text, LIFECYCLE_CLOSEOUT_PUBLISHABLE_PREFIXES)
+
+
+def candidate_has_lifecycle_closeout_authority(candidate, prefix):
+    authority = candidate.get("lifecycle_closeout_authority") if isinstance(candidate, dict) else None
+    if not isinstance(authority, dict):
+        return False
+    required_string_fields = (
+        "completed_program_run_id",
+        "program_target",
+        "completed_program_summary_ref",
+    )
+    for field in required_string_fields:
+        if not is_nonempty_string(authority.get(field)):
+            fail(f"{prefix}.lifecycle_closeout_authority.{field} must be present for lifecycle publishable surfaces")
+            return False
+    for field in ("child_authority_preserved", "parent_summary_not_child_receipt", "local_run_state_excluded"):
+        if authority.get(field) is not True:
+            fail(f"{prefix}.lifecycle_closeout_authority.{field} must be true for lifecycle publishable surfaces")
+            return False
+    proof_refs = authority.get("proof_refs")
+    if not isinstance(proof_refs, list) or not proof_refs:
+        fail(f"{prefix}.lifecycle_closeout_authority.proof_refs must be a non-empty list")
+        return False
+    for index, ref in enumerate(proof_refs):
+        validate_repo_path(ref, f"{prefix}.lifecycle_closeout_authority.proof_refs[{index}]")
+    return True
+
+
 def path_is_local_private_retained(value):
     return path_is_under_any(value, LOCAL_PRIVATE_RETAINED_PREFIXES)
 
@@ -771,13 +816,18 @@ def path_is_raw_private_or_unsafe(value):
     return False
 
 
-def validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix):
+def validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix, candidate):
     if routing_class == "publishable_closeout_evidence":
         for include_path in include_paths:
             if not path_is_publishable_closeout_evidence(include_path):
                 fail(f"{prefix}.residue_routing_class publishable_closeout_evidence may include only approved closeout evidence paths: {include_path}")
     elif routing_class == "publishable_change":
+        has_lifecycle_authority = candidate_has_lifecycle_closeout_authority(candidate, prefix)
         for include_path in include_paths:
+            if path_is_lifecycle_closeout_publishable_surface(include_path):
+                if not has_lifecycle_authority:
+                    fail(f"{prefix}.residue_routing_class publishable_change includes lifecycle closeout surface without lifecycle_closeout_authority: {include_path}")
+                continue
             if path_is_raw_private_or_unsafe(include_path) or path_is_under(include_path, ".octon/state/"):
                 fail(f"{prefix}.residue_routing_class publishable_change must not include raw/private state or generated authority paths: {include_path}")
     elif routing_class == "local_private_retained":
@@ -1001,7 +1051,7 @@ for index, candidate in enumerate(candidates):
         exclude_paths = path_list(boundaries.get("exclude_paths", []), f"{prefix}.boundaries.exclude_paths", required=False)
 
     if routing_class in valid_routing_classes:
-        validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix)
+        validate_candidate_routing_paths(candidate_id, routing_class, include_paths, prefix, candidate)
 
     if is_nonempty_string(candidate_id):
         candidate_boundaries[candidate_id] = {

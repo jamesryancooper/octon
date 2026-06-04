@@ -30,14 +30,22 @@ outcome or a rejected/superseded/historical archive disposition instead of a
 successful closeout.
 
 Before claiming archive readiness, run the read-only worktree hygiene
-classifier:
+classifier. For ordinary packet closeout, classify the target packet as a
+proposal-packet:
 
 ```sh
 .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh --target <packet-path> --lifecycle proposal-packet --format yaml
 ```
 
-Pass `--run-id <run-id>` when the lifecycle run id is available. If the
-classifier reports any `foreign-or-ambiguous` paths, write or refresh
+Pass the packet lifecycle run id with `--run-id <run-id>` when available. For a
+program-child closeout route, the route prompt includes `Program Context` with
+`program_run_id`; classify with `--lifecycle proposal-program --run-id
+<program_run_id>` instead. Do not use the child route run id as the classifier
+run id for program-child hygiene classification. This preserves child authority:
+closeout receipts, archive authorization, validation verdicts, and terminal
+lifecycle outcome remain child-owned.
+
+If the classifier reports any `foreign-or-ambiguous` paths, write or refresh
 `support/proposal-closeout.md` with `verdict: blocked`,
 `archive_authorized: no`, `selected_git_route: stage-only-escalate`,
 `worktree_hygiene_verdict: blocked`,
@@ -50,7 +58,10 @@ paths from this route.
 Successful closeout writes or refreshes `support/proposal-closeout.md` with at
 least `verdict`, `closed_at`, and `archive_authorized`. Use `verdict: pass` and
 `archive_authorized: yes` only when the packet is ready for the separate
-`archive-proposal` lifecycle route. Closeout must not archive the packet
+`archive-proposal` lifecycle route. When `archive_authorized: yes`, record
+`promotion_evidence` as durable repo-relative evidence paths outside the
+proposal packet only; validation commands belong in the validation summary and
+must not be listed as promotion evidence. Closeout must not archive the packet
 directly.
 
 When closeout is blocked because follow-on work is owned by another lifecycle,

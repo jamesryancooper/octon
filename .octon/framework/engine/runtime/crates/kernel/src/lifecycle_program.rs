@@ -20,8 +20,18 @@ use std::thread;
 
 const PROGRAM_CHECKPOINT_FILE: &str = "program-lifecycle-checkpoint.yml";
 const AGGREGATE_TERMINAL_BLOCKERS_FILE: &str = "aggregate-terminal-blockers.yml";
+const BLOCKER_LEDGER_FILE: &str = "blocker-ledger.yml";
+const RECOVERY_DELTA_SUMMARY_FILE: &str = "recovery-delta-summary.yml";
+const PLANNER_STATE_FILE: &str = "planner-state.yml";
+const PROGRAM_CONTEXT_CAPSULE_FILE: &str = "program-context-capsule.yml";
+const COMPACT_COMPLETION_CAPSULE_FILE: &str = "compact-completion-capsule.yml";
+const ROUTE_DECISION_RECEIPT_FILE: &str = "route-decision-receipt.yml";
+const MODEL_ROUTING_RECEIPT_FILE: &str = "model-routing-receipt.yml";
+const ACTION_SLICE_LEDGER_FILE: &str = "action-slice-ledger.yml";
 const DEFAULT_CHILD_LIFECYCLE_ID: &str = "proposal-packet";
 const DEFAULT_PROGRAM_MAX_STEPS: u32 = 20;
+const DEFAULT_PROGRAM_RETRY_MAX_STEPS: u32 = 1;
+const DEFAULT_PROGRAM_RETRY_MAX_CHILD_CONCURRENCY: usize = 1;
 const DEFAULT_MAX_CHILD_CONCURRENCY: usize = 2;
 const MISSING_CHILD_REGISTRY_DIGEST: &str = "missing-child-registry";
 const INVALID_CHILD_REGISTRY_DIGEST: &str = "invalid-child-registry";
@@ -104,6 +114,14 @@ const PROGRAM_HANDOFF_FORBIDDEN_TRANSFERS: &[&str] = &[
     "promotion-authorization",
     "scope-expansion",
 ];
+const COMPACT_EVIDENCE_TOKEN_CEILING: u64 = 2000;
+const PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING: u64 = 3000;
+const RECOVERY_DELTA_ZERO_BLOCKER_TOKEN_CEILING: u64 = 2000;
+const RECOVERY_DELTA_NONZERO_BLOCKER_TOKEN_CEILING: u64 = 8000;
+const COMPACT_EVIDENCE_MAX_FAILING_SLICES: usize = 20;
+const CHILD_DISPATCH_BASE_TOKEN_CEILING: u64 = 12_000;
+const FINAL_COMPLETION_TOKEN_CEILING: u64 = 8_000;
+const ARCHITECTURE_EXCEPTION_TOKEN_CEILING: u64 = 40_000;
 
 fn default_orchestrated_replan_loop_execution_strategy() -> String {
     LifecycleExecutionStrategy::OrchestratedReplanLoop
@@ -821,6 +839,489 @@ pub(crate) struct ProgramLifecycleRunResult {
     pub final_verdict: String,
 }
 
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactEvidenceAuthorityBoundary {
+    replaces_source_evidence: bool,
+    authorizes_execution: bool,
+    proposal_input_authority: String,
+    generated_output_authority: String,
+    raw_evidence_retained: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramEvidenceIndex {
+    schema_version: String,
+    run_id: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    reader_preferences: ProgramEvidenceReaderPreferences,
+    source_artifacts: Vec<ProgramEvidenceIndexSourceArtifact>,
+    compact_artifacts: Vec<ProgramEvidenceIndexCompactArtifact>,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramEvidenceReaderPreferences {
+    planner: String,
+    recovery: String,
+    closeout: String,
+    raw_body_policy: String,
+    raw_body_escalation_required: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramEvidenceIndexSourceArtifact {
+    artifact_role: String,
+    artifact_ref: String,
+    sha256: String,
+    byte_size: u64,
+    estimated_tokens: u64,
+    model_visible_relevance: String,
+    default_reader: String,
+    read_raw_only_if: Vec<String>,
+    freshness_state: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramEvidenceIndexCompactArtifact {
+    artifact_role: String,
+    artifact_ref: String,
+    sha256: String,
+    source_artifact_count: usize,
+    validation: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramCompactSourceRef {
+    artifact_role: String,
+    artifact_ref: String,
+    sha256: String,
+    required: bool,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+struct ProgramCompactValidationBinding {
+    status: String,
+    source_event_index: u64,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_event_sha256: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_event_log_sha256: Option<String>,
+    child_registry_digest: String,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramPlannerState {
+    schema_version: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    default_reader_preference: String,
+    token_ceiling: u64,
+    aggregate_state: String,
+    final_verdict: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    terminal_outcome: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    scheduler_phase: Option<String>,
+    route_decision: ProgramContextRouteDecision,
+    runnable_batch: Vec<String>,
+    blocker_counts: BTreeMap<String, usize>,
+    child_states: Vec<ProgramPlannerChildState>,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    validation_binding: ProgramCompactValidationBinding,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramPlannerChildState {
+    child_id: String,
+    target: String,
+    required: bool,
+    deferred: bool,
+    dependencies: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    selected_route: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    terminal_outcome: Option<String>,
+    final_verdict: String,
+    gate_status: ProgramChildGateStatus,
+    blocker_classes: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramContextCapsule {
+    schema_version: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    default_reader_preference: String,
+    child_status_table: Vec<ProgramContextChildStatus>,
+    dependency_vector: Vec<ProgramContextDependency>,
+    runnable_batch: Vec<String>,
+    blockers: Vec<ProgramContextBlocker>,
+    route_decision: ProgramContextRouteDecision,
+    key_digests: BTreeMap<String, String>,
+    evidence_refs: Vec<String>,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    validation_binding: ProgramCompactValidationBinding,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramContextChildStatus {
+    child_id: String,
+    target: String,
+    required: bool,
+    deferred: bool,
+    dependencies: Vec<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    selected_route: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    terminal_outcome: Option<String>,
+    final_verdict: String,
+    blocker_classes: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramContextDependency {
+    child_id: String,
+    depends_on: String,
+    required_gate: String,
+    satisfied: bool,
+    observed_gate: String,
+    reason: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramContextBlocker {
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    blocker_class: String,
+    message: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recovery_route: Option<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramContextRouteDecision {
+    step_kind: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    parent_route: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    scheduler_phase: Option<String>,
+    selected_children: Vec<String>,
+    final_verdict: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactCompletionCapsule {
+    schema_version: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    completion_kind: String,
+    final_verdict: String,
+    terminal_outcome: String,
+    route_decision: ProgramContextRouteDecision,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    validation_binding: ProgramCompactValidationBinding,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramCompactArtifactRef {
+    artifact_ref: String,
+    sha256: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRecoveryBudgetSnapshot {
+    attempts_used: u32,
+    max_attempts: u32,
+    remaining_attempts: u32,
+    exhausted: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramBlockerLedger {
+    schema_version: String,
+    schema_ref: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    default_reader_preference: String,
+    token_ceiling: u64,
+    blocker_count: usize,
+    blockers: Vec<ProgramBlockerLedgerEntry>,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    validation_binding: ProgramCompactValidationBinding,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramBlockerLedgerEntry {
+    blocker_id: String,
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    route_id: String,
+    blocker_class: String,
+    blocker_message: String,
+    latest_transition: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    prior_fingerprint: Option<String>,
+    current_fingerprint: String,
+    recovery_budget: ProgramRecoveryBudgetSnapshot,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    recovery_route: Option<String>,
+    evidence_refs: Vec<String>,
+    authority_boundary_notice: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRecoveryDeltaSummary {
+    schema_version: String,
+    schema_ref: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    default_reader_preference: String,
+    model_route: String,
+    token_ceiling: u64,
+    blocker_ledger_ref: ProgramCompactArtifactRef,
+    failing_slice_manifest_ref: ProgramCompactArtifactRef,
+    delta_count: usize,
+    deltas: Vec<ProgramRecoveryDeltaEntry>,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    validation_binding: ProgramCompactValidationBinding,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRecoveryDeltaEntry {
+    blocker_id: String,
+    scope: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    route_id: String,
+    blocker_class: String,
+    progress_state: String,
+    prior_fingerprint: String,
+    current_fingerprint: String,
+    latest_transition: String,
+    recovery_budget_remaining: u32,
+    recovery_budget_exhausted: bool,
+    recovery_route: String,
+    read_before_raw_history: Vec<String>,
+    escalation_required_when: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRoutingArtifactValidation {
+    status: String,
+    validator: String,
+    source_event_index: u64,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_event_sha256: Option<String>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    source_event_log_sha256: Option<String>,
+    child_registry_digest: String,
+    model_visible_context_sha256: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRouteDecisionReceipt {
+    schema_version: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    consumer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    route_decision: ProgramContextRouteDecision,
+    route_bypass_guard: String,
+    deterministic_preflights: Vec<String>,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    source_digests: BTreeMap<String, String>,
+    validation: ProgramRoutingArtifactValidation,
+    validation_binding: ProgramCompactValidationBinding,
+    evidence_refs: Vec<String>,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramModelRouteMatrixEntry {
+    route: String,
+    default_for: Vec<String>,
+    token_ceiling: u64,
+    escalation_required: bool,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramModelRoutingReceipt {
+    schema_version: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    consumer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    selected_model_route: String,
+    escalation_triggers_observed: Vec<String>,
+    route_matrix: Vec<ProgramModelRouteMatrixEntry>,
+    fallback_behavior: Vec<String>,
+    token_ceiling: u64,
+    raw_full_evidence_model_visible_by_default: bool,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    source_digests: BTreeMap<String, String>,
+    validation: ProgramRoutingArtifactValidation,
+    validation_binding: ProgramCompactValidationBinding,
+    evidence_refs: Vec<String>,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramActionSliceLedger {
+    schema_version: String,
+    run_id: String,
+    lifecycle_id: String,
+    target: String,
+    producer: String,
+    consumer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    selected_slice: String,
+    max_steps: u32,
+    max_child_concurrency: usize,
+    runnable_batch: Vec<String>,
+    action_slices: Vec<ProgramActionSliceEntry>,
+    deterministic_preflights: Vec<String>,
+    source_refs: Vec<ProgramCompactSourceRef>,
+    source_digests: BTreeMap<String, String>,
+    validation: ProgramRoutingArtifactValidation,
+    validation_binding: ProgramCompactValidationBinding,
+    evidence_refs: Vec<String>,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramActionSliceEntry {
+    slice_id: String,
+    route_class: String,
+    selected: bool,
+    token_ceiling: u64,
+    model_route: String,
+    stop_condition: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRawLogSummary {
+    schema_version: String,
+    run_id: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    token_ceiling: u64,
+    default_reader_preference: String,
+    source_count: usize,
+    summaries: Vec<ProgramRawLogSummaryRecord>,
+    failure_behavior: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramRawLogSummaryRecord {
+    source_ref: String,
+    source_sha256: String,
+    byte_size: u64,
+    line_count: usize,
+    estimated_tokens: u64,
+    summary_kind: Vec<String>,
+    failing_slice_count: usize,
+    first_nonempty_line_sha256: Option<String>,
+    last_nonempty_line_sha256: Option<String>,
+    prompt_echo_lines: usize,
+    command_output_lines: usize,
+    diff_lines: usize,
+    error_lines: usize,
+    read_raw_only_if: Vec<String>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramFailingSliceManifest {
+    schema_version: String,
+    run_id: String,
+    producer: String,
+    generated_at: String,
+    authority_boundary: ProgramCompactEvidenceAuthorityBoundary,
+    reconstruction_rule: String,
+    no_failure_observed: bool,
+    slices_truncated: usize,
+    slices: Vec<ProgramFailingSliceRecord>,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramFailingSliceRecord {
+    slice_id: String,
+    source_ref: String,
+    source_sha256: String,
+    start_line: usize,
+    end_line: usize,
+    line_count: usize,
+    slice_sha256: String,
+    matched_line_sha256: String,
+    reason: String,
+    replay_ref: String,
+    rollback_ref: String,
+}
+
+struct ProgramCompactEvidenceSource {
+    path: PathBuf,
+    role: String,
+    model_visible_relevance: String,
+}
+
+struct ProgramCompactEvidenceBundle {
+    evidence_index_path: PathBuf,
+    raw_log_summary_path: PathBuf,
+    failing_slice_manifest_path: PathBuf,
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub(crate) struct ProgramChildExecutionSummary {
     pub child_id: String,
@@ -913,6 +1414,8 @@ struct ProgramLifecycleCheckpoint {
     invocation_authority: String,
     #[serde(default)]
     timeout_seconds: Option<u64>,
+    #[serde(default)]
+    max_steps: Option<u32>,
     #[serde(default)]
     max_child_concurrency: Option<usize>,
     child_registry_digest: String,
@@ -1563,12 +2066,12 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
         Ok(registry) => registry,
         Err(error) => {
             program_blockers.push(ProgramBlocker {
-                blocker_class: "validation-failed".to_string(),
+                blocker_class: "invalid-child-registry".to_string(),
                 message: format!(
                     "failed to parse child registry {}: {error}",
                     parent_context.registry_rel
                 ),
-                recovery_route: Some("create-program".to_string()),
+                recovery_route: None,
             });
             let normalized_program_blockers =
                 normalized_program_blockers(Some(program), &program_blockers);
@@ -1584,7 +2087,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 child_registry_schema_version: "invalid".to_string(),
                 child_registry_digest: registry_digest,
                 execution_mode: "unknown".to_string(),
-                aggregate_state: "blocked-unsafe".to_string(),
+                aggregate_state: "blocked-recoverable".to_string(),
                 terminal_outcome,
                 parent_receipt_states,
                 program_route,
@@ -1612,7 +2115,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                 normalized_approval_blockers: Vec::new(),
                 checkpoint_drift: None,
                 stop_reason: Some("invalid-child-registry".to_string()),
-                final_verdict: "blocked-unsafe".to_string(),
+                final_verdict: "blocked-recoverable".to_string(),
             });
         }
     };
@@ -1627,7 +2130,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     };
     if let Err(error) = validate_program_registry(&context.registry) {
         program_blockers.push(ProgramBlocker {
-            blocker_class: "validation-failed".to_string(),
+            blocker_class: "invalid-child-registry".to_string(),
             message: error.to_string(),
             recovery_route: None,
         });
@@ -1645,7 +2148,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             child_registry_schema_version: context.registry.schema_version,
             child_registry_digest: context.registry_digest,
             execution_mode: context.registry.execution_mode,
-            aggregate_state: "blocked-unsafe".to_string(),
+            aggregate_state: "blocked-recoverable".to_string(),
             terminal_outcome,
             parent_receipt_states,
             program_route,
@@ -1673,7 +2176,7 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
             normalized_approval_blockers: Vec::new(),
             checkpoint_drift: None,
             stop_reason: Some("invalid-child-registry".to_string()),
-            final_verdict: "blocked-unsafe".to_string(),
+            final_verdict: "blocked-recoverable".to_string(),
         });
     }
 
@@ -1724,7 +2227,33 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                     if plan.terminal_outcome.as_deref() != Some("archived") {
                         let worktree_hygiene_blocked =
                             lifecycle_plan_has_worktree_hygiene_blocker(&plan);
-                        if worktree_hygiene_blocked {
+                        let closeout_hygiene_stale_after_live_pass =
+                            closeout_hygiene_receipt_stale_after_live_pass(
+                                &repo_root,
+                                checkpoint,
+                                &child_target_rel,
+                                &plan,
+                            )?;
+                        if worktree_hygiene_blocked && closeout_hygiene_stale_after_live_pass {
+                            if let Some(closeout_route) = child_route_plan_state(
+                                octon_dir,
+                                &child_lifecycle_id,
+                                "closeout-packet",
+                            )? {
+                                selected_route = Some(closeout_route);
+                                blockers.push(ProgramBlocker {
+                                    blocker_class: "stale-receipt".to_string(),
+                                    message: "child closeout receipt is stale because the retained hygiene blocker no longer matches the live worktree hygiene preflight; retry child-owned closeout-packet to refresh closeout evidence".to_string(),
+                                    recovery_route: Some("closeout-packet".to_string()),
+                                });
+                            } else {
+                                blockers.push(ProgramBlocker {
+                                    blocker_class: "artifact-ownership-unclear".to_string(),
+                                    message: "child closeout is blocked by foreign or ambiguous worktree hygiene and the child closeout route is unavailable".to_string(),
+                                    recovery_route: None,
+                                });
+                            }
+                        } else if worktree_hygiene_blocked {
                             blockers.push(ProgramBlocker {
                                 blocker_class: "artifact-ownership-unclear".to_string(),
                                 message: "child closeout is blocked by foreign or ambiguous worktree hygiene; route through closeout-change or operator scope resolution".to_string(),
@@ -2550,7 +3079,16 @@ fn run_program_lifecycle_single_step(
     if !cancelled_before_dispatch
         && options.execute_routes
         && !parent_route_handled
-        && !plan.runnable_batch.is_empty()
+        && (!plan.runnable_batch.is_empty()
+            || parent_context
+                .loaded
+                .contract
+                .program
+                .as_ref()
+                .and_then(|program| {
+                    select_program_recovery_action(program, &plan, previous_checkpoint)
+                })
+                .is_some())
     {
         if let Some(program) = parent_context.loaded.contract.program.as_ref() {
             if let Some(outcome) = execute_selected_program_recovery_action(
@@ -2566,8 +3104,16 @@ fn run_program_lifecycle_single_step(
             )? {
                 program_recovery_action_attempted = true;
                 if outcome.status == "completed" {
-                    let replan_checkpoint =
-                        checkpoint_for_post_execution_replan(previous_checkpoint);
+                    let replan_checkpoint = checkpoint_for_recovery_action_replan(
+                        previous_checkpoint,
+                        &outcome.action_id,
+                        &outcome.blocker_class,
+                        &plan,
+                    );
+                    if let Some(replan_checkpoint) = replan_checkpoint.as_ref() {
+                        program_recovery_action_attempts =
+                            replan_checkpoint.program_recovery_action_attempts.clone();
+                    }
                     plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
                         octon_dir,
                         &options.lifecycle_id,
@@ -2622,198 +3168,224 @@ fn run_program_lifecycle_single_step(
         && !parent_route_handled
         && !plan.runnable_batch.is_empty()
     {
-        let max_concurrency = options
-            .max_child_concurrency
-            .unwrap_or(DEFAULT_MAX_CHILD_CONCURRENCY)
-            .max(1);
-        let before_child_dispatch_plan = plan.clone();
-        let scheduled_children = plan.runnable_batch.join(",");
-        append_program_event(
+        let child_executor_preflight_blocked = apply_child_executor_runtime_preflight(
             control_root,
             evidence_root,
             sanitized_run_id,
-            "schedule-created",
-            None,
-            None,
-            "program scheduler selected runnable child batch",
-            program_step_event_data(
-                step_context.as_ref(),
-                "child-batch-dispatch",
-                [("children", scheduled_children.as_str())],
-            ),
-        )?;
-        child_results = if plan.execution_mode == "program-atomic" {
-            execute_atomic_program(
-                octon_dir,
-                repo_root,
-                sanitized_run_id,
-                run_inputs,
-                options,
-                &plan,
-                evidence_root,
-                control_root,
-                previous_checkpoint.map(|checkpoint| &checkpoint.approvals),
-            )?
-        } else {
-            let (jobs, mut preflight_results) = build_child_execution_jobs(
-                octon_dir,
-                repo_root,
-                sanitized_run_id,
-                run_inputs,
-                options,
-                &plan,
-                evidence_root,
-                control_root,
-                previous_checkpoint.map(|checkpoint| &checkpoint.approvals),
-                previous_checkpoint,
-            )?;
-            let mut executed_results = execute_child_jobs(
-                repo_root,
-                sanitized_run_id,
-                control_root,
-                evidence_root,
-                jobs,
-                max_concurrency,
-                step_context,
-            )?;
-            preflight_results.append(&mut executed_results);
-            preflight_results
-        };
-        emit_program_child_handoff_requests(
-            repo_root,
-            evidence_root,
-            control_root,
-            sanitized_run_id,
-            &options.lifecycle_id,
-            target_rel,
-            &before_child_dispatch_plan,
-            &mut child_results,
+            options.executor.as_str(),
+            &mut plan,
             step_context,
         )?;
-        let replan_checkpoint = checkpoint_for_post_execution_replan(previous_checkpoint);
-        plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
-            octon_dir,
-            &options.lifecycle_id,
-            &options.target,
-            replan_checkpoint.as_ref(),
-            &options.invocation_authority,
-        )?;
-        if plan.program_route.is_none() {
-            if let Some(child_id) = options.program_child_filter.as_ref() {
-                filter_plan_to_child(&mut plan, child_id)?;
+        if child_executor_preflight_blocked {
+            if !matches!(
+                normalize_program_state_value(&final_verdict),
+                ProgramNormalizedCategory::Human
+            ) {
+                final_verdict = "blocked-recoverable".to_string();
             }
-        }
-        if let Some(program) = parent_context.loaded.contract.program.as_ref() {
-            enforce_recovery_post_attempt_validations(
-                program,
-                &plan,
-                control_root,
-                true,
-                &mut child_results,
-            )?;
-            let publication_post_validation_failed =
-                child_results_have_publication_post_validation_failure(&child_results);
-            let no_progress_blockers = mark_no_progress_child_results(
-                &before_child_dispatch_plan,
-                &plan,
-                &mut child_results,
+        } else {
+            let max_concurrency = options
+                .max_child_concurrency
+                .unwrap_or(DEFAULT_MAX_CHILD_CONCURRENCY)
+                .max(1);
+            let before_child_dispatch_plan = plan.clone();
+            let scheduled_children = plan.runnable_batch.join(",");
+            append_program_event(
                 control_root,
                 evidence_root,
                 sanitized_run_id,
+                "schedule-created",
+                None,
+                None,
+                "program scheduler selected runnable child batch",
+                program_step_event_data(
+                    step_context.as_ref(),
+                    "child-batch-dispatch",
+                    [("children", scheduled_children.as_str())],
+                ),
+            )?;
+            child_results = if plan.execution_mode == "program-atomic" {
+                execute_atomic_program(
+                    octon_dir,
+                    repo_root,
+                    sanitized_run_id,
+                    run_inputs,
+                    options,
+                    &plan,
+                    evidence_root,
+                    control_root,
+                    previous_checkpoint.map(|checkpoint| &checkpoint.approvals),
+                )?
+            } else {
+                let (jobs, mut preflight_results) = build_child_execution_jobs(
+                    octon_dir,
+                    repo_root,
+                    sanitized_run_id,
+                    run_inputs,
+                    options,
+                    &plan,
+                    evidence_root,
+                    control_root,
+                    previous_checkpoint.map(|checkpoint| &checkpoint.approvals),
+                    previous_checkpoint,
+                )?;
+                let mut executed_results = execute_child_jobs(
+                    repo_root,
+                    sanitized_run_id,
+                    control_root,
+                    evidence_root,
+                    jobs,
+                    max_concurrency,
+                    step_context,
+                )?;
+                preflight_results.append(&mut executed_results);
+                preflight_results
+            };
+            emit_program_child_handoff_requests(
+                repo_root,
+                evidence_root,
+                control_root,
+                sanitized_run_id,
+                &options.lifecycle_id,
+                target_rel,
+                &before_child_dispatch_plan,
+                &mut child_results,
                 step_context,
             )?;
-            if (publication_post_validation_failed
-                || no_progress_blockers
-                    .iter()
-                    .any(|blocker| blocker == "publication-drift"))
-                && !program_recovery_action_attempted
-            {
-                if let Some(outcome) = execute_selected_program_recovery_action(
+            let replan_checkpoint = checkpoint_for_post_execution_replan(previous_checkpoint);
+            plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+                octon_dir,
+                &options.lifecycle_id,
+                &options.target,
+                replan_checkpoint.as_ref(),
+                &options.invocation_authority,
+            )?;
+            if plan.program_route.is_none() {
+                if let Some(child_id) = options.program_child_filter.as_ref() {
+                    filter_plan_to_child(&mut plan, child_id)?;
+                }
+            }
+            if let Some(program) = parent_context.loaded.contract.program.as_ref() {
+                enforce_recovery_post_attempt_validations(
                     program,
                     &plan,
-                    previous_checkpoint,
-                    &mut program_recovery_action_attempts,
-                    repo_root,
+                    control_root,
+                    true,
+                    &mut child_results,
+                )?;
+                let publication_post_validation_failed =
+                    child_results_have_publication_post_validation_failure(&child_results);
+                let no_progress_blockers = mark_no_progress_child_results(
+                    &before_child_dispatch_plan,
+                    &plan,
+                    &mut child_results,
                     control_root,
                     evidence_root,
                     sanitized_run_id,
                     step_context,
-                )? {
-                    program_recovery_action_attempted = true;
-                    if outcome.status == "completed" {
-                        let replan_checkpoint =
-                            checkpoint_for_post_execution_replan(previous_checkpoint);
-                        plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
-                            octon_dir,
-                            &options.lifecycle_id,
-                            &options.target,
-                            replan_checkpoint.as_ref(),
-                            &options.invocation_authority,
-                        )?;
-                        if plan.program_route.is_none() {
-                            if let Some(child_id) = options.program_child_filter.as_ref() {
-                                filter_plan_to_child(&mut plan, child_id)?;
-                            }
-                        }
-                        if let Some(failed_outcome) =
-                            enforce_program_recovery_action_post_validations(
-                                repo_root,
-                                program,
+                )?;
+                if (publication_post_validation_failed
+                    || no_progress_blockers
+                        .iter()
+                        .any(|blocker| blocker == "publication-drift"))
+                    && !program_recovery_action_attempted
+                {
+                    if let Some(outcome) = execute_selected_program_recovery_action(
+                        program,
+                        &plan,
+                        previous_checkpoint,
+                        &mut program_recovery_action_attempts,
+                        repo_root,
+                        control_root,
+                        evidence_root,
+                        sanitized_run_id,
+                        step_context,
+                    )? {
+                        program_recovery_action_attempted = true;
+                        if outcome.status == "completed" {
+                            let replan_checkpoint = checkpoint_for_recovery_action_replan(
+                                previous_checkpoint,
+                                &outcome.action_id,
+                                &outcome.blocker_class,
                                 &plan,
-                                control_root,
-                                evidence_root,
-                                sanitized_run_id,
-                                &outcome,
-                                step_context,
-                            )?
-                        {
+                            );
+                            if let Some(replan_checkpoint) = replan_checkpoint.as_ref() {
+                                program_recovery_action_attempts =
+                                    replan_checkpoint.program_recovery_action_attempts.clone();
+                            }
+                            plan =
+                                plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+                                    octon_dir,
+                                    &options.lifecycle_id,
+                                    &options.target,
+                                    replan_checkpoint.as_ref(),
+                                    &options.invocation_authority,
+                                )?;
+                            if plan.program_route.is_none() {
+                                if let Some(child_id) = options.program_child_filter.as_ref() {
+                                    filter_plan_to_child(&mut plan, child_id)?;
+                                }
+                            }
+                            if let Some(failed_outcome) =
+                                enforce_program_recovery_action_post_validations(
+                                    repo_root,
+                                    program,
+                                    &plan,
+                                    control_root,
+                                    evidence_root,
+                                    sanitized_run_id,
+                                    &outcome,
+                                    step_context,
+                                )?
+                            {
+                                record_program_recovery_action_failure(
+                                    &mut plan,
+                                    &mut final_verdict,
+                                    &mut terminal_outcome,
+                                    &failed_outcome,
+                                );
+                                plan.runnable_batch.clear();
+                            }
+                        } else {
                             record_program_recovery_action_failure(
                                 &mut plan,
                                 &mut final_verdict,
                                 &mut terminal_outcome,
-                                &failed_outcome,
+                                &outcome,
                             );
                             plan.runnable_batch.clear();
                         }
                     } else {
-                        record_program_recovery_action_failure(
-                            &mut plan,
-                            &mut final_verdict,
-                            &mut terminal_outcome,
-                            &outcome,
-                        );
                         plan.runnable_batch.clear();
                     }
-                } else {
+                } else if !no_progress_blockers.is_empty() {
                     plan.runnable_batch.clear();
                 }
-            } else if !no_progress_blockers.is_empty() {
-                plan.runnable_batch.clear();
             }
-        }
-        finalize_child_unsafe_repair_evidence(evidence_root, &child_results)?;
-        plan.unsafe_results = unsafe_result_summaries_for_children(&plan, &child_results);
-        plan.unsafe_continuation_decision = if plan.unsafe_results.is_empty() {
-            None
-        } else if plan
-            .unsafe_results
-            .iter()
-            .any(|result| result.safe_continuation_available)
-        {
-            Some("safe-continuation-available".to_string())
-        } else {
-            Some("no-safe-continuation".to_string())
-        };
-        final_verdict = final_verdict_after_child_execution(&plan, &child_results);
-        if final_verdict == "blocked-unsafe"
-            && plan.unsafe_continuation_decision.as_deref() == Some("no-safe-continuation")
-        {
-            plan.runnable_batch.clear();
-            plan.program_route = None;
-        }
-        terminal_outcome = plan.terminal_outcome.clone();
-        if final_verdict == "cancelled" {
-            terminal_outcome = Some("cancelled".to_string());
+            finalize_child_unsafe_repair_evidence(evidence_root, &child_results)?;
+            plan.unsafe_results = unsafe_result_summaries_for_children(&plan, &child_results);
+            plan.unsafe_continuation_decision = if plan.unsafe_results.is_empty() {
+                None
+            } else if plan
+                .unsafe_results
+                .iter()
+                .any(|result| result.safe_continuation_available)
+            {
+                Some("safe-continuation-available".to_string())
+            } else {
+                Some("no-safe-continuation".to_string())
+            };
+            final_verdict = final_verdict_after_child_execution(&plan, &child_results);
+            if final_verdict == "blocked-unsafe"
+                && plan.unsafe_continuation_decision.as_deref() == Some("no-safe-continuation")
+            {
+                plan.runnable_batch.clear();
+                plan.program_route = None;
+            }
+            terminal_outcome = plan.terminal_outcome.clone();
+            if final_verdict == "cancelled" {
+                terminal_outcome = Some("cancelled".to_string());
+            }
         }
     }
 
@@ -2880,6 +3452,57 @@ fn run_program_lifecycle_single_step(
         evidence_root.join("recovery-log.yml"),
         serde_yaml::to_string(&child_results)?,
     )?;
+    let token_ledger_path =
+        octon_lifecycle_executor::token_budget::write_program_aggregate_token_budget_ledger(
+            repo_root,
+            evidence_root,
+            sanitized_run_id,
+            &options.lifecycle_id,
+            target_rel,
+        )
+        .map_err(anyhow::Error::from)?;
+    append_program_event(
+        control_root,
+        evidence_root,
+        sanitized_run_id,
+        "token-budget-ledger-written",
+        None,
+        None,
+        "program lifecycle token-budget ledger evidence written",
+        program_event_data([(
+            "evidence_path",
+            rel_display(repo_root, &token_ledger_path).as_str(),
+        )]),
+    )?;
+    let compact_evidence = write_program_compact_evidence_bundle(
+        repo_root,
+        evidence_root,
+        sanitized_run_id,
+        &token_ledger_path,
+    )?;
+    append_program_event(
+        control_root,
+        evidence_root,
+        sanitized_run_id,
+        "compact-evidence-written",
+        None,
+        None,
+        "program lifecycle compact evidence index and raw-log summaries written",
+        program_event_data([
+            (
+                "evidence_index",
+                rel_display(repo_root, &compact_evidence.evidence_index_path).as_str(),
+            ),
+            (
+                "raw_log_summary",
+                rel_display(repo_root, &compact_evidence.raw_log_summary_path).as_str(),
+            ),
+            (
+                "failing_slice_manifest",
+                rel_display(repo_root, &compact_evidence.failing_slice_manifest_path).as_str(),
+            ),
+        ]),
+    )?;
     if should_write_program_aggregate_closeout(terminal_outcome.as_deref()) {
         write_program_aggregate_closeout(octon_dir, evidence_root, &checkpoint, &plan)?;
         append_program_event(
@@ -2899,6 +3522,28 @@ fn run_program_lifecycle_single_step(
     checkpoint.program_recovery_action_attempts = program_recovery_action_attempts;
     enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
     fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+    write_program_planner_state_artifacts(
+        &repo_root,
+        control_root,
+        evidence_root,
+        target_rel,
+        parent_context
+            .loaded
+            .contract
+            .program
+            .as_ref()
+            .context("lifecycle contract is not a program lifecycle")?,
+        &plan,
+        &checkpoint,
+        &token_ledger_path,
+        &compact_evidence,
+    )?;
+    refresh_program_evidence_index(
+        &repo_root,
+        evidence_root,
+        sanitized_run_id,
+        &token_ledger_path,
+    )?;
 
     let dispatch_attempted = parent_route_result.is_some()
         || !child_results.is_empty()
@@ -2936,6 +3581,79 @@ fn run_program_lifecycle_single_step(
             final_verdict,
         },
     })
+}
+
+fn apply_child_executor_runtime_preflight(
+    control_root: &Path,
+    evidence_root: &Path,
+    sanitized_run_id: &str,
+    executor: &str,
+    plan: &mut ProgramLifecyclePlanResult,
+    step_context: Option<ProgramExecutionStepContext>,
+) -> Result<bool> {
+    if executor != "codex" || plan.runnable_batch.is_empty() {
+        return Ok(false);
+    }
+    let executor_required_children = plan
+        .runnable_batch
+        .iter()
+        .filter(|child_id| {
+            plan.child_states
+                .get(child_id.as_str())
+                .and_then(|state| state.selected_route.as_ref())
+                .map(|route| route.route_type != "workflow")
+                .unwrap_or(true)
+        })
+        .cloned()
+        .collect::<Vec<_>>();
+    if executor_required_children.is_empty() {
+        return Ok(false);
+    }
+    let Some(reason) = octon_lifecycle_executor::codex_runtime_preflight_failure() else {
+        return Ok(false);
+    };
+    let selected_children = plan.runnable_batch.clone();
+    let preflight_root = evidence_root.join("executor-preflight");
+    fs::create_dir_all(&preflight_root)?;
+    let evidence_path = preflight_root.join("summary.yml");
+    fs::write(
+        &evidence_path,
+        format!(
+            "schema_version: \"octon-program-executor-preflight-v1\"\nstatus: \"blocked\"\nblocker_class: \"executor-preflight-blocked\"\npreflight: \"codex-runtime-write-access\"\nexecutor: {}\nreason: {}\nselected_children:\n{}executor_required_children:\n{}retryable: true\noperator_preflight_only: true\nchild_authority_preserved: true\ngenerated_outputs_authority: \"derived-only\"\n",
+            yaml_scalar(executor),
+            yaml_scalar(&reason),
+            yaml_list(&selected_children),
+            yaml_list(&executor_required_children),
+        ),
+    )?;
+    let evidence_path_rel = rel_path_string(&evidence_path);
+    let selected_children_joined = selected_children.join(",");
+    let executor_required_children_joined = executor_required_children.join(",");
+    append_program_event(
+        control_root,
+        evidence_root,
+        sanitized_run_id,
+        "executor-preflight-blocked",
+        None,
+        None,
+        "program child dispatch skipped because executor runtime preflight failed",
+        program_step_event_data(
+            step_context.as_ref(),
+            "child-executor-preflight",
+            [
+                ("evidence_path", evidence_path_rel.as_str()),
+                ("executor", executor),
+                ("preflight", "codex-runtime-write-access"),
+                ("selected_children", selected_children_joined.as_str()),
+                (
+                    "executor_required_children",
+                    executor_required_children_joined.as_str(),
+                ),
+            ],
+        ),
+    )?;
+    plan.runnable_batch.clear();
+    Ok(true)
 }
 
 fn apply_publication_freshness_preflight(
@@ -3090,6 +3808,85 @@ fn checkpoint_for_post_execution_replan(
     })
 }
 
+fn checkpoint_for_recovery_action_replan(
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    action_id: &str,
+    blocker_class: &str,
+    before_plan: &ProgramLifecyclePlanResult,
+) -> Option<ProgramLifecycleCheckpoint> {
+    checkpoint_for_post_execution_replan(checkpoint).map(|mut checkpoint| {
+        if action_id == REBASELINE_CHECKPOINT_ACTION {
+            rebaseline_checkpoint_recovery_state(&mut checkpoint, blocker_class, before_plan);
+        }
+        checkpoint
+    })
+}
+
+fn rebaseline_checkpoint_recovery_state(
+    checkpoint: &mut ProgramLifecycleCheckpoint,
+    blocker_class: &str,
+    before_plan: &ProgramLifecyclePlanResult,
+) {
+    if !matches!(
+        blocker_class,
+        "recovery-integrity-risk" | "recovery-budget-override-required"
+    ) {
+        return;
+    }
+    let mut progress_keys = Vec::new();
+    let mut attempt_keys = BTreeSet::new();
+    for state in before_plan.child_states.values() {
+        if !state
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == blocker_class)
+        {
+            continue;
+        }
+        let selected_route = state
+            .selected_route
+            .as_ref()
+            .map(|route| route.route_id.as_str());
+        for (key, fingerprint) in &checkpoint.recovery_progress_fingerprints {
+            if fingerprint.child_id != state.child_id {
+                continue;
+            }
+            if blocker_class == "recovery-budget-override-required"
+                || selected_route
+                    .map(|route_id| fingerprint.route_id == route_id)
+                    .unwrap_or(true)
+            {
+                progress_keys.push(key.clone());
+                attempt_keys.insert(recovery_attempt_key(
+                    &fingerprint.child_id,
+                    &fingerprint.blocker_class,
+                ));
+            }
+        }
+        attempt_keys.extend(
+            checkpoint
+                .recovery_attempts
+                .keys()
+                .filter(|key| {
+                    *key == &state.child_id || key.starts_with(&format!("{}:", state.child_id))
+                })
+                .cloned(),
+        );
+    }
+    for key in progress_keys {
+        checkpoint.recovery_progress_fingerprints.remove(&key);
+    }
+    for key in attempt_keys {
+        checkpoint.recovery_attempts.remove(&key);
+    }
+    checkpoint
+        .program_recovery_action_attempts
+        .remove(&program_recovery_action_attempt_key(
+            blocker_class,
+            REBASELINE_CHECKPOINT_ACTION,
+        ));
+}
+
 fn rewrite_program_recovery_log(
     evidence_root: &Path,
     child_results: &[ProgramChildExecutionSummary],
@@ -3119,6 +3916,7 @@ fn program_execute_loop_should_stop(
         }
         ProgramNormalizedCategory::Recoverable | ProgramNormalizedCategory::Timeout => {
             !program_result_has_pending_dispatch(result)
+                || !program_result_has_agent_continuable_dispatch(result)
         }
     }
 }
@@ -3131,10 +3929,15 @@ fn program_result_has_agent_continuable_dispatch(result: &ProgramLifecycleRunRes
     if !program_result_has_pending_dispatch(result) {
         return false;
     }
-    let parent_human_blocked = result
+    let parent_non_continuable_blocked = result
         .parent_route_result
         .as_ref()
-        .map(|result| result.status == "human-boundary-blocked")
+        .map(|result| {
+            matches!(
+                result.status.as_str(),
+                "human-boundary-blocked" | "executor-preflight-blocked" | "blocked-human"
+            )
+        })
         .unwrap_or(false);
     let child_non_continuable_blocks = result
         .child_results
@@ -3146,7 +3949,7 @@ fn program_result_has_agent_continuable_dispatch(result: &ProgramLifecycleRunRes
             )
         })
         .count();
-    if parent_human_blocked
+    if parent_non_continuable_blocked
         && result.child_results.is_empty()
         && result.selected_children.is_empty()
     {
@@ -3204,7 +4007,7 @@ fn final_verdict_after_child_execution(
     let execution_had_human_block = child_results.iter().any(|result| {
         matches!(
             result.status.as_str(),
-            "authority-ambiguity" | "executor-preflight-blocked" | "blocked-human"
+            "authority-ambiguity" | "blocked-human"
         )
     });
     let execution_had_cancellation = child_results
@@ -3546,9 +4349,13 @@ pub(crate) fn retry_program_lifecycle_run(
             executor: executor_kind_from_checkpoint(checkpoint.executor.as_deref()),
             max_iterations: None,
             execute_routes: true,
-            max_steps: None,
+            max_steps: checkpoint
+                .max_steps
+                .or(Some(DEFAULT_PROGRAM_RETRY_MAX_STEPS)),
             timeout_seconds: None,
-            max_child_concurrency: Some(DEFAULT_MAX_CHILD_CONCURRENCY),
+            max_child_concurrency: checkpoint
+                .max_child_concurrency
+                .or(Some(DEFAULT_PROGRAM_RETRY_MAX_CHILD_CONCURRENCY)),
             invocation_authority: "unattended".to_string(),
             run_inputs: checkpoint.run_inputs,
             program_child_filter: child,
@@ -5716,6 +6523,7 @@ fn classify_authority_path(
     let declared_scope_contained = declared_scopes_contain_path(declared_write_scopes, &rel);
     let run_control_prefix = format!(".octon/state/control/execution/runs/{run_id}");
     let run_evidence_prefix = format!(".octon/state/evidence/runs/{run_id}");
+    let workflow_run_evidence_prefix = format!(".octon/state/evidence/runs/workflows/{run_id}");
     let run_continuity_prefix = format!(".octon/state/continuity/runs/{run_id}");
     let current_run_lock_prefix = format!("{run_control_prefix}/locks");
     let current_run_tmp_prefix = format!("{run_control_prefix}/tmp");
@@ -5747,7 +6555,10 @@ fn classify_authority_path(
             generated_non_authority: false,
         };
     }
-    if rel_path_under(&rel, &run_evidence_prefix) || rel_path_under(&rel, &run_continuity_prefix) {
+    if rel_path_under(&rel, &run_evidence_prefix)
+        || rel_path_under(&rel, &workflow_run_evidence_prefix)
+        || rel_path_under(&rel, &run_continuity_prefix)
+    {
         return AuthorityPathClassification {
             zone: AUTHORITY_ZONE_RUN_BOUND.to_string(),
             artifact_class: ARTIFACT_CLASS_RUN_EVIDENCE.to_string(),
@@ -6571,6 +7382,35 @@ fn observed_gate(status: &ProgramChildGateStatus) -> String {
     }
 }
 
+fn closeout_hygiene_receipt_stale_after_live_pass(
+    repo_root: &Path,
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    target: &str,
+    plan: &LifecyclePlanResult,
+) -> Result<bool> {
+    if !lifecycle_plan_has_worktree_hygiene_blocker(plan) {
+        return Ok(false);
+    }
+    let Some(checkpoint) = checkpoint else {
+        return Ok(false);
+    };
+    let Some(current) =
+        closeout_worktree_hygiene_classifier(repo_root, target, &checkpoint.run_id)?
+    else {
+        return Ok(false);
+    };
+    Ok(current.decision.status == "pass")
+}
+
+fn child_route_plan_state(
+    octon_dir: &Path,
+    lifecycle_id: &str,
+    route_id: &str,
+) -> Result<Option<RoutePlanState>> {
+    let loaded = load_lifecycle_contract(octon_dir, lifecycle_id)?;
+    Ok(route_by_id(&loaded.contract, route_id).map(|route| route_plan_state(route.clone())))
+}
+
 fn apply_checkpoint_child_drift(
     repo_root: &Path,
     child_states: &mut BTreeMap<String, ProgramChildPlanState>,
@@ -6993,6 +7833,9 @@ fn apply_executor_result_retry_blockers(
             continue;
         }
         for blocker_class in ["executor-failed", "executor-timed-out"] {
+            if executor_blocker_has_route_progress(checkpoint, state, blocker_class) {
+                continue;
+            }
             let attempts = recovery_attempt_count(checkpoint, &state.child_id, blocker_class);
             if attempts == 0
                 || state
@@ -7011,6 +7854,26 @@ fn apply_executor_result_retry_blockers(
             });
         }
     }
+}
+
+fn executor_blocker_has_route_progress(
+    checkpoint: &ProgramLifecycleCheckpoint,
+    state: &ProgramChildPlanState,
+    blocker_class: &str,
+) -> bool {
+    checkpoint
+        .recovery_progress_fingerprints
+        .values()
+        .filter(|fingerprint| {
+            fingerprint.child_id == state.child_id && fingerprint.blocker_class == blocker_class
+        })
+        .any(|fingerprint| {
+            let route_progress_key =
+                recovery_progress_key(&fingerprint.child_id, &fingerprint.route_id, "route");
+            checkpoint
+                .recovery_progress_fingerprints
+                .contains_key(&route_progress_key)
+        })
 }
 
 fn apply_program_recovery_action_budget_blockers(
@@ -7070,6 +7933,9 @@ fn apply_recovery_budget_blockers(
             .iter()
             .enumerate()
             .find_map(|(index, blocker)| {
+                if selected_stale_receipt_route_can_advance(program, state, blocker) {
+                    return None;
+                }
                 let budget = recovery_attempt_budget(program, &blocker.blocker_class)?;
                 let attempts =
                     recovery_attempt_count(checkpoint, &state.child_id, &blocker.blocker_class);
@@ -7117,6 +7983,9 @@ fn apply_recovery_progress_blockers(
             .iter()
             .enumerate()
             .find_map(|(index, blocker)| {
+                if selected_stale_receipt_route_can_advance(program, state, blocker) {
+                    return None;
+                }
                 let route_id = recovery_route_for_blocker(program, blocker)
                     .or(blocker.recovery_route.as_deref())
                     .or_else(|| {
@@ -7142,6 +8011,23 @@ fn apply_recovery_progress_blockers(
             });
         }
     }
+}
+
+fn selected_stale_receipt_route_can_advance(
+    program: &ProgramSpec,
+    state: &ProgramChildPlanState,
+    blocker: &ProgramBlocker,
+) -> bool {
+    if blocker.blocker_class != "stale-receipt" || state.terminal_outcome.is_some() {
+        return false;
+    }
+    let Some(selected_route) = state.selected_route.as_ref() else {
+        return false;
+    };
+    let Some(recovery_route_id) = recovery_route_for_blocker(program, blocker) else {
+        return false;
+    };
+    recovery_route_id == selected_route.route_id
 }
 
 fn apply_recovery_approval_blockers(
@@ -8797,8 +9683,8 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
         ),
         "executor-preflight-blocked" => (
             "executor-preflight-blocked",
-            ProgramNormalizedCategory::Human,
-            "executor preflight requires access, credentials, or execution authority not already granted",
+            ProgramNormalizedCategory::Recoverable,
+            "executor preflight is operator/runtime environment evidence and must not consume child lifecycle authority as a human-required blocker",
         ),
         "step-budget-exhausted-continuable" => (
             "step-budget-exhausted-continuable",
@@ -8808,6 +9694,7 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
         "executor-failed"
         | "failed"
         | "implementation-blocked"
+        | "invalid-child-registry"
         | "missing-evidence"
         | "missing-required-evidence"
         | "missing-route-evidence"
@@ -8825,8 +9712,8 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
         ),
         "recovery-budget-override-required" => (
             "recovery-budget-override-required",
-            ProgramNormalizedCategory::Human,
-            "remaining recovery requires retry-budget override, judgment, scope expansion, or broader authority",
+            ProgramNormalizedCategory::Recoverable,
+            "retry-budget exhaustion may recover only through an explicitly declared safe route or run-bound rebaseline action",
         ),
         "recovery-route-unavailable" => (
             "recovery-route-unavailable",
@@ -8865,8 +9752,8 @@ fn normalize_program_blocker_class(blocker_class: &str) -> ProgramBlockerNormali
         ),
         "recovery-integrity-risk" => (
             "recovery-integrity-risk",
-            ProgramNormalizedCategory::Unsafe,
-            "repeated recovery attempts indicate possible integrity risk",
+            ProgramNormalizedCategory::Recoverable,
+            "repeated recovery attempts require bounded run-bound rebaseline before retry",
         ),
         "authority-zone-ambiguous" | "self-authorization-attempt" => (
             blocker_class,
@@ -9574,11 +10461,12 @@ fn derive_finding_id(
             format!("sha256:{digest}"),
         ));
     }
-    if let Some(blocker) = plan
-        .program_blockers
-        .iter()
-        .find(|blocker| blocker.blocker_class == "validation-failed")
-    {
+    if let Some(blocker) = plan.program_blockers.iter().find(|blocker| {
+        matches!(
+            blocker.blocker_class.as_str(),
+            "validation-failed" | "invalid-child-registry"
+        )
+    }) {
         let digest = sha256_hex(blocker.message.as_bytes());
         return Some((
             format!("finding-{}", &digest[..16]),
@@ -10291,7 +11179,7 @@ fn closeout_worktree_hygiene_classifier(
         .arg("--target")
         .arg(target)
         .arg("--lifecycle")
-        .arg("proposal-packet")
+        .arg("proposal-program")
         .arg("--run-id")
         .arg(program_run_id)
         .arg("--format")
@@ -10862,6 +11750,15 @@ fn validate_child_recovery_recipe(
                     bail!("recovery recipe precondition receipt-stale mismatched blocker class");
                 }
             }
+            "hygiene-receipt-stale-after-live-pass" => {
+                if blocker_class != "stale-receipt" {
+                    bail!(
+                        "recovery recipe precondition hygiene-receipt-stale-after-live-pass mismatched blocker class"
+                    );
+                }
+                // Historical name; the selected child-owned recovery route may be review, closeout,
+                // or another receipt-refreshing route declared by the child lifecycle.
+            }
             "missing-evidence" => {
                 if blocker_class != "missing-evidence" {
                     bail!("recovery recipe precondition missing-evidence mismatched blocker class");
@@ -10913,6 +11810,13 @@ fn validate_program_recovery_recipe(
             "receipt-stale" => {
                 if blocker_class != "stale-receipt" {
                     bail!("program recovery recipe precondition receipt-stale mismatched blocker class");
+                }
+            }
+            "hygiene-receipt-stale-after-live-pass" => {
+                if blocker_class != "stale-receipt" {
+                    bail!(
+                        "program recovery recipe precondition hygiene-receipt-stale-after-live-pass mismatched blocker class"
+                    );
                 }
             }
             "missing-evidence" => {
@@ -11217,14 +12121,7 @@ fn recovery_post_attempt_validation_passed(
 ) -> bool {
     match validation {
         "replan-live-state" => live_replanned,
-        "receipt-fresh" | "receipt-freshness" => {
-            !state.blockers.iter().any(|blocker| {
-                matches!(
-                    blocker.blocker_class.as_str(),
-                    "stale-receipt" | "missing-evidence"
-                )
-            }) && !state.receipt_digests.is_empty()
-        }
+        "receipt-fresh" | "receipt-freshness" => recovery_receipt_freshness_passed_for_child(state),
         "blocker-cleared" => state.blockers.is_empty(),
         "authority-boundary-check" => {
             !state
@@ -11246,6 +12143,44 @@ fn recovery_post_attempt_validation_passed(
         "replay-verify" => verify_program_event_log_for_recovery(control_root).is_ok(),
         _ => false,
     }
+}
+
+fn recovery_receipt_freshness_passed_for_child(state: &ProgramChildPlanState) -> bool {
+    if state.receipt_digests.is_empty() {
+        return false;
+    }
+    if state
+        .blockers
+        .iter()
+        .any(|blocker| blocker.blocker_class == "missing-evidence")
+    {
+        return false;
+    }
+    if !state
+        .blockers
+        .iter()
+        .any(|blocker| blocker.blocker_class == "stale-receipt")
+    {
+        return true;
+    }
+    closeout_recovery_advanced_to_archive_route(state)
+}
+
+fn closeout_recovery_advanced_to_archive_route(state: &ProgramChildPlanState) -> bool {
+    if !state.gate_status.closeout {
+        return false;
+    }
+    let Some(route) = state.selected_route.as_ref() else {
+        return false;
+    };
+    if route.route_id != ROUTE_ID_ARCHIVE_PROPOSAL {
+        return false;
+    }
+    state
+        .blockers
+        .iter()
+        .filter(|blocker| blocker.blocker_class == "stale-receipt")
+        .all(|blocker| blocker.recovery_route.as_deref() == Some(ROUTE_ID_ARCHIVE_PROPOSAL))
 }
 
 fn enforce_program_recovery_post_attempt_validations(
@@ -11470,7 +12405,14 @@ fn select_program_recovery_action<'a>(
             .unwrap_or(1);
         let used =
             program_recovery_action_attempt_count(checkpoint, &blocker.blocker_class, action_id);
-        if used < budget {
+        if used < budget
+            || rebaseline_checkpoint_has_resettable_recovery_state(
+                checkpoint,
+                action_id,
+                &blocker.blocker_class,
+                plan,
+            )
+        {
             return Some((blocker.blocker_class.as_str(), action_id.as_str()));
         }
     }
@@ -11487,12 +12429,53 @@ fn select_program_recovery_action<'a>(
                 &blocker.blocker_class,
                 action_id,
             );
-            if used < budget {
+            if used < budget
+                || rebaseline_checkpoint_has_resettable_recovery_state(
+                    checkpoint,
+                    action_id,
+                    &blocker.blocker_class,
+                    plan,
+                )
+            {
                 return Some((blocker.blocker_class.as_str(), action_id.as_str()));
             }
         }
     }
     None
+}
+
+fn rebaseline_checkpoint_has_resettable_recovery_state(
+    checkpoint: Option<&ProgramLifecycleCheckpoint>,
+    action_id: &str,
+    blocker_class: &str,
+    before_plan: &ProgramLifecyclePlanResult,
+) -> bool {
+    if action_id != REBASELINE_CHECKPOINT_ACTION
+        || !matches!(
+            blocker_class,
+            "recovery-integrity-risk" | "recovery-budget-override-required"
+        )
+    {
+        return false;
+    }
+    let Some(checkpoint) = checkpoint else {
+        return false;
+    };
+    before_plan.child_states.values().any(|state| {
+        let child_attempt_prefix = format!("{}:", state.child_id);
+        state
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == blocker_class)
+            && (checkpoint
+                .recovery_attempts
+                .keys()
+                .any(|key| key == &state.child_id || key.starts_with(&child_attempt_prefix))
+                || checkpoint
+                    .recovery_progress_fingerprints
+                    .values()
+                    .any(|fingerprint| fingerprint.child_id == state.child_id))
+    })
 }
 
 fn execute_selected_program_recovery_action(
@@ -11550,11 +12533,19 @@ fn authority_paths_for_program_recovery_action(
             Vec::new(),
             OPERATION_CLASS_REFRESH_GENERATED_PROJECTION,
         ),
-        REBASELINE_CHECKPOINT_ACTION => (
-            vec![evidence_root.to_path_buf()],
-            Vec::new(),
-            OPERATION_CLASS_PROGRAM_RECOVERY_ACTION,
-        ),
+        REBASELINE_CHECKPOINT_ACTION => {
+            let run_control = repo_root
+                .join(".octon/state/control/execution/runs")
+                .join(program_run_id);
+            (
+                vec![
+                    evidence_root.to_path_buf(),
+                    run_control.join(PROGRAM_CHECKPOINT_FILE),
+                ],
+                vec![authority_path_ref(repo_root, &run_control)],
+                OPERATION_CLASS_PROGRAM_RECOVERY_ACTION,
+            )
+        }
         CLEANUP_CURRENT_RUN_ARTIFACTS_ACTION => {
             let run_control = repo_root
                 .join(".octon/state/control/execution/runs")
@@ -14513,6 +15504,7 @@ fn checkpoint_from_plan(
         executor: Some(executor.as_str().to_string()),
         invocation_authority: invocation_authority.to_string(),
         timeout_seconds: None,
+        max_steps: None,
         max_child_concurrency: None,
         child_registry_digest: plan.child_registry_digest.clone(),
         execution_mode: plan.execution_mode.clone(),
@@ -14620,6 +15612,7 @@ fn write_program_checkpoint_snapshot(
     checkpoint.interaction_request_refs = interaction_request_refs;
     checkpoint.interaction_return_refs = interaction_return_refs;
     checkpoint.timeout_seconds = options.timeout_seconds;
+    checkpoint.max_steps = options.max_steps;
     checkpoint.max_child_concurrency = options.max_child_concurrency;
     if final_verdict == "cancelled" {
         if let Some(existing) = read_program_checkpoint_for_run(octon_dir, run_id)? {
@@ -14761,6 +15754,1839 @@ fn declared_or_default_write_scopes(
         scopes.insert(scope.clone());
     }
     Ok(scopes.into_iter().collect())
+}
+
+fn write_program_compact_evidence_bundle(
+    repo_root: &Path,
+    evidence_root: &Path,
+    run_id: &str,
+    token_ledger_path: &Path,
+) -> Result<ProgramCompactEvidenceBundle> {
+    let generated_at = now_rfc3339()?;
+    let raw_sources = collect_program_raw_log_sources(evidence_root)?;
+    let failing_slice_manifest_path = evidence_root.join("failing-slice-manifest.yml");
+    let (failing_slice_manifest, raw_summary_records) =
+        build_program_failing_slice_manifest(repo_root, run_id, &generated_at, &raw_sources)?;
+    fs::write(
+        &failing_slice_manifest_path,
+        serde_yaml::to_string(&failing_slice_manifest)?,
+    )?;
+
+    let raw_log_summary_path = evidence_root.join("raw-log-summary.yml");
+    let raw_log_summary = ProgramRawLogSummary {
+        schema_version: "octon-raw-log-summary-v1".to_string(),
+        run_id: run_id.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.clone(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        token_ceiling: COMPACT_EVIDENCE_TOKEN_CEILING,
+        default_reader_preference: "prefer-compact-summary-then-handle-only-raw-ref".to_string(),
+        source_count: raw_summary_records.len(),
+        summaries: raw_summary_records,
+        failure_behavior: compact_evidence_failure_behavior(),
+    };
+    fs::write(
+        &raw_log_summary_path,
+        serde_yaml::to_string(&raw_log_summary)?,
+    )?;
+
+    let evidence_index_path = write_program_evidence_index(
+        repo_root,
+        evidence_root,
+        run_id,
+        token_ledger_path,
+        &raw_sources,
+        &generated_at,
+    )?;
+
+    Ok(ProgramCompactEvidenceBundle {
+        evidence_index_path,
+        raw_log_summary_path,
+        failing_slice_manifest_path,
+    })
+}
+
+fn refresh_program_evidence_index(
+    repo_root: &Path,
+    evidence_root: &Path,
+    run_id: &str,
+    token_ledger_path: &Path,
+) -> Result<PathBuf> {
+    let generated_at = now_rfc3339()?;
+    let raw_sources = collect_program_raw_log_sources(evidence_root)?;
+    write_program_evidence_index(
+        repo_root,
+        evidence_root,
+        run_id,
+        token_ledger_path,
+        &raw_sources,
+        &generated_at,
+    )
+}
+
+fn write_program_evidence_index(
+    repo_root: &Path,
+    evidence_root: &Path,
+    run_id: &str,
+    token_ledger_path: &Path,
+    raw_sources: &[ProgramCompactEvidenceSource],
+    generated_at: &str,
+) -> Result<PathBuf> {
+    let evidence_index_path = evidence_root.join("evidence-index.yml");
+    let index_sources =
+        collect_program_evidence_index_sources(evidence_root, token_ledger_path, raw_sources)?;
+    let source_artifacts = index_sources
+        .iter()
+        .map(|source| evidence_index_source_artifact(repo_root, source))
+        .collect::<Result<Vec<_>>>()?;
+    let compact_artifacts = collect_program_evidence_index_compact_artifacts(
+        repo_root,
+        evidence_root,
+        raw_sources.len(),
+    )?;
+    let evidence_index = ProgramEvidenceIndex {
+        schema_version: "octon-evidence-index-v1".to_string(),
+        run_id: run_id.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        reader_preferences: ProgramEvidenceReaderPreferences {
+            planner: format!(
+                "read {PLANNER_STATE_FILE}, {PROGRAM_CONTEXT_CAPSULE_FILE}, and {BLOCKER_LEDGER_FILE} first; verify source_refs before raw refs"
+            ),
+            recovery: format!(
+                "read {RECOVERY_DELTA_SUMMARY_FILE}, {BLOCKER_LEDGER_FILE}, raw-log-summary.yml, and failing-slice-manifest.yml before raw logs"
+            ),
+            closeout: "verify compact digests, then dereference raw evidence only when required"
+                .to_string(),
+            raw_body_policy: "handle-only-by-default".to_string(),
+            raw_body_escalation_required: true,
+        },
+        source_artifacts,
+        compact_artifacts,
+        failure_behavior: compact_evidence_failure_behavior(),
+    };
+    fs::write(
+        &evidence_index_path,
+        serde_yaml::to_string(&evidence_index)?,
+    )?;
+    Ok(evidence_index_path)
+}
+
+fn collect_program_evidence_index_compact_artifacts(
+    repo_root: &Path,
+    evidence_root: &Path,
+    raw_source_count: usize,
+) -> Result<Vec<ProgramEvidenceIndexCompactArtifact>> {
+    let mut artifacts = Vec::new();
+    for (file_name, role) in [
+        ("raw-log-summary.yml", "raw-log-summary"),
+        ("failing-slice-manifest.yml", "failing-slice-manifest"),
+        (BLOCKER_LEDGER_FILE, "blocker-ledger"),
+        (RECOVERY_DELTA_SUMMARY_FILE, "recovery-delta-summary"),
+        (PLANNER_STATE_FILE, "planner-state"),
+        (PROGRAM_CONTEXT_CAPSULE_FILE, "program-context-capsule"),
+        (ROUTE_DECISION_RECEIPT_FILE, "route-decision-receipt"),
+        (MODEL_ROUTING_RECEIPT_FILE, "model-routing-receipt"),
+        (ACTION_SLICE_LEDGER_FILE, "action-slice-ledger"),
+        (
+            COMPACT_COMPLETION_CAPSULE_FILE,
+            "compact-completion-capsule",
+        ),
+    ] {
+        let path = evidence_root.join(file_name);
+        if !path.is_file() {
+            continue;
+        }
+        let source_artifact_count = match file_name {
+            "raw-log-summary.yml" | "failing-slice-manifest.yml" => raw_source_count,
+            _ => compact_artifact_source_count(&path)?,
+        };
+        artifacts.push(evidence_index_compact_artifact(
+            repo_root,
+            &path,
+            role,
+            source_artifact_count,
+        )?);
+    }
+    Ok(artifacts)
+}
+
+fn compact_artifact_source_count(path: &Path) -> Result<usize> {
+    let value: serde_yaml::Value = serde_yaml::from_slice(&fs::read(path)?)?;
+    Ok(value
+        .get("source_refs")
+        .and_then(serde_yaml::Value::as_sequence)
+        .map(|items| items.len())
+        .unwrap_or(0))
+}
+
+fn write_program_planner_state_artifacts(
+    repo_root: &Path,
+    control_root: &Path,
+    evidence_root: &Path,
+    target_rel: &str,
+    program: &ProgramSpec,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    token_ledger_path: &Path,
+    compact_evidence: &ProgramCompactEvidenceBundle,
+) -> Result<()> {
+    let generated_at = now_rfc3339()?;
+    let source_refs = program_compact_source_refs(
+        repo_root,
+        control_root,
+        evidence_root,
+        plan,
+        token_ledger_path,
+        compact_evidence,
+    )?;
+    let validation_binding = program_compact_validation_binding(checkpoint);
+    let route_decision = program_context_route_decision(plan, checkpoint);
+    write_program_routing_artifacts(
+        repo_root,
+        evidence_root,
+        target_rel,
+        plan,
+        checkpoint,
+        &source_refs,
+        &validation_binding,
+        &route_decision,
+        &generated_at,
+    )?;
+
+    let planner_state_path = evidence_root.join(PLANNER_STATE_FILE);
+    let planner_state = ProgramPlannerState {
+        schema_version: "octon-program-planner-state-v1".to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.clone(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        default_reader_preference:
+            "prefer-planner-state-when-source-refs-verify; otherwise reconstruct from checkpoint and event log"
+                .to_string(),
+        token_ceiling: PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+        aggregate_state: plan.aggregate_state.clone(),
+        final_verdict: checkpoint.final_verdict.clone(),
+        terminal_outcome: checkpoint.terminal_outcome.clone(),
+        scheduler_phase: plan.scheduler_phase.clone(),
+        route_decision: route_decision.clone(),
+        runnable_batch: plan.runnable_batch.clone(),
+        blocker_counts: program_blocker_counts(plan),
+        child_states: program_planner_child_states(plan),
+        source_refs: source_refs.clone(),
+        validation_binding: validation_binding.clone(),
+    };
+    fs::write(&planner_state_path, serde_yaml::to_string(&planner_state)?)?;
+    verify_program_compact_artifact_source_refs(repo_root, &planner_state_path)?;
+
+    let program_context_capsule_path = evidence_root.join(PROGRAM_CONTEXT_CAPSULE_FILE);
+    let context_capsule = ProgramContextCapsule {
+        schema_version: "octon-program-context-capsule-v1".to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.clone(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        default_reader_preference:
+            "verify source_refs and validation_binding before using this capsule for planner context"
+                .to_string(),
+        child_status_table: program_context_child_status_table(plan),
+        dependency_vector: program_context_dependency_vector(plan),
+        runnable_batch: plan.runnable_batch.clone(),
+        blockers: program_context_blockers(plan),
+        route_decision: route_decision.clone(),
+        key_digests: program_context_key_digests(checkpoint, &source_refs),
+        evidence_refs: source_refs
+            .iter()
+            .map(|source_ref| source_ref.artifact_ref.clone())
+            .collect(),
+        source_refs: source_refs.clone(),
+        validation_binding: validation_binding.clone(),
+    };
+    fs::write(
+        &program_context_capsule_path,
+        serde_yaml::to_string(&context_capsule)?,
+    )?;
+    verify_program_compact_artifact_source_refs(repo_root, &program_context_capsule_path)?;
+
+    write_program_blocker_recovery_artifacts(
+        repo_root,
+        evidence_root,
+        target_rel,
+        program,
+        plan,
+        checkpoint,
+        &compact_evidence.failing_slice_manifest_path,
+        &generated_at,
+        &source_refs,
+        &validation_binding,
+    )?;
+
+    if should_write_compact_completion_capsule(plan, checkpoint) {
+        let terminal_outcome = checkpoint
+            .terminal_outcome
+            .clone()
+            .context("compact completion capsule requires terminal outcome")?;
+        let path = evidence_root.join(COMPACT_COMPLETION_CAPSULE_FILE);
+        let capsule = ProgramCompactCompletionCapsule {
+            schema_version: "octon-program-compact-completion-capsule-v1".to_string(),
+            run_id: checkpoint.run_id.clone(),
+            lifecycle_id: checkpoint.lifecycle_id.clone(),
+            target: target_rel.to_string(),
+            producer: "lifecycle-program-controller".to_string(),
+            generated_at,
+            authority_boundary: compact_evidence_authority_boundary(),
+            completion_kind: "no-dispatch-terminal-parent".to_string(),
+            final_verdict: checkpoint.final_verdict.clone(),
+            terminal_outcome,
+            route_decision,
+            source_refs: source_refs.clone(),
+            validation_binding,
+        };
+        fs::write(&path, serde_yaml::to_string(&capsule)?)?;
+        verify_program_compact_artifact_source_refs(repo_root, &path)?;
+    }
+
+    Ok(())
+}
+
+fn write_program_routing_artifacts(
+    repo_root: &Path,
+    evidence_root: &Path,
+    target_rel: &str,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    source_refs: &[ProgramCompactSourceRef],
+    validation_binding: &ProgramCompactValidationBinding,
+    route_decision: &ProgramContextRouteDecision,
+    generated_at: &str,
+) -> Result<()> {
+    let source_digests = program_source_digest_map(source_refs);
+    let evidence_refs = source_refs
+        .iter()
+        .map(|source_ref| source_ref.artifact_ref.clone())
+        .collect::<Vec<_>>();
+    let validation = program_routing_artifact_validation(
+        checkpoint,
+        route_decision,
+        source_refs,
+        &source_digests,
+    )?;
+
+    let route_decision_path = evidence_root.join(ROUTE_DECISION_RECEIPT_FILE);
+    let route_receipt = ProgramRouteDecisionReceipt {
+        schema_version: "octon-program-route-decision-receipt-v1".to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        consumer: "proposal-program-planner-and-context-pack-builder".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        route_decision: route_decision.clone(),
+        route_bypass_guard: program_route_bypass_guard(plan),
+        deterministic_preflights: program_deterministic_preflights(plan),
+        source_refs: source_refs.to_vec(),
+        source_digests: source_digests.clone(),
+        validation: validation.clone(),
+        validation_binding: validation_binding.clone(),
+        evidence_refs: evidence_refs.clone(),
+        failure_behavior: program_routing_failure_behavior(),
+    };
+    fs::write(&route_decision_path, serde_yaml::to_string(&route_receipt)?)?;
+    verify_program_compact_artifact_source_refs(repo_root, &route_decision_path)?;
+
+    let model_routing_path = evidence_root.join(MODEL_ROUTING_RECEIPT_FILE);
+    let selected_model_route = program_model_route_for_step(plan, checkpoint);
+    let model_receipt = ProgramModelRoutingReceipt {
+        schema_version: "octon-program-model-routing-receipt-v1".to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        consumer: "proposal-program-route-executor".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        token_ceiling: token_ceiling_for_model_route(&selected_model_route, plan, checkpoint),
+        selected_model_route,
+        escalation_triggers_observed: program_escalation_triggers(plan),
+        route_matrix: program_model_route_matrix(),
+        fallback_behavior: program_model_routing_fallback_behavior(),
+        raw_full_evidence_model_visible_by_default: false,
+        source_refs: source_refs.to_vec(),
+        source_digests: source_digests.clone(),
+        validation: validation.clone(),
+        validation_binding: validation_binding.clone(),
+        evidence_refs: evidence_refs.clone(),
+        failure_behavior: program_routing_failure_behavior(),
+    };
+    fs::write(&model_routing_path, serde_yaml::to_string(&model_receipt)?)?;
+    verify_program_compact_artifact_source_refs(repo_root, &model_routing_path)?;
+
+    let action_slice_path = evidence_root.join(ACTION_SLICE_LEDGER_FILE);
+    let ledger = ProgramActionSliceLedger {
+        schema_version: "octon-program-action-slice-ledger-v1".to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        consumer: "proposal-program-replan-loop".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        selected_slice: route_decision.step_kind.clone(),
+        max_steps: checkpoint.max_steps.unwrap_or(DEFAULT_PROGRAM_MAX_STEPS),
+        max_child_concurrency: checkpoint
+            .max_child_concurrency
+            .unwrap_or(DEFAULT_MAX_CHILD_CONCURRENCY),
+        runnable_batch: plan.runnable_batch.clone(),
+        action_slices: program_action_slice_entries(plan, checkpoint, route_decision),
+        deterministic_preflights: program_deterministic_preflights(plan),
+        source_refs: source_refs.to_vec(),
+        source_digests,
+        validation,
+        validation_binding: validation_binding.clone(),
+        evidence_refs,
+        failure_behavior: program_routing_failure_behavior(),
+    };
+    fs::write(&action_slice_path, serde_yaml::to_string(&ledger)?)?;
+    verify_program_compact_artifact_source_refs(repo_root, &action_slice_path)?;
+
+    Ok(())
+}
+
+fn program_source_digest_map(source_refs: &[ProgramCompactSourceRef]) -> BTreeMap<String, String> {
+    source_refs
+        .iter()
+        .map(|source_ref| (source_ref.artifact_role.clone(), source_ref.sha256.clone()))
+        .collect()
+}
+
+fn program_routing_artifact_validation(
+    checkpoint: &ProgramLifecycleCheckpoint,
+    route_decision: &ProgramContextRouteDecision,
+    source_refs: &[ProgramCompactSourceRef],
+    source_digests: &BTreeMap<String, String>,
+) -> Result<ProgramRoutingArtifactValidation> {
+    let model_visible_context = serde_yaml::to_string(&(
+        route_decision,
+        checkpoint.max_steps,
+        checkpoint.max_child_concurrency,
+        source_digests,
+    ))?;
+    Ok(ProgramRoutingArtifactValidation {
+        status: "digest-bound".to_string(),
+        validator: "verify_program_compact_artifact_source_refs".to_string(),
+        source_event_index: effective_checkpoint_event_index(checkpoint),
+        source_event_sha256: checkpoint.latest_event_sha256.clone(),
+        source_event_log_sha256: checkpoint.event_log_sha256.clone(),
+        child_registry_digest: checkpoint.child_registry_digest.clone(),
+        model_visible_context_sha256: stable_text_digest(&format!(
+            "{}\nsource-count:{}",
+            model_visible_context,
+            source_refs.len()
+        )),
+    })
+}
+
+fn program_route_bypass_guard(plan: &ProgramLifecyclePlanResult) -> String {
+    if plan.program_route.is_some() && plan.runnable_batch.is_empty() {
+        "parent-route-selected-child-dispatch-suppressed".to_string()
+    } else if plan.program_route.is_none() && !plan.runnable_batch.is_empty() {
+        "child-batch-selected-parent-route-absent".to_string()
+    } else if plan.program_route.is_none() && plan.runnable_batch.is_empty() {
+        "no-dispatch-selected".to_string()
+    } else {
+        "invalid-mixed-parent-and-child-route-selection".to_string()
+    }
+}
+
+fn program_deterministic_preflights(plan: &ProgramLifecyclePlanResult) -> Vec<String> {
+    let mut preflights = vec![
+        "publication-freshness".to_string(),
+        "generated-freshness".to_string(),
+        "blocker-aggregation-zero-state".to_string(),
+        "dependency-vector".to_string(),
+        "manifest-completeness".to_string(),
+        "registry-projection".to_string(),
+        "raw-log-indexing".to_string(),
+        "closeout-schema-validation".to_string(),
+        "worktree-cleanliness".to_string(),
+    ];
+    if plan.program_gate_results.iter().any(|gate| !gate.passed) {
+        preflights.push("program-gate-failure-observed".to_string());
+    }
+    preflights
+}
+
+fn program_model_route_for_step(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> String {
+    if !program_escalation_triggers(plan).is_empty() {
+        "high-on-escalation".to_string()
+    } else if checkpoint.terminal_outcome.is_some()
+        || plan.program_route.is_none() && plan.runnable_batch.is_empty()
+    {
+        "deterministic".to_string()
+    } else if !plan.runnable_batch.is_empty() {
+        "small".to_string()
+    } else if !plan.program_blockers.is_empty()
+        || plan
+            .child_states
+            .values()
+            .any(|state| !state.blockers.is_empty())
+    {
+        "medium".to_string()
+    } else {
+        "deterministic".to_string()
+    }
+}
+
+fn token_ceiling_for_model_route(
+    model_route: &str,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> u64 {
+    match model_route {
+        "small" => CHILD_DISPATCH_BASE_TOKEN_CEILING,
+        "medium" => RECOVERY_DELTA_NONZERO_BLOCKER_TOKEN_CEILING,
+        "high" | "high-on-escalation" => ARCHITECTURE_EXCEPTION_TOKEN_CEILING,
+        _ if checkpoint.terminal_outcome.is_some() => FINAL_COMPLETION_TOKEN_CEILING,
+        _ if !plan.runnable_batch.is_empty() => CHILD_DISPATCH_BASE_TOKEN_CEILING,
+        _ => PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+    }
+}
+
+fn program_escalation_triggers(plan: &ProgramLifecyclePlanResult) -> Vec<String> {
+    let mut triggers = BTreeSet::new();
+    for blocker in plan.program_blockers.iter().chain(
+        plan.child_states
+            .values()
+            .flat_map(|state| state.blockers.iter()),
+    ) {
+        match blocker.blocker_class.as_str() {
+            "authority-ambiguity"
+            | "authority-zone-ambiguous"
+            | "authority-boundary-ambiguous"
+            | "protected-artifact-authority-ambiguity"
+            | "scope-expansion" => {
+                triggers.insert("authority ambiguity".to_string());
+            }
+            "validation-failed" => {
+                triggers.insert("unexplained test failure".to_string());
+            }
+            "unsafe-resume" => {
+                triggers.insert("rollback conflict".to_string());
+            }
+            "recovery-integrity-risk"
+            | "recovery-budget-override-required"
+            | "artifact-ownership-unclear"
+            | "aggregate-closeout-readiness-missing" => {
+                triggers.insert("archive/recovery failure".to_string());
+            }
+            "missing-evidence" => {
+                triggers.insert("support-proof interpretation".to_string());
+            }
+            _ => {}
+        }
+        if blocker.message.contains("promotion evidence") {
+            triggers.insert("promotion evidence conflict".to_string());
+        }
+        if blocker.message.contains("architecture") {
+            triggers.insert("architecture decision".to_string());
+        }
+        if blocker.message.contains("rollback") {
+            triggers.insert("rollback conflict".to_string());
+        }
+        if blocker.message.contains("support-proof") {
+            triggers.insert("support-proof interpretation".to_string());
+        }
+    }
+    triggers.into_iter().collect()
+}
+
+fn program_model_route_matrix() -> Vec<ProgramModelRouteMatrixEntry> {
+    vec![
+        ProgramModelRouteMatrixEntry {
+            route: "deterministic".to_string(),
+            default_for: vec![
+                "load_program_spine".to_string(),
+                "evaluate_dependency_vector".to_string(),
+                "select_runnable_children".to_string(),
+                "no_dispatch".to_string(),
+                "validate_completion".to_string(),
+                "emit_closeout_capsule".to_string(),
+            ],
+            token_ceiling: PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+            escalation_required: false,
+        },
+        ProgramModelRouteMatrixEntry {
+            route: "small".to_string(),
+            default_for: vec![
+                "child_dispatch_handoff".to_string(),
+                "parent_route_handoff".to_string(),
+            ],
+            token_ceiling: CHILD_DISPATCH_BASE_TOKEN_CEILING,
+            escalation_required: false,
+        },
+        ProgramModelRouteMatrixEntry {
+            route: "medium".to_string(),
+            default_for: vec![
+                "summarize_terminal_blockers".to_string(),
+                "recovery_delta_nonzero".to_string(),
+            ],
+            token_ceiling: RECOVERY_DELTA_NONZERO_BLOCKER_TOKEN_CEILING,
+            escalation_required: false,
+        },
+        ProgramModelRouteMatrixEntry {
+            route: "high-on-escalation".to_string(),
+            default_for: vec![
+                "authority ambiguity".to_string(),
+                "architecture decision".to_string(),
+                "rollback conflict".to_string(),
+                "support-proof interpretation".to_string(),
+                "promotion evidence conflict".to_string(),
+                "archive/recovery failure".to_string(),
+                "unexplained test failure".to_string(),
+            ],
+            token_ceiling: ARCHITECTURE_EXCEPTION_TOKEN_CEILING,
+            escalation_required: true,
+        },
+    ]
+}
+
+fn program_model_routing_fallback_behavior() -> Vec<String> {
+    vec![
+        "missing-route-receipt:fail-closed".to_string(),
+        "stale-source-ref:fail-closed".to_string(),
+        "source-digest-mismatch:fail-closed".to_string(),
+        "budget-exceeded:stage-only".to_string(),
+        "high-route-without-escalation-trigger:deny".to_string(),
+    ]
+}
+
+fn program_routing_failure_behavior() -> Vec<String> {
+    vec![
+        "fail-closed-on-source-missing".to_string(),
+        "fail-closed-on-source-digest-mismatch".to_string(),
+        "fail-closed-on-stale-event-head".to_string(),
+        "fail-closed-on-child-registry-digest-mismatch".to_string(),
+        "fail-closed-on-authority-boundary-conflict".to_string(),
+        "fail-closed-on-token-ceiling-without-stage-only-route".to_string(),
+    ]
+}
+
+fn program_action_slice_entries(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    route_decision: &ProgramContextRouteDecision,
+) -> Vec<ProgramActionSliceEntry> {
+    let step_kind = route_decision.step_kind.as_str();
+    let selected_model_route = program_model_route_for_step(plan, checkpoint);
+    let blocker_count = plan.program_blockers.len()
+        + plan
+            .child_states
+            .values()
+            .map(|state| state.blockers.len())
+            .sum::<usize>();
+    vec![
+        ProgramActionSliceEntry {
+            slice_id: "load_program_spine".to_string(),
+            route_class: "deterministic-preflight".to_string(),
+            selected: true,
+            token_ceiling: PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+            model_route: "deterministic".to_string(),
+            stop_condition: "program target and child registry bound or fail closed".to_string(),
+        },
+        ProgramActionSliceEntry {
+            slice_id: "evaluate_dependency_vector".to_string(),
+            route_class: "deterministic-preflight".to_string(),
+            selected: !plan.child_states.is_empty(),
+            token_ceiling: PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+            model_route: "deterministic".to_string(),
+            stop_condition: "dependency gates recorded in program context capsule".to_string(),
+        },
+        ProgramActionSliceEntry {
+            slice_id: "select_runnable_children".to_string(),
+            route_class: "deterministic-planner".to_string(),
+            selected: !plan.runnable_batch.is_empty(),
+            token_ceiling: PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+            model_route: "deterministic".to_string(),
+            stop_condition: "one runnable batch or no dispatch selected".to_string(),
+        },
+        ProgramActionSliceEntry {
+            slice_id: "dispatch_child_or_no_dispatch".to_string(),
+            route_class: step_kind.to_string(),
+            selected: true,
+            token_ceiling: token_ceiling_for_model_route(&selected_model_route, plan, checkpoint),
+            model_route: selected_model_route,
+            stop_condition: format!(
+                "max_steps:{} max_child_concurrency:{}",
+                checkpoint.max_steps.unwrap_or(DEFAULT_PROGRAM_MAX_STEPS),
+                checkpoint
+                    .max_child_concurrency
+                    .unwrap_or(DEFAULT_MAX_CHILD_CONCURRENCY)
+            ),
+        },
+        ProgramActionSliceEntry {
+            slice_id: "summarize_terminal_blockers".to_string(),
+            route_class: "deterministic-compact-summary".to_string(),
+            selected: blocker_count > 0 || plan.aggregate_terminal_blockers.is_some(),
+            token_ceiling: if blocker_count == 0 {
+                RECOVERY_DELTA_ZERO_BLOCKER_TOKEN_CEILING
+            } else {
+                RECOVERY_DELTA_NONZERO_BLOCKER_TOKEN_CEILING
+            },
+            model_route: if blocker_count == 0 {
+                "deterministic".to_string()
+            } else {
+                "medium".to_string()
+            },
+            stop_condition: "blocker ledger and recovery delta summary written".to_string(),
+        },
+        ProgramActionSliceEntry {
+            slice_id: "validate_completion".to_string(),
+            route_class: "deterministic-validation".to_string(),
+            selected: true,
+            token_ceiling: PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING,
+            model_route: "deterministic".to_string(),
+            stop_condition: "checkpoint, event log, and child registry digests verify".to_string(),
+        },
+        ProgramActionSliceEntry {
+            slice_id: "emit_closeout_capsule".to_string(),
+            route_class: "deterministic-closeout".to_string(),
+            selected: checkpoint.terminal_outcome.is_some(),
+            token_ceiling: FINAL_COMPLETION_TOKEN_CEILING,
+            model_route: "deterministic".to_string(),
+            stop_condition: "terminal no-dispatch parent run has compact completion capsule"
+                .to_string(),
+        },
+    ]
+}
+
+fn should_write_compact_completion_capsule(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> bool {
+    checkpoint.terminal_outcome.is_some()
+        && plan.program_route.is_none()
+        && plan.runnable_batch.is_empty()
+}
+
+fn program_compact_source_refs(
+    repo_root: &Path,
+    control_root: &Path,
+    evidence_root: &Path,
+    plan: &ProgramLifecyclePlanResult,
+    token_ledger_path: &Path,
+    compact_evidence: &ProgramCompactEvidenceBundle,
+) -> Result<Vec<ProgramCompactSourceRef>> {
+    let mut refs = Vec::new();
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &control_root.join(PROGRAM_CHECKPOINT_FILE),
+        "program-lifecycle-checkpoint",
+        true,
+    )?;
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &program_control_event_log_path(control_root),
+        "program-control-event-log",
+        true,
+    )?;
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &program_evidence_event_log_path(evidence_root),
+        "program-evidence-event-log",
+        true,
+    )?;
+    for (file_name, role) in [
+        ("program-plan.yml", "program-plan"),
+        ("scheduler-decision.yml", "scheduler-decision"),
+        ("run-inputs.yml", "run-inputs"),
+        ("summary.md", "program-summary"),
+        ("recovery-log.yml", "program-recovery-log"),
+    ] {
+        push_program_compact_source_ref(
+            repo_root,
+            &mut refs,
+            &evidence_root.join(file_name),
+            role,
+            true,
+        )?;
+    }
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        token_ledger_path,
+        "token-budget-ledger",
+        true,
+    )?;
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &compact_evidence.raw_log_summary_path,
+        "raw-log-summary",
+        true,
+    )?;
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &compact_evidence.failing_slice_manifest_path,
+        "failing-slice-manifest",
+        true,
+    )?;
+    if !is_safe_repo_relative(&plan.child_registry_path) {
+        bail!(
+            "program child registry path must be safe repo-relative: {}",
+            plan.child_registry_path
+        );
+    }
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &repo_root.join(&plan.child_registry_path),
+        "child-registry",
+        true,
+    )?;
+    refs.sort_by(|left, right| left.artifact_ref.cmp(&right.artifact_ref));
+    refs.dedup_by(|left, right| left.artifact_ref == right.artifact_ref);
+    Ok(refs)
+}
+
+fn push_program_compact_source_ref(
+    repo_root: &Path,
+    refs: &mut Vec<ProgramCompactSourceRef>,
+    path: &Path,
+    artifact_role: &str,
+    required: bool,
+) -> Result<()> {
+    if !path.is_file() {
+        if required {
+            bail!(
+                "compact program artifact source missing for {artifact_role}: {}",
+                path.display()
+            );
+        }
+        return Ok(());
+    }
+    refs.push(ProgramCompactSourceRef {
+        artifact_role: artifact_role.to_string(),
+        artifact_ref: rel_display(repo_root, path),
+        sha256: file_digest(path)?,
+        required,
+    });
+    Ok(())
+}
+
+fn program_compact_validation_binding(
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> ProgramCompactValidationBinding {
+    ProgramCompactValidationBinding {
+        status: "digest-bound".to_string(),
+        source_event_index: effective_checkpoint_event_index(checkpoint),
+        source_event_sha256: checkpoint.latest_event_sha256.clone(),
+        source_event_log_sha256: checkpoint.event_log_sha256.clone(),
+        child_registry_digest: checkpoint.child_registry_digest.clone(),
+        failure_behavior: program_context_capsule_failure_behavior(),
+    }
+}
+
+fn program_context_capsule_failure_behavior() -> Vec<String> {
+    vec![
+        "fail-closed-on-source-missing".to_string(),
+        "fail-closed-on-source-digest-mismatch".to_string(),
+        "fail-closed-on-stale-event-head".to_string(),
+        "fail-closed-on-child-registry-digest-mismatch".to_string(),
+        "fail-closed-on-authority-boundary-conflict".to_string(),
+    ]
+}
+
+fn program_context_route_decision(
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> ProgramContextRouteDecision {
+    let step_kind = if plan.program_route.is_some() {
+        "parent-route-dispatch"
+    } else if !plan.runnable_batch.is_empty() {
+        "child-batch-dispatch"
+    } else {
+        "no-dispatch"
+    };
+    ProgramContextRouteDecision {
+        step_kind: step_kind.to_string(),
+        parent_route: plan
+            .program_route
+            .as_ref()
+            .map(|route| route.route_id.clone()),
+        scheduler_phase: plan.scheduler_phase.clone(),
+        selected_children: plan.runnable_batch.clone(),
+        final_verdict: checkpoint.final_verdict.clone(),
+    }
+}
+
+fn program_blocker_counts(plan: &ProgramLifecyclePlanResult) -> BTreeMap<String, usize> {
+    let mut counts = BTreeMap::new();
+    for blocker in &plan.program_blockers {
+        *counts.entry(blocker.blocker_class.clone()).or_default() += 1;
+    }
+    for state in plan.child_states.values() {
+        for blocker in &state.blockers {
+            *counts.entry(blocker.blocker_class.clone()).or_default() += 1;
+        }
+    }
+    counts
+}
+
+fn program_planner_child_states(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramPlannerChildState> {
+    plan.child_states
+        .values()
+        .map(|state| ProgramPlannerChildState {
+            child_id: state.child_id.clone(),
+            target: state.target.clone(),
+            required: state.required,
+            deferred: state.deferred,
+            dependencies: state.dependencies.clone(),
+            selected_route: state
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.clone()),
+            terminal_outcome: state.terminal_outcome.clone(),
+            final_verdict: state.final_verdict.clone(),
+            gate_status: state.gate_status.clone(),
+            blocker_classes: state
+                .blockers
+                .iter()
+                .map(|blocker| blocker.blocker_class.clone())
+                .collect(),
+        })
+        .collect()
+}
+
+fn program_context_child_status_table(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramContextChildStatus> {
+    plan.child_states
+        .values()
+        .map(|state| ProgramContextChildStatus {
+            child_id: state.child_id.clone(),
+            target: state.target.clone(),
+            required: state.required,
+            deferred: state.deferred,
+            dependencies: state.dependencies.clone(),
+            selected_route: state
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.clone()),
+            terminal_outcome: state.terminal_outcome.clone(),
+            final_verdict: state.final_verdict.clone(),
+            blocker_classes: state
+                .blockers
+                .iter()
+                .map(|blocker| blocker.blocker_class.clone())
+                .collect(),
+        })
+        .collect()
+}
+
+fn program_context_dependency_vector(
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<ProgramContextDependency> {
+    let mut dependencies = Vec::new();
+    for state in plan.child_states.values() {
+        for dependency in &state.dependencies {
+            if let Some(status) = state.dependency_gate_status.get(dependency) {
+                dependencies.push(ProgramContextDependency {
+                    child_id: state.child_id.clone(),
+                    depends_on: dependency.clone(),
+                    required_gate: status.required_gate.clone(),
+                    satisfied: status.satisfied,
+                    observed_gate: status.observed_gate.clone(),
+                    reason: status.reason.clone(),
+                });
+            } else {
+                dependencies.push(ProgramContextDependency {
+                    child_id: state.child_id.clone(),
+                    depends_on: dependency.clone(),
+                    required_gate: state
+                        .dependency_gate
+                        .clone()
+                        .unwrap_or_else(|| "terminal".to_string()),
+                    satisfied: false,
+                    observed_gate: "unknown".to_string(),
+                    reason: "dependency gate not evaluated in current planner state".to_string(),
+                });
+            }
+        }
+    }
+    dependencies
+}
+
+fn program_context_blockers(plan: &ProgramLifecyclePlanResult) -> Vec<ProgramContextBlocker> {
+    let mut blockers = Vec::new();
+    for blocker in &plan.program_blockers {
+        blockers.push(ProgramContextBlocker {
+            scope: "program".to_string(),
+            child_id: None,
+            blocker_class: blocker.blocker_class.clone(),
+            message: blocker.message.clone(),
+            recovery_route: blocker.recovery_route.clone(),
+        });
+    }
+    for state in plan.child_states.values() {
+        for blocker in &state.blockers {
+            blockers.push(ProgramContextBlocker {
+                scope: "child".to_string(),
+                child_id: Some(state.child_id.clone()),
+                blocker_class: blocker.blocker_class.clone(),
+                message: blocker.message.clone(),
+                recovery_route: blocker.recovery_route.clone(),
+            });
+        }
+    }
+    blockers
+}
+
+fn write_program_blocker_recovery_artifacts(
+    repo_root: &Path,
+    evidence_root: &Path,
+    target_rel: &str,
+    program: &ProgramSpec,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    failing_slice_manifest_path: &Path,
+    generated_at: &str,
+    source_refs: &[ProgramCompactSourceRef],
+    validation_binding: &ProgramCompactValidationBinding,
+) -> Result<()> {
+    let blocker_entries = program_blocker_ledger_entries(program, plan, checkpoint, source_refs)?;
+    let blocker_ledger_path = evidence_root.join(BLOCKER_LEDGER_FILE);
+    let blocker_ledger = ProgramBlockerLedger {
+        schema_version: "octon-program-blocker-ledger-v1".to_string(),
+        schema_ref: ".octon/framework/engine/runtime/spec/program-blocker-ledger-v1.schema.json"
+            .to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        default_reader_preference:
+            "read before replaying full blocker history; verify source_refs and validation_binding"
+                .to_string(),
+        token_ceiling: RECOVERY_DELTA_NONZERO_BLOCKER_TOKEN_CEILING,
+        blocker_count: blocker_entries.len(),
+        blockers: blocker_entries.clone(),
+        source_refs: source_refs.to_vec(),
+        validation_binding: validation_binding.clone(),
+        failure_behavior: program_recovery_delta_failure_behavior(),
+    };
+    fs::write(
+        &blocker_ledger_path,
+        serde_yaml::to_string(&blocker_ledger)?,
+    )?;
+    verify_program_compact_artifact_source_refs(repo_root, &blocker_ledger_path)?;
+
+    let recovery_delta_path = evidence_root.join(RECOVERY_DELTA_SUMMARY_FILE);
+    let recovery_delta = ProgramRecoveryDeltaSummary {
+        schema_version: "octon-program-recovery-delta-summary-v1".to_string(),
+        schema_ref:
+            ".octon/framework/engine/runtime/spec/program-recovery-delta-summary-v1.schema.json"
+                .to_string(),
+        run_id: checkpoint.run_id.clone(),
+        lifecycle_id: checkpoint.lifecycle_id.clone(),
+        target: target_rel.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        default_reader_preference:
+            "read latest deltas and failing slices before stale receipt/archive history".to_string(),
+        model_route:
+            "deterministic-aggregator-default; medium-only-on-nonzero-or-conflicting-blockers"
+                .to_string(),
+        token_ceiling: if blocker_entries.is_empty() {
+            RECOVERY_DELTA_ZERO_BLOCKER_TOKEN_CEILING
+        } else {
+            RECOVERY_DELTA_NONZERO_BLOCKER_TOKEN_CEILING
+        },
+        blocker_ledger_ref: compact_artifact_ref(repo_root, &blocker_ledger_path)?,
+        failing_slice_manifest_ref: compact_artifact_ref(repo_root, failing_slice_manifest_path)?,
+        delta_count: blocker_entries.len(),
+        deltas: program_recovery_delta_entries(&blocker_entries),
+        source_refs: source_refs.to_vec(),
+        validation_binding: validation_binding.clone(),
+        failure_behavior: program_recovery_delta_failure_behavior(),
+    };
+    fs::write(
+        &recovery_delta_path,
+        serde_yaml::to_string(&recovery_delta)?,
+    )?;
+    verify_program_compact_artifact_source_refs(repo_root, &recovery_delta_path)?;
+
+    Ok(())
+}
+
+fn program_blocker_ledger_entries(
+    program: &ProgramSpec,
+    plan: &ProgramLifecyclePlanResult,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    source_refs: &[ProgramCompactSourceRef],
+) -> Result<Vec<ProgramBlockerLedgerEntry>> {
+    let evidence_refs = program_blocker_ledger_evidence_refs(source_refs, plan);
+    let mut entries = Vec::new();
+    for blocker in &plan.program_blockers {
+        let route_id = blocker
+            .recovery_route
+            .clone()
+            .unwrap_or_else(|| "none".to_string());
+        let current_fingerprint = stable_text_digest(&format!(
+            "program\n{}\n{}\n{}\n{}\n{}",
+            plan.aggregate_state,
+            plan.final_verdict,
+            route_id,
+            blocker.blocker_class,
+            blocker.message
+        ));
+        entries.push(ProgramBlockerLedgerEntry {
+            blocker_id: stable_blocker_id("program", None, &route_id, &blocker.blocker_class),
+            scope: "program".to_string(),
+            child_id: None,
+            route_id: route_id.clone(),
+            blocker_class: blocker.blocker_class.clone(),
+            blocker_message: blocker.message.clone(),
+            latest_transition: format!(
+                "event-index:{}; aggregate-state:{}; final-verdict:{}; route:{}",
+                effective_checkpoint_event_index(checkpoint),
+                plan.aggregate_state,
+                plan.final_verdict,
+                route_id
+            ),
+            prior_fingerprint: None,
+            current_fingerprint,
+            recovery_budget: recovery_budget_snapshot(
+                program,
+                checkpoint,
+                None,
+                &blocker.blocker_class,
+            ),
+            recovery_route: blocker.recovery_route.clone(),
+            evidence_refs: evidence_refs.clone(),
+            authority_boundary_notice: child_owned_receipt_authority_notice(),
+        });
+    }
+
+    for state in plan.child_states.values() {
+        for blocker in &state.blockers {
+            let route_id = route_id_for_child_blocker(state, blocker);
+            let current_progress =
+                child_progress_fingerprint(state, &route_id, &blocker.blocker_class);
+            let current_fingerprint = serializable_digest(&current_progress)?;
+            let prior_fingerprint = checkpoint
+                .recovery_progress_fingerprints
+                .get(&recovery_progress_key(
+                    &state.child_id,
+                    &route_id,
+                    &blocker.blocker_class,
+                ))
+                .map(serializable_digest)
+                .transpose()?;
+            entries.push(ProgramBlockerLedgerEntry {
+                blocker_id: stable_blocker_id(
+                    "child",
+                    Some(&state.child_id),
+                    &route_id,
+                    &blocker.blocker_class,
+                ),
+                scope: "child".to_string(),
+                child_id: Some(state.child_id.clone()),
+                route_id: route_id.clone(),
+                blocker_class: blocker.blocker_class.clone(),
+                blocker_message: blocker.message.clone(),
+                latest_transition: format!(
+                    "event-index:{}; child-final-verdict:{}; terminal-outcome:{}; selected-route:{}; route:{}",
+                    effective_checkpoint_event_index(checkpoint),
+                    state.final_verdict,
+                    state.terminal_outcome.as_deref().unwrap_or("none"),
+                    state
+                        .selected_route
+                        .as_ref()
+                        .map(|route| route.route_id.as_str())
+                        .unwrap_or("none"),
+                    route_id
+                ),
+                prior_fingerprint,
+                current_fingerprint,
+                recovery_budget: recovery_budget_snapshot(
+                    program,
+                    checkpoint,
+                    Some(&state.child_id),
+                    &blocker.blocker_class,
+                ),
+                recovery_route: blocker.recovery_route.clone(),
+                evidence_refs: evidence_refs.clone(),
+                authority_boundary_notice: child_owned_receipt_authority_notice(),
+            });
+        }
+    }
+    Ok(entries)
+}
+
+fn program_recovery_delta_entries(
+    blocker_entries: &[ProgramBlockerLedgerEntry],
+) -> Vec<ProgramRecoveryDeltaEntry> {
+    blocker_entries
+        .iter()
+        .map(|entry| {
+            let progress_state = match entry.prior_fingerprint.as_deref() {
+                None => "new",
+                Some(prior) if prior == entry.current_fingerprint => "unchanged",
+                Some(_) => "changed",
+            };
+            ProgramRecoveryDeltaEntry {
+                blocker_id: entry.blocker_id.clone(),
+                scope: entry.scope.clone(),
+                child_id: entry.child_id.clone(),
+                route_id: entry.route_id.clone(),
+                blocker_class: entry.blocker_class.clone(),
+                progress_state: progress_state.to_string(),
+                prior_fingerprint: entry
+                    .prior_fingerprint
+                    .clone()
+                    .unwrap_or_else(|| "none".to_string()),
+                current_fingerprint: entry.current_fingerprint.clone(),
+                latest_transition: entry.latest_transition.clone(),
+                recovery_budget_remaining: entry.recovery_budget.remaining_attempts,
+                recovery_budget_exhausted: entry.recovery_budget.exhausted,
+                recovery_route: entry
+                    .recovery_route
+                    .clone()
+                    .unwrap_or_else(|| "none".to_string()),
+                read_before_raw_history: vec![
+                    RECOVERY_DELTA_SUMMARY_FILE.to_string(),
+                    BLOCKER_LEDGER_FILE.to_string(),
+                    "failing-slice-manifest.yml".to_string(),
+                    "raw-log-summary.yml".to_string(),
+                ],
+                escalation_required_when: vec![
+                    "blocker-fingerprint-drift".to_string(),
+                    "child-authority-boundary-ambiguity".to_string(),
+                    "recovery-loop-repeats-without-progress".to_string(),
+                ],
+            }
+        })
+        .collect()
+}
+
+fn recovery_budget_snapshot(
+    program: &ProgramSpec,
+    checkpoint: &ProgramLifecycleCheckpoint,
+    child_id: Option<&str>,
+    blocker_class: &str,
+) -> ProgramRecoveryBudgetSnapshot {
+    let max_attempts = recovery_attempt_budget(program, blocker_class)
+        .or(program.recovery_policy.max_recovery_attempts)
+        .unwrap_or(0);
+    let attempts_used = if let Some(child_id) = child_id {
+        recovery_attempt_count(checkpoint, child_id, blocker_class)
+    } else if let Some(action_id) = recovery_action_id(program, blocker_class) {
+        program_recovery_action_attempt_count(Some(checkpoint), blocker_class, action_id)
+    } else {
+        0
+    };
+    let remaining_attempts = max_attempts.saturating_sub(attempts_used);
+    ProgramRecoveryBudgetSnapshot {
+        attempts_used,
+        max_attempts,
+        remaining_attempts,
+        exhausted: max_attempts > 0 && attempts_used >= max_attempts,
+    }
+}
+
+fn route_id_for_child_blocker(state: &ProgramChildPlanState, blocker: &ProgramBlocker) -> String {
+    blocker
+        .recovery_route
+        .clone()
+        .or_else(|| {
+            state
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.clone())
+        })
+        .unwrap_or_else(|| "none".to_string())
+}
+
+fn stable_blocker_id(
+    scope: &str,
+    child_id: Option<&str>,
+    route_id: &str,
+    blocker_class: &str,
+) -> String {
+    let digest = sha256_hex(
+        format!(
+            "{scope}\n{}\n{route_id}\n{blocker_class}",
+            child_id.unwrap_or("program")
+        )
+        .as_bytes(),
+    );
+    format!("blocker-{}", &digest[..16])
+}
+
+fn stable_text_digest(value: &str) -> String {
+    format!("sha256:{}", sha256_hex(value.as_bytes()))
+}
+
+fn serializable_digest<T: Serialize>(value: &T) -> Result<String> {
+    Ok(stable_text_digest(&serde_yaml::to_string(value)?))
+}
+
+fn compact_artifact_ref(repo_root: &Path, path: &Path) -> Result<ProgramCompactArtifactRef> {
+    Ok(ProgramCompactArtifactRef {
+        artifact_ref: rel_display(repo_root, path),
+        sha256: file_digest(path)?,
+    })
+}
+
+fn program_blocker_ledger_evidence_refs(
+    source_refs: &[ProgramCompactSourceRef],
+    plan: &ProgramLifecyclePlanResult,
+) -> Vec<String> {
+    let mut refs = source_refs
+        .iter()
+        .map(|source_ref| source_ref.artifact_ref.clone())
+        .collect::<Vec<_>>();
+    if let Some(reference) = plan.aggregate_terminal_blockers.as_ref() {
+        refs.push(reference.path.clone());
+    }
+    refs.sort();
+    refs.dedup();
+    refs
+}
+
+fn child_owned_receipt_authority_notice() -> String {
+    "parent compact recovery artifacts summarize only; child manifests, receipts, validation verdicts, promotion evidence, archive metadata, closeout authorization, and lifecycle outcomes remain child-owned"
+        .to_string()
+}
+
+fn program_recovery_delta_failure_behavior() -> Vec<String> {
+    let mut behavior = program_context_capsule_failure_behavior();
+    behavior.extend([
+        "fail-closed-on-blocker-fingerprint-drift-without-recorded-delta".to_string(),
+        "fail-closed-on-recovery-loop-repeats-without-progress".to_string(),
+        "fail-closed-on-child-authority-boundary-ambiguity".to_string(),
+    ]);
+    behavior
+}
+
+fn program_context_key_digests(
+    checkpoint: &ProgramLifecycleCheckpoint,
+    source_refs: &[ProgramCompactSourceRef],
+) -> BTreeMap<String, String> {
+    let mut digests = BTreeMap::new();
+    digests.insert(
+        "child_registry_digest".to_string(),
+        checkpoint.child_registry_digest.clone(),
+    );
+    if let Some(value) = checkpoint.latest_event_sha256.clone() {
+        digests.insert("latest_event_sha256".to_string(), value);
+    }
+    if let Some(value) = checkpoint.event_log_sha256.clone() {
+        digests.insert("event_log_sha256".to_string(), value);
+    }
+    for source_ref in source_refs {
+        digests.insert(
+            format!("source:{}", source_ref.artifact_role),
+            source_ref.sha256.clone(),
+        );
+    }
+    digests
+}
+
+pub(crate) fn verify_program_compact_artifact_source_refs(
+    repo_root: &Path,
+    artifact_path: &Path,
+) -> Result<()> {
+    let value: serde_yaml::Value = serde_yaml::from_slice(&fs::read(artifact_path)?)?;
+    let source_refs = value
+        .get("source_refs")
+        .and_then(serde_yaml::Value::as_sequence)
+        .with_context(|| {
+            format!(
+                "compact program artifact missing source_refs: {}",
+                artifact_path.display()
+            )
+        })?;
+    for source_ref in source_refs {
+        let artifact_ref = yaml_field_str(source_ref, "artifact_ref")
+            .context("compact program artifact source_ref missing artifact_ref")?;
+        let expected = yaml_field_str(source_ref, "sha256")
+            .context("compact program artifact source_ref missing sha256")?;
+        if !is_safe_repo_relative(artifact_ref) {
+            bail!("compact program artifact source_ref is not safe repo-relative: {artifact_ref}");
+        }
+        let source_path = repo_root.join(artifact_ref);
+        if !source_path.is_file() {
+            bail!("source missing for compact program artifact: {artifact_ref}");
+        }
+        let actual = file_digest(&source_path)?;
+        if actual != expected {
+            bail!(
+                "digest mismatch for compact program artifact source {artifact_ref}: expected {expected}, actual {actual}"
+            );
+        }
+    }
+    verify_program_compact_validation_binding(repo_root, &value, source_refs)?;
+    Ok(())
+}
+
+fn verify_program_compact_validation_binding(
+    repo_root: &Path,
+    artifact: &serde_yaml::Value,
+    source_refs: &[serde_yaml::Value],
+) -> Result<()> {
+    let Some(binding) = artifact.get("validation_binding") else {
+        return Ok(());
+    };
+    let Some(checkpoint_ref) = source_ref_by_role(source_refs, "program-lifecycle-checkpoint")
+        .and_then(|value| yaml_field_str(value, "artifact_ref"))
+    else {
+        bail!("compact program artifact validation binding lacks checkpoint source_ref");
+    };
+    if !is_safe_repo_relative(checkpoint_ref) {
+        bail!("compact program checkpoint source_ref is not safe repo-relative: {checkpoint_ref}");
+    }
+    let checkpoint: serde_yaml::Value =
+        serde_yaml::from_slice(&fs::read(repo_root.join(checkpoint_ref))?)?;
+    let source_event_index = binding
+        .get("source_event_index")
+        .and_then(serde_yaml::Value::as_u64)
+        .context("validation_binding.source_event_index missing or invalid")?;
+    let checkpoint_event_index = checkpoint
+        .get("latest_event_index")
+        .and_then(serde_yaml::Value::as_u64)
+        .or_else(|| {
+            checkpoint
+                .get("latest_event_offset")
+                .and_then(serde_yaml::Value::as_u64)
+        })
+        .context("checkpoint latest event index missing or invalid")?;
+    if source_event_index != checkpoint_event_index {
+        bail!(
+            "stale event head for compact program artifact: binding index {source_event_index}, checkpoint index {checkpoint_event_index}"
+        );
+    }
+    verify_optional_binding_match(
+        binding,
+        &checkpoint,
+        "source_event_sha256",
+        "latest_event_sha256",
+        "event head sha256",
+    )?;
+    verify_optional_binding_match(
+        binding,
+        &checkpoint,
+        "source_event_log_sha256",
+        "event_log_sha256",
+        "event log sha256",
+    )?;
+    verify_optional_binding_match(
+        binding,
+        &checkpoint,
+        "child_registry_digest",
+        "child_registry_digest",
+        "child registry digest",
+    )?;
+    Ok(())
+}
+
+fn verify_optional_binding_match(
+    binding: &serde_yaml::Value,
+    checkpoint: &serde_yaml::Value,
+    binding_field: &str,
+    checkpoint_field: &str,
+    label: &str,
+) -> Result<()> {
+    let Some(expected) = yaml_field_str(binding, binding_field) else {
+        return Ok(());
+    };
+    let actual = yaml_field_str(checkpoint, checkpoint_field)
+        .with_context(|| format!("checkpoint {checkpoint_field} missing for {label}"))?;
+    if expected != actual {
+        bail!(
+            "{label} mismatch for compact program artifact: binding {expected}, checkpoint {actual}"
+        );
+    }
+    Ok(())
+}
+
+fn source_ref_by_role<'a>(
+    source_refs: &'a [serde_yaml::Value],
+    role: &str,
+) -> Option<&'a serde_yaml::Value> {
+    source_refs
+        .iter()
+        .find(|source_ref| yaml_field_str(source_ref, "artifact_role") == Some(role))
+}
+
+fn yaml_field_str<'a>(value: &'a serde_yaml::Value, field: &str) -> Option<&'a str> {
+    value.get(field).and_then(serde_yaml::Value::as_str)
+}
+
+fn compact_evidence_authority_boundary() -> ProgramCompactEvidenceAuthorityBoundary {
+    ProgramCompactEvidenceAuthorityBoundary {
+        replaces_source_evidence: false,
+        authorizes_execution: false,
+        proposal_input_authority: "non-authoritative".to_string(),
+        generated_output_authority: "derived-only".to_string(),
+        raw_evidence_retained: true,
+    }
+}
+
+fn compact_evidence_failure_behavior() -> Vec<String> {
+    vec![
+        "fail-closed-on-source-missing".to_string(),
+        "fail-closed-on-source-digest-mismatch".to_string(),
+        "fail-closed-on-failing-slice-reconstruction-mismatch".to_string(),
+        "escalate-before-reading-raw-log-body".to_string(),
+    ]
+}
+
+fn collect_program_raw_log_sources(
+    evidence_root: &Path,
+) -> Result<Vec<ProgramCompactEvidenceSource>> {
+    let mut sources = Vec::new();
+    for (file_name, role) in [
+        ("summary.md", "program-summary"),
+        ("recovery-log.yml", "program-recovery-log"),
+    ] {
+        let path = evidence_root.join(file_name);
+        if path.is_file() {
+            sources.push(ProgramCompactEvidenceSource {
+                path,
+                role: role.to_string(),
+                model_visible_relevance: "compact-summary-default".to_string(),
+            });
+        }
+    }
+    collect_program_log_files(evidence_root, &mut sources)?;
+    sources.sort_by(|left, right| left.path.cmp(&right.path));
+    sources.dedup_by(|left, right| left.path == right.path);
+    Ok(sources)
+}
+
+fn collect_program_log_files(
+    root: &Path,
+    sources: &mut Vec<ProgramCompactEvidenceSource>,
+) -> Result<()> {
+    if !root.is_dir() {
+        return Ok(());
+    }
+    for entry in fs::read_dir(root)? {
+        let entry = entry?;
+        let path = entry.path();
+        if path.is_dir() {
+            collect_program_log_files(&path, sources)?;
+        } else if path.is_file() && is_program_log_file(&path) {
+            sources.push(ProgramCompactEvidenceSource {
+                path,
+                role: "raw-log".to_string(),
+                model_visible_relevance: "handle-only-by-default".to_string(),
+            });
+        }
+    }
+    Ok(())
+}
+
+fn is_program_log_file(path: &Path) -> bool {
+    path.file_name()
+        .and_then(|name| name.to_str())
+        .map(|name| name.ends_with(".log"))
+        .unwrap_or(false)
+}
+
+fn collect_program_evidence_index_sources(
+    evidence_root: &Path,
+    token_ledger_path: &Path,
+    raw_sources: &[ProgramCompactEvidenceSource],
+) -> Result<Vec<ProgramCompactEvidenceSource>> {
+    let mut sources = Vec::new();
+    for (file_name, role, relevance) in [
+        ("program-plan.yml", "program-plan", "handle-only-by-default"),
+        (
+            "scheduler-decision.yml",
+            "scheduler-decision",
+            "compact-reader-default",
+        ),
+        ("run-inputs.yml", "run-inputs", "compact-reader-default"),
+    ] {
+        let path = evidence_root.join(file_name);
+        if path.is_file() {
+            sources.push(ProgramCompactEvidenceSource {
+                path,
+                role: role.to_string(),
+                model_visible_relevance: relevance.to_string(),
+            });
+        }
+    }
+    if token_ledger_path.is_file() {
+        sources.push(ProgramCompactEvidenceSource {
+            path: token_ledger_path.to_path_buf(),
+            role: "token-budget-ledger".to_string(),
+            model_visible_relevance: "compact-reader-default".to_string(),
+        });
+    }
+    for source in raw_sources {
+        sources.push(ProgramCompactEvidenceSource {
+            path: source.path.clone(),
+            role: source.role.clone(),
+            model_visible_relevance: source.model_visible_relevance.clone(),
+        });
+    }
+    sources.sort_by(|left, right| left.path.cmp(&right.path));
+    sources.dedup_by(|left, right| left.path == right.path);
+    Ok(sources)
+}
+
+fn evidence_index_source_artifact(
+    repo_root: &Path,
+    source: &ProgramCompactEvidenceSource,
+) -> Result<ProgramEvidenceIndexSourceArtifact> {
+    let metadata = fs::metadata(&source.path)?;
+    Ok(ProgramEvidenceIndexSourceArtifact {
+        artifact_role: source.role.clone(),
+        artifact_ref: rel_display(repo_root, &source.path),
+        sha256: file_digest(&source.path)?,
+        byte_size: metadata.len(),
+        estimated_tokens: estimate_model_visible_tokens(metadata.len()),
+        model_visible_relevance: source.model_visible_relevance.clone(),
+        default_reader: if source.model_visible_relevance == "handle-only-by-default" {
+            "raw-ref-handle".to_string()
+        } else {
+            "compact-ref".to_string()
+        },
+        read_raw_only_if: vec![
+            "summary-hash-mismatch".to_string(),
+            "failing-slice-cannot-be-reconstructed".to_string(),
+            "validator-dispute".to_string(),
+            "replay-audit-request".to_string(),
+        ],
+        freshness_state: "digest-bound".to_string(),
+    })
+}
+
+fn evidence_index_compact_artifact(
+    repo_root: &Path,
+    path: &Path,
+    role: &str,
+    source_artifact_count: usize,
+) -> Result<ProgramEvidenceIndexCompactArtifact> {
+    Ok(ProgramEvidenceIndexCompactArtifact {
+        artifact_role: role.to_string(),
+        artifact_ref: rel_display(repo_root, path),
+        sha256: file_digest(path)?,
+        source_artifact_count,
+        validation: "validate-evidence-index-compact-artifacts.sh".to_string(),
+    })
+}
+
+fn build_program_failing_slice_manifest(
+    repo_root: &Path,
+    run_id: &str,
+    generated_at: &str,
+    raw_sources: &[ProgramCompactEvidenceSource],
+) -> Result<(ProgramFailingSliceManifest, Vec<ProgramRawLogSummaryRecord>)> {
+    let mut records = Vec::new();
+    let mut summary_records = Vec::new();
+    let mut truncated = 0usize;
+    for source in raw_sources {
+        let content = read_text_lossy(&source.path)?;
+        let source_sha256 = file_digest(&source.path)?;
+        let metadata = fs::metadata(&source.path)?;
+        let lines = content.lines().collect::<Vec<_>>();
+        let first_nonempty_line_sha256 = lines
+            .iter()
+            .find(|line| !line.trim().is_empty())
+            .map(|line| sha256_digest(line.as_bytes()));
+        let last_nonempty_line_sha256 = lines
+            .iter()
+            .rev()
+            .find(|line| !line.trim().is_empty())
+            .map(|line| sha256_digest(line.as_bytes()));
+        let mut source_slice_count = 0usize;
+        let mut prompt_echo_lines = 0usize;
+        let mut command_output_lines = 0usize;
+        let mut diff_lines = 0usize;
+        let mut error_lines = 0usize;
+        let mut summary_kind = BTreeSet::new();
+        for (index, line) in lines.iter().enumerate() {
+            let classification = classify_compact_log_line(line);
+            if classification.prompt_echo {
+                prompt_echo_lines += 1;
+                summary_kind.insert("prompt-echo".to_string());
+            }
+            if classification.command_output {
+                command_output_lines += 1;
+                summary_kind.insert("command-output".to_string());
+            }
+            if classification.diff {
+                diff_lines += 1;
+                summary_kind.insert("diff".to_string());
+            }
+            if let Some(reason) = classification.failure_reason {
+                error_lines += 1;
+                summary_kind.insert("failing-slice".to_string());
+                if records.len() >= COMPACT_EVIDENCE_MAX_FAILING_SLICES {
+                    truncated += 1;
+                    continue;
+                }
+                let start_line = index.saturating_sub(2) + 1;
+                let end_line = (index + 3).min(lines.len());
+                let slice_text = lines[(start_line - 1)..end_line].join("\n");
+                let matched_line_sha256 = sha256_digest(line.as_bytes());
+                source_slice_count += 1;
+                records.push(ProgramFailingSliceRecord {
+                    slice_id: format!(
+                        "{}-{}",
+                        sanitize_slug(
+                            source
+                                .path
+                                .file_stem()
+                                .and_then(|stem| stem.to_str())
+                                .unwrap_or("source")
+                        ),
+                        source_slice_count
+                    ),
+                    source_ref: rel_display(repo_root, &source.path),
+                    source_sha256: source_sha256.clone(),
+                    start_line,
+                    end_line,
+                    line_count: end_line - start_line + 1,
+                    slice_sha256: sha256_digest(slice_text.as_bytes()),
+                    matched_line_sha256,
+                    reason,
+                    replay_ref: "source_ref+source_sha256+line-range".to_string(),
+                    rollback_ref: "retain-raw-source-and-delete-compact-artifacts".to_string(),
+                });
+            }
+        }
+        if summary_kind.is_empty() {
+            summary_kind.insert("status-summary".to_string());
+        }
+        summary_records.push(ProgramRawLogSummaryRecord {
+            source_ref: rel_display(repo_root, &source.path),
+            source_sha256,
+            byte_size: metadata.len(),
+            line_count: lines.len(),
+            estimated_tokens: estimate_model_visible_tokens(metadata.len()),
+            summary_kind: summary_kind.into_iter().collect(),
+            failing_slice_count: source_slice_count,
+            first_nonempty_line_sha256,
+            last_nonempty_line_sha256,
+            prompt_echo_lines,
+            command_output_lines,
+            diff_lines,
+            error_lines,
+            read_raw_only_if: vec![
+                "summary-hash-mismatch".to_string(),
+                "failing-slice-cannot-be-reconstructed".to_string(),
+                "validator-dispute".to_string(),
+                "replay-audit-request".to_string(),
+            ],
+        });
+    }
+    let manifest = ProgramFailingSliceManifest {
+        schema_version: "octon-failing-slice-manifest-v1".to_string(),
+        run_id: run_id.to_string(),
+        producer: "lifecycle-program-controller".to_string(),
+        generated_at: generated_at.to_string(),
+        authority_boundary: compact_evidence_authority_boundary(),
+        reconstruction_rule:
+            "Read source_ref, verify source_sha256, join inclusive start_line..end_line with newline, then match slice_sha256."
+                .to_string(),
+        no_failure_observed: records.is_empty(),
+        slices_truncated: truncated,
+        slices: records,
+    };
+    Ok((manifest, summary_records))
+}
+
+fn read_text_lossy(path: &Path) -> Result<String> {
+    let bytes = fs::read(path)?;
+    Ok(String::from_utf8_lossy(&bytes).to_string())
+}
+
+struct CompactLogLineClassification {
+    prompt_echo: bool,
+    command_output: bool,
+    diff: bool,
+    failure_reason: Option<String>,
+}
+
+fn classify_compact_log_line(line: &str) -> CompactLogLineClassification {
+    let trimmed = line.trim_start();
+    let lower = line.to_ascii_lowercase();
+    let prompt_echo = trimmed.starts_with("prompt:")
+        || trimmed.starts_with("## prompt")
+        || trimmed.starts_with("# prompt")
+        || trimmed.starts_with("$ ");
+    let command_output = lower.contains("stdout")
+        || lower.contains("stderr")
+        || lower.contains("exit_code")
+        || lower.contains("command");
+    let diff = trimmed.starts_with("diff --git")
+        || trimmed.starts_with("+++ ")
+        || trimmed.starts_with("--- ")
+        || trimmed.starts_with("@@")
+        || trimmed.starts_with('+')
+        || trimmed.starts_with('-');
+    let failure_reason = if lower.contains("[error]")
+        || lower.contains("error:")
+        || lower.contains("failed")
+        || lower.contains("failure")
+        || lower.contains("blocked")
+        || lower.contains("panic")
+        || lower.contains("digest mismatch")
+        || lower.contains("validation summary: errors=")
+    {
+        Some("failure-marker".to_string())
+    } else {
+        None
+    };
+    CompactLogLineClassification {
+        prompt_echo,
+        command_output,
+        diff,
+        failure_reason,
+    }
+}
+
+fn estimate_model_visible_tokens(byte_size: u64) -> u64 {
+    byte_size.div_ceil(4)
+}
+
+fn sanitize_slug(value: &str) -> String {
+    let mut slug = String::new();
+    for ch in value.chars() {
+        if ch.is_ascii_alphanumeric() {
+            slug.push(ch.to_ascii_lowercase());
+        } else if ch == '-' || ch == '_' || ch == '.' {
+            slug.push('-');
+        }
+    }
+    let slug = slug.trim_matches('-').to_string();
+    if slug.is_empty() {
+        "source".to_string()
+    } else {
+        slug
+    }
 }
 
 fn child_write_scopes(
@@ -16484,6 +19310,53 @@ mod tests {
         assert_eq!(run_evidence.artifact_class, ARTIFACT_CLASS_RUN_EVIDENCE);
         assert!(run_evidence.autonomous_allowed);
 
+        let workflow_run_evidence = classify_authority_zone(
+            repo,
+            run_id,
+            None,
+            None,
+            None,
+            "append-run-evidence",
+            &[repo.join(".octon/state/evidence/runs/workflows/run-1/events.yml")],
+            &[],
+            None,
+        );
+        assert_eq!(
+            workflow_run_evidence.authority_zone,
+            AUTHORITY_ZONE_RUN_BOUND
+        );
+        assert_eq!(
+            workflow_run_evidence.artifact_class,
+            ARTIFACT_CLASS_RUN_EVIDENCE
+        );
+        assert!(workflow_run_evidence.autonomous_allowed);
+
+        let rebaseline_authority = classify_authority_zone(
+            repo,
+            run_id,
+            None,
+            Some(REBASELINE_CHECKPOINT_ACTION),
+            Some("recovery-integrity-risk"),
+            OPERATION_CLASS_PROGRAM_RECOVERY_ACTION,
+            &[
+                repo.join(".octon/state/evidence/runs/workflows/run-1"),
+                repo.join(
+                    ".octon/state/control/execution/runs/run-1/program-lifecycle-checkpoint.yml",
+                ),
+            ],
+            &[String::from(".octon/state/control/execution/runs/run-1")],
+            None,
+        );
+        assert_eq!(
+            rebaseline_authority.authority_zone,
+            AUTHORITY_ZONE_RUN_BOUND
+        );
+        assert_eq!(
+            rebaseline_authority.artifact_class,
+            ARTIFACT_CLASS_RUN_CONTROL
+        );
+        assert!(rebaseline_authority.autonomous_allowed);
+
         let previous_run_evidence = classify_authority_zone(
             repo,
             run_id,
@@ -16863,6 +19736,70 @@ mod tests {
         program
     }
 
+    fn program_with_recovery_integrity_rebaseline_action() -> ProgramSpec {
+        let mut program = test_program_spec();
+        program.recovery_policy.max_recovery_attempts = Some(2);
+        program
+            .recovery_policy
+            .recipes
+            .push(ProgramRecoveryRecipeSpec {
+                blocker_class: "recovery-integrity-risk".to_string(),
+                recovery_action_id: Some(REBASELINE_CHECKPOINT_ACTION.to_string()),
+                idempotency_class: Some("inspect-only".to_string()),
+                human_required: false,
+                retry_budget: Some(1),
+                dependent_handling: Some("pause-dependent".to_string()),
+                post_attempt_validation: vec![
+                    "replan-live-state".to_string(),
+                    "authority-boundary-check".to_string(),
+                    "replay-verify".to_string(),
+                ],
+                replan_behavior: Some("after-attempt".to_string()),
+                allowed_authority_zones: vec![AUTHORITY_ZONE_RUN_BOUND.to_string()],
+                allowed_artifact_classes: vec![
+                    ARTIFACT_CLASS_RUN_CONTROL.to_string(),
+                    ARTIFACT_CLASS_RUN_EVIDENCE.to_string(),
+                ],
+                operation_class: Some(OPERATION_CLASS_PROGRAM_RECOVERY_ACTION.to_string()),
+                requires_run_binding: true,
+                requires_zone_evidence: true,
+                ..Default::default()
+            });
+        program
+    }
+
+    fn program_with_recovery_budget_override_rebaseline_action() -> ProgramSpec {
+        let mut program = test_program_spec();
+        program.recovery_policy.max_recovery_attempts = Some(2);
+        program
+            .recovery_policy
+            .recipes
+            .push(ProgramRecoveryRecipeSpec {
+                blocker_class: "recovery-budget-override-required".to_string(),
+                recovery_action_id: Some(REBASELINE_CHECKPOINT_ACTION.to_string()),
+                idempotency_class: Some("inspect-only".to_string()),
+                human_required: false,
+                retry_budget: Some(1),
+                dependent_handling: Some("pause-dependent".to_string()),
+                post_attempt_validation: vec![
+                    "replan-live-state".to_string(),
+                    "authority-boundary-check".to_string(),
+                    "replay-verify".to_string(),
+                ],
+                replan_behavior: Some("after-attempt".to_string()),
+                allowed_authority_zones: vec![AUTHORITY_ZONE_RUN_BOUND.to_string()],
+                allowed_artifact_classes: vec![
+                    ARTIFACT_CLASS_RUN_CONTROL.to_string(),
+                    ARTIFACT_CLASS_RUN_EVIDENCE.to_string(),
+                ],
+                operation_class: Some(OPERATION_CLASS_PROGRAM_RECOVERY_ACTION.to_string()),
+                requires_run_binding: true,
+                requires_zone_evidence: true,
+                ..Default::default()
+            });
+        program
+    }
+
     #[test]
     fn recoverable_no_dispatch_blocker_becomes_recovery_route_unavailable() {
         let program = test_program_spec();
@@ -16945,6 +19882,192 @@ mod tests {
             .unwrap();
         assert_eq!(exhausted.blocker_class, "recovery-budget-override-required");
         assert!(exhausted.message.contains(REBASELINE_CHECKPOINT_ACTION));
+    }
+
+    #[test]
+    fn recovery_integrity_risk_selects_rebaseline_and_resets_matching_retry_state() {
+        let program = program_with_recovery_integrity_rebaseline_action();
+        let mut state = child_state("a", vec![blocker("recovery-integrity-risk")]);
+        state.selected_route = Some(RoutePlanState {
+            route_id: "promote-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        let mut child_states = BTreeMap::new();
+        child_states.insert("a".to_string(), state);
+        let plan = program_plan_with_children(child_states, vec![]);
+
+        assert_eq!(
+            select_program_recovery_action(&program, &plan, None),
+            Some(("recovery-integrity-risk", REBASELINE_CHECKPOINT_ACTION))
+        );
+
+        let child_results = vec![ProgramChildExecutionSummary {
+            child_id: "a".to_string(),
+            child_run_id: "recovery-integrity-risk-a".to_string(),
+            route_id: "promote-proposal".to_string(),
+            status: "failed".to_string(),
+            attempts: 2,
+            retryable: true,
+            blocker_class: Some("executor-failed".to_string()),
+            error_message: Some("validator failed before repair".to_string()),
+            error_class: Some("executor-failed".to_string()),
+            evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
+        }];
+        let mut checkpoint = checkpoint_from_plan(
+            "recovery-integrity-risk-rebaseline",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &child_results,
+            "blocked-recoverable",
+            None,
+            0,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        checkpoint.program_recovery_action_attempts.insert(
+            program_recovery_action_attempt_key(
+                "recovery-integrity-risk",
+                REBASELINE_CHECKPOINT_ACTION,
+            ),
+            1,
+        );
+        let progress_key = recovery_progress_key("a", "promote-proposal", "executor-failed");
+        assert!(checkpoint
+            .recovery_progress_fingerprints
+            .contains_key(&progress_key));
+        assert_eq!(
+            recovery_attempt_count(&checkpoint, "a", "executor-failed"),
+            2
+        );
+        assert_eq!(
+            select_program_recovery_action(&program, &plan, Some(&checkpoint)),
+            Some(("recovery-integrity-risk", REBASELINE_CHECKPOINT_ACTION))
+        );
+
+        let rebased = checkpoint_for_recovery_action_replan(
+            Some(&checkpoint),
+            REBASELINE_CHECKPOINT_ACTION,
+            "recovery-integrity-risk",
+            &plan,
+        )
+        .unwrap();
+
+        assert!(rebased.child_states.is_empty());
+        assert!(!rebased
+            .recovery_progress_fingerprints
+            .contains_key(&progress_key));
+        assert_eq!(recovery_attempt_count(&rebased, "a", "executor-failed"), 0);
+        assert_eq!(
+            program_recovery_action_attempt_count(
+                Some(&rebased),
+                "recovery-integrity-risk",
+                REBASELINE_CHECKPOINT_ACTION
+            ),
+            0
+        );
+    }
+
+    #[test]
+    fn recovery_budget_override_selects_rebaseline_and_resets_matching_retry_state() {
+        let program = program_with_recovery_budget_override_rebaseline_action();
+        let mut state = child_state("a", vec![blocker("recovery-budget-override-required")]);
+        state.selected_route = Some(RoutePlanState {
+            route_id: "archive-proposal".to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        let mut child_states = BTreeMap::new();
+        child_states.insert("a".to_string(), state);
+        let plan = program_plan_with_children(child_states, vec![]);
+
+        assert_eq!(
+            select_program_recovery_action(&program, &plan, None),
+            Some((
+                "recovery-budget-override-required",
+                REBASELINE_CHECKPOINT_ACTION
+            ))
+        );
+
+        let mut checkpoint = checkpoint_from_plan(
+            "recovery-budget-override-rebaseline",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &[],
+            "blocked-human",
+            None,
+            0,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        let progress_key = recovery_progress_key("a", "closeout-packet", "stale-receipt");
+        checkpoint.recovery_progress_fingerprints.insert(
+            progress_key.clone(),
+            child_progress_fingerprint(
+                plan.child_states.get("a").unwrap(),
+                "closeout-packet",
+                "stale-receipt",
+            ),
+        );
+        checkpoint.program_recovery_action_attempts.insert(
+            program_recovery_action_attempt_key(
+                "recovery-budget-override-required",
+                REBASELINE_CHECKPOINT_ACTION,
+            ),
+            1,
+        );
+        checkpoint.recovery_attempts.insert("a".to_string(), 3);
+        checkpoint
+            .recovery_attempts
+            .insert(recovery_attempt_key("a", "stale-receipt"), 3);
+        assert_eq!(
+            select_program_recovery_action(&program, &plan, Some(&checkpoint)),
+            Some((
+                "recovery-budget-override-required",
+                REBASELINE_CHECKPOINT_ACTION
+            ))
+        );
+
+        let rebased = checkpoint_for_recovery_action_replan(
+            Some(&checkpoint),
+            REBASELINE_CHECKPOINT_ACTION,
+            "recovery-budget-override-required",
+            &plan,
+        )
+        .unwrap();
+
+        assert!(!rebased
+            .recovery_progress_fingerprints
+            .contains_key(&progress_key));
+        assert_eq!(recovery_attempt_count(&rebased, "a", "stale-receipt"), 0);
+        assert!(!rebased.recovery_attempts.contains_key("a"));
+        assert_eq!(
+            program_recovery_action_attempt_count(
+                Some(&rebased),
+                "recovery-budget-override-required",
+                REBASELINE_CHECKPOINT_ACTION
+            ),
+            0
+        );
     }
 
     #[test]
@@ -17050,7 +20173,11 @@ mod tests {
     #[test]
     fn aggregate_program_state_maps_program_blockers_to_final_verdicts() {
         let program = test_program_spec();
-        for class in ["validation-failed", "missing-evidence"] {
+        for class in [
+            "validation-failed",
+            "invalid-child-registry",
+            "missing-evidence",
+        ] {
             let (_state, verdict) = aggregate_program_state(
                 &program,
                 None,
@@ -17183,7 +20310,7 @@ mod tests {
             (
                 "recovery-budget-override-required",
                 "recovery-budget-override-required",
-                ProgramBlockerDisposition::Human,
+                ProgramBlockerDisposition::Recoverable,
             ),
             (
                 "authority-zone-denied",
@@ -17213,7 +20340,7 @@ mod tests {
             (
                 "recovery-integrity-risk",
                 "recovery-integrity-risk",
-                ProgramBlockerDisposition::Unsafe,
+                ProgramBlockerDisposition::Recoverable,
             ),
         ] {
             let evidence = taxonomy_evidence_for_class(None, class);
@@ -19940,9 +23067,9 @@ routes:
 
         assert!(plan.program_route.is_none());
         assert!(plan.runnable_batch.is_empty());
-        assert_eq!(plan.final_verdict, "blocked-unsafe");
+        assert_eq!(plan.final_verdict, "blocked-recoverable");
         assert!(plan.program_blockers.iter().any(|blocker| {
-            blocker.blocker_class == "validation-failed"
+            blocker.blocker_class == "invalid-child-registry"
                 && blocker.message.contains("failed to parse child registry")
         }));
     }
@@ -21809,9 +24936,14 @@ completion_observed: false
             BTreeMap::new(),
             Vec::new(),
         );
+        let state = plan.child_states.get("a").unwrap();
         checkpoint
             .recovery_attempts
             .insert("a:stale-receipt".to_string(), 1);
+        checkpoint.recovery_progress_fingerprints.insert(
+            recovery_progress_key("a", "run-implementation", "stale-receipt"),
+            child_progress_fingerprint(state, "run-implementation", "stale-receipt"),
+        );
         let budget_plan = plan_program_lifecycle_from_octon_dir_with_checkpoint(
             &fixture.octon_dir,
             "proposal-program",
@@ -21819,14 +24951,17 @@ completion_observed: false
             Some(&checkpoint),
         )
         .unwrap();
-        assert!(budget_plan.runnable_batch.is_empty());
-        assert!(budget_plan
+        assert_eq!(budget_plan.runnable_batch, vec!["a".to_string()]);
+        assert!(!budget_plan
             .child_states
             .get("a")
             .unwrap()
             .blockers
             .iter()
-            .any(|blocker| blocker.message.contains("recovery budget exhausted")));
+            .any(|blocker| {
+                blocker.blocker_class == "recovery-budget-override-required"
+                    || blocker.blocker_class == "recovery-integrity-risk"
+            }));
 
         let fixture = ProgramFixture::new("recovery-handler-only-exec", true);
         fixture.write_child_contract_with_fresh_receipt();
@@ -22497,10 +25632,10 @@ completion_observed: false
         )
         .unwrap();
 
-        assert_eq!(plan.final_verdict, "blocked-unsafe");
+        assert_eq!(plan.final_verdict, "blocked-recoverable");
         assert!(plan.runnable_batch.is_empty());
         assert!(plan.program_blockers.iter().any(|blocker| {
-            blocker.blocker_class == "validation-failed"
+            blocker.blocker_class == "invalid-child-registry"
                 && blocker
                     .message
                     .contains("program-atomic requires octon-proposal-program-child-registry-v2")
@@ -22831,6 +25966,62 @@ completion_observed: false
     }
 
     #[test]
+    fn program_retry_defaults_to_single_bounded_route_step() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("retry-default-step-bound", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("retry-default-step-bound".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let retry =
+            retry_program_lifecycle_run(&fixture.octon_dir, "retry-default-step-bound", None)
+                .unwrap();
+
+        assert_eq!(retry.final_verdict, "step-budget-exhausted-continuable");
+        assert_eq!(
+            retry
+                .child_results
+                .iter()
+                .map(|summary| summary.route_id.as_str())
+                .collect::<Vec<_>>(),
+            vec!["generate-packet-implementation-prompt"]
+        );
+        let checkpoint =
+            read_program_checkpoint_for_run(&fixture.octon_dir, "retry-default-step-bound")
+                .unwrap()
+                .unwrap();
+        assert_eq!(checkpoint.max_steps, Some(DEFAULT_PROGRAM_RETRY_MAX_STEPS));
+        assert_eq!(
+            checkpoint.max_child_concurrency,
+            Some(DEFAULT_PROGRAM_RETRY_MAX_CHILD_CONCURRENCY)
+        );
+    }
+
+    #[test]
     fn max_child_concurrency_limits_workers_without_charging_extra_steps() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("execute-loop-child-concurrency", true);
@@ -23036,6 +26227,609 @@ completion_observed: false
             )
             .unwrap();
         assert!(recovery_log.is_empty());
+    }
+
+    #[test]
+    fn program_run_writes_digest_bound_planner_state_and_context_capsule() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("planner-state-context-capsule", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("planner-state-context-capsule".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "planned");
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/planner-state-context-capsule");
+        let planner_path = evidence_root.join(PLANNER_STATE_FILE);
+        let context_path = evidence_root.join(PROGRAM_CONTEXT_CAPSULE_FILE);
+        let blocker_ledger_path = evidence_root.join(BLOCKER_LEDGER_FILE);
+        let recovery_delta_path = evidence_root.join(RECOVERY_DELTA_SUMMARY_FILE);
+        assert!(planner_path.is_file());
+        assert!(context_path.is_file());
+        assert!(blocker_ledger_path.is_file());
+        assert!(recovery_delta_path.is_file());
+        verify_program_compact_artifact_source_refs(&fixture.root, &planner_path).unwrap();
+        verify_program_compact_artifact_source_refs(&fixture.root, &context_path).unwrap();
+        verify_program_compact_artifact_source_refs(&fixture.root, &blocker_ledger_path).unwrap();
+        verify_program_compact_artifact_source_refs(&fixture.root, &recovery_delta_path).unwrap();
+
+        let planner: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&planner_path).unwrap()).unwrap();
+        assert_eq!(
+            planner
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("octon-program-planner-state-v1")
+        );
+        assert_eq!(
+            planner
+                .get("token_ceiling")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(PROGRAM_CONTEXT_CAPSULE_TOKEN_CEILING)
+        );
+        let source_roles = planner
+            .get("source_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("artifact_role"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(source_roles.contains("program-lifecycle-checkpoint"));
+        assert!(source_roles.contains("program-control-event-log"));
+        assert!(source_roles.contains("child-registry"));
+
+        let index: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(evidence_root.join("evidence-index.yml")).unwrap())
+                .unwrap();
+        let compact_roles = index
+            .get("compact_artifacts")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("artifact_role"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(compact_roles.contains("planner-state"));
+        assert!(compact_roles.contains("program-context-capsule"));
+        let source_artifacts = index
+            .get("source_artifacts")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap();
+        let program_plan = source_artifacts
+            .iter()
+            .find(|value| {
+                value
+                    .get("artifact_role")
+                    .and_then(serde_yaml::Value::as_str)
+                    == Some("program-plan")
+            })
+            .unwrap();
+        assert_eq!(
+            program_plan
+                .get("model_visible_relevance")
+                .and_then(serde_yaml::Value::as_str),
+            Some("handle-only-by-default")
+        );
+
+        let blocker_ledger: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&blocker_ledger_path).unwrap()).unwrap();
+        assert_eq!(
+            blocker_ledger
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("octon-program-blocker-ledger-v1")
+        );
+        assert_eq!(
+            blocker_ledger
+                .get("blocker_count")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(0)
+        );
+        let recovery_delta: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&recovery_delta_path).unwrap()).unwrap();
+        assert_eq!(
+            recovery_delta
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("octon-program-recovery-delta-summary-v1")
+        );
+        assert_eq!(
+            recovery_delta
+                .get("token_ceiling")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(RECOVERY_DELTA_ZERO_BLOCKER_TOKEN_CEILING)
+        );
+        assert!(compact_roles.contains("blocker-ledger"));
+        assert!(compact_roles.contains("recovery-delta-summary"));
+    }
+
+    #[test]
+    fn program_run_writes_route_model_and_action_slice_receipts() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("routing-receipts", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("routing-receipts".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/routing-receipts");
+        let route_path = evidence_root.join(ROUTE_DECISION_RECEIPT_FILE);
+        let model_path = evidence_root.join(MODEL_ROUTING_RECEIPT_FILE);
+        let action_path = evidence_root.join(ACTION_SLICE_LEDGER_FILE);
+        assert!(route_path.is_file());
+        assert!(model_path.is_file());
+        assert!(action_path.is_file());
+        verify_program_compact_artifact_source_refs(&fixture.root, &route_path).unwrap();
+        verify_program_compact_artifact_source_refs(&fixture.root, &model_path).unwrap();
+        verify_program_compact_artifact_source_refs(&fixture.root, &action_path).unwrap();
+
+        let route_receipt: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&route_path).unwrap()).unwrap();
+        assert_eq!(
+            route_receipt
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("octon-program-route-decision-receipt-v1")
+        );
+        assert_eq!(
+            route_receipt
+                .get("route_decision")
+                .and_then(|value| value.get("step_kind"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("child-batch-dispatch")
+        );
+        assert_eq!(
+            route_receipt
+                .get("route_bypass_guard")
+                .and_then(serde_yaml::Value::as_str),
+            Some("child-batch-selected-parent-route-absent")
+        );
+
+        let model_receipt: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&model_path).unwrap()).unwrap();
+        assert_eq!(
+            model_receipt
+                .get("selected_model_route")
+                .and_then(serde_yaml::Value::as_str),
+            Some("small")
+        );
+        assert_eq!(
+            model_receipt
+                .get("token_ceiling")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(CHILD_DISPATCH_BASE_TOKEN_CEILING)
+        );
+
+        let action_ledger: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&action_path).unwrap()).unwrap();
+        assert_eq!(
+            action_ledger
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("octon-program-action-slice-ledger-v1")
+        );
+        assert!(action_ledger
+            .get("deterministic_preflights")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .any(|value| value.as_str() == Some("dependency-vector")));
+
+        let index: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(evidence_root.join("evidence-index.yml")).unwrap())
+                .unwrap();
+        let compact_roles = index
+            .get("compact_artifacts")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("artifact_role"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(compact_roles.contains("route-decision-receipt"));
+        assert!(compact_roles.contains("model-routing-receipt"));
+        assert!(compact_roles.contains("action-slice-ledger"));
+    }
+
+    #[test]
+    fn parent_route_receipt_suppresses_child_dispatch_negative_control() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = program_review_fixture("route-bypass-negative-control", "draft");
+        fixture.write_child("a", "framework/a.md", "accepted");
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("route-bypass-negative-control".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(
+            result
+                .selected_parent_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("review-proposal-program")
+        );
+        assert!(result.selected_children.is_empty());
+        let route_path = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/route-bypass-negative-control/route-decision-receipt.yml",
+        );
+        let route_receipt: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&route_path).unwrap()).unwrap();
+        assert_eq!(
+            route_receipt
+                .get("route_decision")
+                .and_then(|value| value.get("step_kind"))
+                .and_then(serde_yaml::Value::as_str),
+            Some("parent-route-dispatch")
+        );
+        assert_eq!(
+            route_receipt
+                .get("route_bypass_guard")
+                .and_then(serde_yaml::Value::as_str),
+            Some("parent-route-selected-child-dispatch-suppressed")
+        );
+        assert!(route_receipt
+            .get("route_decision")
+            .and_then(|value| value.get("selected_children"))
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .is_empty());
+    }
+
+    #[test]
+    fn action_slice_ledger_records_step_and_concurrency_budget() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("action-slice-budget", false);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_child("b", "framework/b.md", "accepted");
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+  - child_id: "b"
+    path: "children/b"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("action-slice-budget".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: Some(1),
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let action_path = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/action-slice-budget/action-slice-ledger.yml");
+        let action_ledger: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&action_path).unwrap()).unwrap();
+        assert_eq!(
+            action_ledger
+                .get("max_steps")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(1)
+        );
+        assert_eq!(
+            action_ledger
+                .get("max_child_concurrency")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(1)
+        );
+        let dispatch_slice = action_ledger
+            .get("action_slices")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .find(|value| {
+                value.get("slice_id").and_then(serde_yaml::Value::as_str)
+                    == Some("dispatch_child_or_no_dispatch")
+            })
+            .unwrap();
+        assert_eq!(
+            dispatch_slice
+                .get("token_ceiling")
+                .and_then(serde_yaml::Value::as_u64),
+            Some(CHILD_DISPATCH_BASE_TOKEN_CEILING)
+        );
+        assert_eq!(
+            dispatch_slice
+                .get("stop_condition")
+                .and_then(serde_yaml::Value::as_str),
+            Some("max_steps:1 max_child_concurrency:1")
+        );
+    }
+
+    #[test]
+    fn program_context_capsule_source_digest_mismatch_fails_closed() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("context-capsule-digest-mismatch", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("context-capsule-digest-mismatch".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let context_path = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/context-capsule-digest-mismatch/program-context-capsule.yml",
+        );
+        verify_program_compact_artifact_source_refs(&fixture.root, &context_path).unwrap();
+        let event_log = fixture.octon_dir.join(
+            "state/control/execution/runs/context-capsule-digest-mismatch/program-events.ndjson",
+        );
+        let mut content = fs::read_to_string(&event_log).unwrap();
+        content.push_str("\n{\"event_type\":\"tamper\"}\n");
+        fs::write(&event_log, content).unwrap();
+
+        let error =
+            verify_program_compact_artifact_source_refs(&fixture.root, &context_path).unwrap_err();
+        assert!(error.to_string().contains("digest mismatch"), "{error:?}");
+    }
+
+    #[test]
+    fn blocker_ledger_records_stable_id_fingerprints_and_recovery_budget() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("blocker-ledger-fingerprints", true);
+        fixture.write_full_child_contract();
+        fixture.write_program_contract_with_publication_recovery_action();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: blocked\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: fail\nGenerated/effective projection drift remains.\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: fail\nRead-model digest drift remains.\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let state = plan.child_states.get("a").unwrap();
+        let child_results = vec![ProgramChildExecutionSummary {
+            child_id: "a".to_string(),
+            child_run_id: "blocker-ledger-fingerprints-a".to_string(),
+            route_id: "run-packet-implementation".to_string(),
+            status: "blocked".to_string(),
+            attempts: 1,
+            retryable: false,
+            blocker_class: Some("publication-drift".to_string()),
+            error_message: Some("publication freshness drift remains".to_string()),
+            error_class: None,
+            evidence_paths: Vec::new(),
+            worktree_hygiene_foreign_fingerprint: None,
+        }];
+        let mut checkpoint = checkpoint_from_plan(
+            "blocker-ledger-fingerprints",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &child_results,
+            "blocked-recoverable",
+            None,
+            0,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        checkpoint
+            .recovery_attempts
+            .insert("a:publication-drift".to_string(), 1);
+        checkpoint.recovery_progress_fingerprints.insert(
+            recovery_progress_key("a", "run-packet-implementation", "publication-drift"),
+            child_progress_fingerprint(state, "run-packet-implementation", "publication-drift"),
+        );
+        let program = load_lifecycle_contract(&fixture.octon_dir, "proposal-program")
+            .unwrap()
+            .contract
+            .program
+            .unwrap();
+
+        let entries = program_blocker_ledger_entries(&program, &plan, &checkpoint, &[]).unwrap();
+        let entry = entries
+            .iter()
+            .find(|entry| entry.blocker_class == "publication-drift")
+            .unwrap();
+        assert_eq!(entry.blocker_id, "blocker-daba7b2cee26fe0b");
+        assert_eq!(entry.scope, "child");
+        assert_eq!(entry.child_id.as_deref(), Some("a"));
+        assert_eq!(entry.route_id, "run-packet-implementation");
+        assert!(entry.prior_fingerprint.is_some());
+        assert_eq!(
+            entry.prior_fingerprint.as_ref().unwrap(),
+            &entry.current_fingerprint
+        );
+        assert_eq!(entry.recovery_budget.attempts_used, 1);
+        assert_eq!(entry.recovery_budget.max_attempts, 1);
+        assert_eq!(entry.recovery_budget.remaining_attempts, 0);
+        assert!(entry.recovery_budget.exhausted);
+
+        let deltas = program_recovery_delta_entries(&entries);
+        let delta = deltas
+            .iter()
+            .find(|delta| delta.blocker_id == entry.blocker_id)
+            .unwrap();
+        assert_eq!(delta.progress_state, "unchanged");
+        assert!(delta
+            .read_before_raw_history
+            .contains(&RECOVERY_DELTA_SUMMARY_FILE.to_string()));
+    }
+
+    #[test]
+    fn no_dispatch_terminal_parent_writes_compact_completion_capsule() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("compact-completion-capsule", true);
+        fixture.write_full_child_contract();
+        fixture.write_parent_status("implemented");
+        fixture.write_registry("sequential", "  []\n");
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("compact-completion-capsule".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(20),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.terminal_outcome.as_deref(), Some("implemented"));
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/compact-completion-capsule");
+        let completion_path = evidence_root.join(COMPACT_COMPLETION_CAPSULE_FILE);
+        assert!(completion_path.is_file());
+        verify_program_compact_artifact_source_refs(&fixture.root, &completion_path).unwrap();
+        let completion: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&completion_path).unwrap()).unwrap();
+        assert_eq!(
+            completion
+                .get("completion_kind")
+                .and_then(serde_yaml::Value::as_str),
+            Some("no-dispatch-terminal-parent")
+        );
+        let index: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(evidence_root.join("evidence-index.yml")).unwrap())
+                .unwrap();
+        let compact_roles = index
+            .get("compact_artifacts")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("artifact_role"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(compact_roles.contains("compact-completion-capsule"));
     }
 
     #[test]
@@ -24470,6 +28264,62 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn aggregate_terminal_blockers_zero_blocker_receipt_is_deterministic() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("aggregate-terminal-blockers-zero", true);
+        fixture.write_child_contract_with_closeout_outcomes();
+        fixture.write_program_contract_with_canonical_closeout_policy();
+        fixture.write_parent_status("accepted");
+        fixture.write_child("a", "framework/a.md", "archived");
+        fixture.write("children/a/support/decision.md", "decision: archived\n");
+        fixture.write_v2_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let result = run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("aggregate-terminal-blockers-zero".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        assert_eq!(result.final_verdict, "completed");
+        let evidence_path = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/aggregate-terminal-blockers-zero/aggregate-terminal-blockers.yml",
+        );
+        let first_digest = file_digest(&evidence_path).unwrap();
+        let receipt: ProgramAggregateTerminalBlockersReceipt =
+            serde_yaml::from_slice(&fs::read(&evidence_path).unwrap()).unwrap();
+        assert_eq!(receipt.blocked_required_child_count, 0);
+        assert!(receipt.blocked_required_children.is_empty());
+        assert!(receipt.authority_boundary.contains("child manifests"));
+
+        let receipt_again: ProgramAggregateTerminalBlockersReceipt =
+            serde_yaml::from_slice(&fs::read(&evidence_path).unwrap()).unwrap();
+        fs::write(
+            &evidence_path,
+            serde_yaml::to_string(&receipt_again).unwrap(),
+        )
+        .unwrap();
+        assert_eq!(file_digest(&evidence_path).unwrap(), first_digest);
+    }
+
+    #[test]
     fn aggregate_terminal_blockers_do_not_authorize_child_closeout() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("aggregate-terminal-blockers-mixed", true);
@@ -25281,10 +29131,10 @@ rationale: "prove overwrite guard"
         )
         .unwrap();
 
-        assert_eq!(plan.final_verdict, "blocked-unsafe");
+        assert_eq!(plan.final_verdict, "blocked-recoverable");
         assert!(plan.runnable_batch.is_empty());
         assert!(plan.program_blockers.iter().any(|blocker| {
-            blocker.blocker_class == "validation-failed"
+            blocker.blocker_class == "invalid-child-registry"
                 && blocker.message.contains("dependency cycle")
         }));
     }
@@ -25343,7 +29193,7 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
-    fn recovery_recipe_budget_blocks_after_exhaustion_and_requires_replan() {
+    fn recovery_recipe_budget_allows_selected_stale_receipt_route_after_exhaustion() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("recovery-budget", true);
         fixture.write_child_contract_with_fresh_receipt();
@@ -25385,9 +29235,14 @@ rationale: "prove overwrite guard"
             BTreeMap::new(),
             Vec::new(),
         );
+        let state = plan.child_states.get("a").unwrap();
         checkpoint
             .recovery_attempts
             .insert("a:stale-receipt".to_string(), 1);
+        checkpoint.recovery_progress_fingerprints.insert(
+            recovery_progress_key("a", "run-implementation", "stale-receipt"),
+            child_progress_fingerprint(state, "run-implementation", "stale-receipt"),
+        );
         let replanned = plan_program_lifecycle_from_octon_dir_with_checkpoint(
             &fixture.octon_dir,
             "proposal-program",
@@ -25395,14 +29250,17 @@ rationale: "prove overwrite guard"
             Some(&checkpoint),
         )
         .unwrap();
-        assert!(replanned.runnable_batch.is_empty());
-        assert!(replanned
+        assert_eq!(replanned.runnable_batch, vec!["a".to_string()]);
+        assert!(!replanned
             .child_states
             .get("a")
             .unwrap()
             .blockers
             .iter()
-            .any(|blocker| blocker.message.contains("recovery budget exhausted")));
+            .any(|blocker| {
+                blocker.blocker_class == "recovery-budget-override-required"
+                    || blocker.blocker_class == "recovery-integrity-risk"
+            }));
     }
 
     #[test]
@@ -25478,6 +29336,78 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn executor_failure_budget_does_not_block_after_same_route_progress() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("executor-budget-progress", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let state = plan.child_states.get("a").unwrap();
+
+        let mut checkpoint = checkpoint_from_plan(
+            "executor-budget-progress",
+            "proposal-program",
+            "parent",
+            ExecutorKind::Mock,
+            "unattended",
+            &BTreeMap::new(),
+            &plan,
+            &[],
+            &plan.final_verdict,
+            None,
+            0,
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            BTreeMap::new(),
+            Vec::new(),
+        );
+        checkpoint
+            .recovery_attempts
+            .insert("a:executor-failed".to_string(), 2);
+        checkpoint.recovery_progress_fingerprints.insert(
+            recovery_progress_key("a", "promote-proposal", "executor-failed"),
+            child_progress_fingerprint(state, "promote-proposal", "executor-failed"),
+        );
+        checkpoint.recovery_progress_fingerprints.insert(
+            recovery_progress_key("a", "promote-proposal", "route"),
+            child_progress_fingerprint(state, "promote-proposal", "route"),
+        );
+
+        let replanned = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+        )
+        .unwrap();
+        let child = replanned.child_states.get("a").unwrap();
+        assert!(!child.blockers.iter().any(|blocker| {
+            blocker.blocker_class == "recovery-budget-override-required"
+                || blocker.blocker_class == "executor-failed"
+        }));
+    }
+
+    #[test]
     fn blocked_implementation_receipt_selects_recoverable_retry_route() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("implementation-blocked-route", true);
@@ -25536,7 +29466,7 @@ rationale: "prove overwrite guard"
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("no-progress-fingerprint", true);
         fixture.write_full_child_contract();
-        fixture.write_program_contract_with_publication_recovery_action();
+        fixture.write_program_contract(true);
         fixture.write_child("a", "framework/a.md", "accepted");
         fixture.write(
             "children/a/support/executable-implementation-prompt.md",
@@ -25610,10 +29540,16 @@ rationale: "prove overwrite guard"
         .unwrap();
         let child = replanned.child_states.get("a").unwrap();
         assert!(replanned.runnable_batch.is_empty());
-        assert!(child.blockers.iter().any(|blocker| {
-            blocker.blocker_class == "recovery-integrity-risk"
-                && blocker.message.contains("same child/route/blocker")
-        }));
+        let blockers = format!("{:?}", child.blockers);
+        assert!(
+            child.blockers.iter().any(|blocker| {
+                matches!(
+                    blocker.blocker_class.as_str(),
+                    "recovery-integrity-risk" | "recovery-route-unavailable"
+                ) && blocker.message.contains("same child/route/blocker")
+            }),
+            "{blockers}"
+        );
     }
 
     #[test]
@@ -27045,6 +30981,308 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn stale_closeout_hygiene_receipt_with_live_pass_routes_child_closeout_recovery() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("stale-closeout-hygiene-live-pass", true);
+        fixture.write_full_child_contract();
+        fixture.write_worktree_hygiene_classifier(true);
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+    recipes:
+      - blocker_class: "stale-receipt"
+        preconditions: ["live-state-readable", "selected-route-present", "hygiene-receipt-stale-after-live-pass"]
+        idempotency_class: "idempotent-rerun"
+        human_required: false
+        retry_budget: 2
+        dependent_handling: "pause-dependent"
+        post_attempt_validation: ["replan-live-state", "receipt-freshness"]
+        replan_behavior: "after-attempt"
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+states: [{ state_id: "coordinate" }]
+routes:
+  - route_id: "generate-program-implementation-orchestration-prompt"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
+      replay_class: "idempotent"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+"#,
+        );
+        fixture.write_child("a", "framework/a.md", "implemented");
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/post-implementation-drift-churn-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/proposal-closeout.md",
+            "verdict: blocked\narchive_authorized: no\nworktree_hygiene_verdict: blocked\nworktree_hygiene_blocker_class: worktree-hygiene-blocked\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let checkpoint = ProgramLifecycleCheckpoint {
+            run_id: "stale-closeout-hygiene-live-pass".to_string(),
+            ..ProgramLifecycleCheckpoint::default()
+        };
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+        )
+        .unwrap();
+        let state = plan.child_states.get("a").unwrap();
+
+        assert_eq!(
+            state
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("closeout-packet")
+        );
+        assert!(state
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "stale-receipt"
+                && blocker.recovery_route.as_deref() == Some("closeout-packet")));
+        assert!(!state
+            .blockers
+            .iter()
+            .any(|blocker| blocker.blocker_class == "artifact-ownership-unclear"));
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+
+        let (route, blocker_class) = selected_route_for_child_execution(
+            &fixture.octon_dir,
+            &RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("stale-closeout-hygiene-live-pass".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+            state,
+            None,
+            &plan.child_registry_digest,
+        )
+        .unwrap();
+
+        assert_eq!(blocker_class.as_deref(), Some("stale-receipt"));
+        assert_eq!(
+            route.as_ref().map(|route| route.route_id.as_str()),
+            Some("closeout-packet")
+        );
+    }
+
+    #[test]
+    fn receipt_freshness_passes_when_closeout_recovery_advances_to_archive_route() {
+        let mut state = child_state(
+            "a",
+            vec![ProgramBlocker {
+                blocker_class: "stale-receipt".to_string(),
+                message: "archive route is now selected after closeout receipt refresh".to_string(),
+                recovery_route: Some(ROUTE_ID_ARCHIVE_PROPOSAL.to_string()),
+            }],
+        );
+        state.selected_route = Some(RoutePlanState {
+            route_id: ROUTE_ID_ARCHIVE_PROPOSAL.to_string(),
+            route_type: "workflow".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        state.gate_status.closeout = true;
+        state
+            .receipt_digests
+            .insert("proposal-review".to_string(), "sha256:fresh".to_string());
+        let plan = program_plan_with_children(BTreeMap::new(), Vec::new());
+
+        assert!(recovery_post_attempt_validation_passed(
+            "receipt-freshness",
+            &state,
+            &plan,
+            Path::new("."),
+            true,
+        ));
+
+        state.blockers.push(ProgramBlocker {
+            blocker_class: "missing-evidence".to_string(),
+            message: "missing required evidence".to_string(),
+            recovery_route: Some(ROUTE_ID_ARCHIVE_PROPOSAL.to_string()),
+        });
+
+        assert!(!recovery_post_attempt_validation_passed(
+            "receipt-freshness",
+            &state,
+            &plan,
+            Path::new("."),
+            true,
+        ));
+    }
+
+    #[test]
+    fn stale_review_receipt_recovery_preserves_selected_child_route() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("stale-review-receipt-recovery", true);
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+states: [{ state_id: "review" }]
+receipts:
+  - receipt_id: "proposal-review"
+    path: "support/proposal-review.md"
+routes:
+  - route_id: "review-packet"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "route-completion-and-target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["proposal-review"]
+      replay_class: "idempotent-rerun"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "stale-evidence-acceptance"]
+    enter_when: { manifest_status: "accepted" }
+    completion:
+      expected_receipts: ["proposal-review"]
+"#,
+        );
+        fixture.write(
+            ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
+            r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-program"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "program_packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented"] }
+program:
+  child_registry_path: "resources/child-packet-index.yml"
+  child_lifecycle_id_default: "proposal-packet"
+  supported_execution_modes: ["parallel-independent"]
+  recovery_policy:
+    max_recovery_attempts: 2
+    serialize_write_scope_conflicts: true
+    recipes:
+      - blocker_class: "stale-receipt"
+        preconditions: ["live-state-readable", "selected-route-present", "receipt-stale", "hygiene-receipt-stale-after-live-pass"]
+        idempotency_class: "idempotent-rerun"
+        human_required: false
+        retry_budget: 2
+        dependent_handling: "pause-dependent"
+        post_attempt_validation: ["replan-live-state", "receipt-freshness"]
+        replan_behavior: "after-attempt"
+  authority_boundaries:
+    parent_coordinates_only: true
+    child_receipts_remain_child_owned: true
+    child_promotion_targets_remain_child_owned: true
+states: [{ state_id: "coordinate" }]
+routes:
+  - route_id: "generate-program-implementation-orchestration-prompt"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: []
+      required_receipts_before_completion: ["program-implementation-orchestration-prompt"]
+      replay_class: "idempotent"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+"#,
+        );
+        let mut state = child_state(
+            "a",
+            vec![ProgramBlocker {
+                blocker_class: "stale-receipt".to_string(),
+                message: "proposal review receipt stale".to_string(),
+                recovery_route: Some("review-packet".to_string()),
+            }],
+        );
+        state.selected_route = Some(RoutePlanState {
+            route_id: "review-packet".to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+
+        let (route, blocker_class) = selected_route_for_child_execution(
+            &fixture.octon_dir,
+            &RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("stale-review-receipt-recovery".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: true,
+                max_steps: Some(1),
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+            &state,
+            None,
+            "sha256:registry",
+        )
+        .unwrap();
+
+        assert_eq!(blocker_class.as_deref(), Some("stale-receipt"));
+        assert_eq!(
+            route.as_ref().map(|route| route.route_id.as_str()),
+            Some("review-packet")
+        );
+    }
+
+    #[test]
     fn program_execute_loop_continues_recoverable_or_unattended_pending_dispatch() {
         let result = ProgramLifecycleRunResult {
             schema_version: "octon-program-lifecycle-run-result-v1".to_string(),
@@ -27095,7 +31333,8 @@ rationale: "prove overwrite guard"
             &approval_blocked,
             "unattended"
         ));
-        let mut executor_preflight_blocked = blocked_human.clone();
+        let mut executor_preflight_blocked = result.clone();
+        executor_preflight_blocked.final_verdict = "blocked-recoverable".to_string();
         executor_preflight_blocked.child_results = vec![ProgramChildExecutionSummary {
             child_id: "a".to_string(),
             child_run_id: "stop-semantics-a".to_string(),
@@ -27111,6 +31350,43 @@ rationale: "prove overwrite guard"
         }];
         assert!(program_execute_loop_should_stop(
             &executor_preflight_blocked,
+            "unattended"
+        ));
+
+        let mut parent_executor_preflight_blocked = result.clone();
+        parent_executor_preflight_blocked.final_verdict = "blocked-recoverable".to_string();
+        parent_executor_preflight_blocked.selected_children.clear();
+        parent_executor_preflight_blocked.selected_parent_route = Some(RoutePlanState {
+            route_id: "cleanup-lifecycle-residue".to_string(),
+            route_type: "extension".to_string(),
+            command_id: None,
+            skill_id: None,
+            prompt_set_id: None,
+        });
+        parent_executor_preflight_blocked.parent_route_result =
+            Some(LifecycleRouteExecutionResult {
+                schema_version: "octon-lifecycle-route-execution-result-v1".to_string(),
+                run_id: "stop-semantics".to_string(),
+                route_id: "cleanup-lifecycle-residue".to_string(),
+                phase_id: None,
+                executor_used: "codex".to_string(),
+                status: "executor-preflight-blocked".to_string(),
+                started_at: "2026-06-03T00:00:00Z".to_string(),
+                ended_at: "2026-06-03T00:00:00Z".to_string(),
+                manifest_status_before: Some("accepted".to_string()),
+                manifest_status_after: Some("accepted".to_string()),
+                receipts_observed: Vec::new(),
+                evidence_paths: Vec::new(),
+                stdout_path: None,
+                stderr_path: None,
+                prompt_packet_path: None,
+                retryable: false,
+                next_action: "rerun-with-approved-executor-access".to_string(),
+                error_class: Some(LifecycleErrorClass::ExecutorUnavailable),
+                error_message: Some("nested Codex runtime preflight failed".to_string()),
+            });
+        assert!(program_execute_loop_should_stop(
+            &parent_executor_preflight_blocked,
             "unattended"
         ));
 
@@ -27866,7 +32142,7 @@ routes:
 
             assert!(
                 plan.program_blockers.iter().any(|blocker| {
-                    blocker.blocker_class == "validation-failed"
+                    blocker.blocker_class == "invalid-child-registry"
                         && blocker.message.contains(expected)
                 }),
                 "{name} blocker should mention {expected}: {:?}",
@@ -27893,7 +32169,7 @@ children:
         )
         .unwrap();
         assert!(plan.program_blockers.iter().any(|blocker| {
-            blocker.blocker_class == "validation-failed"
+            blocker.blocker_class == "invalid-child-registry"
                 && blocker.message.contains("default_child_lifecycle_id")
         }));
     }
@@ -27923,10 +32199,10 @@ children:
         )
         .unwrap();
 
-        assert_eq!(plan.final_verdict, "blocked-unsafe");
+        assert_eq!(plan.final_verdict, "blocked-recoverable");
         assert!(plan.runnable_batch.is_empty());
         assert!(plan.program_blockers.iter().any(|blocker| {
-            blocker.blocker_class == "validation-failed"
+            blocker.blocker_class == "invalid-child-registry"
                 && blocker.message.contains("rollback_posture")
         }));
     }

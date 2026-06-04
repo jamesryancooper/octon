@@ -1,0 +1,374 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/engine/runtime/spec/semantic-cache-context-reuse-v1.schema.json",
+  "title": "Semantic Cache And Context Reuse v1",
+  "description": "Digest-bound compact artifacts for proposal semantic cache, context-pack layer reuse, and invalidation events. These artifacts are retained evidence or generated/read-model aids and never authorize execution or replace source evidence.",
+  "oneOf": [
+    { "$ref": "#/$defs/proposal_semantic_cache" },
+    { "$ref": "#/$defs/context_pack_layer_cache" },
+    { "$ref": "#/$defs/cache_invalidation_events" }
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "repo_ref": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_digest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ref", "sha256"],
+      "properties": {
+        "source_ref": { "$ref": "#/$defs/repo_ref" },
+        "sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "source_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_ref",
+        "sha256",
+        "source_class",
+        "authority_label",
+        "inclusion_mode",
+        "model_visible"
+      ],
+      "properties": {
+        "source_ref": { "$ref": "#/$defs/repo_ref" },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "source_class": {
+          "enum": [
+            "authority",
+            "control",
+            "evidence",
+            "continuity",
+            "generated",
+            "generated_read_model",
+            "derived",
+            "non_authoritative_input"
+          ]
+        },
+        "authority_label": {
+          "enum": ["authoritative", "control", "evidence", "derived", "non_authoritative"]
+        },
+        "inclusion_mode": {
+          "enum": ["summary", "handle-only", "digest-only", "compact-layer"]
+        },
+        "model_visible": { "type": "boolean" },
+        "estimated_tokens": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "producer": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["id", "version"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "version": { "const": "semantic-cache-context-reuse-v1" }
+      }
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["preferred", "allowed_consumers", "forbidden_consumers"],
+      "properties": {
+        "preferred": { "type": "string", "minLength": 1 },
+        "allowed_consumers": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1
+        },
+        "forbidden_consumers": {
+          "type": "array",
+          "items": { "enum": ["runtime-authority", "policy-authority", "support-proof", "closure-authority"] },
+          "minItems": 1
+        }
+      }
+    },
+    "route_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lifecycle_id", "route_id", "route_purpose", "trust_class", "request_binding_sha256"],
+      "properties": {
+        "lifecycle_id": { "type": "string", "minLength": 1 },
+        "route_id": { "type": "string", "minLength": 1 },
+        "route_purpose": { "type": "string", "minLength": 1 },
+        "trust_class": { "type": "string", "minLength": 1 },
+        "request_binding_sha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "generated_at"],
+      "properties": {
+        "state": { "enum": ["fresh", "stale", "invalidated"] },
+        "generated_at": { "type": "string", "minLength": 1 },
+        "valid_until": { "type": ["string", "null"] }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["status", "validator_ref", "model_visible_sha256", "model_visible_token_estimate"],
+      "properties": {
+        "status": { "enum": ["pass", "fail"] },
+        "validator_ref": {
+          "const": ".octon/framework/assurance/runtime/_ops/scripts/validate-semantic-cache-context-reuse.sh"
+        },
+        "model_visible_sha256": { "$ref": "#/$defs/sha256" },
+        "model_visible_token_estimate": { "type": "integer", "minimum": 0, "maximum": 2000 }
+      }
+    },
+    "failure_behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fail_closed_on"],
+      "properties": {
+        "fail_closed_on": {
+          "type": "array",
+          "contains": { "const": "source-digest-mismatch" },
+          "items": {
+            "enum": [
+              "missing-source",
+              "source-digest-mismatch",
+              "policy-digest-mismatch",
+              "request-binding-mismatch",
+              "expired-freshness",
+              "missing-retained-evidence",
+              "trust-downgrade",
+              "explicit-governance-invalidation",
+              "authority-boundary-violation",
+              "missing-model-visible-hash",
+              "missing-replay-ref"
+            ]
+          },
+          "minItems": 8
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_class",
+        "replaces_source_evidence",
+        "authorizes_execution",
+        "raw_evidence_retained",
+        "proposal_input_authority",
+        "generated_output_authority"
+      ],
+      "properties": {
+        "artifact_class": {
+          "enum": ["retained-evidence-read-model", "generated-read-model"]
+        },
+        "replaces_source_evidence": { "const": false },
+        "authorizes_execution": { "const": false },
+        "raw_evidence_retained": { "const": true },
+        "proposal_input_authority": { "const": "non-authoritative" },
+        "generated_output_authority": { "const": "derived-only" }
+      }
+    },
+    "common": {
+      "type": "object",
+      "required": [
+        "schema_version",
+        "artifact_kind",
+        "authority_status",
+        "producer",
+        "consumer",
+        "source_refs",
+        "source_digests",
+        "source_records",
+        "policy_ref",
+        "policy_sha256",
+        "route_binding",
+        "freshness",
+        "validation",
+        "evidence_refs",
+        "failure_behavior",
+        "authority_boundary"
+      ],
+      "properties": {
+        "schema_version": { "type": "string", "minLength": 1 },
+        "artifact_kind": { "type": "string", "minLength": 1 },
+        "authority_status": { "type": "string", "minLength": 1 },
+        "producer": { "$ref": "#/$defs/producer" },
+        "consumer": { "$ref": "#/$defs/consumer" },
+        "source_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repo_ref" },
+          "minItems": 1
+        },
+        "source_digests": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/source_digest" },
+          "minItems": 1
+        },
+        "source_records": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/source_record" },
+          "minItems": 1
+        },
+        "policy_ref": { "$ref": "#/$defs/repo_ref" },
+        "policy_sha256": { "$ref": "#/$defs/sha256" },
+        "route_binding": { "$ref": "#/$defs/route_binding" },
+        "freshness": { "$ref": "#/$defs/freshness" },
+        "validation": { "$ref": "#/$defs/validation" },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/repo_ref" },
+          "minItems": 1
+        },
+        "failure_behavior": { "$ref": "#/$defs/failure_behavior" },
+        "authority_boundary": { "$ref": "#/$defs/authority_boundary" }
+      }
+    },
+    "proposal_semantic_cache": {
+      "allOf": [
+        { "$ref": "#/$defs/common" },
+        {
+          "type": "object",
+          "required": ["semantic_entries"],
+          "properties": {
+            "schema_version": { "const": "proposal-semantic-cache-v1" },
+            "artifact_kind": { "const": "proposal-semantic-cache" },
+            "semantic_entries": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": ["summary_id", "source_ref", "source_sha256", "policy_sha256", "route_purpose", "trust_class", "model_visible_sha256", "token_estimate", "raw_evidence_ref"],
+                "properties": {
+                  "summary_id": { "type": "string", "minLength": 1 },
+                  "source_ref": { "$ref": "#/$defs/repo_ref" },
+                  "source_sha256": { "$ref": "#/$defs/sha256" },
+                  "policy_sha256": { "$ref": "#/$defs/sha256" },
+                  "route_purpose": { "type": "string", "minLength": 1 },
+                  "trust_class": { "type": "string", "minLength": 1 },
+                  "model_visible_sha256": { "$ref": "#/$defs/sha256" },
+                  "token_estimate": { "type": "integer", "minimum": 0, "maximum": 2000 },
+                  "raw_evidence_ref": { "$ref": "#/$defs/repo_ref" }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "context_pack_layer_cache": {
+      "allOf": [
+        { "$ref": "#/$defs/common" },
+        {
+          "type": "object",
+          "required": ["layers"],
+          "properties": {
+            "schema_version": { "const": "context-pack-layer-cache-v1" },
+            "artifact_kind": { "const": "context-pack-layer-cache" },
+            "layers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": ["layer_id", "source_refs", "source_digests", "reuse_binding", "replay_refs", "model_visible_sha256", "token_estimate"],
+                "properties": {
+                  "layer_id": { "type": "string", "minLength": 1 },
+                  "source_refs": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/repo_ref" },
+                    "minItems": 1
+                  },
+                  "source_digests": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/source_digest" },
+                    "minItems": 1
+                  },
+                  "reuse_binding": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "required": ["stage_ids"],
+                    "properties": {
+                      "stage_ids": {
+                        "type": "array",
+                        "items": { "type": "string", "minLength": 1 },
+                        "minItems": 2
+                      }
+                    }
+                  },
+                  "replay_refs": {
+                    "type": "array",
+                    "items": { "$ref": "#/$defs/repo_ref" },
+                    "minItems": 1
+                  },
+                  "model_visible_sha256": { "$ref": "#/$defs/sha256" },
+                  "token_estimate": { "type": "integer", "minimum": 0, "maximum": 2000 }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "cache_invalidation_events": {
+      "allOf": [
+        { "$ref": "#/$defs/common" },
+        {
+          "type": "object",
+          "required": ["supported_triggers", "events"],
+          "properties": {
+            "schema_version": { "const": "cache-invalidation-events-v1" },
+            "artifact_kind": { "const": "cache-invalidation-events" },
+            "supported_triggers": {
+              "type": "array",
+              "items": {
+                "enum": [
+                  "source-digest-drift",
+                  "policy-digest-drift",
+                  "request-binding-mismatch",
+                  "expired-freshness",
+                  "missing-retained-evidence",
+                  "trust-downgrade",
+                  "explicit-governance-invalidation"
+                ]
+              },
+              "minItems": 7
+            },
+            "events": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": ["event_id", "trigger", "state", "fail_closed"],
+                "properties": {
+                  "event_id": { "type": "string", "minLength": 1 },
+                  "trigger": {
+                    "enum": [
+                      "source-digest-drift",
+                      "policy-digest-drift",
+                      "request-binding-mismatch",
+                      "expired-freshness",
+                      "missing-retained-evidence",
+                      "trust-downgrade",
+                      "explicit-governance-invalidation"
+                    ]
+                  },
+                  "state": { "enum": ["recorded", "active", "resolved"] },
+                  "source_ref": { "$ref": "#/$defs/repo_ref" },
+                  "previous_sha256": { "$ref": "#/$defs/sha256" },
+                  "current_sha256": { "$ref": "#/$defs/sha256" },
+                  "fail_closed": { "const": true }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

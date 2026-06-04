@@ -1,0 +1,1086 @@
+== Capability Publication State Validation ==
+[OK] found file: .octon/octon.yml
+[OK] .octon/octon.yml parses as YAML
+[OK] found file: .octon/generated/effective/extensions/catalog.effective.yml
+[OK] .octon/generated/effective/extensions/catalog.effective.yml parses as YAML
+[OK] found file: .octon/generated/effective/extensions/generation.lock.yml
+[OK] .octon/generated/effective/extensions/generation.lock.yml parses as YAML
+[OK] found file: .octon/generated/effective/locality/scopes.effective.yml
+[OK] .octon/generated/effective/locality/scopes.effective.yml parses as YAML
+[OK] found file: .octon/generated/effective/locality/generation.lock.yml
+[OK] .octon/generated/effective/locality/generation.lock.yml parses as YAML
+[OK] found file: .octon/generated/effective/capabilities/routing.effective.yml
+[OK] .octon/generated/effective/capabilities/routing.effective.yml parses as YAML
+[OK] found file: .octon/generated/effective/capabilities/artifact-map.yml
+[OK] .octon/generated/effective/capabilities/artifact-map.yml parses as YAML
+[OK] found file: .octon/generated/effective/capabilities/generation.lock.yml
+[OK] .octon/generated/effective/capabilities/generation.lock.yml parses as YAML
+[OK] framework command ids unique
+[OK] framework command id syntax valid: audit-skills-system-expansion
+[OK] framework command id length valid: audit-skills-system-expansion
+[OK] framework command audit-skills-system-expansion display name concise
+[OK] framework command path is relative: audit-skills-system-expansion
+[OK] framework command path exists: audit-skills-system-expansion
+[OK] framework command id syntax valid: alignment-check
+[OK] framework command id length valid: alignment-check
+[OK] framework command alignment-check display name concise
+[OK] framework command path is relative: alignment-check
+[OK] framework command path exists: alignment-check
+[OK] framework command id syntax valid: init
+[OK] framework command id length valid: init
+[OK] framework command init display name concise
+[OK] framework command path is relative: init
+[OK] framework command path exists: init
+[OK] framework command id syntax valid: provision-host-tools
+[OK] framework command id length valid: provision-host-tools
+[OK] framework command provision-host-tools display name concise
+[OK] framework command path is relative: provision-host-tools
+[OK] framework command path exists: provision-host-tools
+[OK] framework command id syntax valid: export-harness
+[OK] framework command id length valid: export-harness
+[OK] framework command export-harness display name concise
+[OK] framework command path is relative: export-harness
+[OK] framework command path exists: export-harness
+[OK] framework command id syntax valid: studio
+[OK] framework command id length valid: studio
+[OK] framework command studio display name concise
+[OK] framework command path is relative: studio
+[OK] framework command path exists: studio
+[OK] framework command id syntax valid: recover
+[OK] framework command id length valid: recover
+[OK] framework command recover display name concise
+[OK] framework command path is relative: recover
+[OK] framework command path exists: recover
+[OK] framework command id syntax valid: validate-frontmatter
+[OK] framework command id length valid: validate-frontmatter
+[OK] framework command validate-frontmatter display name concise
+[OK] framework command path is relative: validate-frontmatter
+[OK] framework command path exists: validate-frontmatter
+[OK] framework command id syntax valid: context-budget
+[OK] framework command id length valid: context-budget
+[OK] framework command context-budget display name concise
+[OK] framework command path is relative: context-budget
+[OK] framework command path exists: context-budget
+[OK] framework command id syntax valid: validate-session-policy
+[OK] framework command id length valid: validate-session-policy
+[OK] framework command validate-session-policy display name concise
+[OK] framework command path is relative: validate-session-policy
+[OK] framework command path exists: validate-session-policy
+[OK] framework command id syntax valid: validate-platform-interop
+[OK] framework command id length valid: validate-platform-interop
+[OK] framework command validate-platform-interop display name concise
+[OK] framework command path is relative: validate-platform-interop
+[OK] framework command path exists: validate-platform-interop
+[OK] framework command id syntax valid: query-ask
+[OK] framework command id length valid: query-ask
+[OK] framework command query-ask display name concise
+[OK] framework command path is relative: query-ask
+[OK] framework command path exists: query-ask
+[OK] framework command id syntax valid: query-retrieve
+[OK] framework command id length valid: query-retrieve
+[OK] framework command query-retrieve display name concise
+[OK] framework command path is relative: query-retrieve
+[OK] framework command path exists: query-retrieve
+[OK] framework command id syntax valid: query-explain
+[OK] framework command id length valid: query-explain
+[OK] framework command query-explain display name concise
+[OK] framework command path is relative: query-explain
+[OK] framework command path exists: query-explain
+[OK] framework command id syntax valid: snapshot-build
+[OK] framework command id length valid: snapshot-build
+[OK] framework command snapshot-build display name concise
+[OK] framework command path is relative: snapshot-build
+[OK] framework command path exists: snapshot-build
+[OK] framework command id syntax valid: snapshot-diff
+[OK] framework command id length valid: snapshot-diff
+[OK] framework command snapshot-diff display name concise
+[OK] framework command path is relative: snapshot-diff
+[OK] framework command path exists: snapshot-diff
+[OK] framework command id syntax valid: discover-start
+[OK] framework command id length valid: discover-start
+[OK] framework command discover-start display name concise
+[OK] framework command path is relative: discover-start
+[OK] framework command path exists: discover-start
+[OK] framework command id syntax valid: discover-expand
+[OK] framework command id length valid: discover-expand
+[OK] framework command discover-expand display name concise
+[OK] framework command path is relative: discover-expand
+[OK] framework command path exists: discover-expand
+[OK] framework command id syntax valid: discover-explain
+[OK] framework command id length valid: discover-explain
+[OK] framework command discover-explain display name concise
+[OK] framework command path is relative: discover-explain
+[OK] framework command path exists: discover-explain
+[OK] framework command id syntax valid: discover-resolve
+[OK] framework command id length valid: discover-resolve
+[OK] framework command discover-resolve display name concise
+[OK] framework command path is relative: discover-resolve
+[OK] framework command path exists: discover-resolve
+[OK] framework command id syntax valid: watch-poll
+[OK] framework command id length valid: watch-poll
+[OK] framework command watch-poll display name concise
+[OK] framework command path is relative: watch-poll
+[OK] framework command path exists: watch-poll
+[OK] framework command id syntax valid: create-workflow
+[OK] framework command id length valid: create-workflow
+[OK] framework command create-workflow display name concise
+[OK] framework command path is relative: create-workflow
+[OK] framework command path exists: create-workflow
+[OK] framework command id syntax valid: evaluate-workflow
+[OK] framework command id length valid: evaluate-workflow
+[OK] framework command evaluate-workflow display name concise
+[OK] framework command path is relative: evaluate-workflow
+[OK] framework command path exists: evaluate-workflow
+[OK] framework command id syntax valid: update-workflow
+[OK] framework command id length valid: update-workflow
+[OK] framework command update-workflow display name concise
+[OK] framework command path is relative: update-workflow
+[OK] framework command path exists: update-workflow
+[OK] framework command id syntax valid: process-incoming-intake
+[OK] framework command id length valid: process-incoming-intake
+[OK] framework command process-incoming-intake display name concise
+[OK] framework command path is relative: process-incoming-intake
+[OK] framework command path exists: process-incoming-intake
+[OK] framework command id syntax valid: refactor
+[OK] framework command id length valid: refactor
+[OK] framework command refactor display name concise
+[OK] framework command path is relative: refactor
+[OK] framework command path exists: refactor
+[OK] instance command ids unique
+[OK] instance command id syntax valid: repo-hygiene
+[OK] instance command id length valid: repo-hygiene
+[OK] instance command repo-hygiene display name concise
+[OK] instance command path is relative: repo-hygiene
+[OK] instance command path exists: repo-hygiene
+[OK] framework skill ids unique
+[OK] framework skill id syntax valid: synthesize-research
+[OK] framework skill id length valid: synthesize-research
+[OK] framework skill synthesize-research display name concise
+[OK] framework skill path is relative: synthesize-research
+[OK] framework skill path exists: synthesize-research
+[OK] framework skill id syntax valid: refine-prompt
+[OK] framework skill id length valid: refine-prompt
+[OK] framework skill refine-prompt display name concise
+[OK] framework skill path is relative: refine-prompt
+[OK] framework skill path exists: refine-prompt
+[OK] framework skill id syntax valid: refactor
+[OK] framework skill id length valid: refactor
+[OK] framework skill refactor display name concise
+[OK] framework skill path is relative: refactor
+[OK] framework skill path exists: refactor
+[OK] framework skill id syntax valid: create-skill
+[OK] framework skill id length valid: create-skill
+[OK] framework skill create-skill display name concise
+[OK] framework skill path is relative: create-skill
+[OK] framework skill path exists: create-skill
+[OK] framework skill id syntax valid: audit-migration
+[OK] framework skill id length valid: audit-migration
+[OK] framework skill audit-migration display name concise
+[OK] framework skill path is relative: audit-migration
+[OK] framework skill path exists: audit-migration
+[OK] framework skill id syntax valid: audit-subsystem-health
+[OK] framework skill id length valid: audit-subsystem-health
+[OK] framework skill audit-subsystem-health display name concise
+[OK] framework skill path is relative: audit-subsystem-health
+[OK] framework skill path exists: audit-subsystem-health
+[OK] framework skill id syntax valid: audit-cross-subsystem-coherence
+[OK] framework skill id length valid: audit-cross-subsystem-coherence
+[OK] framework skill audit-cross-subsystem-coherence display name concise
+[OK] framework skill path is relative: audit-cross-subsystem-coherence
+[OK] framework skill path exists: audit-cross-subsystem-coherence
+[OK] framework skill id syntax valid: audit-freshness-and-supersession
+[OK] framework skill id length valid: audit-freshness-and-supersession
+[OK] framework skill audit-freshness-and-supersession display name concise
+[OK] framework skill path is relative: audit-freshness-and-supersession
+[OK] framework skill path exists: audit-freshness-and-supersession
+[OK] framework skill id syntax valid: audit-documentation-standards
+[OK] framework skill id length valid: audit-documentation-standards
+[OK] framework skill audit-documentation-standards display name concise
+[OK] framework skill path is relative: audit-documentation-standards
+[OK] framework skill path exists: audit-documentation-standards
+[OK] framework skill id syntax valid: audit-domain-architecture
+[OK] framework skill id length valid: audit-domain-architecture
+[OK] framework skill audit-domain-architecture display name concise
+[OK] framework skill path is relative: audit-domain-architecture
+[OK] framework skill path exists: audit-domain-architecture
+[OK] framework skill id syntax valid: audit-surface-architecture
+[OK] framework skill id length valid: audit-surface-architecture
+[OK] framework skill audit-surface-architecture display name concise
+[OK] framework skill path is relative: audit-surface-architecture
+[OK] framework skill path exists: audit-surface-architecture
+[OK] framework skill id syntax valid: audit-architecture-readiness
+[OK] framework skill id length valid: audit-architecture-readiness
+[OK] framework skill audit-architecture-readiness display name concise
+[OK] framework skill path is relative: audit-architecture-readiness
+[OK] framework skill path exists: audit-architecture-readiness
+[OK] framework skill id syntax valid: audit-charter
+[OK] framework skill id length valid: audit-charter
+[OK] framework skill audit-charter display name concise
+[OK] framework skill path is relative: audit-charter
+[OK] framework skill path exists: audit-charter
+[OK] framework skill id syntax valid: audit-observability-coverage
+[OK] framework skill id length valid: audit-observability-coverage
+[OK] framework skill audit-observability-coverage display name concise
+[OK] framework skill path is relative: audit-observability-coverage
+[OK] framework skill path exists: audit-observability-coverage
+[OK] framework skill id syntax valid: audit-security-compliance
+[OK] framework skill id length valid: audit-security-compliance
+[OK] framework skill audit-security-compliance display name concise
+[OK] framework skill path is relative: audit-security-compliance
+[OK] framework skill path exists: audit-security-compliance
+[OK] framework skill id syntax valid: audit-data-governance
+[OK] framework skill id length valid: audit-data-governance
+[OK] framework skill audit-data-governance display name concise
+[OK] framework skill path is relative: audit-data-governance
+[OK] framework skill path exists: audit-data-governance
+[OK] framework skill id syntax valid: audit-test-quality
+[OK] framework skill id length valid: audit-test-quality
+[OK] framework skill audit-test-quality display name concise
+[OK] framework skill path is relative: audit-test-quality
+[OK] framework skill path exists: audit-test-quality
+[OK] framework skill id syntax valid: audit-operational-readiness
+[OK] framework skill id length valid: audit-operational-readiness
+[OK] framework skill audit-operational-readiness display name concise
+[OK] framework skill path is relative: audit-operational-readiness
+[OK] framework skill path exists: audit-operational-readiness
+[OK] framework skill id syntax valid: audit-release-readiness
+[OK] framework skill id length valid: audit-release-readiness
+[OK] framework skill audit-release-readiness display name concise
+[OK] framework skill path is relative: audit-release-readiness
+[OK] framework skill path exists: audit-release-readiness
+[OK] framework skill id syntax valid: audit-api-contract
+[OK] framework skill id length valid: audit-api-contract
+[OK] framework skill audit-api-contract display name concise
+[OK] framework skill path is relative: audit-api-contract
+[OK] framework skill path exists: audit-api-contract
+[OK] framework skill id syntax valid: audit-ci-latency
+[OK] framework skill id length valid: audit-ci-latency
+[OK] framework skill audit-ci-latency display name concise
+[OK] framework skill path is relative: audit-ci-latency
+[OK] framework skill path exists: audit-ci-latency
+[OK] framework skill id syntax valid: audit-ui
+[OK] framework skill id length valid: audit-ui
+[OK] framework skill audit-ui display name concise
+[OK] framework skill path is relative: audit-ui
+[OK] framework skill path exists: audit-ui
+[OK] framework skill id syntax valid: python-api
+[OK] framework skill id length valid: python-api
+[OK] framework skill python-api display name concise
+[OK] framework skill path is relative: python-api
+[OK] framework skill path exists: python-api
+[OK] framework skill id syntax valid: swift-macos-app
+[OK] framework skill id length valid: swift-macos-app
+[OK] framework skill swift-macos-app display name concise
+[OK] framework skill path is relative: swift-macos-app
+[OK] framework skill path exists: swift-macos-app
+[OK] framework skill id syntax valid: python-scaffold-package
+[OK] framework skill id length valid: python-scaffold-package
+[OK] framework skill python-scaffold-package display name concise
+[OK] framework skill path is relative: python-scaffold-package
+[OK] framework skill path exists: python-scaffold-package
+[OK] framework skill id syntax valid: python-contract-first-api
+[OK] framework skill id length valid: python-contract-first-api
+[OK] framework skill python-contract-first-api display name concise
+[OK] framework skill path is relative: python-contract-first-api
+[OK] framework skill path exists: python-contract-first-api
+[OK] framework skill id syntax valid: python-test-harness
+[OK] framework skill id length valid: python-test-harness
+[OK] framework skill python-test-harness display name concise
+[OK] framework skill path is relative: python-test-harness
+[OK] framework skill path exists: python-test-harness
+[OK] framework skill id syntax valid: python-dev-toolchain
+[OK] framework skill id length valid: python-dev-toolchain
+[OK] framework skill python-dev-toolchain display name concise
+[OK] framework skill path is relative: python-dev-toolchain
+[OK] framework skill path exists: python-dev-toolchain
+[OK] framework skill id syntax valid: python-infra-manifest
+[OK] framework skill id length valid: python-infra-manifest
+[OK] framework skill python-infra-manifest display name concise
+[OK] framework skill path is relative: python-infra-manifest
+[OK] framework skill path exists: python-infra-manifest
+[OK] framework skill id syntax valid: python-contributor-guide
+[OK] framework skill id length valid: python-contributor-guide
+[OK] framework skill python-contributor-guide display name concise
+[OK] framework skill path is relative: python-contributor-guide
+[OK] framework skill path exists: python-contributor-guide
+[OK] framework skill id syntax valid: swift-scaffold-package
+[OK] framework skill id length valid: swift-scaffold-package
+[OK] framework skill swift-scaffold-package display name concise
+[OK] framework skill path is relative: swift-scaffold-package
+[OK] framework skill path exists: swift-scaffold-package
+[OK] framework skill id syntax valid: swift-data-layer
+[OK] framework skill id length valid: swift-data-layer
+[OK] framework skill swift-data-layer display name concise
+[OK] framework skill path is relative: swift-data-layer
+[OK] framework skill path exists: swift-data-layer
+[OK] framework skill id syntax valid: swift-cli-interface
+[OK] framework skill id length valid: swift-cli-interface
+[OK] framework skill swift-cli-interface display name concise
+[OK] framework skill path is relative: swift-cli-interface
+[OK] framework skill path exists: swift-cli-interface
+[OK] framework skill id syntax valid: swift-daemon-service
+[OK] framework skill id length valid: swift-daemon-service
+[OK] framework skill swift-daemon-service display name concise
+[OK] framework skill path is relative: swift-daemon-service
+[OK] framework skill path exists: swift-daemon-service
+[OK] framework skill id syntax valid: swift-test-harness
+[OK] framework skill id length valid: swift-test-harness
+[OK] framework skill swift-test-harness display name concise
+[OK] framework skill path is relative: swift-test-harness
+[OK] framework skill path exists: swift-test-harness
+[OK] framework skill id syntax valid: swift-contributor-guide
+[OK] framework skill id length valid: swift-contributor-guide
+[OK] framework skill swift-contributor-guide display name concise
+[OK] framework skill path is relative: swift-contributor-guide
+[OK] framework skill path exists: swift-contributor-guide
+[OK] framework skill id syntax valid: react
+[OK] framework skill id length valid: react
+[OK] framework skill react display name concise
+[OK] framework skill path is relative: react
+[OK] framework skill path exists: react
+[OK] framework skill id syntax valid: react-native
+[OK] framework skill id length valid: react-native
+[OK] framework skill react-native display name concise
+[OK] framework skill path is relative: react-native
+[OK] framework skill path exists: react-native
+[OK] framework skill id syntax valid: postgres
+[OK] framework skill id length valid: postgres
+[OK] framework skill postgres display name concise
+[OK] framework skill path is relative: postgres
+[OK] framework skill path exists: postgres
+[OK] framework skill id syntax valid: rust
+[OK] framework skill id length valid: rust
+[OK] framework skill rust display name concise
+[OK] framework skill path is relative: rust
+[OK] framework skill path exists: rust
+[OK] framework skill id syntax valid: audit-rust-tool-architecture
+[OK] framework skill id length valid: audit-rust-tool-architecture
+[OK] framework skill audit-rust-tool-architecture display name concise
+[OK] framework skill path is relative: audit-rust-tool-architecture
+[OK] framework skill path exists: audit-rust-tool-architecture
+[OK] framework skill id syntax valid: plan-rust-tool-migration
+[OK] framework skill id length valid: plan-rust-tool-migration
+[OK] framework skill plan-rust-tool-migration display name concise
+[OK] framework skill path is relative: plan-rust-tool-migration
+[OK] framework skill path exists: plan-rust-tool-migration
+[OK] framework skill id syntax valid: react-composition-patterns
+[OK] framework skill id length valid: react-composition-patterns
+[OK] framework skill react-composition-patterns display name concise
+[OK] framework skill path is relative: react-composition-patterns
+[OK] framework skill path exists: react-composition-patterns
+[OK] framework skill id syntax valid: react-best-practices
+[OK] framework skill id length valid: react-best-practices
+[OK] framework skill react-best-practices display name concise
+[OK] framework skill path is relative: react-best-practices
+[OK] framework skill path exists: react-best-practices
+[OK] framework skill id syntax valid: react-native-best-practices
+[OK] framework skill id length valid: react-native-best-practices
+[OK] framework skill react-native-best-practices display name concise
+[OK] framework skill path is relative: react-native-best-practices
+[OK] framework skill path exists: react-native-best-practices
+[OK] framework skill id syntax valid: vercel-deploy
+[OK] framework skill id length valid: vercel-deploy
+[OK] framework skill vercel-deploy display name concise
+[OK] framework skill path is relative: vercel-deploy
+[OK] framework skill path exists: vercel-deploy
+[OK] framework skill id syntax valid: deploy-status
+[OK] framework skill id length valid: deploy-status
+[OK] framework skill deploy-status display name concise
+[OK] framework skill path is relative: deploy-status
+[OK] framework skill path exists: deploy-status
+[OK] framework skill id syntax valid: vercel
+[OK] framework skill id length valid: vercel
+[OK] framework skill vercel display name concise
+[OK] framework skill path is relative: vercel
+[OK] framework skill path exists: vercel
+[OK] framework skill id syntax valid: provider-vercel-delivery
+[OK] framework skill id length valid: provider-vercel-delivery
+[OK] framework skill provider-vercel-delivery display name concise
+[OK] framework skill path is relative: provider-vercel-delivery
+[OK] framework skill path exists: provider-vercel-delivery
+[OK] framework skill id syntax valid: provider-github-gates
+[OK] framework skill id length valid: provider-github-gates
+[OK] framework skill provider-github-gates display name concise
+[OK] framework skill path is relative: provider-github-gates
+[OK] framework skill path exists: provider-github-gates
+[OK] framework skill id syntax valid: provider-nextjs-astro-runtime
+[OK] framework skill id length valid: provider-nextjs-astro-runtime
+[OK] framework skill provider-nextjs-astro-runtime display name concise
+[OK] framework skill path is relative: provider-nextjs-astro-runtime
+[OK] framework skill path exists: provider-nextjs-astro-runtime
+[OK] framework skill id syntax valid: provider-preview-smoke
+[OK] framework skill id length valid: provider-preview-smoke
+[OK] framework skill provider-preview-smoke display name concise
+[OK] framework skill path is relative: provider-preview-smoke
+[OK] framework skill path exists: provider-preview-smoke
+[OK] framework skill id syntax valid: turborepo-taskgraph
+[OK] framework skill id length valid: turborepo-taskgraph
+[OK] framework skill turborepo-taskgraph display name concise
+[OK] framework skill path is relative: turborepo-taskgraph
+[OK] framework skill path exists: turborepo-taskgraph
+[OK] framework skill id syntax valid: resolve-pr-comments
+[OK] framework skill id length valid: resolve-pr-comments
+[OK] framework skill resolve-pr-comments display name concise
+[OK] framework skill path is relative: resolve-pr-comments
+[OK] framework skill path exists: resolve-pr-comments
+[OK] framework skill id syntax valid: closeout-change
+[OK] framework skill id length valid: closeout-change
+[OK] framework skill closeout-change display name concise
+[OK] framework skill path is relative: closeout-change
+[OK] framework skill path exists: closeout-change
+[OK] framework skill id syntax valid: repo-hygiene-cleanup
+[OK] framework skill id length valid: repo-hygiene-cleanup
+[OK] framework skill repo-hygiene-cleanup display name concise
+[OK] framework skill path is relative: repo-hygiene-cleanup
+[OK] framework skill path exists: repo-hygiene-cleanup
+[OK] framework skill id syntax valid: closeout-worktree
+[OK] framework skill id length valid: closeout-worktree
+[OK] framework skill closeout-worktree display name concise
+[OK] framework skill path is relative: closeout-worktree
+[OK] framework skill path exists: closeout-worktree
+[OK] framework skill id syntax valid: closeout-pr
+[OK] framework skill id length valid: closeout-pr
+[OK] framework skill closeout-pr display name concise
+[OK] framework skill path is relative: closeout-pr
+[OK] framework skill path exists: closeout-pr
+[OK] framework skill id syntax valid: triage-ci-failure
+[OK] framework skill id length valid: triage-ci-failure
+[OK] framework skill triage-ci-failure display name concise
+[OK] framework skill path is relative: triage-ci-failure
+[OK] framework skill path exists: triage-ci-failure
+[OK] framework skill id syntax valid: ci-gate-triage
+[OK] framework skill id length valid: ci-gate-triage
+[OK] framework skill ci-gate-triage display name concise
+[OK] framework skill path is relative: ci-gate-triage
+[OK] framework skill path exists: ci-gate-triage
+[OK] framework skill id syntax valid: incident-response
+[OK] framework skill id length valid: incident-response
+[OK] framework skill incident-response display name concise
+[OK] framework skill path is relative: incident-response
+[OK] framework skill path exists: incident-response
+[OK] framework skill id syntax valid: postgres-best-practices
+[OK] framework skill id length valid: postgres-best-practices
+[OK] framework skill postgres-best-practices display name concise
+[OK] framework skill path is relative: postgres-best-practices
+[OK] framework skill path exists: postgres-best-practices
+[OK] framework skill id syntax valid: spec-to-implementation
+[OK] framework skill id length valid: spec-to-implementation
+[OK] framework skill spec-to-implementation display name concise
+[OK] framework skill path is relative: spec-to-implementation
+[OK] framework skill path exists: spec-to-implementation
+[OK] framework skill id syntax valid: plan-charter-alignment
+[OK] framework skill id length valid: plan-charter-alignment
+[OK] framework skill plan-charter-alignment display name concise
+[OK] framework skill path is relative: plan-charter-alignment
+[OK] framework skill path exists: plan-charter-alignment
+[OK] framework skill id syntax valid: build-mcp-server
+[OK] framework skill id length valid: build-mcp-server
+[OK] framework skill build-mcp-server display name concise
+[OK] framework skill path is relative: build-mcp-server
+[OK] framework skill path exists: build-mcp-server
+[OK] framework skill registry id declared in manifest: audit-api-contract
+[OK] framework skill registry id syntax valid: audit-api-contract
+[OK] framework skill registry id length valid: audit-api-contract
+[OK] framework skill command matches canonical token: audit-api-contract
+[OK] framework skill registry id declared in manifest: audit-architecture-readiness
+[OK] framework skill registry id syntax valid: audit-architecture-readiness
+[OK] framework skill registry id length valid: audit-architecture-readiness
+[OK] framework skill command matches canonical token: audit-architecture-readiness
+[OK] framework skill registry id declared in manifest: audit-charter
+[OK] framework skill registry id syntax valid: audit-charter
+[OK] framework skill registry id length valid: audit-charter
+[OK] framework skill command matches canonical token: audit-charter
+[OK] framework skill registry id declared in manifest: audit-ci-latency
+[OK] framework skill registry id syntax valid: audit-ci-latency
+[OK] framework skill registry id length valid: audit-ci-latency
+[OK] framework skill command matches canonical token: audit-ci-latency
+[OK] framework skill registry id declared in manifest: audit-cross-subsystem-coherence
+[OK] framework skill registry id syntax valid: audit-cross-subsystem-coherence
+[OK] framework skill registry id length valid: audit-cross-subsystem-coherence
+[OK] framework skill command matches canonical token: audit-cross-subsystem-coherence
+[OK] framework skill registry id declared in manifest: audit-data-governance
+[OK] framework skill registry id syntax valid: audit-data-governance
+[OK] framework skill registry id length valid: audit-data-governance
+[OK] framework skill command matches canonical token: audit-data-governance
+[OK] framework skill registry id declared in manifest: audit-documentation-standards
+[OK] framework skill registry id syntax valid: audit-documentation-standards
+[OK] framework skill registry id length valid: audit-documentation-standards
+[OK] framework skill command matches canonical token: audit-documentation-standards
+[OK] framework skill registry id declared in manifest: audit-domain-architecture
+[OK] framework skill registry id syntax valid: audit-domain-architecture
+[OK] framework skill registry id length valid: audit-domain-architecture
+[OK] framework skill command matches canonical token: audit-domain-architecture
+[OK] framework skill registry id declared in manifest: audit-freshness-and-supersession
+[OK] framework skill registry id syntax valid: audit-freshness-and-supersession
+[OK] framework skill registry id length valid: audit-freshness-and-supersession
+[OK] framework skill command matches canonical token: audit-freshness-and-supersession
+[OK] framework skill registry id declared in manifest: audit-migration
+[OK] framework skill registry id syntax valid: audit-migration
+[OK] framework skill registry id length valid: audit-migration
+[OK] framework skill command matches canonical token: audit-migration
+[OK] framework skill registry id declared in manifest: audit-observability-coverage
+[OK] framework skill registry id syntax valid: audit-observability-coverage
+[OK] framework skill registry id length valid: audit-observability-coverage
+[OK] framework skill command matches canonical token: audit-observability-coverage
+[OK] framework skill registry id declared in manifest: audit-operational-readiness
+[OK] framework skill registry id syntax valid: audit-operational-readiness
+[OK] framework skill registry id length valid: audit-operational-readiness
+[OK] framework skill command matches canonical token: audit-operational-readiness
+[OK] framework skill registry id declared in manifest: audit-release-readiness
+[OK] framework skill registry id syntax valid: audit-release-readiness
+[OK] framework skill registry id length valid: audit-release-readiness
+[OK] framework skill command matches canonical token: audit-release-readiness
+[OK] framework skill registry id declared in manifest: audit-rust-tool-architecture
+[OK] framework skill registry id syntax valid: audit-rust-tool-architecture
+[OK] framework skill registry id length valid: audit-rust-tool-architecture
+[OK] framework skill command matches canonical token: audit-rust-tool-architecture
+[OK] framework skill registry id declared in manifest: audit-security-compliance
+[OK] framework skill registry id syntax valid: audit-security-compliance
+[OK] framework skill registry id length valid: audit-security-compliance
+[OK] framework skill command matches canonical token: audit-security-compliance
+[OK] framework skill registry id declared in manifest: audit-subsystem-health
+[OK] framework skill registry id syntax valid: audit-subsystem-health
+[OK] framework skill registry id length valid: audit-subsystem-health
+[OK] framework skill command matches canonical token: audit-subsystem-health
+[OK] framework skill registry id declared in manifest: audit-surface-architecture
+[OK] framework skill registry id syntax valid: audit-surface-architecture
+[OK] framework skill registry id length valid: audit-surface-architecture
+[OK] framework skill command matches canonical token: audit-surface-architecture
+[OK] framework skill registry id declared in manifest: audit-test-quality
+[OK] framework skill registry id syntax valid: audit-test-quality
+[OK] framework skill registry id length valid: audit-test-quality
+[OK] framework skill command matches canonical token: audit-test-quality
+[OK] framework skill registry id declared in manifest: audit-ui
+[OK] framework skill registry id syntax valid: audit-ui
+[OK] framework skill registry id length valid: audit-ui
+[OK] framework skill command matches canonical token: audit-ui
+[OK] framework skill registry id declared in manifest: build-mcp-server
+[OK] framework skill registry id syntax valid: build-mcp-server
+[OK] framework skill registry id length valid: build-mcp-server
+[OK] framework skill command matches canonical token: build-mcp-server
+[OK] framework skill registry id declared in manifest: ci-gate-triage
+[OK] framework skill registry id syntax valid: ci-gate-triage
+[OK] framework skill registry id length valid: ci-gate-triage
+[OK] framework skill command matches canonical token: ci-gate-triage
+[OK] framework skill registry id declared in manifest: closeout-change
+[OK] framework skill registry id syntax valid: closeout-change
+[OK] framework skill registry id length valid: closeout-change
+[OK] framework skill command matches canonical token: closeout-change
+[OK] framework skill registry id declared in manifest: closeout-pr
+[OK] framework skill registry id syntax valid: closeout-pr
+[OK] framework skill registry id length valid: closeout-pr
+[OK] framework skill command matches canonical token: closeout-pr
+[OK] framework skill registry id declared in manifest: closeout-worktree
+[OK] framework skill registry id syntax valid: closeout-worktree
+[OK] framework skill registry id length valid: closeout-worktree
+[OK] framework skill command matches canonical token: closeout-worktree
+[OK] framework skill registry id declared in manifest: create-skill
+[OK] framework skill registry id syntax valid: create-skill
+[OK] framework skill registry id length valid: create-skill
+[OK] framework skill command matches canonical token: create-skill
+[OK] framework skill registry id declared in manifest: deploy-status
+[OK] framework skill registry id syntax valid: deploy-status
+[OK] framework skill registry id length valid: deploy-status
+[OK] framework skill command matches canonical token: deploy-status
+[OK] framework skill registry id declared in manifest: incident-response
+[OK] framework skill registry id syntax valid: incident-response
+[OK] framework skill registry id length valid: incident-response
+[OK] framework skill command matches canonical token: incident-response
+[OK] framework skill registry id declared in manifest: plan-charter-alignment
+[OK] framework skill registry id syntax valid: plan-charter-alignment
+[OK] framework skill registry id length valid: plan-charter-alignment
+[OK] framework skill command matches canonical token: plan-charter-alignment
+[OK] framework skill registry id declared in manifest: plan-rust-tool-migration
+[OK] framework skill registry id syntax valid: plan-rust-tool-migration
+[OK] framework skill registry id length valid: plan-rust-tool-migration
+[OK] framework skill command matches canonical token: plan-rust-tool-migration
+[OK] framework skill registry id declared in manifest: postgres
+[OK] framework skill registry id syntax valid: postgres
+[OK] framework skill registry id length valid: postgres
+[OK] framework skill registry id declared in manifest: postgres-best-practices
+[OK] framework skill registry id syntax valid: postgres-best-practices
+[OK] framework skill registry id length valid: postgres-best-practices
+[OK] framework skill command matches canonical token: postgres-best-practices
+[OK] framework skill registry id declared in manifest: provider-github-gates
+[OK] framework skill registry id syntax valid: provider-github-gates
+[OK] framework skill registry id length valid: provider-github-gates
+[OK] framework skill command matches canonical token: provider-github-gates
+[OK] framework skill registry id declared in manifest: provider-nextjs-astro-runtime
+[OK] framework skill registry id syntax valid: provider-nextjs-astro-runtime
+[OK] framework skill registry id length valid: provider-nextjs-astro-runtime
+[OK] framework skill command matches canonical token: provider-nextjs-astro-runtime
+[OK] framework skill registry id declared in manifest: provider-preview-smoke
+[OK] framework skill registry id syntax valid: provider-preview-smoke
+[OK] framework skill registry id length valid: provider-preview-smoke
+[OK] framework skill command matches canonical token: provider-preview-smoke
+[OK] framework skill registry id declared in manifest: provider-vercel-delivery
+[OK] framework skill registry id syntax valid: provider-vercel-delivery
+[OK] framework skill registry id length valid: provider-vercel-delivery
+[OK] framework skill command matches canonical token: provider-vercel-delivery
+[OK] framework skill registry id declared in manifest: python-api
+[OK] framework skill registry id syntax valid: python-api
+[OK] framework skill registry id length valid: python-api
+[OK] framework skill registry id declared in manifest: python-contract-first-api
+[OK] framework skill registry id syntax valid: python-contract-first-api
+[OK] framework skill registry id length valid: python-contract-first-api
+[OK] framework skill command matches canonical token: python-contract-first-api
+[OK] framework skill registry id declared in manifest: python-contributor-guide
+[OK] framework skill registry id syntax valid: python-contributor-guide
+[OK] framework skill registry id length valid: python-contributor-guide
+[OK] framework skill command matches canonical token: python-contributor-guide
+[OK] framework skill registry id declared in manifest: python-dev-toolchain
+[OK] framework skill registry id syntax valid: python-dev-toolchain
+[OK] framework skill registry id length valid: python-dev-toolchain
+[OK] framework skill command matches canonical token: python-dev-toolchain
+[OK] framework skill registry id declared in manifest: python-infra-manifest
+[OK] framework skill registry id syntax valid: python-infra-manifest
+[OK] framework skill registry id length valid: python-infra-manifest
+[OK] framework skill command matches canonical token: python-infra-manifest
+[OK] framework skill registry id declared in manifest: python-scaffold-package
+[OK] framework skill registry id syntax valid: python-scaffold-package
+[OK] framework skill registry id length valid: python-scaffold-package
+[OK] framework skill command matches canonical token: python-scaffold-package
+[OK] framework skill registry id declared in manifest: python-test-harness
+[OK] framework skill registry id syntax valid: python-test-harness
+[OK] framework skill registry id length valid: python-test-harness
+[OK] framework skill command matches canonical token: python-test-harness
+[OK] framework skill registry id declared in manifest: react
+[OK] framework skill registry id syntax valid: react
+[OK] framework skill registry id length valid: react
+[OK] framework skill registry id declared in manifest: react-best-practices
+[OK] framework skill registry id syntax valid: react-best-practices
+[OK] framework skill registry id length valid: react-best-practices
+[OK] framework skill command matches canonical token: react-best-practices
+[OK] framework skill registry id declared in manifest: react-composition-patterns
+[OK] framework skill registry id syntax valid: react-composition-patterns
+[OK] framework skill registry id length valid: react-composition-patterns
+[OK] framework skill command matches canonical token: react-composition-patterns
+[OK] framework skill registry id declared in manifest: react-native
+[OK] framework skill registry id syntax valid: react-native
+[OK] framework skill registry id length valid: react-native
+[OK] framework skill registry id declared in manifest: react-native-best-practices
+[OK] framework skill registry id syntax valid: react-native-best-practices
+[OK] framework skill registry id length valid: react-native-best-practices
+[OK] framework skill command matches canonical token: react-native-best-practices
+[OK] framework skill registry id declared in manifest: refactor
+[OK] framework skill registry id syntax valid: refactor
+[OK] framework skill registry id length valid: refactor
+[OK] framework skill command matches canonical token: refactor
+[OK] framework skill registry id declared in manifest: refine-prompt
+[OK] framework skill registry id syntax valid: refine-prompt
+[OK] framework skill registry id length valid: refine-prompt
+[OK] framework skill command matches canonical token: refine-prompt
+[OK] framework skill registry id declared in manifest: repo-hygiene-cleanup
+[OK] framework skill registry id syntax valid: repo-hygiene-cleanup
+[OK] framework skill registry id length valid: repo-hygiene-cleanup
+[OK] framework skill command matches canonical token: repo-hygiene-cleanup
+[OK] framework skill registry id declared in manifest: resolve-pr-comments
+[OK] framework skill registry id syntax valid: resolve-pr-comments
+[OK] framework skill registry id length valid: resolve-pr-comments
+[OK] framework skill command matches canonical token: resolve-pr-comments
+[OK] framework skill registry id declared in manifest: rust
+[OK] framework skill registry id syntax valid: rust
+[OK] framework skill registry id length valid: rust
+[OK] framework skill registry id declared in manifest: spec-to-implementation
+[OK] framework skill registry id syntax valid: spec-to-implementation
+[OK] framework skill registry id length valid: spec-to-implementation
+[OK] framework skill command matches canonical token: spec-to-implementation
+[OK] framework skill registry id declared in manifest: swift-cli-interface
+[OK] framework skill registry id syntax valid: swift-cli-interface
+[OK] framework skill registry id length valid: swift-cli-interface
+[OK] framework skill command matches canonical token: swift-cli-interface
+[OK] framework skill registry id declared in manifest: swift-contributor-guide
+[OK] framework skill registry id syntax valid: swift-contributor-guide
+[OK] framework skill registry id length valid: swift-contributor-guide
+[OK] framework skill command matches canonical token: swift-contributor-guide
+[OK] framework skill registry id declared in manifest: swift-daemon-service
+[OK] framework skill registry id syntax valid: swift-daemon-service
+[OK] framework skill registry id length valid: swift-daemon-service
+[OK] framework skill command matches canonical token: swift-daemon-service
+[OK] framework skill registry id declared in manifest: swift-data-layer
+[OK] framework skill registry id syntax valid: swift-data-layer
+[OK] framework skill registry id length valid: swift-data-layer
+[OK] framework skill command matches canonical token: swift-data-layer
+[OK] framework skill registry id declared in manifest: swift-macos-app
+[OK] framework skill registry id syntax valid: swift-macos-app
+[OK] framework skill registry id length valid: swift-macos-app
+[OK] framework skill registry id declared in manifest: swift-scaffold-package
+[OK] framework skill registry id syntax valid: swift-scaffold-package
+[OK] framework skill registry id length valid: swift-scaffold-package
+[OK] framework skill command matches canonical token: swift-scaffold-package
+[OK] framework skill registry id declared in manifest: swift-test-harness
+[OK] framework skill registry id syntax valid: swift-test-harness
+[OK] framework skill registry id length valid: swift-test-harness
+[OK] framework skill command matches canonical token: swift-test-harness
+[OK] framework skill registry id declared in manifest: synthesize-research
+[OK] framework skill registry id syntax valid: synthesize-research
+[OK] framework skill registry id length valid: synthesize-research
+[OK] framework skill command matches canonical token: synthesize-research
+[OK] framework skill registry id declared in manifest: triage-ci-failure
+[OK] framework skill registry id syntax valid: triage-ci-failure
+[OK] framework skill registry id length valid: triage-ci-failure
+[OK] framework skill command matches canonical token: triage-ci-failure
+[OK] framework skill registry id declared in manifest: turborepo-taskgraph
+[OK] framework skill registry id syntax valid: turborepo-taskgraph
+[OK] framework skill registry id length valid: turborepo-taskgraph
+[OK] framework skill command matches canonical token: turborepo-taskgraph
+[OK] framework skill registry id declared in manifest: vercel
+[OK] framework skill registry id syntax valid: vercel
+[OK] framework skill registry id length valid: vercel
+[OK] framework skill registry id declared in manifest: vercel-deploy
+[OK] framework skill registry id syntax valid: vercel-deploy
+[OK] framework skill registry id length valid: vercel-deploy
+[OK] framework skill command matches canonical token: vercel-deploy
+[OK] framework skill manifest id declared in registry: synthesize-research
+[OK] framework skill manifest id declared in registry: refine-prompt
+[OK] framework skill manifest id declared in registry: refactor
+[OK] framework skill manifest id declared in registry: create-skill
+[OK] framework skill manifest id declared in registry: audit-migration
+[OK] framework skill manifest id declared in registry: audit-subsystem-health
+[OK] framework skill manifest id declared in registry: audit-cross-subsystem-coherence
+[OK] framework skill manifest id declared in registry: audit-freshness-and-supersession
+[OK] framework skill manifest id declared in registry: audit-documentation-standards
+[OK] framework skill manifest id declared in registry: audit-domain-architecture
+[OK] framework skill manifest id declared in registry: audit-surface-architecture
+[OK] framework skill manifest id declared in registry: audit-architecture-readiness
+[OK] framework skill manifest id declared in registry: audit-charter
+[OK] framework skill manifest id declared in registry: audit-observability-coverage
+[OK] framework skill manifest id declared in registry: audit-security-compliance
+[OK] framework skill manifest id declared in registry: audit-data-governance
+[OK] framework skill manifest id declared in registry: audit-test-quality
+[OK] framework skill manifest id declared in registry: audit-operational-readiness
+[OK] framework skill manifest id declared in registry: audit-release-readiness
+[OK] framework skill manifest id declared in registry: audit-api-contract
+[OK] framework skill manifest id declared in registry: audit-ci-latency
+[OK] framework skill manifest id declared in registry: audit-ui
+[OK] framework skill manifest id declared in registry: python-api
+[OK] framework skill manifest id declared in registry: swift-macos-app
+[OK] framework skill manifest id declared in registry: python-scaffold-package
+[OK] framework skill manifest id declared in registry: python-contract-first-api
+[OK] framework skill manifest id declared in registry: python-test-harness
+[OK] framework skill manifest id declared in registry: python-dev-toolchain
+[OK] framework skill manifest id declared in registry: python-infra-manifest
+[OK] framework skill manifest id declared in registry: python-contributor-guide
+[OK] framework skill manifest id declared in registry: swift-scaffold-package
+[OK] framework skill manifest id declared in registry: swift-data-layer
+[OK] framework skill manifest id declared in registry: swift-cli-interface
+[OK] framework skill manifest id declared in registry: swift-daemon-service
+[OK] framework skill manifest id declared in registry: swift-test-harness
+[OK] framework skill manifest id declared in registry: swift-contributor-guide
+[OK] framework skill manifest id declared in registry: react
+[OK] framework skill manifest id declared in registry: react-native
+[OK] framework skill manifest id declared in registry: postgres
+[OK] framework skill manifest id declared in registry: rust
+[OK] framework skill manifest id declared in registry: audit-rust-tool-architecture
+[OK] framework skill manifest id declared in registry: plan-rust-tool-migration
+[OK] framework skill manifest id declared in registry: react-composition-patterns
+[OK] framework skill manifest id declared in registry: react-best-practices
+[OK] framework skill manifest id declared in registry: react-native-best-practices
+[OK] framework skill manifest id declared in registry: vercel-deploy
+[OK] framework skill manifest id declared in registry: deploy-status
+[OK] framework skill manifest id declared in registry: vercel
+[OK] framework skill manifest id declared in registry: provider-vercel-delivery
+[OK] framework skill manifest id declared in registry: provider-github-gates
+[OK] framework skill manifest id declared in registry: provider-nextjs-astro-runtime
+[OK] framework skill manifest id declared in registry: provider-preview-smoke
+[OK] framework skill manifest id declared in registry: turborepo-taskgraph
+[OK] framework skill manifest id declared in registry: resolve-pr-comments
+[OK] framework skill manifest id declared in registry: closeout-change
+[OK] framework skill manifest id declared in registry: repo-hygiene-cleanup
+[OK] framework skill manifest id declared in registry: closeout-worktree
+[OK] framework skill manifest id declared in registry: closeout-pr
+[OK] framework skill manifest id declared in registry: triage-ci-failure
+[OK] framework skill manifest id declared in registry: ci-gate-triage
+[OK] framework skill manifest id declared in registry: incident-response
+[OK] framework skill manifest id declared in registry: postgres-best-practices
+[OK] framework skill manifest id declared in registry: spec-to-implementation
+[OK] framework skill manifest id declared in registry: plan-charter-alignment
+[OK] framework skill manifest id declared in registry: build-mcp-server
+[OK] instance skill ids unique
+[OK] native command ids collision-free across framework and instance
+[OK] native skill ids collision-free across framework and instance
+[OK] routing schema version valid
+[OK] artifact map schema version valid
+[OK] generation lock schema version valid
+[OK] capability routing generator version contract declared
+[OK] routing generator_version current
+[OK] artifact map generator_version current
+[OK] generation lock generator_version current
+[OK] routing generation_id declared
+[OK] artifact map generation_id matches routing
+[OK] generation lock generation_id matches routing
+[OK] routing publication_status valid
+[OK] routing publication status matches clean upstream state
+[OK] routing publication receipt path declared
+[OK] routing publication receipt file exists
+[OK] routing publication receipt parses as YAML
+[OK] routing publication receipt schema version valid
+[OK] routing publication receipt family valid
+[OK] routing publication receipt generation id matches
+[OK] routing publication receipt result matches
+[OK] routing publication receipt contract refs declared
+[OK] generation lock receipt path matches routing
+[OK] generation lock receipt hash current
+[OK] generation lock publication status matches routing
+[OK] routing root manifest hash current
+[OK] generation lock root manifest hash current
+[OK] routing commands manifest hash current
+[OK] generation lock commands manifest hash current
+[OK] routing skills manifest hash current
+[OK] generation lock skills manifest hash current
+[OK] routing skills registry hash current
+[OK] generation lock skills registry hash current
+[OK] routing services manifest hash current
+[OK] generation lock services manifest hash current
+[OK] routing tools manifest hash current
+[OK] generation lock tools manifest hash current
+[OK] routing instance commands manifest hash current
+[OK] generation lock instance commands manifest hash current
+[OK] routing instance skills manifest hash current
+[OK] generation lock instance skills manifest hash current
+[OK] routing locality scopes hash current
+[OK] generation lock locality scopes hash current
+[OK] routing locality lock hash current
+[OK] generation lock locality lock hash current
+[OK] routing locality generation id current
+[OK] generation lock locality generation id current
+[OK] routing extensions catalog hash current
+[OK] generation lock extensions catalog hash current
+[OK] routing extensions lock hash current
+[OK] generation lock extensions lock hash current
+[OK] routing extensions generation id current
+[OK] generation lock extensions generation id current
+[OK] routing selector schema version valid
+[OK] routing host projection mode valid
+[OK] artifact map count matches routing candidates
+[OK] resolution order count matches routing candidates
+[OK] routing effective ids unique
+[OK] routing artifact map ids unique
+[OK] routing effective ids derive from surface-specific source identities
+[OK] host projection names unique per host and kind
+[OK] active command display names are concise in effective routing
+[OK] active non-command display names are concise in effective routing
+[OK] artifact map ids match published routing candidates
+[OK] resolution order matches routing candidate order
+[OK] generation lock published_files set valid
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/generated/effective/extensions/catalog.effective.yml
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/alignment-check.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/audit-skills-system-expansion.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/context-budget.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/create-workflow.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/discover-expand.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/discover-explain.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/discover-resolve.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/discover-start.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/evaluate-workflow.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/export-harness.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/init.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/process-incoming-intake.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/provision-host-tools.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/query-ask.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/query-explain.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/query-retrieve.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/recover.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/refactor.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/snapshot-build.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/snapshot-diff.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/studio.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/update-workflow.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/validate-frontmatter.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/validate-platform-interop.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/validate-session-policy.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/commands/watch-poll.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/execution/agent/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/interfaces/agent-platform/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/capability-bind/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/contingency/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/operations/cost/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/critic/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/interfaces/filesystem-discovery/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/interfaces/filesystem-snapshot/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/interfaces/filesystem-watch/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/execution/flow/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/governance/guard/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/plan/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/playbook/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/modeling/prompt/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/retrieval/query/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/replan/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/scheduler/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/services/planning/spec/SERVICE.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-api-contract/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-architecture-readiness/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-charter/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-ci-latency/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-cross-subsystem-coherence/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-data-governance/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-documentation-standards/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-domain-architecture/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-freshness-and-supersession/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-migration/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-observability-coverage/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-operational-readiness/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-release-readiness/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/rust/audit-tool-architecture/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-security-compliance/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-subsystem-health/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-surface-architecture/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-test-quality/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/audit/audit-ui/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/meta/build-mcp-server/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/ci-gate-triage/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/closeout-change/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/closeout-pr/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/meta/create-skill/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/deploy-status/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/operations/incident-response/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/synthesis/plan-charter-alignment/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/rust/plan-tool-migration/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/postgres/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/postgres/best-practices/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/provider-github-gates/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/provider-nextjs-astro-runtime/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/provider-preview-smoke/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/provider-vercel-delivery/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/contract-first-api/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/contributor-guide/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/dev-toolchain/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/infra-manifest/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/scaffold-package/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/python-api/test-harness/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/react/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/react/best-practices/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/react/composition-patterns/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/react-native/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/react-native/best-practices/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/refactor/refactor/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/synthesis/refine-prompt/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/resolve-pr-comments/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/rust/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/synthesis/spec-to-implementation/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/cli-interface/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/contributor-guide/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/daemon-service/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/data-layer/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/scaffold-package/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/foundations/swift-macos-app/test-harness/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/synthesis/synthesize-research/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/remediation/triage-ci-failure/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/turborepo-taskgraph/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/vercel/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/skills/platforms/vercel/deploy/SKILL.md
+[OK] capability source digest current for .octon/framework/capabilities/runtime/tools/manifest.yml
+[OK] capability source digest current for .octon/framework/capabilities/runtime/tools/manifest.yml
+[OK] capability source digest current for .octon/framework/capabilities/runtime/tools/manifest.yml
+[OK] capability source digest current for .octon/framework/capabilities/runtime/tools/manifest.yml
+[OK] capability source digest current for .octon/framework/capabilities/runtime/tools/manifest.yml
+[OK] capability source digest current for .octon/framework/capabilities/runtime/tools/manifest.yml
+[OK] capability source digest current for .octon/instance/capabilities/runtime/commands/repo-hygiene/README.md
+[OK] routing candidate field present for query: .routing_candidates[]?.host_adapters
+[OK] routing candidate field present for query: .routing_candidates[]?.selectors
+[OK] routing candidate field present for query: .routing_candidates[]?.fingerprints
+[OK] routing candidate field present for query: .routing_candidates[]?.scope_relevance
+[OK] routing candidate field present for query: .routing_candidates[]?.precedence_tier
+[OK] routing candidate field present for query: .routing_candidates[]?.stable_sort_key
+[OK] routing scope relevance limited to active scopes
+[OK] capability publication avoids raw inputs/** paths
+[OK] capability publication family declares invalidation conditions
+[OK] generation lock required inputs include effective upstream locks
+Validation summary: errors=0 warnings=0

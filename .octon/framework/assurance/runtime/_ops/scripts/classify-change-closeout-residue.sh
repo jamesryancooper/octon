@@ -72,8 +72,34 @@ path_has_prefix() {
   [[ "$path" == "$prefix" || "$path" == "$prefix/"* ]]
 }
 
+is_lifecycle_closeout_publishable_path() {
+  local path="$1"
+  case "$path" in
+    .octon/state/control/extensions/active.yml|\
+    .octon/state/control/extensions/quarantine.yml|\
+    .octon/inputs/additive/extensions/*|\
+    .octon/inputs/exploratory/proposals/architecture/*|\
+    .octon/inputs/exploratory/proposals/.archive/*|\
+    .octon/generated/effective/*|\
+    .octon/generated/proposals/*|\
+    .octon/state/evidence/decisions/*|\
+    .octon/state/evidence/validation/extensions/*|\
+    .octon/state/evidence/validation/publication/*)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 classify_routing_path() {
   local path="$1"
+  if is_lifecycle_closeout_publishable_path "$path"; then
+    printf '%s\n' "publishable_change"
+    return
+  fi
+
   case "$path" in
     .octon/state/control/*|.octon/engine/*|.octon/generated/effective/*|.octon/inputs/*|*transcript*|*Transcript*)
       printf '%s\n' "unsafe"

@@ -1,0 +1,39 @@
+schema_version: repo-hygiene-cleanup-run-log-v1
+run_id: closeout-worktree-20260604T125500Z
+skill_id: repo-hygiene-cleanup
+triggering_wrapper: closeout-worktree
+cleanup_outcome: delegated-cleaned
+authorization:
+  authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z/cleanup-authorization.json
+  authorization_id: repo-hygiene-cleanup-3fb75fed13434ac6
+  authorization_result: approved
+  authorized_path_count: 179
+cleanup_scope:
+  residue_classes:
+    - local_run_residue
+    - stale_unreferenced_publication_attempt
+  cleanup_candidates: 179
+  protected_referenced: 46
+  manual_review_before_cleanup: 62
+  manual_review_after_cleanup: 63
+digests:
+  pre_cleanup:
+    git_status_digest: sha256:8efb9e0f9b0d47226ff748b9336c45f60d75cb35b5f0c1376f1ea34c0e4557dd
+    classification_digest: sha256:d04254d9ad955d857a7edcdc6695fc9f9880a2198591470c172e83521c4ecbb9
+    cleanup_path_set_digest: sha256:bced81dac6ef4d1f7842f3a806c54597907a85de22b9453c1ebe2ac45452f3a8
+  post_cleanup:
+    git_status_digest: sha256:c40596e865cb183e889d80e55941902d9299f60f7d1d4f3d989d3460ef81de08
+    classification_digest: sha256:b196d9ae684697d23147fc002ce537e038da32f6198f16d8ce6afdb4a2b29962
+    cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+local_evidence_refs:
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z/dry-run.log
+    sha256: 5e47c7b9a2d6cd5eb41eea24edc75dabcb3587be8e74e38cc81e71a7d11f82b9
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z/authorize.log
+    sha256: 3e9ea9da171bb75c97295cd3d74f8265da22bfaa062437acf135d30d56291a3d
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z/cleanup.log
+    sha256: 6c61e37addfd299e36e4780babc4fcb672493f778521170ffc6725b299ad0b6f
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z/post-cleanup-summary.log
+    sha256: 7aa91c9fda16589164731451162e29d1a6b8fb0cbcd128380f7b5ddec1a6ba28
+wrapper_authority:
+  direct_cleanup_by_wrapper: false
+  cleanup_routed_through_repo_hygiene_cleanup: true

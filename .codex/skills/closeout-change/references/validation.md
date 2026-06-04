@@ -47,3 +47,18 @@ the Change Closeout State Machine. That evidence must cite the initial
 inventory, residue classification, phase exits, cleanup decisions, cleanup
 safety class, final verification, and hosted landing or branch cleanup refs
 when applicable.
+
+Concise closeout reporting also proves:
+
+- `structured-receipt.yml`, `closeout-projection.yml`, optional
+  `publication-summary.yml`, and `expanded-report-request.yml` cite canonical
+  receipts and retained evidence by source refs and source digests;
+- `closeout-projection.yml` declares `model_visible_token_estimate <= 4000`;
+- compact artifacts validate with
+  `.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`;
+- missing, stale, digest-mismatched, or authority-conflicting compact artifacts
+  fail closed instead of replacing the Change receipt or raw evidence;
+- expanded reports are reconstructed on demand from
+  `expanded-report-request.yml` after digest validation; and
+- proposal inputs and generated/read-model outputs are not treated as
+  runtime, policy, support, closure, rollback, or authorization authority.

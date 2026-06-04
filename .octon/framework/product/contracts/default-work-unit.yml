@@ -97,10 +97,11 @@ routine_closeout_autonomy:
     generated_run_health_projections: "generate-run-health-read-model.sh --all-runs generator/pruning evidence"
     stale_detached_git_worktrees: "git worktree cleanup policy with explicit safety proof: detached, clean, unreferenced, non-active, and not current"
     tracked_files: "retain or route through a singular Change; never repo-hygiene cleanup"
-    proposal_inputs: "retain or archive through proposal lifecycle; never cleanup authority"
+    proposal_inputs: "retain or archive through proposal lifecycle; never cleanup authority; completed proposal-program lifecycle closeout may publish lifecycle-owned input/archive moves as non-authoritative Change material when child authority is preserved"
     durable_evidence: "retain unless a higher policy supplies explicit retention/retirement authority"
     active_control_state: "retain or escalate"
-    generated_authority: "regenerate through owning publisher; never generic cleanup"
+    generated_authority: "regenerate through owning publisher; never generic cleanup; completed proposal-program lifecycle closeout may publish regenerated effective outputs with publication freshness evidence"
+    completed_proposal_program_lifecycle_surfaces: "wrapper-safe direct-main candidate only when lifecycle-owned inputs, generated effective outputs, proposal registry artifacts, publication evidence, and tracked extension control state are separated from local execution run residue and prove child-authority preservation"
     ignored_or_user_owned_paths: "retain or escalate"
     ambiguous_residue: "retain or block with candidate-keyed evidence"
 deprecated_terms:

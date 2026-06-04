@@ -1,0 +1,90 @@
+schema_version: "octon-proposal-artifact-index-spine-contract-v1"
+contract_id: "proposal-artifact-index-spine"
+owner_extension: "octon-proposal-lifecycle"
+status: "active"
+purpose: >-
+  Define digest-bound proposal packet compact artifacts for proposal/program
+  navigation without making proposal inputs or generated read models authority.
+
+artifacts:
+  - artifact_id: "proposal-artifact-index"
+    filename: "proposal-artifact-index.yml"
+    schema_version: "octon-proposal-artifact-index-v1"
+    generated_path_pattern: ".octon/generated/proposals/artifacts/<proposal-kind>/<proposal-id>/proposal-artifact-index.yml"
+    producer: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    required_fields:
+      - "source_refs"
+      - "source_digests"
+      - "artifacts"
+      - "reader_preferences"
+      - "authority_boundary"
+      - "failure_behavior"
+  - artifact_id: "proposal-program-spine"
+    filename: "proposal-program-spine.yml"
+    schema_version: "octon-proposal-program-spine-v1"
+    generated_path_pattern: ".octon/generated/proposals/artifacts/<proposal-kind>/<proposal-id>/proposal-program-spine.yml"
+    producer: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    required_fields:
+      - "source_refs"
+      - "source_digests"
+      - "status"
+      - "promotion_targets"
+      - "gate_states"
+      - "receipt_digests"
+      - "authority_boundary"
+      - "failure_behavior"
+  - artifact_id: "child-handoff-capsule"
+    filename: "child-handoff-capsule.yml"
+    schema_version: "octon-child-handoff-capsule-v1"
+    generated_path_pattern: ".octon/generated/proposals/artifacts/<proposal-kind>/<proposal-id>/child-handoff-capsule.yml"
+    producer: ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh"
+    validator: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-artifact-index-spine.sh"
+    required_when: "proposal.yml#parent_program is present"
+    required_fields:
+      - "source_refs"
+      - "source_digests"
+      - "compact_context_refs"
+      - "context_hash"
+      - "write_scope_map"
+      - "validator_matrix"
+      - "authority_boundary"
+      - "failure_behavior"
+
+reader_preferences:
+  planner:
+    - "Read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies."
+    - "Treat full packet files as handle-only unless a digest, scope, or validator dispute requires raw reads."
+  executor:
+    - "Read current-stage slice entries before optional references."
+    - "Use child-handoff-capsule.yml to bind child scope, write scope, and validator matrix."
+  recovery:
+    - "Read child-handoff-capsule.yml before parent summaries or stale packet history."
+    - "Fail closed on source digest drift or child registry digest mismatch."
+  closeout:
+    - "Verify compact artifact digests before dereferencing raw proposal evidence."
+    - "Never use generated proposal registry output as a replacement for proposal.yml or the subtype manifest."
+
+authority_boundary:
+  replaces_source_evidence: false
+  authorizes_execution: false
+  proposal_input_authority: "non-authoritative"
+  generated_output_authority: "derived-only"
+  raw_evidence_retained: true
+  generated_registry_replaces_manifest: false
+
+failure_behavior:
+  - "fail-closed-on-source-missing"
+  - "fail-closed-on-source-digest-mismatch"
+  - "fail-closed-on-stale-compact-artifact"
+  - "fail-closed-on-authority-boundary-violation"
+  - "escalate-before-reading-raw-packet-body"
+
+negative_controls:
+  - control_id: "generated-registry-cannot-replace-manifest"
+    rule: "`.octon/generated/proposals/registry.yml` may not appear as a source authority replacement for proposal.yml or the subtype manifest."
+  - control_id: "source-digest-mismatch-fails-closed"
+    rule: "Any indexed source digest mismatch invalidates the compact artifacts."
+  - control_id: "missing-child-handoff-fails-when-parent-program-present"
+    rule: "A child proposal with `parent_program` must have a generated child-handoff-capsule.yml."

@@ -11,7 +11,7 @@ children:
   dependency_gate: verification
   phase_id: phase-0
   group_id: measurement
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -36,7 +36,7 @@ children:
   dependency_gate: verification
   phase_id: phase-1
   group_id: evidence
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -60,7 +60,7 @@ children:
   dependency_gate: verification
   phase_id: phase-1
   group_id: planner-state
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -84,7 +84,7 @@ children:
   dependency_gate: verification
   phase_id: phase-3
   group_id: recovery
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -108,7 +108,7 @@ children:
   dependency_gate: verification
   phase_id: phase-3
   group_id: validation-freshness
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -132,7 +132,7 @@ children:
   dependency_gate: verification
   phase_id: phase-2
   group_id: prompt-runtime
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -144,6 +144,7 @@ children:
   - .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
   - .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
   - .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+  - .octon/framework/engine/runtime/crates/lifecycle_executor/tests/adapter.rs
   - .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
   - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
   model_route_default: high-reasoning only for architecture review; runtime capsule generation deterministic
@@ -158,7 +159,7 @@ children:
   dependency_gate: verification
   phase_id: phase-2
   group_id: context-runtime
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -183,7 +184,7 @@ children:
   dependency_gate: verification
   phase_id: phase-2
   group_id: proposal-index
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -208,7 +209,7 @@ children:
   dependency_gate: verification
   phase_id: phase-5
   group_id: repo-graph
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -235,7 +236,7 @@ children:
   dependency_gate: verification
   phase_id: phase-4
   group_id: routing-loop
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -261,7 +262,7 @@ children:
   dependency_gate: verification
   phase_id: phase-3
   group_id: receipts-output
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:
@@ -288,7 +289,7 @@ children:
   dependency_gate: verification
   phase_id: phase-5
   group_id: mature-scale
-  rollback_posture: staged-commit-or-revert-per-target
+  rollback_posture: staged-commit
   required_metadata:
   - change_profile
   source_lineage_refs:

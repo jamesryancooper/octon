@@ -3043,9 +3043,122 @@ case_classifier_accepts_linked_detached_worktree() {
     printf '%s\n' "$output" | grep -Fq "root: $linked_real"
 }
 
+write_lifecycle_publishable_report() {
+  local report="$1"
+  local include_authority="$2"
+  local receipt_suffix="lifecycle-publishable-fixture/change-receipt.json"
+  write_closeout_change_fixture "$receipt_suffix"
+
+  cat >"$report" <<YAML
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-fixture-lifecycle-publishable
+default_work_unit: Change
+observed_change_set_count: 1
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+initial_inventory_ref: evidence://worktree/initial
+residue_classification_ref: evidence://worktree/classification
+selected_candidate_id: candidate-lifecycle
+candidates:
+  - candidate_id: candidate-lifecycle
+    disposition: delegated
+    residue_routing_class: publishable_change
+    ownership: completed proposal-program lifecycle closeout material
+    route_hint: direct-main
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: revert landed lifecycle closeout commit
+    closeout_change_ref: evidence://runs/skills/closeout-change/$receipt_suffix
+YAML
+  if [[ "$include_authority" == "yes" ]]; then
+    cat >>"$report" <<'YAML'
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-program-fixture
+      program_target: .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller
+      completed_program_summary_ref: .octon/state/evidence/runs/workflows/lifecycle-proposal-program-fixture/summary.md
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - .octon/state/evidence/validation/analysis/lifecycle-fixture-review-gate.log
+        - .octon/state/evidence/validation/analysis/lifecycle-fixture-child-readiness.log
+YAML
+  fi
+  cat >>"$report" <<YAML
+    boundaries:
+      include_paths:
+        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+        - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-token-measurement-ledger/
+        - .octon/generated/effective/runtime/
+        - .octon/generated/proposals/
+        - .octon/state/control/extensions/active.yml
+        - .octon/state/evidence/validation/publication/runtime/
+      exclude_paths:
+        - .octon/state/control/execution/
+        - .octon/state/continuity/
+iterations:
+  - iteration_id: iteration-001
+    pre_inventory_ref: evidence://worktree/inventory-001
+    pre_classification_ref: evidence://worktree/classification-001
+    selected_candidate_id: candidate-lifecycle
+    include_paths:
+      - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+      - .octon/inputs/exploratory/proposals/.archive/architecture/token-efficiency-token-measurement-ledger/
+      - .octon/generated/effective/runtime/
+      - .octon/generated/proposals/
+      - .octon/state/control/extensions/active.yml
+      - .octon/state/evidence/validation/publication/runtime/
+    exclude_paths:
+      - .octon/state/control/execution/
+      - .octon/state/continuity/
+    closeout_change_ref: evidence://runs/skills/closeout-change/$receipt_suffix
+    closeout_change_outcome: closed
+    post_inventory_ref: evidence://worktree/inventory-002
+    post_classification_ref: evidence://worktree/classification-002
+    next_selection_reason: no remaining closeout-worktree candidates after re-inventory
+final_candidate_dispositions:
+  candidate-lifecycle:
+    state: closed
+    closeout_change_ref: evidence://runs/skills/closeout-change/$receipt_suffix
+retained_residue: []
+blockers: []
+final_inventory_ref: evidence://worktree/final
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 0
+  ignored: 0
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 0
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+worktree_terminal_state: git_clean_terminal
+next_route_condition: none
+YAML
+}
+
+case_lifecycle_publishable_change_with_authority_passes() {
+  local report
+  report="$(new_report)"
+  write_lifecycle_publishable_report "$report" yes
+  run_validator_with_fixtures "$report" >/dev/null
+}
+
+case_lifecycle_publishable_change_without_authority_fails() {
+  local report
+  report="$(new_report)"
+  write_lifecycle_publishable_report "$report" no
+  ! run_validator_with_fixtures "$report" >/dev/null
+}
+
 main() {
   assert_success "static closeout-worktree registration and projection pass" case_static_validator_passes
   assert_success "valid multi-candidate wrapper orchestration report passes" case_valid_multi_candidate_report_passes
+  assert_success "lifecycle publishable candidate with authority passes" case_lifecycle_publishable_change_with_authority_passes
+  assert_success "lifecycle publishable candidate without authority fails" case_lifecycle_publishable_change_without_authority_fails
   assert_success "repo-hygiene delegated cleanup report passes" case_repo_hygiene_delegated_cleanup_report_passes
   assert_success "git-clean terminal report after evidence-retention candidate passes" case_git_clean_terminal_after_evidence_retention_candidate_passes
   assert_success "disposition-complete retained residue report passes" case_disposition_complete_with_retained_residue_passes

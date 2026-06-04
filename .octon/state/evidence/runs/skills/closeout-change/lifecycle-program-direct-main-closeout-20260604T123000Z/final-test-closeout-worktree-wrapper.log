@@ -1,0 +1,56 @@
+PASS: static closeout-worktree registration and projection pass
+PASS: valid multi-candidate wrapper orchestration report passes
+PASS: lifecycle publishable candidate with authority passes
+PASS: lifecycle publishable candidate without authority fails
+PASS: repo-hygiene delegated cleanup report passes
+PASS: git-clean terminal report after evidence-retention candidate passes
+PASS: disposition-complete retained residue report passes
+PASS: git-clean terminal with retained evidence fails
+PASS: retained terminal report missing worktree terminal state fails
+PASS: repo-hygiene delegated retained report passes
+PASS: unresolved repo-hygiene residue blocks git-clean terminal state
+PASS: repo-hygiene cleanup action from wrapper fails
+PASS: repo-hygiene cleanup ref must resolve
+PASS: first candidate closes and second candidate blocks with evidence
+PASS: multiple change sets batched into one candidate fail
+PASS: selected candidate without explicit boundaries fails
+PASS: selected candidate without closeout-change delegation fails
+PASS: selected candidate without delegation or blocker fails
+PASS: selected candidate blocked only by multiple candidates fails
+PASS: delegated candidate missing post-inventory fails
+PASS: closed candidate missing closeout-change ref fails
+PASS: terminal report with unprocessed candidate fails
+PASS: direct material action from wrapper fails
+PASS: duplicate candidate path fails
+PASS: retained candidate without retained residue evidence fails
+PASS: ambiguous candidate without blocker evidence fails
+PASS: unresolved candidate with terminal next route fails
+PASS: synthetic closeout-change ref for closed candidate fails
+PASS: closed candidate with continued closeout-change receipt fails
+PASS: closed candidate with cleaned deferred cleanup fails
+PASS: git-clean terminal with landed deferred cleanup fails
+PASS: closed stage-only receipt fails
+PASS: closed branch-no-pr receipt missing landing authorization fails
+PASS: closed branch-no-pr receipt missing exact-SHA hosted check refs fails
+PASS: nonterminal report without unresolved condition fails
+PASS: nonterminal report with unknown-candidate blocker fails
+PASS: retained terminal without retained candidate evidence fails
+PASS: retained ordinary untracked residue terminal claim fails
+PASS: raw state cannot be publishable closeout evidence
+PASS: engine path cannot be publishable closeout evidence
+PASS: recursive final evidence publication loop fails
+PASS: closeout-worktree run log cannot be publishable evidence
+PASS: prior candidate omitted without reconciliation fails
+PASS: ignored residue without foreign retained evidence fails
+PASS: classifier detects staged unstaged and untracked residue
+PASS: classifier detects routing classes
+PASS: classifier counts ignored unsafe routing classes
+PASS: replay multi-candidate loop validates real re-inventory
+PASS: replay missing post-closeout inventory fails
+PASS: replay terminal report with unprocessed candidate fails
+PASS: replay synthetic closeout-change ref fails
+PASS: replay ignored residue without retained coverage fails
+PASS: classifier accepts linked detached worktree roots
+
+Passed: 53
+Failed: 0

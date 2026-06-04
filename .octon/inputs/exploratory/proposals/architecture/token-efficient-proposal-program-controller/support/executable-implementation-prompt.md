@@ -33,6 +33,7 @@ Use only the promotion targets declared in the selected parent/child manifests. 
 - `.octon/framework/capabilities/runtime/skills/remediation/closeout-change/`
 - `.octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/`
 - `.octon/framework/cognition/_meta/architecture/`
+- `.octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs`
 - `.octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs`
 - `.octon/framework/engine/runtime/crates/lifecycle_executor/src/`
 - `.octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs`
@@ -46,6 +47,8 @@ Use only the promotion targets declared in the selected parent/child manifests. 
 - `.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/`
 - `.octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml`
 - `.octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/`
+- `.octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md`
+- `.octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md`
 - `.octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/`
 - `.octon/instance/governance/policies/context-packing.yml`
 - `.octon/instance/governance/policies/model-routing.yml`

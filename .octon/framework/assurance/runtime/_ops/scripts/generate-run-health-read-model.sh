@@ -36,6 +36,7 @@ VALIDATOR_REF = ".octon/framework/assurance/runtime/_ops/scripts/validate-run-he
 ROUTE_BUNDLE_REF = ".octon/generated/effective/runtime/route-bundle.yml"
 PACK_ROUTES_REF = ".octon/generated/effective/capabilities/pack-routes.effective.yml"
 SUPPORT_RECONCILIATION_REF = ".octon/generated/effective/governance/support-envelope-reconciliation.yml"
+COMPACT_MANIFEST_NAME = "run-health-compact-manifest.yml"
 
 TERMINAL_OR_CLOSEOUT_STATES = {
     "closed",
@@ -459,7 +460,7 @@ def load_authority(refs, diagnostics):
     elif route_outcome in ("deny", "denied", "deny_route", "deny-route", "DENY".lower()):
         status = "denied"
     elif open_approvals:
-        status = "approval-required"
+        status = "authority-ambiguity"
     elif route_outcome in ("allow", "allowed") or active_grants:
         status = "authorized"
     elif route_outcome in ("stage_only", "stage-only", "escalate", "escalation"):
@@ -652,8 +653,8 @@ def derive_health(lifecycle, support, authorization, evidence, rollback, interve
         status = "stale"
     elif support["route_status"] in ("deny", "unsupported") or support["pack_status"] in ("deny", "unsupported"):
         status = "unsupported"
-    elif authorization["status"] == "approval-required":
-        status = "approval-required"
+    elif authorization["status"] == "authority-ambiguity":
+        status = "authority-ambiguity"
     elif "runtime-state-journal-head-mismatch" in diag_codes or "runtime-state-journal-sequence-mismatch" in diag_codes or "runtime-state-drift" in diag_codes:
         status = "review-required"
     elif authorization["status"] == "denied" or state in ("failed", "denied", "staged"):
@@ -704,7 +705,7 @@ def derive_health(lifecycle, support, authorization, evidence, rollback, interve
         "stale": "Run-health sources are stale relative to their digest-bound freshness checks.",
         "unsupported": "Run support tuple or requested pack route is unsupported or denied.",
         "revoked": "A revocation or revoked lifecycle state applies to this run.",
-        "approval-required": "Run is waiting on a canonical approval grant.",
+        "authority-ambiguity": "Authorization state is incomplete, pending, or ambiguous.",
         "review-required": "Run inputs disagree or require human review before relying on this projection.",
         "evidence-incomplete": "Required retained run evidence is incomplete for the current lifecycle posture.",
         "rollback-required": "Rollback posture is required or unavailable before the run can safely progress.",
@@ -718,7 +719,7 @@ def derive_health(lifecycle, support, authorization, evidence, rollback, interve
         "stale": "regenerate from current canonical sources",
         "unsupported": "reconcile support target, route bundle, and pack-route posture",
         "revoked": "stop execution and follow rollback or closeout posture",
-        "approval-required": "resolve approval request in canonical control roots",
+        "authority-ambiguity": "inspect or resolve canonical authority refs",
         "review-required": "review diagnostics and repair source disagreement",
         "evidence-incomplete": "complete missing retained evidence refs",
         "rollback-required": "repair or record rollback posture",
@@ -1096,7 +1097,108 @@ def run_ids_from_repo():
     return sorted(path.name for path in root.iterdir() if path.is_dir() and (path / "run-manifest.yml").is_file())
 
 
-def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned_paths, no_evidence):
+def compact_source_digest(ref):
+    path = resolve_ref(ref)
+    digest = sha256_file(path) if path and path.is_file() else None
+    return {
+        "ref": ref,
+        "sha256": digest or "missing",
+        "status": "present" if digest else "missing",
+    }
+
+
+def write_compact_manifest(output_root, evidence_root, generated_at, outputs):
+    manifest_path = output_root / COMPACT_MANIFEST_NAME
+    manifest_ref = repo_ref(manifest_path)
+    index_ref = repo_ref(output_root / "index.yml")
+    health_records = []
+    failing_slices = []
+    status_counts = {}
+
+    for item in sorted(outputs, key=lambda value: value["run_id"]):
+        health_ref = item["health_ref"]
+        health_path = resolve_ref(health_ref)
+        health = load_yaml(health_path)
+        status = str(item.get("status") or health.get("health", {}).get("status") or "unknown")
+        status_counts[status] = status_counts.get(status, 0) + 1
+        digest = sha256_file(health_path) if health_path and health_path.is_file() else None
+        health_records.append(
+            {
+                "run_id": item["run_id"],
+                "status": status,
+                "health_ref": health_ref,
+                "health_sha256": digest or "missing",
+            }
+        )
+        if status not in ("healthy", "closure-ready"):
+            diagnostic_codes = [
+                str(diag.get("code"))
+                for diag in health.get("diagnostics", []) or []
+                if isinstance(diag, dict) and diag.get("code")
+            ]
+            failing_slices.append(
+                {
+                    "slice_id": f"{item['run_id']}:{status}",
+                    "run_id": item["run_id"],
+                    "status": status,
+                    "source_ref": health_ref,
+                    "source_sha256": digest or "missing",
+                    "diagnostic_codes": sorted(set(diagnostic_codes)),
+                }
+            )
+
+    source_refs = unique_path_list([index_ref] + [item["health_ref"] for item in outputs])
+    source_digests = [compact_source_digest(ref) for ref in source_refs]
+    write_yaml(
+        manifest_path,
+        {
+            "schema_version": "run-health-compact-manifest-v1",
+            "generated_at": generated_at,
+            "producer": {
+                "id": "generate-run-health-read-model.sh",
+                "validator_ref": VALIDATOR_REF,
+            },
+            "consumer": {
+                "preferred": "run-health-compact-manifest",
+                "allowed_consumers": ["operators", "validators"],
+                "forbidden_consumers": ["runtime", "policy", "authority", "support-claim-evaluation", "state-reconstruction"],
+            },
+            "authority": {
+                "classification": "generated_read_model_non_authoritative",
+                "may_authorize": False,
+                "may_widen_support": False,
+            },
+            "source_refs": source_refs,
+            "source_digests": source_digests,
+            "freshness": {
+                "mode": "digest-bound",
+                "status": "fresh" if all(item["status"] == "present" for item in source_digests) else "unknown",
+                "source_digest_algorithm": "sha256",
+                "checked_at": generated_at,
+            },
+            "validation": {
+                "health_count": len(health_records),
+                "status_counts": dict(sorted(status_counts.items())),
+                "failing_slice_count": len(failing_slices),
+                "failing_slice_refs": [item["source_ref"] for item in failing_slices],
+            },
+            "run_health": health_records,
+            "failing_slices": failing_slices,
+            "evidence_refs": [repo_ref(evidence_root / "generation.yml")],
+            "failure_behavior": {
+                "fail_closed_on": [
+                    "missing-source",
+                    "source-digest-mismatch",
+                    "stale-freshness",
+                    "authority-boundary-violation",
+                ]
+            },
+        },
+    )
+    return manifest_ref
+
+
+def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned_paths, no_evidence, compact_manifest_ref=None):
     if no_evidence:
         return
     records = []
@@ -1104,6 +1206,7 @@ def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned
         health_ref = item["health_ref"]
         digest = sha256_file(resolve_ref(health_ref) or Path(health_ref))
         records.append({**item, "health_digest": digest})
+    compact_digest = sha256_file(resolve_ref(compact_manifest_ref)) if compact_manifest_ref else None
     write_yaml(
         evidence_root / "generation.yml",
         {
@@ -1119,6 +1222,8 @@ def write_evidence(evidence_root, generated_at, outputs, published_paths, pruned
             },
             "published_paths": unique_path_list(published_paths),
             "pruned_paths": unique_path_list(pruned_paths),
+            "compact_manifest_ref": compact_manifest_ref,
+            "compact_manifest_digest": compact_digest,
             "outputs": records,
         },
     )
@@ -1154,7 +1259,10 @@ def main():
         published_paths = [item["health_ref"] for item in results]
         if index_ref:
             published_paths.append(index_ref)
-        write_evidence(evidence_root, generated_at, results, published_paths, [], args.no_evidence)
+        compact_ref = write_compact_manifest(output_root, evidence_root, generated_at, results)
+        if compact_ref:
+            published_paths.append(compact_ref)
+        write_evidence(evidence_root, generated_at, results, published_paths, [], args.no_evidence, compact_ref)
         print(f"Generated {len(results)} fixture run-health read models under {output_root}")
         return
 
@@ -1193,7 +1301,10 @@ def main():
     published_paths = [item["health_ref"] for item in outputs]
     if index_ref:
         published_paths.append(index_ref)
-    write_evidence(evidence_root, generated_at, outputs, published_paths, pruned, args.no_evidence)
+    compact_ref = write_compact_manifest(output_root, evidence_root, generated_at, outputs)
+    if compact_ref:
+        published_paths.append(compact_ref)
+    write_evidence(evidence_root, generated_at, outputs, published_paths, pruned, args.no_evidence, compact_ref)
     if pruned:
         print(f"Pruned {len(pruned)} stale run-health read models under {output_root}")
     print(f"Generated {len(outputs)} run-health read models under {output_root}")

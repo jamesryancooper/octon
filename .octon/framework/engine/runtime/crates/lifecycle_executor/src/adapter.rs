@@ -2,11 +2,13 @@ use crate::authorization;
 use crate::auto;
 use crate::claude;
 use crate::codex;
+use crate::context_pack;
 use crate::errors::{LifecycleErrorClass, LifecycleExecutionError};
 use crate::mock;
 use crate::observer;
 use crate::request::LifecycleRouteExecutionRequest;
 use crate::result::LifecycleRouteExecutionResult;
+use crate::token_budget;
 use crate::workflow_leaf;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -63,8 +65,7 @@ impl LifecycleRouteExecutor for DefaultLifecycleRouteExecutor {
         fs::create_dir_all(&request.evidence_root)?;
         if let Err(error) = observer::validate_request_paths(&request) {
             let result = failure_result_without_observation(&request, error)?;
-            write_result(&request.evidence_root, &request.route.route_id, &result)?;
-            return Ok(result);
+            return finalize_result(&self.repo_root, &request, result);
         }
         let before = observer::manifest_status(
             &request.target,
@@ -76,40 +77,54 @@ impl LifecycleRouteExecutor for DefaultLifecycleRouteExecutor {
             .map_err(LifecycleExecutionError::from)?;
         if cancellation_token_active(&request) {
             let result = cancellation_result(&request, before, receipts)?;
-            write_result(&request.evidence_root, &request.route.route_id, &result)?;
-            return Ok(result);
+            return finalize_result(&self.repo_root, &request, result);
         }
         match missing_required_inputs(&self.repo_root, &request) {
             Ok(Some(missing_inputs)) => {
                 let result =
                     input_binding_blocked_result(&request, before, receipts, missing_inputs)?;
-                write_result(&request.evidence_root, &request.route.route_id, &result)?;
-                return Ok(result);
+                return finalize_result(&self.repo_root, &request, result);
             }
             Ok(None) => {}
             Err(error) => {
                 let result = failure_result(&request, before, receipts, error)?;
-                write_result(&request.evidence_root, &request.route.route_id, &result)?;
-                return Ok(result);
+                return finalize_result(&self.repo_root, &request, result);
             }
         }
+        let context_binding =
+            match context_pack::build_route_context_pack(&self.repo_root, &request) {
+                Ok(binding) => binding,
+                Err(error) => {
+                    let result = authorization::blocked_result(
+                        &self.repo_root,
+                        &request,
+                        before.clone(),
+                        receipts.clone(),
+                        error,
+                    )
+                    .unwrap_or_else(|fallback| fallback);
+                    return finalize_result(&self.repo_root, &request, result);
+                }
+            };
         let authorization_proof = match authorization::authorize_before_dispatch(
             &self.repo_root,
             &request,
             before.clone(),
             receipts.clone(),
+            &context_binding,
         ) {
             Ok(path) => path,
-            Err(result) => {
-                write_result(&request.evidence_root, &request.route.route_id, &result)?;
-                return Ok(result);
+            Err(mut result) => {
+                result
+                    .evidence_paths
+                    .extend(context_binding.evidence_paths.clone());
+                return finalize_result(&self.repo_root, &request, result);
             }
         };
         if let Some(result) =
             executor_preflight_blocked(&self.repo_root, &request, before.clone(), receipts.clone())?
         {
-            write_result(&request.evidence_root, &request.route.route_id, &result)?;
-            return Ok(result);
+            return finalize_result(&self.repo_root, &request, result);
         }
         let mut result = match match request.executor.as_str() {
             "mock" => mock::execute_mock(&request),
@@ -125,9 +140,22 @@ impl LifecycleRouteExecutor for DefaultLifecycleRouteExecutor {
             Err(error) => failure_result(&request, before, receipts, error)?,
         };
         result.evidence_paths.insert(0, authorization_proof);
-        write_result(&request.evidence_root, &request.route.route_id, &result)?;
-        Ok(result)
+        result
+            .evidence_paths
+            .splice(1..1, context_binding.evidence_paths);
+        finalize_result(&self.repo_root, &request, result)
     }
+}
+
+fn finalize_result(
+    repo_root: &Path,
+    request: &LifecycleRouteExecutionRequest,
+    mut result: LifecycleRouteExecutionResult,
+) -> Result<LifecycleRouteExecutionResult, LifecycleExecutionError> {
+    let ledger_path = token_budget::write_route_token_budget_ledger(repo_root, request, &result)?;
+    result.evidence_paths.push(ledger_path);
+    write_result(&request.evidence_root, &request.route.route_id, &result)?;
+    Ok(result)
 }
 
 fn executor_preflight_blocked(

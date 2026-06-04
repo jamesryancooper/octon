@@ -310,6 +310,19 @@ scan_target() {
   fi
 }
 
+scan_target_naming_drift() {
+  local target_abs="$1"
+  if command -v rg >/dev/null 2>&1; then
+    rg -n -i -e 'Work Package' "$target_abs" \
+      -g '!validate-default-work-unit-alignment.sh' \
+      -g '!validate-proposal-post-implementation-drift.sh' \
+      -g '!test-validate-proposal-post-implementation-drift.sh' \
+      2>/dev/null || true
+  else
+    scan_target "$target_abs" 'Work Package'
+  fi
+}
+
 exclusions_text=""
 if [[ -f "$REVIEW" ]]; then
   exclusions_text="$(grep -i -A12 '^## Exclusions' "$REVIEW" 2>/dev/null || true)"
@@ -339,7 +352,7 @@ while IFS= read -r target; do
     pass "promotion target has no active proposal backreferences: $target"
   fi
 
-  naming_hits="$(scan_target "$target_abs" 'Work Package')"
+  naming_hits="$(scan_target_naming_drift "$target_abs")"
   stale_naming_hits="$(printf '%s\n' "$naming_hits" | grep -Eiv 'legacy|historical|compatib|deprecated|migration|archive|archived|superseded|alias|shim|backward|backwards' || true)"
   if [[ -n "$stale_naming_hits" ]]; then
     if grep -Eiq 'work package|naming drift' <<<"$exclusions_text"; then

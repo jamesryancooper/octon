@@ -1,0 +1,121 @@
+schema_version: "octon-model-routing-policy-v1"
+policy_id: "proposal-program-model-routing"
+owner: "Octon governance"
+status: "active"
+scope: >-
+  Deterministic-first model routing policy for proposal-program lifecycle
+  planning, child dispatch, recovery summaries, closeout, and escalation.
+
+authority_refs:
+  model_call_routing: ".octon/instance/governance/policies/model-call-routing.yml"
+  token_budgets: ".octon/instance/governance/policies/token-budgets.yml"
+  context_packing: ".octon/instance/governance/policies/context-packing.yml"
+  execution_authorization: ".octon/framework/engine/runtime/spec/execution-authorization-v1.md"
+  evidence_obligations: ".octon/framework/constitution/obligations/evidence.yml"
+
+doctrine:
+  - "Prefer deterministic preflights, structured receipts, and digest-bound compact artifacts before model reasoning."
+  - "Route decisions and model-routing receipts are retained evidence only; they do not authorize execution, promote children, close programs, or replace run control."
+  - "High-reasoning routing is escalation-only and must record the trigger, source refs, evidence refs, and failure behavior."
+  - "Raw evidence and full prompt expansions are not model-visible by default unless an escalation receipt allows dereference."
+
+route_matrix:
+  deterministic:
+    default_for:
+      - "load_program_spine"
+      - "evaluate_dependency_vector"
+      - "select_runnable_children"
+      - "deterministic_preflight"
+      - "no_dispatch"
+      - "validate_completion"
+      - "emit_closeout_capsule"
+    model_call_allowed: false
+    required_receipts:
+      - "route-decision-receipt.yml"
+      - "action-slice-ledger.yml"
+  small:
+    default_for:
+      - "child_dispatch_handoff"
+      - "parent_route_handoff"
+    model_call_allowed: true
+    maximum_use: "routine compact-capsule dispatch with no escalation trigger"
+    required_receipts:
+      - "model-routing-receipt.yml"
+      - "token-budget-ledger.json"
+  medium:
+    default_for:
+      - "summarize_terminal_blockers"
+      - "recovery_delta_nonzero"
+      - "closeout_readiness_summary"
+    model_call_allowed: true
+    maximum_use: "bounded recovery interpretation without authority ambiguity"
+    required_receipts:
+      - "model-routing-receipt.yml"
+      - "blocker-ledger.yml"
+      - "recovery-delta-summary.yml"
+  high:
+    default_for: []
+    model_call_allowed: true
+    maximum_use: "explicit architecture exception only"
+    required_receipts:
+      - "model-routing-receipt.yml"
+      - "token-budget-ledger.json"
+      - "context-pack receipt"
+  high-on-escalation:
+    default_for:
+      - "authority ambiguity"
+      - "architecture decision"
+      - "rollback conflict"
+      - "support-proof interpretation"
+      - "promotion evidence conflict"
+      - "archive/recovery failure"
+      - "unexplained test failure"
+    model_call_allowed: true
+    required_receipts:
+      - "model-routing-receipt.yml"
+      - "route-decision-receipt.yml"
+      - "token-budget-ledger.json"
+
+deterministic_preflights:
+  publication_freshness:
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+    failure_route: "publication-drift"
+  generated_freshness:
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-publication-freshness-gates.sh"
+    failure_route: "publication-drift"
+  blocker_aggregation_zero_state:
+    artifact_ref: "blocker-ledger.yml"
+    failure_route: "recovery-delta-summary"
+  dependency_vector:
+    artifact_ref: "program-context-capsule.yml"
+    failure_route: "dependency-blocked"
+  manifest_completeness:
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh"
+    failure_route: "validation-failed"
+  registry_projection:
+    source_ref: "resources/child-packet-index.yml"
+    failure_route: "invalid-child-registry"
+  raw_log_indexing:
+    artifact_ref: "raw-log-summary.yml"
+    failure_route: "missing-evidence"
+  closeout_schema_validation:
+    artifact_ref: "aggregate-terminal-blockers.yml"
+    failure_route: "aggregate-closeout-readiness-missing"
+  worktree_cleanliness:
+    validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh"
+    failure_route: "artifact-ownership-unclear"
+
+fallback_behavior:
+  missing_receipt: "fail_closed"
+  stale_receipt: "fail_closed"
+  source_digest_mismatch: "fail_closed"
+  authority_boundary_conflict: "fail_closed"
+  budget_exceeded: "stage_only"
+  high_route_without_escalation_trigger: "deny"
+
+non_authority_boundaries:
+  route_decision_receipt_authorizes_execution: false
+  model_routing_receipt_authorizes_execution: false
+  action_slice_ledger_replaces_checkpoint: false
+  proposal_input_authority: "none"
+  generated_output_authority: "derived-only"

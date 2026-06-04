@@ -77,6 +77,11 @@ packet_dir() {
   printf '%s/%s\n' "$root" "$(child_path "$child_id")"
 }
 
+archive_packet_dir() {
+  local root="$1" child_id="$2"
+  printf '%s/.octon/inputs/exploratory/proposals/.archive/architecture/%s\n' "$root" "$child_id"
+}
+
 write_parent() {
   local root="$1"
   local dir="$root/$(program_path)"
@@ -383,6 +388,24 @@ case_implemented_child_with_receipts_passes() {
   run_validator "$root"
 }
 
+case_archived_implemented_child_with_receipts_passes() {
+  local root active archive
+  root="$(create_fixture_repo)"
+  write_valid_fixture "$root"
+  yq -i '.status = "implemented"' "$(packet_dir "$root" "base-child")/proposal.yml"
+  write_implementation_receipts "$root" "base-child"
+  cat >"$(packet_dir "$root" "base-child")/support/proposal-closeout.md" <<'EOF'
+verdict: pass
+archive_authorized: yes
+EOF
+  active="$(packet_dir "$root" "base-child")"
+  archive="$(archive_packet_dir "$root" "base-child")"
+  mkdir -p "$(dirname "$archive")"
+  mv "$active" "$archive"
+  yq -i '.status = "archived" | .archive.archived_at = "2026-05-12" | .archive.archived_from_status = "implemented" | .archive.disposition = "implemented" | .archive.original_path = ".octon/inputs/exploratory/proposals/architecture/base-child" | .archive.promotion_evidence = [".octon/framework/base-child.md"]' "$archive/proposal.yml"
+  run_validator "$root"
+}
+
 case_missing_packet_specific_requirement_fails() {
   local root
   root="$(create_fixture_repo)"
@@ -405,6 +428,7 @@ assert_failure_contains "missing implementation-grade completeness review fails"
 assert_failure_contains "absent accepted proposal-review digest fails" "proposal review receipt authorizes implementation" case_absent_proposal_review_fails
 assert_failure_contains "stale accepted proposal-review digest fails" "reviewed packet digest is fresh" case_stale_proposal_review_fails
 assert_success "implemented child with receipts remains child-ready" case_implemented_child_with_receipts_passes
+assert_success "archived implemented child with receipts remains child-ready" case_archived_implemented_child_with_receipts_passes
 assert_failure_contains "missing packet-specific completeness requirement fails" "child base-child readiness evidence mentions: connector operation fields" case_missing_packet_specific_requirement_fails
 assert_failure_contains "premature cutover retirement fails" "child cutover-child cutover constraints declare predecessor evidence" case_premature_cutover_fails
 

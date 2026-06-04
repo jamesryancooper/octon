@@ -1,0 +1,78 @@
+{
+  "schema_version": "token-budget-ledger-v1",
+  "schema_ref": ".octon/framework/engine/runtime/spec/token-budget-ledger-v1.schema.json",
+  "ledger_id": "run-1:run-packet-implementation",
+  "run_id": "run-1",
+  "lifecycle_id": "proposal-packet",
+  "route_id": "run-packet-implementation",
+  "phase_id": "implementation-execution",
+  "ledger_scope": {
+    "level": "child-route",
+    "parent_run_id": "program-run-1",
+    "child_id": "measurement",
+    "target_ref": "token-efficiency-token-measurement-ledger",
+    "evidence_root_ref": ".octon/state/evidence/runs/program-run-1/children/measurement"
+  },
+  "produced_by": {
+    "name": "octon_lifecycle_executor::token_budget",
+    "version": "token-budget-ledger-v1",
+    "recorded_at": "2026-06-03T00:00:00Z"
+  },
+  "ledger_role": "retained-token-measurement-evidence-not-authority",
+  "token_generation_mode": "deterministic-byte-estimate-provider-usage-when-present",
+  "provider_usage": {
+    "status": "not_available",
+    "usage_mismatch_detected": false,
+    "notes": ["provider usage artifact was not supplied for this route"]
+  },
+  "token_summary": {
+    "estimated_total_tokens": 100,
+    "model_visible_estimated_tokens": 70,
+    "prompt_estimated_tokens": 70,
+    "context_estimated_tokens": 0,
+    "completion_estimated_tokens": 10,
+    "tool_output_estimated_tokens": 5,
+    "evidence_estimated_tokens": 15,
+    "repeated_source_percentage": 0,
+    "repeated_source_token_estimate": 0,
+    "prompt_boilerplate_percentage": 10,
+    "prompt_boilerplate_token_estimate": 7,
+    "generated_state_reread_count": 0,
+    "raw_log_reread_count": 2,
+    "high_reasoning_call_count": 0
+  },
+  "levels": [
+    { "level": "parent", "subject_id": "program-run-1", "estimated_tokens": 100, "source_count": 4, "notes": ["fixture"] },
+    { "level": "child", "subject_id": "measurement", "estimated_tokens": 100, "source_count": 4, "notes": ["fixture"] },
+    { "level": "stage", "subject_id": "implementation-execution", "estimated_tokens": 100, "source_count": 4, "notes": ["fixture"] },
+    { "level": "source", "subject_id": "source-records", "estimated_tokens": 100, "source_count": 4, "notes": ["fixture"] },
+    { "level": "model", "subject_id": "codex", "estimated_tokens": 85, "source_count": 3, "notes": ["fixture"] }
+  ],
+  "source_records": [
+    {
+      "source_ref": ".octon/state/evidence/runs/program-run-1/children/measurement/run-packet-implementation-prompt.md",
+      "sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "bytes": 280,
+      "estimated_tokens": 70,
+      "source_class": "prompt",
+      "model_visible": true,
+      "inclusion_mode": "full"
+    }
+  ],
+  "regression_guard": {
+    "baseline_ref": null,
+    "candidate_ref": ".octon/state/evidence/runs/program-run-1/children/measurement/token-budget-ledger.json",
+    "avoidable_regression_threshold_percent": 30,
+    "status": "measurement-only",
+    "notes": ["fixture"]
+  },
+  "authority_boundary": {
+    "artifact_class": "retained-evidence-read-model",
+    "replaces_source_evidence": false,
+    "authorizes_execution": false,
+    "raw_evidence_retained": true,
+    "proposal_input_authority": "non-authoritative",
+    "generated_output_authority": "derived-only",
+    "failure_behavior": "fail-closed-for-regression-claims-not-for-authorization"
+  }
+}

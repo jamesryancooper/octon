@@ -1,0 +1,74 @@
+[OK] proposal status supports review gate
+[OK] proposal review receipt exists
+[OK] review_id present
+[OK] reviewed_at present
+[OK] reviewer present
+[OK] review verdict is explicit
+[OK] implementation prompt authorization is explicit
+[OK] reviewed packet digest is explicit
+[OK] open blocking finding count is numeric
+[OK] review includes section: Approved Promotion Targets
+[OK] review includes section: Exclusions
+[OK] review includes section: Blocking Findings
+[OK] review includes section: Nonblocking Findings
+[OK] review includes section: Final Route Recommendation
+[OK] accepted proposal has accepted review verdict
+[OK] review authorizes implementation prompt
+[OK] accepted review has no open blocking findings
+[OK] reviewed packet digest is fresh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+[OK] review covers promotion target: .octon/framework/cognition/_meta/architecture/
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/evidence-store-v1.md
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+[OK] review covers promotion target: .octon/instance/governance/policies/context-packing.yml
+[OK] review covers promotion target: .octon/instance/governance/policies/model-routing.yml
+[OK] review covers promotion target: .octon/instance/governance/policies/token-budgets.yml
+[OK] proposal status is accepted for implementation authorization
+[OK] proposal review authorizes implementation
+[OK] proposal review permits implementation prompt generation
+[OK] proposal review has no open blockers for implementation
+[OK] reviewed packet digest is fresh
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/scripts/
+[OK] review covers promotion target: .octon/framework/assurance/runtime/_ops/tests/
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-change/
+[OK] review covers promotion target: .octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/
+[OK] review covers promotion target: .octon/framework/cognition/_meta/architecture/
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/generated.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/prompt_bundle.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/crates/lifecycle_executor/src/request.rs
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/context-pack-builder-v1.md
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/evidence-store-v1.md
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/operator-read-models-v1.md
+[OK] review covers promotion target: .octon/framework/engine/runtime/spec/run-lifecycle-v1.md
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-cleanup-lifecycle-residue/SKILL.md
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-closeout-packet/SKILL.md
+[OK] review covers promotion target: .octon/inputs/additive/extensions/octon-proposal-lifecycle/validation/tests/
+[OK] review covers promotion target: .octon/instance/governance/policies/context-packing.yml
+[OK] review covers promotion target: .octon/instance/governance/policies/model-routing.yml
+[OK] review covers promotion target: .octon/instance/governance/policies/token-budgets.yml
+Validation summary: errors=0 warnings=0

@@ -35,6 +35,13 @@ Outputs:
   `/.octon/state/evidence/runs/skills/closeout-change/{{run_id}}.md`
 - Change receipt conforming to
   `.octon/framework/product/contracts/change-receipt-v1.schema.json`
+- Compact structured views under
+  `/.octon/state/evidence/runs/skills/closeout-change/{{run_id}}/` when source
+  evidence exists:
+  - `structured-receipt.yml`
+  - `closeout-projection.yml`
+  - optional `publication-summary.yml`
+  - `expanded-report-request.yml`
 - Optional `lifecycle-interaction-return-v1` evidence that cites the
   target-owned Change receipt or blocker evidence without transferring cleanup,
   Git, hosted-provider, promotion, archive, rollback, or scope authority
@@ -70,6 +77,17 @@ receipt outputs must include `cleanup_authorization_ref` pointing to a retained
 validate before cleanup mutation and match the source branch, landed ref,
 local `main`, `origin/main`, no-open-PR proof, rollback/discard posture, and
 cleanup policy proof.
+
+Compact view outputs must source the canonical Change receipt and retained
+evidence by `source_refs` and `source_digests`. `closeout-projection.yml` is
+the default model-visible closeout view and must declare
+`model_visible_token_estimate <= 4000`; raw/full evidence is dereferenced only
+for stale or missing compact views, digest mismatch, authorization ambiguity,
+rollback gaps, support-proof conflict, replay audit, or equivalent escalation.
+`expanded-report-request.yml` enables on-demand narrative reconstruction after
+digest validation and remains non-authoritative. Validate compact view shape and
+digests with
+`.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`.
 
 Repo-hygiene cleanup is outside the Change receipt unless it is cited as a
 separate delegated hygiene route. Eligible local Octon run/artifact residue

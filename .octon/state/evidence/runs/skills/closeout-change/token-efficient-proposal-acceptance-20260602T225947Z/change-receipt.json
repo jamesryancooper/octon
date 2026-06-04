@@ -1,0 +1,157 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "token-efficient-proposal-acceptance-20260602T225947Z",
+  "selected_route": "branch-no-pr",
+  "operator_requested_route": "branch-no-pr",
+  "initial_route": "branch-no-pr",
+  "route_transition_authority": "none",
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "outcome_intent": "attempt-cleaned-closeout",
+  "intent": "Close out the token-efficient proposal program acceptance Change on branch-no-pr with cleaned target while preserving proposal-input non-authority and generated-registry non-authority.",
+  "scope": {
+    "summary": "Parent and child proposal packets were accepted, proposal reviews were refreshed, and the proposal registry was regenerated through the canonical generator.",
+    "touched_paths": [
+      ".octon/generated/proposals/registry.yml",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/",
+      ".octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/"
+    ],
+    "diff_refs": [
+      "origin/main@8be962488ebb3140c4d52b55a33ef5938be0f435"
+    ]
+  },
+  "source_branch_ref": "chore/token-efficient-proposal-acceptance",
+  "target_branch_ref": "origin/main",
+  "landed_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+  "integration_method": "fast-forward",
+  "integration_status": "landed",
+  "publication_status": "hosted-main-updated",
+  "cleanup_status": "completed",
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/token-efficient-proposal-acceptance",
+    "source_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "target_pre_ref": "7af1d6ff54d2b04b717a027c56f79aab3fa8b83c",
+    "target_post_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "validated_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "required_check_refs": [
+      "empty-check-set-explicitly-allowed@8be962488ebb3140c4d52b55a33ef5938be0f435"
+    ],
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "push_refspec": "8be962488ebb3140c4d52b55a33ef5938be0f435:refs/heads/main",
+    "fast_forward_only": true
+  },
+  "landing_evaluation": {
+    "status": "succeeded",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "source_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "target_ref": "origin/main@8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-landing-authorization.json",
+      "git-branch-land-hosted-no-pr.sh:target-pre=7af1d6ff54d2b04b717a027c56f79aab3fa8b83c",
+      "git-branch-land-hosted-no-pr.sh:target-post=8be962488ebb3140c4d52b55a33ef5938be0f435"
+    ]
+  },
+  "source_branch_integration": {
+    "source_branch_ref": "chore/token-efficient-proposal-acceptance",
+    "source_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "landed_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "origin_main_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "integrated": true,
+    "method": "fast-forward",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-landing-authorization.json",
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-cleanup-authorization.json"
+    ]
+  },
+  "main_alignment": {
+    "local_main_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "origin_main_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "landed_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "aligned": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh:fetch-prune-origin",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh:merge-ff-only-origin-main",
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "verification_ref": "git:main-origin-main-aligned@8be962488ebb3140c4d52b55a33ef5938be0f435"
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch": "chore/token-efficient-proposal-acceptance",
+    "remote_branch": "origin/chore/token-efficient-proposal-acceptance",
+    "evidence_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-cleanup-authorization.json",
+      "git-branch-cleanup.sh:local-branch-deleted",
+      "git-branch-cleanup.sh:remote-branch-deleted"
+    ]
+  },
+  "cleanup_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-cleanup-authorization.json",
+    "git-branch-cleanup.sh:local-main-synced@8be962488ebb3140c4d52b55a33ef5938be0f435"
+  ],
+  "validation_evidence_refs": [
+    "git:diff-check:passed",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-structure.sh --package token-efficient-proposal-program-controller",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-program-child-readiness.sh --package token-efficient-proposal-program-controller",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh --package parent-and-children",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh --require-implementation-authorization parent-and-children",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-input-non-authority.sh",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-generated-non-authority.sh",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-generated-effective-freshness.sh",
+    "generator:.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh --write summary errors=0",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-closeout-worktree-wrapper.sh --static",
+    "validator:.octon/framework/assurance/runtime/_ops/scripts/validate-change-closeout-lifecycle-alignment.sh --static",
+    "validator:hosted-no-pr-preflight@8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "validator:branch-cleanup-authorization@8be962488ebb3140c4d52b55a33ef5938be0f435"
+  ],
+  "durable_history": {
+    "kind": "commit",
+    "ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "branch": "origin/main"
+  },
+  "rollback_handle": {
+    "kind": "revert-commit",
+    "ref": "revert-8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "instructions": "Revert landed commit 8be962488ebb3140c4d52b55a33ef5938be0f435 from main if the accepted proposal packet state must be backed out."
+  },
+  "stateful_closeout": {
+    "state_machine_version": "change-closeout-state-machine-v1",
+    "initial_inventory_ref": "closeout-worktree:initial-inventory main-origin-main@7af1d6ff54d2b04b717a027c56f79aab3fa8b83c",
+    "residue_classification_ref": "closeout-worktree:initial-residue-classification input-surface-proposal-candidate",
+    "phase_exit_refs": [
+      "phase:branch-commit@8be962488ebb3140c4d52b55a33ef5938be0f435",
+      "phase:source-branch-pushed@8be962488ebb3140c4d52b55a33ef5938be0f435",
+      "phase:hosted-no-pr-preflight-passed@8be962488ebb3140c4d52b55a33ef5938be0f435",
+      "phase:origin-main-fast-forwarded@8be962488ebb3140c4d52b55a33ef5938be0f435",
+      "phase:branch-cleanup-completed@8be962488ebb3140c4d52b55a33ef5938be0f435"
+    ],
+    "cleanup_decision_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-cleanup-authorization.json"
+    ],
+    "safe_cleanup_evidence_class": "origin-main-containment",
+    "hosted_landing_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-landing-authorization.json"
+    ],
+    "branch_cleanup_refs": [
+      ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/branch-cleanup-authorization.json"
+    ],
+    "final_verification_ref": "git:main-origin-main-aligned@8be962488ebb3140c4d52b55a33ef5938be0f435"
+  },
+  "closeout_outcome": "completed",
+  "created_at": "2026-06-02T22:59:47Z",
+  "updated_at": "2026-06-02T23:15:00Z"
+}

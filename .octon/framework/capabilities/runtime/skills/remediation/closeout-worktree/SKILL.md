@@ -99,7 +99,12 @@ Change. Use `closeout-pr` only after a singular Change route resolves to
     repo-hygiene classification refs, delegated repo-hygiene cleanup refs,
     repo-hygiene cleanup authorization refs when available, detached worktree
     cleanup safety proof when applicable, `worktree_terminal_state`, and next
-    route condition.
+    route condition. Also retain compact wrapper views when source evidence is
+    available: `structured-receipt.yml`, `closeout-projection.yml`, optional
+    `publication-summary.yml`, and `expanded-report-request.yml`. These views
+    must cite the wrapper report, delegated `closeout-change` receipts, and
+    retained evidence by digest. They do not replace candidate-owned Change
+    receipts or wrapper validation evidence.
 
 ## Wrapper Evidence
 
@@ -119,6 +124,19 @@ to `closeout-change`. Only `local_private_retained` and
 `disposition_complete_with_retained_residue`, and only with candidate-keyed
 retained evidence. `unsafe` and `ambiguous` always force
 `worktree_terminal_state: nonterminal` with candidate-keyed blocker evidence.
+
+Completed proposal-program lifecycle closeout may classify lifecycle-owned
+input/archive moves, generated effective publication outputs, proposal
+registry artifacts, publication evidence, and tracked extension control files
+as `publishable_change` only when the candidate records
+`lifecycle_closeout_authority` with completed-program proof refs,
+`child_authority_preserved: true`,
+`parent_summary_not_child_receipt: true`, and
+`local_run_state_excluded: true`. This exception does not make proposal inputs
+authoritative, does not transfer child-owned lifecycle receipt authority, and
+does not permit raw execution state under
+`.octon/state/control/execution/**`, `.octon/state/continuity/**`, or
+local workflow evidence to be published as material Change content.
 
 `worktree_terminal_state` must be one of:
 
@@ -157,6 +175,17 @@ When stale detached Git worktrees are observed, the report must either retain
 them with rationale or cite explicit worktree cleanup safety proof: detached
 HEAD, clean worktree, no active branch, no open PR or branch ownership claim,
 not the current worktree, and removal through Git worktree cleanup policy.
+
+Compact wrapper reporting uses the same structured artifact contract as
+`closeout-change`. `closeout-projection.yml` is the default model-visible
+wrapper view and must declare `model_visible_token_estimate <= 4000`. The
+wrapper may cite compact delegated projections, but each closed candidate still
+requires its singular completed `closeout-change` receipt. Missing, stale,
+digest-mismatched, or authority-conflicting compact views fail closed and
+require canonical wrapper report or delegated receipt inspection before a
+concise worktree closeout claim is made. Validate compact view shape and
+digests with
+`.octon/framework/assurance/runtime/_ops/scripts/validate-structured-receipt-artifacts.sh`.
 
 For every selected or delegated candidate, include explicit
 `boundaries.include_paths` and `boundaries.exclude_paths`. Multiple observed
@@ -232,6 +261,10 @@ before claiming worktree closeout.
 - Do not claim `git_clean_terminal` while untracked retained evidence or other
   non-ignored residue remains; use `disposition_complete_with_retained_residue`
   when all remaining residue is authority-backed and intentionally retained.
+- Do not treat compact wrapper views (`closeout-projection.yml`,
+  `publication-summary.yml`, `structured-receipt.yml`, or
+  `expanded-report-request.yml`) as cleanup, Git, hosted-provider, rollback,
+  authorization, support, policy, or closure authority.
 
 ## References
 

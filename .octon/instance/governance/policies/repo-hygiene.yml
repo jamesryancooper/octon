@@ -237,6 +237,10 @@ local_artifact_hygiene:
       criteria:
         - "generated run-health materialized run projection subtree"
       action: "route to generate-run-health-read-model.sh --all-runs; do not delete through generic local artifact cleanup"
+    local_filesystem_metadata:
+      criteria:
+        - "untracked, unreferenced .DS_Store files"
+      action: "safe-to-delete through the dry-run-first local artifact helper"
     stale_unreferenced_publication_attempt:
       criteria:
         - "untracked superseded publication receipt under publication, compatibility, or prompt-alignment validation roots"
@@ -245,6 +249,8 @@ local_artifact_hygiene:
     local_run_residue:
       criteria:
         - "untracked publish-* or service-build-* run/control/continuity/external-index artifacts"
+        - "untracked lifecycle-proposal-* runner control, continuity, authority-decision, authority-grant, and external-index artifacts that are unreferenced by tracked files"
+        - "untracked closeout-worktree, closeout-packet, and proposal-lifecycle closeout-packet skill run logs that are unreferenced by tracked files and have a publishable wrapper or Change receipt elsewhere"
         - "untracked runtime-agent-quorum checkpoint or evidence artifacts"
         - "no tracked file references the exact artifact path"
       action: "safe-to-delete through the dry-run-first local artifact helper"

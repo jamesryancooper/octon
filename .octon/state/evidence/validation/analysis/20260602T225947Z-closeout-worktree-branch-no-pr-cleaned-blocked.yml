@@ -1,0 +1,152 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+run_id: closeout-worktree-20260602T225947Z-branch-no-pr-cleaned
+created_at: "2026-06-02T22:59:47Z"
+updated_at: "2026-06-02T23:15:00Z"
+default_work_unit: Change
+target_lifecycle_outcome: cleaned
+operator_requested_route: branch-no-pr
+observed_change_set_count: 3
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: "inline: initial dirty inventory on main before branch creation; main/origin/main at 7af1d6ff54d2b04b717a027c56f79aab3fa8b83c; proposal acceptance candidate plus prior closeout evidence plus ignored local residue"
+residue_classification_ref: "inline: change-closeout-residue-classification-v1 before branch creation; staged 0, unstaged-tracked 1, untracked 14, ignored 5116, retained-evidence 1, input-surface 197, publishable_change 1, publishable_closeout_evidence 1, unsafe 5293"
+selected_candidate_id: c-proposal-acceptance
+candidates:
+  - candidate_id: c-proposal-acceptance
+    disposition: blocked
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/change-receipt.json"
+    residue_routing_class: unsafe
+    ownership: "proposal input-surface acceptance Change plus generated registry projection; proposal inputs remain non-authoritative raw proposal material"
+    route_hint: "branch-no-pr closeout-change completed; closeout-worktree wrapper still blocks terminal classification for .octon/inputs/**"
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "Landed on origin/main at 8be962488ebb3140c4d52b55a33ef5938be0f435; rollback by reverting that commit."
+    boundaries:
+      include_paths:
+        - .octon/generated/proposals/registry.yml
+        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/
+        - .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/
+      exclude_paths:
+        - .archive/
+        - .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+  - candidate_id: c-closeout-evidence
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "local closeout evidence emitted during this wrapper run and the prior blocked wrapper run"
+    route_hint: "retain as local/manual closeout evidence; not part of the material proposal acceptance Change"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "Retain or explicitly supersede closeout evidence in a later evidence-aware closeout; wrapper detection is not deletion authority."
+    boundaries:
+      include_paths:
+        - .octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/
+        - .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+        - .octon/state/evidence/validation/analysis/20260602T225947Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+      exclude_paths:
+        - .archive/
+  - candidate_id: c-ignored-local-residue
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: "ignored local residue outside the selected branch-no-pr candidate"
+    route_hint: "retain as ignored local/manual residue; wrapper has no deletion authority"
+    target_lifecycle_outcome: preserved
+    rollback_or_discard_posture: "No mutation performed; ignored local residue remains in place."
+    boundaries:
+      include_paths:
+        - .archive/
+      exclude_paths:
+        - .octon/generated/proposals/registry.yml
+        - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+iterations:
+  - iteration_id: i-001-proposal-acceptance
+    pre_inventory_ref: "inline: branch main before delegation; accepted proposal packet files uncommitted; prior blocker report untracked and excluded"
+    pre_classification_ref: "inline: selected proposal candidate includes .octon/inputs/** and is therefore unsafe for wrapper-level publishable_change classification"
+    selected_candidate_id: c-proposal-acceptance
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: "inline: main/origin/main at 8be962488ebb3140c4d52b55a33ef5938be0f435; source branch deleted locally and remotely; closeout evidence retained untracked"
+    post_classification_ref: "inline: after branch cleanup, staged 0, unstaged-tracked 0, untracked closeout evidence remains; input-surface residue 0"
+    next_selection_reason: "Stop: branch-no-pr closeout-change completed, but wrapper terminal state remains nonterminal because the selected original candidate is .octon/inputs/** unsafe under wrapper validation."
+    include_paths:
+      - .octon/generated/proposals/registry.yml
+      - .octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-blocker-ledger-recovery-deltas/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-evidence-index-raw-log-summaries/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-lifecycle-context-pack-integration/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-model-routing-action-slice-budgets/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-planner-state-program-context-capsule/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-prompt-pack-instruction-capsules/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-proposal-artifact-index-spine/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-repo-authority-write-scope-index/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-semantic-cache-context-reuse/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-structured-receipts-concise-publication/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-token-measurement-ledger/
+      - .octon/inputs/exploratory/proposals/architecture/token-efficiency-validator-manifests-generated-freshness/
+    exclude_paths:
+      - .archive/
+      - .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+final_candidate_dispositions:
+  c-proposal-acceptance:
+    state: blocked
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/change-receipt.json"
+    reason: "closeout-change completed branch-no-pr cleaned at 8be962488ebb3140c4d52b55a33ef5938be0f435, but closeout-worktree cannot mark the original candidate terminal because its include paths contain .octon/inputs/**, which the wrapper validator classifies as unsafe."
+  c-closeout-evidence:
+    state: foreign
+    reason: "Closeout evidence remains local/manual retained evidence and is not part of the material proposal acceptance Change."
+  c-ignored-local-residue:
+    state: foreign
+    reason: "Ignored local residue retained with candidate-keyed evidence; wrapper detection is not deletion authority."
+retained_residue:
+  - candidate_id: c-closeout-evidence
+    path: .octon/state/evidence/runs/skills/closeout-change/token-efficient-proposal-acceptance-20260602T225947Z/
+    disposition: "local/manual closeout evidence retained after completed branch closeout"
+  - candidate_id: c-closeout-evidence
+    path: .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+    disposition: "local/manual prior blocked wrapper evidence retained for audit continuity"
+  - candidate_id: c-closeout-evidence
+    path: .octon/state/evidence/validation/analysis/20260602T225947Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+    disposition: "local/manual current wrapper evidence retained for audit continuity"
+  - candidate_id: c-ignored-local-residue
+    path: .archive/
+    disposition: "ignored local residue retained for manual/foreign review; detection is not deletion authority"
+blockers:
+  - candidate_id: c-proposal-acceptance
+    blocker: "Selected original candidate includes .octon/inputs/** proposal input surfaces, which the closeout-worktree wrapper validator classifies as unsafe for terminal publishable_change routing. This is a wrapper classification blocker only; the delegated closeout-change receipt records completed branch-no-pr cleaned closeout."
+final_inventory_ref: "inline: branch main at 8be962488ebb3140c4d52b55a33ef5938be0f435; origin/main at 8be962488ebb3140c4d52b55a33ef5938be0f435; source branch deleted locally and remotely; staged 0; unstaged-tracked 0; closeout evidence untracked; ignored local residue retained"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 3
+  ignored: 5116
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 5
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+repo_hygiene_cleanup_outcome: not-applicable
+repo_hygiene_summary:
+  cleanup_candidates: 0
+  protected_referenced: 0
+  manual_review: 0
+worktree_terminal_state: nonterminal
+next_route_condition: "The branch-no-pr Change closeout is cleaned and landed. The wrapper remains nonterminal until Octon defines or revises a wrapper-safe route for terminal classification of accepted proposal input surfaces under .octon/inputs/**, or an operator records a superseding wrapper-policy decision."
+prior_candidate_reconciliation:
+  prior_report_ref: .octon/state/evidence/validation/analysis/20260602T215600Z-closeout-worktree-branch-no-pr-cleaned-blocked.yml
+  candidates:
+    - prior_candidate_id: c-unsafe-input-proposals
+      current_candidate_id: c-proposal-acceptance
+      disposition: folded
+      rationale: "The prior unsafe input-surface proposal candidate became the current proposal-acceptance candidate after closeout-change created, published, landed, and cleaned a branch-no-pr Change; wrapper terminal state remains blocked by .octon/inputs/** safety classification."

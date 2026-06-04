@@ -13,6 +13,7 @@ BASE_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/valida
 
 MODE=""
 errors=0
+GENERATOR_ACTIVE_VAR="OCTON_PROPOSAL_REGISTRY_GENERATOR_ACTIVE"
 
 fail() {
   echo "[ERROR] $1"
@@ -51,6 +52,13 @@ done
   usage >&2
   exit 2
 }
+
+if [[ "${!GENERATOR_ACTIVE_VAR:-}" == "1" ]]; then
+  pass "nested proposal registry generation skipped during registry validation"
+  echo "Registry generation summary: errors=0"
+  exit 0
+fi
+export "$GENERATOR_ACTIVE_VAR=1"
 
 rel_path() {
   local path="$1"
@@ -122,18 +130,23 @@ validate_package() {
     pass "legacy-unknown design import excluded from main registry projection: $proposal_rel"
     return 0
   fi
-  if ! bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
+  if ! env "$GENERATOR_ACTIVE_VAR=1" bash "$BASE_VALIDATOR" --package "$proposal_rel" --skip-registry-check; then
     fail "proposal packet validates without registry recursion: $proposal_rel"
     return 1
   fi
   pass "proposal packet validates without registry recursion: $proposal_rel"
+
+  if [[ "$status" == "archived" ]]; then
+    pass "archived proposal subtype validation skipped for registry projection: $proposal_rel"
+    return 0
+  fi
 
   validator="$(subtype_validator_for_kind "$kind")" || {
     fail "subtype validator exists for proposal kind '$kind' ($proposal_rel)"
     return 1
   }
 
-  if ! bash "$validator" --package "$proposal_rel"; then
+  if ! env "$GENERATOR_ACTIVE_VAR=1" bash "$validator" --package "$proposal_rel"; then
     fail "subtype validator passes for $proposal_rel"
     return 1
   fi

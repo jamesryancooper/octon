@@ -127,6 +127,77 @@ private raw evidence. Generated read models may help operators inspect the run,
 but they do not satisfy run evidence, disclosure, or closeout completeness by
 themselves.
 
+## Compact Evidence Views
+
+Run evidence bundles may include compact evidence views to reduce repeated
+model-visible raw-log context:
+
+- `evidence-index.yml`
+- `raw-log-summary.yml`
+- `failing-slice-manifest.yml`
+
+These artifacts are retained evidence aids, not authority, policy, support
+proof, closure proof, or replacements for raw/full evidence. They must carry
+source refs, source digests, byte sizes, estimated token counts, reader
+preferences, freshness state, replay/reconstruction data, and explicit failure
+behavior. Readers should prefer these compact refs by default and dereference
+raw/full evidence bodies only for summary hash mismatches, failing-slice
+reconstruction failures, validator disputes, replay audit requests, or an
+equivalent escalation receipt.
+
+`raw-log-summary.yml` records deterministic source-level summaries for retained
+stdout, stderr, recovery, and status logs. `failing-slice-manifest.yml` records
+line ranges that can be reconstructed from the retained source ref after
+verifying the source digest. A stale, missing, or digest-mismatched compact view
+fails closed; it must not be used to repair, overwrite, delete, or replace the
+raw retained evidence.
+
+## Structured Closeout And Publication Views
+
+Closeout and publication routes may retain compact structured views beside the
+canonical receipts and raw evidence they summarize:
+
+- `closeout-projection.yml`
+- `publication-summary.yml`
+- `structured-receipt.yml`
+- `expanded-report-request.yml`
+
+These artifacts are compact retained evidence aids or generated/read-model
+inputs only. They are never authority, policy, support proof, closure proof, or
+replacements for the canonical Change receipt, wrapper report, publication
+receipt, run journal snapshot, raw log, or rollback evidence.
+
+Each structured view must include:
+
+- `schema_version`
+- `artifact_kind`
+- `authority_status`
+- `producer`
+- `consumer`
+- `reader_preference`
+- `model_visible_token_estimate`
+- `source_refs`
+- `source_digests`
+- `evidence_refs`
+- `validation`
+- `freshness`
+- `failure_behavior`
+- `authority_boundary`
+
+Closeout projections must stay compact enough for default model-visible
+closeout context and declare `model_visible_token_estimate <= 4000`.
+Expanded reports are generated only on demand from
+`expanded-report-request.yml` after source refs and digests validate. A route
+must dereference full/raw evidence only for missing evidence refs, digest
+mismatch, stale freshness, authorization ambiguity, rollback gaps,
+support-proof conflicts, replay audit, or equivalent escalation evidence.
+
+The failure behavior for every structured view is fail-closed for missing
+source refs, digest mismatch, stale freshness, and authority-boundary conflict.
+Structured views must explicitly record that proposal inputs and generated
+outputs are non-authoritative, raw evidence is not replaced, and engine-owned
+authorization is not bypassed.
+
 ## Run Journal Snapshot Rule
 
 Closeout must retain an evidence mirror of the canonical control journal:

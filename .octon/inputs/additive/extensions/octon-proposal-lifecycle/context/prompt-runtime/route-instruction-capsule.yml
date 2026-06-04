@@ -1,0 +1,22 @@
+schema_version: "octon-route-instruction-capsule-contract-v1"
+artifact_id: "route-instruction-capsule"
+owner_extension: "octon-proposal-lifecycle"
+artifact_class: "compact-route-instruction-summary"
+authority_status: "source-pack contract; does not replace prompt assets or route authority"
+producer: "octon_lifecycle_executor::prompt_bundle"
+default_visibility: "model-visible-compact"
+required_fields:
+  - "schema_version"
+  - "route_id"
+  - "lifecycle_id"
+  - "run_id"
+  - "visible_short_rules"
+visible_short_rules_source:
+  source: "digest-verified prompt, reference, and shared-reference assets"
+  extraction_policy: "headings and leading bullet rules only"
+  max_rules_per_asset: 4
+consumer_obligations:
+  - "treat the capsule as a compact execution aid, not authority"
+  - "request full expansion only through prompt-expansion-policy-v1"
+  - "preserve bound inputs and route metadata in the rendered prompt header"
+failure_behavior: "fail closed when the referenced prompt-pack capsule is stale, missing, or digest-mismatched"

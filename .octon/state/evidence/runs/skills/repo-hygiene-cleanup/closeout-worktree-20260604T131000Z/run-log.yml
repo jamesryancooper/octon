@@ -1,0 +1,38 @@
+schema_version: repo-hygiene-cleanup-run-log-v1
+run_id: closeout-worktree-20260604T131000Z
+skill_id: repo-hygiene-cleanup
+triggering_wrapper: closeout-worktree
+cleanup_outcome: delegated-cleaned
+authorization:
+  authorization_ref: .octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z/cleanup-authorization.json
+  authorization_id: repo-hygiene-cleanup-49e2d4eacb286375
+  authorization_result: approved
+  authorized_path_count: 1
+cleanup_scope:
+  residue_classes:
+    - local_filesystem_metadata
+  cleanup_candidates: 1
+  protected_referenced: 46
+  manual_review_before_cleanup: 71
+  manual_review_after_cleanup: 72
+digests:
+  pre_cleanup:
+    git_status_digest: sha256:de03494d4c59fe393b689714d28d8bebec7f834ccf742f3552c478e9b0fc71ee
+    classification_digest: sha256:1f9c6ad685603a20495494d95d782f74e40b513c0020c3a294e253f41ee71da9
+    cleanup_path_set_digest: sha256:32b46dab84f5bc69ecc74515155b463c931f646dfd7525662dbee013a45ebb85
+  post_cleanup:
+    git_status_digest: sha256:7d3a8844b6596b01c2a848cfe8508fb948075787b8e2dd51bef4db2dcd1cdec8
+    classification_digest: sha256:d294bc022e96c5e3f3c316499f049b1006ef275543d34a9239172f19188b8013
+    cleanup_path_set_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+local_evidence_refs:
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z/dry-run.log
+    sha256: 1e32fffec77513924b9dd350f88ea89ca7e4c791d697e3fb4d636ce8c5c2d5ad
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z/authorize.log
+    sha256: 4f23d3b96441393438febd12435e8a950c9f657ce3c8b3015b8887b0c460f4fb
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z/cleanup.log
+    sha256: 08d8ef88811587694586091f96f130386bdb27ef17fed0c2f2dc62300dece69e
+  - ref: .octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z/post-cleanup-summary.log
+    sha256: bd0db765dd3ee2f167ef0eaf2e59b7f7e06f7acccf211dfd31df2f63dabbbfc7
+wrapper_authority:
+  direct_cleanup_by_wrapper: false
+  cleanup_routed_through_repo_hygiene_cleanup: true

@@ -21,6 +21,21 @@ Each bound run is anchored by:
 document is the normative transition contract that the journal-driven runtime
 state must satisfy.
 
+Program lifecycle runs may also retain compact planning evidence under
+`/.octon/state/evidence/runs/workflows/<program-run-id>/`:
+
+- `planner-state.yml`
+- `program-context-capsule.yml`
+- `compact-completion-capsule.yml`
+
+These files are digest-bound derived read models. They do not replace
+`program-lifecycle-checkpoint.yml`, `program-events.ndjson`, child registry
+state, or retained raw evidence. Program planners may read them by default only
+when their `source_refs` and validation binding match the current checkpoint
+event head, event-log digest, and child-registry digest. A missing source, stale
+event head, child-registry mismatch, or source digest mismatch fails closed to
+raw retained evidence reconstruction.
+
 ## Machine-Readable Transition Contracts
 
 Runtime lifecycle gates must emit or validate these machine-readable records:
@@ -110,6 +125,12 @@ doing so does not advance lifecycle state or create a material side effect.
 - Control refs and retained evidence refs must remain distinct: control journal
   refs decide live lifecycle state; retained evidence refs prove, replay, and
   disclose what happened.
+- Program lifecycle compact planning evidence is model-visible context, not
+  runtime authority. `planner-state.yml`, `program-context-capsule.yml`, and
+  `compact-completion-capsule.yml` may summarize the final program checkpoint,
+  child status table, dependency vector, runnable batch, blockers, route
+  decision, and key digests, but they cannot authorize dispatch or lifecycle
+  transition.
 - Mission planning refs may be recorded as lineage for why a run was drafted,
   but MissionPlan, PlanNode, and PlanCompileReceipt artifacts do not create,
   advance, repair, or close run lifecycle state. Planned leaves must still bind

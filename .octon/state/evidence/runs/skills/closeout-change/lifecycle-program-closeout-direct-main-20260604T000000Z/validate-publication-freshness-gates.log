@@ -1,0 +1,31 @@
+== Publication Freshness Gates Validation ==
+[OK] publication freshness contract present
+[OK] publication freshness receipt present
+[OK] publication freshness receipt schema current
+[OK] .octon/generated/effective/runtime/route-bundle.yml carries evidence ref
+[OK] .octon/generated/effective/runtime/route-bundle.yml carries freshness refs
+[OK] .octon/generated/effective/capabilities/pack-routes.effective.yml carries evidence ref
+[OK] .octon/generated/effective/capabilities/pack-routes.effective.yml carries freshness refs
+[OK] .octon/generated/effective/capabilities/routing.effective.yml carries evidence ref
+[OK] .octon/generated/effective/capabilities/routing.effective.yml carries freshness refs
+[OK] .octon/generated/effective/governance/support-target-matrix.yml carries evidence ref
+[OK] .octon/generated/effective/governance/support-target-matrix.yml carries freshness refs
+[OK] .octon/generated/effective/extensions/catalog.effective.yml carries evidence ref
+[OK] .octon/generated/effective/extensions/catalog.effective.yml carries freshness refs
+[OK] .octon/generated/cognition/projections/materialized/architecture-map.md carries evidence ref
+[OK] .octon/generated/cognition/projections/materialized/architecture-map.md carries freshness refs
+[OK] .octon/generated/cognition/projections/materialized/runtime-route-map.md carries evidence ref
+[OK] .octon/generated/cognition/projections/materialized/runtime-route-map.md carries freshness refs
+[OK] .octon/generated/cognition/projections/materialized/support-pack-route-map.md carries evidence ref
+[OK] .octon/generated/cognition/projections/materialized/support-pack-route-map.md carries freshness refs
+[OK] freshness receipt covers extensions publication
+[OK] freshness receipt covers capabilities publication
+[OK] freshness receipt covers pack-route publication
+[OK] freshness receipt covers runtime route-bundle publication
+[OK] validate-generated-effective-freshness.sh passes
+[OK] validate-runtime-effective-artifact-handles.sh passes
+[OK] validate-no-raw-generated-effective-runtime-reads.sh passes
+[OK] validate-capability-publication-state.sh passes
+[OK] validate-extension-publication-state.sh passes
+[OK] validate-runtime-effective-route-bundle.sh passes
+Validation summary: errors=0
