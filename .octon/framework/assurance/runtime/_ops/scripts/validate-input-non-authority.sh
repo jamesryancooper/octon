@@ -322,6 +322,9 @@ is_allowed_input_reference() {
     .octon/framework/assurance/runtime/_ops/scripts/validate-exploratory-input-surfaces.sh|\
     .octon/framework/assurance/runtime/_ops/scripts/validate-input-archive-retention.sh|\
     .octon/framework/assurance/runtime/_ops/scripts/validate-*.sh|\
+    .octon/framework/assurance/runtime/_ops/scripts/classify-change-closeout-residue.sh|\
+    .octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh|\
+    .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh|\
     .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh|\
     .octon/framework/assurance/runtime/_ops/scripts/validate-harness-structure.sh|\
     .octon/framework/assurance/runtime/_ops/scripts/validate-architecture-conformance.sh|\
@@ -363,6 +366,11 @@ is_allowed_input_reference() {
     .octon/generated/proposals/registry.yml)
       [[ "$line" == *"inputs/exploratory/proposals/"* ]] || \
         [[ "$line" == *".octon/inputs/additive/.incoming/README.md"* ]]
+      return
+      ;;
+    .octon/generated/proposals/*)
+      [[ "$line" == *"inputs/exploratory/proposals/"* ]] && \
+        ! line_is_explicit_authority_dependency "$line"
       return
       ;;
     .octon/generated/effective/extensions/catalog.effective.yml|\
