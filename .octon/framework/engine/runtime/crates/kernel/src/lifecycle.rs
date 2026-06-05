@@ -711,6 +711,75 @@ struct LifecycleControlResult {
     reason: String,
 }
 
+#[derive(Serialize)]
+struct LifecyclePostmortemResult {
+    schema_version: &'static str,
+    run_id: String,
+    recorded_at: String,
+    status: String,
+    postmortem_root: String,
+    evidence_map_ref: String,
+    known_limits_ref: String,
+    evaluator_input_ref: String,
+    retained_refs_count: usize,
+    missing_refs_count: usize,
+    authority_boundary: String,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemEvidenceMap {
+    schema_version: &'static str,
+    run_id: String,
+    recorded_at: String,
+    status: String,
+    subject_control_root: String,
+    subject_evidence_roots: Vec<String>,
+    postmortem_root: String,
+    retained_refs: Vec<LifecyclePostmortemRef>,
+    missing_refs: Vec<LifecyclePostmortemRef>,
+    authority_boundary: LifecyclePostmortemAuthorityBoundary,
+}
+
+#[derive(Clone, Serialize)]
+struct LifecyclePostmortemRef {
+    ref_name: String,
+    path: String,
+    ref_class: String,
+    authority_role: String,
+    exists: bool,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemKnownLimits {
+    schema_version: &'static str,
+    run_id: String,
+    status: String,
+    missing_refs: Vec<LifecyclePostmortemRef>,
+    confidence_effect: String,
+    evaluator_instruction: String,
+}
+
+#[derive(Serialize)]
+struct LifecyclePostmortemStatus {
+    schema_version: &'static str,
+    run_id: String,
+    recorded_at: String,
+    status: String,
+    evidence_map_ref: String,
+    known_limits_ref: String,
+    evaluator_input_ref: String,
+    non_authority_statement: String,
+}
+
+#[derive(Clone, Serialize)]
+struct LifecyclePostmortemAuthorityBoundary {
+    generated_outputs_authority: bool,
+    raw_inputs_authority: bool,
+    lifecycle_authority_mutated: bool,
+    postmortem_output_authority: bool,
+    statement: String,
+}
+
 pub(crate) fn lifecycle_cancellation_token_path(control_root: &Path) -> PathBuf {
     control_root.join(LIFECYCLE_CANCELLATION_FILE)
 }
@@ -925,6 +994,10 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
                 }
             }
         }
+        LifecycleCmd::Postmortem { run_id } => {
+            let result = run_lifecycle_postmortem_from_octon_dir(&octon_dir, &run_id)?;
+            println!("{}", serde_yaml::to_string(&result)?);
+        }
         LifecycleCmd::Resume { run_id } => {
             if lifecycle_program::program_checkpoint_exists(&octon_dir, &run_id)? {
                 let result = lifecycle_program::resume_program_lifecycle_from_octon_dir(
@@ -1012,6 +1085,252 @@ pub(crate) fn cmd_lifecycle(cmd: LifecycleCmd) -> Result<()> {
         },
     }
     Ok(())
+}
+
+fn run_lifecycle_postmortem_from_octon_dir(
+    octon_dir: &Path,
+    run_id: &str,
+) -> Result<LifecyclePostmortemResult> {
+    let sanitized_run_id = sanitize_run_id(run_id)?;
+    if sanitized_run_id != run_id {
+        bail!(
+            "lifecycle postmortem run id contains unsupported characters; use only ASCII letters, digits, hyphen, or underscore"
+        );
+    }
+
+    let repo_root = repo_root_for_octon(octon_dir)?;
+    let recorded_at = now_rfc3339()?;
+    let control_root = octon_dir.join(RUN_CONTROL_ROOT_REL).join(&sanitized_run_id);
+    let direct_evidence_root = octon_dir
+        .join("state/evidence/runs")
+        .join(&sanitized_run_id);
+    let workflow_evidence_root = octon_dir
+        .join(WORKFLOW_EVIDENCE_ROOT_REL)
+        .join(&sanitized_run_id);
+    let postmortem_root = direct_evidence_root
+        .join("assurance")
+        .join("lifecycle-postmortem");
+
+    let control_exists = control_root.exists();
+    let direct_evidence_exists = direct_evidence_root.exists();
+    let workflow_evidence_exists = workflow_evidence_root.exists();
+    let status = if control_exists || direct_evidence_exists || workflow_evidence_exists {
+        "prepared"
+    } else {
+        "blocked-missing-retained-run"
+    }
+    .to_string();
+
+    let candidate_refs = vec![
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "run-control-root",
+            &control_root,
+            "control-root",
+            "mutable-control-truth",
+            control_exists,
+        ),
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "lifecycle-checkpoint",
+            &control_root.join("lifecycle-checkpoint.yml"),
+            "control-checkpoint",
+            "mutable-control-truth",
+            control_root.join("lifecycle-checkpoint.yml").is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "program-lifecycle-checkpoint",
+            &control_root.join("program-lifecycle-checkpoint.yml"),
+            "control-checkpoint",
+            "mutable-control-truth",
+            control_root
+                .join("program-lifecycle-checkpoint.yml")
+                .is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "lifecycle-events",
+            &control_root.join(LIFECYCLE_EVENT_FILE),
+            "control-event-log",
+            "mutable-control-truth",
+            control_root.join(LIFECYCLE_EVENT_FILE).is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "program-events",
+            &control_root.join("program-events.ndjson"),
+            "control-event-log",
+            "mutable-control-truth",
+            control_root.join("program-events.ndjson").is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "run-evidence-root",
+            &direct_evidence_root,
+            "retained-evidence-root",
+            "retained-evidence",
+            direct_evidence_exists,
+        ),
+        lifecycle_postmortem_ref(
+            &repo_root,
+            "workflow-evidence-root",
+            &workflow_evidence_root,
+            "retained-evidence-root",
+            "retained-evidence",
+            workflow_evidence_exists,
+        ),
+    ];
+
+    let retained_refs = candidate_refs
+        .iter()
+        .filter(|item| item.exists)
+        .cloned()
+        .collect::<Vec<_>>();
+    let missing_refs = candidate_refs
+        .iter()
+        .filter(|item| !item.exists)
+        .cloned()
+        .collect::<Vec<_>>();
+
+    let authority_boundary = LifecyclePostmortemAuthorityBoundary {
+        generated_outputs_authority: false,
+        raw_inputs_authority: false,
+        lifecycle_authority_mutated: false,
+        postmortem_output_authority: false,
+        statement: "Lifecycle postmortem outputs are retained evidence only. They do not authorize lifecycle transition, closeout, promotion, support widening, redesign, generated-output publication, or invariant amendment.".to_string(),
+    };
+
+    fs::create_dir_all(&postmortem_root)?;
+    let evidence_map_path = postmortem_root.join("evidence-map.yml");
+    let known_limits_path = postmortem_root.join("known-limits.yml");
+    let evaluator_input_path = postmortem_root.join("evaluator-input.md");
+    let status_path = postmortem_root.join("status.yml");
+
+    let evidence_map = LifecyclePostmortemEvidenceMap {
+        schema_version: "lifecycle-postmortem-evidence-map-v1",
+        run_id: sanitized_run_id.clone(),
+        recorded_at: recorded_at.clone(),
+        status: status.clone(),
+        subject_control_root: rel_display(&repo_root, &control_root),
+        subject_evidence_roots: vec![
+            rel_display(&repo_root, &direct_evidence_root),
+            rel_display(&repo_root, &workflow_evidence_root),
+        ],
+        postmortem_root: rel_display(&repo_root, &postmortem_root),
+        retained_refs: retained_refs.clone(),
+        missing_refs: missing_refs.clone(),
+        authority_boundary: authority_boundary.clone(),
+    };
+    fs::write(&evidence_map_path, serde_yaml::to_string(&evidence_map)?)?;
+
+    let known_limits = LifecyclePostmortemKnownLimits {
+        schema_version: "lifecycle-postmortem-known-limits-v1",
+        run_id: sanitized_run_id.clone(),
+        status: status.clone(),
+        missing_refs: missing_refs.clone(),
+        confidence_effect: if missing_refs.is_empty() {
+            "no known missing lifecycle source refs detected by deterministic binding".to_string()
+        } else {
+            "missing refs must be treated as evidence gaps by the evaluator and must not be filled from generated summaries, raw inputs, chat history, host state, or model memory".to_string()
+        },
+        evaluator_instruction: "Use Unknown or blocking/corrective findings when required retained evidence is missing; never count Unknown as Pass.".to_string(),
+    };
+    fs::write(&known_limits_path, serde_yaml::to_string(&known_limits)?)?;
+
+    fs::write(
+        &evaluator_input_path,
+        lifecycle_postmortem_evaluator_input(
+            &sanitized_run_id,
+            &recorded_at,
+            &retained_refs,
+            &missing_refs,
+            &evidence_map_path,
+            &known_limits_path,
+            &repo_root,
+        ),
+    )?;
+
+    let status_record = LifecyclePostmortemStatus {
+        schema_version: "lifecycle-postmortem-status-v1",
+        run_id: sanitized_run_id.clone(),
+        recorded_at: recorded_at.clone(),
+        status: status.clone(),
+        evidence_map_ref: rel_display(&repo_root, &evidence_map_path),
+        known_limits_ref: rel_display(&repo_root, &known_limits_path),
+        evaluator_input_ref: rel_display(&repo_root, &evaluator_input_path),
+        non_authority_statement: authority_boundary.statement.clone(),
+    };
+    fs::write(&status_path, serde_yaml::to_string(&status_record)?)?;
+
+    Ok(LifecyclePostmortemResult {
+        schema_version: "lifecycle-postmortem-run-result-v1",
+        run_id: sanitized_run_id,
+        recorded_at,
+        status,
+        postmortem_root: rel_display(&repo_root, &postmortem_root),
+        evidence_map_ref: rel_display(&repo_root, &evidence_map_path),
+        known_limits_ref: rel_display(&repo_root, &known_limits_path),
+        evaluator_input_ref: rel_display(&repo_root, &evaluator_input_path),
+        retained_refs_count: retained_refs.len(),
+        missing_refs_count: missing_refs.len(),
+        authority_boundary: authority_boundary.statement,
+    })
+}
+
+fn lifecycle_postmortem_ref(
+    repo_root: &Path,
+    ref_name: &str,
+    path: &Path,
+    ref_class: &str,
+    authority_role: &str,
+    exists: bool,
+) -> LifecyclePostmortemRef {
+    LifecyclePostmortemRef {
+        ref_name: ref_name.to_string(),
+        path: rel_display(repo_root, path),
+        ref_class: ref_class.to_string(),
+        authority_role: authority_role.to_string(),
+        exists,
+    }
+}
+
+fn lifecycle_postmortem_evaluator_input(
+    run_id: &str,
+    recorded_at: &str,
+    retained_refs: &[LifecyclePostmortemRef],
+    missing_refs: &[LifecyclePostmortemRef],
+    evidence_map_path: &Path,
+    known_limits_path: &Path,
+    repo_root: &Path,
+) -> String {
+    let mut body = format!(
+        "# Lifecycle Postmortem Evaluator Input\n\nrun_id: {run_id}\nprepared_at: {recorded_at}\ntemplate_ref: .octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md\nevidence_map_ref: {}\nknown_limits_ref: {}\n\n## Retained Refs\n\n",
+        rel_display(repo_root, evidence_map_path),
+        rel_display(repo_root, known_limits_path)
+    );
+    if retained_refs.is_empty() {
+        body.push_str("- none detected\n");
+    } else {
+        for item in retained_refs {
+            body.push_str(&format!(
+                "- `{}`: `{}` ({})\n",
+                item.ref_name, item.path, item.ref_class
+            ));
+        }
+    }
+    body.push_str("\n## Known Limits\n\n");
+    if missing_refs.is_empty() {
+        body.push_str("- none detected by deterministic binding\n");
+    } else {
+        for item in missing_refs {
+            body.push_str(&format!("- missing `{}`: `{}`\n", item.ref_name, item.path));
+        }
+    }
+    body.push_str(
+        "\n## Required Evaluator Boundary\n\nThe evaluator must reconstruct facts only from retained evidence refs and must treat missing refs as evidence gaps. Generated outputs, raw inputs, chat history, host state, dashboards, and postmortem reports are not authority. Invariant compliance findings and invariant validity/evolution recommendations are evidence only and cannot approve lifecycle transition, closeout, promotion, support widening, redesign, or invariant amendment.\n",
+    );
+    body
 }
 
 fn normalize_lifecycle_run_inputs(

@@ -1,0 +1,1 @@
+{"schema_version":"review-finding-v1","finding_id":"fixture-finding-1","subject_ref":"fixture://run","review_ref":"fixture://postmortem","category":"evidence","severity":"note","summary":"Positive fixture finding.","evidence_refs":["fixture://retained-run-control"],"recorded_at":"2026-06-05T00:00:00Z"}

@@ -1,0 +1,39 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+title: "Lifecycle Postmortem Evaluation Program"
+target_state: >-
+  Octon has a governed, read-only lifecycle-postmortem capability that can be
+  invoked after a lifecycle run reaches a terminal or closeout-ready state. The
+  capability reconstructs the run from retained control and evidence artifacts,
+  applies a structured evaluator template, emits durable evaluator evidence and
+  findings, and keeps all recommendations non-authorizing until a separate
+  authority path accepts them.
+boundary_change: >-
+  Adds a post-run assurance surface only. It does not change run lifecycle
+  transition authority, closeout authority, support-target admission, generated
+  output authority, or proposal packet authority.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/assurance/evaluators/"
+  - ".octon/framework/constitution/contracts/assurance/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
+  - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
+  - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "resources/child-packet-index.yml"
+  - "architecture/packet-sequence.md"
+  - "architecture/child-packet-contract.md"
+  - "architecture/program-closeout-plan.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "support/**"

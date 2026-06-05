@@ -1,0 +1,17 @@
+schema_version: "proof-suite-v1"
+suite_id: "lifecycle-postmortem-integrity"
+plane: "functional"
+purpose: "Prove lifecycle-postmortem reports preserve post-run evidence boundaries, invariant compliance review, invariant validity/evolution review, final judgment discipline, and non-authority classification."
+runner_ref: ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+validator_ref: ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+required_artifacts:
+  - "lifecycle-postmortem-workflow"
+  - "lifecycle-postmortem-template"
+  - "lifecycle-postmortem-structured-output"
+  - "retained-run-evidence"
+  - "invariant-compliance-records"
+  - "invariant-validity-evolution-records"
+  - "negative-control-fixtures"
+blocking_support_tiers:
+  - "repo-consequential"
+  - "release-and-boundary-sensitive"

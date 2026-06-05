@@ -1,0 +1,210 @@
+---
+schema_version: workflow-contract-v2
+name: lifecycle-postmortem
+description: Run an optional read-only postmortem against a retained lifecycle run
+  after the run has reached an inspectable terminal, blocked, cancelled, or
+  rollback state. The workflow reconstructs evidence from retained control and
+  evidence roots, prepares lifecycle-postmortem evaluator input, materializes
+  optional review findings as evidence, and reports the evaluator judgment
+  without mutating lifecycle authority.
+version: 1.0.0
+entry_mode: human
+execution_profile: core
+side_effect_class: read_only
+execution_controls:
+  cancel_safe: true
+coordination_key_strategy:
+  kind: explicit-input
+  source_fields:
+    - run_id
+  format: "lifecycle-postmortem:{run_id}"
+executor_interface_version: workflow-executor-v1
+inputs:
+  - name: run_id
+    type: text
+    required: true
+    description: Retained lifecycle run id to inspect.
+  - name: report_path
+    type: file
+    required: false
+    description: Optional evaluator-authored Markdown report to validate and retain.
+  - name: structured_output_path
+    type: file
+    required: false
+    description: Optional evaluator-authored structured postmortem output to validate and retain.
+stages:
+  - id: bind-evidence
+    asset: stages/01-bind-evidence.md
+    kind: analysis
+    consumes: []
+    produces:
+      - stage:bind-evidence
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - ".octon/state/control/execution/runs/<run-id>/**"
+          - ".octon/state/evidence/runs/<run-id>/**"
+          - ".octon/state/evidence/runs/workflows/<run-id>/**"
+        write:
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: invoke-evaluator
+    asset: stages/02-invoke-evaluator.md
+    kind: analysis
+    consumes:
+      - stage:bind-evidence
+    produces:
+      - stage:invoke-evaluator
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: true
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+        write:
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: materialize-findings
+    asset: stages/03-materialize-findings.md
+    kind: analysis
+    consumes:
+      - stage:invoke-evaluator
+    produces:
+      - stage:materialize-findings
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - ".octon/framework/constitution/contracts/assurance/review-finding-v1.schema.json"
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+        write:
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+  - id: final-report
+    asset: stages/04-final-report.md
+    kind: verification
+    consumes:
+      - stage:materialize-findings
+    produces:
+      - stage:final-report
+    mutation_scope: []
+    authorization:
+      action_type: execute_stage
+      requested_capabilities:
+        - workflow.stage.execute
+        - evidence.write
+      side_effects:
+        write_repo: false
+        write_evidence: true
+        shell: true
+        network: false
+        model_invoke: false
+        state_mutation: false
+        publication: false
+        branch_mutation: false
+      risk_tier: low
+      scope:
+        read:
+          - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+        write:
+          - ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/**"
+      review_requirements:
+        human_approval: false
+        quorum: false
+        rollback_metadata: false
+      allowed_executor_profiles:
+        - read_only_analysis
+artifacts:
+  - name: evidence_map
+    path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evidence-map.yml"
+    kind: retained-evidence
+  - name: evaluator_input
+    path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluator-input.md"
+    kind: retained-evidence
+  - name: structured_output
+    path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluation.yml"
+    kind: retained-evidence
+    required: false
+  - name: report
+    path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/report.md"
+    kind: retained-evidence
+    required: false
+  - name: finding_records
+    path: ".octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/review-findings.ndjson"
+    kind: retained-evidence
+    required: false
+done_gate:
+  checks:
+    - id: run-id-bound
+      description: The run id is non-empty and sanitized before any retained evidence path is created.
+    - id: retained-evidence-only
+      description: The workflow writes only under the run postmortem assurance evidence root.
+    - id: no-lifecycle-authority-mutation
+      description: The workflow does not mutate run manifests, lifecycle journals, runtime state, rollback posture, proposal manifests, support targets, generated outputs, or authority artifacts.
+    - id: evidence-gaps-explicit
+      description: Missing retained refs are recorded as known limits or blockers instead of inferred facts.
+    - id: postmortem-output-validated
+      description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
+constraints:
+  - Generated outputs, raw inputs, host labels, chat history, dashboards, and postmortem reports are not runtime, policy, support, closeout, or invariant authority.
+  - Invariant compliance and invariant validity/evolution findings are evidence only and cannot approve, remove, relax, or amend invariants.
+  - The workflow is optional by default and cannot become a mandatory closeout gate without a separate governed policy or lifecycle change.

@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+title: "Lifecycle Postmortem Meta Workflow"
+target_state: >-
+  A meta workflow under `.octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/`
+  and a runtime entry point such as `octon lifecycle postmortem --run-id
+  <run-id>` can run after a lifecycle process has completed. The workflow
+  reconstructs factual state from retained evidence and writes postmortem
+  outputs as assurance evidence only.
+boundary_change: >-
+  Adds a post-run evidence-writing workflow. It does not change lifecycle
+  transition authority, run closeout requirements, or support-target claims.
+authoritative_targets_after_promotion:
+  - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "support/**"

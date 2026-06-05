@@ -1,0 +1,49 @@
+schema_version: "octon-proposal-program-child-registry-v2"
+execution_mode: "gated-parallel"
+default_child_lifecycle_id: "proposal-packet"
+children:
+  - child_id: "lifecycle-postmortem-meta-workflow"
+    path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-meta-workflow"
+    required: true
+    deferred: false
+    dependencies: []
+    dependency_gate: "verification"
+    phase_id: "phase-1"
+    group_id: "workflow"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+      - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+    seed_role: "first-child"
+  - child_id: "lifecycle-postmortem-evaluator-template"
+    path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluator-template"
+    required: true
+    deferred: false
+    dependencies:
+      - "lifecycle-postmortem-meta-workflow"
+    dependency_gate: "verification"
+    phase_id: "phase-2"
+    group_id: "evaluator"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/evaluators/"
+      - ".octon/framework/constitution/contracts/assurance/"
+    seed_role: "follow-on"
+  - child_id: "lifecycle-postmortem-validator"
+    path: ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-validator"
+    required: true
+    deferred: false
+    dependencies:
+      - "lifecycle-postmortem-meta-workflow"
+      - "lifecycle-postmortem-evaluator-template"
+    dependency_gate: "verification"
+    phase_id: "phase-3"
+    group_id: "validation"
+    rollback_posture: "manual"
+    write_scopes:
+      - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+      - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+      - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
+      - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
+      - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
+    seed_role: "follow-on"

@@ -1,0 +1,68 @@
+schema_version: "proposal-v1"
+proposal_id: "lifecycle-postmortem-meta-workflow"
+title: "Lifecycle Postmortem Meta Workflow"
+summary: >-
+  Implement a read-only meta workflow and runtime entry point for running a
+  lifecycle postmortem after a lifecycle process completes, with retained
+  evidence outputs and no lifecycle authority transfer.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+release_state: "pre-1.0"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the lifecycle-postmortem workflow and runtime entry point, retain
+    implementation and validation evidence, then close and archive this packet
+    only after conformance and drift/churn receipts pass.
+related_proposals:
+  - "lifecycle-postmortem-evaluation-program"
+  - "lifecycle-postmortem-evaluator-template"
+  - "lifecycle-postmortem-validator"
+selected_implementation_target: "lifecycle-postmortem meta workflow"
+scope_statement: >-
+  Add a read-only post-run workflow contract and runtime command path. This
+  child does not define the evaluator template in full and does not implement
+  the validator suite.
+authority_class_impact:
+  framework: "Adds workflow and runtime entry surfaces under framework roots."
+  instance: "No direct instance mutation."
+  state_control: "No direct state-control mutation from the proposal packet."
+  state_evidence: "Workflow writes retained postmortem evidence when executed."
+  generated: "No generated authority."
+  inputs: "Proposal remains non-authoritative lineage."
+runtime_behavior_impact: >-
+  Adds an operator-invoked lifecycle postmortem command that reads completed
+  lifecycle evidence and writes assurance evidence only.
+generated_input_authority_impact: >-
+  The workflow must reject generated or input paths as authority and may use
+  them only as non-authoritative context when cited by retained evidence.
+evidence_requirements:
+  - "workflow contract validation"
+  - "runtime command smoke test"
+  - "fixture run evidence reconstruction"
+  - "retained postmortem evidence map"
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "workflow contract validation"
+  - "lifecycle-postmortem validator once available"
+acceptance_criteria_summary: >-
+  A `lifecycle-postmortem` meta workflow can bind a run id, reconstruct
+  evidence refs, invoke the evaluator, write retained outputs, and refuse any
+  authorization or closeout mutation.
+rollback_summary: >-
+  Remove the workflow directory and runtime command branch if validation fails.
+  Retain any implementation attempt evidence under the child-owned run evidence
+  root.
+owner:
+  role: "Octon workflow proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-05"
+explicit_runtime_non_implementation_statement: >-
+  This proposal packet does not execute lifecycle postmortems by itself.

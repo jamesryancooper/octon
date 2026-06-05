@@ -17,6 +17,14 @@ run_requirements:
     - "critical"
   notes:
     - "Repo-local-transitional runs may resolve to not_required when deterministic proof is sufficient."
+  optional_post_run_evaluators:
+    lifecycle-postmortem:
+      disposition: "optional"
+      template_ref: ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
+      schema_ref: ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json"
+      authority_boundary: "retained-evidence-only"
+      notes:
+        - "Does not approve lifecycle closeout, transition, promotion, support widening, redesign, or invariant amendment."
   adapter_preferences:
     release-and-boundary-sensitive:
       - "openai-review"

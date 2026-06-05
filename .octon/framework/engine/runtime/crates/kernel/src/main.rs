@@ -1251,6 +1251,12 @@ pub(crate) enum LifecycleCmd {
         #[arg(long = "set-file", value_name = "KEY=PATH")]
         set_file: Vec<String>,
     },
+    /// Prepare retained post-run lifecycle postmortem evidence.
+    Postmortem {
+        /// Lifecycle run id to inspect.
+        #[arg(long = "run-id")]
+        run_id: String,
+    },
     /// Resume lifecycle planning from a retained lifecycle checkpoint.
     Resume {
         /// Lifecycle run id.
@@ -2402,6 +2408,23 @@ mod tests {
                 assert_eq!(set_file, vec!["source=source.md"]);
             }
             _ => panic!("parsed command should be lifecycle run"),
+        }
+
+        let postmortem = Cli::try_parse_from([
+            "octon",
+            "lifecycle",
+            "postmortem",
+            "--run-id",
+            "lifecycle-test",
+        ])
+        .expect("lifecycle postmortem should parse successfully");
+        match postmortem.cmd {
+            Command::Lifecycle {
+                cmd: LifecycleCmd::Postmortem { run_id },
+            } => {
+                assert_eq!(run_id, "lifecycle-test");
+            }
+            _ => panic!("parsed command should be lifecycle postmortem"),
         }
 
         let resume =

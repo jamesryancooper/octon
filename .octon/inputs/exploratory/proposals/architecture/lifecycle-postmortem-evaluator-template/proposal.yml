@@ -1,0 +1,76 @@
+schema_version: "proposal-v1"
+proposal_id: "lifecycle-postmortem-evaluator-template"
+title: "Lifecycle Postmortem Evaluator Template"
+summary: >-
+  Implement the evaluator template and structured output contract for rigorous
+  lifecycle postmortem reviews, including final fitness judgment, evidence
+  mapping, hard Octon invariant evaluation, invariant validity/evolution
+  review, and non-authorizing finding generation.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+release_state: "pre-1.0"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/assurance/evaluators/lifecycle-postmortem/"
+  - ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
+  - ".octon/framework/assurance/evaluators/review-routing.yml"
+  - ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote the evaluator template and structured output contract, retain
+    implementation evidence, then close and archive this packet only after
+    post-implementation conformance and drift/churn receipts pass.
+related_proposals:
+  - "lifecycle-postmortem-evaluation-program"
+  - "lifecycle-postmortem-meta-workflow"
+  - "lifecycle-postmortem-validator"
+selected_implementation_target: "lifecycle-postmortem evaluator template"
+scope_statement: >-
+  Add an evaluator template and output contract for post-run lifecycle
+  evaluation. This child does not implement the runtime workflow or deterministic
+  validator.
+authority_class_impact:
+  framework: "Adds evaluator template and assurance contract surfaces."
+  instance: "No direct instance mutation."
+  state_control: "No state-control mutation."
+  state_evidence: "Defines retained evidence shape consumed by the workflow."
+  generated: "No generated authority."
+  inputs: "Proposal remains non-authoritative lineage."
+runtime_behavior_impact: "None until the workflow child invokes the evaluator."
+generated_input_authority_impact: >-
+  The template must explicitly mark generated, raw input, chat, and proposal
+  context as non-authority unless backed by retained evidence.
+evidence_requirements:
+  - "template publication evidence"
+  - "schema validation evidence"
+  - "invariant evaluation table fixture"
+  - "invariant failure disposition fixture"
+  - "invariant validity/evolution table fixture"
+  - "invariant change-control recommendation fixture"
+  - "sample evaluator output"
+  - "review-finding mapping evidence"
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "schema validation"
+  - "invariant rating enum validation"
+  - "invariant validity recommendation enum validation"
+  - "invariant change-control bar validation"
+  - "lifecycle-postmortem validator once available"
+acceptance_criteria_summary: >-
+  The evaluator template covers all mandatory postmortem sections, uses the
+  allowed final judgment enum, evaluates invariant compliance before quality
+  scoring, reviews invariant validity/evolution before final recommendations,
+  maps major findings to evidence, and states that recommendations do not
+  authorize change.
+rollback_summary: >-
+  Remove the template, evaluator docs, routing changes, and schema if validation
+  fails before promotion. Retain attempt evidence.
+owner:
+  role: "Octon evaluator proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-05"
+explicit_runtime_non_implementation_statement: >-
+  This proposal packet does not run evaluator reviews by itself.

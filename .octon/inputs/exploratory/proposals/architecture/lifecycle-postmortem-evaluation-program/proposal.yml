@@ -1,0 +1,100 @@
+schema_version: "proposal-v1"
+proposal_id: "lifecycle-postmortem-evaluation-program"
+title: "Lifecycle Postmortem Evaluation Program"
+summary: >-
+  Parent proposal program coordinating implementation of a read-only
+  lifecycle-postmortem evaluator that can run after an Octon lifecycle process
+  completes, retain evaluator evidence, evaluate Octon invariants as hard
+  constitutional guardrails, assess invariant validity and evolution pressure,
+  and surface non-authorizing findings without becoming a second lifecycle
+  authority.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+promotion_targets:
+  - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/"
+  - ".octon/framework/engine/runtime/crates/kernel/src/lifecycle.rs"
+  - ".octon/framework/engine/runtime/crates/kernel/src/main.rs"
+  - ".octon/framework/assurance/evaluators/"
+  - ".octon/framework/constitution/contracts/assurance/"
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
+  - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
+  - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Coordinate, review, implement, validate, and close out the child proposal
+    packets. Archive or remove this parent only after child-owned promotion
+    evidence proves the workflow, evaluator template, and validator landed
+    without widening lifecycle authority.
+related_proposals:
+  - "lifecycle-postmortem-meta-workflow"
+  - "lifecycle-postmortem-evaluator-template"
+  - "lifecycle-postmortem-validator"
+selected_implementation_target: "lifecycle-postmortem post-run assurance evaluator"
+scope_statement: >-
+  Proposal-program coordination only. The parent sequences sibling child
+  packets for the meta workflow, evaluator template, and validator. It does not
+  itself create runtime workflow authority, execute postmortem reviews, satisfy
+  child receipts, or close any lifecycle run.
+program_execution_mode: "gated-parallel"
+source_lineage:
+  - ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluation-program/resources/source-lifecycle-postmortem-evaluation.md"
+  - ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluation-program/resources/source-invariant-evaluation.md"
+  - ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluation-program/resources/source-invariant-validity-evolution.md"
+  - ".octon/inputs/exploratory/proposals/architecture/lifecycle-postmortem-evaluation-program/resources/source-traceability-matrix.md"
+authority_class_impact:
+  framework: "Coordinates future framework workflow, evaluator, schema, validator, and runtime CLI changes."
+  instance: "Coordinates future instance assurance registration for lifecycle-postmortem validation."
+  state_control: "No direct state-control mutation from this parent packet."
+  state_evidence: "Requires postmortem outputs to remain retained evidence under canonical evidence roots."
+  generated: "No authority; generated projections remain derived-only and must not store postmortem truth."
+  inputs: "This parent and child packets remain non-authoritative proposal lineage."
+runtime_behavior_impact: "None from this parent packet."
+generated_input_authority_impact: >-
+  Reinforces that raw prompts, proposal paths, generated projections, chat
+  history, and postmortem reports cannot authorize lifecycle transitions,
+  closeout, promotion, or support claims.
+evidence_requirements:
+  - "Parent program child registry"
+  - "Child-owned implementation-grade receipts"
+  - "Child-owned promotion evidence after implementation"
+  - "Postmortem evaluator evidence retained outside proposal paths"
+  - "Invariant evaluation table with preservation, enforcement, evidence, gap, blocking, and correction fields"
+  - "Invariant failure disposition evidence for Unknown, Partial, and Fail ratings"
+  - "Invariant validity and evolution review records with recommendation categories and change-control bar"
+  - "Validator and negative-control evidence for authority boundary behavior"
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "proposal-program structure validation"
+  - "implementation-readiness validation"
+  - "workflow contract validation"
+  - "lifecycle-postmortem validator tests"
+  - "generated/input non-authority validation"
+  - "invariant evaluation schema validation"
+  - "invariant failure negative-control validation"
+  - "invariant validity/evolution schema validation"
+  - "invariant change-control recommendation validation"
+  - "run-lifecycle evidence reconstruction fixture validation"
+acceptance_criteria_summary: >-
+  Parent program is structurally valid, child packets are sibling-owned, and
+  the proposed implementation path yields a runnable post-run evaluator whose
+  output evaluates constitutional invariant compliance, reviews invariant
+  validity and evolution pressure, remains evidence, and never becomes
+  lifecycle authority.
+rollback_summary: >-
+  Remove this parent and any unimplemented child packets if review rejects the
+  design. If implementation begins, rollback each child through its own
+  promotion targets and retained evidence; do not roll back by editing parent
+  summaries.
+owner:
+  role: "Octon proposal-program author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-05"
+explicit_runtime_non_implementation_statement: >-
+  This parent program does not implement the lifecycle-postmortem workflow,
+  evaluator template, validator, CLI command, or assurance registration. Those
+  changes belong to the child packets and their implementation evidence.

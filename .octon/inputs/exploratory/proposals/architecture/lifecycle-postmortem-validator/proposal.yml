@@ -1,0 +1,77 @@
+schema_version: "proposal-v1"
+proposal_id: "lifecycle-postmortem-validator"
+title: "Lifecycle Postmortem Validator"
+summary: >-
+  Implement deterministic validation, tests, fixtures, and assurance
+  registration for lifecycle-postmortem outputs and authority-boundary negative
+  controls, including hard invariant-evaluation and invariant-validity checks.
+proposal_kind: "architecture"
+promotion_scope: "octon-internal"
+release_state: "pre-1.0"
+change_profile: "atomic"
+promotion_targets:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
+  - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
+  - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
+status: "implemented"
+lifecycle:
+  temporary: true
+  exit_expectation: >-
+    Promote validator, tests, fixtures, suite, and instance assurance
+    registration; retain implementation evidence; then close and archive only
+    after conformance and drift/churn receipts pass.
+related_proposals:
+  - "lifecycle-postmortem-evaluation-program"
+  - "lifecycle-postmortem-meta-workflow"
+  - "lifecycle-postmortem-evaluator-template"
+selected_implementation_target: "lifecycle-postmortem validator"
+scope_statement: >-
+  Add deterministic validation and assurance registration for lifecycle
+  postmortem outputs. This child does not define the evaluator template or
+  runtime workflow except as validation inputs.
+authority_class_impact:
+  framework: "Adds assurance runtime script, tests, fixtures, and functional suite."
+  instance: "Adds instance runtime assurance registration."
+  state_control: "No state-control mutation."
+  state_evidence: "Validator checks retained postmortem evidence refs."
+  generated: "No generated authority."
+  inputs: "Proposal remains non-authoritative lineage."
+runtime_behavior_impact: "None until invoked by workflow or validation gate."
+generated_input_authority_impact: >-
+  Validator must fail negative controls where generated outputs, raw inputs,
+  chat, proposal paths, or reports are treated as authority.
+evidence_requirements:
+  - "validator pass/fail evidence"
+  - "positive report fixture"
+  - "negative generated-authority fixture"
+  - "negative raw-input-authority fixture"
+  - "negative unresolved-evidence-ref fixture"
+  - "negative invalid-final-judgment fixture"
+  - "negative missing-invariant-evaluation fixture"
+  - "negative Unknown-as-Pass invariant fixture"
+  - "negative missing-invariant-blocking-correction fixture"
+  - "negative missing-invariant-validity-review fixture"
+  - "negative invalid-invariant-recommendation fixture"
+  - "negative invariant-change-approved fixture"
+  - "negative weak-change-control-bar fixture"
+validation_gates:
+  - "proposal standard validation"
+  - "architecture proposal validation"
+  - "validator unit tests"
+  - "functional suite registration validation"
+acceptance_criteria_summary: >-
+  A deterministic validator proves lifecycle-postmortem outputs have the
+  required sections, invariant compliance evaluation, invariant
+  validity/evolution review, final judgment enum, evidence refs, known limits,
+  non-authority statement, and authority-boundary negative controls.
+rollback_summary: >-
+  Remove validator script, tests, fixtures, suite, and instance registration if
+  validation fails before promotion. Retain failed attempt evidence.
+owner:
+  role: "Octon assurance proposal author"
+  accountable_role: "human operator / repository owner"
+created_date: "2026-06-05"
+explicit_runtime_non_implementation_statement: >-
+  This proposal packet does not validate any live postmortem until implemented.

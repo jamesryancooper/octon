@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json",
+  "title": "Lifecycle Postmortem Evaluation v1",
+  "description": "Structured retained evidence output for optional post-run lifecycle postmortem evaluations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "subject",
+    "evidence_refs",
+    "known_limits",
+    "section_order",
+    "invariant_compliance",
+    "invariant_validity_evolution",
+    "final_judgment",
+    "major_findings",
+    "authority_boundary",
+    "follow_up_recommendations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "lifecycle-postmortem-evaluation-v1"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "lifecycle_kind",
+        "octon_subject"
+      ],
+      "properties": {
+        "run_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "lifecycle_kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "octon_subject": {
+          "type": "boolean"
+        }
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "known_limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "section_order": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "invariant_compliance_before_quality_scoring",
+        "invariant_validity_after_redesign_pressure_before_recommendations",
+        "patch_vs_redesign_present"
+      ],
+      "properties": {
+        "invariant_compliance_before_quality_scoring": {
+          "const": true
+        },
+        "invariant_validity_after_redesign_pressure_before_recommendations": {
+          "const": true
+        },
+        "patch_vs_redesign_present": {
+          "const": true
+        }
+      }
+    },
+    "invariant_compliance": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/invariant_compliance_record"
+      }
+    },
+    "invariant_validity_evolution": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/invariant_validity_record"
+      }
+    },
+    "final_judgment": {
+      "type": "string",
+      "enum": [
+        "Fit to reuse as-is",
+        "Fit to reuse with targeted improvements",
+        "Fit for limited/pilot use only",
+        "Not fit without significant lifecycle redesign",
+        "Fundamentally misaligned with the system's needs"
+      ]
+    },
+    "major_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "summary",
+          "severity",
+          "evidence_refs"
+        ],
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "note",
+              "warning",
+              "major",
+              "critical"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generated_outputs_authority",
+        "raw_inputs_authority",
+        "postmortem_approves_lifecycle_transition",
+        "postmortem_approves_invariant_change",
+        "non_authority_assertion"
+      ],
+      "properties": {
+        "generated_outputs_authority": {
+          "const": false
+        },
+        "raw_inputs_authority": {
+          "const": false
+        },
+        "postmortem_approves_lifecycle_transition": {
+          "const": false
+        },
+        "postmortem_approves_invariant_change": {
+          "const": false
+        },
+        "non_authority_assertion": {
+          "const": true
+        }
+      }
+    },
+    "follow_up_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recommendation",
+          "authority_status"
+        ],
+        "properties": {
+          "recommendation": {
+            "type": "string",
+            "minLength": 1
+          },
+          "authority_status": {
+            "const": "proposed-evidence-only"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "invariant_compliance_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "invariant",
+        "applicability",
+        "rating",
+        "enforcement_mechanism",
+        "evidence_refs",
+        "evidence_gap",
+        "blocking",
+        "required_correction"
+      ],
+      "properties": {
+        "invariant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "applicability": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rating": {
+          "type": "string",
+          "enum": [
+            "Pass",
+            "Partial",
+            "Fail",
+            "Unknown",
+            "Not Applicable"
+          ]
+        },
+        "enforcement_mechanism": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "evidence_gap": {
+          "type": "string"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "required_correction": {
+          "type": "string"
+        },
+        "material": {
+          "type": "boolean"
+        },
+        "counts_as_pass": {
+          "type": "boolean"
+        }
+      }
+    },
+    "invariant_validity_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "invariant",
+        "protected_property",
+        "current_validity",
+        "enforcement_quality",
+        "evidence_quality",
+        "scope_quality",
+        "conflict_duplication",
+        "hack_pressure",
+        "recommendation",
+        "required_change",
+        "change_control_bar",
+        "authority_status"
+      ],
+      "properties": {
+        "invariant": {
+          "type": "string",
+          "minLength": 1
+        },
+        "protected_property": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_validity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "enforcement_quality": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_quality": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope_quality": {
+          "type": "string",
+          "minLength": 1
+        },
+        "conflict_duplication": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hack_pressure": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recommendation": {
+          "type": "string",
+          "enum": [
+            "Keep",
+            "Clarify",
+            "Strengthen",
+            "Relax",
+            "Split",
+            "Merge",
+            "Reclassify",
+            "Replace",
+            "Remove",
+            "Add"
+          ]
+        },
+        "required_change": {
+          "type": "string"
+        },
+        "change_control_bar": {
+          "type": "string",
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "very_high"
+          ]
+        },
+        "authority_status": {
+          "const": "proposed-evidence-only"
+        }
+      }
+    }
+  }
+}

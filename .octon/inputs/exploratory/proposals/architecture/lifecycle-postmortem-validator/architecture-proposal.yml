@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "new-surface"
+title: "Lifecycle Postmortem Validator"
+target_state: >-
+  A deterministic validator and fixture suite prove lifecycle-postmortem
+  outputs are structurally complete, evidence-grounded, and non-authorizing.
+boundary_change: >-
+  Adds assurance validation only. It does not make postmortem outputs
+  authoritative.
+authoritative_targets_after_promotion:
+  - ".octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh"
+  - ".octon/framework/assurance/runtime/_ops/fixtures/lifecycle-postmortem/"
+  - ".octon/framework/assurance/functional/suites/lifecycle-postmortem-integrity.yml"
+  - ".octon/instance/assurance/runtime/lifecycle-postmortem.yml"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "RISK-REGISTER.md"
+  - "validation-plan.md"
+  - "support/**"

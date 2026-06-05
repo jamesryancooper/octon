@@ -1,0 +1,13 @@
+schema_version: lifecycle-postmortem-evaluation-v1
+subject: {run_id: fixture-run, lifecycle_kind: proposal-program, octon_subject: true}
+evidence_refs: [fixture://retained-run-control]
+known_limits: []
+section_order: {invariant_compliance_before_quality_scoring: true, invariant_validity_after_redesign_pressure_before_recommendations: true, patch_vs_redesign_present: true}
+invariant_compliance:
+  - {invariant: Generated artifacts are not authority, applicability: applicable, rating: Pass, enforcement_mechanism: validator, evidence_refs: [fixture://retained-run-control], evidence_gap: "", blocking: false, required_correction: "", material: true, counts_as_pass: true}
+invariant_validity_evolution:
+  - {invariant: Generated artifacts are not authority, protected_property: truth, current_validity: valid, enforcement_quality: weak, evidence_quality: weak, scope_quality: needs clarity, conflict_duplication: none, hack_pressure: low, recommendation: Clarify, required_change: "", change_control_bar: medium, authority_status: proposed-evidence-only}
+final_judgment: Fit to reuse with targeted improvements
+major_findings: []
+authority_boundary: {generated_outputs_authority: false, raw_inputs_authority: false, postmortem_approves_lifecycle_transition: false, postmortem_approves_invariant_change: false, non_authority_assertion: true}
+follow_up_recommendations: []
