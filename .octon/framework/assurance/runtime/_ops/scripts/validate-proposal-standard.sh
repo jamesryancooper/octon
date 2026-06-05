@@ -162,6 +162,28 @@ allows_proposal_path_fixture_refs() {
   esac
 }
 
+git_ignored_path() {
+  local target_rel="$1"
+  git -C "$ROOT_DIR" check-ignore -q -- "$target_rel" 2>/dev/null
+}
+
+write_manifest_list() {
+  local manifest_list="$1"
+  if git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    git -C "$ROOT_DIR" ls-files --cached --others --exclude-standard -- .octon/inputs/exploratory/proposals \
+      | while IFS= read -r rel; do
+        case "$rel" in
+          */proposal.yml)
+            printf '%s/%s\n' "$ROOT_DIR" "$rel"
+            ;;
+        esac
+      done \
+      | sort >"$manifest_list"
+  else
+    find "$ROOT_DIR/.octon/inputs/exploratory/proposals" -name proposal.yml -type f | sort >"$manifest_list"
+  fi
+}
+
 check_file() {
   local file="$1"
   local label="$2"
@@ -255,11 +277,32 @@ proposal_file_inventory() {
   done | sort
 }
 
+stale_catalog_entries_are_ignored() {
+  local proposal_rel="$1"
+  local stale_entries="$2"
+  local entry target_rel
+
+  while IFS= read -r entry; do
+    [[ -n "$entry" ]] || continue
+    target_rel="$proposal_rel/$entry"
+    if ! git_ignored_path "$target_rel"; then
+      return 1
+    fi
+  done <<<"$stale_entries"
+
+  return 0
+}
+
 validate_artifact_catalog() {
   local proposal_dir="$1"
   local label="$2"
   local catalog="$proposal_dir/navigation/artifact-catalog.md"
   [[ -f "$catalog" ]] || return 0
+
+  local manifest="$proposal_dir/proposal.yml"
+  local proposal_rel status
+  proposal_rel="$(rel_path "$proposal_dir")"
+  status="$(yaml_string "$manifest" '.status')"
 
   local tmp_dir actual listed
   tmp_dir="$(mktemp -d "${TMPDIR:-/tmp}/proposal-catalog.XXXXXX")"
@@ -274,17 +317,23 @@ validate_artifact_catalog() {
   stale="$(comm -13 "$actual" "$listed" || true)"
 
   if [[ -n "$stale" ]]; then
-    emit_recovery_diagnostic \
-      --recovery-class "stale_inventory" \
-      --failing-path "$label/navigation/artifact-catalog.md" \
-      --observed-value "$stale" \
-      --stale-source-ref "$catalog" \
-      --stale-cause "artifact catalog references files that are not present on disk" \
-      --minimal-repair-hint "regenerate navigation/artifact-catalog.md from the packet file inventory" \
-      --rerun-gate "$(proposal_standard_rerun_gate)"
-    fail "$label artifact catalog references only on-disk files"
-    echo "--- artifact-catalog stale entries"
-    printf '%s\n' "$stale"
+    if [[ "$status" == "archived" ]] && stale_catalog_entries_are_ignored "$proposal_rel" "$stale"; then
+      warn "$label archived artifact catalog references ignored local archive payload absent from clean checkout"
+      echo "--- ignored artifact-catalog entries"
+      printf '%s\n' "$stale"
+    else
+      emit_recovery_diagnostic \
+        --recovery-class "stale_inventory" \
+        --failing-path "$label/navigation/artifact-catalog.md" \
+        --observed-value "$stale" \
+        --stale-source-ref "$catalog" \
+        --stale-cause "artifact catalog references files that are not present on disk" \
+        --minimal-repair-hint "regenerate navigation/artifact-catalog.md from the packet file inventory" \
+        --rerun-gate "$(proposal_standard_rerun_gate)"
+      fail "$label artifact catalog references only on-disk files"
+      echo "--- artifact-catalog stale entries"
+      printf '%s\n' "$stale"
+    fi
   else
     pass "$label artifact catalog references only on-disk files"
   fi
@@ -387,7 +436,11 @@ validate_promotion_targets() {
     local target_abs="$ROOT_DIR/$target_rel"
     if [[ ! -e "$target_abs" ]]; then
       if [[ "$(yaml_string "$manifest" '.status')" == "archived" && "$(yaml_string "$manifest" '.archive.disposition')" == "implemented" ]]; then
-        fail "$label implemented archive target must exist: $target_rel"
+        if git_ignored_path "$target_rel"; then
+          warn "$label implemented archive target is ignored local residue absent from clean checkout: $target_rel"
+        else
+          fail "$label implemented archive target must exist: $target_rel"
+        fi
       else
         warn "$label promotion target not present yet: $target_rel"
       fi
@@ -533,9 +586,13 @@ validate_proposal() {
 
 main() {
   if [[ "$SCAN_ALL" -eq 1 ]]; then
+    local manifest_list
+    manifest_list="$(mktemp "${TMPDIR:-/tmp}/proposal-standard-manifests.XXXXXX")"
+    trap '[[ -n "${manifest_list:-}" && -f "${manifest_list:-}" ]] && rm -f "$manifest_list"' EXIT
+    write_manifest_list "$manifest_list"
     while IFS= read -r manifest; do
       validate_proposal "$(dirname "$manifest")"
-    done < <(find "$ROOT_DIR/.octon/inputs/exploratory/proposals" -name proposal.yml -type f | sort)
+    done <"$manifest_list"
   else
     proposal_dir="$(resolve_dir "$PROPOSAL_PATH")"
     validate_proposal "$proposal_dir"

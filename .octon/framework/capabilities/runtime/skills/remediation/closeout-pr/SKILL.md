@@ -17,10 +17,10 @@ capabilities: [external-dependent, long-running, stateful]
 allowed-tools: Read Glob Grep Edit Bash(gh *) Bash(git status *) Bash(git diff *) Bash(git add *) Bash(git commit *) Bash(git push *) Bash(git fetch *) Bash(git checkout *) Bash(git merge *) Bash(git rev-parse *) Bash(git branch *) Bash(git ls-files *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-open.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-ship.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-pr-cleanup.sh *) Bash(bash .octon/framework/execution-roles/_ops/scripts/git/git-branch-cleanup.sh *) Write(/.octon/state/evidence/validation/analysis/*) Write(/.octon/state/evidence/runs/skills/*)
 ---
 
-# Closeout PR
+# Closeout PR-Backed Change
 
 PR-backed Change closeout subflow for one branch worktree. The command id
-remains `closeout-pr`; the human-facing name is Closeout PR.
+remains `closeout-pr`; the human-facing name is Closeout PR-Backed Change.
 
 ## When to Use
 

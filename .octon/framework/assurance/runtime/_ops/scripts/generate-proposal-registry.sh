@@ -117,6 +117,25 @@ emit_target_lines() {
   done <<<"$targets"
 }
 
+write_manifest_list() {
+  local manifest_list="$1"
+  if git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    git -C "$ROOT_DIR" ls-files --cached --others --exclude-standard -- .octon/inputs/exploratory/proposals \
+      | while IFS= read -r rel; do
+        case "$rel" in
+          */proposal.yml)
+            printf '%s/%s\n' "$ROOT_DIR" "$rel"
+            ;;
+        esac
+      done \
+      | sort >"$manifest_list"
+    pass "proposal manifest discovery uses git-visible corpus"
+  else
+    find "$ROOT_DIR/.octon/inputs/exploratory/proposals" -name proposal.yml -type f | sort >"$manifest_list"
+    pass "proposal manifest discovery uses filesystem fallback"
+  fi
+}
+
 validate_package() {
   local proposal_dir="$1"
   local proposal_rel="$2"
@@ -215,7 +234,7 @@ main() {
   seen_file="$tmp_dir/seen.tsv"
   manifest_list="$tmp_dir/manifests.list"
   : >"$seen_file"
-  find "$ROOT_DIR/.octon/inputs/exploratory/proposals" -name proposal.yml -type f | sort >"$manifest_list"
+  write_manifest_list "$manifest_list"
 
   while IFS= read -r manifest; do
     [[ -n "$manifest" ]] || continue
