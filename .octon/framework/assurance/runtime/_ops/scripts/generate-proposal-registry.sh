@@ -14,6 +14,7 @@ BASE_VALIDATOR="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/valida
 MODE=""
 errors=0
 GENERATOR_ACTIVE_VAR="OCTON_PROPOSAL_REGISTRY_GENERATOR_ACTIVE"
+SKIP_SUBTYPE_VALIDATION_VAR="OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION"
 
 fail() {
   echo "[ERROR] $1"
@@ -106,12 +107,14 @@ subtype_validator_for_kind() {
 emit_target_lines() {
   local manifest="$1"
   local indent="$2"
-  local prefix
+  local prefix targets
   prefix="$(printf '%*s' "$indent" '')"
+  targets="$(yq -r '.promotion_targets[]?' "$manifest")" || return 1
+  [[ -n "$targets" ]] || return 0
   while IFS= read -r target; do
     [[ -n "$target" ]] || continue
     printf '%s- %s\n' "$prefix" "$(yaml_quote "$target")"
-  done < <(yq -r '.promotion_targets[]?' "$manifest")
+  done <<<"$targets"
 }
 
 validate_package() {
@@ -141,6 +144,11 @@ validate_package() {
     return 0
   fi
 
+  if [[ "${!SKIP_SUBTYPE_VALIDATION_VAR:-}" == "1" ]]; then
+    pass "active proposal subtype validation skipped for projection-only registry recovery: $proposal_rel"
+    return 0
+  fi
+
   validator="$(subtype_validator_for_kind "$kind")" || {
     fail "subtype validator exists for proposal kind '$kind' ($proposal_rel)"
     return 1
@@ -158,24 +166,29 @@ render_registry() {
   local tmp_dir="$2"
   local active_dir="$tmp_dir/active"
   local archived_dir="$tmp_dir/archived"
-  local fragment
+  local active_fragments archived_fragments fragment
+
+  active_fragments="$tmp_dir/active-fragments.list"
+  archived_fragments="$tmp_dir/archived-fragments.list"
+  find "$active_dir" -type f | sort >"$active_fragments"
+  find "$archived_dir" -type f | sort >"$archived_fragments"
 
   {
     printf 'schema_version: "proposal-registry-v1"\n\n'
-    if find "$active_dir" -type f | grep -q .; then
+    if [[ -s "$active_fragments" ]]; then
       printf 'active:\n'
       while IFS= read -r fragment; do
         cat "$fragment"
-      done < <(find "$active_dir" -type f | sort)
+      done <"$active_fragments"
     else
       printf 'active: []\n'
     fi
 
-    if find "$archived_dir" -type f | grep -q .; then
+    if [[ -s "$archived_fragments" ]]; then
       printf 'archived:\n'
       while IFS= read -r fragment; do
         cat "$fragment"
-      done < <(find "$archived_dir" -type f | sort)
+      done <"$archived_fragments"
     else
       printf 'archived: []\n'
     fi
@@ -183,7 +196,7 @@ render_registry() {
 }
 
 main() {
-  local tmp_dir generated_registry seen_file
+  local tmp_dir generated_registry seen_file manifest_list
 
   if [[ -f "$SCHEMA_PATH" ]]; then
     pass "proposal registry schema exists"
@@ -200,7 +213,9 @@ main() {
   trap '[[ -n "${tmp_dir:-}" && -d "${tmp_dir:-}" ]] && rm -r "$tmp_dir"' EXIT
   mkdir -p "$tmp_dir/active" "$tmp_dir/archived"
   seen_file="$tmp_dir/seen.tsv"
+  manifest_list="$tmp_dir/manifests.list"
   : >"$seen_file"
+  find "$ROOT_DIR/.octon/inputs/exploratory/proposals" -name proposal.yml -type f | sort >"$manifest_list"
 
   while IFS= read -r manifest; do
     [[ -n "$manifest" ]] || continue
@@ -268,7 +283,7 @@ main() {
         emit_target_lines "$manifest" 6
       } >"$fragment"
     fi
-  done < <(find "$ROOT_DIR/.octon/inputs/exploratory/proposals" -name proposal.yml -type f | sort)
+  done <"$manifest_list"
 
   generated_registry="$tmp_dir/registry.yml"
   render_registry "$generated_registry" "$tmp_dir"

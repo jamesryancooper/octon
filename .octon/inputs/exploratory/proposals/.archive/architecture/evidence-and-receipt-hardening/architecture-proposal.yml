@@ -1,0 +1,29 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "evidence-and-receipt-hardening"
+title: "Evidence And Receipt Hardening"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  Autonomous recovery needs compact evidence, but compactness must not allow
+  parent summaries to replace child-owned receipts or make cleaned control
+  state unreplayable.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Future implementation should harden existing evidence contracts and
+  validators before adding new evidence surfaces.

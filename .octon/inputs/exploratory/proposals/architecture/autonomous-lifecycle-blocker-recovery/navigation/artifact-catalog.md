@@ -1,0 +1,23 @@
+# Artifact Catalog
+
+- `README.md`
+- `architecture-proposal.yml`
+- `proposal.yml`
+- `validation-plan.md`
+- `architecture/acceptance-criteria.md`
+- `architecture/child-packet-contract.md`
+- `architecture/implementation-plan.md`
+- `architecture/packet-sequence.md`
+- `architecture/program-closeout-plan.md`
+- `architecture/target-architecture.md`
+- `navigation/artifact-catalog.md`
+- `navigation/source-of-truth-map.md`
+- `resources/child-packet-index.md`
+- `resources/child-packet-index.yml`
+- `resources/source-postmortem-evaluation.md`
+- `resources/source-traceability-matrix.md`
+- `support/implementation-grade-completeness-review.md`
+- `support/program-creation.md`
+- `support/program-implementation-orchestration-prompt.md`
+- `support/program-run-kickoff-prompt.md`
+- `support/proposal-review.md`

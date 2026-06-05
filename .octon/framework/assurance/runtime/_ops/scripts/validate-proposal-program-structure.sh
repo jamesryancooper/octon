@@ -6,6 +6,7 @@ ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
+source "$SCRIPT_DIR/validator-recovery-diagnostics.sh"
 
 PROGRAM_PATH=""
 errors=0
@@ -25,6 +26,22 @@ warn() {
 
 pass() {
   echo "[OK] $1"
+}
+
+program_structure_rerun_gate() {
+  printf 'validate-proposal-program-structure.sh --package %s\n' "$PROGRAM_PATH"
+}
+
+program_structure_repo_rel() {
+  local path="$1"
+  case "$path" in
+    "$ROOT_DIR"/*)
+      printf '%s\n' "${path#$ROOT_DIR/}"
+      ;;
+    *)
+      printf '%s\n' "$path"
+      ;;
+  esac
 }
 
 usage() {
@@ -93,6 +110,11 @@ require_file() {
   if [[ -f "$file" ]]; then
     pass "$label exists"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "missing_required_file" \
+      --failing-path "$(program_structure_repo_rel "$file")" \
+      --minimal-repair-hint "create the required program packet artifact and rerun the structure gate" \
+      --rerun-gate "$(program_structure_rerun_gate)"
     fail "$label exists"
   fi
 }
@@ -102,6 +124,11 @@ require_yaml() {
   if [[ -f "$file" ]] && yq -e '.' "$file" >/dev/null 2>&1; then
     pass "$label parses"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "invalid_yaml" \
+      --failing-path "$(program_structure_repo_rel "$file")" \
+      --minimal-repair-hint "repair YAML syntax for the program packet artifact" \
+      --rerun-gate "$(program_structure_rerun_gate)"
     fail "$label parses"
   fi
 }
@@ -138,12 +165,24 @@ compare_registry_to_related_proposals() {
   if [[ -z "$missing" ]]; then
     pass "related_proposals covers registry children"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$MANIFEST")#related_proposals" \
+      --observed-value "$missing" \
+      --minimal-repair-hint "add every child-packet-index.yml child_id to proposal.yml related_proposals" \
+      --rerun-gate "$(program_structure_rerun_gate)"
     fail "related_proposals covers registry children: ${missing//$'\n'/, }"
   fi
 
   if [[ -z "$extra" ]]; then
     pass "related_proposals contains no extra child ids"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$MANIFEST")#related_proposals" \
+      --observed-value "$extra" \
+      --minimal-repair-hint "remove related_proposals entries that are not present in child-packet-index.yml" \
+      --rerun-gate "$(program_structure_rerun_gate)"
     fail "related_proposals contains no extra child ids: ${extra//$'\n'/, }"
   fi
 }
@@ -151,6 +190,11 @@ compare_registry_to_related_proposals() {
 validate_no_nested_children() {
   local child_path="$1" child_id="$2"
   if [[ "$child_path" == "$PROGRAM_REL" || "$child_path" == "$PROGRAM_REL"/* ]]; then
+    emit_hard_blocker_recovery_diagnostic \
+      "$(program_structure_repo_rel "$REGISTRY")#children[$child_id].path" \
+      "child packet path is nested under the parent program packet" \
+      "$(program_structure_rerun_gate)" \
+      "$child_path"
     fail "child $child_id path is not nested under parent program"
   else
     pass "child $child_id path is not nested under parent program"
@@ -168,12 +212,21 @@ validate_no_forbidden_parent_authority_surfaces() {
   if [[ -z "$output" ]]; then
     pass "parent package contains no child-owned authority surfaces"
   else
+    emit_hard_blocker_recovery_diagnostic \
+      "$(program_structure_repo_rel "$PROGRAM_DIR")" \
+      "parent package contains child-owned authority surfaces" \
+      "$(program_structure_rerun_gate)" \
+      "$output"
     fail "parent package contains child-owned authority surfaces"
     printf '%s\n' "$output"
   fi
 }
 
 if [[ ! -d "$PROGRAM_DIR" ]]; then
+  emit_hard_blocker_recovery_diagnostic \
+    "$(program_structure_repo_rel "$PROGRAM_DIR")" \
+    "program packet directory is missing" \
+    "$(program_structure_rerun_gate)"
   fail "program packet exists"
   echo "Validation summary: errors=$errors warnings=$warnings"
   exit 1
@@ -189,6 +242,10 @@ require_yaml "$MANIFEST" "parent proposal.yml"
 require_yaml "$REGISTRY" "program child registry"
 
 if [[ -d "$PROGRAM_DIR/children" ]]; then
+  emit_hard_blocker_recovery_diagnostic \
+    "$(program_structure_repo_rel "$PROGRAM_DIR/children")" \
+    "program packets must not own nested child directories" \
+    "$(program_structure_rerun_gate)"
   fail "program has no nested children directory"
 else
   pass "program has no nested children directory"
@@ -198,6 +255,12 @@ child_count="$(yq -r '(.children // []) | length' "$REGISTRY" 2>/dev/null || ech
 if [[ "$child_count" =~ ^[1-9][0-9]*$ ]]; then
   pass "program child registry declares children"
 else
+  emit_recovery_diagnostic \
+    --recovery-class "child_registry_error" \
+    --failing-path "$(program_structure_repo_rel "$REGISTRY")#children" \
+    --observed-value "$child_count" \
+    --minimal-repair-hint "declare at least one child in resources/child-packet-index.yml" \
+    --rerun-gate "$(program_structure_rerun_gate)"
   fail "program child registry declares children"
 fi
 
@@ -206,15 +269,37 @@ for ((index=0; index<child_count; index++)); do
   child_path="$(yq -r ".children[$index].path // \"\"" "$REGISTRY" 2>/dev/null || true)"
   dependencies="$(yq -r ".children[$index].dependencies[]? // \"\"" "$REGISTRY" 2>/dev/null | awk 'NF' || true)"
 
-  valid_child_id "$child_id" && pass "child id valid: $child_id" || fail "child id valid: $child_id"
+  valid_child_id "$child_id" && pass "child id valid: $child_id" || {
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$REGISTRY")#children[$index].child_id" \
+      --observed-value "$child_id" \
+      --minimal-repair-hint "use a child_id matching ^[a-z][a-z0-9-]*$" \
+      --rerun-gate "$(program_structure_rerun_gate)"
+    fail "child id valid: $child_id"
+  }
   if [[ -n "${CHILD_SEEN[$child_id]:-}" ]]; then
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$REGISTRY")#children[$index].child_id" \
+      --observed-value "$child_id" \
+      --minimal-repair-hint "make every child_id unique in resources/child-packet-index.yml" \
+      --rerun-gate "$(program_structure_rerun_gate)"
     fail "child id unique: $child_id"
   else
     CHILD_SEEN["$child_id"]=1
     pass "child id unique: $child_id"
   fi
 
-  safe_rel_path "$child_path" && pass "child $child_id path is repo-relative" || fail "child $child_id path is repo-relative"
+  safe_rel_path "$child_path" && pass "child $child_id path is repo-relative" || {
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(program_structure_repo_rel "$REGISTRY")#children[$index].path" \
+      --observed-value "$child_path" \
+      --minimal-repair-hint "set child path to a safe repo-relative proposal packet path" \
+      --rerun-gate "$(program_structure_rerun_gate)"
+    fail "child $child_id path is repo-relative"
+  }
   validate_no_nested_children "$child_path" "$child_id"
 
   while IFS= read -r dependency; do
@@ -223,6 +308,12 @@ for ((index=0; index<child_count; index++)); do
       pass "child $child_id dependency references registry child: $dependency"
     else
       fail "child $child_id dependency references registry child: $dependency"
+      emit_recovery_diagnostic \
+        --recovery-class "child_registry_error" \
+        --failing-path "$(program_structure_repo_rel "$REGISTRY")#children[$index].dependencies" \
+        --observed-value "$dependency" \
+        --minimal-repair-hint "make dependencies reference existing child_id values" \
+        --rerun-gate "$(program_structure_rerun_gate)"
     fi
   done <<<"$dependencies"
 done

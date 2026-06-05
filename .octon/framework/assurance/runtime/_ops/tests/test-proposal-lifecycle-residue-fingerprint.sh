@@ -72,6 +72,14 @@ summary_only() {
     --octon-dir "$tmp_root/.octon"
 }
 
+summary_for_active_run() {
+  OCTON_ROOT_DIR="$tmp_root" bash "$tmp_root/.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh" \
+    --summary-only \
+    --active-run-id lifecycle-proposal-program-1 \
+    --root "$tmp_root" \
+    --octon-dir "$tmp_root/.octon"
+}
+
 baseline="$(run_fingerprint)"
 assert_sha256 "$baseline"
 
@@ -83,9 +91,21 @@ grep -F "manual_review: 1" <<<"$manual_summary" >/dev/null || fail "manual-only 
 manual_only="$(run_fingerprint)"
 assert_equals "$manual_only" "$baseline" "manual-review residue must not stale cleanup fingerprint"
 
+mkdir -p "$tmp_root/.octon/state/control/execution/runs/lifecycle-proposal-program-1"
+cat >"$tmp_root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml" <<YAML
+run_id: lifecycle-proposal-program-1
+target: $target
+YAML
+mkdir -p "$tmp_root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow"
+printf 'run: active\n' >"$tmp_root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/state.yml"
+active_run_summary="$(summary_for_active_run)"
+grep -F "cleanup_candidates: 0" <<<"$active_run_summary" >/dev/null || fail "active run residue created cleanup candidates"
+active_run_only="$(run_fingerprint)"
+assert_equals "$active_run_only" "$baseline" "active program run residue must not stale cleanup fingerprint"
+
 mkdir -p "$tmp_root/.octon/state/control/execution/runs/publish-1"
 printf 'run: publish\n' >"$tmp_root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
-one_candidate_summary="$(summary_only)"
+one_candidate_summary="$(summary_for_active_run)"
 grep -F "cleanup_candidates: 1" <<<"$one_candidate_summary" >/dev/null || fail "cleanup candidate was not detected"
 one_candidate="$(run_fingerprint)"
 assert_sha256 "$one_candidate"
@@ -93,7 +113,7 @@ assert_not_equals "$one_candidate" "$baseline" "cleanup candidate must change re
 
 mkdir -p "$tmp_root/.octon/state/continuity/runs/publish-2"
 printf 'run: publish\n' >"$tmp_root/.octon/state/continuity/runs/publish-2/state.yml"
-two_candidate_summary="$(summary_only)"
+two_candidate_summary="$(summary_for_active_run)"
 grep -F "cleanup_candidates: 2" <<<"$two_candidate_summary" >/dev/null || fail "second cleanup candidate was not detected"
 two_candidates="$(run_fingerprint)"
 assert_sha256 "$two_candidates"

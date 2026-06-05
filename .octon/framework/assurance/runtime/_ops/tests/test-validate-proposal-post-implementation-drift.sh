@@ -58,6 +58,8 @@ create_fixture_repo() {
   cp "$REPO_ROOT/$CONFORMANCE_SCRIPT" "$fixture_root/$CONFORMANCE_SCRIPT"
   cp "$REPO_ROOT/$READINESS_SCRIPT" "$fixture_root/$READINESS_SCRIPT"
   cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   printf '%s\n' "$fixture_root"
 }
 

@@ -59,6 +59,8 @@ create_fixture_repo() {
     "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh" \
@@ -298,6 +300,22 @@ PY
   run_validator_in_fixture "$fixture_root" ".octon/inputs/exploratory/proposals/policy/shared-id"
 }
 
+case_invalid_status_emits_enum_diagnostic() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  create_valid_fixture "$fixture_root"
+  yq -i '.status = "ready"' "$fixture_root/.octon/inputs/exploratory/proposals/policy/shared-id/proposal.yml"
+  run_validator_in_fixture "$fixture_root" ".octon/inputs/exploratory/proposals/policy/shared-id"
+}
+
+case_stale_registry_emits_freshness_diagnostic() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  create_valid_fixture "$fixture_root"
+  yq -i '.title = "Changed Policy Title"' "$fixture_root/.octon/inputs/exploratory/proposals/policy/shared-id/proposal.yml"
+  run_validator_in_fixture "$fixture_root" ".octon/inputs/exploratory/proposals/policy/shared-id"
+}
+
 main() {
   assert_success \
     "proposal standard validator accepts the same proposal_id across different kinds" \
@@ -313,6 +331,14 @@ main() {
     "proposal standard validator rejects stale artifact-catalog inventory" \
     "artifact catalog references only on-disk files" \
     case_artifact_catalog_drift_fails
+  assert_failure_contains \
+    "proposal standard validator emits enum drift accepted values" \
+    '"accepted_values":["draft","in-review","accepted","implemented","rejected","archived"]' \
+    case_invalid_status_emits_enum_diagnostic
+  assert_failure_contains \
+    "proposal standard validator emits generated freshness diagnostics" \
+    '"recovery_class":"generated_freshness_drift"' \
+    case_stale_registry_emits_freshness_diagnostic
 
   echo
   echo "Passed: $pass_count"

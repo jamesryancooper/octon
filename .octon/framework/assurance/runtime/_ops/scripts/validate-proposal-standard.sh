@@ -6,6 +6,7 @@ ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
+source "$SCRIPT_DIR/validator-recovery-diagnostics.sh"
 
 PROPOSAL_PATH=""
 SCAN_ALL=0
@@ -28,6 +29,44 @@ warn() {
 
 pass() {
   echo "[OK] $1"
+}
+
+proposal_standard_rerun_gate() {
+  if [[ "$SCAN_ALL" -eq 1 ]]; then
+    printf 'validate-proposal-standard.sh --all-standard-proposals'
+  else
+    printf 'validate-proposal-standard.sh --package %s' "$PROPOSAL_PATH"
+  fi
+}
+
+proposal_standard_enum_path() {
+  local label="$1"
+  local proposal_ref="$label"
+  proposal_ref="${proposal_ref#proposal \'}"
+  proposal_ref="${proposal_ref%%\'*}"
+  case "$label" in
+    *"schema_version"*)
+      printf '%s\n' "$proposal_ref/proposal.yml#schema_version"
+      ;;
+    *"kind valid"*)
+      printf '%s\n' "$proposal_ref/proposal.yml#proposal_kind"
+      ;;
+    *"scope valid"*)
+      printf '%s\n' "$proposal_ref/proposal.yml#promotion_scope"
+      ;;
+    *"status valid"*)
+      printf '%s\n' "$proposal_ref/proposal.yml#status"
+      ;;
+    *"archived_from_status valid"*)
+      printf '%s\n' "$proposal_ref/proposal.yml#archive.archived_from_status"
+      ;;
+    *"archive disposition valid"*)
+      printf '%s\n' "$proposal_ref/proposal.yml#archive.disposition"
+      ;;
+    *)
+      printf '%s\n' "$label"
+      ;;
+  esac
 }
 
 usage() {
@@ -108,6 +147,21 @@ yaml_string() {
   yq -r "$query // \"\"" "$file"
 }
 
+allows_proposal_path_fixture_refs() {
+  local target_rel="$1"
+  case "$target_rel" in
+    .octon/framework/assurance/runtime/_ops/tests|.octon/framework/assurance/runtime/_ops/tests/)
+      return 0
+      ;;
+    .octon/framework/assurance/runtime/_ops/tests/*)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 check_file() {
   local file="$1"
   local label="$2"
@@ -123,12 +177,20 @@ validate_enum() {
   local label="$2"
   shift 2
   local allowed
+  local accepted_values="" sep=""
   for allowed in "$@"; do
+    accepted_values="${accepted_values}${sep}${allowed}"
+    sep="|"
     if [[ "$value" == "$allowed" ]]; then
       pass "$label"
       return 0
     fi
   done
+  emit_enum_recovery_diagnostic \
+    "$(proposal_standard_enum_path "$label")" \
+    "$value" \
+    "$accepted_values" \
+    "$(proposal_standard_rerun_gate)"
   fail "$label"
   return 1
 }
@@ -212,6 +274,14 @@ validate_artifact_catalog() {
   stale="$(comm -13 "$actual" "$listed" || true)"
 
   if [[ -n "$stale" ]]; then
+    emit_recovery_diagnostic \
+      --recovery-class "stale_inventory" \
+      --failing-path "$label/navigation/artifact-catalog.md" \
+      --observed-value "$stale" \
+      --stale-source-ref "$catalog" \
+      --stale-cause "artifact catalog references files that are not present on disk" \
+      --minimal-repair-hint "regenerate navigation/artifact-catalog.md from the packet file inventory" \
+      --rerun-gate "$(proposal_standard_rerun_gate)"
     fail "$label artifact catalog references only on-disk files"
     echo "--- artifact-catalog stale entries"
     printf '%s\n' "$stale"
@@ -325,6 +395,8 @@ validate_promotion_targets() {
     fi
     if [[ "$status" == "archived" ]]; then
       pass "$label archived proposal skips proposal-path dependency scan for historical targets: $target_rel"
+    elif allows_proposal_path_fixture_refs "$target_rel"; then
+      pass "$label assurance test fixture target may include proposal-path examples: $target_rel"
     else
       local found=""
       if command -v rg >/dev/null 2>&1; then
@@ -333,6 +405,11 @@ validate_promotion_targets() {
         found="$(grep -R -n -E "\\.octon/inputs/exploratory/proposals/(\\.archive/)?[a-z0-9-]+/${proposal_id}" "$target_abs" 2>/dev/null || true)"
       fi
       if [[ -n "$found" ]]; then
+        emit_hard_blocker_recovery_diagnostic \
+          "$target_rel" \
+          "promotion target retains proposal-path dependency" \
+          "$(proposal_standard_rerun_gate)" \
+          "$found"
         fail "$label promotion target retains proposal-path dependency: $target_rel"
         printf '%s\n' "$found"
       else
@@ -466,9 +543,21 @@ main() {
 
   if [[ "$SKIP_REGISTRY_CHECK" -ne 1 ]]; then
     if [[ -x "$GENERATOR_SCRIPT" || -f "$GENERATOR_SCRIPT" ]]; then
-      if bash "$GENERATOR_SCRIPT" --check; then
+      local registry_command
+      if [[ "$SCAN_ALL" -eq 1 ]]; then
+        registry_command=(bash "$GENERATOR_SCRIPT" --check)
+      else
+        registry_command=(env OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION=1 bash "$GENERATOR_SCRIPT" --check)
+      fi
+      if "${registry_command[@]}"; then
         pass "proposal registry synchronized with manifest projection"
       else
+        emit_generated_freshness_recovery_diagnostic \
+          ".octon/generated/proposals/registry.yml" \
+          ".octon/inputs/exploratory/proposals/**" \
+          "proposal registry projection is stale relative to proposal manifests" \
+          "$(proposal_standard_rerun_gate)" \
+          "run bash .octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
         fail "proposal registry synchronized with manifest projection"
       fi
     else

@@ -71,11 +71,32 @@ extract_yaml_scalar() {
 cleanup_summary=""
 cleanup_helper="$ROOT_DIR/.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh"
 if [[ -f "$cleanup_helper" ]]; then
+  active_run_id="${OCTON_ACTIVE_RUN_ID:-}"
+  if [[ -z "$active_run_id" && "$LIFECYCLE" == "proposal-program" ]]; then
+    runs_root="$OCTON_DIR/state/control/execution/runs"
+    if [[ -d "$runs_root" ]]; then
+      while IFS= read -r checkpoint; do
+        grep -Fq "target: $TARGET_PATH" "$checkpoint" || continue
+        active_run_id="$(basename "$(dirname "$checkpoint")")"
+      done < <(
+        find "$runs_root" \
+          -path "*/lifecycle-proposal-program-*/program-lifecycle-checkpoint.yml" \
+          -type f \
+          -print 2>/dev/null | sort
+      )
+    fi
+  fi
+  cleanup_args=(
+    --summary-only
+    --root "$ROOT_DIR"
+    --octon-dir "$OCTON_DIR"
+  )
+  if [[ -n "$active_run_id" ]]; then
+    cleanup_args+=(--active-run-id "$active_run_id")
+  fi
   cleanup_summary="$(
     OCTON_ROOT_DIR="$ROOT_DIR" bash "$cleanup_helper" \
-      --summary-only \
-      --root "$ROOT_DIR" \
-      --octon-dir "$OCTON_DIR"
+      "${cleanup_args[@]}"
   )"
 fi
 

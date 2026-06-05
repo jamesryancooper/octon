@@ -1,0 +1,30 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "escalation-policy-update"
+title: "Escalation Policy Update"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  Lifecycle agents paused for recoverable issues that should be handled
+  autonomously. The escalation policy needs explicit downgrade rules for
+  routine and soft blockers while preserving hard-blocker fail-closed behavior.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Future implementation should update lifecycle-specific prompts and contracts
+  first; constitutional changes are out of scope unless later review proves
+  they are required.

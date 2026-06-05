@@ -46,12 +46,30 @@ assert_failure_contains() {
   return 1
 }
 
+assert_failure_contains_without() {
+  local name="$1" needle="$2" forbidden="$3"
+  shift 3
+  local output="" rc=0
+  output="$("$@" 2>&1)" || rc=$?
+  if (( rc != 0 )) && grep -Fq "$needle" <<<"$output" && ! grep -Fq "$forbidden" <<<"$output"; then
+    pass "$name"
+    return 0
+  fi
+  fail "$name"
+  echo "  expected failure containing: $needle" >&2
+  echo "  expected failure not containing: $forbidden" >&2
+  echo "$output" >&2
+  return 1
+}
+
 create_fixture_repo() {
   local fixture_root
   fixture_root="$(mktemp -d "${TMPDIR:-/tmp}/proposal-review-gate.XXXXXX")"
   CLEANUP_DIRS+=("$fixture_root")
   mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
   cp "$REPO_ROOT/$VALIDATE_SCRIPT" "$fixture_root/$VALIDATE_SCRIPT"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   printf '%s\n' "$fixture_root"
 }
 
@@ -206,6 +224,14 @@ case_accepted_stale_review_fails() {
   run_validator "$root" --require-implementation-authorization
 }
 
+case_accepted_open_blockers_emit_hard_blocker() {
+  local root
+  root="$(create_fixture_repo)"
+  write_packet "$root" accepted
+  write_review "$root" accepted yes 1
+  run_validator "$root" --require-implementation-authorization
+}
+
 case_accepted_review_survives_post_review_receipts() {
   local root
   root="$(create_fixture_repo)"
@@ -328,6 +354,15 @@ main() {
     "accepted packets fail when review digest is stale" \
     "reviewed packet digest is fresh" \
     case_accepted_stale_review_fails
+  assert_failure_contains \
+    "stale review digest emits stale evidence diagnostic" \
+    '"stale_cause":"reviewed packet digest does not match current packet digest"' \
+    case_accepted_stale_review_fails
+  assert_failure_contains_without \
+    "accepted review blockers emit hard blocker without repair hint" \
+    '"hard_blocker_reason":"accepted review has open blocking findings"' \
+    '"minimal_repair_hint"' \
+    case_accepted_open_blockers_emit_hard_blocker
   assert_success \
     "accepted review remains fresh after post-review operational receipts" \
     case_accepted_review_survives_post_review_receipts

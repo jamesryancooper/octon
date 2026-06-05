@@ -6,6 +6,7 @@ ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
+source "$SCRIPT_DIR/validator-recovery-diagnostics.sh"
 
 PROPOSAL_PATH=""
 REQUIRE_IMPLEMENTATION_AUTHORIZATION=0
@@ -25,6 +26,26 @@ warn() {
 
 pass() {
   echo "[OK] $1"
+}
+
+review_gate_rerun_gate() {
+  local gate="validate-proposal-review-gate.sh --package $PROPOSAL_PATH"
+  if [[ "$REQUIRE_IMPLEMENTATION_AUTHORIZATION" -eq 1 ]]; then
+    gate="$gate --require-implementation-authorization"
+  fi
+  printf '%s\n' "$gate"
+}
+
+review_gate_repo_rel() {
+  local path="$1"
+  case "$path" in
+    "$ROOT_DIR"/*)
+      printf '%s\n' "${path#$ROOT_DIR/}"
+      ;;
+    *)
+      printf '%s\n' "$path"
+      ;;
+  esac
 }
 
 usage() {
@@ -239,12 +260,22 @@ validate_review_shape() {
   if [[ "$verdict" =~ ^(accepted|revision-required|rejected)$ ]]; then
     pass "review verdict is explicit"
   else
+    emit_enum_recovery_diagnostic \
+      "$(review_gate_repo_rel "$REVIEW")#verdict" \
+      "$verdict" \
+      "accepted|revision-required|rejected" \
+      "$(review_gate_rerun_gate)"
     fail "review verdict is explicit"
   fi
 
   if [[ "$implementation_prompt_authorized" =~ ^(yes|no)$ ]]; then
     pass "implementation prompt authorization is explicit"
   else
+    emit_enum_recovery_diagnostic \
+      "$(review_gate_repo_rel "$REVIEW")#implementation_prompt_authorized" \
+      "$implementation_prompt_authorized" \
+      "yes|no" \
+      "$(review_gate_rerun_gate)"
     fail "implementation prompt authorization is explicit"
   fi
 
@@ -257,6 +288,12 @@ validate_review_shape() {
   if [[ "$open_blocking_findings_count" =~ ^[0-9]+$ ]]; then
     pass "open blocking finding count is numeric"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "schema_violation" \
+      --failing-path "$(review_gate_repo_rel "$REVIEW")#open_blocking_findings_count" \
+      --observed-value "$open_blocking_findings_count" \
+      --minimal-repair-hint "record open_blocking_findings_count as a non-negative integer" \
+      --rerun-gate "$(review_gate_rerun_gate)"
     fail "open blocking finding count is numeric"
   fi
 
@@ -276,6 +313,14 @@ validate_digest_fresh() {
     pass "reviewed packet digest is fresh"
     warn "reviewed packet digest matches legacy support inventory scope"
   else
+    emit_stale_evidence_recovery_diagnostic \
+      "$(review_gate_repo_rel "$REVIEW")#reviewed_packet_digest" \
+      "$recorded_digest" \
+      "$current_digest" \
+      "$(review_gate_repo_rel "$REVIEW")" \
+      "reviewed packet digest does not match current packet digest" \
+      "$(review_gate_rerun_gate)" \
+      "rerun the proposal review route for $PROPOSAL_PATH so support/proposal-review.md records the current packet digest"
     fail "reviewed packet digest is fresh"
     echo "recorded: $recorded_digest"
     echo "current:  $current_digest"
@@ -290,6 +335,14 @@ validate_manifest_targets_covered() {
     if grep -Fq "$target" "$REVIEW"; then
       pass "review covers promotion target: $target"
     else
+      emit_recovery_diagnostic \
+        --recovery-class "stale_evidence" \
+        --failing-path "$(review_gate_repo_rel "$REVIEW")#Approved Promotion Targets" \
+        --observed-value "$target" \
+        --stale-source-ref "$(review_gate_repo_rel "$REVIEW")" \
+        --stale-cause "review receipt does not cover a manifest promotion target" \
+        --minimal-repair-hint "rerun proposal review so Approved Promotion Targets covers $target" \
+        --rerun-gate "$(review_gate_rerun_gate)"
       fail "review covers promotion target: $target"
     fi
   done < <(yq -r '.promotion_targets[]?' "$MANIFEST")
@@ -319,12 +372,21 @@ case "$status" in
     pass "proposal status supports review gate"
     ;;
   *)
+    emit_enum_recovery_diagnostic \
+      "$(review_gate_repo_rel "$MANIFEST")#status" \
+      "$status" \
+      "draft|in-review|accepted|implemented|rejected|archived" \
+      "$(review_gate_rerun_gate)"
     fail "proposal status supports review gate"
     ;;
 esac
 
 if [[ ! -f "$REVIEW" ]]; then
   if [[ "$REQUIRE_IMPLEMENTATION_AUTHORIZATION" -eq 1 ]]; then
+    emit_hard_blocker_recovery_diagnostic \
+      "$(review_gate_repo_rel "$REVIEW")" \
+      "implementation authorization requires a fresh accepted proposal review receipt" \
+      "$(review_gate_rerun_gate)"
     fail "proposal review receipt authorizes implementation"
   fi
 
@@ -370,9 +432,18 @@ else
       esac
       ;;
     accepted)
-      [[ "$verdict" == "accepted" ]] && pass "accepted proposal has accepted review verdict" || fail "accepted proposal has accepted review verdict"
-      [[ "$implementation_prompt_authorized" == "yes" ]] && pass "review authorizes implementation prompt" || fail "review authorizes implementation prompt"
-      [[ "$open_blocking_findings_count" == "0" ]] && pass "accepted review has no open blocking findings" || fail "accepted review has no open blocking findings"
+      [[ "$verdict" == "accepted" ]] && pass "accepted proposal has accepted review verdict" || {
+        emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$REVIEW")#verdict" "accepted proposal review verdict is not accepted" "$(review_gate_rerun_gate)" "$verdict"
+        fail "accepted proposal has accepted review verdict"
+      }
+      [[ "$implementation_prompt_authorized" == "yes" ]] && pass "review authorizes implementation prompt" || {
+        emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$REVIEW")#implementation_prompt_authorized" "review does not authorize implementation prompt generation" "$(review_gate_rerun_gate)" "$implementation_prompt_authorized"
+        fail "review authorizes implementation prompt"
+      }
+      [[ "$open_blocking_findings_count" == "0" ]] && pass "accepted review has no open blocking findings" || {
+        emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$REVIEW")#open_blocking_findings_count" "accepted review has open blocking findings" "$(review_gate_rerun_gate)" "$open_blocking_findings_count"
+        fail "accepted review has no open blocking findings"
+      }
       validate_digest_fresh
       validate_manifest_targets_covered
       ;;
@@ -391,10 +462,22 @@ fi
 
 if [[ "$REQUIRE_IMPLEMENTATION_AUTHORIZATION" -eq 1 ]]; then
   if [[ -f "$REVIEW" ]]; then
-    [[ "$status" == "accepted" ]] && pass "proposal status is accepted for implementation authorization" || fail "proposal status is accepted for implementation authorization"
-    [[ "$verdict" == "accepted" ]] && pass "proposal review authorizes implementation" || fail "proposal review authorizes implementation"
-    [[ "$implementation_prompt_authorized" == "yes" ]] && pass "proposal review permits implementation prompt generation" || fail "proposal review permits implementation prompt generation"
-    [[ "$open_blocking_findings_count" == "0" ]] && pass "proposal review has no open blockers for implementation" || fail "proposal review has no open blockers for implementation"
+    [[ "$status" == "accepted" ]] && pass "proposal status is accepted for implementation authorization" || {
+      emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$MANIFEST")#status" "implementation authorization requires proposal status accepted" "$(review_gate_rerun_gate)" "$status"
+      fail "proposal status is accepted for implementation authorization"
+    }
+    [[ "$verdict" == "accepted" ]] && pass "proposal review authorizes implementation" || {
+      emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$REVIEW")#verdict" "implementation authorization requires accepted review verdict" "$(review_gate_rerun_gate)" "$verdict"
+      fail "proposal review authorizes implementation"
+    }
+    [[ "$implementation_prompt_authorized" == "yes" ]] && pass "proposal review permits implementation prompt generation" || {
+      emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$REVIEW")#implementation_prompt_authorized" "implementation prompt generation is not authorized" "$(review_gate_rerun_gate)" "$implementation_prompt_authorized"
+      fail "proposal review permits implementation prompt generation"
+    }
+    [[ "$open_blocking_findings_count" == "0" ]] && pass "proposal review has no open blockers for implementation" || {
+      emit_hard_blocker_recovery_diagnostic "$(review_gate_repo_rel "$REVIEW")#open_blocking_findings_count" "proposal review has open blockers for implementation" "$(review_gate_rerun_gate)" "$open_blocking_findings_count"
+      fail "proposal review has no open blockers for implementation"
+    }
     validate_digest_fresh
     validate_manifest_targets_covered
   fi

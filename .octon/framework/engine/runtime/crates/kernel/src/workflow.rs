@@ -5549,6 +5549,7 @@ fn regenerate_proposal_registry(repo_root: &Path, write: bool) -> Result<()> {
     let output = Command::new("bash")
         .arg(&generator)
         .arg(mode)
+        .env("OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION", "1")
         .current_dir(repo_root)
         .output()
         .with_context(|| format!("run proposal registry generator {}", generator.display()))?;

@@ -1,0 +1,66 @@
+schema_version: proposal-v1
+proposal_id: escalation-policy-update
+title: Escalation Policy Update
+summary: Specify the updated proposal-program lifecycle escalation policy so operator escalation is legitimate only for hard blockers, while routine and soft blockers are downgraded to autonomous recovery when safe.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/spec/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/
+status: archived
+archive:
+  archived_at: 2026-06-05
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/escalation-policy-update
+  promotion_evidence:
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md
+  - .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-lifecycle-contracts.sh
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after lifecycle policy, prompts, tests, and negative controls prove human escalation is limited to hard blockers and recoverable blockers are handled autonomously.
+related_proposals:
+- autonomous-lifecycle-blocker-recovery
+- autonomous-blocker-taxonomy
+- runner-recovery-behavior
+acceptance_criteria_summary: Operator escalation remains reserved for destructive action without authority, ambiguous ownership, missing child authority or receipts, parent summaries as sole proof, unsupported scope expansion, external permission or human review, and unrecoverable validation failures.
+authority_class_impact:
+  framework: May later update lifecycle runtime specs, lifecycle contracts, prompts, and tests.
+  instance: No direct instance mutation from this proposal packet.
+  state_control: No live control truth changes from this proposal packet.
+  state_evidence: Future escalation or recovery evidence must be retained by lifecycle routes.
+  generated: Generated outputs remain derived-only.
+  inputs: This proposal packet remains non-authoritative.
+change_profile: atomic
+created_date: 2026-06-04
+evidence_requirements:
+- Examples of downgraded autonomous handling.
+- Hard-blocker negative controls.
+- Prompt/controller instruction updates distinguishing routine, soft, and hard blockers.
+explicit_runtime_non_implementation_statement: This packet does not change escalation behavior or authorize autonomous action.
+generated_input_authority_impact: Escalation policy may be proposed here only; runtime authority must come from promoted durable contracts and retained evidence.
+non_goals:
+- No weakening of constitutional fail-closed obligations.
+- No escalation bypass for destructive or external actions.
+- No replacement of human governance approval where required.
+- No parent summary as child proof.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Remove escalation policy changes and retain existing fail-closed escalation behavior.
+runtime_behavior_impact: None until promoted through a later implementation route.
+scope_statement: Define lifecycle escalation policy and examples. This packet does not authorize hard-blocker bypass or constitutional amendment by itself.
+selected_implementation_target: proposal-program lifecycle escalation policy
+source_lineage:
+- resources/source-context.md
+validation_gates:
+- proposal standard validation
+- lifecycle prompt or contract validation after implementation
+- hard-blocker negative-control tests after implementation

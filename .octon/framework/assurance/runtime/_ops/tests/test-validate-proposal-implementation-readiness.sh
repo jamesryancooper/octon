@@ -54,6 +54,8 @@ create_fixture_repo() {
   mkdir -p "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts"
   cp "$REPO_ROOT/$VALIDATE_SCRIPT" "$fixture_root/$VALIDATE_SCRIPT"
   cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   printf '%s\n' "$fixture_root"
 }
 
@@ -447,6 +449,10 @@ main() {
   assert_failure_contains \
     "implementation prompt requires prompt contract coverage" \
     "executable implementation prompt requires conformance receipt" \
+    case_executable_prompt_requires_prompt_contract
+  assert_failure_contains \
+    "implementation prompt contract gaps emit recovery diagnostics" \
+    '"recovery_class":"prompt_contract_gap"' \
     case_executable_prompt_requires_prompt_contract
   assert_success \
     "valid executable implementation prompt passes prompt lint" \

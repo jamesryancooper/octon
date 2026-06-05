@@ -59,6 +59,8 @@ create_fixture_repo() {
   cp "$REPO_ROOT/$STANDARD_SCRIPT" "$fixture_root/$STANDARD_SCRIPT"
   cp "$REPO_ROOT/$READINESS_SCRIPT" "$fixture_root/$READINESS_SCRIPT"
   cp "$REPO_ROOT/$REVIEW_GATE_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   chmod +x "$fixture_root/$VALIDATE_SCRIPT" "$fixture_root/$STANDARD_SCRIPT" "$fixture_root/$READINESS_SCRIPT" "$fixture_root/$REVIEW_GATE_SCRIPT"
   printf '%s\n' "$fixture_root"
 }
@@ -427,6 +429,7 @@ assert_failure_contains "missing child change_profile fails" "child base-child d
 assert_failure_contains "missing implementation-grade completeness review fails" "implementation-grade completeness review exists" case_missing_completeness_review_fails
 assert_failure_contains "absent accepted proposal-review digest fails" "proposal review receipt authorizes implementation" case_absent_proposal_review_fails
 assert_failure_contains "stale accepted proposal-review digest fails" "reviewed packet digest is fresh" case_stale_proposal_review_fails
+assert_failure_contains "stale child gate emits readiness gate diagnostic" '"recovery_class":"child_readiness_gate_failed"' case_stale_proposal_review_fails
 assert_success "implemented child with receipts remains child-ready" case_implemented_child_with_receipts_passes
 assert_success "archived implemented child with receipts remains child-ready" case_archived_implemented_child_with_receipts_passes
 assert_failure_contains "missing packet-specific completeness requirement fails" "child base-child readiness evidence mentions: connector operation fields" case_missing_packet_specific_requirement_fails

@@ -1092,6 +1092,7 @@ struct ProgramBlockerLedgerEntry {
     child_id: Option<String>,
     route_id: String,
     blocker_class: String,
+    grouping_key: ProgramBlockerGroupingKey,
     blocker_message: String,
     latest_transition: String,
     #[serde(default)]
@@ -1102,8 +1103,36 @@ struct ProgramBlockerLedgerEntry {
     #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     recovery_route: Option<String>,
+    targeted_refresh_diagnostic: ProgramTargetedRefreshDiagnostic,
+    direct_child_receipt_refs: Vec<ProgramChildReceiptDigestRef>,
     evidence_refs: Vec<String>,
     authority_boundary_notice: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramBlockerGroupingKey {
+    blocker_class: String,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    child_id: Option<String>,
+    route_id: String,
+    disposition: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramChildReceiptDigestRef {
+    receipt_id: String,
+    receipt_ref: String,
+    sha256: String,
+}
+
+#[derive(Clone, Debug, Serialize)]
+struct ProgramTargetedRefreshDiagnostic {
+    failing_path: String,
+    accepted_value: String,
+    stale_cause: String,
+    recovery_class: String,
+    minimal_repair_hint: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -1137,6 +1166,7 @@ struct ProgramRecoveryDeltaEntry {
     child_id: Option<String>,
     route_id: String,
     blocker_class: String,
+    grouping_key: ProgramBlockerGroupingKey,
     progress_state: String,
     prior_fingerprint: String,
     current_fingerprint: String,
@@ -1144,6 +1174,8 @@ struct ProgramRecoveryDeltaEntry {
     recovery_budget_remaining: u32,
     recovery_budget_exhausted: bool,
     recovery_route: String,
+    targeted_refresh_diagnostic: ProgramTargetedRefreshDiagnostic,
+    direct_child_receipt_refs: Vec<ProgramChildReceiptDigestRef>,
     read_before_raw_history: Vec<String>,
     escalation_required_when: Vec<String>,
 }
@@ -1972,7 +2004,10 @@ fn plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
     let parent_receipt_states = receipt_plan_states(&repo_root, &loaded.contract, &target_state);
     let terminal_outcome = select_terminal_outcome(&loaded.contract, &target_state)?;
     let mut program_blockers = Vec::new();
-    let cleanup_candidates_present = lifecycle_residue_cleanup_candidates_present(&repo_root)?;
+    let cleanup_candidates_present = lifecycle_residue_cleanup_candidates_present(
+        &repo_root,
+        checkpoint.map(|checkpoint| checkpoint.run_id.as_str()),
+    )?;
     let initial_condition_context = LifecycleConditionContext {
         blockers: Vec::new(),
         cleanup_candidates_present,
@@ -3955,12 +3990,15 @@ fn program_result_has_agent_continuable_dispatch(result: &ProgramLifecycleRunRes
     {
         return false;
     }
+    let parent_continuable =
+        result.selected_parent_route.is_some() && !parent_non_continuable_blocked;
     result.child_results.iter().any(|summary| {
         !matches!(
             summary.status.as_str(),
             "human-boundary-blocked" | "executor-preflight-blocked" | "blocked-human"
         )
     }) || child_non_continuable_blocks < result.selected_children.len()
+        || parent_continuable
 }
 
 fn plan_has_safe_continuation_after_unsafe(plan: &ProgramLifecyclePlanResult) -> bool {
@@ -6258,15 +6296,22 @@ struct CleanupLocalRunArtifactsSummary {
     cleanup_candidates: Option<u64>,
 }
 
-fn lifecycle_residue_cleanup_candidates_present(repo_root: &Path) -> Result<Option<bool>> {
+fn lifecycle_residue_cleanup_candidates_present(
+    repo_root: &Path,
+    active_run_id: Option<&str>,
+) -> Result<Option<bool>> {
     let script = ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh";
     if !repo_root.join(script).is_file() {
         return Ok(None);
     }
     let octon_dir = repo_root.join(".octon");
-    let output = Command::new("bash")
-        .arg(script)
-        .arg("--summary-only")
+    let mut command = Command::new("bash");
+    command.arg(script);
+    command.arg("--summary-only");
+    if let Some(run_id) = active_run_id {
+        command.arg("--active-run-id").arg(run_id);
+    }
+    let output = command
         .arg("--root")
         .arg(repo_root)
         .arg("--octon-dir")
@@ -6278,6 +6323,24 @@ fn lifecycle_residue_cleanup_candidates_present(repo_root: &Path) -> Result<Opti
         return Ok(None);
     }
     let stdout = String::from_utf8_lossy(&output.stdout);
+    if let Some(run_id) = active_run_id {
+        let mut saw_cleanup_candidate = false;
+        for line in stdout.lines() {
+            let mut fields = line.split('\t');
+            if fields.next() != Some("cleanup_candidate") {
+                continue;
+            }
+            saw_cleanup_candidate = true;
+            let _class_kind = fields.next();
+            let candidate_path = fields.next().unwrap_or_default();
+            if !is_current_program_run_cleanup_candidate(candidate_path, run_id) {
+                return Ok(Some(true));
+            }
+        }
+        if saw_cleanup_candidate {
+            return Ok(Some(false));
+        }
+    }
     let summary_yaml = stdout
         .lines()
         .take_while(|line| !line.starts_with('['))
@@ -6289,6 +6352,20 @@ fn lifecycle_residue_cleanup_candidates_present(repo_root: &Path) -> Result<Opti
         .summary
         .and_then(|summary| summary.cleanup_candidates)
         .map(|count| count > 0))
+}
+
+fn is_current_program_run_cleanup_candidate(path: &str, run_id: &str) -> bool {
+    if run_id.trim().is_empty() {
+        return false;
+    }
+    let path = path.trim().trim_start_matches("./");
+    [
+        format!(".octon/state/control/execution/runs/{run_id}/"),
+        format!(".octon/state/continuity/runs/{run_id}/"),
+        format!(".octon/state/evidence/runs/workflows/{run_id}/"),
+    ]
+    .iter()
+    .any(|prefix| path.starts_with(prefix))
 }
 
 fn program_hygiene_preflight_required_for_target(
@@ -16768,7 +16845,8 @@ fn write_program_blocker_recovery_artifacts(
     source_refs: &[ProgramCompactSourceRef],
     validation_binding: &ProgramCompactValidationBinding,
 ) -> Result<()> {
-    let blocker_entries = program_blocker_ledger_entries(program, plan, checkpoint, source_refs)?;
+    let blocker_entries =
+        program_blocker_ledger_entries(repo_root, program, plan, checkpoint, source_refs)?;
     let blocker_ledger_path = evidence_root.join(BLOCKER_LEDGER_FILE);
     let blocker_ledger = ProgramBlockerLedger {
         schema_version: "octon-program-blocker-ledger-v1".to_string(),
@@ -16836,6 +16914,7 @@ fn write_program_blocker_recovery_artifacts(
 }
 
 fn program_blocker_ledger_entries(
+    repo_root: &Path,
     program: &ProgramSpec,
     plan: &ProgramLifecyclePlanResult,
     checkpoint: &ProgramLifecycleCheckpoint,
@@ -16856,12 +16935,14 @@ fn program_blocker_ledger_entries(
             blocker.blocker_class,
             blocker.message
         ));
+        let grouping_key = program_blocker_grouping_key(None, &route_id, &blocker.blocker_class);
         entries.push(ProgramBlockerLedgerEntry {
             blocker_id: stable_blocker_id("program", None, &route_id, &blocker.blocker_class),
             scope: "program".to_string(),
             child_id: None,
             route_id: route_id.clone(),
             blocker_class: blocker.blocker_class.clone(),
+            grouping_key: grouping_key.clone(),
             blocker_message: blocker.message.clone(),
             latest_transition: format!(
                 "event-index:{}; aggregate-state:{}; final-verdict:{}; route:{}",
@@ -16879,6 +16960,14 @@ fn program_blocker_ledger_entries(
                 &blocker.blocker_class,
             ),
             recovery_route: blocker.recovery_route.clone(),
+            targeted_refresh_diagnostic: targeted_refresh_diagnostic(
+                &plan.target,
+                &route_id,
+                &blocker.blocker_class,
+                blocker.recovery_route.as_deref(),
+                &grouping_key.disposition,
+            ),
+            direct_child_receipt_refs: Vec::new(),
             evidence_refs: evidence_refs.clone(),
             authority_boundary_notice: child_owned_receipt_authority_notice(),
         });
@@ -16899,6 +16988,11 @@ fn program_blocker_ledger_entries(
                 ))
                 .map(serializable_digest)
                 .transpose()?;
+            let grouping_key = program_blocker_grouping_key(
+                Some(&state.child_id),
+                &route_id,
+                &blocker.blocker_class,
+            );
             entries.push(ProgramBlockerLedgerEntry {
                 blocker_id: stable_blocker_id(
                     "child",
@@ -16910,6 +17004,7 @@ fn program_blocker_ledger_entries(
                 child_id: Some(state.child_id.clone()),
                 route_id: route_id.clone(),
                 blocker_class: blocker.blocker_class.clone(),
+                grouping_key: grouping_key.clone(),
                 blocker_message: blocker.message.clone(),
                 latest_transition: format!(
                     "event-index:{}; child-final-verdict:{}; terminal-outcome:{}; selected-route:{}; route:{}",
@@ -16932,6 +17027,14 @@ fn program_blocker_ledger_entries(
                     &blocker.blocker_class,
                 ),
                 recovery_route: blocker.recovery_route.clone(),
+                targeted_refresh_diagnostic: targeted_refresh_diagnostic(
+                    &state.target,
+                    &route_id,
+                    &blocker.blocker_class,
+                    blocker.recovery_route.as_deref(),
+                    &grouping_key.disposition,
+                ),
+                direct_child_receipt_refs: direct_child_receipt_refs(repo_root, state)?,
                 evidence_refs: evidence_refs.clone(),
                 authority_boundary_notice: child_owned_receipt_authority_notice(),
             });
@@ -16957,6 +17060,7 @@ fn program_recovery_delta_entries(
                 child_id: entry.child_id.clone(),
                 route_id: entry.route_id.clone(),
                 blocker_class: entry.blocker_class.clone(),
+                grouping_key: entry.grouping_key.clone(),
                 progress_state: progress_state.to_string(),
                 prior_fingerprint: entry
                     .prior_fingerprint
@@ -16970,6 +17074,8 @@ fn program_recovery_delta_entries(
                     .recovery_route
                     .clone()
                     .unwrap_or_else(|| "none".to_string()),
+                targeted_refresh_diagnostic: entry.targeted_refresh_diagnostic.clone(),
+                direct_child_receipt_refs: entry.direct_child_receipt_refs.clone(),
                 read_before_raw_history: vec![
                     RECOVERY_DELTA_SUMMARY_FILE.to_string(),
                     BLOCKER_LEDGER_FILE.to_string(),
@@ -16984,6 +17090,154 @@ fn program_recovery_delta_entries(
             }
         })
         .collect()
+}
+
+fn program_blocker_grouping_key(
+    child_id: Option<&str>,
+    route_id: &str,
+    blocker_class: &str,
+) -> ProgramBlockerGroupingKey {
+    let disposition = normalize_program_blocker_class(blocker_class)
+        .normalized_category
+        .disposition()
+        .to_string();
+    ProgramBlockerGroupingKey {
+        blocker_class: blocker_class.to_string(),
+        child_id: child_id.map(str::to_string),
+        route_id: route_id.to_string(),
+        disposition,
+    }
+}
+
+fn direct_child_receipt_refs(
+    repo_root: &Path,
+    state: &ProgramChildPlanState,
+) -> Result<Vec<ProgramChildReceiptDigestRef>> {
+    let mut refs = BTreeMap::new();
+    for (receipt_id, digest) in &state.receipt_digests {
+        refs.insert(
+            receipt_id.clone(),
+            ProgramChildReceiptDigestRef {
+                receipt_id: receipt_id.clone(),
+                receipt_ref: child_receipt_ref(state, receipt_id),
+                sha256: digest.clone(),
+            },
+        );
+    }
+    for receipt_id in [
+        RECEIPT_ID_PROPOSAL_REVIEW,
+        RECEIPT_ID_IMPLEMENTATION_RUN,
+        RECEIPT_ID_IMPLEMENTATION_CONFORMANCE,
+        RECEIPT_ID_POST_IMPLEMENTATION_DRIFT,
+        "proposal-closeout",
+    ] {
+        if refs.contains_key(receipt_id) {
+            continue;
+        }
+        let receipt_ref = child_receipt_ref(state, receipt_id);
+        let receipt_path = repo_root.join(&receipt_ref);
+        if receipt_path.is_file() {
+            refs.insert(
+                receipt_id.to_string(),
+                ProgramChildReceiptDigestRef {
+                    receipt_id: receipt_id.to_string(),
+                    receipt_ref,
+                    sha256: file_digest(&receipt_path)?,
+                },
+            );
+        }
+    }
+    Ok(refs.into_values().collect())
+}
+
+fn child_receipt_ref(state: &ProgramChildPlanState, receipt_id: &str) -> String {
+    format!(
+        "{}/{}",
+        state.target.trim_end_matches('/'),
+        receipt_path_for_id(receipt_id)
+    )
+}
+
+fn receipt_path_for_id(receipt_id: &str) -> String {
+    match receipt_id {
+        RECEIPT_ID_PROPOSAL_REVIEW => "support/proposal-review.md".to_string(),
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_PROMPT => {
+            "support/executable-program-implementation-orchestration-prompt.md".to_string()
+        }
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_RUN => {
+            "support/program-implementation-orchestration-run.md".to_string()
+        }
+        RECEIPT_ID_PROGRAM_IMPLEMENTATION_ORCHESTRATION_CONFORMANCE => {
+            "support/program-implementation-orchestration-conformance-review.md".to_string()
+        }
+        RECEIPT_ID_PROGRAM_POST_IMPLEMENTATION_ORCHESTRATION_DRIFT => {
+            "support/program-post-implementation-orchestration-drift-churn-review.md".to_string()
+        }
+        RECEIPT_ID_IMPLEMENTATION_RUN => "support/implementation-run.md".to_string(),
+        RECEIPT_ID_IMPLEMENTATION_CONFORMANCE => {
+            "support/implementation-conformance-review.md".to_string()
+        }
+        RECEIPT_ID_POST_IMPLEMENTATION_DRIFT => {
+            "support/post-implementation-drift-churn-review.md".to_string()
+        }
+        "proposal-closeout" => "support/proposal-closeout.md".to_string(),
+        other => format!("support/{other}.md"),
+    }
+}
+
+fn targeted_refresh_diagnostic(
+    failing_path: &str,
+    route_id: &str,
+    blocker_class: &str,
+    recovery_route: Option<&str>,
+    disposition: &str,
+) -> ProgramTargetedRefreshDiagnostic {
+    let accepted_value = recovery_route.unwrap_or(route_id).to_string();
+    ProgramTargetedRefreshDiagnostic {
+        failing_path: failing_path.to_string(),
+        accepted_value: accepted_value.clone(),
+        stale_cause: blocker_stale_cause(blocker_class),
+        recovery_class: disposition.to_string(),
+        minimal_repair_hint: minimal_repair_hint(blocker_class, &accepted_value, disposition),
+    }
+}
+
+fn blocker_stale_cause(blocker_class: &str) -> String {
+    match blocker_class {
+        "stale-receipt" => "receipt freshness drift".to_string(),
+        "publication-drift" => "generated publication freshness drift".to_string(),
+        "missing-evidence" => "missing child-owned evidence".to_string(),
+        "validation-failed" => "child validation failure".to_string(),
+        "executor-failed" => "child executor failure".to_string(),
+        "executor-timed-out" => "child executor timeout".to_string(),
+        "lifecycle-residue-cleanup-needed" => "current-run lifecycle residue".to_string(),
+        other => other.to_string(),
+    }
+}
+
+fn minimal_repair_hint(blocker_class: &str, accepted_value: &str, disposition: &str) -> String {
+    if disposition == "human-required" || disposition == "unsafe-route/fail-closed" {
+        return "escalate or revise packet; do not expand context or substitute parent summaries for child receipts"
+            .to_string();
+    }
+    match blocker_class {
+        "publication-drift" => {
+            "run the targeted publication refresh action and revalidate freshness receipts"
+                .to_string()
+        }
+        "stale-receipt" => {
+            format!("rerun {accepted_value} and refresh the child-owned receipt digest only")
+        }
+        "missing-evidence" => {
+            format!("rerun {accepted_value} to regenerate missing child-owned evidence")
+        }
+        "validation-failed" => {
+            format!("route {accepted_value} through correction with direct validator diagnostics")
+        }
+        _ => {
+            format!("retry or replan through {accepted_value} using compact blocker evidence first")
+        }
+    }
 }
 
 fn recovery_budget_snapshot(
@@ -17875,9 +18129,14 @@ fn validate_event_hash_chain(
 fn validate_program_event_transitions(events: &[ProgramEvent], errors: &mut Vec<String>) {
     if let Some(first) = events.first() {
         if first.event_type != "run-started" {
-            errors.push(
-                "impossible transition: event log does not start with run-started".to_string(),
-            );
+            let valid_prior_v2_stream = first.schema_version == "octon-program-lifecycle-event-v2"
+                && first.event_index == 1
+                && first.previous_event_sha256.is_none();
+            if !valid_prior_v2_stream {
+                errors.push(
+                    "impossible transition: event log does not start with run-started".to_string(),
+                );
+            }
         }
     }
     let mut started_routes = BTreeSet::new();
@@ -20260,7 +20519,7 @@ mod tests {
             (
                 "executor-preflight-blocked",
                 "executor-preflight-blocked",
-                ProgramBlockerDisposition::Human,
+                ProgramBlockerDisposition::Recoverable,
             ),
             (
                 "step-budget-exhausted-continuable",
@@ -20561,6 +20820,7 @@ worktree_hygiene_blocker_class: "worktree-hygiene-blocked"
             .unwrap();
             let fixture = Self { root, octon_dir };
             fixture.write_generated_catalog();
+            fixture.write_context_pack_authority();
             fixture.write_child_contract();
             fixture.write_program_contract(serialize_conflicts);
             fixture.write_parent();
@@ -20587,6 +20847,17 @@ packs:
       - lifecycle_id: "proposal-program"
         projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml"
 "#,
+            );
+        }
+
+        fn write_context_pack_authority(&self) {
+            self.write(
+                ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+                "# Context Pack Builder v1\n",
+            );
+            self.write(
+                ".octon/instance/governance/policies/context-packing.yml",
+                "schema_version: context-packing-policy-v1\n",
             );
         }
 
@@ -20800,6 +21071,104 @@ routes:
         - receipt_field_equals: { receipt_id: "proposal-closeout", field: "archive_authorized", value: "yes" }
     completion:
       expected_manifest_status: "archived"
+"#,
+            );
+        }
+
+        fn write_child_contract_with_pre_promotion_verification(&self) {
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml",
+                r#"
+schema_version: "octon-extension-lifecycle-contract-v1"
+lifecycle_id: "proposal-packet"
+owner_extension: "test-extension"
+version: "1.0.0"
+target: { input: "packet_path", manifest_path: "proposal.yml", status_field: "status", allowed_statuses: ["accepted", "implemented", "archived"] }
+states: [{ state_id: "implement" }, { state_id: "verify" }, { state_id: "closeout" }]
+terminal_outcomes:
+  - outcome_id: "archived"
+    when: { manifest_status: "archived" }
+receipts:
+  - receipt_id: "proposal-review"
+    path: "support/proposal-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "implementation-prompt"
+    path: "support/executable-implementation-prompt.md"
+  - receipt_id: "implementation-run"
+    path: "support/implementation-run.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "implementation-conformance"
+    path: "support/implementation-conformance-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+  - receipt_id: "post-implementation-drift"
+    path: "support/post-implementation-drift-churn-review.md"
+    required_fields: ["verdict"]
+    verdict_field: "verdict"
+routes:
+  - route_id: "promote-proposal"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: ["implementation-run", "implementation-conformance", "post-implementation-drift"]
+      required_receipts_before_completion: []
+      replay_class: "no-op-safe"
+      automated_recovery_policy: "fail-closed"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+    enter_when:
+      all:
+        - manifest_status: "accepted"
+        - receipt_complete: "implementation-run"
+        - receipt_verdict: { receipt_id: "implementation-run", value: "pass" }
+        - receipt_complete: "implementation-conformance"
+        - receipt_verdict: { receipt_id: "implementation-conformance", value: "pass" }
+        - receipt_complete: "post-implementation-drift"
+        - receipt_verdict: { receipt_id: "post-implementation-drift", value: "pass" }
+    completion:
+      expected_manifest_status: "implemented"
+  - route_id: "run-packet-verification-and-correction-loop"
+    route_type: "extension"
+    delegation_contract:
+      decision_class: "delegated-execution"
+      safe_delegation: true
+      authority_zones_allowed: ["workspace-declared"]
+      declared_write_scope_source: "target"
+      required_evidence_gates: []
+      required_receipts_before_dispatch: ["implementation-run"]
+      required_receipts_before_completion: ["implementation-conformance", "post-implementation-drift"]
+      replay_class: "bounded-retry"
+      automated_recovery_policy: "bounded-automated-retry"
+      human_only_boundaries: ["scope-expansion", "policy-override", "governance-mutation"]
+    enter_when:
+      any:
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict: { receipt_id: "proposal-review", value: "accepted" }
+            - receipt_complete: "implementation-run"
+            - receipt_verdict: { receipt_id: "implementation-run", value: "pass" }
+            - receipt_absent: "implementation-conformance"
+        - all:
+            - manifest_status: "accepted"
+            - receipt_complete: "proposal-review"
+            - receipt_verdict: { receipt_id: "proposal-review", value: "accepted" }
+            - receipt_complete: "implementation-run"
+            - receipt_verdict: { receipt_id: "implementation-run", value: "pass" }
+            - receipt_absent: "post-implementation-drift"
+        - all:
+            - manifest_status: "implemented"
+            - receipt_absent: "implementation-conformance"
+        - all:
+            - manifest_status: "implemented"
+            - receipt_absent: "post-implementation-drift"
+    completion:
+      expected_receipts: ["implementation-conformance", "post-implementation-drift"]
 "#,
             );
         }
@@ -21767,6 +22136,51 @@ routes:
                 ".octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh",
                 "#!/usr/bin/env bash\nprintf 'mock\\n'\n",
             );
+            let cleanup_manifest =
+                "prompt_set_id: octon-proposal-lifecycle-cleanup-lifecycle-residue\n";
+            let cleanup_asset = "Cleanup lifecycle residue fixture for {{target}}.\n";
+            let cleanup_manifest_sha = super::sha256_hex(cleanup_manifest.as_bytes());
+            let cleanup_asset_sha = super::sha256_hex(cleanup_asset.as_bytes());
+            let cleanup_bundle_sha =
+                super::sha256_hex(format!("{cleanup_manifest_sha}:{cleanup_asset_sha}").as_bytes());
+            self.write(
+                ".octon/inputs/additive/extensions/test-extension/prompts/cleanup-lifecycle-residue/manifest.yml",
+                cleanup_manifest,
+            );
+            self.write(
+                ".octon/inputs/additive/extensions/test-extension/prompts/cleanup-lifecycle-residue/stages/01.md",
+                cleanup_asset,
+            );
+            self.write(
+                ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/cleanup-lifecycle-residue/stages/01.md",
+                cleanup_asset,
+            );
+            self.write(
+                ".octon/generated/effective/extensions/catalog.effective.yml",
+                &format!(
+                    r#"
+schema_version: "test"
+packs:
+  - pack_id: "test-extension"
+    capability_profiles: ["validation-surface", "lifecycle-contract", "prompt-bundle"]
+    lifecycle_contracts:
+      - lifecycle_id: "proposal-packet"
+        projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycle.contract.yml"
+      - lifecycle_id: "proposal-program"
+        projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml"
+    prompt_bundles:
+      - prompt_set_id: "octon-proposal-lifecycle-cleanup-lifecycle-residue"
+        manifest_path: ".octon/inputs/additive/extensions/test-extension/prompts/cleanup-lifecycle-residue/manifest.yml"
+        manifest_sha256: "{cleanup_manifest_sha}"
+        bundle_sha256: "{cleanup_bundle_sha}"
+        publication_status: "published"
+        prompt_assets:
+          - projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/cleanup-lifecycle-residue/stages/01.md"
+            path: "stages/01.md"
+            sha256: "{cleanup_asset_sha}"
+"#,
+                ),
+            );
             self.write(
                 ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml",
                 r#"
@@ -21851,7 +22265,14 @@ routes:
     enter_when:
       all:
         - any:
-            - hygiene_preflight_required: true
+            - all:
+                - hygiene_preflight_required: true
+                - any:
+                    - manifest_status: "implemented"
+                    - receipt_field_equals:
+                        receipt_id: "lifecycle-residue-cleanup"
+                        field: "implementation_blocking"
+                        value: "true"
             - blocker_present: "lifecycle-residue-cleanup-needed"
             - cleanup_candidates_present: true
         - any:
@@ -22437,6 +22858,16 @@ routes:
             );
         }
 
+        fn write_cleanup_candidate_rows_helper(&self, rows: &[&str], cleanup_candidates: u64) {
+            let rows = rows.join("\n");
+            self.write(
+                ".octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh",
+                &format!(
+                    "#!/usr/bin/env bash\ncat <<'YAML'\n{rows}\nsummary:\n  cleanup_candidates: {cleanup_candidates}\n[OK] dry-run complete\nYAML\n"
+                ),
+            );
+        }
+
         fn write_lifecycle_residue_cleanup_receipt(
             &self,
             verdict: &str,
@@ -22550,22 +22981,44 @@ routes:
     }
 
     fn write_retry_prompt_catalog(fixture: &ProgramFixture) {
+        let retry_manifest = "prompt_set_id: test-extension-retry\n";
+        let retry_asset = "Retry attempt propagation fixture for {{target}}.\n";
+        let retry_manifest_sha = super::sha256_hex(retry_manifest.as_bytes());
+        let retry_asset_sha = super::sha256_hex(retry_asset.as_bytes());
+        let retry_bundle_sha =
+            super::sha256_hex(format!("{retry_manifest_sha}:{retry_asset_sha}").as_bytes());
+        fixture.write(
+            ".octon/inputs/additive/extensions/test-extension/prompts/retry/manifest.yml",
+            retry_manifest,
+        );
+        fixture.write(
+            ".octon/inputs/additive/extensions/test-extension/prompts/retry/stages/01.md",
+            retry_asset,
+        );
         fixture.write(
             ".octon/generated/effective/extensions/catalog.effective.yml",
-            r#"
+            &format!(
+                r#"
 schema_version: "test"
 packs:
   - pack_id: "test-extension"
     capability_profiles: ["prompt-bundle"]
     prompt_bundles:
       - prompt_set_id: "test-extension-retry"
+        manifest_path: ".octon/inputs/additive/extensions/test-extension/prompts/retry/manifest.yml"
+        manifest_sha256: "{retry_manifest_sha}"
+        bundle_sha256: "{retry_bundle_sha}"
+        publication_status: "published"
         prompt_assets:
           - projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/retry/stages/01.md"
+            path: "stages/01.md"
+            sha256: "{retry_asset_sha}"
 "#,
+            ),
         );
         fixture.write(
             ".octon/generated/effective/extensions/published/test-extension/bundled/prompts/retry/stages/01.md",
-            "Retry attempt propagation fixture for {{target}}.\n",
+            retry_asset,
         );
     }
 
@@ -26746,7 +27199,9 @@ completion_observed: false
             .program
             .unwrap();
 
-        let entries = program_blocker_ledger_entries(&program, &plan, &checkpoint, &[]).unwrap();
+        let entries =
+            program_blocker_ledger_entries(&fixture.root, &program, &plan, &checkpoint, &[])
+                .unwrap();
         let entry = entries
             .iter()
             .find(|entry| entry.blocker_class == "publication-drift")
@@ -26755,6 +27210,34 @@ completion_observed: false
         assert_eq!(entry.scope, "child");
         assert_eq!(entry.child_id.as_deref(), Some("a"));
         assert_eq!(entry.route_id, "run-packet-implementation");
+        assert_eq!(entry.grouping_key.blocker_class, "publication-drift");
+        assert_eq!(entry.grouping_key.child_id.as_deref(), Some("a"));
+        assert_eq!(entry.grouping_key.disposition, "autonomous/recoverable");
+        assert_eq!(entry.targeted_refresh_diagnostic.failing_path, "children/a");
+        assert_eq!(
+            entry.targeted_refresh_diagnostic.stale_cause,
+            "generated publication freshness drift"
+        );
+        assert!(entry
+            .targeted_refresh_diagnostic
+            .minimal_repair_hint
+            .contains("publication refresh"));
+        let receipt_ids = entry
+            .direct_child_receipt_refs
+            .iter()
+            .map(|reference| reference.receipt_id.as_str())
+            .collect::<BTreeSet<_>>();
+        assert!(receipt_ids.contains(RECEIPT_ID_IMPLEMENTATION_RUN));
+        assert!(receipt_ids.contains(RECEIPT_ID_IMPLEMENTATION_CONFORMANCE));
+        assert!(receipt_ids.contains(RECEIPT_ID_POST_IMPLEMENTATION_DRIFT));
+        assert!(entry
+            .direct_child_receipt_refs
+            .iter()
+            .all(|reference| reference.receipt_ref.starts_with("children/a/support/")));
+        assert!(entry
+            .direct_child_receipt_refs
+            .iter()
+            .all(|reference| reference.sha256.starts_with("sha256:")));
         assert!(entry.prior_fingerprint.is_some());
         assert_eq!(
             entry.prior_fingerprint.as_ref().unwrap(),
@@ -26771,6 +27254,15 @@ completion_observed: false
             .find(|delta| delta.blocker_id == entry.blocker_id)
             .unwrap();
         assert_eq!(delta.progress_state, "unchanged");
+        assert_eq!(delta.grouping_key.child_id.as_deref(), Some("a"));
+        assert_eq!(
+            delta.targeted_refresh_diagnostic.stale_cause,
+            "generated publication freshness drift"
+        );
+        assert_eq!(
+            delta.direct_child_receipt_refs.len(),
+            entry.direct_child_receipt_refs.len()
+        );
         assert!(delta
             .read_before_raw_history
             .contains(&RECOVERY_DELTA_SUMMARY_FILE.to_string()));
@@ -29336,6 +29828,57 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn accepted_child_after_implementation_routes_to_verification_before_promotion() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("accepted-verification-before-promotion", true);
+        fixture.write_child_contract_with_pre_promotion_verification();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/proposal-review.md",
+            "verdict: accepted\n",
+        );
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "# Executable Implementation Prompt\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-run.md",
+            "verdict: pass\n",
+        );
+        fixture.write(
+            "children/a/support/implementation-conformance-review.md",
+            "verdict: pass\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+        let child = plan.child_states.get("a").unwrap();
+
+        assert_eq!(
+            child
+                .selected_route
+                .as_ref()
+                .map(|route| route.route_id.as_str()),
+            Some("run-packet-verification-and-correction-loop")
+        );
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+        assert!(!child.blockers.iter().any(|blocker| {
+            blocker.blocker_class == "receipt-recovery-unavailable"
+                || blocker.blocker_class == "recovery-route-unavailable"
+        }));
+    }
+
+    #[test]
     fn executor_failure_budget_does_not_block_after_same_route_progress() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("executor-budget-progress", true);
@@ -30536,6 +31079,51 @@ rationale: "prove overwrite guard"
     }
 
     #[test]
+    fn stale_closeout_only_cleanup_receipt_does_not_preempt_runnable_child() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-stale-child-progress", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        fixture.write_residue_fingerprint_script("current");
+        fixture.write_lifecycle_residue_cleanup_receipt(
+            "blocked-retained",
+            0,
+            false,
+            true,
+            true,
+            "old",
+        );
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "prompt_id: a\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        let plan = plan_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
+        assert_eq!(
+            plan.child_states
+                .get("a")
+                .and_then(|state| state.selected_route.as_ref())
+                .map(|route| route.route_id.as_str()),
+            Some("run-packet-implementation")
+        );
+    }
+
+    #[test]
     fn blocked_retained_cleanup_receipt_blocks_closeout_phase() {
         let _guard = crate::acquire_kernel_test_lock();
         let fixture = ProgramFixture::new("residue-cleanup-blocks-closeout", true);
@@ -30681,6 +31269,49 @@ rationale: "prove overwrite guard"
         .unwrap();
         assert!(resumed_plan.program_route.is_none());
         assert_eq!(resumed_plan.runnable_batch, vec!["a".to_string()]);
+    }
+
+    #[test]
+    fn current_run_cleanup_candidates_do_not_preempt_child_work() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("residue-cleanup-current-run", true);
+        fixture.write_program_contract_with_residue_cleanup_route();
+        fixture.write_full_child_contract();
+        let run_id = "lifecycle-proposal-program-current-run";
+        fixture.write_cleanup_candidate_rows_helper(
+            &[
+                "cleanup_candidate\tlocal_run_residue\t.octon/state/control/execution/runs/lifecycle-proposal-program-current-run/program-events.ndjson\tunreferenced local proposal lifecycle runner residue",
+                "cleanup_candidate\tlocal_run_residue\t.octon/state/control/execution/runs/lifecycle-proposal-program-current-run/program-lifecycle-checkpoint.yml\tunreferenced local proposal lifecycle runner residue",
+            ],
+            2,
+        );
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write(
+            "children/a/support/executable-implementation-prompt.md",
+            "prompt_id: a\n",
+        );
+        fixture.write_registry(
+            "parallel-independent",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+        let checkpoint = ProgramLifecycleCheckpoint {
+            run_id: run_id.to_string(),
+            ..Default::default()
+        };
+
+        let plan = plan_program_lifecycle_from_octon_dir_with_checkpoint_and_policy(
+            &fixture.octon_dir,
+            "proposal-program",
+            Path::new("parent"),
+            Some(&checkpoint),
+            "unattended",
+        )
+        .unwrap();
+
+        assert!(plan.program_route.is_none());
+        assert_eq!(plan.runnable_batch, vec!["a".to_string()]);
     }
 
     #[test]
@@ -31482,6 +32113,43 @@ routes:
                     .contains("replay-verify"));
             }
         }
+    }
+
+    #[test]
+    fn recovery_replay_verify_accepts_prior_v2_log_without_run_started() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("recovery-replay-prior-v2", true);
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/recovery-replay-prior-v2");
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/recovery-replay-prior-v2");
+
+        append_program_event(
+            &control_root,
+            &evidence_root,
+            "recovery-replay-prior-v2",
+            "plan-created",
+            None,
+            None,
+            "program lifecycle plan created",
+            BTreeMap::new(),
+        )
+        .unwrap();
+        append_program_event(
+            &control_root,
+            &evidence_root,
+            "recovery-replay-prior-v2",
+            "aggregate-terminal-blockers",
+            None,
+            None,
+            "program lifecycle aggregate terminal blocker evidence written",
+            BTreeMap::new(),
+        )
+        .unwrap();
+
+        verify_program_event_log_for_recovery(&control_root).unwrap();
     }
 
     #[test]

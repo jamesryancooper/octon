@@ -6,6 +6,7 @@ DEFAULT_OCTON_DIR="$(cd -- "$SCRIPT_DIR/../../../../../" && pwd)"
 
 ROOT_ARG=""
 OCTON_ARG=""
+ACTIVE_RUN_ID="${OCTON_ACTIVE_RUN_ID:-}"
 CONFIRM=0
 FAIL_ON_MANUAL=0
 SUMMARY_ONLY=0
@@ -19,7 +20,7 @@ RUN_HEALTH_GENERATOR_REF=".octon/framework/assurance/runtime/_ops/scripts/genera
 
 usage() {
   cat <<'USAGE'
-cleanup-local-run-artifacts.sh [--confirm] [--fail-on-manual] [--summary-only] [--authorize <out.json>] [--authorization <receipt.json>] [--root <repo-root>] [--octon-dir <octon-root>]
+cleanup-local-run-artifacts.sh [--confirm] [--fail-on-manual] [--summary-only] [--authorize <out.json>] [--authorization <receipt.json>] [--active-run-id <run-id>] [--root <repo-root>] [--octon-dir <octon-root>]
 
 Classify untracked local Octon run/control/evidence artifacts and optionally
 remove only cleanup-safe local residue. Dry-run is the default.
@@ -56,6 +57,14 @@ while [[ $# -gt 0 ]]; do
       AUTHORIZATION_RECEIPT="${2:-}"
       [[ -n "$AUTHORIZATION_RECEIPT" ]] || {
         echo "[ERROR] --authorization requires a value" >&2
+        exit 2
+      }
+      shift 2
+      ;;
+    --active-run-id)
+      ACTIVE_RUN_ID="${2:-}"
+      [[ -n "$ACTIVE_RUN_ID" ]] || {
+        echo "[ERROR] --active-run-id requires a value" >&2
         exit 2
       }
       shift 2
@@ -137,6 +146,11 @@ fi
 if [[ -n "$AUTHORIZATION_RECEIPT" && ! -f "$AUTHORIZATION_RECEIPT" ]]; then
   echo "[ERROR] authorization receipt is missing or unreadable: $AUTHORIZATION_RECEIPT" >&2
   exit 1
+fi
+
+if [[ -n "$ACTIVE_RUN_ID" && ! "$ACTIVE_RUN_ID" =~ ^[A-Za-z0-9._:-]+$ ]]; then
+  echo "[ERROR] --active-run-id contains unsupported characters: $ACTIVE_RUN_ID" >&2
+  exit 2
 fi
 
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/octon-local-run-artifacts.XXXXXX")"
@@ -287,8 +301,43 @@ referenced_kind_for_path() {
   esac
 }
 
+matches_active_run_artifact() {
+  local rel="$1"
+  [[ -n "$ACTIVE_RUN_ID" ]] || return 1
+  case "$rel" in
+    .octon/state/control/execution/runs/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/control/execution/runs/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/continuity/runs/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/continuity/runs/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/evidence/runs/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/evidence/runs/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/evidence/runs/workflows/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/evidence/runs/workflows/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/evidence/runs/skills/repo-hygiene-cleanup/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/evidence/runs/skills/repo-hygiene-cleanup/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/evidence/runs/skills/closeout-change/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/evidence/runs/skills/closeout-change/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/evidence/runs/skills/closeout-worktree/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/evidence/runs/skills/closeout-worktree/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/evidence/runs/skills/closeout-packet/"$ACTIVE_RUN_ID"/*|\
+    .octon/state/evidence/runs/skills/closeout-packet/"$ACTIVE_RUN_ID"-*/*|\
+    .octon/state/control/execution/approvals/requests/"$ACTIVE_RUN_ID"*.yml|\
+    .octon/state/evidence/control/execution/authority-decision-"$ACTIVE_RUN_ID"*.yml|\
+    .octon/state/evidence/control/execution/authority-grant-bundle-"$ACTIVE_RUN_ID"*.yml|\
+    .octon/state/evidence/external-index/runs/"$ACTIVE_RUN_ID"*.yml)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
 classify_path() {
   local rel="$1"
+
+  if matches_active_run_artifact "$rel"; then
+    set_classification "active_run_state" "protected" "belongs to the active lifecycle run id supplied to the cleanup helper"
+    return
+  fi
 
   if is_referenced_by_tracked_file "$rel"; then
     set_classification "$(referenced_kind_for_path "$rel")" "protected_referenced" "referenced by a tracked control, evidence, generated, or governance file"

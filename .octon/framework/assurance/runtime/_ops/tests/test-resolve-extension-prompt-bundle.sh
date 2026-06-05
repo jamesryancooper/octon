@@ -230,6 +230,7 @@ EOF
   copy_file "$root" ".octon/framework/capabilities/_ops/scripts/publish-capability-routing.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-capability-publication-state.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-policy-proposal.sh"
   copy_file "$root" ".octon/framework/assurance/runtime/_ops/scripts/validate-migration-proposal.sh"

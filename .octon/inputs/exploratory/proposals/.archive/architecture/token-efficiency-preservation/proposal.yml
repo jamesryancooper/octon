@@ -1,0 +1,62 @@
+schema_version: proposal-v1
+proposal_id: token-efficiency-preservation
+title: Token Efficiency Preservation
+summary: Specify token-efficiency safeguards and improvement opportunities for autonomous lifecycle recovery, including compact receipts, targeted evidence refreshes, bounded retry summaries, minimal event deltas, and direct validator diagnostics.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/engine/runtime/crates/lifecycle_executor/src/
+- .octon/framework/engine/runtime/spec/
+- .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+status: archived
+archive:
+  archived_at: 2026-06-04
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/token-efficiency-preservation
+  promotion_evidence:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/engine/runtime/spec/program-blocker-ledger-v1.schema.json
+  - .octon/framework/engine/runtime/spec/program-recovery-delta-summary-v1.schema.json
+  - .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after recovery evidence and validator diagnostics are proven compact enough to preserve or improve token efficiency without sacrificing replayability or authority boundaries.
+related_proposals:
+- autonomous-lifecycle-blocker-recovery
+acceptance_criteria_summary: Recovery adds no avoidable token burden and includes explicit opportunities to reduce noisy failure evidence while preserving replayability.
+authority_class_impact:
+  framework: May later update runner evidence, event, and diagnostic contracts.
+  instance: No direct instance mutation from this proposal packet.
+  state_control: No live control truth changes from this proposal packet.
+  state_evidence: Future evidence remains retained under canonical evidence roots.
+  generated: Generated summaries remain derived-only.
+  inputs: This proposal packet remains non-authoritative.
+change_profile: atomic
+created_date: 2026-06-04
+evidence_requirements:
+- Before/after recovery evidence shape comparison.
+- Compact event summary examples.
+- Negative control proving compact summaries do not replace child receipts.
+explicit_runtime_non_implementation_statement: This packet does not change evidence capture or lifecycle runner behavior.
+generated_input_authority_impact: Efficiency summaries cannot replace canonical evidence, child receipts, or freshness-checked generated outputs.
+non_goals:
+- No suppression of required child-owned receipts.
+- No lossy removal of replay-critical checkpoint references.
+- No broad telemetry redesign.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Remove efficiency-specific event or summary changes; retain canonical evidence requirements.
+runtime_behavior_impact: None until promoted through a later implementation route.
+scope_statement: Define efficiency constraints for autonomous recovery evidence and diagnostics. This packet does not remove required evidence or weaken replay.
+selected_implementation_target: token-efficient lifecycle blocker recovery evidence
+source_lineage:
+- resources/source-context.md
+validation_gates:
+- proposal standard validation
+- event summary validator or tests after implementation
+- token budget or context-size regression check where available

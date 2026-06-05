@@ -1,0 +1,68 @@
+schema_version: proposal-v1
+proposal_id: evidence-and-receipt-hardening
+title: Evidence And Receipt Hardening
+summary: Specify child-owned receipt preservation, replayable checkpoint and evidence references, compact event summaries, and safeguards that prevent parent summaries from being treated as child receipts.
+proposal_kind: architecture
+promotion_scope: octon-internal
+promotion_targets:
+- .octon/framework/engine/runtime/spec/
+- .octon/framework/constitution/contracts/retention/
+- .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+- .octon/framework/assurance/runtime/_ops/scripts/
+- .octon/framework/assurance/runtime/_ops/tests/
+status: archived
+archive:
+  archived_at: 2026-06-04
+  archived_from_status: implemented
+  disposition: implemented
+  original_path: .octon/inputs/exploratory/proposals/architecture/evidence-and-receipt-hardening
+  promotion_evidence:
+  - .octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs
+  - .octon/framework/engine/runtime/spec/program-blocker-ledger-v1.schema.json
+  - .octon/framework/engine/runtime/spec/program-recovery-delta-summary-v1.schema.json
+  - .octon/framework/engine/runtime/spec/lifecycle-program-controller-invariants.md
+  - .octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml
+  - .octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh
+  - .octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh
+lifecycle:
+  temporary: true
+  exit_expectation: Promote only after lifecycle evidence requires child-owned receipt references, replayable checkpoint/evidence pointers, compact recovery summaries, and negative controls against parent-summary child proof.
+related_proposals:
+- autonomous-lifecycle-blocker-recovery
+- evidence-provenance-hardening
+acceptance_criteria_summary: Lifecycle evidence remains replayable and child-owned without duplicating verbose logs or allowing parent summaries to satisfy child receipts.
+authority_class_impact:
+  framework: May later update evidence contracts, runtime specs, validators, and runner evidence handling.
+  instance: No direct instance mutation from this proposal packet.
+  state_control: No live control truth changes from this proposal packet.
+  state_evidence: Future evidence roots must retain child-owned receipt references and replayable checkpoint pointers.
+  generated: Generated summaries remain derived-only.
+  inputs: This proposal packet remains non-authoritative.
+change_profile: atomic
+created_date: 2026-06-04
+evidence_requirements:
+- Child-owned receipt references for child terminal claims.
+- Replayable checkpoint or evidence pointer when control state is cleaned.
+- Compact event summary grouped by blocker class, child, route, and disposition.
+- Negative control rejecting parent-summary-only child proof.
+explicit_runtime_non_implementation_statement: This packet does not create, mutate, or validate live run evidence.
+generated_input_authority_impact: Parent summaries and generated projections may describe state only when backed by child-owned receipts and freshness-checked evidence references.
+non_goals:
+- No parent-owned child receipts.
+- No duplicate verbose evidence copies unless replayability requires them.
+- No generated summary authority.
+- No cleanup or publication.
+owner:
+  role: Octon architecture proposal author
+  accountable_role: human operator / repository owner
+release_state: pre-1.0
+rollback_summary: Remove evidence hardening changes and tests; retain existing evidence requirements.
+runtime_behavior_impact: None until promoted through a later implementation route.
+scope_statement: Define evidence and receipt safeguards for autonomous recovery. This packet does not claim child completion, archive, closeout, or validation state.
+selected_implementation_target: proposal-program lifecycle evidence and receipt hardening
+source_lineage:
+- resources/source-context.md
+validation_gates:
+- proposal standard validation
+- evidence contract or validator tests after implementation
+- negative-control tests for parent-summary-only child proof

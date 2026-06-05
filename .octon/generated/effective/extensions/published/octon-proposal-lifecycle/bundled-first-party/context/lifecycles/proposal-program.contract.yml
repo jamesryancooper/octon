@@ -56,6 +56,20 @@ program:
       final_completion: 8000
       child_dispatch_base: 12000
       architecture_exception: 40000
+    compactness_requirements:
+      repeated_failure_grouping_key:
+        - "blocker_class"
+        - "child_id_when_present"
+        - "route_id"
+        - "disposition"
+      targeted_refresh_diagnostic_fields:
+        - "failing_path"
+        - "accepted_value"
+        - "stale_cause"
+        - "recovery_class"
+        - "minimal_repair_hint"
+      direct_child_receipt_refs: "path-plus-digest; never parent prose"
+      retry_summary_posture: "bounded deltas before raw receipt/archive history"
     action_slices:
       - "load_program_spine"
       - "evaluate_dependency_vector"
@@ -124,6 +138,80 @@ program:
     eligibility: "explicit-route-opt-in"
     require_declared_write_scopes: true
   recovery_policy:
+    blocker_taxonomy:
+      schema_version: "octon-proposal-program-blocker-taxonomy-v1"
+      authority_guards:
+        child_receipts_remain_child_owned: true
+        parent_summary_satisfies_child_receipt: false
+        proposal_inputs_authorize_recovery: false
+        generated_outputs_authorize_recovery: false
+        hard_blockers_fail_closed: true
+      classes:
+        - class_id: "routine-autonomous"
+          runner_posture: "continue-without-operator-escalation"
+          escalation_required: false
+          examples:
+            - blocker_class: "stale-receipt"
+              recovery: "rerun the selected child route after receipt freshness validation"
+            - blocker_class: "missing-evidence"
+              recovery: "rerun the selected child route when child-owned evidence can be regenerated"
+            - blocker_class: "executor-failed"
+              recovery: "retry the child route within budget after live-state replanning"
+            - blocker_class: "executor-timed-out"
+              recovery: "retry the child route within budget after live-state replanning"
+            - blocker_class: "validation-failed"
+              recovery: "route to correction prompt generation when declared write scope remains contained"
+            - blocker_class: "invalid-child-registry"
+              recovery: "route to correction prompt generation for registry-local repair"
+        - class_id: "soft-blocker"
+          runner_posture: "bounded-retry-delegation-cleanup-or-rebaseline"
+          escalation_required: false
+          examples:
+            - blocker_class: "publication-drift"
+              recovery: "refresh generated projections while preserving generated-output non-authority"
+            - blocker_class: "target-drift-explained"
+              recovery: "rebaseline from current child-owned drift evidence"
+            - blocker_class: "noncritical-artifact-cleanup"
+              recovery: "clean current-run generated residue after ownership evidence"
+            - blocker_class: "lifecycle-residue-cleanup-needed"
+              recovery: "delegate bounded lifecycle residue cleanup and replan"
+            - blocker_class: "executor-preflight-blocked"
+              recovery: "retry after local executor preflight evidence changes"
+            - blocker_class: "step-budget-exhausted-continuable"
+              recovery: "continue from checkpoint in a later bounded step"
+            - blocker_class: "recovery-budget-override-required"
+              recovery: "use only an explicitly declared safe route or run-bound rebaseline action"
+            - blocker_class: "recovery-integrity-risk"
+              recovery: "rebaseline from run-bound recovery evidence before retry"
+        - class_id: "hard-blocker"
+          runner_posture: "fail-closed-until-typed-human-exception-or-packet-revision"
+          escalation_required: true
+          default_for_unknown_blocker_class: true
+          examples:
+            - blocker_class: "authority-ambiguity"
+              recovery: "operator escalation for unclear ownership, external approval, or human-only boundary"
+            - blocker_class: "authority-boundary-ambiguous"
+              recovery: "fail closed because runtime cannot prove the authority boundary"
+            - blocker_class: "unsafe-resume"
+              recovery: "fail closed because resume safety is not machine-provable"
+            - blocker_class: "scope-expansion"
+              recovery: "operator escalation or packet revision before any widened mutation"
+            - blocker_class: "authority-zone-ambiguous"
+              recovery: "fail closed because authority zone classification is ambiguous"
+            - blocker_class: "self-authorization-attempt"
+              recovery: "fail closed because the runtime attempted to authorize itself"
+            - blocker_class: "unsupported-mode-authority"
+              recovery: "fail closed because execution semantics or rollback guarantees are unsupported"
+            - blocker_class: "atomic-write-scope-conflict"
+              recovery: "fail closed for conflicting atomic write scopes without a safe route"
+            - blocker_class: "critical-artifact-cleanup-required"
+              recovery: "operator escalation before destructive or authority-sensitive cleanup"
+            - blocker_class: "artifact-ownership-unclear"
+              recovery: "operator escalation before cleanup or mutation"
+            - blocker_class: "aggregate-closeout-readiness-missing"
+              recovery: "operator escalation when parent evidence would substitute for missing child-owned receipts"
+            - blocker_class: "protected-artifact-authority-ambiguity"
+              recovery: "operator escalation before protected artifact mutation"
     max_recovery_attempts: 2
     serialize_write_scope_conflicts: true
     handlers:
@@ -1125,7 +1213,14 @@ routes:
     enter_when:
       all:
         - any:
-            - hygiene_preflight_required: true
+            - all:
+                - hygiene_preflight_required: true
+                - any:
+                    - manifest_status: "implemented"
+                    - receipt_field_equals:
+                        receipt_id: "lifecycle-residue-cleanup"
+                        field: "implementation_blocking"
+                        value: "true"
             - blocker_present: "lifecycle-residue-cleanup-needed"
             - cleanup_candidates_present: true
         - any:

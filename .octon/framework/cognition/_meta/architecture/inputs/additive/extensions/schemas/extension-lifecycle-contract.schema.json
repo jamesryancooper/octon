@@ -256,6 +256,9 @@
         "serialize_write_scope_conflicts": {
           "type": "boolean"
         },
+        "blocker_taxonomy": {
+          "$ref": "#/$defs/programBlockerTaxonomy"
+        },
         "handlers": {
           "type": "object",
           "additionalProperties": {
@@ -268,6 +271,103 @@
             "$ref": "#/$defs/programRecoveryRecipe"
           },
           "uniqueItems": true
+        }
+      }
+    },
+    "programBlockerTaxonomy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "authority_guards", "classes"],
+      "properties": {
+        "schema_version": {
+          "const": "octon-proposal-program-blocker-taxonomy-v1"
+        },
+        "authority_guards": {
+          "$ref": "#/$defs/programBlockerTaxonomyAuthorityGuards"
+        },
+        "classes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/programBlockerTaxonomyClass"
+          },
+          "minItems": 3,
+          "uniqueItems": true
+        }
+      }
+    },
+    "programBlockerTaxonomyAuthorityGuards": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "child_receipts_remain_child_owned",
+        "parent_summary_satisfies_child_receipt",
+        "proposal_inputs_authorize_recovery",
+        "generated_outputs_authorize_recovery",
+        "hard_blockers_fail_closed"
+      ],
+      "properties": {
+        "child_receipts_remain_child_owned": {
+          "const": true
+        },
+        "parent_summary_satisfies_child_receipt": {
+          "const": false
+        },
+        "proposal_inputs_authorize_recovery": {
+          "const": false
+        },
+        "generated_outputs_authorize_recovery": {
+          "const": false
+        },
+        "hard_blockers_fail_closed": {
+          "const": true
+        }
+      }
+    },
+    "programBlockerTaxonomyClass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["class_id", "runner_posture", "escalation_required", "examples"],
+      "properties": {
+        "class_id": {
+          "type": "string",
+          "enum": [
+            "routine-autonomous",
+            "soft-blocker",
+            "hard-blocker"
+          ]
+        },
+        "runner_posture": {
+          "type": "string",
+          "minLength": 1
+        },
+        "escalation_required": {
+          "type": "boolean"
+        },
+        "default_for_unknown_blocker_class": {
+          "type": "boolean"
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/programBlockerTaxonomyExample"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      }
+    },
+    "programBlockerTaxonomyExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocker_class", "recovery"],
+      "properties": {
+        "blocker_class": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+        },
+        "recovery": {
+          "type": "string",
+          "minLength": 1
         }
       }
     },

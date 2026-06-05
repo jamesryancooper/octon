@@ -376,6 +376,17 @@ unsafe-resume|authority-boundary-ambiguous)
   esac
 }
 
+valid_program_recovery_class() {
+  case "$1" in
+    routine-autonomous|soft-blocker|hard-blocker)
+      return 0
+      ;;
+    *)
+      return 1
+      ;;
+  esac
+}
+
 program_blocker_non_recoverable() {
   case "$1" in
     unsafe-resume|authority-boundary-ambiguous)
@@ -740,6 +751,124 @@ validate_lifecycle_interactions() {
       done
     fi
   done
+}
+
+validate_program_blocker_taxonomy_hard_recipe() {
+  local contract="$1" lifecycle_id="$2" blocker="$3"
+  local recipe_count recipe_index recipe_blocker route action human retry found
+
+  recipe_count="$(yq -r '(.program.recovery_policy.recipes // []) | length' "$contract" 2>/dev/null || echo 0)"
+  found=0
+  for ((recipe_index=0; recipe_index<recipe_count; recipe_index++)); do
+    recipe_blocker="$(yq -r ".program.recovery_policy.recipes[$recipe_index].blocker_class // \"\"" "$contract" 2>/dev/null || true)"
+    [[ "$recipe_blocker" == "$blocker" ]] || continue
+    found=1
+    route="$(yq -r ".program.recovery_policy.recipes[$recipe_index].recovery_route_id // \"\"" "$contract" 2>/dev/null || true)"
+    action="$(yq -r ".program.recovery_policy.recipes[$recipe_index].recovery_action_id // \"\"" "$contract" 2>/dev/null || true)"
+    human="$(yq -r ".program.recovery_policy.recipes[$recipe_index].human_required // \"\"" "$contract" 2>/dev/null || true)"
+    retry="$(yq -r ".program.recovery_policy.recipes[$recipe_index].retry_budget // \"\"" "$contract" 2>/dev/null || true)"
+    [[ -z "$route" && -z "$action" ]] \
+      && pass "hard-blocker taxonomy forbids automatic recovery route/action: $lifecycle_id -> $blocker" \
+      || fail "hard-blocker taxonomy recipe must not declare recovery route/action: $lifecycle_id -> $blocker"
+    [[ "$human" == "true" && "$retry" == "0" ]] \
+      && pass "hard-blocker taxonomy recipe fails closed: $lifecycle_id -> $blocker" \
+      || fail "hard-blocker taxonomy recipe must require human and zero retry budget: $lifecycle_id -> $blocker"
+  done
+  [[ "$found" -eq 1 ]] || pass "hard-blocker taxonomy has no automatic recovery recipe: $lifecycle_id -> $blocker"
+}
+
+validate_program_blocker_taxonomy() {
+  local contract="$1" lifecycle_id="$2"
+  local owner_extension schema_version guard expected class_count unique_class_count class_id escalation examples_count example_index blocker recovery
+  local class_index required_class required_hard hard_default hard_blockers
+
+  owner_extension="$(yq -r '.owner_extension // ""' "$contract" 2>/dev/null || true)"
+  if ! yq -e '.program.recovery_policy.blocker_taxonomy' "$contract" >/dev/null 2>&1; then
+    if [[ "$lifecycle_id" == "proposal-program" && "$owner_extension" == "octon-proposal-lifecycle" ]]; then
+      fail "program blocker taxonomy missing: $lifecycle_id"
+    fi
+    return 0
+  fi
+
+  schema_version="$(yq -r '.program.recovery_policy.blocker_taxonomy.schema_version // ""' "$contract" 2>/dev/null || true)"
+  [[ "$schema_version" == "octon-proposal-program-blocker-taxonomy-v1" ]] \
+    && pass "program blocker taxonomy schema version valid: $lifecycle_id" \
+    || fail "program blocker taxonomy schema version invalid: $lifecycle_id"
+
+  for guard in child_receipts_remain_child_owned hard_blockers_fail_closed; do
+    expected="$(yq -r ".program.recovery_policy.blocker_taxonomy.authority_guards.${guard} | tostring" "$contract" 2>/dev/null || true)"
+    [[ "$expected" == "true" ]] \
+      && pass "program blocker taxonomy guard true: $lifecycle_id -> $guard" \
+      || fail "program blocker taxonomy guard must be true: $lifecycle_id -> $guard"
+  done
+  for guard in parent_summary_satisfies_child_receipt proposal_inputs_authorize_recovery generated_outputs_authorize_recovery; do
+    expected="$(yq -r ".program.recovery_policy.blocker_taxonomy.authority_guards.${guard} | tostring" "$contract" 2>/dev/null || true)"
+    [[ "$expected" == "false" ]] \
+      && pass "program blocker taxonomy guard false: $lifecycle_id -> $guard" \
+      || fail "program blocker taxonomy guard must be false: $lifecycle_id -> $guard"
+  done
+
+  yq -e '.program.recovery_policy.blocker_taxonomy.classes | tag == "!!seq"' "$contract" >/dev/null 2>&1 \
+    && pass "program blocker taxonomy classes sequence valid: $lifecycle_id" \
+    || fail "program blocker taxonomy classes must be a sequence: $lifecycle_id"
+  class_count="$(yq -r '(.program.recovery_policy.blocker_taxonomy.classes // []) | length' "$contract" 2>/dev/null || echo 0)"
+  unique_class_count="$(yq -r '(.program.recovery_policy.blocker_taxonomy.classes // [] | map(.class_id) | unique) | length' "$contract" 2>/dev/null || echo 0)"
+  [[ "$class_count" == "3" && "$unique_class_count" == "3" ]] \
+    && pass "program blocker taxonomy declares three unique classes: $lifecycle_id" \
+    || fail "program blocker taxonomy must declare three unique classes: $lifecycle_id"
+
+  for required_class in routine-autonomous soft-blocker hard-blocker; do
+    yq -e ".program.recovery_policy.blocker_taxonomy.classes[]? | select(.class_id == \"${required_class}\")" "$contract" >/dev/null 2>&1 \
+      && pass "program blocker taxonomy required class declared: $lifecycle_id -> $required_class" \
+      || fail "program blocker taxonomy required class missing: $lifecycle_id -> $required_class"
+  done
+
+  for ((class_index=0; class_index<class_count; class_index++)); do
+    class_id="$(yq -r ".program.recovery_policy.blocker_taxonomy.classes[$class_index].class_id // \"\"" "$contract" 2>/dev/null || true)"
+    escalation="$(yq -r ".program.recovery_policy.blocker_taxonomy.classes[$class_index].escalation_required | tostring" "$contract" 2>/dev/null || true)"
+    valid_program_recovery_class "$class_id" \
+      && pass "program blocker taxonomy class id valid: $lifecycle_id -> $class_id" \
+      || fail "program blocker taxonomy class id invalid: $lifecycle_id -> $class_id"
+    if [[ "$class_id" == "hard-blocker" ]]; then
+      [[ "$escalation" == "true" ]] \
+        && pass "hard-blocker taxonomy requires escalation: $lifecycle_id" \
+        || fail "hard-blocker taxonomy must require escalation: $lifecycle_id"
+      hard_default="$(yq -r ".program.recovery_policy.blocker_taxonomy.classes[$class_index].default_for_unknown_blocker_class | tostring" "$contract" 2>/dev/null || true)"
+      [[ "$hard_default" == "true" ]] \
+        && pass "hard-blocker taxonomy is default for unknown blockers: $lifecycle_id" \
+        || fail "hard-blocker taxonomy must be default for unknown blockers: $lifecycle_id"
+    else
+      [[ "$escalation" == "false" ]] \
+        && pass "non-hard blocker taxonomy avoids escalation: $lifecycle_id -> $class_id" \
+        || fail "non-hard blocker taxonomy must not require escalation: $lifecycle_id -> $class_id"
+    fi
+    yq -e ".program.recovery_policy.blocker_taxonomy.classes[$class_index].examples | tag == \"!!seq\" and length > 0" "$contract" >/dev/null 2>&1 \
+      && pass "program blocker taxonomy examples declared: $lifecycle_id -> $class_id" \
+      || fail "program blocker taxonomy examples missing: $lifecycle_id -> $class_id"
+    examples_count="$(yq -r "(.program.recovery_policy.blocker_taxonomy.classes[$class_index].examples // []) | length" "$contract" 2>/dev/null || echo 0)"
+    for ((example_index=0; example_index<examples_count; example_index++)); do
+      blocker="$(yq -r ".program.recovery_policy.blocker_taxonomy.classes[$class_index].examples[$example_index].blocker_class // \"\"" "$contract" 2>/dev/null || true)"
+      recovery="$(yq -r ".program.recovery_policy.blocker_taxonomy.classes[$class_index].examples[$example_index].recovery // \"\"" "$contract" 2>/dev/null || true)"
+      valid_program_blocker_class "$blocker" \
+        && pass "program blocker taxonomy example class valid: $lifecycle_id $class_id -> $blocker" \
+        || fail "program blocker taxonomy example class invalid: $lifecycle_id $class_id -> $blocker"
+      [[ -n "$recovery" && "$recovery" != "null" ]] \
+        && pass "program blocker taxonomy example recovery declared: $lifecycle_id $class_id -> $blocker" \
+        || fail "program blocker taxonomy example recovery missing: $lifecycle_id $class_id -> $blocker"
+    done
+  done
+
+  for required_hard in authority-ambiguity authority-boundary-ambiguous unsafe-resume scope-expansion; do
+    yq -e ".program.recovery_policy.blocker_taxonomy.classes[]? | select(.class_id == \"hard-blocker\") | .examples[]? | select(.blocker_class == \"${required_hard}\")" "$contract" >/dev/null 2>&1 \
+      && pass "hard-blocker taxonomy required example declared: $lifecycle_id -> $required_hard" \
+      || fail "hard-blocker taxonomy required example missing: $lifecycle_id -> $required_hard"
+  done
+
+  hard_blockers="$(yq -r '.program.recovery_policy.blocker_taxonomy.classes[]? | select(.class_id == "hard-blocker") | .examples[]?.blocker_class // ""' "$contract" 2>/dev/null | awk 'NF' | sort -u)"
+  while IFS= read -r blocker; do
+    [[ -n "$blocker" ]] || continue
+    validate_program_blocker_taxonomy_hard_recipe "$contract" "$lifecycle_id" "$blocker"
+  done <<<"$hard_blockers"
 }
 
 validate_recovery_object_keys() {
@@ -1160,6 +1289,7 @@ validate_program_section() {
   [[ "$serialize_conflicts" == "true" || "$serialize_conflicts" == "false" ]] \
     && pass "program write-scope conflict policy valid: $lifecycle_id" \
     || fail "program write-scope conflict policy invalid: $lifecycle_id"
+  validate_program_blocker_taxonomy "$contract" "$lifecycle_id"
   validate_program_recovery_policy "$contract" "$lifecycle_id"
   validate_program_closeout_policy "$contract" "$lifecycle_id"
 

@@ -109,10 +109,13 @@
         "scope",
         "route_id",
         "blocker_class",
+        "grouping_key",
         "blocker_message",
         "latest_transition",
         "current_fingerprint",
         "recovery_budget",
+        "targeted_refresh_diagnostic",
+        "direct_child_receipt_refs",
         "evidence_refs",
         "authority_boundary_notice"
       ],
@@ -122,17 +125,62 @@
         "child_id": { "type": "string", "minLength": 1 },
         "route_id": { "type": "string", "minLength": 1 },
         "blocker_class": { "type": "string", "minLength": 1 },
+        "grouping_key": { "$ref": "#/$defs/grouping_key" },
         "blocker_message": { "type": "string", "minLength": 1 },
         "latest_transition": { "type": "string", "minLength": 1 },
         "prior_fingerprint": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
         "current_fingerprint": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
         "recovery_budget": { "$ref": "#/$defs/recovery_budget" },
         "recovery_route": { "type": "string", "minLength": 1 },
+        "targeted_refresh_diagnostic": { "$ref": "#/$defs/targeted_refresh_diagnostic" },
+        "direct_child_receipt_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/direct_child_receipt_ref" }
+        },
         "evidence_refs": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
         },
         "authority_boundary_notice": { "type": "string", "minLength": 1 }
+      }
+    },
+    "grouping_key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocker_class", "route_id", "disposition"],
+      "properties": {
+        "blocker_class": { "type": "string", "minLength": 1 },
+        "child_id": { "type": "string", "minLength": 1 },
+        "route_id": { "type": "string", "minLength": 1 },
+        "disposition": { "type": "string", "minLength": 1 }
+      }
+    },
+    "direct_child_receipt_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "receipt_ref", "sha256"],
+      "properties": {
+        "receipt_id": { "type": "string", "minLength": 1 },
+        "receipt_ref": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "targeted_refresh_diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "failing_path",
+        "accepted_value",
+        "stale_cause",
+        "recovery_class",
+        "minimal_repair_hint"
+      ],
+      "properties": {
+        "failing_path": { "type": "string", "minLength": 1 },
+        "accepted_value": { "type": "string", "minLength": 1 },
+        "stale_cause": { "type": "string", "minLength": 1 },
+        "recovery_class": { "type": "string", "minLength": 1 },
+        "minimal_repair_hint": { "type": "string", "minLength": 1 }
       }
     },
     "recovery_budget": {

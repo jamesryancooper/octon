@@ -21,6 +21,7 @@ impl FixtureRepo {
             if fs::create_dir(&root).is_ok() {
                 let fixture = Self { root };
                 fixture.write_generated_catalog();
+                fixture.write_context_pack_authority();
                 fixture.write_child_contract();
                 fixture.write_program_contract();
                 fixture.write_parent(child_phase_id);
@@ -53,6 +54,17 @@ packs:
       - lifecycle_id: "proposal-program"
         projection_source_path: ".octon/generated/effective/extensions/published/test-extension/bundled/context/lifecycles/proposal-program.contract.yml"
 "#,
+        );
+    }
+
+    fn write_context_pack_authority(&self) {
+        self.write(
+            ".octon/framework/engine/runtime/spec/context-pack-builder-v1.md",
+            "# Context Pack Builder v1\n",
+        );
+        self.write(
+            ".octon/instance/governance/policies/context-packing.yml",
+            "schema_version: context-packing-policy-v1\n",
         );
     }
 

@@ -251,6 +251,32 @@ remain child-owned. Recovery recipes are bounded by blocker class, retry budget,
 preconditions, post-attempt validation, and live replanning. `unsafe-resume` and
 `authority-boundary-ambiguous` remain fail-closed.
 
+Program blocker recovery uses the validator-readable taxonomy declared at
+`program.recovery_policy.blocker_taxonomy` in
+`context/lifecycles/proposal-program.contract.yml`:
+
+- `routine-autonomous` covers deterministic, child-owned, validator-backed
+  reruns such as stale receipts, missing regenerable evidence, retryable
+  executor failures, retryable timeouts, validation correction routing, and
+  child-registry correction routing.
+- `soft-blocker` covers bounded recovery that must replan or delegate before
+  continuing, such as publication drift, explained target drift, noncritical
+  cleanup residue, lifecycle residue cleanup, executor preflight blocks,
+  continuable step-budget exhaustion, recovery-budget override routes, and
+  recovery-integrity rebaseline actions.
+- `hard-blocker` covers cases that fail closed until a typed human exception,
+  packet revision, or other explicit authority route resolves the issue. This
+  includes authority ambiguity, ambiguous authority boundaries, unsafe resume,
+  scope expansion, ambiguous authority zones, self-authorization attempts,
+  unsupported authority modes, atomic write-scope conflicts, critical cleanup,
+  unclear artifact ownership, parent-summary-only child proof, protected
+  artifact ambiguity, and unknown blocker classes.
+
+The taxonomy does not authorize runner recovery by itself. Parent program
+evidence may summarize blocker state, but child manifests, child receipts,
+validation verdicts, promotion evidence, archive metadata, closeout
+authorization, and terminal lifecycle outcomes remain child-owned.
+
 `program-atomic` is explicit opt-in and means staged barrier coordination with
 declared stage, commit, rollback, or compensation routes. It is not universal
 transactionality. Interrupted barriers are resumed from the event log; ambiguous

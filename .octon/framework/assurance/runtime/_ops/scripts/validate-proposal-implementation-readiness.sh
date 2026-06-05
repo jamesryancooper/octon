@@ -6,6 +6,7 @@ ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
+source "$SCRIPT_DIR/validator-recovery-diagnostics.sh"
 
 PROPOSAL_PATH=""
 errors=0
@@ -23,6 +24,22 @@ warn() {
 
 pass() {
   echo "[OK] $1"
+}
+
+readiness_rerun_gate() {
+  printf 'validate-proposal-implementation-readiness.sh --package %s\n' "$PROPOSAL_PATH"
+}
+
+readiness_repo_rel() {
+  local path="$1"
+  case "$path" in
+    "$ROOT_DIR"/*)
+      printf '%s\n' "${path#$ROOT_DIR/}"
+      ;;
+    *)
+      printf '%s\n' "$path"
+      ;;
+  esac
 }
 
 usage() {
@@ -86,7 +103,14 @@ esac
 
 case "$proposal_kind" in
   policy|architecture|migration|design) pass "proposal kind supports implementation-readiness gate" ;;
-  *) fail "proposal kind supports implementation-readiness gate" ;;
+  *)
+    emit_enum_recovery_diagnostic \
+      "$(readiness_repo_rel "$MANIFEST")#proposal_kind" \
+      "$proposal_kind" \
+      "policy|architecture|migration|design" \
+      "$(readiness_rerun_gate)"
+    fail "proposal kind supports implementation-readiness gate"
+    ;;
 esac
 
 requires_receipt=0
@@ -143,6 +167,12 @@ require_prompt_pattern() {
   if grep -Eiq "$pattern" "$EXECUTABLE_PROMPT"; then
     pass "$label"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "prompt_contract_gap" \
+      --failing-path "$(readiness_repo_rel "$EXECUTABLE_PROMPT")" \
+      --observed-value "$label" \
+      --minimal-repair-hint "regenerate support/executable-implementation-prompt.md with the missing prompt contract coverage" \
+      --rerun-gate "$(readiness_rerun_gate)"
     fail "$label"
   fi
 }
@@ -211,6 +241,12 @@ validate_executable_prompt() {
     if grep -Fq "$target" "$EXECUTABLE_PROMPT"; then
       pass "executable implementation prompt covers promotion target: $target"
     else
+      emit_recovery_diagnostic \
+        --recovery-class "prompt_contract_gap" \
+        --failing-path "$(readiness_repo_rel "$EXECUTABLE_PROMPT")#Promotion Targets" \
+        --observed-value "$target" \
+        --minimal-repair-hint "regenerate support/executable-implementation-prompt.md so it covers the manifest promotion target" \
+        --rerun-gate "$(readiness_rerun_gate)"
       fail "executable implementation prompt covers promotion target: $target"
     fi
   done < <(yq -r '.promotion_targets[]?' "$MANIFEST")
@@ -226,18 +262,34 @@ if [[ -f "$REVIEW" ]]; then
   if [[ "$verdict" =~ ^(pass|fail)$ ]]; then
     pass "readiness verdict is explicit"
   else
+    emit_enum_recovery_diagnostic \
+      "$(readiness_repo_rel "$REVIEW")#verdict" \
+      "$verdict" \
+      "pass|fail" \
+      "$(readiness_rerun_gate)"
     fail "readiness verdict is explicit"
   fi
 
   if [[ "$unresolved_questions_count" =~ ^[0-9]+$ ]]; then
     pass "unresolved question count is numeric"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "schema_violation" \
+      --failing-path "$(readiness_repo_rel "$REVIEW")#unresolved_questions_count" \
+      --observed-value "$unresolved_questions_count" \
+      --minimal-repair-hint "record unresolved_questions_count as a non-negative integer" \
+      --rerun-gate "$(readiness_rerun_gate)"
     fail "unresolved question count is numeric"
   fi
 
   if [[ "$clarification_required" =~ ^(yes|no)$ ]]; then
     pass "clarification_required is explicit"
   else
+    emit_enum_recovery_diagnostic \
+      "$(readiness_repo_rel "$REVIEW")#clarification_required" \
+      "$clarification_required" \
+      "yes|no" \
+      "$(readiness_rerun_gate)"
     fail "clarification_required is explicit"
   fi
 
@@ -258,9 +310,18 @@ if [[ -f "$REVIEW" ]]; then
   done
 
   if [[ "$requires_pass" -eq 1 ]]; then
-    [[ "$verdict" == "pass" ]] && pass "readiness gate passes for lifecycle status" || fail "readiness gate passes for lifecycle status"
-    [[ "$unresolved_questions_count" == "0" ]] && pass "no unresolved questions for implementation-ready lifecycle status" || fail "no unresolved questions for implementation-ready lifecycle status"
-    [[ "$clarification_required" == "no" ]] && pass "no clarification required for implementation-ready lifecycle status" || fail "no clarification required for implementation-ready lifecycle status"
+    [[ "$verdict" == "pass" ]] && pass "readiness gate passes for lifecycle status" || {
+      emit_hard_blocker_recovery_diagnostic "$(readiness_repo_rel "$REVIEW")#verdict" "implementation readiness receipt does not pass" "$(readiness_rerun_gate)" "$verdict"
+      fail "readiness gate passes for lifecycle status"
+    }
+    [[ "$unresolved_questions_count" == "0" ]] && pass "no unresolved questions for implementation-ready lifecycle status" || {
+      emit_hard_blocker_recovery_diagnostic "$(readiness_repo_rel "$REVIEW")#unresolved_questions_count" "implementation readiness has unresolved questions" "$(readiness_rerun_gate)" "$unresolved_questions_count"
+      fail "no unresolved questions for implementation-ready lifecycle status"
+    }
+    [[ "$clarification_required" == "no" ]] && pass "no clarification required for implementation-ready lifecycle status" || {
+      emit_hard_blocker_recovery_diagnostic "$(readiness_repo_rel "$REVIEW")#clarification_required" "implementation readiness requires clarification" "$(readiness_rerun_gate)" "$clarification_required"
+      fail "no clarification required for implementation-ready lifecycle status"
+    }
   elif [[ "$status" == "in-review" ]]; then
     if [[ "$verdict" == "pass" ]]; then
       pass "in-review proposal has passing implementation-grade receipt"
@@ -272,6 +333,10 @@ if [[ -f "$REVIEW" ]]; then
   fi
 else
   if [[ "$requires_receipt" -eq 1 ]]; then
+    emit_hard_blocker_recovery_diagnostic \
+      "$(readiness_repo_rel "$REVIEW")" \
+      "implementation-ready proposal requires implementation-grade completeness review" \
+      "$(readiness_rerun_gate)"
     fail "implementation-grade completeness review exists"
   elif [[ "$legacy_archive" -eq 1 ]]; then
     warn "legacy archived proposal has no implementation-grade completeness review"
@@ -286,6 +351,10 @@ validate_proposal_review_gate
 if yq -e '.promotion_targets | type == "!!seq" and length > 0' "$MANIFEST" >/dev/null 2>&1; then
   pass "promotion targets are present"
 else
+  emit_hard_blocker_recovery_diagnostic \
+    "$(readiness_repo_rel "$MANIFEST")#promotion_targets" \
+    "implementation-ready proposal requires at least one promotion target" \
+    "$(readiness_rerun_gate)"
   fail "promotion targets are present"
 fi
 
@@ -304,15 +373,27 @@ if [[ "$promotion_scope" == "octon-internal" && "$saw_non_octon" -eq 1 ]]; then
   if [[ "$legacy_archive" -eq 1 || "$status" == "archived" ]]; then
     warn "legacy archived octon-internal proposal has non-.octon promotion targets"
   else
+    emit_hard_blocker_recovery_diagnostic \
+      "$(readiness_repo_rel "$MANIFEST")#promotion_targets" \
+      "octon-internal proposal contains non-.octon promotion target" \
+      "$(readiness_rerun_gate)"
     fail "octon-internal proposal targets stay under .octon/"
   fi
 elif [[ "$promotion_scope" == "repo-local" && "$saw_octon" -eq 1 ]]; then
   if [[ "$legacy_archive" -eq 1 || "$status" == "archived" ]]; then
     warn "legacy archived repo-local proposal has .octon promotion targets"
   else
+    emit_hard_blocker_recovery_diagnostic \
+      "$(readiness_repo_rel "$MANIFEST")#promotion_targets" \
+      "repo-local proposal contains .octon promotion target" \
+      "$(readiness_rerun_gate)"
     fail "repo-local proposal targets stay outside .octon/"
   fi
 elif [[ "$saw_octon" -eq 1 && "$saw_non_octon" -eq 1 && "$status" != "archived" ]]; then
+  emit_hard_blocker_recovery_diagnostic \
+    "$(readiness_repo_rel "$MANIFEST")#promotion_targets" \
+    "active proposal mixes .octon and non-.octon promotion target families" \
+    "$(readiness_rerun_gate)"
   fail "active proposal avoids mixed target families"
 else
   pass "promotion target scope is coherent"

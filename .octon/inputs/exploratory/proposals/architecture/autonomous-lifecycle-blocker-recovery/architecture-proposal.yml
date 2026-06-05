@@ -1,0 +1,50 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "autonomous-lifecycle-blocker-recovery"
+title: "Autonomous Lifecycle Blocker Recovery"
+architecture_scope: "cross-domain-architecture"
+decision_type: "surface-refactor"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  Recent proposal-program lifecycle runs reached terminal success but required
+  avoidable manual resumes and intervention for recoverable issues such as
+  schema enum drift, stale receipts, publication freshness drift, generated
+  projection drift, local run-state cleanup residue, bounded step exhaustion,
+  retryable preflight failures, and noisy failure evidence.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+child_registry_ref: "resources/child-packet-index.yml"
+source_traceability_ref: "resources/source-traceability-matrix.md"
+rollback_posture: "parent-coordination-only"
+authority_boundaries:
+  runner_role: "orchestrator"
+  cleanup_owner: "repo-hygiene-cleanup or lifecycle cleanup route"
+  validation_owner: "validator plane"
+  evidence_owner: "canonical state/evidence roots"
+  child_receipt_owner: "child packet lifecycle"
+  parent_program_owner: "parent coordination only"
+  generated_state_owner: "canonical publication scripts"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+  - "architecture/child-packet-contract.md"
+  - "architecture/packet-sequence.md"
+  - "architecture/program-closeout-plan.md"
+  - "resources/child-packet-index.yml"
+  - "resources/child-packet-index.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/source-postmortem-evaluation.md"
+  - "resources/source-traceability-matrix.md"
+  - "support/**"
+implementation_grade_summary: >-
+  Future implementation must use existing lifecycle runner, validator,
+  publication, cleanup, and evidence surfaces where possible; add only bounded
+  recovery contracts, diagnostics, receipts, or tests required to prove
+  autonomous handling without weakening hard-blocker fail-closed behavior.

@@ -146,6 +146,19 @@ printf '%s\n' "$dry_run_output" | grep -F "protected" | grep -F ".octon/state/ev
 printf '%s\n' "$dry_run_output" | grep -F "manual_review" | grep -F ".octon/state/evidence/validation/analysis/manual.yml" >/dev/null || fail "dry-run did not surface manual-review artifact"
 printf '%s\n' "$dry_run_output" | grep -F "generated_run_health_projection" >/dev/null || fail "dry-run did not route generated run-health projection to manual review"
 
+root="$(make_fixture)"
+active_run_output="$(bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1)"
+printf '%s\n' "$active_run_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml" >/dev/null || fail "active run checkpoint was not protected"
+printf '%s\n' "$active_run_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml" >/dev/null || fail "active run continuity artifact was not protected"
+printf '%s\n' "$active_run_output" | grep -F "protected" | grep -F "active_run_state" | grep -F ".octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml" >/dev/null || fail "active run authority decision was not protected"
+active_receipt="$tmp_root/active-receipt-$fixture_index.json"
+bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1 --authorize "$active_receipt" >/dev/null
+bash "$HELPER" --root "$root" --active-run-id lifecycle-proposal-program-1 --authorization "$active_receipt" >/dev/null
+assert_exists "$root/.octon/state/control/execution/runs/lifecycle-proposal-program-1/program-lifecycle-checkpoint.yml"
+assert_exists "$root/.octon/state/continuity/runs/lifecycle-proposal-program-1-workflow/handoff.yml"
+assert_exists "$root/.octon/state/evidence/control/execution/authority-decision-lifecycle-proposal-program-1.yml"
+assert_missing "$root/.octon/state/control/execution/runs/publish-1/run-manifest.yml"
+
 receipt="$(authorize_fixture "$root")"
 grep -F '"schema_version": "repo-hygiene-cleanup-authorization-v1"' "$receipt" >/dev/null || fail "authorization receipt has wrong schema version"
 bash "$HELPER" --root "$root" --authorization "$receipt" >/dev/null

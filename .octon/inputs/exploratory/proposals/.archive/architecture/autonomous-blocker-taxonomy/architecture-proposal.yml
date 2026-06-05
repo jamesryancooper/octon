@@ -1,0 +1,30 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "autonomous-blocker-taxonomy"
+title: "Autonomous Blocker Taxonomy"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  Lifecycle runs have treated recoverable validation drift, stale evidence, and
+  bounded continuation states too much like operator blockers. A durable,
+  validator-readable taxonomy is needed so safe recovery can proceed
+  autonomously while hard blockers remain fail-closed.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Future implementation should add only the smallest taxonomy surface needed by
+  validators and runner recovery code, with examples tied to tests.

@@ -59,6 +59,8 @@ create_fixture_repo() {
     "$fixture_root/.octon/framework/cognition/_meta/architecture/generated/proposals/schemas"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh" \
     "$fixture_root/.octon/framework/assurance/runtime/_ops/scripts/generate-proposal-registry.sh"
   cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validate-architecture-proposal.sh" \
@@ -79,10 +81,11 @@ write_file() {
 
 write_active_architecture_proposal() {
   local root="$1"
+  local promotion_target="${2:-.octon/README.md}"
   local proposal_dir="$root/.octon/inputs/exploratory/proposals/architecture/fixture-proposal"
   mkdir -p "$proposal_dir/navigation" "$proposal_dir/architecture"
 
-  write_file "$proposal_dir/proposal.yml" <<'EOF'
+  write_file "$proposal_dir/proposal.yml" <<EOF
 schema_version: "proposal-v1"
 proposal_id: "fixture-proposal"
 title: "Fixture Proposal"
@@ -90,7 +93,7 @@ summary: "Architecture fixture."
 proposal_kind: "architecture"
 promotion_scope: "octon-internal"
 promotion_targets:
-  - ".octon/README.md"
+  - "$promotion_target"
 status: "draft"
 lifecycle:
   temporary: true
@@ -388,6 +391,16 @@ EOF
 EOF
 }
 
+write_active_architecture_with_invalid_subtype() {
+  local root="$1"
+  write_active_architecture_proposal "$root"
+  write_file "$root/.octon/inputs/exploratory/proposals/architecture/fixture-proposal/architecture-proposal.yml" <<'EOF'
+schema_version: "architecture-proposal-v1"
+architecture_scope: "repo-architecture"
+decision_type: "unsupported-change-type"
+EOF
+}
+
 run_generator_in_fixture() {
   local fixture_root="$1"
   shift
@@ -405,6 +418,19 @@ case_check_passes_for_valid_projection() {
   write_active_architecture_proposal "$fixture_root"
   run_generator_in_fixture "$fixture_root" --write >/dev/null
   run_generator_in_fixture "$fixture_root" --check
+}
+
+case_write_allows_proposal_path_examples_in_assurance_tests() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p \
+    "$fixture_root/.octon/generated" \
+    "$fixture_root/.octon/framework/assurance/runtime/_ops/tests"
+  write_file "$fixture_root/.octon/framework/assurance/runtime/_ops/tests/test-fixture.sh" <<'EOF'
+fixture_target=".octon/inputs/exploratory/proposals/architecture/fixture-proposal"
+EOF
+  write_active_architecture_proposal "$fixture_root" ".octon/framework/assurance/runtime/_ops/tests/"
+  run_generator_in_fixture "$fixture_root" --write
 }
 
 case_check_fails_on_orphaned_registry_entry() {
@@ -466,10 +492,35 @@ case_check_fails_on_active_legacy_unknown_design_import() {
   run_generator_in_fixture "$fixture_root" --check
 }
 
+case_check_fails_on_active_invalid_subtype() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p "$fixture_root/.octon/generated"
+  touch "$fixture_root/.octon/README.md"
+  write_active_architecture_with_invalid_subtype "$fixture_root"
+  run_generator_in_fixture "$fixture_root" --check
+}
+
+case_projection_recovery_skips_active_invalid_subtype() {
+  local fixture_root
+  fixture_root="$(create_fixture_repo)"
+  mkdir -p "$fixture_root/.octon/generated"
+  touch "$fixture_root/.octon/README.md"
+  write_active_architecture_with_invalid_subtype "$fixture_root"
+  (
+    cd "$fixture_root"
+    OCTON_PROPOSAL_REGISTRY_SKIP_SUBTYPE_VALIDATION=1 bash "$GENERATE_SCRIPT" --write
+  ) >/dev/null
+  grep -Fq 'fixture-proposal' "$fixture_root/.octon/generated/proposals/registry.yml"
+}
+
 main() {
   assert_success \
     "proposal registry generator reproduces a valid committed projection" \
     case_check_passes_for_valid_projection
+  assert_success \
+    "proposal registry generator allows proposal-path examples inside assurance test fixtures" \
+    case_write_allows_proposal_path_examples_in_assurance_tests
   assert_failure_contains \
     "proposal registry generator rejects orphaned manual entries" \
     "proposal registry matches generated projection" \
@@ -492,6 +543,13 @@ main() {
     "proposal registry generator still validates active packets with legacy metadata" \
     "non-archived proposal must not contain archive block" \
     case_check_fails_on_active_legacy_unknown_design_import
+  assert_failure_contains \
+    "proposal registry generator still validates active subtype contracts by default" \
+    "subtype validator passes" \
+    case_check_fails_on_active_invalid_subtype
+  assert_success \
+    "proposal registry projection recovery skips unrelated active subtype validation" \
+    case_projection_recovery_skips_active_invalid_subtype
 
   echo
   echo "Passed: $pass_count"

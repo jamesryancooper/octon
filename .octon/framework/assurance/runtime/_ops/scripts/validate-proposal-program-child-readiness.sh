@@ -6,6 +6,7 @@ ASSURANCE_DIR="$(cd -- "$SCRIPT_DIR/../../.." && pwd)"
 FRAMEWORK_DIR="$(cd -- "$ASSURANCE_DIR/.." && pwd)"
 OCTON_DIR="$(cd -- "$FRAMEWORK_DIR/.." && pwd)"
 ROOT_DIR="$(cd -- "$OCTON_DIR/.." && pwd)"
+source "$SCRIPT_DIR/validator-recovery-diagnostics.sh"
 
 PROGRAM_PATH=""
 errors=0
@@ -34,6 +35,22 @@ warn() {
 
 pass() {
   echo "[OK] $1"
+}
+
+child_readiness_rerun_gate() {
+  printf 'validate-proposal-program-child-readiness.sh --package %s\n' "$PROGRAM_PATH"
+}
+
+child_readiness_repo_rel() {
+  local path="$1"
+  case "$path" in
+    "$ROOT_DIR"/*)
+      printf '%s\n' "${path#$ROOT_DIR/}"
+      ;;
+    *)
+      printf '%s\n' "$path"
+      ;;
+  esac
 }
 
 usage() {
@@ -137,6 +154,12 @@ run_child_validator() {
   if [[ "$rc" -eq 0 ]]; then
     pass "$label"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "child_readiness_gate_failed" \
+      --failing-path "$label" \
+      --observed-value "$output" \
+      --minimal-repair-hint "inspect the child validator output, repair the child packet gate, and rerun child-readiness validation" \
+      --rerun-gate "$(child_readiness_rerun_gate)"
     fail "$label"
     printf '%s\n' "$output"
   fi
@@ -149,6 +172,12 @@ require_existing_ref() {
   elif [[ -e "$ROOT_DIR/$ref" ]]; then
     pass "$label exists: $ref"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$label" \
+      --observed-value "$ref" \
+      --minimal-repair-hint "point the child registry reference at an existing repo-relative artifact" \
+      --rerun-gate "$(child_readiness_rerun_gate)"
     fail "$label exists: $ref"
   fi
 }
@@ -160,6 +189,12 @@ require_review_mentions() {
   if grep -Fqi -- "$phrase" "$completeness_review" "$proposal_review" 2>/dev/null; then
     pass "child $child_id readiness evidence mentions: $phrase"
   else
+    emit_recovery_diagnostic \
+      --recovery-class "child_readiness_evidence_gap" \
+      --failing-path "$(child_readiness_repo_rel "$child_abs")/support" \
+      --observed-value "$phrase" \
+      --minimal-repair-hint "update child readiness/review evidence so it mentions the required phrase" \
+      --rerun-gate "$(child_readiness_rerun_gate)"
     fail "child $child_id readiness evidence mentions: $phrase"
   fi
 }
@@ -266,10 +301,18 @@ validate_child_readiness() {
   manifest="$child_abs/proposal.yml"
 
   if [[ ! -d "$child_abs" ]]; then
+    emit_hard_blocker_recovery_diagnostic \
+      "$(child_readiness_repo_rel "$child_abs")" \
+      "required child packet directory is missing" \
+      "$(child_readiness_rerun_gate)"
     fail "child $child_id packet directory exists"
     return 0
   fi
   if [[ ! -f "$manifest" ]]; then
+    emit_hard_blocker_recovery_diagnostic \
+      "$(child_readiness_repo_rel "$manifest")" \
+      "required child proposal manifest is missing" \
+      "$(child_readiness_rerun_gate)"
     fail "child $child_id proposal manifest exists"
     return 0
   fi
@@ -310,6 +353,13 @@ validate_child_readiness() {
         fi
         ;;
       *)
+        emit_recovery_diagnostic \
+          --recovery-class "child_registry_error" \
+          --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children[$index].required_metadata" \
+          --observed-value "$metadata" \
+          --accepted-values "change_profile" \
+          --minimal-repair-hint "use only supported required_metadata values" \
+          --rerun-gate "$(child_readiness_rerun_gate)"
         fail "child $child_id required_metadata is supported: $metadata"
         ;;
     esac
@@ -353,6 +403,12 @@ validate_cross_packet_constraints() {
   for ((constraint_index=0; constraint_index<predecessor_count; constraint_index++)); do
     predecessor_id="$(yq -r ".children[$index].predecessor_constraints[$constraint_index].predecessor_child_id // \"\"" "$REGISTRY" 2>/dev/null || true)"
     if [[ -z "${CHILD_SEEN[$predecessor_id]:-}" ]]; then
+      emit_recovery_diagnostic \
+        --recovery-class "child_registry_error" \
+        --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children[$index].predecessor_constraints" \
+        --observed-value "$predecessor_id" \
+        --minimal-repair-hint "reference an existing predecessor child_id" \
+        --rerun-gate "$(child_readiness_rerun_gate)"
       fail "child $child_id predecessor constraint references existing child: $predecessor_id"
     elif contains_id "${CHILD_DEPENDENCIES[$child_id]:-}" "$predecessor_id"; then
       pass "child $child_id predecessor constraint is reflected in dependencies: $predecessor_id"
@@ -366,6 +422,12 @@ validate_cross_packet_constraints() {
     successor_id="$(yq -r ".children[$index].successor_constraints[$constraint_index].successor_child_id // \"\"" "$REGISTRY" 2>/dev/null || true)"
     successor_dependencies="${CHILD_DEPENDENCIES[$successor_id]:-}"
     if [[ -z "${CHILD_SEEN[$successor_id]:-}" ]]; then
+      emit_recovery_diagnostic \
+        --recovery-class "child_registry_error" \
+        --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children[$index].successor_constraints" \
+        --observed-value "$successor_id" \
+        --minimal-repair-hint "reference an existing successor child_id" \
+        --rerun-gate "$(child_readiness_rerun_gate)"
       fail "child $child_id successor constraint references existing child: $successor_id"
     elif contains_id "$successor_dependencies" "$child_id"; then
       pass "child $child_id successor constraint is reflected in successor dependencies: $successor_id"
@@ -397,12 +459,20 @@ validate_cross_packet_constraints() {
 }
 
 if [[ ! -d "$PROGRAM_DIR" ]]; then
+  emit_hard_blocker_recovery_diagnostic \
+    "$(child_readiness_repo_rel "$PROGRAM_DIR")" \
+    "program packet directory is missing" \
+    "$(child_readiness_rerun_gate)"
   fail "program packet exists"
   echo "Validation summary: errors=$errors warnings=$warnings"
   exit 1
 fi
 
 if [[ ! -f "$REGISTRY" ]]; then
+  emit_hard_blocker_recovery_diagnostic \
+    "$(child_readiness_repo_rel "$REGISTRY")" \
+    "program child registry is missing" \
+    "$(child_readiness_rerun_gate)"
   fail "program child registry exists"
   echo "Validation summary: errors=$errors warnings=$warnings"
   exit 1
@@ -411,6 +481,11 @@ fi
 if yq -e '.' "$REGISTRY" >/dev/null 2>&1; then
   pass "program child registry parses"
 else
+  emit_recovery_diagnostic \
+    --recovery-class "invalid_yaml" \
+    --failing-path "$(child_readiness_repo_rel "$REGISTRY")" \
+    --minimal-repair-hint "repair child-packet-index.yml YAML syntax" \
+    --rerun-gate "$(child_readiness_rerun_gate)"
   fail "program child registry parses"
   echo "Validation summary: errors=$errors warnings=$warnings"
   exit 1
@@ -420,6 +495,12 @@ child_count="$(yq -r '(.children // []) | length' "$REGISTRY" 2>/dev/null || ech
 if [[ "$child_count" =~ ^[1-9][0-9]*$ ]]; then
   pass "program child registry declares children"
 else
+  emit_recovery_diagnostic \
+    --recovery-class "child_registry_error" \
+    --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children" \
+    --observed-value "$child_count" \
+    --minimal-repair-hint "declare at least one child in resources/child-packet-index.yml" \
+    --rerun-gate "$(child_readiness_rerun_gate)"
   fail "program child registry declares children"
 fi
 
@@ -430,14 +511,36 @@ for ((index=0; index<child_count; index++)); do
   deferred="$(yq -r ".children[$index].deferred // false" "$REGISTRY" 2>/dev/null || true)"
   dependencies="$(yq -r ".children[$index].dependencies[]? // \"\"" "$REGISTRY" 2>/dev/null | awk 'NF' || true)"
 
-  valid_child_id "$child_id" && pass "child id valid: $child_id" || fail "child id valid: $child_id"
+  valid_child_id "$child_id" && pass "child id valid: $child_id" || {
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children[$index].child_id" \
+      --observed-value "$child_id" \
+      --minimal-repair-hint "use a child_id matching ^[a-z][a-z0-9-]*$" \
+      --rerun-gate "$(child_readiness_rerun_gate)"
+    fail "child id valid: $child_id"
+  }
   if [[ -n "${CHILD_SEEN[$child_id]:-}" ]]; then
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children[$index].child_id" \
+      --observed-value "$child_id" \
+      --minimal-repair-hint "make every child_id unique in resources/child-packet-index.yml" \
+      --rerun-gate "$(child_readiness_rerun_gate)"
     fail "child id unique: $child_id"
   else
     CHILD_SEEN["$child_id"]=1
     pass "child id unique: $child_id"
   fi
-  safe_rel_path "$child_path" && pass "child $child_id path is repo-relative" || fail "child $child_id path is repo-relative"
+  safe_rel_path "$child_path" && pass "child $child_id path is repo-relative" || {
+    emit_recovery_diagnostic \
+      --recovery-class "child_registry_error" \
+      --failing-path "$(child_readiness_repo_rel "$REGISTRY")#children[$index].path" \
+      --observed-value "$child_path" \
+      --minimal-repair-hint "set child path to a safe repo-relative proposal packet path" \
+      --rerun-gate "$(child_readiness_rerun_gate)"
+    fail "child $child_id path is repo-relative"
+  }
 
   CHILD_PATHS["$child_id"]="$child_path"
   CHILD_REQUIRED["$child_id"]="$required"

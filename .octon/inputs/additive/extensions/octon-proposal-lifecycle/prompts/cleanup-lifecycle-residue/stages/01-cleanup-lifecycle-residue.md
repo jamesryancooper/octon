@@ -19,24 +19,38 @@ target. This route is separate from normal `closeout-packet` and
    cleanup-safe local residue, protected or referenced evidence, or
    ambiguous/manual-review residue.
 2. Run `.octon/framework/assurance/runtime/_ops/scripts/cleanup-local-run-artifacts.sh`
-   first. Use its classification and remove only helper-classified cleanup
-   candidates.
-3. Never delete protected, referenced, ambiguous, manual-review, user-owned, or
+   first as classification evidence only. When `run_id` or `program_run_id` is
+   available, pass it as `--active-run-id <run-id>` so current-run control and
+   evidence artifacts are protected from cleanup. Do not invoke the helper with
+   `--confirm`, `--authorize`, or `--authorization` from this route.
+3. Delegate eligible local run-state cleanup candidates to
+   `repo-hygiene-cleanup`. Actual deletion requires that route's classify-first
+   flow plus explicit confirmation or a validating
+   `repo-hygiene-cleanup-authorization-v1` receipt. Record the delegated
+   cleanup evidence ref, authorization ref when present, cleanup outcome, and
+   next-route condition.
+4. Never delete protected, referenced, ambiguous, manual-review, user-owned, or
    active implementation artifacts.
-4. Do not include active implementation files in cleanup commits unless they are
+5. Do not include active implementation files in cleanup commits unless they are
    explicitly part of that closeout set.
-5. Partition unrelated cleanup, progress, and evidence work into separate
+6. Partition unrelated cleanup, progress, and evidence work into separate
    coherent `branch-no-pr` branches with focused Conventional Commits.
-6. Push, land, clean up branches, and sync local main only when branch contents
+7. Push, land, clean up branches, and sync local main only when branch contents
    are safe to publish.
-7. If raw `.octon/state/**` control/evidence records or internal run logs are
+8. If raw `.octon/state/**` control/evidence records or internal run logs are
    not safe to publish, do not widen disclosure or retry by workaround. Instead,
    create a push-safe disposition receipt recording counts, classification,
    retained rationale, local-only recovery branch or commit refs, and remaining
    blockers.
-8. Rerun
+9. Rerun
    `.octon/framework/assurance/runtime/_ops/scripts/classify-proposal-worktree-hygiene.sh`
    for the proposal program target before finishing.
+10. Compute the lifecycle residue freshness digest with
+   `.octon/framework/assurance/runtime/_ops/scripts/proposal-lifecycle-residue-fingerprint.sh --target <program_packet_path> --lifecycle proposal-program`
+   and record that exact output in `residue_fingerprint`. Do not substitute
+   the cleanup helper's `classification_digest`; that helper digest may be
+   retained separately as helper evidence, but it is not the lifecycle receipt
+   freshness digest.
 
 ## Required Receipt
 
@@ -58,6 +72,10 @@ Write `support/lifecycle-residue-cleanup.md` with:
 
 Place every required field in the opening YAML receipt block; completion
 observers read top-level YAML fields from that block.
+The `residue_fingerprint` field must equal the current output of
+`proposal-lifecycle-residue-fingerprint.sh` for the bound program target and
+proposal-program lifecycle. The cleanup helper's `classification_digest` is a
+different diagnostic and must not be copied into `residue_fingerprint`.
 
 The receipt must also name remaining manual-review classes and rationale, state
 whether local main is synced with origin/main, and confirm active

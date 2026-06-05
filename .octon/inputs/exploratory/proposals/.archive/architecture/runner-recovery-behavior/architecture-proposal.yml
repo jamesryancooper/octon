@@ -1,0 +1,30 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "runner-recovery-behavior"
+title: "Runner Recovery Behavior"
+architecture_scope: "cross-domain-architecture"
+decision_type: "boundary-change"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  Proposal-program lifecycle runs should not pause for routine validation,
+  freshness, cleanup, or continuation issues when safe bounded recovery exists.
+  Runner behavior needs explicit recovery, retry, refresh, gate rerun, and
+  hard-stop semantics.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Future implementation should integrate with existing lifecycle controller and
+  validator surfaces rather than introducing a separate runner.

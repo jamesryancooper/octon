@@ -1,0 +1,30 @@
+schema_version: "architecture-proposal-v1"
+proposal_id: "token-efficiency-preservation"
+title: "Token Efficiency Preservation"
+architecture_scope: "cross-domain-architecture"
+decision_type: "surface-refactor"
+status: "draft"
+release_state: "pre-1.0"
+change_profile: "atomic"
+problem_statement: >-
+  Autonomous recovery can reduce manual friction but may increase token usage if
+  every retry emits verbose logs or broad summaries. Recovery design needs
+  explicit compactness constraints.
+target_architecture_ref: "architecture/target-architecture.md"
+implementation_plan_ref: "architecture/implementation-plan.md"
+acceptance_criteria_ref: "architecture/acceptance-criteria.md"
+proposal_local_authority:
+  - "proposal.yml"
+  - "architecture-proposal.yml"
+  - "architecture/target-architecture.md"
+  - "architecture/implementation-plan.md"
+  - "architecture/acceptance-criteria.md"
+non_authoritative_supporting_artifacts:
+  - "README.md"
+  - "navigation/**"
+  - "resources/**"
+  - "support/**"
+implementation_grade_summary: >-
+  Future implementation should prefer compact diagnostics, bounded retry
+  ledgers, grouped failure summaries, and targeted evidence refreshes over
+  verbose duplicated logs.

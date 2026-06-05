@@ -124,6 +124,7 @@
         "scope",
         "route_id",
         "blocker_class",
+        "grouping_key",
         "progress_state",
         "prior_fingerprint",
         "current_fingerprint",
@@ -131,6 +132,8 @@
         "recovery_budget_remaining",
         "recovery_budget_exhausted",
         "recovery_route",
+        "targeted_refresh_diagnostic",
+        "direct_child_receipt_refs",
         "read_before_raw_history",
         "escalation_required_when"
       ],
@@ -140,6 +143,7 @@
         "child_id": { "type": "string", "minLength": 1 },
         "route_id": { "type": "string", "minLength": 1 },
         "blocker_class": { "type": "string", "minLength": 1 },
+        "grouping_key": { "$ref": "#/$defs/grouping_key" },
         "progress_state": { "enum": ["new", "changed", "unchanged"] },
         "prior_fingerprint": {
           "anyOf": [
@@ -152,6 +156,11 @@
         "recovery_budget_remaining": { "type": "integer", "minimum": 0 },
         "recovery_budget_exhausted": { "type": "boolean" },
         "recovery_route": { "type": "string", "minLength": 1 },
+        "targeted_refresh_diagnostic": { "$ref": "#/$defs/targeted_refresh_diagnostic" },
+        "direct_child_receipt_refs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/direct_child_receipt_ref" }
+        },
         "read_before_raw_history": {
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
@@ -160,6 +169,45 @@
           "type": "array",
           "items": { "type": "string", "minLength": 1 }
         }
+      }
+    },
+    "grouping_key": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["blocker_class", "route_id", "disposition"],
+      "properties": {
+        "blocker_class": { "type": "string", "minLength": 1 },
+        "child_id": { "type": "string", "minLength": 1 },
+        "route_id": { "type": "string", "minLength": 1 },
+        "disposition": { "type": "string", "minLength": 1 }
+      }
+    },
+    "direct_child_receipt_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "receipt_ref", "sha256"],
+      "properties": {
+        "receipt_id": { "type": "string", "minLength": 1 },
+        "receipt_ref": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "targeted_refresh_diagnostic": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "failing_path",
+        "accepted_value",
+        "stale_cause",
+        "recovery_class",
+        "minimal_repair_hint"
+      ],
+      "properties": {
+        "failing_path": { "type": "string", "minLength": 1 },
+        "accepted_value": { "type": "string", "minLength": 1 },
+        "stale_cause": { "type": "string", "minLength": 1 },
+        "recovery_class": { "type": "string", "minLength": 1 },
+        "minimal_repair_hint": { "type": "string", "minLength": 1 }
       }
     }
   }

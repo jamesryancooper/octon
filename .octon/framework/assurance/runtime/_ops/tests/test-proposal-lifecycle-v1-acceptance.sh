@@ -39,6 +39,7 @@ new_fixture_repo() {
   cp "$REAL_REVIEW_GATE" "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-review-gate.sh"
   cp "$REAL_STANDARD_GATE" "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-standard.sh"
   cp "$REAL_READINESS_GATE" "$root/.octon/framework/assurance/runtime/_ops/scripts/validate-proposal-implementation-readiness.sh"
+  cp "$REPO_ROOT/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh" "$root/.octon/framework/assurance/runtime/_ops/scripts/validator-recovery-diagnostics.sh"
   cat >"$root/.octon/generated/effective/extensions/catalog.effective.yml" <<'YAML'
 schema_version: "octon-extension-effective-catalog-v7"
 packs:

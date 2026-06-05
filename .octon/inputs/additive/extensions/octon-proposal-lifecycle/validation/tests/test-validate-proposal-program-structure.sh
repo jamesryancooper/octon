@@ -163,10 +163,12 @@ EOF
 assert_success "valid parent program structure passes" case_valid_structure_passes
 assert_failure_contains "mismatched child ids fail" "related_proposals covers registry children" case_mismatched_related_proposals_fails
 assert_failure_contains "unsafe child path fails" "child child-a path is repo-relative" case_unsafe_child_path_fails
+assert_failure_contains "unsafe child path emits child registry diagnostic" '"recovery_class":"child_registry_error"' case_unsafe_child_path_fails
 assert_failure_contains "nested child path fails" "child child-a path is not nested under parent program" case_nested_child_path_fails
 assert_failure_contains "missing human child index fails" "human child index exists" case_missing_human_index_fails
 assert_failure_contains "missing packet sequence fails" "packet sequence exists" case_missing_sequence_fails
 assert_failure_contains "parent-owned child authority surface fails" "parent package contains child-owned authority surfaces" case_parent_child_authority_surface_fails
+assert_failure_contains "parent-owned child authority emits hard blocker diagnostic" '"hard_blocker_reason":"parent package contains child-owned authority surfaces"' case_parent_child_authority_surface_fails
 
 printf '\nPassed: %s\nFailed: %s\n' "$pass_count" "$fail_count"
 [[ "$fail_count" -eq 0 ]]
