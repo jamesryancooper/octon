@@ -1305,7 +1305,7 @@ fn lifecycle_postmortem_evaluator_input(
     repo_root: &Path,
 ) -> String {
     let mut body = format!(
-        "# Lifecycle Postmortem Evaluator Input\n\nrun_id: {run_id}\nprepared_at: {recorded_at}\ntemplate_ref: .octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md\nevidence_map_ref: {}\nknown_limits_ref: {}\n\n## Retained Refs\n\n",
+        "# Lifecycle Postmortem Evaluator Input\n\nrun_id: {run_id}\nprepared_at: {recorded_at}\ntemplate_ref: .octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md\nstructured_schema_ref: .octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v2.schema.json\nevidence_map_ref: {}\nknown_limits_ref: {}\n\n## Retained Refs\n\n",
         rel_display(repo_root, evidence_map_path),
         rel_display(repo_root, known_limits_path)
     );
@@ -1328,7 +1328,7 @@ fn lifecycle_postmortem_evaluator_input(
         }
     }
     body.push_str(
-        "\n## Required Evaluator Boundary\n\nThe evaluator must reconstruct facts only from retained evidence refs and must treat missing refs as evidence gaps. Generated outputs, raw inputs, chat history, host state, dashboards, and postmortem reports are not authority. Invariant compliance findings and invariant validity/evolution recommendations are evidence only and cannot approve lifecycle transition, closeout, promotion, support widening, redesign, or invariant amendment.\n",
+        "\n## Required Evaluator Boundary\n\nThe evaluator must reconstruct facts only from retained evidence refs and must treat missing refs as evidence gaps. Generated outputs, raw inputs, chat history, host state, dashboards, and postmortem reports are not authority. The report must preserve the full eighteen-section lifecycle postmortem contract from the template and structured output must use lifecycle-postmortem-evaluation-v2. Invariant compliance findings and invariant validity/evolution recommendations are evidence only and cannot approve lifecycle transition, closeout, promotion, support widening, generated-output publication, redesign, or invariant amendment.\n",
     );
     body
 }

@@ -167,6 +167,11 @@ The engine runtime now exposes run-first operator surfaces through the shared
 - `octon run close --run-id <run-id>`
 - `octon run replay --run-id <run-id>`
 - `octon run disclose --run-id <run-id>`
+- `octon lifecycle postmortem --run-id <run-id>`
+
+Lifecycle postmortem prepares retained post-run assurance evidence only. It
+does not authorize lifecycle transition, closeout, promotion, support widening,
+generated-output publication, redesign, or invariant amendment.
 
 Engagement compiler commands prepare control and evidence artifacts only.
 Per-engagement Objective Brief candidates live under

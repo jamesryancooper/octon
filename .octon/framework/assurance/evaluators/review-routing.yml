@@ -21,7 +21,7 @@ run_requirements:
     lifecycle-postmortem:
       disposition: "optional"
       template_ref: ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
-      schema_ref: ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json"
+      schema_ref: ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v2.schema.json"
       authority_boundary: "retained-evidence-only"
       notes:
         - "Does not approve lifecycle closeout, transition, promotion, support widening, redesign, or invariant amendment."

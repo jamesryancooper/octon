@@ -204,6 +204,8 @@ done_gate:
       description: Missing retained refs are recorded as known limits or blockers instead of inferred facts.
     - id: postmortem-output-validated
       description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
+    - id: full-postmortem-contract-complete
+      description: Any supplied evaluator report and structured output preserve the full eighteen-section rigorous postmortem contract.
 constraints:
   - Generated outputs, raw inputs, host labels, chat history, dashboards, and postmortem reports are not runtime, policy, support, closeout, or invariant authority.
   - Invariant compliance and invariant validity/evolution findings are evidence only and cannot approve, remove, relax, or amend invariants.

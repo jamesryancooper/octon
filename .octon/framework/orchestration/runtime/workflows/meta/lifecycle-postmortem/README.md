@@ -1,37 +1,93 @@
+---
+name: "lifecycle-postmortem"
+description: "Run an optional read-only postmortem against a retained lifecycle run after the run has reached an inspectable terminal, blocked, cancelled, or rollback state. The workflow reconstructs evidence from retained control and evidence roots, prepares lifecycle-postmortem evaluator input, materializes optional review findings as evidence, and reports the evaluator judgment without mutating lifecycle authority."
+steps:
+  - id: "bind-evidence"
+    file: "stages/01-bind-evidence.md"
+    description: "bind-evidence"
+  - id: "invoke-evaluator"
+    file: "stages/02-invoke-evaluator.md"
+    description: "invoke-evaluator"
+  - id: "materialize-findings"
+    file: "stages/03-materialize-findings.md"
+    description: "materialize-findings"
+  - id: "final-report"
+    file: "stages/04-final-report.md"
+    description: "final-report"
+---
+
 # Lifecycle Postmortem
 
-This read-only meta workflow prepares and validates retained postmortem evidence
-for an existing lifecycle run. It reconstructs known facts from retained run
-control and evidence roots, prepares evaluator input, validates evaluator
-outputs when present, and writes only under the run-local assurance evidence
-root.
+_Generated README from canonical workflow `lifecycle-postmortem`._
 
-## Inputs
+## Usage
 
-- `run_id`: retained lifecycle run id to inspect.
-- `report_path`: optional evaluator-authored Markdown report.
-- `structured_output_path`: optional structured evaluator output.
+```text
+/lifecycle-postmortem
+```
+
+## Purpose
+
+Run an optional read-only postmortem against a retained lifecycle run after the run has reached an inspectable terminal, blocked, cancelled, or rollback state. The workflow reconstructs evidence from retained control and evidence roots, prepares lifecycle-postmortem evaluator input, materializes optional review findings as evidence, and reports the evaluator judgment without mutating lifecycle authority.
+
+## Target
+
+This README summarizes the canonical workflow unit at `.octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem`.
+
+## Prerequisites
+
+- Required workflow inputs are available.
+- Canonical workflow contract exists at `.octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/workflow.yml`.
+
+## Parameters
+
+- `run_id` (text, required=true): Retained lifecycle run id to inspect.
+- `report_path` (file, required=false): Optional evaluator-authored Markdown report to validate and retain.
+- `structured_output_path` (file, required=false): Optional evaluator-authored structured postmortem output to validate and retain.
+
+## Failure Conditions
+
+- Required inputs are missing or invalid.
+- The canonical workflow contract or stage assets are missing.
+- Verification criteria are not satisfied.
 
 ## Outputs
 
-- `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evidence-map.yml`
-- `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluator-input.md`
-- optional validated report, structured output, and review-finding records under
-  the same postmortem evidence root.
+- `evidence_map` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evidence-map.yml`
+- `evaluator_input` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluator-input.md`
+- `structured_output` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/evaluation.yml`
+- `report` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/report.md`
+- `finding_records` -> `.octon/state/evidence/runs/<run-id>/assurance/lifecycle-postmortem/review-findings.ndjson`
 
-## Stages
+## Steps
 
-1. `bind-evidence`: bind the run id and reconstruct retained control and
-   evidence references.
-2. `invoke-evaluator`: prepare the evaluator input from the lifecycle-postmortem
-   template and retained evidence map.
-3. `materialize-findings`: retain optional `review-finding-v1` records as
-   evidence only.
-4. `final-report`: validate any report or structured output and record final
-   postmortem status.
+1. [bind-evidence](./stages/01-bind-evidence.md)
+2. [invoke-evaluator](./stages/02-invoke-evaluator.md)
+3. [materialize-findings](./stages/03-materialize-findings.md)
+4. [final-report](./stages/04-final-report.md)
 
-## Authority Boundary
+## Verification Gate
 
-Postmortem outputs are retained evidence. They do not authorize lifecycle
-transition, closeout, promotion, redesign, support widening, generated-output
-publication, or invariant amendment.
+- [ ] id: run-id-bound
+- [ ] description: The run id is non-empty and sanitized before any retained evidence path is created.
+- [ ] id: retained-evidence-only
+- [ ] description: The workflow writes only under the run postmortem assurance evidence root.
+- [ ] id: no-lifecycle-authority-mutation
+- [ ] description: The workflow does not mutate run manifests, lifecycle journals, runtime state, rollback posture, proposal manifests, support targets, generated outputs, or authority artifacts.
+- [ ] id: evidence-gaps-explicit
+- [ ] description: Missing retained refs are recorded as known limits or blockers instead of inferred facts.
+- [ ] id: postmortem-output-validated
+- [ ] description: Any supplied evaluator report or structured output passes the lifecycle-postmortem validator before being treated as usable evidence.
+- [ ] id: full-postmortem-contract-complete
+- [ ] description: Any supplied evaluator report and structured output preserve the full eighteen-section rigorous postmortem contract.
+
+## References
+
+- Canonical contract: `.octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/workflow.yml`
+- Canonical stages: `.octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/stages/`
+
+## Version History
+
+| Version | Changes |
+|---------|---------|
+| 1.0.0 | Generated from canonical workflow `lifecycle-postmortem` |

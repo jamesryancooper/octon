@@ -12,11 +12,15 @@ retained_validation_evidence_ref: ".octon/state/evidence/validation/assurance/li
 runtime_contract_refs:
   - ".octon/framework/orchestration/runtime/workflows/meta/lifecycle-postmortem/workflow.yml"
   - ".octon/framework/assurance/evaluators/templates/lifecycle-postmortem-template.md"
-  - ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v1.schema.json"
+  - ".octon/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v2.schema.json"
 required_runtime_claims:
   - "lifecycle_postmortem_is_optional_post_run_assurance"
   - "postmortem_outputs_are_retained_evidence_only"
   - "generated_and_raw_inputs_remain_non_authoritative"
+  - "full_original_postmortem_prompt_sections_are_required"
+  - "original_postmortem_prompt_posture_and_context_are_required"
+  - "full_redesign_trigger_matrix_is_required"
+  - "octon_material_invariant_conflicts_block_fit_judgments"
   - "invariant_compliance_review_precedes_quality_scoring"
   - "invariant_validity_evolution_review_remains_evidence_only"
   - "validator_negative_controls_fail_closed"

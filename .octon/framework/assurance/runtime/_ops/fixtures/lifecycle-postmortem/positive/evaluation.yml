@@ -1,76 +1,779 @@
-schema_version: lifecycle-postmortem-evaluation-v1
+schema_version: lifecycle-postmortem-evaluation-v2
 subject:
   run_id: fixture-run
   lifecycle_kind: proposal-program
   octon_subject: true
-evidence_refs:
+evidence_refs: &evidence_refs
   - fixture://retained-run-control
-known_limits: []
+known_limits:
+  - Fixture evidence is intentionally minimal and exists only to validate evaluator output shape.
+input_context:
+  lifecycle_context:
+    summary: Fixture proposal-program lifecycle used to validate postmortem evaluator output shape.
+    evidence_refs:
+      - fixture://retained-run-control
+  intended_purpose:
+    summary: Validate that lifecycle postmortem output remains evidence-backed, optional, and non-authoritative.
+    evidence_refs:
+      - fixture://retained-run-control
+  actual_run:
+    summary: Fixture run completed with retained evidence and no authority mutation.
+    evidence_refs:
+      - fixture://retained-run-control
+  artifacts_and_evidence:
+    summary: Fixture retained run control evidence is the only evidence source.
+    evidence_refs:
+      - fixture://retained-run-control
+  known_concerns:
+    summary: Discovery routing and validation fidelity were the fixture concerns.
+    evidence_refs:
+      - fixture://retained-run-control
+  octon_context:
+    summary: Fixture is treated as an Octon subject to exercise invariant review and fit gating.
+    evidence_refs:
+      - fixture://retained-run-control
+evaluation_posture:
+  role_frame_applied: true
+  first_principles_traps_avoided: true
+  chestertons_fence_posture_applied: true
+  non_worship_non_destruction_posture_applied: true
 section_order:
+  eighteen_sections_present: true
   invariant_compliance_before_quality_scoring: true
   invariant_validity_after_redesign_pressure_before_recommendations: true
   patch_vs_redesign_present: true
-invariant_compliance:
-  - invariant: Generated artifacts are not authority
-    applicability: applicable
-    rating: Pass
-    enforcement_mechanism: generated outputs are classified non-authority
+executive_postmortem_summary:
+  overall_lifecycle_outcome: Lifecycle run completed with retained evidence and no authoritative postmortem approval.
+  intended_purpose_achieved: true
+  what_went_well_summary: Evidence was retained, decision boundaries stayed explicit, and no generated output was promoted as authority.
+  what_did_not_go_well_summary: Operator-facing routing needed clearer documentation.
+  local_vs_structural_assessment: The fixture weakness is a local discoverability gap, not wrong lifecycle architecture.
+  fitness_to_reuse: Fit to reuse with targeted improvements
+  recommended_disposition: Improve with targeted changes
+  evidence_refs:
+    - fixture://retained-run-control
+intended_lifecycle_job:
+  job_to_perform: Evaluate whether a completed lifecycle run exposed risk, preserved evidence, and remained fit for reuse.
+  dependents:
+    - Operators deciding whether to reuse the lifecycle.
+    - Maintainers deciding whether validation routing is sufficient.
+  risk_reduction: Make concealed lifecycle risk visible without granting approval authority.
+  quality_bar: Findings must connect to retained evidence, lifecycle purpose, authority, governance, and implementation reality.
+  decisions_made_safer_or_clearer:
+    - Whether the lifecycle is fit to reuse.
+    - Whether weaknesses require targeted fixes or lifecycle redesign.
+  outcomes_needed:
+    - Evidence-backed lifecycle fitness judgment.
+    - Non-authoritative closeout action plan.
+  artifacts_or_evidence_to_leave:
+    - Markdown postmortem report.
+    - Structured v2 evaluation.
+    - Review finding mapping when findings exist.
+  impossible_or_difficult_if_worked:
+    - Treating generated outputs or raw inputs as authority.
+    - Approving lifecycle transition from the postmortem.
+  required_outputs:
+    - Full eighteen-section report.
+    - Structured v2 evaluation.
+    - Review finding mapping when review findings exist.
+  required_evidence:
+    - Retained lifecycle run evidence.
+    - Postmortem report.
+    - Structured evaluator output.
+  required_decisions:
+    - Lifecycle fitness judgment.
+    - Patch-versus-redesign classification.
+    - Follow-up action routing.
+  non_goals:
+    - Approving lifecycle closeout.
+    - Approving redesign.
+    - Publishing generated outputs as authority.
+actual_lifecycle_reconstruction:
+  - phase_step: Fixture lifecycle closeout
+    intended_behavior: Retain evidence and route postmortem findings as non-authoritative assurance.
+    actual_behavior: Evidence was retained and the fixture postmortem stayed advisory.
+    deviation: None material.
+    consequence: Lifecycle reuse can be evaluated without widening authority.
     evidence_refs:
-      - fixture://generated-non-authority-proof
-    evidence_gap: ""
-    blocking: false
-    required_correction: ""
-    material: true
-    counts_as_pass: true
-  - invariant: Raw inputs are not authority
-    applicability: applicable
-    rating: Pass
-    enforcement_mechanism: raw inputs require canonical admission before authority
+      - fixture://retained-run-control
+what_went_well:
+  - strength: Evidence boundary remained explicit.
+    why_it_mattered: The evaluator can inspect the run without becoming an approval surface.
+    preserve_improve_reuse: Preserve and reuse.
     evidence_refs:
-      - fixture://raw-input-denial-proof
-    evidence_gap: ""
-    blocking: false
-    required_correction: ""
-    material: true
-    counts_as_pass: true
-invariant_validity_evolution:
-  - invariant: Generated artifacts are not authority
-    protected_property: source-of-truth clarity
-    current_validity: still valid
-    enforcement_quality: enforceable by validators and runtime handles
-    evidence_quality: evidenceable through retained refs
-    scope_quality: clear with promotion-path clarification
-    conflict_duplication: no conflict detected
-    hack_pressure: low
-    recommendation: Clarify
-    required_change: define explicit promotion and materialization exceptions
-    change_control_bar: medium
-    authority_status: proposed-evidence-only
-  - invariant: No second control plane
-    protected_property: runtime authority centralization
-    current_validity: still valid
-    enforcement_quality: enforceable through control-root checks
-    evidence_quality: evidenceable through retained control roots
-    scope_quality: clear
-    conflict_duplication: no conflict detected
-    hack_pressure: low
-    recommendation: Keep
-    required_change: ""
-    change_control_bar: low
-    authority_status: proposed-evidence-only
+      - fixture://retained-run-control
+what_did_not_go_well:
+  - issue: Discovery routing was not obvious enough before registration.
+    symptom: Operators needed to know the specific runtime command or fixture path.
+    root_cause: Registry and maintenance surfaces lagged evaluator implementation.
+    local_execution_problem: true
+    lifecycle_architecture_problem: false
+    severity: warning
+    evidence_refs:
+      - fixture://retained-run-control
+chestertons_fence_review:
+  - lifecycle_element: Non-authority postmortem boundary.
+    possible_original_purpose: Prevent evaluators from becoming lifecycle approval or source-of-truth surfaces.
+    still_valid: true
+    risk_if_removed: Postmortem outputs could be mistaken for approvals or generated authority.
+    decision: Preserve but document.
+    evidence_refs:
+      - fixture://retained-run-control
+essential_vs_accidental_complexity:
+  - complexity_source: Evidence retention and invariant review.
+    type: Governance complexity.
+    essential_or_accidental: Essential.
+    cost: Requires structured report and retained refs.
+    benefit: Keeps lifecycle fitness judgments auditable.
+    recommended_treatment: Preserve and clarify.
+    evidence_refs:
+      - fixture://retained-run-control
+valid_vs_stale_constraints:
+  - constraint: Generated outputs and raw inputs are not authority.
+    source: Octon authority model.
+    type: Octon invariant.
+    still_valid: true
+    lifecycle_impact: Forces postmortem recommendations to remain evidence-only.
+    recommendation: Preserve.
+    evidence_refs:
+      - fixture://retained-run-control
+patch_vs_redesign_decision_gate:
+  weakness_classifications:
+    - weakness_gap: Discovery routing was incomplete.
+      classification: Missing validation or evidence.
+      local_fix_sufficient: true
+      redesign_pressure: low
+      reason: The evaluator boundary is sound; only registration and validation visibility were incomplete.
+      evidence_refs:
+        - fixture://retained-run-control
+  primary_path: Targeted improvements
+  same_root_abstraction_high_severity_count: 0
+  redesign_required: false
+  fixes_reduce_or_add_complexity: Reduce complexity by making the existing workflow discoverable.
+  preserving_model_reason: The model preserves authority boundaries and evidence review responsibilities.
+  clean_sheet_answer: A clean-sheet lifecycle would still include a post-run evidence-only evaluator.
+  shared_root_abstraction_failure: false
+  process_duct_tape_risk: low
+  evidence_refs:
+    - fixture://retained-run-control
+redesign_triggers:
+  - redesign_trigger: The same root cause appears across multiple failures.
+    present: false
+    implication: No repeated high-severity root cause is present in the positive fixture.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The lifecycle needs many special cases to preserve key invariants.
+    present: false
+    implication: The fixture needs no special cases to preserve invariants.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: Governance is added after the fact instead of being structural.
+    present: false
+    implication: Governance remains structural through the non-authority boundary.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: Source-of-truth ambiguity is inherent to the lifecycle model.
+    present: false
+    implication: The fixture keeps source-of-truth boundaries explicit.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: Flexibility requires wrappers around most major steps.
+    present: false
+    implication: No wrapper-heavy lifecycle behavior is present in the fixture.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: Simple future changes are disproportionately expensive.
+    present: false
+    implication: Fixture improvements are low-cost validation changes.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The lifecycle can only be made safe by adding heavy compensating controls.
+    present: false
+    implication: Existing authority boundaries keep the fixture safe without heavy compensating controls.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The process duplicates existing primitives.
+    present: false
+    implication: The fixture validates a distinct post-run assurance primitive.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The lifecycle is understandable only through exceptions.
+    present: false
+    implication: The fixture lifecycle is understandable through its standard contract.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: A clean-sheet lifecycle would not include the central abstraction being used.
+    present: false
+    implication: A clean-sheet lifecycle would still include evidence-only postmortem assurance.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The process produces approvals without sufficient evidence.
+    present: false
+    implication: The fixture produces no approvals.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The process produces artifacts that look authoritative but are not.
+    present: false
+    implication: The fixture explicitly marks reports and recommendations as non-authoritative evidence.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The process hides rather than exposes risk.
+    present: false
+    implication: The fixture exposes risk through required analysis sections and evidence refs.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The process makes hacks look legitimate.
+    present: false
+    implication: The fixture does not legitimate hacks or authority bypasses.
+    evidence_refs:
+      - fixture://retained-run-control
+  - redesign_trigger: The process allows technically governed but conceptually misfit subsystems to accumulate.
+    present: false
+    implication: The fixture does not introduce conceptually misfit subsystems.
+    evidence_refs:
+      - fixture://retained-run-control
+clean_sheet_lifecycle_reference_design:
+  fundamental_accomplishment: Inspect a completed lifecycle run and produce evidence-backed fitness and improvement recommendations.
+  minimal_phases:
+    - Collect retained lifecycle evidence.
+    - Reconstruct actual run behavior.
+    - Evaluate risks, invariants, and patch-versus-redesign pressure.
+    - Emit non-authoritative report and closeout actions.
+  minimal_gates:
+    - Evidence refs must resolve or be explicitly unavailable.
+    - Octon invariant review must precede scoring for Octon subjects.
+    - Final judgment must use the allowed lifecycle fitness categories.
+  required_artifacts:
+    - Markdown postmortem report.
+    - Structured v2 evaluation.
+  required_evidence:
+    - Retained run control evidence.
+  required_authority_surfaces:
+    - None; all recommendations remain proposed evidence only.
+  required_decision_points:
+    - Fitness judgment.
+    - Patch versus redesign gate.
+    - Closeout action routing.
+  required_rollback_or_reversal_points:
+    - Follow-up changes must use their own governed route.
+  required_closeout_outputs:
+    - Lessons, decisions, retained evidence, monitored risks, and follow-up trigger.
+  automated:
+    - Schema and fixture validation.
+  human_judgment_required:
+    - Fitness judgment and redesign pressure assessment.
+  impossible:
+    - Approving lifecycle transition from the postmortem itself.
+  optional:
+    - Review-finding NDJSON when findings are produced.
+  removed:
+    - Any direct generated-output publication authority.
+  comparison:
+    - lifecycle_concern: Evidence-only postmortem.
+      current_lifecycle: Present.
+      clean_sheet_reference: Present.
+      gap: None material.
+      recommendation: Preserve.
+alternative_improvement_paths:
+  - path: Preserve mostly as-is
+    benefits: Lowest implementation cost.
+    risks: Leaves discoverability gaps.
+    cost_of_change: low
+    reversibility: high
+    redesign_pressure_addressed: false
+    when_correct: When all operator routes are already documented.
+    when_dangerous: When validation routes are undiscoverable.
+    evidence_refs:
+      - fixture://retained-run-control
+  - path: Targeted improvements
+    benefits: Improves discoverability without changing authority or evaluator behavior.
+    risks: Documentation may drift if not validated.
+    cost_of_change: low
+    reversibility: high
+    redesign_pressure_addressed: true
+    when_correct: When the architecture is sound and routing is the gap.
+    when_dangerous: When repeated high-severity issues share a structural root cause.
+    evidence_refs:
+      - fixture://retained-run-control
+  - path: Refactor / simplify lifecycle structure
+    benefits: Could reduce future routing complexity.
+    risks: Higher change surface than needed for the fixture weakness.
+    cost_of_change: medium
+    reversibility: medium
+    redesign_pressure_addressed: partial
+    when_correct: When multiple workflows duplicate post-run assurance logic.
+    when_dangerous: When a narrow documentation gap is mistaken for structural failure.
+    evidence_refs:
+      - fixture://retained-run-control
+  - path: Redesign lifecycle from first principles
+    benefits: Best response to structural lifecycle misfit.
+    risks: Disproportionate for a local discovery gap.
+    cost_of_change: high
+    reversibility: low
+    redesign_pressure_addressed: true
+    when_correct: When the lifecycle hides risk or requires repeated compensating controls.
+    when_dangerous: When existing gates are valid and hard-won.
+    evidence_refs:
+      - fixture://retained-run-control
+lifecycle_quality_attribute_scoring:
+  - attribute: Purpose fit
+    score: 4
+    confidence: high
+    rationale: The fixture demonstrates a post-run assurance evaluator with retained evidence and explicit fitness judgment.
+    primary_gap: Discovery routing needed clarification.
+    improvement_needed: Keep workflow registry and validation guidance current.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Decision quality
+    score: 4
+    confidence: high
+    rationale: The evaluator separates local execution gaps from redesign pressure.
+    primary_gap: Fixture evidence is minimal.
+    improvement_needed: Preserve evidence requirements in real runs.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Evidence quality
+    score: 4
+    confidence: high
+    rationale: Evidence refs are retained and explicitly non-authoritative.
+    primary_gap: Fixture evidence is synthetic.
+    improvement_needed: Require concrete refs in production runs.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Risk exposure
+    score: 4
+    confidence: high
+    rationale: The patch-versus-redesign gate surfaces whether gaps are local or structural.
+    primary_gap: No material failure is present in the positive fixture.
+    improvement_needed: Preserve failure-mode coverage in negatives.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Governance fit
+    score: 4
+    confidence: high
+    rationale: Recommendations remain proposed evidence only and do not approve changes.
+    primary_gap: Documentation drift remains possible.
+    improvement_needed: Keep validator coverage tied to runtime guidance.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Authority clarity
+    score: 5
+    confidence: high
+    rationale: The structured output explicitly denies lifecycle transition, closeout, redesign, support widening, generated publication, and invariant-change authority.
+    primary_gap: None in fixture.
+    improvement_needed: Retain expanded authority boundary.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Source-of-truth clarity
+    score: 4
+    confidence: high
+    rationale: Retained evidence is separated from generated and raw-input paths.
+    primary_gap: Fixture uses a synthetic ref.
+    improvement_needed: Resolve run-local refs in production.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Operational clarity
+    score: 4
+    confidence: high
+    rationale: The evaluator has clear required outputs and validation gates.
+    primary_gap: Operator catalog coverage was the previous weakness.
+    improvement_needed: Validate discovery surfaces.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Reliability
+    score: 4
+    confidence: high
+    rationale: Validation rejects missing sections, unresolved evidence, and authority widening.
+    primary_gap: Shell validation is syntactic and contract-focused.
+    improvement_needed: Preserve targeted fixtures.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Repeatability
+    score: 4
+    confidence: high
+    rationale: The fixture and validator define deterministic output requirements.
+    primary_gap: Human judgment still affects scoring content.
+    improvement_needed: Keep scoring rubrics explicit.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Recoverability
+    score: 4
+    confidence: medium
+    rationale: Follow-up changes are routed outside the evaluator, limiting damage from bad recommendations.
+    primary_gap: Recovery depends on downstream governed routes.
+    improvement_needed: Keep non-authority closeout language visible.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Reversibility
+    score: 4
+    confidence: high
+    rationale: The evaluator only proposes changes and cannot commit lifecycle state transitions.
+    primary_gap: None in fixture.
+    improvement_needed: Preserve proposed-evidence-only recommendation status.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Auditability
+    score: 4
+    confidence: high
+    rationale: Each major record carries evidence refs.
+    primary_gap: Fixture evidence is compact.
+    improvement_needed: Require concrete evidence for real runs.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Observability
+    score: 4
+    confidence: medium
+    rationale: The structured output exposes run reconstruction, findings, actions, and validation posture.
+    primary_gap: It does not itself collect runtime telemetry.
+    improvement_needed: Keep lifecycle run evidence discoverable.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Simplicity
+    score: 3
+    confidence: high
+    rationale: The full rigorous prompt is intentionally broad and table-heavy.
+    primary_gap: Output contract is large.
+    improvement_needed: Keep fixtures compact and avoid extra non-contract fields.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Complexity calibration
+    score: 4
+    confidence: high
+    rationale: The contract preserves complex analysis only where it improves decision quality.
+    primary_gap: Some real runs may need tailored evidence scoping.
+    improvement_needed: Continue distinguishing essential from accidental complexity.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Maintainability
+    score: 4
+    confidence: high
+    rationale: Registry, workflow, template, schema, and validator now point to one v2 contract.
+    primary_gap: Future prompt changes need fixture updates.
+    improvement_needed: Keep tests near runtime validator.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Evolvability
+    score: 4
+    confidence: high
+    rationale: Invariant evolution is reviewed separately and remains proposed evidence only.
+    primary_gap: Schema versioning must be respected.
+    improvement_needed: Add future versions instead of mutating authority semantics silently.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Scalability of the lifecycle
+    score: 4
+    confidence: medium
+    rationale: The evaluator can apply to multiple lifecycle kinds through a common evidence contract.
+    primary_gap: Large runs may produce lengthy reports.
+    improvement_needed: Keep structured summaries stable.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Human usability
+    score: 4
+    confidence: medium
+    rationale: The report section order follows the original prompt and ends with actions.
+    primary_gap: The full report is substantial.
+    improvement_needed: Keep executive summary direct.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Agent/automation usability
+    score: 4
+    confidence: high
+    rationale: Stable structured keys allow validation and downstream routing without parsing prose.
+    primary_gap: Human judgment remains required for analysis quality.
+    improvement_needed: Maintain schema refs in runtime input.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Octon invariant fit
+    score: 5
+    confidence: high
+    rationale: The invariant matrix covers the required Octon boundary set.
+    primary_gap: None in fixture.
+    improvement_needed: Keep invariant names aligned with validator constants.
+    evidence_refs:
+      - fixture://retained-run-control
+  - attribute: Support-proof readiness
+    score: 4
+    confidence: high
+    rationale: Findings, evidence refs, validation outputs, and closeout actions provide support material.
+    primary_gap: Fixture is not a real support dossier.
+    improvement_needed: Attach real support-proof evidence in production runs.
+    evidence_refs:
+      - fixture://retained-run-control
+octon_invariant_review:
+  applicable: true
+  invariant_compliance:
+    - invariant: Constitutional Engineering Harness identity
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Retained evidence-only evaluator boundary.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: Governed Agent Runtime boundary
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Runtime command emits postmortem evidence without approving lifecycle transitions.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: .octon filesystem authority model
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Evidence refs exclude generated and raw-input authority.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: five-class root separation
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Fixture distinguishes framework contracts from retained evidence.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: engine-owned authorization
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Postmortem output cannot approve authorization changes.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: deny-by-default capability governance
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Follow-up recommendations remain proposed evidence only.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: mission-scoped reversible autonomy
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Evaluator recommendations require separate governed action.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: source-of-truth clarity
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: The structured output records evidence refs and non-authority status.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: evidence retention
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: The fixture uses retained evidence refs throughout.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: replay and rollback posture
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Proposed actions require their own reversible route.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: approval exception revocation materialization
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: The postmortem does not create approvals, exceptions, or revocations.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: support-proof requirements
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Structured findings and evidence refs support follow-up validation.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: no generated authority
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Generated output authority is explicitly false.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: no raw-input authority
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: Raw input authority is explicitly false.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: no second control plane
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: The evaluator has no approval or transition authority.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+    - invariant: no force-fit integration
+      applicability: applicable
+      rating: Pass
+      enforcement_mechanism: The lifecycle remains optional post-run assurance.
+      evidence_refs:
+        - fixture://retained-run-control
+      evidence_gap: ""
+      blocking: false
+      required_correction: ""
+      material: true
+      counts_as_pass: true
+  invariant_validity_evolution:
+    - invariant: no generated authority
+      protected_property: Source-of-truth control.
+      current_validity: Valid.
+      enforcement_quality: Strong.
+      evidence_quality: Good.
+      scope_quality: Clear.
+      conflict_duplication: None observed.
+      hack_pressure: Low.
+      recommendation: Clarify
+      required_change: Keep documentation explicit that postmortems cannot publish generated outputs as authority.
+      change_control_bar: medium
+      authority_status: proposed-evidence-only
+root_cause_analysis:
+  - problem: Lifecycle postmortem discoverability lagged evaluator implementation.
+    proximate_cause: Registry and operator docs were incomplete.
+    root_cause: Maintenance routing was not yet connected to the new evaluator.
+    corrective_action: Register workflow surfaces and validate the full v2 contract.
+    root_cause_classification: local
+    evidence_refs:
+      - fixture://retained-run-control
+improvement_plan:
+  - improvement: Keep lifecycle-postmortem registered in workflow and operator discovery surfaces.
+    problem_addressed: Operators could miss the evaluator.
+    type: Add validation/evidence.
+    priority: high
+    effort: low
+    reversibility: high
+    expected_benefit: Improves discoverability without changing evaluator authority.
+    validation: Run lifecycle-postmortem workflow and runtime validator tests.
+    evidence_refs:
+      - fixture://retained-run-control
+updated_lifecycle_recommendation:
+  recommendation: Improve with targeted changes
+  why_strongest: The evaluator model is sound and the fixture weakness is routing and validation coverage.
+  preserve:
+    - Non-authority boundary.
+    - Retained evidence requirements.
+    - Patch-versus-redesign gate.
+  remove:
+    - Any ambiguous generated-output authority language.
+  redesign:
+    - Nothing in the positive fixture.
+  do_not_change_yet:
+    - Runtime evaluator behavior.
+  risks_remaining:
+    - Future documentation drift.
+  evidence_that_would_change_recommendation:
+    - Multiple high-severity failures traced to the same lifecycle abstraction.
+  first_safe_next_step: Validate the v2 fixture and discovery routing.
+  evidence_refs:
+    - fixture://retained-run-control
+postmortem_closeout:
+  actions:
+    - finding: Discovery routing required clearer validation coverage.
+      action: Keep v2 validator fixtures in the runtime test suite.
+      owner_role: Assurance maintainer.
+      priority: high
+      due_or_trigger: Before treating lifecycle-postmortem as reusable operator guidance.
+      evidence_of_completion: Passing lifecycle-postmortem validator test.
+  lessons_learned:
+    - Full prompt fidelity needs schema, template, workflow, runtime input, and fixtures to move together.
+  decisions_to_record:
+    - lifecycle-postmortem remains optional, human-entry, read-only post-run assurance.
+  artifacts_to_archive:
+    - Markdown postmortem report.
+    - Structured v2 evaluation.
+  evidence_to_retain:
+    - fixture://retained-run-control
+  process_changes_to_implement:
+    - Require the full eighteen-section report and v2 structured output.
+  risks_to_monitor:
+    - Drift between evaluator prompt, schema, and runtime validation.
+  follow_up_review_trigger: Any schema version change or evaluator prompt expansion.
 final_judgment: Fit to reuse with targeted improvements
 major_findings:
-  - finding_id: fixture-finding-1
-    summary: Retained evidence is sufficient for the fixture lifecycle.
+  - finding_id: LPM-FIXTURE-001
+    summary: The positive fixture preserves the non-authority evaluator boundary.
     severity: note
     evidence_refs:
       - fixture://retained-run-control
+    connection_basis:
+      - evidence
+      - authority
+      - Octon invariants
 authority_boundary:
   generated_outputs_authority: false
   raw_inputs_authority: false
   postmortem_approves_lifecycle_transition: false
+  postmortem_approves_closeout: false
+  postmortem_approves_redesign: false
+  postmortem_approves_support_widening: false
+  postmortem_approves_generated_output_publication: false
   postmortem_approves_invariant_change: false
   non_authority_assertion: true
 follow_up_recommendations:
-  - recommendation: Clarify generated artifact promotion paths.
+  - recommendation: Keep operator discovery surfaces covered by validation.
     authority_status: proposed-evidence-only

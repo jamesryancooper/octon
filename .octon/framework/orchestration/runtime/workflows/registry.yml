@@ -1404,6 +1404,76 @@ workflows:
           format: markdown
           determinism: unique
           description: "Change closeout context resolution summary."
+  lifecycle-postmortem:
+    version: "1.0.0"
+    execution_profile: core
+    commands: ["/lifecycle-postmortem"]
+    parameters:
+      - name: run_id
+        type: text
+        required: true
+        description: "Retained lifecycle run id to inspect"
+      - name: report_path
+        type: file
+        required: false
+        description: "Optional evaluator-authored Markdown report to validate and retain"
+      - name: structured_output_path
+        type: file
+        required: false
+        description: "Optional evaluator-authored structured postmortem output to validate and retain"
+    access: human
+    depends_on: []
+    io:
+      inputs:
+        - name: lifecycle_run_id
+          path: "{{run_id}}"
+          kind: text
+          format: text
+          required: true
+          description: "Retained lifecycle run id used to bind control and evidence roots"
+        - name: postmortem_report
+          path: "{{report_path}}"
+          kind: file
+          format: markdown
+          required: false
+          description: "Optional evaluator-authored Markdown report"
+        - name: structured_postmortem_output
+          path: "{{structured_output_path}}"
+          kind: file
+          format: yaml
+          required: false
+          description: "Optional structured lifecycle-postmortem evaluation output"
+      outputs:
+        - name: lifecycle_postmortem_evidence_map
+          path: "/.octon/state/evidence/runs/{{run_id}}/assurance/lifecycle-postmortem/evidence-map.yml"
+          kind: file
+          format: yaml
+          determinism: stable
+          description: "Retained postmortem evidence map for the lifecycle run"
+        - name: lifecycle_postmortem_evaluator_input
+          path: "/.octon/state/evidence/runs/{{run_id}}/assurance/lifecycle-postmortem/evaluator-input.md"
+          kind: file
+          format: markdown
+          determinism: stable
+          description: "Evaluator input prepared from retained evidence and known limits"
+        - name: lifecycle_postmortem_structured_output
+          path: "/.octon/state/evidence/runs/{{run_id}}/assurance/lifecycle-postmortem/evaluation.yml"
+          kind: file
+          format: yaml
+          determinism: stable
+          description: "Optional validated structured evaluator output retained as evidence only"
+        - name: lifecycle_postmortem_report
+          path: "/.octon/state/evidence/runs/{{run_id}}/assurance/lifecycle-postmortem/report.md"
+          kind: file
+          format: markdown
+          determinism: stable
+          description: "Optional validated evaluator report retained as evidence only"
+        - name: lifecycle_postmortem_findings
+          path: "/.octon/state/evidence/runs/{{run_id}}/assurance/lifecycle-postmortem/review-findings.ndjson"
+          kind: file
+          format: ndjson
+          determinism: stable
+          description: "Optional review-finding-v1 records retained as evidence only"
   update-harness:
     version: "1.3.0"
     commands: ["/update-harness"]

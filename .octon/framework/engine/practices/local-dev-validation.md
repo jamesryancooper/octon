@@ -16,6 +16,7 @@
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-validate-create-design-proposal-workflow.sh`
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-create-design-proposal-workflow-runner.sh`
 - `bash .octon/framework/assurance/runtime/_ops/tests/test-audit-design-proposal-workflow-runner.sh`
+- `bash .octon/framework/assurance/runtime/_ops/tests/test-lifecycle-postmortem.sh`
 - `cargo check --manifest-path .octon/framework/engine/runtime/crates/Cargo.toml`
 
 ## Execution-Profile Checks

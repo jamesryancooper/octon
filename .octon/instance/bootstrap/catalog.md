@@ -231,6 +231,12 @@ Multi-step procedures in `orchestration/runtime/workflows/`.
 | [evaluate-workflow](./orchestration/runtime/workflows/meta/evaluate-workflow/00-overview.md) | human | Assess workflow quality and gap coverage |
 | [update-workflow](./orchestration/runtime/workflows/meta/update-workflow/00-overview.md) | human | Add gap fixes to existing workflows |
 
+### Lifecycle Assurance
+
+| Workflow | Access | Description |
+| -------- | ------ | ----------- |
+| [lifecycle-postmortem](./orchestration/runtime/workflows/meta/lifecycle-postmortem/README.md) | human | Prepare optional retained post-run assurance evidence for a lifecycle run |
+
 ### Audit And Quality Gate
 
 | Workflow | Access | Description |

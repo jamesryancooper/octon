@@ -100,6 +100,18 @@ workflows:
       - "close out this change"
       - "finish this change"
       - "ship this change"
+  - id: lifecycle-postmortem
+    display_name: Lifecycle Postmortem
+    group: meta
+    domain: lifecycle-assurance
+    path: meta/lifecycle-postmortem/
+    execution_profile: core
+    summary: Prepare and validate optional retained post-run assurance evidence for a lifecycle run.
+    status: active
+    triggers:
+      - "run lifecycle postmortem"
+      - "evaluate lifecycle run"
+      - "inspect lifecycle evidence"
   - id: update-harness
     display_name: Update Harness
     group: meta
@@ -608,7 +620,7 @@ workflow_group_definitions:
   meta:
     description: Operate on the harness itself (CRUD for harness components)
     path: meta/
-    members: [evaluate-harness, evaluate-ci-latency, migrate-harness, export-harness, update-harness, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal, validate-proposal, promote-proposal, verify-implementation-conformance, audit-post-implementation-drift, archive-proposal]
+    members: [evaluate-harness, evaluate-ci-latency, migrate-harness, export-harness, update-harness, lifecycle-postmortem, create-workflow, evaluate-workflow, update-workflow, create-skill, create-design-proposal, create-migration-proposal, create-policy-proposal, create-architecture-proposal, validate-proposal, promote-proposal, verify-implementation-conformance, audit-post-implementation-drift, archive-proposal]
   audit:
     description: Audit orchestration and release gates
     path: audit/

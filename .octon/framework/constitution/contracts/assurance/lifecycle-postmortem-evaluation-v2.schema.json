@@ -1,0 +1,458 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://octon.local/framework/constitution/contracts/assurance/lifecycle-postmortem-evaluation-v2.schema.json",
+  "title": "Lifecycle Postmortem Evaluation v2",
+  "description": "Structured retained evidence output for rigorous post-run lifecycle postmortem evaluations.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "subject",
+    "evidence_refs",
+    "known_limits",
+    "input_context",
+    "evaluation_posture",
+    "section_order",
+    "executive_postmortem_summary",
+    "intended_lifecycle_job",
+    "actual_lifecycle_reconstruction",
+    "what_went_well",
+    "what_did_not_go_well",
+    "chestertons_fence_review",
+    "essential_vs_accidental_complexity",
+    "valid_vs_stale_constraints",
+    "patch_vs_redesign_decision_gate",
+    "redesign_triggers",
+    "clean_sheet_lifecycle_reference_design",
+    "alternative_improvement_paths",
+    "lifecycle_quality_attribute_scoring",
+    "octon_invariant_review",
+    "root_cause_analysis",
+    "improvement_plan",
+    "updated_lifecycle_recommendation",
+    "postmortem_closeout",
+    "final_judgment",
+    "major_findings",
+    "authority_boundary",
+    "follow_up_recommendations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "lifecycle-postmortem-evaluation-v2"
+    },
+    "subject": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "lifecycle_kind", "octon_subject"],
+      "properties": {
+        "run_id": {"type": "string", "minLength": 1},
+        "lifecycle_kind": {"type": "string", "minLength": 1},
+        "octon_subject": {"type": "boolean"}
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "known_limits": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "input_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lifecycle_context",
+        "intended_purpose",
+        "actual_run",
+        "artifacts_and_evidence",
+        "known_concerns",
+        "octon_context"
+      ],
+      "properties": {
+        "lifecycle_context": {"$ref": "#/$defs/context_block"},
+        "intended_purpose": {"$ref": "#/$defs/context_block"},
+        "actual_run": {"$ref": "#/$defs/context_block"},
+        "artifacts_and_evidence": {"$ref": "#/$defs/context_block"},
+        "known_concerns": {"$ref": "#/$defs/context_block"},
+        "octon_context": {"$ref": "#/$defs/context_block"}
+      }
+    },
+    "evaluation_posture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "role_frame_applied",
+        "first_principles_traps_avoided",
+        "chestertons_fence_posture_applied",
+        "non_worship_non_destruction_posture_applied"
+      ],
+      "properties": {
+        "role_frame_applied": {"const": true},
+        "first_principles_traps_avoided": {"const": true},
+        "chestertons_fence_posture_applied": {"const": true},
+        "non_worship_non_destruction_posture_applied": {"const": true}
+      }
+    },
+    "section_order": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eighteen_sections_present",
+        "invariant_compliance_before_quality_scoring",
+        "invariant_validity_after_redesign_pressure_before_recommendations",
+        "patch_vs_redesign_present"
+      ],
+      "properties": {
+        "eighteen_sections_present": {"const": true},
+        "invariant_compliance_before_quality_scoring": {"const": true},
+        "invariant_validity_after_redesign_pressure_before_recommendations": {"const": true},
+        "patch_vs_redesign_present": {"const": true}
+      }
+    },
+    "executive_postmortem_summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "overall_lifecycle_outcome",
+        "intended_purpose_achieved",
+        "what_went_well_summary",
+        "what_did_not_go_well_summary",
+        "local_vs_structural_assessment",
+        "fitness_to_reuse",
+        "recommended_disposition",
+        "evidence_refs"
+      ]
+    },
+    "intended_lifecycle_job": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "job_to_perform",
+        "dependents",
+        "risk_reduction",
+        "quality_bar",
+        "decisions_made_safer_or_clearer",
+        "outcomes_needed",
+        "artifacts_or_evidence_to_leave",
+        "impossible_or_difficult_if_worked",
+        "required_outputs",
+        "required_evidence",
+        "required_decisions",
+        "non_goals"
+      ]
+    },
+    "actual_lifecycle_reconstruction": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "what_went_well": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "what_did_not_go_well": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "chestertons_fence_review": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "essential_vs_accidental_complexity": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "valid_vs_stale_constraints": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "patch_vs_redesign_decision_gate": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "weakness_classifications",
+        "primary_path",
+        "same_root_abstraction_high_severity_count",
+        "redesign_required",
+        "evidence_refs"
+      ],
+      "properties": {
+        "weakness_classifications": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/evidence_backed_record"}
+        },
+        "redesign_required": {"type": "boolean"},
+        "evidence_refs": {"$ref": "#/$defs/evidence_refs"}
+      }
+    },
+    "redesign_triggers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/redesign_trigger_record"}
+    },
+    "clean_sheet_lifecycle_reference_design": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["fundamental_accomplishment", "minimal_phases", "required_evidence", "comparison"]
+    },
+    "alternative_improvement_paths": {
+      "type": "array",
+      "minItems": 4,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "lifecycle_quality_attribute_scoring": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["attribute", "score", "confidence", "rationale", "primary_gap", "improvement_needed", "evidence_refs"],
+        "properties": {
+          "attribute": {"type": "string", "minLength": 1},
+          "score": {"type": "integer", "minimum": 0, "maximum": 5},
+          "confidence": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1},
+          "primary_gap": {"type": "string"},
+          "improvement_needed": {"type": "string"},
+          "evidence_refs": {"$ref": "#/$defs/evidence_refs"}
+        }
+      }
+    },
+    "octon_invariant_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["applicable", "invariant_compliance", "invariant_validity_evolution"],
+      "properties": {
+        "applicable": {"type": "boolean"},
+        "invariant_compliance": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/invariant_compliance_record"}
+        },
+        "invariant_validity_evolution": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/invariant_validity_record"}
+        }
+      }
+    },
+    "root_cause_analysis": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "improvement_plan": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/evidence_backed_record"}
+    },
+    "updated_lifecycle_recommendation": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["recommendation", "why_strongest", "first_safe_next_step", "evidence_refs"]
+    },
+    "postmortem_closeout": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "actions",
+        "lessons_learned",
+        "decisions_to_record",
+        "artifacts_to_archive",
+        "evidence_to_retain",
+        "process_changes_to_implement",
+        "risks_to_monitor",
+        "follow_up_review_trigger"
+      ],
+      "properties": {
+        "actions": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/closeout_action"}
+        }
+      }
+    },
+    "final_judgment": {
+      "type": "string",
+      "enum": [
+        "Fit to reuse as-is",
+        "Fit to reuse with targeted improvements",
+        "Fit for limited/pilot use only",
+        "Not fit without significant lifecycle redesign",
+        "Fundamentally misaligned with the system's needs"
+      ]
+    },
+    "major_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "summary", "severity", "evidence_refs", "connection_basis"],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "summary": {"type": "string", "minLength": 1},
+          "severity": {"type": "string", "enum": ["note", "warning", "major", "critical"]},
+          "evidence_refs": {"$ref": "#/$defs/evidence_refs"},
+          "connection_basis": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "evidence",
+                "lifecycle purpose",
+                "quality attributes",
+                "risk",
+                "authority",
+                "governance",
+                "implementation reality",
+                "Octon invariants"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "authority_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "generated_outputs_authority",
+        "raw_inputs_authority",
+        "postmortem_approves_lifecycle_transition",
+        "postmortem_approves_closeout",
+        "postmortem_approves_redesign",
+        "postmortem_approves_support_widening",
+        "postmortem_approves_generated_output_publication",
+        "postmortem_approves_invariant_change",
+        "non_authority_assertion"
+      ],
+      "properties": {
+        "generated_outputs_authority": {"const": false},
+        "raw_inputs_authority": {"const": false},
+        "postmortem_approves_lifecycle_transition": {"const": false},
+        "postmortem_approves_closeout": {"const": false},
+        "postmortem_approves_redesign": {"const": false},
+        "postmortem_approves_support_widening": {"const": false},
+        "postmortem_approves_generated_output_publication": {"const": false},
+        "postmortem_approves_invariant_change": {"const": false},
+        "non_authority_assertion": {"const": true}
+      }
+    },
+    "follow_up_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recommendation", "authority_status"],
+        "properties": {
+          "recommendation": {"type": "string", "minLength": 1},
+          "authority_status": {"const": "proposed-evidence-only"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "evidence_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "context_block": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "evidence_refs"],
+      "properties": {
+        "summary": {"type": "string", "minLength": 1},
+        "evidence_refs": {"$ref": "#/$defs/evidence_refs"}
+      }
+    },
+    "evidence_backed_record": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["evidence_refs"],
+      "properties": {
+        "evidence_refs": {"$ref": "#/$defs/evidence_refs"}
+      }
+    },
+    "redesign_trigger_record": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["redesign_trigger", "present", "evidence_refs", "implication"],
+      "properties": {
+        "redesign_trigger": {"type": "string", "minLength": 1},
+        "present": {"type": "boolean"},
+        "evidence_refs": {"$ref": "#/$defs/evidence_refs"},
+        "implication": {"type": "string", "minLength": 1}
+      }
+    },
+    "closeout_action": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["finding", "action", "owner_role", "priority", "due_or_trigger", "evidence_of_completion"]
+    },
+    "invariant_compliance_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "invariant",
+        "applicability",
+        "rating",
+        "enforcement_mechanism",
+        "evidence_refs",
+        "evidence_gap",
+        "blocking",
+        "required_correction"
+      ],
+      "properties": {
+        "invariant": {"type": "string", "minLength": 1},
+        "applicability": {"type": "string", "minLength": 1},
+        "rating": {"type": "string", "enum": ["Pass", "Partial", "Fail", "Unknown", "Not Applicable"]},
+        "enforcement_mechanism": {"type": "string", "minLength": 1},
+        "evidence_refs": {"type": "array", "items": {"type": "string"}},
+        "evidence_gap": {"type": "string"},
+        "blocking": {"type": "boolean"},
+        "required_correction": {"type": "string"},
+        "material": {"type": "boolean"},
+        "counts_as_pass": {"type": "boolean"}
+      }
+    },
+    "invariant_validity_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "invariant",
+        "protected_property",
+        "current_validity",
+        "enforcement_quality",
+        "evidence_quality",
+        "scope_quality",
+        "conflict_duplication",
+        "hack_pressure",
+        "recommendation",
+        "required_change",
+        "change_control_bar",
+        "authority_status"
+      ],
+      "properties": {
+        "invariant": {"type": "string", "minLength": 1},
+        "protected_property": {"type": "string", "minLength": 1},
+        "current_validity": {"type": "string", "minLength": 1},
+        "enforcement_quality": {"type": "string", "minLength": 1},
+        "evidence_quality": {"type": "string", "minLength": 1},
+        "scope_quality": {"type": "string", "minLength": 1},
+        "conflict_duplication": {"type": "string", "minLength": 1},
+        "hack_pressure": {"type": "string", "minLength": 1},
+        "recommendation": {"type": "string", "enum": ["Keep", "Clarify", "Strengthen", "Relax", "Split", "Merge", "Reclassify", "Replace", "Remove", "Add"]},
+        "required_change": {"type": "string"},
+        "change_control_bar": {"type": "string", "enum": ["low", "medium", "high", "very_high"]},
+        "authority_status": {"const": "proposed-evidence-only"}
+      }
+    }
+  }
+}
