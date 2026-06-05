@@ -30,7 +30,12 @@ promotion_targets:
   - ".octon/framework/assurance/runtime/_ops/tests/"
   - ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/"
   - ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
-status: "accepted"
+status: "archived"
+archive:
+  archived_at: "2026-06-05"
+  archived_from_status: "accepted"
+  disposition: "historical"
+  original_path: ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery"
 lifecycle:
   temporary: true
   exit_expectation: >-

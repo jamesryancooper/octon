@@ -17,6 +17,7 @@
 - `resources/source-postmortem-evaluation.md`
 - `resources/source-traceability-matrix.md`
 - `support/implementation-grade-completeness-review.md`
+- `support/lifecycle-residue-cleanup.md`
 - `support/program-creation.md`
 - `support/program-implementation-orchestration-prompt.md`
 - `support/program-run-kickoff-prompt.md`

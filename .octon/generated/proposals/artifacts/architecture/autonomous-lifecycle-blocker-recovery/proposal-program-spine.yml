@@ -1,0 +1,165 @@
+{
+  "authority_boundary": {
+    "authorizes_execution": false,
+    "generated_output_authority": "derived-only",
+    "generated_registry_replaces_manifest": false,
+    "proposal_input_authority": "non-authoritative",
+    "raw_evidence_retained": true,
+    "replaces_source_evidence": false
+  },
+  "blockers": {
+    "known_blockers": "see-readiness-receipt",
+    "open_blocking_findings_count": "0"
+  },
+  "child_registry": {
+    "child_id_present": false,
+    "registry_ref": null,
+    "sha256": null
+  },
+  "failure_behavior": [
+    "fail-closed-on-source-missing",
+    "fail-closed-on-source-digest-mismatch",
+    "fail-closed-on-stale-compact-artifact",
+    "fail-closed-on-authority-boundary-violation",
+    "escalate-before-reading-raw-packet-body"
+  ],
+  "freshness": {
+    "generated_at": "deterministic-from-source-digests",
+    "mode": "digest-bound"
+  },
+  "gate_states": {
+    "implementation_readiness": {
+      "clarification_required": "no",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/implementation-grade-completeness-review.md",
+      "unresolved_questions_count": "0",
+      "verdict": "pass"
+    },
+    "proposal_review": {
+      "implementation_prompt_authorized": "yes",
+      "open_blocking_findings_count": "0",
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/proposal-review.md",
+      "reviewed_packet_digest": "sha256:8975494274dd1a401ab711e9900aa9db50e21d5d75468d5f5b5dfb5ecea3aa13",
+      "verdict": "accepted"
+    },
+    "validators": [
+      "validate-proposal-standard.sh",
+      "validate-proposal-review-gate.sh --require-implementation-authorization",
+      "validate-proposal-implementation-readiness.sh",
+      "validate-architecture-proposal.sh",
+      "validate-proposal-artifact-index-spine.sh"
+    ]
+  },
+  "lifecycle": {
+    "exit_expectation": "Coordinate child proposal packets through review, implementation-prompt generation, later implementation, verification, correction, closeout, and archive lifecycle routes. Parent program evidence coordinates only and never satisfies child-owned receipts or terminal outcomes.",
+    "status": "archived",
+    "temporary": true
+  },
+  "output_ref": ".octon/generated/proposals/artifacts/architecture/autonomous-lifecycle-blocker-recovery/proposal-program-spine.yml",
+  "parent_program": null,
+  "producer": ".octon/framework/assurance/runtime/_ops/scripts/generate-proposal-artifact-index.sh",
+  "promotion_targets": [
+    ".octon/framework/engine/runtime/crates/kernel/src/lifecycle_program.rs",
+    ".octon/framework/engine/runtime/crates/kernel/src/workflow.rs",
+    ".octon/framework/engine/runtime/crates/kernel/tests/",
+    ".octon/framework/engine/runtime/crates/lifecycle_executor/src/",
+    ".octon/framework/engine/runtime/crates/lifecycle_executor/tests/",
+    ".octon/framework/engine/runtime/spec/",
+    ".octon/framework/cognition/_meta/architecture/inputs/additive/extensions/schemas/extension-lifecycle-contract.schema.json",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycles/proposal-program.contract.yml",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/lifecycle-model.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/context/patterns/proposal-program.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/commands/octon-proposal-run-program-lifecycle.md",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/octon-proposal-lifecycle-run-program-lifecycle/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/prompts/cleanup-lifecycle-residue/",
+    ".octon/inputs/additive/extensions/octon-proposal-lifecycle/skills/",
+    ".octon/framework/assurance/runtime/_ops/scripts/",
+    ".octon/framework/assurance/runtime/_ops/tests/",
+    ".octon/framework/capabilities/runtime/skills/remediation/repo-hygiene-cleanup/",
+    ".octon/framework/capabilities/runtime/skills/remediation/closeout-worktree/"
+  ],
+  "proposal_id": "autonomous-lifecycle-blocker-recovery",
+  "proposal_kind": "architecture",
+  "proposal_path": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery",
+  "reader_preferences": {
+    "closeout": "verify compact digests before dereferencing raw packet evidence",
+    "executor": "read current-stage slices first; use raw packet refs only for disputes",
+    "planner": "read proposal-artifact-index.yml and proposal-program-spine.yml before packet bodies",
+    "raw_body_escalation_required": true,
+    "raw_body_policy": "handle-only-by-default",
+    "recovery": "read child-handoff-capsule.yml before parent summaries or stale packet history"
+  },
+  "receipt_digests": [
+    {
+      "byte_size": 2235,
+      "estimated_tokens": 559,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/implementation-grade-completeness-review.md",
+      "sha256": "sha256:9aee23d88797ea099744afe827f060ff1b6c4c0f98dd0b7ad2a6cc49d919fe18"
+    },
+    {
+      "byte_size": 11973,
+      "estimated_tokens": 2994,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/lifecycle-residue-cleanup.md",
+      "sha256": "sha256:af285faf1682954c2b860daab0353e14d5dc20e67b969e35226312ef2f1411c3"
+    },
+    {
+      "byte_size": 970,
+      "estimated_tokens": 243,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/program-creation.md",
+      "sha256": "sha256:542813c907cc240b59b56c6a3f28a0ac65f65967e154e784db01d82f458b7831"
+    },
+    {
+      "byte_size": 7699,
+      "estimated_tokens": 1925,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/program-implementation-orchestration-prompt.md",
+      "sha256": "sha256:d8024b2fbf84de0f5fc40810c5b1f1630175ef2f216d1e69d95c9cdc3640aabe"
+    },
+    {
+      "byte_size": 6602,
+      "estimated_tokens": 1651,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/program-run-kickoff-prompt.md",
+      "sha256": "sha256:00f5d0f809ae9b10a389d2e1edcbd479655be4b0746764ea575987ae73985d0c"
+    },
+    {
+      "byte_size": 5051,
+      "estimated_tokens": 1263,
+      "receipt_ref": ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/proposal-review.md",
+      "sha256": "sha256:a77b23c181543e0561f5d6dbffbba6267fce06441573aa52afadd63736ecabd6"
+    }
+  ],
+  "related_proposals": [
+    "autonomous-blocker-taxonomy",
+    "runner-recovery-behavior",
+    "validator-affordances",
+    "cleanup-routing",
+    "evidence-and-receipt-hardening",
+    "token-efficiency-preservation",
+    "escalation-policy-update"
+  ],
+  "schema_version": "octon-proposal-program-spine-v1",
+  "source_digests": {
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture-proposal.yml": "sha256:f1badfa0bc3e5e755dfd2142996a51112e9b1ffa21452498e1442cb568ae7e26",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/acceptance-criteria.md": "sha256:a5459b65d9f5589b5c925293039644f2f1c4c0d966dcd919542c5591811f8553",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/implementation-plan.md": "sha256:6627f0ebbda9a877493dd67ae419aee7ddd74c35d4d33f30f1195c6c15ed4941",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/navigation/artifact-catalog.md": "sha256:978f02ec37980d4e5cf3f8fa7dec6aaf41dd2e592be983b592a8a255567f323d",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/navigation/source-of-truth-map.md": "sha256:c907fa24296c5c1625b32384487202948a73c839176e56e6e263a6a23e537fd0",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/proposal.yml": "sha256:f6e2e1bbba4569c4a1652a38fdc8edf3f16b5836f659f3178aeb2bcdee9da927",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/implementation-grade-completeness-review.md": "sha256:9aee23d88797ea099744afe827f060ff1b6c4c0f98dd0b7ad2a6cc49d919fe18",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/proposal-review.md": "sha256:a77b23c181543e0561f5d6dbffbba6267fce06441573aa52afadd63736ecabd6"
+  },
+  "source_lineage": [
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-postmortem-evaluation.md",
+    ".octon/inputs/exploratory/proposals/architecture/autonomous-lifecycle-blocker-recovery/resources/source-traceability-matrix.md"
+  ],
+  "source_refs": [
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture-proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/acceptance-criteria.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/architecture/implementation-plan.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/navigation/artifact-catalog.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/navigation/source-of-truth-map.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/proposal.yml",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/implementation-grade-completeness-review.md",
+    ".octon/inputs/exploratory/proposals/.archive/architecture/autonomous-lifecycle-blocker-recovery/support/proposal-review.md"
+  ],
+  "status": "archived"
+}
