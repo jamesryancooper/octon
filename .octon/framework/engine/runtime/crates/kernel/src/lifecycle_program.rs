@@ -2971,6 +2971,7 @@ fn run_program_lifecycle_single_step(
     write_program_checkpoint_snapshot(
         octon_dir,
         control_root,
+        evidence_root,
         sanitized_run_id,
         &options.lifecycle_id,
         target_rel,
@@ -3455,6 +3456,7 @@ fn run_program_lifecycle_single_step(
     let mut checkpoint = write_program_checkpoint_snapshot(
         octon_dir,
         control_root,
+        evidence_root,
         sanitized_run_id,
         &options.lifecycle_id,
         target_rel,
@@ -3551,12 +3553,12 @@ fn run_program_lifecycle_single_step(
             program_event_data(std::iter::empty::<(&str, &str)>()),
         )?;
         enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
-        fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+        write_program_checkpoint_files(&checkpoint_path, evidence_root, &checkpoint)?;
     }
     let latest_event_offset = count_program_events(control_root)?;
     checkpoint.program_recovery_action_attempts = program_recovery_action_attempts;
     enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
-    fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+    write_program_checkpoint_files(&checkpoint_path, evidence_root, &checkpoint)?;
     write_program_planner_state_artifacts(
         &repo_root,
         control_root,
@@ -4114,7 +4116,7 @@ fn mark_program_blocked_max_steps(
     checkpoint.final_verdict = verdict.to_string();
     checkpoint.terminal_outcome = None;
     enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
-    fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+    write_program_checkpoint_files(&checkpoint_path, evidence_root, &checkpoint)?;
     fs::write(
         evidence_root.join("summary.md"),
         program_lifecycle_summary(run_id, &options.executor, &step.plan, verdict),
@@ -4360,7 +4362,7 @@ pub(crate) fn approve_program_lifecycle_child_route(
     checkpoint.final_verdict = "blocked-recoverable".to_string();
     enrich_checkpoint_event_metadata(&mut checkpoint, &control_root)?;
     let checkpoint_path = program_checkpoint_path_for_run(octon_dir, &sanitized_run_id)?;
-    fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+    write_program_checkpoint_files(&checkpoint_path, &evidence_root, &checkpoint)?;
     Ok(ProgramLifecycleControlResult {
         schema_version: "octon-program-lifecycle-control-result-v1".to_string(),
         run_id: sanitized_run_id,
@@ -15634,6 +15636,7 @@ fn checkpoint_from_plan(
 fn write_program_checkpoint_snapshot(
     octon_dir: &Path,
     control_root: &Path,
+    evidence_root: &Path,
     run_id: &str,
     lifecycle_id: &str,
     target: &str,
@@ -15705,8 +15708,24 @@ fn write_program_checkpoint_snapshot(
     }
     enrich_checkpoint_event_metadata(&mut checkpoint, control_root)?;
     let checkpoint_path = program_checkpoint_path_for_run(octon_dir, run_id)?;
-    fs::write(&checkpoint_path, serde_yaml::to_string(&checkpoint)?)?;
+    write_program_checkpoint_files(&checkpoint_path, evidence_root, &checkpoint)?;
     Ok(checkpoint)
+}
+
+fn write_program_checkpoint_files(
+    checkpoint_path: &Path,
+    evidence_root: &Path,
+    checkpoint: &ProgramLifecycleCheckpoint,
+) -> Result<()> {
+    let serialized = serde_yaml::to_string(checkpoint)?;
+    fs::write(checkpoint_path, &serialized)?;
+    fs::create_dir_all(evidence_root)?;
+    fs::write(program_retained_checkpoint_path(evidence_root), serialized)?;
+    Ok(())
+}
+
+fn program_retained_checkpoint_path(evidence_root: &Path) -> PathBuf {
+    evidence_root.join(PROGRAM_CHECKPOINT_FILE)
 }
 
 fn enrich_checkpoint_event_metadata(
@@ -16566,23 +16585,30 @@ fn program_compact_source_refs(
     push_program_compact_source_ref(
         repo_root,
         &mut refs,
-        &control_root.join(PROGRAM_CHECKPOINT_FILE),
+        &program_retained_checkpoint_path(evidence_root),
         "program-lifecycle-checkpoint",
         true,
     )?;
     push_program_compact_source_ref(
         repo_root,
         &mut refs,
-        &program_control_event_log_path(control_root),
+        &program_evidence_event_log_path(evidence_root),
         "program-control-event-log",
         true,
     )?;
     push_program_compact_source_ref(
         repo_root,
         &mut refs,
-        &program_evidence_event_log_path(evidence_root),
-        "program-evidence-event-log",
-        true,
+        &control_root.join(PROGRAM_CHECKPOINT_FILE),
+        "program-control-checkpoint-diagnostic",
+        false,
+    )?;
+    push_program_compact_source_ref(
+        repo_root,
+        &mut refs,
+        &program_control_event_log_path(control_root),
+        "program-control-event-log-diagnostic",
+        false,
     )?;
     for (file_name, role) in [
         ("program-plan.yml", "program-plan"),
@@ -17383,11 +17409,18 @@ pub(crate) fn verify_program_compact_artifact_source_refs(
             .context("compact program artifact source_ref missing artifact_ref")?;
         let expected = yaml_field_str(source_ref, "sha256")
             .context("compact program artifact source_ref missing sha256")?;
+        let required = source_ref
+            .get("required")
+            .and_then(serde_yaml::Value::as_bool)
+            .unwrap_or(true);
         if !is_safe_repo_relative(artifact_ref) {
             bail!("compact program artifact source_ref is not safe repo-relative: {artifact_ref}");
         }
         let source_path = repo_root.join(artifact_ref);
         if !source_path.is_file() {
+            if !required {
+                continue;
+            }
             bail!("source missing for compact program artifact: {artifact_ref}");
         }
         let actual = file_digest(&source_path)?;
@@ -26820,6 +26853,123 @@ completion_observed: false
         );
         assert!(compact_roles.contains("blocker-ledger"));
         assert!(compact_roles.contains("recovery-delta-summary"));
+    }
+
+    #[test]
+    fn program_lifecycle_writes_retained_checkpoint_snapshot() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("retained-checkpoint-snapshot", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("retained-checkpoint-snapshot".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let retained_checkpoint_path = fixture.octon_dir.join(
+            "state/evidence/runs/workflows/retained-checkpoint-snapshot/program-lifecycle-checkpoint.yml",
+        );
+        assert!(retained_checkpoint_path.is_file());
+        let checkpoint: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(retained_checkpoint_path).unwrap()).unwrap();
+        assert_eq!(
+            checkpoint.get("run_id").and_then(serde_yaml::Value::as_str),
+            Some("retained-checkpoint-snapshot")
+        );
+    }
+
+    #[test]
+    fn program_compact_artifacts_verify_after_control_cleanup() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = ProgramFixture::new("compact-verify-after-control-cleanup", true);
+        fixture.write_full_child_contract();
+        fixture.write_child("a", "framework/a.md", "accepted");
+        fixture.write_registry(
+            "sequential",
+            r#"  - child_id: "a"
+    path: "children/a"
+"#,
+        );
+
+        run_program_lifecycle_from_octon_dir(
+            &fixture.octon_dir,
+            RunLifecycleOptions {
+                lifecycle_id: "proposal-program".to_string(),
+                target: PathBuf::from("parent"),
+                run_id: Some("compact-verify-after-control-cleanup".to_string()),
+                executor: ExecutorKind::Mock,
+                max_iterations: None,
+                execute_routes: false,
+                max_steps: None,
+                timeout_seconds: None,
+                max_child_concurrency: None,
+                invocation_authority: "unattended".to_string(),
+                run_inputs: BTreeMap::new(),
+                program_child_filter: None,
+            },
+        )
+        .unwrap();
+
+        let control_root = fixture
+            .octon_dir
+            .join("state/control/execution/runs/compact-verify-after-control-cleanup");
+        fs::remove_file(control_root.join("program-lifecycle-checkpoint.yml")).unwrap();
+        fs::remove_file(control_root.join("program-events.ndjson")).unwrap();
+
+        let evidence_root = fixture
+            .octon_dir
+            .join("state/evidence/runs/workflows/compact-verify-after-control-cleanup");
+        let planner_path = evidence_root.join(PLANNER_STATE_FILE);
+        verify_program_compact_artifact_source_refs(&fixture.root, &planner_path).unwrap();
+
+        let planner: serde_yaml::Value =
+            serde_yaml::from_slice(&fs::read(&planner_path).unwrap()).unwrap();
+        let source_refs = planner
+            .get("source_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap();
+        let required_checkpoint_ref = source_refs
+            .iter()
+            .find(|value| {
+                value
+                    .get("artifact_role")
+                    .and_then(serde_yaml::Value::as_str)
+                    == Some("program-lifecycle-checkpoint")
+            })
+            .unwrap();
+        assert_eq!(
+            required_checkpoint_ref
+                .get("artifact_ref")
+                .and_then(serde_yaml::Value::as_str),
+            Some(".octon/state/evidence/runs/workflows/compact-verify-after-control-cleanup/program-lifecycle-checkpoint.yml")
+        );
+        assert_eq!(
+            required_checkpoint_ref
+                .get("required")
+                .and_then(serde_yaml::Value::as_bool),
+            Some(true)
+        );
     }
 
     #[test]

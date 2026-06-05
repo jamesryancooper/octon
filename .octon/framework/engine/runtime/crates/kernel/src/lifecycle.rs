@@ -14,7 +14,7 @@ use octon_runtime_resolver::{
 use serde::{Deserialize, Serialize};
 use serde_yaml::Value;
 use sha2::{Digest, Sha256};
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::fs::{self, OpenOptions};
 use std::io::Write;
 use std::path::{Component, Path, PathBuf};
@@ -737,6 +737,11 @@ struct LifecyclePostmortemEvidenceMap {
     postmortem_root: String,
     retained_refs: Vec<LifecyclePostmortemRef>,
     missing_refs: Vec<LifecyclePostmortemRef>,
+    substitute_refs: Vec<LifecyclePostmortemSubstituteRef>,
+    terminal_state_refs: Vec<LifecyclePostmortemRef>,
+    diagnostic_refs: Vec<LifecyclePostmortemRef>,
+    associated_refs: Vec<LifecyclePostmortemRef>,
+    reconstruction_order: Vec<String>,
     authority_boundary: LifecyclePostmortemAuthorityBoundary,
 }
 
@@ -749,12 +754,24 @@ struct LifecyclePostmortemRef {
     exists: bool,
 }
 
+#[derive(Clone, Serialize)]
+struct LifecyclePostmortemSubstituteRef {
+    ref_name: String,
+    path: String,
+    ref_class: String,
+    authority_role: String,
+    substitutes_for: String,
+    exists: bool,
+}
+
 #[derive(Serialize)]
 struct LifecyclePostmortemKnownLimits {
     schema_version: &'static str,
     run_id: String,
     status: String,
     missing_refs: Vec<LifecyclePostmortemRef>,
+    substitute_refs: Vec<LifecyclePostmortemSubstituteRef>,
+    reconstruction_order: Vec<String>,
     confidence_effect: String,
     evaluator_instruction: String,
 }
@@ -1121,72 +1138,42 @@ fn run_lifecycle_postmortem_from_octon_dir(
     }
     .to_string();
 
-    let candidate_refs = vec![
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "run-control-root",
-            &control_root,
-            "control-root",
-            "mutable-control-truth",
-            control_exists,
-        ),
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "lifecycle-checkpoint",
-            &control_root.join("lifecycle-checkpoint.yml"),
-            "control-checkpoint",
-            "mutable-control-truth",
-            control_root.join("lifecycle-checkpoint.yml").is_file(),
-        ),
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "program-lifecycle-checkpoint",
-            &control_root.join("program-lifecycle-checkpoint.yml"),
-            "control-checkpoint",
-            "mutable-control-truth",
-            control_root
-                .join("program-lifecycle-checkpoint.yml")
-                .is_file(),
-        ),
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "lifecycle-events",
-            &control_root.join(LIFECYCLE_EVENT_FILE),
-            "control-event-log",
-            "mutable-control-truth",
-            control_root.join(LIFECYCLE_EVENT_FILE).is_file(),
-        ),
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "program-events",
-            &control_root.join("program-events.ndjson"),
-            "control-event-log",
-            "mutable-control-truth",
-            control_root.join("program-events.ndjson").is_file(),
-        ),
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "run-evidence-root",
-            &direct_evidence_root,
-            "retained-evidence-root",
-            "retained-evidence",
-            direct_evidence_exists,
-        ),
-        lifecycle_postmortem_ref(
-            &repo_root,
-            "workflow-evidence-root",
-            &workflow_evidence_root,
-            "retained-evidence-root",
-            "retained-evidence",
-            workflow_evidence_exists,
-        ),
-    ];
+    let candidate_refs = lifecycle_postmortem_direct_refs(
+        &repo_root,
+        &control_root,
+        &direct_evidence_root,
+        &workflow_evidence_root,
+        control_exists,
+        direct_evidence_exists,
+        workflow_evidence_exists,
+    );
+    let terminal_state_refs =
+        lifecycle_postmortem_terminal_state_refs(&repo_root, &workflow_evidence_root);
+    let diagnostic_refs = lifecycle_postmortem_diagnostic_refs(&repo_root, &workflow_evidence_root);
+    let associated_refs =
+        lifecycle_postmortem_associated_refs(&repo_root, octon_dir, &sanitized_run_id)?;
+    let substitute_refs = lifecycle_postmortem_substitute_refs(
+        &repo_root,
+        &control_root,
+        &workflow_evidence_root,
+        &candidate_refs,
+    );
+    let reconstruction_order = lifecycle_postmortem_reconstruction_order();
 
-    let retained_refs = candidate_refs
+    let mut retained_refs = candidate_refs
         .iter()
         .filter(|item| item.exists)
         .cloned()
         .collect::<Vec<_>>();
+    retained_refs.extend(terminal_state_refs.clone());
+    retained_refs.extend(diagnostic_refs.clone());
+    retained_refs.extend(associated_refs.clone());
+    retained_refs.extend(
+        substitute_refs
+            .iter()
+            .map(lifecycle_postmortem_ref_from_substitute),
+    );
+    lifecycle_postmortem_dedupe_refs(&mut retained_refs);
     let missing_refs = candidate_refs
         .iter()
         .filter(|item| !item.exists)
@@ -1208,7 +1195,7 @@ fn run_lifecycle_postmortem_from_octon_dir(
     let status_path = postmortem_root.join("status.yml");
 
     let evidence_map = LifecyclePostmortemEvidenceMap {
-        schema_version: "lifecycle-postmortem-evidence-map-v1",
+        schema_version: "lifecycle-postmortem-evidence-map-v2",
         run_id: sanitized_run_id.clone(),
         recorded_at: recorded_at.clone(),
         status: status.clone(),
@@ -1220,21 +1207,24 @@ fn run_lifecycle_postmortem_from_octon_dir(
         postmortem_root: rel_display(&repo_root, &postmortem_root),
         retained_refs: retained_refs.clone(),
         missing_refs: missing_refs.clone(),
+        substitute_refs: substitute_refs.clone(),
+        terminal_state_refs: terminal_state_refs.clone(),
+        diagnostic_refs: diagnostic_refs.clone(),
+        associated_refs: associated_refs.clone(),
+        reconstruction_order: reconstruction_order.clone(),
         authority_boundary: authority_boundary.clone(),
     };
     fs::write(&evidence_map_path, serde_yaml::to_string(&evidence_map)?)?;
 
     let known_limits = LifecyclePostmortemKnownLimits {
-        schema_version: "lifecycle-postmortem-known-limits-v1",
+        schema_version: "lifecycle-postmortem-known-limits-v2",
         run_id: sanitized_run_id.clone(),
         status: status.clone(),
         missing_refs: missing_refs.clone(),
-        confidence_effect: if missing_refs.is_empty() {
-            "no known missing lifecycle source refs detected by deterministic binding".to_string()
-        } else {
-            "missing refs must be treated as evidence gaps by the evaluator and must not be filled from generated summaries, raw inputs, chat history, host state, or model memory".to_string()
-        },
-        evaluator_instruction: "Use Unknown or blocking/corrective findings when required retained evidence is missing; never count Unknown as Pass.".to_string(),
+        substitute_refs: substitute_refs.clone(),
+        reconstruction_order: reconstruction_order.clone(),
+        confidence_effect: lifecycle_postmortem_confidence_effect(&missing_refs, &substitute_refs),
+        evaluator_instruction: "Treat missing direct control refs as evidence gaps. When substitute_refs are listed, use those retained workflow refs for reconstruction before escalating; never fill gaps from generated summaries, raw inputs, chat history, host state, dashboards, or model memory. Diagnostic failing-slice evidence is historical and must not override terminal blocker ledgers.".to_string(),
     };
     fs::write(&known_limits_path, serde_yaml::to_string(&known_limits)?)?;
 
@@ -1245,6 +1235,11 @@ fn run_lifecycle_postmortem_from_octon_dir(
             &recorded_at,
             &retained_refs,
             &missing_refs,
+            &substitute_refs,
+            &terminal_state_refs,
+            &diagnostic_refs,
+            &associated_refs,
+            &reconstruction_order,
             &evidence_map_path,
             &known_limits_path,
             &repo_root,
@@ -1278,6 +1273,331 @@ fn run_lifecycle_postmortem_from_octon_dir(
     })
 }
 
+fn lifecycle_postmortem_direct_refs(
+    repo_root: &Path,
+    control_root: &Path,
+    direct_evidence_root: &Path,
+    workflow_evidence_root: &Path,
+    control_exists: bool,
+    direct_evidence_exists: bool,
+    workflow_evidence_exists: bool,
+) -> Vec<LifecyclePostmortemRef> {
+    vec![
+        lifecycle_postmortem_ref(
+            repo_root,
+            "run-control-root",
+            control_root,
+            "control-root",
+            "mutable-control-truth",
+            control_exists,
+        ),
+        lifecycle_postmortem_ref(
+            repo_root,
+            "lifecycle-checkpoint",
+            &control_root.join("lifecycle-checkpoint.yml"),
+            "control-checkpoint",
+            "mutable-control-truth",
+            control_root.join("lifecycle-checkpoint.yml").is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            repo_root,
+            "program-lifecycle-checkpoint",
+            &control_root.join("program-lifecycle-checkpoint.yml"),
+            "control-checkpoint",
+            "mutable-control-truth",
+            control_root
+                .join("program-lifecycle-checkpoint.yml")
+                .is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            repo_root,
+            "lifecycle-events",
+            &control_root.join(LIFECYCLE_EVENT_FILE),
+            "control-event-log",
+            "mutable-control-truth",
+            control_root.join(LIFECYCLE_EVENT_FILE).is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            repo_root,
+            "program-events",
+            &control_root.join("program-events.ndjson"),
+            "control-event-log",
+            "mutable-control-truth",
+            control_root.join("program-events.ndjson").is_file(),
+        ),
+        lifecycle_postmortem_ref(
+            repo_root,
+            "run-evidence-root",
+            direct_evidence_root,
+            "retained-evidence-root",
+            "retained-evidence",
+            direct_evidence_exists,
+        ),
+        lifecycle_postmortem_ref(
+            repo_root,
+            "workflow-evidence-root",
+            workflow_evidence_root,
+            "retained-evidence-root",
+            "retained-evidence",
+            workflow_evidence_exists,
+        ),
+    ]
+}
+
+fn lifecycle_postmortem_terminal_state_refs(
+    repo_root: &Path,
+    workflow_evidence_root: &Path,
+) -> Vec<LifecyclePostmortemRef> {
+    lifecycle_postmortem_existing_named_refs(
+        repo_root,
+        workflow_evidence_root,
+        "retained-terminal-state",
+        "retained-evidence",
+        &[
+            ("program-summary", "summary.md"),
+            (
+                "aggregate-terminal-blockers",
+                "aggregate-terminal-blockers.yml",
+            ),
+            ("blocker-ledger", "blocker-ledger.yml"),
+            ("recovery-delta-summary", "recovery-delta-summary.yml"),
+            ("route-decision-receipt", "route-decision-receipt.yml"),
+            ("program-plan", "program-plan.yml"),
+            ("scheduler-decision", "scheduler-decision.yml"),
+            ("planner-state", "planner-state.yml"),
+            ("program-context-capsule", "program-context-capsule.yml"),
+            (
+                "publication-freshness-preflight-summary",
+                "publication-freshness-preflight/summary.yml",
+            ),
+        ],
+    )
+}
+
+fn lifecycle_postmortem_diagnostic_refs(
+    repo_root: &Path,
+    workflow_evidence_root: &Path,
+) -> Vec<LifecyclePostmortemRef> {
+    lifecycle_postmortem_existing_named_refs(
+        repo_root,
+        workflow_evidence_root,
+        "retained-diagnostic-history",
+        "retained-evidence-diagnostic",
+        &[
+            ("raw-log-summary", "raw-log-summary.yml"),
+            ("failing-slice-manifest", "failing-slice-manifest.yml"),
+        ],
+    )
+}
+
+fn lifecycle_postmortem_existing_named_refs(
+    repo_root: &Path,
+    root: &Path,
+    ref_class: &str,
+    authority_role: &str,
+    names: &[(&str, &str)],
+) -> Vec<LifecyclePostmortemRef> {
+    names
+        .iter()
+        .filter_map(|(ref_name, rel)| {
+            let path = root.join(rel);
+            path.is_file().then(|| {
+                lifecycle_postmortem_ref(
+                    repo_root,
+                    ref_name,
+                    &path,
+                    ref_class,
+                    authority_role,
+                    true,
+                )
+            })
+        })
+        .collect()
+}
+
+fn lifecycle_postmortem_substitute_refs(
+    repo_root: &Path,
+    control_root: &Path,
+    workflow_evidence_root: &Path,
+    direct_refs: &[LifecyclePostmortemRef],
+) -> Vec<LifecyclePostmortemSubstituteRef> {
+    let missing = direct_refs
+        .iter()
+        .filter(|item| !item.exists)
+        .map(|item| item.ref_name.as_str())
+        .collect::<BTreeSet<_>>();
+    let mut refs = Vec::new();
+    if missing.contains("program-lifecycle-checkpoint") {
+        let path = workflow_evidence_root.join("program-lifecycle-checkpoint.yml");
+        if path.is_file() {
+            refs.push(lifecycle_postmortem_substitute_ref(
+                repo_root,
+                "workflow-program-lifecycle-checkpoint",
+                &path,
+                "retained-workflow-checkpoint-substitute",
+                "retained-evidence-substitute",
+                &rel_display(
+                    repo_root,
+                    &control_root.join("program-lifecycle-checkpoint.yml"),
+                ),
+            ));
+        }
+    }
+    if missing.contains("program-events") {
+        let path = workflow_evidence_root.join("program-events.ndjson");
+        if path.is_file() {
+            refs.push(lifecycle_postmortem_substitute_ref(
+                repo_root,
+                "workflow-program-events",
+                &path,
+                "retained-workflow-event-log-substitute",
+                "retained-evidence-substitute",
+                &rel_display(repo_root, &control_root.join("program-events.ndjson")),
+            ));
+        }
+    }
+    refs
+}
+
+fn lifecycle_postmortem_substitute_ref(
+    repo_root: &Path,
+    ref_name: &str,
+    path: &Path,
+    ref_class: &str,
+    authority_role: &str,
+    substitutes_for: &str,
+) -> LifecyclePostmortemSubstituteRef {
+    LifecyclePostmortemSubstituteRef {
+        ref_name: ref_name.to_string(),
+        path: rel_display(repo_root, path),
+        ref_class: ref_class.to_string(),
+        authority_role: authority_role.to_string(),
+        substitutes_for: substitutes_for.to_string(),
+        exists: true,
+    }
+}
+
+fn lifecycle_postmortem_ref_from_substitute(
+    item: &LifecyclePostmortemSubstituteRef,
+) -> LifecyclePostmortemRef {
+    LifecyclePostmortemRef {
+        ref_name: item.ref_name.clone(),
+        path: item.path.clone(),
+        ref_class: item.ref_class.clone(),
+        authority_role: item.authority_role.clone(),
+        exists: item.exists,
+    }
+}
+
+fn lifecycle_postmortem_associated_refs(
+    repo_root: &Path,
+    octon_dir: &Path,
+    run_id: &str,
+) -> Result<Vec<LifecyclePostmortemRef>> {
+    let mut files = Vec::new();
+    for root in [
+        octon_dir.join("state/evidence/runs/skills/closeout-change"),
+        octon_dir.join("state/evidence/validation/analysis"),
+    ] {
+        lifecycle_postmortem_collect_associated_files(&root, 0, &mut files)?;
+    }
+    files.sort();
+    files.dedup();
+
+    let mut refs = Vec::new();
+    for path in files.into_iter().take(128) {
+        let Ok(metadata) = fs::metadata(&path) else {
+            continue;
+        };
+        if metadata.len() > 2_000_000 {
+            continue;
+        }
+        let Ok(content) = fs::read_to_string(&path) else {
+            continue;
+        };
+        if !content.contains(run_id) {
+            continue;
+        }
+        let role = if path
+            .components()
+            .any(|component| component.as_os_str().to_str() == Some("closeout-change"))
+        {
+            "associated-closeout-receipt"
+        } else {
+            "associated-closeout-report"
+        };
+        refs.push(lifecycle_postmortem_ref(
+            repo_root,
+            &format!("{}-{}", role, refs.len() + 1),
+            &path,
+            role,
+            "retained-evidence-associated",
+            true,
+        ));
+    }
+    Ok(refs)
+}
+
+fn lifecycle_postmortem_collect_associated_files(
+    root: &Path,
+    depth: usize,
+    files: &mut Vec<PathBuf>,
+) -> Result<()> {
+    if depth > 6 || !root.exists() || files.len() >= 512 {
+        return Ok(());
+    }
+    let mut entries = fs::read_dir(root)?.collect::<std::result::Result<Vec<_>, _>>()?;
+    entries.sort_by_key(|entry| entry.path());
+    for entry in entries {
+        let path = entry.path();
+        if path.is_dir() {
+            lifecycle_postmortem_collect_associated_files(&path, depth + 1, files)?;
+        } else if lifecycle_postmortem_associated_file_candidate(&path) {
+            files.push(path);
+        }
+        if files.len() >= 512 {
+            break;
+        }
+    }
+    Ok(())
+}
+
+fn lifecycle_postmortem_associated_file_candidate(path: &Path) -> bool {
+    matches!(
+        path.extension().and_then(|ext| ext.to_str()),
+        Some("json" | "yml" | "yaml" | "md")
+    )
+}
+
+fn lifecycle_postmortem_reconstruction_order() -> Vec<String> {
+    vec![
+        "1. Use direct control checkpoint and event refs when present.".to_string(),
+        "2. Use substitute_refs for missing direct program control refs when listed.".to_string(),
+        "3. Use terminal_state_refs for final lifecycle outcome, terminal blockers, route decision, and publication state.".to_string(),
+        "4. Use associated_refs for closeout, archive, residue, and publication receipts that explicitly reference the run id.".to_string(),
+        "5. Use diagnostic_refs only for historical troubleshooting; failing slices must not override terminal blocker ledgers.".to_string(),
+        "6. Treat unresolved missing refs as evidence gaps and keep postmortem outputs non-authoritative.".to_string(),
+    ]
+}
+
+fn lifecycle_postmortem_confidence_effect(
+    missing_refs: &[LifecyclePostmortemRef],
+    substitute_refs: &[LifecyclePostmortemSubstituteRef],
+) -> String {
+    if missing_refs.is_empty() {
+        "no known missing lifecycle source refs detected by deterministic binding".to_string()
+    } else if !substitute_refs.is_empty() {
+        "some direct control refs are missing, but listed substitute_refs provide retained workflow evidence for reconstruction; unresolved missing refs remain evidence gaps".to_string()
+    } else {
+        "missing refs must be treated as evidence gaps by the evaluator and must not be filled from generated summaries, raw inputs, chat history, host state, or model memory".to_string()
+    }
+}
+
+fn lifecycle_postmortem_dedupe_refs(refs: &mut Vec<LifecyclePostmortemRef>) {
+    let mut seen = BTreeSet::new();
+    refs.retain(|item| seen.insert((item.ref_name.clone(), item.path.clone())));
+}
+
 fn lifecycle_postmortem_ref(
     repo_root: &Path,
     ref_name: &str,
@@ -1300,6 +1620,11 @@ fn lifecycle_postmortem_evaluator_input(
     recorded_at: &str,
     retained_refs: &[LifecyclePostmortemRef],
     missing_refs: &[LifecyclePostmortemRef],
+    substitute_refs: &[LifecyclePostmortemSubstituteRef],
+    terminal_state_refs: &[LifecyclePostmortemRef],
+    diagnostic_refs: &[LifecyclePostmortemRef],
+    associated_refs: &[LifecyclePostmortemRef],
+    reconstruction_order: &[String],
     evidence_map_path: &Path,
     known_limits_path: &Path,
     repo_root: &Path,
@@ -1319,6 +1644,55 @@ fn lifecycle_postmortem_evaluator_input(
             ));
         }
     }
+    body.push_str("\n## Substitute Refs\n\n");
+    if substitute_refs.is_empty() {
+        body.push_str("- none detected\n");
+    } else {
+        for item in substitute_refs {
+            body.push_str(&format!(
+                "- `{}`: `{}` substitutes for `{}` ({})\n",
+                item.ref_name, item.path, item.substitutes_for, item.ref_class
+            ));
+        }
+    }
+    body.push_str("\n## Terminal State Evidence\n\n");
+    if terminal_state_refs.is_empty() {
+        body.push_str("- none detected\n");
+    } else {
+        for item in terminal_state_refs {
+            body.push_str(&format!(
+                "- `{}`: `{}` ({})\n",
+                item.ref_name, item.path, item.ref_class
+            ));
+        }
+    }
+    body.push_str("\n## Diagnostic/Historical Evidence\n\n");
+    if diagnostic_refs.is_empty() {
+        body.push_str("- none detected\n");
+    } else {
+        for item in diagnostic_refs {
+            body.push_str(&format!(
+                "- `{}`: `{}` ({})\n",
+                item.ref_name, item.path, item.ref_class
+            ));
+        }
+        body.push_str("- diagnostic rule: failing-slice evidence is historical troubleshooting evidence and must not override terminal blocker ledgers or terminal state receipts.\n");
+    }
+    body.push_str("\n## Associated Closeout Evidence\n\n");
+    if associated_refs.is_empty() {
+        body.push_str("- none detected\n");
+    } else {
+        for item in associated_refs {
+            body.push_str(&format!(
+                "- `{}`: `{}` ({})\n",
+                item.ref_name, item.path, item.ref_class
+            ));
+        }
+    }
+    body.push_str("\n## Reconstruction Order\n\n");
+    for item in reconstruction_order {
+        body.push_str(&format!("- {item}\n"));
+    }
     body.push_str("\n## Known Limits\n\n");
     if missing_refs.is_empty() {
         body.push_str("- none detected by deterministic binding\n");
@@ -1326,9 +1700,10 @@ fn lifecycle_postmortem_evaluator_input(
         for item in missing_refs {
             body.push_str(&format!("- missing `{}`: `{}`\n", item.ref_name, item.path));
         }
+        body.push_str("- missing direct control refs are evidence gaps; use listed substitute refs before escalating, and do not infer missing facts from generated outputs, raw inputs, chat history, host state, dashboards, or model memory.\n");
     }
     body.push_str(
-        "\n## Required Evaluator Boundary\n\nThe evaluator must reconstruct facts only from retained evidence refs and must treat missing refs as evidence gaps. Generated outputs, raw inputs, chat history, host state, dashboards, and postmortem reports are not authority. The report must preserve the full eighteen-section lifecycle postmortem contract from the template and structured output must use lifecycle-postmortem-evaluation-v2. Invariant compliance findings and invariant validity/evolution recommendations are evidence only and cannot approve lifecycle transition, closeout, promotion, support widening, generated-output publication, redesign, or invariant amendment.\n",
+        "\n## Required Evaluator Boundary\n\nThe evaluator must reconstruct facts only from retained evidence refs and must treat unresolved missing refs as evidence gaps. Generated outputs, raw inputs, chat history, host state, dashboards, and postmortem reports are not authority. The report must preserve the full eighteen-section lifecycle postmortem contract from the template and structured output must use lifecycle-postmortem-evaluation-v2. Invariant compliance findings and invariant validity/evolution recommendations are evidence only and cannot approve lifecycle transition, closeout, promotion, support widening, generated-output publication, redesign, or invariant amendment.\n",
     );
     body
 }
@@ -4129,6 +4504,120 @@ routes:
         let error = format!("{error:#}");
 
         assert!(error.contains("without a program section"));
+    }
+
+    #[test]
+    fn lifecycle_postmortem_maps_workflow_substitutes_for_missing_control_refs() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("postmortem-substitutes");
+        let run_id = "postmortem-substitutes";
+        fixture.write(
+            &format!(".octon/state/control/execution/runs/{run_id}/locks/.keep"),
+            "",
+        );
+        fixture.write(
+            &format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/program-lifecycle-checkpoint.yml"
+            ),
+            "schema_version: octon-program-lifecycle-checkpoint-v1\nrun_id: postmortem-substitutes\nlatest_event_index: 1\n",
+        );
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/program-events.ndjson"),
+            "{\"schema_version\":\"octon-program-lifecycle-event-v2\",\"run_id\":\"postmortem-substitutes\",\"event_index\":1,\"event_type\":\"plan-created\"}\n",
+        );
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/summary.md"),
+            "# summary\nfinal_verdict: completed\n",
+        );
+
+        let result = run_lifecycle_postmortem_from_octon_dir(&fixture.octon_dir, run_id).unwrap();
+        assert_eq!(result.status, "prepared");
+
+        let evidence_map: serde_yaml::Value = serde_yaml::from_slice(
+            &fs::read(
+                fixture
+                    .octon_dir
+                    .join("state/evidence/runs/postmortem-substitutes/assurance/lifecycle-postmortem/evidence-map.yml"),
+            )
+            .unwrap(),
+        )
+        .unwrap();
+        assert_eq!(
+            evidence_map
+                .get("schema_version")
+                .and_then(serde_yaml::Value::as_str),
+            Some("lifecycle-postmortem-evidence-map-v2")
+        );
+        let substitute_names = evidence_map
+            .get("substitute_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("ref_name"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(substitute_names.contains("workflow-program-lifecycle-checkpoint"));
+        assert!(substitute_names.contains("workflow-program-events"));
+        let missing_names = evidence_map
+            .get("missing_refs")
+            .and_then(serde_yaml::Value::as_sequence)
+            .unwrap()
+            .iter()
+            .filter_map(|value| value.get("ref_name"))
+            .filter_map(serde_yaml::Value::as_str)
+            .collect::<BTreeSet<_>>();
+        assert!(missing_names.contains("program-lifecycle-checkpoint"));
+        assert!(missing_names.contains("program-events"));
+
+        let known_limits = fs::read_to_string(
+            fixture
+                .octon_dir
+                .join("state/evidence/runs/postmortem-substitutes/assurance/lifecycle-postmortem/known-limits.yml"),
+        )
+        .unwrap();
+        assert!(known_limits.contains("substitute_refs"));
+        assert!(known_limits.contains("use those retained workflow refs"));
+    }
+
+    #[test]
+    fn lifecycle_postmortem_classifies_failing_slices_as_diagnostic() {
+        let _guard = crate::acquire_kernel_test_lock();
+        let fixture = FixtureRepo::new("postmortem-diagnostics");
+        let run_id = "postmortem-diagnostics";
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/summary.md"),
+            "# summary\nfinal_verdict: completed\n",
+        );
+        fixture.write(
+            &format!(
+                ".octon/state/evidence/runs/workflows/{run_id}/aggregate-terminal-blockers.yml"
+            ),
+            "schema_version: octon-program-aggregate-terminal-blockers-v1\nblocked_required_child_count: 0\nblocked_required_children: []\n",
+        );
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/blocker-ledger.yml"),
+            "schema_version: octon-program-blocker-ledger-v1\nblocker_count: 0\nblockers: []\n",
+        );
+        fixture.write(
+            &format!(".octon/state/evidence/runs/workflows/{run_id}/failing-slice-manifest.yml"),
+            "schema_version: octon-failing-slice-manifest-v1\nno_failure_observed: false\nslices:\n  - reason: failure-marker\n",
+        );
+
+        run_lifecycle_postmortem_from_octon_dir(&fixture.octon_dir, run_id).unwrap();
+        let evaluator_input = fs::read_to_string(
+            fixture
+                .octon_dir
+                .join("state/evidence/runs/postmortem-diagnostics/assurance/lifecycle-postmortem/evaluator-input.md"),
+        )
+        .unwrap();
+        let terminal_index = evaluator_input.find("## Terminal State Evidence").unwrap();
+        let diagnostic_index = evaluator_input
+            .find("## Diagnostic/Historical Evidence")
+            .unwrap();
+        assert!(terminal_index < diagnostic_index);
+        assert!(evaluator_input.contains("aggregate-terminal-blockers"));
+        assert!(evaluator_input.contains("failing-slice evidence is historical"));
+        assert!(evaluator_input.contains("must not override terminal blocker ledgers"));
     }
 
     #[test]
