@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.88](https://github.com/jamesryancooper/octon/compare/octon-v0.6.87...octon-v0.6.88) (2026-06-05)
+
+
+### Features
+
+* **lifecycle:** land token-efficient program controller ([ba7455b](https://github.com/jamesryancooper/octon/commit/ba7455b6ff8da362384e6d9632fda839fc410da5))
+
+
+### Bug Fixes
+
+* **lifecycle:** recover autonomous program blockers ([ca1bb56](https://github.com/jamesryancooper/octon/commit/ca1bb562f4c1f9e920aecc86038a3c457d8357ef))
+
 ## [0.6.87](https://github.com/jamesryancooper/octon/compare/octon-v0.6.86...octon-v0.6.87) (2026-06-02)
 
 
