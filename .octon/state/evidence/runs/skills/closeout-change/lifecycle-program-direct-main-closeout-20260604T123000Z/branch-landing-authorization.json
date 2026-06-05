@@ -1,0 +1,27 @@
+{
+  "schema_version": "branch-landing-authorization-v1",
+  "authorization_id": "hosted-no-pr-chore-token-efficient-program-controller-closeout-ba7455b6ff8d",
+  "authorization_result": "approved",
+  "selected_route": "branch-no-pr",
+  "target_lifecycle_outcome": "cleaned",
+  "remote": "origin",
+  "target_branch": "main",
+  "source_branch": "chore/token-efficient-program-controller-closeout",
+  "source_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+  "remote_source_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+  "target_pre_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+  "provider_ruleset_ref": "live-provider-rules:origin/main",
+  "no_pr_required": true,
+  "preflight_status": "passed",
+  "required_check_refs": [
+    "route_neutral_closeout_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "branch_naming_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "route_aware_autonomy_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "exact_source_sha_validation@ba7455b6ff8da362384e6d9632fda839fc410da5"
+  ],
+  "allow_empty_check_set": false,
+  "rollback_handle": "git revert ba7455b6ff8da362384e6d9632fda839fc410da5 on main; retain closeout and child-owned lifecycle evidence",
+  "host_controls_not_bypassed": true,
+  "runtime_safety_boundary": "Octon authorization is required before hosted mutation, but it does not bypass platform, sandbox, or host safety controls.",
+  "created_at": "2026-06-04T13:03:24Z"
+}

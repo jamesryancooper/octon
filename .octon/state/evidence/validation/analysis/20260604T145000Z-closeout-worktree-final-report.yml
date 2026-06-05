@@ -1,0 +1,216 @@
+schema_version: closeout-worktree-report-v1
+wrapper_id: closeout-worktree
+default_work_unit: Change
+run_id: closeout-worktree-20260604T145000Z
+read_only_classification: true
+detection_is_deletion_authority: false
+direct_material_actions_performed: false
+repo_hygiene_cleanup_actions_performed: false
+initial_inventory_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/pre-closeout-status-porcelain.log"
+residue_classification_ref: ".octon/state/evidence/validation/analysis/20260604T133000Z-final-pre-stage-residue-classification.yml"
+final_inventory_ref: "git-status:main-origin-main@ba7455b6ff8da362384e6d9632fda839fc410da5"
+selected_candidate_id: lifecycle-program-closeout-material
+worktree_terminal_state: disposition_complete_with_retained_residue
+next_route_condition: none
+repo_hygiene_classification_ref: ".octon/state/evidence/local/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T132000Z/final-summary.log"
+repo_hygiene_cleanup_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T132000Z/run-log.yml"
+repo_hygiene_cleanup_authorization_ref: ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T132000Z/cleanup-authorization.json"
+repo_hygiene_cleanup_outcome: delegated-cleaned
+repo_hygiene_next_route_condition: none
+observed_change_set_count: 4
+candidates:
+  - candidate_id: lifecycle-program-closeout-material
+    disposition: closed
+    residue_routing_class: publishable_change
+    ownership: lifecycle-owned material closeout
+    route_hint: closeout-change branch-no-pr after direct-main provider rejection
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: "git revert ba7455b6ff8da362384e6d9632fda839fc410da5 on main"
+    lifecycle_closeout_authority:
+      completed_program_run_id: lifecycle-proposal-program-1780477570859-e14a1cfe
+      program_target: ".octon/inputs/exploratory/proposals/architecture/token-efficient-proposal-program-controller"
+      completed_program_summary_ref: ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780477570859-e14a1cfe/summary.md"
+      child_authority_preserved: true
+      parent_summary_not_child_receipt: true
+      local_run_state_excluded: true
+      proof_refs:
+        - ".octon/state/evidence/runs/workflows/lifecycle-proposal-program-1780477570859-e14a1cfe/summary.md"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-child-readiness.log"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-review-gate.log"
+    boundaries:
+      include_paths:
+        - ".octon/framework"
+        - ".octon/generated/effective"
+        - ".octon/generated/proposals"
+        - ".octon/inputs/additive/extensions/octon-proposal-lifecycle"
+        - ".octon/inputs/exploratory/proposals/architecture"
+        - ".octon/instance/governance/policies"
+        - ".octon/state/control/extensions/active.yml"
+        - ".octon/state/control/extensions/quarantine.yml"
+        - ".octon/state/evidence/decisions"
+        - ".octon/state/evidence/validation/extensions"
+        - ".octon/state/evidence/validation/publication"
+        - ".codex/skills"
+        - ".claude/skills"
+        - ".cursor/skills"
+      exclude_paths:
+        - ".octon/state/control/execution"
+        - ".octon/state/continuity"
+        - ".octon/state/evidence/local"
+        - ".octon/state/evidence/runs/workflows"
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+  - candidate_id: publishable-closeout-evidence
+    disposition: closed
+    residue_routing_class: publishable_closeout_evidence
+    ownership: closeout evidence generated before landing
+    route_hint: closeout-change
+    target_lifecycle_outcome: cleaned
+    rollback_or_discard_posture: retain as route evidence
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T120500Z"
+        - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z"
+        - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z"
+        - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T132000Z"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-review-gate.log"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-child-readiness.log"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-structure.log"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-publication-freshness-gates.log"
+        - ".octon/state/evidence/validation/analysis/20260604T133000Z-final-pre-stage-residue-classification.yml"
+      exclude_paths:
+        - ".octon/state/evidence/local"
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+  - candidate_id: local-private-run-residue
+    disposition: retained
+    residue_routing_class: local_private_retained
+    ownership: local ignored repo-hygiene evidence retained after cleanup candidates reached zero
+    route_hint: repo-hygiene-cleanup
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain local-private debugging evidence
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence/local"
+      exclude_paths: []
+  - candidate_id: post-landing-closeout-evidence
+    disposition: foreign
+    residue_routing_class: foreign_manual_review
+    ownership: local retained post-landing evidence outside landed SHA
+    route_hint: retained post-landing closeout evidence
+    target_lifecycle_outcome: retained
+    rollback_or_discard_posture: retain; do not fold into checked landed SHA
+    boundaries:
+      include_paths:
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-landing-authorization.json"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-cleanup-authorization.json"
+        - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+        - ".octon/state/evidence/validation/analysis/20260604T145000Z-closeout-worktree-final-report.yml"
+      exclude_paths: []
+retained_residue:
+  - candidate_id: local-private-run-residue
+    path: ".octon/state/evidence/local"
+    disposition: "local ignored retained evidence; repo-hygiene cleanup candidates were zero after delegated cleanup"
+  - candidate_id: post-landing-closeout-evidence
+    path: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-landing-authorization.json"
+    disposition: "local retained post-landing evidence not folded into landed SHA"
+  - candidate_id: post-landing-closeout-evidence
+    path: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-cleanup-authorization.json"
+    disposition: "local retained post-landing evidence not folded into landed SHA"
+  - candidate_id: post-landing-closeout-evidence
+    path: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+    disposition: "local retained post-landing evidence not folded into landed SHA"
+  - candidate_id: post-landing-closeout-evidence
+    path: ".octon/state/evidence/validation/analysis/20260604T145000Z-closeout-worktree-final-report.yml"
+    disposition: "local retained wrapper report not folded into landed SHA"
+blockers: []
+final_candidate_dispositions:
+  lifecycle-program-closeout-material:
+    state: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+  publishable-closeout-evidence:
+    state: closed
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+  local-private-run-residue:
+    state: retained
+  post-landing-closeout-evidence:
+    state: foreign
+iterations:
+  - iteration_id: lifecycle-material-closeout
+    pre_inventory_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-pre-stage-status-porcelain.log"
+    pre_classification_ref: ".octon/state/evidence/validation/analysis/20260604T133000Z-final-pre-stage-residue-classification.yml"
+    selected_candidate_id: lifecycle-program-closeout-material
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: "git-status:main-origin-main@ba7455b6ff8da362384e6d9632fda839fc410da5"
+    post_classification_ref: "change-closeout-residue-classification after branch cleanup"
+    next_selection_reason: "post-landing evidence retained outside landed SHA"
+    include_paths:
+      - ".octon/framework"
+      - ".octon/generated/effective"
+      - ".octon/generated/proposals"
+      - ".octon/inputs/additive/extensions/octon-proposal-lifecycle"
+      - ".octon/inputs/exploratory/proposals/architecture"
+      - ".octon/instance/governance/policies"
+      - ".octon/state/control/extensions/active.yml"
+      - ".octon/state/control/extensions/quarantine.yml"
+      - ".octon/state/evidence/decisions"
+      - ".octon/state/evidence/validation/extensions"
+      - ".octon/state/evidence/validation/publication"
+      - ".codex/skills"
+      - ".claude/skills"
+      - ".cursor/skills"
+    exclude_paths:
+      - ".octon/state/control/execution"
+      - ".octon/state/continuity"
+      - ".octon/state/evidence/local"
+      - ".octon/state/evidence/runs/workflows"
+  - iteration_id: closeout-evidence-closeout
+    pre_inventory_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-pre-stage-status-porcelain.log"
+    pre_classification_ref: ".octon/state/evidence/validation/analysis/20260604T133000Z-final-pre-stage-residue-classification.yml"
+    selected_candidate_id: publishable-closeout-evidence
+    closeout_change_ref: ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/change-receipt.json"
+    closeout_change_outcome: closed
+    post_inventory_ref: "git-status:main-origin-main@ba7455b6ff8da362384e6d9632fda839fc410da5"
+    post_classification_ref: "change-closeout-residue-classification after branch cleanup"
+    next_selection_reason: "remaining local/private and post-landing residue retained with evidence"
+    include_paths:
+      - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T120500Z"
+      - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T125500Z"
+      - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T131000Z"
+      - ".octon/state/evidence/runs/skills/repo-hygiene-cleanup/closeout-worktree-20260604T132000Z"
+      - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-review-gate.log"
+      - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-child-readiness.log"
+      - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-structure.log"
+      - ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-publication-freshness-gates.log"
+      - ".octon/state/evidence/validation/analysis/20260604T133000Z-final-pre-stage-residue-classification.yml"
+    exclude_paths:
+      - ".octon/state/evidence/local"
+final_residue_classes:
+  staged: 0
+  unstaged_tracked: 0
+  untracked: 4
+  ignored: 5807
+  generated_effective_output: 0
+  host_projection: 0
+  retained_evidence: 4
+  state_control: 0
+  release_version: 0
+  input_surface: 0
+prior_candidate_reconciliation:
+  prior_report_ref: ".octon/state/evidence/validation/analysis/20260604T000000Z-closeout-worktree-lifecycle-program-closeout.yml"
+  candidates:
+    - prior_candidate_id: c-lifecycle-program-implementation-archive-publication
+      current_candidate_id: lifecycle-program-closeout-material
+      disposition: folded
+      rationale: "folded into the final lifecycle material candidate after repo-hygiene cleanup and publication refresh"
+    - prior_candidate_id: c-local-run-state-and-hygiene-residue
+      current_candidate_id: local-private-run-residue
+      disposition: retained
+      rationale: "delegated eligible cleanup through repo-hygiene-cleanup and retained remaining local-private ignored evidence"
+    - prior_candidate_id: c-publishable-closeout-evidence
+      current_candidate_id: publishable-closeout-evidence
+      disposition: folded
+      rationale: "folded into the publishable closeout evidence candidate and closed with the material route"
+    - prior_candidate_id: c-ignored-local-residue
+      current_candidate_id: local-private-run-residue
+      disposition: retained
+      rationale: "retained as ignored local residue after cleanup candidates reached zero"

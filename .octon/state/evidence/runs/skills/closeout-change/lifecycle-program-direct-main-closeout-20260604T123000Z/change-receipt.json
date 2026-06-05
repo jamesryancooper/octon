@@ -1,0 +1,92 @@
+{
+  "schema_version": "change-receipt-v1",
+  "change_id": "lifecycle-program-direct-main-closeout-20260604T123000Z",
+  "closeout_outcome": "completed",
+  "initial_route": "direct-main",
+  "selected_route": "branch-no-pr",
+  "route_transition_reason": "direct-main push rejected by live provider required-status-check rules; no pull-request rule was present, so branch-no-pr hosted landing was authorized after exact source-SHA checks passed",
+  "route_transition_authority": "default-work-unit policy branch-no-pr fallback when direct-main predicates are not satisfied and no PR-required predicate applies",
+  "route_transition_authority_ref": ".octon/framework/product/contracts/default-work-unit.yml",
+  "route_transition_evidence_refs": [
+    "gh-provider-rules:refs/heads/main required_status_checks route_neutral_closeout_validation branch_naming_validation route_aware_autonomy_validation exact_source_sha_validation",
+    "git-push-rejection:GH013 required status checks expected for direct refs/heads/main update"
+  ],
+  "target_lifecycle_outcome": "cleaned",
+  "lifecycle_outcome": "cleaned",
+  "integration_status": "landed",
+  "publication_status": "landed",
+  "cleanup_status": "completed",
+  "source_branch_ref": "chore/token-efficient-program-controller-closeout",
+  "landed_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+  "durable_history": {
+    "kind": "commit",
+    "ref": "ba7455b6ff8da362384e6d9632fda839fc410da5"
+  },
+  "validation_evidence_refs": [
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-review-gate.log",
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-child-readiness.log",
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-proposal-program-structure.log",
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-publication-freshness-gates.log",
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-validate-closeout-worktree-wrapper-static.log",
+    ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/final-test-closeout-worktree-wrapper.log",
+    "hosted-check:route_neutral_closeout_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "hosted-check:branch_naming_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "hosted-check:route_aware_autonomy_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "hosted-check:exact_source_sha_validation@ba7455b6ff8da362384e6d9632fda839fc410da5"
+  ],
+  "landing_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-landing-authorization.json",
+  "cleanup_authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-cleanup-authorization.json",
+  "hosted_landing": {
+    "remote": "origin",
+    "target_branch": "main",
+    "source_branch": "chore/token-efficient-program-controller-closeout",
+    "source_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "validated_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "target_pre_ref": "8be962488ebb3140c4d52b55a33ef5938be0f435",
+    "target_post_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "provider_ruleset_ref": "live-provider-rules:origin/main",
+    "required_check_refs": [
+      "route_neutral_closeout_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+      "branch_naming_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+      "route_aware_autonomy_validation@ba7455b6ff8da362384e6d9632fda839fc410da5",
+      "exact_source_sha_validation@ba7455b6ff8da362384e6d9632fda839fc410da5"
+    ],
+    "fast_forward_only": true,
+    "integration_method": "fast-forward"
+  },
+  "source_branch_integration": {
+    "integrated": true,
+    "source_branch_ref": "chore/token-efficient-program-controller-closeout",
+    "landed_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "evidence_refs": [
+      "origin/main@ba7455b6ff8da362384e6d9632fda839fc410da5",
+      "source-branch-contained-before-cleanup@ba7455b6ff8da362384e6d9632fda839fc410da5"
+    ]
+  },
+  "source_branch_cleanup": {
+    "status": "completed",
+    "local_branch_deleted": true,
+    "remote_branch_deleted": true,
+    "authorization_ref": ".octon/state/evidence/runs/skills/closeout-change/lifecycle-program-direct-main-closeout-20260604T123000Z/branch-cleanup-authorization.json"
+  },
+  "main_alignment": {
+    "local_main_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "origin_main_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "landed_ref": "ba7455b6ff8da362384e6d9632fda839fc410da5",
+    "aligned": true,
+    "origin_main_contains_landed_ref": true,
+    "local_main_contains_landed_ref": true,
+    "origin_fetch_evidence_ref": "git-branch-cleanup.sh fetch --prune origin after landing",
+    "local_main_sync_evidence_ref": "git-branch-cleanup.sh synced local main to origin/main"
+  },
+  "stateful_closeout": {
+    "completed": true,
+    "child_authority_preserved": true,
+    "parent_summary_not_child_receipt": true,
+    "local_run_state_excluded": true
+  },
+  "rollback_handle": "git revert ba7455b6ff8da362384e6d9632fda839fc410da5 on main; retain closeout and child-owned lifecycle evidence",
+  "retained_residue": [
+    "post-landing closeout receipt and authorization evidence remained outside the already-landed commit to avoid changing the checked landed SHA"
+  ]
+}
